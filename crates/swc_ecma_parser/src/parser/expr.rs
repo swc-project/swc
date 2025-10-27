@@ -340,11 +340,7 @@ impl<I: Tokens> Parser<I> {
                 return self.parse_lit().map(|lit| lit.into());
             }
             // Regexp
-            Token::Slash | Token::DivEq => {
-                if let Some(res) = self.try_parse_regexp(start) {
-                    return Ok(res);
-                }
-            }
+            Token::Slash | Token::DivEq => return self.parse_regexp(start),
             Token::LParen => return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None),
             Token::NoSubstitutionTemplateLiteral => {
                 return Ok(self.parse_no_substitution_template_literal(false)?.into())
@@ -2592,45 +2588,38 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn try_parse_regexp(&mut self, start: BytePos) -> Option<Box<Expr>> {
+    fn parse_regexp(&mut self, start: BytePos) -> PResult<Box<Expr>> {
         // Regexp
         debug_assert!(self.input().cur() == Token::Slash || self.input().cur() == Token::DivEq);
 
-        self.input_mut().set_next_regexp(Some(start));
+        let Some((exp, flags)) = self.input_mut().scan_regex() else {
+            let error = self.input_mut().expect_error_token_and_bump();
+            return Err(error);
+        };
 
-        self.bump(); // `/` or `/=`
+        let span = self.span(start);
+        let mut flags_count =
+            flags
+                .chars()
+                .fold(FxHashMap::<char, usize>::default(), |mut map, flag| {
+                    let key = match flag {
+                        // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
+                        'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y' => flag,
+                        _ => '\u{0000}', // special marker for unknown flags
+                    };
+                    map.entry(key).and_modify(|count| *count += 1).or_insert(1);
+                    map
+                });
 
-        let cur = self.input().cur();
-        if cur == Token::Regex {
-            self.input_mut().set_next_regexp(None);
-            let (exp, flags) = self.input_mut().expect_regex_token_and_bump();
-            let span = self.span(start);
-
-            let mut flags_count =
-                flags
-                    .chars()
-                    .fold(FxHashMap::<char, usize>::default(), |mut map, flag| {
-                        let key = match flag {
-                            // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
-                            'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y' => flag,
-                            _ => '\u{0000}', // special marker for unknown flags
-                        };
-                        map.entry(key).and_modify(|count| *count += 1).or_insert(1);
-                        map
-                    });
-
-            if flags_count.remove(&'\u{0000}').is_some() {
-                self.emit_err(span, SyntaxError::UnknownRegExpFlags);
-            }
-
-            if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
-                self.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
-            }
-
-            Some(Lit::Regex(Regex { span, exp, flags }).into())
-        } else {
-            None
+        if flags_count.remove(&'\u{0000}').is_some() {
+            self.emit_err(span, SyntaxError::UnknownRegExpFlags);
         }
+
+        if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
+            self.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
+        }
+
+        Ok(Lit::Regex(Regex { span, exp, flags }).into())
     }
 
     fn try_parse_async_start(&mut self, can_be_arrow: bool) -> Option<PResult<Box<Expr>>> {

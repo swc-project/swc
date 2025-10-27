@@ -28,7 +28,6 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     }
 
     fn set_expr_allowed(&mut self, allow: bool);
-    fn set_next_regexp(&mut self, start: Option<BytePos>);
 
     /// Implementors should use Rc<RefCell<Vec<Error>>>.
     ///
@@ -60,6 +59,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
+    fn scan_regex(&mut self) -> (TokenAndSpan, Option<(Atom, Atom)>);
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan;
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
@@ -120,14 +120,6 @@ impl<I: Tokens> Buffer<I> {
         (value, raw)
     }
 
-    pub fn expect_regex_token_value(&mut self) -> (Atom, Atom) {
-        let Some(crate::lexer::TokenValue::Regex { value, flags }) = self.iter.take_token_value()
-        else {
-            unreachable!()
-        };
-        (value, flags)
-    }
-
     pub fn expect_template_token_value(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
         let Some(crate::lexer::TokenValue::Template { cooked, raw }) = self.iter.take_token_value()
         else {
@@ -145,6 +137,14 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
         self.iter.get_token_value()
+    }
+
+    pub(crate) fn scan_regex(&mut self) -> Option<(Atom, Atom)> {
+        let prev = self.cur;
+        let (t, ret) = self.iter.scan_regex();
+        self.prev_span = prev.span;
+        self.set_cur(t);
+        ret
     }
 
     pub fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
@@ -346,13 +346,6 @@ impl<I: Tokens> Buffer<I> {
         ret
     }
 
-    pub fn expect_regex_token_and_bump(&mut self) -> (Atom, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_regexp(self);
-        self.bump();
-        ret
-    }
-
     pub fn expect_template_token_and_bump(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
         let cur = self.cur();
         let ret = cur.take_template(self);
@@ -520,11 +513,6 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub fn set_expr_allowed(&mut self, allow: bool) {
         self.iter_mut().set_expr_allowed(allow)
-    }
-
-    #[inline]
-    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
-        self.iter_mut().set_next_regexp(start);
     }
 
     #[inline]

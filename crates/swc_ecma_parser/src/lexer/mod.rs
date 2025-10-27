@@ -1785,12 +1785,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// Expects current char to be '/'
-    fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
-        unsafe {
-            // Safety: start is valid position, and cur() is Some('/')
-            self.input_mut().reset_to(start);
-        }
-
+    pub(crate) fn read_regexp(&mut self) -> LexResult<(Atom, Atom)> {
         debug_assert_eq!(self.cur(), Some('/'));
 
         let start = self.cur_pos();
@@ -1830,7 +1825,7 @@ impl<'a> Lexer<'a> {
             self.bump();
         }
 
-        let content = {
+        let exp = {
             let s = unsafe { self.input_slice_to_cur(slice_start) };
             self.atom(s)
         };
@@ -1863,7 +1858,7 @@ impl<'a> Lexer<'a> {
         }?
         .unwrap_or_default();
 
-        Ok(Token::regexp(content, flags, self))
+        Ok((exp, flags))
     }
 
     /// This method is optimized for texts without escape sequences.

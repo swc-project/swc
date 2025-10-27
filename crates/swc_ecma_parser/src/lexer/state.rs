@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_atoms::wtf8::CodePoint;
+use swc_atoms::{wtf8::CodePoint, Atom};
 use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
 
@@ -35,7 +35,6 @@ pub struct State {
     pub had_line_break_before_last: bool,
     /// TODO: Remove this field.
     is_first: bool,
-    pub next_regexp: Option<BytePos>,
     pub start: BytePos,
     pub prev_hi: BytePos,
 
@@ -111,11 +110,6 @@ impl crate::input::Tokens for Lexer<'_> {
     #[inline]
     fn set_expr_allowed(&mut self, _: bool) {}
 
-    #[inline]
-    fn set_next_regexp(&mut self, start: Option<BytePos>) {
-        self.state.next_regexp = start;
-    }
-
     fn add_error(&mut self, error: Error) {
         self.errors.push(error);
     }
@@ -167,6 +161,36 @@ impl crate::input::Tokens for Lexer<'_> {
 
     fn take_token_value(&mut self) -> Option<TokenValue> {
         self.state.token_value.take()
+    }
+
+    fn scan_regex(&mut self) -> (TokenAndSpan, Option<(Atom, Atom)>) {
+        let start = self.cur_pos();
+        let (token, ret) = match self.read_regexp() {
+            Ok(ret) => (Token::Regex, Some(ret)),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                (Token::Error, None)
+            }
+        };
+
+        let span = self.span(start);
+        if token != Token::Eof {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
+            }
+
+            self.state.set_token_type(token);
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+
+        // Attach span to token.
+        let token = TokenAndSpan {
+            token,
+            had_line_break: self.had_line_break_before_last(),
+            span,
+        };
+        (token, ret)
     }
 
     fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool, reset: BytePos) -> TokenAndSpan {
@@ -373,11 +397,6 @@ impl crate::input::Tokens for Lexer<'_> {
 
 impl Lexer<'_> {
     fn next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
-        if let Some(next_regexp) = self.state.next_regexp {
-            *start = next_regexp;
-            return self.read_regexp(next_regexp);
-        }
-
         if self.state.is_first {
             if let Some(shebang) = self.read_shebang()? {
                 self.state.set_token_value(TokenValue::Word(shebang));
@@ -593,7 +612,6 @@ impl State {
             had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
-            next_regexp: None,
             start: BytePos(0),
             prev_hi: start_pos,
             token_value: None,

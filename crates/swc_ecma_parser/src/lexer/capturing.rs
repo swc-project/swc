@@ -1,5 +1,7 @@
 use std::mem;
 
+use swc_atoms::Atom;
+
 use crate::{
     error::Error,
     input::Tokens,
@@ -116,10 +118,6 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.set_expr_allowed(allow);
     }
 
-    fn set_next_regexp(&mut self, start: Option<swc_common::BytePos>) {
-        self.inner.set_next_regexp(start);
-    }
-
     fn add_error(&mut self, error: Error) {
         self.inner.add_error(error);
     }
@@ -162,6 +160,12 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
         self.inner.set_token_value(token_value);
+    }
+
+    fn scan_regex(&mut self) -> (TokenAndSpan, Option<(Atom, Atom)>) {
+        let result = self.inner.scan_regex();
+        self.capture(result.0);
+        result
     }
 
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan {
