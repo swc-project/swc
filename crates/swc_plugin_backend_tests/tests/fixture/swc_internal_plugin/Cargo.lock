@@ -220,6 +220,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "cbor4ii"
+version = "1.1.1"
+source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#307317f08009263b4f6dda72be49da1a3f43caa6"
+
+[[package]]
 name = "cc"
 version = "1.2.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1330,9 +1335,10 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "8.0.2"
+(??)version = "7.0.0"
 dependencies = [
  "bytecheck",
+ "cbor4ii",
  "hstr",
  "once_cell",
  "rancor",
@@ -1349,6 +1355,7 @@ dependencies = [
  "better_scoped_tls",
  "bytecheck",
  "bytes-str",
+ "cbor4ii",
  "either",
  "from_variant",
  "new_debug_unreachable",
@@ -1372,7 +1379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "46.0.3"
+(??)version = "42.1.0"
 dependencies = [
  "swc_allocator",
  "swc_atoms",
@@ -1395,6 +1402,7 @@ version = "17.0.0"
 dependencies = [
  "bitflags",
  "bytecheck",
+ "cbor4ii",
  "is-macro",
  "num-bigint",
  "once_cell",
@@ -1586,6 +1594,7 @@ version = "0.1.0"
 dependencies = [
  "serde",
  "swc_core",
+ "swc_ecma_ast",
  "swc_transform_common",
 ]
 
@@ -1620,6 +1629,7 @@ version = "17.0.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
+ "cbor4ii",
  "rancor",
  "rkyv",
  "rustc-hash",

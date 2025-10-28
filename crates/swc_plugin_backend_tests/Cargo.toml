@@ -30,6 +30,7 @@ swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", features = [
 swc_css_parser = { version = "16.0.0", path = "../swc_css_parser" }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
+  "encoding-impl",
 ] }
 swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit" }

@@ -16,3 +16,4 @@ swc_core = { path = "../../../../swc_core", features = [
   "ecma_quote",
 ] }
 swc_transform_common = { path = "../../../../swc_transform_common" }
+swc_ecma_ast = { path = "../../../../swc_ecma_ast", features = ["encoding-impl"] }
