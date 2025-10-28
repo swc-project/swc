@@ -25,7 +25,6 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["es3", "lint", "isolated-dts"]
 es3 = []
 isolated-dts = ["swc_typescript"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
@@ -47,7 +46,9 @@ plugin_transform_schema_vtest = [
 # Enable wasmer plugin runtime implement
 plugin_backend_wasmer = ["swc_plugin_backend_wasmer"]
 
-plugin_transform_host_js = ["swc_plugin_backend_wasmer/plugin_transform_host_js"]
+plugin_transform_host_js = [
+  "swc_plugin_backend_wasmer/plugin_transform_host_js",
+]
 plugin_transform_host_native = [
   "swc_plugin_backend_wasmer/plugin_transform_host_native",
 ]
@@ -55,6 +56,7 @@ plugin_transform_host_native = [
 manual-tokio-runtime = []
 
 lint = ["swc_ecma_lints"]
+
 
 [dependencies]
 anyhow        = { workspace = true }
@@ -94,7 +96,9 @@ swc_ecma_loader = { version = "15.0.0", path = "../swc_ecma_loader", features = 
   "tsc",
 ] }
 swc_ecma_minifier = { version = "34.0.2", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "25.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "25.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_preset_env = { version = "37.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "36.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
@@ -111,9 +115,9 @@ swc_ecma_utils = { version = "22.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "16.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "17.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "15.0.0", path = "../swc_node_comments" }
+swc_plugin_backend_wasmer = { version = "3.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
 swc_plugin_proxy = { version = "16.0.0", path = "../swc_plugin_proxy", optional = true }
 swc_plugin_runner = { version = "20.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
-swc_plugin_backend_wasmer = { version = "3.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 swc_transform_common = { version = "9.0.0", path = "../swc_transform_common" }
 swc_typescript = { version = "21.0.0", path = "../swc_typescript", optional = true }
