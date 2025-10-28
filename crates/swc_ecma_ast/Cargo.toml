@@ -53,7 +53,7 @@ shrink-to-fit    = { workspace = true, optional = true }
 unicode-id-start = { workspace = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum" }
-swc_atoms   = { version = "8.0.0", path = "../swc_atoms" }
+swc_atoms   = { version = "8.0.1", path = "../swc_atoms" }
 swc_common  = { version = "16.0.0", path = "../swc_common" }
 swc_visit   = { version = "2.0.1", path = "../swc_visit" }
 

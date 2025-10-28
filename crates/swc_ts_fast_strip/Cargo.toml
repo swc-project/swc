@@ -20,7 +20,7 @@ nightly = []
 anyhow = { workspace = true }
 bytes-str = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
-swc_atoms = { version = "8.0.0", path = "../swc_atoms" }
+swc_atoms = { version = "8.0.1", path = "../swc_atoms" }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
