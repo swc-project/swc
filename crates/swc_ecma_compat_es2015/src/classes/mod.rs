@@ -14,7 +14,7 @@ use swc_ecma_utils::{
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -953,69 +953,6 @@ impl Classes {
 
         res
     }
-}
-
-#[tracing::instrument(level = "debug", skip_all)]
-fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
-    let mut class_name_sym = name.clone();
-    class_name_sym.span = DUMMY_SP;
-    class_name_sym.ctxt = name.ctxt;
-
-    let class_call_check = CallExpr {
-        span: DUMMY_SP,
-        callee: helper!(class_call_check),
-        args: vec![
-            Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-            class_name_sym.as_arg(),
-        ],
-        ..Default::default()
-    }
-    .into_stmt();
-
-    prepend_stmt(c, class_call_check)
-}
-
-/// Returns true if no `super` is used before `super()` call.
-#[tracing::instrument(level = "debug", skip_all)]
-fn is_always_initialized(body: &[Stmt]) -> bool {
-    struct SuperFinder {
-        found: bool,
-    }
-
-    impl Visit for SuperFinder {
-        noop_visit_type!(fail);
-
-        fn visit_callee(&mut self, node: &Callee) {
-            match *node {
-                Callee::Super(..) => self.found = true,
-                _ => node.visit_children_with(self),
-            }
-        }
-
-        fn visit_super_prop_expr(&mut self, _: &SuperPropExpr) {
-            self.found = true
-        }
-    }
-
-    let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt { expr, .. }) => matches!(
-            &**expr,
-            Expr::Call(CallExpr {
-                callee: Callee::Super(..),
-                ..
-            })
-        ),
-        _ => false,
-    }) {
-        Some(pos) => pos,
-        _ => return false,
-    };
-
-    let mut v = SuperFinder { found: false };
-    let body = &body[..pos];
-    v.visit_stmts(body);
-
-    !v.found
 }
 
 fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
