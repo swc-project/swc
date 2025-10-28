@@ -79,6 +79,20 @@ impl Wtf8Atom {
     pub fn try_into_atom(self) -> Result<Atom, Wtf8Atom> {
         self.0.try_into_atom().map(Atom).map_err(Wtf8Atom)
     }
+
+    /// Creates a new [Wtf8Atom] from a byte slice.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that `bytes` is a well-formed WTF-8 byte
+    /// sequence.
+    ///
+    /// See [hstr::wtf8::Wtf8::from_bytes_unchecked] for more details.
+    pub unsafe fn from_bytes_unchecked(bytes: &[u8]) -> Self {
+        Wtf8Atom(hstr::Wtf8Atom::from(
+            hstr::wtf8::Wtf8::from_bytes_unchecked(bytes),
+        ))
+    }
 }
 
 impl Deref for Wtf8Atom {
