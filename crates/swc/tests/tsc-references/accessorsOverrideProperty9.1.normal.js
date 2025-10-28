@@ -1,6 +1,4 @@
 //// [accessorsOverrideProperty9.ts]
-// #41347, based on microsoft/rushstack
-// Mixin utilities
 // Base class
 class ApiItem {
     get members() {

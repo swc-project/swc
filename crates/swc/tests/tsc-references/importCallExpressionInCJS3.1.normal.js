@@ -15,12 +15,12 @@ class B {
     }
 }
 //// [2.ts]
-// We use Promise<any> for now as there is no way to specify shape of module object
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+// We use Promise<any> for now as there is no way to specify shape of module object
 function foo(x) {
     x.then((value)=>{
         let b = new value.B();

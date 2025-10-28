@@ -1,10 +1,10 @@
 //// [source.js]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /**
  * Foos a bar together using an `a` and a `b`
  * @param {number} a
  * @param {string} b
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-export function foo(a, b) {}
+ */ export function foo(a, b) {}
 /**
  * Legacy - DO NOT USE
  */ export var Aleph = /*#__PURE__*/ function() {

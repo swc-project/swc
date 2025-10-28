@@ -1,4 +1,5 @@
 //// [arrayLiterals2ES5.ts]
+import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 // ElementList:  ( Modified )
 //      Elisionopt   AssignmentExpression
 //      Elisionopt   SpreadElement
@@ -6,7 +7,6 @@
 //      ElementList, Elisionopt   SpreadElement
 // SpreadElement:
 //      ...   AssignmentExpression
-import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var a0 = [
     ,
     ,

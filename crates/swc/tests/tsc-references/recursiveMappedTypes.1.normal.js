@@ -1,5 +1,4 @@
 //// [recursiveMappedTypes.ts]
-// Recursive mapped types simply appear empty
 function foo(arg) {
     return arg;
 }

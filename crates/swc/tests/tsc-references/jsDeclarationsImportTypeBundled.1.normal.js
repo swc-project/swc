@@ -1,23 +1,23 @@
 //// [folder/mod1.js]
-/**
- * @typedef {{x: number}} Item
- */ /**
- * @type {Item};
- */ define([
+define([
     "require"
 ], function(require) {
     "use strict";
-    var x = {
+    /**
+ * @typedef {{x: number}} Item
+ */ /**
+ * @type {Item};
+ */ var x = {
         x: 12
     };
     module.exports = x;
 });
 //// [index.js]
-/** @type {(typeof import("./folder/mod1"))[]} */ define([
+define([
     "require"
 ], function(require) {
     "use strict";
-    var items = [
+    /** @type {(typeof import("./folder/mod1"))[]} */ var items = [
         {
             x: 12
         }

@@ -1,5 +1,4 @@
 //// [parserErrorRecovery_IncompleteMemberVariable1.ts]
-// Interface
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Module
 (function(Shapes) {

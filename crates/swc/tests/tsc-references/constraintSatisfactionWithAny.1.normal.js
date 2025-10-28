@@ -1,6 +1,6 @@
 //// [constraintSatisfactionWithAny.ts]
-// any is not a valid type argument unless there is no constraint, or the constraint is any
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// any is not a valid type argument unless there is no constraint, or the constraint is any
 function foo(x) {
     return null;
 }

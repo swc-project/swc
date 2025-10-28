@@ -1,5 +1,4 @@
 //// [unknownType1.ts]
-// In an intersection everything absorbs unknown
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";

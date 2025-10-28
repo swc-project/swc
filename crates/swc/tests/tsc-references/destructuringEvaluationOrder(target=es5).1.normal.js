@@ -1,10 +1,10 @@
 //// [destructuringEvaluationOrder.ts]
-// https://github.com/microsoft/TypeScript/issues/39205
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
+// https://github.com/microsoft/TypeScript/issues/39205
 var trace = [];
 var order = function(n) {
     return trace.push(n);

@@ -1,6 +1,6 @@
 //// [genericCallWithObjectTypeArgsAndConstraints5.ts]
-// Generic call with constraints infering type parameter from object member properties
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// Generic call with constraints infering type parameter from object member properties
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

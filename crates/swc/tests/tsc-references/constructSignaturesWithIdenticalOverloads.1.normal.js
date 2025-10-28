@@ -1,6 +1,6 @@
 //// [constructSignaturesWithIdenticalOverloads.ts]
-// Duplicate overloads of construct signatures should generate errors
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// Duplicate overloads of construct signatures should generate errors
 var C = function C(x) {
     "use strict";
     _class_call_check(this, C);
