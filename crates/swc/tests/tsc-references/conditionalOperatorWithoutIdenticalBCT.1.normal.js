@@ -1,8 +1,8 @@
 //// [conditionalOperatorWithoutIdenticalBCT.ts]
-//Cond ? Expr1 : Expr2,  Expr1 and Expr2 have no identical best common type
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+//Cond ? Expr1 : Expr2,  Expr1 and Expr2 have no identical best common type
 var X = function X() {
     "use strict";
     _class_call_check(this, X);

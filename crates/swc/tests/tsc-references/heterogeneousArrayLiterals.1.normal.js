@@ -1,8 +1,8 @@
 //// [heterogeneousArrayLiterals.ts]
-// type of an array is the best common type of its elements (plus its contextual type if it exists)
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// type of an array is the best common type of its elements (plus its contextual type if it exists)
 var a = [
     1,
     ''

@@ -74,6 +74,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
 #[derive(Clone)]
 pub struct Buffer<I> {
     pub iter: I,
+    pub start: BytePos,
     /// Span of the previous token.
     pub prev_span: Span,
     pub cur: TokenAndSpan,
@@ -205,6 +206,7 @@ impl<I: Tokens> Buffer<I> {
         Buffer {
             iter: lexer,
             cur: TokenAndSpan::new(Token::Eof, prev_span, false),
+            start: prev_span.lo,
             prev_span,
             next: None,
         }

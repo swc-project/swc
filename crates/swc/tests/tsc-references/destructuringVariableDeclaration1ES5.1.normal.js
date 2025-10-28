@@ -1,8 +1,8 @@
 //// [destructuringVariableDeclaration1ES5.ts]
-// The type T associated with a destructuring variable declaration is determined as follows:
-//      If the declaration includes a type annotation, T is that type.
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+// The type T associated with a destructuring variable declaration is determined as follows:
+//      If the declaration includes a type annotation, T is that type.
 var _ref = {
     a1: 10,
     a2: "world"

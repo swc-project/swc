@@ -1,5 +1,4 @@
 //// [controlFlowOptionalChain.ts]
-// assignments in shortcutting chain
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
 var _o4_x, _o4_x1, _o5_x_y_z, _o5_x, _o5_x1, _o5_x2, _o5_x_y_z1, _o5_x3, _arr_i;

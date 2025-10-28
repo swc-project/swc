@@ -1,6 +1,6 @@
 //// [renderer.d.ts]
 export { dom as p };
 //// [reacty.tsx]
-import "./renderer";
+export { };
 //// [index.tsx]
 export { };

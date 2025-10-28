@@ -3,12 +3,11 @@ export { };
 //// [renderer2.d.ts]
 export { };
 //// [component.tsx]
-/** @jsx predom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var _this = this;
-import { predom } from "./renderer2";
 export var MySFC = function(props) {
-    return /*#__PURE__*/ predom.apply(void 0, [
+    return /*#__PURE__*/ React.createElement.apply(React, [
         "p",
         null,
         props.x,
@@ -26,7 +25,7 @@ export var MyClass = /*#__PURE__*/ function() {
     }
     var _proto = MyClass.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ predom.apply(void 0, [
+        return /*#__PURE__*/ React.createElement.apply(React, [
             "p",
             null,
             this.props.x,
@@ -38,26 +37,25 @@ export var MyClass = /*#__PURE__*/ function() {
     };
     return MyClass;
 }();
-export var tree = /*#__PURE__*/ predom(MySFC, {
+export var tree = /*#__PURE__*/ React.createElement(MySFC, {
     x: 1,
     y: 2
-}, /*#__PURE__*/ predom(MyClass, {
+}, /*#__PURE__*/ React.createElement(MyClass, {
     x: 3,
     y: 4
-}), /*#__PURE__*/ predom(MyClass, {
+}), /*#__PURE__*/ React.createElement(MyClass, {
     x: 5,
     y: 6
 }));
-export default /*#__PURE__*/ predom("h", null);
+export default /*#__PURE__*/ React.createElement("h", null);
 //// [index.tsx]
-/** @jsx dom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-import { dom } from "./renderer";
 import prerendered, { MySFC, MyClass, tree } from "./component";
 var elem = prerendered;
-elem = /*#__PURE__*/ dom("h", null); // Expect assignability error here
+elem = /*#__PURE__*/ React.createElement("h", null); // Expect assignability error here
 var DOMSFC = function(props) {
-    return /*#__PURE__*/ dom("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);
+    return /*#__PURE__*/ React.createElement("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);
 };
 var DOMClass = /*#__PURE__*/ function() {
     "use strict";
@@ -67,7 +65,7 @@ var DOMClass = /*#__PURE__*/ function() {
     }
     var _proto = DOMClass.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ dom.apply(void 0, [
+        return /*#__PURE__*/ React.createElement.apply(React, [
             "p",
             null,
             this.props.x,
@@ -80,29 +78,29 @@ var DOMClass = /*#__PURE__*/ function() {
     return DOMClass;
 }();
 // Should work, everything is a DOM element
-var _tree = /*#__PURE__*/ dom(DOMSFC, {
+var _tree = /*#__PURE__*/ React.createElement(DOMSFC, {
     x: 1,
     y: 2
-}, /*#__PURE__*/ dom(DOMClass, {
+}, /*#__PURE__*/ React.createElement(DOMClass, {
     x: 3,
     y: 4
-}), /*#__PURE__*/ dom(DOMClass, {
+}), /*#__PURE__*/ React.createElement(DOMClass, {
     x: 5,
     y: 6
 }));
 // Should fail, no dom elements
-var _brokenTree = /*#__PURE__*/ dom(MySFC, {
+var _brokenTree = /*#__PURE__*/ React.createElement(MySFC, {
     x: 1,
     y: 2
-}, /*#__PURE__*/ dom(MyClass, {
+}, /*#__PURE__*/ React.createElement(MyClass, {
     x: 3,
     y: 4
-}), /*#__PURE__*/ dom(MyClass, {
+}), /*#__PURE__*/ React.createElement(MyClass, {
     x: 5,
     y: 6
 }));
 // Should fail, nondom isn't allowed as children of dom
-var _brokenTree2 = /*#__PURE__*/ dom(DOMSFC, {
+var _brokenTree2 = /*#__PURE__*/ React.createElement(DOMSFC, {
     x: 1,
     y: 2
 }, tree, tree);

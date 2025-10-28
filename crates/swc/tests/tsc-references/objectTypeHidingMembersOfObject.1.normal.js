@@ -1,6 +1,6 @@
 //// [objectTypeHidingMembersOfObject.ts]
-// all of these valueOf calls should return the type shown in the overriding signatures here
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// all of these valueOf calls should return the type shown in the overriding signatures here
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

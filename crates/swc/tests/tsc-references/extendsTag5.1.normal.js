@@ -1,4 +1,7 @@
 //// [/a.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
 /**
  * @typedef {{
 *     a: number | string;
@@ -6,10 +9,7 @@
 * }} Foo
 */ /**
 * @template {Foo} T
-*/ import { _ as _call_super } from "@swc/helpers/_/_call_super";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var A = function A(a) {
+*/ var A = function A(a) {
     "use strict";
     _class_call_check(this, A);
     return a;

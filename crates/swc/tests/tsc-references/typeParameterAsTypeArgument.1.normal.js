@@ -1,6 +1,6 @@
 //// [typeParameterAsTypeArgument.ts]
-// These are all errors because type parameters cannot reference other type parameters from the same list
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// These are all errors because type parameters cannot reference other type parameters from the same list
 function foo(x, y) {
     foo(y, y);
     return new C();

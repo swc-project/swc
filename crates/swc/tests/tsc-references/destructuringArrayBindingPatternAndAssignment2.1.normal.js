@@ -1,8 +1,8 @@
 //// [destructuringArrayBindingPatternAndAssignment2.ts]
-// V is an array assignment pattern, S is the type Any or an array-like type (section 3.3.2), and, for each assignment element E in V,
-//      S is the type Any, or
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+// V is an array assignment pattern, S is the type Any or an array-like type (section 3.3.2), and, for each assignment element E in V,
+//      S is the type Any, or
 var _ref // Error
  = [], _ref_ = _sliced_to_array(_ref[0], 1), a0 = _ref_[0], _ref_1 = _sliced_to_array(_ref[1], 1), _ref__ = _sliced_to_array(_ref_1[0], 1), a1 = _ref__[0];
 var _undefined // Error

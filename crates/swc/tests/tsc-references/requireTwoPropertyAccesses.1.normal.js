@@ -1,5 +1,4 @@
 //// [requireTwoPropertyAccesses.ts]
-// @declaration
 //// [mod.js]
 module.exports = {
     x: {

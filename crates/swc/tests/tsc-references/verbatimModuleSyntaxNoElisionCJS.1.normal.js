@@ -28,5 +28,4 @@ module.exports = I;
 const I = {};
 module.exports = I;
 //// [/z.ts]
-// test harness is weird if the last file includs a require >:(
 "use strict";

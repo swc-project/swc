@@ -1,11 +1,11 @@
 //// [interface.ts]
 export { };
 //// [lib.js]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /**
  * @template T
  * @implements {IEncoder<T>}
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-export var Encoder = /*#__PURE__*/ function() {
+ */ export var Encoder = /*#__PURE__*/ function() {
     "use strict";
     function Encoder() {
         _class_call_check(this, Encoder);
