@@ -9,7 +9,7 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_html"
 repository = "https://github.com/swc-project/swc.git"
-version = "27.0.0"
+version = "28.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -22,7 +22,7 @@ bench = false
 minifier = []
 
 [dependencies]
-swc_html_ast      = { version = "15.0.0", path = "../swc_html_ast" }
-swc_html_codegen  = { version = "16.0.0", path = "../swc_html_codegen" }
-swc_html_parser   = { version = "15.0.0", path = "../swc_html_parser" }
-swc_html_visit    = { version = "15.0.0", path = "../swc_html_visit" }
+swc_html_ast      = { version = "16.0.0", path = "../swc_html_ast" }
+swc_html_codegen  = { version = "17.0.0", path = "../swc_html_codegen" }
+swc_html_parser   = { version = "16.0.0", path = "../swc_html_parser" }
+swc_html_visit    = { version = "16.0.0", path = "../swc_html_visit" }
