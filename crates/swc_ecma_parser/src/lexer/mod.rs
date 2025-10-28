@@ -1212,7 +1212,7 @@ impl<'a> Lexer<'a> {
     }
 
     fn read_int_u32<const RADIX: u8>(&mut self, len: u8) -> LexResult<Option<u32>> {
-        let start = self.state().start();
+        let start = self.cur_pos();
 
         let mut count = 0;
         let v = self.read_digits::<_, Option<u32>, RADIX>(
