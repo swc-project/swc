@@ -176,6 +176,39 @@ codegen-units = 1
     [profile.release.package.miette]
     opt-level = "s"
 
+    [profile.release.package.swc_bundler]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_compat_es3]
+    opt-level = "s"
+
+    [profile.release.package.serde]
+    opt-level = "s"
+
+    [profile.release.package.regex-syntax]
+    opt-level = "s"
+
+    [profile.release.package.virtual-fs]
+    opt-level = "s"
+
+    [profile.release.package.swc_typescript]
+    opt-level = "s"
+
+    [profile.release.package.wasmer-package]
+    opt-level = "s"
+
+    [profile.release.package.aho-corasick]
+    opt-level = "s"
+
+    [profile.release.package.backtrace]
+    opt-level = "s"
+
+    [profile.release.package.tokio]
+    opt-level = "s"
+
+    [profile.release.package.napi]
+    opt-level = "s"
+
 
 [profile.dev.package."*"]
 debug-assertions = false
