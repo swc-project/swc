@@ -4907,6 +4907,7 @@ dependencies = [
  "swc_malloc",
  "swc_node_comments",
  "swc_plugin_backend_wasmer",
+ "swc_plugin_backend_wasmtime",
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_sourcemap",

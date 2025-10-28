@@ -231,6 +231,9 @@ plugin_transform_host_native_shared_runtime = []
 # Enable wasmer plugin runtime implement
 plugin_backend_wasmer = ["swc/plugin_backend_wasmer"]
 
+# Enable wasmtime plugin runtime implement
+plugin_backend_wasmtime = ["swc/plugin_backend_wasmtime"]
+
 # Enable parallel execution of various modules, including minifier using chili
 parallel_chili = ["par-core/chili"]
 # Enable parallel execution of various modules, including minifier using rayon
@@ -307,8 +310,8 @@ __plugin_transform_host = [
 ]
 
 # Internal flags to control plugin environment
+__plugin_transform_env_js     = ["swc/plugin_transform_host_js"]
 __plugin_transform_env_native = ["swc/plugin_transform_host_native"]
-__plugin_transform_env_js = ["swc/plugin_transform_host_js"]
 
 # Do not use: testing purpose only
 # Force enable different version of AST schema
