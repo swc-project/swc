@@ -1,6 +1,6 @@
 //// [assignEveryTypeToAny.ts]
-// all of these are valid
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// all of these are valid
 var x;
 x = 1;
 var a = 2;

@@ -1,6 +1,6 @@
 //// [typeParameterDirectlyConstrainedToItself.ts]
-// all of the below should be errors
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// all of the below should be errors
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

@@ -1,6 +1,6 @@
 //// [parameterInitializersForwardReferencing.2.ts]
-// https://github.com/microsoft/TypeScript/issues/36295
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+// https://github.com/microsoft/TypeScript/issues/36295
 function a() {}
 function b() {
     var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a();

@@ -1,7 +1,7 @@
 //// [constraintSatisfactionWithEmptyObject.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // valid uses of a basic object constraint, no errors expected
 // Object constraint
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function foo(x) {}
 var r = foo({});
 var a = {};

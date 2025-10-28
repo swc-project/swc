@@ -1,6 +1,6 @@
 //// [objectTypesIdentityWithConstructSignatures.ts]
-// object types are identical structurally
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// object types are identical structurally
 var A = function A(x) {
     "use strict";
     _class_call_check(this, A);

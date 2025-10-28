@@ -15,6 +15,7 @@ module.exports = Timer;
 }
 module.exports = Hook;
 //// [context.js]
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 /**
  * Imports
  *
@@ -38,8 +39,7 @@ module.exports = Hook;
  *
  * @class
  * @param {Input} input
- */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-function Context(input) {
+ */ function Context(input) {
     if (!_instanceof(this, Context)) {
         return new Context(input);
     }

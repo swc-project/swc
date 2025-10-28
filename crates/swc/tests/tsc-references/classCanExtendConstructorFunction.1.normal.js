@@ -1,13 +1,13 @@
 //// [first.js]
-/**
- * @constructor
- * @param {number} numberOxen
- */ import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-function Wagon(numberOxen) {
+/**
+ * @constructor
+ * @param {number} numberOxen
+ */ function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
 /** @param {Wagon[]=} wagons */ Wagon.circle = function(wagons) {
@@ -61,12 +61,12 @@ var Drakkhen = /*#__PURE__*/ function(Dragon1) {
     return Drakkhen;
 }(Dragon);
 //// [second.ts]
-/**
- * @constructor
- */ import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-function Dragon(numberEaten) {
+/**
+ * @constructor
+ */ function Dragon(numberEaten) {
     this.numberEaten = numberEaten;
 }
 // error!
@@ -102,13 +102,13 @@ var c = new Conestoga(true);
 c.drunkOO;
 c.numberOxen;
 //// [generic.js]
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
 /**
  * @template T
  * @param {T} flavour
- */ import { _ as _call_super } from "@swc/helpers/_/_call_super";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _inherits } from "@swc/helpers/_/_inherits";
-function Soup(flavour) {
+ */ function Soup(flavour) {
     this.flavour = flavour;
 }
 /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ var Chowder = /*#__PURE__*/ function(Soup) {

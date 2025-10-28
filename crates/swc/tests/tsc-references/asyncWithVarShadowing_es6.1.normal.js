@@ -1,5 +1,4 @@
 //// [asyncWithVarShadowing_es6.ts]
-// https://github.com/Microsoft/TypeScript/issues/20461
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";

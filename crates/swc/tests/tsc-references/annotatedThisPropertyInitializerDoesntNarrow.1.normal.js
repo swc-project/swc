@@ -1,7 +1,7 @@
 //// [Compilation.js]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // from webpack/lib/Compilation.js and filed at #26427
-/** @param {{ [s: string]: number }} map */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-function mappy(map) {}
+/** @param {{ [s: string]: number }} map */ function mappy(map) {}
 export var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

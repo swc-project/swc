@@ -4,5 +4,5 @@ export { };
 import * as React from "./renderer";
 React.Fragment;
 //// [index.tsx]
-import "./renderer";
 React.Fragment;
+export { };

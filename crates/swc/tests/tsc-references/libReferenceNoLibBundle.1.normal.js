@@ -1,5 +1,4 @@
 //// [libReferenceNoLibBundle.ts]
-// Test that passing noLib disables <reference lib> resolution.
 define([
     "require"
 ], function(require) {
@@ -12,7 +11,6 @@ define([
     "use strict";
 });
 //// [file1.ts]
-/// <reference lib="dom" />
 define([
     "require",
     "exports"
