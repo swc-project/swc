@@ -1,4 +1,3 @@
-// Simulate accessing a .js file in a third party package that shouldn't be edited
 (function(global, factory) {
     if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_interop_require_default"), require("lodash/dist/something.js"));
     else if (typeof define === "function" && define.amd) define([
