@@ -77,7 +77,6 @@ strip = "symbols"
 
 # Reduce binary size
 codegen-units = 1
-panic         = "abort"
 
   [profile.release.package]
 
