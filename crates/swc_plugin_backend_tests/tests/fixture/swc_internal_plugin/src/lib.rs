@@ -76,9 +76,8 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
 
     dbg!();
 
-    let filename = metadata
-        .get_context(&TransformPluginMetadataContextKind::Filename)
-        .expect("Filename should exists");
+    let maybe_filename = metadata
+        .get_context(&TransformPluginMetadataContextKind::Filename);
 
     dbg!();
 

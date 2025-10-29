@@ -38,14 +38,10 @@ where
     F: FnOnce(u32) -> u32,
 {
     // Allocate AllocatedBytesPtr to get return value from the host
-    let allocated_bytes_ptr =
-        swc_common::plugin::serialized::VersionedSerializable::new(AllocatedBytesPtr(0, 0));
-    let serialized_allocated_bytes_ptr = PluginSerializedBytes::try_serialize(&allocated_bytes_ptr)
-        .expect("Should able to serialize AllocatedBytesPtr");
-    let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
-        serialized_allocated_bytes_ptr.as_ptr();
+    let mut allocated_bytes_ptr = [0u32, 0u32];
+    let serialized_allocated_bytes_raw_ptr = allocated_bytes_ptr.as_mut_ptr();
 
-    std::mem::forget(allocated_bytes_ptr); // We should not drop AllocatedBytesPtr(0, 0)
+    assert_eq!(std::mem::size_of::<*mut u32>(), std::mem::size_of::<u32>());
 
     let ret = f(serialized_allocated_bytes_raw_ptr as _);
 
@@ -58,17 +54,10 @@ where
     }
 
     // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
-    Some(
-        PluginSerializedBytes::from_raw_ptr(
-            serialized_allocated_bytes_raw_ptr,
-            serialized_allocated_bytes_raw_ptr_size
-                .try_into()
-                .expect("Should able to convert ptr length"),
-        )
-        .deserialize()
-        .expect("Should able to deserialize AllocatedBytesPtr")
-        .into_inner(),
-    )
+    Some(AllocatedBytesPtr(
+        allocated_bytes_ptr[0],
+        allocated_bytes_ptr[1]
+    ))
 }
 
 #[cfg(not(feature = "encoding-impl"))]
