@@ -4,38 +4,16 @@
         docsrs,
         any(
             feature = "__common_plugin_transform",
-            feature = "__css_plugin_transform"
-        )
-    ),
-    feature = "__common_plugin_transform",
-    feature = "__css_plugin_transform",
-))]
-#[cfg_attr(
-    docsrs,
-    doc(cfg(any(
-        feature = "__common_plugin_transform",
-        feature = "__css_plugin_transform"
-    )))
-)]
-pub use swc_plugin_macro::css_plugin_transform;
-#[cfg(any(
-    all(
-        docsrs,
-        any(
-            feature = "__common_plugin_transform",
-            feature = "__css_plugin_transform",
             feature = "__ecma_plugin_transform"
         )
     ),
     feature = "__common_plugin_transform",
-    feature = "__css_plugin_transform",
     feature = "__ecma_plugin_transform"
 ))]
 #[cfg_attr(
     docsrs,
     doc(cfg(any(
         feature = "__common_plugin_transform",
-        feature = "__css_plugin_transform",
         feature = "__ecma_plugin_transform"
     )))
 )]
@@ -56,19 +34,16 @@ pub mod memory {
         docsrs,
         any(
             feature = "__common_plugin_transform",
-            feature = "__css_plugin_transform",
             feature = "__ecma_plugin_transform"
         )
     ),
     feature = "__common_plugin_transform",
-    feature = "__css_plugin_transform",
     feature = "__ecma_plugin_transform"
 ))]
 #[cfg_attr(
     docsrs,
     doc(cfg(any(
         feature = "__common_plugin_transform",
-        feature = "__css_plugin_transform",
         feature = "__ecma_plugin_transform"
     )))
 )]
@@ -82,19 +57,16 @@ pub mod errors {
         docsrs,
         any(
             feature = "__common_plugin_transform",
-            feature = "__css_plugin_transform",
             feature = "__ecma_plugin_transform"
         )
     ),
     feature = "__common_plugin_transform",
-    feature = "__css_plugin_transform",
     feature = "__ecma_plugin_transform"
 ))]
 #[cfg_attr(
     docsrs,
     doc(cfg(any(
         feature = "__common_plugin_transform",
-        feature = "__css_plugin_transform",
         feature = "__ecma_plugin_transform"
     )))
 )]

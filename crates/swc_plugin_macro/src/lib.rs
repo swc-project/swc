@@ -17,19 +17,6 @@ pub fn plugin_transform(
     }
 }
 
-#[proc_macro_attribute]
-pub fn css_plugin_transform(
-    _args: proc_macro::TokenStream,
-    input: proc_macro::TokenStream,
-) -> proc_macro::TokenStream {
-    let token = proc_macro2::TokenStream::from(input);
-    let parsed_results = syn::parse2::<SynItem>(token).expect("Failed to parse tokens");
-    match parsed_results {
-        SynItem::Fn(func) => handle_func(func, Ident::new("Stylesheet", Span::call_site())),
-        _ => panic!("Please confirm if plugin macro is specified for the function"),
-    }
-}
-
 #[allow(clippy::redundant_clone)]
 fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
     let ident = func.sig.ident.clone();

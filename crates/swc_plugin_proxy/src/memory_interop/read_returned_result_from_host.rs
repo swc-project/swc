@@ -3,15 +3,6 @@
 use swc_common::plugin::serialized::PluginSerializedBytes;
 
 /// A struct to exchange allocated data between memory spaces.
-#[cfg_attr(
-    feature = "__rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "__rkyv", repr(C))]
-#[cfg_attr(
-    feature = "encoding-impl",
-    derive(::swc_common::Encode, ::swc_common::Decode)
-)]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(target_arch = "wasm32")]
@@ -27,7 +18,7 @@ impl Drop for AllocatedBytesPtr {
     }
 }
 
-#[cfg(not(feature = "__rkyv"))]
+#[cfg(not(feature = "encoding-impl"))]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
     unimplemented!("Plugin proxy does not work without serialization support")
 }
@@ -40,7 +31,7 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
 ///
 /// Returns a struct AllocatedBytesPtr to the ptr for actual return value if
 /// host fn allocated return value, None otherwise.
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
 #[tracing::instrument(level = "info", skip_all)]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
@@ -80,7 +71,7 @@ where
     )
 }
 
-#[cfg(not(feature = "__rkyv"))]
+#[cfg(not(feature = "encoding-impl"))]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
     unimplemented!("Plugin proxy does not work without serialization support")
 }
@@ -88,7 +79,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
 /// Performs deserialization to the actual return value type from returned ptr.
 ///
 /// This fn is for the Infallible types works for most of the cases.
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
