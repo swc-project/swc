@@ -24,22 +24,14 @@ tracing                   = { workspace = true }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", features = [
-  "rkyv-impl",
-] }
-swc_css_parser = { version = "16.0.0", path = "../swc_css_parser" }
+swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
-  "rkyv-impl",
   "encoding-impl",
 ] }
 swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit" }
-swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
-swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", features = [
-  "rkyv-impl",
-  "plugin_transform_schema_v1",
-] }
 swc_transform_common = { version = "10.0.0", path = "../swc_transform_common" }
+swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "17.0.0", path = "../testing" }
 
 swc_plugin_backend_wasmer   = { version = "4.0", path = "../swc_plugin_backend_wasmer" }

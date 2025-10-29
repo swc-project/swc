@@ -7,14 +7,15 @@ use swc_common::{
         PartialFileLines, PartialLoc, SmallPos, SpanSnippetError, SpanLinesError
     },
     sync::Lrc,
+    plugin::serialized::ResultValue,
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
-use swc_common::{plugin::serialized::ResultValue, sync::OnceCell, CharPos, FileLines, SourceFile};
+use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
 #[cfg(feature = "__plugin_mode")]
 use swc_ecma_ast::SourceMapperExt;
 use swc_trace_macro::swc_trace;
 
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
@@ -53,7 +54,7 @@ pub struct PluginSourceMapProxy {
     pub source_file: OnceCell<swc_common::sync::Lrc<SourceFile>>,
 }
 
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
 #[swc_trace]
 impl PluginSourceMapProxy {
     pub fn span_to_source<F, Ret>(

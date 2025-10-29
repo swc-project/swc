@@ -2,7 +2,7 @@ use std::{env, sync::Arc};
 
 use anyhow::{anyhow, Context, Error};
 use parking_lot::Mutex;
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 use swc_common::plugin::serialized::{PluginError, PluginSerializedBytes};
 #[cfg(any(
     feature = "plugin_transform_schema_v1",
@@ -14,7 +14,7 @@ use swc_common::{
     SourceMap,
 };
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 use crate::{
     host_environment::BaseHostEnvironment,
     imported_fn::{
@@ -35,7 +35,7 @@ struct PluginTransformState {
     plugin_core_diag: PluginCorePkgDiagnostics,
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 impl PluginTransformState {
     fn run(
         &mut self,
@@ -148,7 +148,7 @@ pub struct TransformExecutor {
     runtime: Arc<dyn runtime::Runtime>,
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 impl TransformExecutor {
     #[tracing::instrument(
         level = "info",

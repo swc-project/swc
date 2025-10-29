@@ -221,8 +221,9 @@ dependencies = [
 
 [[package]]
 name = "cbor4ii"
-version = "1.1.1"
-source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#307317f08009263b4f6dda72be49da1a3f43caa6"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b28d2802395e3bccd95cc4ae984bff7444b6c1f5981da46a41360c42a2c7e2d9"
 
 [[package]]
 name = "cc"
@@ -1335,7 +1336,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-(??)version = "7.0.0"
+version = "8.0.2"
 dependencies = [
  "bytecheck",
  "cbor4ii",
@@ -1379,7 +1380,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-(??)version = "42.1.0"
+version = "46.0.3"
 dependencies = [
  "swc_allocator",
  "swc_atoms",
@@ -1401,14 +1402,11 @@ name = "swc_ecma_ast"
 version = "17.0.0"
 dependencies = [
  "bitflags",
- "bytecheck",
  "cbor4ii",
  "is-macro",
  "num-bigint",
  "once_cell",
  "phf",
- "rancor",
- "rkyv",
  "rustc-hash",
  "string_enum",
  "swc_atoms",
@@ -1594,7 +1592,6 @@ version = "0.1.0"
 dependencies = [
  "serde",
  "swc_core",
- "swc_ecma_ast",
  "swc_transform_common",
 ]
 
@@ -1628,10 +1625,7 @@ name = "swc_plugin_proxy"
 version = "17.0.0"
 dependencies = [
  "better_scoped_tls",
- "bytecheck",
  "cbor4ii",
- "rancor",
- "rkyv",
  "rustc-hash",
  "swc_common",
  "swc_ecma_ast",
