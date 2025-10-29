@@ -197,16 +197,11 @@ where
     D: ?Sized + rancor::Fallible,
     <D as rancor::Fallible>::Error: rancor::Source,
 {
-    fn deserialize(
-        &self,
-        deserializer: &mut D,
-    ) -> Result<Wtf8Atom, <D as rancor::Fallible>::Error> {
-        let s: Vec<u8> = self.deserialize(deserializer)?;
-
+    fn deserialize(&self, _: &mut D) -> Result<Wtf8Atom, <D as rancor::Fallible>::Error> {
         Ok(Wtf8Atom::new(
             // SAFETY: `ArchivedVec<u8>` is guaranteed to be serialized with `Wtf8Atom` byte
             // sequence.  `Wtf8Atom` byte sequence is identical to `Wtf8` byte sequence.
-            unsafe { Wtf8::from_bytes_unchecked(&s) },
+            unsafe { Wtf8::from_bytes_unchecked(self.as_slice()) },
         ))
     }
 }

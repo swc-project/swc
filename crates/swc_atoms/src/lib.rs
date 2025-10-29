@@ -262,7 +262,7 @@ where
     <S as rancor::Fallible>::Error: rancor::Source,
 {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        String::serialize(&self.to_string(), serializer)
+        rkyv::string::ArchivedString::serialize_from_str(self.as_str(), serializer)
     }
 }
 
@@ -272,10 +272,8 @@ impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
 where
     D: ?Sized + rancor::Fallible,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rancor::Fallible>::Error> {
-        let s: String = self.deserialize(deserializer)?;
-
-        Ok(Atom::new(s))
+    fn deserialize(&self, _: &mut D) -> Result<Atom, <D as rancor::Fallible>::Error> {
+        Ok(Atom::new(self.as_str()))
     }
 }
 
