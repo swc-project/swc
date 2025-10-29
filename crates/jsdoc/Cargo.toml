@@ -24,5 +24,5 @@ swc_common = { version = "16.0.0", path = "../swc_common" }
 
 [dev-dependencies]
 dashmap         = { workspace = true }
-swc_ecma_parser = { version = "26.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser" }
 testing         = { version = "17.0.0", path = "../testing" }

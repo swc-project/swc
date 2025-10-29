@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Performance
+
+
+
+- **(es/parser)** Remove `had_line_break_before_last` ([#11200](https://github.com/swc-project/swc/issues/11200)) ([7b5bcd7](https://github.com/swc-project/swc/commit/7b5bcd7abe2f4d7c048c350c7403ad719ce52bee))
+
+## [swc_core@v46.0.1] - 2025-10-28
+
 ### Bug Fixes
 
 
