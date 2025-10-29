@@ -1,0 +1,4 @@
+[target.wasm32-wasip1]
+rustflags = [
+  "--cfg=swc_ast_unknown"
+]
