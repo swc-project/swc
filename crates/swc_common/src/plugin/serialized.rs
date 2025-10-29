@@ -16,10 +16,7 @@ use anyhow::Error;
 /// or plugin_macro. Plugin's transform fn itself does not allow to return
 /// error - instead it should use provided `handler` to emit corresponding error
 /// to the host.
-#[cfg_attr(
-    feature = "encoding-impl",
-    derive(crate::Encode, crate::Decode)
-)]
+#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub enum PluginError {
     /// Occurs when failed to convert size passed from host / guest into usize
     /// or similar for the conversion. This is an internal error rasied via
@@ -90,7 +87,7 @@ impl PluginSerializedBytes {
         let mut buf = cbor4ii::core::utils::BufWriter::new(Vec::new());
         t.0.encode(&mut buf)?;
         Ok(PluginSerializedBytes {
-            field: buf.into_inner()
+            field: buf.into_inner(),
         })
     }
 
@@ -199,10 +196,10 @@ where
         writer: &mut W,
     ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
         use cbor4ii::core::types::Tag;
-        
+
         match &self.0 {
             Ok(t) => Tag(1, t).encode(writer),
-            Err(t) => Tag(0, t).encode(writer)
+            Err(t) => Tag(0, t).encode(writer),
         }
     }
 }
@@ -222,8 +219,8 @@ where
             0 => E::decode(reader).map(Result::Err).map(ResultValue),
             1 => T::decode(reader).map(Result::Ok).map(ResultValue),
             _ => Err(cbor4ii::core::error::DecodeError::Mismatch {
-                 name: &"ResultValue",
-                 found: tag.to_le_bytes()[0]
+                name: &"ResultValue",
+                found: tag.to_le_bytes()[0],
             }),
         }
     }
