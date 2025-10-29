@@ -1,6 +1,6 @@
 use syn::{spanned::Spanned, Data, DeriveInput};
 
-use super::{is_unknown, is_with, is_ignore, EnumType};
+use super::{is_ignore, is_unknown, is_with, EnumType};
 
 pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
     match data {

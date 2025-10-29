@@ -6,7 +6,11 @@ use swc_common::{
 #[cfg(feature = "__plugin_mode")]
 use swc_trace_macro::swc_trace;
 
-#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]

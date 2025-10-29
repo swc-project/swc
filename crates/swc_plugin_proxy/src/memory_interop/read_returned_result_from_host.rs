@@ -31,7 +31,11 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
 ///
 /// Returns a struct AllocatedBytesPtr to the ptr for actual return value if
 /// host fn allocated return value, None otherwise.
-#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 #[tracing::instrument(level = "info", skip_all)]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
@@ -63,7 +67,7 @@ where
     // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
     Some(AllocatedBytesPtr(
         allocated_bytes_ptr[0],
-        allocated_bytes_ptr[1]
+        allocated_bytes_ptr[1],
     ))
 }
 
@@ -75,13 +79,17 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
 /// Performs deserialization to the actual return value type from returned ptr.
 ///
 /// This fn is for the Infallible types works for most of the cases.
-#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
-    R: for<'de> cbor4ii::core::dec::Decode<'de>
+    R: for<'de> cbor4ii::core::dec::Decode<'de>,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 

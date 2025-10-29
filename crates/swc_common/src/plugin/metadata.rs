@@ -88,7 +88,7 @@ impl cbor4ii::core::enc::Encode for Context {
             k.encode(writer)?;
             v.encode(writer)?;
         }
-        
+
         Ok(())
     }
 }
@@ -101,11 +101,10 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for Context {
     ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
         use cbor4ii::core::types;
 
-        let len = types::Map::len(reader)?
-            .ok_or_else(|| cbor4ii::core::dec::Error::Mismatch {
-                name: &"Context",
-                found: 0
-            })?;
+        let len = types::Map::len(reader)?.ok_or_else(|| cbor4ii::core::dec::Error::Mismatch {
+            name: &"Context",
+            found: 0,
+        })?;
         let len = std::cmp::min(len, 4 * 1024);
         let mut map = FxHashMap::with_capacity_and_hasher(len, Default::default());
         for _ in 0..len {
@@ -114,7 +113,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for Context {
             map.insert(k, v);
         }
 
-        Ok(Context(map))        
+        Ok(Context(map))
     }
 }
-

@@ -205,37 +205,33 @@ impl cbor4ii::core::enc::Encode for FileName {
         &self,
         writer: &mut W,
     ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
-        use cbor4ii::core::types::{Tag, Nothing, Array};
-        
+        use cbor4ii::core::types::{Array, Nothing, Tag};
+
         match self {
             FileName::Real(name) => {
                 let name = name.to_str().unwrap();
                 Tag(1, name).encode(writer)?;
-            },
-            FileName::Macros(name) =>
-                Tag(2, name).encode(writer)?,
+            }
+            FileName::Macros(name) => Tag(2, name).encode(writer)?,
             FileName::QuoteExpansion => {
                 Tag(3, Nothing).encode(writer)?;
                 Array::bounded(0, writer)?;
-            },
+            }
             FileName::Anon => {
                 Tag(4, Nothing).encode(writer)?;
                 Array::bounded(0, writer)?;
-            },
+            }
             FileName::MacroExpansion => {
                 Tag(5, Nothing).encode(writer)?;
                 Array::bounded(0, writer)?;
-            },
+            }
             FileName::ProcMacroSourceCode => {
                 Tag(6, Nothing).encode(writer)?;
                 Array::bounded(0, writer)?;
-            },
-            FileName::Url(name) =>
-                Tag(7, name.as_str()).encode(writer)?,
-            FileName::Internal(name) =>
-                Tag(8, name).encode(writer)?,
-            FileName::Custom(name) =>
-                Tag(9, name).encode(writer)?,
+            }
+            FileName::Url(name) => Tag(7, name.as_str()).encode(writer)?,
+            FileName::Internal(name) => Tag(8, name).encode(writer)?,
+            FileName::Custom(name) => Tag(9, name).encode(writer)?,
         }
 
         Ok(())
@@ -248,50 +244,50 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for FileName {
     fn decode<R: cbor4ii::core::dec::Read<'de>>(
         reader: &mut R,
     ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
-        use cbor4ii::core::types::{Tag, Array};
+        use cbor4ii::core::types::{Array, Tag};
 
         let tag = Tag::tag(reader)?;
         match tag {
             1 => {
                 let name = String::decode(reader)?;
                 Ok(FileName::Real(PathBuf::from(name)))
-            },
+            }
             2 => {
                 let name = String::decode(reader)?;
-                Ok(FileName::Macros(name))                
-            },
+                Ok(FileName::Macros(name))
+            }
             3 => {
                 let n = Array::len(reader)?;
                 debug_assert_eq!(n, Some(0));
                 Ok(FileName::QuoteExpansion)
-            },
+            }
             4 => {
                 let n = Array::len(reader)?;
                 debug_assert_eq!(n, Some(0));
                 Ok(FileName::Anon)
-            },
+            }
             5 => {
                 let n = Array::len(reader)?;
                 debug_assert_eq!(n, Some(0));
                 Ok(FileName::MacroExpansion)
-            },
+            }
             6 => {
                 let n = Array::len(reader)?;
                 debug_assert_eq!(n, Some(0));
                 Ok(FileName::ProcMacroSourceCode)
-            },
+            }
             7 => {
                 let name = <&str>::decode(reader)?;
                 Ok(FileName::Url(Url::parse(name).unwrap()))
-            },
+            }
             8 => {
                 let name = String::decode(reader)?;
                 Ok(FileName::Internal(name))
-            },
+            }
             9 => {
                 let name = String::decode(reader)?;
                 Ok(FileName::Custom(name))
-            },
+            }
             tag => Err(cbor4ii::core::error::DecodeError::Custom {
                 name: &"FileName",
                 num: tag as u32,
@@ -902,10 +898,7 @@ impl Sub<BytePos> for NonNarrowChar {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
-    feature = "encoding-impl",
-    derive(crate::Encode, crate::Decode)
-)]
+#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 #[derive(Clone)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
@@ -929,10 +922,7 @@ pub struct SourceFile {
     /// Indicates which crate this `SourceFile` was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::Str")
-    )]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Str"))]
     pub src: BytesStr,
     /// The source code's hash
     pub src_hash: u128,
@@ -1210,17 +1200,10 @@ impl BytePos {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
-    feature = "encoding-impl",
-    derive(crate::Encode, crate::Decode)
-)]
+#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct CharPos(
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::Usize")
-    )]
-    pub usize
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Usize"))] pub usize,
 );
 
 // FIXME: Lots of boilerplate in these impls, but so far my attempts to fix
@@ -1336,30 +1319,18 @@ pub struct Loc {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
-    feature = "encoding-impl",
-    derive(crate::Encode, crate::Decode)
-)]
+#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct PartialLoc {
     #[cfg_attr(
         feature = "encoding-impl",
         encoding(with = "encoding_helper::LrcHelper")
     )]
     pub source_file: Option<Lrc<SourceFile>>,
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::Usize")
-    )]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Usize"))]
     pub line: usize,
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::Usize")
-    )]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Usize"))]
     pub col: usize,
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::Usize")
-    )]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Usize"))]
     pub col_display: usize,
 }
 
@@ -1408,16 +1379,10 @@ pub struct SourceFileAndBytePos {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
-    feature = "encoding-impl",
-    derive(crate::Encode, crate::Decode)
-)]
+#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct LineInfo {
     /// Index of line, starting from 0.
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::Usize")
-    )]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Usize"))]
     pub line_index: usize,
 
     /// Column in line where span begins, starting from 0.
@@ -1517,18 +1482,18 @@ impl cbor4ii::core::enc::Encode for SpanSnippetError {
         &self,
         writer: &mut W,
     ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
-        use cbor4ii::core::types::{Tag, Nothing, Array};
-        
+        use cbor4ii::core::types::{Array, Nothing, Tag};
+
         match self {
             SpanSnippetError::DummyBytePos => {
                 Tag(1, Nothing).encode(writer)?;
                 Array::bounded(0, writer)
-            },
+            }
             SpanSnippetError::IllFormedSpan(span) => Tag(2, span).encode(writer),
             SpanSnippetError::DistinctSources(src) => Tag(3, src).encode(writer),
             SpanSnippetError::MalformedForSourcemap(pos) => Tag(4, pos).encode(writer),
             SpanSnippetError::SourceNotAvailable { filename } => Tag(5, filename).encode(writer),
-            SpanSnippetError::LookupFailed(err) => Tag(6, err).encode(writer)
+            SpanSnippetError::LookupFailed(err) => Tag(6, err).encode(writer),
         }
     }
 }
@@ -1539,7 +1504,7 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for SpanSnippetError {
     fn decode<R: cbor4ii::core::dec::Read<'de>>(
         reader: &mut R,
     ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
-        use cbor4ii::core::types::{Tag, Array};
+        use cbor4ii::core::types::{Array, Tag};
 
         let tag = Tag::tag(reader)?;
         match tag {
@@ -1547,11 +1512,13 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for SpanSnippetError {
                 let n = Array::len(reader)?;
                 debug_assert_eq!(n, Some(0));
                 Ok(SpanSnippetError::DummyBytePos)
-            },
+            }
             2 => Span::decode(reader).map(SpanSnippetError::IllFormedSpan),
             3 => DistinctSources::decode(reader).map(SpanSnippetError::DistinctSources),
-            4 => MalformedSourceMapPositions::decode(reader).map(SpanSnippetError::MalformedForSourcemap),
-            5 => FileName::decode(reader).map(|filename| SpanSnippetError::SourceNotAvailable { filename }),
+            4 => MalformedSourceMapPositions::decode(reader)
+                .map(SpanSnippetError::MalformedForSourcemap),
+            5 => FileName::decode(reader)
+                .map(|filename| SpanSnippetError::SourceNotAvailable { filename }),
             6 => SourceMapLookupError::decode(reader).map(SpanSnippetError::LookupFailed),
             tag => Err(cbor4ii::core::error::DecodeError::Custom {
                 name: &"SpanSnippetError",
@@ -1597,7 +1564,7 @@ pub struct FilePos(
         encoding(with = "encoding_helper::LrcHelper")
     )]
     pub Lrc<FileName>,
-    pub BytePos
+    pub BytePos,
 );
 
 #[derive(Clone, PartialEq, Eq, Debug)]
@@ -1633,10 +1600,7 @@ pub struct MalformedSourceMapPositions {
         encoding(with = "encoding_helper::LrcHelper")
     )]
     pub name: Lrc<FileName>,
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::Usize")
-    )]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Usize"))]
     pub source_len: usize,
     pub begin_pos: BytePos,
     pub end_pos: BytePos,
@@ -1662,23 +1626,33 @@ impl From<SourceMapLookupError> for Box<SpanSnippetError> {
 #[cfg(feature = "encoding-impl")]
 mod encoding_helper {
     use super::Lrc;
-    
+
     pub struct LrcHelper<T>(pub T);
 
     impl<T: cbor4ii::core::enc::Encode> cbor4ii::core::enc::Encode for LrcHelper<&'_ Lrc<T>> {
-        fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        fn encode<W: cbor4ii::core::enc::Write>(
+            &self,
+            writer: &mut W,
+        ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
             self.0.encode(writer)
         }
     }
 
-    impl<'de, T: cbor4ii::core::dec::Decode<'de>> cbor4ii::core::dec::Decode<'de> for LrcHelper<Lrc<T>> {
-        fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+    impl<'de, T: cbor4ii::core::dec::Decode<'de>> cbor4ii::core::dec::Decode<'de>
+        for LrcHelper<Lrc<T>>
+    {
+        fn decode<R: cbor4ii::core::dec::Read<'de>>(
+            reader: &mut R,
+        ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
             T::decode(reader).map(Lrc::new).map(LrcHelper)
         }
     }
 
     impl<T: cbor4ii::core::enc::Encode> cbor4ii::core::enc::Encode for LrcHelper<&'_ Option<Lrc<T>>> {
-        fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        fn encode<W: cbor4ii::core::enc::Write>(
+            &self,
+            writer: &mut W,
+        ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
             // when MSRV supports version 1.75.0 and later, `.as_slice()` should be used.
             let v = self.0.as_deref();
             cbor4ii::core::types::Array::bounded(v.is_some() as usize, writer)?;
@@ -1689,8 +1663,12 @@ mod encoding_helper {
         }
     }
 
-    impl<'de, T: cbor4ii::core::dec::Decode<'de>> cbor4ii::core::dec::Decode<'de> for LrcHelper<Option<Lrc<T>>> {
-        fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+    impl<'de, T: cbor4ii::core::dec::Decode<'de>> cbor4ii::core::dec::Decode<'de>
+        for LrcHelper<Option<Lrc<T>>>
+    {
+        fn decode<R: cbor4ii::core::dec::Read<'de>>(
+            reader: &mut R,
+        ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
             <cbor4ii::core::types::Maybe<Option<T>>>::decode(reader)
                 .map(|maybe| maybe.0.map(Lrc::new))
                 .map(LrcHelper)
@@ -1700,13 +1678,18 @@ mod encoding_helper {
     pub struct Usize<T>(pub T);
 
     impl cbor4ii::core::enc::Encode for Usize<&'_ usize> {
-        fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        fn encode<W: cbor4ii::core::enc::Write>(
+            &self,
+            writer: &mut W,
+        ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
             (*self.0 as u64).encode(writer)
         }
     }
 
     impl<'de> cbor4ii::core::dec::Decode<'de> for Usize<usize> {
-        fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        fn decode<R: cbor4ii::core::dec::Read<'de>>(
+            reader: &mut R,
+        ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
             <u64>::decode(reader)
                 .map(|n| n.try_into().unwrap())
                 .map(Usize)
@@ -1716,21 +1699,23 @@ mod encoding_helper {
     pub struct Str<T>(pub T);
 
     impl cbor4ii::core::enc::Encode for Str<&'_ bytes_str::BytesStr> {
-        fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
-            cbor4ii::core::enc::Encode::encode(
-                &self.0.as_str(),
-                writer
-            )
+        fn encode<W: cbor4ii::core::enc::Write>(
+            &self,
+            writer: &mut W,
+        ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+            cbor4ii::core::enc::Encode::encode(&self.0.as_str(), writer)
         }
     }
 
     impl<'de> cbor4ii::core::dec::Decode<'de> for Str<bytes_str::BytesStr> {
-        fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        fn decode<R: cbor4ii::core::dec::Read<'de>>(
+            reader: &mut R,
+        ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
             String::decode(reader)
                 .map(bytes_str::BytesStr::from)
                 .map(Str)
         }
-    }    
+    }
 }
 
 #[cfg(test)]

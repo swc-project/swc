@@ -67,7 +67,7 @@ pub fn allocate_return_values_into_guest(
         .expect("Should able to allocate memory in the plugin");
 
     let (allocated_ptr, allocated_ptr_len) =
-        write_into_memory_view(caller, serialized_bytes, |_, _| guest_memory_ptr);    
+        write_into_memory_view(caller, serialized_bytes, |_, _| guest_memory_ptr);
 
     // We cannot use cbor serialization because it is a variable-length encoding.
     let allocated_fatptr = {
@@ -84,6 +84,7 @@ pub fn allocate_return_values_into_guest(
             allocated_ptr_len[3],
         ]
     };
-    caller.write_buf(allocated_ret_ptr, &allocated_fatptr)
+    caller
+        .write_buf(allocated_ret_ptr, &allocated_fatptr)
         .expect("Should able to write into memory view");
 }

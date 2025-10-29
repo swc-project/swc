@@ -39,8 +39,10 @@ pub fn emit_output(
     let mut output_bytes = Vec::new();
     copy_bytes_into_host(caller, output_ptr, output_len, &mut output_bytes);
     let serialized = PluginSerializedBytes::from_slice(&output_bytes[..]);
-    let output = PluginSerializedBytes::deserialize::<swc_common::plugin::emit::PluginEmitOutput>(&serialized)
-        .expect("Should able to be deserialized into string");
+    let output = PluginSerializedBytes::deserialize::<swc_common::plugin::emit::PluginEmitOutput>(
+        &serialized,
+    )
+    .expect("Should able to be deserialized into string");
 
     experimental_emit(output.0.key, output.0.value);
 }

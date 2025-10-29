@@ -1,4 +1,3 @@
-
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(
     feature = "encoding-impl",

@@ -2,12 +2,12 @@
 #![allow(unused_variables)]
 #[cfg(feature = "__plugin_mode")]
 use swc_common::{
+    plugin::serialized::ResultValue,
     source_map::{
-        DistinctSources, FileLinesResult, MalformedSourceMapPositions,
-        PartialFileLines, PartialLoc, SmallPos, SpanSnippetError, SpanLinesError
+        DistinctSources, FileLinesResult, MalformedSourceMapPositions, PartialFileLines,
+        PartialLoc, SmallPos, SpanLinesError, SpanSnippetError,
     },
     sync::Lrc,
-    plugin::serialized::ResultValue,
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
 use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
@@ -15,7 +15,11 @@ use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
 use swc_ecma_ast::SourceMapperExt;
 use swc_trace_macro::swc_trace;
 
-#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
@@ -54,7 +58,11 @@ pub struct PluginSourceMapProxy {
     pub source_file: OnceCell<swc_common::sync::Lrc<SourceFile>>,
 }
 
-#[cfg(all(feature = "encoding-impl", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 #[swc_trace]
 impl PluginSourceMapProxy {
     pub fn span_to_source<F, Ret>(
@@ -68,7 +76,7 @@ impl PluginSourceMapProxy {
         #[cfg(target_arch = "wasm32")]
         {
             use swc_common::plugin::serialized::ResultValue;
-            
+
             let src: ResultValue<String, Box<SpanSnippetError>> =
                 read_returned_result_from_host(|serialized_ptr| unsafe {
                     __span_to_source_proxy(sp.lo.0, sp.hi.0, serialized_ptr)
@@ -134,7 +142,7 @@ impl SourceMapper for PluginSourceMapProxy {
         #[cfg(target_arch = "wasm32")]
         {
             use swc_common::plugin::serialized::ResultValue;
-            
+
             let should_request_source_file = if self.source_file.get().is_none() {
                 1
             } else {

@@ -1,5 +1,5 @@
-use swc_common::ast_node;
 use swc_common::{
+    ast_node,
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     Span, DUMMY_SP,
 };
