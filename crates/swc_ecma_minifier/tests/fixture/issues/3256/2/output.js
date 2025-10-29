@@ -1,4 +1,3 @@
-// real life example taken from https://github.com/nodeca/pako/blob/master/lib/zlib/adler32.js#L26
 export default ((adler, buf, len, pos)=>{
     let s1 = 0xffff & adler, s2 = adler >>> 16 & 0xffff, n = 0;
     for(; 0 !== len;){

@@ -1,4 +1,5 @@
 //// [commonJSReexport.ts]
+// #41422, based on prettier's exports
 //// [first.js]
 var hardline = {
     type: "hard"

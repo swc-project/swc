@@ -1,4 +1,5 @@
 //// [typeAndNamespaceExportMerge.ts]
+// @strict
 //// [constants.ts]
 export var COFFEE = 0;
 export var TEA = 1;

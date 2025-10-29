@@ -1,4 +1,3 @@
-// Test case 1: Basic duplicate named imports
 // Test case 5: Side-effect import (should not be merged)
 import 'polyfill';
 import 'polyfill';
@@ -18,6 +17,7 @@ import { add as a, add as b } from "calculator";
 import defUtils, * as utils2 from "utils2";
 // Test case 3: Mix of default and named imports
 import defaultExport, { namedExport } from "module1";
+// Test case 1: Basic duplicate named imports
 import { add, subtract, multiply } from "math";
 // Test case 7: Duplicate named imports (exact same specifier)
 import { duplicate } from "dups";

@@ -1,4 +1,5 @@
 //// [jsDeclarationsTypedefAndLatebound.ts]
+// from #53967, based on webpack/webpack#16957
 //// [index.js]
 var LazySet = require("./LazySet");
 /** @type {LazySet} */ var stringSet = undefined;

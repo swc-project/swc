@@ -92,3 +92,12 @@
     return obj.foo;
 }
 //// [mod7.js]
+/** 
+   Multiline type expressions in comments without leading * are not supported.
+   @typedef {{
+     foo:
+     *,
+     bar:
+     *
+   }} Type7
+ */ 
