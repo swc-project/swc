@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler-win32-x64-msvc",
-  "version": "1.13.21",
+  "version": "1.14.0-nightly-20251029.2",
   "os": [
     "win32"
   ],

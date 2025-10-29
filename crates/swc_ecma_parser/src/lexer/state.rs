@@ -31,8 +31,6 @@ bitflags::bitflags! {
 pub struct State {
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
-    /// if line break exists before last?
-    pub had_line_break_before_last: bool,
     /// TODO: Remove this field.
     is_first: bool,
     pub next_regexp: Option<BytePos>,
@@ -204,7 +202,6 @@ impl crate::input::Tokens for Lexer<'_> {
 
             self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
-            self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
         // Attach span to token.
         TokenAndSpan {
@@ -236,7 +233,6 @@ impl crate::input::Tokens for Lexer<'_> {
 
             self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
-            self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
         // Attach span to token.
         TokenAndSpan {
@@ -360,7 +356,6 @@ impl crate::input::Tokens for Lexer<'_> {
 
             self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
-            self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
         // Attach span to token.
         TokenAndSpan {
@@ -574,7 +569,6 @@ impl Iterator for Lexer<'_> {
 
             self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
-            self.state.had_line_break_before_last = self.had_line_break_before_last();
             // Attach span to token.
             Some(TokenAndSpan {
                 token,
@@ -591,7 +585,6 @@ impl State {
     pub fn new(start_pos: BytePos) -> Self {
         State {
             had_line_break: false,
-            had_line_break_before_last: false,
             is_first: true,
             next_regexp: None,
             start: BytePos(0),
