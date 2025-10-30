@@ -6849,6 +6849,7 @@ name = "swc_plugin_backend_tests"
 version = "0.0.0"
 dependencies = [
  "anyhow",
+ "cbor4ii",
  "codspeed-criterion-compat",
  "rustc-hash 2.1.1",
  "serde",
