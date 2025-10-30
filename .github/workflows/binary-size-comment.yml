@@ -1,0 +1,51 @@
+name: Binary Size Check - Comment
+
+on:
+  workflow_run:
+    workflows: ["Binary Size Check - Build"]
+    types:
+      - completed
+
+env:
+  CI: 1
+
+jobs:
+  comment-on-pr:
+    name: Comment on PR
+    runs-on: ubuntu-latest
+    # This workflow needs write permissions to comment on PRs
+    # It's safe because it doesn't execute any code from the PR
+    permissions:
+      pull-requests: write
+      contents: read
+    # Only run on successful builds
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: size-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Read PR number
+        id: pr
+        run: |
+          PR_NUMBER=$(cat pr_number.txt)
+          echo "number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: Find existing comment
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ steps.pr.outputs.number }}
+          comment-author: "github-actions[bot]"
+          body-includes: "## Binary Sizes"
+
+      - name: Create or update PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ steps.pr.outputs.number }}
+          body-path: size_report.md
+          edit-mode: replace

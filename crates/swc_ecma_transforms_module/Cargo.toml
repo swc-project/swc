@@ -28,7 +28,7 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 tracing    = { workspace = true }
 
-swc_atoms = { version = "8.0.1", path = "../swc_atoms" }
+swc_atoms = { version = "8.0.2", path = "../swc_atoms" }
 swc_common = { version = "16.0.0", path = "../swc_common" }
 swc_config = { version = "3.1.2", path = "../swc_config", features = [
   "file_pattern",

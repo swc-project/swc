@@ -1,12 +1,8 @@
-name: Binary Size Check
+name: Binary Size Check - Build
 
 on:
   pull_request:
     types: ["opened", "reopened", "synchronize"]
-  # Disable push events for now because of the permission issue
-  # push:
-  #   branches:
-  #     - main
 
 env:
   CI: 1
@@ -23,8 +19,8 @@ jobs:
   measure-binary-size:
     name: Measure Binary Size
     runs-on: ubuntu-latest
+    # No special permissions needed - this workflow only reads and uploads artifacts
     permissions:
-      pull-requests: write
       contents: read
     steps:
       - uses: actions/checkout@v4
@@ -77,56 +73,15 @@ jobs:
           echo "" >> size_report.md
           echo "*Commit: ${{ github.sha }}*" >> size_report.md
 
-      - name: Find existing comment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/find-comment@v3
-        id: find-comment
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: "github-actions[bot]"
-          body-includes: "## Binary Sizes"
-
-      - name: Create or update PR comment
-        if: github.event_name == 'pull_request'
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          comment-id: ${{ steps.find-comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body-path: size_report.md
-          edit-mode: replace
-
-      - name: Find existing commit comment
-        if: github.event_name == 'push'
-        id: find-commit-comment
+      - name: Save PR number
         run: |
-          COMMENTS=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/comments \
-            --jq '.[] | select(.body | contains("## Binary Sizes")) | .id' | head -n 1)
+          echo "${{ github.event.pull_request.number }}" > pr_number.txt
 
-          if [ -n "$COMMENTS" ]; then
-            echo "comment_id=$COMMENTS" >> $GITHUB_OUTPUT
-          else
-            echo "comment_id=" >> $GITHUB_OUTPUT
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
-
-      - name: Create or update commit comment
-        if: github.event_name == 'push'
-        run: |
-          BODY=$(cat size_report.md)
-
-          if [ -n "${{ steps.find-commit-comment.outputs.comment_id }}" ]; then
-            gh api \
-              --method PATCH \
-              -H "Accept: application/vnd.github+json" \
-              repos/${{ github.repository }}/comments/${{ steps.find-commit-comment.outputs.comment_id }} \
-              -f body="$BODY"
-          else
-            gh api \
-              --method POST \
-              -H "Accept: application/vnd.github+json" \
-              repos/${{ github.repository }}/commits/${{ github.sha }}/comments \
-              -f body="$BODY"
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Upload size report and PR info
+        uses: actions/upload-artifact@v4
+        with:
+          name: size-report
+          path: |
+            size_report.md
+            pr_number.txt
+          retention-days: 1
