@@ -40,7 +40,7 @@ relative-path = { workspace = true }
 rustc-hash    = { workspace = true }
 tracing       = { workspace = true }
 
-swc_atoms                        = { version = "8.0.1", path = "../swc_atoms" }
+swc_atoms                        = { version = "8.0.2", path = "../swc_atoms" }
 swc_common                       = { version = "16.0.0", path = "../swc_common" }
 swc_ecma_ast                     = { version = "17.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { version = "19.0.0", path = "../swc_ecma_codegen" }
