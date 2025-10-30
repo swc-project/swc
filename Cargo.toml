@@ -68,7 +68,9 @@ resolver = "2"
   ntest = { version = "0.7.2", default-features = false }
   num-bigint = { version = "0.4.3", default-features = false }
   num_cpus = { version = "1.13.1", default-features = false }
-  once_cell = { version = "1.19.0", default-features = false }
+  once_cell = { version = "1.19.0", default-features = false, features = [
+    "std",
+  ] }
   par-core = { version = "2.0.0", default-features = false }
   par-iter = { version = "2.0.0", default-features = false }
   parking_lot = { version = "0.12.1", default-features = false }
@@ -96,7 +98,9 @@ resolver = "2"
   serde = { version = "1.0.225", default-features = false }
   serde-wasm-bindgen = { version = "0.4.5", default-features = false }
   serde_derive = { version = "1.0.225", default-features = false }
-  serde_json = { version = "1.0.115", default-features = false }
+  serde_json = { version = "1.0.115", default-features = false, features = [
+    "alloc",
+  ] }
   sha1 = { version = "0.10.6", default-features = false }
   sha2 = { version = "0.10.8", default-features = false }
   shrink-to-fit = { version = "0.2.1", default-features = false }
