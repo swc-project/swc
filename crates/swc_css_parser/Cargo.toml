@@ -16,7 +16,7 @@ bench = false
 debug = []
 
 [dependencies]
-lexical = { workspace = true, default-features = false }
+lexical = { workspace = true, default-features = false, features = ["parse"] }
 serde   = { workspace = true, default-features = false }
 
 swc_atoms   = { version = "8.0.2", path = "../swc_atoms", default-features = false }
