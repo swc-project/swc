@@ -28,16 +28,16 @@ triomphe              = { workspace = true, default-features = false }
 
 
 [dev-dependencies]
-compact_str  = { workspace = true, default-features = false }
-criterion    = { workspace = true, default-features = false }
-kstring      = { workspace = true, default-features = false, features = ["std"] }
-num_cpus     = { workspace = true, default-features = false }
-par-iter     = { workspace = true, default-features = false }
-rand         = { workspace = true, default-features = false }
-serde_json   = { workspace = true, default-features = false }
-smartstring  = { workspace = true, default-features = false }
-smol_str     = { workspace = true, default-features = false }
-string_cache = { workspace = true, default-features = false }
+compact_str  = { workspace = true, default-features = true }
+criterion    = { workspace = true, default-features = true }
+kstring      = { workspace = true, default-features = true, features = ["std"] }
+num_cpus     = { workspace = true, default-features = true }
+par-iter     = { workspace = true, default-features = true }
+rand         = { workspace = true, default-features = true }
+serde_json   = { workspace = true, default-features = true }
+smartstring  = { workspace = true, default-features = true }
+smol_str     = { workspace = true, default-features = true }
+string_cache = { workspace = true, default-features = true }
 
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
 
