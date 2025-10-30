@@ -41,7 +41,7 @@ swc_estree_ast = { version = "16.0.0", path = "../swc_estree_ast", default-featu
 swc_node_comments = { version = "16.0.0", path = "../swc_node_comments/", default-features = false }
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true, default-features = false }
+codspeed-criterion-compat = { workspace = true, default-features = true }
 pretty_assertions         = { workspace = true, default-features = false }
 
 swc                 = { version = "44.0.0", path = "../swc", default-features = false }

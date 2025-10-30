@@ -34,7 +34,7 @@ resolver = "2"
   cargo_metadata = { version = "0.18.1", default-features = false }
   changesets = { version = "0.2.2", default-features = false }
   chrono = { version = "0.4.38", default-features = false }
-  codspeed-criterion-compat = { version = "3.0.4", default-features = false }
+  codspeed-criterion-compat = { version = "3.0.4", default-features = true }
   compact_str = { version = "0.7.1", default-features = false }
   console_error_panic_hook = { version = "0.1.7", default-features = false }
   copyless = { version = "0.1.5", default-features = false }
