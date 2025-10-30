@@ -43,7 +43,7 @@ swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features 
 swc_ecma_codegen_macros = { version = "2.0.2", path = "../swc_ecma_codegen_macros", default-features = false }
 
 [dev-dependencies]
-base64                    = { workspace = true, default-features = false }
+base64                    = { workspace = true, default-features = false, features = ["std"] }
 codspeed-criterion-compat = { workspace = true, default-features = true }
 serde_json                = { workspace = true, default-features = false }
 
