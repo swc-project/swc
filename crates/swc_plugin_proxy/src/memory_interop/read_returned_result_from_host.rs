@@ -37,9 +37,14 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
     F: FnOnce(u32) -> u32,
 {
+    use std::cell::UnsafeCell;
+
     // Allocate AllocatedBytesPtr to get return value from the host
-    let mut allocated_bytes_ptr = [0u32, 0u32];
-    let serialized_allocated_bytes_raw_ptr = allocated_bytes_ptr.as_mut_ptr();
+    //
+    // @quininer: I'm not sure if `.as_mut_ptr()` creates an alias for array,
+    // so using `UnsafeCell` here makes the semantics clearer.
+    let allocated_bytes_ptr: UnsafeCell<[u32; 2]> = UnsafeCell::new([0; 2]);
+    let serialized_allocated_bytes_raw_ptr = allocated_bytes_ptr.get();
 
     assert_eq!(std::mem::size_of::<*mut u32>(), std::mem::size_of::<u32>());
 
@@ -52,6 +57,8 @@ where
     if ret == 0 {
         return None;
     }
+
+    let allocated_bytes_ptr = allocated_bytes_ptr.into_inner();
 
     // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
     Some(AllocatedBytesPtr(
