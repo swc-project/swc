@@ -12,8 +12,8 @@ version       = "1.0.1"
 bench = false
 
 [dependencies]
-proc-macro2 = { workspace = true, default-features = false }
-quote       = { workspace = true, default-features = false }
+proc-macro2 = { workspace = true, default-features = true }
+quote       = { workspace = true, default-features = true }
 
   [dependencies.syn]
   features  = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
