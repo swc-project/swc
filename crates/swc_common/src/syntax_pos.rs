@@ -292,10 +292,10 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for FileName {
                 let name = String::decode(reader)?;
                 Ok(FileName::Custom(name))
             },
-            tag => Err(cbor4ii::core::error::DecodeError::Mismatch {
-                 name: &"FileName",
-                 found: tag.to_le_bytes()[0]
-            })
+            tag => Err(cbor4ii::core::error::DecodeError::Custom {
+                name: &"FileName",
+                num: tag as u32,
+            }),
         }
     }
 }
@@ -1553,10 +1553,10 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for SpanSnippetError {
             4 => MalformedSourceMapPositions::decode(reader).map(SpanSnippetError::MalformedForSourcemap),
             5 => FileName::decode(reader).map(|filename| SpanSnippetError::SourceNotAvailable { filename }),
             6 => SourceMapLookupError::decode(reader).map(SpanSnippetError::LookupFailed),
-            tag => Err(cbor4ii::core::error::DecodeError::Mismatch {
-                 name: &"SpanSnippetError",
-                 found: tag.to_le_bytes()[0]
-            })
+            tag => Err(cbor4ii::core::error::DecodeError::Custom {
+                name: &"SpanSnippetError",
+                num: tag as u32,
+            }),
         }
     }
 }
