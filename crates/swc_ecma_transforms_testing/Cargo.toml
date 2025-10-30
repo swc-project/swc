@@ -14,7 +14,7 @@ bench = false
 [dependencies]
 ansi_term = { workspace = true, default-features = false }
 anyhow = { workspace = true, default-features = false }
-base64 = { workspace = true, default-features = false }
+base64 = { workspace = true, default-features = false, features = ["std"] }
 hex = { workspace = true, default-features = false, features = ["std"] }
 serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
