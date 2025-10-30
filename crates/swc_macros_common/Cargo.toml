@@ -16,5 +16,6 @@ proc-macro2 = { workspace = true, default-features = true }
 quote       = { workspace = true, default-features = true }
 
   [dependencies.syn]
-  features  = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
-  workspace = true
+  default-features = true
+  features         = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
+  workspace        = true

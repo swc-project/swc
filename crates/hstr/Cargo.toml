@@ -30,7 +30,7 @@ triomphe              = { workspace = true, default-features = false }
 [dev-dependencies]
 compact_str  = { workspace = true, default-features = false }
 criterion    = { workspace = true, default-features = false }
-kstring      = { workspace = true, default-features = false }
+kstring      = { workspace = true, default-features = false, features = ["std"] }
 num_cpus     = { workspace = true, default-features = false }
 par-iter     = { workspace = true, default-features = false }
 rand         = { workspace = true, default-features = false }
