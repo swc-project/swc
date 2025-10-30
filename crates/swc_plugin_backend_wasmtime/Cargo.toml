@@ -8,11 +8,11 @@ authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Runner backend (wasmtime) for swc plugins. This crate is INTERNAL crate and used by swc itself."
 
 [dependencies]
-anyhow        = { workspace = true }
-wasmtime      = { workspace = true, features = ["runtime", "cranelift", "threads"] }
-wasi-common   = { workspace = true, features = ["sync", "wasmtime"] }
+anyhow = { workspace = true, default-features = false }
+wasmtime = { workspace = true, features = ["runtime", "cranelift", "threads"], default-features = false }
+wasi-common = { workspace = true, features = ["sync", "wasmtime"], default-features = false }
 
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner" }
+swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", default-features = false }

@@ -16,4 +16,4 @@ version       = "1.0.1"
 bench = false
 
 [dependencies]
-once_cell = { workspace = true }
+once_cell = { workspace = true, default-features = false }

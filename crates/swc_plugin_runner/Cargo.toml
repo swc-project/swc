@@ -30,28 +30,28 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [build-dependencies]
-vergen = { workspace = true, features = ["build", "cargo"] }
+vergen = { workspace = true, features = ["build", "cargo"], default-features = false }
 
 
 [dependencies]
-anyhow       = { workspace = true }
-parking_lot  = { workspace = true }
-rustc-hash   = { workspace = true }
-serde        = { workspace = true, features = ["derive"] }
-serde_json   = { workspace = true }
-tracing      = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+parking_lot = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+serde_json = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = '../swc_atoms' }
+swc_atoms = { version = "8.0.2", path = '../swc_atoms', default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "17.0.0", path = "../swc_plugin_proxy" }
-swc_transform_common = { version = "10.0.0", path = "../swc_transform_common" }
+swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", optional = true, default-features = false }
+swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", optional = true, default-features = false }
+swc_plugin_proxy = { version = "17.0.0", path = "../swc_plugin_proxy", default-features = false }
+swc_transform_common = { version = "10.0.0", path = "../swc_transform_common", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-blake3 = { workspace = true, optional = true }
+blake3 = { workspace = true, optional = true, default-features = false }
 
 [package.metadata.cargo-shear]
 # ignored, as they are only used to enable features

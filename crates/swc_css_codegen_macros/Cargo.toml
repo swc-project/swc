@@ -13,5 +13,5 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-quote = { workspace = true }
-syn   = { workspace = true, features = ["full"] }
+quote = { workspace = true, default-features = false }
+syn = { workspace = true, features = ["full"], default-features = false }

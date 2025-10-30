@@ -13,28 +13,28 @@ bench      = false
 crate-type = ["cdylib"]
 
 [build-dependencies]
-napi-build = { workspace = true }
+napi-build = { workspace = true, default-features = false }
 
 [dependencies]
-anyhow             = { workspace = true }
-backtrace          = { workspace = true }
-napi               = { workspace = true, features = ["napi3", "serde-json"] }
-napi-derive        = { workspace = true, features = ["type-def"] }
-node_macro_deps    = { path = "../node_macro_deps" }
-path-clean         = { workspace = true }
-rustc-hash         = { workspace = true }
-serde              = { workspace = true, features = ["derive"] }
-serde_json         = { workspace = true, features = ["unbounded_depth"] }
-swc_sourcemap      = { workspace = true }
-tracing            = { workspace = true, features = ["release_max_level_info"] }
-tracing-chrome     = { workspace = true }
-tracing-futures    = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
-par-core           = { workspace = true, features = ["chili"] }
+anyhow = { workspace = true, default-features = false }
+backtrace = { workspace = true, default-features = false }
+napi = { workspace = true, features = ["napi3", "serde-json"], default-features = false }
+napi-derive = { workspace = true, features = ["type-def"], default-features = false }
+node_macro_deps = { path = "../node_macro_deps", default-features = false }
+path-clean = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+serde_json = { workspace = true, features = ["unbounded_depth"], default-features = false }
+swc_sourcemap = { workspace = true, default-features = false }
+tracing = { workspace = true, features = ["release_max_level_info"], default-features = false }
+tracing-chrome = { workspace = true, default-features = false }
+tracing-futures = { workspace = true, default-features = false }
+tracing-subscriber = { workspace = true, features = ["env-filter"], default-features = false }
+par-core = { workspace = true, features = ["chili"], default-features = false }
 
 
-swc_compiler_base = { workspace = true, features = ["node"] }
-swc_config = { workspace = true, features = ["regex"] }
+swc_compiler_base = { workspace = true, features = ["node"], default-features = false }
+swc_config = { workspace = true, features = ["regex"], default-features = false }
 swc_core = { workspace = true, features = [
   "allocator_node",
   "common_concurrent",
@@ -47,6 +47,6 @@ swc_core = { workspace = true, features = [
   "ecma_transforms",
   "ecma_visit",
 ] }
-swc_error_reporters = { workspace = true }
-swc_malloc = { workspace = true }
-swc_nodejs_common = { workspace = true }
+swc_error_reporters = { workspace = true, default-features = false }
+swc_malloc = { workspace = true, default-features = false }
+swc_nodejs_common = { workspace = true, default-features = false }

@@ -16,14 +16,14 @@ version       = "24.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-tracing = { workspace = true }
+tracing = { workspace = true, default-features = false }
 
-swc_common               = { version = "16.0.0", path = "../swc_common" }
-swc_ecma_ast             = { version = "17.0.0", path = "../swc_ecma_ast" }
-swc_ecma_utils           = { version = "23.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit           = { version = "17.0.0", path = "../swc_ecma_visit" }
-swc_trace_macro          = { version = "2.0.2", path = "../swc_trace_macro" }
+swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_trace_macro = { version = "2.0.2", path = "../swc_trace_macro", default-features = false }
 
 [dev-dependencies]
-swc_ecma_parser             = { version = "26.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms_testing = { version = "32.0.0", path = "../swc_ecma_transforms_testing" }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_testing = { version = "32.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
