@@ -16,7 +16,7 @@ version       = "24.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-tracing = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = true }
 
 swc_common      = { version = "16.0.0", path = "../swc_common", default-features = false }
 swc_ecma_ast    = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
