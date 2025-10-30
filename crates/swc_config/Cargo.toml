@@ -22,13 +22,15 @@ regex_js     = ["dep:regress"]
 sourcemap    = ["dep:swc_sourcemap"]
 
 [dependencies]
-anyhow = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false, features = ["std"] }
 bytes-str = { workspace = true, features = ["serde"], default-features = false }
 dashmap = { workspace = true, optional = true, default-features = false }
 globset = { workspace = true, optional = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, optional = true, default-features = false }
-regex = { workspace = true, optional = true, default-features = false }
+regex = { workspace = true, optional = true, default-features = false, features = [
+  "std",
+] }
 regress = { workspace = true, optional = true, default-features = false, features = [
   "std",
 ] }
