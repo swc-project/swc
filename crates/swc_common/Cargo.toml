@@ -60,7 +60,7 @@ once_cell = { workspace = true, default-features = false }
 parking_lot = { workspace = true, optional = true, default-features = false }
 rancor = { workspace = true, optional = true, default-features = false }
 rkyv = { workspace = true, optional = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false, features = ["std"] }
 serde = { workspace = true, features = ["derive"], default-features = false }
 shrink-to-fit = { workspace = true, optional = true, default-features = false }
 siphasher = { workspace = true, default-features = false }
