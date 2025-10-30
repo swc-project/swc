@@ -16,17 +16,17 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-Inflector = { workspace = true, default-features = false }
-anyhow = { workspace = true, default-features = false }
-bitflags = { workspace = true, default-features = false }
-indexmap = { workspace = true, default-features = false }
-is-macro = { workspace = true, default-features = false }
+Inflector  = { workspace = true, default-features = false }
+anyhow     = { workspace = true, default-features = false }
+bitflags   = { workspace = true, default-features = false }
+indexmap   = { workspace = true, default-features = false }
+is-macro   = { workspace = true, default-features = false }
 path-clean = { version = "1.0.1", default-features = false }
-pathdiff = { workspace = true, default-features = false }
-regex = { workspace = true, default-features = false }
+pathdiff   = { workspace = true, default-features = false }
+regex      = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], default-features = false }
-tracing = { workspace = true, default-features = false }
+serde      = { workspace = true, features = ["derive"], default-features = false }
+tracing    = { workspace = true, default-features = false }
 
 swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
@@ -36,13 +36,15 @@ swc_config = { version = "3.1.2", path = "../swc_config", features = [
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_loader = { version = "16.0.0", path = "../swc_ecma_loader", features = [
 ] }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [dev-dependencies]
-indexmap = { workspace = true, features = ["serde"], default-features = false }
+indexmap   = { workspace = true, features = ["serde"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
 swc_ecma_loader = { version = "16.0.0", path = "../swc_ecma_loader", features = [

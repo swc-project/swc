@@ -23,7 +23,9 @@ bench = false
 ascii = { workspace = true, default-features = false }
 compact_str = { workspace = true, default-features = false }
 memchr = { workspace = true, default-features = false }
-num-bigint = { workspace = true, features = ["serde"], default-features = false }
+num-bigint = { workspace = true, features = [
+  "serde",
+], default-features = false }
 once_cell = { workspace = true, default-features = false }
 regex = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
@@ -41,9 +43,9 @@ swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features 
 swc_ecma_codegen_macros = { version = "2.0.2", path = "../swc_ecma_codegen_macros", default-features = false }
 
 [dev-dependencies]
-base64 = { workspace = true, default-features = false }
+base64                    = { workspace = true, default-features = false }
 codspeed-criterion-compat = { workspace = true, default-features = false }
-serde_json = { workspace = true, default-features = false }
+serde_json                = { workspace = true, default-features = false }
 
 swc_allocator = { version = "4.0.1", path = "../swc_allocator", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [

@@ -12,9 +12,13 @@ anyhow = { workspace = true, default-features = false }
 clap = { version = "4.5.9", features = ["derive"], default-features = false }
 proc-macro2 = { workspace = true, default-features = false }
 quote = { workspace = true, default-features = false }
-syn = { workspace = true, features = ["full", "visit-mut", "extra-traits"], default-features = false }
+syn = { workspace = true, features = [
+  "full",
+  "visit-mut",
+  "extra-traits",
+], default-features = false }
 walkdir = { workspace = true, default-features = false }
 
 swc_config = { version = "3.1.2", path = "../../crates/swc_config", features = [
-    "regex",
+  "regex",
 ] }

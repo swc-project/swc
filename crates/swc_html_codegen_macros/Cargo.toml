@@ -17,4 +17,4 @@ proc-macro = true
 
 [dependencies]
 quote = { workspace = true, default-features = false }
-syn = { workspace = true, features = ["full"], default-features = false }
+syn   = { workspace = true, features = ["full"], default-features = false }

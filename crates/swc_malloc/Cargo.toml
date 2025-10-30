@@ -17,10 +17,16 @@ bench = false
 mimalloc = { version = "0.1.43", features = [], default-features = false }
 
 [target.'cfg(all(target_os = "linux", not(any(target_family = "wasm", target_env = "musl", all(target_os = "linux", target_env = "gnu", any(target_arch = "aarch64", target_arch = "arm"))))))'.dependencies]
-mimalloc = { version = "0.1.43", features = ["local_dynamic_tls"], default-features = false }
+mimalloc = { version = "0.1.43", features = [
+  "local_dynamic_tls",
+], default-features = false }
 
 [target.'cfg(all(target_os = "linux", target_env = "gnu", target_arch = "aarch64"))'.dependencies]
-mimalloc = { version = "0.1.43", features = ["local_dynamic_tls"], default-features = false }
+mimalloc = { version = "0.1.43", features = [
+  "local_dynamic_tls",
+], default-features = false }
 
 [target.'cfg(all(target_os = "linux", target_env = "gnu", target_arch = "arm"))'.dependencies]
-tikv-jemallocator = { version = "0.5", features = ["disable_initial_exec_tls"], default-features = false }
+tikv-jemallocator = { version = "0.5", features = [
+  "disable_initial_exec_tls",
+], default-features = false }

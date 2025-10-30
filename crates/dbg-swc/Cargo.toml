@@ -22,9 +22,6 @@ rayon = { workspace = true, default-features = false }
 serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 sha1 = { workspace = true, default-features = false }
-tempfile = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false }
-tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"], default-features = false }
 swc_common = { version = "16.0.0", features = [
   "concurrent",
   "tty-emitter",
@@ -39,3 +36,9 @@ swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
 swc_error_reporters = { version = "18.0.0", path = "../swc_error_reporters", default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false }
+tempfile = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
+tracing-subscriber = { workspace = true, features = [
+  "fmt",
+  "env-filter",
+], default-features = false }

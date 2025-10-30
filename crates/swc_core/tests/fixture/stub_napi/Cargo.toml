@@ -43,11 +43,17 @@ napi-derive = { version = "3", default-features = false, features = [
 par-core = { version = "2", features = ["chili"], default-features = false }
 path-clean = { version = "0.1", default-features = false }
 serde = { version = "1", features = ["derive"], default-features = false }
-serde_json = { version = "1", features = ["unbounded_depth"], default-features = false }
-tracing = { version = "0.1.37", features = ["release_max_level_info"], default-features = false }
+serde_json = { version = "1", features = [
+  "unbounded_depth",
+], default-features = false }
+tracing = { version = "0.1.37", features = [
+  "release_max_level_info",
+], default-features = false }
 tracing-chrome = { version = "0.5.0", default-features = false }
 tracing-futures = { version = "0.2.5", default-features = false }
-tracing-subscriber = { version = "0.3.9", features = ["env-filter"], default-features = false }
+tracing-subscriber = { version = "0.3.9", features = [
+  "env-filter",
+], default-features = false }
 
 swc_core = { path = "../../../../swc_core", features = [
   "ecma_ast",

@@ -27,25 +27,27 @@ concurrent = ["swc_common/concurrent", "dashmap", "rayon", "indexmap/rayon"]
 default    = []
 
 [dependencies]
-anyhow = { workspace = true, default-features = false }
-crc = { workspace = true, default-features = false }
-dashmap = { workspace = true, optional = true, default-features = false }
-indexmap = { workspace = true, default-features = false }
-is-macro = { workspace = true, default-features = false }
-once_cell = { workspace = true, default-features = false }
-petgraph = { workspace = true, default-features = false }
-radix_fmt = { workspace = true, default-features = false }
-rayon = { workspace = true, optional = true, default-features = false }
+anyhow        = { workspace = true, default-features = false }
+crc           = { workspace = true, default-features = false }
+dashmap       = { workspace = true, optional = true, default-features = false }
+indexmap      = { workspace = true, default-features = false }
+is-macro      = { workspace = true, default-features = false }
+once_cell     = { workspace = true, default-features = false }
+petgraph      = { workspace = true, default-features = false }
+radix_fmt     = { workspace = true, default-features = false }
+rayon         = { workspace = true, optional = true, default-features = false }
 relative-path = { workspace = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false }
+rustc-hash    = { workspace = true, default-features = false }
+tracing       = { workspace = true, default-features = false }
 
 swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen", default-features = false }
 swc_ecma_loader = { version = "16.0.0", path = "../swc_ecma_loader", default-features = false }
-swc_ecma_parser                  = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_transforms_optimization = { version = "31.0.0", path = "../swc_ecma_transforms_optimization", default-features = false }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
@@ -57,7 +59,9 @@ hex = { workspace = true, default-features = false }
 ntest = { workspace = true, default-features = false }
 par-core = { workspace = true, features = ["chili"], default-features = false }
 path-clean = { version = "1.0.1", default-features = false }
-reqwest = { workspace = true, features = ["blocking"], default-features = false }
+reqwest = { workspace = true, features = [
+  "blocking",
+], default-features = false }
 sha1 = { workspace = true, default-features = false }
 tempfile = { workspace = true, default-features = false }
 

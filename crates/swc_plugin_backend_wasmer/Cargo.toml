@@ -1,11 +1,11 @@
 [package]
-name = "swc_plugin_backend_wasmer"
-version = "4.0.0"
-edition = { workspace = true }
-license = { workspace = true }
-repository = { workspace = true }
-authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "Runner backend for swc plugins. This crate is INTERNAL crate and used by swc itself."
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Runner backend for swc plugins. This crate is INTERNAL crate and used by swc itself."
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_plugin_backend_wasmer"
+repository  = { workspace = true }
+version     = "4.0.0"
 
 [lib]
 bench   = false
@@ -27,10 +27,10 @@ plugin_transform_host_native = [
 ]
 
 [dependencies]
-anyhow = { workspace = true, default-features = false }
-enumset = { workspace = true, default-features = false }
-parking_lot = { workspace = true, default-features = false }
-wasmer = { workspace = true, default-features = false }
+anyhow       = { workspace = true, default-features = false }
+enumset      = { workspace = true, default-features = false }
+parking_lot  = { workspace = true, default-features = false }
+wasmer       = { workspace = true, default-features = false }
 wasmer-wasix = { workspace = true, default-features = false }
 
 swc_common = { version = "16.0.0", path = "../swc_common", features = [

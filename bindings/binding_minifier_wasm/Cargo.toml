@@ -32,7 +32,9 @@ plugin = []
 
 [dependencies]
 anyhow = { workspace = true, default-features = false }
-getrandom = { workspace = true, features = ["wasm_js"], default-features = false }
+getrandom = { workspace = true, features = [
+  "wasm_js",
+], default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
 serde-wasm-bindgen = { workspace = true, default-features = false }
 swc_core = { workspace = true, features = [
@@ -42,8 +44,12 @@ swc_core = { workspace = true, features = [
   "ecma_transforms",
   "ecma_visit",
 ] }
-tracing = { workspace = true, features = ["max_level_off"], default-features = false }
-wasm-bindgen = { workspace = true, features = ["enable-interning"], default-features = false }
+tracing = { workspace = true, features = [
+  "max_level_off",
+], default-features = false }
+wasm-bindgen = { workspace = true, features = [
+  "enable-interning",
+], default-features = false }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

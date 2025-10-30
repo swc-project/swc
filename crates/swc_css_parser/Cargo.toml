@@ -17,15 +17,15 @@ debug = []
 
 [dependencies]
 lexical = { workspace = true, default-features = false }
-serde = { workspace = true, default-features = false }
+serde   = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_atoms   = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_common  = { version = "16.0.0", path = "../swc_common", default-features = false }
 swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true, default-features = false }
-serde_json = { workspace = true, default-features = false }
+serde_json                = { workspace = true, default-features = false }
 
 swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", features = [
   "serde-impl",

@@ -13,16 +13,16 @@ version       = "16.0.0"
 bench = false
 
 [dependencies]
-auto_impl = { workspace = true, default-features = false }
-bitflags = { workspace = true, default-features = false }
+auto_impl  = { workspace = true, default-features = false }
+bitflags   = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, default-features = false }
+serde      = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
+swc_atoms              = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_common             = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_css_ast            = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
 swc_css_codegen_macros = { version = "1.0.2", path = "../swc_css_codegen_macros", default-features = false }
-swc_css_utils = { version = "16.0.0", path = "../swc_css_utils", default-features = false }
+swc_css_utils          = { version = "16.0.0", path = "../swc_css_utils", default-features = false }
 
 [dev-dependencies]
 swc_common = { version = "16.0.0", path = "../swc_common", features = [

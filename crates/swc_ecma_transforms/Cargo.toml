@@ -36,17 +36,17 @@ stacker = ["swc_ecma_utils/stacker"]
 typescript = ["swc_ecma_transforms_typescript"]
 
 [dependencies]
-par-core = { workspace = true, default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_transforms_compat = { version = "33.0.0", path = "../swc_ecma_transforms_compat", optional = true, default-features = false }
-swc_ecma_transforms_module = { version = "32.0.0", path = "../swc_ecma_transforms_module", optional = true, default-features = false }
+par-core                         = { workspace = true, default-features = false }
+swc_common                       = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_ecma_ast                     = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_transforms_base         = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_transforms_compat       = { version = "33.0.0", path = "../swc_ecma_transforms_compat", optional = true, default-features = false }
+swc_ecma_transforms_module       = { version = "32.0.0", path = "../swc_ecma_transforms_module", optional = true, default-features = false }
 swc_ecma_transforms_optimization = { version = "31.0.0", path = "../swc_ecma_transforms_optimization", optional = true, default-features = false }
-swc_ecma_transforms_proposal = { version = "29.0.0", path = "../swc_ecma_transforms_proposal", optional = true, default-features = false }
-swc_ecma_transforms_react = { version = "32.0.0", path = "../swc_ecma_transforms_react", optional = true, default-features = false }
-swc_ecma_transforms_typescript = { version = "32.0.0", path = "../swc_ecma_transforms_typescript", optional = true, default-features = false }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_transforms_proposal     = { version = "29.0.0", path = "../swc_ecma_transforms_proposal", optional = true, default-features = false }
+swc_ecma_transforms_react        = { version = "32.0.0", path = "../swc_ecma_transforms_react", optional = true, default-features = false }
+swc_ecma_transforms_typescript   = { version = "32.0.0", path = "../swc_ecma_transforms_typescript", optional = true, default-features = false }
+swc_ecma_utils                   = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
 
 
 [dev-dependencies]

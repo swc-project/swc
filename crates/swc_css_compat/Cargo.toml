@@ -14,15 +14,15 @@ bench = false
 
 [dependencies]
 bitflags = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], default-features = false }
+serde    = { workspace = true, features = ["derive"], default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
+swc_atoms     = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_common    = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_css_ast   = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
 swc_css_utils = { version = "16.0.0", path = "../swc_css_utils/", default-features = false }
 swc_css_visit = { version = "16.0.0", path = "../swc_css_visit", default-features = false }
 
 [dev-dependencies]
 swc_css_codegen = { version = "16.0.0", path = "../swc_css_codegen", default-features = false }
-swc_css_parser = { version = "16.0.0", path = "../swc_css_parser", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_css_parser  = { version = "16.0.0", path = "../swc_css_parser", default-features = false }
+testing         = { version = "17.0.0", path = "../testing", default-features = false }

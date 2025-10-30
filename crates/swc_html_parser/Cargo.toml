@@ -21,15 +21,15 @@ debug = []
 [dependencies]
 rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_html_ast = { version = "16.0.0", path = "../swc_html_ast", default-features = false }
+swc_atoms      = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_common     = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_html_ast   = { version = "16.0.0", path = "../swc_html_ast", default-features = false }
 swc_html_utils = { version = "15.0.0", path = "../swc_html_utils", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true, default-features = false }
-serde = { workspace = true, default-features = false }
-serde_json = { workspace = true, default-features = false }
+serde                     = { workspace = true, default-features = false }
+serde_json                = { workspace = true, default-features = false }
 
 swc_html_ast = { version = "16.0.0", path = "../swc_html_ast", features = [
   "serde-impl",

@@ -19,8 +19,6 @@ hex = { workspace = true, default-features = false }
 serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 sha2 = { workspace = true, default-features = false }
-swc_sourcemap = { workspace = true, default-features = false }
-tempfile = { workspace = true, default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
@@ -31,4 +29,6 @@ swc_ecma_testing = { version = "17.0.0", path = "../swc_ecma_testing", default-f
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_sourcemap = { workspace = true, default-features = false }
+tempfile = { workspace = true, default-features = false }
 testing = { version = "17.0.0", path = "../testing", default-features = false }

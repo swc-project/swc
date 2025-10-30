@@ -13,7 +13,12 @@ bench = false
 
 [dependencies]
 anyhow = { workspace = true, default-features = false }
-napi = { workspace = true, features = ["napi3", "serde-json"], default-features = false }
+napi = { workspace = true, features = [
+  "napi3",
+  "serde-json",
+], default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
-serde_json = { workspace = true, features = ["unbounded_depth"], default-features = false }
+serde_json = { workspace = true, features = [
+  "unbounded_depth",
+], default-features = false }
 tracing = { workspace = true, default-features = false }

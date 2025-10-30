@@ -30,16 +30,19 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [build-dependencies]
-vergen = { workspace = true, features = ["build", "cargo"], default-features = false }
+vergen = { workspace = true, features = [
+  "build",
+  "cargo",
+], default-features = false }
 
 
 [dependencies]
-anyhow = { workspace = true, default-features = false }
+anyhow      = { workspace = true, default-features = false }
 parking_lot = { workspace = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], default-features = false }
-serde_json = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false }
+rustc-hash  = { workspace = true, default-features = false }
+serde       = { workspace = true, features = ["derive"], default-features = false }
+serde_json  = { workspace = true, default-features = false }
+tracing     = { workspace = true, default-features = false }
 
 swc_atoms = { version = "8.0.2", path = '../swc_atoms', default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
@@ -55,7 +58,4 @@ blake3 = { workspace = true, optional = true, default-features = false }
 
 [package.metadata.cargo-shear]
 # ignored, as they are only used to enable features
-ignored = [
-  "swc_ecma_ast",
-  "swc_css_ast",
-]
+ignored = ["swc_ecma_ast", "swc_css_ast"]

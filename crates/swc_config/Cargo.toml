@@ -9,9 +9,9 @@ repository    = { workspace = true }
 version       = "3.1.2"
 
 
-    [package.metadata.docs.rs]
-    all-features = true
-    rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 
 [features]
@@ -31,7 +31,10 @@ once_cell = { workspace = true, optional = true, default-features = false }
 regex = { workspace = true, optional = true, default-features = false }
 regress = { workspace = true, optional = true, default-features = false }
 rustc-hash = { workspace = true, optional = true, default-features = false }
-serde = { workspace = true, features = ["derive", "rc"], default-features = false }
+serde = { workspace = true, features = [
+  "derive",
+  "rc",
+], default-features = false }
 serde_json = { workspace = true, default-features = false }
 swc_sourcemap = { workspace = true, optional = true, default-features = false }
 

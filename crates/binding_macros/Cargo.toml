@@ -44,7 +44,9 @@ anyhow = { workspace = true, optional = true, default-features = false }
 console_error_panic_hook = { workspace = true, optional = true, default-features = false }
 js-sys = { workspace = true, optional = true, default-features = false }
 once_cell = { workspace = true, optional = true, default-features = false }
-serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
+serde = { workspace = true, features = [
+  "derive",
+], optional = true, default-features = false }
 serde-wasm-bindgen = { workspace = true, optional = true, default-features = false }
 
 

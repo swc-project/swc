@@ -18,21 +18,34 @@ napi-build = { workspace = true, default-features = false }
 [dependencies]
 anyhow = { workspace = true, default-features = false }
 backtrace = { workspace = true, default-features = false }
-napi = { workspace = true, features = ["napi3", "serde-json"], default-features = false }
-napi-derive = { workspace = true, features = ["type-def"], default-features = false }
+napi = { workspace = true, features = [
+  "napi3",
+  "serde-json",
+], default-features = false }
+napi-derive = { workspace = true, features = [
+  "type-def",
+], default-features = false }
 node_macro_deps = { path = "../node_macro_deps", default-features = false }
 path-clean = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
-serde_json = { workspace = true, features = ["unbounded_depth"], default-features = false }
+serde_json = { workspace = true, features = [
+  "unbounded_depth",
+], default-features = false }
 swc_sourcemap = { workspace = true, default-features = false }
-tracing = { workspace = true, features = ["release_max_level_info"], default-features = false }
+tracing = { workspace = true, features = [
+  "release_max_level_info",
+], default-features = false }
 tracing-chrome = { workspace = true, default-features = false }
 tracing-futures = { workspace = true, default-features = false }
-tracing-subscriber = { workspace = true, features = ["env-filter"], default-features = false }
+tracing-subscriber = { workspace = true, features = [
+  "env-filter",
+], default-features = false }
 
 
-swc_compiler_base = { workspace = true, features = ["node"], default-features = false }
+swc_compiler_base = { workspace = true, features = [
+  "node",
+], default-features = false }
 swc_config = { workspace = true, default-features = false }
 swc_core = { workspace = true, features = [
   "allocator_node",

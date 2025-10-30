@@ -47,7 +47,9 @@ plugin_transform_schema_vtest = [
 # Enable wasmer plugin runtime implement
 plugin_backend_wasmer = ["swc_plugin_backend_wasmer"]
 
-plugin_transform_host_js = ["swc_plugin_backend_wasmer/plugin_transform_host_js"]
+plugin_transform_host_js = [
+  "swc_plugin_backend_wasmer/plugin_transform_host_js",
+]
 plugin_transform_host_native = [
   "swc_plugin_backend_wasmer/plugin_transform_host_native",
 ]
@@ -63,7 +65,9 @@ bytes-str = { workspace = true, default-features = false }
 dashmap = { workspace = true, default-features = false }
 either = { workspace = true, default-features = false }
 indexmap = { workspace = true, features = ["serde"], default-features = false }
-jsonc-parser = { workspace = true, features = ["serde"], default-features = false }
+jsonc-parser = { workspace = true, features = [
+  "serde",
+], default-features = false }
 once_cell = { workspace = true, default-features = false }
 par-core = { workspace = true, default-features = false }
 par-iter = { workspace = true, default-features = false }
@@ -94,7 +98,9 @@ swc_ecma_loader = { version = "16.0.0", path = "../swc_ecma_loader", features = 
   "tsc",
 ] }
 swc_ecma_minifier = { version = "35.0.0", path = "../swc_ecma_minifier", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_preset_env = { version = "38.0.0", path = "../swc_ecma_preset_env", default-features = false }
 swc_ecma_transforms = { version = "37.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
@@ -111,9 +117,9 @@ swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-featu
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
 swc_error_reporters = { version = "18.0.0", path = "../swc_error_reporters", default-features = false }
 swc_node_comments = { version = "16.0.0", path = "../swc_node_comments", default-features = false }
+swc_plugin_backend_wasmer = { version = "4.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
 swc_plugin_proxy = { version = "17.0.0", path = "../swc_plugin_proxy", optional = true, default-features = false }
 swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
-swc_plugin_backend_wasmer = { version = "4.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false }
 swc_transform_common = { version = "10.0.0", path = "../swc_transform_common", default-features = false }
 swc_typescript = { version = "22.0.0", path = "../swc_typescript", optional = true, default-features = false }
@@ -135,11 +141,11 @@ swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false
   workspace = true
 
 [dev-dependencies]
-ansi_term = { workspace = true, default-features = false }
+ansi_term                 = { workspace = true, default-features = false }
 codspeed-criterion-compat = { workspace = true, default-features = false }
-criterion = { workspace = true, default-features = false }
-par-core = { workspace = true, features = ["chili"], default-features = false }
-walkdir = { workspace = true, default-features = false }
+criterion                 = { workspace = true, default-features = false }
+par-core                  = { workspace = true, features = ["chili"], default-features = false }
+walkdir                   = { workspace = true, default-features = false }
 
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",

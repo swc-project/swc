@@ -16,13 +16,13 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-auto_impl = { workspace = true, default-features = false }
-dashmap = { workspace = true, default-features = false }
-par-core = { workspace = true, default-features = false }
+auto_impl   = { workspace = true, default-features = false }
+dashmap     = { workspace = true, default-features = false }
+par-core    = { workspace = true, default-features = false }
 parking_lot = { workspace = true, default-features = false }
-regex = { workspace = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], default-features = false }
+regex       = { workspace = true, default-features = false }
+rustc-hash  = { workspace = true, default-features = false }
+serde       = { workspace = true, features = ["derive"], default-features = false }
 
 swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
@@ -37,10 +37,10 @@ swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-featu
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true, default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_ecma_parser           = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_base  = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
+swc_malloc                = { version = "1.2.4", path = "../swc_malloc", default-features = false }
+testing                   = { version = "17.0.0", path = "../testing", default-features = false }
 
 [features]
 non_critical_lints = []

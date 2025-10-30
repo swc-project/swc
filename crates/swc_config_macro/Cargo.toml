@@ -14,7 +14,7 @@ proc-macro = true
 
 [dependencies]
 proc-macro2 = { workspace = true, default-features = false }
-quote = { workspace = true, default-features = false }
-syn = { workspace = true, default-features = false }
+quote       = { workspace = true, default-features = false }
+syn         = { workspace = true, default-features = false }
 
 swc_macros_common = { version = "1.0.1", path = "../swc_macros_common", default-features = false }

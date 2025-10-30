@@ -21,7 +21,9 @@ rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
-tracing-subscriber = { workspace = true, features = ["env-filter"], default-features = false }
+tracing-subscriber = { workspace = true, features = [
+  "env-filter",
+], default-features = false }
 
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "tty-emitter",

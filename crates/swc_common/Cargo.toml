@@ -48,7 +48,9 @@ shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 
 [dependencies]
 anyhow = { workspace = true, default-features = false }
-arbitrary = { workspace = true, features = ["derive"], optional = true, default-features = false }
+arbitrary = { workspace = true, features = [
+  "derive",
+], optional = true, default-features = false }
 bytecheck = { workspace = true, optional = true, default-features = false }
 bytes-str = { workspace = true, features = ["serde"], default-features = false }
 either = { workspace = true, default-features = false }
@@ -68,14 +70,14 @@ tracing = { workspace = true, default-features = false }
 unicode-width = { workspace = true, default-features = false }
 url = { workspace = true, default-features = false }
 
-ast_node = { version = "4.0.0", path = "../ast_node", default-features = false }
-better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
-from_variant = { version = "2.0.2", path = "../from_variant", default-features = false }
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+ast_node             = { version = "4.0.0", path = "../ast_node", default-features = false }
+better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
+from_variant         = { version = "2.0.2", path = "../from_variant", default-features = false }
+swc_atoms            = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros", default-features = false }
-swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false }
+swc_visit            = { version = "2.0.1", path = "../swc_visit", default-features = false }
 
 
 [dev-dependencies]
-par-iter = { workspace = true, default-features = false }
+par-iter   = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }

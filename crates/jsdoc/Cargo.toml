@@ -17,12 +17,14 @@ serde-impl = ["serde"]
 
 [dependencies]
 nom = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
+serde = { workspace = true, features = [
+  "derive",
+], optional = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_atoms  = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
 
 [dev-dependencies]
-dashmap = { workspace = true, default-features = false }
+dashmap         = { workspace = true, default-features = false }
 swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing         = { version = "17.0.0", path = "../testing", default-features = false }

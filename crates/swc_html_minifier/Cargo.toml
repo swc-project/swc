@@ -29,14 +29,16 @@ default-css-minifier = [
 ]
 
 [dependencies]
-once_cell = { workspace = true, default-features = false }
+once_cell  = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], default-features = false }
+serde      = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
 swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_config = { version = "3.1.2", path = "../swc_config", features = ["regex"], default-features = false }
+swc_config = { version = "3.1.2", path = "../swc_config", features = [
+  "regex",
+], default-features = false }
 swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", optional = true, default-features = false }
 swc_css_codegen = { version = "16.0.0", path = "../swc_css_codegen", optional = true, default-features = false }
 swc_css_minifier = { version = "16.0.0", path = "../swc_css_minifier", optional = true, default-features = false }
@@ -48,7 +50,9 @@ swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen", features 
 swc_ecma_minifier = { version = "35.0.0", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
 swc_html_ast = { version = "16.0.0", path = "../swc_html_ast", default-features = false }
@@ -61,7 +65,7 @@ swc_html_visit = { version = "16.0.0", path = "../swc_html_visit", default-featu
 codspeed-criterion-compat = { workspace = true, default-features = false }
 
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing    = { version = "17.0.0", path = "../testing", default-features = false }
 
 [[bench]]
 harness = false

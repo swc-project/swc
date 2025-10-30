@@ -16,11 +16,11 @@ version = "16.0.0"
 bench = false
 
 [dependencies]
-auto_impl = { workspace = true, default-features = false }
-bitflags = { workspace = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_xml_ast = { version = "16.0.0", path = "../swc_xml_ast", default-features = false }
+auto_impl              = { workspace = true, default-features = false }
+bitflags               = { workspace = true, default-features = false }
+rustc-hash             = { workspace = true, default-features = false }
+swc_common             = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_xml_ast            = { version = "16.0.0", path = "../swc_xml_ast", default-features = false }
 swc_xml_codegen_macros = { version = "1.0.1", path = "../swc_xml_codegen_macros", default-features = false }
 
 [dev-dependencies]

@@ -17,7 +17,7 @@ plugin-mode = []
 
 [dependencies]
 rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, default-features = false }
+serde      = { workspace = true, default-features = false }
 
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_common        = { version = "16.0.0", path = "../swc_common", default-features = false }

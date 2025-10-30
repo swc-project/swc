@@ -23,22 +23,22 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 concurrent = ["swc_common/concurrent", "par-core/parallel"]
 
 [dependencies]
-indexmap = { workspace = true, default-features = false }
-num_cpus = { workspace = true, default-features = false }
-once_cell = { workspace = true, default-features = false }
-par-core = { workspace = true, default-features = false }
+indexmap   = { workspace = true, default-features = false }
+num_cpus   = { workspace = true, default-features = false }
+once_cell  = { workspace = true, default-features = false }
+par-core   = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-ryu-js = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false }
+ryu-js     = { workspace = true, default-features = false }
+tracing    = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
+swc_atoms      = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_common     = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_ecma_ast   = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = { version = "0.1.15", optional = true, default-features = false }
 
 [dev-dependencies]
-par-core = { workspace = true, features = ["chili"], default-features = false }
+par-core        = { workspace = true, features = ["chili"], default-features = false }
 swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }

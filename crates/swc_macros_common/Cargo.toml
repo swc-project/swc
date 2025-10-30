@@ -13,7 +13,7 @@ bench = false
 
 [dependencies]
 proc-macro2 = { workspace = true, default-features = false }
-quote = { workspace = true, default-features = false }
+quote       = { workspace = true, default-features = false }
 
   [dependencies.syn]
   features  = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]

@@ -22,9 +22,11 @@ default    = ["serde-impl"]
 serde-impl = ["serde"]
 
 [dependencies]
-serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
+serde = { workspace = true, features = [
+  "derive",
+], optional = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_atoms         = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_common        = { version = "16.0.0", path = "../swc_common", default-features = false }

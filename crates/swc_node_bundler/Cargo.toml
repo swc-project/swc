@@ -21,7 +21,9 @@ swc_v2     = ["serde-impl"]
 [dependencies]
 anyhow = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
+serde = { workspace = true, features = [
+  "derive",
+], optional = true, default-features = false }
 tracing = { workspace = true, default-features = false }
 
 string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
@@ -36,7 +38,9 @@ swc_common = { version = "16.0.0", path = "../swc_common", features = [
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen", default-features = false }
 swc_ecma_loader = { version = "16.0.0", path = "../swc_ecma_loader", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_transforms = { version = "37.0.0", path = "../swc_ecma_transforms", default-features = false }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }

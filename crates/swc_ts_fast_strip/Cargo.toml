@@ -38,7 +38,7 @@ wasm-bindgen = { workspace = true, optional = true, default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true, default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing                   = { version = "17.0.0", path = "../testing", default-features = false }
 
 [[bench]]
 harness = false

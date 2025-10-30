@@ -19,49 +19,49 @@ resolver = "2"
 
 
   [workspace.dependencies]
-  anyhow = { version = "1.0.98", default-features = false }
-  backtrace = { version = "0.3", default-features = false }
-  getrandom = { version = "0.3.3", default-features = false }
-  js-sys = { version = "0.3.77", default-features = false }
-  lightningcss = { version = "1.0.0-alpha.66", default-features = false }
-  miette = { version = "7.6.0", default-features = false }
+  anyhow                  = { version = "1.0.98", default-features = false }
+  backtrace               = { version = "0.3", default-features = false }
+  getrandom               = { version = "0.3.3", default-features = false }
+  js-sys                  = { version = "0.3.77", default-features = false }
+  lightningcss            = { version = "1.0.0-alpha.66", default-features = false }
+  miette                  = { version = "7.6.0", default-features = false }
   napi                    = { version = "3", default-features = false }
-  napi-build = { version = "2", default-features = false }
+  napi-build              = { version = "2", default-features = false }
   napi-derive             = { version = "3", default-features = false }
-  owo-colors = { version = "4.2.1", default-features = false }
-  par-core = { version = "2.0.0", default-features = false }
-  path-clean = { version = "1.0", default-features = false }
-  quote = { version = "1", default-features = false }
-  rustc-hash = { version = "2", default-features = false }
-  serde = { version = "1", default-features = false }
-  serde-wasm-bindgen = { version = "0.6.5", default-features = false }
-  serde_json = { version = "1.0.140", default-features = false }
-  swc_atoms = { version = "8.0.1", default-features = false }
-  swc_cli_impl = { version = "46.0.0", default-features = false }
-  swc_common = { version = "16.0.0", default-features = false }
-  swc_compiler_base = { version = "38.0.0", default-features = false }
-  swc_config = { version = "3.1.2", default-features = false }
-  swc_core = { version = "46.0.2", default-features = false }
-  swc_css_ast = { version = "16.0.0", default-features = false }
-  swc_css_codegen = { version = "16.0.0", default-features = false }
-  swc_css_minifier = { version = "16.0.0", default-features = false }
-  swc_css_parser = { version = "16.0.0", default-features = false }
+  owo-colors              = { version = "4.2.1", default-features = false }
+  par-core                = { version = "2.0.0", default-features = false }
+  path-clean              = { version = "1.0", default-features = false }
+  quote                   = { version = "1", default-features = false }
+  rustc-hash              = { version = "2", default-features = false }
+  serde                   = { version = "1", default-features = false }
+  serde-wasm-bindgen      = { version = "0.6.5", default-features = false }
+  serde_json              = { version = "1.0.140", default-features = false }
+  swc_atoms               = { version = "8.0.1", default-features = false }
+  swc_cli_impl            = { version = "46.0.0", default-features = false }
+  swc_common              = { version = "16.0.0", default-features = false }
+  swc_compiler_base       = { version = "38.0.0", default-features = false }
+  swc_config              = { version = "3.1.2", default-features = false }
+  swc_core                = { version = "46.0.2", default-features = false }
+  swc_css_ast             = { version = "16.0.0", default-features = false }
+  swc_css_codegen         = { version = "16.0.0", default-features = false }
+  swc_css_minifier        = { version = "16.0.0", default-features = false }
+  swc_css_parser          = { version = "16.0.0", default-features = false }
   swc_ecma_react_compiler = { version = "10.0.0", default-features = false }
-  swc_error_reporters = { version = "18.0.0", default-features = false }
-  swc_html = { version = "28.0.0", default-features = false }
-  swc_html_ast = { version = "16.0.0", default-features = false }
-  swc_html_minifier = { version = "35.0.0", default-features = false }
-  swc_malloc = { version = "1.2.4", default-features = false }
-  swc_nodejs_common = { version = "1.0.3", default-features = false }
-  swc_sourcemap = { version = "9.3.4", default-features = false }
-  swc_ts_fast_strip = { version = "35.0.0", default-features = false }
-  tracing = { version = "0.1.41", default-features = false }
-  tracing-chrome = { version = "0.7.2", default-features = false }
-  tracing-futures = { version = "0.2.5", default-features = false }
-  tracing-subscriber = { version = "0.3.20", default-features = false }
-  unicode-width = { version = "0.2.1", default-features = false }
-  wasm-bindgen = { version = "0.2.100", default-features = false }
-  wasm-bindgen-futures = { version = "0.4.50", default-features = false }
+  swc_error_reporters     = { version = "18.0.0", default-features = false }
+  swc_html                = { version = "28.0.0", default-features = false }
+  swc_html_ast            = { version = "16.0.0", default-features = false }
+  swc_html_minifier       = { version = "35.0.0", default-features = false }
+  swc_malloc              = { version = "1.2.4", default-features = false }
+  swc_nodejs_common       = { version = "1.0.3", default-features = false }
+  swc_sourcemap           = { version = "9.3.4", default-features = false }
+  swc_ts_fast_strip       = { version = "35.0.0", default-features = false }
+  tracing                 = { version = "0.1.41", default-features = false }
+  tracing-chrome          = { version = "0.7.2", default-features = false }
+  tracing-futures         = { version = "0.2.5", default-features = false }
+  tracing-subscriber      = { version = "0.3.20", default-features = false }
+  unicode-width           = { version = "0.2.1", default-features = false }
+  wasm-bindgen            = { version = "0.2.100", default-features = false }
+  wasm-bindgen-futures    = { version = "0.4.50", default-features = false }
 
 [profile.release]
 # lto = true
@@ -210,5 +210,5 @@ codegen-units = 1
     opt-level = "s"
 
 
-[profile.dev.package."*"]
-debug-assertions = false
+    [profile.dev.package."*"]
+    debug-assertions = false

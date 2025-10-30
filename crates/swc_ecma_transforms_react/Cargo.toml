@@ -26,7 +26,9 @@ bytes-str = { workspace = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
+serde = { workspace = true, features = [
+  "derive",
+], optional = true, default-features = false }
 sha1 = { workspace = true, default-features = false }
 
 string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
@@ -34,13 +36,15 @@ swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false
 swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
 swc_config = { version = "3.1.2", path = "../swc_config", default-features = false }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_parser            = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen/", default-features = false }
-swc_ecma_transforms_compat = { version = "33.0.0", path = "../swc_ecma_transforms_compat/", default-features = false }
+swc_ecma_codegen            = { version = "19.0.0", path = "../swc_ecma_codegen/", default-features = false }
+swc_ecma_transforms_compat  = { version = "33.0.0", path = "../swc_ecma_transforms_compat/", default-features = false }
 swc_ecma_transforms_testing = { version = "32.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing                     = { version = "17.0.0", path = "../testing", default-features = false }

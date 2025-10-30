@@ -1,30 +1,29 @@
 [package]
-name          = "swc_plugin_backend_tests"
-version       = "0.0.0"
-edition       = { workspace = true }
-license       = { workspace = true }
-repository    = { workspace = true }
-authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "swc plugin backend tests and benchmarks"
-publish       = false
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "swc plugin backend tests and benchmarks"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_plugin_backend_tests"
+publish     = false
+repository  = { workspace = true }
+version     = "0.0.0"
 
 [lib]
 bench   = false
 doctest = false
 
 [dev-dependencies]
-anyhow = { workspace = true, default-features = false }
+anyhow                    = { workspace = true, default-features = false }
 codspeed-criterion-compat = { workspace = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], default-features = false }
-serde_json = { workspace = true, default-features = false }
-tokio = { workspace = true, features = ["rt"], default-features = false }
-tracing = { workspace = true, default-features = false }
+rustc-hash                = { workspace = true, default-features = false }
+serde                     = { workspace = true, features = ["derive"], default-features = false }
+serde_json                = { workspace = true, default-features = false }
+tokio                     = { workspace = true, features = ["rt"], default-features = false }
+tracing                   = { workspace = true, default-features = false }
 
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", features = ["rkyv-impl", "plugin_transform_schema_v1"], default-features = false }
 swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
@@ -34,11 +33,15 @@ swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_transform_common = { version = "10.0.0", path = "../swc_transform_common", default-features = false }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
+swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", features = [
+  "rkyv-impl",
+  "plugin_transform_schema_v1",
+], default-features = false }
+swc_transform_common = { version = "10.0.0", path = "../swc_transform_common", default-features = false }
 testing = { version = "17.0.0", path = "../testing", default-features = false }
 
-swc_plugin_backend_wasmer = { version = "4.0", path = "../swc_plugin_backend_wasmer", default-features = false }
+swc_plugin_backend_wasmer   = { version = "4.0", path = "../swc_plugin_backend_wasmer", default-features = false }
 swc_plugin_backend_wasmtime = { version = "3.0", path = "../swc_plugin_backend_wasmtime", default-features = false }
 
 [[bench]]

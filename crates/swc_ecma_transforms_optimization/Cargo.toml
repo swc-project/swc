@@ -21,20 +21,22 @@ concurrent = ["swc_common/concurrent", "swc_ecma_transforms_base/concurrent"]
 debug      = []
 
 [dependencies]
-bytes-str = { workspace = true, default-features = false }
-dashmap = { workspace = true, default-features = false }
-indexmap = { workspace = true, default-features = false }
-once_cell = { workspace = true, default-features = false }
-par-core = { workspace = true, default-features = false }
-petgraph = { workspace = true, default-features = false }
+bytes-str  = { workspace = true, default-features = false }
+dashmap    = { workspace = true, default-features = false }
+indexmap   = { workspace = true, default-features = false }
+once_cell  = { workspace = true, default-features = false }
+par-core   = { workspace = true, default-features = false }
+petgraph   = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false }
+tracing    = { workspace = true, default-features = false }
 
 swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_parser          = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
@@ -45,7 +47,7 @@ par-core = { workspace = true, features = ["chili"], default-features = false }
 
 
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", features = [
-    "inline-helpers",
+  "inline-helpers",
 ] }
 swc_ecma_transforms_compat = { version = "33.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
 swc_ecma_transforms_module = { version = "32.0.0", path = "../swc_ecma_transforms_module", default-features = false }

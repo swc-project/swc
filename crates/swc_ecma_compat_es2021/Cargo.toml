@@ -18,7 +18,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 [dependencies]
 tracing = { workspace = true, default-features = false }
 
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_compiler = { version = "7.0.0", path = "../swc_ecma_compiler", default-features = false }
+swc_ecma_ast             = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_compiler        = { version = "7.0.0", path = "../swc_ecma_compiler", default-features = false }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_utils           = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
