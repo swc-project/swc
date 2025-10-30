@@ -39,6 +39,8 @@ swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false
 tempfile = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
 tracing-subscriber = { workspace = true, features = [
+  "ansi",
   "fmt",
   "env-filter",
+  "std",
 ], default-features = false }
