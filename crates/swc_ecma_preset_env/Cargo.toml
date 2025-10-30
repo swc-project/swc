@@ -35,7 +35,7 @@ preset_env_base = { version = "5.0.0", path = "../preset_env_base", default-feat
 foldhash        = { workspace = true, default-features = false }
 precomputed-map = { workspace = true, default-features = false }
 
-rustc-hash = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false, features = ["std"] }
 string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
 swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
 swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
@@ -54,7 +54,7 @@ foldhash = { workspace = true, default-features = false }
 precomputed-map = { workspace = true, features = [
   "builder",
 ], default-features = false }
-rustc-hash = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false, features = ["std"] }
 serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 

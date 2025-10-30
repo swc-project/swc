@@ -21,7 +21,7 @@ default    = ["serde-impl"]
 serde-impl = ["serde"]
 
 [dependencies]
-base64 = { workspace = true, default-features = false }
+base64 = { workspace = true, default-features = false, features = ["std"] }
 bytes-str = { workspace = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }

@@ -13,7 +13,7 @@ bench = false
 
 [dependencies]
 anyhow  = { workspace = true, default-features = false }
-hex     = { workspace = true, default-features = false }
+hex     = { workspace = true, default-features = false, features = ["std"] }
 sha2    = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
 

@@ -22,7 +22,9 @@ serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
 tracing-subscriber = { workspace = true, features = [
+  "ansi",
   "env-filter",
+  "fmt",
 ], default-features = false }
 
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
