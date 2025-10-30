@@ -29,6 +29,7 @@ anyhow = { workspace = true, default-features = false }
 clap = { version = "3.2.25", features = [
   "derive",
   "wrap_help",
+  "std",
 ], default-features = false }
 glob = { workspace = true, default-features = false }
 par-core = { workspace = true, features = ["chili"], default-features = false }

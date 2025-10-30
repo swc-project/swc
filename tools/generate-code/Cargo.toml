@@ -9,7 +9,10 @@ version    = "0.2.0"
 [dependencies]
 Inflector = { workspace = true, default-features = false }
 anyhow = { workspace = true, default-features = false }
-clap = { version = "4.5.9", features = ["derive"], default-features = false }
+clap = { version = "4.5.9", features = [
+  "derive",
+  "std",
+], default-features = false }
 proc-macro2 = { workspace = true, default-features = false }
 quote = { workspace = true, default-features = false }
 syn = { workspace = true, features = [
