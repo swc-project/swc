@@ -31,7 +31,9 @@ swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-fea
   "unstable",
 ] }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_transforms_react = { version = "32.0.0", path = "../swc_ecma_transforms_react", default-features = false }
+swc_ecma_transforms_react = { version = "32.0.0", path = "../swc_ecma_transforms_react", default-features = false, features = [
+  "serde-impl",
+] }
 swc_ecma_transforms_typescript = { version = "32.0.0", path = "../swc_ecma_transforms_typescript", default-features = false }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
 wasm-bindgen = { workspace = true, optional = true, default-features = false }
