@@ -29,7 +29,9 @@ globset = { workspace = true, optional = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, optional = true, default-features = false }
 regex = { workspace = true, optional = true, default-features = false }
-regress = { workspace = true, optional = true, default-features = false }
+regress = { workspace = true, optional = true, default-features = false, features = [
+  "std",
+] }
 rustc-hash = { workspace = true, optional = true, default-features = false }
 serde = { workspace = true, features = [
   "derive",
