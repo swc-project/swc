@@ -1,11 +1,60 @@
 # Changelog
-## [unreleased]
+## [swc_core@v46.0.2] - 2025-10-29
+
+### Performance
+
+
+
+- **(es/parser)** Remove `had_line_break_before_last` ([#11200](https://github.com/swc-project/swc/issues/11200)) ([7b5bcd7](https://github.com/swc-project/swc/commit/7b5bcd7abe2f4d7c048c350c7403ad719ce52bee))
+
+## [swc_core@v46.0.1] - 2025-10-28
+
+### Bug Fixes
+
+
+
+- **(atoms)** Fix broken quote macro ([#11195](https://github.com/swc-project/swc/issues/11195)) ([3485179](https://github.com/swc-project/swc/commit/3485179196c056b913cdc7507ed5f3bb282623ee))
+
+
+- **(hstr)** Fix unsoundness of `wtf8`'s transmutation ([#11194](https://github.com/swc-project/swc/issues/11194)) ([f27e65b](https://github.com/swc-project/swc/commit/f27e65b94b517204944505a3c0e11b6033407594))
+
+## [swc_core@v46.0.0] - 2025-10-28
+
+### Bug Fixes
+
+
+
+- **(es/ast)** Fix unicode unpaired surrogates handling ([#11144](https://github.com/swc-project/swc/issues/11144)) ([845512c](https://github.com/swc-project/swc/commit/845512c67819cd37bb25601d34bd5b1ac79afca3))
 
 ### Features
 
 
 
+- **(es/compiler)** Merge `nullish_coalescing` into `Compiler` ([#11157](https://github.com/swc-project/swc/issues/11157)) ([dd6f71b](https://github.com/swc-project/swc/commit/dd6f71b92fecd0137af3cf16d72799afc3ce30d6))
+
+
 - **(es/parser)** Add an error for empty type args for generic ([#11164](https://github.com/swc-project/swc/issues/11164)) ([9a1fa84](https://github.com/swc-project/swc/commit/9a1fa847a74fd288013aeff8947b5ca331eee00f))
+
+### Miscellaneous Tasks
+
+
+
+- **(binding_macros)** Add `default-features = false` ([#11193](https://github.com/swc-project/swc/issues/11193)) ([85d855f](https://github.com/swc-project/swc/commit/85d855fd0478f989bac5d62caad668497f497137))
+
+### Refactor
+
+
+
+- **(bindings)** Adjust compile options ([#11190](https://github.com/swc-project/swc/issues/11190)) ([4c6df95](https://github.com/swc-project/swc/commit/4c6df954df6eb1476b65b6c53bfc72e9b856f8e9))
+
+
+- **(bindings)** Add `opt-level = s` to more crates ([#11191](https://github.com/swc-project/swc/issues/11191)) ([ed63413](https://github.com/swc-project/swc/commit/ed63413d3f0b9b19e717361a09ef938f243400cf))
+
+
+- **(es/ast)** Cherry-pick #10763 ([#11182](https://github.com/swc-project/swc/issues/11182)) ([e93ffde](https://github.com/swc-project/swc/commit/e93ffde52f33a6b65ad9a595cb73776a9064e7c3))
+
+
+- **(es/parser)** Detach `swc_ecma_parser` from `swc_ecma_lexer` ([#11148](https://github.com/swc-project/swc/issues/11148)) ([94f175d](https://github.com/swc-project/swc/commit/94f175d643f38477d2c84f00c8602bfebdb7b343))
 
 ## [swc_core@v45.0.2] - 2025-10-23
 
@@ -2483,29 +2532,11 @@
 
 - **(es/proposal)** Fix declarations for `explicit-resource-management` ([#10198](https://github.com/swc-project/swc/issues/10198)) ([99ba555](https://github.com/swc-project/swc/commit/99ba555c810a89ceae899cf612f8ee17925f5581))
 
-
-- **(typescript)** Skip the body of ArrowExpr in type usage analysis  ([#10187](https://github.com/swc-project/swc/issues/10187)) ([9aca205](https://github.com/swc-project/swc/commit/9aca205c770988d6483dad372028fd1928e3f5b0))
-
 ### Documentation
 
 
 
 - **(es/minifier)** Make `minifier` example utilize comments ([#10195](https://github.com/swc-project/swc/issues/10195)) ([ec3ebe7](https://github.com/swc-project/swc/commit/ec3ebe78fff5bce29ec780e45427ede56576d7c4))
-
-### Features
-
-
-
-- **(es/fast-parser)** Implement the initial version ([#10185](https://github.com/swc-project/swc/issues/10185)) ([44e7c39](https://github.com/swc-project/swc/commit/44e7c39fda5d0a7cbdf9dbc3a8d9c85a24a22251))
-
-
-- **(ts/fast-strip)** Throw js object instead of map ([#10186](https://github.com/swc-project/swc/issues/10186)) ([2da0142](https://github.com/swc-project/swc/commit/2da0142217842bf85d84645beeafc7f706215469))
-
-### Miscellaneous Tasks
-
-
-
-- **(es/minifier)** Fix lints & `size.sh` ([#10191](https://github.com/swc-project/swc/issues/10191)) ([e862c32](https://github.com/swc-project/swc/commit/e862c329fc9af61414b664e81030976bde313983))
 
 ### Performance
 
@@ -2513,63 +2544,10 @@
 
 - **(es/minifier)** Do not repeat applying pure minifier on last ([#10196](https://github.com/swc-project/swc/issues/10196)) ([e6b7cee](https://github.com/swc-project/swc/commit/e6b7cee6cd0b4c9401981dcc9d40d758be94814b))
 
-### Refactor
-
-
-
-- **(es/minifier)** Remove code for infinite loop ([#10194](https://github.com/swc-project/swc/issues/10194)) ([fcc6884](https://github.com/swc-project/swc/commit/fcc68842422c0a46eee4d47956e77a727f202998))
-
 ### Testing
 
 
 
-- **(es/minifier)** Update test inputs ([#10193](https://github.com/swc-project/swc/issues/10193)) ([97d8337](https://github.com/swc-project/swc/commit/97d83372dcc63cc68451a2a86672f8748c751600))
-
-
 - **(es/minifier)** Add a benchmark for real-world inputs ([#10204](https://github.com/swc-project/swc/issues/10204)) ([97f2180](https://github.com/swc-project/swc/commit/97f2180e86323fd530bed5a274a0e50abaf81237))
-
-## [swc_core@v16.5.0] - 2025-03-12
-
-### Bug Fixes
-
-
-
-- **(es/compat)** Hoist `arguments` in object method while lowering async functions ([#10167](https://github.com/swc-project/swc/issues/10167)) ([e764df2](https://github.com/swc-project/swc/commit/e764df24807d667e581fdc3e1018ab7491104195))
-
-
-- **(es/minifier)** Check array inline for indexed with dynamic key ([#10184](https://github.com/swc-project/swc/issues/10184)) ([c2fe4bf](https://github.com/swc-project/swc/commit/c2fe4bf2d34033959070c922ce1c2d46a79de62c))
-
-### Features
-
-
-
-- **(es/module)** Support more `import.meta` properties ([#10179](https://github.com/swc-project/swc/issues/10179)) ([11727a6](https://github.com/swc-project/swc/commit/11727a62e4a615039d11d8cc250d53f128e40eff))
-
-### Performance
-
-
-
-- **(es/fast-lexer)** Optimize `read_identifier` ([#10170](https://github.com/swc-project/swc/issues/10170)) ([d97f7b2](https://github.com/swc-project/swc/commit/d97f7b233ff88405710cb3281178fd8e035c40ab))
-
-
-- **(es/fast-lexer)** Use `memchr` for `skip_line_comments` ([#10173](https://github.com/swc-project/swc/issues/10173)) ([35194e3](https://github.com/swc-project/swc/commit/35194e30086de55a52ebad32474b6c571cdd0b9f))
-
-
-- **(es/fast-lexer)** Use SIMD properly for string literals ([#10172](https://github.com/swc-project/swc/issues/10172)) ([be60338](https://github.com/swc-project/swc/commit/be60338267eb27c0b96c52fb32ddbf8699d4fe91))
-
-
-- **(es/fast-lexer)** Add length-based fast path for keywords ([#10176](https://github.com/swc-project/swc/issues/10176)) ([1f70af8](https://github.com/swc-project/swc/commit/1f70af842e3d09614c8187685e2fc503ac1f272a))
-
-
-- **(es/fast-lexer)** Optimize memory layout of cursor ([#10175](https://github.com/swc-project/swc/issues/10175)) ([aa20494](https://github.com/swc-project/swc/commit/aa204949827e7ef0cb83ab1c0ae589270fc1fd2d))
-
-
-- **(es/fast-lexer)** Remove bound checks ([#10174](https://github.com/swc-project/swc/issues/10174)) ([bccdafc](https://github.com/swc-project/swc/commit/bccdafc0c394bf3979da3c6a06d974c7d2c9bcee))
-
-
-- **(es/fast-lexer)** Replace PHF with static keyword lookup table ([#10181](https://github.com/swc-project/swc/issues/10181)) ([56d065e](https://github.com/swc-project/swc/commit/56d065ebcbcddd18cc9ea9406fd0de1e716318fc))
-
-
-- **(es/fast-lexer)** Optimize SIMD vector initialization with initialing `u8x16` once. ([#10183](https://github.com/swc-project/swc/issues/10183)) ([435197c](https://github.com/swc-project/swc/commit/435197cc84f10095063bbc983969449653e1fc90))
 
 <!-- generated by git-cliff -->

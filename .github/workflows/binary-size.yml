@@ -3,9 +3,10 @@ name: Binary Size Check
 on:
   pull_request:
     types: ["opened", "reopened", "synchronize"]
-  push:
-    branches:
-      - main
+  # Disable push events for now because of the permission issue
+  # push:
+  #   branches:
+  #     - main
 
 env:
   CI: 1

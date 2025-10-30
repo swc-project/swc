@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "20.0.0"
+version       = "21.0.0"
 
 [lib]
 bench   = false
@@ -41,14 +41,14 @@ serde        = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
 tracing      = { workspace = true }
 
-swc_atoms = { version = "7.0.0", path = '../swc_atoms' }
-swc_common = { version = "15.0.0", path = "../swc_common", features = [
+swc_atoms = { version = "8.0.1", path = '../swc_atoms' }
+swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "15.0.0", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "16.0.0", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "16.0.0", path = "../swc_plugin_proxy" }
-swc_transform_common = { version = "9.0.0", path = "../swc_transform_common" }
+swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", optional = true }
+swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "17.0.0", path = "../swc_plugin_proxy" }
+swc_transform_common = { version = "10.0.0", path = "../swc_transform_common" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 blake3 = { workspace = true, optional = true }
