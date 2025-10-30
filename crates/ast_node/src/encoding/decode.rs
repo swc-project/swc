@@ -126,7 +126,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                 syn::parse_quote! {
                                     tag => {
                                         let tag: u32 = tag.try_into().map_err(|_| cbor4ii::core::error::DecodeError::CastOverflow {
-                                             name: &"tag",
+                                             name: &"unknown-tag",
                                         })?;
                                         let val = <#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
                                         #ident::#name(tag, val)
@@ -239,9 +239,9 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 None => {
                     syn::parse_quote! {
                         tag => {
-                            let err = cbor4ii::core::error::DecodeError::Mismatch {
+                            let err = cbor4ii::core::error::DecodeError::Custom {
                                  name: &stringify!(#ident),
-                                 found: tag.to_le_bytes()[0]
+                                 num: tag as u32
                             };
                             return Err(err);
                         }
