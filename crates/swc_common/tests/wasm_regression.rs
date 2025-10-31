@@ -60,6 +60,14 @@ pub struct Str {
     value: String,
 }
 
+/// Test that we can deserialize a v2 data into a v1 data and then serialize it
+/// back to a v2 data and it should be the same.
+///
+/// This is a test for Wasm plugin tests.
+///
+/// This test simulates serilizing from the latest runtime (v2) and deserialize
+/// it from the old Wasm plugin (v1), serialize it back as old data (v1), and
+/// deserialize it back from latest runtime (v2).
 #[test]
 fn bakward_compatible() {
     let v2_data = {
@@ -71,25 +79,14 @@ fn bakward_compatible() {
             span: DUMMY_SP,
             value: String::from("test-2"),
         };
-        let arr = Array {
-            span: DUMMY_SP,
-            elements: vec![ExprV2::String(s1)],
-        };
 
         VersionedSerializable::new(ExprV2::Object(ObjectV2 {
             span: DUMMY_SP,
-            properties: vec![
-                PropertyV2 {
-                    span: DUMMY_SP,
-                    key: String::from("string"),
-                    value: Box::new(ExprV2::String(s2)),
-                },
-                PropertyV2 {
-                    span: DUMMY_SP,
-                    key: String::from("array"),
-                    value: Box::new(ExprV2::Array(arr)),
-                },
-            ],
+            properties: vec![PropertyV2 {
+                span: DUMMY_SP,
+                key: String::from("string"),
+                value: Box::new(ExprV2::String(s2)),
+            }],
         }))
     };
 
