@@ -13,6 +13,10 @@ pub struct Ident {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -47,6 +51,10 @@ pub struct CustomIdent {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -63,6 +71,10 @@ pub struct DashedIdent {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -86,6 +98,10 @@ pub struct CustomPropertyName {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -102,6 +118,10 @@ pub struct Str {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -123,6 +143,10 @@ impl EqIgnoreSpan for Str {
 )]
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum DelimiterValue {
     /// `,`
     Comma,
@@ -172,6 +196,10 @@ pub struct HexColor {
     /// Does **not** include `#`
     pub value: Atom,
     /// Does **not** include `#`
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -333,6 +361,10 @@ pub enum TimePercentage {
 pub struct Integer {
     pub span: Span,
     pub value: i64,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -346,6 +378,10 @@ impl EqIgnoreSpan for Integer {
 pub struct Number {
     pub span: Span,
     pub value: f64,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -385,6 +421,10 @@ impl EqIgnoreSpan for Number {
 pub struct Ratio {
     pub span: Span,
     pub left: Number,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub right: Option<Number>,
 }
 
@@ -400,6 +440,10 @@ pub struct Ratio {
 )]
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum BinOp {
     /// `+`
     Add,
@@ -416,7 +460,15 @@ pub enum BinOp {
 pub struct Url {
     pub span: Span,
     pub name: Ident,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Box<UrlValue>>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub modifiers: Option<Vec<UrlModifier>>,
 }
 
@@ -435,6 +487,10 @@ pub struct UrlValueRaw {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -454,7 +510,15 @@ pub struct UnicodeRange {
 
     pub start: Atom,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub end: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -507,6 +571,10 @@ pub struct CalcOperator {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum CalcOperatorType {
     /// `+`
     Add,

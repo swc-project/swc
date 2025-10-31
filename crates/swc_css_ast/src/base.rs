@@ -303,6 +303,10 @@ pub struct Declaration {
     pub name: DeclarationName,
     pub value: Vec<ComponentValue>,
     /// The span includes `!`
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub important: Option<ImportantFlag>,
 }
 

@@ -24,6 +24,10 @@ pub struct Function {
     pub ctxt: SyntaxContext,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub body: Option<BlockStmt>,
 
     /// if it's a generator.
@@ -35,9 +39,17 @@ pub struct Function {
     pub is_async: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub return_type: Option<Box<TsTypeAnn>>,
 }
 

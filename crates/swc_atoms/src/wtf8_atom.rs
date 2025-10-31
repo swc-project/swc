@@ -18,6 +18,32 @@ use crate::Atom;
 #[repr(transparent)]
 pub struct Wtf8Atom(pub(super) hstr::Wtf8Atom);
 
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for Wtf8Atom {
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        cbor4ii::core::types::Bytes(self.as_bytes()).encode(writer)
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for Wtf8Atom {
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        let s = <cbor4ii::core::types::Bytes<&[u8]>>::decode(reader)?;
+
+        // This is not sound, maybe Wtf8Buf should make bytes operations safe
+        Ok(Self(hstr::Wtf8Atom::from(unsafe {
+            Wtf8Buf::from_bytes_unchecked(s.0.into())
+        })))
+    }
+}
+
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for Wtf8Atom {

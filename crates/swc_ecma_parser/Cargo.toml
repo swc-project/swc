@@ -55,10 +55,12 @@ walkdir           = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
+  "encoding-impl",
 ] }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "17.0.0", path = "../testing" }
+cbor4ii = { workspace = true, features = [ "use_std" ] }
 
 [[example]]
 name = "typescript"

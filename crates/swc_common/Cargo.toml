@@ -15,6 +15,9 @@ version       = "16.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 __plugin         = []
 __plugin_mode    = []
@@ -42,6 +45,7 @@ rkyv-impl = [
   "bytecheck",
   "rancor",
 ]
+encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl"]
 
 shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 
@@ -67,6 +71,7 @@ termcolor             = { workspace = true, optional = true }
 tracing               = { workspace = true }
 unicode-width         = { workspace = true }
 url                   = { workspace = true }
+cbor4ii               = { workspace = true, features = [ "use_std" ], optional = true }
 
 ast_node             = { version = "4.0.0", path = "../ast_node" }
 better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls" }
@@ -74,7 +79,6 @@ from_variant         = { version = "2.0.2", path = "../from_variant" }
 swc_atoms            = { version = "8.0.2", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.1", path = "../swc_visit" }
-
 
 [dev-dependencies]
 par-iter                  = { workspace = true }

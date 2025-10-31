@@ -117,7 +117,7 @@
    :                     ^^^^^^^^^^^^^^
  3 |     unicode-range: U+1e1ee1-FFZFFF;
    `----
-  x Dimension(DimensionToken { value: 1.0, raw_value: "+1", unit: "Z1ee1-FFFFFF", type_flag: Integer, raw_unit: "Z1ee1-FFFFFF" })
+  x Dimension { dimension: DimensionToken { value: 1.0, raw_value: "+1", unit: "Z1ee1-FFFFFF", type_flag: Integer, raw_unit: "Z1ee1-FFFFFF" } }
    ,-[$DIR/tests/recovery/unicode-range/input.css:2:1]
  1 | .class {
  2 |     unicode-range: U+1Z1ee1-FFFFFF;
@@ -173,7 +173,7 @@
    :                     ^^^^^^^^^^^^^^
  4 | }
    `----
-  x Dimension(DimensionToken { value: 10.0, raw_value: "+1e1", unit: "ee1-FFZFFF", type_flag: Number, raw_unit: "ee1-FFZFFF" })
+  x Dimension { dimension: DimensionToken { value: 10.0, raw_value: "+1e1", unit: "ee1-FFZFFF", type_flag: Number, raw_unit: "ee1-FFZFFF" } }
    ,-[$DIR/tests/recovery/unicode-range/input.css:3:1]
  2 |     unicode-range: U+1Z1ee1-FFFFFF;
  3 |     unicode-range: U+1e1ee1-FFZFFF;

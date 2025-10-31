@@ -14,6 +14,7 @@ bench = false
 [features]
 __rkyv        = []
 rkyv-impl     = ["__rkyv", "rkyv", "bytecheck", "rancor"]
+encoding-impl = ["cbor4ii"]
 shrink-to-fit = ["dep:shrink-to-fit"]
 
 [dependencies]
@@ -25,5 +26,6 @@ rancor        = { workspace = true, optional = true }
 rkyv          = { workspace = true, optional = true }
 serde         = { workspace = true }
 shrink-to-fit = { workspace = true, optional = true }
+cbor4ii = { workspace = true, features = [ "use_std" ], optional = true }
 
 hstr = { version = "3.0.1", path = "../hstr", features = ["serde"] }

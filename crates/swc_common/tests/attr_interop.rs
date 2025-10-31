@@ -13,7 +13,7 @@ pub struct Class {
 }
 
 #[ast_node("Tuple")]
-pub struct Tuple(#[span] HasSpan, usize, usize);
+pub struct Tuple(#[span] HasSpan, u64, u64);
 
 #[derive(Debug, Clone, PartialEq, Eq, Spanned, Serialize, Deserialize)]
 #[cfg_attr(
@@ -37,6 +37,10 @@ pub struct Tuple(#[span] HasSpan, usize, usize);
     ))
 )]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub struct HasSpan {
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub span: Span,

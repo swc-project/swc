@@ -129,6 +129,7 @@ resolver = "2"
 
   foldhash        = "0.1"
   precomputed-map = "0.2"
+  cbor4ii         = "1.2"
 
   [workspace.metadata.cargo-shear]
   # `serde` is used when #[ast_node] is expanded
