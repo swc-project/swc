@@ -10,7 +10,7 @@ use debug_unreachable::debug_unreachable;
 use crate::{
     macros::{get_hash, impl_from_alias, partial_eq},
     tagged_value::TaggedValue,
-    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    wtf8::Wtf8,
     Atom, DYNAMIC_TAG, INLINE_TAG, LEN_MASK, LEN_OFFSET, TAG_MASK,
 };
 
@@ -85,6 +85,7 @@ impl serde::ser::Serialize for Wtf8Atom {
     where
         S: serde::ser::Serializer,
     {
+        use crate::wtf8::Wtf8;
         fn convert_wtf8_to_raw(s: &Wtf8) -> String {
             let mut result = String::new();
             let mut iter = s.code_points().peekable();
@@ -125,6 +126,7 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
     where
         D: serde::Deserializer<'de>,
     {
+        use crate::wtf8::{CodePoint, Wtf8Buf};
         fn convert_wtf8_string_to_wtf8(s: String) -> Wtf8Buf {
             let mut iter = s.chars().peekable();
             let mut result = Wtf8Buf::with_capacity(s.len());

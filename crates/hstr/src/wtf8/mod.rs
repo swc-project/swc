@@ -775,7 +775,7 @@ impl Wtf8 {
     ///   surrogate pair as two separate 3-byte sequences.
     pub fn from_bytes(bytes: &[u8]) -> Result<&Wtf8, &[u8]> {
         if not_quite_std::validate_wtf8(bytes) {
-            Ok(unsafe { transmute(bytes) })
+            Ok(unsafe { transmute::<&[u8], &Wtf8>(bytes) })
         } else {
             Err(bytes)
         }
