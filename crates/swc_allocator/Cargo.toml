@@ -30,7 +30,7 @@ skip-warning = []
 
 
 [dependencies]
-allocator-api2 = { workspace = true, default-features = false }
+allocator-api2 = { workspace = true, default-features = true }
 bumpalo = { workspace = true, features = [
   "allocator-api2",
 ], default-features = false }
