@@ -1,9 +1,9 @@
-///<amd-module name='FirstModuleName'/>
-///<amd-module name='SecondModuleName'/>
-define("SecondModuleName", [
+define([
     "require"
 ], function(require) {
     "use strict";
+    ///<amd-module name='FirstModuleName'/>
+    ///<amd-module name='SecondModuleName'/>
     class Foo {
         x;
         constructor(){

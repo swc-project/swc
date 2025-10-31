@@ -6,8 +6,9 @@ export { };
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var _this = this;
+import { predom } from "./renderer2";
 export var MySFC = function(props) {
-    return React.createElement.apply(React, [
+    return predom.apply(void 0, [
         "p",
         null,
         props.x,
@@ -22,7 +23,7 @@ export var MyClass = /*#__PURE__*/ function() {
         _class_call_check(this, MyClass), this.props = props;
     }
     return MyClass.prototype.render = function() {
-        return React.createElement.apply(React, [
+        return predom.apply(void 0, [
             "p",
             null,
             this.props.x,
@@ -33,18 +34,19 @@ export var MyClass = /*#__PURE__*/ function() {
         ].concat(_to_consumable_array(this.props.children)));
     }, MyClass;
 }();
-export var tree = React.createElement(MySFC, {
+export var tree = predom(MySFC, {
     x: 1,
     y: 2
-}, React.createElement(MyClass, {
+}, predom(MyClass, {
     x: 3,
     y: 4
-}), React.createElement(MyClass, {
+}), predom(MyClass, {
     x: 5,
     y: 6
 }));
-export default React.createElement("h", null);
+export default predom("h", null);
 //// [index.tsx]
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_to_consumable_array";
+import "./renderer";
 import "./component";
