@@ -23,7 +23,7 @@ indexmap   = { workspace = true, default-features = false }
 is-macro   = { workspace = true, default-features = false }
 path-clean = { version = "1.0.1", default-features = false }
 pathdiff   = { workspace = true, default-features = false }
-regex      = { workspace = true, default-features = false }
+regex      = { workspace = true }
 rustc-hash = { workspace = true, default-features = false }
 serde      = { workspace = true, features = ["derive"], default-features = false }
 tracing    = { workspace = true, default-features = false }

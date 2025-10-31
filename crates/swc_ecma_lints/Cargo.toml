@@ -20,7 +20,7 @@ auto_impl   = { workspace = true, default-features = false }
 dashmap     = { workspace = true, default-features = false }
 par-core    = { workspace = true, default-features = false }
 parking_lot = { workspace = true, default-features = false }
-regex       = { workspace = true, default-features = false }
+regex       = { workspace = true }
 rustc-hash  = { workspace = true, default-features = false }
 serde       = { workspace = true, features = ["derive"], default-features = false }
 
