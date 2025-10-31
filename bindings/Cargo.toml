@@ -117,7 +117,7 @@ codegen-units = 1
     opt-level = 3
 
     [profile.release.package.swc_ecma_ast]
-    opt-level = 3
+    opt-level = "s"
 
     [profile.release.package.swc_ecma_transforms_base]
     opt-level = 3
