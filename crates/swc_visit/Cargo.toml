@@ -14,5 +14,5 @@ bench = false
 path = []
 
 [dependencies]
-either                = { workspace = true }
-new_debug_unreachable = { workspace = true }
+either                = { workspace = true, default-features = false }
+new_debug_unreachable = { workspace = true, default-features = false }

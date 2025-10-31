@@ -7,9 +7,12 @@ repository        = { workspace = true }
 version           = "0.1.0"
 
 [dependencies]
-anyhow         = { workspace = true }
-cargo_metadata = { workspace = true }
-changesets     = { workspace = true }
-clap           = { version = "4.5.9", features = ["derive"] }
-indexmap       = { workspace = true }
-petgraph       = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+cargo_metadata = { workspace = true, default-features = false }
+changesets = { workspace = true, default-features = false }
+clap = { version = "4.5.9", features = [
+    "derive",
+    "std",
+], default-features = false }
+indexmap = { workspace = true, default-features = false }
+petgraph = { workspace = true, default-features = false }

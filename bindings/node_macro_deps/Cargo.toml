@@ -12,4 +12,4 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-quote = { workspace = true }
+quote = { workspace = true, default-features = false }
