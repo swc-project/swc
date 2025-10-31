@@ -1,26 +1,23 @@
 //// [renderer.d.ts]
 export { };
 //// [preacty.tsx]
-Fragment;
-export { };
+import "./renderer";
 //// [snabbdomy.tsx]
+import "./renderer";
 React.Fragment;
-export { };
 //// [preacty-only-fragment.tsx]
-Fragment;
-export { };
+import "./renderer";
 //// [snabbdomy-only-fragment.tsx]
+import "./renderer";
 React.Fragment;
-export { };
 //// [preacty-only-fragment-no-jsx.tsx]
-Fragment;
-export { };
+import "./renderer";
 //// [snabbdomy-only-fragment-no-jsx.tsx]
 import "./renderer";
 React.Fragment;
 //// [preacty-no-fragment.tsx]
-export { };
+import "./renderer";
 //// [snabbdomy-no-fragment.tsx]
-export { };
+import "./renderer";
 //// [preacty-only-component.tsx]
-export { };
+import "./renderer";

@@ -1,8 +1,8 @@
-/*/<amd-module name='should-ignore'/> */ define([
+define([
     "require"
 ], function(require) {
     "use strict";
-    class Foo {
+    /*/<amd-module name='should-ignore'/> */ class Foo {
         x;
         constructor(){
             this.x = 5;
