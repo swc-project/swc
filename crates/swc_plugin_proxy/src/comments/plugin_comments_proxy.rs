@@ -6,7 +6,11 @@ use swc_common::{
 #[cfg(feature = "__plugin_mode")]
 use swc_trace_macro::swc_trace;
 
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
@@ -48,16 +52,7 @@ impl PluginCommentsProxy {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn allocate_comments_buffer_to_host<T>(&self, value: T)
     where
-        T: for<'a> rkyv::Serialize<
-            rancor::Strategy<
-                rkyv::ser::Serializer<
-                    rkyv::util::AlignedVec,
-                    rkyv::ser::allocator::ArenaHandle<'a>,
-                    rkyv::ser::sharing::Share,
-                >,
-                rancor::Error,
-            >,
-        >,
+        T: cbor4ii::core::enc::Encode,
     {
         #[cfg(target_arch = "wasm32")]
         {

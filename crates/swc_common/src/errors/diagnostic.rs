@@ -24,6 +24,10 @@ use crate::syntax_pos::{MultiSpan, Span};
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct Message(pub String, pub Style);
 
 #[must_use]
@@ -38,6 +42,10 @@ pub struct Message(pub String, pub Style);
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 /// Represents a diagnostic message with its level, message, unique identifier,
 /// span, children, and suggestions.
 pub struct Diagnostic {
@@ -47,6 +55,10 @@ pub struct Diagnostic {
     pub message: Vec<Message>,
     /// A unique identifier for the diagnostic, which can be used to look up
     /// more information
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub code: Option<DiagnosticId>,
     /// The span of the source code where the diagnostic is located
     pub span: MultiSpan,
@@ -67,6 +79,10 @@ pub struct Diagnostic {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub enum DiagnosticId {
     Error(String),
     Lint(String),
@@ -84,10 +100,18 @@ pub enum DiagnosticId {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct SubDiagnostic {
     pub level: Level,
     pub message: Vec<Message>,
     pub span: MultiSpan,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub render_span: Option<MultiSpan>,
 }
 
