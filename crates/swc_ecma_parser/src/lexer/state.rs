@@ -34,7 +34,6 @@ pub struct State {
     /// TODO: Remove this field.
     is_first: bool,
     pub next_regexp: Option<BytePos>,
-    pub start: BytePos,
     pub prev_hi: BytePos,
 
     pub(super) token_value: Option<TokenValue>,
@@ -392,14 +391,6 @@ impl Lexer<'_> {
             return Ok(Token::Eof);
         }
 
-        // println!(
-        //     "\tContext: ({:?}) {:?}",
-        //     self.input.cur().unwrap(),
-        //     self.state.context.0
-        // );
-
-        self.state.start = *start;
-
         self.read_token()
     }
 
@@ -499,8 +490,6 @@ impl Lexer<'_> {
             value: value.into(),
         });
 
-        self.state.start = start;
-
         Ok(Token::JSXText)
     }
 
@@ -587,7 +576,6 @@ impl State {
             had_line_break: false,
             is_first: true,
             next_regexp: None,
-            start: BytePos(0),
             prev_hi: start_pos,
             token_value: None,
             token_type: None,
@@ -623,11 +611,6 @@ impl State {
     #[inline(always)]
     pub fn prev_hi(&self) -> BytePos {
         self.prev_hi
-    }
-
-    #[inline(always)]
-    pub fn start(&self) -> BytePos {
-        self.start
     }
 
     pub fn can_have_trailing_line_comment(&self) -> bool {
