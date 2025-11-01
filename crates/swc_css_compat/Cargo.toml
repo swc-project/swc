@@ -13,8 +13,8 @@ version       = "16.0.0"
 bench = false
 
 [dependencies]
-bitflags   = { workspace = true }
-serde      = { workspace = true, features = ["derive"] }
+bitflags = { workspace = true }
+serde    = { workspace = true, features = ["derive"] }
 
 swc_atoms     = { version = "8.0.2", path = "../swc_atoms" }
 swc_common    = { version = "16.0.0", path = "../swc_common" }

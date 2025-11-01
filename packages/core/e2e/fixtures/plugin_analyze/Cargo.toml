@@ -14,4 +14,6 @@ serde = "1.0.140"
 # Intentionally referencing published version, known to not contain new AST struct changes.
 # Be careful to change this dependency version. Unless there isn't explicit reason to do so,
 # do not change.
-swc_core = { path = "../../../../../crates/swc_core",features = ["ecma_plugin_transform"] }
+swc_core = { path = "../../../../../crates/swc_core", features = [
+  "ecma_plugin_transform",
+] }

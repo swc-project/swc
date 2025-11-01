@@ -8,9 +8,9 @@ name          = "swc_plugin"
 repository    = { workspace = true }
 version       = "1.0.1"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false

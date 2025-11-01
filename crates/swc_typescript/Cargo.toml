@@ -12,7 +12,7 @@ version       = "22.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-bitflags = {workspace = true }
+bitflags   = { workspace = true }
 petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
 

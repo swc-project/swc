@@ -12,19 +12,16 @@ bench = false
 name  = "dbg-swc"
 
 [dependencies]
-anyhow             = { workspace = true }
-clap               = { version = "3", features = ["derive"] }
-dialoguer          = { workspace = true }
-flate2             = { workspace = true }
-par-core           = { workspace = true, features = ["chili"] }
-par-iter           = { workspace = true }
-rayon              = { workspace = true }
-serde              = { workspace = true }
-serde_json         = { workspace = true }
-sha1               = { workspace = true }
-tempfile           = { workspace = true }
-tracing            = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
+anyhow = { workspace = true }
+clap = { version = "3", features = ["derive"] }
+dialoguer = { workspace = true }
+flate2 = { workspace = true }
+par-core = { workspace = true, features = ["chili"] }
+par-iter = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha1 = { workspace = true }
 swc_common = { version = "16.0.0", features = [
   "concurrent",
   "tty-emitter",
@@ -39,3 +36,6 @@ swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "18.0.0", path = "../swc_error_reporters" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
+tempfile = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }

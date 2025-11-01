@@ -15,9 +15,9 @@ proc-macro = true
 [dependencies]
 quote             = { workspace = true }
 swc_macros_common = { version = "1.0.1", path = "../swc_macros_common" }
-  [dependencies.syn]
-  features  = ["full", "parsing", "printing", "extra-traits"]
-  workspace = true
+[dependencies.syn]
+features  = ["full", "parsing", "printing", "extra-traits"]
+workspace = true
 
 [dev-dependencies]
 serde = { workspace = true }

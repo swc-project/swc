@@ -12,15 +12,13 @@ version       = "32.0.0"
 bench = false
 
 [dependencies]
-ansi_term     = { workspace = true }
-anyhow        = { workspace = true }
-base64        = { workspace = true }
-hex           = { workspace = true }
-serde         = { workspace = true }
-serde_json    = { workspace = true }
-sha2          = { workspace = true }
-swc_sourcemap = { workspace = true }
-tempfile      = { workspace = true }
+ansi_term = { workspace = true }
+anyhow = { workspace = true }
+base64 = { workspace = true }
+hex = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
@@ -31,4 +29,6 @@ swc_ecma_testing = { version = "17.0.0", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit" }
+swc_sourcemap = { workspace = true }
+tempfile = { workspace = true }
 testing = { version = "17.0.0", path = "../testing" }

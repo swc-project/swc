@@ -12,17 +12,21 @@ version       = "0.5.0"
 bench = false
 
 [features]
-__rkyv     = []
-default    = []
-rkyv-impl  = []
+__rkyv = []
+default = []
+encoding-impl = [
+  "cbor4ii",
+  "swc_atoms/encoding-impl",
+  "swc_common/encoding-impl",
+]
+rkyv-impl = []
 serde-impl = ["serde"]
-encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl", "swc_common/encoding-impl"]
 
 [dependencies]
-bitflags  = { workspace = true }
-is-macro  = { workspace = true }
-serde     = { workspace = true, features = ["derive"], optional = true }
-cbor4ii = { workspace = true, features = [ "use_std" ], optional = true }
+bitflags = { workspace = true }
+cbor4ii  = { workspace = true, features = ["use_std"], optional = true }
+is-macro = { workspace = true }
+serde    = { workspace = true, features = ["derive"], optional = true }
 
 swc_atoms              = { version = "8.0.2", path = "../swc_atoms" }
 swc_common             = { version = "16.0.0", path = "../swc_common" }

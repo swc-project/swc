@@ -31,18 +31,20 @@ swc_config = { version = "3.1.2", path = "../swc_config" }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_minifier = { version = "35.0.0", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
+swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 
-  [dependencies.napi-derive]
-  default-features = false
-  features         = ["type-def"]
-  optional         = true
-  workspace        = true
+[dependencies.napi-derive]
+default-features = false
+features         = ["type-def"]
+optional         = true
+workspace        = true
 
-  [dependencies.napi]
-  default-features = false
-  features         = ["napi3"]
-  optional         = true
-  workspace        = true
+[dependencies.napi]
+default-features = false
+features         = ["napi3"]
+optional         = true
+workspace        = true
