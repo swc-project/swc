@@ -46,5 +46,5 @@ swc_core = { path = "../../crates/swc_core", features = [
 tracing = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 
-  [package.metadata.wasm-pack.profile.release]
-  wasm-opt = false
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

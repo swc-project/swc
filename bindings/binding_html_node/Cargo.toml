@@ -26,7 +26,7 @@ serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 swc_atoms = { path = "../../crates/swc_atoms" }
 swc_common = { path = "../../crates/swc_common", features = [
-    "diagnostic-serde",
+  "diagnostic-serde",
 ] }
 swc_config = { path = "../../crates/swc_config", features = ["regex"] }
 swc_css_ast = { path = "../../crates/swc_css_ast" }
@@ -37,7 +37,7 @@ swc_error_reporters = { path = "../../crates/swc_error_reporters" }
 swc_html = { path = "../../crates/swc_html" }
 swc_html_ast = { path = "../../crates/swc_html_ast", features = ["serde"] }
 swc_html_minifier = { path = "../../crates/swc_html_minifier", features = [
-    "custom-css-minifier",
+  "custom-css-minifier",
 ] }
 swc_nodejs_common = { path = "../../crates/swc_nodejs_common" }
 tracing = { workspace = true, features = ["release_max_level_info"] }
