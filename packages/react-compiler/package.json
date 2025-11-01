@@ -46,8 +46,8 @@
     "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
     "pack": "wasm-pack",
     "build:ts": "tsc -d",
-    "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_react_compiler_node --output-dir . --release",
-    "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_react_compiler_node --output-dir .",
+    "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir . --release",
+    "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .",
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
     "version": "napi version --npm-dir scripts/npm"
   },
