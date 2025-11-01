@@ -381,10 +381,10 @@ function f4() {
     })();
 }
 //// [file5.ts]
-// https://github.com/Microsoft/TypeScript/issues/21363
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+// https://github.com/Microsoft/TypeScript/issues/21363
 function f5() {
     return _async_to_generator(function() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, err;
@@ -478,11 +478,11 @@ function f5() {
     })();
 }
 //// [file6.ts]
-// https://github.com/Microsoft/TypeScript/issues/21363
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+// https://github.com/Microsoft/TypeScript/issues/21363
 function f6() {
     return _wrap_async_generator(function() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, err;
@@ -576,11 +576,11 @@ function f6() {
     })();
 }
 //// [file7.ts]
-// https://github.com/microsoft/TypeScript/issues/36166
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+// https://github.com/microsoft/TypeScript/issues/36166
 function f7() {
     return _wrap_async_generator(function() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, err;

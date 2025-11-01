@@ -1,9 +1,9 @@
 //// [test.js]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /** @typedef {{
     status: 'done'
     m(n: number): void
 }} DoneStatus */ // property assignment
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var ns = {};
 /** @type {DoneStatus} */ ns.x = {
     status: 'done',

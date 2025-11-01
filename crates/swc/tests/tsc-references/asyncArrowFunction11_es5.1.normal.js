@@ -1,9 +1,9 @@
 //// [asyncArrowFunction11_es5.ts]
-// https://github.com/Microsoft/TypeScript/issues/24722
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+// https://github.com/Microsoft/TypeScript/issues/24722
 var A = function A() {
     "use strict";
     var _this = this;

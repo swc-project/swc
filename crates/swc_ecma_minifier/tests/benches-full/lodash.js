@@ -1,11 +1,4 @@
-/**
- * @license
- * Lodash <https://lodash.com/>
- * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */ (function() {
+(function() {
     /** Error message constants. */ var undefined, FUNC_ERROR_TEXT = 'Expected a function', HASH_UNDEFINED = '__lodash_hash_undefined__', PLACEHOLDER = '__lodash_placeholder__', INFINITY = 1 / 0, NAN = 0 / 0, wrapFlags = [
         [
             'ary',

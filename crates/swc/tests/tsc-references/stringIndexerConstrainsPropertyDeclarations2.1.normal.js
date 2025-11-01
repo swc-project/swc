@@ -1,8 +1,8 @@
 //// [stringIndexerConstrainsPropertyDeclarations2.ts]
-// String indexer providing a constraint of a user defined type
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// String indexer providing a constraint of a user defined type
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {

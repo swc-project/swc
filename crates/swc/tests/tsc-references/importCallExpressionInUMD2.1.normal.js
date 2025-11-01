@@ -23,7 +23,6 @@
     }
 });
 //// [2.ts]
-// We use Promise<any> for now as there is no way to specify shape of module object
 (function(global, factory) {
     if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_interop_require_wildcard"));
     else if (typeof define === "function" && define.amd) define([
@@ -36,6 +35,7 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    // We use Promise<any> for now as there is no way to specify shape of module object
     function foo(x) {
         x.then((value)=>{
             let b = new value.B();

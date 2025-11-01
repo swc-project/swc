@@ -1,6 +1,6 @@
 //// [invalidImportAliasIdentifiers.ts]
-// none of these should work, since non are actually modules
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// none of these should work, since non are actually modules
 var V = 12;
 var C = function C() {
     "use strict";

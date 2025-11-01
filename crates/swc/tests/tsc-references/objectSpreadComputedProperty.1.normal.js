@@ -1,8 +1,8 @@
 //// [objectSpreadComputedProperty.ts]
-// fixes #12200
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
+// fixes #12200
 function f() {
     var n = 12;
     var m = 13;

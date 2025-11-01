@@ -1,5 +1,4 @@
 //// [twoInterfacesDifferentRootModule.ts]
-// two interfaces with different root modules should not merge
 (function(M2) {
     var a;
     var r1 = a.foo; // error

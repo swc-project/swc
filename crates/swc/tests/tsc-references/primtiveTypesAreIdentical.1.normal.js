@@ -1,5 +1,4 @@
 //// [primtiveTypesAreIdentical.ts]
-// primitive types are identical to themselves so these overloads will all cause errors
 function foo1(x) {}
 function foo2(x) {}
 function foo3(x) {}

@@ -1,6 +1,6 @@
 //// [conditionalOperatorConditoinIsStringType.ts]
-//Cond ? Expr1 : Expr2,  Cond is of string type, Expr1 and Expr2 have the same type
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
+//Cond ? Expr1 : Expr2,  Cond is of string type, Expr1 and Expr2 have the same type
 var condString;
 var exprAny1;
 var exprBoolean1;

@@ -1,6 +1,6 @@
 //// [missingAndExcessProperties.ts]
-// Missing properties
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+// Missing properties
 function f1() {
     var _ref = {}, x = _ref.x, y = _ref.y;
     var _ref1 = {}, _ref_x = _ref1.x, x = _ref_x === void 0 ? 1 : _ref_x, y = _ref1.y;

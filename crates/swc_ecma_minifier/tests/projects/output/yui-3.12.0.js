@@ -1,17 +1,4 @@
-/*
-YUI 3.12.0 (build 8655935)
-Copyright 2013 Yahoo! Inc. All rights reserved.
-Licensed under the BSD License.
-http://yuilibrary.com/license/
-*/ /**
-The YUI module contains the components required for building the YUI seed file.
-This includes the script loading mechanism, a simple queue, and the core
-utilities for the library.
-
-@module yui
-@main yui
-@submodule yui-base
-**/ /*jshint eqeqeq: false*/ void 0 !== YUI && (YUI._YUI = YUI);
+void 0 !== YUI && (YUI._YUI = YUI);
 /**
 The YUI global namespace object. This is the constructor for all YUI instances.
 
