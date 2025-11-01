@@ -48,11 +48,11 @@ serde                    = { workspace = true, features = ["derive"], optional =
 serde-wasm-bindgen       = { workspace = true, optional = true }
 
 
-  [dependencies.wasm-bindgen]
-  features  = ["enable-interning"]
-  optional  = true
-  workspace = true
+[dependencies.wasm-bindgen]
+features  = ["enable-interning"]
+optional  = true
+workspace = true
 
-  [dependencies.wasm-bindgen-futures]
-  optional  = true
-  workspace = true
+[dependencies.wasm-bindgen-futures]
+optional  = true
+workspace = true

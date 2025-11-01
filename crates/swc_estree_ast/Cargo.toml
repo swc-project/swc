@@ -11,8 +11,8 @@ name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"
 version = "16.0.0"
 
-  [package.metadata.docs.rs]
-  all-features = true
+[package.metadata.docs.rs]
+all-features = true
 
 [lib]
 bench = false

@@ -34,12 +34,12 @@ vergen = { workspace = true, features = ["build", "cargo"] }
 
 
 [dependencies]
-anyhow       = { workspace = true }
-parking_lot  = { workspace = true }
-rustc-hash   = { workspace = true }
-serde        = { workspace = true, features = ["derive"] }
-serde_json   = { workspace = true }
-tracing      = { workspace = true }
+anyhow      = { workspace = true }
+parking_lot = { workspace = true }
+rustc-hash  = { workspace = true }
+serde       = { workspace = true, features = ["derive"] }
+serde_json  = { workspace = true }
+tracing     = { workspace = true }
 
 swc_atoms = { version = "8.0.2", path = '../swc_atoms' }
 swc_common = { version = "16.0.0", path = "../swc_common", features = [
@@ -55,7 +55,4 @@ blake3 = { workspace = true, optional = true }
 
 [package.metadata.cargo-shear]
 # ignored, as they are only used to enable features
-ignored = [
-  "swc_ecma_ast",
-  "swc_css_ast",
-]
+ignored = ["swc_ecma_ast", "swc_css_ast"]

@@ -7,24 +7,24 @@ license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
 version       = "46.0.3"
-  [package.metadata.docs.rs]
-  features = [
-    "allocator_node",
-    "base",
-    "base_node",
-    "common",
-    "ecma_visit",
-    "quote",
-    "utils",
-    "ecma_transforms",
-    "bundler",
-    "ecma_loader",
-    "ecma_ast",
-    "trace_macro",
-    "transform_common",
-    "plugin_transform",
-  ]
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+features = [
+  "allocator_node",
+  "base",
+  "base_node",
+  "common",
+  "ecma_visit",
+  "quote",
+  "utils",
+  "ecma_transforms",
+  "bundler",
+  "ecma_loader",
+  "ecma_ast",
+  "trace_macro",
+  "transform_common",
+  "plugin_transform",
+]
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench   = false
@@ -307,8 +307,8 @@ __plugin_transform_host = [
 ]
 
 # Internal flags to control plugin environment
+__plugin_transform_env_js     = ["swc/plugin_transform_host_js"]
 __plugin_transform_env_native = ["swc/plugin_transform_host_native"]
-__plugin_transform_env_js = ["swc/plugin_transform_host_js"]
 
 # Do not use: testing purpose only
 # Force enable different version of AST schema

@@ -9,9 +9,9 @@ name          = "swc_ecma_parser"
 repository    = { workspace = true }
 version       = "26.0.1"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
@@ -52,6 +52,7 @@ pretty_assertions = { workspace = true }
 serde_json        = { workspace = true }
 walkdir           = { workspace = true }
 
+cbor4ii = { workspace = true, features = ["use_std"] }
 codspeed-criterion-compat = { workspace = true }
 swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
@@ -60,7 +61,6 @@ swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
 swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "17.0.0", path = "../testing" }
-cbor4ii = { workspace = true, features = [ "use_std" ] }
 
 [[example]]
 name = "typescript"

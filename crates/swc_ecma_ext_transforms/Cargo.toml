@@ -12,7 +12,7 @@ version       = "23.0.0"
 bench = false
 
 [dependencies]
-phf = { workspace = true, features = ["macros"] }
+phf            = { workspace = true, features = ["macros"] }
 swc_common     = { version = "16.0.0", path = "../swc_common" }
 swc_ecma_ast   = { version = "17.0.0", path = "../swc_ecma_ast" }
 swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils" }

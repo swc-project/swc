@@ -8,9 +8,9 @@ repository    = { workspace = true }
 version       = "10.0.0"
 
 
-    [package.metadata.docs.rs]
-    all-features = true
-    rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 swc_common     = { version = "16.0.0", path = "../swc_common" }

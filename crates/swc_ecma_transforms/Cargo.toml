@@ -9,9 +9,9 @@ name          = "swc_ecma_transforms"
 repository    = { workspace = true }
 version       = "37.0.0"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false

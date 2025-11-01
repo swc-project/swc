@@ -28,4 +28,4 @@ swc_ecma_regexp_visit  = { version = "0.5.0", path = "../swc_ecma_regexp_visit" 
 
 
 [dev-dependencies]
-serde      = { workspace = true }
+serde = { workspace = true }

@@ -16,5 +16,5 @@ syn         = { workspace = true, features = ["full", "visit-mut", "extra-traits
 walkdir     = { workspace = true }
 
 swc_config = { version = "3.1.2", path = "../../crates/swc_config", features = [
-    "regex",
+  "regex",
 ] }
