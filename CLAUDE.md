@@ -6,3 +6,4 @@
 6. When instructed to fix tests, do not remove or modify existing tests.
 7. Write documentation for your code.
 8. Run `cargo fmt --all` before commiting files.
+9. Place all import statements at the top of the file for consistency. Do not use inline `use` statements within functions or impl blocks.

@@ -1,4 +1,4 @@
-function g(x, v) {
+function g(x) {
     if ("a" === x) {
         let h;
         h = i({

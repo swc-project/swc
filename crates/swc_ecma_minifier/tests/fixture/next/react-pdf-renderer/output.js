@@ -21785,10 +21785,11 @@
                     function o(e) {
                         var t = this;
                         this.next = null, this.entry = null, this.finish = function() {
-                            var r = t.entry;
-                            for(t.entry = null; r;){
-                                var n = r.callback;
-                                e.pendingcb--, n(void 0), r = r.next;
+                            let r;
+                            var n = t.entry;
+                            for(t.entry = null; n;){
+                                var i = n.callback;
+                                e.pendingcb--, i(r), n = n.next;
                             }
                             e.corkedRequestsFree.next = t;
                         };

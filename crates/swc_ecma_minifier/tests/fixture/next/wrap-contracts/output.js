@@ -19850,7 +19850,8 @@
                         function endWritable(e, t, r) {
                             t.ending = !0, finishMaybe(e, t), r && (t.finished ? process.nextTick(r) : e.once("finish", r)), t.ended = !0, e.writable = !1;
                         }
-                        function onCorkedFinish(e, t, r) {
+                        function onCorkedFinish(e, t) {
+                            let r;
                             var n = e.entry;
                             for(e.entry = null; n;){
                                 var i = n.callback;

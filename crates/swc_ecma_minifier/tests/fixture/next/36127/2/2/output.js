@@ -3,14 +3,14 @@
  *
  * @param {RegExp} regex
  * @returns {(code: Code) => code is number}
- */ function regexCheck(regex) {
+ */ function regexCheck() {
     return(/**
      * Check whether a code matches the bound regex.
      *
      * @param {Code} code Character code
      * @returns {code is number} Whether the character code matches the bound regex
      */ function(code) {
-        return null !== code && regex.test(String.fromCharCode(code));
+        return null !== code && "Foo".test(String.fromCharCode(code));
     });
 }
-console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo")), console.log(regexCheck("Foo"));
+console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck()), console.log(regexCheck());

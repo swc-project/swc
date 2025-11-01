@@ -24320,9 +24320,10 @@
                     this.trigger("dispose"), this.pendingTimelineChanges_ = {}, this.lastTimelineChanges_ = {}, this.off();
                 }, TimelineChangeController;
             }(videojs.EventTarget), Decrypter = factory(transform(getWorkerString(function() {
-                function createCommonjsModule(fn, basedir, module) {
+                function createCommonjsModule(fn) {
+                    let module;
                     return fn(module = {
-                        path: basedir,
+                        path: void 0,
                         exports: {},
                         require: function(path, base) {
                             throw null == base && module.path, Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
