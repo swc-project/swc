@@ -32,14 +32,16 @@ tracing-futures    = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 
-swc_compiler_base = { workspace = true, features = ["node"] }
-swc_config = { workspace = true }
-swc_core = { workspace = true, features = [
+swc_compiler_base = { path = "../../crates/swc_compiler_base", features = [
+  "node",
+] }
+swc_config = { path = "../../crates/swc_config" }
+swc_core = { path = "../../crates/swc_core", features = [
   "allocator_node",
   "common_sourcemap",
   "ecma_ast",
   "ecma_parser",
 ] }
-swc_ecma_react_compiler = { workspace = true }
-swc_malloc = { workspace = true }
-swc_nodejs_common = { workspace = true }
+swc_ecma_react_compiler = { path = "../../crates/swc_ecma_react_compiler" }
+swc_malloc = { path = "../../crates/swc_malloc" }
+swc_nodejs_common = { path = "../../crates/swc_nodejs_common" }
