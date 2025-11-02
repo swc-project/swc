@@ -41,4 +41,3 @@ swc_html_minifier = { path = "../../crates/swc_html_minifier", features = [
 ] }
 swc_nodejs_common = { path = "../../crates/swc_nodejs_common" }
 tracing = { workspace = true, features = ["release_max_level_info"] }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }

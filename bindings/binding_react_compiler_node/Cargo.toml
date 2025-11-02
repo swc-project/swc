@@ -20,7 +20,6 @@ backtrace     = { workspace = true }
 napi          = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive   = { workspace = true, features = ["type-def"] }
 serde         = { workspace = true, features = ["derive"] }
-swc_sourcemap = { workspace = true }
 tracing       = { workspace = true, features = ["release_max_level_info"] }
 
 

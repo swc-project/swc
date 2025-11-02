@@ -368,7 +368,6 @@ dependencies = [
  "napi",
  "napi-build",
  "napi-derive",
- "node_macro_deps",
  "par-core",
  "path-clean 1.0.1",
  "rustc-hash 2.1.1",
@@ -378,7 +377,6 @@ dependencies = [
  "swc_malloc",
  "tracing",
  "tracing-chrome",
- "tracing-futures",
  "tracing-subscriber",
 ]
 
@@ -386,10 +384,7 @@ dependencies = [
 name = "binding_core_wasm"
 version = "1.14.0"
 dependencies = [
- "anyhow",
- "getrandom 0.3.4",
  "serde",
- "serde-wasm-bindgen",
  "swc_core",
  "tracing",
  "wasm-bindgen",
@@ -429,7 +424,6 @@ dependencies = [
  "swc_html_minifier",
  "swc_nodejs_common",
  "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -460,22 +454,16 @@ dependencies = [
  "napi",
  "napi-build",
  "napi-derive",
- "node_macro_deps",
  "par-core",
- "path-clean 1.0.1",
- "rustc-hash 2.1.1",
  "serde",
- "serde_json",
  "swc_compiler_base",
  "swc_config",
  "swc_core",
  "swc_error_reporters",
  "swc_malloc",
  "swc_nodejs_common",
- "swc_sourcemap",
  "tracing",
  "tracing-chrome",
- "tracing-futures",
  "tracing-subscriber",
 ]
 
@@ -483,10 +471,8 @@ dependencies = [
 name = "binding_minifier_wasm"
 version = "1.14.0"
 dependencies = [
- "anyhow",
  "getrandom 0.3.4",
  "serde",
- "serde-wasm-bindgen",
  "swc_core",
  "tracing",
  "wasm-bindgen",
@@ -504,7 +490,6 @@ dependencies = [
  "swc_core",
  "swc_ecma_react_compiler",
  "swc_malloc",
- "swc_sourcemap",
  "tracing",
 ]
 
@@ -513,13 +498,11 @@ name = "binding_typescript_wasm"
 version = "1.14.0"
 dependencies = [
  "anyhow",
- "getrandom 0.3.4",
  "js-sys",
  "miette",
  "owo-colors",
  "serde",
  "serde-wasm-bindgen",
- "serde_json",
  "swc_common",
  "swc_error_reporters",
  "swc_ts_fast_strip",
@@ -3571,13 +3554,6 @@ dependencies = [
  "cfg-if",
  "cfg_aliases",
  "libc",
-]
-
-[[package]]
-name = "node_macro_deps"
-version = "0.1.0"
-dependencies = [
- "quote",
 ]
 
 [[package]]
@@ -7621,16 +7597,6 @@ checksum = "e672c95779cf947c5311f83787af4fa8fffd12fb27e4993211a84bdfd9610f9c"
 dependencies = [
  "once_cell",
  "valuable",
-]
-
-[[package]]
-name = "tracing-futures"
-version = "0.2.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97d095ae15e245a057c8e8451bab9b3ee1e1f68e9ba2b4fbc18d0ac5237835f2"
-dependencies = [
- "pin-project",
- "tracing",
 ]
 
 [[package]]

@@ -17,13 +17,11 @@ nightly = ["swc_ts_fast_strip/nightly"]
 
 [dependencies]
 anyhow = { workspace = true }
-getrandom = { workspace = true, features = ["wasm_js"] }
 js-sys = { workspace = true }
 miette = { workspace = true }
 owo-colors = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
-serde_json = { workspace = true }
 swc_common = { path = "../../crates/swc_common" }
 swc_error_reporters = { path = "../../crates/swc_error_reporters" }
 swc_ts_fast_strip = { path = "../../crates/swc_ts_fast_strip", features = [
