@@ -72,7 +72,7 @@ pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> 
         let line_count = output.lines().count();
 
         if line_count == 0 {
-            bail!("swc_core@v{} is not found in the repository", version);
+            bail!("swc_core@v{version} is not found in the repository");
         }
 
         let iter: Box<dyn Iterator<Item = &str>> = if last {
@@ -91,7 +91,7 @@ pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> 
             }
         }
 
-        bail!("swc_core@v{} is not found in the repository", version);
+        bail!("swc_core@v{version} is not found in the repository");
     })
     .with_context(|| format!("failed to get the commit for swc_core@v{version}"))
 }
