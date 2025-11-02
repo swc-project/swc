@@ -1,0 +1,70 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 107
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 107
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 107
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 17
+            },
+            "ctxt": 0,
+            "value": "coverageData",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 20,
+              "end": 107
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 26,
+                    "end": 30
+                  },
+                  "value": "path"
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 32,
+                    "end": 101
+                  },
+                  "value": "C:\\github\\swc-plugin-coverage-instrument\\spec\\util\\verifier.ts",
+                  "raw": "\"C:\\\\github\\\\swc-plugin-coverage-instrument\\\\spec\\\\util\\\\verifier.ts\""
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
