@@ -15,7 +15,7 @@ fn main() {
 
     // Check if file exists
     if !Path::new(file_path).exists() {
-        eprintln!("Error: File '{}' does not exist", file_path);
+        eprintln!("Error: File '{file_path}' does not exist");
         std::process::exit(1);
     }
 
@@ -23,7 +23,7 @@ fn main() {
     let content = match fs::read_to_string(file_path) {
         Ok(content) => content,
         Err(err) => {
-            eprintln!("Error: Cannot read file '{}': {}", file_path, err);
+            eprintln!("Error: Cannot read file '{file_path}': {err}");
             std::process::exit(1);
         }
     };
@@ -45,7 +45,7 @@ fn main() {
             println!("{}", results[1]);
         }
         Err(err) => {
-            eprintln!("Parse error: {}", err);
+            eprintln!("Parse error: {err}");
             std::process::exit(1);
         }
     }

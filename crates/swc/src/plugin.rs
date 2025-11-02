@@ -236,7 +236,7 @@ pub(crate) fn compile_wasm_plugins(
             let path = if let FileName::Real(value) = resolved_path.filename {
                 value
             } else {
-                anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
+                anyhow::bail!("Failed to resolve plugin path: {resolved_path:?}");
             };
 
             inner_cache.store_bytes_from_path(plugin_runtime, &path, plugin_name)?;

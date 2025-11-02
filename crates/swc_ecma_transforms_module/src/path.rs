@@ -284,7 +284,7 @@ where
         let mut base = match base {
             FileName::Real(v) => Cow::Borrowed(
                 v.parent()
-                    .ok_or_else(|| anyhow!("failed to get parent of {:?}", v))?,
+                    .ok_or_else(|| anyhow!("failed to get parent of {v:?}"))?,
             ),
             FileName::Anon => match &self.config.base_dir {
                 Some(v) => Cow::Borrowed(&**v),

@@ -100,7 +100,7 @@ fn minify(
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
     let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().map(|s| (*s).clone()));
+        .with_mangle_name_cache(extras.mangle_name_cache.map(|s| (*s).clone()));
 
     let c = get_fresh_compiler();
 
@@ -134,7 +134,7 @@ pub fn minify_sync(
     };
     let opts = get_deserialized(opts)?;
     let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().map(|s| (*s).clone()));
+        .with_mangle_name_cache(extras.mangle_name_cache.map(|s| (*s).clone()));
 
     let c = get_fresh_compiler();
 

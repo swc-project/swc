@@ -78,11 +78,10 @@ impl PluginTransformState {
             let err: PluginError = ret.deserialize()?.into_inner();
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
-                    "Failed to convert pointer size to calculate: {}",
-                    msg
+                    "Failed to convert pointer size to calculate: {msg}"
                 )),
                 PluginError::Deserialize(msg) | PluginError::Serialize(msg) => {
-                    Err(anyhow!("{}", msg))
+                    Err(anyhow!("{msg}"))
                 }
                 _ => Err(anyhow!(
                     "Unexpected error occurred while running plugin transform"
