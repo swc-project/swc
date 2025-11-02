@@ -16,26 +16,14 @@ crate-type = ["cdylib"]
 napi-build = { workspace = true }
 
 [dependencies]
-anyhow             = { workspace = true }
-backtrace          = { workspace = true }
-napi               = { workspace = true, features = ["napi3", "serde-json"] }
-napi-derive        = { workspace = true, features = ["type-def"] }
-node_macro_deps    = { path = "../node_macro_deps" }
-path-clean         = { workspace = true }
-rustc-hash         = { workspace = true }
-serde              = { workspace = true, features = ["derive"] }
-serde_json         = { workspace = true, features = ["unbounded_depth"] }
-swc_sourcemap      = { workspace = true }
-tracing            = { workspace = true, features = ["release_max_level_info"] }
-tracing-chrome     = { workspace = true }
-tracing-futures    = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
+backtrace     = { workspace = true }
+napi          = { workspace = true, features = ["napi3", "serde-json"] }
+napi-derive   = { workspace = true, features = ["type-def"] }
+serde         = { workspace = true, features = ["derive"] }
+swc_sourcemap = { workspace = true }
+tracing       = { workspace = true, features = ["release_max_level_info"] }
 
 
-swc_compiler_base = { path = "../../crates/swc_compiler_base", features = [
-  "node",
-] }
-swc_config = { path = "../../crates/swc_config" }
 swc_core = { path = "../../crates/swc_core", features = [
   "allocator_node",
   "common_sourcemap",
@@ -44,4 +32,3 @@ swc_core = { path = "../../crates/swc_core", features = [
 ] }
 swc_ecma_react_compiler = { path = "../../crates/swc_ecma_react_compiler" }
 swc_malloc = { path = "../../crates/swc_malloc" }
-swc_nodejs_common = { path = "../../crates/swc_nodejs_common" }

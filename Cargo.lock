@@ -496,27 +496,16 @@ dependencies = [
 name = "binding_react_compiler_node"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "backtrace",
  "napi",
  "napi-build",
  "napi-derive",
- "node_macro_deps",
- "path-clean 1.0.1",
- "rustc-hash 2.1.1",
  "serde",
- "serde_json",
- "swc_compiler_base",
- "swc_config",
  "swc_core",
  "swc_ecma_react_compiler",
  "swc_malloc",
- "swc_nodejs_common",
  "swc_sourcemap",
  "tracing",
- "tracing-chrome",
- "tracing-futures",
- "tracing-subscriber",
 ]
 
 [[package]]
