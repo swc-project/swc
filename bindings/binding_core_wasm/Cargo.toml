@@ -34,6 +34,7 @@ plugin = []
 anyhow = { workspace = true }
 getrandom = { workspace = true, features = ["wasm_js"] }
 serde = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true }
 swc_core = { path = "../../crates/swc_core", features = [
   "ecma_ast_serde",
   "ecma_codegen",
@@ -50,4 +51,4 @@ wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 
   [package.metadata.cargo-shear]
   # ignored, as they are only used to enable features
-  ignored = ["getrandom", "anyhow"]
+  ignored = ["getrandom", "anyhow", "serde-wasm-bindgen"]
