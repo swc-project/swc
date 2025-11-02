@@ -113,7 +113,7 @@ pub fn targets_to_versions(
                     .clone()
                     .into_os_string()
                     .into_string()
-                    .map_err(|_| anyhow!("Invalid path \"{:?}\"", path))?
+                    .map_err(|_| anyhow!("Invalid path \"{path:?}\""))?
                     .into();
             }
             let distribs = browserslist::execute(&browserslist_opts)

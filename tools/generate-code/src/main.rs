@@ -208,7 +208,7 @@ fn run_cargo_fmt(file: &Path) -> Result<()> {
     let status = cmd.status().context("failed to run cargo fmt")?;
 
     if !status.success() {
-        bail!("cargo fmt failed with status: {:?}", status);
+        bail!("cargo fmt failed with status: {status:?}");
     }
 
     Ok(())

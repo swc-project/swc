@@ -43,8 +43,8 @@
         "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
         "build:ts": "tsc -d",
-        "build": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
-        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
+        "build": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
         "test": "echo 'done!'",
         "version": "napi version --npm-dir scripts/npm"
     },

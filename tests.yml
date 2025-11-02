@@ -1,65 +1,62 @@
 os:
-  windows:
-    - swc
-    - swc_allocator
-    - swc_cli
-    - swc_common
-    - swc_css_codegen
-    - swc_css_parser
-    - swc_ecma_codegen
-    - swc_ecma_loader
-    - swc_ecma_parser
-    - swc_ecma_preset_env
-    - swc_ecma_transforms_module
-    - swc_ecma_transforms_testing
-    - swc_html_codegen
-    - swc_html_parser
-    - swc_node_bundler
-    - swc_plugin
-    - swc_plugin_backend_wasmer
-    - swc_plugin_testing
-  macos:
-    - swc
-    - swc_allocator
-    - swc_plugin_backend_wasmer
+    windows:
+        - swc
+        - swc_allocator
+        - swc_cli
+        - swc_common
+        - swc_css_codegen
+        - swc_css_parser
+        - swc_ecma_codegen
+        - swc_ecma_loader
+        - swc_ecma_parser
+        - swc_ecma_preset_env
+        - swc_ecma_transforms_module
+        - swc_ecma_transforms_testing
+        - swc_html_codegen
+        - swc_html_parser
+        - swc_node_bundler
+        - swc_plugin
+        - swc_plugin_backend_wasmer
+        - swc_plugin_testing
+    macos:
+        - swc
+        - swc_allocator
+        - swc_plugin_backend_wasmer
 
 # host:
 #   swc: ubuntu-large
 
 check:
-  swc:
-    # plugin feature is verified by other tasks
-    - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --exclude-features plugin_backend_wasmer --features par-core/chili"
-  swc_allocator:
-    - "cargo hack check --feature-powerset"
-  swc_bundler:
-    - "cargo hack check --feature-powerset"
-  swc_common:
-    - "cargo hack check --feature-powerset --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features rkyv-impl"
-  swc_ecma_ast:
-    - "cargo hack check --feature-powerset --exclude-features __rkyv"
-  swc_ecma_loader:
-    - "cargo hack check --feature-powerset"
-  swc_ecma_transforms:
-    # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features par-core/chili"
-  swc_ecma_transforms_base:
-    # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features par-core/chili"
-  swc_ecma_transforms_compat:
-    # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features par-core/chili"
-  swc_ecma_transforms_optimization:
-    # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features par-core/chili"
-  swc_ecma_utils:
-    # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features par-core/chili"
-  swc_ecma_visit:
-    - "cargo hack check --feature-powerset"
-  swc_cli:
-    - "cargo check"
-    - "cargo check --features plugin"
-  swc_node_bundler:
-    - "cargo check"
-    - "cargo check --no-default-features --features swc_v2"
+    swc:
+        # plugin feature is verified by other tasks
+        - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --exclude-features plugin_backend_wasmer --features par-core/chili"
+    swc_allocator:
+        - "cargo hack check --feature-powerset"
+    swc_bundler:
+        - "cargo hack check --feature-powerset"
+    swc_common:
+        - "cargo hack check --feature-powerset --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features rkyv-impl"
+    swc_ecma_ast:
+        - "cargo hack check --feature-powerset --exclude-features __rkyv"
+    swc_ecma_loader:
+        - "cargo hack check --feature-powerset"
+    swc_ecma_transforms:
+        # - "cargo hack check --feature-powerset"
+        - "cargo check --features concurrent --features par-core/chili"
+    swc_ecma_transforms_base:
+        # - "cargo hack check --feature-powerset"
+        - "cargo check --features concurrent --features par-core/chili"
+    swc_ecma_transforms_compat:
+        # - "cargo hack check --feature-powerset"
+        - "cargo check --features concurrent --features par-core/chili"
+    swc_ecma_transforms_optimization:
+        # - "cargo hack check --feature-powerset"
+        - "cargo check --features concurrent --features par-core/chili"
+    swc_ecma_utils:
+        # - "cargo hack check --feature-powerset"
+        - "cargo check --features concurrent --features par-core/chili"
+    swc_ecma_visit:
+        - "cargo hack check --feature-powerset"
+    swc_node_bundler:
+        - "cargo check"
+        - "cargo check --no-default-features --features swc_v2"

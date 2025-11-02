@@ -38,7 +38,6 @@ anyhow             = { workspace = true }
 backtrace          = { workspace = true }
 napi               = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive        = { workspace = true, features = ["type-def"] }
-node_macro_deps    = { path = "../node_macro_deps" }
 par-core           = { workspace = true, features = ["chili"] }
 path-clean         = { workspace = true }
 rustc-hash         = { workspace = true }
@@ -46,10 +45,9 @@ serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true, features = ["release_max_level_info"] }
 tracing-chrome     = { workspace = true }
-tracing-futures    = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-swc_core = { workspace = true, features = [
+swc_core = { path = "../../crates/swc_core", features = [
   "allocator_node",
   "ecma_ast",
   "ecma_minifier",
@@ -64,4 +62,4 @@ swc_core = { workspace = true, features = [
   "base_node",
   "base_concurrent",
 ] }
-swc_malloc = { workspace = true }
+swc_malloc = { path = "../../crates/swc_malloc" }

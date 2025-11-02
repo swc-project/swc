@@ -568,7 +568,7 @@ impl SwcReportHandler {
                 (hl, vbar_offset)
             })
             .collect();
-        writeln!(f, "{}", underlines)?;
+        writeln!(f, "{underlines}")?;
 
         for hl in single_liners.iter().rev() {
             if let Some(label) = hl.label_parts() {

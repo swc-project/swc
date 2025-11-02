@@ -263,7 +263,7 @@ impl Compiler {
                     let idx = match url.path().find("base64,") {
                         Some(v) => v,
                         None => {
-                            bail!("failed to parse inline source map: not base64: {:?}", url)
+                            bail!("failed to parse inline source map: not base64: {url:?}")
                         }
                     };
 
@@ -565,7 +565,7 @@ impl Compiler {
             match config {
                 Some(config) => Ok(Some(config)),
                 None => {
-                    bail!("no config matched for file ({})", name)
+                    bail!("no config matched for file ({name})")
                 }
             }
         })

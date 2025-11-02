@@ -53,7 +53,7 @@ where
 
         for (name, module) in entries {
             if let Some(v) = builder.kinds.insert(module.id, BundleKind::Named { name }) {
-                bail!("Multiple entries with same input path detected: {:?}", v)
+                bail!("Multiple entries with same input path detected: {v:?}")
             }
 
             analyzer.load(module.id);

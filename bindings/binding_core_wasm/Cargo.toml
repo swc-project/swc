@@ -13,9 +13,10 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1"]
-swc_v1  = []
-swc_v2  = []
+__plugin = []
+default  = ["swc_v1"]
+swc_v1   = []
+swc_v2   = []
 # This feature exists to allow cargo operations
 # [TODO]: this is disabled due to signature mismatch between host_native and host_js,
 # which causes build errors like
@@ -35,7 +36,7 @@ anyhow = { workspace = true }
 getrandom = { workspace = true, features = ["wasm_js"] }
 serde = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
-swc_core = { workspace = true, features = [
+swc_core = { path = "../../crates/swc_core", features = [
   "ecma_ast_serde",
   "ecma_codegen",
   "binding_macro_wasm",
@@ -46,5 +47,9 @@ swc_core = { workspace = true, features = [
 tracing = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 
-[package.metadata.wasm-pack.profile.release]
-wasm-opt = false
+  [package.metadata.wasm-pack.profile.release]
+  wasm-opt = false
+
+  [package.metadata.cargo-shear]
+  # ignored, as they are only used to enable features
+  ignored = ["getrandom", "anyhow", "serde-wasm-bindgen"]

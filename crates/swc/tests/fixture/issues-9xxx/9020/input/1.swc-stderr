@@ -1,0 +1,7 @@
+  x assignment property is invalid syntax
+   ,-[$DIR/tests/fixture/issues-9xxx/9020/input/1.js:3:1]
+ 2 |     name: "Tom",
+ 3 |     age = 12
+   :     ^^^^^^^^
+ 4 | };
+   `----

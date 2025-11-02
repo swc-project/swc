@@ -50,10 +50,7 @@ fn get_name(option: &PluginScaffoldOptions) -> Result<&str> {
     })?;
 
     file_name.to_str().ok_or_else(|| {
-        anyhow::format_err!(
-            "cannot create package with a non-unicode name: {:?}",
-            file_name
-        )
+        anyhow::format_err!("cannot create package with a non-unicode name: {file_name:?}")
     })
 }
 
