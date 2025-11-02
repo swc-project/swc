@@ -13,9 +13,10 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1"]
-swc_v1  = []
-swc_v2  = []
+__plugin = []
+default  = ["swc_v1"]
+swc_v1   = []
+swc_v2   = []
 # This feature exists to allow cargo operations
 # [TODO]: this is disabled due to signature mismatch between host_native and host_js,
 # which causes build errors like
