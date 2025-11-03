@@ -1,6 +1,6 @@
 var o = 1;
-(function n(n) {
-    n = o;
-    n[o] = 0;
+(function n(_n) {
+    _n = o;
+    _n[o] = 0;
 })();
 console.log("PASS");

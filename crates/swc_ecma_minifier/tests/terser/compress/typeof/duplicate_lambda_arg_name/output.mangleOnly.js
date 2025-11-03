@@ -1,3 +1,3 @@
-console.log((function o(o) {
-    return typeof o;
+console.log((function o(_o) {
+    return typeof _o;
 })());

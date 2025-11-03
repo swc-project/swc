@@ -42,6 +42,7 @@ use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_compat_bugfixes::safari_id_destructuring_collision_in_function_expression;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
@@ -222,6 +223,12 @@ pub fn optimize(
         if let Some(property_mangle_options) = &mangle.props {
             mangle_properties(&mut n, property_mangle_options, chars);
         }
+
+        // Apply Safari bugfix transform to fix ID destructuring collisions
+        // that may have been created during name mangling.
+        // See: https://github.com/swc-project/swc/issues/11083
+        // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=220517
+        safari_id_destructuring_collision_in_function_expression().process(&mut n);
     }
 
     n.visit_mut_with(&mut merge_exports());

@@ -1,3 +1,3 @@
 function n(n) {}
 function c(n) {}
-(function n(n) {})();
+(function n(_n) {})();

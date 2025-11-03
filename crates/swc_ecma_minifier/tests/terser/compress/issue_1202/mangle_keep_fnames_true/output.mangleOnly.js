@@ -1,6 +1,6 @@
 "use strict";
 function n() {
-    return function n(n, t, r) {
-        return n + t + r;
+    return function n(_n, t, r) {
+        return _n + t + r;
     };
 }

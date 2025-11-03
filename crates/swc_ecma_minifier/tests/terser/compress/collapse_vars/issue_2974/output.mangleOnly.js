@@ -1,10 +1,10 @@
 var l = 0;
-(function n(n) {
+(function n(_n) {
     var o = 2;
     do {
-        n && n[n];
-        n && (n.null = -4);
+        _n && _n[_n];
+        _n && (_n.null = -4);
         l++;
-    }while (n.null && --o > 0)
+    }while (_n.null && --o > 0)
 })(true);
 console.log(l);

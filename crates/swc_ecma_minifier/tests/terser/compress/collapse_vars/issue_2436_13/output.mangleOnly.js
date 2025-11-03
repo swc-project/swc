@@ -1,8 +1,8 @@
 var n = "PASS";
 (function() {
     function o(o) {
-        (function n(n) {
-            var n = n && (n.null = "FAIL");
+        (function n(_n) {
+            var _n = _n && (_n.null = "FAIL");
         })(n);
     }
     o();

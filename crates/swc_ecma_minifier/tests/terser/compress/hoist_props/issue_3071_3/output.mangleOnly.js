@@ -1,8 +1,8 @@
 var n = 0;
 (function(o, c) {
-    (function o(o) {
+    (function o(_o) {
         var i = 2;
-        while(--c + (o = {
+        while(--c + (_o = {
             p: n++
         }) && --i > 0);
     })();

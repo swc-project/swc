@@ -61,6 +61,7 @@ swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_compat_bugfixes = { version = "32.0.0", path = "../swc_ecma_compat_bugfixes" }
 swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
