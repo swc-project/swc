@@ -23,11 +23,6 @@ pub enum TokenValue {
         value: Wtf8Atom,
         raw: Atom,
     },
-    // regexp
-    Regex {
-        value: Atom,
-        flags: Atom,
-    },
     Num {
         value: f64,
         raw: Atom,
@@ -357,15 +352,6 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn regexp(content: Atom, flags: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Regex {
-            value: content,
-            flags,
-        }));
-        Token::Regex
-    }
-
-    #[inline(always)]
     pub fn num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Num { value, raw }));
         Self::Num
@@ -455,11 +441,6 @@ impl<'a> Token {
         let (value, raw) = buffer.expect_string_token_value();
         // SAFETY: We set value as Atom in `jsx_text` method.
         (value.as_atom().cloned().unwrap(), raw)
-    }
-
-    #[inline(always)]
-    pub fn take_regexp<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
-        buffer.expect_regex_token_value()
     }
 
     #[inline(always)]
@@ -651,10 +632,7 @@ impl Token {
                 return format!("bigint literal ({value}, {raw})");
             }
             Token::Regex => {
-                let Some(TokenValue::Regex { value, flags, .. }) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("regexp literal ({value}, {flags})");
+                return "regexp literal".to_string();
             }
             Token::Template => {
                 let Some(TokenValue::Template { raw, .. }) = value else {
