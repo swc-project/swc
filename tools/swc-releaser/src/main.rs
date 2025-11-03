@@ -77,10 +77,18 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
             .with_context(|| format!("failed to set version for {pkg_name}"))?;
     }
 
+    // Remove changeset files
     {
         eprintln!("Removing changeset files... ");
         if !dry_run {
-            std::fs::remove_dir_all(&changeset_dir).context("failed to remove changeset files")?;
+            for file in std::fs::read_dir(&changeset_dir)? {
+                let file = file?;
+                if file.file_type()?.is_file()
+                    && file.path().extension().unwrap_or_default() == "md"
+                {
+                    std::fs::remove_file(file.path())?;
+                }
+            }
         }
     }
 
