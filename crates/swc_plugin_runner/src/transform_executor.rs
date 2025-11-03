@@ -38,7 +38,7 @@ struct PluginTransformState {
 #[cfg(feature = "encoding-impl")]
 impl PluginTransformState {
     fn run(
-        &mut self,
+        mut self,
         program: &PluginSerializedBytes,
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: Option<bool>,
@@ -67,10 +67,16 @@ impl PluginTransformState {
             should_enable_comments_proxy,
         )?;
 
-        // Copy guest's memory into host, construct serialized struct from raw
-        // bytes.
-        let transformed_result = &(*self.transform_result.lock());
-        let ret = PluginSerializedBytes::from_bytes(transformed_result.clone());
+        self.instance
+            .caller()?
+            .free(guest_program_ptr.0, guest_program_ptr.1)?;
+        self.instance.cleanup()?;
+
+        // Construct serialized struct from raw bytes.
+        // Since we have finished transformation, it's safe to fetch the data from
+        // Arc<Mutex<T>>
+        let transformed_result = Arc::try_unwrap(self.transform_result).unwrap().into_inner();
+        let ret = PluginSerializedBytes::from_bytes(transformed_result);
 
         let ret = if returned_ptr_result == 0 {
             Ok(ret)
@@ -88,11 +94,6 @@ impl PluginTransformState {
                 )),
             }
         };
-
-        self.instance
-            .caller()?
-            .free(guest_program_ptr.0, guest_program_ptr.1)?;
-        self.instance.cleanup()?;
 
         ret
     }
