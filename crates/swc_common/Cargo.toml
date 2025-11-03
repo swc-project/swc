@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_common"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "17.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -73,10 +73,10 @@ tracing               = { workspace = true }
 unicode-width         = { workspace = true }
 url                   = { workspace = true }
 
-ast_node             = { version = "4.0.0", path = "../ast_node" }
+ast_node             = { version = "5.0.0", path = "../ast_node" }
 better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls" }
-from_variant         = { version = "2.0.2", path = "../from_variant" }
-swc_atoms            = { version = "8.0.2", path = "../swc_atoms" }
+from_variant         = { version = "3.0.0", path = "../from_variant" }
+swc_atoms            = { version = "9.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.1", path = "../swc_visit" }
 
