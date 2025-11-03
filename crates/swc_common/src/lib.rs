@@ -97,7 +97,8 @@ pub fn unknown_impl() -> std::convert::Infallible {
 #[cfg(swc_ast_unknown)]
 #[macro_export]
 macro_rules! unknown {
-    () => {
+    () => {{
+        #[allow(unreachable_code)]
         match $crate::unknown_impl() {}
-    };
+    }};
 }
