@@ -78,6 +78,7 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
 
     let maybe_filename = metadata
         .get_context(&TransformPluginMetadataContextKind::Filename);
+    assert!(maybe_filename.is_none());
 
     dbg!();
 
