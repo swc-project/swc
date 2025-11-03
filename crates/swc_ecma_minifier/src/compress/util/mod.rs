@@ -518,6 +518,30 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
                             return Some(base.pow(exponent).into());
                         }
 
+                        "ceil" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(v.ceil());
+                        }
+
+                        "floor" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(v.floor());
+                        }
+
+                        "round" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(v.round());
+                        }
+
+                        "sqrt" => {
+                            let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
+
+                            return Some(v.sqrt());
+                        }
+
                         _ => {}
                     },
                     _ => {}
