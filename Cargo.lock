@@ -2521,7 +2521,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "3.0.2"
+version = "3.0.3"
 dependencies = [
  "compact_str",
  "criterion",
@@ -5515,7 +5515,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "47.0.0"
+version = "47.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6131,7 +6131,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "27.0.0"
+version = "27.0.1"
 dependencies = [
  "bitflags 2.6.0",
  "cbor4ii",
