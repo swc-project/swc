@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
+#![cfg_attr(not(feature = "encoding-impl"), allow(warnings))]
 
 use std::sync::Arc;
 
@@ -7,9 +7,9 @@ use transform_executor::TransformExecutor;
 
 pub mod cache;
 mod host_environment;
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 mod imported_fn;
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 mod memory_interop;
 pub mod plugin_module_bytes;
 pub mod runtime;
@@ -20,7 +20,7 @@ use plugin_module_bytes::PluginModuleBytes;
 /**
  * Creates an executor to run plugin binaries.
  */
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 pub fn create_plugin_transform_executor(
     source_map: &Arc<SourceMap>,
     unresolved_mark: &swc_common::Mark,
@@ -41,7 +41,7 @@ pub fn create_plugin_transform_executor(
     )
 }
 
-#[cfg(not(feature = "__rkyv"))]
+#[cfg(not(feature = "encoding-impl"))]
 pub fn create_plugin_transform_executor(
     source_map: &Arc<SourceMap>,
     unresolved_mark: &swc_common::Mark,

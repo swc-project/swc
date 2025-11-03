@@ -1,4 +1,5 @@
 pub mod diagnostics;
+pub mod emit;
 pub mod metadata;
 #[cfg(feature = "__plugin")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__plugin")))]

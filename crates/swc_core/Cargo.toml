@@ -190,7 +190,6 @@ common_plugin_transform = [
   "__testing_transform",
 ]
 
-css_plugin_transform = ["common_plugin_transform", "__css_plugin_transform"]
 ecma_plugin_transform = [
   "common_plugin_transform",
   "transform_common",
@@ -268,21 +267,11 @@ __common_plugin_transform = [
   # Dependent features
   "ecma_visit",
   "__common",
-  "swc_atoms/rkyv-impl",
+  "swc_atoms/encoding-impl",
   "swc_plugin_macro",
   "swc_plugin",
 ]
 
-__css_plugin_transform = [
-  "swc_common/plugin-mode",
-  "swc_plugin_proxy/plugin-mode",
-
-  # Dependent features
-  "__common_plugin_transform",
-  "css_visit",
-  "css_ast",                   # Enable optional packages
-  "swc_css_ast/rkyv-impl",
-]
 __ecma_plugin_transform = [
   "swc_common/plugin-mode",
   "swc_plugin_proxy/plugin-mode",
@@ -291,17 +280,17 @@ __ecma_plugin_transform = [
   "__common_plugin_transform",
   "ecma_visit",
   "ecma_ast",                  # Enable optional packages
-  "swc_ecma_ast/rkyv-impl",
+  "swc_ecma_ast/encoding-impl",
 ]
 
 # Internal flags for any transform plugin host feature
 __plugin_transform_host = [
   # Dependent features
   "__common",                    # Enable optional packages
-  "swc_ecma_ast/rkyv-impl",
-  "swc_atoms/rkyv-impl",
+  "swc_ecma_ast/encoding-impl",
+  "swc_atoms/encoding-impl",
   "swc_common/plugin-rt",
-  "swc_plugin_runner/rkyv-impl", # TODO: we may simply flag around downlevel plugin feature
+  "swc_plugin_runner/encoding-impl", # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
 ]

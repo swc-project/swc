@@ -7,7 +7,6 @@ use std::{
 };
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use rustc_hash::FxHashMap;
 use swc_common::{
     plugin::{
         metadata::TransformPluginMetadataContext,
@@ -110,12 +109,6 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path, runtime: Arc<dyn Runtime>
                         None,
                         runtime.clone(),
                     );
-
-                let experimental_metadata: VersionedSerializable<FxHashMap<String, String>> =
-                    VersionedSerializable::new(FxHashMap::default());
-                let _experimental_metadata =
-                    PluginSerializedBytes::try_serialize(&experimental_metadata)
-                        .expect("Should be a hashmap");
 
                 let res = transform_plugin_executor
                     .transform(&program_ser, Some(true))

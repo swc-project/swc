@@ -1,4 +1,4 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
+#![cfg_attr(not(feature = "encoding-impl"), allow(warnings))]
 
 mod comments;
 mod memory_interop;

@@ -19,7 +19,7 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [features]
-__plugin         = []
+__plugin         = ["encoding-impl"]
 __plugin_mode    = []
 __plugin_rt      = []
 concurrent       = ["parking_lot"]

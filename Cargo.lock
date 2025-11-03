@@ -6849,13 +6849,12 @@ name = "swc_plugin_backend_tests"
 version = "0.0.0"
 dependencies = [
  "anyhow",
+ "cbor4ii",
  "codspeed-criterion-compat",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
  "swc_common",
- "swc_css_ast",
- "swc_css_parser",
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_ecma_visit",
@@ -6908,9 +6907,7 @@ name = "swc_plugin_proxy"
 version = "17.0.0"
 dependencies = [
  "better_scoped_tls",
- "bytecheck 0.8.1",
- "rancor",
- "rkyv 0.8.9",
+ "cbor4ii",
  "rustc-hash 2.1.1",
  "swc_common",
  "swc_ecma_ast",
@@ -6930,7 +6927,6 @@ dependencies = [
  "serde_json",
  "swc_atoms",
  "swc_common",
- "swc_css_ast",
  "swc_ecma_ast",
  "swc_plugin_proxy",
  "swc_transform_common",

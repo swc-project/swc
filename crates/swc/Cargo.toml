@@ -31,7 +31,7 @@ isolated-dts = ["swc_typescript"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
-  "swc_plugin_runner/rkyv-impl",
+  "swc_plugin_runner/encoding-impl",
   "swc_plugin_proxy/plugin-rt",
   "tokio",
 ]

@@ -110,6 +110,10 @@ pub(crate) struct MarkData {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct MutableMarkContext(pub u32, pub u32, pub u32);
 
 // List of proxy calls injected by the host in the plugin's runtime context.

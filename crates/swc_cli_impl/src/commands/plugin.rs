@@ -191,6 +191,11 @@ swc_core = {{ version = "{swc_core_version}", features = ["ecma_plugin_transform
 # Alias to build actual plugin binary for the specified target.
 build-wasip1 = "build --target wasm32-wasip1"
 build-wasm32 = "build --target wasm32-unknown-unknown"
+
+[target.'cfg(target_arch = "wasm32")']
+rustflags = [
+  "--cfg=swc_ast_unknown"
+]
 "#
             .as_bytes(),
         )

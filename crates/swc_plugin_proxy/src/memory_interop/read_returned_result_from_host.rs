@@ -3,11 +3,6 @@
 use swc_common::plugin::serialized::PluginSerializedBytes;
 
 /// A struct to exchange allocated data between memory spaces.
-#[cfg_attr(
-    feature = "__rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "__rkyv", repr(C))]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(target_arch = "wasm32")]
@@ -23,7 +18,7 @@ impl Drop for AllocatedBytesPtr {
     }
 }
 
-#[cfg(not(feature = "__rkyv"))]
+#[cfg(not(feature = "encoding-impl"))]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
     unimplemented!("Plugin proxy does not work without serialization support")
 }
@@ -36,21 +31,26 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
 ///
 /// Returns a struct AllocatedBytesPtr to the ptr for actual return value if
 /// host fn allocated return value, None otherwise.
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 #[tracing::instrument(level = "info", skip_all)]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
     F: FnOnce(u32) -> u32,
 {
-    // Allocate AllocatedBytesPtr to get return value from the host
-    let allocated_bytes_ptr =
-        swc_common::plugin::serialized::VersionedSerializable::new(AllocatedBytesPtr(0, 0));
-    let serialized_allocated_bytes_ptr = PluginSerializedBytes::try_serialize(&allocated_bytes_ptr)
-        .expect("Should able to serialize AllocatedBytesPtr");
-    let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
-        serialized_allocated_bytes_ptr.as_ptr();
+    use std::cell::UnsafeCell;
 
-    std::mem::forget(allocated_bytes_ptr); // We should not drop AllocatedBytesPtr(0, 0)
+    // Allocate AllocatedBytesPtr to get return value from the host
+    //
+    // @quininer: I'm not sure if `.as_mut_ptr()` creates an alias for array,
+    // so using `UnsafeCell` here makes the semantics clearer.
+    let allocated_bytes_ptr: UnsafeCell<[u32; 2]> = UnsafeCell::new([0; 2]);
+    let serialized_allocated_bytes_raw_ptr = allocated_bytes_ptr.get();
+
+    assert_eq!(std::mem::size_of::<*mut u32>(), std::mem::size_of::<u32>());
 
     let ret = f(serialized_allocated_bytes_raw_ptr as _);
 
@@ -62,21 +62,16 @@ where
         return None;
     }
 
+    let allocated_bytes_ptr = allocated_bytes_ptr.into_inner();
+
     // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
-    Some(
-        PluginSerializedBytes::from_raw_ptr(
-            serialized_allocated_bytes_raw_ptr,
-            serialized_allocated_bytes_raw_ptr_size
-                .try_into()
-                .expect("Should able to convert ptr length"),
-        )
-        .deserialize()
-        .expect("Should able to deserialize AllocatedBytesPtr")
-        .into_inner(),
-    )
+    Some(AllocatedBytesPtr(
+        allocated_bytes_ptr[0],
+        allocated_bytes_ptr[1],
+    ))
 }
 
-#[cfg(not(feature = "__rkyv"))]
+#[cfg(not(feature = "encoding-impl"))]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
     unimplemented!("Plugin proxy does not work without serialization support")
 }
@@ -84,23 +79,17 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
 /// Performs deserialization to the actual return value type from returned ptr.
 ///
 /// This fn is for the Infallible types works for most of the cases.
-#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+#[cfg(all(
+    feature = "encoding-impl",
+    feature = "__plugin_mode",
+    target_arch = "wasm32"
+))]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
-    R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<R, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
-    for<'a> R::Archived: bytecheck::CheckBytes<
-        rancor::Strategy<
-            rkyv::validation::Validator<
-                rkyv::validation::archive::ArchiveValidator<'a>,
-                rkyv::validation::shared::SharedValidator,
-            >,
-            rancor::Error,
-        >,
-    >,
+    R: for<'de> cbor4ii::core::dec::Decode<'de>,
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 

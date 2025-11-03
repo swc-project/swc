@@ -2,7 +2,7 @@ use std::{env, sync::Arc};
 
 use anyhow::{anyhow, Context, Error};
 use parking_lot::Mutex;
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 use swc_common::plugin::serialized::{PluginError, PluginSerializedBytes};
 #[cfg(any(
     feature = "plugin_transform_schema_v1",
@@ -14,7 +14,7 @@ use swc_common::{
     SourceMap,
 };
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 use crate::{
     host_environment::BaseHostEnvironment,
     imported_fn::{
@@ -35,7 +35,7 @@ struct PluginTransformState {
     plugin_core_diag: PluginCorePkgDiagnostics,
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 impl PluginTransformState {
     fn run(
         &mut self,
@@ -70,7 +70,7 @@ impl PluginTransformState {
         // Copy guest's memory into host, construct serialized struct from raw
         // bytes.
         let transformed_result = &(*self.transform_result.lock());
-        let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
+        let ret = PluginSerializedBytes::from_bytes(transformed_result.clone());
 
         let ret = if returned_ptr_result == 0 {
             Ok(ret)
@@ -148,7 +148,7 @@ pub struct TransformExecutor {
     runtime: Arc<dyn runtime::Runtime>,
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 impl TransformExecutor {
     #[tracing::instrument(
         level = "info",
@@ -230,7 +230,7 @@ impl TransformExecutor {
             .init(module_name, import_object, envs, module)?;
 
         let diag_result: PluginCorePkgDiagnostics =
-            PluginSerializedBytes::from_slice(&(&(*diagnostics_buffer.lock()))[..])
+            PluginSerializedBytes::from_bytes(diagnostics_buffer.lock().clone())
                 .deserialize()?
                 .into_inner();
 

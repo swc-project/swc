@@ -30,7 +30,7 @@ extern "C" {
 /// This is not stable and may be removed in the future.
 #[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
 pub fn experimental_emit(key: String, value: String) {
-    let output = (key, value);
+    let output = swc_common::plugin::emit::PluginEmitOutput { key, value };
 
     let diag = swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(
         &swc_common::plugin::serialized::VersionedSerializable::new(output),
