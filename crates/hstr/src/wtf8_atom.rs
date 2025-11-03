@@ -100,9 +100,43 @@ impl serde::ser::Serialize for Wtf8Atom {
                     // By escaping literal '\u' to '\\u', we ensure:
                     // - Unpaired surrogates serialize as '\uXXXX'
                     // - Literal '\u' text serializes as '\\uXXXX'
+                    //
+                    // However, we should only escape '\u' if it's followed by exactly 4 hex digits,
+                    // which would indicate a Unicode escape sequence. Otherwise, '\u' followed by
+                    // non-hex characters (like '\util') should not be escaped.
                     if c == '\\' && iter.peek().map(|cp| cp.to_u32()) == Some('u' as u32) {
-                        iter.next(); // skip 'u'
-                        result.push_str("\\\\u");
+                        // Look ahead to see if this is followed by exactly 4 hex digits
+                        let mut lookahead = iter.clone();
+                        lookahead.next(); // skip 'u'
+
+                        let mut hex_count = 0;
+                        let mut all_hex = true;
+                        for _ in 0..4 {
+                            if let Some(next_cp) = lookahead.next() {
+                                if let Some(next_c) = next_cp.to_char() {
+                                    if next_c.is_ascii_hexdigit() {
+                                        hex_count += 1;
+                                    } else {
+                                        all_hex = false;
+                                        break;
+                                    }
+                                } else {
+                                    all_hex = false;
+                                    break;
+                                }
+                            } else {
+                                all_hex = false;
+                                break;
+                            }
+                        }
+
+                        // Only escape if we have exactly 4 hex digits after '\u'
+                        if hex_count == 4 && all_hex {
+                            iter.next(); // skip 'u'
+                            result.push_str("\\\\u");
+                        } else {
+                            result.push(c);
+                        }
                     } else {
                         result.push(c)
                     }
@@ -552,5 +586,33 @@ mod tests {
         // Should return the original Wtf8Atom
         let err_atom = result.unwrap_err();
         assert_eq!(err_atom.to_string_lossy(), "\u{FFFD}");
+    }
+
+    #[test]
+    fn test_backslash_util_issue_11214() {
+        let atom =
+            Wtf8Atom::from("C:\\github\\swc-plugin-coverage-instrument\\spec\\util\\verifier.ts");
+        let serialized = serde_json::to_string(&atom).unwrap();
+
+        assert!(
+            !serialized.contains("spec\\\\\\\\util"),
+            "Found quadruple backslashes in spec segment! Serialized: {serialized}"
+        );
+
+        assert!(
+            serialized.contains("spec\\\\util"),
+            "Expected double backslashes in spec segment not found! Serialized: {serialized}",
+        );
+
+        // The expected serialized value should have consistent escaping
+        let expected = r#""C:\\github\\swc-plugin-coverage-instrument\\spec\\util\\verifier.ts""#;
+        assert_eq!(
+            serialized, expected,
+            "Serialized value should have consistent backslash escaping"
+        );
+
+        // Test round-trip
+        let deserialized: Wtf8Atom = serde_json::from_str(&serialized).unwrap();
+        assert_eq!(atom, deserialized);
     }
 }
