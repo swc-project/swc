@@ -233,7 +233,7 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
             r##"use swc_core::ecma::{
     ast::Program,
     transforms::testing::test_inline,
-    visit::{visit_mut_pass, FoldWith, VisitMut},
+    visit::{visit_mut_pass, VisitMut},
 };
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
@@ -261,8 +261,9 @@ impl VisitMut for TransformVisitor {
 /// This requires manual handling of serialization / deserialization from ptrs.
 /// Refer swc_plugin_macro to see how does it work internally.
 #[plugin_transform]
-pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
-    program.fold_with(&mut visit_mut_pass(TransformVisitor))
+pub fn process_transform(mut program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
+    program.visit_mut_with(&mut TransformVisitor);
+    program
 }
 
 // An example to test plugin transform.
