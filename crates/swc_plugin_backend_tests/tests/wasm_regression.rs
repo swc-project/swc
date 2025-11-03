@@ -65,11 +65,11 @@ pub struct Str {
 ///
 /// This is a test for Wasm plugin tests.
 ///
-/// This test simulates serilizing from the latest runtime (v2) and deserialize
+/// This test simulates serializing from the latest runtime (v2) and deserialize
 /// it from the old Wasm plugin (v1), serialize it back as old data (v1), and
 /// deserialize it back from latest runtime (v2).
 #[test]
-fn bakward_compatible() {
+fn backward_compatible() {
     let v2_data = {
         let _s1 = Str {
             span: DUMMY_SP,

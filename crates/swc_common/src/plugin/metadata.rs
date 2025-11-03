@@ -105,7 +105,7 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for Context {
             name: &"Context",
             found: 0,
         })?;
-        let len = std::cmp::min(len, 4 * 1024);
+        let len = std::cmp::min(len, 4096);
         let mut map = FxHashMap::with_capacity_and_hasher(len, Default::default());
         for _ in 0..len {
             let k = String::decode(reader)?;
