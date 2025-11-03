@@ -1,4 +1,4 @@
-use ast_node::ast_node;
+use swc_common::ast_node;
 use swc_common::{
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     Span, DUMMY_SP,
@@ -71,7 +71,7 @@ pub struct Str {
 #[test]
 fn bakward_compatible() {
     let v2_data = {
-        let s1 = Str {
+        let _s1 = Str {
             span: DUMMY_SP,
             value: String::from("test-1"),
         };

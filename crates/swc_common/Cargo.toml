@@ -83,7 +83,3 @@ swc_visit            = { version = "2.0.1", path = "../swc_visit" }
 [dev-dependencies]
 par-iter   = { workspace = true }
 serde_json = { workspace = true }
-
-[[test]]
-name              = "wasm_regression"
-required-features = ["__plugin", "rkyv-impl"]
