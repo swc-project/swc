@@ -27,7 +27,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                         (Some(with_type), false) => syn::parse_quote!(<#with_type<#ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
                         (None, false) => syn::parse_quote!(<#ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?),
                         (None, true) => syn::parse_quote!(<#ty as Default>::default()),
-                        (Some(_), true) => panic!("unsupported with and ignore")
+                        (Some(_), true) => panic!("Cannot use both #[encoding(with)] and #[encoding(ignore)] attributes on the same field")
                     };
 
                     syn::parse_quote!{
