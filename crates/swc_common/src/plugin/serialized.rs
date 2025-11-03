@@ -48,8 +48,7 @@ impl PluginSerializedBytes {
      * slices.
      */
     #[tracing::instrument(level = "info", skip_all)]
-    pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
-        let field = bytes.to_vec();
+    pub fn from_bytes(field: Vec<u8>) -> PluginSerializedBytes {
         PluginSerializedBytes { field }
     }
 
@@ -103,7 +102,7 @@ impl PluginSerializedBytes {
         let raw_ptr_bytes =
             unsafe { std::slice::from_raw_parts(raw_allocated_ptr, raw_allocated_ptr_len) };
 
-        PluginSerializedBytes::from_slice(raw_ptr_bytes)
+        PluginSerializedBytes::from_bytes(raw_ptr_bytes.to_vec())
     }
 
     pub fn as_slice(&self) -> &[u8] {

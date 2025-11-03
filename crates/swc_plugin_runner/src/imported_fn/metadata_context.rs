@@ -98,7 +98,7 @@ pub fn get_experimental_transform_context(
     allocated_ret_ptr: u32,
 ) -> i32 {
     let context_key_buffer = env.mutable_context_key_buffer.lock();
-    let key: String = PluginSerializedBytes::from_slice(&context_key_buffer[..])
+    let key: String = PluginSerializedBytes::from_bytes(context_key_buffer.clone())
         .deserialize()
         .expect("Should able to deserialize")
         .into_inner();

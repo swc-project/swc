@@ -17,7 +17,7 @@ pub fn emit_diagnostics(
         HANDLER.with(|handler| {
             let mut diagnostics_bytes = Vec::new();
             copy_bytes_into_host(caller, bytes_ptr, bytes_ptr_len, &mut diagnostics_bytes);
-            let serialized = PluginSerializedBytes::from_slice(&diagnostics_bytes[..]);
+            let serialized = PluginSerializedBytes::from_bytes(diagnostics_bytes);
             let diagnostic = PluginSerializedBytes::deserialize::<Diagnostic>(&serialized)
                 .expect("Should able to be deserialized into diagnostic");
 
@@ -38,7 +38,7 @@ pub fn emit_output(
 ) {
     let mut output_bytes = Vec::new();
     copy_bytes_into_host(caller, output_ptr, output_len, &mut output_bytes);
-    let serialized = PluginSerializedBytes::from_slice(&output_bytes[..]);
+    let serialized = PluginSerializedBytes::from_bytes(output_bytes);
     let output = PluginSerializedBytes::deserialize::<swc_common::plugin::emit::PluginEmitOutput>(
         &serialized,
     )
