@@ -211,7 +211,7 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
-        self.skip_space::<true>();
+        self.skip_space();
         let start = self.input.cur_pos();
         let res = match self.scan_jsx_attrs_terminal_token() {
             Ok(res) => Ok(res),
@@ -382,7 +382,7 @@ impl Lexer<'_> {
         self.state.had_line_break = self.state.is_first;
         self.state.is_first = false;
 
-        self.skip_space::<true>();
+        self.skip_space();
         *start = self.input.cur_pos();
 
         if self.input.last_pos() == self.input.end_pos() {

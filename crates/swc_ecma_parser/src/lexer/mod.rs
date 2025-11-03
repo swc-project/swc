@@ -260,7 +260,7 @@ impl<'a> Lexer<'a> {
             if self.state.had_line_break && C == b'-' && self.eat(b'>') {
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                 self.skip_line_comment(0);
-                self.skip_space::<true>();
+                self.skip_space();
                 return self.read_token();
             }
 
@@ -303,7 +303,7 @@ impl<'a> Lexer<'a> {
                     if had_line_break_before_last && self.is_str("====") {
                         self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
                         self.skip_line_comment(4);
-                        self.skip_space::<true>();
+                        self.skip_space();
                         return self.read_token();
                     }
 
@@ -347,7 +347,7 @@ impl Lexer<'_> {
         if C == b'<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-')
         {
             self.skip_line_comment(3);
-            self.skip_space::<true>();
+            self.skip_space();
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
             return self.read_token();
@@ -399,7 +399,7 @@ impl Lexer<'_> {
         {
             self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
             self.skip_line_comment(5);
-            self.skip_space::<true>();
+            self.skip_space();
             return self.read_token();
         }
 
@@ -875,7 +875,7 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     #[inline(never)]
-    fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
+    fn skip_space(&mut self) {
         loop {
             let (offset, newline) = {
                 let mut skip = self::whitespace::SkipWhitespace {
@@ -894,7 +894,7 @@ impl<'a> Lexer<'a> {
                 self.state_mut().mark_had_line_break();
             }
 
-            if LEX_COMMENTS && self.input().is_byte(b'/') {
+            if self.input().is_byte(b'/') {
                 if let Some(c) = self.peek() {
                     if c == '/' {
                         self.skip_line_comment(2);
@@ -2178,7 +2178,7 @@ impl<'a> Lexer<'a> {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
-                self.skip_space::<true>();
+                self.skip_space();
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
