@@ -871,45 +871,6 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// Skip comments or whitespaces.
-    ///
-    /// See https://tc39.github.io/ecma262/#sec-white-space
-    #[inline(never)]
-    fn skip_space(&mut self) {
-        loop {
-            let (offset, newline) = {
-                let mut skip = self::whitespace::SkipWhitespace {
-                    input: self.input().as_str(),
-                    newline: false,
-                    offset: 0,
-                };
-
-                skip.scan();
-
-                (skip.offset, skip.newline)
-            };
-
-            self.input_mut().bump_bytes(offset as usize);
-            if newline {
-                self.state_mut().mark_had_line_break();
-            }
-
-            if self.input().is_byte(b'/') {
-                if let Some(c) = self.peek() {
-                    if c == '/' {
-                        self.skip_line_comment(2);
-                        continue;
-                    } else if c == '*' {
-                        self.skip_block_comment();
-                        continue;
-                    }
-                }
-            }
-
-            break;
-        }
-    }
-
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
         match self.cur() {

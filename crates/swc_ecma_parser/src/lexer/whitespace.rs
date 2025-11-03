@@ -1,12 +1,65 @@
+use crate::{byte_search, lexer::search::SafeByteMatchTable, safe_byte_match_table, Lexer};
+
+/// U+FEFF ZERO WIDTH NO-BREAK SPACE, abbreviated `<ZWNBSP>`.
+/// Considered a whitespace character in JS.
+pub const ZWNBSP: char = '\u{feff}';
+
+/// U+000B VERTICAL TAB, abbreviated `<VT>`.
+pub const VT: char = '\u{b}';
+
+/// U+000C FORM FEED, abbreviated `<FF>`.
+pub const FF: char = '\u{c}';
+
+/// U+00A0 NON-BREAKING SPACE, abbreviated `<NBSP>`.
+pub const NBSP: char = '\u{a0}';
+
+// U+0085 NEXT LINE, abbreviated `<NEL>`.
+const NEL: char = '\u{85}';
+
+const OGHAM_SPACE_MARK: char = '\u{1680}';
+
+const EN_QUAD: char = '\u{2000}';
+
+// U+200B ZERO WIDTH SPACE, abbreviated `<ZWSP>`.
+const ZWSP: char = '\u{200b}';
+
+// Narrow NO-BREAK SPACE, abbreviated `<NNBSP>`.
+const NNBSP: char = '\u{202f}';
+
+// U+205F MEDIUM MATHEMATICAL SPACE, abbreviated `<MMSP>`.
+const MMSP: char = '\u{205f}';
+
+const IDEOGRAPHIC_SPACE: char = '\u{3000}';
+
+#[inline]
+pub fn is_irregular_whitespace(c: char) -> bool {
+    matches!(
+        c,
+        VT | FF | NBSP | ZWNBSP | NEL | OGHAM_SPACE_MARK | EN_QUAD
+            ..=ZWSP | NNBSP | MMSP | IDEOGRAPHIC_SPACE
+    )
+}
+
+/// U+2028 LINE SEPARATOR, abbreviated `<LS>`.
+pub const LS: char = '\u{2028}';
+
+/// U+2029 PARAGRAPH SEPARATOR, abbreviated `<PS>`.
+pub const PS: char = '\u{2029}';
+
+pub fn is_irregular_line_terminator(c: char) -> bool {
+    matches!(c, LS | PS)
+}
+
 /// Returns true if it's done
-type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> u32>;
+type ByteHandler = fn(&mut Lexer<'_>) -> bool;
 
 /// Lookup table for whitespace
+#[rustfmt::skip]
 static BYTE_HANDLERS: [ByteHandler; 256] = [
-    //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
+//   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
     ___, ___, ___, ___, ___, ___, ___, ___, ___, SPC, NLN, SPC, SPC, NLN, ___, ___, // 0
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
-    SPC, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 2
+    SPC, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, SLH, // 2
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 3
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 4
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 5
@@ -23,208 +76,80 @@ static BYTE_HANDLERS: [ByteHandler; 256] = [
 ];
 
 /// Stop
-const ___: ByteHandler = None;
+const ___: ByteHandler = |_| false;
 
 /// Newline
-const NLN: ByteHandler = Some(|skip| {
-    skip.newline = true;
+const NLN: ByteHandler = |lexer| {
+    static NOT_REGULAR_WHITESPACE_OR_LINE_BREAK_TABLE: SafeByteMatchTable =
+        safe_byte_match_table!(|b| !matches!(b, b' ' | b'\t' | 0x0b | 0x0c | b'\r' | b'\n'));
 
-    1
-});
+    lexer.state.mark_had_line_break();
+    byte_search! {
+        lexer: lexer,
+        table: NOT_REGULAR_WHITESPACE_OR_LINE_BREAK_TABLE,
+        handle_eof: return false,
+    };
+    true
+};
 
 /// Space
-const SPC: ByteHandler = Some(|_| 1);
+const SPC: ByteHandler = |lexer| {
+    static NOT_SPC: SafeByteMatchTable =
+        safe_byte_match_table!(|b| !matches!(b, b' ' | b'\t' | 0x0b | 0x0c));
+
+    byte_search! {
+        lexer: lexer,
+        table: NOT_SPC,
+        handle_eof: return false,
+    };
+    true
+};
+
+const SLH: ByteHandler = |lexer| match lexer.peek() {
+    Some('/') => {
+        lexer.skip_line_comment(2);
+        true
+    }
+    Some('*') => {
+        lexer.skip_block_comment();
+        true
+    }
+    _ => false,
+};
 
 /// Unicode
-const UNI: ByteHandler = Some(|skip| {
-    // Check byte patterns directly for more efficient Unicode character processing
-    let bytes = skip.input.as_bytes();
-    let i = skip.offset as usize;
-
-    // Check available bytes
-    let remaining_bytes = bytes.len() - i;
-    if remaining_bytes < 1 {
-        return 0;
-    }
-
-    // Predict UTF-8 character length from the first byte
-    let first_byte = unsafe { *bytes.get_unchecked(i) };
-    let char_len = if first_byte < 128 {
-        1
-    } else if first_byte < 224 {
-        if remaining_bytes < 2 {
-            return 0;
-        }
-        2
-    } else if first_byte < 240 {
-        if remaining_bytes < 3 {
-            return 0;
-        }
-        3
-    } else {
-        if remaining_bytes < 4 {
-            return 0;
-        }
-        4
-    };
-
-    // Fast path for common Unicode whitespace characters
-    // Check UTF-8 byte patterns directly
-    if char_len == 3 {
-        // LSEP (U+2028) - Line Separator: E2 80 A8
-        if first_byte == 0xe2
-            && unsafe { *bytes.get_unchecked(i + 1) } == 0x80
-            && unsafe { *bytes.get_unchecked(i + 2) } == 0xa8
-        {
-            skip.newline = true;
-            return 3;
-        }
-
-        // PSEP (U+2029) - Paragraph Separator: E2 80 A9
-        if first_byte == 0xe2
-            && unsafe { *bytes.get_unchecked(i + 1) } == 0x80
-            && unsafe { *bytes.get_unchecked(i + 2) } == 0xa9
-        {
-            skip.newline = true;
-            return 3;
-        }
-    }
-
-    // Process with general method if not handled by fast path
-    let s = unsafe {
-        // Safety: `skip.offset` is always valid
-        skip.input.get_unchecked(skip.offset as usize..)
-    };
-
-    let c = unsafe {
-        // Safety: byte handlers are only called when `skip.input` is not empty
-        s.chars().next().unwrap_unchecked()
-    };
-
+const UNI: ByteHandler = |lexer| {
+    let c = lexer.cur().unwrap();
     match c {
-        // Byte Order Mark (BOM)
-        '\u{feff}' => {}
-        // Line break characters already handled above
-        '\u{2028}' | '\u{2029}' => {
-            skip.newline = true;
+        c if is_irregular_whitespace(c) => {
+            lexer.bump();
+            true
         }
-        // Other whitespace characters
-        _ if c.is_whitespace() => {}
-        // Not a whitespace character
-        _ => return 0,
+        c if is_irregular_line_terminator(c) => {
+            lexer.bump();
+            lexer.state.mark_had_line_break();
+            true
+        }
+        _ => false,
     }
+};
 
-    c.len_utf8() as u32
-});
-
-/// API is taked from oxc by Boshen (https://github.com/Boshen/oxc/pull/26)
-pub(super) struct SkipWhitespace<'a> {
-    pub input: &'a str,
-
-    /// Total offset
-    pub offset: u32,
-
-    /// Found newline
-    pub newline: bool,
-}
-
-impl SkipWhitespace<'_> {
-    #[inline(always)]
-    pub fn scan(&mut self) {
-        let bytes = self.input.as_bytes();
-        let len = bytes.len();
-        let mut pos = self.offset as usize;
-        debug_assert!(pos == 0);
-        debug_assert!(pos <= len);
-
-        // Optimization: return immediately if input is empty
-        if pos == len {
-            return;
-        }
-
+impl<'a> Lexer<'a> {
+    /// Skip comments or whitespaces.
+    ///
+    /// See https://tc39.github.io/ecma262/#sec-white-space
+    #[inline(never)]
+    pub fn skip_space(&mut self) {
         loop {
-            // Optimization 1: Process consecutive spaces (most common case) at once
-            let mut byte = unsafe { *bytes.get_unchecked(pos) };
+            let byte = match self.input.as_str().as_bytes().first() {
+                Some(&v) => v,
+                None => return,
+            };
 
-            // Handle consecutive space characters (very common case)
-            if byte == b' ' {
-                pos += 1;
-                // Skip spaces repeatedly (process multiple spaces at once)
-                while pos < len && unsafe { *bytes.get_unchecked(pos) } == b' ' {
-                    pos += 1;
-                }
-
-                // Check if we've reached the end of input
-                if pos >= len {
-                    break;
-                }
-
-                // Get current byte again
-                byte = unsafe { *bytes.get_unchecked(pos) };
-            }
-
-            // Optimization 2: Handle other common whitespace characters
-            match byte {
-                b'\n' => {
-                    pos += 1;
-                    self.newline = true;
-
-                    if pos >= len {
-                        break;
-                    }
-                    continue;
-                }
-                b'\r' => {
-                    pos += 1;
-
-                    // Handle CR+LF sequence (Windows line break)
-                    if pos < len && unsafe { *bytes.get_unchecked(pos) } == b'\n' {
-                        pos += 1;
-                        self.newline = true;
-                    } else {
-                        self.newline = true; // Treat standalone CR as line
-                                             // break too
-                    }
-
-                    if pos >= len {
-                        break;
-                    }
-                    continue;
-                }
-                // Case where handler is needed
-                _ => {
-                    debug_assert!(byte != b' ' && byte != b'\n' && byte != b'\r');
-                    // Temporarily update offset
-                    self.offset = pos as u32;
-
-                    // Use handler table
-                    let handler = unsafe { BYTE_HANDLERS.get_unchecked(byte as usize) };
-
-                    match handler {
-                        Some(handler) => {
-                            let delta = handler(self);
-                            if delta == 0 {
-                                // Non-whitespace character found
-                                // offset is already updated
-                                return;
-                            }
-                            pos = (self.offset + delta) as usize;
-
-                            if pos >= len {
-                                break;
-                            }
-                        }
-                        None => {
-                            // Non-whitespace character found
-                            // offset is already updated
-                            return;
-                        }
-                    }
-                }
+            let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
+            if !handler(self) {
+                break;
             }
         }
-
-        // Update offset to final position
-        self.offset = pos as u32;
     }
 }
