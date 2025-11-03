@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "paths": {
+            "@/*": [
+                "./*"
+            ]
+        },
+        "baseUrl": "./",
+        "rewriteRelativeImportExtensions": true
+    },
+    "module": {
+        "type": "es6"
+    }
+}

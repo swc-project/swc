@@ -101,6 +101,9 @@ pub struct Config {
     pub base_dir: Option<PathBuf>,
     pub resolve_fully: bool,
     pub file_extension: String,
+    /// If true, rewrite TypeScript extensions (.ts, .tsx, .mts, .cts) to their
+    /// JavaScript equivalents (.js, .jsx, .mjs, .cjs) after resolving paths.
+    pub rewrite_import_extensions: bool,
 }
 
 impl Default for Config {
@@ -109,6 +112,7 @@ impl Default for Config {
             file_extension: crate::util::Config::default_js_ext(),
             resolve_fully: bool::default(),
             base_dir: Option::default(),
+            rewrite_import_extensions: bool::default(),
         }
     }
 }
@@ -142,6 +146,45 @@ impl<R> NodeImportResolver<R>
 where
     R: Resolve,
 {
+    /// Rewrites TypeScript extensions to their JavaScript equivalents.
+    /// This implements the same logic as TypeScript's
+    /// rewriteRelativeImportExtensions.
+    fn rewrite_extension(path_str: &str) -> Option<String> {
+        let path = Path::new(path_str);
+
+        // Check if it's a relative path
+        if !(path_str.starts_with("./")
+            || path_str.starts_with("../")
+            || path_str.starts_with(".\\")
+            || path_str.starts_with("..\\"))
+        {
+            return None;
+        }
+
+        // Don't rewrite .d.ts files
+        if path
+            .file_name()
+            .and_then(|f| f.to_str())
+            .map(|f| f.contains(".d."))
+            .unwrap_or(false)
+        {
+            return None;
+        }
+
+        // Get the extension and determine the output extension
+        let ext = path.extension()?.to_str()?;
+        let new_ext = match ext {
+            "json" => return None, // Don't rewrite .json
+            "jsx" | "tsx" => "jsx",
+            "mjs" | "mts" => "mjs",
+            "cjs" | "cts" => "cjs",
+            "ts" => "js",
+            _ => return None, // Don't rewrite other extensions
+        };
+
+        Some(path.with_extension(new_ext).to_str()?.to_string())
+    }
+
     fn to_specifier(&self, mut target_path: PathBuf, orig_filename: Option<&str>) -> Atom {
         debug!(
             "Creating a specifier for `{}` with original filename `{:?}`",
@@ -221,11 +264,20 @@ where
             target_path.set_extension("");
         }
 
-        if cfg!(target_os = "windows") {
-            target_path.display().to_string().replace('\\', "/").into()
+        let result = if cfg!(target_os = "windows") {
+            target_path.display().to_string().replace('\\', "/")
         } else {
-            target_path.display().to_string().into()
+            target_path.display().to_string()
+        };
+
+        // Apply extension rewriting if enabled
+        if self.config.rewrite_import_extensions {
+            if let Some(rewritten) = Self::rewrite_extension(&result) {
+                return rewritten.into();
+            }
         }
+
+        result.into()
     }
 
     fn try_resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error> {

@@ -584,7 +584,14 @@ impl Options {
         };
 
         let paths = paths.into_iter().collect();
-        let resolver = ModuleConfig::get_resolver(&base_url, paths, base, cfg.module.as_ref());
+        let rewrite_extensions = rewrite_relative_import_extensions.into_bool();
+        let resolver = ModuleConfig::get_resolver(
+            &base_url,
+            paths,
+            base,
+            cfg.module.as_ref(),
+            rewrite_extensions,
+        );
 
         let target = es_version;
         let inject_helpers = !self.skip_helper_injection;
@@ -1476,8 +1483,14 @@ impl ModuleConfig {
         let support_block_scoping = caniuse(Feature::BlockScoping);
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
+        // Only use the separate typescript_import_rewriter pass if:
+        // 1. Extension rewriting is enabled, AND
+        // 2. We're NOT using a resolver (because if we have a resolver, it will handle
+        //    extension rewriting during path resolution)
+        let use_separate_rewriter =
+            rewrite_relative_import_extensions && matches!(resolver, Resolver::Default);
         let rewrite_relative_import_pass =
-            rewrite_relative_import_extensions.then(|| Box::new(typescript_import_rewriter()));
+            use_separate_rewriter.then(|| Box::new(typescript_import_rewriter()));
         let transform_pass = match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
@@ -1529,6 +1542,7 @@ impl ModuleConfig {
         paths: CompiledPaths,
         base: &FileName,
         config: Option<&ModuleConfig>,
+        rewrite_import_extensions: bool,
     ) -> Option<(FileName, Arc<dyn ImportResolver>)> {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
@@ -1545,13 +1559,20 @@ impl ModuleConfig {
 
         let base_url = base_url.to_path_buf();
         let resolver = match config {
-            None => build_resolver(base_url, paths, false, &util::Config::default_js_ext()),
+            None => build_resolver(
+                base_url,
+                paths,
+                false,
+                &util::Config::default_js_ext(),
+                rewrite_import_extensions,
+            ),
             Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
                 build_resolver(
                     base_url,
                     paths,
                     config.config.resolve_fully,
                     &config.config.out_file_extension,
+                    rewrite_import_extensions,
                 )
             }
             Some(ModuleConfig::CommonJs(config)) => build_resolver(
@@ -1559,24 +1580,28 @@ impl ModuleConfig {
                 paths,
                 config.resolve_fully,
                 &config.out_file_extension,
+                rewrite_import_extensions,
             ),
             Some(ModuleConfig::Umd(config)) => build_resolver(
                 base_url,
                 paths,
                 config.config.resolve_fully,
                 &config.config.out_file_extension,
+                rewrite_import_extensions,
             ),
             Some(ModuleConfig::Amd(config)) => build_resolver(
                 base_url,
                 paths,
                 config.config.resolve_fully,
                 &config.config.out_file_extension,
+                rewrite_import_extensions,
             ),
             Some(ModuleConfig::SystemJs(config)) => build_resolver(
                 base_url,
                 paths,
                 config.config.resolve_fully,
                 &config.config.out_file_extension,
+                rewrite_import_extensions,
             ),
         };
 
@@ -1895,9 +1920,10 @@ fn build_resolver(
     paths: CompiledPaths,
     resolve_fully: bool,
     file_extension: &str,
+    rewrite_import_extensions: bool,
 ) -> SwcImportResolver {
     static CACHE: Lazy<
-        DashMap<(PathBuf, CompiledPaths, bool, String), SwcImportResolver, FxBuildHasher>,
+        DashMap<(PathBuf, CompiledPaths, bool, String, bool), SwcImportResolver, FxBuildHasher>,
     > = Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.
@@ -1919,6 +1945,7 @@ fn build_resolver(
         paths.clone(),
         resolve_fully,
         file_extension.to_owned(),
+        rewrite_import_extensions,
     )) {
         return cached.clone();
     }
@@ -1941,13 +1968,20 @@ fn build_resolver(
                 base_dir: Some(base_url.clone()),
                 resolve_fully,
                 file_extension: file_extension.to_owned(),
+                rewrite_import_extensions,
             },
         );
         Arc::new(r)
     };
 
     CACHE.insert(
-        (base_url, paths, resolve_fully, file_extension.to_owned()),
+        (
+            base_url,
+            paths,
+            resolve_fully,
+            file_extension.to_owned(),
+            rewrite_import_extensions,
+        ),
         r.clone(),
     );
 
