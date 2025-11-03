@@ -27040,7 +27040,7 @@
             height: '80%',
             sort: !0,
             clipWindow: 'origin',
-            squareRatio: 0.5 * (1 + Math.sqrt(5)),
+            squareRatio: 0.5 * (1 + 2.23606797749979),
             leafDepth: null,
             drillDownIcon: '▶',
             // to align specialized icon. ▷▶❒❐▼✚

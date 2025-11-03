@@ -471,21 +471,19 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-array/src/ticks.js ***!
   \******************************************************************************/ /*! exports provided: default, tickIncrement, tickStep */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
+            function tickIncrement(start, stop, count) {
+                var step = (stop - start) / Math.max(0, count), power = Math.floor(Math.log(step) / Math.LN10), error = step / Math.pow(10, power);
+                return power >= 0 ? (error >= 7.0710678118654755 ? 10 : error >= 3.1622776601683795 ? 5 : error >= 1.4142135623730951 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= 7.0710678118654755 ? 10 : error >= 3.1622776601683795 ? 5 : error >= 1.4142135623730951 ? 2 : 1);
+            }
+            function tickStep(start, stop, count) {
+                var step0 = Math.abs(stop - start) / Math.max(0, count), step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)), error = step0 / step1;
+                return error >= 7.0710678118654755 ? step1 *= 10 : error >= 3.1622776601683795 ? step1 *= 5 : error >= 1.4142135623730951 && (step1 *= 2), stop < start ? -step1 : step1;
+            }
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tickIncrement", function() {
                 return tickIncrement;
             }), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tickStep", function() {
                 return tickStep;
-            });
-            var e10 = Math.sqrt(50), e5 = Math.sqrt(10), e2 = Math.sqrt(2);
-            function tickIncrement(start, stop, count) {
-                var step = (stop - start) / Math.max(0, count), power = Math.floor(Math.log(step) / Math.LN10), error = step / Math.pow(10, power);
-                return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
-            }
-            function tickStep(start, stop, count) {
-                var step0 = Math.abs(stop - start) / Math.max(0, count), step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)), error = step0 / step1;
-                return error >= e10 ? step1 *= 10 : error >= e5 ? step1 *= 5 : error >= e2 && (step1 *= 2), stop < start ? -step1 : step1;
-            }
-            /* harmony default export */ __webpack_exports__.default = function(start, stop, count) {
+            }), /* harmony default export */ __webpack_exports__.default = function(start, stop, count) {
                 var reverse, n, ticks, step, i = -1;
                 if (count *= 1, (start *= 1) == (stop *= 1) && count > 0) return [
                     start
@@ -5212,12 +5210,10 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-shape/src/symbol/triangle.js ***!
   \****************************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            var sqrt3 = Math.sqrt(3);
-            /* harmony default export */ __webpack_exports__.default = {
+            __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = {
                 draw: function(context, size) {
-                    var y = -Math.sqrt(size / (3 * sqrt3));
-                    context.moveTo(0, 2 * y), context.lineTo(-sqrt3 * y, -y), context.lineTo(sqrt3 * y, -y), context.closePath();
+                    var y = -Math.sqrt(size / 5.196152422706632);
+                    context.moveTo(0, 2 * y), context.lineTo(-1.7320508075688772 * y, -y), context.lineTo(1.7320508075688772 * y, -y), context.closePath();
                 }
             };
         /***/ },
@@ -5226,7 +5222,7 @@
   \***********************************************************************************/ /*! exports provided: default */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a = (k / 2 + 1) * 3;
+            var s = 1.7320508075688772 / 2, k = 1 / 3.4641016151377544, a = (1 / 3.4641016151377544 / 2 + 1) * 3;
             /* harmony default export */ __webpack_exports__.default = {
                 draw: function(context, size) {
                     var r = Math.sqrt(size / a), x0 = r / 2, y0 = r * k, y1 = r * k + r, x2 = -x0;
@@ -18781,12 +18777,12 @@
                     return "M ".concat(x, ", ").concat(y + length, "\n      l ").concat(length, ", -").concat(length, "\n      l -").concat(length, ", -").concat(length, "\n      l -").concat(length, ", ").concat(length, "\n      l ").concat(length, ", ").concat(length, "\n      z");
                 },
                 triangleDown: function(x, y, size) {
-                    var height = size / 2 * Math.sqrt(3), x0 = x - size, y0 = y - size;
-                    return "M ".concat(x0, ", ").concat(y0, "\n      L ").concat(x + size, ", ").concat(y0, "\n      L ").concat(x, ", ").concat(y + height, "\n      z");
+                    var x0 = x - size, y0 = y - size;
+                    return "M ".concat(x0, ", ").concat(y0, "\n      L ").concat(x + size, ", ").concat(y0, "\n      L ").concat(x, ", ").concat(y + size / 2 * 1.7320508075688772, "\n      z");
                 },
                 triangleUp: function(x, y, size) {
-                    var height = size / 2 * Math.sqrt(3), x0 = x - size, y1 = y + size;
-                    return "M ".concat(x0, ", ").concat(y1, "\n      L ").concat(x + size, ", ").concat(y1, "\n      L ").concat(x, ", ").concat(y - height, "\n      z");
+                    var x0 = x - size, y1 = y + size;
+                    return "M ".concat(x0, ", ").concat(y1, "\n      L ").concat(x + size, ", ").concat(y1, "\n      L ").concat(x, ", ").concat(y - size / 2 * 1.7320508075688772, "\n      z");
                 },
                 plus: function(x, y, size) {
                     var baseSize = 1.1 * size, distance = baseSize / 1.5; // eslint-disable-line no-magic-numbers
@@ -28968,21 +28964,19 @@
   !*** /Users/boygirl/formidable/v/victory/packages/victory-histogram/node_modules/d3-array/src/ticks.js ***!
   \*********************************************************************************************************/ /*! exports provided: default, tickIncrement, tickStep */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
+            function tickIncrement(start, stop, count) {
+                var step = (stop - start) / Math.max(0, count), power = Math.floor(Math.log(step) / Math.LN10), error = step / Math.pow(10, power);
+                return power >= 0 ? (error >= 7.0710678118654755 ? 10 : error >= 3.1622776601683795 ? 5 : error >= 1.4142135623730951 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= 7.0710678118654755 ? 10 : error >= 3.1622776601683795 ? 5 : error >= 1.4142135623730951 ? 2 : 1);
+            }
+            function tickStep(start, stop, count) {
+                var step0 = Math.abs(stop - start) / Math.max(0, count), step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)), error = step0 / step1;
+                return error >= 7.0710678118654755 ? step1 *= 10 : error >= 3.1622776601683795 ? step1 *= 5 : error >= 1.4142135623730951 && (step1 *= 2), stop < start ? -step1 : step1;
+            }
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tickIncrement", function() {
                 return tickIncrement;
             }), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tickStep", function() {
                 return tickStep;
-            });
-            var e10 = Math.sqrt(50), e5 = Math.sqrt(10), e2 = Math.sqrt(2);
-            function tickIncrement(start, stop, count) {
-                var step = (stop - start) / Math.max(0, count), power = Math.floor(Math.log(step) / Math.LN10), error = step / Math.pow(10, power);
-                return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
-            }
-            function tickStep(start, stop, count) {
-                var step0 = Math.abs(stop - start) / Math.max(0, count), step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)), error = step0 / step1;
-                return error >= e10 ? step1 *= 10 : error >= e5 ? step1 *= 5 : error >= e2 && (step1 *= 2), stop < start ? -step1 : step1;
-            }
-            /* harmony default export */ __webpack_exports__.default = function(start, stop, count) {
+            }), /* harmony default export */ __webpack_exports__.default = function(start, stop, count) {
                 var reverse, n, ticks, step, i = -1;
                 if (count *= 1, (start *= 1) == (stop *= 1) && count > 0) return [
                     start

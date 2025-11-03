@@ -3202,7 +3202,7 @@
                 ];
             }
             // EXTERNAL MODULE: ./node_modules/@react-pdf/textkit/lib/run/height.js
-            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = /*#__PURE__*/ r.n(N), U = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, z = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, W = function(e, t, r, n, i) {
+            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = /*#__PURE__*/ r.n(N), U = (1.4142135623730951 - 1.0) / 3.0 * 4.0, z = (1.4142135623730951 - 1.0) / 3.0 * 4.0, W = function(e, t, r, n, i) {
                 var o = t - n, a = r - i, u = n * z, l = i * z, s = o + 2 * n, c = a + 2 * i, f = o + n, p = a + i;
                 e.moveTo(o, p), e.bezierCurveTo(o, p - l, f - u, a, f, a), e.bezierCurveTo(f + u, a, s, p - l, s, p), e.bezierCurveTo(s, p + l, f + u, c, f, c), e.bezierCurveTo(f - u, c, o, p + l, o, p), e.closePath();
             }, G = function(e, t, r, n, i, o) {
@@ -3286,7 +3286,7 @@
                 }));
             }, J = function(e, t) {
                 X(e, Z(t.props.points || ""));
-            }, Y = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, K = function(e, t) {
+            }, Y = (1.4142135623730951 - 1.0) / 3.0 * 4.0, K = function(e, t) {
                 if (t.style) {
                     var r = t.box, n = r.top, i = r.left, o = r.width, a = r.height, u = t.style, l = u.borderTopLeftRadius, s = u.borderTopRightRadius, c = u.borderBottomRightRadius, f = u.borderBottomLeftRadius, p = Math.min(void 0 === s ? 0 : s, 0.5 * o, 0.5 * a), d = p * (1.0 - Y);
                     e.moveTo(i + p, n), e.lineTo(i + o - p, n), e.bezierCurveTo(i + o - d, n, i + o, n + d, i + o, n + p);
@@ -3845,7 +3845,7 @@
                     }, i));
                 }, {});
                 return t;
-            }, e$ = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, e0 = function(e, t, r, n, i) {
+            }, e$ = (1.4142135623730951 - 1.0) / 3.0 * 4.0, e0 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderTopWidth, c = r.borderRightWidth, f = r.borderLeftWidth;
                 e.moveTo(a + i, o), e.lineTo(a + u - n, o);
                 var p = n * (1.0 - e$); // Clip outer top right cap

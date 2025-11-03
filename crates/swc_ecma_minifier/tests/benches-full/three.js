@@ -8900,7 +8900,7 @@ function(global, factory) {
     }(BufferGeometry), DodecahedronBufferGeometry = /*#__PURE__*/ function(_PolyhedronBufferGeom) {
         function DodecahedronBufferGeometry(radius, detail) {
             void 0 === radius && (radius = 1), void 0 === detail && (detail = 0);
-            var _this, t = (1 + Math.sqrt(5)) / 2, r = 1 / t;
+            var _this, t = (1 + 2.23606797749979) / 2, r = 1 / ((1 + 2.23606797749979) / 2);
             return (_this = _PolyhedronBufferGeom.call(this, [
                 -1,
                 -1,
@@ -9596,7 +9596,7 @@ function(global, factory) {
     }(Geometry), IcosahedronBufferGeometry = /*#__PURE__*/ function(_PolyhedronBufferGeom) {
         function IcosahedronBufferGeometry(radius, detail) {
             void 0 === radius && (radius = 1), void 0 === detail && (detail = 0);
-            var _this, t = (1 + Math.sqrt(5)) / 2;
+            var _this, t = (1 + 2.23606797749979) / 2;
             return (_this = _PolyhedronBufferGeom.call(this, [
                 -1,
                 t,
@@ -13210,13 +13210,13 @@ function(global, factory) {
     }
     function HemisphereLightProbe(skyColor, groundColor, intensity) {
         LightProbe.call(this, void 0, intensity);
-        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI), c1 = c0 * Math.sqrt(0.75);
-        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c1);
+        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b);
+        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(1.7724538509055159), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(1.5349900619197325);
     }
     function AmbientLightProbe(color, intensity) {
         LightProbe.call(this, void 0, intensity);
         var color1 = new Color().set(color); // without extra factor of PI in the shader, would be 2 / Math.sqrt( Math.PI );
-        this.sh.coefficients[0].set(color1.r, color1.g, color1.b).multiplyScalar(2 * Math.sqrt(Math.PI));
+        this.sh.coefficients[0].set(color1.r, color1.g, color1.b).multiplyScalar(3.5449077018110318);
     }
     AudioLoader.prototype = Object.assign(Object.create(Loader.prototype), {
         constructor: AudioLoader,
@@ -15176,7 +15176,7 @@ function(global, factory) {
             _sizeLods: _sizeLods,
             _sigmas: _sigmas
         };
-    }(), _lodPlanes = _createPlanes2._lodPlanes, _sizeLods = _createPlanes2._sizeLods, _sigmas = _createPlanes2._sigmas, _clearColor = /*@__PURE__*/ new Color(), _oldTarget = null, PHI = (1 + Math.sqrt(5)) / 2, INV_PHI = 1 / PHI, _axisDirections = [
+    }(), _lodPlanes = _createPlanes2._lodPlanes, _sizeLods = _createPlanes2._sizeLods, _sigmas = _createPlanes2._sigmas, _clearColor = /*@__PURE__*/ new Color(), _oldTarget = null, PHI = (1 + 2.23606797749979) / 2, INV_PHI = 1 / ((1 + 2.23606797749979) / 2), _axisDirections = [
         /*@__PURE__*/ new Vector3(1, 1, 1),
         /*@__PURE__*/ new Vector3(-1, 1, 1),
         /*@__PURE__*/ new Vector3(1, 1, -1),
