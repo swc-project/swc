@@ -75,6 +75,7 @@ impl PluginTransformState {
         // Construct serialized struct from raw bytes.
         // Since we have finished transformation, it's safe to fetch the data from
         // Arc<Mutex<T>>
+        drop(self.instance);
         let transformed_result = Arc::try_unwrap(self.transform_result).unwrap().into_inner();
         let ret = PluginSerializedBytes::from_bytes(transformed_result);
 
