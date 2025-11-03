@@ -1462,6 +1462,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let c = match c {
             '\\' => '\\',
+            '\'' => '\'',
+            '"' => '"',
             'n' => '\n',
             'r' => '\r',
             't' => '\t',
@@ -1557,7 +1559,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 return Ok(CodePoint::from_u32(value as u32));
             }
-            _ => c,
+            // For unrecognized escape sequences, return the backslash and don't consume
+            // the following character. According to ECMAScript, when a backslash precedes
+            // a character that doesn't form a valid escape sequence, both the backslash
+            // and the character should be preserved in the string value.
+            _ => {
+                // Don't bump - let the following character be read normally in the next
+                // iteration
+                return Ok(Some(CodePoint::from_char('\\')));
+            }
         };
 
         unsafe {

@@ -2241,3 +2241,51 @@ fn issue_9106() {
         ]
     );
 }
+
+#[test]
+fn issue_11214_windows_path_escape() {
+    // Test for Windows file paths with backslashes
+    // When a backslash precedes a character that doesn't form a valid escape
+    // sequence, the backslash should be treated as a literal backslash
+    assert_eq!(
+        lex_tokens(
+            Syntax::default(),
+            r#""C:\\github\\swc-plugin-coverage-instrument\\spec\\util\\verifier.ts""#
+        ),
+        vec![Token::Str {
+            value: atom!("C:\\github\\swc-plugin-coverage-instrument\\spec\\util\\verifier.ts")
+                .into(),
+            raw: atom!(r#""C:\\github\\swc-plugin-coverage-instrument\\spec\\util\\verifier.ts""#),
+        }]
+    );
+}
+
+#[test]
+fn issue_11214_unrecognized_escape_sequences() {
+    // Test various unrecognized escape sequences
+    // According to ECMAScript, \s, \g, \a etc. (when not part of a valid escape)
+    // preserve the backslash: the value should be backslash + character
+    assert_eq!(
+        lex_tokens(Syntax::default(), r#""\s""#),
+        vec![Token::Str {
+            value: atom!(r"\s").into(),
+            raw: atom!(r#""\s""#),
+        }]
+    );
+
+    assert_eq!(
+        lex_tokens(Syntax::default(), r#""\g""#),
+        vec![Token::Str {
+            value: atom!(r"\g").into(),
+            raw: atom!(r#""\g""#),
+        }]
+    );
+
+    assert_eq!(
+        lex_tokens(Syntax::default(), r#""\a""#),
+        vec![Token::Str {
+            value: atom!(r"\a").into(),
+            raw: atom!(r#""\a""#),
+        }]
+    );
+}
