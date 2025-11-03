@@ -13,9 +13,6 @@ pub struct StringInput<'a> {
     /// Current cursor
     iter: str::Chars<'a>,
     orig: &'a str,
-    /// Original start position.
-    orig_start: BytePos,
-    orig_end: BytePos,
 }
 
 impl<'a> StringInput<'a> {
@@ -27,15 +24,11 @@ impl<'a> StringInput<'a> {
     /// some methods of [SourceMap].
     /// If you are not going to use methods from
     /// [SourceMap], you may use any value.
-    pub fn new(src: &'a str, start: BytePos, end: BytePos) -> Self {
-        assert!(start <= end);
-
+    pub fn new(src: &'a str) -> Self {
         StringInput {
-            last_pos: start,
+            last_pos: BytePos(0),
             orig: src,
             iter: src.chars(),
-            orig_start: start,
-            orig_end: end,
         }
     }
 
@@ -61,8 +54,8 @@ impl<'a> StringInput<'a> {
         debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
         let s = self.orig;
 
-        let start_idx = (start - self.orig_start).0 as usize;
-        let end_idx = (end - self.orig_start).0 as usize;
+        let start_idx = start.0 as usize;
+        let end_idx = end.0 as usize;
 
         debug_assert!(end_idx <= s.len());
 
@@ -82,12 +75,12 @@ impl<'a> StringInput<'a> {
     }
 
     pub fn start_pos(&self) -> BytePos {
-        self.orig_start
+        BytePos(0)
     }
 
     #[inline(always)]
     pub fn end_pos(&self) -> BytePos {
-        self.orig_end
+        BytePos(self.orig.len() as u32)
     }
 }
 
@@ -98,7 +91,7 @@ impl<'a> StringInput<'a> {
 /// ```
 impl<'a> From<&'a SourceFile> for StringInput<'a> {
     fn from(fm: &'a SourceFile) -> Self {
-        StringInput::new(&fm.src, fm.start_pos, fm.end_pos)
+        StringInput::new(&fm.src)
     }
 }
 
@@ -148,7 +141,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
     #[inline]
     fn is_at_start(&self) -> bool {
-        self.orig_start == self.last_pos
+        self.last_pos.0 == 0
     }
 
     /// TODO(kdy1): Remove this?
@@ -167,8 +160,8 @@ impl<'a> Input<'a> for StringInput<'a> {
         debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
         let s = self.orig;
 
-        let start_idx = (start - self.orig_start).0 as usize;
-        let end_idx = (end - self.orig_start).0 as usize;
+        let start_idx = start.0 as usize;
+        let end_idx = end.0 as usize;
 
         debug_assert!(end_idx <= s.len());
 
@@ -215,7 +208,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         }
 
         let orig = self.orig;
-        let idx = (to - self.orig_start).0 as usize;
+        let idx = to.0 as usize;
 
         debug_assert!(idx <= orig.len());
         let s = unsafe { orig.get_unchecked(idx..) };
