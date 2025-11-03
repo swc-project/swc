@@ -76,7 +76,11 @@ impl PluginTransformState {
         // Since we have finished transformation, it's safe to fetch the data from
         // Arc<Mutex<T>>
         drop(self.instance);
-        let transformed_result = Arc::try_unwrap(self.transform_result).unwrap().into_inner();
+        let transformed_result = Arc::try_unwrap(self.transform_result)
+            .map_err(|_| {
+                anyhow!("Failed to unwrap Arc: other references to transform_result exist")
+            })?
+            .into_inner();
         let ret = PluginSerializedBytes::from_bytes(transformed_result);
 
         let ret = if returned_ptr_result == 0 {
