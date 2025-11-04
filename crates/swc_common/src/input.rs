@@ -1,5 +1,6 @@
 use std::str;
 
+use assume::assume;
 use debug_unreachable::debug_unreachable;
 
 use crate::syntax_pos::{BytePos, SourceFile};
@@ -58,13 +59,13 @@ impl<'a> StringInput<'a> {
     pub unsafe fn slice_to_cur(&mut self, start: BytePos) -> &'a str {
         let end = self.last_pos;
 
-        debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
+        assume!(unsafe: start <= end, "Cannot slice {:?}..{:?}",start,end);
         let s = self.orig;
 
         let start_idx = (start - self.orig_start).0 as usize;
         let end_idx = (end - self.orig_start).0 as usize;
 
-        debug_assert!(end_idx <= s.len());
+        assume!(unsafe: end_idx <= s.len(), "Cannot slice {:?}..{:?}", start, end);
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
@@ -164,13 +165,13 @@ impl<'a> Input<'a> for StringInput<'a> {
 
     #[inline]
     unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
-        debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
+        assume!(unsafe: start < end, "Cannot slice {:?}..{:?}", start, end);
         let s = self.orig;
 
         let start_idx = (start - self.orig_start).0 as usize;
         let end_idx = (end - self.orig_start).0 as usize;
 
-        debug_assert!(end_idx <= s.len());
+        assume!(unsafe: end_idx <= s.len(), "Cannot slice {:?}..{:?}", start, end);
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
@@ -198,7 +199,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         };
 
         let s = self.iter.as_str();
-        debug_assert!(last <= s.len());
+        assume!(unsafe: last <= s.len(), "Cannot uncons while {:?}", last);
         let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
@@ -217,7 +218,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         let orig = self.orig;
         let idx = (to - self.orig_start).0 as usize;
 
-        debug_assert!(idx <= orig.len());
+        assume!(unsafe: idx <= orig.len(), "Cannot reset to {:?}", to);
         let s = unsafe { orig.get_unchecked(idx..) };
         self.iter = s.chars();
         self.last_pos = to;
