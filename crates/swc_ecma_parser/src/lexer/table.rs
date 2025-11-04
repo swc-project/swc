@@ -19,8 +19,9 @@ use crate::{
 pub(super) type ByteHandler = fn(&mut Lexer<'_>) -> LexResult<Token>;
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
+#[rustfmt::skip]
 pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
-    //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
+//   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
     ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, // 0
     ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, // 1
     ERR, EXL, QOT, HSH, IDN, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
