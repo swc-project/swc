@@ -2500,9 +2500,6 @@
 
 - **(es/minifier)** Make `inline_globals` noop by default ([#10231](https://github.com/swc-project/swc/issues/10231)) ([b192dc8](https://github.com/swc-project/swc/commit/b192dc82e6a84bd30f159fb12ca8a216f41e8efb))
 
-
-- **(es/types)** Fix broken types ([#10224](https://github.com/swc-project/swc/issues/10224)) ([540bdf8](https://github.com/swc-project/swc/commit/540bdf868d888a017e90c9badf8bab49e9b485bb))
-
 ### Features
 
 

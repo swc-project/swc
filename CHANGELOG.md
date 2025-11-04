@@ -1938,9 +1938,6 @@
 
 - **(es/parser)** Fix span of wrong `await` tokens ([#10252](https://github.com/swc-project/swc/issues/10252)) ([5c28dc3](https://github.com/swc-project/swc/commit/5c28dc39646a449a9d0a92f560427ee75e1b0644))
 
-
-- **(es/types)** Fix broken types ([#10224](https://github.com/swc-project/swc/issues/10224)) ([540bdf8](https://github.com/swc-project/swc/commit/540bdf868d888a017e90c9badf8bab49e9b485bb))
-
 ### Documentation
 
 
