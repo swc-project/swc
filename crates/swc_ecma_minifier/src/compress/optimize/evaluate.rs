@@ -441,8 +441,11 @@ impl Optimizer<'_> {
                     value.size()
                 };
 
-                // Only perform the optimization if the result is not larger than the original
-                if new_size > original_size {
+                // Only perform the optimization if the result is strictly smaller than the
+                // original We use >= instead of > to avoid optimizing
+                // equal-size expressions, which can lead to worse overall
+                // minification when values are reused multiple times
+                if new_size >= original_size {
                     return;
                 }
 

@@ -519,24 +519,36 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
                         }
 
                         "ceil" => {
+                            if args.len() != 1 {
+                                return None;
+                            }
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
                             return Some(v.ceil());
                         }
 
                         "floor" => {
+                            if args.len() != 1 {
+                                return None;
+                            }
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
                             return Some(v.floor());
                         }
 
                         "round" => {
+                            if args.len() != 1 {
+                                return None;
+                            }
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
                             return Some(v.round());
                         }
 
                         "sqrt" => {
+                            if args.len() != 1 {
+                                return None;
+                            }
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
                             return Some(v.sqrt());
