@@ -26,6 +26,14 @@ impl<'a, const N: usize> CachingChars<'a, N> {
         }
     }
 
+    pub fn peek(&self, n: usize) -> Option<char> {
+        self.peeked.get(n - 1).and_then(|c| *c)
+    }
+
+    pub fn peek_ahead(&self, n: usize) -> Option<char> {
+        self.peeked[n - 1]
+    }
+
     /// Returns the remaining string slice that has not been consumed yet.
     ///
     /// This includes any characters that have been peeked but not consumed.

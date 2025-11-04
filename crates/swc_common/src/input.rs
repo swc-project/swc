@@ -119,24 +119,17 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
     fn cur(&self) -> Option<char> {
-        self.iter.clone().next()
+        self.iter.peek(0)
     }
 
     #[inline]
     fn peek(&self) -> Option<char> {
-        let mut iter = self.iter.clone();
-        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster.
-        iter.next();
-        iter.next()
+        self.iter.peek(1)
     }
 
     #[inline]
     fn peek_ahead(&self) -> Option<char> {
-        let mut iter = self.iter.clone();
-        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster
-        iter.next();
-        iter.next();
-        iter.next()
+        self.iter.peek(2)
     }
 
     #[inline]
