@@ -79,6 +79,7 @@ from_variant         = { version = "3.0.0", path = "../from_variant" }
 swc_atoms            = { version = "9.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.1", path = "../swc_visit" }
+assume = "0.5.0"
 
 [dev-dependencies]
 par-iter   = { workspace = true }
