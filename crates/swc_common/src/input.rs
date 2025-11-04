@@ -76,6 +76,8 @@ impl<'a> StringInput<'a> {
 
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
+        assume!(unsafe: n > 0, "Cannot bump bytes by 0");
+
         unsafe {
             // Safety: We only proceed, not go back.
             self.reset_to(self.last_pos + BytePos(n as u32));
