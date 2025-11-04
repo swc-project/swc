@@ -81,15 +81,10 @@ impl<'a> StringInput<'a> {
             }
         }
 
-        let to = self.last_pos + BytePos(n as u32);
+        let s = self.iter.as_str();
 
-        let orig = self.orig;
-        let idx = (to - self.orig_start).0 as usize;
-
-        debug_assert!(idx <= orig.len());
-        let s = unsafe { orig.get_unchecked(idx..) };
-        self.iter = s.chars();
-        self.last_pos = to;
+        self.iter = unsafe { s.get_unchecked(n..) }.chars();
+        self.last_pos.0 += n as u32;
     }
 
     pub fn start_pos(&self) -> BytePos {
