@@ -6,6 +6,13 @@ use crate::syntax_pos::{BytePos, SourceFile};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
 
+/// Cached character with its byte length for efficient lookahead
+#[derive(Clone, Copy, Debug)]
+struct CachedChar {
+    ch: char,
+    len: u8,
+}
+
 /// Implementation of [Input].
 #[derive(Clone)]
 pub struct StringInput<'a> {
@@ -16,6 +23,11 @@ pub struct StringInput<'a> {
     /// Original start position.
     orig_start: BytePos,
     orig_end: BytePos,
+    /// Cache for decoded characters to avoid repeated UTF-8 decoding.
+    /// cache[0] = current char, cache[1] = peek, cache[2] = peek_ahead
+    cache: [Option<CachedChar>; 3],
+    /// Number of valid entries in the cache
+    cache_len: u8,
 }
 
 impl<'a> StringInput<'a> {
@@ -30,13 +42,80 @@ impl<'a> StringInput<'a> {
     pub fn new(src: &'a str, start: BytePos, end: BytePos) -> Self {
         assert!(start <= end);
 
-        StringInput {
+        let mut input = StringInput {
             last_pos: start,
             orig: src,
             iter: src.chars(),
             orig_start: start,
             orig_end: end,
+            cache: [None; 3],
+            cache_len: 0,
+        };
+        input.fill_cache();
+        input
+    }
+
+    /// Fills the cache with up to 3 decoded characters from the iterator.
+    /// This avoids repeated UTF-8 decoding when calling cur(), peek(),
+    /// peek_ahead().
+    #[inline]
+    fn fill_cache(&mut self) {
+        let mut temp_iter = self.iter.clone();
+        for i in self.cache_len as usize..3 {
+            if let Some(ch) = temp_iter.next() {
+                self.cache[i] = Some(CachedChar {
+                    ch,
+                    len: ch.len_utf8() as u8,
+                });
+                self.cache_len += 1;
+            } else {
+                break;
+            }
         }
+    }
+
+    /// Shifts the cache left by one position and fills the last slot.
+    /// Called after consuming a character via bump().
+    /// Note: The iterator must already be advanced before calling this.
+    #[inline]
+    fn shift_cache(&mut self) {
+        // Shift existing cached entries to the left
+        self.cache[0] = self.cache[1];
+        self.cache[1] = self.cache[2];
+        self.cache[2] = None;
+
+        // Decrease cache length
+        if self.cache_len > 0 {
+            self.cache_len -= 1;
+        }
+
+        // Try to fill the new empty slot at the end
+        // The new cache[2] should be the character at iter.clone().nth(2)
+        if self.cache_len < 3 {
+            let mut temp_iter = self.iter.clone();
+            // Skip cache[0] and cache[1] to get to cache[2]
+            for _ in 0..2 {
+                if temp_iter.next().is_none() {
+                    return;
+                }
+            }
+            if let Some(ch) = temp_iter.next() {
+                self.cache[2] = Some(CachedChar {
+                    ch,
+                    len: ch.len_utf8() as u8,
+                });
+                self.cache_len += 1;
+            }
+        }
+    }
+
+    /// Invalidates the cache. Called when the iterator position changes
+    /// arbitrarily.
+    #[inline]
+    fn invalidate_cache(&mut self) {
+        self.cache = [None; 3];
+        self.cache_len = 0;
+        self.fill_cache();
     }
 
     #[inline(always)]
@@ -69,6 +148,7 @@ impl<'a> StringInput<'a> {
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
         self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+        self.invalidate_cache();
 
         ret
     }
@@ -78,12 +158,15 @@ impl<'a> StringInput<'a> {
         let s = self.iter.as_str();
         self.iter = unsafe { s.get_unchecked(n..) }.chars();
         self.last_pos.0 += n as u32;
+        self.invalidate_cache();
     }
 
     #[inline]
     pub fn bump_one(&mut self) {
-        if self.iter.next().is_some() {
+        if self.cache[0].is_some() {
+            self.iter.next();
             self.last_pos.0 += 1;
+            self.shift_cache();
         } else {
             unsafe {
                 debug_unreachable!("bump should not be called when cur() == None");
@@ -115,30 +198,25 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
     fn cur(&self) -> Option<char> {
-        self.iter.clone().next()
+        self.cache[0].map(|c| c.ch)
     }
 
     #[inline]
     fn peek(&self) -> Option<char> {
-        let mut iter = self.iter.clone();
-        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster.
-        iter.next();
-        iter.next()
+        self.cache[1].map(|c| c.ch)
     }
 
     #[inline]
     fn peek_ahead(&self) -> Option<char> {
-        let mut iter = self.iter.clone();
-        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster
-        iter.next();
-        iter.next();
-        iter.next()
+        self.cache[2].map(|c| c.ch)
     }
 
     #[inline]
     unsafe fn bump(&mut self) {
-        if let Some(c) = self.iter.next() {
-            self.last_pos = self.last_pos + BytePos((c.len_utf8()) as u32);
+        if let Some(cached) = self.cache[0] {
+            self.iter.next(); // Advance the iterator
+            self.last_pos = self.last_pos + BytePos(cached.len as u32);
+            self.shift_cache();
         } else {
             unsafe {
                 debug_unreachable!("bump should not be called when cur() == None");
@@ -186,6 +264,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
         self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
         self.last_pos = end;
+        self.invalidate_cache();
 
         ret
     }
@@ -213,6 +292,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
         self.last_pos = self.last_pos + BytePos(last as _);
         self.iter = unsafe { s.get_unchecked(last..) }.chars();
+        self.invalidate_cache();
 
         ret
     }
@@ -231,6 +311,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         let s = unsafe { orig.get_unchecked(idx..) };
         self.iter = s.chars();
         self.last_pos = to;
+        self.invalidate_cache();
     }
 
     #[inline]
@@ -253,6 +334,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         if self.is_byte(c) {
             self.iter.next();
             self.last_pos = self.last_pos + BytePos(1_u32);
+            self.shift_cache();
             true
         } else {
             false
