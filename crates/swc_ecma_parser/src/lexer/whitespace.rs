@@ -1,38 +1,44 @@
 use crate::{byte_search, lexer::search::SafeByteMatchTable, safe_byte_match_table, Lexer};
 
-/// U+FEFF ZERO WIDTH NO-BREAK SPACE, abbreviated `<ZWNBSP>`.
-/// Considered a whitespace character in JS.
-pub const ZWNBSP: char = '\u{feff}';
-
 /// U+000B VERTICAL TAB, abbreviated `<VT>`.
-pub const VT: char = '\u{b}';
+const B_VT: u8 = 0x0b;
 
 /// U+000C FORM FEED, abbreviated `<FF>`.
-pub const FF: char = '\u{c}';
+const B_FF: u8 = 0x0c;
 
-/// U+00A0 NON-BREAKING SPACE, abbreviated `<NBSP>`.
-pub const NBSP: char = '\u{a0}';
-
-// U+0085 NEXT LINE, abbreviated `<NEL>`.
-const NEL: char = '\u{85}';
-
-const OGHAM_SPACE_MARK: char = '\u{1680}';
-
-const EN_QUAD: char = '\u{2000}';
-
-// U+200B ZERO WIDTH SPACE, abbreviated `<ZWSP>`.
-const ZWSP: char = '\u{200b}';
-
-// Narrow NO-BREAK SPACE, abbreviated `<NNBSP>`.
-const NNBSP: char = '\u{202f}';
-
-// U+205F MEDIUM MATHEMATICAL SPACE, abbreviated `<MMSP>`.
-const MMSP: char = '\u{205f}';
-
-const IDEOGRAPHIC_SPACE: char = '\u{3000}';
-
+// https://github.com/oxc-project/oxc/blob/ec6721c458d64c5b27b78542aa205d70b06edf9a/crates/oxc_syntax/src/identifier.rs#L70
 #[inline]
 pub fn is_irregular_whitespace(c: char) -> bool {
+    /// U+FEFF ZERO WIDTH NO-BREAK SPACE, abbreviated `<ZWNBSP>`.
+    /// Considered a whitespace character in JS.
+    const ZWNBSP: char = '\u{feff}';
+
+    /// U+000B VERTICAL TAB, abbreviated `<VT>`.
+    const VT: char = '\u{b}';
+
+    /// U+000C FORM FEED, abbreviated `<FF>`.
+    const FF: char = '\u{c}';
+
+    /// U+00A0 NON-BREAKING SPACE, abbreviated `<NBSP>`.
+    const NBSP: char = '\u{a0}';
+
+    /// U+0085 NEXT LINE, abbreviated `<NEL>`.
+    const NEL: char = '\u{85}';
+
+    const OGHAM_SPACE_MARK: char = '\u{1680}';
+
+    const EN_QUAD: char = '\u{2000}';
+
+    /// U+200B ZERO WIDTH SPACE, abbreviated `<ZWSP>`.
+    const ZWSP: char = '\u{200b}';
+
+    /// Narrow NO-BREAK SPACE, abbreviated `<NNBSP>`.
+    const NNBSP: char = '\u{202f}';
+
+    /// U+205F MEDIUM MATHEMATICAL SPACE, abbreviated `<MMSP>`.
+    const MMSP: char = '\u{205f}';
+
+    const IDEOGRAPHIC_SPACE: char = '\u{3000}';
     matches!(
         c,
         VT | FF | NBSP | ZWNBSP | NEL | OGHAM_SPACE_MARK | EN_QUAD
@@ -40,13 +46,15 @@ pub fn is_irregular_whitespace(c: char) -> bool {
     )
 }
 
-/// U+2028 LINE SEPARATOR, abbreviated `<LS>`.
-pub const LS: char = '\u{2028}';
-
-/// U+2029 PARAGRAPH SEPARATOR, abbreviated `<PS>`.
-pub const PS: char = '\u{2029}';
-
+// https://github.com/oxc-project/oxc/blob/ec6721c458d64c5b27b78542aa205d70b06edf9a/crates/oxc_syntax/src/identifier.rs#L102
+#[inline]
 pub fn is_irregular_line_terminator(c: char) -> bool {
+    /// U+2028 LINE SEPARATOR, abbreviated `<LS>`.
+    const LS: char = '\u{2028}';
+
+    /// U+2029 PARAGRAPH SEPARATOR, abbreviated `<PS>`.
+    const PS: char = '\u{2029}';
+
     matches!(c, LS | PS)
 }
 
@@ -81,7 +89,7 @@ const ___: ByteHandler = |_| false;
 /// Newline
 const NLN: ByteHandler = |lexer| {
     static NOT_REGULAR_WHITESPACE_OR_LINE_BREAK_TABLE: SafeByteMatchTable =
-        safe_byte_match_table!(|b| !matches!(b, b' ' | b'\t' | 0x0b | 0x0c | b'\r' | b'\n'));
+        safe_byte_match_table!(|b| !matches!(b, b' ' | b'\t' | B_VT | B_FF | b'\r' | b'\n'));
 
     lexer.state.mark_had_line_break();
     byte_search! {
@@ -95,7 +103,7 @@ const NLN: ByteHandler = |lexer| {
 /// Space
 const SPC: ByteHandler = |lexer| {
     static NOT_SPC: SafeByteMatchTable =
-        safe_byte_match_table!(|b| !matches!(b, b' ' | b'\t' | 0x0b | 0x0c));
+        safe_byte_match_table!(|b| !matches!(b, b' ' | b'\t' | B_VT | B_FF));
 
     byte_search! {
         lexer: lexer,
