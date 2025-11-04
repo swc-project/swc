@@ -210,10 +210,10 @@ impl Bump<'_> {
     ) -> Result<()> {
         eprintln!("Bumping crate: {pkg_name}");
 
-        let original_version = self
-            .versions
-            .get(pkg_name)
-            .context(format!("failed to find original version for {pkg_name}"))?;
+        let Some(original_version) = self.versions.get(pkg_name) else {
+            eprintln!("No original version found for {pkg_name}, skipping bump");
+            return Ok(());
+        };
 
         let mut new_version = original_version.clone();
 
@@ -335,6 +335,10 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
     let mut versions = VersionMap::new();
 
     for pkg in md.workspace_packages() {
+        if pkg.publish == Some(vec![]) {
+            continue;
+        }
+
         versions.insert(pkg.name.clone(), pkg.version.clone());
     }
 
