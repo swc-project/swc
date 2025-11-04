@@ -53,6 +53,7 @@ shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 [dependencies]
 anyhow                = { workspace = true }
 arbitrary             = { workspace = true, features = ["derive"], optional = true }
+assume                = { workspace = true }
 bytecheck             = { workspace = true, optional = true }
 bytes-str             = { workspace = true, features = ["serde"] }
 cbor4ii               = { workspace = true, features = ["use_std"], optional = true }
@@ -79,7 +80,6 @@ from_variant         = { version = "3.0.0", path = "../from_variant" }
 swc_atoms            = { version = "9.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.1", path = "../swc_visit" }
-assume = "0.5.0"
 
 [dev-dependencies]
 par-iter   = { workspace = true }
