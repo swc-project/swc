@@ -160,13 +160,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(always)]
-    fn is(&self, c: u8) -> bool {
-        self.input().is_byte(c)
+    fn is(&mut self, c: u8) -> bool {
+        self.input_mut().is_byte(c)
     }
 
     #[inline(always)]
-    fn is_str(&self, s: &str) -> bool {
-        self.input().is_str(s)
+    fn is_str(&mut self, s: &str) -> bool {
+        self.input_mut().is_str(s)
     }
 
     #[inline(always)]
@@ -175,18 +175,18 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(always)]
-    fn cur(&self) -> Option<char> {
-        self.input().cur()
+    fn cur(&mut self) -> Option<char> {
+        self.input_mut().cur()
     }
 
     #[inline(always)]
-    fn peek(&self) -> Option<char> {
-        self.input().peek()
+    fn peek(&mut self) -> Option<char> {
+        self.input_mut().peek()
     }
 
     #[inline(always)]
-    fn peek_ahead(&self) -> Option<char> {
-        self.input().peek_ahead()
+    fn peek_ahead(&mut self) -> Option<char> {
+        self.input_mut().peek_ahead()
     }
 
     #[inline(always)]
@@ -432,7 +432,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             had_line_break_before_last || !self.state().can_have_trailing_comment();
 
                         // If next char is ';' without newline, treat as trailing
-                        if !had_line_break_before_last && self.input().is_byte(b';') {
+                        if !had_line_break_before_last && self.input_mut().is_byte(b';') {
                             is_for_next = false;
                         }
 
@@ -514,7 +514,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.state_mut().mark_had_line_break();
             }
 
-            if LEX_COMMENTS && self.input().is_byte(b'/') {
+            if LEX_COMMENTS && self.input_mut().is_byte(b'/') {
                 if let Some(c) = self.peek() {
                     if c == '/' {
                         self.skip_line_comment(2);
@@ -532,7 +532,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
-        match self.cur() {
+        match self.input_mut().cur() {
             Some(c) if c.is_ident_start() => {
                 let span = pos_span(self.cur_pos());
                 self.error_span(span, SyntaxError::IdentAfterNum)?
@@ -574,7 +574,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let mut total: Ret = Default::default();
         let mut prev = None;
 
-        while let Some(c) = self.cur() {
+        while let Some(c) = self.input_mut().cur() {
             if c == '_' {
                 *has_underscore = true;
                 if allow_num_separator {
@@ -596,7 +596,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         }
                     };
 
-                    let next = self.input().peek();
+                    let next = self.input_mut().peek();
 
                     if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
                         self.emit_error(
@@ -958,7 +958,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// by isIdentifierStart in readToken.
     fn read_jsx_word(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.syntax().jsx());
-        debug_assert!(self.input().cur().is_some_and(|c| c.is_ident_start()));
+        debug_assert!(self.input_mut().cur().is_some_and(|c| c.is_ident_start()));
 
         let mut first = true;
         let slice = self.input_uncons_while(|c| {
@@ -996,13 +996,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut s = SmartString::<LazyCompact>::default();
 
-        debug_assert!(self.input().cur().is_some_and(|c| c == '&'));
+        debug_assert!(self.input_mut().cur().is_some_and(|c| c == '&'));
         self.bump();
 
-        let start_pos = self.input().cur_pos();
+        let start_pos = self.input_mut().cur_pos();
 
         for _ in 0..10 {
-            let c = match self.input().cur() {
+            let c = match self.input_mut().cur() {
                 Some(c) => c,
                 None => break,
             };
@@ -1041,10 +1041,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
         debug_assert!(self.syntax().jsx());
-        let ch = self.input().cur().unwrap();
+        let ch = self.input_mut().cur().unwrap();
         self.bump();
 
-        let out = if ch == '\r' && self.input().cur() == Some('\n') {
+        let out = if ch == '\r' && self.input_mut().cur() == Some('\n') {
             self.bump(); // `\n`
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
@@ -1055,22 +1055,22 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     fn read_jsx_str(&mut self, quote: char) -> LexResult<Self::Token> {
         debug_assert!(self.syntax().jsx());
-        let start = self.input().cur_pos();
+        let start = self.input_mut().cur_pos();
         unsafe {
             // Safety: cur() was Some(quote)
             self.input_mut().bump(); // `quote`
         }
         let mut out = String::new();
-        let mut chunk_start = self.input().cur_pos();
+        let mut chunk_start = self.input_mut().cur_pos();
         loop {
-            let ch = match self.input().cur() {
+            let ch = match self.input_mut().cur() {
                 Some(c) => c,
                 None => {
                     self.emit_error(start, SyntaxError::UnterminatedStrLit);
                     break;
                 }
             };
-            let cur_pos = self.input().cur_pos();
+            let cur_pos = self.input_mut().cur_pos();
             if ch == '\\' {
                 let value = unsafe {
                     // Safety: We already checked for the range
@@ -1082,7 +1082,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 self.bump();
 
-                chunk_start = self.input().cur_pos();
+                chunk_start = self.input_mut().cur_pos();
 
                 continue;
             }
@@ -1103,7 +1103,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 out.push(jsx_entity.0);
 
-                chunk_start = self.input().cur_pos();
+                chunk_start = self.input_mut().cur_pos();
             } else if ch.is_line_terminator() {
                 let value = unsafe {
                     // Safety: We already checked for the range
@@ -1129,7 +1129,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
             }
         }
-        let cur_pos = self.input().cur_pos();
+        let cur_pos = self.input_mut().cur_pos();
         let s = unsafe {
             // Safety: We already checked for the range
             self.input_slice(chunk_start, cur_pos)
@@ -1144,11 +1144,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         // it might be at the end of the file when
         // the string literal is unterminated
-        if self.input().peek_ahead().is_some() {
+        if self.input_mut().peek_ahead().is_some() {
             self.bump();
         }
 
-        let end = self.input().cur_pos();
+        let end = self.input_mut().cur_pos();
         let raw = unsafe {
             // Safety: Both of `start` and `end` are generated from `cur_pos()`
             self.input_slice(start, end)
@@ -1185,13 +1185,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // returned `Some`, and already exited.
         debug_assert!(high >= MIN_HIGH);
         let is_pair = high <= MAX_HIGH
-            && self.input().cur() == Some('\\')
-            && self.input().peek() == Some('u');
+            && self.input_mut().cur() == Some('\\')
+            && self.input_mut().peek() == Some('u');
         if !is_pair {
             return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
         }
 
-        let before_second = self.input().cur_pos();
+        let before_second = self.input_mut().cur_pos();
 
         // Bump `\u`
         self.input_mut().bump_bytes(2);
@@ -1220,7 +1220,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     fn read_unicode_escape(&mut self) -> LexResult<UnicodeEscape> {
-        debug_assert_eq!(self.cur(), Some('u'));
+        debug_assert_eq!(self.input_mut().cur(), Some('u'));
 
         let mut is_curly = false;
 
@@ -1230,7 +1230,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             is_curly = true;
         }
 
-        let state = self.input().cur_pos();
+        let state = self.input_mut().cur_pos();
         let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }) {
             Ok(Some(val)) => {
                 if 0x0010_ffff >= val {
@@ -1304,7 +1304,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     #[cold]
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
-        if self.input().cur() != Some('#') || self.input().peek() != Some('!') {
+        if self.input_mut().cur() != Some('#') || self.input_mut().peek() != Some('!') {
             return Ok(None);
         }
         self.bump(); // `#`
@@ -1335,8 +1335,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         // Handle edge case for immediate template end
         if start == self.cur_pos() && self.state().last_was_tpl_element() {
-            if let Some(c) = self.cur() {
-                if c == '$' && self.peek() == Some('{') {
+            if let Some(c) = self.input_mut().cur() {
+                if c == '$' && self.input_mut().peek() == Some('{') {
                     self.bump(); // '$'
                     self.bump(); // '{'
                     return Ok(Self::Token::DOLLAR_LBRACE);
@@ -1361,7 +1361,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             match matched_byte {
                 b'$' => {
                     // Check if this is ${
-                    if self.peek() == Some('{') {
+                    if self.input_mut().peek() == Some('{') {
                         // Found template substitution
                         let cooked = if cooked_slice_start == raw_slice_start {
                             let last_pos = self.cur_pos();
@@ -1657,7 +1657,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let slice_start = self.cur_pos();
 
         // Fast path: try to scan ASCII identifier using byte_search
-        if let Some(c) = self.input().cur_as_ascii() {
+        if let Some(c) = self.input_mut().cur_as_ascii() {
             if Ident::is_valid_ascii_start(c) {
                 // Advance past first byte
                 self.bump();
@@ -1715,7 +1715,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut buf = String::with_capacity(16);
         loop {
-            if let Some(c) = self.input().cur_as_ascii() {
+            if let Some(c) = self.input_mut().cur_as_ascii() {
                 if Ident::is_valid_ascii_continue(c) {
                     self.bump();
                     continue;
@@ -1737,7 +1737,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     }
 
                     {
-                        let end = self.input().cur_pos();
+                        let end = self.input_mut().cur_pos();
                         let s = unsafe {
                             // Safety: start and end are valid position because we got them from
                             // `self.input`
@@ -1780,7 +1780,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 // ASCII but not a valid identifier
                 break;
-            } else if let Some(c) = self.input().cur() {
+            } else if let Some(c) = self.input_mut().cur() {
                 if Ident::is_valid_non_ascii_continue(c) {
                     self.bump();
                     continue;
@@ -1833,7 +1833,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_token_dot(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some_and(|c| c == '.'));
         // Check for eof
-        let next = match self.input().peek() {
+        let next = match self.input_mut().peek() {
             Some(next) => next,
             None => {
                 self.bump(); // '.'
@@ -1849,7 +1849,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         self.bump(); // 1st `.`
 
-        if next == '.' && self.input().peek() == Some('.') {
+        if next == '.' && self.input_mut().peek() == Some('.') {
             self.bump(); // 2nd `.`
             self.bump(); // 3rd `.`
 
@@ -1893,7 +1893,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     #[inline(never)]
     fn read_token_zero(&mut self) -> LexResult<Self::Token> {
         debug_assert_eq!(self.cur(), Some('0'));
-        let next = self.input().peek();
+        let next = self.input_mut().peek();
 
         let bigint = match next {
             Some('x') | Some('X') => self.read_radix_number::<16>(),
@@ -1944,13 +1944,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         }
 
         // '||', '&&'
-        if self.input().cur() == Some(C as char) {
+        if self.input_mut().cur() == Some(C as char) {
             unsafe {
                 // Safety: cur() is Some(c)
                 self.input_mut().bump();
             }
 
-            if self.input().cur() == Some('=') {
+            if self.input_mut().cur() == Some('=') {
                 unsafe {
                     // Safety: cur() is Some('=')
                     self.input_mut().bump();

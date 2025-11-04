@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 /// A character iterator that caches up to N characters ahead.
 ///
 /// This allows peeking ahead in the character stream while maintaining
@@ -9,11 +7,11 @@ pub(crate) struct CachingChars<'a, const N: usize> {
     /// The original source string
     source: &'a str,
     /// Current byte offset in the source string
-    offset: RefCell<usize>,
+    offset: usize,
     /// Cached characters that have been peeked ahead
-    peeked: RefCell<[Option<char>; N]>,
+    peeked: [Option<char>; N],
     /// Number of valid entries in the peeked array
-    peeked_count: RefCell<usize>,
+    peeked_count: usize,
 }
 
 impl<'a, const N: usize> CachingChars<'a, N> {
@@ -22,45 +20,41 @@ impl<'a, const N: usize> CachingChars<'a, N> {
     pub fn new(source: &'a str) -> Self {
         Self {
             source,
-            offset: RefCell::new(0),
-            peeked: RefCell::new([None; N]),
-            peeked_count: RefCell::new(0),
+            offset: 0,
+            peeked: [None; N],
+            peeked_count: 0,
         }
     }
 
     /// Peeks at the nth character ahead without consuming it.
     /// Returns None if there are fewer than n+1 characters remaining.
     #[inline]
-    pub fn peek(&self, n: usize) -> Option<char> {
+    pub fn peek(&mut self, n: usize) -> Option<char> {
         // If n is beyond our cache size, we can't peek that far
         if n >= N {
             return None;
         }
 
-        let mut peeked_count = self.peeked_count.borrow_mut();
-        let mut peeked = self.peeked.borrow_mut();
-        let offset = *self.offset.borrow();
-
         // Fill the cache up to position n if needed
-        while *peeked_count <= n {
-            let remaining = &self.source[offset..];
+        while self.peeked_count <= n {
+            let remaining = &self.source[self.offset..];
             let mut chars = remaining.chars();
 
             // Skip already peeked characters
-            for _ in 0..*peeked_count {
+            for _ in 0..self.peeked_count {
                 chars.next();
             }
 
             if let Some(ch) = chars.next() {
-                peeked[*peeked_count] = Some(ch);
-                *peeked_count += 1;
+                self.peeked[self.peeked_count] = Some(ch);
+                self.peeked_count += 1;
             } else {
                 // No more characters available
                 return None;
             }
         }
 
-        peeked[n]
+        self.peeked[n]
     }
 
     /// Returns the remaining string slice that has not been consumed yet.
@@ -68,7 +62,7 @@ impl<'a, const N: usize> CachingChars<'a, N> {
     /// This includes any characters that have been peeked but not consumed.
     #[inline]
     pub fn as_str(&self) -> &'a str {
-        &self.source[*self.offset.borrow()..]
+        &self.source[self.offset..]
     }
 }
 
@@ -77,34 +71,30 @@ impl<'a, const N: usize> Iterator for CachingChars<'a, N> {
 
     #[inline]
     fn next(&mut self) -> Option<char> {
-        let mut peeked_count = self.peeked_count.borrow_mut();
-        let mut peeked = self.peeked.borrow_mut();
-        let mut offset = self.offset.borrow_mut();
-
         // If we have peeked characters, return the first one
-        if *peeked_count > 0 {
-            let ch = peeked[0];
+        if self.peeked_count > 0 {
+            let ch = self.peeked[0];
             // Shift remaining peeked characters
-            for i in 1..*peeked_count {
-                peeked[i - 1] = peeked[i];
+            for i in 1..self.peeked_count {
+                self.peeked[i - 1] = self.peeked[i];
             }
-            peeked[*peeked_count - 1] = None;
-            *peeked_count -= 1;
+            self.peeked[self.peeked_count - 1] = None;
+            self.peeked_count -= 1;
 
             // Advance offset by the character's byte length
             if let Some(c) = ch {
-                *offset += c.len_utf8();
+                self.offset += c.len_utf8();
             }
 
             return ch;
         }
 
         // Otherwise, get the next character from the source
-        let remaining = &self.source[*offset..];
+        let remaining = &self.source[self.offset..];
         let mut chars = remaining.chars();
 
         if let Some(ch) = chars.next() {
-            *offset += ch.len_utf8();
+            self.offset += ch.len_utf8();
             Some(ch)
         } else {
             None

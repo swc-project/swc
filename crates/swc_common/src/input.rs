@@ -118,17 +118,17 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 
 impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
-    fn cur(&self) -> Option<char> {
+    fn cur(&mut self) -> Option<char> {
         self.iter.peek(0)
     }
 
     #[inline]
-    fn peek(&self) -> Option<char> {
+    fn peek(&mut self) -> Option<char> {
         self.iter.peek(1)
     }
 
     #[inline]
-    fn peek_ahead(&self) -> Option<char> {
+    fn peek_ahead(&mut self) -> Option<char> {
         self.iter.peek(2)
     }
 
@@ -144,7 +144,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     }
 
     #[inline]
-    fn cur_as_ascii(&self) -> Option<u8> {
+    fn cur_as_ascii(&mut self) -> Option<u8> {
         let first_byte = *self.as_str().as_bytes().first()?;
         if first_byte <= 0x7f {
             Some(first_byte)
@@ -231,7 +231,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     }
 
     #[inline]
-    fn is_byte(&self, c: u8) -> bool {
+    fn is_byte(&mut self, c: u8) -> bool {
         self.iter
             .as_str()
             .as_bytes()
@@ -241,7 +241,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     }
 
     #[inline]
-    fn is_str(&self, s: &str) -> bool {
+    fn is_str(&mut self, s: &str) -> bool {
         self.as_str().starts_with(s)
     }
 
@@ -257,9 +257,9 @@ impl<'a> Input<'a> for StringInput<'a> {
 }
 
 pub trait Input<'a>: Clone {
-    fn cur(&self) -> Option<char>;
-    fn peek(&self) -> Option<char>;
-    fn peek_ahead(&self) -> Option<char>;
+    fn cur(&mut self) -> Option<char>;
+    fn peek(&mut self) -> Option<char>;
+    fn peek_ahead(&mut self) -> Option<char>;
 
     /// # Safety
     ///
@@ -270,7 +270,7 @@ pub trait Input<'a>: Clone {
     /// Returns [None] if it's end of input **or** current character is not an
     /// ascii character.
     #[inline]
-    fn cur_as_ascii(&self) -> Option<u8> {
+    fn cur_as_ascii(&mut self) -> Option<u8> {
         self.cur().and_then(|i| {
             if i.is_ascii() {
                 return Some(i as u8);
@@ -307,7 +307,7 @@ pub trait Input<'a>: Clone {
     /// `c` must be ASCII.
     #[inline]
     #[allow(clippy::wrong_self_convention)]
-    fn is_byte(&self, c: u8) -> bool {
+    fn is_byte(&mut self, c: u8) -> bool {
         match self.cur() {
             Some(ch) => ch == c as char,
             _ => false,
@@ -317,7 +317,7 @@ pub trait Input<'a>: Clone {
     /// Implementors can override the method to make it faster.
     ///
     /// `s` must be ASCII only.
-    fn is_str(&self, s: &str) -> bool;
+    fn is_str(&mut self, s: &str) -> bool;
 
     /// Implementors can override the method to make it faster.
     ///

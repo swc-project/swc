@@ -245,7 +245,7 @@ impl crate::input::Tokens for Lexer<'_> {
         let token = self.state.token_type.unwrap();
         debug_assert!(token.is_word());
         let mut v = String::with_capacity(16);
-        while let Some(ch) = self.input().cur() {
+        while let Some(ch) = self.input_mut().cur() {
             if ch == '-' {
                 v.push(ch);
                 self.bump();
@@ -507,7 +507,7 @@ impl Lexer<'_> {
 
     fn scan_identifier_parts(&mut self) -> String {
         let mut v = String::with_capacity(16);
-        while let Some(ch) = self.input().cur() {
+        while let Some(ch) = self.input_mut().cur() {
             if ch.is_ident_part() {
                 v.push(ch);
                 self.input_mut().bump_bytes(ch.len_utf8());
