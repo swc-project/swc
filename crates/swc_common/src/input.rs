@@ -75,18 +75,8 @@ impl<'a> StringInput<'a> {
 
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
-        for _ in 0..n {
-            let ch = self.iter.next();
-            if let Some(ch) = ch {
-                if ch.len_utf8() > 1 {
-                    unsafe {
-                        debug_unreachable!(
-                            "bump_bytes should not be called with a multi-byte character"
-                        );
-                    }
-                }
-            }
-        }
+        let s = self.iter.as_str();
+        self.iter = unsafe { s.get_unchecked(n..) }.chars();
         self.last_pos.0 += n as u32;
     }
 
