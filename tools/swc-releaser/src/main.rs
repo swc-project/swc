@@ -335,6 +335,10 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
     let mut versions = VersionMap::new();
 
     for pkg in md.workspace_packages() {
+        if pkg.publish != Some(vec![]) {
+            continue;
+        }
+
         versions.insert(pkg.name.clone(), pkg.version.clone());
     }
 
