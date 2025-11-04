@@ -75,9 +75,19 @@ impl<'a> StringInput<'a> {
 
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
-        unsafe {
-            // Safety: We only proceed, not go back.
-            self.reset_to(self.last_pos + BytePos(n as u32));
+        let s = self.iter.as_str();
+        self.iter = unsafe { s.get_unchecked(n..) }.chars();
+        self.last_pos.0 += n as u32;
+    }
+
+    #[inline]
+    pub fn bump_one(&mut self) {
+        if self.iter.next().is_some() {
+            self.last_pos.0 += 1;
+        } else {
+            unsafe {
+                debug_unreachable!("bump should not be called when cur() == None");
+            }
         }
     }
 
