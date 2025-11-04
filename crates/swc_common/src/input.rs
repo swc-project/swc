@@ -75,10 +75,21 @@ impl<'a> StringInput<'a> {
 
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
-        unsafe {
-            // Safety: We only proceed, not go back.
-            self.reset_to(self.last_pos + BytePos(n as u32));
+        if n == 0 {
+            unsafe {
+                debug_unreachable!("bump_bytes should not be called with 0");
+            }
         }
+
+        let to = self.last_pos + BytePos(n as u32);
+
+        let orig = self.orig;
+        let idx = (to - self.orig_start).0 as usize;
+
+        debug_assert!(idx <= orig.len());
+        let s = unsafe { orig.get_unchecked(idx..) };
+        self.iter = s.chars();
+        self.last_pos = to;
     }
 
     pub fn start_pos(&self) -> BytePos {
