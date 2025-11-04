@@ -36,7 +36,7 @@ wasmer-wasix = { workspace = true }
 swc_common = { version = "17.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "22.0.0", path = "../swc_plugin_runner" }
+swc_plugin_runner = { version = "22.0.1", path = "../swc_plugin_runner" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }

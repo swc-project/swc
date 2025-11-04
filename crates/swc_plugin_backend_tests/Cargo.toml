@@ -36,7 +36,7 @@ cbor4ii                   = { workspace = true, features = [ "use_std" ] }
 swc_common = { version = "17.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "22.0.0", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
+swc_plugin_runner = { version = "22.0.1", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
 swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
