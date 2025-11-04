@@ -80,6 +80,7 @@ impl<'a> StringInput<'a> {
         self.last_pos.0 += n as u32;
     }
 
+    /// Bump the current position by 1.
     #[inline]
     pub fn bump_one(&mut self) {
         if self.iter.next().is_some() {
@@ -251,8 +252,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
-            self.iter.next();
-            self.last_pos = self.last_pos + BytePos(1_u32);
+            self.bump_one();
             true
         } else {
             false
