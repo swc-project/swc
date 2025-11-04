@@ -2,6 +2,7 @@
 ///
 /// This allows peeking ahead in the character stream while maintaining
 /// the ability to get the remaining string slice via `as_str()`.
+#[derive(Clone)]
 pub(crate) struct CachingChars<'a, const N: usize> {
     /// The original source string
     source: &'a str,

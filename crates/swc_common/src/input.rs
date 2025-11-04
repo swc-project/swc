@@ -2,7 +2,10 @@ use std::str;
 
 use debug_unreachable::debug_unreachable;
 
-use crate::syntax_pos::{BytePos, SourceFile};
+use crate::{
+    syntax_pos::{BytePos, SourceFile},
+    util::cached_chars::CachingChars,
+};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
 
@@ -11,7 +14,7 @@ pub type SourceFileInput<'a> = StringInput<'a>;
 pub struct StringInput<'a> {
     last_pos: BytePos,
     /// Current cursor
-    iter: str::Chars<'a>,
+    iter: CachingChars<'a, 2>,
     orig: &'a str,
     /// Original start position.
     orig_start: BytePos,
@@ -33,7 +36,7 @@ impl<'a> StringInput<'a> {
         StringInput {
             last_pos: start,
             orig: src,
-            iter: src.chars(),
+            iter: CachingChars::new(src),
             orig_start: start,
             orig_end: end,
         }
@@ -68,7 +71,7 @@ impl<'a> StringInput<'a> {
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
-        self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+        self.iter = CachingChars::new(unsafe { s.get_unchecked(end_idx..) });
 
         ret
     }
@@ -76,7 +79,7 @@ impl<'a> StringInput<'a> {
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
         let s = self.iter.as_str();
-        self.iter = unsafe { s.get_unchecked(n..) }.chars();
+        self.iter = CachingChars::new(unsafe { s.get_unchecked(n..) });
         self.last_pos.0 += n as u32;
     }
 
@@ -185,7 +188,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
-        self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+        self.iter = CachingChars::new(unsafe { s.get_unchecked(end_idx..) });
         self.last_pos = end;
 
         ret
@@ -213,7 +216,7 @@ impl<'a> Input<'a> for StringInput<'a> {
         let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
+        self.iter = CachingChars::new(unsafe { s.get_unchecked(last..) });
 
         ret
     }
@@ -230,7 +233,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
         debug_assert!(idx <= orig.len());
         let s = unsafe { orig.get_unchecked(idx..) };
-        self.iter = s.chars();
+        self.iter = CachingChars::new(s);
         self.last_pos = to;
     }
 
