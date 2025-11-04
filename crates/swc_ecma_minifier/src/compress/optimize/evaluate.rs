@@ -7,7 +7,10 @@ use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::{BitCtx, Optimizer};
 use crate::{
-    compress::util::eval_as_number, program_data::VarUsageInfoFlags, DISABLE_BUGGY_PASSES,
+    compress::util::eval_as_number,
+    program_data::VarUsageInfoFlags,
+    util::size::{Size, SizeWithCtxt},
+    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `evaluate`.
@@ -428,6 +431,21 @@ impl Optimizer<'_> {
 
         if let Expr::Call(..) = e {
             if let Some(value) = eval_as_number(self.ctx.expr_ctx, e) {
+                // Calculate the size of the original expression and the resulting literal
+                let original_size = e.size(self.ctx.expr_ctx.unresolved_ctxt);
+                let new_size = if value.is_nan() {
+                    // "NaN" identifier is 3 characters
+                    3
+                } else {
+                    // Size of the numeric literal
+                    value.size()
+                };
+
+                // Only perform the optimization if the result is not larger than the original
+                if new_size > original_size {
+                    return;
+                }
+
                 self.changed = true;
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 

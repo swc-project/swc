@@ -6972,7 +6972,7 @@
             target: "Number",
             stat: !0
         }, {
-            EPSILON: 2.220446049250313e-16
+            EPSILON: Math.pow(2, -52)
         });
     /***/ },
     /***/ 36017: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {

@@ -3202,7 +3202,7 @@
                 ];
             }
             // EXTERNAL MODULE: ./node_modules/@react-pdf/textkit/lib/run/height.js
-            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = /*#__PURE__*/ r.n(N), U = (1.4142135623730951 - 1.0) / 3.0 * 4.0, z = (1.4142135623730951 - 1.0) / 3.0 * 4.0, W = function(e, t, r, n, i) {
+            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = /*#__PURE__*/ r.n(N), U = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, z = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, W = function(e, t, r, n, i) {
                 var o = t - n, a = r - i, u = n * z, l = i * z, s = o + 2 * n, c = a + 2 * i, f = o + n, p = a + i;
                 e.moveTo(o, p), e.bezierCurveTo(o, p - l, f - u, a, f, a), e.bezierCurveTo(f + u, a, s, p - l, s, p), e.bezierCurveTo(s, p + l, f + u, c, f, c), e.bezierCurveTo(f - u, c, o, p + l, o, p), e.closePath();
             }, G = function(e, t, r, n, i, o) {
@@ -3286,7 +3286,7 @@
                 }));
             }, J = function(e, t) {
                 X(e, Z(t.props.points || ""));
-            }, Y = (1.4142135623730951 - 1.0) / 3.0 * 4.0, K = function(e, t) {
+            }, Y = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, K = function(e, t) {
                 if (t.style) {
                     var r = t.box, n = r.top, i = r.left, o = r.width, a = r.height, u = t.style, l = u.borderTopLeftRadius, s = u.borderTopRightRadius, c = u.borderBottomRightRadius, f = u.borderBottomLeftRadius, p = Math.min(void 0 === s ? 0 : s, 0.5 * o, 0.5 * a), d = p * (1.0 - Y);
                     e.moveTo(i + p, n), e.lineTo(i + o - p, n), e.bezierCurveTo(i + o - d, n, i + o, n + d, i + o, n + p);
@@ -3845,7 +3845,7 @@
                     }, i));
                 }, {});
                 return t;
-            }, e$ = (1.4142135623730951 - 1.0) / 3.0 * 4.0, e0 = function(e, t, r, n, i) {
+            }, e$ = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, e0 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderTopWidth, c = r.borderRightWidth, f = r.borderLeftWidth;
                 e.moveTo(a + i, o), e.lineTo(a + u - n, o);
                 var p = n * (1.0 - e$); // Clip outer top right cap
@@ -20962,7 +20962,7 @@
                         }
                         return (d ? -1 : 1) * a * Math.pow(2, o - n);
                     }, t.write = function(e, t, r, n, i, o) {
-                        var a, u, l, s = 8 * o - i - 1, c = (1 << s) - 1, f = c >> 1, p = 5.960464477539062e-8 * (23 === i), d = n ? 0 : o - 1, h = n ? 1 : -1, y = +(t < 0 || 0 === t && 1 / t < 0);
+                        var a, u, l, s = 8 * o - i - 1, c = (1 << s) - 1, f = c >> 1, p = 23 === i ? Math.pow(2, -24) - Math.pow(2, -77) : 0, d = n ? 0 : o - 1, h = n ? 1 : -1, y = +(t < 0 || 0 === t && 1 / t < 0);
                         for(isNaN(t = Math.abs(t)) || t === 1 / 0 ? (u = +!!isNaN(t), a = c) : (a = Math.floor(Math.log(t) / Math.LN2), t * (l = Math.pow(2, -a)) < 1 && (a--, l *= 2), a + f >= 1 ? t += p / l : t += p * Math.pow(2, 1 - f), t * l >= 2 && (a++, l /= 2), a + f >= c ? (u = 0, a = c) : a + f >= 1 ? (u = (t * l - 1) * Math.pow(2, i), a += f) : (u = t * Math.pow(2, f - 1) * Math.pow(2, i), a = 0)); i >= 8; e[r + d] = 255 & u, d += h, u /= 256, i -= 8);
                         for(a = a << i | u, s += i; s > 0; e[r + d] = 255 & a, d += h, a /= 256, s -= 8);
                         e[r + d - h] |= 128 * y;

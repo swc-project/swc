@@ -129,6 +129,7 @@ function(global, factory) {
             return x;
         };
     }
+    var e10 = Math.sqrt(50), e5 = Math.sqrt(10), e2 = Math.sqrt(2);
     function ticks(start, stop, count) {
         var reverse, n, ticks, step, i = -1;
         if (count *= 1, (start *= 1) == (stop *= 1) && count > 0) return [
@@ -141,11 +142,11 @@ function(global, factory) {
     }
     function tickIncrement(start, stop, count) {
         var step = (stop - start) / Math.max(0, count), power = Math.floor(Math.log(step) / Math.LN10), error = step / Math.pow(10, power);
-        return power >= 0 ? (error >= 7.0710678118654755 ? 10 : error >= 3.1622776601683795 ? 5 : error >= 1.4142135623730951 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= 7.0710678118654755 ? 10 : error >= 3.1622776601683795 ? 5 : error >= 1.4142135623730951 ? 2 : 1);
+        return power >= 0 ? (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1) * Math.pow(10, power) : -Math.pow(10, -power) / (error >= e10 ? 10 : error >= e5 ? 5 : error >= e2 ? 2 : 1);
     }
     function tickStep(start, stop, count) {
         var step0 = Math.abs(stop - start) / Math.max(0, count), step1 = Math.pow(10, Math.floor(Math.log(step0) / Math.LN10)), error = step0 / step1;
-        return error >= 7.0710678118654755 ? step1 *= 10 : error >= 3.1622776601683795 ? step1 *= 5 : error >= 1.4142135623730951 && (step1 *= 2), stop < start ? -step1 : step1;
+        return error >= e10 ? step1 *= 10 : error >= e5 ? step1 *= 5 : error >= e2 && (step1 *= 2), stop < start ? -step1 : step1;
     }
     function nice(start, stop, count) {
         let prestep;
@@ -3306,7 +3307,7 @@ function(global, factory) {
     function defaultWeight() {
         return 1;
     }
-    let EDGE_STACK = new Uint32Array(512);
+    let EPSILON = Math.pow(2, -52), EDGE_STACK = new Uint32Array(512);
     class Delaunator {
         static from(points, getX = defaultGetX, getY = defaultGetY) {
             let n = points.length, coords = new Float64Array(2 * n);
@@ -3390,7 +3391,7 @@ function(global, factory) {
             for(let k = 0, xp, yp; k < this._ids.length; k++){
                 let i = this._ids[k], x = coords[2 * i], y = coords[2 * i + 1];
                 // skip near-duplicate points
-                if (k > 0 && 2.220446049250313e-16 >= Math.abs(x - xp) && 2.220446049250313e-16 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
+                if (k > 0 && Math.abs(x - xp) <= EPSILON && Math.abs(y - yp) <= EPSILON || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
                 // find a visible edge on the convex hull using edge hash
                 let start = 0;
                 for(let j = 0, key = this._hashKey(x, y); j < this._hashSize && (-1 === (start = hullHash[(key + j) % this._hashSize]) || start === hullNext[start]); j++);
@@ -4319,7 +4320,7 @@ function(global, factory) {
     }, treeProto.y = function(_) {
         return arguments.length ? (this._y = _, this) : this._y;
     };
-    var initialAngle = Math.PI * (3 - 2.23606797749979);
+    var initialAngle = Math.PI * (3 - Math.sqrt(5));
     // Computes the decimal coefficient and exponent of the specified number x with
     // significant digits p, where x is positive and p is in [1, 21] or undefined.
     // For example, formatDecimalParts(1.23) returns ["123", 0].
@@ -6507,6 +6508,8 @@ function(global, factory) {
     function treemapSlice(parent, x0, y0, x1, y1) {
         for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (y1 - y0) / parent.value; ++i < n;)(node = nodes[i]).x0 = x0, node.x1 = x1, node.y0 = y0, node.y1 = y0 += node.value * k;
     }
+    TreeNode.prototype = Object.create(Node.prototype);
+    var phi = (1 + Math.sqrt(5)) / 2;
     function squarifyRatio(ratio, parent, x0, y0, x1, y1) {
         for(var row, nodeValue, dx, dy, sumValue, minValue, maxValue, newRatio, minRatio, alpha, beta, rows = [], nodes = parent.children, i0 = 0, i1 = 0, n = nodes.length, value = parent.value; i0 < n;){
             dx = x1 - x0, dy = y1 - y0;
@@ -6530,7 +6533,6 @@ function(global, factory) {
         }
         return rows;
     }
-    TreeNode.prototype = Object.create(Node.prototype);
     var squarify = function custom(ratio) {
         function squarify(parent, x0, y0, x1, y1) {
             squarifyRatio(ratio, parent, x0, y0, x1, y1);
@@ -6538,7 +6540,7 @@ function(global, factory) {
         return squarify.ratio = function(x) {
             return custom((x *= 1) > 1 ? x : 1);
         }, squarify;
-    }((1 + 2.23606797749979) / 2), resquarify = function custom(ratio) {
+    }(phi), resquarify = function custom(ratio) {
         function resquarify(parent, x0, y0, x1, y1) {
             if ((rows = parent._squarify) && rows.ratio === ratio) for(var rows, row, nodes, i, n, j = -1, m = rows.length, value = parent.value; ++j < m;){
                 for(nodes = (row = rows[j]).children, i = row.value = 0, n = nodes.length; i < n; ++i)row.value += nodes[i].value;
@@ -6549,7 +6551,7 @@ function(global, factory) {
         return resquarify.ratio = function(x) {
             return custom((x *= 1) > 1 ? x : 1);
         }, resquarify;
-    }((1 + 2.23606797749979) / 2);
+    }(phi);
     function lexicographicOrder(a, b) {
         return a[0] - b[0] || a[1] - b[1];
     }
@@ -8355,12 +8357,12 @@ function(global, factory) {
             var w = Math.sqrt(size), x = -w / 2;
             context.rect(x, x, w, w);
         }
-    }, triangle = {
+    }, sqrt3 = Math.sqrt(3), triangle = {
         draw: function(context, size) {
-            var y = -Math.sqrt(size / 5.196152422706632);
-            context.moveTo(0, 2 * y), context.lineTo(-1.7320508075688772 * y, -y), context.lineTo(1.7320508075688772 * y, -y), context.closePath();
+            var y = -Math.sqrt(size / (3 * sqrt3));
+            context.moveTo(0, 2 * y), context.lineTo(-sqrt3 * y, -y), context.lineTo(sqrt3 * y, -y), context.closePath();
         }
-    }, s = 1.7320508075688772 / 2, k = 1 / 3.4641016151377544, a$1 = (1 / 3.4641016151377544 / 2 + 1) * 3, wye = {
+    }, s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a$1 = (k / 2 + 1) * 3, wye = {
         draw: function(context, size) {
             var r = Math.sqrt(size / a$1), x0 = r / 2, y0 = r * k, y1 = r * k + r, x2 = -x0;
             context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(-0.5 * x0 - s * y0, s * x0 + -0.5 * y0), context.lineTo(-0.5 * x0 - s * y1, s * x0 + -0.5 * y1), context.lineTo(-0.5 * x2 - s * y1, s * x2 + -0.5 * y1), context.lineTo(-0.5 * x0 + s * y0, -0.5 * y0 - s * x0), context.lineTo(-0.5 * x0 + s * y1, -0.5 * y1 - s * x0), context.lineTo(-0.5 * x2 + s * y1, -0.5 * y1 - s * x2), context.closePath();
