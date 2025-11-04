@@ -661,7 +661,6 @@ jobs:
         with:
           path: |
             ~/.cargo/
-            **/target/
           key: ${{ runner.os }}-publish-integration
 
       - name: Install node dependencies
