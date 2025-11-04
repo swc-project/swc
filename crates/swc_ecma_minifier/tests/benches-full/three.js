@@ -13210,13 +13210,13 @@ function(global, factory) {
     }
     function HemisphereLightProbe(skyColor, groundColor, intensity) {
         LightProbe.call(this, void 0, intensity);
-        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c1 = 1.7724538509055159 * Math.sqrt(0.75);
-        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(1.7724538509055159), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c1);
+        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI), c1 = c0 * Math.sqrt(0.75);
+        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c1);
     }
     function AmbientLightProbe(color, intensity) {
         LightProbe.call(this, void 0, intensity);
         var color1 = new Color().set(color); // without extra factor of PI in the shader, would be 2 / Math.sqrt( Math.PI );
-        this.sh.coefficients[0].set(color1.r, color1.g, color1.b).multiplyScalar(3.5449077018110318);
+        this.sh.coefficients[0].set(color1.r, color1.g, color1.b).multiplyScalar(2 * Math.sqrt(Math.PI));
     }
     AudioLoader.prototype = Object.assign(Object.create(Loader.prototype), {
         constructor: AudioLoader,
