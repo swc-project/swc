@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_core_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "2.0.0"
+version     = "1.0.0"
 
 [lib]
 bench      = false
@@ -47,9 +47,9 @@ swc_core = { path = "../../crates/swc_core", features = [
 tracing = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 
-  [package.metadata.wasm-pack.profile.release]
-  wasm-opt = false
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
 
-  [package.metadata.cargo-shear]
-  # ignored, as they are only used to enable features
-  ignored = ["getrandom", "anyhow", "serde-wasm-bindgen"]
+[package.metadata.cargo-shear]
+# ignored, as they are only used to enable features
+ignored = ["getrandom", "anyhow", "serde-wasm-bindgen"]
