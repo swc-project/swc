@@ -330,7 +330,7 @@ impl Lexer<'_> {
     fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
-        self.bump();
+        self.input.bump_one();
 
         if self.syntax.typescript()
             && self.ctx.contains(Context::InType)
@@ -357,7 +357,7 @@ impl Lexer<'_> {
 
         // '<<', '>>'
         if self.cur() == Some(C as char) {
-            self.bump();
+            self.input.bump_one();
             op = if C == b'<' {
                 Token::LShift
             } else {
@@ -366,7 +366,7 @@ impl Lexer<'_> {
 
             //'>>>'
             if C == b'>' && self.cur() == Some(C as char) {
-                self.bump();
+                self.input.bump_one();
                 op = Token::ZeroFillRShift;
             }
         }
@@ -418,7 +418,7 @@ impl Lexer<'_> {
     ) -> LexResult<Token> {
         debug_assert!(self.cur() == Some(if started_with_backtick { '`' } else { '}' }));
         let mut cooked = Ok(Wtf8Buf::with_capacity(8));
-        self.bump(); // `}` or `\``
+        self.input.bump_one(); // `}` or `\``
         let mut cooked_slice_start = self.cur_pos();
         let raw_slice_start = cooked_slice_start;
         let raw_atom = |this: &mut Self| {
@@ -444,7 +444,7 @@ impl Lexer<'_> {
                 consume_cooked!();
                 let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
                 let raw = raw_atom(self);
-                self.bump();
+                self.input.bump_one();
                 return Ok(if started_with_backtick {
                     self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::NoSubstitutionTemplateLiteral

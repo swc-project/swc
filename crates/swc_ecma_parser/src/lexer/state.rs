@@ -248,7 +248,7 @@ impl crate::input::Tokens for Lexer<'_> {
         while let Some(ch) = self.input().cur() {
             if ch == '-' {
                 v.push(ch);
-                self.bump();
+                self.input.bump_one();
             } else {
                 let old_pos = self.cur_pos();
                 v.push_str(&self.scan_identifier_parts());
@@ -512,12 +512,12 @@ impl Lexer<'_> {
                 v.push(ch);
                 self.input_mut().bump_bytes(ch.len_utf8());
             } else if ch == '\\' {
-                self.bump(); // bump '\'
+                self.input.bump_one(); // bump '\'
                 if !self.is(b'u') {
                     self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                     continue;
                 }
-                self.bump(); // bump 'u'
+                self.input.bump_one(); // bump 'u'
                 let Ok(value) = self.read_unicode_escape() else {
                     self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                     break;
