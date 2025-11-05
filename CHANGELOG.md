@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(hstr)** Skip only `\u` for unicode ([#11216](https://github.com/swc-project/swc/issues/11216)) ([2076ba3](https://github.com/swc-project/swc/commit/2076ba36ed9324bfebd8758eb105e87ef46531ff))
+
 ### Performance
 
 
@@ -1985,16 +1991,10 @@
 
 
 
-- **(es/proposal)** Fix declarations for `explicit-resource-management` ([#10198](https://github.com/swc-project/swc/issues/10198)) ([99ba555](https://github.com/swc-project/swc/commit/99ba555c810a89ceae899cf612f8ee17925f5581))
-
-
 - **(es/types)** Add missing types for `jsc.transform.react.refresh` ([#10206](https://github.com/swc-project/swc/issues/10206)) ([e71b000](https://github.com/swc-project/swc/commit/e71b000392a01ecb5a35ec8f0faac9cd79ff2cd1))
 
 ### Testing
 
-
-
-- **(es/minifier)** Add a benchmark for real-world inputs ([#10204](https://github.com/swc-project/swc/issues/10204)) ([97f2180](https://github.com/swc-project/swc/commit/97f2180e86323fd530bed5a274a0e50abaf81237))
 
 
 - **(es/minifier)** Disable real-world benchmarks on CI ([#10205](https://github.com/swc-project/swc/issues/10205)) ([c5f1cbe](https://github.com/swc-project/swc/commit/c5f1cbe46762b9b9fa1cc27495675ae32e30c9ed))
