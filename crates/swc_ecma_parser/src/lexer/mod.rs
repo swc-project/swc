@@ -456,7 +456,8 @@ impl Lexer<'_> {
                 consume_cooked!();
                 let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
                 let raw = raw_atom(self);
-                self.input.bump_bytes(2);
+                self.input.bump_one();
+                self.input.bump_one();
                 return Ok(if started_with_backtick {
                     self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::TemplateHead
@@ -748,7 +749,8 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(self.peek(), Some('*'));
 
         // Consume initial "/*"
-        self.input_mut().bump_bytes(2);
+        self.input_mut().bump_one();
+        self.input_mut().bump_one();
 
         // jsdoc
         let slice_start = self.cur_pos();
@@ -799,7 +801,8 @@ impl<'a> Lexer<'a> {
                 b'*' => {
                     if self.peek() == Some('/') {
                         // Consume "*/"
-                        self.input_mut().bump_bytes(2);
+                        self.input_mut().bump_one();
+                        self.input_mut().bump_one();
 
                         if should_mark_had_line_break {
                             self.state_mut().mark_had_line_break();
@@ -1501,7 +1504,8 @@ impl<'a> Lexer<'a> {
         let before_second = self.input().cur_pos();
 
         // Bump `\u`
-        self.input_mut().bump_bytes(2);
+        self.input_mut().bump_one();
+        self.input_mut().bump_one();
 
         let Some(low) = self.read_int_u32::<16>(4)? else {
             return Ok(None);
