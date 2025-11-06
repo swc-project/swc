@@ -1,0 +1,32 @@
+[package]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Binding module for swc_ts_fast_strip"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_ts_fast_strip_binding"
+publish     = false
+repository  = { workspace = true }
+version     = "1.15.0"
+
+[lib]
+bench = false
+
+[features]
+nightly = ["swc_ts_fast_strip/nightly"]
+
+[dependencies]
+anyhow = { workspace = true }
+js-sys = { workspace = true }
+miette = { workspace = true }
+owo-colors = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true }
+swc_common = { path = "../../crates/swc_common" }
+swc_error_reporters = { path = "../../crates/swc_error_reporters" }
+swc_ts_fast_strip = { path = "../../crates/swc_ts_fast_strip", features = [
+  "wasm-bindgen",
+] }
+tracing = { workspace = true, features = ["max_level_off"] }
+unicode-width = { workspace = true }
+wasm-bindgen = { workspace = true, features = ["enable-interning"] }
+wasm-bindgen-futures = { workspace = true }
