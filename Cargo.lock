@@ -7001,6 +7001,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ts_fast_strip_binding"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "miette",
+ "owo-colors",
+ "serde",
+ "serde_json",
+ "swc_common",
+ "swc_ecma_parser",
+ "swc_error_reporters",
+ "swc_ts_fast_strip",
+ "tracing",
+ "unicode-width 0.2.2",
+]
+
+[[package]]
 name = "swc_typescript"
 version = "23.0.0"
 dependencies = [
