@@ -1,856 +1,751 @@
-#![allow(clippy::vec_box)]
+//! Transformer / Transpiler
+//!
+//! References:
+//! * <https://www.typescriptlang.org/tsconfig#target>
+//! * <https://babel.dev/docs/presets>
+//! * <https://github.com/microsoft/TypeScript/blob/v5.6.3/src/compiler/transformer.ts>
 
-use std::mem::take;
+use std::path::Path;
 
-use rustc_hash::FxHashSet;
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_transforms_base::assumptions::Assumptions;
-use swc_ecma_utils::{
-    default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
-};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
-use swc_trace_macro::swc_trace;
+use oxc_allocator::{Allocator, TakeIn, Vec as ArenaVec};
+use oxc_ast::{ast::*, AstBuilder};
+use oxc_diagnostics::OxcDiagnostic;
+use oxc_semantic::Scoping;
+use oxc_span::SPAN;
+use oxc_traverse::{traverse_mut, Traverse};
 
-use crate::es2022::{
-    private_in_object::{ClassAnalyzer, ClassData, Mode},
-    static_blocks::generate_uid,
-};
-pub use crate::features::Features;
+// Core
+mod common;
+mod compiler_assumptions;
+mod context;
+mod options;
+mod state;
+mod utils;
 
-pub mod compat;
+// Presets: <https://babel.dev/docs/presets>
+mod es2015;
+mod es2016;
+mod es2017;
+mod es2018;
+mod es2019;
 mod es2020;
 mod es2021;
 mod es2022;
-mod features;
+mod es2026;
+mod jsx;
+mod proposals;
+mod regexp;
+mod typescript;
 
-#[derive(Debug)]
-pub struct Compiler {
-    config: Config,
+mod decorator;
+mod plugins;
+
+use common::Common;
+use context::{TransformCtx, TraverseCtx};
+use decorator::Decorator;
+use es2015::ES2015;
+use es2016::ES2016;
+use es2017::ES2017;
+use es2018::ES2018;
+use es2019::ES2019;
+use es2020::ES2020;
+use es2021::ES2021;
+use es2022::ES2022;
+use es2026::ES2026;
+use jsx::Jsx;
+use regexp::RegExp;
+use rustc_hash::FxHashMap;
+use state::TransformState;
+use typescript::TypeScript;
+
+use crate::plugins::Plugins;
+pub use crate::{
+    common::helper_loader::{Helper, HelperLoaderMode, HelperLoaderOptions},
+    compiler_assumptions::CompilerAssumptions,
+    decorator::DecoratorOptions,
+    es2015::{ArrowFunctionsOptions, ES2015Options},
+    es2016::ES2016Options,
+    es2017::ES2017Options,
+    es2018::ES2018Options,
+    es2019::ES2019Options,
+    es2020::ES2020Options,
+    es2021::ES2021Options,
+    es2022::{ClassPropertiesOptions, ES2022Options},
+    es2026::ES2026Options,
+    jsx::{JsxOptions, JsxRuntime, ReactRefreshOptions},
+    options::{
+        babel::{BabelEnvOptions, BabelOptions},
+        ESTarget, Engine, EngineTargets, EnvOptions, Module, TransformOptions,
+    },
+    plugins::{PluginsOptions, StyledComponentsOptions},
+    proposals::ProposalOptions,
+    typescript::{RewriteExtensionsMode, TypeScriptOptions},
+};
+
+#[non_exhaustive]
+pub struct TransformerReturn {
+    pub errors: std::vec::Vec<OxcDiagnostic>,
+    pub scoping: Scoping,
+    /// Helpers used by this transform.
+    #[deprecated = "Internal usage only"]
+    pub helpers_used: FxHashMap<Helper, String>,
 }
 
-impl Compiler {
-    pub fn new(config: Config) -> Self {
-        Self { config }
-    }
+pub struct Transformer<'a> {
+    ctx: TransformCtx<'a>,
+    allocator: &'a Allocator,
+
+    typescript: TypeScriptOptions,
+    decorator: DecoratorOptions,
+    plugins: PluginsOptions,
+    jsx: JsxOptions,
+    env: EnvOptions,
+    #[expect(dead_code)]
+    proposals: ProposalOptions,
 }
 
-#[derive(Debug, Default)]
-pub struct Config {
-    pub assumptions: Assumptions,
-    /// Always compile these syntaxes.
-    pub includes: Features,
-    /// Always preserve these syntaxes.
-    pub excludes: Features,
-}
-
-impl Pass for Compiler {
-    fn process(&mut self, program: &mut swc_ecma_ast::Program) {
-        program.visit_mut_with(&mut CompilerImpl::new(&self.config));
-    }
-}
-
-struct CompilerImpl<'a> {
-    config: &'a Config,
-
-    // ES2022: Private in object transformation state
-    es2022_private_field_helper_vars: Vec<VarDeclarator>,
-    es2022_private_field_init_exprs: Vec<Box<Expr>>,
-    es2022_injected_weakset_vars: FxHashSet<Id>,
-    es2022_current_class_data: ClassData,
-
-    // ES2021: Logical assignments transformation state
-    es2021_logical_assignment_vars: Vec<VarDeclarator>,
-
-    // ES2020: Nullish coalescing transformation state
-    es2020_nullish_coalescing_vars: Vec<VarDeclarator>,
-}
-
-#[swc_trace]
-impl<'a> CompilerImpl<'a> {
-    fn new(config: &'a Config) -> Self {
+impl<'a> Transformer<'a> {
+    pub fn new(allocator: &'a Allocator, source_path: &Path, options: &TransformOptions) -> Self {
+        let ctx = TransformCtx::new(source_path, options);
         Self {
-            config,
-            es2022_private_field_helper_vars: Vec::new(),
-            es2022_private_field_init_exprs: Vec::new(),
-            es2022_injected_weakset_vars: FxHashSet::default(),
-            es2022_current_class_data: ClassData::default(),
-            es2021_logical_assignment_vars: Vec::new(),
-            es2020_nullish_coalescing_vars: Vec::new(),
+            ctx,
+            allocator,
+            typescript: options.typescript.clone(),
+            decorator: options.decorator,
+            plugins: options.plugins.clone(),
+            jsx: options.jsx.clone(),
+            env: options.env,
+            proposals: options.proposals,
         }
     }
 
-    /// ES2022: Transform static blocks to static private fields
-    fn es2022_static_blocks_to_private_fields(&mut self, class: &mut Class) {
-        let mut private_names = FxHashSet::default();
-        for member in &class.body {
-            if let ClassMember::PrivateProp(private_property) = member {
-                private_names.insert(private_property.key.name.clone());
-            }
+    pub fn build_with_scoping(
+        mut self,
+        scoping: Scoping,
+        program: &mut Program<'a>,
+    ) -> TransformerReturn {
+        let allocator = self.allocator;
+        let ast_builder = AstBuilder::new(allocator);
+
+        self.ctx.source_type = program.source_type;
+        self.ctx.source_text = program.source_text;
+
+        if program.source_type.is_jsx() {
+            jsx::update_options_with_comments(
+                &program.comments,
+                &mut self.typescript,
+                &mut self.jsx,
+                &self.ctx,
+            );
         }
 
-        let mut count = 0;
-        for member in class.body.iter_mut() {
-            if let ClassMember::StaticBlock(static_block) = member {
-                if static_block.body.stmts.is_empty() {
-                    *member = ClassMember::dummy();
-                    continue;
-                }
+        let mut transformer = TransformerImpl {
+            common: Common::new(&self.env, &self.ctx),
+            decorator: Decorator::new(self.decorator, &self.ctx),
+            plugins: Plugins::new(self.plugins, &self.ctx),
+            x0_typescript: program
+                .source_type
+                .is_typescript()
+                .then(|| TypeScript::new(&self.typescript, &self.ctx)),
+            x1_jsx: Jsx::new(
+                self.jsx,
+                self.env.es2018.object_rest_spread,
+                ast_builder,
+                &self.ctx,
+            ),
+            x2_es2026: ES2026::new(self.env.es2026, &self.ctx),
+            x2_es2022: ES2022::new(
+                self.env.es2022,
+                !self.typescript.allow_declare_fields
+                    || self.typescript.remove_class_fields_without_initializer,
+                &self.ctx,
+            ),
+            x2_es2021: ES2021::new(self.env.es2021, &self.ctx),
+            x2_es2020: ES2020::new(self.env.es2020, &self.ctx),
+            x2_es2019: ES2019::new(self.env.es2019),
+            x2_es2018: ES2018::new(self.env.es2018, &self.ctx),
+            x2_es2016: ES2016::new(self.env.es2016, &self.ctx),
+            x2_es2017: ES2017::new(self.env.es2017, &self.ctx),
+            x3_es2015: ES2015::new(self.env.es2015, &self.ctx),
+            x4_regexp: RegExp::new(self.env.regexp, &self.ctx),
+        };
 
-                let static_block_private_id = generate_uid(&private_names, &mut count);
-                *member = self
-                    .transform_static_block(static_block.take(), static_block_private_id)
-                    .into();
-            };
-        }
-    }
-
-    /// ES2022: Analyze class private fields for 'private in object'
-    /// transformation
-    fn es2022_analyze_private_fields_for_in_operator(&mut self, class: &Class) {
-        class.visit_children_with(&mut ClassAnalyzer {
-            brand_check_names: &mut self.es2022_current_class_data.names_used_for_brand_checks,
-            ignore_class: true,
-        });
-
-        for m in &class.body {
-            match m {
-                ClassMember::PrivateMethod(m) => {
-                    self.es2022_current_class_data
-                        .privates
-                        .insert(m.key.name.clone());
-                    self.es2022_current_class_data
-                        .methods
-                        .push(m.key.name.clone());
-
-                    if m.is_static {
-                        self.es2022_current_class_data
-                            .statics
-                            .push(m.key.name.clone());
-                    }
-                }
-
-                ClassMember::PrivateProp(m) => {
-                    self.es2022_current_class_data
-                        .privates
-                        .insert(m.key.name.clone());
-
-                    if m.is_static {
-                        self.es2022_current_class_data
-                            .statics
-                            .push(m.key.name.clone());
-                    }
-                }
-
-                _ => {}
-            }
-        }
-    }
-
-    /// ES2022: Inject WeakSet initialization into constructor for private field
-    /// brand checks
-    fn es2022_inject_weakset_init_for_private_fields(&mut self, class: &mut Class) {
-        if self.es2022_current_class_data.constructor_exprs.is_empty() {
-            return;
-        }
-
-        let has_constructor = class
-            .body
-            .iter()
-            .any(|m| matches!(m, ClassMember::Constructor(_)));
-
-        if !has_constructor {
-            let has_super = class.super_class.is_some();
-            class
-                .body
-                .push(ClassMember::Constructor(default_constructor_with_span(
-                    has_super, class.span,
-                )));
-        }
-
-        for m in &mut class.body {
-            if let ClassMember::Constructor(Constructor {
-                body: Some(body), ..
-            }) = m
-            {
-                for expr in take(&mut self.es2022_current_class_data.constructor_exprs) {
-                    body.stmts.push(
-                        ExprStmt {
-                            span: DUMMY_SP,
-                            expr,
-                        }
-                        .into(),
-                    );
-                }
-            }
-        }
-    }
-
-    /// ES2022: Transform 'private in object' expressions to WeakSet.has() calls
-    fn es2022_transform_private_in_to_weakset_has(&mut self, e: &mut Expr) -> bool {
-        if let Expr::Bin(BinExpr {
-            span,
-            op: op!("in"),
-            left,
-            right,
-        }) = e
-        {
-            if left.is_private_name() {
-                let left = left.take().expect_private_name();
-
-                let is_static = self.es2022_current_class_data.statics.contains(&left.name);
-                let is_method = self.es2022_current_class_data.methods.contains(&left.name);
-
-                if let Some(cls_ident) = self.es2022_current_class_data.ident.clone() {
-                    if is_static && is_method {
-                        *e = BinExpr {
-                            span: *span,
-                            op: op!("==="),
-                            left: cls_ident.into(),
-                            right: right.take(),
-                        }
-                        .into();
-                        return true;
-                    }
-                }
-
-                let var_name =
-                    self.var_name_for_brand_check(&left, &self.es2022_current_class_data);
-
-                if self.es2022_current_class_data.privates.contains(&left.name)
-                    && self.es2022_injected_weakset_vars.insert(var_name.to_id())
-                {
-                    self.es2022_current_class_data.vars.push_var(
-                        var_name.clone(),
-                        Some(
-                            NewExpr {
-                                span: DUMMY_SP,
-                                callee: Box::new(quote_ident!("WeakSet").into()),
-                                args: Some(Default::default()),
-                                ..Default::default()
-                            }
-                            .into(),
-                        ),
-                    );
-
-                    if is_method {
-                        self.es2022_current_class_data.constructor_exprs.push(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: var_name
-                                    .clone()
-                                    .make_member(IdentName::new("add".into(), DUMMY_SP))
-                                    .as_callee(),
-                                args: vec![ExprOrSpread {
-                                    spread: None,
-                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                }],
-                                ..Default::default()
-                            }
-                            .into(),
-                        );
-                    }
-                }
-
-                *e = CallExpr {
-                    span: *span,
-                    callee: var_name
-                        .make_member(IdentName::new("has".into(), DUMMY_SP))
-                        .as_callee(),
-                    args: vec![ExprOrSpread {
-                        spread: None,
-                        expr: right.take(),
-                    }],
-                    ..Default::default()
-                }
-                .into();
-                return true;
-            }
-        }
-        false
-    }
-
-    /// ES2022: Prepend private field helper variables to statements
-    fn es2022_prepend_private_field_vars(&mut self, stmts: &mut Vec<Stmt>) {
-        if self.es2022_private_field_helper_vars.is_empty() {
-            return;
-        }
-
-        prepend_stmt(
-            stmts,
-            VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: Default::default(),
-                decls: take(&mut self.es2022_private_field_helper_vars),
-                ..Default::default()
-            }
-            .into(),
-        );
-    }
-
-    /// ES2022: Prepend private field helper variables to module items
-    fn es2022_prepend_private_field_vars_module(&mut self, items: &mut Vec<ModuleItem>) {
-        if self.es2022_private_field_helper_vars.is_empty() {
-            return;
-        }
-
-        prepend_stmt(
-            items,
-            VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: Default::default(),
-                decls: take(&mut self.es2022_private_field_helper_vars),
-                ..Default::default()
-            }
-            .into(),
-        );
-    }
-
-    /// ES2022: Add WeakSet.add() calls to private properties for brand checking
-    fn es2022_add_weakset_to_private_props(&mut self, n: &mut PrivateProp) {
-        if !self
-            .es2022_current_class_data
-            .names_used_for_brand_checks
-            .contains(&n.key.name)
-        {
-            return;
-        }
-
-        let var_name = self.var_name_for_brand_check(&n.key, &self.es2022_current_class_data);
-
-        match &mut n.value {
-            Some(init) => {
-                let init_span = init.span();
-
-                let tmp = private_ident!("_tmp");
-
-                self.es2022_current_class_data
-                    .vars
-                    .push_var(tmp.clone(), None);
-
-                let assign = AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: tmp.clone().into(),
-                    right: init.take(),
-                }
-                .into();
-
-                let add_to_checker = CallExpr {
-                    span: DUMMY_SP,
-                    callee: var_name
-                        .make_member(IdentName::new("add".into(), DUMMY_SP))
-                        .as_callee(),
-                    args: vec![ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                    }],
-                    ..Default::default()
-                }
-                .into();
-
-                *init = SeqExpr {
-                    span: init_span,
-                    exprs: vec![assign, add_to_checker, Box::new(tmp.into())],
-                }
-                .into();
-            }
-            None => {
-                n.value = Some(
-                    UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!("void"),
-                        arg: Box::new(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: var_name
-                                    .make_member(IdentName::new("add".into(), DUMMY_SP))
-                                    .as_callee(),
-                                args: vec![ExprOrSpread {
-                                    spread: None,
-                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                }],
-                                ..Default::default()
-                            }
-                            .into(),
-                        ),
-                    }
-                    .into(),
-                )
-            }
+        let state = TransformState::default();
+        let scoping = traverse_mut(&mut transformer, allocator, program, scoping, state);
+        let helpers_used = self
+            .ctx
+            .helper_loader
+            .used_helpers
+            .borrow_mut()
+            .drain()
+            .collect();
+        #[expect(deprecated)]
+        TransformerReturn {
+            errors: self.ctx.take_errors(),
+            scoping,
+            helpers_used,
         }
     }
 }
 
-#[swc_trace]
-impl<'a> VisitMut for CompilerImpl<'a> {
-    noop_visit_mut_type!(fail);
+struct TransformerImpl<'a, 'ctx> {
+    // NOTE: all callbacks must run in order.
+    x0_typescript: Option<TypeScript<'a, 'ctx>>,
+    decorator: Decorator<'a, 'ctx>,
+    plugins: Plugins<'a, 'ctx>,
+    x1_jsx: Jsx<'a, 'ctx>,
+    x2_es2026: ES2026<'a, 'ctx>,
+    x2_es2022: ES2022<'a, 'ctx>,
+    x2_es2021: ES2021<'a, 'ctx>,
+    x2_es2020: ES2020<'a, 'ctx>,
+    x2_es2019: ES2019,
+    x2_es2018: ES2018<'a, 'ctx>,
+    x2_es2017: ES2017<'a, 'ctx>,
+    x2_es2016: ES2016<'a, 'ctx>,
+    #[expect(unused)]
+    x3_es2015: ES2015<'a, 'ctx>,
+    x4_regexp: RegExp<'a, 'ctx>,
+    common: Common<'a, 'ctx>,
+}
 
-    fn visit_mut_class(&mut self, class: &mut Class) {
-        // Pre-processing transformations
-        if self.config.includes.contains(Features::STATIC_BLOCKS) {
-            self.es2022_static_blocks_to_private_fields(class);
+impl<'a> Traverse<'a, TransformState<'a>> for TransformerImpl<'a, '_> {
+    fn enter_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_program(program, ctx);
         }
+        self.plugins.enter_program(program, ctx);
+        self.x1_jsx.enter_program(program, ctx);
+        self.x2_es2026.enter_program(program, ctx);
+    }
 
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            self.es2022_analyze_private_fields_for_in_operator(class);
+    fn exit_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.decorator.exit_program(program, ctx);
+        self.x1_jsx.exit_program(program, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.exit_program(program, ctx);
         }
+        self.x2_es2022.exit_program(program, ctx);
+        self.x2_es2020.exit_program(program, ctx);
+        self.x2_es2018.exit_program(program, ctx);
+        self.common.exit_program(program, ctx);
+    }
 
-        // Single recursive visit
-        class.visit_mut_children_with(self);
+    // ALPHASORT
+    fn enter_arrow_function_expression(
+        &mut self,
+        arrow: &mut ArrowFunctionExpression<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.common.enter_arrow_function_expression(arrow, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_arrow_function_expression(arrow, ctx);
+        }
+        self.x2_es2018.enter_arrow_function_expression(arrow, ctx);
+    }
 
-        // Post-processing transformations
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            self.es2022_inject_weakset_init_for_private_fields(class);
+    fn enter_variable_declaration(
+        &mut self,
+        decl: &mut VariableDeclaration<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.x2_es2018.enter_variable_declaration(decl, ctx);
+    }
+
+    fn enter_variable_declarator(
+        &mut self,
+        decl: &mut VariableDeclarator<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_variable_declarator(decl, ctx);
+        }
+        self.plugins.enter_variable_declarator(decl, ctx);
+    }
+
+    fn enter_big_int_literal(&mut self, node: &mut BigIntLiteral<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.x2_es2020.enter_big_int_literal(node, ctx);
+    }
+
+    fn enter_await_expression(
+        &mut self,
+        node: &mut AwaitExpression<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.x2_es2022.enter_await_expression(node, ctx);
+    }
+
+    fn enter_import_specifier(
+        &mut self,
+        node: &mut ImportSpecifier<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.x2_es2020.enter_import_specifier(node, ctx);
+    }
+
+    fn enter_export_specifier(
+        &mut self,
+        node: &mut ExportSpecifier<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.x2_es2020.enter_export_specifier(node, ctx);
+    }
+
+    fn enter_binding_identifier(
+        &mut self,
+        node: &mut BindingIdentifier<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.common.enter_binding_identifier(node, ctx);
+    }
+
+    fn enter_identifier_reference(
+        &mut self,
+        node: &mut IdentifierReference<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.common.enter_identifier_reference(node, ctx);
+    }
+
+    fn enter_binding_pattern(&mut self, pat: &mut BindingPattern<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_binding_pattern(pat, ctx);
         }
     }
 
-    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        // Setup phase for private fields
-        let old_cls = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old = take(&mut self.es2022_current_class_data);
-            self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
-            self.es2022_current_class_data.ident = Some(n.ident.clone());
-            self.es2022_current_class_data.vars = Mode::ClassDecl {
-                vars: Default::default(),
-            };
-            Some(old)
-        } else {
-            None
-        };
+    fn enter_call_expression(&mut self, expr: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_call_expression(expr, ctx);
+        }
+        self.plugins.enter_call_expression(expr, ctx);
+        self.x1_jsx.enter_call_expression(expr, ctx);
+    }
 
-        // Single recursive visit
-        n.visit_mut_children_with(self);
-
-        // Cleanup phase for private fields
-        if let Some(old_cls) = old_cls {
-            match &mut self.es2022_current_class_data.vars {
-                Mode::ClassDecl { vars } => {
-                    self.es2022_private_field_helper_vars.extend(take(vars));
-                }
-                _ => unreachable!(),
-            }
-            self.es2022_current_class_data = old_cls;
+    fn enter_chain_element(&mut self, element: &mut ChainElement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_chain_element(element, ctx);
         }
     }
 
-    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        // Setup phase for private fields
-        let old_cls = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old = take(&mut self.es2022_current_class_data);
-            self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
-            self.es2022_current_class_data.ident.clone_from(&n.ident);
-            self.es2022_current_class_data.vars = Mode::ClassExpr {
-                vars: Default::default(),
-                init_exprs: Default::default(),
-            };
-            Some(old)
-        } else {
-            None
-        };
-
-        // Single recursive visit
-        n.visit_mut_children_with(self);
-
-        // Cleanup phase for private fields
-        if let Some(old_cls) = old_cls {
-            match &mut self.es2022_current_class_data.vars {
-                Mode::ClassExpr { vars, init_exprs } => {
-                    self.es2022_private_field_helper_vars.extend(take(vars));
-                    self.es2022_private_field_init_exprs
-                        .extend(take(init_exprs));
-                }
-                _ => unreachable!(),
-            }
-            self.es2022_current_class_data = old_cls;
+    fn enter_class(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.decorator.enter_class(class, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_class(class, ctx);
         }
     }
 
-    /// Prevents #1123 for nullish coalescing
-    fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
-        // Setup phase: Save nullish coalescing vars
-        let old_es2020_nullish_coalescing_vars =
-            if self.config.includes.contains(Features::NULLISH_COALESCING) {
-                Some(self.es2020_nullish_coalescing_vars.take())
-            } else {
-                None
-            };
+    fn exit_class(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.decorator.exit_class(class, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.exit_class(class, ctx);
+        }
+        self.x2_es2022.exit_class(class, ctx);
+        // `decorator` has some statements should be inserted after `class-properties`
+        // plugin.
+        self.decorator.exit_class_at_end(class, ctx);
+    }
 
-        // Single recursive visit
-        s.visit_mut_children_with(self);
+    fn enter_class_body(&mut self, body: &mut ClassBody<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.x2_es2022.enter_class_body(body, ctx);
+    }
 
-        // Cleanup phase: Restore nullish coalescing vars
-        if let Some(old_vars) = old_es2020_nullish_coalescing_vars {
-            self.es2020_nullish_coalescing_vars = old_vars;
+    fn enter_static_block(&mut self, block: &mut StaticBlock<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.enter_static_block(block, ctx);
+        self.x2_es2022.enter_static_block(block, ctx);
+    }
+
+    fn exit_static_block(&mut self, block: &mut StaticBlock<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.exit_static_block(block, ctx);
+        self.x2_es2026.exit_static_block(block, ctx);
+        self.x2_es2022.exit_static_block(block, ctx);
+    }
+
+    #[inline]
+    fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.enter_expression(expr, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_expression(expr, ctx);
+        }
+        self.plugins.enter_expression(expr, ctx);
+        self.x2_es2022.enter_expression(expr, ctx);
+        self.x2_es2021.enter_expression(expr, ctx);
+        self.x2_es2020.enter_expression(expr, ctx);
+        self.x2_es2018.enter_expression(expr, ctx);
+        self.x2_es2016.enter_expression(expr, ctx);
+        self.x4_regexp.enter_expression(expr, ctx);
+    }
+
+    fn exit_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.exit_expression(expr, ctx);
+        self.x1_jsx.exit_expression(expr, ctx);
+        self.x2_es2022.exit_expression(expr, ctx);
+        self.x2_es2018.exit_expression(expr, ctx);
+        self.x2_es2017.exit_expression(expr, ctx);
+    }
+
+    fn enter_simple_assignment_target(
+        &mut self,
+        node: &mut SimpleAssignmentTarget<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_simple_assignment_target(node, ctx);
         }
     }
 
-    /// Prevents #1123 and #6328 for nullish coalescing
-    fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
-        // Prevents #6328
-        s.test.visit_mut_with(self);
+    fn enter_assignment_target(
+        &mut self,
+        node: &mut AssignmentTarget<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_assignment_target(node, ctx);
+        }
+        self.x2_es2022.enter_assignment_target(node, ctx);
+    }
 
-        // Setup phase: Save nullish coalescing vars
-        let old_es2020_nullish_coalescing_vars =
-            if self.config.includes.contains(Features::NULLISH_COALESCING) {
-                Some(self.es2020_nullish_coalescing_vars.take())
-            } else {
-                None
-            };
+    fn enter_formal_parameters(
+        &mut self,
+        node: &mut FormalParameters<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.x2_es2020.enter_formal_parameters(node, ctx);
+    }
 
-        // Visit consequents
-        s.cons.visit_mut_with(self);
+    fn exit_formal_parameters(
+        &mut self,
+        node: &mut FormalParameters<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.x2_es2020.exit_formal_parameters(node, ctx);
+    }
 
-        // Cleanup phase: Restore nullish coalescing vars
-        if let Some(old_vars) = old_es2020_nullish_coalescing_vars {
-            self.es2020_nullish_coalescing_vars = old_vars;
+    fn enter_formal_parameter(
+        &mut self,
+        param: &mut FormalParameter<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_formal_parameter(param, ctx);
         }
     }
 
-    fn visit_mut_assign_pat(&mut self, p: &mut AssignPat) {
-        // Visit left side first
-        p.left.visit_mut_with(self);
+    fn enter_function(&mut self, func: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.enter_function(func, ctx);
+        self.x2_es2018.enter_function(func, ctx);
+    }
 
-        // Handle private field brand checks
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let mut buf = FxHashSet::default();
-            let mut v = ClassAnalyzer {
-                brand_check_names: &mut buf,
-                ignore_class: false,
-            };
-            p.right.visit_with(&mut v);
+    fn exit_function(&mut self, func: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.exit_function(func, ctx);
+        }
+        self.x1_jsx.exit_function(func, ctx);
+        self.x2_es2018.exit_function(func, ctx);
+        self.x2_es2017.exit_function(func, ctx);
+        self.common.exit_function(func, ctx);
+    }
 
-            if !buf.is_empty() {
-                let mut bs = BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(p.right.take()),
-                    }
-                    .into()],
-                    ..Default::default()
+    fn enter_function_body(&mut self, body: &mut FunctionBody<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.enter_function_body(body, ctx);
+        self.x2_es2026.enter_function_body(body, ctx);
+    }
+
+    fn exit_function_body(&mut self, body: &mut FunctionBody<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.exit_function_body(body, ctx);
+    }
+
+    fn enter_jsx_element(&mut self, node: &mut JSXElement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_jsx_element(node, ctx);
+        }
+    }
+
+    fn enter_jsx_element_name(&mut self, node: &mut JSXElementName<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.common.enter_jsx_element_name(node, ctx);
+    }
+
+    fn enter_jsx_member_expression_object(
+        &mut self,
+        node: &mut JSXMemberExpressionObject<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.common.enter_jsx_member_expression_object(node, ctx);
+    }
+
+    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_jsx_fragment(node, ctx);
+        }
+    }
+
+    fn enter_jsx_opening_element(
+        &mut self,
+        elem: &mut JSXOpeningElement<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_jsx_opening_element(elem, ctx);
+        }
+        self.x1_jsx.enter_jsx_opening_element(elem, ctx);
+    }
+
+    fn enter_method_definition(
+        &mut self,
+        def: &mut MethodDefinition<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.decorator.enter_method_definition(def, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_method_definition(def, ctx);
+        }
+    }
+
+    fn exit_method_definition(
+        &mut self,
+        def: &mut MethodDefinition<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.decorator.exit_method_definition(def, ctx);
+    }
+
+    fn enter_new_expression(&mut self, expr: &mut NewExpression<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_new_expression(expr, ctx);
+        }
+    }
+
+    fn enter_property_definition(
+        &mut self,
+        def: &mut PropertyDefinition<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.decorator.enter_property_definition(def, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_property_definition(def, ctx);
+        }
+        self.x2_es2022.enter_property_definition(def, ctx);
+    }
+
+    fn exit_property_definition(
+        &mut self,
+        def: &mut PropertyDefinition<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.decorator.exit_property_definition(def, ctx);
+        self.x2_es2022.exit_property_definition(def, ctx);
+    }
+
+    fn enter_accessor_property(
+        &mut self,
+        node: &mut AccessorProperty<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.decorator.enter_accessor_property(node, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_accessor_property(node, ctx);
+        }
+    }
+
+    fn exit_accessor_property(
+        &mut self,
+        node: &mut AccessorProperty<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.decorator.exit_accessor_property(node, ctx);
+    }
+
+    fn enter_statements(
+        &mut self,
+        stmts: &mut ArenaVec<'a, Statement<'a>>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.common.enter_statements(stmts, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_statements(stmts, ctx);
+        }
+    }
+
+    fn exit_arrow_function_expression(
+        &mut self,
+        arrow: &mut ArrowFunctionExpression<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.common.exit_arrow_function_expression(arrow, ctx);
+
+        // Some plugins may add new statements to the ArrowFunctionExpression's body,
+        // which can cause issues with the `() => x;` case, as it only allows a single
+        // statement. To address this, we wrap the last statement in a return
+        // statement and set the expression to false. This transforms the arrow
+        // function into the form `() => { return x; };`.
+        let statements = &mut arrow.body.statements;
+        if arrow.expression && statements.len() > 1 {
+            arrow.expression = false;
+
+            // Reverse looping to find the expression statement, because other plugins could
+            // insert new statements after the expression statement.
+            // `() => x;`
+            // ->
+            // ```
+            // () => {
+            //    var new_insert_variable;
+            //    return x;
+            //    function new_insert_function() {}
+            // };
+            // ```
+            for stmt in statements.iter_mut().rev() {
+                let Statement::ExpressionStatement(expr_stmt) = stmt else {
+                    continue;
                 };
-                bs.visit_mut_with(self);
-
-                p.right = CallExpr {
-                    span: DUMMY_SP,
-                    callee: ArrowExpr {
-                        span: DUMMY_SP,
-                        params: Default::default(),
-                        body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
-                        is_async: false,
-                        is_generator: false,
-                        ..Default::default()
-                    }
-                    .as_callee(),
-                    args: Default::default(),
-                    ..Default::default()
-                }
-                .into();
+                let expression = Some(expr_stmt.expression.take_in(ctx.ast));
+                *stmt = ctx.ast.statement_return(SPAN, expression);
                 return;
             }
-        }
-
-        p.right.visit_mut_with(self);
-    }
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        // Phase 1: Setup for private field expressions
-        let prev_prepend_exprs = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            Some(take(&mut self.es2022_private_field_init_exprs))
-        } else {
-            None
-        };
-
-        // Phase 2: Single recursive visit - Visit children first
-        e.visit_mut_children_with(self);
-
-        // Phase 3: Post-processing transformations
-        // Apply transformations after visiting children (this matches the original
-        // order)
-        let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
-            && self.transform_logical_assignment(e);
-
-        let nullish_transformed = !logical_transformed
-            && self.config.includes.contains(Features::NULLISH_COALESCING)
-            && self.transform_nullish_coalescing(e);
-
-        // Handle private field expressions
-        if let Some(prev_prepend_exprs) = prev_prepend_exprs {
-            let mut prepend_exprs = std::mem::replace(
-                &mut self.es2022_private_field_init_exprs,
-                prev_prepend_exprs,
-            );
-
-            if !prepend_exprs.is_empty() {
-                match e {
-                    Expr::Seq(e) => {
-                        e.exprs = prepend_exprs.into_iter().chain(e.exprs.take()).collect();
-                    }
-                    _ => {
-                        prepend_exprs.push(Box::new(e.take()));
-                        *e = SeqExpr {
-                            span: DUMMY_SP,
-                            exprs: prepend_exprs,
-                        }
-                        .into();
-                    }
-                }
-            } else if !logical_transformed && !nullish_transformed {
-                // Transform private in expressions only if no other transformation occurred
-                self.es2022_transform_private_in_to_weakset_has(e);
-            }
+            unreachable!("At least one statement should be expression statement")
         }
     }
 
-    fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
-        // Pre-processing: Export namespace transformation
-        if self
-            .config
-            .includes
-            .contains(Features::EXPORT_NAMESPACE_FROM)
-        {
-            self.transform_export_namespace_from(ns);
+    fn exit_statements(
+        &mut self,
+        stmts: &mut ArenaVec<'a, Statement<'a>>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.exit_statements(stmts, ctx);
         }
+        self.common.exit_statements(stmts, ctx);
+    }
 
-        // Setup for variable hoisting
-        let need_logical_var_hoisting =
-            self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
-        let need_nullish_var_hoisting = self.config.includes.contains(Features::NULLISH_COALESCING);
-
-        let saved_logical_vars = if need_logical_var_hoisting {
-            self.es2021_logical_assignment_vars.take()
-        } else {
-            vec![]
-        };
-
-        let saved_nullish_vars = if need_nullish_var_hoisting {
-            self.es2020_nullish_coalescing_vars.take()
-        } else {
-            vec![]
-        };
-
-        // Process statements with different hoisting strategies
-        if need_nullish_var_hoisting {
-            // Nullish coalescing: Insert vars before each statement that generates them
-            let mut buf = Vec::with_capacity(ns.len() + 2);
-
-            for mut item in ns.take() {
-                item.visit_mut_with(self);
-
-                // Insert nullish vars before the statement
-                if !self.es2020_nullish_coalescing_vars.is_empty() {
-                    buf.push(ModuleItem::Stmt(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: self.es2020_nullish_coalescing_vars.take(),
-                            ..Default::default()
-                        }
-                        .into(),
-                    ));
-                }
-
-                // Collect logical vars but don't insert yet
-                buf.push(item);
-            }
-
-            *ns = buf;
-
-            // Logical assignments: Hoist all vars to the top
-            if need_logical_var_hoisting && !self.es2021_logical_assignment_vars.is_empty() {
-                prepend_stmt(
-                    ns,
-                    ModuleItem::Stmt(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: self.es2021_logical_assignment_vars.take(),
-                            ..Default::default()
-                        }
-                        .into(),
-                    ),
-                );
-            }
-        } else if need_logical_var_hoisting {
-            // Only logical assignments: Hoist all vars to the top
-            ns.visit_mut_children_with(self);
-
-            if !self.es2021_logical_assignment_vars.is_empty() {
-                prepend_stmt(
-                    ns,
-                    ModuleItem::Stmt(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: self.es2021_logical_assignment_vars.take(),
-                            ..Default::default()
-                        }
-                        .into(),
-                    ),
-                );
-            }
-        } else {
-            // Single recursive visit
-            ns.visit_mut_children_with(self);
+    fn exit_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.exit_statement(stmt, ctx);
         }
+        self.decorator.exit_statement(stmt, ctx);
+        self.x2_es2018.exit_statement(stmt, ctx);
+        self.x2_es2017.exit_statement(stmt, ctx);
+    }
 
-        // Restore saved vars
-        self.es2021_logical_assignment_vars = saved_logical_vars;
-        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
-
-        // Post-processing: Private field variables
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
-            && !self.es2022_private_field_helper_vars.is_empty()
-        {
-            self.es2022_prepend_private_field_vars_module(ns);
+    fn enter_tagged_template_expression(
+        &mut self,
+        expr: &mut TaggedTemplateExpression<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_tagged_template_expression(expr, ctx);
         }
     }
 
-    fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
-        // Single recursive visit
-        n.visit_mut_children_with(self);
+    fn enter_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.decorator.enter_statement(stmt, ctx);
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_statement(stmt, ctx);
+        }
+        self.x2_es2018.enter_statement(stmt, ctx);
+        self.x2_es2026.enter_statement(stmt, ctx);
+    }
 
-        // Post-processing: Add WeakSet for brand checks
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            self.es2022_add_weakset_to_private_props(n);
+    fn enter_declaration(&mut self, decl: &mut Declaration<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_declaration(decl, ctx);
         }
     }
 
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        if let PropName::Computed(_) = n {
-            n.visit_mut_children_with(self);
+    fn enter_if_statement(&mut self, stmt: &mut IfStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_if_statement(stmt, ctx);
         }
     }
 
-    fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
-        // Setup for variable hoisting
-        let need_logical_var_hoisting =
-            self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
-        let need_nullish_var_hoisting = self.config.includes.contains(Features::NULLISH_COALESCING);
-
-        let saved_logical_vars = if need_logical_var_hoisting {
-            self.es2021_logical_assignment_vars.take()
-        } else {
-            vec![]
-        };
-
-        let saved_nullish_vars = if need_nullish_var_hoisting {
-            self.es2020_nullish_coalescing_vars.take()
-        } else {
-            vec![]
-        };
-
-        // Process statements with different hoisting strategies
-        if need_nullish_var_hoisting {
-            // Nullish coalescing: Insert vars before each statement that generates them
-            let mut buf = Vec::with_capacity(s.len() + 2);
-
-            for mut stmt in s.take() {
-                stmt.visit_mut_with(self);
-
-                // Insert nullish vars before the statement
-                if !self.es2020_nullish_coalescing_vars.is_empty() {
-                    buf.push(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: self.es2020_nullish_coalescing_vars.take(),
-                            ..Default::default()
-                        }
-                        .into(),
-                    );
-                }
-
-                // Collect logical vars but don't insert yet
-                buf.push(stmt);
-            }
-
-            *s = buf;
-
-            // Logical assignments: Hoist all vars to the top
-            if need_logical_var_hoisting && !self.es2021_logical_assignment_vars.is_empty() {
-                prepend_stmt(
-                    s,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: self.es2021_logical_assignment_vars.take(),
-                        ..Default::default()
-                    }
-                    .into(),
-                );
-            }
-        } else if need_logical_var_hoisting {
-            // Only logical assignments: Hoist all vars to the top
-            s.visit_mut_children_with(self);
-
-            if !self.es2021_logical_assignment_vars.is_empty() {
-                prepend_stmt(
-                    s,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: self.es2021_logical_assignment_vars.take(),
-                        ..Default::default()
-                    }
-                    .into(),
-                );
-            }
-        } else {
-            // Single recursive visit
-            s.visit_mut_children_with(self);
-        }
-
-        // Restore saved vars
-        self.es2021_logical_assignment_vars = saved_logical_vars;
-        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
-
-        // Post-processing: Private field variables
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
-            && !self.es2022_private_field_helper_vars.is_empty()
-        {
-            self.es2022_prepend_private_field_vars(s);
+    fn enter_while_statement(&mut self, stmt: &mut WhileStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_while_statement(stmt, ctx);
         }
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
-        if !self.config.includes.contains(Features::NULLISH_COALESCING) {
-            n.visit_mut_children_with(self);
-            return;
+    fn enter_do_while_statement(
+        &mut self,
+        stmt: &mut DoWhileStatement<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_do_while_statement(stmt, ctx);
         }
+    }
 
-        let vars = self.es2020_nullish_coalescing_vars.take();
-        n.visit_mut_children_with(self);
-
-        if !self.es2020_nullish_coalescing_vars.is_empty() {
-            if let BlockStmtOrExpr::Expr(expr) = n {
-                // expr
-                // { var decl = init; return expr; }
-                let stmts = vec![
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: self.es2020_nullish_coalescing_vars.take(),
-                        declare: false,
-                        ..Default::default()
-                    }
-                    .into(),
-                    Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(expr.take()),
-                    }),
-                ];
-                *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts,
-                    ..Default::default()
-                });
-            }
+    fn enter_for_statement(&mut self, stmt: &mut ForStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_for_statement(stmt, ctx);
         }
+    }
 
-        self.es2020_nullish_coalescing_vars = vars;
+    fn enter_for_of_statement(&mut self, stmt: &mut ForOfStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_for_of_statement(stmt, ctx);
+        }
+        self.x2_es2026.enter_for_of_statement(stmt, ctx);
+        self.x2_es2018.enter_for_of_statement(stmt, ctx);
+    }
+
+    fn enter_for_in_statement(&mut self, stmt: &mut ForInStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_for_in_statement(stmt, ctx);
+        }
+        self.x2_es2018.enter_for_in_statement(stmt, ctx);
+    }
+
+    fn enter_try_statement(&mut self, stmt: &mut TryStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.x2_es2026.enter_try_statement(stmt, ctx);
+    }
+
+    fn enter_catch_clause(&mut self, clause: &mut CatchClause<'a>, ctx: &mut TraverseCtx<'a>) {
+        self.x2_es2019.enter_catch_clause(clause, ctx);
+        self.x2_es2018.enter_catch_clause(clause, ctx);
+    }
+
+    fn enter_import_declaration(
+        &mut self,
+        node: &mut ImportDeclaration<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_import_declaration(node, ctx);
+        }
+    }
+
+    fn enter_export_all_declaration(
+        &mut self,
+        node: &mut ExportAllDeclaration<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_export_all_declaration(node, ctx);
+        }
+        self.x2_es2020.enter_export_all_declaration(node, ctx);
+    }
+
+    fn enter_export_named_declaration(
+        &mut self,
+        node: &mut ExportNamedDeclaration<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_export_named_declaration(node, ctx);
+        }
+    }
+
+    fn enter_ts_export_assignment(
+        &mut self,
+        export_assignment: &mut TSExportAssignment<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        if let Some(typescript) = self.x0_typescript.as_mut() {
+            typescript.enter_ts_export_assignment(export_assignment, ctx);
+        }
+    }
+
+    fn enter_decorator(
+        &mut self,
+        node: &mut oxc_ast::ast::Decorator<'a>,
+        ctx: &mut TraverseCtx<'a>,
+    ) {
+        self.decorator.enter_decorator(node, ctx);
     }
 }

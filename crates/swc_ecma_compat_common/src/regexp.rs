@@ -1,10 +1,22 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::{CallExpr, Expr, Lit, Pass, Regex};
+use swc_ecma_compiler::compat::{CompatCompiler, TransformOptions};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub fn regexp(config: Config) -> impl Pass {
-    visit_mut_pass(RegExp { config })
+    let mut transform_options = TransformOptions::default();
+
+    transform_options.env.regexp.dot_all_flag = config.dot_all_regex;
+    transform_options.env.regexp.match_indices = config.has_indices;
+    transform_options.env.regexp.look_behind_assertions = config.lookbehind_assertion;
+    transform_options.env.regexp.named_capture_groups = config.named_capturing_groups_regex;
+    transform_options.env.regexp.sticky_flag = config.sticky_regex;
+    transform_options.env.regexp.unicode_property_escapes = config.unicode_property_regex;
+    transform_options.env.regexp.unicode_flag = config.unicode_regex;
+    transform_options.env.regexp.set_notation = config.unicode_sets_regex;
+
+    visit_mut_pass(CompatCompiler::new(&transform_options))
 }
 
 #[derive(Default, Clone, Copy)]

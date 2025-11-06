@@ -11,13 +11,12 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_compiler::compat::{CompatCompiler, HelperLoaderMode, TransformOptions};
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
-        class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2016, es2017, es2018, es2019, es2020, es2022, es3,
-        regexp::{self, regexp},
+        es2018, es2022, es3,
     },
     Assumptions,
 };
@@ -51,6 +50,8 @@ where
     C: Comments + Clone,
 {
     let pass = noop_pass();
+    let mut compiler_options = TransformOptions::default();
+    compiler_options.helper_loader.mode = HelperLoaderMode::Runtime;
 
     macro_rules! add {
         ($prev:expr, $feature:ident, $pass:expr) => {{
@@ -106,15 +107,9 @@ where
         }};
     }
 
-    let pass = (
-        pass,
-        Optional::new(
-            class_fields_use_set(assumptions.pure_getters),
-            assumptions.set_public_class_fields,
-        ),
-    );
+    compiler_options.assumptions.set_public_class_fields = assumptions.set_public_class_fields;
 
-    let pass = {
+    {
         let enable_dot_all_regex = !caniuse(Feature::DotAllRegex);
         let enable_named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
         let enable_sticky_regex = !caniuse(Feature::StickyRegex);
@@ -122,30 +117,13 @@ where
         let enable_unicode_regex = !caniuse(Feature::UnicodeRegex);
         let enable_unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
 
-        let enable = enable_dot_all_regex
-            || enable_named_capturing_groups_regex
-            || enable_sticky_regex
-            || enable_unicode_property_regex
-            || enable_unicode_regex;
-
-        (
-            pass,
-            Optional::new(
-                regexp(regexp::Config {
-                    dot_all_regex: enable_dot_all_regex,
-                    // TODO: add Feature:HasIndicesRegex
-                    has_indices: false,
-                    // TODO: add Feature::LookbehindAssertion
-                    lookbehind_assertion: false,
-                    named_capturing_groups_regex: enable_named_capturing_groups_regex,
-                    sticky_regex: enable_sticky_regex,
-                    unicode_property_regex: enable_unicode_property_regex,
-                    unicode_regex: enable_unicode_regex,
-                    unicode_sets_regex: enable_unicode_sets_regex,
-                }),
-                enable,
-            ),
-        )
+        compiler_options.env.regexp.dot_all_flag = enable_dot_all_regex;
+        // compiler_options.env.regexp.match_indices = enable_has_indices_regex;
+        compiler_options.env.regexp.named_capture_groups = enable_named_capturing_groups_regex;
+        compiler_options.env.regexp.look_behind_assertions = enable_sticky_regex;
+        compiler_options.env.regexp.unicode_property_escapes = enable_unicode_property_regex;
+        compiler_options.env.regexp.unicode_flag = enable_unicode_regex;
+        compiler_options.env.regexp.set_notation = enable_unicode_sets_regex;
     };
 
     // Proposals
@@ -154,7 +132,10 @@ where
     // static block needs to be placed before class property
     // because it transforms into private static property
 
-    let pass = add_compiler!(pass, ClassStaticBlock);
+    if !caniuse(Feature::ClassStaticBlock) {
+        compiler_options.env.es2022.class_static_block = true;
+    }
+
     let pass = add!(
         pass,
         ClassProperties,
@@ -170,37 +151,30 @@ where
         )
     );
 
-    #[rustfmt::skip]
-    let pass = add_compiler!(
-        pass,
-        /* ES2022 */ | PrivatePropertyInObject
-        /* ES2021 */ | LogicalAssignmentOperators
-        /* ES2020 */ | ExportNamespaceFrom
-    );
+    let pass = add_compiler!(pass, /* ES2022 */ PrivatePropertyInObject);
+
+    if !caniuse(Feature::LogicalAssignmentOperators) {
+        compiler_options.env.es2021.logical_assignment_operators = true;
+    }
 
     // ES2020
-    let pass = add!(
-        pass,
-        NullishCoalescing,
-        es2020::nullish_coalescing(es2020::nullish_coalescing::Config {
-            no_document_all: loose || assumptions.no_document_all
-        })
-    );
 
-    let pass = add!(
-        pass,
-        OptionalChaining,
-        es2020::optional_chaining(
-            es2020::optional_chaining::Config {
-                no_document_all: loose || assumptions.no_document_all,
-                pure_getter: loose || assumptions.pure_getters
-            },
-            unresolved_mark
-        )
-    );
+    if !caniuse(Feature::ExportNamespaceFrom) {
+        compiler_options.env.es2020.export_namespace_from = true;
+    }
+
+    if !caniuse(Feature::NullishCoalescing) {
+        compiler_options.env.es2020.nullish_coalescing_operator = true;
+    }
+
+    if !caniuse(Feature::OptionalChaining) {
+        compiler_options.env.es2020.optional_chaining = true;
+    }
 
     // ES2019
-    let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
+    if !caniuse(Feature::OptionalCatchBinding) {
+        compiler_options.env.es2019.optional_catch_binding = true;
+    }
 
     // ES2018
     let pass = add!(
@@ -214,19 +188,14 @@ where
     );
 
     // ES2017
-    let pass = add!(
-        pass,
-        AsyncToGenerator,
-        es2017::async_to_generator(
-            es2017::async_to_generator::Config {
-                ignore_function_length: loose || assumptions.ignore_function_length,
-            },
-            unresolved_mark
-        )
-    );
+    if !caniuse(Feature::AsyncToGenerator) {
+        compiler_options.env.es2017.async_to_generator = true;
+    }
 
     // ES2016
-    let pass = add!(pass, ExponentiationOperator, es2016::exponentiation());
+    if !caniuse(Feature::ExponentiationOperator) {
+        compiler_options.env.es2016.exponentiation_operator = true;
+    }
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
@@ -344,11 +313,13 @@ where
         bugfixes::template_literal_caching()
     );
 
-    add!(
+    let pass = add!(
         pass,
         BugfixSafariIdDestructuringCollisionInFunctionExpression,
         bugfixes::safari_id_destructuring_collision_in_function_expression()
-    )
+    );
+
+    (visit_mut_pass(CompatCompiler::new(&compiler_options)), pass)
 }
 
 pub fn transform_from_env<C>(
