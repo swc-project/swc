@@ -13,7 +13,7 @@ fn opts(mode: Mode) -> Options {
         },
         mode,
         transform: Some(TransformConfig {
-            typescript: swc_ecma_transforms_typescript::Config {
+            typescript: swc_ts_fast_strip::Config {
                 native_class_properties: true,
                 ..Default::default()
             },

@@ -11,7 +11,6 @@ version     = "0.1.0"
 bench = false
 
 [features]
-nightly = ["swc_ts_fast_strip/nightly"]
 
 [dependencies]
 anyhow              = { workspace = true }
