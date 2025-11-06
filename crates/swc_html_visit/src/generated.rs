@@ -5,6 +5,12 @@ pub use ::swc_visit::All;
 use swc_html_ast::*;
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait Visit {
+    #[doc = "Hook called when entering a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn enter_atom(&mut self, node: &swc_atoms::Atom) {}
+    #[doc = "Hook called when exiting a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn exit_atom(&mut self, node: &swc_atoms::Atom) {}
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -12,6 +18,12 @@ pub trait Visit {
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         <swc_atoms::Atom as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn enter_attribute(&mut self, node: &Attribute) {}
+    #[doc = "Hook called when exiting a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn exit_attribute(&mut self, node: &Attribute) {}
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -19,6 +31,12 @@ pub trait Visit {
     fn visit_attribute(&mut self, node: &Attribute) {
         <Attribute as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn enter_attribute_token(&mut self, node: &AttributeToken) {}
+    #[doc = "Hook called when exiting a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn exit_attribute_token(&mut self, node: &AttributeToken) {}
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -26,6 +44,14 @@ pub trait Visit {
     fn visit_attribute_token(&mut self, node: &AttributeToken) {
         <AttributeToken as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_attribute_tokens(&mut self, node: &[AttributeToken]) {}
+    #[doc = "Hook called when exiting a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_attribute_tokens(&mut self, node: &[AttributeToken]) {}
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -33,6 +59,12 @@ pub trait Visit {
     fn visit_attribute_tokens(&mut self, node: &[AttributeToken]) {
         <[AttributeToken] as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn enter_attributes(&mut self, node: &[Attribute]) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn exit_attributes(&mut self, node: &[Attribute]) {}
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -40,18 +72,36 @@ pub trait Visit {
     fn visit_attributes(&mut self, node: &[Attribute]) {
         <[Attribute] as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn enter_child(&mut self, node: &Child) {}
+    #[doc = "Hook called when exiting a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn exit_child(&mut self, node: &Child) {}
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn visit_child(&mut self, node: &Child) {
         <Child as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn enter_childs(&mut self, node: &[Child]) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn exit_childs(&mut self, node: &[Child]) {}
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn visit_childs(&mut self, node: &[Child]) {
         <[Child] as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn enter_comment(&mut self, node: &Comment) {}
+    #[doc = "Hook called when exiting a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn exit_comment(&mut self, node: &Comment) {}
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -59,6 +109,12 @@ pub trait Visit {
     fn visit_comment(&mut self, node: &Comment) {
         <Comment as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn enter_document(&mut self, node: &Document) {}
+    #[doc = "Hook called when exiting a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn exit_document(&mut self, node: &Document) {}
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -66,6 +122,12 @@ pub trait Visit {
     fn visit_document(&mut self, node: &Document) {
         <Document as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn enter_document_fragment(&mut self, node: &DocumentFragment) {}
+    #[doc = "Hook called when exiting a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn exit_document_fragment(&mut self, node: &DocumentFragment) {}
     #[doc = "Visit a node of type `DocumentFragment`.\n\nBy default, this method calls \
              [`DocumentFragment::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -73,6 +135,12 @@ pub trait Visit {
     fn visit_document_fragment(&mut self, node: &DocumentFragment) {
         <DocumentFragment as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn enter_document_mode(&mut self, node: &DocumentMode) {}
+    #[doc = "Hook called when exiting a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn exit_document_mode(&mut self, node: &DocumentMode) {}
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -80,6 +148,12 @@ pub trait Visit {
     fn visit_document_mode(&mut self, node: &DocumentMode) {
         <DocumentMode as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn enter_document_type(&mut self, node: &DocumentType) {}
+    #[doc = "Hook called when exiting a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn exit_document_type(&mut self, node: &DocumentType) {}
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -87,6 +161,12 @@ pub trait Visit {
     fn visit_document_type(&mut self, node: &DocumentType) {
         <DocumentType as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn enter_element(&mut self, node: &Element) {}
+    #[doc = "Hook called when exiting a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn exit_element(&mut self, node: &Element) {}
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -94,6 +174,12 @@ pub trait Visit {
     fn visit_element(&mut self, node: &Element) {
         <Element as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn enter_namespace(&mut self, node: &Namespace) {}
+    #[doc = "Hook called when exiting a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn exit_namespace(&mut self, node: &Namespace) {}
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -101,6 +187,14 @@ pub trait Visit {
     fn visit_namespace(&mut self, node: &Namespace) {
         <Namespace as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {}
+    #[doc = "Hook called when exiting a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {}
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_children_with`]. If you want to recurse, you \
              need to call it manually."]
@@ -108,6 +202,14 @@ pub trait Visit {
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {}
+    #[doc = "Hook called when exiting a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {}
     #[doc = "Visit a node of type `Option < DocumentFragment >`.\n\nBy default, this method calls \
              [`Option < DocumentFragment >::visit_children_with`]. If you want to recurse, you \
              need to call it manually."]
@@ -115,6 +217,14 @@ pub trait Visit {
     fn visit_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
         <Option<DocumentFragment> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_opt_namespace(&mut self, node: &Option<Namespace>) {}
+    #[doc = "Hook called when exiting a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_opt_namespace(&mut self, node: &Option<Namespace>) {}
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -122,18 +232,37 @@ pub trait Visit {
     fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
         <Option<Namespace> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn enter_opt_raw(&mut self, node: &Option<Raw>) {}
+    #[doc = "Hook called when exiting a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn exit_opt_raw(&mut self, node: &Option<Raw>) {}
     #[doc = "Visit a node of type `Option < Raw >`.\n\nBy default, this method calls [`Option < \
              Raw >::visit_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn visit_opt_raw(&mut self, node: &Option<Raw>) {
         <Option<Raw> as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn enter_raw(&mut self, node: &Raw) {}
+    #[doc = "Hook called when exiting a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn exit_raw(&mut self, node: &Raw) {}
     #[doc = "Visit a node of type `Raw`.\n\nBy default, this method calls \
              [`Raw::visit_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn visit_raw(&mut self, node: &Raw) {
         <Raw as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `swc_common :: Span`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_span(&mut self, node: &swc_common::Span) {}
+    #[doc = "Hook called when exiting a node of type `swc_common :: Span`. By default does nothing."]
+    #[inline]
+    fn exit_span(&mut self, node: &swc_common::Span) {}
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -141,18 +270,36 @@ pub trait Visit {
     fn visit_span(&mut self, node: &swc_common::Span) {
         <swc_common::Span as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn enter_text(&mut self, node: &Text) {}
+    #[doc = "Hook called when exiting a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn exit_text(&mut self, node: &Text) {}
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn visit_text(&mut self, node: &Text) {
         <Text as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn enter_token(&mut self, node: &Token) {}
+    #[doc = "Hook called when exiting a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn exit_token(&mut self, node: &Token) {}
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn visit_token(&mut self, node: &Token) {
         <Token as VisitWith<Self>>::visit_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn enter_token_and_span(&mut self, node: &TokenAndSpan) {}
+    #[doc = "Hook called when exiting a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn exit_token_and_span(&mut self, node: &TokenAndSpan) {}
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -166,8 +313,28 @@ where
     V: ?Sized + Visit,
 {
     #[inline]
+    fn enter_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Visit>::enter_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Visit>::exit_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         <V as Visit>::visit_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_attribute(&mut self, node: &Attribute) {
+        <V as Visit>::enter_attribute(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attribute(&mut self, node: &Attribute) {
+        <V as Visit>::exit_attribute(&mut **self, node)
     }
 
     #[inline]
@@ -176,8 +343,28 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token(&mut self, node: &AttributeToken) {
+        <V as Visit>::enter_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attribute_token(&mut self, node: &AttributeToken) {
+        <V as Visit>::exit_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attribute_token(&mut self, node: &AttributeToken) {
         <V as Visit>::visit_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        <V as Visit>::enter_attribute_tokens(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        <V as Visit>::exit_attribute_tokens(&mut **self, node)
     }
 
     #[inline]
@@ -186,8 +373,28 @@ where
     }
 
     #[inline]
+    fn enter_attributes(&mut self, node: &[Attribute]) {
+        <V as Visit>::enter_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attributes(&mut self, node: &[Attribute]) {
+        <V as Visit>::exit_attributes(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attributes(&mut self, node: &[Attribute]) {
         <V as Visit>::visit_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_child(&mut self, node: &Child) {
+        <V as Visit>::enter_child(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_child(&mut self, node: &Child) {
+        <V as Visit>::exit_child(&mut **self, node)
     }
 
     #[inline]
@@ -196,8 +403,28 @@ where
     }
 
     #[inline]
+    fn enter_childs(&mut self, node: &[Child]) {
+        <V as Visit>::enter_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_childs(&mut self, node: &[Child]) {
+        <V as Visit>::exit_childs(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_childs(&mut self, node: &[Child]) {
         <V as Visit>::visit_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_comment(&mut self, node: &Comment) {
+        <V as Visit>::enter_comment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_comment(&mut self, node: &Comment) {
+        <V as Visit>::exit_comment(&mut **self, node)
     }
 
     #[inline]
@@ -206,8 +433,28 @@ where
     }
 
     #[inline]
+    fn enter_document(&mut self, node: &Document) {
+        <V as Visit>::enter_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document(&mut self, node: &Document) {
+        <V as Visit>::exit_document(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_document(&mut self, node: &Document) {
         <V as Visit>::visit_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_document_fragment(&mut self, node: &DocumentFragment) {
+        <V as Visit>::enter_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document_fragment(&mut self, node: &DocumentFragment) {
+        <V as Visit>::exit_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -216,8 +463,28 @@ where
     }
 
     #[inline]
+    fn enter_document_mode(&mut self, node: &DocumentMode) {
+        <V as Visit>::enter_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document_mode(&mut self, node: &DocumentMode) {
+        <V as Visit>::exit_document_mode(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_document_mode(&mut self, node: &DocumentMode) {
         <V as Visit>::visit_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_document_type(&mut self, node: &DocumentType) {
+        <V as Visit>::enter_document_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document_type(&mut self, node: &DocumentType) {
+        <V as Visit>::exit_document_type(&mut **self, node)
     }
 
     #[inline]
@@ -226,8 +493,28 @@ where
     }
 
     #[inline]
+    fn enter_element(&mut self, node: &Element) {
+        <V as Visit>::enter_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_element(&mut self, node: &Element) {
+        <V as Visit>::exit_element(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_element(&mut self, node: &Element) {
         <V as Visit>::visit_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_namespace(&mut self, node: &Namespace) {
+        <V as Visit>::enter_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_namespace(&mut self, node: &Namespace) {
+        <V as Visit>::exit_namespace(&mut **self, node)
     }
 
     #[inline]
@@ -236,8 +523,28 @@ where
     }
 
     #[inline]
+    fn enter_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Visit>::enter_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Visit>::exit_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         <V as Visit>::visit_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        <V as Visit>::enter_opt_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        <V as Visit>::exit_opt_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -246,8 +553,28 @@ where
     }
 
     #[inline]
+    fn enter_opt_namespace(&mut self, node: &Option<Namespace>) {
+        <V as Visit>::enter_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_namespace(&mut self, node: &Option<Namespace>) {
+        <V as Visit>::exit_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
         <V as Visit>::visit_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_opt_raw(&mut self, node: &Option<Raw>) {
+        <V as Visit>::enter_opt_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_raw(&mut self, node: &Option<Raw>) {
+        <V as Visit>::exit_opt_raw(&mut **self, node)
     }
 
     #[inline]
@@ -256,8 +583,28 @@ where
     }
 
     #[inline]
+    fn enter_raw(&mut self, node: &Raw) {
+        <V as Visit>::enter_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_raw(&mut self, node: &Raw) {
+        <V as Visit>::exit_raw(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_raw(&mut self, node: &Raw) {
         <V as Visit>::visit_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_span(&mut self, node: &swc_common::Span) {
+        <V as Visit>::enter_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_span(&mut self, node: &swc_common::Span) {
+        <V as Visit>::exit_span(&mut **self, node)
     }
 
     #[inline]
@@ -266,13 +613,43 @@ where
     }
 
     #[inline]
+    fn enter_text(&mut self, node: &Text) {
+        <V as Visit>::enter_text(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_text(&mut self, node: &Text) {
+        <V as Visit>::exit_text(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_text(&mut self, node: &Text) {
         <V as Visit>::visit_text(&mut **self, node)
     }
 
     #[inline]
+    fn enter_token(&mut self, node: &Token) {
+        <V as Visit>::enter_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_token(&mut self, node: &Token) {
+        <V as Visit>::exit_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_token(&mut self, node: &Token) {
         <V as Visit>::visit_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_token_and_span(&mut self, node: &TokenAndSpan) {
+        <V as Visit>::enter_token_and_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_token_and_span(&mut self, node: &TokenAndSpan) {
+        <V as Visit>::exit_token_and_span(&mut **self, node)
     }
 
     #[inline]
@@ -285,8 +662,28 @@ where
     V: ?Sized + Visit,
 {
     #[inline]
+    fn enter_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Visit>::enter_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Visit>::exit_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         <V as Visit>::visit_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_attribute(&mut self, node: &Attribute) {
+        <V as Visit>::enter_attribute(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attribute(&mut self, node: &Attribute) {
+        <V as Visit>::exit_attribute(&mut **self, node)
     }
 
     #[inline]
@@ -295,8 +692,28 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token(&mut self, node: &AttributeToken) {
+        <V as Visit>::enter_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attribute_token(&mut self, node: &AttributeToken) {
+        <V as Visit>::exit_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attribute_token(&mut self, node: &AttributeToken) {
         <V as Visit>::visit_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        <V as Visit>::enter_attribute_tokens(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        <V as Visit>::exit_attribute_tokens(&mut **self, node)
     }
 
     #[inline]
@@ -305,8 +722,28 @@ where
     }
 
     #[inline]
+    fn enter_attributes(&mut self, node: &[Attribute]) {
+        <V as Visit>::enter_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_attributes(&mut self, node: &[Attribute]) {
+        <V as Visit>::exit_attributes(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_attributes(&mut self, node: &[Attribute]) {
         <V as Visit>::visit_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_child(&mut self, node: &Child) {
+        <V as Visit>::enter_child(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_child(&mut self, node: &Child) {
+        <V as Visit>::exit_child(&mut **self, node)
     }
 
     #[inline]
@@ -315,8 +752,28 @@ where
     }
 
     #[inline]
+    fn enter_childs(&mut self, node: &[Child]) {
+        <V as Visit>::enter_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_childs(&mut self, node: &[Child]) {
+        <V as Visit>::exit_childs(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_childs(&mut self, node: &[Child]) {
         <V as Visit>::visit_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_comment(&mut self, node: &Comment) {
+        <V as Visit>::enter_comment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_comment(&mut self, node: &Comment) {
+        <V as Visit>::exit_comment(&mut **self, node)
     }
 
     #[inline]
@@ -325,8 +782,28 @@ where
     }
 
     #[inline]
+    fn enter_document(&mut self, node: &Document) {
+        <V as Visit>::enter_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document(&mut self, node: &Document) {
+        <V as Visit>::exit_document(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_document(&mut self, node: &Document) {
         <V as Visit>::visit_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_document_fragment(&mut self, node: &DocumentFragment) {
+        <V as Visit>::enter_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document_fragment(&mut self, node: &DocumentFragment) {
+        <V as Visit>::exit_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -335,8 +812,28 @@ where
     }
 
     #[inline]
+    fn enter_document_mode(&mut self, node: &DocumentMode) {
+        <V as Visit>::enter_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document_mode(&mut self, node: &DocumentMode) {
+        <V as Visit>::exit_document_mode(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_document_mode(&mut self, node: &DocumentMode) {
         <V as Visit>::visit_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_document_type(&mut self, node: &DocumentType) {
+        <V as Visit>::enter_document_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_document_type(&mut self, node: &DocumentType) {
+        <V as Visit>::exit_document_type(&mut **self, node)
     }
 
     #[inline]
@@ -345,8 +842,28 @@ where
     }
 
     #[inline]
+    fn enter_element(&mut self, node: &Element) {
+        <V as Visit>::enter_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_element(&mut self, node: &Element) {
+        <V as Visit>::exit_element(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_element(&mut self, node: &Element) {
         <V as Visit>::visit_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_namespace(&mut self, node: &Namespace) {
+        <V as Visit>::enter_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_namespace(&mut self, node: &Namespace) {
+        <V as Visit>::exit_namespace(&mut **self, node)
     }
 
     #[inline]
@@ -355,8 +872,28 @@ where
     }
 
     #[inline]
+    fn enter_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Visit>::enter_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Visit>::exit_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         <V as Visit>::visit_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        <V as Visit>::enter_opt_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        <V as Visit>::exit_opt_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -365,8 +902,28 @@ where
     }
 
     #[inline]
+    fn enter_opt_namespace(&mut self, node: &Option<Namespace>) {
+        <V as Visit>::enter_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_namespace(&mut self, node: &Option<Namespace>) {
+        <V as Visit>::exit_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
         <V as Visit>::visit_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_opt_raw(&mut self, node: &Option<Raw>) {
+        <V as Visit>::enter_opt_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_opt_raw(&mut self, node: &Option<Raw>) {
+        <V as Visit>::exit_opt_raw(&mut **self, node)
     }
 
     #[inline]
@@ -375,8 +932,28 @@ where
     }
 
     #[inline]
+    fn enter_raw(&mut self, node: &Raw) {
+        <V as Visit>::enter_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_raw(&mut self, node: &Raw) {
+        <V as Visit>::exit_raw(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_raw(&mut self, node: &Raw) {
         <V as Visit>::visit_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_span(&mut self, node: &swc_common::Span) {
+        <V as Visit>::enter_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_span(&mut self, node: &swc_common::Span) {
+        <V as Visit>::exit_span(&mut **self, node)
     }
 
     #[inline]
@@ -385,13 +962,43 @@ where
     }
 
     #[inline]
+    fn enter_text(&mut self, node: &Text) {
+        <V as Visit>::enter_text(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_text(&mut self, node: &Text) {
+        <V as Visit>::exit_text(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_text(&mut self, node: &Text) {
         <V as Visit>::visit_text(&mut **self, node)
     }
 
     #[inline]
+    fn enter_token(&mut self, node: &Token) {
+        <V as Visit>::enter_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_token(&mut self, node: &Token) {
+        <V as Visit>::exit_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_token(&mut self, node: &Token) {
         <V as Visit>::visit_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_token_and_span(&mut self, node: &TokenAndSpan) {
+        <V as Visit>::enter_token_and_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_token_and_span(&mut self, node: &TokenAndSpan) {
+        <V as Visit>::exit_token_and_span(&mut **self, node)
     }
 
     #[inline]
@@ -405,10 +1012,42 @@ where
     B: Visit,
 {
     #[inline]
+    fn enter_atom(&mut self, node: &swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_atom(&mut self, node: &swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_atom(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_atom(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_attribute(&mut self, node: &Attribute) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_attribute(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_attribute(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_attribute(&mut self, node: &Attribute) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_attribute(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_attribute(visitor, node),
         }
     }
 
@@ -421,10 +1060,42 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token(&mut self, node: &AttributeToken) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_attribute_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_token(&mut self, node: &AttributeToken) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_attribute_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_attribute_token(&mut self, node: &AttributeToken) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_attribute_token(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_attribute_tokens(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_attribute_tokens(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_attribute_tokens(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_attribute_tokens(visitor, node),
         }
     }
 
@@ -437,10 +1108,42 @@ where
     }
 
     #[inline]
+    fn enter_attributes(&mut self, node: &[Attribute]) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_attributes(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_attributes(&mut self, node: &[Attribute]) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_attributes(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_attributes(&mut self, node: &[Attribute]) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_attributes(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_child(&mut self, node: &Child) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_child(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_child(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_child(&mut self, node: &Child) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_child(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_child(visitor, node),
         }
     }
 
@@ -453,10 +1156,42 @@ where
     }
 
     #[inline]
+    fn enter_childs(&mut self, node: &[Child]) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_childs(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_childs(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_childs(&mut self, node: &[Child]) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_childs(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_childs(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_childs(&mut self, node: &[Child]) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_childs(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_childs(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_comment(&mut self, node: &Comment) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_comment(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_comment(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_comment(&mut self, node: &Comment) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_comment(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_comment(visitor, node),
         }
     }
 
@@ -469,10 +1204,42 @@ where
     }
 
     #[inline]
+    fn enter_document(&mut self, node: &Document) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_document(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_document(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_document(&mut self, node: &Document) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_document(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_document(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_document(&mut self, node: &Document) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_document(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_document(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_document_fragment(&mut self, node: &DocumentFragment) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_document_fragment(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_document_fragment(&mut self, node: &DocumentFragment) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_document_fragment(visitor, node),
         }
     }
 
@@ -485,10 +1252,42 @@ where
     }
 
     #[inline]
+    fn enter_document_mode(&mut self, node: &DocumentMode) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_document_mode(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_document_mode(&mut self, node: &DocumentMode) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_document_mode(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_document_mode(&mut self, node: &DocumentMode) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_document_mode(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_document_type(&mut self, node: &DocumentType) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_document_type(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_document_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_document_type(&mut self, node: &DocumentType) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_document_type(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_document_type(visitor, node),
         }
     }
 
@@ -501,10 +1300,42 @@ where
     }
 
     #[inline]
+    fn enter_element(&mut self, node: &Element) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_element(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_element(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_element(&mut self, node: &Element) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_element(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_element(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_element(&mut self, node: &Element) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_element(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_element(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_namespace(&mut self, node: &Namespace) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_namespace(&mut self, node: &Namespace) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_namespace(visitor, node),
         }
     }
 
@@ -517,10 +1348,42 @@ where
     }
 
     #[inline]
+    fn enter_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_opt_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_opt_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_atom(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_opt_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_opt_document_fragment(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_opt_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_opt_document_fragment(visitor, node),
         }
     }
 
@@ -533,10 +1396,42 @@ where
     }
 
     #[inline]
+    fn enter_opt_namespace(&mut self, node: &Option<Namespace>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_opt_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_namespace(&mut self, node: &Option<Namespace>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_opt_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_opt_namespace(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_raw(&mut self, node: &Option<Raw>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_opt_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_opt_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_raw(&mut self, node: &Option<Raw>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_opt_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_opt_raw(visitor, node),
         }
     }
 
@@ -549,10 +1444,42 @@ where
     }
 
     #[inline]
+    fn enter_raw(&mut self, node: &Raw) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_raw(&mut self, node: &Raw) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_raw(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_raw(&mut self, node: &Raw) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_raw(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_span(&mut self, node: &swc_common::Span) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_span(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_span(&mut self, node: &swc_common::Span) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_span(visitor, node),
         }
     }
 
@@ -565,6 +1492,22 @@ where
     }
 
     #[inline]
+    fn enter_text(&mut self, node: &Text) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_text(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_text(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_text(&mut self, node: &Text) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_text(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_text(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_text(&mut self, node: &Text) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_text(visitor, node),
@@ -573,10 +1516,42 @@ where
     }
 
     #[inline]
+    fn enter_token(&mut self, node: &Token) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_token(&mut self, node: &Token) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_token(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_token(&mut self, node: &Token) {
         match self {
             swc_visit::Either::Left(visitor) => Visit::visit_token(visitor, node),
             swc_visit::Either::Right(visitor) => Visit::visit_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_token_and_span(&mut self, node: &TokenAndSpan) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::enter_token_and_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::enter_token_and_span(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_token_and_span(&mut self, node: &TokenAndSpan) {
+        match self {
+            swc_visit::Either::Left(visitor) => Visit::exit_token_and_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Visit::exit_token_and_span(visitor, node),
         }
     }
 
@@ -593,10 +1568,38 @@ where
     V: Visit,
 {
     #[inline]
+    fn enter_atom(&mut self, node: &swc_atoms::Atom) {
+        if self.enabled {
+            <V as Visit>::enter_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_atom(&mut self, node: &swc_atoms::Atom) {
+        if self.enabled {
+            <V as Visit>::exit_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_atom(&mut self, node: &swc_atoms::Atom) {
         if self.enabled {
             <V as Visit>::visit_atom(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_attribute(&mut self, node: &Attribute) {
+        if self.enabled {
+            <V as Visit>::enter_attribute(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_attribute(&mut self, node: &Attribute) {
+        if self.enabled {
+            <V as Visit>::exit_attribute(&mut self.visitor, node)
         }
     }
 
@@ -609,10 +1612,38 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token(&mut self, node: &AttributeToken) {
+        if self.enabled {
+            <V as Visit>::enter_attribute_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_token(&mut self, node: &AttributeToken) {
+        if self.enabled {
+            <V as Visit>::exit_attribute_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_attribute_token(&mut self, node: &AttributeToken) {
         if self.enabled {
             <V as Visit>::visit_attribute_token(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        if self.enabled {
+            <V as Visit>::enter_attribute_tokens(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_tokens(&mut self, node: &[AttributeToken]) {
+        if self.enabled {
+            <V as Visit>::exit_attribute_tokens(&mut self.visitor, node)
         }
     }
 
@@ -625,10 +1656,38 @@ where
     }
 
     #[inline]
+    fn enter_attributes(&mut self, node: &[Attribute]) {
+        if self.enabled {
+            <V as Visit>::enter_attributes(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_attributes(&mut self, node: &[Attribute]) {
+        if self.enabled {
+            <V as Visit>::exit_attributes(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_attributes(&mut self, node: &[Attribute]) {
         if self.enabled {
             <V as Visit>::visit_attributes(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_child(&mut self, node: &Child) {
+        if self.enabled {
+            <V as Visit>::enter_child(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_child(&mut self, node: &Child) {
+        if self.enabled {
+            <V as Visit>::exit_child(&mut self.visitor, node)
         }
     }
 
@@ -641,10 +1700,38 @@ where
     }
 
     #[inline]
+    fn enter_childs(&mut self, node: &[Child]) {
+        if self.enabled {
+            <V as Visit>::enter_childs(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_childs(&mut self, node: &[Child]) {
+        if self.enabled {
+            <V as Visit>::exit_childs(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_childs(&mut self, node: &[Child]) {
         if self.enabled {
             <V as Visit>::visit_childs(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_comment(&mut self, node: &Comment) {
+        if self.enabled {
+            <V as Visit>::enter_comment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_comment(&mut self, node: &Comment) {
+        if self.enabled {
+            <V as Visit>::exit_comment(&mut self.visitor, node)
         }
     }
 
@@ -657,10 +1744,38 @@ where
     }
 
     #[inline]
+    fn enter_document(&mut self, node: &Document) {
+        if self.enabled {
+            <V as Visit>::enter_document(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_document(&mut self, node: &Document) {
+        if self.enabled {
+            <V as Visit>::exit_document(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_document(&mut self, node: &Document) {
         if self.enabled {
             <V as Visit>::visit_document(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_document_fragment(&mut self, node: &DocumentFragment) {
+        if self.enabled {
+            <V as Visit>::enter_document_fragment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_document_fragment(&mut self, node: &DocumentFragment) {
+        if self.enabled {
+            <V as Visit>::exit_document_fragment(&mut self.visitor, node)
         }
     }
 
@@ -673,10 +1788,38 @@ where
     }
 
     #[inline]
+    fn enter_document_mode(&mut self, node: &DocumentMode) {
+        if self.enabled {
+            <V as Visit>::enter_document_mode(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_document_mode(&mut self, node: &DocumentMode) {
+        if self.enabled {
+            <V as Visit>::exit_document_mode(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_document_mode(&mut self, node: &DocumentMode) {
         if self.enabled {
             <V as Visit>::visit_document_mode(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_document_type(&mut self, node: &DocumentType) {
+        if self.enabled {
+            <V as Visit>::enter_document_type(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_document_type(&mut self, node: &DocumentType) {
+        if self.enabled {
+            <V as Visit>::exit_document_type(&mut self.visitor, node)
         }
     }
 
@@ -689,10 +1832,38 @@ where
     }
 
     #[inline]
+    fn enter_element(&mut self, node: &Element) {
+        if self.enabled {
+            <V as Visit>::enter_element(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_element(&mut self, node: &Element) {
+        if self.enabled {
+            <V as Visit>::exit_element(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_element(&mut self, node: &Element) {
         if self.enabled {
             <V as Visit>::visit_element(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_namespace(&mut self, node: &Namespace) {
+        if self.enabled {
+            <V as Visit>::enter_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_namespace(&mut self, node: &Namespace) {
+        if self.enabled {
+            <V as Visit>::exit_namespace(&mut self.visitor, node)
         }
     }
 
@@ -705,10 +1876,38 @@ where
     }
 
     #[inline]
+    fn enter_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        if self.enabled {
+            <V as Visit>::enter_opt_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        if self.enabled {
+            <V as Visit>::exit_opt_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
         if self.enabled {
             <V as Visit>::visit_opt_atom(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        if self.enabled {
+            <V as Visit>::enter_opt_document_fragment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        if self.enabled {
+            <V as Visit>::exit_opt_document_fragment(&mut self.visitor, node)
         }
     }
 
@@ -721,10 +1920,38 @@ where
     }
 
     #[inline]
+    fn enter_opt_namespace(&mut self, node: &Option<Namespace>) {
+        if self.enabled {
+            <V as Visit>::enter_opt_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_namespace(&mut self, node: &Option<Namespace>) {
+        if self.enabled {
+            <V as Visit>::exit_opt_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_opt_namespace(&mut self, node: &Option<Namespace>) {
         if self.enabled {
             <V as Visit>::visit_opt_namespace(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_opt_raw(&mut self, node: &Option<Raw>) {
+        if self.enabled {
+            <V as Visit>::enter_opt_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_raw(&mut self, node: &Option<Raw>) {
+        if self.enabled {
+            <V as Visit>::exit_opt_raw(&mut self.visitor, node)
         }
     }
 
@@ -737,10 +1964,38 @@ where
     }
 
     #[inline]
+    fn enter_raw(&mut self, node: &Raw) {
+        if self.enabled {
+            <V as Visit>::enter_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_raw(&mut self, node: &Raw) {
+        if self.enabled {
+            <V as Visit>::exit_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_raw(&mut self, node: &Raw) {
         if self.enabled {
             <V as Visit>::visit_raw(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_span(&mut self, node: &swc_common::Span) {
+        if self.enabled {
+            <V as Visit>::enter_span(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_span(&mut self, node: &swc_common::Span) {
+        if self.enabled {
+            <V as Visit>::exit_span(&mut self.visitor, node)
         }
     }
 
@@ -753,6 +2008,20 @@ where
     }
 
     #[inline]
+    fn enter_text(&mut self, node: &Text) {
+        if self.enabled {
+            <V as Visit>::enter_text(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_text(&mut self, node: &Text) {
+        if self.enabled {
+            <V as Visit>::exit_text(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_text(&mut self, node: &Text) {
         if self.enabled {
             <V as Visit>::visit_text(&mut self.visitor, node)
@@ -761,10 +2030,38 @@ where
     }
 
     #[inline]
+    fn enter_token(&mut self, node: &Token) {
+        if self.enabled {
+            <V as Visit>::enter_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_token(&mut self, node: &Token) {
+        if self.enabled {
+            <V as Visit>::exit_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_token(&mut self, node: &Token) {
         if self.enabled {
             <V as Visit>::visit_token(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_token_and_span(&mut self, node: &TokenAndSpan) {
+        if self.enabled {
+            <V as Visit>::enter_token_and_span(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_token_and_span(&mut self, node: &TokenAndSpan) {
+        if self.enabled {
+            <V as Visit>::exit_token_and_span(&mut self.visitor, node)
         }
     }
 
@@ -790,6 +2087,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Attribute {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_attribute(visitor, self);
         match self {
             Attribute {
                 span,
@@ -822,7 +2120,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Attribute {
                     <Option<swc_atoms::Atom> as VisitWith<V>>::visit_with(raw_value, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_attribute(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for AttributeToken {
@@ -832,6 +2131,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for AttributeToken {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_attribute_token(visitor, self);
         match self {
             AttributeToken {
                 span,
@@ -856,7 +2156,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for AttributeToken {
                     <Option<swc_atoms::Atom> as VisitWith<V>>::visit_with(raw_value, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_attribute_token(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Child {
@@ -866,6 +2167,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Child {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_child(visitor, self);
         match self {
             Child::DocumentType { 0: _field_0 } => {
                 <DocumentType as VisitWith<V>>::visit_with(_field_0, visitor);
@@ -879,7 +2181,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Child {
             Child::Comment { 0: _field_0 } => {
                 <Comment as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-        }
+        };
+        <V as Visit>::exit_child(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Comment {
@@ -889,6 +2192,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Comment {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_comment(visitor, self);
         match self {
             Comment { span, data, raw } => {
                 {
@@ -901,7 +2205,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Comment {
                     <Option<swc_atoms::Atom> as VisitWith<V>>::visit_with(raw, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_comment(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Document {
@@ -911,6 +2216,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Document {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_document(visitor, self);
         match self {
             Document {
                 span,
@@ -927,7 +2233,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Document {
                     <Vec<Child> as VisitWith<V>>::visit_with(children, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_document(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for DocumentFragment {
@@ -937,6 +2244,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for DocumentFragment {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_document_fragment(visitor, self);
         match self {
             DocumentFragment { span, children } => {
                 {
@@ -946,7 +2254,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for DocumentFragment {
                     <Vec<Child> as VisitWith<V>>::visit_with(children, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_document_fragment(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for DocumentMode {
@@ -956,11 +2265,13 @@ impl<V: ?Sized + Visit> VisitWith<V> for DocumentMode {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_document_mode(visitor, self);
         match self {
             DocumentMode::NoQuirks => {}
             DocumentMode::LimitedQuirks => {}
             DocumentMode::Quirks => {}
-        }
+        };
+        <V as Visit>::exit_document_mode(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for DocumentType {
@@ -970,6 +2281,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for DocumentType {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_document_type(visitor, self);
         match self {
             DocumentType {
                 span,
@@ -994,7 +2306,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for DocumentType {
                     <Option<swc_atoms::Atom> as VisitWith<V>>::visit_with(raw, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_document_type(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Element {
@@ -1004,6 +2317,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Element {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_element(visitor, self);
         match self {
             Element {
                 span,
@@ -1033,7 +2347,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Element {
                     <Option<DocumentFragment> as VisitWith<V>>::visit_with(content, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_element(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Namespace {
@@ -1043,6 +2358,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Namespace {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_namespace(visitor, self);
         match self {
             Namespace::HTML => {}
             Namespace::MATHML => {}
@@ -1050,7 +2366,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Namespace {
             Namespace::XLINK => {}
             Namespace::XML => {}
             Namespace::XMLNS => {}
-        }
+        };
+        <V as Visit>::exit_namespace(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Raw {
@@ -1060,12 +2377,14 @@ impl<V: ?Sized + Visit> VisitWith<V> for Raw {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_raw(visitor, self);
         match self {
             Raw::Same => {}
             Raw::Atom { 0: _field_0 } => {
                 <swc_atoms::Atom as VisitWith<V>>::visit_with(_field_0, visitor);
             }
-        }
+        };
+        <V as Visit>::exit_raw(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Text {
@@ -1075,6 +2394,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Text {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_text(visitor, self);
         match self {
             Text { span, data, raw } => {
                 {
@@ -1087,7 +2407,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Text {
                     <Option<swc_atoms::Atom> as VisitWith<V>>::visit_with(raw, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_text(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Token {
@@ -1097,6 +2418,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for Token {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_token(visitor, self);
         match self {
             Token::Doctype {
                 name,
@@ -1164,7 +2486,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for Token {
                 };
             }
             Token::Eof => {}
-        }
+        };
+        <V as Visit>::exit_token(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for TokenAndSpan {
@@ -1174,6 +2497,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TokenAndSpan {
     }
 
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_token_and_span(visitor, self);
         match self {
             TokenAndSpan { span, token } => {
                 {
@@ -1183,7 +2507,8 @@ impl<V: ?Sized + Visit> VisitWith<V> for TokenAndSpan {
                     <Token as VisitWith<V>>::visit_with(token, visitor)
                 };
             }
-        }
+        };
+        <V as Visit>::exit_token_and_span(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for swc_atoms::Atom {
@@ -1195,7 +2520,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for swc_atoms::Atom {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
-        {}
+        <V as Visit>::enter_atom(visitor, self);
+        {};
+        <V as Visit>::exit_atom(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for [AttributeToken] {
@@ -1207,8 +2534,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for [AttributeToken] {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_attribute_tokens(visitor, self);
         self.iter()
-            .for_each(|item| <AttributeToken as VisitWith<V>>::visit_with(item, visitor))
+            .for_each(|item| <AttributeToken as VisitWith<V>>::visit_with(item, visitor));
+        <V as Visit>::exit_attribute_tokens(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for [Attribute] {
@@ -1220,8 +2549,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for [Attribute] {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_attributes(visitor, self);
         self.iter()
-            .for_each(|item| <Attribute as VisitWith<V>>::visit_with(item, visitor))
+            .for_each(|item| <Attribute as VisitWith<V>>::visit_with(item, visitor));
+        <V as Visit>::exit_attributes(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for [Child] {
@@ -1233,8 +2564,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for [Child] {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_childs(visitor, self);
         self.iter()
-            .for_each(|item| <Child as VisitWith<V>>::visit_with(item, visitor))
+            .for_each(|item| <Child as VisitWith<V>>::visit_with(item, visitor));
+        <V as Visit>::exit_childs(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
@@ -1246,10 +2579,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<swc_atoms::Atom> {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_opt_atom(visitor, self);
         match self {
             Some(inner) => <swc_atoms::Atom as VisitWith<V>>::visit_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as Visit>::exit_opt_atom(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<DocumentFragment> {
@@ -1261,10 +2596,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<DocumentFragment> {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_opt_document_fragment(visitor, self);
         match self {
             Some(inner) => <DocumentFragment as VisitWith<V>>::visit_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as Visit>::exit_opt_document_fragment(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Namespace> {
@@ -1276,10 +2613,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Namespace> {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_opt_namespace(visitor, self);
         match self {
             Some(inner) => <Namespace as VisitWith<V>>::visit_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as Visit>::exit_opt_namespace(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for Option<Raw> {
@@ -1291,10 +2630,12 @@ impl<V: ?Sized + Visit> VisitWith<V> for Option<Raw> {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
+        <V as Visit>::enter_opt_raw(visitor, self);
         match self {
             Some(inner) => <Raw as VisitWith<V>>::visit_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as Visit>::exit_opt_raw(visitor, self);
     }
 }
 impl<V: ?Sized + Visit> VisitWith<V> for swc_common::Span {
@@ -1306,7 +2647,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for swc_common::Span {
 
     #[inline]
     fn visit_children_with(&self, visitor: &mut V) {
-        {}
+        <V as Visit>::enter_span(visitor, self);
+        {};
+        <V as Visit>::exit_span(visitor, self);
     }
 }
 impl<V, T> VisitWith<V> for std::boxed::Box<T>
@@ -1347,6 +2690,22 @@ where
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 pub trait VisitAstPath {
+    #[doc = "Hook called when entering a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn enter_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn exit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -1360,6 +2719,22 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn enter_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn exit_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -1370,6 +2745,22 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Attribute as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn enter_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn exit_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -1384,6 +2775,24 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -1396,6 +2805,22 @@ pub trait VisitAstPath {
         <[AttributeToken] as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn enter_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn exit_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -1410,12 +2835,30 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn enter_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {}
+    #[doc = "Hook called when exiting a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn exit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {}
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
         <Child as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn enter_childs<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Child],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn exit_childs<'ast: 'r, 'r>(&mut self, node: &'ast [Child], __ast_path: &mut AstNodePath<'r>) {
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -1428,6 +2871,22 @@ pub trait VisitAstPath {
     ) {
         <[Child] as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn enter_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn exit_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -1439,6 +2898,22 @@ pub trait VisitAstPath {
     ) {
         <Comment as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn enter_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn exit_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -1449,6 +2924,22 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Document as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn enter_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn exit_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `DocumentFragment`.\n\nBy default, this method calls \
              [`DocumentFragment::visit_children_with_ast_path`]. If you want to recurse, you need \
@@ -1463,6 +2954,22 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn enter_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn exit_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -1475,6 +2982,22 @@ pub trait VisitAstPath {
         <DocumentMode as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn enter_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn exit_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -1489,6 +3012,22 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn enter_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn exit_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -1500,6 +3039,22 @@ pub trait VisitAstPath {
     ) {
         <Element as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn enter_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn exit_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -1510,6 +3065,24 @@ pub trait VisitAstPath {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <Namespace as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_children_with_ast_path`]. If you want to \
@@ -1524,6 +3097,24 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Option < DocumentFragment >`.\n\nBy default, this method calls \
              [`Option < DocumentFragment >::visit_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
@@ -1536,6 +3127,24 @@ pub trait VisitAstPath {
         <Option<DocumentFragment> as VisitWithAstPath<Self>>::visit_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_children_with_ast_path`]. If you want to recurse, you \
@@ -1550,6 +3159,22 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn enter_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn exit_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
     #[doc = "Visit a node of type `Option < Raw >`.\n\nBy default, this method calls [`Option < \
              Raw >::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -1563,12 +3188,35 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn enter_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {}
+    #[doc = "Hook called when exiting a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn exit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {}
     #[doc = "Visit a node of type `Raw`.\n\nBy default, this method calls \
              [`Raw::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn visit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
         <Raw as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `swc_common :: Span`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `swc_common :: Span`. By default does nothing."]
+    #[inline]
+    fn exit_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_children_with_ast_path`]. If you want to recurse, you \
@@ -1583,6 +3231,12 @@ pub trait VisitAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn enter_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {}
+    #[doc = "Hook called when exiting a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn exit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {}
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -1590,12 +3244,34 @@ pub trait VisitAstPath {
     fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
         <Text as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn enter_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {}
+    #[doc = "Hook called when exiting a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn exit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {}
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
         <Token as VisitWithAstPath<Self>>::visit_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn enter_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn exit_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_children_with_ast_path`]. If you want to recurse, you need to \
@@ -1618,12 +3294,48 @@ where
     V: ?Sized + VisitAstPath,
 {
     #[inline]
+    fn enter_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
         node: &'ast swc_atoms::Atom,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attribute(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1636,12 +3348,48 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AttributeToken,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attribute_tokens(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1654,6 +3402,24 @@ where
     }
 
     #[inline]
+    fn enter_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
         node: &'ast [Attribute],
@@ -1663,8 +3429,32 @@ where
     }
 
     #[inline]
+    fn enter_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_childs<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Child],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_childs<'ast: 'r, 'r>(&mut self, node: &'ast [Child], __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_childs(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1677,12 +3467,48 @@ where
     }
 
     #[inline]
+    fn enter_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_comment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Comment,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1695,12 +3521,48 @@ where
     }
 
     #[inline]
+    fn enter_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentFragment,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document_mode(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1713,12 +3575,48 @@ where
     }
 
     #[inline]
+    fn enter_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentType,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1731,12 +3629,48 @@ where
     }
 
     #[inline]
+    fn enter_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1749,12 +3683,48 @@ where
     }
 
     #[inline]
+    fn enter_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<DocumentFragment>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1767,6 +3737,24 @@ where
     }
 
     #[inline]
+    fn enter_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_raw<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Raw>,
@@ -1776,8 +3764,36 @@ where
     }
 
     #[inline]
+    fn enter_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1790,13 +3806,51 @@ where
     }
 
     #[inline]
+    fn enter_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_token_and_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_token_and_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1815,12 +3869,48 @@ where
     V: ?Sized + VisitAstPath,
 {
     #[inline]
+    fn enter_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
         node: &'ast swc_atoms::Atom,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attribute(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1833,12 +3923,48 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AttributeToken,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attribute_tokens(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1851,6 +3977,24 @@ where
     }
 
     #[inline]
+    fn enter_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
         node: &'ast [Attribute],
@@ -1860,8 +4004,32 @@ where
     }
 
     #[inline]
+    fn enter_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_childs<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Child],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_childs<'ast: 'r, 'r>(&mut self, node: &'ast [Child], __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_childs(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1874,12 +4042,48 @@ where
     }
 
     #[inline]
+    fn enter_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_comment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Comment,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1892,12 +4096,48 @@ where
     }
 
     #[inline]
+    fn enter_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentFragment,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document_mode(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1910,12 +4150,48 @@ where
     }
 
     #[inline]
+    fn enter_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentType,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1928,12 +4204,48 @@ where
     }
 
     #[inline]
+    fn enter_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1946,12 +4258,48 @@ where
     }
 
     #[inline]
+    fn enter_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<DocumentFragment>,
         __ast_path: &mut AstNodePath<'r>,
     ) {
         <V as VisitAstPath>::visit_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1964,6 +4312,24 @@ where
     }
 
     #[inline]
+    fn enter_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_opt_raw<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Raw>,
@@ -1973,8 +4339,36 @@ where
     }
 
     #[inline]
+    fn enter_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -1987,13 +4381,51 @@ where
     }
 
     #[inline]
+    fn enter_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::enter_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        <V as VisitAstPath>::exit_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
         <V as VisitAstPath>::visit_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::enter_token_and_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        <V as VisitAstPath>::exit_token_and_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -2013,6 +4445,32 @@ where
     B: VisitAstPath,
 {
     #[inline]
+    fn enter_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::enter_atom(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::exit_atom(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => VisitAstPath::exit_atom(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
         node: &'ast swc_atoms::Atom,
@@ -2022,6 +4480,38 @@ where
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_atom(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_attribute(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_attribute(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_attribute(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_attribute(visitor, node, __ast_path)
             }
         }
     }
@@ -2043,6 +4533,38 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_attribute_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_attribute_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_attribute_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_attribute_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AttributeToken,
@@ -2054,6 +4576,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_attribute_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_attribute_tokens(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_attribute_tokens(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_attribute_tokens(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_attribute_tokens(visitor, node, __ast_path)
             }
         }
     }
@@ -2075,6 +4629,38 @@ where
     }
 
     #[inline]
+    fn enter_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_attributes(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_attributes(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_attributes(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_attributes(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
         node: &'ast [Attribute],
@@ -2091,6 +4677,28 @@ where
     }
 
     #[inline]
+    fn enter_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_child(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::exit_child(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -2098,6 +4706,34 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_childs<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Child],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_childs(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_childs(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_childs<'ast: 'r, 'r>(&mut self, node: &'ast [Child], __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_childs(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_childs(visitor, node, __ast_path)
             }
         }
     }
@@ -2119,6 +4755,38 @@ where
     }
 
     #[inline]
+    fn enter_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_comment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_comment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_comment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_comment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_comment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Comment,
@@ -2130,6 +4798,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_comment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_document(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_document(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_document(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_document(visitor, node, __ast_path)
             }
         }
     }
@@ -2151,6 +4851,38 @@ where
     }
 
     #[inline]
+    fn enter_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentFragment,
@@ -2162,6 +4894,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_document_mode(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_document_mode(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_document_mode(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_document_mode(visitor, node, __ast_path)
             }
         }
     }
@@ -2183,6 +4947,38 @@ where
     }
 
     #[inline]
+    fn enter_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_document_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_document_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_document_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_document_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentType,
@@ -2194,6 +4990,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_document_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_element(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_element(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_element(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_element(visitor, node, __ast_path)
             }
         }
     }
@@ -2215,6 +5043,38 @@ where
     }
 
     #[inline]
+    fn enter_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
@@ -2226,6 +5086,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_opt_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_opt_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_opt_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_opt_atom(visitor, node, __ast_path)
             }
         }
     }
@@ -2247,6 +5139,38 @@ where
     }
 
     #[inline]
+    fn enter_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_opt_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_opt_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_opt_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<DocumentFragment>,
@@ -2258,6 +5182,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_opt_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_opt_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_opt_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_opt_namespace(visitor, node, __ast_path)
             }
         }
     }
@@ -2279,6 +5235,38 @@ where
     }
 
     #[inline]
+    fn enter_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_opt_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_opt_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_opt_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_opt_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_opt_raw<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Raw>,
@@ -2295,10 +5283,52 @@ where
     }
 
     #[inline]
+    fn enter_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::enter_raw(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => VisitAstPath::enter_raw(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
+    fn exit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::exit_raw(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => VisitAstPath::exit_raw(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
     fn visit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_raw(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => VisitAstPath::visit_raw(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
+    fn enter_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::enter_span(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::exit_span(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => VisitAstPath::exit_span(visitor, node, __ast_path),
         }
     }
 
@@ -2317,11 +5347,51 @@ where
     }
 
     #[inline]
+    fn enter_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::enter_text(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_text(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::exit_text(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => VisitAstPath::exit_text(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
     fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitAstPath::visit_text(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_text(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitAstPath::exit_token(visitor, node, __ast_path),
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_token(visitor, node, __ast_path)
             }
         }
     }
@@ -2334,6 +5404,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitAstPath::visit_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::enter_token_and_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::enter_token_and_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitAstPath::exit_token_and_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitAstPath::exit_token_and_span(visitor, node, __ast_path)
             }
         }
     }
@@ -2361,6 +5463,28 @@ where
     V: VisitAstPath,
 {
     #[inline]
+    fn enter_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_atoms::Atom,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_atom<'ast: 'r, 'r>(
         &mut self,
         node: &'ast swc_atoms::Atom,
@@ -2369,6 +5493,28 @@ where
         if self.enabled {
             <V as VisitAstPath>::visit_atom(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_attribute(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_attribute<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Attribute,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_attribute(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2385,6 +5531,28 @@ where
     }
 
     #[inline]
+    fn enter_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_attribute_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_token<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast AttributeToken,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_attribute_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_attribute_token<'ast: 'r, 'r>(
         &mut self,
         node: &'ast AttributeToken,
@@ -2393,6 +5561,28 @@ where
         if self.enabled {
             <V as VisitAstPath>::visit_attribute_token(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_attribute_tokens(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_attribute_tokens<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [AttributeToken],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_attribute_tokens(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2409,6 +5599,28 @@ where
     }
 
     #[inline]
+    fn enter_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_attributes(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_attributes<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Attribute],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_attributes(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_attributes<'ast: 'r, 'r>(
         &mut self,
         node: &'ast [Attribute],
@@ -2421,10 +5633,42 @@ where
     }
 
     #[inline]
+    fn enter_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_child(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_child(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_child<'ast: 'r, 'r>(&mut self, node: &'ast Child, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_child(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_childs<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast [Child],
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_childs(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_childs<'ast: 'r, 'r>(&mut self, node: &'ast [Child], __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_childs(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2441,6 +5685,28 @@ where
     }
 
     #[inline]
+    fn enter_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_comment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_comment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Comment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_comment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_comment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Comment,
@@ -2449,6 +5715,28 @@ where
         if self.enabled {
             <V as VisitAstPath>::visit_comment(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_document(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_document<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Document,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_document(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2465,6 +5753,28 @@ where
     }
 
     #[inline]
+    fn enter_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_document_fragment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentFragment,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_document_fragment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentFragment,
@@ -2473,6 +5783,28 @@ where
         if self.enabled {
             <V as VisitAstPath>::visit_document_fragment(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_document_mode(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_document_mode<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentMode,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_document_mode(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2489,6 +5821,28 @@ where
     }
 
     #[inline]
+    fn enter_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_document_type(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_document_type<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast DocumentType,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_document_type(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_document_type<'ast: 'r, 'r>(
         &mut self,
         node: &'ast DocumentType,
@@ -2497,6 +5851,28 @@ where
         if self.enabled {
             <V as VisitAstPath>::visit_document_type(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_element(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_element<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Element,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_element(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2513,6 +5889,28 @@ where
     }
 
     #[inline]
+    fn enter_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Namespace,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_namespace<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Namespace,
@@ -2521,6 +5919,28 @@ where
         if self.enabled {
             <V as VisitAstPath>::visit_namespace(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_opt_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_atom<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<swc_atoms::Atom>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_opt_atom(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2537,6 +5957,28 @@ where
     }
 
     #[inline]
+    fn enter_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_opt_document_fragment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_document_fragment<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<DocumentFragment>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_opt_document_fragment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_opt_document_fragment<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<DocumentFragment>,
@@ -2545,6 +5987,28 @@ where
         if self.enabled {
             <V as VisitAstPath>::visit_opt_document_fragment(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_opt_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_namespace<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Namespace>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_opt_namespace(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2561,6 +6025,28 @@ where
     }
 
     #[inline]
+    fn enter_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_opt_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_opt_raw<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast Option<Raw>,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_opt_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_opt_raw<'ast: 'r, 'r>(
         &mut self,
         node: &'ast Option<Raw>,
@@ -2573,10 +6059,46 @@ where
     }
 
     #[inline]
+    fn enter_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_raw<'ast: 'r, 'r>(&mut self, node: &'ast Raw, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_raw(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_span(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast swc_common::Span,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_span(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2593,6 +6115,20 @@ where
     }
 
     #[inline]
+    fn enter_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_text(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_text(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_text<'ast: 'r, 'r>(&mut self, node: &'ast Text, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_text(&mut self.visitor, node, __ast_path)
@@ -2601,10 +6137,46 @@ where
     }
 
     #[inline]
+    fn enter_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_token<'ast: 'r, 'r>(&mut self, node: &'ast Token, __ast_path: &mut AstNodePath<'r>) {
         if self.enabled {
             <V as VisitAstPath>::visit_token(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::enter_token_and_span(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_token_and_span<'ast: 'r, 'r>(
+        &mut self,
+        node: &'ast TokenAndSpan,
+        __ast_path: &mut AstNodePath<'r>,
+    ) {
+        if self.enabled {
+            <V as VisitAstPath>::exit_token_and_span(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -2654,6 +6226,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_attribute(visitor, self, __ast_path);
         match self {
             Attribute {
                 span,
@@ -2742,7 +6315,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Attribute {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_attribute(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -2762,6 +6336,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeToken {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_attribute_token(visitor, self, __ast_path);
         match self {
             AttributeToken {
                 span,
@@ -2826,7 +6401,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for AttributeToken {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_attribute_token(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -2846,6 +6422,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Child {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_child(visitor, self, __ast_path);
         match self {
             Child::DocumentType { 0: _field_0 } => {
                 let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::Child(
@@ -2891,7 +6468,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Child {
                     &mut *__ast_path,
                 );
             }
-        }
+        };
+        <V as VisitAstPath>::exit_child(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -2911,6 +6489,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Comment {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_comment(visitor, self, __ast_path);
         match self {
             Comment { span, data, raw } => {
                 {
@@ -2947,7 +6526,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Comment {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_comment(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -2967,6 +6547,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Document {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_document(visitor, self, __ast_path);
         match self {
             Document {
                 span,
@@ -3007,7 +6588,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Document {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_document(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3027,6 +6609,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentFragment {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_document_fragment(visitor, self, __ast_path);
         match self {
             DocumentFragment { span, children } => {
                 {
@@ -3052,7 +6635,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentFragment {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_document_fragment(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3072,11 +6656,13 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentMode {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_document_mode(visitor, self, __ast_path);
         match self {
             DocumentMode::NoQuirks => {}
             DocumentMode::LimitedQuirks => {}
             DocumentMode::Quirks => {}
-        }
+        };
+        <V as VisitAstPath>::exit_document_mode(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3096,6 +6682,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentType {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_document_type(visitor, self, __ast_path);
         match self {
             DocumentType {
                 span,
@@ -3160,7 +6747,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for DocumentType {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_document_type(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3180,6 +6768,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_element(visitor, self, __ast_path);
         match self {
             Element {
                 span,
@@ -3257,7 +6846,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Element {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_element(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3277,6 +6867,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Namespace {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_namespace(visitor, self, __ast_path);
         match self {
             Namespace::HTML => {}
             Namespace::MATHML => {}
@@ -3284,7 +6875,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Namespace {
             Namespace::XLINK => {}
             Namespace::XML => {}
             Namespace::XMLNS => {}
-        }
+        };
+        <V as VisitAstPath>::exit_namespace(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3304,6 +6896,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Raw {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_raw(visitor, self, __ast_path);
         match self {
             Raw::Same => {}
             Raw::Atom { 0: _field_0 } => {
@@ -3315,7 +6908,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Raw {
                     &mut *__ast_path,
                 );
             }
-        }
+        };
+        <V as VisitAstPath>::exit_raw(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3335,6 +6929,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Text {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_text(visitor, self, __ast_path);
         match self {
             Text { span, data, raw } => {
                 {
@@ -3365,7 +6960,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Text {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_text(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3385,6 +6981,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_token(visitor, self, __ast_path);
         match self {
             Token::Doctype {
                 name,
@@ -3570,7 +7167,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Token {
                 };
             }
             Token::Eof => {}
-        }
+        };
+        <V as VisitAstPath>::exit_token(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3590,6 +7188,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_token_and_span(visitor, self, __ast_path);
         match self {
             TokenAndSpan { span, token } => {
                 {
@@ -3615,7 +7214,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TokenAndSpan {
                     )
                 };
             }
-        }
+        };
+        <V as VisitAstPath>::exit_token_and_span(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3637,7 +7237,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_atoms::Atom {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        {}
+        <V as VisitAstPath>::enter_atom(visitor, self, __ast_path);
+        {};
+        <V as VisitAstPath>::exit_atom(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3659,6 +7261,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [AttributeToken] {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_attribute_tokens(visitor, self, __ast_path);
         self.iter().enumerate().for_each(|(__idx, item)| {
             let mut __ast_path = __ast_path.with_index_guard(__idx);
             <AttributeToken as VisitWithAstPath<V>>::visit_with_ast_path(
@@ -3666,7 +7269,8 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [AttributeToken] {
                 visitor,
                 &mut *__ast_path,
             )
-        })
+        });
+        <V as VisitAstPath>::exit_attribute_tokens(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3688,10 +7292,12 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Attribute] {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_attributes(visitor, self, __ast_path);
         self.iter().enumerate().for_each(|(__idx, item)| {
             let mut __ast_path = __ast_path.with_index_guard(__idx);
             <Attribute as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, &mut *__ast_path)
-        })
+        });
+        <V as VisitAstPath>::exit_attributes(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3713,10 +7319,12 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for [Child] {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_childs(visitor, self, __ast_path);
         self.iter().enumerate().for_each(|(__idx, item)| {
             let mut __ast_path = __ast_path.with_index_guard(__idx);
             <Child as VisitWithAstPath<V>>::visit_with_ast_path(item, visitor, &mut *__ast_path)
-        })
+        });
+        <V as VisitAstPath>::exit_childs(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3738,12 +7346,14 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<swc_atoms::Atom> {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_opt_atom(visitor, self, __ast_path);
         match self {
             Some(inner) => <swc_atoms::Atom as VisitWithAstPath<V>>::visit_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
-        }
+        };
+        <V as VisitAstPath>::exit_opt_atom(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3765,12 +7375,14 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<DocumentFragment> 
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_opt_document_fragment(visitor, self, __ast_path);
         match self {
             Some(inner) => <DocumentFragment as VisitWithAstPath<V>>::visit_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
-        }
+        };
+        <V as VisitAstPath>::exit_opt_document_fragment(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3792,12 +7404,14 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Namespace> {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_opt_namespace(visitor, self, __ast_path);
         match self {
             Some(inner) => {
                 <Namespace as VisitWithAstPath<V>>::visit_with_ast_path(inner, visitor, __ast_path)
             }
             None => {}
-        }
+        };
+        <V as VisitAstPath>::exit_opt_namespace(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3819,12 +7433,14 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for Option<Raw> {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
+        <V as VisitAstPath>::enter_opt_raw(visitor, self, __ast_path);
         match self {
             Some(inner) => {
                 <Raw as VisitWithAstPath<V>>::visit_with_ast_path(inner, visitor, __ast_path)
             }
             None => {}
-        }
+        };
+        <V as VisitAstPath>::exit_opt_raw(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3846,7 +7462,9 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for swc_common::Span {
         visitor: &mut V,
         __ast_path: &mut AstNodePath<'r>,
     ) {
-        {}
+        <V as VisitAstPath>::enter_span(visitor, self, __ast_path);
+        {};
+        <V as VisitAstPath>::exit_span(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -3907,6 +7525,12 @@ where
 }
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait VisitMut {
+    #[doc = "Hook called when entering a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom) {}
+    #[doc = "Hook called when exiting a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {}
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -3914,6 +7538,12 @@ pub trait VisitMut {
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
         <swc_atoms::Atom as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute) {}
+    #[doc = "Hook called when exiting a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute) {}
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -3921,6 +7551,12 @@ pub trait VisitMut {
     fn visit_mut_attribute(&mut self, node: &mut Attribute) {
         <Attribute as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &mut AttributeToken) {}
+    #[doc = "Hook called when exiting a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: &mut AttributeToken) {}
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -3928,6 +7564,14 @@ pub trait VisitMut {
     fn visit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
         <AttributeToken as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {}
+    #[doc = "Hook called when exiting a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {}
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -3935,6 +7579,12 @@ pub trait VisitMut {
     fn visit_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
         <Vec<AttributeToken> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {}
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -3942,6 +7592,12 @@ pub trait VisitMut {
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
         <Vec<Attribute> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child) {}
+    #[doc = "Hook called when exiting a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child) {}
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -3949,12 +7605,24 @@ pub trait VisitMut {
     fn visit_mut_child(&mut self, node: &mut Child) {
         <Child as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>) {}
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_mut_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>) {
         <Vec<Child> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment) {}
+    #[doc = "Hook called when exiting a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment) {}
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -3962,6 +7630,12 @@ pub trait VisitMut {
     fn visit_mut_comment(&mut self, node: &mut Comment) {
         <Comment as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document) {}
+    #[doc = "Hook called when exiting a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document) {}
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -3969,6 +7643,12 @@ pub trait VisitMut {
     fn visit_mut_document(&mut self, node: &mut Document) {
         <Document as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &mut DocumentFragment) {}
+    #[doc = "Hook called when exiting a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: &mut DocumentFragment) {}
     #[doc = "Visit a node of type `DocumentFragment`.\n\nBy default, this method calls \
              [`DocumentFragment::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -3976,6 +7656,12 @@ pub trait VisitMut {
     fn visit_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
         <DocumentFragment as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode) {}
+    #[doc = "Hook called when exiting a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode) {}
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -3983,6 +7669,12 @@ pub trait VisitMut {
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode) {
         <DocumentMode as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType) {}
+    #[doc = "Hook called when exiting a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType) {}
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -3990,6 +7682,12 @@ pub trait VisitMut {
     fn visit_mut_document_type(&mut self, node: &mut DocumentType) {
         <DocumentType as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element) {}
+    #[doc = "Hook called when exiting a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element) {}
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -3997,6 +7695,12 @@ pub trait VisitMut {
     fn visit_mut_element(&mut self, node: &mut Element) {
         <Element as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace) {}
+    #[doc = "Hook called when exiting a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace) {}
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -4004,6 +7708,14 @@ pub trait VisitMut {
     fn visit_mut_namespace(&mut self, node: &mut Namespace) {
         <Namespace as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
+    #[doc = "Hook called when exiting a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_mut_children_with`]. If you want to recurse, \
              you need to call it manually."]
@@ -4011,6 +7723,14 @@ pub trait VisitMut {
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         <Option<swc_atoms::Atom> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {}
+    #[doc = "Hook called when exiting a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {}
     #[doc = "Visit a node of type `Option < DocumentFragment >`.\n\nBy default, this method calls \
              [`Option < DocumentFragment >::visit_mut_children_with`]. If you want to recurse, you \
              need to call it manually."]
@@ -4018,6 +7738,14 @@ pub trait VisitMut {
     fn visit_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
         <Option<DocumentFragment> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {}
+    #[doc = "Hook called when exiting a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {}
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_mut_children_with`]. If you want to recurse, you need \
              to call it manually."]
@@ -4025,6 +7753,12 @@ pub trait VisitMut {
     fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
         <Option<Namespace> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>) {}
+    #[doc = "Hook called when exiting a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>) {}
     #[doc = "Visit a node of type `Option < Raw >`.\n\nBy default, this method calls [`Option < \
              Raw >::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -4032,6 +7766,12 @@ pub trait VisitMut {
     fn visit_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
         <Option<Raw> as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw) {}
+    #[doc = "Hook called when exiting a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw) {}
     #[doc = "Visit a node of type `Raw`.\n\nBy default, this method calls \
              [`Raw::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -4039,6 +7779,13 @@ pub trait VisitMut {
     fn visit_mut_raw(&mut self, node: &mut Raw) {
         <Raw as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `swc_common :: Span`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span) {}
+    #[doc = "Hook called when exiting a node of type `swc_common :: Span`. By default does nothing."]
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span) {}
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_mut_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -4046,6 +7793,12 @@ pub trait VisitMut {
     fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
         <swc_common::Span as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text) {}
+    #[doc = "Hook called when exiting a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text) {}
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -4053,6 +7806,12 @@ pub trait VisitMut {
     fn visit_mut_text(&mut self, node: &mut Text) {
         <Text as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token) {}
+    #[doc = "Hook called when exiting a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token) {}
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_mut_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -4060,6 +7819,12 @@ pub trait VisitMut {
     fn visit_mut_token(&mut self, node: &mut Token) {
         <Token as VisitMutWith<Self>>::visit_mut_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {}
+    #[doc = "Hook called when exiting a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {}
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_mut_children_with`]. If you want to recurse, you need to call \
              it manually."]
@@ -4073,8 +7838,28 @@ where
     V: ?Sized + VisitMut,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <V as VisitMut>::enter_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <V as VisitMut>::exit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
         <V as VisitMut>::visit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute) {
+        <V as VisitMut>::enter_mut_attribute(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute) {
+        <V as VisitMut>::exit_mut_attribute(&mut **self, node)
     }
 
     #[inline]
@@ -4083,8 +7868,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        <V as VisitMut>::enter_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        <V as VisitMut>::exit_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
         <V as VisitMut>::visit_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        <V as VisitMut>::enter_mut_attribute_tokens(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        <V as VisitMut>::exit_mut_attribute_tokens(&mut **self, node)
     }
 
     #[inline]
@@ -4093,8 +7898,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        <V as VisitMut>::enter_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        <V as VisitMut>::exit_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
         <V as VisitMut>::visit_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child) {
+        <V as VisitMut>::enter_mut_child(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child) {
+        <V as VisitMut>::exit_mut_child(&mut **self, node)
     }
 
     #[inline]
@@ -4103,8 +7928,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>) {
+        <V as VisitMut>::enter_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>) {
+        <V as VisitMut>::exit_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>) {
         <V as VisitMut>::visit_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment) {
+        <V as VisitMut>::enter_mut_comment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment) {
+        <V as VisitMut>::exit_mut_comment(&mut **self, node)
     }
 
     #[inline]
@@ -4113,8 +7958,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document) {
+        <V as VisitMut>::enter_mut_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document) {
+        <V as VisitMut>::exit_mut_document(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document) {
         <V as VisitMut>::visit_mut_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        <V as VisitMut>::enter_mut_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        <V as VisitMut>::exit_mut_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -4123,8 +7988,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        <V as VisitMut>::enter_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        <V as VisitMut>::exit_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode) {
         <V as VisitMut>::visit_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType) {
+        <V as VisitMut>::enter_mut_document_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType) {
+        <V as VisitMut>::exit_mut_document_type(&mut **self, node)
     }
 
     #[inline]
@@ -4133,8 +8018,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element) {
+        <V as VisitMut>::enter_mut_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element) {
+        <V as VisitMut>::exit_mut_element(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element) {
         <V as VisitMut>::visit_mut_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace) {
+        <V as VisitMut>::enter_mut_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace) {
+        <V as VisitMut>::exit_mut_namespace(&mut **self, node)
     }
 
     #[inline]
@@ -4143,8 +8048,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <V as VisitMut>::enter_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <V as VisitMut>::exit_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         <V as VisitMut>::visit_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        <V as VisitMut>::enter_mut_opt_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        <V as VisitMut>::exit_mut_opt_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -4153,8 +8078,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        <V as VisitMut>::enter_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        <V as VisitMut>::exit_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
         <V as VisitMut>::visit_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        <V as VisitMut>::enter_mut_opt_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        <V as VisitMut>::exit_mut_opt_raw(&mut **self, node)
     }
 
     #[inline]
@@ -4163,8 +8108,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw) {
+        <V as VisitMut>::enter_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw) {
+        <V as VisitMut>::exit_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_raw(&mut self, node: &mut Raw) {
         <V as VisitMut>::visit_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span) {
+        <V as VisitMut>::enter_mut_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span) {
+        <V as VisitMut>::exit_mut_span(&mut **self, node)
     }
 
     #[inline]
@@ -4173,13 +8138,43 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text) {
+        <V as VisitMut>::enter_mut_text(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text) {
+        <V as VisitMut>::exit_mut_text(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_text(&mut self, node: &mut Text) {
         <V as VisitMut>::visit_mut_text(&mut **self, node)
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token) {
+        <V as VisitMut>::enter_mut_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token) {
+        <V as VisitMut>::exit_mut_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token) {
         <V as VisitMut>::visit_mut_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        <V as VisitMut>::enter_mut_token_and_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        <V as VisitMut>::exit_mut_token_and_span(&mut **self, node)
     }
 
     #[inline]
@@ -4192,8 +8187,28 @@ where
     V: ?Sized + VisitMut,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <V as VisitMut>::enter_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        <V as VisitMut>::exit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
         <V as VisitMut>::visit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute) {
+        <V as VisitMut>::enter_mut_attribute(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute) {
+        <V as VisitMut>::exit_mut_attribute(&mut **self, node)
     }
 
     #[inline]
@@ -4202,8 +8217,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        <V as VisitMut>::enter_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        <V as VisitMut>::exit_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
         <V as VisitMut>::visit_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        <V as VisitMut>::enter_mut_attribute_tokens(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        <V as VisitMut>::exit_mut_attribute_tokens(&mut **self, node)
     }
 
     #[inline]
@@ -4212,8 +8247,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        <V as VisitMut>::enter_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        <V as VisitMut>::exit_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
         <V as VisitMut>::visit_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child) {
+        <V as VisitMut>::enter_mut_child(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child) {
+        <V as VisitMut>::exit_mut_child(&mut **self, node)
     }
 
     #[inline]
@@ -4222,8 +8277,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>) {
+        <V as VisitMut>::enter_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>) {
+        <V as VisitMut>::exit_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>) {
         <V as VisitMut>::visit_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment) {
+        <V as VisitMut>::enter_mut_comment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment) {
+        <V as VisitMut>::exit_mut_comment(&mut **self, node)
     }
 
     #[inline]
@@ -4232,8 +8307,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document) {
+        <V as VisitMut>::enter_mut_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document) {
+        <V as VisitMut>::exit_mut_document(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document) {
         <V as VisitMut>::visit_mut_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        <V as VisitMut>::enter_mut_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        <V as VisitMut>::exit_mut_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -4242,8 +8337,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        <V as VisitMut>::enter_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        <V as VisitMut>::exit_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode) {
         <V as VisitMut>::visit_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType) {
+        <V as VisitMut>::enter_mut_document_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType) {
+        <V as VisitMut>::exit_mut_document_type(&mut **self, node)
     }
 
     #[inline]
@@ -4252,8 +8367,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element) {
+        <V as VisitMut>::enter_mut_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element) {
+        <V as VisitMut>::exit_mut_element(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element) {
         <V as VisitMut>::visit_mut_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace) {
+        <V as VisitMut>::enter_mut_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace) {
+        <V as VisitMut>::exit_mut_namespace(&mut **self, node)
     }
 
     #[inline]
@@ -4262,8 +8397,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <V as VisitMut>::enter_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        <V as VisitMut>::exit_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         <V as VisitMut>::visit_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        <V as VisitMut>::enter_mut_opt_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        <V as VisitMut>::exit_mut_opt_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -4272,8 +8427,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        <V as VisitMut>::enter_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        <V as VisitMut>::exit_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
         <V as VisitMut>::visit_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        <V as VisitMut>::enter_mut_opt_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        <V as VisitMut>::exit_mut_opt_raw(&mut **self, node)
     }
 
     #[inline]
@@ -4282,8 +8457,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw) {
+        <V as VisitMut>::enter_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw) {
+        <V as VisitMut>::exit_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_raw(&mut self, node: &mut Raw) {
         <V as VisitMut>::visit_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span) {
+        <V as VisitMut>::enter_mut_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span) {
+        <V as VisitMut>::exit_mut_span(&mut **self, node)
     }
 
     #[inline]
@@ -4292,13 +8487,43 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text) {
+        <V as VisitMut>::enter_mut_text(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text) {
+        <V as VisitMut>::exit_mut_text(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_text(&mut self, node: &mut Text) {
         <V as VisitMut>::visit_mut_text(&mut **self, node)
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token) {
+        <V as VisitMut>::enter_mut_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token) {
+        <V as VisitMut>::exit_mut_token(&mut **self, node)
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token) {
         <V as VisitMut>::visit_mut_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        <V as VisitMut>::enter_mut_token_and_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        <V as VisitMut>::exit_mut_token_and_span(&mut **self, node)
     }
 
     #[inline]
@@ -4312,10 +8537,42 @@ where
     B: VisitMut,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_atom(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_atom(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_attribute(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_attribute(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_attribute(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_attribute(visitor, node),
         }
     }
 
@@ -4328,10 +8585,44 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_attribute_token(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_attribute_token(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_attribute_token(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_attribute_tokens(visitor, node),
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::enter_mut_attribute_tokens(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_attribute_tokens(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_attribute_tokens(visitor, node),
         }
     }
 
@@ -4346,10 +8637,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_attributes(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_attributes(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_attributes(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_child(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_child(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_child(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_child(visitor, node),
         }
     }
 
@@ -4362,10 +8685,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_childs(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_childs(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_childs(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_childs(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_childs(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_childs(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_comment(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_comment(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_comment(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_comment(visitor, node),
         }
     }
 
@@ -4378,10 +8733,48 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_document(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_document(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_document(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_document(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_document(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_document(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::enter_mut_document_fragment(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::enter_mut_document_fragment(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::exit_mut_document_fragment(visitor, node)
+            }
         }
     }
 
@@ -4398,10 +8791,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_document_mode(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_document_mode(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_document_mode(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_document_type(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_document_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_document_type(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_document_type(visitor, node),
         }
     }
 
@@ -4414,10 +8839,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_element(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_element(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_element(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_element(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_element(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_element(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_namespace(visitor, node),
         }
     }
 
@@ -4430,10 +8887,50 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_opt_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_opt_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_atom(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::enter_mut_opt_document_fragment(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::enter_mut_opt_document_fragment(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMut::exit_mut_opt_document_fragment(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMut::exit_mut_opt_document_fragment(visitor, node)
+            }
         }
     }
 
@@ -4450,10 +8947,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_opt_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_opt_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_opt_namespace(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_opt_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_opt_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_opt_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_opt_raw(visitor, node),
         }
     }
 
@@ -4466,10 +8995,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_raw(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_raw(&mut self, node: &mut Raw) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_raw(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_span(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_span(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_span(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_span(visitor, node),
         }
     }
 
@@ -4482,6 +9043,22 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_text(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_text(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_text(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_text(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_text(&mut self, node: &mut Text) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_text(visitor, node),
@@ -4490,10 +9067,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_token(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_token(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_token(visitor, node),
+        }
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token) {
         match self {
             swc_visit::Either::Left(visitor) => VisitMut::visit_mut_token(visitor, node),
             swc_visit::Either::Right(visitor) => VisitMut::visit_mut_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::enter_mut_token_and_span(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::enter_mut_token_and_span(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        match self {
+            swc_visit::Either::Left(visitor) => VisitMut::exit_mut_token_and_span(visitor, node),
+            swc_visit::Either::Right(visitor) => VisitMut::exit_mut_token_and_span(visitor, node),
         }
     }
 
@@ -4510,10 +9119,38 @@ where
     V: VisitMut,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
         if self.enabled {
             <V as VisitMut>::visit_mut_atom(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_attribute(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_attribute(&mut self.visitor, node)
         }
     }
 
@@ -4526,10 +9163,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_attribute_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_attribute_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_attribute_token(&mut self, node: &mut AttributeToken) {
         if self.enabled {
             <V as VisitMut>::visit_mut_attribute_token(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_attribute_tokens(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: &mut Vec<AttributeToken>) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_attribute_tokens(&mut self.visitor, node)
         }
     }
 
@@ -4542,10 +9207,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_attributes(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_attributes(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_attributes(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_child(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_child(&mut self.visitor, node)
         }
     }
 
@@ -4558,10 +9251,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_childs(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_childs(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_childs(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_comment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_comment(&mut self.visitor, node)
         }
     }
 
@@ -4574,10 +9295,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_document(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_document(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document) {
         if self.enabled {
             <V as VisitMut>::visit_mut_document(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_document_fragment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: &mut DocumentFragment) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_document_fragment(&mut self.visitor, node)
         }
     }
 
@@ -4590,10 +9339,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_document_mode(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_document_mode(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode) {
         if self.enabled {
             <V as VisitMut>::visit_mut_document_mode(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_document_type(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_document_type(&mut self.visitor, node)
         }
     }
 
@@ -4606,10 +9383,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_element(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_element(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element) {
         if self.enabled {
             <V as VisitMut>::visit_mut_element(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_namespace(&mut self.visitor, node)
         }
     }
 
@@ -4622,10 +9427,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_opt_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_opt_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_opt_atom(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_opt_document_fragment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(&mut self, node: &mut Option<DocumentFragment>) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_opt_document_fragment(&mut self.visitor, node)
         }
     }
 
@@ -4638,10 +9471,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_opt_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_opt_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_namespace(&mut self, node: &mut Option<Namespace>) {
         if self.enabled {
             <V as VisitMut>::visit_mut_opt_namespace(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_opt_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_opt_raw(&mut self.visitor, node)
         }
     }
 
@@ -4654,10 +9515,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_raw(&mut self, node: &mut Raw) {
         if self.enabled {
             <V as VisitMut>::visit_mut_raw(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_span(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_span(&mut self.visitor, node)
         }
     }
 
@@ -4670,6 +9559,20 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_text(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_text(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_text(&mut self, node: &mut Text) {
         if self.enabled {
             <V as VisitMut>::visit_mut_text(&mut self.visitor, node)
@@ -4678,10 +9581,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token) {
         if self.enabled {
             <V as VisitMut>::visit_mut_token(&mut self.visitor, node)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        if self.enabled {
+            <V as VisitMut>::enter_mut_token_and_span(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan) {
+        if self.enabled {
+            <V as VisitMut>::exit_mut_token_and_span(&mut self.visitor, node)
         }
     }
 
@@ -4707,6 +9638,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Attribute {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_attribute(visitor, self);
         match self {
             Attribute {
                 span,
@@ -4739,7 +9671,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Attribute {
                     <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_with(raw_value, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_attribute(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for AttributeToken {
@@ -4749,6 +9682,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AttributeToken {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_attribute_token(visitor, self);
         match self {
             AttributeToken {
                 span,
@@ -4773,7 +9707,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for AttributeToken {
                     <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_with(raw_value, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_attribute_token(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Child {
@@ -4783,6 +9718,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Child {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_child(visitor, self);
         match self {
             Child::DocumentType { 0: _field_0 } => {
                 <DocumentType as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
@@ -4796,7 +9732,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Child {
             Child::Comment { 0: _field_0 } => {
                 <Comment as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_child(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Comment {
@@ -4806,6 +9743,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Comment {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_comment(visitor, self);
         match self {
             Comment { span, data, raw } => {
                 {
@@ -4818,7 +9756,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Comment {
                     <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_with(raw, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_comment(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Document {
@@ -4828,6 +9767,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Document {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_document(visitor, self);
         match self {
             Document {
                 span,
@@ -4844,7 +9784,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Document {
                     <Vec<Child> as VisitMutWith<V>>::visit_mut_with(children, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_document(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentFragment {
@@ -4854,6 +9795,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentFragment {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_document_fragment(visitor, self);
         match self {
             DocumentFragment { span, children } => {
                 {
@@ -4863,7 +9805,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentFragment {
                     <Vec<Child> as VisitMutWith<V>>::visit_mut_with(children, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_document_fragment(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentMode {
@@ -4873,11 +9816,13 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentMode {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_document_mode(visitor, self);
         match self {
             DocumentMode::NoQuirks => {}
             DocumentMode::LimitedQuirks => {}
             DocumentMode::Quirks => {}
-        }
+        };
+        <V as VisitMut>::exit_mut_document_mode(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentType {
@@ -4887,6 +9832,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentType {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_document_type(visitor, self);
         match self {
             DocumentType {
                 span,
@@ -4911,7 +9857,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for DocumentType {
                     <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_with(raw, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_document_type(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Element {
@@ -4921,6 +9868,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Element {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_element(visitor, self);
         match self {
             Element {
                 span,
@@ -4950,7 +9898,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Element {
                     <Option<DocumentFragment> as VisitMutWith<V>>::visit_mut_with(content, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_element(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Namespace {
@@ -4960,6 +9909,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Namespace {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_namespace(visitor, self);
         match self {
             Namespace::HTML => {}
             Namespace::MATHML => {}
@@ -4967,7 +9917,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Namespace {
             Namespace::XLINK => {}
             Namespace::XML => {}
             Namespace::XMLNS => {}
-        }
+        };
+        <V as VisitMut>::exit_mut_namespace(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Raw {
@@ -4977,12 +9928,14 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Raw {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_raw(visitor, self);
         match self {
             Raw::Same => {}
             Raw::Atom { 0: _field_0 } => {
                 <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(_field_0, visitor);
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_raw(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Text {
@@ -4992,6 +9945,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Text {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_text(visitor, self);
         match self {
             Text { span, data, raw } => {
                 {
@@ -5004,7 +9958,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Text {
                     <Option<swc_atoms::Atom> as VisitMutWith<V>>::visit_mut_with(raw, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_text(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Token {
@@ -5014,6 +9969,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Token {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_token(visitor, self);
         match self {
             Token::Doctype {
                 name,
@@ -5087,7 +10043,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Token {
                 };
             }
             Token::Eof => {}
-        }
+        };
+        <V as VisitMut>::exit_mut_token(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for TokenAndSpan {
@@ -5097,6 +10054,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TokenAndSpan {
     }
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_token_and_span(visitor, self);
         match self {
             TokenAndSpan { span, token } => {
                 {
@@ -5106,7 +10064,8 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TokenAndSpan {
                     <Token as VisitMutWith<V>>::visit_mut_with(token, visitor)
                 };
             }
-        }
+        };
+        <V as VisitMut>::exit_mut_token_and_span(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_atoms::Atom {
@@ -5118,7 +10077,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_atoms::Atom {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        {}
+        <V as VisitMut>::enter_mut_atom(visitor, self);
+        {};
+        <V as VisitMut>::exit_mut_atom(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<AttributeToken> {
@@ -5130,8 +10091,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<AttributeToken> {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_attribute_tokens(visitor, self);
         self.iter_mut()
-            .for_each(|item| <AttributeToken as VisitMutWith<V>>::visit_mut_with(item, visitor))
+            .for_each(|item| <AttributeToken as VisitMutWith<V>>::visit_mut_with(item, visitor));
+        <V as VisitMut>::exit_mut_attribute_tokens(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Attribute> {
@@ -5143,8 +10106,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Attribute> {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_attributes(visitor, self);
         self.iter_mut()
-            .for_each(|item| <Attribute as VisitMutWith<V>>::visit_mut_with(item, visitor))
+            .for_each(|item| <Attribute as VisitMutWith<V>>::visit_mut_with(item, visitor));
+        <V as VisitMut>::exit_mut_attributes(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Child> {
@@ -5156,8 +10121,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Vec<Child> {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_childs(visitor, self);
         self.iter_mut()
-            .for_each(|item| <Child as VisitMutWith<V>>::visit_mut_with(item, visitor))
+            .for_each(|item| <Child as VisitMutWith<V>>::visit_mut_with(item, visitor));
+        <V as VisitMut>::exit_mut_childs(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
@@ -5169,10 +10136,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<swc_atoms::Atom> {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_opt_atom(visitor, self);
         match self {
             Some(inner) => <swc_atoms::Atom as VisitMutWith<V>>::visit_mut_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as VisitMut>::exit_mut_opt_atom(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<DocumentFragment> {
@@ -5184,10 +10153,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<DocumentFragment> {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_opt_document_fragment(visitor, self);
         match self {
             Some(inner) => <DocumentFragment as VisitMutWith<V>>::visit_mut_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as VisitMut>::exit_mut_opt_document_fragment(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Namespace> {
@@ -5199,10 +10170,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Namespace> {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_opt_namespace(visitor, self);
         match self {
             Some(inner) => <Namespace as VisitMutWith<V>>::visit_mut_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as VisitMut>::exit_mut_opt_namespace(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Raw> {
@@ -5214,10 +10187,12 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for Option<Raw> {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
+        <V as VisitMut>::enter_mut_opt_raw(visitor, self);
         match self {
             Some(inner) => <Raw as VisitMutWith<V>>::visit_mut_with(inner, visitor),
             None => {}
-        }
+        };
+        <V as VisitMut>::exit_mut_opt_raw(visitor, self);
     }
 }
 impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_common::Span {
@@ -5229,7 +10204,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for swc_common::Span {
 
     #[inline]
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
-        {}
+        <V as VisitMut>::enter_mut_span(visitor, self);
+        {};
+        <V as VisitMut>::exit_mut_span(visitor, self);
     }
 }
 impl<V, T> VisitMutWith<V> for std::boxed::Box<T>
@@ -5253,6 +10230,12 @@ where
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 pub trait VisitMutAstPath {
+    #[doc = "Hook called when entering a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -5262,6 +10245,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -5270,6 +10259,22 @@ pub trait VisitMutAstPath {
         <Attribute as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::visit_mut_children_with_ast_path`]. If you want to recurse, you \
@@ -5284,6 +10289,24 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -5297,6 +10320,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -5306,6 +10335,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -5315,6 +10350,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -5324,6 +10365,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -5333,6 +10380,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -5341,6 +10394,22 @@ pub trait VisitMutAstPath {
         <Document as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
     }
     #[doc = "Visit a node of type `DocumentFragment`.\n\nBy default, this method calls \
              [`DocumentFragment::visit_mut_children_with_ast_path`]. If you want to recurse, you \
@@ -5355,6 +10424,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -5364,6 +10439,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -5373,6 +10454,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -5382,6 +10469,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::visit_mut_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -5390,6 +10483,24 @@ pub trait VisitMutAstPath {
         <Namespace as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
     }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::visit_mut_children_with_ast_path`]. If you want to \
@@ -5404,6 +10515,24 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
     #[doc = "Visit a node of type `Option < DocumentFragment >`.\n\nBy default, this method calls \
              [`Option < DocumentFragment >::visit_mut_children_with_ast_path`]. If you want to \
              recurse, you need to call it manually."]
@@ -5416,6 +10545,24 @@ pub trait VisitMutAstPath {
         <Option<DocumentFragment> as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::visit_mut_children_with_ast_path`]. If you want to recurse, \
@@ -5430,6 +10577,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Option < Raw >`.\n\nBy default, this method calls [`Option < \
              Raw >::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -5439,6 +10592,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Raw`.\n\nBy default, this method calls \
              [`Raw::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -5446,6 +10605,13 @@ pub trait VisitMutAstPath {
     fn visit_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
         <Raw as VisitMutWithAstPath<Self>>::visit_mut_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `swc_common :: Span`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `swc_common :: Span`. By default does nothing."]
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::visit_mut_children_with_ast_path`]. If you want to recurse, you \
              need to call it manually."]
@@ -5455,6 +10621,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -5464,6 +10636,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::visit_mut_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
@@ -5473,6 +10651,12 @@ pub trait VisitMutAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {}
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::visit_mut_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -5490,13 +10674,51 @@ where
     V: ?Sized + VisitMutAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_attribute_token(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5509,6 +10731,24 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attribute_tokens(
         &mut self,
         node: &mut Vec<AttributeToken>,
@@ -5518,8 +10758,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_child(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5528,8 +10788,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_comment(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5538,8 +10818,36 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_document_fragment(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5552,8 +10860,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_document_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5562,13 +10890,51 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_opt_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5581,12 +10947,48 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_document_fragment(
         &mut self,
         node: &mut Option<DocumentFragment>,
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_opt_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_opt_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5599,8 +11001,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_raw(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5609,8 +11031,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5619,8 +11061,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_token_and_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_token_and_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5635,13 +11097,51 @@ where
     V: ?Sized + VisitMutAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_attribute_token(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5654,6 +11154,24 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attribute_tokens(
         &mut self,
         node: &mut Vec<AttributeToken>,
@@ -5663,8 +11181,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_child(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5673,8 +11211,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_comment(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5683,8 +11241,36 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_document_fragment(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5697,8 +11283,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_document_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5707,13 +11313,51 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_opt_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5726,12 +11370,48 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_document_fragment(
         &mut self,
         node: &mut Option<DocumentFragment>,
         __ast_path: &mut AstKindPath,
     ) {
         <V as VisitMutAstPath>::visit_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::enter_mut_opt_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as VisitMutAstPath>::exit_mut_opt_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5744,8 +11424,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_raw(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5754,8 +11454,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5764,8 +11484,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
         <V as VisitMutAstPath>::visit_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_token_and_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::exit_mut_token_and_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -5781,6 +11521,30 @@ where
     B: VisitMutAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5793,6 +11557,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_attribute(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_attribute(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_attribute(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_attribute(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5800,6 +11588,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_attribute(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_attribute_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_attribute_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_attribute_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_attribute_token(visitor, node, __ast_path)
             }
         }
     }
@@ -5821,6 +11641,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_attribute_tokens(
         &mut self,
         node: &mut Vec<AttributeToken>,
@@ -5832,6 +11684,30 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_attributes(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_attributes(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_attributes(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_attributes(visitor, node, __ast_path)
             }
         }
     }
@@ -5849,6 +11725,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_child(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_child(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5856,6 +11756,30 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_childs(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_childs(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_childs(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_childs(visitor, node, __ast_path)
             }
         }
     }
@@ -5873,6 +11797,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_comment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_comment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_comment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_comment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5885,6 +11833,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_document(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_document(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_document(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_document(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5892,6 +11864,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_document(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_document_fragment(visitor, node, __ast_path)
             }
         }
     }
@@ -5913,6 +11917,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_document_mode(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_document_mode(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_document_mode(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_document_mode(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5920,6 +11948,30 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_document_mode(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_document_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_document_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_document_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_document_type(visitor, node, __ast_path)
             }
         }
     }
@@ -5937,6 +11989,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_element(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_element(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_element(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_element(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5949,6 +12025,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -5956,6 +12056,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_opt_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_opt_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_opt_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_opt_atom(visitor, node, __ast_path)
             }
         }
     }
@@ -5977,6 +12109,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_document_fragment(
         &mut self,
         node: &mut Option<DocumentFragment>,
@@ -5988,6 +12152,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_opt_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_opt_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_opt_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_opt_namespace(visitor, node, __ast_path)
             }
         }
     }
@@ -6009,6 +12205,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_opt_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_opt_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_opt_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_opt_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -6016,6 +12236,30 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_opt_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_raw(visitor, node, __ast_path)
             }
         }
     }
@@ -6033,6 +12277,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -6040,6 +12308,30 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_text(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_text(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_text(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_text(visitor, node, __ast_path)
             }
         }
     }
@@ -6057,6 +12349,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -6064,6 +12380,30 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 VisitMutAstPath::visit_mut_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::enter_mut_token_and_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::enter_mut_token_and_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                VisitMutAstPath::exit_mut_token_and_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                VisitMutAstPath::exit_mut_token_and_span(visitor, node, __ast_path)
             }
         }
     }
@@ -6087,6 +12427,20 @@ where
     V: VisitMutAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_atom(&mut self.visitor, node, __ast_path)
@@ -6095,10 +12449,46 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_attribute(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_attribute(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_attribute(&mut self, node: &mut Attribute, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_attribute(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_attribute_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: &mut AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_attribute_token(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6115,6 +12505,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_attribute_tokens(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: &mut Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_attribute_tokens(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_attribute_tokens(
         &mut self,
         node: &mut Vec<AttributeToken>,
@@ -6127,10 +12539,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_attributes(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_attributes(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_attributes(&mut self, node: &mut Vec<Attribute>, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_attributes(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_child(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: &mut Child, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_child(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6143,10 +12583,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_childs(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_childs(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_childs(&mut self, node: &mut Vec<Child>, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_childs(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_comment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: &mut Comment, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_comment(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6159,10 +12627,46 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_document(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_document(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_document(&mut self, node: &mut Document, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_document(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_document_fragment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: &mut DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_document_fragment(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6179,10 +12683,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_document_mode(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_document_mode(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_document_mode(&mut self, node: &mut DocumentMode, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_document_mode(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_document_type(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: &mut DocumentType, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_document_type(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6195,10 +12727,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_element(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_element(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_element(&mut self, node: &mut Element, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_element(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: &mut Namespace, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_namespace(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6211,6 +12771,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_opt_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: &mut Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_opt_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_atom(
         &mut self,
         node: &mut Option<swc_atoms::Atom>,
@@ -6219,6 +12801,36 @@ where
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_opt_atom(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_opt_document_fragment(
+                &mut self.visitor,
+                node,
+                __ast_path,
+            )
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: &mut Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_opt_document_fragment(
+                &mut self.visitor,
+                node,
+                __ast_path,
+            )
         }
     }
 
@@ -6239,6 +12851,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_opt_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: &mut Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_opt_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_namespace(
         &mut self,
         node: &mut Option<Namespace>,
@@ -6251,10 +12885,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_opt_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_opt_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_opt_raw(&mut self, node: &mut Option<Raw>, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_opt_raw(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: &mut Raw, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_raw(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6267,10 +12929,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_span(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_span(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_span(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_text(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: &mut Text, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_text(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6283,10 +12973,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
     fn visit_mut_token(&mut self, node: &mut Token, __ast_path: &mut AstKindPath) {
         if self.enabled {
             <V as VisitMutAstPath>::visit_mut_token(&mut self.visitor, node, __ast_path)
         } else {
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::enter_mut_token_and_span(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: &mut TokenAndSpan, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as VisitMutAstPath>::exit_mut_token_and_span(&mut self.visitor, node, __ast_path)
         }
     }
 
@@ -6316,6 +13034,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attribute(visitor, self, __ast_path);
         match self {
             Attribute {
                 span,
@@ -6395,7 +13114,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Attribute {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_attribute(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6407,6 +13127,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AttributeToken {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attribute_token(visitor, self, __ast_path);
         match self {
             AttributeToken {
                 span,
@@ -6466,7 +13187,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for AttributeToken {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_attribute_token(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6478,6 +13200,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Child {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_child(visitor, self, __ast_path);
         match self {
             Child::DocumentType { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
@@ -6515,7 +13238,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Child {
                     &mut *__ast_path,
                 );
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_child(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6527,6 +13251,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Comment {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_comment(visitor, self, __ast_path);
         match self {
             Comment { span, data, raw } => {
                 {
@@ -6557,7 +13282,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Comment {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_comment(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6569,6 +13295,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Document {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document(visitor, self, __ast_path);
         match self {
             Document {
                 span,
@@ -6604,7 +13331,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Document {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_document(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6616,6 +13344,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentFragment {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document_fragment(visitor, self, __ast_path);
         match self {
             DocumentFragment { span, children } => {
                 {
@@ -6639,7 +13368,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentFragment {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_document_fragment(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6651,11 +13381,13 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentMode {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document_mode(visitor, self, __ast_path);
         match self {
             DocumentMode::NoQuirks => {}
             DocumentMode::LimitedQuirks => {}
             DocumentMode::Quirks => {}
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_document_mode(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6667,6 +13399,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentType {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_document_type(visitor, self, __ast_path);
         match self {
             DocumentType {
                 span,
@@ -6726,7 +13459,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for DocumentType {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_document_type(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6738,6 +13472,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Element {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_element(visitor, self, __ast_path);
         match self {
             Element {
                 span,
@@ -6806,7 +13541,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Element {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_element(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6818,6 +13554,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Namespace {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_namespace(visitor, self, __ast_path);
         match self {
             Namespace::HTML => {}
             Namespace::MATHML => {}
@@ -6825,7 +13562,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Namespace {
             Namespace::XLINK => {}
             Namespace::XML => {}
             Namespace::XMLNS => {}
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_namespace(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6837,6 +13575,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Raw {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_raw(visitor, self, __ast_path);
         match self {
             Raw::Same => {}
             Raw::Atom { 0: _field_0 } => {
@@ -6848,7 +13587,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Raw {
                     &mut *__ast_path,
                 );
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_raw(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6860,6 +13600,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Text {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_text(visitor, self, __ast_path);
         match self {
             Text { span, data, raw } => {
                 {
@@ -6890,7 +13631,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Text {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_text(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -6902,6 +13644,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_token(visitor, self, __ast_path);
         match self {
             Token::Doctype {
                 name,
@@ -7059,7 +13802,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Token {
                 };
             }
             Token::Eof => {}
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_token(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7071,6 +13815,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TokenAndSpan {
     }
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_token_and_span(visitor, self, __ast_path);
         match self {
             TokenAndSpan { span, token } => {
                 {
@@ -7094,7 +13839,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TokenAndSpan {
                     )
                 };
             }
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_token_and_span(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7108,7 +13854,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for swc_atoms::Atom {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        {}
+        <V as VisitMutAstPath>::enter_mut_atom(visitor, self, __ast_path);
+        {};
+        <V as VisitMutAstPath>::exit_mut_atom(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7122,6 +13870,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<AttributeToken>
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attribute_tokens(visitor, self, __ast_path);
         self.iter_mut().enumerate().for_each(|(__idx, item)| {
             let mut __ast_path = __ast_path.with_index_guard(__idx);
             <AttributeToken as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
@@ -7129,7 +13878,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<AttributeToken>
                 visitor,
                 &mut *__ast_path,
             )
-        })
+        });
+        <V as VisitMutAstPath>::exit_mut_attribute_tokens(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7143,6 +13893,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Attribute> {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_attributes(visitor, self, __ast_path);
         self.iter_mut().enumerate().for_each(|(__idx, item)| {
             let mut __ast_path = __ast_path.with_index_guard(__idx);
             <Attribute as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
@@ -7150,7 +13901,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Attribute> {
                 visitor,
                 &mut *__ast_path,
             )
-        })
+        });
+        <V as VisitMutAstPath>::exit_mut_attributes(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7164,6 +13916,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Child> {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_childs(visitor, self, __ast_path);
         self.iter_mut().enumerate().for_each(|(__idx, item)| {
             let mut __ast_path = __ast_path.with_index_guard(__idx);
             <Child as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
@@ -7171,7 +13924,8 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Vec<Child> {
                 visitor,
                 &mut *__ast_path,
             )
-        })
+        });
+        <V as VisitMutAstPath>::exit_mut_childs(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7185,12 +13939,14 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<swc_atoms::A
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_opt_atom(visitor, self, __ast_path);
         match self {
             Some(inner) => <swc_atoms::Atom as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_opt_atom(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7204,12 +13960,14 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<DocumentFrag
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_opt_document_fragment(visitor, self, __ast_path);
         match self {
             Some(inner) => <DocumentFragment as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_opt_document_fragment(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7223,12 +13981,14 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Namespace> {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_opt_namespace(visitor, self, __ast_path);
         match self {
             Some(inner) => <Namespace as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                 inner, visitor, __ast_path,
             ),
             None => {}
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_opt_namespace(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7242,12 +14002,14 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for Option<Raw> {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
+        <V as VisitMutAstPath>::enter_mut_opt_raw(visitor, self, __ast_path);
         match self {
             Some(inner) => {
                 <Raw as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(inner, visitor, __ast_path)
             }
             None => {}
-        }
+        };
+        <V as VisitMutAstPath>::exit_mut_opt_raw(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7261,7 +14023,9 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for swc_common::Span {
 
     #[inline]
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
-        {}
+        <V as VisitMutAstPath>::enter_mut_span(visitor, self, __ast_path);
+        {};
+        <V as VisitMutAstPath>::exit_mut_span(visitor, self, __ast_path);
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -7293,12 +14057,28 @@ where
 }
 #[doc = r" A visitor trait for traversing the AST."]
 pub trait Fold {
+    #[doc = "Hook called when entering a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom) {}
+    #[doc = "Hook called when exiting a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn exit_mut_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        node
+    }
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::fold_children_with`]. If you want to recurse, you need to call \
              it manually."]
     #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
         <swc_atoms::Atom as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute) {}
+    #[doc = "Hook called when exiting a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute) -> Attribute {
+        node
     }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::fold_children_with`]. If you want to recurse, you need to call it \
@@ -7307,12 +14087,30 @@ pub trait Fold {
     fn fold_attribute(&mut self, node: Attribute) -> Attribute {
         <Attribute as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken) {}
+    #[doc = "Hook called when exiting a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
+        node
+    }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn fold_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
         <AttributeToken as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &Vec<AttributeToken>) {}
+    #[doc = "Hook called when exiting a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: Vec<AttributeToken>) -> Vec<AttributeToken> {
+        node
     }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::fold_children_with`]. If you want to recurse, you need to call it \
@@ -7321,6 +14119,14 @@ pub trait Fold {
     fn fold_attribute_tokens(&mut self, node: Vec<AttributeToken>) -> Vec<AttributeToken> {
         <Vec<AttributeToken> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
+        node
+    }
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -7328,11 +14134,27 @@ pub trait Fold {
     fn fold_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
         <Vec<Attribute> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn enter_mut_child(&mut self, node: &Child) {}
+    #[doc = "Hook called when exiting a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child) -> Child {
+        node
+    }
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn fold_child(&mut self, node: Child) -> Child {
         <Child as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
+        node
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::fold_children_with`]. If you want to recurse, you need to call it manually."]
@@ -7340,11 +14162,27 @@ pub trait Fold {
     fn fold_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
         <Vec<Child> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment) {}
+    #[doc = "Hook called when exiting a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment) -> Comment {
+        node
+    }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn fold_comment(&mut self, node: Comment) -> Comment {
         <Comment as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document(&mut self, node: &Document) {}
+    #[doc = "Hook called when exiting a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document) -> Document {
+        node
     }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::fold_children_with`]. If you want to recurse, you need to call it \
@@ -7353,12 +14191,28 @@ pub trait Fold {
     fn fold_document(&mut self, node: Document) -> Document {
         <Document as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &DocumentFragment) {}
+    #[doc = "Hook called when exiting a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: DocumentFragment) -> DocumentFragment {
+        node
+    }
     #[doc = "Visit a node of type `DocumentFragment`.\n\nBy default, this method calls \
              [`DocumentFragment::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn fold_document_fragment(&mut self, node: DocumentFragment) -> DocumentFragment {
         <DocumentFragment as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode) {}
+    #[doc = "Hook called when exiting a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
+        node
     }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::fold_children_with`]. If you want to recurse, you need to call it \
@@ -7367,6 +14221,14 @@ pub trait Fold {
     fn fold_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
         <DocumentMode as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType) {}
+    #[doc = "Hook called when exiting a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: DocumentType) -> DocumentType {
+        node
+    }
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::fold_children_with`]. If you want to recurse, you need to call it \
              manually."]
@@ -7374,11 +14236,27 @@ pub trait Fold {
     fn fold_document_type(&mut self, node: DocumentType) -> DocumentType {
         <DocumentType as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn enter_mut_element(&mut self, node: &Element) {}
+    #[doc = "Hook called when exiting a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element) -> Element {
+        node
+    }
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn fold_element(&mut self, node: Element) -> Element {
         <Element as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace) {}
+    #[doc = "Hook called when exiting a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace) -> Namespace {
+        node
     }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::fold_children_with`]. If you want to recurse, you need to call it \
@@ -7387,12 +14265,35 @@ pub trait Fold {
     fn fold_namespace(&mut self, node: Namespace) -> Namespace {
         <Namespace as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {}
+    #[doc = "Hook called when exiting a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        node
+    }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::fold_children_with`]. If you want to recurse, you \
              need to call it manually."]
     #[inline]
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         <Option<swc_atoms::Atom> as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {}
+    #[doc = "Hook called when exiting a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+    ) -> Option<DocumentFragment> {
+        node
     }
     #[doc = "Visit a node of type `Option < DocumentFragment >`.\n\nBy default, this method calls \
              [`Option < DocumentFragment >::fold_children_with`]. If you want to recurse, you need \
@@ -7404,6 +14305,16 @@ pub trait Fold {
     ) -> Option<DocumentFragment> {
         <Option<DocumentFragment> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>) {}
+    #[doc = "Hook called when exiting a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
+        node
+    }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::fold_children_with`]. If you want to recurse, you need to \
              call it manually."]
@@ -7411,17 +14322,42 @@ pub trait Fold {
     fn fold_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
         <Option<Namespace> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>) {}
+    #[doc = "Hook called when exiting a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>) -> Option<Raw> {
+        node
+    }
     #[doc = "Visit a node of type `Option < Raw >`.\n\nBy default, this method calls [`Option < \
              Raw >::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn fold_opt_raw(&mut self, node: Option<Raw>) -> Option<Raw> {
         <Option<Raw> as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw) {}
+    #[doc = "Hook called when exiting a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw) -> Raw {
+        node
+    }
     #[doc = "Visit a node of type `Raw`.\n\nBy default, this method calls \
              [`Raw::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn fold_raw(&mut self, node: Raw) -> Raw {
         <Raw as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `swc_common :: Span`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span) {}
+    #[doc = "Hook called when exiting a node of type `swc_common :: Span`. By default does nothing."]
+    #[inline]
+    fn exit_mut_span(&mut self, node: swc_common::Span) -> swc_common::Span {
+        node
     }
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::fold_children_with`]. If you want to recurse, you need to call \
@@ -7430,17 +14366,41 @@ pub trait Fold {
     fn fold_span(&mut self, node: swc_common::Span) -> swc_common::Span {
         <swc_common::Span as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn enter_mut_text(&mut self, node: &Text) {}
+    #[doc = "Hook called when exiting a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text) -> Text {
+        node
+    }
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn fold_text(&mut self, node: Text) -> Text {
         <Text as FoldWith<Self>>::fold_children_with(node, self)
     }
+    #[doc = "Hook called when entering a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token(&mut self, node: &Token) {}
+    #[doc = "Hook called when exiting a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token) -> Token {
+        node
+    }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::fold_children_with`]. If you want to recurse, you need to call it manually."]
     #[inline]
     fn fold_token(&mut self, node: Token) -> Token {
         <Token as FoldWith<Self>>::fold_children_with(node, self)
+    }
+    #[doc = "Hook called when entering a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan) {}
+    #[doc = "Hook called when exiting a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: TokenAndSpan) -> TokenAndSpan {
+        node
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::fold_children_with`]. If you want to recurse, you need to call it \
@@ -7455,8 +14415,28 @@ where
     V: ?Sized + Fold,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Fold>::enter_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        <V as Fold>::exit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
         <V as Fold>::fold_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute) {
+        <V as Fold>::enter_mut_attribute(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute) -> Attribute {
+        <V as Fold>::exit_mut_attribute(&mut **self, node)
     }
 
     #[inline]
@@ -7465,8 +14445,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken) {
+        <V as Fold>::enter_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
+        <V as Fold>::exit_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
         <V as Fold>::fold_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &Vec<AttributeToken>) {
+        <V as Fold>::enter_mut_attribute_tokens(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: Vec<AttributeToken>) -> Vec<AttributeToken> {
+        <V as Fold>::exit_mut_attribute_tokens(&mut **self, node)
     }
 
     #[inline]
@@ -7475,8 +14475,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>) {
+        <V as Fold>::enter_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
+        <V as Fold>::exit_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
         <V as Fold>::fold_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &Child) {
+        <V as Fold>::enter_mut_child(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child) -> Child {
+        <V as Fold>::exit_mut_child(&mut **self, node)
     }
 
     #[inline]
@@ -7485,8 +14505,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>) {
+        <V as Fold>::enter_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
+        <V as Fold>::exit_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
         <V as Fold>::fold_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment) {
+        <V as Fold>::enter_mut_comment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment) -> Comment {
+        <V as Fold>::exit_mut_comment(&mut **self, node)
     }
 
     #[inline]
@@ -7495,8 +14535,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document) {
+        <V as Fold>::enter_mut_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document) -> Document {
+        <V as Fold>::exit_mut_document(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document) -> Document {
         <V as Fold>::fold_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &DocumentFragment) {
+        <V as Fold>::enter_mut_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: DocumentFragment) -> DocumentFragment {
+        <V as Fold>::exit_mut_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -7505,8 +14565,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode) {
+        <V as Fold>::enter_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
+        <V as Fold>::exit_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
         <V as Fold>::fold_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType) {
+        <V as Fold>::enter_mut_document_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: DocumentType) -> DocumentType {
+        <V as Fold>::exit_mut_document_type(&mut **self, node)
     }
 
     #[inline]
@@ -7515,8 +14595,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element) {
+        <V as Fold>::enter_mut_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element) -> Element {
+        <V as Fold>::exit_mut_element(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element) -> Element {
         <V as Fold>::fold_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace) {
+        <V as Fold>::enter_mut_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace) -> Namespace {
+        <V as Fold>::exit_mut_namespace(&mut **self, node)
     }
 
     #[inline]
@@ -7525,8 +14625,31 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Fold>::enter_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        <V as Fold>::exit_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         <V as Fold>::fold_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        <V as Fold>::enter_mut_opt_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+    ) -> Option<DocumentFragment> {
+        <V as Fold>::exit_mut_opt_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -7538,8 +14661,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>) {
+        <V as Fold>::enter_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
+        <V as Fold>::exit_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
         <V as Fold>::fold_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>) {
+        <V as Fold>::enter_mut_opt_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>) -> Option<Raw> {
+        <V as Fold>::exit_mut_opt_raw(&mut **self, node)
     }
 
     #[inline]
@@ -7548,8 +14691,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw) {
+        <V as Fold>::enter_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw) -> Raw {
+        <V as Fold>::exit_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw) -> Raw {
         <V as Fold>::fold_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span) {
+        <V as Fold>::enter_mut_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: swc_common::Span) -> swc_common::Span {
+        <V as Fold>::exit_mut_span(&mut **self, node)
     }
 
     #[inline]
@@ -7558,13 +14721,43 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text) {
+        <V as Fold>::enter_mut_text(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text) -> Text {
+        <V as Fold>::exit_mut_text(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text) -> Text {
         <V as Fold>::fold_text(&mut **self, node)
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token) {
+        <V as Fold>::enter_mut_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token) -> Token {
+        <V as Fold>::exit_mut_token(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token) -> Token {
         <V as Fold>::fold_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan) {
+        <V as Fold>::enter_mut_token_and_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: TokenAndSpan) -> TokenAndSpan {
+        <V as Fold>::exit_mut_token_and_span(&mut **self, node)
     }
 
     #[inline]
@@ -7577,8 +14770,28 @@ where
     V: ?Sized + Fold,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom) {
+        <V as Fold>::enter_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        <V as Fold>::exit_mut_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
         <V as Fold>::fold_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute) {
+        <V as Fold>::enter_mut_attribute(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute) -> Attribute {
+        <V as Fold>::exit_mut_attribute(&mut **self, node)
     }
 
     #[inline]
@@ -7587,8 +14800,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken) {
+        <V as Fold>::enter_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
+        <V as Fold>::exit_mut_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
         <V as Fold>::fold_attribute_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &Vec<AttributeToken>) {
+        <V as Fold>::enter_mut_attribute_tokens(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: Vec<AttributeToken>) -> Vec<AttributeToken> {
+        <V as Fold>::exit_mut_attribute_tokens(&mut **self, node)
     }
 
     #[inline]
@@ -7597,8 +14830,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>) {
+        <V as Fold>::enter_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
+        <V as Fold>::exit_mut_attributes(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
         <V as Fold>::fold_attributes(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &Child) {
+        <V as Fold>::enter_mut_child(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child) -> Child {
+        <V as Fold>::exit_mut_child(&mut **self, node)
     }
 
     #[inline]
@@ -7607,8 +14860,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>) {
+        <V as Fold>::enter_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
+        <V as Fold>::exit_mut_childs(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
         <V as Fold>::fold_childs(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment) {
+        <V as Fold>::enter_mut_comment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment) -> Comment {
+        <V as Fold>::exit_mut_comment(&mut **self, node)
     }
 
     #[inline]
@@ -7617,8 +14890,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document) {
+        <V as Fold>::enter_mut_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document) -> Document {
+        <V as Fold>::exit_mut_document(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document) -> Document {
         <V as Fold>::fold_document(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &DocumentFragment) {
+        <V as Fold>::enter_mut_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: DocumentFragment) -> DocumentFragment {
+        <V as Fold>::exit_mut_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -7627,8 +14920,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode) {
+        <V as Fold>::enter_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
+        <V as Fold>::exit_mut_document_mode(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
         <V as Fold>::fold_document_mode(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType) {
+        <V as Fold>::enter_mut_document_type(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: DocumentType) -> DocumentType {
+        <V as Fold>::exit_mut_document_type(&mut **self, node)
     }
 
     #[inline]
@@ -7637,8 +14950,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element) {
+        <V as Fold>::enter_mut_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element) -> Element {
+        <V as Fold>::exit_mut_element(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element) -> Element {
         <V as Fold>::fold_element(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace) {
+        <V as Fold>::enter_mut_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace) -> Namespace {
+        <V as Fold>::exit_mut_namespace(&mut **self, node)
     }
 
     #[inline]
@@ -7647,8 +14980,31 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        <V as Fold>::enter_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        <V as Fold>::exit_mut_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         <V as Fold>::fold_opt_atom(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        <V as Fold>::enter_mut_opt_document_fragment(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+    ) -> Option<DocumentFragment> {
+        <V as Fold>::exit_mut_opt_document_fragment(&mut **self, node)
     }
 
     #[inline]
@@ -7660,8 +15016,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>) {
+        <V as Fold>::enter_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
+        <V as Fold>::exit_mut_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
         <V as Fold>::fold_opt_namespace(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>) {
+        <V as Fold>::enter_mut_opt_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>) -> Option<Raw> {
+        <V as Fold>::exit_mut_opt_raw(&mut **self, node)
     }
 
     #[inline]
@@ -7670,8 +15046,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw) {
+        <V as Fold>::enter_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw) -> Raw {
+        <V as Fold>::exit_mut_raw(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw) -> Raw {
         <V as Fold>::fold_raw(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span) {
+        <V as Fold>::enter_mut_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: swc_common::Span) -> swc_common::Span {
+        <V as Fold>::exit_mut_span(&mut **self, node)
     }
 
     #[inline]
@@ -7680,13 +15076,43 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text) {
+        <V as Fold>::enter_mut_text(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text) -> Text {
+        <V as Fold>::exit_mut_text(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text) -> Text {
         <V as Fold>::fold_text(&mut **self, node)
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token) {
+        <V as Fold>::enter_mut_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token) -> Token {
+        <V as Fold>::exit_mut_token(&mut **self, node)
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token) -> Token {
         <V as Fold>::fold_token(&mut **self, node)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan) {
+        <V as Fold>::enter_mut_token_and_span(&mut **self, node)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: TokenAndSpan) -> TokenAndSpan {
+        <V as Fold>::exit_mut_token_and_span(&mut **self, node)
     }
 
     #[inline]
@@ -7700,10 +15126,42 @@ where
     B: Fold,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_atom(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_atom(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_attribute(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_attribute(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute) -> Attribute {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_attribute(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_attribute(visitor, node),
         }
     }
 
@@ -7716,10 +15174,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_attribute_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_attribute_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_attribute_token(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_attribute_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &Vec<AttributeToken>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_attribute_tokens(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_attribute_tokens(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: Vec<AttributeToken>) -> Vec<AttributeToken> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_attribute_tokens(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_attribute_tokens(visitor, node),
         }
     }
 
@@ -7732,10 +15222,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_attributes(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_attributes(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_attributes(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_attributes(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &Child) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_child(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_child(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child) -> Child {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_child(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_child(visitor, node),
         }
     }
 
@@ -7748,10 +15270,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_childs(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_childs(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_childs(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_childs(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_childs(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_childs(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_comment(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_comment(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment) -> Comment {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_comment(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_comment(visitor, node),
         }
     }
 
@@ -7764,10 +15318,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_document(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_document(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document) -> Document {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_document(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_document(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document) -> Document {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_document(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_document(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &DocumentFragment) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_document_fragment(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: DocumentFragment) -> DocumentFragment {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_document_fragment(visitor, node),
         }
     }
 
@@ -7780,10 +15366,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_document_mode(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_document_mode(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_document_mode(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_document_mode(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_document_type(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_document_type(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: DocumentType) -> DocumentType {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_document_type(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_document_type(visitor, node),
         }
     }
 
@@ -7796,10 +15414,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_element(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_element(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element) -> Element {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_element(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_element(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element) -> Element {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_element(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_element(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace) -> Namespace {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_namespace(visitor, node),
         }
     }
 
@@ -7812,10 +15462,51 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_opt_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_opt_atom(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_atom(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_atom(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                Fold::enter_mut_opt_document_fragment(visitor, node)
+            }
+            swc_visit::Either::Right(visitor) => {
+                Fold::enter_mut_opt_document_fragment(visitor, node)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+    ) -> Option<DocumentFragment> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_opt_document_fragment(visitor, node),
+            swc_visit::Either::Right(visitor) => {
+                Fold::exit_mut_opt_document_fragment(visitor, node)
+            }
         }
     }
 
@@ -7831,10 +15522,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_opt_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_opt_namespace(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_opt_namespace(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_opt_namespace(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_opt_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_opt_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>) -> Option<Raw> {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_opt_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_opt_raw(visitor, node),
         }
     }
 
@@ -7847,10 +15570,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw) -> Raw {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_raw(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_raw(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw) -> Raw {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_raw(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_raw(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_span(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: swc_common::Span) -> swc_common::Span {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_span(visitor, node),
         }
     }
 
@@ -7863,6 +15618,22 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_text(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_text(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text) -> Text {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_text(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_text(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text) -> Text {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_text(visitor, node),
@@ -7871,10 +15642,42 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token) -> Token {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_token(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_token(visitor, node),
+        }
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token) -> Token {
         match self {
             swc_visit::Either::Left(visitor) => Fold::fold_token(visitor, node),
             swc_visit::Either::Right(visitor) => Fold::fold_token(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan) {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::enter_mut_token_and_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::enter_mut_token_and_span(visitor, node),
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: TokenAndSpan) -> TokenAndSpan {
+        match self {
+            swc_visit::Either::Left(visitor) => Fold::exit_mut_token_and_span(visitor, node),
+            swc_visit::Either::Right(visitor) => Fold::exit_mut_token_and_span(visitor, node),
         }
     }
 
@@ -7891,9 +15694,41 @@ where
     V: Fold,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom) {
+        if self.enabled {
+            <V as Fold>::enter_mut_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
+        if self.enabled {
+            <V as Fold>::exit_mut_atom(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_atom(&mut self, node: swc_atoms::Atom) -> swc_atoms::Atom {
         if self.enabled {
             <V as Fold>::fold_atom(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute) {
+        if self.enabled {
+            <V as Fold>::enter_mut_attribute(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute) -> Attribute {
+        if self.enabled {
+            <V as Fold>::exit_mut_attribute(&mut self.visitor, node)
         } else {
             node
         }
@@ -7909,9 +15744,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken) {
+        if self.enabled {
+            <V as Fold>::enter_mut_attribute_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
+        if self.enabled {
+            <V as Fold>::exit_mut_attribute_token(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_attribute_token(&mut self, node: AttributeToken) -> AttributeToken {
         if self.enabled {
             <V as Fold>::fold_attribute_token(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_tokens(&mut self, node: &Vec<AttributeToken>) {
+        if self.enabled {
+            <V as Fold>::enter_mut_attribute_tokens(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(&mut self, node: Vec<AttributeToken>) -> Vec<AttributeToken> {
+        if self.enabled {
+            <V as Fold>::exit_mut_attribute_tokens(&mut self.visitor, node)
         } else {
             node
         }
@@ -7927,9 +15794,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>) {
+        if self.enabled {
+            <V as Fold>::enter_mut_attributes(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
+        if self.enabled {
+            <V as Fold>::exit_mut_attributes(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_attributes(&mut self, node: Vec<Attribute>) -> Vec<Attribute> {
         if self.enabled {
             <V as Fold>::fold_attributes(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_child(&mut self, node: &Child) {
+        if self.enabled {
+            <V as Fold>::enter_mut_child(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child) -> Child {
+        if self.enabled {
+            <V as Fold>::exit_mut_child(&mut self.visitor, node)
         } else {
             node
         }
@@ -7945,9 +15844,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>) {
+        if self.enabled {
+            <V as Fold>::enter_mut_childs(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
+        if self.enabled {
+            <V as Fold>::exit_mut_childs(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_childs(&mut self, node: Vec<Child>) -> Vec<Child> {
         if self.enabled {
             <V as Fold>::fold_childs(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment) {
+        if self.enabled {
+            <V as Fold>::enter_mut_comment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment) -> Comment {
+        if self.enabled {
+            <V as Fold>::exit_mut_comment(&mut self.visitor, node)
         } else {
             node
         }
@@ -7963,9 +15894,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document) {
+        if self.enabled {
+            <V as Fold>::enter_mut_document(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document) -> Document {
+        if self.enabled {
+            <V as Fold>::exit_mut_document(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document) -> Document {
         if self.enabled {
             <V as Fold>::fold_document(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(&mut self, node: &DocumentFragment) {
+        if self.enabled {
+            <V as Fold>::enter_mut_document_fragment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(&mut self, node: DocumentFragment) -> DocumentFragment {
+        if self.enabled {
+            <V as Fold>::exit_mut_document_fragment(&mut self.visitor, node)
         } else {
             node
         }
@@ -7981,9 +15944,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode) {
+        if self.enabled {
+            <V as Fold>::enter_mut_document_mode(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
+        if self.enabled {
+            <V as Fold>::exit_mut_document_mode(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_document_mode(&mut self, node: DocumentMode) -> DocumentMode {
         if self.enabled {
             <V as Fold>::fold_document_mode(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType) {
+        if self.enabled {
+            <V as Fold>::enter_mut_document_type(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(&mut self, node: DocumentType) -> DocumentType {
+        if self.enabled {
+            <V as Fold>::exit_mut_document_type(&mut self.visitor, node)
         } else {
             node
         }
@@ -7999,9 +15994,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element) {
+        if self.enabled {
+            <V as Fold>::enter_mut_element(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element) -> Element {
+        if self.enabled {
+            <V as Fold>::exit_mut_element(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element) -> Element {
         if self.enabled {
             <V as Fold>::fold_element(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace) {
+        if self.enabled {
+            <V as Fold>::enter_mut_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace) -> Namespace {
+        if self.enabled {
+            <V as Fold>::exit_mut_namespace(&mut self.visitor, node)
         } else {
             node
         }
@@ -8017,9 +16044,44 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>) {
+        if self.enabled {
+            <V as Fold>::enter_mut_opt_atom(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
+        if self.enabled {
+            <V as Fold>::exit_mut_opt_atom(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_atom(&mut self, node: Option<swc_atoms::Atom>) -> Option<swc_atoms::Atom> {
         if self.enabled {
             <V as Fold>::fold_opt_atom(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_document_fragment(&mut self, node: &Option<DocumentFragment>) {
+        if self.enabled {
+            <V as Fold>::enter_mut_opt_document_fragment(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+    ) -> Option<DocumentFragment> {
+        if self.enabled {
+            <V as Fold>::exit_mut_opt_document_fragment(&mut self.visitor, node)
         } else {
             node
         }
@@ -8038,9 +16100,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>) {
+        if self.enabled {
+            <V as Fold>::enter_mut_opt_namespace(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
+        if self.enabled {
+            <V as Fold>::exit_mut_opt_namespace(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_namespace(&mut self, node: Option<Namespace>) -> Option<Namespace> {
         if self.enabled {
             <V as Fold>::fold_opt_namespace(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>) {
+        if self.enabled {
+            <V as Fold>::enter_mut_opt_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>) -> Option<Raw> {
+        if self.enabled {
+            <V as Fold>::exit_mut_opt_raw(&mut self.visitor, node)
         } else {
             node
         }
@@ -8056,9 +16150,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw) {
+        if self.enabled {
+            <V as Fold>::enter_mut_raw(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw) -> Raw {
+        if self.enabled {
+            <V as Fold>::exit_mut_raw(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw) -> Raw {
         if self.enabled {
             <V as Fold>::fold_raw(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span) {
+        if self.enabled {
+            <V as Fold>::enter_mut_span(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(&mut self, node: swc_common::Span) -> swc_common::Span {
+        if self.enabled {
+            <V as Fold>::exit_mut_span(&mut self.visitor, node)
         } else {
             node
         }
@@ -8074,6 +16200,22 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text) {
+        if self.enabled {
+            <V as Fold>::enter_mut_text(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text) -> Text {
+        if self.enabled {
+            <V as Fold>::exit_mut_text(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text) -> Text {
         if self.enabled {
             <V as Fold>::fold_text(&mut self.visitor, node)
@@ -8083,9 +16225,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token) {
+        if self.enabled {
+            <V as Fold>::enter_mut_token(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token) -> Token {
+        if self.enabled {
+            <V as Fold>::exit_mut_token(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token) -> Token {
         if self.enabled {
             <V as Fold>::fold_token(&mut self.visitor, node)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan) {
+        if self.enabled {
+            <V as Fold>::enter_mut_token_and_span(&mut self.visitor, node)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(&mut self, node: TokenAndSpan) -> TokenAndSpan {
+        if self.enabled {
+            <V as Fold>::exit_mut_token_and_span(&mut self.visitor, node)
         } else {
             node
         }
@@ -8114,7 +16288,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for Attribute {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_attribute(visitor, &self);
+        let __result = match self {
             Attribute {
                 span,
                 namespace,
@@ -8145,7 +16320,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Attribute {
                     raw_value,
                 }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_attribute(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for AttributeToken {
@@ -8155,7 +16332,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for AttributeToken {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_attribute_token(visitor, &self);
+        let __result = match self {
             AttributeToken {
                 span,
                 name,
@@ -8178,7 +16356,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for AttributeToken {
                     raw_value,
                 }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_attribute_token(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Child {
@@ -8188,7 +16368,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for Child {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_child(visitor, &self);
+        let __result = match self {
             Child::DocumentType { 0: _field_0 } => {
                 let _field_0 = <DocumentType as FoldWith<V>>::fold_with(_field_0, visitor);
                 Child::DocumentType { 0: _field_0 }
@@ -8205,7 +16386,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Child {
                 let _field_0 = <Comment as FoldWith<V>>::fold_with(_field_0, visitor);
                 Child::Comment { 0: _field_0 }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_child(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Comment {
@@ -8215,14 +16398,17 @@ impl<V: ?Sized + Fold> FoldWith<V> for Comment {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_comment(visitor, &self);
+        let __result = match self {
             Comment { span, data, raw } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let data = { <swc_atoms::Atom as FoldWith<V>>::fold_with(data, visitor) };
                 let raw = { <Option<swc_atoms::Atom> as FoldWith<V>>::fold_with(raw, visitor) };
                 Comment { span, data, raw }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_comment(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Document {
@@ -8232,7 +16418,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for Document {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_document(visitor, &self);
+        let __result = match self {
             Document {
                 span,
                 mode,
@@ -8247,7 +16434,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Document {
                     children,
                 }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_document(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for DocumentFragment {
@@ -8257,13 +16446,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for DocumentFragment {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_document_fragment(visitor, &self);
+        let __result = match self {
             DocumentFragment { span, children } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let children = { <Vec<Child> as FoldWith<V>>::fold_with(children, visitor) };
                 DocumentFragment { span, children }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_document_fragment(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for DocumentMode {
@@ -8273,11 +16465,14 @@ impl<V: ?Sized + Fold> FoldWith<V> for DocumentMode {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_document_mode(visitor, &self);
+        let __result = match self {
             DocumentMode::NoQuirks => DocumentMode::NoQuirks,
             DocumentMode::LimitedQuirks => DocumentMode::LimitedQuirks,
             DocumentMode::Quirks => DocumentMode::Quirks,
-        }
+        };
+        let __result = <V as Fold>::exit_mut_document_mode(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for DocumentType {
@@ -8287,7 +16482,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for DocumentType {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_document_type(visitor, &self);
+        let __result = match self {
             DocumentType {
                 span,
                 name,
@@ -8310,7 +16506,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for DocumentType {
                     raw,
                 }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_document_type(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Element {
@@ -8320,7 +16518,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for Element {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_element(visitor, &self);
+        let __result = match self {
             Element {
                 span,
                 tag_name,
@@ -8348,7 +16547,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Element {
                     is_self_closing,
                 }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_element(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Namespace {
@@ -8358,14 +16559,17 @@ impl<V: ?Sized + Fold> FoldWith<V> for Namespace {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_namespace(visitor, &self);
+        let __result = match self {
             Namespace::HTML => Namespace::HTML,
             Namespace::MATHML => Namespace::MATHML,
             Namespace::SVG => Namespace::SVG,
             Namespace::XLINK => Namespace::XLINK,
             Namespace::XML => Namespace::XML,
             Namespace::XMLNS => Namespace::XMLNS,
-        }
+        };
+        let __result = <V as Fold>::exit_mut_namespace(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Raw {
@@ -8375,13 +16579,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for Raw {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_raw(visitor, &self);
+        let __result = match self {
             Raw::Same => Raw::Same,
             Raw::Atom { 0: _field_0 } => {
                 let _field_0 = <swc_atoms::Atom as FoldWith<V>>::fold_with(_field_0, visitor);
                 Raw::Atom { 0: _field_0 }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_raw(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Text {
@@ -8391,14 +16598,17 @@ impl<V: ?Sized + Fold> FoldWith<V> for Text {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_text(visitor, &self);
+        let __result = match self {
             Text { span, data, raw } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let data = { <swc_atoms::Atom as FoldWith<V>>::fold_with(data, visitor) };
                 let raw = { <Option<swc_atoms::Atom> as FoldWith<V>>::fold_with(raw, visitor) };
                 Text { span, data, raw }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_text(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Token {
@@ -8408,7 +16618,8 @@ impl<V: ?Sized + Fold> FoldWith<V> for Token {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_token(visitor, &self);
+        let __result = match self {
             Token::Doctype {
                 name,
                 force_quirks,
@@ -8476,7 +16687,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for Token {
                 Token::Character { value, raw }
             }
             Token::Eof => Token::Eof,
-        }
+        };
+        let __result = <V as Fold>::exit_mut_token(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for TokenAndSpan {
@@ -8486,13 +16699,16 @@ impl<V: ?Sized + Fold> FoldWith<V> for TokenAndSpan {
     }
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        match self {
+        <V as Fold>::enter_mut_token_and_span(visitor, &self);
+        let __result = match self {
             TokenAndSpan { span, token } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let token = { <Token as FoldWith<V>>::fold_with(token, visitor) };
                 TokenAndSpan { span, token }
             }
-        }
+        };
+        let __result = <V as Fold>::exit_mut_token_and_span(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for swc_atoms::Atom {
@@ -8504,7 +16720,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for swc_atoms::Atom {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self
+        <V as Fold>::enter_mut_atom(visitor, &self);
+        let __result = self;
+        let __result = <V as Fold>::exit_mut_atom(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<AttributeToken> {
@@ -8516,9 +16735,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<AttributeToken> {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+        <V as Fold>::enter_mut_attribute_tokens(visitor, &self);
+        let __result = swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <AttributeToken as FoldWith<V>>::fold_with(item, visitor)
-        })
+        });
+        let __result = <V as Fold>::exit_mut_attribute_tokens(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<Attribute> {
@@ -8530,9 +16752,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Attribute> {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+        <V as Fold>::enter_mut_attributes(visitor, &self);
+        let __result = swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <Attribute as FoldWith<V>>::fold_with(item, visitor)
-        })
+        });
+        let __result = <V as Fold>::exit_mut_attributes(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Vec<Child> {
@@ -8544,9 +16769,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Vec<Child> {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        swc_visit::util::move_map::MoveMap::move_map(self, |item| {
+        <V as Fold>::enter_mut_childs(visitor, &self);
+        let __result = swc_visit::util::move_map::MoveMap::move_map(self, |item| {
             <Child as FoldWith<V>>::fold_with(item, visitor)
-        })
+        });
+        let __result = <V as Fold>::exit_mut_childs(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
@@ -8558,7 +16786,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<swc_atoms::Atom> {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.map(|inner| <swc_atoms::Atom as FoldWith<V>>::fold_with(inner, visitor))
+        <V as Fold>::enter_mut_opt_atom(visitor, &self);
+        let __result =
+            self.map(|inner| <swc_atoms::Atom as FoldWith<V>>::fold_with(inner, visitor));
+        let __result = <V as Fold>::exit_mut_opt_atom(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<DocumentFragment> {
@@ -8570,7 +16802,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<DocumentFragment> {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.map(|inner| <DocumentFragment as FoldWith<V>>::fold_with(inner, visitor))
+        <V as Fold>::enter_mut_opt_document_fragment(visitor, &self);
+        let __result =
+            self.map(|inner| <DocumentFragment as FoldWith<V>>::fold_with(inner, visitor));
+        let __result = <V as Fold>::exit_mut_opt_document_fragment(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Namespace> {
@@ -8582,7 +16818,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Namespace> {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.map(|inner| <Namespace as FoldWith<V>>::fold_with(inner, visitor))
+        <V as Fold>::enter_mut_opt_namespace(visitor, &self);
+        let __result = self.map(|inner| <Namespace as FoldWith<V>>::fold_with(inner, visitor));
+        let __result = <V as Fold>::exit_mut_opt_namespace(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for Option<Raw> {
@@ -8594,7 +16833,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for Option<Raw> {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self.map(|inner| <Raw as FoldWith<V>>::fold_with(inner, visitor))
+        <V as Fold>::enter_mut_opt_raw(visitor, &self);
+        let __result = self.map(|inner| <Raw as FoldWith<V>>::fold_with(inner, visitor));
+        let __result = <V as Fold>::exit_mut_opt_raw(visitor, __result);
+        __result
     }
 }
 impl<V: ?Sized + Fold> FoldWith<V> for swc_common::Span {
@@ -8606,7 +16848,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for swc_common::Span {
 
     #[inline]
     fn fold_children_with(self, visitor: &mut V) -> Self {
-        self
+        <V as Fold>::enter_mut_span(visitor, &self);
+        let __result = self;
+        let __result = <V as Fold>::exit_mut_span(visitor, __result);
+        __result
     }
 }
 impl<V, T> FoldWith<V> for std::boxed::Box<T>
@@ -8630,6 +16875,18 @@ where
 #[cfg(any(docsrs, feature = "path"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
 pub trait FoldAstPath {
+    #[doc = "Hook called when entering a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `swc_atoms :: Atom`. By default does nothing."]
+    #[inline]
+    fn exit_mut_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        node
+    }
     #[doc = "Visit a node of type `swc_atoms :: Atom`.\n\nBy default, this method calls \
              [`swc_atoms :: Atom::fold_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -8643,12 +16900,32 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Attribute`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
+        node
+    }
     #[doc = "Visit a node of type `Attribute`.\n\nBy default, this method calls \
              [`Attribute::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
     #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         <Attribute as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `AttributeToken`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) -> AttributeToken {
+        node
     }
     #[doc = "Visit a node of type `AttributeToken`.\n\nBy default, this method calls \
              [`AttributeToken::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -8663,6 +16940,25 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Vec < AttributeToken >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<AttributeToken> {
+        node
+    }
     #[doc = "Visit a node of type `Vec < AttributeToken >`.\n\nBy default, this method calls [`Vec \
              < AttributeToken >::fold_children_with_ast_path`]. If you want to recurse, you need \
              to call it manually."]
@@ -8675,6 +16971,18 @@ pub trait FoldAstPath {
         <Vec<AttributeToken> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Attribute >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_attributes(
+        &mut self,
+        node: Vec<Attribute>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Attribute> {
+        node
     }
     #[doc = "Visit a node of type `Vec < Attribute >`.\n\nBy default, this method calls [`Vec < \
              Attribute >::fold_children_with_ast_path`]. If you want to recurse, you need to call \
@@ -8689,12 +16997,28 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn enter_mut_child(&mut self, node: &Child, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Child`. By default does nothing."]
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
+        node
+    }
     #[doc = "Visit a node of type `Child`.\n\nBy default, this method calls \
              [`Child::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn fold_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
         <Child as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Vec < Child >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>, __ast_path: &mut AstKindPath) -> Vec<Child> {
+        node
     }
     #[doc = "Visit a node of type `Vec < Child >`.\n\nBy default, this method calls [`Vec < Child \
              >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
@@ -8703,6 +17027,14 @@ pub trait FoldAstPath {
     fn fold_childs(&mut self, node: Vec<Child>, __ast_path: &mut AstKindPath) -> Vec<Child> {
         <Vec<Child> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Comment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
+        node
+    }
     #[doc = "Visit a node of type `Comment`.\n\nBy default, this method calls \
              [`Comment::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -8710,12 +17042,37 @@ pub trait FoldAstPath {
     fn fold_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
         <Comment as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document(&mut self, node: &Document, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Document`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
+        node
+    }
     #[doc = "Visit a node of type `Document`.\n\nBy default, this method calls \
              [`Document::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
     #[inline]
     fn fold_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
         <Document as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `DocumentFragment`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentFragment {
+        node
     }
     #[doc = "Visit a node of type `DocumentFragment`.\n\nBy default, this method calls \
              [`DocumentFragment::fold_children_with_ast_path`]. If you want to recurse, you need \
@@ -8730,6 +17087,18 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `DocumentMode`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_mode(
+        &mut self,
+        node: DocumentMode,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentMode {
+        node
+    }
     #[doc = "Visit a node of type `DocumentMode`.\n\nBy default, this method calls \
              [`DocumentMode::fold_children_with_ast_path`]. If you want to recurse, you need to \
              call it manually."]
@@ -8740,6 +17109,18 @@ pub trait FoldAstPath {
         __ast_path: &mut AstKindPath,
     ) -> DocumentMode {
         <DocumentMode as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `DocumentType`. By default does nothing."]
+    #[inline]
+    fn exit_mut_document_type(
+        &mut self,
+        node: DocumentType,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentType {
+        node
     }
     #[doc = "Visit a node of type `DocumentType`.\n\nBy default, this method calls \
              [`DocumentType::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -8752,6 +17133,14 @@ pub trait FoldAstPath {
     ) -> DocumentType {
         <DocumentType as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn enter_mut_element(&mut self, node: &Element, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Element`. By default does nothing."]
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
+        node
+    }
     #[doc = "Visit a node of type `Element`.\n\nBy default, this method calls \
              [`Element::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -8759,12 +17148,35 @@ pub trait FoldAstPath {
     fn fold_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
         <Element as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Namespace`. By default does nothing."]
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
+        node
+    }
     #[doc = "Visit a node of type `Namespace`.\n\nBy default, this method calls \
              [`Namespace::fold_children_with_ast_path`]. If you want to recurse, you need to call \
              it manually."]
     #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         <Namespace as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>, __ast_path: &mut AstKindPath) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < swc_atoms :: Atom >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<swc_atoms::Atom> {
+        node
     }
     #[doc = "Visit a node of type `Option < swc_atoms :: Atom >`.\n\nBy default, this method calls \
              [`Option < swc_atoms :: Atom >::fold_children_with_ast_path`]. If you want to \
@@ -8779,6 +17191,25 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+    }
+    #[doc = "Hook called when exiting a node of type `Option < DocumentFragment >`. By default \
+             does nothing."]
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<DocumentFragment> {
+        node
+    }
     #[doc = "Visit a node of type `Option < DocumentFragment >`.\n\nBy default, this method calls \
              [`Option < DocumentFragment >::fold_children_with_ast_path`]. If you want to recurse, \
              you need to call it manually."]
@@ -8791,6 +17222,20 @@ pub trait FoldAstPath {
         <Option<DocumentFragment> as FoldWithAstPath<Self>>::fold_children_with_ast_path(
             node, self, __ast_path,
         )
+    }
+    #[doc = "Hook called when entering a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Option < Namespace >`. By default does \
+             nothing."]
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Namespace> {
+        node
     }
     #[doc = "Visit a node of type `Option < Namespace >`.\n\nBy default, this method calls \
              [`Option < Namespace >::fold_children_with_ast_path`]. If you want to recurse, you \
@@ -8805,6 +17250,14 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Option < Raw >`. By default does nothing."]
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
+        node
+    }
     #[doc = "Visit a node of type `Option < Raw >`.\n\nBy default, this method calls [`Option < \
              Raw >::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -8812,12 +17265,33 @@ pub trait FoldAstPath {
     fn fold_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
         <Option<Raw> as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Raw`. By default does nothing."]
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
+        node
+    }
     #[doc = "Visit a node of type `Raw`.\n\nBy default, this method calls \
              [`Raw::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn fold_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
         <Raw as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `swc_common :: Span`. By default does \
+             nothing."]
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `swc_common :: Span`. By default does nothing."]
+    #[inline]
+    fn exit_mut_span(
+        &mut self,
+        node: swc_common::Span,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_common::Span {
+        node
     }
     #[doc = "Visit a node of type `swc_common :: Span`.\n\nBy default, this method calls \
              [`swc_common :: Span::fold_children_with_ast_path`]. If you want to recurse, you need \
@@ -8832,6 +17306,14 @@ pub trait FoldAstPath {
             node, self, __ast_path,
         )
     }
+    #[doc = "Hook called when entering a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn enter_mut_text(&mut self, node: &Text, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Text`. By default does nothing."]
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
+        node
+    }
     #[doc = "Visit a node of type `Text`.\n\nBy default, this method calls \
              [`Text::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
@@ -8839,12 +17321,32 @@ pub trait FoldAstPath {
     fn fold_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
         <Text as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
     }
+    #[doc = "Hook called when entering a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token(&mut self, node: &Token, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `Token`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
+        node
+    }
     #[doc = "Visit a node of type `Token`.\n\nBy default, this method calls \
              [`Token::fold_children_with_ast_path`]. If you want to recurse, you need to call it \
              manually."]
     #[inline]
     fn fold_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
         <Token as FoldWithAstPath<Self>>::fold_children_with_ast_path(node, self, __ast_path)
+    }
+    #[doc = "Hook called when entering a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan, __ast_path: &mut AstKindPath) {}
+    #[doc = "Hook called when exiting a node of type `TokenAndSpan`. By default does nothing."]
+    #[inline]
+    fn exit_mut_token_and_span(
+        &mut self,
+        node: TokenAndSpan,
+        __ast_path: &mut AstKindPath,
+    ) -> TokenAndSpan {
+        node
     }
     #[doc = "Visit a node of type `TokenAndSpan`.\n\nBy default, this method calls \
              [`TokenAndSpan::fold_children_with_ast_path`]. If you want to recurse, you need to \
@@ -8865,6 +17367,20 @@ where
     V: ?Sized + FoldAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        <V as FoldAstPath>::exit_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_atom(
         &mut self,
         node: swc_atoms::Atom,
@@ -8874,8 +17390,32 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
+        <V as FoldAstPath>::exit_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         <V as FoldAstPath>::fold_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) -> AttributeToken {
+        <V as FoldAstPath>::exit_mut_attribute_token(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -8888,12 +17428,44 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as FoldAstPath>::enter_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<AttributeToken> {
+        <V as FoldAstPath>::exit_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_attribute_tokens(
         &mut self,
         node: Vec<AttributeToken>,
         __ast_path: &mut AstKindPath,
     ) -> Vec<AttributeToken> {
         <V as FoldAstPath>::fold_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(
+        &mut self,
+        node: Vec<Attribute>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Attribute> {
+        <V as FoldAstPath>::exit_mut_attributes(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -8906,8 +17478,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_child(&mut self, node: &Child, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
+        <V as FoldAstPath>::exit_mut_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
         <V as FoldAstPath>::fold_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>, __ast_path: &mut AstKindPath) -> Vec<Child> {
+        <V as FoldAstPath>::exit_mut_childs(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -8916,13 +17508,51 @@ where
     }
 
     #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
+        <V as FoldAstPath>::exit_mut_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
         <V as FoldAstPath>::fold_comment(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
+        <V as FoldAstPath>::exit_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
         <V as FoldAstPath>::fold_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as FoldAstPath>::enter_mut_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentFragment {
+        <V as FoldAstPath>::exit_mut_document_fragment(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -8935,12 +17565,40 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(
+        &mut self,
+        node: DocumentMode,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentMode {
+        <V as FoldAstPath>::exit_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_document_mode(
         &mut self,
         node: DocumentMode,
         __ast_path: &mut AstKindPath,
     ) -> DocumentMode {
         <V as FoldAstPath>::fold_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(
+        &mut self,
+        node: DocumentType,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentType {
+        <V as FoldAstPath>::exit_mut_document_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -8953,13 +17611,47 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
+        <V as FoldAstPath>::exit_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
         <V as FoldAstPath>::fold_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
+        <V as FoldAstPath>::exit_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         <V as FoldAstPath>::fold_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_opt_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<swc_atoms::Atom> {
+        <V as FoldAstPath>::exit_mut_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -8972,12 +17664,44 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as FoldAstPath>::enter_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<DocumentFragment> {
+        <V as FoldAstPath>::exit_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_document_fragment(
         &mut self,
         node: Option<DocumentFragment>,
         __ast_path: &mut AstKindPath,
     ) -> Option<DocumentFragment> {
         <V as FoldAstPath>::fold_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_opt_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Namespace> {
+        <V as FoldAstPath>::exit_mut_opt_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -8990,13 +17714,47 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
+        <V as FoldAstPath>::exit_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
         <V as FoldAstPath>::fold_opt_raw(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
+        <V as FoldAstPath>::exit_mut_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
         <V as FoldAstPath>::fold_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_span(
+        &mut self,
+        node: swc_common::Span,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_common::Span {
+        <V as FoldAstPath>::exit_mut_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9009,13 +17767,47 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
+        <V as FoldAstPath>::exit_mut_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
         <V as FoldAstPath>::fold_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
+        <V as FoldAstPath>::exit_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
         <V as FoldAstPath>::fold_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_token_and_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(
+        &mut self,
+        node: TokenAndSpan,
+        __ast_path: &mut AstKindPath,
+    ) -> TokenAndSpan {
+        <V as FoldAstPath>::exit_mut_token_and_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9034,6 +17826,20 @@ where
     V: ?Sized + FoldAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        <V as FoldAstPath>::exit_mut_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_atom(
         &mut self,
         node: swc_atoms::Atom,
@@ -9043,8 +17849,32 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
+        <V as FoldAstPath>::exit_mut_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         <V as FoldAstPath>::fold_attribute(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_attribute_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) -> AttributeToken {
+        <V as FoldAstPath>::exit_mut_attribute_token(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9057,12 +17887,44 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as FoldAstPath>::enter_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<AttributeToken> {
+        <V as FoldAstPath>::exit_mut_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_attribute_tokens(
         &mut self,
         node: Vec<AttributeToken>,
         __ast_path: &mut AstKindPath,
     ) -> Vec<AttributeToken> {
         <V as FoldAstPath>::fold_attribute_tokens(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_attributes(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_attributes(
+        &mut self,
+        node: Vec<Attribute>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Attribute> {
+        <V as FoldAstPath>::exit_mut_attributes(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9075,8 +17937,28 @@ where
     }
 
     #[inline]
+    fn enter_mut_child(&mut self, node: &Child, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
+        <V as FoldAstPath>::exit_mut_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
         <V as FoldAstPath>::fold_child(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_childs(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>, __ast_path: &mut AstKindPath) -> Vec<Child> {
+        <V as FoldAstPath>::exit_mut_childs(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9085,13 +17967,51 @@ where
     }
 
     #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
+        <V as FoldAstPath>::exit_mut_comment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
         <V as FoldAstPath>::fold_comment(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
+        <V as FoldAstPath>::exit_mut_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
         <V as FoldAstPath>::fold_document(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as FoldAstPath>::enter_mut_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentFragment {
+        <V as FoldAstPath>::exit_mut_document_fragment(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9104,12 +18024,40 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(
+        &mut self,
+        node: DocumentMode,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentMode {
+        <V as FoldAstPath>::exit_mut_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_document_mode(
         &mut self,
         node: DocumentMode,
         __ast_path: &mut AstKindPath,
     ) -> DocumentMode {
         <V as FoldAstPath>::fold_document_mode(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_document_type(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_document_type(
+        &mut self,
+        node: DocumentType,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentType {
+        <V as FoldAstPath>::exit_mut_document_type(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9122,13 +18070,47 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
+        <V as FoldAstPath>::exit_mut_element(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
         <V as FoldAstPath>::fold_element(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
+        <V as FoldAstPath>::exit_mut_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         <V as FoldAstPath>::fold_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_opt_atom(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<swc_atoms::Atom> {
+        <V as FoldAstPath>::exit_mut_opt_atom(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9141,12 +18123,44 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        <V as FoldAstPath>::enter_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<DocumentFragment> {
+        <V as FoldAstPath>::exit_mut_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_document_fragment(
         &mut self,
         node: Option<DocumentFragment>,
         __ast_path: &mut AstKindPath,
     ) -> Option<DocumentFragment> {
         <V as FoldAstPath>::fold_opt_document_fragment(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_opt_namespace(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Namespace> {
+        <V as FoldAstPath>::exit_mut_opt_namespace(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9159,13 +18173,47 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
+        <V as FoldAstPath>::exit_mut_opt_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
         <V as FoldAstPath>::fold_opt_raw(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
+        <V as FoldAstPath>::exit_mut_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
         <V as FoldAstPath>::fold_raw(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_span(
+        &mut self,
+        node: swc_common::Span,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_common::Span {
+        <V as FoldAstPath>::exit_mut_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9178,13 +18226,47 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
+        <V as FoldAstPath>::exit_mut_text(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
         <V as FoldAstPath>::fold_text(&mut **self, node, __ast_path)
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
+        <V as FoldAstPath>::exit_mut_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
         <V as FoldAstPath>::fold_token(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan, __ast_path: &mut AstKindPath) {
+        <V as FoldAstPath>::enter_mut_token_and_span(&mut **self, node, __ast_path)
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(
+        &mut self,
+        node: TokenAndSpan,
+        __ast_path: &mut AstKindPath,
+    ) -> TokenAndSpan {
+        <V as FoldAstPath>::exit_mut_token_and_span(&mut **self, node, __ast_path)
     }
 
     #[inline]
@@ -9204,6 +18286,34 @@ where
     B: FoldAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_atom(
         &mut self,
         node: swc_atoms::Atom,
@@ -9216,6 +18326,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_attribute(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_attribute(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_attribute(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_attribute(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -9223,6 +18357,34 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_attribute(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_attribute_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_attribute_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) -> AttributeToken {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_attribute_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_attribute_token(visitor, node, __ast_path)
             }
         }
     }
@@ -9244,6 +18406,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<AttributeToken> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_attribute_tokens(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_attribute_tokens(
         &mut self,
         node: Vec<AttributeToken>,
@@ -9255,6 +18449,34 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_attribute_tokens(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_attributes(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_attributes(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(
+        &mut self,
+        node: Vec<Attribute>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Attribute> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_attributes(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_attributes(visitor, node, __ast_path)
             }
         }
     }
@@ -9276,10 +18498,58 @@ where
     }
 
     #[inline]
+    fn enter_mut_child(&mut self, node: &Child, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_child(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_child(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_child(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
         match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_child(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_child(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_childs(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_childs(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>, __ast_path: &mut AstKindPath) -> Vec<Child> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_childs(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_childs(visitor, node, __ast_path)
+            }
         }
     }
 
@@ -9289,6 +18559,30 @@ where
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_childs(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_childs(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_comment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_comment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_comment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_comment(visitor, node, __ast_path)
             }
         }
     }
@@ -9306,6 +18600,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_document(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_document(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_document(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_document(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -9313,6 +18631,38 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_document(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentFragment {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_document_fragment(visitor, node, __ast_path)
             }
         }
     }
@@ -9334,6 +18684,34 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_document_mode(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_document_mode(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(
+        &mut self,
+        node: DocumentMode,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentMode {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_document_mode(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_document_mode(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_document_mode(
         &mut self,
         node: DocumentMode,
@@ -9345,6 +18723,34 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_document_mode(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_document_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_document_type(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(
+        &mut self,
+        node: DocumentType,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentType {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_document_type(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_document_type(visitor, node, __ast_path)
             }
         }
     }
@@ -9366,6 +18772,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_element(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_element(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_element(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_element(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -9378,6 +18808,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -9385,6 +18839,34 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_opt_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_opt_atom(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<swc_atoms::Atom> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_opt_atom(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_opt_atom(visitor, node, __ast_path)
             }
         }
     }
@@ -9406,6 +18888,38 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<DocumentFragment> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_opt_document_fragment(
         &mut self,
         node: Option<DocumentFragment>,
@@ -9417,6 +18931,34 @@ where
             }
             swc_visit::Either::Right(visitor) => {
                 FoldAstPath::fold_opt_document_fragment(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_opt_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_opt_namespace(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Namespace> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_opt_namespace(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_opt_namespace(visitor, node, __ast_path)
             }
         }
     }
@@ -9438,6 +18980,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_opt_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_opt_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_opt_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_opt_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
         match self {
             swc_visit::Either::Left(visitor) => {
@@ -9450,10 +19016,62 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_raw(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_raw(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
         match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_raw(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_raw(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(
+        &mut self,
+        node: swc_common::Span,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_common::Span {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_span(visitor, node, __ast_path)
+            }
         }
     }
 
@@ -9470,6 +19088,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_text(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_text(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_text(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_text(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
         match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_text(visitor, node, __ast_path),
@@ -9478,10 +19120,62 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_token(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_token(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
         match self {
             swc_visit::Either::Left(visitor) => FoldAstPath::fold_token(visitor, node, __ast_path),
             swc_visit::Either::Right(visitor) => FoldAstPath::fold_token(visitor, node, __ast_path),
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan, __ast_path: &mut AstKindPath) {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::enter_mut_token_and_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::enter_mut_token_and_span(visitor, node, __ast_path)
+            }
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(
+        &mut self,
+        node: TokenAndSpan,
+        __ast_path: &mut AstKindPath,
+    ) -> TokenAndSpan {
+        match self {
+            swc_visit::Either::Left(visitor) => {
+                FoldAstPath::exit_mut_token_and_span(visitor, node, __ast_path)
+            }
+            swc_visit::Either::Right(visitor) => {
+                FoldAstPath::exit_mut_token_and_span(visitor, node, __ast_path)
+            }
         }
     }
 
@@ -9508,6 +19202,26 @@ where
     V: FoldAstPath,
 {
     #[inline]
+    fn enter_mut_atom(&mut self, node: &swc_atoms::Atom, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_atom(
+        &mut self,
+        node: swc_atoms::Atom,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_atoms::Atom {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_atom(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_atom(
         &mut self,
         node: swc_atoms::Atom,
@@ -9521,9 +19235,45 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute(&mut self, node: &Attribute, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_attribute(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_attribute(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_attribute(&mut self, node: Attribute, __ast_path: &mut AstKindPath) -> Attribute {
         if self.enabled {
             <V as FoldAstPath>::fold_attribute(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attribute_token(&mut self, node: &AttributeToken, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_attribute_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_token(
+        &mut self,
+        node: AttributeToken,
+        __ast_path: &mut AstKindPath,
+    ) -> AttributeToken {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_attribute_token(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9543,6 +19293,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_attribute_tokens(
+        &mut self,
+        node: &Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_attribute_tokens(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attribute_tokens(
+        &mut self,
+        node: Vec<AttributeToken>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<AttributeToken> {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_attribute_tokens(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_attribute_tokens(
         &mut self,
         node: Vec<AttributeToken>,
@@ -9550,6 +19324,26 @@ where
     ) -> Vec<AttributeToken> {
         if self.enabled {
             <V as FoldAstPath>::fold_attribute_tokens(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_attributes(&mut self, node: &Vec<Attribute>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_attributes(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_attributes(
+        &mut self,
+        node: Vec<Attribute>,
+        __ast_path: &mut AstKindPath,
+    ) -> Vec<Attribute> {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_attributes(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9569,9 +19363,41 @@ where
     }
 
     #[inline]
+    fn enter_mut_child(&mut self, node: &Child, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_child(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_child(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_child(&mut self, node: Child, __ast_path: &mut AstKindPath) -> Child {
         if self.enabled {
             <V as FoldAstPath>::fold_child(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_childs(&mut self, node: &Vec<Child>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_childs(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_childs(&mut self, node: Vec<Child>, __ast_path: &mut AstKindPath) -> Vec<Child> {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_childs(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9587,6 +19413,22 @@ where
     }
 
     #[inline]
+    fn enter_mut_comment(&mut self, node: &Comment, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_comment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_comment(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_comment(&mut self, node: Comment, __ast_path: &mut AstKindPath) -> Comment {
         if self.enabled {
             <V as FoldAstPath>::fold_comment(&mut self.visitor, node, __ast_path)
@@ -9596,9 +19438,49 @@ where
     }
 
     #[inline]
+    fn enter_mut_document(&mut self, node: &Document, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_document(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_document(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_document(&mut self, node: Document, __ast_path: &mut AstKindPath) -> Document {
         if self.enabled {
             <V as FoldAstPath>::fold_document(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_fragment(
+        &mut self,
+        node: &DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_document_fragment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_fragment(
+        &mut self,
+        node: DocumentFragment,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentFragment {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_document_fragment(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9618,6 +19500,26 @@ where
     }
 
     #[inline]
+    fn enter_mut_document_mode(&mut self, node: &DocumentMode, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_document_mode(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_mode(
+        &mut self,
+        node: DocumentMode,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentMode {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_document_mode(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_document_mode(
         &mut self,
         node: DocumentMode,
@@ -9625,6 +19527,26 @@ where
     ) -> DocumentMode {
         if self.enabled {
             <V as FoldAstPath>::fold_document_mode(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_document_type(&mut self, node: &DocumentType, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_document_type(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_document_type(
+        &mut self,
+        node: DocumentType,
+        __ast_path: &mut AstKindPath,
+    ) -> DocumentType {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_document_type(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9644,6 +19566,22 @@ where
     }
 
     #[inline]
+    fn enter_mut_element(&mut self, node: &Element, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_element(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_element(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_element(&mut self, node: Element, __ast_path: &mut AstKindPath) -> Element {
         if self.enabled {
             <V as FoldAstPath>::fold_element(&mut self.visitor, node, __ast_path)
@@ -9653,9 +19591,45 @@ where
     }
 
     #[inline]
+    fn enter_mut_namespace(&mut self, node: &Namespace, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_namespace(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_namespace(&mut self, node: Namespace, __ast_path: &mut AstKindPath) -> Namespace {
         if self.enabled {
             <V as FoldAstPath>::fold_namespace(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_atom(&mut self, node: &Option<swc_atoms::Atom>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_opt_atom(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_atom(
+        &mut self,
+        node: Option<swc_atoms::Atom>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<swc_atoms::Atom> {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_opt_atom(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9675,6 +19649,30 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_document_fragment(
+        &mut self,
+        node: &Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_opt_document_fragment(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_document_fragment(
+        &mut self,
+        node: Option<DocumentFragment>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<DocumentFragment> {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_opt_document_fragment(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_document_fragment(
         &mut self,
         node: Option<DocumentFragment>,
@@ -9682,6 +19680,26 @@ where
     ) -> Option<DocumentFragment> {
         if self.enabled {
             <V as FoldAstPath>::fold_opt_document_fragment(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_opt_namespace(&mut self, node: &Option<Namespace>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_opt_namespace(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_namespace(
+        &mut self,
+        node: Option<Namespace>,
+        __ast_path: &mut AstKindPath,
+    ) -> Option<Namespace> {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_opt_namespace(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9701,6 +19719,22 @@ where
     }
 
     #[inline]
+    fn enter_mut_opt_raw(&mut self, node: &Option<Raw>, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_opt_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_opt_raw(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_opt_raw(&mut self, node: Option<Raw>, __ast_path: &mut AstKindPath) -> Option<Raw> {
         if self.enabled {
             <V as FoldAstPath>::fold_opt_raw(&mut self.visitor, node, __ast_path)
@@ -9710,9 +19744,45 @@ where
     }
 
     #[inline]
+    fn enter_mut_raw(&mut self, node: &Raw, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_raw(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_raw(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_raw(&mut self, node: Raw, __ast_path: &mut AstKindPath) -> Raw {
         if self.enabled {
             <V as FoldAstPath>::fold_raw(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_span(&mut self, node: &swc_common::Span, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_span(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_span(
+        &mut self,
+        node: swc_common::Span,
+        __ast_path: &mut AstKindPath,
+    ) -> swc_common::Span {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_span(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9732,6 +19802,22 @@ where
     }
 
     #[inline]
+    fn enter_mut_text(&mut self, node: &Text, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_text(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_text(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_text(&mut self, node: Text, __ast_path: &mut AstKindPath) -> Text {
         if self.enabled {
             <V as FoldAstPath>::fold_text(&mut self.visitor, node, __ast_path)
@@ -9741,9 +19827,45 @@ where
     }
 
     #[inline]
+    fn enter_mut_token(&mut self, node: &Token, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_token(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_token(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
     fn fold_token(&mut self, node: Token, __ast_path: &mut AstKindPath) -> Token {
         if self.enabled {
             <V as FoldAstPath>::fold_token(&mut self.visitor, node, __ast_path)
+        } else {
+            node
+        }
+    }
+
+    #[inline]
+    fn enter_mut_token_and_span(&mut self, node: &TokenAndSpan, __ast_path: &mut AstKindPath) {
+        if self.enabled {
+            <V as FoldAstPath>::enter_mut_token_and_span(&mut self.visitor, node, __ast_path)
+        }
+    }
+
+    #[inline]
+    fn exit_mut_token_and_span(
+        &mut self,
+        node: TokenAndSpan,
+        __ast_path: &mut AstKindPath,
+    ) -> TokenAndSpan {
+        if self.enabled {
+            <V as FoldAstPath>::exit_mut_token_and_span(&mut self.visitor, node, __ast_path)
         } else {
             node
         }
@@ -9780,7 +19902,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_attribute(visitor, &self, __ast_path);
+        let __result = match self {
             Attribute {
                 span,
                 namespace,
@@ -9868,7 +19991,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Attribute {
                     raw_value,
                 }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_attribute(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -9880,7 +20005,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AttributeToken {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_attribute_token(visitor, &self, __ast_path);
+        let __result = match self {
             AttributeToken {
                 span,
                 name,
@@ -9946,7 +20072,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for AttributeToken {
                     raw_value,
                 }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_attribute_token(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -9958,7 +20086,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Child {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_child(visitor, &self, __ast_path);
+        let __result = match self {
             Child::DocumentType { 0: _field_0 } => {
                 let mut __ast_path = __ast_path
                     .with_guard(AstParentKind::Child(self::fields::ChildField::DocumentType));
@@ -9999,7 +20128,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Child {
                 );
                 Child::Comment { 0: _field_0 }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_child(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10011,7 +20142,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Comment {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_comment(visitor, &self, __ast_path);
+        let __result = match self {
             Comment { span, data, raw } => {
                 let span = {
                     let mut __ast_path = __ast_path
@@ -10042,7 +20174,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Comment {
                 };
                 Comment { span, data, raw }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_comment(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10054,7 +20188,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Document {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_document(visitor, &self, __ast_path);
+        let __result = match self {
             Document {
                 span,
                 mode,
@@ -10094,7 +20229,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Document {
                     children,
                 }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_document(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10106,7 +20243,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentFragment {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_document_fragment(visitor, &self, __ast_path);
+        let __result = match self {
             DocumentFragment { span, children } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::DocumentFragment(
@@ -10130,7 +20268,10 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentFragment {
                 };
                 DocumentFragment { span, children }
             }
-        }
+        };
+        let __result =
+            <V as FoldAstPath>::exit_mut_document_fragment(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10142,11 +20283,14 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentMode {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_document_mode(visitor, &self, __ast_path);
+        let __result = match self {
             DocumentMode::NoQuirks => DocumentMode::NoQuirks,
             DocumentMode::LimitedQuirks => DocumentMode::LimitedQuirks,
             DocumentMode::Quirks => DocumentMode::Quirks,
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_document_mode(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10158,7 +20302,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentType {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_document_type(visitor, &self, __ast_path);
+        let __result = match self {
             DocumentType {
                 span,
                 name,
@@ -10224,7 +20369,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for DocumentType {
                     raw,
                 }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_document_type(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10236,7 +20383,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Element {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_element(visitor, &self, __ast_path);
+        let __result = match self {
             Element {
                 span,
                 tag_name,
@@ -10313,7 +20461,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Element {
                     is_self_closing,
                 }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_element(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10325,14 +20475,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Namespace {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_namespace(visitor, &self, __ast_path);
+        let __result = match self {
             Namespace::HTML => Namespace::HTML,
             Namespace::MATHML => Namespace::MATHML,
             Namespace::SVG => Namespace::SVG,
             Namespace::XLINK => Namespace::XLINK,
             Namespace::XML => Namespace::XML,
             Namespace::XMLNS => Namespace::XMLNS,
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_namespace(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10344,7 +20497,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Raw {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_raw(visitor, &self, __ast_path);
+        let __result = match self {
             Raw::Same => Raw::Same,
             Raw::Atom { 0: _field_0 } => {
                 let mut __ast_path =
@@ -10356,7 +20510,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Raw {
                 );
                 Raw::Atom { 0: _field_0 }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_raw(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10368,7 +20524,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Text {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_text(visitor, &self, __ast_path);
+        let __result = match self {
             Text { span, data, raw } => {
                 let span = {
                     let mut __ast_path =
@@ -10399,7 +20556,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Text {
                 };
                 Text { span, data, raw }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_text(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10411,7 +20570,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_token(visitor, &self, __ast_path);
+        let __result = match self {
             Token::Doctype {
                 name,
                 force_quirks,
@@ -10589,7 +20749,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Token {
                 Token::Character { value, raw }
             }
             Token::Eof => Token::Eof,
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_token(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10601,7 +20763,8 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TokenAndSpan {
     }
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        match self {
+        <V as FoldAstPath>::enter_mut_token_and_span(visitor, &self, __ast_path);
+        let __result = match self {
             TokenAndSpan { span, token } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::TokenAndSpan(
@@ -10625,7 +20788,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TokenAndSpan {
                 };
                 TokenAndSpan { span, token }
             }
-        }
+        };
+        let __result = <V as FoldAstPath>::exit_mut_token_and_span(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10639,7 +20804,10 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for swc_atoms::Atom {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self
+        <V as FoldAstPath>::enter_mut_atom(visitor, &self, __ast_path);
+        let __result = self;
+        let __result = <V as FoldAstPath>::exit_mut_atom(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10653,7 +20821,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<AttributeToken> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.into_iter()
+        <V as FoldAstPath>::enter_mut_attribute_tokens(visitor, &self, __ast_path);
+        let __result = self
+            .into_iter()
             .enumerate()
             .map(|(__idx, item)| {
                 let mut __ast_path = __ast_path.with_index_guard(__idx);
@@ -10663,7 +20833,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<AttributeToken> {
                     &mut *__ast_path,
                 )
             })
-            .collect()
+            .collect();
+        let __result = <V as FoldAstPath>::exit_mut_attribute_tokens(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10677,7 +20849,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Attribute> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.into_iter()
+        <V as FoldAstPath>::enter_mut_attributes(visitor, &self, __ast_path);
+        let __result = self
+            .into_iter()
             .enumerate()
             .map(|(__idx, item)| {
                 let mut __ast_path = __ast_path.with_index_guard(__idx);
@@ -10687,7 +20861,9 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Attribute> {
                     &mut *__ast_path,
                 )
             })
-            .collect()
+            .collect();
+        let __result = <V as FoldAstPath>::exit_mut_attributes(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10701,13 +20877,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Vec<Child> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.into_iter()
+        <V as FoldAstPath>::enter_mut_childs(visitor, &self, __ast_path);
+        let __result = self
+            .into_iter()
             .enumerate()
             .map(|(__idx, item)| {
                 let mut __ast_path = __ast_path.with_index_guard(__idx);
                 <Child as FoldWithAstPath<V>>::fold_with_ast_path(item, visitor, &mut *__ast_path)
             })
-            .collect()
+            .collect();
+        let __result = <V as FoldAstPath>::exit_mut_childs(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10721,9 +20901,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<swc_atoms::Atom> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.map(|inner| {
+        <V as FoldAstPath>::enter_mut_opt_atom(visitor, &self, __ast_path);
+        let __result = self.map(|inner| {
             <swc_atoms::Atom as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
-        })
+        });
+        let __result = <V as FoldAstPath>::exit_mut_opt_atom(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10737,9 +20920,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<DocumentFragment> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.map(|inner| {
+        <V as FoldAstPath>::enter_mut_opt_document_fragment(visitor, &self, __ast_path);
+        let __result = self.map(|inner| {
             <DocumentFragment as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
-        })
+        });
+        let __result =
+            <V as FoldAstPath>::exit_mut_opt_document_fragment(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10753,9 +20940,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Namespace> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.map(|inner| {
+        <V as FoldAstPath>::enter_mut_opt_namespace(visitor, &self, __ast_path);
+        let __result = self.map(|inner| {
             <Namespace as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
-        })
+        });
+        let __result = <V as FoldAstPath>::exit_mut_opt_namespace(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10769,9 +20959,12 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for Option<Raw> {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self.map(|inner| {
+        <V as FoldAstPath>::enter_mut_opt_raw(visitor, &self, __ast_path);
+        let __result = self.map(|inner| {
             <Raw as FoldWithAstPath<V>>::fold_with_ast_path(inner, visitor, __ast_path)
-        })
+        });
+        let __result = <V as FoldAstPath>::exit_mut_opt_raw(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]
@@ -10785,7 +20978,10 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for swc_common::Span {
 
     #[inline]
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
-        self
+        <V as FoldAstPath>::enter_mut_span(visitor, &self, __ast_path);
+        let __result = self;
+        let __result = <V as FoldAstPath>::exit_mut_span(visitor, __result, __ast_path);
+        __result
     }
 }
 #[cfg(any(docsrs, feature = "path"))]

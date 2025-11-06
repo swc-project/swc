@@ -464,6 +464,46 @@ impl Generator<'_> {
                 Span::call_site(),
             );
 
+            // Generate enter/exit hook names
+            let (enter_method_name, exit_method_name) = match self.kind {
+                TraitKind::Visit => (
+                    Ident::new(
+                        &format!(
+                            "enter_{}{}",
+                            ty.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                    Ident::new(
+                        &format!(
+                            "exit_{}{}",
+                            ty.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                ),
+                TraitKind::VisitMut | TraitKind::Fold => (
+                    Ident::new(
+                        &format!(
+                            "enter_mut_{}{}",
+                            ty.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                    Ident::new(
+                        &format!(
+                            "exit_mut_{}{}",
+                            ty.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                ),
+            };
+
             let recurse_doc = "If you want to recurse, you need to call it manually.";
 
             let method_doc = doc(&format!(
@@ -471,11 +511,86 @@ impl Generator<'_> {
                  [`{type_name}::{visit_with_children_name}`]. {recurse_doc}"
             ));
 
+            let enter_doc = doc(&format!(
+                "Hook called when entering a node of type `{type_name}`. By default does nothing."
+            ));
+
+            let exit_doc = doc(&format!(
+                "Hook called when exiting a node of type `{type_name}`. By default does nothing."
+            ));
+
+            // Add enter/exit hook methods to the trait
+            let (enter_hook_return_type, exit_hook_return_type) = match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => (quote!(), quote!()),
+                TraitKind::Fold => (quote!(), return_type.clone()),
+            };
+
+            let enter_param_type = match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => type_param.clone(),
+                TraitKind::Fold => {
+                    // For Fold, enter hook takes a reference
+                    let inner_type = quote!(#node_type);
+                    quote!(&#inner_type)
+                }
+            };
+
+            trait_methods.push(parse_quote!(
+                #enter_doc
+                #[inline]
+                fn #enter_method_name #lifetime (&mut self, node: #enter_param_type #ast_path_params) #enter_hook_return_type {}
+            ));
+
+            let exit_method = match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => parse_quote!(
+                    #exit_doc
+                    #[inline]
+                    fn #exit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #exit_hook_return_type {}
+                ),
+                TraitKind::Fold => parse_quote!(
+                    #exit_doc
+                    #[inline]
+                    fn #exit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #exit_hook_return_type {
+                        node
+                    }
+                ),
+            };
+
+            trait_methods.push(exit_method);
+
             trait_methods.push(parse_quote!(
                 #method_doc
                 #[inline]
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
                     <#node_type as #with_trait_name<Self>>::#visit_with_children_name(node, self #ast_path_arg)
+                }
+            ));
+
+            // Add enter/exit hooks to either impl
+            either_impl_methods.push(parse_quote!(
+                #[inline]
+                fn #enter_method_name #lifetime (&mut self, node: #enter_param_type #ast_path_params) #enter_hook_return_type {
+                    match self {
+                        swc_visit::Either::Left(visitor) => {
+                            #trait_name::#enter_method_name(visitor, node #ast_path_arg)
+                        }
+                        swc_visit::Either::Right(visitor) => {
+                            #trait_name::#enter_method_name(visitor, node #ast_path_arg)
+                        }
+                    }
+                }
+            ));
+
+            either_impl_methods.push(parse_quote!(
+                #[inline]
+                fn #exit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #exit_hook_return_type {
+                    match self {
+                        swc_visit::Either::Left(visitor) => {
+                            #trait_name::#exit_method_name(visitor, node #ast_path_arg)
+                        }
+                        swc_visit::Either::Right(visitor) => {
+                            #trait_name::#exit_method_name(visitor, node #ast_path_arg)
+                        }
+                    }
                 }
             ));
 
@@ -498,6 +613,41 @@ impl Generator<'_> {
             } else {
                 quote!()
             };
+
+            // Add enter/exit hooks to optional impl
+            let optional_enter_impl = parse_quote!(
+                #[inline]
+                fn #enter_method_name #lifetime (&mut self, node: #enter_param_type #ast_path_params) #enter_hook_return_type {
+                    if self.enabled {
+                        <V as #trait_name>::#enter_method_name(&mut self.visitor, node #ast_path_arg)
+                    }
+                }
+            );
+
+            let optional_exit_impl = match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => parse_quote!(
+                    #[inline]
+                    fn #exit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #exit_hook_return_type {
+                        if self.enabled {
+                            <V as #trait_name>::#exit_method_name(&mut self.visitor, node #ast_path_arg)
+                        }
+                    }
+                ),
+                TraitKind::Fold => parse_quote!(
+                    #[inline]
+                    fn #exit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #exit_hook_return_type {
+                        if self.enabled {
+                            <V as #trait_name>::#exit_method_name(&mut self.visitor, node #ast_path_arg)
+                        } else {
+                            node
+                        }
+                    }
+                ),
+            };
+
+            optional_impl_methods.push(optional_enter_impl);
+            optional_impl_methods.push(optional_exit_impl);
+
             optional_impl_methods.push(parse_quote!(
                 #[inline]
                 fn #visit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #return_type {
@@ -506,6 +656,21 @@ impl Generator<'_> {
                     } else {
                         #else_block
                     }
+                }
+            ));
+
+            // Add enter/exit hooks to ptr impl
+            ptr_impl_methods.push(parse_quote!(
+                #[inline]
+                fn #enter_method_name #lifetime (&mut self, node: #enter_param_type #ast_path_params) #enter_hook_return_type {
+                    <V as #trait_name>::#enter_method_name(&mut **self, node #ast_path_arg)
+                }
+            ));
+
+            ptr_impl_methods.push(parse_quote!(
+                #[inline]
+                fn #exit_method_name #lifetime (&mut self, node: #type_param #ast_path_params) #exit_hook_return_type {
+                    <V as #trait_name>::#exit_method_name(&mut **self, node #ast_path_arg)
                 }
             ));
 
@@ -714,6 +879,60 @@ impl Generator<'_> {
                 _ => continue,
             };
 
+            // Generate enter/exit method names
+            let (enter_method_name, exit_method_name) = match self.kind {
+                TraitKind::Visit => (
+                    Ident::new(
+                        &format!(
+                            "enter_{}{}",
+                            type_name.to_string().to_snake_case(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                    Ident::new(
+                        &format!(
+                            "exit_{}{}",
+                            type_name.to_string().to_snake_case(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                ),
+                TraitKind::VisitMut | TraitKind::Fold => (
+                    Ident::new(
+                        &format!(
+                            "enter_mut_{}{}",
+                            type_name.to_string().to_snake_case(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                    Ident::new(
+                        &format!(
+                            "exit_mut_{}{}",
+                            type_name.to_string().to_snake_case(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                ),
+            };
+
+            let visit_children_body: syn::Block = match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => parse_quote!({
+                    <V as #visitor_trait_name>::#enter_method_name(visitor, self #ast_path_arg);
+                    #default_body;
+                    <V as #visitor_trait_name>::#exit_method_name(visitor, self #ast_path_arg);
+                }),
+                TraitKind::Fold => parse_quote!({
+                    <V as #visitor_trait_name>::#enter_method_name(visitor, &self #ast_path_arg);
+                    let __result = #default_body;
+                    let __result = <V as #visitor_trait_name>::#exit_method_name(visitor, __result #ast_path_arg);
+                    __result
+                }),
+            };
+
             items.push(parse_quote!(
                 #(#attrs)*
                 impl<V: ?Sized + #visitor_trait_name> #trait_name<V> for #type_name {
@@ -722,9 +941,8 @@ impl Generator<'_> {
                         <V as #visitor_trait_name>::#visit_method_name(visitor, self #ast_path_arg)
                     }
 
-                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                        #default_body
-                    }
+                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type
+                        #visit_children_body
                 }
             ));
         }
@@ -1080,6 +1298,60 @@ impl Generator<'_> {
 
             let target_type = self.node_type_for_visitor_method(node_type);
 
+            // Generate enter/exit method names for non-node types
+            let (enter_method_name, exit_method_name) = match self.kind {
+                TraitKind::Visit => (
+                    Ident::new(
+                        &format!(
+                            "enter_{}{}",
+                            node_type.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                    Ident::new(
+                        &format!(
+                            "exit_{}{}",
+                            node_type.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                ),
+                TraitKind::VisitMut | TraitKind::Fold => (
+                    Ident::new(
+                        &format!(
+                            "enter_mut_{}{}",
+                            node_type.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                    Ident::new(
+                        &format!(
+                            "exit_mut_{}{}",
+                            node_type.method_name(),
+                            self.variant.method_suffix(true)
+                        ),
+                        Span::call_site(),
+                    ),
+                ),
+            };
+
+            let visit_children_body: syn::Block = match self.kind {
+                TraitKind::Visit | TraitKind::VisitMut => parse_quote!({
+                    <V as #visitor_trait_name>::#enter_method_name(visitor, self #ast_path_arg);
+                    #default_body;
+                    <V as #visitor_trait_name>::#exit_method_name(visitor, self #ast_path_arg);
+                }),
+                TraitKind::Fold => parse_quote!({
+                    <V as #visitor_trait_name>::#enter_method_name(visitor, &self #ast_path_arg);
+                    let __result = #default_body;
+                    let __result = <V as #visitor_trait_name>::#exit_method_name(visitor, __result #ast_path_arg);
+                    __result
+                }),
+            };
+
             items.push(parse_quote!(
                 #(#attrs)*
                 impl<V: ?Sized + #visitor_trait_name> #visit_with_trait_name<V> for #target_type {
@@ -1090,9 +1362,8 @@ impl Generator<'_> {
                     }
 
                     #[inline]
-                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type {
-                        #default_body
-                    }
+                    fn #visit_with_children_name #lifetime (#receiver, visitor: &mut V #ast_path_param) #return_type
+                        #visit_children_body
                 }
             ));
         }
