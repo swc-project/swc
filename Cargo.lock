@@ -7001,22 +7001,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_ts_fast_strip_binding"
+name = "swc_ts_fast_strip_napi"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "js-sys",
  "miette",
  "owo-colors",
  "serde",
- "serde-wasm-bindgen",
  "swc_common",
  "swc_error_reporters",
  "swc_ts_fast_strip",
  "tracing",
  "unicode-width 0.2.2",
- "wasm-bindgen",
- "wasm-bindgen-futures",
 ]
 
 [[package]]
