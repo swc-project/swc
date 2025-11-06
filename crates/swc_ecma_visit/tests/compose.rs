@@ -7,24 +7,40 @@ use swc_ecma_visit::{CompositeHook, VisitMutHook, VisitMutWith, VisitMutWithHook
 struct Hook {
     name: String,
     depth: usize,
-    count: usize,
+    span_count: usize,
 }
 
 impl VisitMutHook for Hook {
     fn enter_span(&mut self, _span: &mut Span) {
         println!(
             "enter_span: name={}, depth={}, count={}",
-            self.name, self.depth, self.count
+            self.name, self.depth, self.span_count
         );
         self.depth += 1;
-        self.count += 1;
+        self.span_count += 1;
     }
 
     fn exit_span(&mut self, _span: &mut Span) {
         self.depth -= 1;
         println!(
             "exit_span: name={}, depth={}, count={}",
-            self.name, self.depth, self.count
+            self.name, self.depth, self.span_count
+        );
+    }
+
+    fn enter_expr(&mut self, _expr: &mut Expr) {
+        println!(
+            "enter_expr: name={}, depth={}, count={}",
+            self.name, self.depth, self.span_count
+        );
+        self.depth += 1;
+    }
+
+    fn exit_expr(&mut self, _expr: &mut Expr) {
+        self.depth -= 1;
+        println!(
+            "exit_expr: name={}, depth={}, count={}",
+            self.name, self.depth, self.span_count
         );
     }
 }
@@ -62,7 +78,7 @@ fn compose_visit() {
     node.visit_mut_with(&mut visitor);
 
     assert_eq!(visitor.hook.first.depth, 0);
-    assert_eq!(visitor.hook.first.count, 3);
+    assert_eq!(visitor.hook.first.span_count, 3);
     assert_eq!(visitor.hook.second.depth, 0);
-    assert_eq!(visitor.hook.second.count, 3);
+    assert_eq!(visitor.hook.second.span_count, 3);
 }
