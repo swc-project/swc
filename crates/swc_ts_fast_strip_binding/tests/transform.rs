@@ -71,7 +71,10 @@ mod strip_only_mode {
 
     #[test]
     fn should_remove_declare_enum_empty() {
-        let result = transform("declare enum Foo {}".into(), opts_no_filename(Mode::StripOnly));
+        let result = transform(
+            "declare enum Foo {}".into(),
+            opts_no_filename(Mode::StripOnly),
+        );
         assert!(result.is_ok(), "should succeed");
 
         let output = result.unwrap();
