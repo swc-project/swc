@@ -7008,6 +7008,7 @@ dependencies = [
  "miette",
  "owo-colors",
  "serde",
+ "serde_json",
  "swc_common",
  "swc_error_reporters",
  "swc_ts_fast_strip",
