@@ -1737,7 +1737,7 @@ fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
         let method_name_base = ty.method_name();
 
         let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
-        let exit_method_name = Ident::new(&format!("exit_{}", method_name_base), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
 
         let enter_doc = doc(&format!(
             "Called when entering a node of type `{type_name}` before visiting its children."
