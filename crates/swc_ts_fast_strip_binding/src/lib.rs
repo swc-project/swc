@@ -6,7 +6,6 @@ use std::{
 
 use anyhow::Error;
 use error_reporter::SwcReportHandler;
-use js_sys::Uint8Array;
 use miette::{GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
@@ -16,54 +15,11 @@ use swc_common::{
 };
 use swc_error_reporters::{convert_span, to_pretty_source_code};
 use swc_ts_fast_strip::{Options, TransformOutput};
-use wasm_bindgen::prelude::*;
-use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
 
 mod error_reporter;
 
-/// Custom interface definitions for the @swc/wasm's public interface instead of
-/// auto generated one, which is not reflecting most of types in detail.
-#[wasm_bindgen(typescript_custom_section)]
-const INTERFACE_DEFINITIONS: &'static str = r#"
-export declare function transform(src: string | Uint8Array, opts?: Options): Promise<TransformOutput>;
-export declare function transformSync(src: string | Uint8Array, opts?: Options): TransformOutput;
-export type { Options, TransformOutput };
-"#;
-
-#[wasm_bindgen(skip_typescript)]
-pub fn transform(input: JsValue, options: JsValue) -> Promise {
-    future_to_promise(async move { transform_sync(input, options) })
-}
-
-#[wasm_bindgen(js_name = "transformSync", skip_typescript)]
-pub fn transform_sync(input: JsValue, options: JsValue) -> Result<JsValue, JsValue> {
-    let options: Options = if options.is_falsy() {
-        Default::default()
-    } else {
-        serde_wasm_bindgen::from_value(options)?
-    };
-
-    let input = match input.as_string() {
-        Some(input) => input,
-        None => {
-            if input.is_instance_of::<Uint8Array>() {
-                let input = input.unchecked_into::<Uint8Array>();
-                match input.to_string().as_string() {
-                    Some(input) => input,
-                    None => return Err(JsValue::from_str("Input Uint8Array is not valid utf-8")),
-                }
-            } else {
-                return Err(JsValue::from_str("Input is not a string or Uint8Array"));
-            }
-        }
-    };
-
-    let result = GLOBALS.set(&Default::default(), || operate(input, options));
-
-    match result {
-        Ok(v) => Ok(serde_wasm_bindgen::to_value(&v)?),
-        Err(errors) => Err(serde_wasm_bindgen::to_value(&errors[0])?),
-    }
+pub fn transform(input: String, options: Options) -> Result<TransformOutput, Vec<JsonDiagnostic>> {
+    GLOBALS.set(&Default::default(), || operate(input, options))
 }
 
 fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonDiagnostic>> {
@@ -188,7 +144,7 @@ impl Emitter for JsonErrorWriter {
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
-struct JsonDiagnostic {
+pub struct JsonDiagnostic {
     /// Error code
     #[serde(skip_serializing_if = "Option::is_none")]
     code: Option<String>,
