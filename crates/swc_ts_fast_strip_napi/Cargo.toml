@@ -3,7 +3,7 @@ authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "Binding module for swc_ts_fast_strip"
 edition     = { workspace = true }
 license     = { workspace = true }
-name        = "swc_ts_fast_strip_binding"
+name        = "swc_ts_fast_strip_napi"
 publish     = false
 repository  = { workspace = true }
 version     = "0.1.0"
