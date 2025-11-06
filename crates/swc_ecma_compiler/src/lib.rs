@@ -18,6 +18,7 @@ use crate::es2022::{
 };
 pub use crate::features::Features;
 
+pub mod compat;
 mod es2020;
 mod es2021;
 mod es2022;
