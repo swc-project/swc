@@ -4,7 +4,6 @@ description = "Binding module for swc_ts_fast_strip"
 edition     = { workspace = true }
 license     = { workspace = true }
 name        = "swc_ts_fast_strip_napi"
-publish     = false
 repository  = { workspace = true }
 version     = "0.1.0"
 
@@ -19,8 +18,8 @@ anyhow              = { workspace = true }
 miette              = { workspace = true }
 owo-colors          = { workspace = true }
 serde               = { workspace = true, features = ["derive"] }
-swc_common          = { path = "../../crates/swc_common" }
-swc_error_reporters = { path = "../../crates/swc_error_reporters" }
-swc_ts_fast_strip   = { path = "../../crates/swc_ts_fast_strip" }
-tracing             = { workspace = true, features = ["max_level_off"] }
+swc_common          = { version = "17.0.0", path = "../../crates/swc_common" }
+swc_error_reporters = { version = "19.0.0", path = "../../crates/swc_error_reporters" }
+swc_ts_fast_strip   = { version = "36.0.0", path = "../../crates/swc_ts_fast_strip" }
+tracing             = { workspace = true }
 unicode-width       = { workspace = true }
