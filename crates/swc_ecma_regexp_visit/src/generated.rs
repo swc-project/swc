@@ -16248,6 +16248,1074 @@ where
         })
     }
 }
+#[doc = r" A hook trait for composable AST visitors."]
+#[doc = r""]
+#[doc = r" This trait provides `enter_xxx` and `exit_xxx` methods for each AST node type."]
+#[doc = r" The enter method is called before visiting children, and the exit method is called after."]
+pub trait VisitMutHook {
+    #[doc = "Called when entering a node of type `Alternative` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_alternative(&mut self, node: &mut Alternative) {}
+    #[doc = "Called when exiting a node of type `Alternative` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_alternative(&mut self, node: &mut Alternative) {}
+    #[doc = "Called when entering a node of type `Vec < Alternative >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_alternatives(&mut self, node: &mut Vec<Alternative>) {}
+    #[doc = "Called when exiting a node of type `Vec < Alternative >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_alternatives(&mut self, node: &mut Vec<Alternative>) {}
+    #[doc = "Called when entering a node of type `swc_atoms :: Atom` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_atom(&mut self, node: &mut swc_atoms::Atom) {}
+    #[doc = "Called when exiting a node of type `swc_atoms :: Atom` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_atom(&mut self, node: &mut swc_atoms::Atom) {}
+    #[doc = "Called when entering a node of type `BoundaryAssertion` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_boundary_assertion(&mut self, node: &mut BoundaryAssertion) {}
+    #[doc = "Called when exiting a node of type `BoundaryAssertion` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_boundary_assertion(&mut self, node: &mut BoundaryAssertion) {}
+    #[doc = "Called when entering a node of type `BoundaryAssertionKind` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_boundary_assertion_kind(&mut self, node: &mut BoundaryAssertionKind) {}
+    #[doc = "Called when exiting a node of type `BoundaryAssertionKind` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_boundary_assertion_kind(&mut self, node: &mut BoundaryAssertionKind) {}
+    #[doc = "Called when entering a node of type `CapturingGroup` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_capturing_group(&mut self, node: &mut CapturingGroup) {}
+    #[doc = "Called when exiting a node of type `CapturingGroup` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_capturing_group(&mut self, node: &mut CapturingGroup) {}
+    #[doc = "Called when entering a node of type `Character` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character(&mut self, node: &mut Character) {}
+    #[doc = "Called when exiting a node of type `Character` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character(&mut self, node: &mut Character) {}
+    #[doc = "Called when entering a node of type `CharacterClass` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_class(&mut self, node: &mut CharacterClass) {}
+    #[doc = "Called when exiting a node of type `CharacterClass` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_class(&mut self, node: &mut CharacterClass) {}
+    #[doc = "Called when entering a node of type `CharacterClassContents` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_class_contents(&mut self, node: &mut CharacterClassContents) {}
+    #[doc = "Called when exiting a node of type `CharacterClassContents` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_class_contents(&mut self, node: &mut CharacterClassContents) {}
+    #[doc = "Called when entering a node of type `CharacterClassContentsKind` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_class_contents_kind(&mut self, node: &mut CharacterClassContentsKind) {}
+    #[doc = "Called when exiting a node of type `CharacterClassContentsKind` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_class_contents_kind(&mut self, node: &mut CharacterClassContentsKind) {}
+    #[doc = "Called when entering a node of type `Vec < CharacterClassContents >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_class_contentss(&mut self, node: &mut Vec<CharacterClassContents>) {}
+    #[doc = "Called when exiting a node of type `Vec < CharacterClassContents >` after visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_class_contentss(&mut self, node: &mut Vec<CharacterClassContents>) {}
+    #[doc = "Called when entering a node of type `CharacterClassEscape` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_class_escape(&mut self, node: &mut CharacterClassEscape) {}
+    #[doc = "Called when exiting a node of type `CharacterClassEscape` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_class_escape(&mut self, node: &mut CharacterClassEscape) {}
+    #[doc = "Called when entering a node of type `CharacterClassEscapeKind` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_class_escape_kind(&mut self, node: &mut CharacterClassEscapeKind) {}
+    #[doc = "Called when exiting a node of type `CharacterClassEscapeKind` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_class_escape_kind(&mut self, node: &mut CharacterClassEscapeKind) {}
+    #[doc = "Called when entering a node of type `CharacterClassRange` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_class_range(&mut self, node: &mut CharacterClassRange) {}
+    #[doc = "Called when exiting a node of type `CharacterClassRange` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_class_range(&mut self, node: &mut CharacterClassRange) {}
+    #[doc = "Called when entering a node of type `CharacterKind` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_character_kind(&mut self, node: &mut CharacterKind) {}
+    #[doc = "Called when exiting a node of type `CharacterKind` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_character_kind(&mut self, node: &mut CharacterKind) {}
+    #[doc = "Called when entering a node of type `Vec < Character >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_characters(&mut self, node: &mut Vec<Character>) {}
+    #[doc = "Called when exiting a node of type `Vec < Character >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_characters(&mut self, node: &mut Vec<Character>) {}
+    #[doc = "Called when entering a node of type `ClassString` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_class_string(&mut self, node: &mut ClassString) {}
+    #[doc = "Called when exiting a node of type `ClassString` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_class_string(&mut self, node: &mut ClassString) {}
+    #[doc = "Called when entering a node of type `ClassStringDisjunction` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_class_string_disjunction(&mut self, node: &mut ClassStringDisjunction) {}
+    #[doc = "Called when exiting a node of type `ClassStringDisjunction` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_class_string_disjunction(&mut self, node: &mut ClassStringDisjunction) {}
+    #[doc = "Called when entering a node of type `Vec < ClassString >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_class_strings(&mut self, node: &mut Vec<ClassString>) {}
+    #[doc = "Called when exiting a node of type `Vec < ClassString >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_class_strings(&mut self, node: &mut Vec<ClassString>) {}
+    #[doc = "Called when entering a node of type `Disjunction` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_disjunction(&mut self, node: &mut Disjunction) {}
+    #[doc = "Called when exiting a node of type `Disjunction` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_disjunction(&mut self, node: &mut Disjunction) {}
+    #[doc = "Called when entering a node of type `Dot` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_dot(&mut self, node: &mut Dot) {}
+    #[doc = "Called when exiting a node of type `Dot` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_dot(&mut self, node: &mut Dot) {}
+    #[doc = "Called when entering a node of type `IgnoreGroup` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_ignore_group(&mut self, node: &mut IgnoreGroup) {}
+    #[doc = "Called when exiting a node of type `IgnoreGroup` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_ignore_group(&mut self, node: &mut IgnoreGroup) {}
+    #[doc = "Called when entering a node of type `IndexedReference` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_indexed_reference(&mut self, node: &mut IndexedReference) {}
+    #[doc = "Called when exiting a node of type `IndexedReference` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_indexed_reference(&mut self, node: &mut IndexedReference) {}
+    #[doc = "Called when entering a node of type `LookAroundAssertion` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_look_around_assertion(&mut self, node: &mut LookAroundAssertion) {}
+    #[doc = "Called when exiting a node of type `LookAroundAssertion` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_look_around_assertion(&mut self, node: &mut LookAroundAssertion) {}
+    #[doc = "Called when entering a node of type `LookAroundAssertionKind` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_look_around_assertion_kind(&mut self, node: &mut LookAroundAssertionKind) {}
+    #[doc = "Called when exiting a node of type `LookAroundAssertionKind` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_look_around_assertion_kind(&mut self, node: &mut LookAroundAssertionKind) {}
+    #[doc = "Called when entering a node of type `Modifier` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_modifier(&mut self, node: &mut Modifier) {}
+    #[doc = "Called when exiting a node of type `Modifier` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_modifier(&mut self, node: &mut Modifier) {}
+    #[doc = "Called when entering a node of type `Modifiers` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_modifiers(&mut self, node: &mut Modifiers) {}
+    #[doc = "Called when exiting a node of type `Modifiers` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_modifiers(&mut self, node: &mut Modifiers) {}
+    #[doc = "Called when entering a node of type `NamedReference` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_named_reference(&mut self, node: &mut NamedReference) {}
+    #[doc = "Called when exiting a node of type `NamedReference` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_named_reference(&mut self, node: &mut NamedReference) {}
+    #[doc = "Called when entering a node of type `Option < swc_atoms :: Atom >` before visiting \
+             its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
+    #[doc = "Called when exiting a node of type `Option < swc_atoms :: Atom >` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
+    #[doc = "Called when entering a node of type `Option < Modifiers >` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_opt_modifiers(&mut self, node: &mut Option<Modifiers>) {}
+    #[doc = "Called when exiting a node of type `Option < Modifiers >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_opt_modifiers(&mut self, node: &mut Option<Modifiers>) {}
+    #[doc = "Called when entering a node of type `Pattern` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_pattern(&mut self, node: &mut Pattern) {}
+    #[doc = "Called when exiting a node of type `Pattern` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_pattern(&mut self, node: &mut Pattern) {}
+    #[doc = "Called when entering a node of type `Quantifier` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_quantifier(&mut self, node: &mut Quantifier) {}
+    #[doc = "Called when exiting a node of type `Quantifier` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_quantifier(&mut self, node: &mut Quantifier) {}
+    #[doc = "Called when entering a node of type `swc_common :: Span` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_span(&mut self, node: &mut swc_common::Span) {}
+    #[doc = "Called when exiting a node of type `swc_common :: Span` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_span(&mut self, node: &mut swc_common::Span) {}
+    #[doc = "Called when entering a node of type `Term` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_term(&mut self, node: &mut Term) {}
+    #[doc = "Called when exiting a node of type `Term` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_term(&mut self, node: &mut Term) {}
+    #[doc = "Called when entering a node of type `Vec < Term >` before visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_terms(&mut self, node: &mut Vec<Term>) {}
+    #[doc = "Called when exiting a node of type `Vec < Term >` after visiting its children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_terms(&mut self, node: &mut Vec<Term>) {}
+    #[doc = "Called when entering a node of type `UnicodePropertyEscape` before visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn enter_unicode_property_escape(&mut self, node: &mut UnicodePropertyEscape) {}
+    #[doc = "Called when exiting a node of type `UnicodePropertyEscape` after visiting its \
+             children."]
+    #[inline]
+    #[allow(unused_variables)]
+    fn exit_unicode_property_escape(&mut self, node: &mut UnicodePropertyEscape) {}
+}
+#[doc = r" A composable hook that combines two hooks."]
+#[doc = r""]
+#[doc = r" Executes hooks in nested order:"]
+#[doc = r" - Enter: first.enter -> second.enter"]
+#[doc = r" - Exit: second.exit -> first.exit"]
+pub struct CompositeHook<A, B> {
+    pub first: A,
+    pub second: B,
+}
+impl<A, B> VisitMutHook for CompositeHook<A, B>
+where
+    A: VisitMutHook,
+    B: VisitMutHook,
+{
+    #[inline]
+    fn enter_alternative(&mut self, node: &mut Alternative) {
+        self.first.enter_alternative(node);
+        self.second.enter_alternative(node);
+    }
+
+    #[inline]
+    fn exit_alternative(&mut self, node: &mut Alternative) {
+        self.second.exit_alternative(node);
+        self.first.exit_alternative(node);
+    }
+
+    #[inline]
+    fn enter_alternatives(&mut self, node: &mut Vec<Alternative>) {
+        self.first.enter_alternatives(node);
+        self.second.enter_alternatives(node);
+    }
+
+    #[inline]
+    fn exit_alternatives(&mut self, node: &mut Vec<Alternative>) {
+        self.second.exit_alternatives(node);
+        self.first.exit_alternatives(node);
+    }
+
+    #[inline]
+    fn enter_atom(&mut self, node: &mut swc_atoms::Atom) {
+        self.first.enter_atom(node);
+        self.second.enter_atom(node);
+    }
+
+    #[inline]
+    fn exit_atom(&mut self, node: &mut swc_atoms::Atom) {
+        self.second.exit_atom(node);
+        self.first.exit_atom(node);
+    }
+
+    #[inline]
+    fn enter_boundary_assertion(&mut self, node: &mut BoundaryAssertion) {
+        self.first.enter_boundary_assertion(node);
+        self.second.enter_boundary_assertion(node);
+    }
+
+    #[inline]
+    fn exit_boundary_assertion(&mut self, node: &mut BoundaryAssertion) {
+        self.second.exit_boundary_assertion(node);
+        self.first.exit_boundary_assertion(node);
+    }
+
+    #[inline]
+    fn enter_boundary_assertion_kind(&mut self, node: &mut BoundaryAssertionKind) {
+        self.first.enter_boundary_assertion_kind(node);
+        self.second.enter_boundary_assertion_kind(node);
+    }
+
+    #[inline]
+    fn exit_boundary_assertion_kind(&mut self, node: &mut BoundaryAssertionKind) {
+        self.second.exit_boundary_assertion_kind(node);
+        self.first.exit_boundary_assertion_kind(node);
+    }
+
+    #[inline]
+    fn enter_capturing_group(&mut self, node: &mut CapturingGroup) {
+        self.first.enter_capturing_group(node);
+        self.second.enter_capturing_group(node);
+    }
+
+    #[inline]
+    fn exit_capturing_group(&mut self, node: &mut CapturingGroup) {
+        self.second.exit_capturing_group(node);
+        self.first.exit_capturing_group(node);
+    }
+
+    #[inline]
+    fn enter_character(&mut self, node: &mut Character) {
+        self.first.enter_character(node);
+        self.second.enter_character(node);
+    }
+
+    #[inline]
+    fn exit_character(&mut self, node: &mut Character) {
+        self.second.exit_character(node);
+        self.first.exit_character(node);
+    }
+
+    #[inline]
+    fn enter_character_class(&mut self, node: &mut CharacterClass) {
+        self.first.enter_character_class(node);
+        self.second.enter_character_class(node);
+    }
+
+    #[inline]
+    fn exit_character_class(&mut self, node: &mut CharacterClass) {
+        self.second.exit_character_class(node);
+        self.first.exit_character_class(node);
+    }
+
+    #[inline]
+    fn enter_character_class_contents(&mut self, node: &mut CharacterClassContents) {
+        self.first.enter_character_class_contents(node);
+        self.second.enter_character_class_contents(node);
+    }
+
+    #[inline]
+    fn exit_character_class_contents(&mut self, node: &mut CharacterClassContents) {
+        self.second.exit_character_class_contents(node);
+        self.first.exit_character_class_contents(node);
+    }
+
+    #[inline]
+    fn enter_character_class_contents_kind(&mut self, node: &mut CharacterClassContentsKind) {
+        self.first.enter_character_class_contents_kind(node);
+        self.second.enter_character_class_contents_kind(node);
+    }
+
+    #[inline]
+    fn exit_character_class_contents_kind(&mut self, node: &mut CharacterClassContentsKind) {
+        self.second.exit_character_class_contents_kind(node);
+        self.first.exit_character_class_contents_kind(node);
+    }
+
+    #[inline]
+    fn enter_character_class_contentss(&mut self, node: &mut Vec<CharacterClassContents>) {
+        self.first.enter_character_class_contentss(node);
+        self.second.enter_character_class_contentss(node);
+    }
+
+    #[inline]
+    fn exit_character_class_contentss(&mut self, node: &mut Vec<CharacterClassContents>) {
+        self.second.exit_character_class_contentss(node);
+        self.first.exit_character_class_contentss(node);
+    }
+
+    #[inline]
+    fn enter_character_class_escape(&mut self, node: &mut CharacterClassEscape) {
+        self.first.enter_character_class_escape(node);
+        self.second.enter_character_class_escape(node);
+    }
+
+    #[inline]
+    fn exit_character_class_escape(&mut self, node: &mut CharacterClassEscape) {
+        self.second.exit_character_class_escape(node);
+        self.first.exit_character_class_escape(node);
+    }
+
+    #[inline]
+    fn enter_character_class_escape_kind(&mut self, node: &mut CharacterClassEscapeKind) {
+        self.first.enter_character_class_escape_kind(node);
+        self.second.enter_character_class_escape_kind(node);
+    }
+
+    #[inline]
+    fn exit_character_class_escape_kind(&mut self, node: &mut CharacterClassEscapeKind) {
+        self.second.exit_character_class_escape_kind(node);
+        self.first.exit_character_class_escape_kind(node);
+    }
+
+    #[inline]
+    fn enter_character_class_range(&mut self, node: &mut CharacterClassRange) {
+        self.first.enter_character_class_range(node);
+        self.second.enter_character_class_range(node);
+    }
+
+    #[inline]
+    fn exit_character_class_range(&mut self, node: &mut CharacterClassRange) {
+        self.second.exit_character_class_range(node);
+        self.first.exit_character_class_range(node);
+    }
+
+    #[inline]
+    fn enter_character_kind(&mut self, node: &mut CharacterKind) {
+        self.first.enter_character_kind(node);
+        self.second.enter_character_kind(node);
+    }
+
+    #[inline]
+    fn exit_character_kind(&mut self, node: &mut CharacterKind) {
+        self.second.exit_character_kind(node);
+        self.first.exit_character_kind(node);
+    }
+
+    #[inline]
+    fn enter_characters(&mut self, node: &mut Vec<Character>) {
+        self.first.enter_characters(node);
+        self.second.enter_characters(node);
+    }
+
+    #[inline]
+    fn exit_characters(&mut self, node: &mut Vec<Character>) {
+        self.second.exit_characters(node);
+        self.first.exit_characters(node);
+    }
+
+    #[inline]
+    fn enter_class_string(&mut self, node: &mut ClassString) {
+        self.first.enter_class_string(node);
+        self.second.enter_class_string(node);
+    }
+
+    #[inline]
+    fn exit_class_string(&mut self, node: &mut ClassString) {
+        self.second.exit_class_string(node);
+        self.first.exit_class_string(node);
+    }
+
+    #[inline]
+    fn enter_class_string_disjunction(&mut self, node: &mut ClassStringDisjunction) {
+        self.first.enter_class_string_disjunction(node);
+        self.second.enter_class_string_disjunction(node);
+    }
+
+    #[inline]
+    fn exit_class_string_disjunction(&mut self, node: &mut ClassStringDisjunction) {
+        self.second.exit_class_string_disjunction(node);
+        self.first.exit_class_string_disjunction(node);
+    }
+
+    #[inline]
+    fn enter_class_strings(&mut self, node: &mut Vec<ClassString>) {
+        self.first.enter_class_strings(node);
+        self.second.enter_class_strings(node);
+    }
+
+    #[inline]
+    fn exit_class_strings(&mut self, node: &mut Vec<ClassString>) {
+        self.second.exit_class_strings(node);
+        self.first.exit_class_strings(node);
+    }
+
+    #[inline]
+    fn enter_disjunction(&mut self, node: &mut Disjunction) {
+        self.first.enter_disjunction(node);
+        self.second.enter_disjunction(node);
+    }
+
+    #[inline]
+    fn exit_disjunction(&mut self, node: &mut Disjunction) {
+        self.second.exit_disjunction(node);
+        self.first.exit_disjunction(node);
+    }
+
+    #[inline]
+    fn enter_dot(&mut self, node: &mut Dot) {
+        self.first.enter_dot(node);
+        self.second.enter_dot(node);
+    }
+
+    #[inline]
+    fn exit_dot(&mut self, node: &mut Dot) {
+        self.second.exit_dot(node);
+        self.first.exit_dot(node);
+    }
+
+    #[inline]
+    fn enter_ignore_group(&mut self, node: &mut IgnoreGroup) {
+        self.first.enter_ignore_group(node);
+        self.second.enter_ignore_group(node);
+    }
+
+    #[inline]
+    fn exit_ignore_group(&mut self, node: &mut IgnoreGroup) {
+        self.second.exit_ignore_group(node);
+        self.first.exit_ignore_group(node);
+    }
+
+    #[inline]
+    fn enter_indexed_reference(&mut self, node: &mut IndexedReference) {
+        self.first.enter_indexed_reference(node);
+        self.second.enter_indexed_reference(node);
+    }
+
+    #[inline]
+    fn exit_indexed_reference(&mut self, node: &mut IndexedReference) {
+        self.second.exit_indexed_reference(node);
+        self.first.exit_indexed_reference(node);
+    }
+
+    #[inline]
+    fn enter_look_around_assertion(&mut self, node: &mut LookAroundAssertion) {
+        self.first.enter_look_around_assertion(node);
+        self.second.enter_look_around_assertion(node);
+    }
+
+    #[inline]
+    fn exit_look_around_assertion(&mut self, node: &mut LookAroundAssertion) {
+        self.second.exit_look_around_assertion(node);
+        self.first.exit_look_around_assertion(node);
+    }
+
+    #[inline]
+    fn enter_look_around_assertion_kind(&mut self, node: &mut LookAroundAssertionKind) {
+        self.first.enter_look_around_assertion_kind(node);
+        self.second.enter_look_around_assertion_kind(node);
+    }
+
+    #[inline]
+    fn exit_look_around_assertion_kind(&mut self, node: &mut LookAroundAssertionKind) {
+        self.second.exit_look_around_assertion_kind(node);
+        self.first.exit_look_around_assertion_kind(node);
+    }
+
+    #[inline]
+    fn enter_modifier(&mut self, node: &mut Modifier) {
+        self.first.enter_modifier(node);
+        self.second.enter_modifier(node);
+    }
+
+    #[inline]
+    fn exit_modifier(&mut self, node: &mut Modifier) {
+        self.second.exit_modifier(node);
+        self.first.exit_modifier(node);
+    }
+
+    #[inline]
+    fn enter_modifiers(&mut self, node: &mut Modifiers) {
+        self.first.enter_modifiers(node);
+        self.second.enter_modifiers(node);
+    }
+
+    #[inline]
+    fn exit_modifiers(&mut self, node: &mut Modifiers) {
+        self.second.exit_modifiers(node);
+        self.first.exit_modifiers(node);
+    }
+
+    #[inline]
+    fn enter_named_reference(&mut self, node: &mut NamedReference) {
+        self.first.enter_named_reference(node);
+        self.second.enter_named_reference(node);
+    }
+
+    #[inline]
+    fn exit_named_reference(&mut self, node: &mut NamedReference) {
+        self.second.exit_named_reference(node);
+        self.first.exit_named_reference(node);
+    }
+
+    #[inline]
+    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        self.first.enter_opt_atom(node);
+        self.second.enter_opt_atom(node);
+    }
+
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        self.second.exit_opt_atom(node);
+        self.first.exit_opt_atom(node);
+    }
+
+    #[inline]
+    fn enter_opt_modifiers(&mut self, node: &mut Option<Modifiers>) {
+        self.first.enter_opt_modifiers(node);
+        self.second.enter_opt_modifiers(node);
+    }
+
+    #[inline]
+    fn exit_opt_modifiers(&mut self, node: &mut Option<Modifiers>) {
+        self.second.exit_opt_modifiers(node);
+        self.first.exit_opt_modifiers(node);
+    }
+
+    #[inline]
+    fn enter_pattern(&mut self, node: &mut Pattern) {
+        self.first.enter_pattern(node);
+        self.second.enter_pattern(node);
+    }
+
+    #[inline]
+    fn exit_pattern(&mut self, node: &mut Pattern) {
+        self.second.exit_pattern(node);
+        self.first.exit_pattern(node);
+    }
+
+    #[inline]
+    fn enter_quantifier(&mut self, node: &mut Quantifier) {
+        self.first.enter_quantifier(node);
+        self.second.enter_quantifier(node);
+    }
+
+    #[inline]
+    fn exit_quantifier(&mut self, node: &mut Quantifier) {
+        self.second.exit_quantifier(node);
+        self.first.exit_quantifier(node);
+    }
+
+    #[inline]
+    fn enter_span(&mut self, node: &mut swc_common::Span) {
+        self.first.enter_span(node);
+        self.second.enter_span(node);
+    }
+
+    #[inline]
+    fn exit_span(&mut self, node: &mut swc_common::Span) {
+        self.second.exit_span(node);
+        self.first.exit_span(node);
+    }
+
+    #[inline]
+    fn enter_term(&mut self, node: &mut Term) {
+        self.first.enter_term(node);
+        self.second.enter_term(node);
+    }
+
+    #[inline]
+    fn exit_term(&mut self, node: &mut Term) {
+        self.second.exit_term(node);
+        self.first.exit_term(node);
+    }
+
+    #[inline]
+    fn enter_terms(&mut self, node: &mut Vec<Term>) {
+        self.first.enter_terms(node);
+        self.second.enter_terms(node);
+    }
+
+    #[inline]
+    fn exit_terms(&mut self, node: &mut Vec<Term>) {
+        self.second.exit_terms(node);
+        self.first.exit_terms(node);
+    }
+
+    #[inline]
+    fn enter_unicode_property_escape(&mut self, node: &mut UnicodePropertyEscape) {
+        self.first.enter_unicode_property_escape(node);
+        self.second.enter_unicode_property_escape(node);
+    }
+
+    #[inline]
+    fn exit_unicode_property_escape(&mut self, node: &mut UnicodePropertyEscape) {
+        self.second.exit_unicode_property_escape(node);
+        self.first.exit_unicode_property_escape(node);
+    }
+}
+#[doc = r" An adapter that implements VisitMut using a VisitMutHook."]
+#[doc = r""]
+#[doc = r" This allows any hook to be used as a visitor by calling:"]
+#[doc = r" - hook.enter_xxx before visiting children"]
+#[doc = r" - hook.exit_xxx after visiting children"]
+pub struct VisitMutWithHook<H> {
+    pub hook: H,
+}
+impl<H: VisitMutHook> VisitMut for VisitMutWithHook<H> {
+    #[doc = "Visits a node of type `Alternative` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_alternative(&mut self, node: &mut Alternative) {
+        self.hook.enter_alternative(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_alternative(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < Alternative >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_alternatives(&mut self, node: &mut Vec<Alternative>) {
+        self.hook.enter_alternatives(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_alternatives(node);
+    }
+
+    #[doc = "Visits a node of type `swc_atoms :: Atom` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
+        self.hook.enter_atom(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_atom(node);
+    }
+
+    #[doc = "Visits a node of type `BoundaryAssertion` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_boundary_assertion(&mut self, node: &mut BoundaryAssertion) {
+        self.hook.enter_boundary_assertion(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_boundary_assertion(node);
+    }
+
+    #[doc = "Visits a node of type `BoundaryAssertionKind` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_boundary_assertion_kind(&mut self, node: &mut BoundaryAssertionKind) {
+        self.hook.enter_boundary_assertion_kind(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_boundary_assertion_kind(node);
+    }
+
+    #[doc = "Visits a node of type `CapturingGroup` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_capturing_group(&mut self, node: &mut CapturingGroup) {
+        self.hook.enter_capturing_group(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_capturing_group(node);
+    }
+
+    #[doc = "Visits a node of type `Character` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_character(&mut self, node: &mut Character) {
+        self.hook.enter_character(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character(node);
+    }
+
+    #[doc = "Visits a node of type `CharacterClass` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_character_class(&mut self, node: &mut CharacterClass) {
+        self.hook.enter_character_class(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_class(node);
+    }
+
+    #[doc = "Visits a node of type `CharacterClassContents` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_character_class_contents(&mut self, node: &mut CharacterClassContents) {
+        self.hook.enter_character_class_contents(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_class_contents(node);
+    }
+
+    #[doc = "Visits a node of type `CharacterClassContentsKind` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_character_class_contents_kind(&mut self, node: &mut CharacterClassContentsKind) {
+        self.hook.enter_character_class_contents_kind(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_class_contents_kind(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < CharacterClassContents >` using the hook's enter and \
+             exit methods."]
+    #[inline]
+    fn visit_mut_character_class_contentss(&mut self, node: &mut Vec<CharacterClassContents>) {
+        self.hook.enter_character_class_contentss(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_class_contentss(node);
+    }
+
+    #[doc = "Visits a node of type `CharacterClassEscape` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_character_class_escape(&mut self, node: &mut CharacterClassEscape) {
+        self.hook.enter_character_class_escape(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_class_escape(node);
+    }
+
+    #[doc = "Visits a node of type `CharacterClassEscapeKind` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_character_class_escape_kind(&mut self, node: &mut CharacterClassEscapeKind) {
+        self.hook.enter_character_class_escape_kind(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_class_escape_kind(node);
+    }
+
+    #[doc = "Visits a node of type `CharacterClassRange` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_character_class_range(&mut self, node: &mut CharacterClassRange) {
+        self.hook.enter_character_class_range(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_class_range(node);
+    }
+
+    #[doc = "Visits a node of type `CharacterKind` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_character_kind(&mut self, node: &mut CharacterKind) {
+        self.hook.enter_character_kind(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_character_kind(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < Character >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_characters(&mut self, node: &mut Vec<Character>) {
+        self.hook.enter_characters(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_characters(node);
+    }
+
+    #[doc = "Visits a node of type `ClassString` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_class_string(&mut self, node: &mut ClassString) {
+        self.hook.enter_class_string(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_class_string(node);
+    }
+
+    #[doc = "Visits a node of type `ClassStringDisjunction` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_class_string_disjunction(&mut self, node: &mut ClassStringDisjunction) {
+        self.hook.enter_class_string_disjunction(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_class_string_disjunction(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < ClassString >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_class_strings(&mut self, node: &mut Vec<ClassString>) {
+        self.hook.enter_class_strings(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_class_strings(node);
+    }
+
+    #[doc = "Visits a node of type `Disjunction` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_disjunction(&mut self, node: &mut Disjunction) {
+        self.hook.enter_disjunction(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_disjunction(node);
+    }
+
+    #[doc = "Visits a node of type `Dot` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_dot(&mut self, node: &mut Dot) {
+        self.hook.enter_dot(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_dot(node);
+    }
+
+    #[doc = "Visits a node of type `IgnoreGroup` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_ignore_group(&mut self, node: &mut IgnoreGroup) {
+        self.hook.enter_ignore_group(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_ignore_group(node);
+    }
+
+    #[doc = "Visits a node of type `IndexedReference` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_indexed_reference(&mut self, node: &mut IndexedReference) {
+        self.hook.enter_indexed_reference(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_indexed_reference(node);
+    }
+
+    #[doc = "Visits a node of type `LookAroundAssertion` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_look_around_assertion(&mut self, node: &mut LookAroundAssertion) {
+        self.hook.enter_look_around_assertion(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_look_around_assertion(node);
+    }
+
+    #[doc = "Visits a node of type `LookAroundAssertionKind` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_look_around_assertion_kind(&mut self, node: &mut LookAroundAssertionKind) {
+        self.hook.enter_look_around_assertion_kind(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_look_around_assertion_kind(node);
+    }
+
+    #[doc = "Visits a node of type `Modifier` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_modifier(&mut self, node: &mut Modifier) {
+        self.hook.enter_modifier(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_modifier(node);
+    }
+
+    #[doc = "Visits a node of type `Modifiers` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_modifiers(&mut self, node: &mut Modifiers) {
+        self.hook.enter_modifiers(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_modifiers(node);
+    }
+
+    #[doc = "Visits a node of type `NamedReference` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_named_reference(&mut self, node: &mut NamedReference) {
+        self.hook.enter_named_reference(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_named_reference(node);
+    }
+
+    #[doc = "Visits a node of type `Option < swc_atoms :: Atom >` using the hook's enter and exit \
+             methods."]
+    #[inline]
+    fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
+        self.hook.enter_opt_atom(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_atom(node);
+    }
+
+    #[doc = "Visits a node of type `Option < Modifiers >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_opt_modifiers(&mut self, node: &mut Option<Modifiers>) {
+        self.hook.enter_opt_modifiers(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_opt_modifiers(node);
+    }
+
+    #[doc = "Visits a node of type `Pattern` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_pattern(&mut self, node: &mut Pattern) {
+        self.hook.enter_pattern(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_pattern(node);
+    }
+
+    #[doc = "Visits a node of type `Quantifier` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_quantifier(&mut self, node: &mut Quantifier) {
+        self.hook.enter_quantifier(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_quantifier(node);
+    }
+
+    #[doc = "Visits a node of type `swc_common :: Span` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
+        self.hook.enter_span(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_span(node);
+    }
+
+    #[doc = "Visits a node of type `Term` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_term(&mut self, node: &mut Term) {
+        self.hook.enter_term(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_term(node);
+    }
+
+    #[doc = "Visits a node of type `Vec < Term >` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_terms(&mut self, node: &mut Vec<Term>) {
+        self.hook.enter_terms(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_terms(node);
+    }
+
+    #[doc = "Visits a node of type `UnicodePropertyEscape` using the hook's enter and exit methods."]
+    #[inline]
+    fn visit_mut_unicode_property_escape(&mut self, node: &mut UnicodePropertyEscape) {
+        self.hook.enter_unicode_property_escape(node);
+        node.visit_mut_children_with(self);
+        self.hook.exit_unicode_property_escape(node);
+    }
+}
 #[cfg(any(docsrs, feature = "path"))]
 pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
 #[cfg(any(docsrs, feature = "path"))]
