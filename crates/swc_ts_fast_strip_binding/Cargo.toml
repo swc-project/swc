@@ -15,18 +15,12 @@ bench = false
 nightly = ["swc_ts_fast_strip/nightly"]
 
 [dependencies]
-anyhow = { workspace = true }
-js-sys = { workspace = true }
-miette = { workspace = true }
-owo-colors = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
-serde-wasm-bindgen = { workspace = true }
-swc_common = { path = "../../crates/swc_common" }
+anyhow              = { workspace = true }
+miette              = { workspace = true }
+owo-colors          = { workspace = true }
+serde               = { workspace = true, features = ["derive"] }
+swc_common          = { path = "../../crates/swc_common" }
 swc_error_reporters = { path = "../../crates/swc_error_reporters" }
-swc_ts_fast_strip = { path = "../../crates/swc_ts_fast_strip", features = [
-  "wasm-bindgen",
-] }
-tracing = { workspace = true, features = ["max_level_off"] }
-unicode-width = { workspace = true }
-wasm-bindgen = { workspace = true, features = ["enable-interning"] }
-wasm-bindgen-futures = { workspace = true }
+swc_ts_fast_strip   = { path = "../../crates/swc_ts_fast_strip" }
+tracing             = { workspace = true, features = ["max_level_off"] }
+unicode-width       = { workspace = true }
