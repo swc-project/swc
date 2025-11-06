@@ -142,7 +142,7 @@ impl Emitter for JsonErrorWriter {
     }
 }
 
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct JsonDiagnostic {
     /// Error code
@@ -170,7 +170,7 @@ pub struct JsonDiagnostic {
     children: Vec<JsonSubdiagnostic>,
 }
 
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 struct JsonSubdiagnostic {
     message: String,

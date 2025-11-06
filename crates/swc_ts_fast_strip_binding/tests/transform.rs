@@ -12,12 +12,7 @@ fn opts(mode: Mode) -> Options {
             ..Default::default()
         },
         mode,
-        transform: Some(TransformConfig {
-            typescript: swc_ts_fast_strip::Config {
-                native_class_properties: true,
-                ..Default::default()
-            },
-        }),
+        transform: Some(TransformConfig::default()),
         deprecated_ts_module_as_error: Some(true),
         ..Default::default()
     }
@@ -33,12 +28,7 @@ fn opts_no_filename(mode: Mode) -> Options {
             ..Default::default()
         },
         mode,
-        transform: Some(TransformConfig {
-            typescript: swc_ecma_transforms_typescript::Config {
-                native_class_properties: true,
-                ..Default::default()
-            },
-        }),
+        transform: Some(TransformConfig::default()),
         deprecated_ts_module_as_error: Some(true),
         ..Default::default()
     }
@@ -247,7 +237,10 @@ mod strip_only_mode {
         assert!(!err.is_empty(), "should have error diagnostics");
 
         // Check that the error message doesn't contain "Caused by: failed to parse"
-        let error_messages: Vec<String> = err.iter().map(|d| d.message.clone()).collect();
+        let error_messages: Vec<String> = err
+            .iter()
+            .map(|d| serde_json::to_string(d).unwrap())
+            .collect();
         for msg in error_messages {
             assert!(
                 !msg.contains("Caused by: failed to parse"),
@@ -266,7 +259,10 @@ mod strip_only_mode {
 
         let err = result.unwrap_err();
         assert!(!err.is_empty(), "should have error diagnostics");
-        assert!(err[0].message.len() > 0, "should have error message");
+        assert!(
+            !serde_json::to_string(&err[0]).unwrap().is_empty(),
+            "should have error message"
+        );
     }
 
     #[test]
