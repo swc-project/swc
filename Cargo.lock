@@ -7001,7 +7001,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_ts_fast_strip_napi"
+name = "swc_ts_fast_strip_binding"
 version = "0.1.0"
 dependencies = [
  "anyhow",
