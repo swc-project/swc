@@ -1736,8 +1736,7 @@ fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
         let type_name = quote!(#ty);
         let method_name_base = ty.method_name();
 
-        let enter_method_name =
-            Ident::new(&format!("enter_{}", method_name_base), Span::call_site());
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
         let exit_method_name = Ident::new(&format!("exit_{}", method_name_base), Span::call_site());
 
         let enter_doc = doc(&format!(
@@ -1793,9 +1792,8 @@ fn generate_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
         let type_name = quote!(#ty);
         let method_name_base = ty.method_name();
 
-        let enter_method_name =
-            Ident::new(&format!("enter_{}", method_name_base), Span::call_site());
-        let exit_method_name = Ident::new(&format!("exit_{}", method_name_base), Span::call_site());
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
 
         // Nested execution: first.enter -> second.enter -> ... -> second.exit ->
         // first.exit
@@ -1859,13 +1857,10 @@ fn generate_visit_mut_with_hook(all_types: &[FieldType]) -> Vec<Item> {
         let type_name = quote!(#ty);
         let method_name_base = ty.method_name();
 
-        let visit_mut_method_name = Ident::new(
-            &format!("visit_mut_{}", method_name_base),
-            Span::call_site(),
-        );
-        let enter_method_name =
-            Ident::new(&format!("enter_{}", method_name_base), Span::call_site());
-        let exit_method_name = Ident::new(&format!("exit_{}", method_name_base), Span::call_site());
+        let visit_mut_method_name =
+            Ident::new(&format!("visit_mut_{method_name_base}"), Span::call_site());
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
 
         // For VisitMut, we use the actual type (Vec<T> stays as Vec<T>)
         // Unlike Visit which uses slices [T] for Vec<T>
