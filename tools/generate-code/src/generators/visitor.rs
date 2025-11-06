@@ -96,6 +96,15 @@ pub fn generate(crate_name_str: &str, node_types: &[&Item], excluded_types: &[St
         }
     }
 
+    // Generate VisitMutHook trait and related types
+    output
+        .items
+        .extend(generate_visit_mut_hook_trait(&all_types));
+    output.items.extend(generate_composite_hook(&all_types));
+    output
+        .items
+        .extend(generate_visit_mut_with_hook(&all_types));
+
     output.items.push(parse_quote!(
         #[cfg(any(docsrs, feature = "path"))]
         pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
@@ -1706,6 +1715,190 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             pub use self::fields::{AstParentKind, AstParentNodeRef};
         ));
     }
+
+    items
+}
+
+/// Generates the VisitMutHook trait with enter_xxx and exit_xxx methods for
+/// each AST type
+fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut trait_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types as they're handled by their inner types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        let enter_doc = doc(&format!(
+            "Called when entering a node of type `{type_name}` before visiting its children."
+        ));
+        let exit_doc = doc(&format!(
+            "Called when exiting a node of type `{type_name}` after visiting its children."
+        ));
+
+        // Add enter_xxx method
+        trait_methods.push(parse_quote!(
+            #enter_doc
+            #[inline]
+            #[allow(unused_variables)]
+            fn #enter_method_name(&mut self, node: &mut #type_name) {}
+        ));
+
+        // Add exit_xxx method
+        trait_methods.push(parse_quote!(
+            #exit_doc
+            #[inline]
+            #[allow(unused_variables)]
+            fn #exit_method_name(&mut self, node: &mut #type_name) {}
+        ));
+    }
+
+    items.push(parse_quote! {
+        /// A hook trait for composable AST visitors.
+        ///
+        /// This trait provides `enter_xxx` and `exit_xxx` methods for each AST node type.
+        /// The enter method is called before visiting children, and the exit method is called after.
+        pub trait VisitMutHook {
+            #(#trait_methods)*
+        }
+    });
+
+    items
+}
+
+/// Generates the CompositeHook<A, B> struct and its VisitMutHook implementation
+fn generate_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut impl_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        // Nested execution: first.enter -> second.enter -> ... -> second.exit ->
+        // first.exit
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #enter_method_name(&mut self, node: &mut #type_name) {
+                self.first.#enter_method_name(node);
+                self.second.#enter_method_name(node);
+            }
+        ));
+
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #exit_method_name(&mut self, node: &mut #type_name) {
+                self.second.#exit_method_name(node);
+                self.first.#exit_method_name(node);
+            }
+        ));
+    }
+
+    // Add the CompositeHook struct
+    items.push(parse_quote! {
+        /// A composable hook that combines two hooks.
+        ///
+        /// Executes hooks in nested order:
+        /// - Enter: first.enter -> second.enter
+        /// - Exit: second.exit -> first.exit
+        pub struct CompositeHook<A, B> {
+            pub first: A,
+            pub second: B,
+        }
+    });
+
+    // Add the VisitMutHook implementation for CompositeHook
+    items.push(parse_quote! {
+        impl<A, B> VisitMutHook for CompositeHook<A, B>
+        where
+            A: VisitMutHook,
+            B: VisitMutHook,
+        {
+            #(#impl_methods)*
+        }
+    });
+
+    items
+}
+
+/// Generates the VisitMutWithHook<H> adapter that implements VisitMut
+fn generate_visit_mut_with_hook(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut impl_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        let visit_mut_method_name =
+            Ident::new(&format!("visit_mut_{method_name_base}"), Span::call_site());
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        // For VisitMut, we use the actual type (Vec<T> stays as Vec<T>)
+        // Unlike Visit which uses slices [T] for Vec<T>
+        let node_type = quote!(#type_name);
+
+        let doc_comment = doc(&format!(
+            "Visits a node of type `{type_name}` using the hook's enter and exit methods."
+        ));
+
+        impl_methods.push(parse_quote!(
+            #doc_comment
+            #[inline]
+            fn #visit_mut_method_name(&mut self, node: &mut #node_type) {
+                self.hook.#enter_method_name(node);
+                node.visit_mut_children_with(self);
+                self.hook.#exit_method_name(node);
+            }
+        ));
+    }
+
+    // Add the VisitMutWithHook struct
+    items.push(parse_quote! {
+        /// An adapter that implements VisitMut using a VisitMutHook.
+        ///
+        /// This allows any hook to be used as a visitor by calling:
+        /// - hook.enter_xxx before visiting children
+        /// - hook.exit_xxx after visiting children
+        pub struct VisitMutWithHook<H> {
+            pub hook: H,
+        }
+    });
+
+    // Add the VisitMut implementation for VisitMutWithHook
+    items.push(parse_quote! {
+        impl<H: VisitMutHook> VisitMut for VisitMutWithHook<H> {
+            #(#impl_methods)*
+        }
+    });
 
     items
 }
