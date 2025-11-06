@@ -23,7 +23,6 @@ mod es2020;
 mod es2021;
 mod es2022;
 mod features;
-pub mod syntax_ext;
 
 #[derive(Debug)]
 pub struct Compiler {
