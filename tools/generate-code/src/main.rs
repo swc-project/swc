@@ -114,6 +114,7 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
     Ok(())
 }
 
+#[cfg(test)]
 fn run_hooks_codegen(input_dir: &Path, output: &Path, excluded_types: &[String]) -> Result<()> {
     let crate_name = input_dir.file_name().unwrap().to_str().unwrap();
 

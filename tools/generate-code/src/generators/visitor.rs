@@ -109,6 +109,7 @@ pub fn generate(crate_name_str: &str, node_types: &[&Item], excluded_types: &[St
     output
 }
 
+#[cfg(test)]
 pub fn generate_hooks(
     _crate_name_str: &str,
     node_types: &[&Item],
@@ -1764,6 +1765,7 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
 
 /// Generates the VisitMutHook trait with enter_xxx and exit_xxx methods for
 /// each AST type
+#[cfg(test)]
 fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut trait_methods = Vec::<TraitItem>::new();
@@ -1820,6 +1822,7 @@ fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
 }
 
 /// Generates the CompositeHook<A, B> struct and its VisitMutHook implementation
+#[cfg(test)]
 fn generate_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut impl_methods = Vec::<TraitItem>::new();
@@ -1885,6 +1888,7 @@ fn generate_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
 }
 
 /// Generates the VisitMutWithHook<H> adapter that implements VisitMut
+#[cfg(test)]
 fn generate_visit_mut_with_hook(all_types: &[FieldType]) -> Vec<Item> {
     let mut items = Vec::<Item>::new();
     let mut impl_methods = Vec::<TraitItem>::new();
