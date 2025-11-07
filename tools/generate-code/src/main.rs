@@ -173,7 +173,7 @@ fn run_hooks_codegen(input_dir: &Path, output: &Path, excluded_types: &[String])
 
     run_cargo_fmt(output)?;
 
-    if std::env::var("CI").is_ok_and(|v| v != "1") {
+    if std::env::var("CI").is_ok_and(|v| v == "1") {
         if let Some(original) = original {
             let output =
                 std::fs::read_to_string(output).context("failed to read the output file")?;
