@@ -1296,6 +1296,26 @@ pub fn parse_bin_op_recursively<'a>(
     }
 }
 
+/// Returns true if the type cannot be followed by type parameters.
+/// After these types, `<` should be lexed as a comparison operator, not as
+/// the start of type parameters.
+fn type_cannot_have_type_params(type_ann: &TsType) -> bool {
+    matches!(
+        type_ann,
+        TsType::TsKeywordType(_)
+            | TsType::TsLitType(_)
+            | TsType::TsThisType(_)
+            | TsType::TsArrayType(_)
+            | TsType::TsTupleType(_)
+            | TsType::TsUnionOrIntersectionType(_)
+            | TsType::TsTypePredicate(_)
+            | TsType::TsIndexedAccessType(_)
+            | TsType::TsConditionalType(_)
+            | TsType::TsMappedType(_)
+            | TsType::TsTypeOperator(_)
+    )
+}
+
 /// Returns `(left, Some(next_prec))` or `(expr, None)`.
 fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
     p: &mut P,
@@ -1308,39 +1328,54 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
         if PREC_OF_IN > min_prec && p.input().is(&P::Token::AS) {
             let start = left.span_lo();
             let expr = left;
-            let node = if peek!(p).is_some_and(|cur| cur.is_const()) {
+            return if peek!(p).is_some_and(|cur| cur.is_const()) {
                 p.bump(); // as
                 p.bump(); // const
-                TsConstAssertion {
+                let node = TsConstAssertion {
                     span: p.span(start),
                     expr,
                 }
-                .into()
+                .into();
+                // as const is treated as primitive type
+                p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+                    parse_bin_op_recursively_inner(p, node, min_prec)
+                })
             } else {
                 let type_ann = next_then_parse_ts_type(p)?;
-                TsAsExpr {
+                let prevent_type_params = type_cannot_have_type_params(&type_ann);
+                let node = TsAsExpr {
                     span: p.span(start),
                     expr,
                     type_ann,
                 }
-                .into()
+                .into();
+                if prevent_type_params {
+                    p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+                        parse_bin_op_recursively_inner(p, node, min_prec)
+                    })
+                } else {
+                    parse_bin_op_recursively_inner(p, node, min_prec)
+                }
             };
-
-            return parse_bin_op_recursively_inner(p, node, min_prec);
         } else if p.input().is(&P::Token::SATISFIES) {
             let start = left.span_lo();
             let expr = left;
-            let node = {
-                let type_ann = next_then_parse_ts_type(p)?;
-                TsSatisfiesExpr {
-                    span: p.span(start),
-                    expr,
-                    type_ann,
-                }
-                .into()
-            };
+            let type_ann = next_then_parse_ts_type(p)?;
+            let prevent_type_params = type_cannot_have_type_params(&type_ann);
+            let node = TsSatisfiesExpr {
+                span: p.span(start),
+                expr,
+                type_ann,
+            }
+            .into();
 
-            return parse_bin_op_recursively_inner(p, node, min_prec);
+            return if prevent_type_params {
+                p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+                    parse_bin_op_recursively_inner(p, node, min_prec)
+                })
+            } else {
+                parse_bin_op_recursively_inner(p, node, min_prec)
+            };
         }
     }
 
