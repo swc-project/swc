@@ -30,13 +30,13 @@ swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
 swc_bundler = { version = "35.0.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "17.0.0", path = "../swc_common", features = [
+swc_common = { version = "17.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "20.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "17.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "27.0.2", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "27.0.3", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms = { version = "38.0.0", path = "../swc_ecma_transforms" }

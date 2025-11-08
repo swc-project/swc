@@ -33,15 +33,15 @@ tokio                     = { workspace = true, features = ["rt"] }
 tracing                   = { workspace = true }
 cbor4ii                   = { workspace = true, features = [ "use_std" ] }
 
-swc_common = { version = "17.0.0", path = "../swc_common", features = [
+swc_common = { version = "17.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_plugin_runner = { version = "22.0.1", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
 swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
-swc_ecma_parser = { version = "27.0.2", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "18.0.0", path = "../swc_ecma_visit" }
+swc_ecma_parser = { version = "27.0.3", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
 swc_transform_common = { version = "11.0.0", path = "../swc_transform_common" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "18.0.0", path = "../testing" }

@@ -5404,7 +5404,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "47.0.0"
+version = "47.0.1"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5425,7 +5425,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -5515,7 +5515,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "47.0.3"
+version = "47.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5744,7 +5744,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -6141,7 +6141,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "27.0.2"
+version = "27.0.3"
 dependencies = [
  "bitflags 2.6.0",
  "cbor4ii",
@@ -6572,7 +6572,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "18.0.0"
+version = "18.0.1"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -6776,7 +6776,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -7114,7 +7114,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "serde",
  "swc_atoms",

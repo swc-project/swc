@@ -31,15 +31,15 @@ sha1       = { workspace = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum" }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "17.0.0", path = "../swc_common" }
+swc_common = { version = "17.0.1", path = "../swc_common" }
 swc_config = { version = "3.1.2", path = "../swc_config" }
 swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "27.0.2", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "27.0.3", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "24.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "18.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_ecma_codegen            = { version = "20.0.0", path = "../swc_ecma_codegen/" }

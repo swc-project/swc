@@ -25,7 +25,7 @@ rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "17.0.0", path = "../swc_common", features = [
+swc_common = { version = "17.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "3.1.2", path = "../swc_config" }
@@ -33,11 +33,11 @@ swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_utils = { version = "24.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "18.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_parser           = { version = "27.0.2", path = "../swc_ecma_parser" }
+swc_ecma_parser           = { version = "27.0.3", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base  = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.2.4", path = "../swc_malloc" }
 testing                   = { version = "18.0.0", path = "../testing" }

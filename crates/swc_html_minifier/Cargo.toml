@@ -35,7 +35,7 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "17.0.0", path = "../swc_common" }
+swc_common = { version = "17.0.1", path = "../swc_common" }
 swc_config = { version = "3.1.2", path = "../swc_config", features = ["regex"] }
 swc_css_ast = { version = "17.0.0", path = "../swc_css_ast", optional = true }
 swc_css_codegen = { version = "17.0.0", path = "../swc_css_codegen", optional = true }
@@ -48,16 +48,16 @@ swc_ecma_codegen = { version = "20.0.0", path = "../swc_ecma_codegen", features 
 swc_ecma_minifier = { version = "36.0.1", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "27.0.2", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "27.0.3", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "18.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
 swc_html_ast = { version = "17.0.0", path = "../swc_html_ast" }
 swc_html_codegen = { version = "18.0.0", path = "../swc_html_codegen" }
 swc_html_parser = { version = "17.0.0", path = "../swc_html_parser" }
 swc_html_utils = { version = "16.0.0", path = "../swc_html_utils" }
-swc_html_visit = { version = "17.0.0", path = "../swc_html_visit" }
+swc_html_visit = { version = "17.0.1", path = "../swc_html_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
