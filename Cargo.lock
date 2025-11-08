@@ -6580,7 +6580,6 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_hooks",
  "swc_visit",
  "tracing",
 ]
