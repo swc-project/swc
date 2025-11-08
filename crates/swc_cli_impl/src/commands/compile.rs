@@ -256,7 +256,12 @@ fn emit_output(
             ""
         };
 
-        println!("{}\n{}\n{}", file_path.display(), output.code, source_map,);
+        // Don't print "unknown" when reading from stdin
+        if file_path.to_str() == Some("unknown") {
+            println!("{}\n{}", output.code, source_map,);
+        } else {
+            println!("{}\n{}\n{}", file_path.display(), output.code, source_map,);
+        }
     };
     Ok(())
 }
