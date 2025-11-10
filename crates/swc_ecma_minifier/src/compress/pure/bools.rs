@@ -263,12 +263,9 @@ impl Pure<'_> {
         let should_optimize = is_typeof_unaray(&e.left, &e.right)
             || is_typeof_unaray(&e.right, &e.left)
             || (self.options.comparisons && {
-                // Only optimize if both types match AND neither operand contains update/assign
                 if let Value::Known(l) = e.left.get_type(self.expr_ctx) {
                     if let Value::Known(r) = e.right.get_type(self.expr_ctx) {
                         l == r
-                            && !contains_update_or_assign(&e.left)
-                            && !contains_update_or_assign(&e.right)
                     } else {
                         false
                     }

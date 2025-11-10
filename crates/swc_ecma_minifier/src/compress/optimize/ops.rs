@@ -62,11 +62,7 @@ impl Optimizer<'_> {
         if e.op == op!("===") {
             if let Known(lt) = e.left.get_type(self.ctx.expr_ctx) {
                 if let Known(rt) = e.right.get_type(self.ctx.expr_ctx) {
-                    // Only optimize if types match AND neither operand contains update/assign
-                    if lt == rt
-                        && !contains_update_or_assign(&e.left)
-                        && !contains_update_or_assign(&e.right)
-                    {
+                    if lt == rt {
                         e.op = op!("==");
                         self.changed = true;
                         report_change!(
