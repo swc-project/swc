@@ -780,6 +780,40 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn drop_empty_constructors(&self, n: &mut Class) {
+        let mut empty_constructor_indices = Vec::new();
+
+        for (index, member) in n.body.iter().enumerate() {
+            if let ClassMember::Constructor(constructor) = member {
+                if self.is_constructor_empty(constructor) {
+                    empty_constructor_indices.push(index);
+                }
+            }
+        }
+
+        if !empty_constructor_indices.is_empty() {
+            report_change!("Removing an empty constructor");
+            for index in empty_constructor_indices.into_iter().rev() {
+                n.body.remove(index);
+            }
+        }
+    }
+
+    fn is_constructor_empty(&self, constructor: &Constructor) -> bool {
+        if !constructor.params.is_empty() {
+            return false;
+        }
+
+        match &constructor.body {
+            None => true,
+            Some(body) => match body.stmts.as_slice() {
+                [] => true,
+                [Stmt::Empty(_)] => true,
+                _ => false,
+            },
+        }
+    }
+
     /// Make `name` [None] if the name is not used.
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     pub(super) fn remove_name_if_not_used(&mut self, name: &mut Option<Ident>) {

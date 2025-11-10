@@ -3352,7 +3352,6 @@
                  * document key. The rows in this table are references based on the contents of
                  * DbMutationBatch.mutations.
                  */ class Ss {
-                constructor(){}
                 /**
                      * Creates a [userId] key for use in the DbDocumentMutations index to iterate
                      * over all of a user's document mutations.
