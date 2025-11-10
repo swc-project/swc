@@ -3,7 +3,6 @@ use std::mem::swap;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
-use swc_ecma_visit::{Visit, VisitWith};
 
 use super::Pure;
 use crate::{
