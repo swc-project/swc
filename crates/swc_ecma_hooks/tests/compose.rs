@@ -11,8 +11,8 @@ struct Hook {
     span_count: usize,
 }
 
-impl VisitMutHook for Hook {
-    fn enter_span(&mut self, _span: &mut Span) {
+impl<C> VisitMutHook<C> for Hook {
+    fn enter_span(&mut self, _span: &mut Span, _ctx: &mut C) {
         println!(
             "enter_span: name={}, depth={}, count={}",
             self.name, self.depth, self.span_count
@@ -21,7 +21,7 @@ impl VisitMutHook for Hook {
         self.span_count += 1;
     }
 
-    fn exit_span(&mut self, _span: &mut Span) {
+    fn exit_span(&mut self, _span: &mut Span, _ctx: &mut C) {
         self.depth -= 1;
         println!(
             "exit_span: name={}, depth={}, count={}",
@@ -29,7 +29,7 @@ impl VisitMutHook for Hook {
         );
     }
 
-    fn enter_expr(&mut self, _expr: &mut Expr) {
+    fn enter_expr(&mut self, _expr: &mut Expr, _ctx: &mut C) {
         println!(
             "enter_expr: name={}, depth={}, count={}",
             self.name, self.depth, self.span_count
@@ -37,7 +37,7 @@ impl VisitMutHook for Hook {
         self.depth += 1;
     }
 
-    fn exit_expr(&mut self, _expr: &mut Expr) {
+    fn exit_expr(&mut self, _expr: &mut Expr, _ctx: &mut C) {
         self.depth -= 1;
         println!(
             "exit_expr: name={}, depth={}, count={}",
@@ -74,7 +74,7 @@ fn compose_visit() {
         ..Default::default()
     });
 
-    let mut visitor = VisitMutWithHook { hook };
+    let mut visitor = VisitMutWithHook { hook, context: () };
 
     node.visit_mut_with(&mut visitor);
 

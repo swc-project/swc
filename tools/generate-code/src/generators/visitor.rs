@@ -1796,7 +1796,7 @@ fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
             #enter_doc
             #[inline]
             #[allow(unused_variables)]
-            fn #enter_method_name(&mut self, node: &mut #type_name) {}
+            fn #enter_method_name(&mut self, node: &mut #type_name, ctx: &mut C) {}
         ));
 
         // Add exit_xxx method
@@ -1804,7 +1804,7 @@ fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
             #exit_doc
             #[inline]
             #[allow(unused_variables)]
-            fn #exit_method_name(&mut self, node: &mut #type_name) {}
+            fn #exit_method_name(&mut self, node: &mut #type_name, ctx: &mut C) {}
         ));
     }
 
@@ -1813,7 +1813,8 @@ fn generate_visit_mut_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
         ///
         /// This trait provides `enter_xxx` and `exit_xxx` methods for each AST node type.
         /// The enter method is called before visiting children, and the exit method is called after.
-        pub trait VisitMutHook {
+        /// The generic parameter `C` represents a context type that is passed through all hook methods.
+        pub trait VisitMutHook<C> {
             #(#trait_methods)*
         }
     });
@@ -1845,17 +1846,17 @@ fn generate_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
         // first.exit
         impl_methods.push(parse_quote!(
             #[inline]
-            fn #enter_method_name(&mut self, node: &mut #type_name) {
-                self.first.#enter_method_name(node);
-                self.second.#enter_method_name(node);
+            fn #enter_method_name(&mut self, node: &mut #type_name, ctx: &mut C) {
+                self.first.#enter_method_name(node, ctx);
+                self.second.#enter_method_name(node, ctx);
             }
         ));
 
         impl_methods.push(parse_quote!(
             #[inline]
-            fn #exit_method_name(&mut self, node: &mut #type_name) {
-                self.second.#exit_method_name(node);
-                self.first.#exit_method_name(node);
+            fn #exit_method_name(&mut self, node: &mut #type_name, ctx: &mut C) {
+                self.second.#exit_method_name(node, ctx);
+                self.first.#exit_method_name(node, ctx);
             }
         ));
     }
@@ -1875,10 +1876,10 @@ fn generate_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
 
     // Add the VisitMutHook implementation for CompositeHook
     items.push(parse_quote! {
-        impl<A, B> VisitMutHook for CompositeHook<A, B>
+        impl<A, B, C> VisitMutHook<C> for CompositeHook<A, B>
         where
-            A: VisitMutHook,
-            B: VisitMutHook,
+            A: VisitMutHook<C>,
+            B: VisitMutHook<C>,
         {
             #(#impl_methods)*
         }
@@ -1921,9 +1922,9 @@ fn generate_visit_mut_with_hook(all_types: &[FieldType]) -> Vec<Item> {
             #doc_comment
             #[inline]
             fn #visit_mut_method_name(&mut self, node: &mut #node_type) {
-                self.hook.#enter_method_name(node);
+                self.hook.#enter_method_name(node, &mut self.context);
                 node.visit_mut_children_with(self);
-                self.hook.#exit_method_name(node);
+                self.hook.#exit_method_name(node, &mut self.context);
             }
         ));
     }
@@ -1935,14 +1936,15 @@ fn generate_visit_mut_with_hook(all_types: &[FieldType]) -> Vec<Item> {
         /// This allows any hook to be used as a visitor by calling:
         /// - hook.enter_xxx before visiting children
         /// - hook.exit_xxx after visiting children
-        pub struct VisitMutWithHook<H> {
+        pub struct VisitMutWithHook<H, C> {
             pub hook: H,
+            pub context: C,
         }
     });
 
     // Add the VisitMut implementation for VisitMutWithHook
     items.push(parse_quote! {
-        impl<H: VisitMutHook> VisitMut for VisitMutWithHook<H> {
+        impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
             #(#impl_methods)*
         }
     });
