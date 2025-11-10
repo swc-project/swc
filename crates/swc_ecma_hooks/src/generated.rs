@@ -7,1297 +7,1329 @@ use swc_ecma_visit::*;
 #[doc = r""]
 #[doc = r" This trait provides `enter_xxx` and `exit_xxx` methods for each AST node type."]
 #[doc = r" The enter method is called before visiting children, and the exit method is called after."]
-pub trait VisitMutHook {
+#[doc = r" The generic parameter `C` represents a context type that is passed through all hook methods."]
+pub trait VisitMutHook<C> {
     #[doc = "Called when entering a node of type `Accessibility` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_accessibility(&mut self, node: &mut Accessibility) {}
+    fn enter_accessibility(&mut self, node: &mut Accessibility, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Accessibility` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_accessibility(&mut self, node: &mut Accessibility) {}
+    fn exit_accessibility(&mut self, node: &mut Accessibility, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ArrayLit` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_array_lit(&mut self, node: &mut ArrayLit) {}
+    fn enter_array_lit(&mut self, node: &mut ArrayLit, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ArrayLit` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_array_lit(&mut self, node: &mut ArrayLit) {}
+    fn exit_array_lit(&mut self, node: &mut ArrayLit, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ArrayPat` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_array_pat(&mut self, node: &mut ArrayPat) {}
+    fn enter_array_pat(&mut self, node: &mut ArrayPat, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ArrayPat` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_array_pat(&mut self, node: &mut ArrayPat) {}
+    fn exit_array_pat(&mut self, node: &mut ArrayPat, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ArrowExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr) {}
+    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ArrowExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr) {}
+    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AssignExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_assign_expr(&mut self, node: &mut AssignExpr) {}
+    fn enter_assign_expr(&mut self, node: &mut AssignExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AssignExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_assign_expr(&mut self, node: &mut AssignExpr) {}
+    fn exit_assign_expr(&mut self, node: &mut AssignExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AssignOp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_assign_op(&mut self, node: &mut AssignOp) {}
+    fn enter_assign_op(&mut self, node: &mut AssignOp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AssignOp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_assign_op(&mut self, node: &mut AssignOp) {}
+    fn exit_assign_op(&mut self, node: &mut AssignOp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AssignPat` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_assign_pat(&mut self, node: &mut AssignPat) {}
+    fn enter_assign_pat(&mut self, node: &mut AssignPat, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AssignPat` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_assign_pat(&mut self, node: &mut AssignPat) {}
+    fn exit_assign_pat(&mut self, node: &mut AssignPat, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AssignPatProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_assign_pat_prop(&mut self, node: &mut AssignPatProp) {}
+    fn enter_assign_pat_prop(&mut self, node: &mut AssignPatProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AssignPatProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_assign_pat_prop(&mut self, node: &mut AssignPatProp) {}
+    fn exit_assign_pat_prop(&mut self, node: &mut AssignPatProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AssignProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_assign_prop(&mut self, node: &mut AssignProp) {}
+    fn enter_assign_prop(&mut self, node: &mut AssignProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AssignProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_assign_prop(&mut self, node: &mut AssignProp) {}
+    fn exit_assign_prop(&mut self, node: &mut AssignProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AssignTarget` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_assign_target(&mut self, node: &mut AssignTarget) {}
+    fn enter_assign_target(&mut self, node: &mut AssignTarget, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AssignTarget` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_assign_target(&mut self, node: &mut AssignTarget) {}
+    fn exit_assign_target(&mut self, node: &mut AssignTarget, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AssignTargetPat` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_assign_target_pat(&mut self, node: &mut AssignTargetPat) {}
+    fn enter_assign_target_pat(&mut self, node: &mut AssignTargetPat, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AssignTargetPat` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_assign_target_pat(&mut self, node: &mut AssignTargetPat) {}
+    fn exit_assign_target_pat(&mut self, node: &mut AssignTargetPat, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `swc_atoms :: Atom` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_atom(&mut self, node: &mut swc_atoms::Atom) {}
+    fn enter_atom(&mut self, node: &mut swc_atoms::Atom, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `swc_atoms :: Atom` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_atom(&mut self, node: &mut swc_atoms::Atom) {}
+    fn exit_atom(&mut self, node: &mut swc_atoms::Atom, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AutoAccessor` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_auto_accessor(&mut self, node: &mut AutoAccessor) {}
+    fn enter_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AutoAccessor` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_auto_accessor(&mut self, node: &mut AutoAccessor) {}
+    fn exit_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `AwaitExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_await_expr(&mut self, node: &mut AwaitExpr) {}
+    fn enter_await_expr(&mut self, node: &mut AwaitExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `AwaitExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_await_expr(&mut self, node: &mut AwaitExpr) {}
+    fn exit_await_expr(&mut self, node: &mut AwaitExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BigInt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_big_int(&mut self, node: &mut BigInt) {}
+    fn enter_big_int(&mut self, node: &mut BigInt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BigInt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_big_int(&mut self, node: &mut BigInt) {}
+    fn exit_big_int(&mut self, node: &mut BigInt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BigIntValue` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_big_int_value(&mut self, node: &mut BigIntValue) {}
+    fn enter_big_int_value(&mut self, node: &mut BigIntValue, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BigIntValue` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_big_int_value(&mut self, node: &mut BigIntValue) {}
+    fn exit_big_int_value(&mut self, node: &mut BigIntValue, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BinExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_bin_expr(&mut self, node: &mut BinExpr) {}
+    fn enter_bin_expr(&mut self, node: &mut BinExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BinExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_bin_expr(&mut self, node: &mut BinExpr) {}
+    fn exit_bin_expr(&mut self, node: &mut BinExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BinaryOp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_binary_op(&mut self, node: &mut BinaryOp) {}
+    fn enter_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BinaryOp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_binary_op(&mut self, node: &mut BinaryOp) {}
+    fn exit_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BindingIdent` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_binding_ident(&mut self, node: &mut BindingIdent) {}
+    fn enter_binding_ident(&mut self, node: &mut BindingIdent, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BindingIdent` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_binding_ident(&mut self, node: &mut BindingIdent) {}
+    fn exit_binding_ident(&mut self, node: &mut BindingIdent, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BlockStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_block_stmt(&mut self, node: &mut BlockStmt) {}
+    fn enter_block_stmt(&mut self, node: &mut BlockStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BlockStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_block_stmt(&mut self, node: &mut BlockStmt) {}
+    fn exit_block_stmt(&mut self, node: &mut BlockStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BlockStmtOrExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {}
+    fn enter_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BlockStmtOrExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {}
+    fn exit_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Bool` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_bool(&mut self, node: &mut Bool) {}
+    fn enter_bool(&mut self, node: &mut Bool, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Bool` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_bool(&mut self, node: &mut Bool) {}
+    fn exit_bool(&mut self, node: &mut Bool, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `BreakStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_break_stmt(&mut self, node: &mut BreakStmt) {}
+    fn enter_break_stmt(&mut self, node: &mut BreakStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `BreakStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_break_stmt(&mut self, node: &mut BreakStmt) {}
+    fn exit_break_stmt(&mut self, node: &mut BreakStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `CallExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_call_expr(&mut self, node: &mut CallExpr) {}
+    fn enter_call_expr(&mut self, node: &mut CallExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `CallExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_call_expr(&mut self, node: &mut CallExpr) {}
+    fn exit_call_expr(&mut self, node: &mut CallExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Callee` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_callee(&mut self, node: &mut Callee) {}
+    fn enter_callee(&mut self, node: &mut Callee, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Callee` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_callee(&mut self, node: &mut Callee) {}
+    fn exit_callee(&mut self, node: &mut Callee, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `CatchClause` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_catch_clause(&mut self, node: &mut CatchClause) {}
+    fn enter_catch_clause(&mut self, node: &mut CatchClause, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `CatchClause` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_catch_clause(&mut self, node: &mut CatchClause) {}
+    fn exit_catch_clause(&mut self, node: &mut CatchClause, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Class` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_class(&mut self, node: &mut Class) {}
+    fn enter_class(&mut self, node: &mut Class, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Class` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_class(&mut self, node: &mut Class) {}
+    fn exit_class(&mut self, node: &mut Class, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ClassDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_class_decl(&mut self, node: &mut ClassDecl) {}
+    fn enter_class_decl(&mut self, node: &mut ClassDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ClassDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_class_decl(&mut self, node: &mut ClassDecl) {}
+    fn exit_class_decl(&mut self, node: &mut ClassDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ClassExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_class_expr(&mut self, node: &mut ClassExpr) {}
+    fn enter_class_expr(&mut self, node: &mut ClassExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ClassExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_class_expr(&mut self, node: &mut ClassExpr) {}
+    fn exit_class_expr(&mut self, node: &mut ClassExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ClassMember` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_class_member(&mut self, node: &mut ClassMember) {}
+    fn enter_class_member(&mut self, node: &mut ClassMember, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ClassMember` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_class_member(&mut self, node: &mut ClassMember) {}
+    fn exit_class_member(&mut self, node: &mut ClassMember, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ClassMember >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_class_members(&mut self, node: &mut Vec<ClassMember>) {}
+    fn enter_class_members(&mut self, node: &mut Vec<ClassMember>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ClassMember >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_class_members(&mut self, node: &mut Vec<ClassMember>) {}
+    fn exit_class_members(&mut self, node: &mut Vec<ClassMember>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ClassMethod` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_class_method(&mut self, node: &mut ClassMethod) {}
+    fn enter_class_method(&mut self, node: &mut ClassMethod, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ClassMethod` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_class_method(&mut self, node: &mut ClassMethod) {}
+    fn exit_class_method(&mut self, node: &mut ClassMethod, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ClassProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_class_prop(&mut self, node: &mut ClassProp) {}
+    fn enter_class_prop(&mut self, node: &mut ClassProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ClassProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_class_prop(&mut self, node: &mut ClassProp) {}
+    fn exit_class_prop(&mut self, node: &mut ClassProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ComputedPropName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_computed_prop_name(&mut self, node: &mut ComputedPropName) {}
+    fn enter_computed_prop_name(&mut self, node: &mut ComputedPropName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ComputedPropName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_computed_prop_name(&mut self, node: &mut ComputedPropName) {}
+    fn exit_computed_prop_name(&mut self, node: &mut ComputedPropName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `CondExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_cond_expr(&mut self, node: &mut CondExpr) {}
+    fn enter_cond_expr(&mut self, node: &mut CondExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `CondExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_cond_expr(&mut self, node: &mut CondExpr) {}
+    fn exit_cond_expr(&mut self, node: &mut CondExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Constructor` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_constructor(&mut self, node: &mut Constructor) {}
+    fn enter_constructor(&mut self, node: &mut Constructor, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Constructor` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_constructor(&mut self, node: &mut Constructor) {}
+    fn exit_constructor(&mut self, node: &mut Constructor, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ContinueStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_continue_stmt(&mut self, node: &mut ContinueStmt) {}
+    fn enter_continue_stmt(&mut self, node: &mut ContinueStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ContinueStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_continue_stmt(&mut self, node: &mut ContinueStmt) {}
+    fn exit_continue_stmt(&mut self, node: &mut ContinueStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `DebuggerStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_debugger_stmt(&mut self, node: &mut DebuggerStmt) {}
+    fn enter_debugger_stmt(&mut self, node: &mut DebuggerStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `DebuggerStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_debugger_stmt(&mut self, node: &mut DebuggerStmt) {}
+    fn exit_debugger_stmt(&mut self, node: &mut DebuggerStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Decl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_decl(&mut self, node: &mut Decl) {}
+    fn enter_decl(&mut self, node: &mut Decl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Decl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_decl(&mut self, node: &mut Decl) {}
+    fn exit_decl(&mut self, node: &mut Decl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Decorator` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_decorator(&mut self, node: &mut Decorator) {}
+    fn enter_decorator(&mut self, node: &mut Decorator, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Decorator` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_decorator(&mut self, node: &mut Decorator) {}
+    fn exit_decorator(&mut self, node: &mut Decorator, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Decorator >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_decorators(&mut self, node: &mut Vec<Decorator>) {}
+    fn enter_decorators(&mut self, node: &mut Vec<Decorator>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < Decorator >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_decorators(&mut self, node: &mut Vec<Decorator>) {}
+    fn exit_decorators(&mut self, node: &mut Vec<Decorator>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `DefaultDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_default_decl(&mut self, node: &mut DefaultDecl) {}
+    fn enter_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `DefaultDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_default_decl(&mut self, node: &mut DefaultDecl) {}
+    fn exit_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `DoWhileStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_do_while_stmt(&mut self, node: &mut DoWhileStmt) {}
+    fn enter_do_while_stmt(&mut self, node: &mut DoWhileStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `DoWhileStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_do_while_stmt(&mut self, node: &mut DoWhileStmt) {}
+    fn exit_do_while_stmt(&mut self, node: &mut DoWhileStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `EmptyStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_empty_stmt(&mut self, node: &mut EmptyStmt) {}
+    fn enter_empty_stmt(&mut self, node: &mut EmptyStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `EmptyStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_empty_stmt(&mut self, node: &mut EmptyStmt) {}
+    fn exit_empty_stmt(&mut self, node: &mut EmptyStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExportAll` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_all(&mut self, node: &mut ExportAll) {}
+    fn enter_export_all(&mut self, node: &mut ExportAll, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExportAll` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_all(&mut self, node: &mut ExportAll) {}
+    fn exit_export_all(&mut self, node: &mut ExportAll, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExportDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_decl(&mut self, node: &mut ExportDecl) {}
+    fn enter_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExportDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_decl(&mut self, node: &mut ExportDecl) {}
+    fn exit_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExportDefaultDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {}
+    fn enter_export_default_decl(&mut self, node: &mut ExportDefaultDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExportDefaultDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {}
+    fn exit_export_default_decl(&mut self, node: &mut ExportDefaultDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExportDefaultExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {}
+    fn enter_export_default_expr(&mut self, node: &mut ExportDefaultExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExportDefaultExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {}
+    fn exit_export_default_expr(&mut self, node: &mut ExportDefaultExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExportDefaultSpecifier` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {}
+    fn enter_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExportDefaultSpecifier` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {}
+    fn exit_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExportNamedSpecifier` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {}
+    fn enter_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExportNamedSpecifier` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {}
+    fn exit_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExportNamespaceSpecifier` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {}
+    fn enter_export_namespace_specifier(
+        &mut self,
+        node: &mut ExportNamespaceSpecifier,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when exiting a node of type `ExportNamespaceSpecifier` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {}
+    fn exit_export_namespace_specifier(
+        &mut self,
+        node: &mut ExportNamespaceSpecifier,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when entering a node of type `ExportSpecifier` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_specifier(&mut self, node: &mut ExportSpecifier) {}
+    fn enter_export_specifier(&mut self, node: &mut ExportSpecifier, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExportSpecifier` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_specifier(&mut self, node: &mut ExportSpecifier) {}
+    fn exit_export_specifier(&mut self, node: &mut ExportSpecifier, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ExportSpecifier >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {}
+    fn enter_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ExportSpecifier >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {}
+    fn exit_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Expr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_expr(&mut self, node: &mut Expr) {}
+    fn enter_expr(&mut self, node: &mut Expr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Expr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_expr(&mut self, node: &mut Expr) {}
+    fn exit_expr(&mut self, node: &mut Expr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExprOrSpread` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_expr_or_spread(&mut self, node: &mut ExprOrSpread) {}
+    fn enter_expr_or_spread(&mut self, node: &mut ExprOrSpread, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExprOrSpread` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_expr_or_spread(&mut self, node: &mut ExprOrSpread) {}
+    fn exit_expr_or_spread(&mut self, node: &mut ExprOrSpread, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ExprOrSpread >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {}
+    fn enter_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ExprOrSpread >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {}
+    fn exit_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ExprStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_expr_stmt(&mut self, node: &mut ExprStmt) {}
+    fn enter_expr_stmt(&mut self, node: &mut ExprStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ExprStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_expr_stmt(&mut self, node: &mut ExprStmt) {}
+    fn exit_expr_stmt(&mut self, node: &mut ExprStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Box < Expr > >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_exprs(&mut self, node: &mut Vec<Box<Expr>>) {}
+    fn enter_exprs(&mut self, node: &mut Vec<Box<Expr>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < Box < Expr > >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_exprs(&mut self, node: &mut Vec<Box<Expr>>) {}
+    fn exit_exprs(&mut self, node: &mut Vec<Box<Expr>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `FnDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_fn_decl(&mut self, node: &mut FnDecl) {}
+    fn enter_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `FnDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_fn_decl(&mut self, node: &mut FnDecl) {}
+    fn exit_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `FnExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_fn_expr(&mut self, node: &mut FnExpr) {}
+    fn enter_fn_expr(&mut self, node: &mut FnExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `FnExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_fn_expr(&mut self, node: &mut FnExpr) {}
+    fn exit_fn_expr(&mut self, node: &mut FnExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ForHead` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_for_head(&mut self, node: &mut ForHead) {}
+    fn enter_for_head(&mut self, node: &mut ForHead, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ForHead` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_for_head(&mut self, node: &mut ForHead) {}
+    fn exit_for_head(&mut self, node: &mut ForHead, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ForInStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_for_in_stmt(&mut self, node: &mut ForInStmt) {}
+    fn enter_for_in_stmt(&mut self, node: &mut ForInStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ForInStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_for_in_stmt(&mut self, node: &mut ForInStmt) {}
+    fn exit_for_in_stmt(&mut self, node: &mut ForInStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ForOfStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_for_of_stmt(&mut self, node: &mut ForOfStmt) {}
+    fn enter_for_of_stmt(&mut self, node: &mut ForOfStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ForOfStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_for_of_stmt(&mut self, node: &mut ForOfStmt) {}
+    fn exit_for_of_stmt(&mut self, node: &mut ForOfStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ForStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_for_stmt(&mut self, node: &mut ForStmt) {}
+    fn enter_for_stmt(&mut self, node: &mut ForStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ForStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_for_stmt(&mut self, node: &mut ForStmt) {}
+    fn exit_for_stmt(&mut self, node: &mut ForStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Function` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_function(&mut self, node: &mut Function) {}
+    fn enter_function(&mut self, node: &mut Function, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Function` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_function(&mut self, node: &mut Function) {}
+    fn exit_function(&mut self, node: &mut Function, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `GetterProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_getter_prop(&mut self, node: &mut GetterProp) {}
+    fn enter_getter_prop(&mut self, node: &mut GetterProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `GetterProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_getter_prop(&mut self, node: &mut GetterProp) {}
+    fn exit_getter_prop(&mut self, node: &mut GetterProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Ident` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ident(&mut self, node: &mut Ident) {}
+    fn enter_ident(&mut self, node: &mut Ident, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Ident` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ident(&mut self, node: &mut Ident) {}
+    fn exit_ident(&mut self, node: &mut Ident, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `IdentName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ident_name(&mut self, node: &mut IdentName) {}
+    fn enter_ident_name(&mut self, node: &mut IdentName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `IdentName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ident_name(&mut self, node: &mut IdentName) {}
+    fn exit_ident_name(&mut self, node: &mut IdentName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `IfStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_if_stmt(&mut self, node: &mut IfStmt) {}
+    fn enter_if_stmt(&mut self, node: &mut IfStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `IfStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_if_stmt(&mut self, node: &mut IfStmt) {}
+    fn exit_if_stmt(&mut self, node: &mut IfStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Import` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import(&mut self, node: &mut Import) {}
+    fn enter_import(&mut self, node: &mut Import, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Import` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import(&mut self, node: &mut Import) {}
+    fn exit_import(&mut self, node: &mut Import, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_decl(&mut self, node: &mut ImportDecl) {}
+    fn enter_import_decl(&mut self, node: &mut ImportDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_decl(&mut self, node: &mut ImportDecl) {}
+    fn exit_import_decl(&mut self, node: &mut ImportDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportDefaultSpecifier` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {}
+    fn enter_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportDefaultSpecifier` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {}
+    fn exit_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportNamedSpecifier` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {}
+    fn enter_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportNamedSpecifier` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {}
+    fn exit_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportPhase` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_phase(&mut self, node: &mut ImportPhase) {}
+    fn enter_import_phase(&mut self, node: &mut ImportPhase, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportPhase` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_phase(&mut self, node: &mut ImportPhase) {}
+    fn exit_import_phase(&mut self, node: &mut ImportPhase, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportSpecifier` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_specifier(&mut self, node: &mut ImportSpecifier) {}
+    fn enter_import_specifier(&mut self, node: &mut ImportSpecifier, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportSpecifier` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_specifier(&mut self, node: &mut ImportSpecifier) {}
+    fn exit_import_specifier(&mut self, node: &mut ImportSpecifier, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ImportSpecifier >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {}
+    fn enter_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ImportSpecifier >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {}
+    fn exit_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportStarAsSpecifier` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {}
+    fn enter_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportStarAsSpecifier` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {}
+    fn exit_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportWith` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_with(&mut self, node: &mut ImportWith) {}
+    fn enter_import_with(&mut self, node: &mut ImportWith, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportWith` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_with(&mut self, node: &mut ImportWith) {}
+    fn exit_import_with(&mut self, node: &mut ImportWith, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ImportWithItem` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_with_item(&mut self, node: &mut ImportWithItem) {}
+    fn enter_import_with_item(&mut self, node: &mut ImportWithItem, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ImportWithItem` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_with_item(&mut self, node: &mut ImportWithItem) {}
+    fn exit_import_with_item(&mut self, node: &mut ImportWithItem, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ImportWithItem >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {}
+    fn enter_import_with_items(&mut self, node: &mut Vec<ImportWithItem>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ImportWithItem >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {}
+    fn exit_import_with_items(&mut self, node: &mut Vec<ImportWithItem>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Invalid` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_invalid(&mut self, node: &mut Invalid) {}
+    fn enter_invalid(&mut self, node: &mut Invalid, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Invalid` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_invalid(&mut self, node: &mut Invalid) {}
+    fn exit_invalid(&mut self, node: &mut Invalid, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXAttr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_attr(&mut self, node: &mut JSXAttr) {}
+    fn enter_jsx_attr(&mut self, node: &mut JSXAttr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXAttr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_attr(&mut self, node: &mut JSXAttr) {}
+    fn exit_jsx_attr(&mut self, node: &mut JSXAttr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXAttrName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_attr_name(&mut self, node: &mut JSXAttrName) {}
+    fn enter_jsx_attr_name(&mut self, node: &mut JSXAttrName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXAttrName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_attr_name(&mut self, node: &mut JSXAttrName) {}
+    fn exit_jsx_attr_name(&mut self, node: &mut JSXAttrName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXAttrOrSpread` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {}
+    fn enter_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXAttrOrSpread` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {}
+    fn exit_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < JSXAttrOrSpread >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {}
+    fn enter_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < JSXAttrOrSpread >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {}
+    fn exit_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXAttrValue` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {}
+    fn enter_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXAttrValue` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {}
+    fn exit_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXClosingElement` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {}
+    fn enter_jsx_closing_element(&mut self, node: &mut JSXClosingElement, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXClosingElement` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {}
+    fn exit_jsx_closing_element(&mut self, node: &mut JSXClosingElement, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXClosingFragment` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {}
+    fn enter_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXClosingFragment` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {}
+    fn exit_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXElement` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_element(&mut self, node: &mut JSXElement) {}
+    fn enter_jsx_element(&mut self, node: &mut JSXElement, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXElement` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_element(&mut self, node: &mut JSXElement) {}
+    fn exit_jsx_element(&mut self, node: &mut JSXElement, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXElementChild` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_element_child(&mut self, node: &mut JSXElementChild) {}
+    fn enter_jsx_element_child(&mut self, node: &mut JSXElementChild, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXElementChild` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_element_child(&mut self, node: &mut JSXElementChild) {}
+    fn exit_jsx_element_child(&mut self, node: &mut JSXElementChild, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < JSXElementChild >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {}
+    fn enter_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < JSXElementChild >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {}
+    fn exit_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXElementName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_element_name(&mut self, node: &mut JSXElementName) {}
+    fn enter_jsx_element_name(&mut self, node: &mut JSXElementName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXElementName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_element_name(&mut self, node: &mut JSXElementName) {}
+    fn exit_jsx_element_name(&mut self, node: &mut JSXElementName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXEmptyExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {}
+    fn enter_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXEmptyExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {}
+    fn exit_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_expr(&mut self, node: &mut JSXExpr) {}
+    fn enter_jsx_expr(&mut self, node: &mut JSXExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_expr(&mut self, node: &mut JSXExpr) {}
+    fn exit_jsx_expr(&mut self, node: &mut JSXExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXExprContainer` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {}
+    fn enter_jsx_expr_container(&mut self, node: &mut JSXExprContainer, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXExprContainer` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {}
+    fn exit_jsx_expr_container(&mut self, node: &mut JSXExprContainer, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXFragment` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment) {}
+    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXFragment` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment) {}
+    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXMemberExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {}
+    fn enter_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXMemberExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {}
+    fn exit_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXNamespacedName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {}
+    fn enter_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXNamespacedName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {}
+    fn exit_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXObject` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_object(&mut self, node: &mut JSXObject) {}
+    fn enter_jsx_object(&mut self, node: &mut JSXObject, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXObject` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_object(&mut self, node: &mut JSXObject) {}
+    fn exit_jsx_object(&mut self, node: &mut JSXObject, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXOpeningElement` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {}
+    fn enter_jsx_opening_element(&mut self, node: &mut JSXOpeningElement, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXOpeningElement` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {}
+    fn exit_jsx_opening_element(&mut self, node: &mut JSXOpeningElement, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXOpeningFragment` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {}
+    fn enter_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXOpeningFragment` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {}
+    fn exit_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXSpreadChild` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {}
+    fn enter_jsx_spread_child(&mut self, node: &mut JSXSpreadChild, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXSpreadChild` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {}
+    fn exit_jsx_spread_child(&mut self, node: &mut JSXSpreadChild, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `JSXText` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_jsx_text(&mut self, node: &mut JSXText) {}
+    fn enter_jsx_text(&mut self, node: &mut JSXText, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `JSXText` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_jsx_text(&mut self, node: &mut JSXText) {}
+    fn exit_jsx_text(&mut self, node: &mut JSXText, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Key` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_key(&mut self, node: &mut Key) {}
+    fn enter_key(&mut self, node: &mut Key, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Key` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_key(&mut self, node: &mut Key) {}
+    fn exit_key(&mut self, node: &mut Key, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `KeyValuePatProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {}
+    fn enter_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `KeyValuePatProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {}
+    fn exit_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `KeyValueProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_key_value_prop(&mut self, node: &mut KeyValueProp) {}
+    fn enter_key_value_prop(&mut self, node: &mut KeyValueProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `KeyValueProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_key_value_prop(&mut self, node: &mut KeyValueProp) {}
+    fn exit_key_value_prop(&mut self, node: &mut KeyValueProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `LabeledStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_labeled_stmt(&mut self, node: &mut LabeledStmt) {}
+    fn enter_labeled_stmt(&mut self, node: &mut LabeledStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `LabeledStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_labeled_stmt(&mut self, node: &mut LabeledStmt) {}
+    fn exit_labeled_stmt(&mut self, node: &mut LabeledStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Lit` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_lit(&mut self, node: &mut Lit) {}
+    fn enter_lit(&mut self, node: &mut Lit, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Lit` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_lit(&mut self, node: &mut Lit) {}
+    fn exit_lit(&mut self, node: &mut Lit, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `MemberExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_member_expr(&mut self, node: &mut MemberExpr) {}
+    fn enter_member_expr(&mut self, node: &mut MemberExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `MemberExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_member_expr(&mut self, node: &mut MemberExpr) {}
+    fn exit_member_expr(&mut self, node: &mut MemberExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `MemberProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_member_prop(&mut self, node: &mut MemberProp) {}
+    fn enter_member_prop(&mut self, node: &mut MemberProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `MemberProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_member_prop(&mut self, node: &mut MemberProp) {}
+    fn exit_member_prop(&mut self, node: &mut MemberProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `MetaPropExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {}
+    fn enter_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `MetaPropExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {}
+    fn exit_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `MetaPropKind` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_meta_prop_kind(&mut self, node: &mut MetaPropKind) {}
+    fn enter_meta_prop_kind(&mut self, node: &mut MetaPropKind, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `MetaPropKind` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_meta_prop_kind(&mut self, node: &mut MetaPropKind) {}
+    fn exit_meta_prop_kind(&mut self, node: &mut MetaPropKind, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `MethodKind` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_method_kind(&mut self, node: &mut MethodKind) {}
+    fn enter_method_kind(&mut self, node: &mut MethodKind, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `MethodKind` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_method_kind(&mut self, node: &mut MethodKind) {}
+    fn exit_method_kind(&mut self, node: &mut MethodKind, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `MethodProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_method_prop(&mut self, node: &mut MethodProp) {}
+    fn enter_method_prop(&mut self, node: &mut MethodProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `MethodProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_method_prop(&mut self, node: &mut MethodProp) {}
+    fn exit_method_prop(&mut self, node: &mut MethodProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Module` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_module(&mut self, node: &mut Module) {}
+    fn enter_module(&mut self, node: &mut Module, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Module` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_module(&mut self, node: &mut Module) {}
+    fn exit_module(&mut self, node: &mut Module, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ModuleDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_module_decl(&mut self, node: &mut ModuleDecl) {}
+    fn enter_module_decl(&mut self, node: &mut ModuleDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ModuleDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_module_decl(&mut self, node: &mut ModuleDecl) {}
+    fn exit_module_decl(&mut self, node: &mut ModuleDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ModuleExportName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_module_export_name(&mut self, node: &mut ModuleExportName) {}
+    fn enter_module_export_name(&mut self, node: &mut ModuleExportName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ModuleExportName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_module_export_name(&mut self, node: &mut ModuleExportName) {}
+    fn exit_module_export_name(&mut self, node: &mut ModuleExportName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ModuleItem` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_module_item(&mut self, node: &mut ModuleItem) {}
+    fn enter_module_item(&mut self, node: &mut ModuleItem, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ModuleItem` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_module_item(&mut self, node: &mut ModuleItem) {}
+    fn exit_module_item(&mut self, node: &mut ModuleItem, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ModuleItem >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_module_items(&mut self, node: &mut Vec<ModuleItem>) {}
+    fn enter_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ModuleItem >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>) {}
+    fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `NamedExport` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_named_export(&mut self, node: &mut NamedExport) {}
+    fn enter_named_export(&mut self, node: &mut NamedExport, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `NamedExport` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_named_export(&mut self, node: &mut NamedExport) {}
+    fn exit_named_export(&mut self, node: &mut NamedExport, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `NewExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_new_expr(&mut self, node: &mut NewExpr) {}
+    fn enter_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `NewExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_new_expr(&mut self, node: &mut NewExpr) {}
+    fn exit_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Null` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_null(&mut self, node: &mut Null) {}
+    fn enter_null(&mut self, node: &mut Null, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Null` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_null(&mut self, node: &mut Null) {}
+    fn exit_null(&mut self, node: &mut Null, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Number` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_number(&mut self, node: &mut Number) {}
+    fn enter_number(&mut self, node: &mut Number, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Number` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_number(&mut self, node: &mut Number) {}
+    fn exit_number(&mut self, node: &mut Number, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ObjectLit` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_object_lit(&mut self, node: &mut ObjectLit) {}
+    fn enter_object_lit(&mut self, node: &mut ObjectLit, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ObjectLit` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_object_lit(&mut self, node: &mut ObjectLit) {}
+    fn exit_object_lit(&mut self, node: &mut ObjectLit, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ObjectPat` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_object_pat(&mut self, node: &mut ObjectPat) {}
+    fn enter_object_pat(&mut self, node: &mut ObjectPat, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ObjectPat` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_object_pat(&mut self, node: &mut ObjectPat) {}
+    fn exit_object_pat(&mut self, node: &mut ObjectPat, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ObjectPatProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_object_pat_prop(&mut self, node: &mut ObjectPatProp) {}
+    fn enter_object_pat_prop(&mut self, node: &mut ObjectPatProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ObjectPatProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_object_pat_prop(&mut self, node: &mut ObjectPatProp) {}
+    fn exit_object_pat_prop(&mut self, node: &mut ObjectPatProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ObjectPatProp >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {}
+    fn enter_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ObjectPatProp >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {}
+    fn exit_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Accessibility >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {}
+    fn enter_opt_accessibility(&mut self, node: &mut Option<Accessibility>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Accessibility >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {}
+    fn exit_opt_accessibility(&mut self, node: &mut Option<Accessibility>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < swc_atoms :: Atom >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
+    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < swc_atoms :: Atom >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {}
+    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < BlockStmt >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {}
+    fn enter_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < BlockStmt >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {}
+    fn exit_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `OptCall` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_call(&mut self, node: &mut OptCall) {}
+    fn enter_opt_call(&mut self, node: &mut OptCall, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `OptCall` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_call(&mut self, node: &mut OptCall) {}
+    fn exit_opt_call(&mut self, node: &mut OptCall, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < CatchClause >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {}
+    fn enter_opt_catch_clause(&mut self, node: &mut Option<CatchClause>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < CatchClause >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {}
+    fn exit_opt_catch_clause(&mut self, node: &mut Option<CatchClause>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `OptChainBase` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_chain_base(&mut self, node: &mut OptChainBase) {}
+    fn enter_opt_chain_base(&mut self, node: &mut OptChainBase, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `OptChainBase` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_chain_base(&mut self, node: &mut OptChainBase) {}
+    fn exit_opt_chain_base(&mut self, node: &mut OptChainBase, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `OptChainExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_chain_expr(&mut self, node: &mut OptChainExpr) {}
+    fn enter_opt_chain_expr(&mut self, node: &mut OptChainExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `OptChainExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_chain_expr(&mut self, node: &mut OptChainExpr) {}
+    fn exit_opt_chain_expr(&mut self, node: &mut OptChainExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < Expr > >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {}
+    fn enter_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Box < Expr > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {}
+    fn exit_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < ExprOrSpread >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {}
+    fn enter_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < ExprOrSpread >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {}
+    fn exit_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Vec < ExprOrSpread > >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {}
+    fn enter_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Vec < ExprOrSpread > >` after visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {}
+    fn exit_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Ident >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_ident(&mut self, node: &mut Option<Ident>) {}
+    fn enter_opt_ident(&mut self, node: &mut Option<Ident>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Ident >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_ident(&mut self, node: &mut Option<Ident>) {}
+    fn exit_opt_ident(&mut self, node: &mut Option<Ident>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < JSXAttrValue >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {}
+    fn enter_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < JSXAttrValue >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {}
+    fn exit_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < JSXClosingElement >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {}
+    fn enter_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>, ctx: &mut C) {
+    }
     #[doc = "Called when exiting a node of type `Option < JSXClosingElement >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {}
+    fn exit_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < ModuleExportName >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {}
+    fn enter_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < ModuleExportName >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {}
+    fn exit_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < ObjectLit > >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {}
+    fn enter_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Box < ObjectLit > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {}
+    fn exit_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Pat >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_pat(&mut self, node: &mut Option<Pat>) {}
+    fn enter_opt_pat(&mut self, node: &mut Option<Pat>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Pat >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_pat(&mut self, node: &mut Option<Pat>) {}
+    fn exit_opt_pat(&mut self, node: &mut Option<Pat>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < swc_common :: Span >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_span(&mut self, node: &mut Option<swc_common::Span>) {}
+    fn enter_opt_span(&mut self, node: &mut Option<swc_common::Span>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < swc_common :: Span >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_span(&mut self, node: &mut Option<swc_common::Span>) {}
+    fn exit_opt_span(&mut self, node: &mut Option<swc_common::Span>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < Stmt > >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {}
+    fn enter_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Box < Stmt > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {}
+    fn exit_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < Str > >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_str(&mut self, node: &mut Option<Box<Str>>) {}
+    fn enter_opt_str(&mut self, node: &mut Option<Box<Str>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Box < Str > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_str(&mut self, node: &mut Option<Box<Str>>) {}
+    fn exit_opt_str(&mut self, node: &mut Option<Box<Str>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < TruePlusMinus >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {}
+    fn enter_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < TruePlusMinus >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {}
+    fn exit_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < TsEntityName >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {}
+    fn enter_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < TsEntityName >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {}
+    fn exit_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < TsImportCallOptions >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_ts_import_call_options(&mut self, node: &mut Option<TsImportCallOptions>) {}
+    fn enter_opt_ts_import_call_options(
+        &mut self,
+        node: &mut Option<TsImportCallOptions>,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when exiting a node of type `Option < TsImportCallOptions >` after visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_ts_import_call_options(&mut self, node: &mut Option<TsImportCallOptions>) {}
+    fn exit_opt_ts_import_call_options(
+        &mut self,
+        node: &mut Option<TsImportCallOptions>,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when entering a node of type `Option < TsNamespaceBody >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {}
+    fn enter_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < TsNamespaceBody >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {}
+    fn exit_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < TsType > >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {}
+    fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Box < TsType > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {}
+    fn exit_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < TsTypeAnn > >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {}
+    fn enter_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < Box < TsTypeAnn > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {}
+    fn exit_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < Box < TsTypeParamDecl > >` before \
              visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {}
+    fn enter_opt_ts_type_param_decl(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamDecl>>,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when exiting a node of type `Option < Box < TsTypeParamDecl > >` after \
              visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {}
+    fn exit_opt_ts_type_param_decl(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamDecl>>,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when entering a node of type `Option < Box < TsTypeParamInstantiation > >` \
              before visiting its children."]
     #[inline]
@@ -1305,6 +1337,7 @@ pub trait VisitMutHook {
     fn enter_opt_ts_type_param_instantiation(
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
+        ctx: &mut C,
     ) {
     }
     #[doc = "Called when exiting a node of type `Option < Box < TsTypeParamInstantiation > >` \
@@ -1314,1179 +1347,1211 @@ pub trait VisitMutHook {
     fn exit_opt_ts_type_param_instantiation(
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
+        ctx: &mut C,
     ) {
     }
     #[doc = "Called when entering a node of type `Option < VarDeclOrExpr >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {}
+    fn enter_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < VarDeclOrExpr >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {}
+    fn exit_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Option < ExprOrSpread > >` before visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {}
+    fn enter_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>, ctx: &mut C) {
+    }
     #[doc = "Called when exiting a node of type `Vec < Option < ExprOrSpread > >` after visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {}
+    fn exit_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Option < Pat > >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {}
+    fn enter_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < Option < Pat > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {}
+    fn exit_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Option < swc_atoms :: Wtf8Atom >` before \
              visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>) {}
+    fn enter_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Option < swc_atoms :: Wtf8Atom >` after visiting \
              its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>) {}
+    fn exit_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Param` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_param(&mut self, node: &mut Param) {}
+    fn enter_param(&mut self, node: &mut Param, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Param` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_param(&mut self, node: &mut Param) {}
+    fn exit_param(&mut self, node: &mut Param, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ParamOrTsParamProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {}
+    fn enter_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ParamOrTsParamProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {}
+    fn exit_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < ParamOrTsParamProp >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {}
+    fn enter_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < ParamOrTsParamProp >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {}
+    fn exit_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Param >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_params(&mut self, node: &mut Vec<Param>) {}
+    fn enter_params(&mut self, node: &mut Vec<Param>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < Param >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_params(&mut self, node: &mut Vec<Param>) {}
+    fn exit_params(&mut self, node: &mut Vec<Param>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ParenExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_paren_expr(&mut self, node: &mut ParenExpr) {}
+    fn enter_paren_expr(&mut self, node: &mut ParenExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ParenExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_paren_expr(&mut self, node: &mut ParenExpr) {}
+    fn exit_paren_expr(&mut self, node: &mut ParenExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Pat` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_pat(&mut self, node: &mut Pat) {}
+    fn enter_pat(&mut self, node: &mut Pat, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Pat` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_pat(&mut self, node: &mut Pat) {}
+    fn exit_pat(&mut self, node: &mut Pat, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Pat >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_pats(&mut self, node: &mut Vec<Pat>) {}
+    fn enter_pats(&mut self, node: &mut Vec<Pat>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < Pat >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_pats(&mut self, node: &mut Vec<Pat>) {}
+    fn exit_pats(&mut self, node: &mut Vec<Pat>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `PrivateMethod` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_private_method(&mut self, node: &mut PrivateMethod) {}
+    fn enter_private_method(&mut self, node: &mut PrivateMethod, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `PrivateMethod` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_private_method(&mut self, node: &mut PrivateMethod) {}
+    fn exit_private_method(&mut self, node: &mut PrivateMethod, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `PrivateName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_private_name(&mut self, node: &mut PrivateName) {}
+    fn enter_private_name(&mut self, node: &mut PrivateName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `PrivateName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_private_name(&mut self, node: &mut PrivateName) {}
+    fn exit_private_name(&mut self, node: &mut PrivateName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `PrivateProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_private_prop(&mut self, node: &mut PrivateProp) {}
+    fn enter_private_prop(&mut self, node: &mut PrivateProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `PrivateProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_private_prop(&mut self, node: &mut PrivateProp) {}
+    fn exit_private_prop(&mut self, node: &mut PrivateProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Program` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_program(&mut self, node: &mut Program) {}
+    fn enter_program(&mut self, node: &mut Program, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Program` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_program(&mut self, node: &mut Program) {}
+    fn exit_program(&mut self, node: &mut Program, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Prop` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_prop(&mut self, node: &mut Prop) {}
+    fn enter_prop(&mut self, node: &mut Prop, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Prop` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_prop(&mut self, node: &mut Prop) {}
+    fn exit_prop(&mut self, node: &mut Prop, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `PropName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_prop_name(&mut self, node: &mut PropName) {}
+    fn enter_prop_name(&mut self, node: &mut PropName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `PropName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_prop_name(&mut self, node: &mut PropName) {}
+    fn exit_prop_name(&mut self, node: &mut PropName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `PropOrSpread` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_prop_or_spread(&mut self, node: &mut PropOrSpread) {}
+    fn enter_prop_or_spread(&mut self, node: &mut PropOrSpread, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `PropOrSpread` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_prop_or_spread(&mut self, node: &mut PropOrSpread) {}
+    fn exit_prop_or_spread(&mut self, node: &mut PropOrSpread, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < PropOrSpread >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {}
+    fn enter_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < PropOrSpread >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {}
+    fn exit_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Regex` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_regex(&mut self, node: &mut Regex) {}
+    fn enter_regex(&mut self, node: &mut Regex, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Regex` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_regex(&mut self, node: &mut Regex) {}
+    fn exit_regex(&mut self, node: &mut Regex, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `RestPat` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_rest_pat(&mut self, node: &mut RestPat) {}
+    fn enter_rest_pat(&mut self, node: &mut RestPat, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `RestPat` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_rest_pat(&mut self, node: &mut RestPat) {}
+    fn exit_rest_pat(&mut self, node: &mut RestPat, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ReturnStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_return_stmt(&mut self, node: &mut ReturnStmt) {}
+    fn enter_return_stmt(&mut self, node: &mut ReturnStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ReturnStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_return_stmt(&mut self, node: &mut ReturnStmt) {}
+    fn exit_return_stmt(&mut self, node: &mut ReturnStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Script` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_script(&mut self, node: &mut Script) {}
+    fn enter_script(&mut self, node: &mut Script, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Script` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_script(&mut self, node: &mut Script) {}
+    fn exit_script(&mut self, node: &mut Script, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SeqExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_seq_expr(&mut self, node: &mut SeqExpr) {}
+    fn enter_seq_expr(&mut self, node: &mut SeqExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SeqExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_seq_expr(&mut self, node: &mut SeqExpr) {}
+    fn exit_seq_expr(&mut self, node: &mut SeqExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SetterProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_setter_prop(&mut self, node: &mut SetterProp) {}
+    fn enter_setter_prop(&mut self, node: &mut SetterProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SetterProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_setter_prop(&mut self, node: &mut SetterProp) {}
+    fn exit_setter_prop(&mut self, node: &mut SetterProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SimpleAssignTarget` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {}
+    fn enter_simple_assign_target(&mut self, node: &mut SimpleAssignTarget, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SimpleAssignTarget` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {}
+    fn exit_simple_assign_target(&mut self, node: &mut SimpleAssignTarget, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `swc_common :: Span` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_span(&mut self, node: &mut swc_common::Span) {}
+    fn enter_span(&mut self, node: &mut swc_common::Span, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `swc_common :: Span` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_span(&mut self, node: &mut swc_common::Span) {}
+    fn exit_span(&mut self, node: &mut swc_common::Span, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SpreadElement` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_spread_element(&mut self, node: &mut SpreadElement) {}
+    fn enter_spread_element(&mut self, node: &mut SpreadElement, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SpreadElement` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_spread_element(&mut self, node: &mut SpreadElement) {}
+    fn exit_spread_element(&mut self, node: &mut SpreadElement, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `StaticBlock` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_static_block(&mut self, node: &mut StaticBlock) {}
+    fn enter_static_block(&mut self, node: &mut StaticBlock, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `StaticBlock` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_static_block(&mut self, node: &mut StaticBlock) {}
+    fn exit_static_block(&mut self, node: &mut StaticBlock, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Stmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_stmt(&mut self, node: &mut Stmt) {}
+    fn enter_stmt(&mut self, node: &mut Stmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Stmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_stmt(&mut self, node: &mut Stmt) {}
+    fn exit_stmt(&mut self, node: &mut Stmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Stmt >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_stmts(&mut self, node: &mut Vec<Stmt>) {}
+    fn enter_stmts(&mut self, node: &mut Vec<Stmt>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < Stmt >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_stmts(&mut self, node: &mut Vec<Stmt>) {}
+    fn exit_stmts(&mut self, node: &mut Vec<Stmt>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Str` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_str(&mut self, node: &mut Str) {}
+    fn enter_str(&mut self, node: &mut Str, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Str` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_str(&mut self, node: &mut Str) {}
+    fn exit_str(&mut self, node: &mut Str, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Super` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_super(&mut self, node: &mut Super) {}
+    fn enter_super(&mut self, node: &mut Super, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Super` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_super(&mut self, node: &mut Super) {}
+    fn exit_super(&mut self, node: &mut Super, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SuperProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_super_prop(&mut self, node: &mut SuperProp) {}
+    fn enter_super_prop(&mut self, node: &mut SuperProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SuperProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_super_prop(&mut self, node: &mut SuperProp) {}
+    fn exit_super_prop(&mut self, node: &mut SuperProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SuperPropExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_super_prop_expr(&mut self, node: &mut SuperPropExpr) {}
+    fn enter_super_prop_expr(&mut self, node: &mut SuperPropExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SuperPropExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_super_prop_expr(&mut self, node: &mut SuperPropExpr) {}
+    fn exit_super_prop_expr(&mut self, node: &mut SuperPropExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SwitchCase` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_switch_case(&mut self, node: &mut SwitchCase) {}
+    fn enter_switch_case(&mut self, node: &mut SwitchCase, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SwitchCase` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_switch_case(&mut self, node: &mut SwitchCase) {}
+    fn exit_switch_case(&mut self, node: &mut SwitchCase, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < SwitchCase >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {}
+    fn enter_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < SwitchCase >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {}
+    fn exit_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `SwitchStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_switch_stmt(&mut self, node: &mut SwitchStmt) {}
+    fn enter_switch_stmt(&mut self, node: &mut SwitchStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `SwitchStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_switch_stmt(&mut self, node: &mut SwitchStmt) {}
+    fn exit_switch_stmt(&mut self, node: &mut SwitchStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `swc_common :: SyntaxContext` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {}
+    fn enter_syntax_context(&mut self, node: &mut swc_common::SyntaxContext, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `swc_common :: SyntaxContext` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {}
+    fn exit_syntax_context(&mut self, node: &mut swc_common::SyntaxContext, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TaggedTpl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_tagged_tpl(&mut self, node: &mut TaggedTpl) {}
+    fn enter_tagged_tpl(&mut self, node: &mut TaggedTpl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TaggedTpl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_tagged_tpl(&mut self, node: &mut TaggedTpl) {}
+    fn exit_tagged_tpl(&mut self, node: &mut TaggedTpl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ThisExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_this_expr(&mut self, node: &mut ThisExpr) {}
+    fn enter_this_expr(&mut self, node: &mut ThisExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ThisExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_this_expr(&mut self, node: &mut ThisExpr) {}
+    fn exit_this_expr(&mut self, node: &mut ThisExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `ThrowStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_throw_stmt(&mut self, node: &mut ThrowStmt) {}
+    fn enter_throw_stmt(&mut self, node: &mut ThrowStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `ThrowStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_throw_stmt(&mut self, node: &mut ThrowStmt) {}
+    fn exit_throw_stmt(&mut self, node: &mut ThrowStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Tpl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_tpl(&mut self, node: &mut Tpl) {}
+    fn enter_tpl(&mut self, node: &mut Tpl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Tpl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_tpl(&mut self, node: &mut Tpl) {}
+    fn exit_tpl(&mut self, node: &mut Tpl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TplElement` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_tpl_element(&mut self, node: &mut TplElement) {}
+    fn enter_tpl_element(&mut self, node: &mut TplElement, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TplElement` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_tpl_element(&mut self, node: &mut TplElement) {}
+    fn exit_tpl_element(&mut self, node: &mut TplElement, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < TplElement >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_tpl_elements(&mut self, node: &mut Vec<TplElement>) {}
+    fn enter_tpl_elements(&mut self, node: &mut Vec<TplElement>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < TplElement >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_tpl_elements(&mut self, node: &mut Vec<TplElement>) {}
+    fn exit_tpl_elements(&mut self, node: &mut Vec<TplElement>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TruePlusMinus` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_true_plus_minus(&mut self, node: &mut TruePlusMinus) {}
+    fn enter_true_plus_minus(&mut self, node: &mut TruePlusMinus, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TruePlusMinus` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_true_plus_minus(&mut self, node: &mut TruePlusMinus) {}
+    fn exit_true_plus_minus(&mut self, node: &mut TruePlusMinus, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TryStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_try_stmt(&mut self, node: &mut TryStmt) {}
+    fn enter_try_stmt(&mut self, node: &mut TryStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TryStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_try_stmt(&mut self, node: &mut TryStmt) {}
+    fn exit_try_stmt(&mut self, node: &mut TryStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsArrayType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_array_type(&mut self, node: &mut TsArrayType) {}
+    fn enter_ts_array_type(&mut self, node: &mut TsArrayType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsArrayType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_array_type(&mut self, node: &mut TsArrayType) {}
+    fn exit_ts_array_type(&mut self, node: &mut TsArrayType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsAsExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_as_expr(&mut self, node: &mut TsAsExpr) {}
+    fn enter_ts_as_expr(&mut self, node: &mut TsAsExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsAsExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_as_expr(&mut self, node: &mut TsAsExpr) {}
+    fn exit_ts_as_expr(&mut self, node: &mut TsAsExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsCallSignatureDecl` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {}
+    fn enter_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsCallSignatureDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {}
+    fn exit_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsConditionalType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_conditional_type(&mut self, node: &mut TsConditionalType) {}
+    fn enter_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsConditionalType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_conditional_type(&mut self, node: &mut TsConditionalType) {}
+    fn exit_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsConstAssertion` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {}
+    fn enter_ts_const_assertion(&mut self, node: &mut TsConstAssertion, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsConstAssertion` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {}
+    fn exit_ts_const_assertion(&mut self, node: &mut TsConstAssertion, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsConstructSignatureDecl` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {}
+    fn enter_ts_construct_signature_decl(
+        &mut self,
+        node: &mut TsConstructSignatureDecl,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when exiting a node of type `TsConstructSignatureDecl` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {}
+    fn exit_ts_construct_signature_decl(
+        &mut self,
+        node: &mut TsConstructSignatureDecl,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when entering a node of type `TsConstructorType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_constructor_type(&mut self, node: &mut TsConstructorType) {}
+    fn enter_ts_constructor_type(&mut self, node: &mut TsConstructorType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsConstructorType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_constructor_type(&mut self, node: &mut TsConstructorType) {}
+    fn exit_ts_constructor_type(&mut self, node: &mut TsConstructorType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsEntityName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_entity_name(&mut self, node: &mut TsEntityName) {}
+    fn enter_ts_entity_name(&mut self, node: &mut TsEntityName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsEntityName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_entity_name(&mut self, node: &mut TsEntityName) {}
+    fn exit_ts_entity_name(&mut self, node: &mut TsEntityName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsEnumDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {}
+    fn enter_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsEnumDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {}
+    fn exit_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsEnumMember` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_enum_member(&mut self, node: &mut TsEnumMember) {}
+    fn enter_ts_enum_member(&mut self, node: &mut TsEnumMember, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsEnumMember` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_enum_member(&mut self, node: &mut TsEnumMember) {}
+    fn exit_ts_enum_member(&mut self, node: &mut TsEnumMember, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsEnumMemberId` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {}
+    fn enter_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsEnumMemberId` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {}
+    fn exit_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < TsEnumMember >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {}
+    fn enter_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < TsEnumMember >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {}
+    fn exit_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsExportAssignment` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {}
+    fn enter_ts_export_assignment(&mut self, node: &mut TsExportAssignment, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsExportAssignment` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {}
+    fn exit_ts_export_assignment(&mut self, node: &mut TsExportAssignment, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsExprWithTypeArgs` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {}
+    fn enter_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsExprWithTypeArgs` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {}
+    fn exit_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < TsExprWithTypeArgs >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {}
+    fn enter_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < TsExprWithTypeArgs >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {}
+    fn exit_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsExternalModuleRef` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {}
+    fn enter_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsExternalModuleRef` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {}
+    fn exit_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsFnOrConstructorType` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {}
+    fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsFnOrConstructorType` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {}
+    fn exit_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsFnParam` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_fn_param(&mut self, node: &mut TsFnParam) {}
+    fn enter_ts_fn_param(&mut self, node: &mut TsFnParam, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsFnParam` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_fn_param(&mut self, node: &mut TsFnParam) {}
+    fn exit_ts_fn_param(&mut self, node: &mut TsFnParam, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < TsFnParam >` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {}
+    fn enter_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < TsFnParam >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {}
+    fn exit_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsFnType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_fn_type(&mut self, node: &mut TsFnType) {}
+    fn enter_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsFnType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_fn_type(&mut self, node: &mut TsFnType) {}
+    fn exit_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsGetterSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {}
+    fn enter_ts_getter_signature(&mut self, node: &mut TsGetterSignature, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsGetterSignature` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {}
+    fn exit_ts_getter_signature(&mut self, node: &mut TsGetterSignature, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsImportCallOptions` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_import_call_options(&mut self, node: &mut TsImportCallOptions) {}
+    fn enter_ts_import_call_options(&mut self, node: &mut TsImportCallOptions, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsImportCallOptions` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_import_call_options(&mut self, node: &mut TsImportCallOptions) {}
+    fn exit_ts_import_call_options(&mut self, node: &mut TsImportCallOptions, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsImportEqualsDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {}
+    fn enter_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsImportEqualsDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {}
+    fn exit_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsImportType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_import_type(&mut self, node: &mut TsImportType) {}
+    fn enter_ts_import_type(&mut self, node: &mut TsImportType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsImportType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_import_type(&mut self, node: &mut TsImportType) {}
+    fn exit_ts_import_type(&mut self, node: &mut TsImportType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsIndexSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_index_signature(&mut self, node: &mut TsIndexSignature) {}
+    fn enter_ts_index_signature(&mut self, node: &mut TsIndexSignature, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsIndexSignature` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_index_signature(&mut self, node: &mut TsIndexSignature) {}
+    fn exit_ts_index_signature(&mut self, node: &mut TsIndexSignature, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsIndexedAccessType` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {}
+    fn enter_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsIndexedAccessType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {}
+    fn exit_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsInferType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_infer_type(&mut self, node: &mut TsInferType) {}
+    fn enter_ts_infer_type(&mut self, node: &mut TsInferType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsInferType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_infer_type(&mut self, node: &mut TsInferType) {}
+    fn exit_ts_infer_type(&mut self, node: &mut TsInferType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsInstantiation` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_instantiation(&mut self, node: &mut TsInstantiation) {}
+    fn enter_ts_instantiation(&mut self, node: &mut TsInstantiation, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsInstantiation` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_instantiation(&mut self, node: &mut TsInstantiation) {}
+    fn exit_ts_instantiation(&mut self, node: &mut TsInstantiation, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsInterfaceBody` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {}
+    fn enter_ts_interface_body(&mut self, node: &mut TsInterfaceBody, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsInterfaceBody` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {}
+    fn exit_ts_interface_body(&mut self, node: &mut TsInterfaceBody, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsInterfaceDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {}
+    fn enter_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsInterfaceDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {}
+    fn exit_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsIntersectionType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {}
+    fn enter_ts_intersection_type(&mut self, node: &mut TsIntersectionType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsIntersectionType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {}
+    fn exit_ts_intersection_type(&mut self, node: &mut TsIntersectionType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsKeywordType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_keyword_type(&mut self, node: &mut TsKeywordType) {}
+    fn enter_ts_keyword_type(&mut self, node: &mut TsKeywordType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsKeywordType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_keyword_type(&mut self, node: &mut TsKeywordType) {}
+    fn exit_ts_keyword_type(&mut self, node: &mut TsKeywordType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsKeywordTypeKind` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {}
+    fn enter_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsKeywordTypeKind` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {}
+    fn exit_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsLit` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_lit(&mut self, node: &mut TsLit) {}
+    fn enter_ts_lit(&mut self, node: &mut TsLit, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsLit` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_lit(&mut self, node: &mut TsLit) {}
+    fn exit_ts_lit(&mut self, node: &mut TsLit, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsLitType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_lit_type(&mut self, node: &mut TsLitType) {}
+    fn enter_ts_lit_type(&mut self, node: &mut TsLitType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsLitType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_lit_type(&mut self, node: &mut TsLitType) {}
+    fn exit_ts_lit_type(&mut self, node: &mut TsLitType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsMappedType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_mapped_type(&mut self, node: &mut TsMappedType) {}
+    fn enter_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsMappedType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType) {}
+    fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsMethodSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_method_signature(&mut self, node: &mut TsMethodSignature) {}
+    fn enter_ts_method_signature(&mut self, node: &mut TsMethodSignature, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsMethodSignature` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_method_signature(&mut self, node: &mut TsMethodSignature) {}
+    fn exit_ts_method_signature(&mut self, node: &mut TsMethodSignature, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsModuleBlock` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_module_block(&mut self, node: &mut TsModuleBlock) {}
+    fn enter_ts_module_block(&mut self, node: &mut TsModuleBlock, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsModuleBlock` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_module_block(&mut self, node: &mut TsModuleBlock) {}
+    fn exit_ts_module_block(&mut self, node: &mut TsModuleBlock, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsModuleDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_module_decl(&mut self, node: &mut TsModuleDecl) {}
+    fn enter_ts_module_decl(&mut self, node: &mut TsModuleDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsModuleDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_module_decl(&mut self, node: &mut TsModuleDecl) {}
+    fn exit_ts_module_decl(&mut self, node: &mut TsModuleDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsModuleName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_module_name(&mut self, node: &mut TsModuleName) {}
+    fn enter_ts_module_name(&mut self, node: &mut TsModuleName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsModuleName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_module_name(&mut self, node: &mut TsModuleName) {}
+    fn exit_ts_module_name(&mut self, node: &mut TsModuleName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsModuleRef` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_module_ref(&mut self, node: &mut TsModuleRef) {}
+    fn enter_ts_module_ref(&mut self, node: &mut TsModuleRef, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsModuleRef` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_module_ref(&mut self, node: &mut TsModuleRef) {}
+    fn exit_ts_module_ref(&mut self, node: &mut TsModuleRef, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsNamespaceBody` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {}
+    fn enter_ts_namespace_body(&mut self, node: &mut TsNamespaceBody, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsNamespaceBody` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {}
+    fn exit_ts_namespace_body(&mut self, node: &mut TsNamespaceBody, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsNamespaceDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {}
+    fn enter_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsNamespaceDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {}
+    fn exit_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsNamespaceExportDecl` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {}
+    fn enter_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsNamespaceExportDecl` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {}
+    fn exit_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsNonNullExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {}
+    fn enter_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsNonNullExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {}
+    fn exit_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsOptionalType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_optional_type(&mut self, node: &mut TsOptionalType) {}
+    fn enter_ts_optional_type(&mut self, node: &mut TsOptionalType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsOptionalType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_optional_type(&mut self, node: &mut TsOptionalType) {}
+    fn exit_ts_optional_type(&mut self, node: &mut TsOptionalType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsParamProp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_param_prop(&mut self, node: &mut TsParamProp) {}
+    fn enter_ts_param_prop(&mut self, node: &mut TsParamProp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsParamProp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_param_prop(&mut self, node: &mut TsParamProp) {}
+    fn exit_ts_param_prop(&mut self, node: &mut TsParamProp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsParamPropParam` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {}
+    fn enter_ts_param_prop_param(&mut self, node: &mut TsParamPropParam, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsParamPropParam` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {}
+    fn exit_ts_param_prop_param(&mut self, node: &mut TsParamPropParam, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsParenthesizedType` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {}
+    fn enter_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsParenthesizedType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {}
+    fn exit_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsPropertySignature` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_property_signature(&mut self, node: &mut TsPropertySignature) {}
+    fn enter_ts_property_signature(&mut self, node: &mut TsPropertySignature, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsPropertySignature` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_property_signature(&mut self, node: &mut TsPropertySignature) {}
+    fn exit_ts_property_signature(&mut self, node: &mut TsPropertySignature, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsQualifiedName` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {}
+    fn enter_ts_qualified_name(&mut self, node: &mut TsQualifiedName, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsQualifiedName` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {}
+    fn exit_ts_qualified_name(&mut self, node: &mut TsQualifiedName, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsRestType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_rest_type(&mut self, node: &mut TsRestType) {}
+    fn enter_ts_rest_type(&mut self, node: &mut TsRestType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsRestType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_rest_type(&mut self, node: &mut TsRestType) {}
+    fn exit_ts_rest_type(&mut self, node: &mut TsRestType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsSatisfiesExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {}
+    fn enter_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsSatisfiesExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {}
+    fn exit_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsSetterSignature` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {}
+    fn enter_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsSetterSignature` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {}
+    fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsThisType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_this_type(&mut self, node: &mut TsThisType) {}
+    fn enter_ts_this_type(&mut self, node: &mut TsThisType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsThisType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_this_type(&mut self, node: &mut TsThisType) {}
+    fn exit_ts_this_type(&mut self, node: &mut TsThisType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsThisTypeOrIdent` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {}
+    fn enter_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsThisTypeOrIdent` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {}
+    fn exit_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTplLitType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {}
+    fn enter_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTplLitType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {}
+    fn exit_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTupleElement` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_tuple_element(&mut self, node: &mut TsTupleElement) {}
+    fn enter_ts_tuple_element(&mut self, node: &mut TsTupleElement, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTupleElement` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_tuple_element(&mut self, node: &mut TsTupleElement) {}
+    fn exit_ts_tuple_element(&mut self, node: &mut TsTupleElement, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < TsTupleElement >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {}
+    fn enter_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < TsTupleElement >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {}
+    fn exit_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTupleType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_tuple_type(&mut self, node: &mut TsTupleType) {}
+    fn enter_ts_tuple_type(&mut self, node: &mut TsTupleType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTupleType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_tuple_type(&mut self, node: &mut TsTupleType) {}
+    fn exit_ts_tuple_type(&mut self, node: &mut TsTupleType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type(&mut self, node: &mut TsType) {}
+    fn enter_ts_type(&mut self, node: &mut TsType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type(&mut self, node: &mut TsType) {}
+    fn exit_ts_type(&mut self, node: &mut TsType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeAliasDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {}
+    fn enter_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeAliasDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {}
+    fn exit_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeAnn` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_ann(&mut self, node: &mut TsTypeAnn) {}
+    fn enter_ts_type_ann(&mut self, node: &mut TsTypeAnn, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeAnn` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_ann(&mut self, node: &mut TsTypeAnn) {}
+    fn exit_ts_type_ann(&mut self, node: &mut TsTypeAnn, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeAssertion` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {}
+    fn enter_ts_type_assertion(&mut self, node: &mut TsTypeAssertion, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeAssertion` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {}
+    fn exit_ts_type_assertion(&mut self, node: &mut TsTypeAssertion, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeElement` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_element(&mut self, node: &mut TsTypeElement) {}
+    fn enter_ts_type_element(&mut self, node: &mut TsTypeElement, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeElement` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_element(&mut self, node: &mut TsTypeElement) {}
+    fn exit_ts_type_element(&mut self, node: &mut TsTypeElement, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < TsTypeElement >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {}
+    fn enter_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < TsTypeElement >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {}
+    fn exit_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeLit` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_lit(&mut self, node: &mut TsTypeLit) {}
+    fn enter_ts_type_lit(&mut self, node: &mut TsTypeLit, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeLit` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_lit(&mut self, node: &mut TsTypeLit) {}
+    fn exit_ts_type_lit(&mut self, node: &mut TsTypeLit, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeOperator` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_operator(&mut self, node: &mut TsTypeOperator) {}
+    fn enter_ts_type_operator(&mut self, node: &mut TsTypeOperator, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeOperator` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_operator(&mut self, node: &mut TsTypeOperator) {}
+    fn exit_ts_type_operator(&mut self, node: &mut TsTypeOperator, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeOperatorOp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {}
+    fn enter_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeOperatorOp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {}
+    fn exit_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeParam` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_param(&mut self, node: &mut TsTypeParam) {}
+    fn enter_ts_type_param(&mut self, node: &mut TsTypeParam, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeParam` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_param(&mut self, node: &mut TsTypeParam) {}
+    fn exit_ts_type_param(&mut self, node: &mut TsTypeParam, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeParamDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {}
+    fn enter_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeParamDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {}
+    fn exit_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeParamInstantiation` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {}
+    fn enter_ts_type_param_instantiation(
+        &mut self,
+        node: &mut TsTypeParamInstantiation,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when exiting a node of type `TsTypeParamInstantiation` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {}
+    fn exit_ts_type_param_instantiation(
+        &mut self,
+        node: &mut TsTypeParamInstantiation,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when entering a node of type `Vec < TsTypeParam >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {}
+    fn enter_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < TsTypeParam >` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {}
+    fn exit_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypePredicate` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {}
+    fn enter_ts_type_predicate(&mut self, node: &mut TsTypePredicate, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypePredicate` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {}
+    fn exit_ts_type_predicate(&mut self, node: &mut TsTypePredicate, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeQuery` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_query(&mut self, node: &mut TsTypeQuery) {}
+    fn enter_ts_type_query(&mut self, node: &mut TsTypeQuery, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeQuery` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_query(&mut self, node: &mut TsTypeQuery) {}
+    fn exit_ts_type_query(&mut self, node: &mut TsTypeQuery, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeQueryExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {}
+    fn enter_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeQueryExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {}
+    fn exit_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsTypeRef` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_type_ref(&mut self, node: &mut TsTypeRef) {}
+    fn enter_ts_type_ref(&mut self, node: &mut TsTypeRef, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsTypeRef` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_type_ref(&mut self, node: &mut TsTypeRef) {}
+    fn exit_ts_type_ref(&mut self, node: &mut TsTypeRef, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < Box < TsType > >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {}
+    fn enter_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < Box < TsType > >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {}
+    fn exit_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `TsUnionOrIntersectionType` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {}
+    fn enter_ts_union_or_intersection_type(
+        &mut self,
+        node: &mut TsUnionOrIntersectionType,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when exiting a node of type `TsUnionOrIntersectionType` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {}
+    fn exit_ts_union_or_intersection_type(
+        &mut self,
+        node: &mut TsUnionOrIntersectionType,
+        ctx: &mut C,
+    ) {
+    }
     #[doc = "Called when entering a node of type `TsUnionType` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_ts_union_type(&mut self, node: &mut TsUnionType) {}
+    fn enter_ts_union_type(&mut self, node: &mut TsUnionType, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `TsUnionType` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_ts_union_type(&mut self, node: &mut TsUnionType) {}
+    fn exit_ts_union_type(&mut self, node: &mut TsUnionType, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `UnaryExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_unary_expr(&mut self, node: &mut UnaryExpr) {}
+    fn enter_unary_expr(&mut self, node: &mut UnaryExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `UnaryExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_unary_expr(&mut self, node: &mut UnaryExpr) {}
+    fn exit_unary_expr(&mut self, node: &mut UnaryExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `UnaryOp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_unary_op(&mut self, node: &mut UnaryOp) {}
+    fn enter_unary_op(&mut self, node: &mut UnaryOp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `UnaryOp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_unary_op(&mut self, node: &mut UnaryOp) {}
+    fn exit_unary_op(&mut self, node: &mut UnaryOp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `UpdateExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_update_expr(&mut self, node: &mut UpdateExpr) {}
+    fn enter_update_expr(&mut self, node: &mut UpdateExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `UpdateExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_update_expr(&mut self, node: &mut UpdateExpr) {}
+    fn exit_update_expr(&mut self, node: &mut UpdateExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `UpdateOp` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_update_op(&mut self, node: &mut UpdateOp) {}
+    fn enter_update_op(&mut self, node: &mut UpdateOp, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `UpdateOp` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_update_op(&mut self, node: &mut UpdateOp) {}
+    fn exit_update_op(&mut self, node: &mut UpdateOp, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `UsingDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_using_decl(&mut self, node: &mut UsingDecl) {}
+    fn enter_using_decl(&mut self, node: &mut UsingDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `UsingDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_using_decl(&mut self, node: &mut UsingDecl) {}
+    fn exit_using_decl(&mut self, node: &mut UsingDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `VarDecl` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_var_decl(&mut self, node: &mut VarDecl) {}
+    fn enter_var_decl(&mut self, node: &mut VarDecl, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `VarDecl` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_var_decl(&mut self, node: &mut VarDecl) {}
+    fn exit_var_decl(&mut self, node: &mut VarDecl, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `VarDeclKind` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_var_decl_kind(&mut self, node: &mut VarDeclKind) {}
+    fn enter_var_decl_kind(&mut self, node: &mut VarDeclKind, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `VarDeclKind` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_var_decl_kind(&mut self, node: &mut VarDeclKind) {}
+    fn exit_var_decl_kind(&mut self, node: &mut VarDeclKind, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `VarDeclOrExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {}
+    fn enter_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `VarDeclOrExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {}
+    fn exit_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `VarDeclarator` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_var_declarator(&mut self, node: &mut VarDeclarator) {}
+    fn enter_var_declarator(&mut self, node: &mut VarDeclarator, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `VarDeclarator` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_var_declarator(&mut self, node: &mut VarDeclarator) {}
+    fn exit_var_declarator(&mut self, node: &mut VarDeclarator, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `Vec < VarDeclarator >` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {}
+    fn enter_var_declarators(&mut self, node: &mut Vec<VarDeclarator>, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `Vec < VarDeclarator >` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {}
+    fn exit_var_declarators(&mut self, node: &mut Vec<VarDeclarator>, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `WhileStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_while_stmt(&mut self, node: &mut WhileStmt) {}
+    fn enter_while_stmt(&mut self, node: &mut WhileStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `WhileStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_while_stmt(&mut self, node: &mut WhileStmt) {}
+    fn exit_while_stmt(&mut self, node: &mut WhileStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `WithStmt` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_with_stmt(&mut self, node: &mut WithStmt) {}
+    fn enter_with_stmt(&mut self, node: &mut WithStmt, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `WithStmt` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_with_stmt(&mut self, node: &mut WithStmt) {}
+    fn exit_with_stmt(&mut self, node: &mut WithStmt, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `swc_atoms :: Wtf8Atom` before visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom) {}
+    fn enter_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `swc_atoms :: Wtf8Atom` after visiting its \
              children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom) {}
+    fn exit_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom, ctx: &mut C) {}
     #[doc = "Called when entering a node of type `YieldExpr` before visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn enter_yield_expr(&mut self, node: &mut YieldExpr) {}
+    fn enter_yield_expr(&mut self, node: &mut YieldExpr, ctx: &mut C) {}
     #[doc = "Called when exiting a node of type `YieldExpr` after visiting its children."]
     #[inline]
     #[allow(unused_variables)]
-    fn exit_yield_expr(&mut self, node: &mut YieldExpr) {}
+    fn exit_yield_expr(&mut self, node: &mut YieldExpr, ctx: &mut C) {}
 }
 #[doc = r" A composable hook that combines two hooks."]
 #[doc = r""]
@@ -2497,3555 +2562,3605 @@ pub struct CompositeHook<A, B> {
     pub first: A,
     pub second: B,
 }
-impl<A, B> VisitMutHook for CompositeHook<A, B>
+impl<A, B, C> VisitMutHook<C> for CompositeHook<A, B>
 where
-    A: VisitMutHook,
-    B: VisitMutHook,
+    A: VisitMutHook<C>,
+    B: VisitMutHook<C>,
 {
     #[inline]
-    fn enter_accessibility(&mut self, node: &mut Accessibility) {
-        self.first.enter_accessibility(node);
-        self.second.enter_accessibility(node);
+    fn enter_accessibility(&mut self, node: &mut Accessibility, ctx: &mut C) {
+        self.first.enter_accessibility(node, ctx);
+        self.second.enter_accessibility(node, ctx);
     }
 
     #[inline]
-    fn exit_accessibility(&mut self, node: &mut Accessibility) {
-        self.second.exit_accessibility(node);
-        self.first.exit_accessibility(node);
+    fn exit_accessibility(&mut self, node: &mut Accessibility, ctx: &mut C) {
+        self.second.exit_accessibility(node, ctx);
+        self.first.exit_accessibility(node, ctx);
     }
 
     #[inline]
-    fn enter_array_lit(&mut self, node: &mut ArrayLit) {
-        self.first.enter_array_lit(node);
-        self.second.enter_array_lit(node);
+    fn enter_array_lit(&mut self, node: &mut ArrayLit, ctx: &mut C) {
+        self.first.enter_array_lit(node, ctx);
+        self.second.enter_array_lit(node, ctx);
     }
 
     #[inline]
-    fn exit_array_lit(&mut self, node: &mut ArrayLit) {
-        self.second.exit_array_lit(node);
-        self.first.exit_array_lit(node);
+    fn exit_array_lit(&mut self, node: &mut ArrayLit, ctx: &mut C) {
+        self.second.exit_array_lit(node, ctx);
+        self.first.exit_array_lit(node, ctx);
     }
 
     #[inline]
-    fn enter_array_pat(&mut self, node: &mut ArrayPat) {
-        self.first.enter_array_pat(node);
-        self.second.enter_array_pat(node);
+    fn enter_array_pat(&mut self, node: &mut ArrayPat, ctx: &mut C) {
+        self.first.enter_array_pat(node, ctx);
+        self.second.enter_array_pat(node, ctx);
     }
 
     #[inline]
-    fn exit_array_pat(&mut self, node: &mut ArrayPat) {
-        self.second.exit_array_pat(node);
-        self.first.exit_array_pat(node);
+    fn exit_array_pat(&mut self, node: &mut ArrayPat, ctx: &mut C) {
+        self.second.exit_array_pat(node, ctx);
+        self.first.exit_array_pat(node, ctx);
     }
 
     #[inline]
-    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr) {
-        self.first.enter_arrow_expr(node);
-        self.second.enter_arrow_expr(node);
+    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut C) {
+        self.first.enter_arrow_expr(node, ctx);
+        self.second.enter_arrow_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr) {
-        self.second.exit_arrow_expr(node);
-        self.first.exit_arrow_expr(node);
+    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut C) {
+        self.second.exit_arrow_expr(node, ctx);
+        self.first.exit_arrow_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_assign_expr(&mut self, node: &mut AssignExpr) {
-        self.first.enter_assign_expr(node);
-        self.second.enter_assign_expr(node);
+    fn enter_assign_expr(&mut self, node: &mut AssignExpr, ctx: &mut C) {
+        self.first.enter_assign_expr(node, ctx);
+        self.second.enter_assign_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_assign_expr(&mut self, node: &mut AssignExpr) {
-        self.second.exit_assign_expr(node);
-        self.first.exit_assign_expr(node);
+    fn exit_assign_expr(&mut self, node: &mut AssignExpr, ctx: &mut C) {
+        self.second.exit_assign_expr(node, ctx);
+        self.first.exit_assign_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_assign_op(&mut self, node: &mut AssignOp) {
-        self.first.enter_assign_op(node);
-        self.second.enter_assign_op(node);
+    fn enter_assign_op(&mut self, node: &mut AssignOp, ctx: &mut C) {
+        self.first.enter_assign_op(node, ctx);
+        self.second.enter_assign_op(node, ctx);
     }
 
     #[inline]
-    fn exit_assign_op(&mut self, node: &mut AssignOp) {
-        self.second.exit_assign_op(node);
-        self.first.exit_assign_op(node);
+    fn exit_assign_op(&mut self, node: &mut AssignOp, ctx: &mut C) {
+        self.second.exit_assign_op(node, ctx);
+        self.first.exit_assign_op(node, ctx);
     }
 
     #[inline]
-    fn enter_assign_pat(&mut self, node: &mut AssignPat) {
-        self.first.enter_assign_pat(node);
-        self.second.enter_assign_pat(node);
+    fn enter_assign_pat(&mut self, node: &mut AssignPat, ctx: &mut C) {
+        self.first.enter_assign_pat(node, ctx);
+        self.second.enter_assign_pat(node, ctx);
     }
 
     #[inline]
-    fn exit_assign_pat(&mut self, node: &mut AssignPat) {
-        self.second.exit_assign_pat(node);
-        self.first.exit_assign_pat(node);
+    fn exit_assign_pat(&mut self, node: &mut AssignPat, ctx: &mut C) {
+        self.second.exit_assign_pat(node, ctx);
+        self.first.exit_assign_pat(node, ctx);
     }
 
     #[inline]
-    fn enter_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
-        self.first.enter_assign_pat_prop(node);
-        self.second.enter_assign_pat_prop(node);
+    fn enter_assign_pat_prop(&mut self, node: &mut AssignPatProp, ctx: &mut C) {
+        self.first.enter_assign_pat_prop(node, ctx);
+        self.second.enter_assign_pat_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
-        self.second.exit_assign_pat_prop(node);
-        self.first.exit_assign_pat_prop(node);
+    fn exit_assign_pat_prop(&mut self, node: &mut AssignPatProp, ctx: &mut C) {
+        self.second.exit_assign_pat_prop(node, ctx);
+        self.first.exit_assign_pat_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_assign_prop(&mut self, node: &mut AssignProp) {
-        self.first.enter_assign_prop(node);
-        self.second.enter_assign_prop(node);
+    fn enter_assign_prop(&mut self, node: &mut AssignProp, ctx: &mut C) {
+        self.first.enter_assign_prop(node, ctx);
+        self.second.enter_assign_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_assign_prop(&mut self, node: &mut AssignProp) {
-        self.second.exit_assign_prop(node);
-        self.first.exit_assign_prop(node);
+    fn exit_assign_prop(&mut self, node: &mut AssignProp, ctx: &mut C) {
+        self.second.exit_assign_prop(node, ctx);
+        self.first.exit_assign_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_assign_target(&mut self, node: &mut AssignTarget) {
-        self.first.enter_assign_target(node);
-        self.second.enter_assign_target(node);
+    fn enter_assign_target(&mut self, node: &mut AssignTarget, ctx: &mut C) {
+        self.first.enter_assign_target(node, ctx);
+        self.second.enter_assign_target(node, ctx);
     }
 
     #[inline]
-    fn exit_assign_target(&mut self, node: &mut AssignTarget) {
-        self.second.exit_assign_target(node);
-        self.first.exit_assign_target(node);
+    fn exit_assign_target(&mut self, node: &mut AssignTarget, ctx: &mut C) {
+        self.second.exit_assign_target(node, ctx);
+        self.first.exit_assign_target(node, ctx);
     }
 
     #[inline]
-    fn enter_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
-        self.first.enter_assign_target_pat(node);
-        self.second.enter_assign_target_pat(node);
+    fn enter_assign_target_pat(&mut self, node: &mut AssignTargetPat, ctx: &mut C) {
+        self.first.enter_assign_target_pat(node, ctx);
+        self.second.enter_assign_target_pat(node, ctx);
     }
 
     #[inline]
-    fn exit_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
-        self.second.exit_assign_target_pat(node);
-        self.first.exit_assign_target_pat(node);
+    fn exit_assign_target_pat(&mut self, node: &mut AssignTargetPat, ctx: &mut C) {
+        self.second.exit_assign_target_pat(node, ctx);
+        self.first.exit_assign_target_pat(node, ctx);
     }
 
     #[inline]
-    fn enter_atom(&mut self, node: &mut swc_atoms::Atom) {
-        self.first.enter_atom(node);
-        self.second.enter_atom(node);
+    fn enter_atom(&mut self, node: &mut swc_atoms::Atom, ctx: &mut C) {
+        self.first.enter_atom(node, ctx);
+        self.second.enter_atom(node, ctx);
     }
 
     #[inline]
-    fn exit_atom(&mut self, node: &mut swc_atoms::Atom) {
-        self.second.exit_atom(node);
-        self.first.exit_atom(node);
+    fn exit_atom(&mut self, node: &mut swc_atoms::Atom, ctx: &mut C) {
+        self.second.exit_atom(node, ctx);
+        self.first.exit_atom(node, ctx);
     }
 
     #[inline]
-    fn enter_auto_accessor(&mut self, node: &mut AutoAccessor) {
-        self.first.enter_auto_accessor(node);
-        self.second.enter_auto_accessor(node);
+    fn enter_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut C) {
+        self.first.enter_auto_accessor(node, ctx);
+        self.second.enter_auto_accessor(node, ctx);
     }
 
     #[inline]
-    fn exit_auto_accessor(&mut self, node: &mut AutoAccessor) {
-        self.second.exit_auto_accessor(node);
-        self.first.exit_auto_accessor(node);
+    fn exit_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut C) {
+        self.second.exit_auto_accessor(node, ctx);
+        self.first.exit_auto_accessor(node, ctx);
     }
 
     #[inline]
-    fn enter_await_expr(&mut self, node: &mut AwaitExpr) {
-        self.first.enter_await_expr(node);
-        self.second.enter_await_expr(node);
+    fn enter_await_expr(&mut self, node: &mut AwaitExpr, ctx: &mut C) {
+        self.first.enter_await_expr(node, ctx);
+        self.second.enter_await_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_await_expr(&mut self, node: &mut AwaitExpr) {
-        self.second.exit_await_expr(node);
-        self.first.exit_await_expr(node);
+    fn exit_await_expr(&mut self, node: &mut AwaitExpr, ctx: &mut C) {
+        self.second.exit_await_expr(node, ctx);
+        self.first.exit_await_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_big_int(&mut self, node: &mut BigInt) {
-        self.first.enter_big_int(node);
-        self.second.enter_big_int(node);
+    fn enter_big_int(&mut self, node: &mut BigInt, ctx: &mut C) {
+        self.first.enter_big_int(node, ctx);
+        self.second.enter_big_int(node, ctx);
     }
 
     #[inline]
-    fn exit_big_int(&mut self, node: &mut BigInt) {
-        self.second.exit_big_int(node);
-        self.first.exit_big_int(node);
+    fn exit_big_int(&mut self, node: &mut BigInt, ctx: &mut C) {
+        self.second.exit_big_int(node, ctx);
+        self.first.exit_big_int(node, ctx);
     }
 
     #[inline]
-    fn enter_big_int_value(&mut self, node: &mut BigIntValue) {
-        self.first.enter_big_int_value(node);
-        self.second.enter_big_int_value(node);
+    fn enter_big_int_value(&mut self, node: &mut BigIntValue, ctx: &mut C) {
+        self.first.enter_big_int_value(node, ctx);
+        self.second.enter_big_int_value(node, ctx);
     }
 
     #[inline]
-    fn exit_big_int_value(&mut self, node: &mut BigIntValue) {
-        self.second.exit_big_int_value(node);
-        self.first.exit_big_int_value(node);
+    fn exit_big_int_value(&mut self, node: &mut BigIntValue, ctx: &mut C) {
+        self.second.exit_big_int_value(node, ctx);
+        self.first.exit_big_int_value(node, ctx);
     }
 
     #[inline]
-    fn enter_bin_expr(&mut self, node: &mut BinExpr) {
-        self.first.enter_bin_expr(node);
-        self.second.enter_bin_expr(node);
+    fn enter_bin_expr(&mut self, node: &mut BinExpr, ctx: &mut C) {
+        self.first.enter_bin_expr(node, ctx);
+        self.second.enter_bin_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_bin_expr(&mut self, node: &mut BinExpr) {
-        self.second.exit_bin_expr(node);
-        self.first.exit_bin_expr(node);
+    fn exit_bin_expr(&mut self, node: &mut BinExpr, ctx: &mut C) {
+        self.second.exit_bin_expr(node, ctx);
+        self.first.exit_bin_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_binary_op(&mut self, node: &mut BinaryOp) {
-        self.first.enter_binary_op(node);
-        self.second.enter_binary_op(node);
+    fn enter_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {
+        self.first.enter_binary_op(node, ctx);
+        self.second.enter_binary_op(node, ctx);
     }
 
     #[inline]
-    fn exit_binary_op(&mut self, node: &mut BinaryOp) {
-        self.second.exit_binary_op(node);
-        self.first.exit_binary_op(node);
+    fn exit_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {
+        self.second.exit_binary_op(node, ctx);
+        self.first.exit_binary_op(node, ctx);
     }
 
     #[inline]
-    fn enter_binding_ident(&mut self, node: &mut BindingIdent) {
-        self.first.enter_binding_ident(node);
-        self.second.enter_binding_ident(node);
+    fn enter_binding_ident(&mut self, node: &mut BindingIdent, ctx: &mut C) {
+        self.first.enter_binding_ident(node, ctx);
+        self.second.enter_binding_ident(node, ctx);
     }
 
     #[inline]
-    fn exit_binding_ident(&mut self, node: &mut BindingIdent) {
-        self.second.exit_binding_ident(node);
-        self.first.exit_binding_ident(node);
+    fn exit_binding_ident(&mut self, node: &mut BindingIdent, ctx: &mut C) {
+        self.second.exit_binding_ident(node, ctx);
+        self.first.exit_binding_ident(node, ctx);
     }
 
     #[inline]
-    fn enter_block_stmt(&mut self, node: &mut BlockStmt) {
-        self.first.enter_block_stmt(node);
-        self.second.enter_block_stmt(node);
+    fn enter_block_stmt(&mut self, node: &mut BlockStmt, ctx: &mut C) {
+        self.first.enter_block_stmt(node, ctx);
+        self.second.enter_block_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_block_stmt(&mut self, node: &mut BlockStmt) {
-        self.second.exit_block_stmt(node);
-        self.first.exit_block_stmt(node);
+    fn exit_block_stmt(&mut self, node: &mut BlockStmt, ctx: &mut C) {
+        self.second.exit_block_stmt(node, ctx);
+        self.first.exit_block_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        self.first.enter_block_stmt_or_expr(node);
-        self.second.enter_block_stmt_or_expr(node);
+    fn enter_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut C) {
+        self.first.enter_block_stmt_or_expr(node, ctx);
+        self.second.enter_block_stmt_or_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        self.second.exit_block_stmt_or_expr(node);
-        self.first.exit_block_stmt_or_expr(node);
+    fn exit_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut C) {
+        self.second.exit_block_stmt_or_expr(node, ctx);
+        self.first.exit_block_stmt_or_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_bool(&mut self, node: &mut Bool) {
-        self.first.enter_bool(node);
-        self.second.enter_bool(node);
+    fn enter_bool(&mut self, node: &mut Bool, ctx: &mut C) {
+        self.first.enter_bool(node, ctx);
+        self.second.enter_bool(node, ctx);
     }
 
     #[inline]
-    fn exit_bool(&mut self, node: &mut Bool) {
-        self.second.exit_bool(node);
-        self.first.exit_bool(node);
+    fn exit_bool(&mut self, node: &mut Bool, ctx: &mut C) {
+        self.second.exit_bool(node, ctx);
+        self.first.exit_bool(node, ctx);
     }
 
     #[inline]
-    fn enter_break_stmt(&mut self, node: &mut BreakStmt) {
-        self.first.enter_break_stmt(node);
-        self.second.enter_break_stmt(node);
+    fn enter_break_stmt(&mut self, node: &mut BreakStmt, ctx: &mut C) {
+        self.first.enter_break_stmt(node, ctx);
+        self.second.enter_break_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_break_stmt(&mut self, node: &mut BreakStmt) {
-        self.second.exit_break_stmt(node);
-        self.first.exit_break_stmt(node);
+    fn exit_break_stmt(&mut self, node: &mut BreakStmt, ctx: &mut C) {
+        self.second.exit_break_stmt(node, ctx);
+        self.first.exit_break_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_call_expr(&mut self, node: &mut CallExpr) {
-        self.first.enter_call_expr(node);
-        self.second.enter_call_expr(node);
+    fn enter_call_expr(&mut self, node: &mut CallExpr, ctx: &mut C) {
+        self.first.enter_call_expr(node, ctx);
+        self.second.enter_call_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_call_expr(&mut self, node: &mut CallExpr) {
-        self.second.exit_call_expr(node);
-        self.first.exit_call_expr(node);
+    fn exit_call_expr(&mut self, node: &mut CallExpr, ctx: &mut C) {
+        self.second.exit_call_expr(node, ctx);
+        self.first.exit_call_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_callee(&mut self, node: &mut Callee) {
-        self.first.enter_callee(node);
-        self.second.enter_callee(node);
+    fn enter_callee(&mut self, node: &mut Callee, ctx: &mut C) {
+        self.first.enter_callee(node, ctx);
+        self.second.enter_callee(node, ctx);
     }
 
     #[inline]
-    fn exit_callee(&mut self, node: &mut Callee) {
-        self.second.exit_callee(node);
-        self.first.exit_callee(node);
+    fn exit_callee(&mut self, node: &mut Callee, ctx: &mut C) {
+        self.second.exit_callee(node, ctx);
+        self.first.exit_callee(node, ctx);
     }
 
     #[inline]
-    fn enter_catch_clause(&mut self, node: &mut CatchClause) {
-        self.first.enter_catch_clause(node);
-        self.second.enter_catch_clause(node);
+    fn enter_catch_clause(&mut self, node: &mut CatchClause, ctx: &mut C) {
+        self.first.enter_catch_clause(node, ctx);
+        self.second.enter_catch_clause(node, ctx);
     }
 
     #[inline]
-    fn exit_catch_clause(&mut self, node: &mut CatchClause) {
-        self.second.exit_catch_clause(node);
-        self.first.exit_catch_clause(node);
+    fn exit_catch_clause(&mut self, node: &mut CatchClause, ctx: &mut C) {
+        self.second.exit_catch_clause(node, ctx);
+        self.first.exit_catch_clause(node, ctx);
     }
 
     #[inline]
-    fn enter_class(&mut self, node: &mut Class) {
-        self.first.enter_class(node);
-        self.second.enter_class(node);
+    fn enter_class(&mut self, node: &mut Class, ctx: &mut C) {
+        self.first.enter_class(node, ctx);
+        self.second.enter_class(node, ctx);
     }
 
     #[inline]
-    fn exit_class(&mut self, node: &mut Class) {
-        self.second.exit_class(node);
-        self.first.exit_class(node);
+    fn exit_class(&mut self, node: &mut Class, ctx: &mut C) {
+        self.second.exit_class(node, ctx);
+        self.first.exit_class(node, ctx);
     }
 
     #[inline]
-    fn enter_class_decl(&mut self, node: &mut ClassDecl) {
-        self.first.enter_class_decl(node);
-        self.second.enter_class_decl(node);
+    fn enter_class_decl(&mut self, node: &mut ClassDecl, ctx: &mut C) {
+        self.first.enter_class_decl(node, ctx);
+        self.second.enter_class_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_class_decl(&mut self, node: &mut ClassDecl) {
-        self.second.exit_class_decl(node);
-        self.first.exit_class_decl(node);
+    fn exit_class_decl(&mut self, node: &mut ClassDecl, ctx: &mut C) {
+        self.second.exit_class_decl(node, ctx);
+        self.first.exit_class_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_class_expr(&mut self, node: &mut ClassExpr) {
-        self.first.enter_class_expr(node);
-        self.second.enter_class_expr(node);
+    fn enter_class_expr(&mut self, node: &mut ClassExpr, ctx: &mut C) {
+        self.first.enter_class_expr(node, ctx);
+        self.second.enter_class_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_class_expr(&mut self, node: &mut ClassExpr) {
-        self.second.exit_class_expr(node);
-        self.first.exit_class_expr(node);
+    fn exit_class_expr(&mut self, node: &mut ClassExpr, ctx: &mut C) {
+        self.second.exit_class_expr(node, ctx);
+        self.first.exit_class_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_class_member(&mut self, node: &mut ClassMember) {
-        self.first.enter_class_member(node);
-        self.second.enter_class_member(node);
+    fn enter_class_member(&mut self, node: &mut ClassMember, ctx: &mut C) {
+        self.first.enter_class_member(node, ctx);
+        self.second.enter_class_member(node, ctx);
     }
 
     #[inline]
-    fn exit_class_member(&mut self, node: &mut ClassMember) {
-        self.second.exit_class_member(node);
-        self.first.exit_class_member(node);
+    fn exit_class_member(&mut self, node: &mut ClassMember, ctx: &mut C) {
+        self.second.exit_class_member(node, ctx);
+        self.first.exit_class_member(node, ctx);
     }
 
     #[inline]
-    fn enter_class_members(&mut self, node: &mut Vec<ClassMember>) {
-        self.first.enter_class_members(node);
-        self.second.enter_class_members(node);
+    fn enter_class_members(&mut self, node: &mut Vec<ClassMember>, ctx: &mut C) {
+        self.first.enter_class_members(node, ctx);
+        self.second.enter_class_members(node, ctx);
     }
 
     #[inline]
-    fn exit_class_members(&mut self, node: &mut Vec<ClassMember>) {
-        self.second.exit_class_members(node);
-        self.first.exit_class_members(node);
+    fn exit_class_members(&mut self, node: &mut Vec<ClassMember>, ctx: &mut C) {
+        self.second.exit_class_members(node, ctx);
+        self.first.exit_class_members(node, ctx);
     }
 
     #[inline]
-    fn enter_class_method(&mut self, node: &mut ClassMethod) {
-        self.first.enter_class_method(node);
-        self.second.enter_class_method(node);
+    fn enter_class_method(&mut self, node: &mut ClassMethod, ctx: &mut C) {
+        self.first.enter_class_method(node, ctx);
+        self.second.enter_class_method(node, ctx);
     }
 
     #[inline]
-    fn exit_class_method(&mut self, node: &mut ClassMethod) {
-        self.second.exit_class_method(node);
-        self.first.exit_class_method(node);
+    fn exit_class_method(&mut self, node: &mut ClassMethod, ctx: &mut C) {
+        self.second.exit_class_method(node, ctx);
+        self.first.exit_class_method(node, ctx);
     }
 
     #[inline]
-    fn enter_class_prop(&mut self, node: &mut ClassProp) {
-        self.first.enter_class_prop(node);
-        self.second.enter_class_prop(node);
+    fn enter_class_prop(&mut self, node: &mut ClassProp, ctx: &mut C) {
+        self.first.enter_class_prop(node, ctx);
+        self.second.enter_class_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_class_prop(&mut self, node: &mut ClassProp) {
-        self.second.exit_class_prop(node);
-        self.first.exit_class_prop(node);
+    fn exit_class_prop(&mut self, node: &mut ClassProp, ctx: &mut C) {
+        self.second.exit_class_prop(node, ctx);
+        self.first.exit_class_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_computed_prop_name(&mut self, node: &mut ComputedPropName) {
-        self.first.enter_computed_prop_name(node);
-        self.second.enter_computed_prop_name(node);
+    fn enter_computed_prop_name(&mut self, node: &mut ComputedPropName, ctx: &mut C) {
+        self.first.enter_computed_prop_name(node, ctx);
+        self.second.enter_computed_prop_name(node, ctx);
     }
 
     #[inline]
-    fn exit_computed_prop_name(&mut self, node: &mut ComputedPropName) {
-        self.second.exit_computed_prop_name(node);
-        self.first.exit_computed_prop_name(node);
+    fn exit_computed_prop_name(&mut self, node: &mut ComputedPropName, ctx: &mut C) {
+        self.second.exit_computed_prop_name(node, ctx);
+        self.first.exit_computed_prop_name(node, ctx);
     }
 
     #[inline]
-    fn enter_cond_expr(&mut self, node: &mut CondExpr) {
-        self.first.enter_cond_expr(node);
-        self.second.enter_cond_expr(node);
+    fn enter_cond_expr(&mut self, node: &mut CondExpr, ctx: &mut C) {
+        self.first.enter_cond_expr(node, ctx);
+        self.second.enter_cond_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_cond_expr(&mut self, node: &mut CondExpr) {
-        self.second.exit_cond_expr(node);
-        self.first.exit_cond_expr(node);
+    fn exit_cond_expr(&mut self, node: &mut CondExpr, ctx: &mut C) {
+        self.second.exit_cond_expr(node, ctx);
+        self.first.exit_cond_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_constructor(&mut self, node: &mut Constructor) {
-        self.first.enter_constructor(node);
-        self.second.enter_constructor(node);
+    fn enter_constructor(&mut self, node: &mut Constructor, ctx: &mut C) {
+        self.first.enter_constructor(node, ctx);
+        self.second.enter_constructor(node, ctx);
     }
 
     #[inline]
-    fn exit_constructor(&mut self, node: &mut Constructor) {
-        self.second.exit_constructor(node);
-        self.first.exit_constructor(node);
+    fn exit_constructor(&mut self, node: &mut Constructor, ctx: &mut C) {
+        self.second.exit_constructor(node, ctx);
+        self.first.exit_constructor(node, ctx);
     }
 
     #[inline]
-    fn enter_continue_stmt(&mut self, node: &mut ContinueStmt) {
-        self.first.enter_continue_stmt(node);
-        self.second.enter_continue_stmt(node);
+    fn enter_continue_stmt(&mut self, node: &mut ContinueStmt, ctx: &mut C) {
+        self.first.enter_continue_stmt(node, ctx);
+        self.second.enter_continue_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_continue_stmt(&mut self, node: &mut ContinueStmt) {
-        self.second.exit_continue_stmt(node);
-        self.first.exit_continue_stmt(node);
+    fn exit_continue_stmt(&mut self, node: &mut ContinueStmt, ctx: &mut C) {
+        self.second.exit_continue_stmt(node, ctx);
+        self.first.exit_continue_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_debugger_stmt(&mut self, node: &mut DebuggerStmt) {
-        self.first.enter_debugger_stmt(node);
-        self.second.enter_debugger_stmt(node);
+    fn enter_debugger_stmt(&mut self, node: &mut DebuggerStmt, ctx: &mut C) {
+        self.first.enter_debugger_stmt(node, ctx);
+        self.second.enter_debugger_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_debugger_stmt(&mut self, node: &mut DebuggerStmt) {
-        self.second.exit_debugger_stmt(node);
-        self.first.exit_debugger_stmt(node);
+    fn exit_debugger_stmt(&mut self, node: &mut DebuggerStmt, ctx: &mut C) {
+        self.second.exit_debugger_stmt(node, ctx);
+        self.first.exit_debugger_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_decl(&mut self, node: &mut Decl) {
-        self.first.enter_decl(node);
-        self.second.enter_decl(node);
+    fn enter_decl(&mut self, node: &mut Decl, ctx: &mut C) {
+        self.first.enter_decl(node, ctx);
+        self.second.enter_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_decl(&mut self, node: &mut Decl) {
-        self.second.exit_decl(node);
-        self.first.exit_decl(node);
+    fn exit_decl(&mut self, node: &mut Decl, ctx: &mut C) {
+        self.second.exit_decl(node, ctx);
+        self.first.exit_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_decorator(&mut self, node: &mut Decorator) {
-        self.first.enter_decorator(node);
-        self.second.enter_decorator(node);
+    fn enter_decorator(&mut self, node: &mut Decorator, ctx: &mut C) {
+        self.first.enter_decorator(node, ctx);
+        self.second.enter_decorator(node, ctx);
     }
 
     #[inline]
-    fn exit_decorator(&mut self, node: &mut Decorator) {
-        self.second.exit_decorator(node);
-        self.first.exit_decorator(node);
+    fn exit_decorator(&mut self, node: &mut Decorator, ctx: &mut C) {
+        self.second.exit_decorator(node, ctx);
+        self.first.exit_decorator(node, ctx);
     }
 
     #[inline]
-    fn enter_decorators(&mut self, node: &mut Vec<Decorator>) {
-        self.first.enter_decorators(node);
-        self.second.enter_decorators(node);
+    fn enter_decorators(&mut self, node: &mut Vec<Decorator>, ctx: &mut C) {
+        self.first.enter_decorators(node, ctx);
+        self.second.enter_decorators(node, ctx);
     }
 
     #[inline]
-    fn exit_decorators(&mut self, node: &mut Vec<Decorator>) {
-        self.second.exit_decorators(node);
-        self.first.exit_decorators(node);
+    fn exit_decorators(&mut self, node: &mut Vec<Decorator>, ctx: &mut C) {
+        self.second.exit_decorators(node, ctx);
+        self.first.exit_decorators(node, ctx);
     }
 
     #[inline]
-    fn enter_default_decl(&mut self, node: &mut DefaultDecl) {
-        self.first.enter_default_decl(node);
-        self.second.enter_default_decl(node);
+    fn enter_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {
+        self.first.enter_default_decl(node, ctx);
+        self.second.enter_default_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_default_decl(&mut self, node: &mut DefaultDecl) {
-        self.second.exit_default_decl(node);
-        self.first.exit_default_decl(node);
+    fn exit_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {
+        self.second.exit_default_decl(node, ctx);
+        self.first.exit_default_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        self.first.enter_do_while_stmt(node);
-        self.second.enter_do_while_stmt(node);
+    fn enter_do_while_stmt(&mut self, node: &mut DoWhileStmt, ctx: &mut C) {
+        self.first.enter_do_while_stmt(node, ctx);
+        self.second.enter_do_while_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        self.second.exit_do_while_stmt(node);
-        self.first.exit_do_while_stmt(node);
+    fn exit_do_while_stmt(&mut self, node: &mut DoWhileStmt, ctx: &mut C) {
+        self.second.exit_do_while_stmt(node, ctx);
+        self.first.exit_do_while_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_empty_stmt(&mut self, node: &mut EmptyStmt) {
-        self.first.enter_empty_stmt(node);
-        self.second.enter_empty_stmt(node);
+    fn enter_empty_stmt(&mut self, node: &mut EmptyStmt, ctx: &mut C) {
+        self.first.enter_empty_stmt(node, ctx);
+        self.second.enter_empty_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_empty_stmt(&mut self, node: &mut EmptyStmt) {
-        self.second.exit_empty_stmt(node);
-        self.first.exit_empty_stmt(node);
+    fn exit_empty_stmt(&mut self, node: &mut EmptyStmt, ctx: &mut C) {
+        self.second.exit_empty_stmt(node, ctx);
+        self.first.exit_empty_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_export_all(&mut self, node: &mut ExportAll) {
-        self.first.enter_export_all(node);
-        self.second.enter_export_all(node);
+    fn enter_export_all(&mut self, node: &mut ExportAll, ctx: &mut C) {
+        self.first.enter_export_all(node, ctx);
+        self.second.enter_export_all(node, ctx);
     }
 
     #[inline]
-    fn exit_export_all(&mut self, node: &mut ExportAll) {
-        self.second.exit_export_all(node);
-        self.first.exit_export_all(node);
+    fn exit_export_all(&mut self, node: &mut ExportAll, ctx: &mut C) {
+        self.second.exit_export_all(node, ctx);
+        self.first.exit_export_all(node, ctx);
     }
 
     #[inline]
-    fn enter_export_decl(&mut self, node: &mut ExportDecl) {
-        self.first.enter_export_decl(node);
-        self.second.enter_export_decl(node);
+    fn enter_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut C) {
+        self.first.enter_export_decl(node, ctx);
+        self.second.enter_export_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_export_decl(&mut self, node: &mut ExportDecl) {
-        self.second.exit_export_decl(node);
-        self.first.exit_export_decl(node);
+    fn exit_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut C) {
+        self.second.exit_export_decl(node, ctx);
+        self.first.exit_export_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        self.first.enter_export_default_decl(node);
-        self.second.enter_export_default_decl(node);
+    fn enter_export_default_decl(&mut self, node: &mut ExportDefaultDecl, ctx: &mut C) {
+        self.first.enter_export_default_decl(node, ctx);
+        self.second.enter_export_default_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        self.second.exit_export_default_decl(node);
-        self.first.exit_export_default_decl(node);
+    fn exit_export_default_decl(&mut self, node: &mut ExportDefaultDecl, ctx: &mut C) {
+        self.second.exit_export_default_decl(node, ctx);
+        self.first.exit_export_default_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
-        self.first.enter_export_default_expr(node);
-        self.second.enter_export_default_expr(node);
+    fn enter_export_default_expr(&mut self, node: &mut ExportDefaultExpr, ctx: &mut C) {
+        self.first.enter_export_default_expr(node, ctx);
+        self.second.enter_export_default_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
-        self.second.exit_export_default_expr(node);
-        self.first.exit_export_default_expr(node);
+    fn exit_export_default_expr(&mut self, node: &mut ExportDefaultExpr, ctx: &mut C) {
+        self.second.exit_export_default_expr(node, ctx);
+        self.first.exit_export_default_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {
-        self.first.enter_export_default_specifier(node);
-        self.second.enter_export_default_specifier(node);
+    fn enter_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier, ctx: &mut C) {
+        self.first.enter_export_default_specifier(node, ctx);
+        self.second.enter_export_default_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {
-        self.second.exit_export_default_specifier(node);
-        self.first.exit_export_default_specifier(node);
+    fn exit_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier, ctx: &mut C) {
+        self.second.exit_export_default_specifier(node, ctx);
+        self.first.exit_export_default_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
-        self.first.enter_export_named_specifier(node);
-        self.second.enter_export_named_specifier(node);
+    fn enter_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier, ctx: &mut C) {
+        self.first.enter_export_named_specifier(node, ctx);
+        self.second.enter_export_named_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
-        self.second.exit_export_named_specifier(node);
-        self.first.exit_export_named_specifier(node);
+    fn exit_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier, ctx: &mut C) {
+        self.second.exit_export_named_specifier(node, ctx);
+        self.first.exit_export_named_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {
-        self.first.enter_export_namespace_specifier(node);
-        self.second.enter_export_namespace_specifier(node);
+    fn enter_export_namespace_specifier(
+        &mut self,
+        node: &mut ExportNamespaceSpecifier,
+        ctx: &mut C,
+    ) {
+        self.first.enter_export_namespace_specifier(node, ctx);
+        self.second.enter_export_namespace_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {
-        self.second.exit_export_namespace_specifier(node);
-        self.first.exit_export_namespace_specifier(node);
+    fn exit_export_namespace_specifier(
+        &mut self,
+        node: &mut ExportNamespaceSpecifier,
+        ctx: &mut C,
+    ) {
+        self.second.exit_export_namespace_specifier(node, ctx);
+        self.first.exit_export_namespace_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_export_specifier(&mut self, node: &mut ExportSpecifier) {
-        self.first.enter_export_specifier(node);
-        self.second.enter_export_specifier(node);
+    fn enter_export_specifier(&mut self, node: &mut ExportSpecifier, ctx: &mut C) {
+        self.first.enter_export_specifier(node, ctx);
+        self.second.enter_export_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_export_specifier(&mut self, node: &mut ExportSpecifier) {
-        self.second.exit_export_specifier(node);
-        self.first.exit_export_specifier(node);
+    fn exit_export_specifier(&mut self, node: &mut ExportSpecifier, ctx: &mut C) {
+        self.second.exit_export_specifier(node, ctx);
+        self.first.exit_export_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
-        self.first.enter_export_specifiers(node);
-        self.second.enter_export_specifiers(node);
+    fn enter_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>, ctx: &mut C) {
+        self.first.enter_export_specifiers(node, ctx);
+        self.second.enter_export_specifiers(node, ctx);
     }
 
     #[inline]
-    fn exit_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
-        self.second.exit_export_specifiers(node);
-        self.first.exit_export_specifiers(node);
+    fn exit_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>, ctx: &mut C) {
+        self.second.exit_export_specifiers(node, ctx);
+        self.first.exit_export_specifiers(node, ctx);
     }
 
     #[inline]
-    fn enter_expr(&mut self, node: &mut Expr) {
-        self.first.enter_expr(node);
-        self.second.enter_expr(node);
+    fn enter_expr(&mut self, node: &mut Expr, ctx: &mut C) {
+        self.first.enter_expr(node, ctx);
+        self.second.enter_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_expr(&mut self, node: &mut Expr) {
-        self.second.exit_expr(node);
-        self.first.exit_expr(node);
+    fn exit_expr(&mut self, node: &mut Expr, ctx: &mut C) {
+        self.second.exit_expr(node, ctx);
+        self.first.exit_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
-        self.first.enter_expr_or_spread(node);
-        self.second.enter_expr_or_spread(node);
+    fn enter_expr_or_spread(&mut self, node: &mut ExprOrSpread, ctx: &mut C) {
+        self.first.enter_expr_or_spread(node, ctx);
+        self.second.enter_expr_or_spread(node, ctx);
     }
 
     #[inline]
-    fn exit_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
-        self.second.exit_expr_or_spread(node);
-        self.first.exit_expr_or_spread(node);
+    fn exit_expr_or_spread(&mut self, node: &mut ExprOrSpread, ctx: &mut C) {
+        self.second.exit_expr_or_spread(node, ctx);
+        self.first.exit_expr_or_spread(node, ctx);
     }
 
     #[inline]
-    fn enter_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
-        self.first.enter_expr_or_spreads(node);
-        self.second.enter_expr_or_spreads(node);
+    fn enter_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>, ctx: &mut C) {
+        self.first.enter_expr_or_spreads(node, ctx);
+        self.second.enter_expr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn exit_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
-        self.second.exit_expr_or_spreads(node);
-        self.first.exit_expr_or_spreads(node);
+    fn exit_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>, ctx: &mut C) {
+        self.second.exit_expr_or_spreads(node, ctx);
+        self.first.exit_expr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn enter_expr_stmt(&mut self, node: &mut ExprStmt) {
-        self.first.enter_expr_stmt(node);
-        self.second.enter_expr_stmt(node);
+    fn enter_expr_stmt(&mut self, node: &mut ExprStmt, ctx: &mut C) {
+        self.first.enter_expr_stmt(node, ctx);
+        self.second.enter_expr_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_expr_stmt(&mut self, node: &mut ExprStmt) {
-        self.second.exit_expr_stmt(node);
-        self.first.exit_expr_stmt(node);
+    fn exit_expr_stmt(&mut self, node: &mut ExprStmt, ctx: &mut C) {
+        self.second.exit_expr_stmt(node, ctx);
+        self.first.exit_expr_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
-        self.first.enter_exprs(node);
-        self.second.enter_exprs(node);
+    fn enter_exprs(&mut self, node: &mut Vec<Box<Expr>>, ctx: &mut C) {
+        self.first.enter_exprs(node, ctx);
+        self.second.enter_exprs(node, ctx);
     }
 
     #[inline]
-    fn exit_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
-        self.second.exit_exprs(node);
-        self.first.exit_exprs(node);
+    fn exit_exprs(&mut self, node: &mut Vec<Box<Expr>>, ctx: &mut C) {
+        self.second.exit_exprs(node, ctx);
+        self.first.exit_exprs(node, ctx);
     }
 
     #[inline]
-    fn enter_fn_decl(&mut self, node: &mut FnDecl) {
-        self.first.enter_fn_decl(node);
-        self.second.enter_fn_decl(node);
+    fn enter_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut C) {
+        self.first.enter_fn_decl(node, ctx);
+        self.second.enter_fn_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_fn_decl(&mut self, node: &mut FnDecl) {
-        self.second.exit_fn_decl(node);
-        self.first.exit_fn_decl(node);
+    fn exit_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut C) {
+        self.second.exit_fn_decl(node, ctx);
+        self.first.exit_fn_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_fn_expr(&mut self, node: &mut FnExpr) {
-        self.first.enter_fn_expr(node);
-        self.second.enter_fn_expr(node);
+    fn enter_fn_expr(&mut self, node: &mut FnExpr, ctx: &mut C) {
+        self.first.enter_fn_expr(node, ctx);
+        self.second.enter_fn_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_fn_expr(&mut self, node: &mut FnExpr) {
-        self.second.exit_fn_expr(node);
-        self.first.exit_fn_expr(node);
+    fn exit_fn_expr(&mut self, node: &mut FnExpr, ctx: &mut C) {
+        self.second.exit_fn_expr(node, ctx);
+        self.first.exit_fn_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_for_head(&mut self, node: &mut ForHead) {
-        self.first.enter_for_head(node);
-        self.second.enter_for_head(node);
+    fn enter_for_head(&mut self, node: &mut ForHead, ctx: &mut C) {
+        self.first.enter_for_head(node, ctx);
+        self.second.enter_for_head(node, ctx);
     }
 
     #[inline]
-    fn exit_for_head(&mut self, node: &mut ForHead) {
-        self.second.exit_for_head(node);
-        self.first.exit_for_head(node);
+    fn exit_for_head(&mut self, node: &mut ForHead, ctx: &mut C) {
+        self.second.exit_for_head(node, ctx);
+        self.first.exit_for_head(node, ctx);
     }
 
     #[inline]
-    fn enter_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        self.first.enter_for_in_stmt(node);
-        self.second.enter_for_in_stmt(node);
+    fn enter_for_in_stmt(&mut self, node: &mut ForInStmt, ctx: &mut C) {
+        self.first.enter_for_in_stmt(node, ctx);
+        self.second.enter_for_in_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        self.second.exit_for_in_stmt(node);
-        self.first.exit_for_in_stmt(node);
+    fn exit_for_in_stmt(&mut self, node: &mut ForInStmt, ctx: &mut C) {
+        self.second.exit_for_in_stmt(node, ctx);
+        self.first.exit_for_in_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        self.first.enter_for_of_stmt(node);
-        self.second.enter_for_of_stmt(node);
+    fn enter_for_of_stmt(&mut self, node: &mut ForOfStmt, ctx: &mut C) {
+        self.first.enter_for_of_stmt(node, ctx);
+        self.second.enter_for_of_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        self.second.exit_for_of_stmt(node);
-        self.first.exit_for_of_stmt(node);
+    fn exit_for_of_stmt(&mut self, node: &mut ForOfStmt, ctx: &mut C) {
+        self.second.exit_for_of_stmt(node, ctx);
+        self.first.exit_for_of_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_for_stmt(&mut self, node: &mut ForStmt) {
-        self.first.enter_for_stmt(node);
-        self.second.enter_for_stmt(node);
+    fn enter_for_stmt(&mut self, node: &mut ForStmt, ctx: &mut C) {
+        self.first.enter_for_stmt(node, ctx);
+        self.second.enter_for_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_for_stmt(&mut self, node: &mut ForStmt) {
-        self.second.exit_for_stmt(node);
-        self.first.exit_for_stmt(node);
+    fn exit_for_stmt(&mut self, node: &mut ForStmt, ctx: &mut C) {
+        self.second.exit_for_stmt(node, ctx);
+        self.first.exit_for_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_function(&mut self, node: &mut Function) {
-        self.first.enter_function(node);
-        self.second.enter_function(node);
+    fn enter_function(&mut self, node: &mut Function, ctx: &mut C) {
+        self.first.enter_function(node, ctx);
+        self.second.enter_function(node, ctx);
     }
 
     #[inline]
-    fn exit_function(&mut self, node: &mut Function) {
-        self.second.exit_function(node);
-        self.first.exit_function(node);
+    fn exit_function(&mut self, node: &mut Function, ctx: &mut C) {
+        self.second.exit_function(node, ctx);
+        self.first.exit_function(node, ctx);
     }
 
     #[inline]
-    fn enter_getter_prop(&mut self, node: &mut GetterProp) {
-        self.first.enter_getter_prop(node);
-        self.second.enter_getter_prop(node);
+    fn enter_getter_prop(&mut self, node: &mut GetterProp, ctx: &mut C) {
+        self.first.enter_getter_prop(node, ctx);
+        self.second.enter_getter_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_getter_prop(&mut self, node: &mut GetterProp) {
-        self.second.exit_getter_prop(node);
-        self.first.exit_getter_prop(node);
+    fn exit_getter_prop(&mut self, node: &mut GetterProp, ctx: &mut C) {
+        self.second.exit_getter_prop(node, ctx);
+        self.first.exit_getter_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_ident(&mut self, node: &mut Ident) {
-        self.first.enter_ident(node);
-        self.second.enter_ident(node);
+    fn enter_ident(&mut self, node: &mut Ident, ctx: &mut C) {
+        self.first.enter_ident(node, ctx);
+        self.second.enter_ident(node, ctx);
     }
 
     #[inline]
-    fn exit_ident(&mut self, node: &mut Ident) {
-        self.second.exit_ident(node);
-        self.first.exit_ident(node);
+    fn exit_ident(&mut self, node: &mut Ident, ctx: &mut C) {
+        self.second.exit_ident(node, ctx);
+        self.first.exit_ident(node, ctx);
     }
 
     #[inline]
-    fn enter_ident_name(&mut self, node: &mut IdentName) {
-        self.first.enter_ident_name(node);
-        self.second.enter_ident_name(node);
+    fn enter_ident_name(&mut self, node: &mut IdentName, ctx: &mut C) {
+        self.first.enter_ident_name(node, ctx);
+        self.second.enter_ident_name(node, ctx);
     }
 
     #[inline]
-    fn exit_ident_name(&mut self, node: &mut IdentName) {
-        self.second.exit_ident_name(node);
-        self.first.exit_ident_name(node);
+    fn exit_ident_name(&mut self, node: &mut IdentName, ctx: &mut C) {
+        self.second.exit_ident_name(node, ctx);
+        self.first.exit_ident_name(node, ctx);
     }
 
     #[inline]
-    fn enter_if_stmt(&mut self, node: &mut IfStmt) {
-        self.first.enter_if_stmt(node);
-        self.second.enter_if_stmt(node);
+    fn enter_if_stmt(&mut self, node: &mut IfStmt, ctx: &mut C) {
+        self.first.enter_if_stmt(node, ctx);
+        self.second.enter_if_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_if_stmt(&mut self, node: &mut IfStmt) {
-        self.second.exit_if_stmt(node);
-        self.first.exit_if_stmt(node);
+    fn exit_if_stmt(&mut self, node: &mut IfStmt, ctx: &mut C) {
+        self.second.exit_if_stmt(node, ctx);
+        self.first.exit_if_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_import(&mut self, node: &mut Import) {
-        self.first.enter_import(node);
-        self.second.enter_import(node);
+    fn enter_import(&mut self, node: &mut Import, ctx: &mut C) {
+        self.first.enter_import(node, ctx);
+        self.second.enter_import(node, ctx);
     }
 
     #[inline]
-    fn exit_import(&mut self, node: &mut Import) {
-        self.second.exit_import(node);
-        self.first.exit_import(node);
+    fn exit_import(&mut self, node: &mut Import, ctx: &mut C) {
+        self.second.exit_import(node, ctx);
+        self.first.exit_import(node, ctx);
     }
 
     #[inline]
-    fn enter_import_decl(&mut self, node: &mut ImportDecl) {
-        self.first.enter_import_decl(node);
-        self.second.enter_import_decl(node);
+    fn enter_import_decl(&mut self, node: &mut ImportDecl, ctx: &mut C) {
+        self.first.enter_import_decl(node, ctx);
+        self.second.enter_import_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_import_decl(&mut self, node: &mut ImportDecl) {
-        self.second.exit_import_decl(node);
-        self.first.exit_import_decl(node);
+    fn exit_import_decl(&mut self, node: &mut ImportDecl, ctx: &mut C) {
+        self.second.exit_import_decl(node, ctx);
+        self.first.exit_import_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {
-        self.first.enter_import_default_specifier(node);
-        self.second.enter_import_default_specifier(node);
+    fn enter_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier, ctx: &mut C) {
+        self.first.enter_import_default_specifier(node, ctx);
+        self.second.enter_import_default_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {
-        self.second.exit_import_default_specifier(node);
-        self.first.exit_import_default_specifier(node);
+    fn exit_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier, ctx: &mut C) {
+        self.second.exit_import_default_specifier(node, ctx);
+        self.first.exit_import_default_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {
-        self.first.enter_import_named_specifier(node);
-        self.second.enter_import_named_specifier(node);
+    fn enter_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier, ctx: &mut C) {
+        self.first.enter_import_named_specifier(node, ctx);
+        self.second.enter_import_named_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {
-        self.second.exit_import_named_specifier(node);
-        self.first.exit_import_named_specifier(node);
+    fn exit_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier, ctx: &mut C) {
+        self.second.exit_import_named_specifier(node, ctx);
+        self.first.exit_import_named_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_import_phase(&mut self, node: &mut ImportPhase) {
-        self.first.enter_import_phase(node);
-        self.second.enter_import_phase(node);
+    fn enter_import_phase(&mut self, node: &mut ImportPhase, ctx: &mut C) {
+        self.first.enter_import_phase(node, ctx);
+        self.second.enter_import_phase(node, ctx);
     }
 
     #[inline]
-    fn exit_import_phase(&mut self, node: &mut ImportPhase) {
-        self.second.exit_import_phase(node);
-        self.first.exit_import_phase(node);
+    fn exit_import_phase(&mut self, node: &mut ImportPhase, ctx: &mut C) {
+        self.second.exit_import_phase(node, ctx);
+        self.first.exit_import_phase(node, ctx);
     }
 
     #[inline]
-    fn enter_import_specifier(&mut self, node: &mut ImportSpecifier) {
-        self.first.enter_import_specifier(node);
-        self.second.enter_import_specifier(node);
+    fn enter_import_specifier(&mut self, node: &mut ImportSpecifier, ctx: &mut C) {
+        self.first.enter_import_specifier(node, ctx);
+        self.second.enter_import_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_import_specifier(&mut self, node: &mut ImportSpecifier) {
-        self.second.exit_import_specifier(node);
-        self.first.exit_import_specifier(node);
+    fn exit_import_specifier(&mut self, node: &mut ImportSpecifier, ctx: &mut C) {
+        self.second.exit_import_specifier(node, ctx);
+        self.first.exit_import_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
-        self.first.enter_import_specifiers(node);
-        self.second.enter_import_specifiers(node);
+    fn enter_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>, ctx: &mut C) {
+        self.first.enter_import_specifiers(node, ctx);
+        self.second.enter_import_specifiers(node, ctx);
     }
 
     #[inline]
-    fn exit_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
-        self.second.exit_import_specifiers(node);
-        self.first.exit_import_specifiers(node);
+    fn exit_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>, ctx: &mut C) {
+        self.second.exit_import_specifiers(node, ctx);
+        self.first.exit_import_specifiers(node, ctx);
     }
 
     #[inline]
-    fn enter_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
-        self.first.enter_import_star_as_specifier(node);
-        self.second.enter_import_star_as_specifier(node);
+    fn enter_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier, ctx: &mut C) {
+        self.first.enter_import_star_as_specifier(node, ctx);
+        self.second.enter_import_star_as_specifier(node, ctx);
     }
 
     #[inline]
-    fn exit_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
-        self.second.exit_import_star_as_specifier(node);
-        self.first.exit_import_star_as_specifier(node);
+    fn exit_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier, ctx: &mut C) {
+        self.second.exit_import_star_as_specifier(node, ctx);
+        self.first.exit_import_star_as_specifier(node, ctx);
     }
 
     #[inline]
-    fn enter_import_with(&mut self, node: &mut ImportWith) {
-        self.first.enter_import_with(node);
-        self.second.enter_import_with(node);
+    fn enter_import_with(&mut self, node: &mut ImportWith, ctx: &mut C) {
+        self.first.enter_import_with(node, ctx);
+        self.second.enter_import_with(node, ctx);
     }
 
     #[inline]
-    fn exit_import_with(&mut self, node: &mut ImportWith) {
-        self.second.exit_import_with(node);
-        self.first.exit_import_with(node);
+    fn exit_import_with(&mut self, node: &mut ImportWith, ctx: &mut C) {
+        self.second.exit_import_with(node, ctx);
+        self.first.exit_import_with(node, ctx);
     }
 
     #[inline]
-    fn enter_import_with_item(&mut self, node: &mut ImportWithItem) {
-        self.first.enter_import_with_item(node);
-        self.second.enter_import_with_item(node);
+    fn enter_import_with_item(&mut self, node: &mut ImportWithItem, ctx: &mut C) {
+        self.first.enter_import_with_item(node, ctx);
+        self.second.enter_import_with_item(node, ctx);
     }
 
     #[inline]
-    fn exit_import_with_item(&mut self, node: &mut ImportWithItem) {
-        self.second.exit_import_with_item(node);
-        self.first.exit_import_with_item(node);
+    fn exit_import_with_item(&mut self, node: &mut ImportWithItem, ctx: &mut C) {
+        self.second.exit_import_with_item(node, ctx);
+        self.first.exit_import_with_item(node, ctx);
     }
 
     #[inline]
-    fn enter_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
-        self.first.enter_import_with_items(node);
-        self.second.enter_import_with_items(node);
+    fn enter_import_with_items(&mut self, node: &mut Vec<ImportWithItem>, ctx: &mut C) {
+        self.first.enter_import_with_items(node, ctx);
+        self.second.enter_import_with_items(node, ctx);
     }
 
     #[inline]
-    fn exit_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
-        self.second.exit_import_with_items(node);
-        self.first.exit_import_with_items(node);
+    fn exit_import_with_items(&mut self, node: &mut Vec<ImportWithItem>, ctx: &mut C) {
+        self.second.exit_import_with_items(node, ctx);
+        self.first.exit_import_with_items(node, ctx);
     }
 
     #[inline]
-    fn enter_invalid(&mut self, node: &mut Invalid) {
-        self.first.enter_invalid(node);
-        self.second.enter_invalid(node);
+    fn enter_invalid(&mut self, node: &mut Invalid, ctx: &mut C) {
+        self.first.enter_invalid(node, ctx);
+        self.second.enter_invalid(node, ctx);
     }
 
     #[inline]
-    fn exit_invalid(&mut self, node: &mut Invalid) {
-        self.second.exit_invalid(node);
-        self.first.exit_invalid(node);
+    fn exit_invalid(&mut self, node: &mut Invalid, ctx: &mut C) {
+        self.second.exit_invalid(node, ctx);
+        self.first.exit_invalid(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_attr(&mut self, node: &mut JSXAttr) {
-        self.first.enter_jsx_attr(node);
-        self.second.enter_jsx_attr(node);
+    fn enter_jsx_attr(&mut self, node: &mut JSXAttr, ctx: &mut C) {
+        self.first.enter_jsx_attr(node, ctx);
+        self.second.enter_jsx_attr(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_attr(&mut self, node: &mut JSXAttr) {
-        self.second.exit_jsx_attr(node);
-        self.first.exit_jsx_attr(node);
+    fn exit_jsx_attr(&mut self, node: &mut JSXAttr, ctx: &mut C) {
+        self.second.exit_jsx_attr(node, ctx);
+        self.first.exit_jsx_attr(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_attr_name(&mut self, node: &mut JSXAttrName) {
-        self.first.enter_jsx_attr_name(node);
-        self.second.enter_jsx_attr_name(node);
+    fn enter_jsx_attr_name(&mut self, node: &mut JSXAttrName, ctx: &mut C) {
+        self.first.enter_jsx_attr_name(node, ctx);
+        self.second.enter_jsx_attr_name(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_attr_name(&mut self, node: &mut JSXAttrName) {
-        self.second.exit_jsx_attr_name(node);
-        self.first.exit_jsx_attr_name(node);
+    fn exit_jsx_attr_name(&mut self, node: &mut JSXAttrName, ctx: &mut C) {
+        self.second.exit_jsx_attr_name(node, ctx);
+        self.first.exit_jsx_attr_name(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
-        self.first.enter_jsx_attr_or_spread(node);
-        self.second.enter_jsx_attr_or_spread(node);
+    fn enter_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread, ctx: &mut C) {
+        self.first.enter_jsx_attr_or_spread(node, ctx);
+        self.second.enter_jsx_attr_or_spread(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
-        self.second.exit_jsx_attr_or_spread(node);
-        self.first.exit_jsx_attr_or_spread(node);
+    fn exit_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread, ctx: &mut C) {
+        self.second.exit_jsx_attr_or_spread(node, ctx);
+        self.first.exit_jsx_attr_or_spread(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
-        self.first.enter_jsx_attr_or_spreads(node);
-        self.second.enter_jsx_attr_or_spreads(node);
+    fn enter_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>, ctx: &mut C) {
+        self.first.enter_jsx_attr_or_spreads(node, ctx);
+        self.second.enter_jsx_attr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
-        self.second.exit_jsx_attr_or_spreads(node);
-        self.first.exit_jsx_attr_or_spreads(node);
+    fn exit_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>, ctx: &mut C) {
+        self.second.exit_jsx_attr_or_spreads(node, ctx);
+        self.first.exit_jsx_attr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {
-        self.first.enter_jsx_attr_value(node);
-        self.second.enter_jsx_attr_value(node);
+    fn enter_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ctx: &mut C) {
+        self.first.enter_jsx_attr_value(node, ctx);
+        self.second.enter_jsx_attr_value(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {
-        self.second.exit_jsx_attr_value(node);
-        self.first.exit_jsx_attr_value(node);
+    fn exit_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ctx: &mut C) {
+        self.second.exit_jsx_attr_value(node, ctx);
+        self.first.exit_jsx_attr_value(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {
-        self.first.enter_jsx_closing_element(node);
-        self.second.enter_jsx_closing_element(node);
+    fn enter_jsx_closing_element(&mut self, node: &mut JSXClosingElement, ctx: &mut C) {
+        self.first.enter_jsx_closing_element(node, ctx);
+        self.second.enter_jsx_closing_element(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {
-        self.second.exit_jsx_closing_element(node);
-        self.first.exit_jsx_closing_element(node);
+    fn exit_jsx_closing_element(&mut self, node: &mut JSXClosingElement, ctx: &mut C) {
+        self.second.exit_jsx_closing_element(node, ctx);
+        self.first.exit_jsx_closing_element(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {
-        self.first.enter_jsx_closing_fragment(node);
-        self.second.enter_jsx_closing_fragment(node);
+    fn enter_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment, ctx: &mut C) {
+        self.first.enter_jsx_closing_fragment(node, ctx);
+        self.second.enter_jsx_closing_fragment(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {
-        self.second.exit_jsx_closing_fragment(node);
-        self.first.exit_jsx_closing_fragment(node);
+    fn exit_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment, ctx: &mut C) {
+        self.second.exit_jsx_closing_fragment(node, ctx);
+        self.first.exit_jsx_closing_fragment(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_element(&mut self, node: &mut JSXElement) {
-        self.first.enter_jsx_element(node);
-        self.second.enter_jsx_element(node);
+    fn enter_jsx_element(&mut self, node: &mut JSXElement, ctx: &mut C) {
+        self.first.enter_jsx_element(node, ctx);
+        self.second.enter_jsx_element(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_element(&mut self, node: &mut JSXElement) {
-        self.second.exit_jsx_element(node);
-        self.first.exit_jsx_element(node);
+    fn exit_jsx_element(&mut self, node: &mut JSXElement, ctx: &mut C) {
+        self.second.exit_jsx_element(node, ctx);
+        self.first.exit_jsx_element(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_element_child(&mut self, node: &mut JSXElementChild) {
-        self.first.enter_jsx_element_child(node);
-        self.second.enter_jsx_element_child(node);
+    fn enter_jsx_element_child(&mut self, node: &mut JSXElementChild, ctx: &mut C) {
+        self.first.enter_jsx_element_child(node, ctx);
+        self.second.enter_jsx_element_child(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_element_child(&mut self, node: &mut JSXElementChild) {
-        self.second.exit_jsx_element_child(node);
-        self.first.exit_jsx_element_child(node);
+    fn exit_jsx_element_child(&mut self, node: &mut JSXElementChild, ctx: &mut C) {
+        self.second.exit_jsx_element_child(node, ctx);
+        self.first.exit_jsx_element_child(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
-        self.first.enter_jsx_element_childs(node);
-        self.second.enter_jsx_element_childs(node);
+    fn enter_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>, ctx: &mut C) {
+        self.first.enter_jsx_element_childs(node, ctx);
+        self.second.enter_jsx_element_childs(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
-        self.second.exit_jsx_element_childs(node);
-        self.first.exit_jsx_element_childs(node);
+    fn exit_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>, ctx: &mut C) {
+        self.second.exit_jsx_element_childs(node, ctx);
+        self.first.exit_jsx_element_childs(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_element_name(&mut self, node: &mut JSXElementName) {
-        self.first.enter_jsx_element_name(node);
-        self.second.enter_jsx_element_name(node);
+    fn enter_jsx_element_name(&mut self, node: &mut JSXElementName, ctx: &mut C) {
+        self.first.enter_jsx_element_name(node, ctx);
+        self.second.enter_jsx_element_name(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_element_name(&mut self, node: &mut JSXElementName) {
-        self.second.exit_jsx_element_name(node);
-        self.first.exit_jsx_element_name(node);
+    fn exit_jsx_element_name(&mut self, node: &mut JSXElementName, ctx: &mut C) {
+        self.second.exit_jsx_element_name(node, ctx);
+        self.first.exit_jsx_element_name(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {
-        self.first.enter_jsx_empty_expr(node);
-        self.second.enter_jsx_empty_expr(node);
+    fn enter_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ctx: &mut C) {
+        self.first.enter_jsx_empty_expr(node, ctx);
+        self.second.enter_jsx_empty_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {
-        self.second.exit_jsx_empty_expr(node);
-        self.first.exit_jsx_empty_expr(node);
+    fn exit_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ctx: &mut C) {
+        self.second.exit_jsx_empty_expr(node, ctx);
+        self.first.exit_jsx_empty_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_expr(&mut self, node: &mut JSXExpr) {
-        self.first.enter_jsx_expr(node);
-        self.second.enter_jsx_expr(node);
+    fn enter_jsx_expr(&mut self, node: &mut JSXExpr, ctx: &mut C) {
+        self.first.enter_jsx_expr(node, ctx);
+        self.second.enter_jsx_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_expr(&mut self, node: &mut JSXExpr) {
-        self.second.exit_jsx_expr(node);
-        self.first.exit_jsx_expr(node);
+    fn exit_jsx_expr(&mut self, node: &mut JSXExpr, ctx: &mut C) {
+        self.second.exit_jsx_expr(node, ctx);
+        self.first.exit_jsx_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
-        self.first.enter_jsx_expr_container(node);
-        self.second.enter_jsx_expr_container(node);
+    fn enter_jsx_expr_container(&mut self, node: &mut JSXExprContainer, ctx: &mut C) {
+        self.first.enter_jsx_expr_container(node, ctx);
+        self.second.enter_jsx_expr_container(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
-        self.second.exit_jsx_expr_container(node);
-        self.first.exit_jsx_expr_container(node);
+    fn exit_jsx_expr_container(&mut self, node: &mut JSXExprContainer, ctx: &mut C) {
+        self.second.exit_jsx_expr_container(node, ctx);
+        self.first.exit_jsx_expr_container(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment) {
-        self.first.enter_jsx_fragment(node);
-        self.second.enter_jsx_fragment(node);
+    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment, ctx: &mut C) {
+        self.first.enter_jsx_fragment(node, ctx);
+        self.second.enter_jsx_fragment(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment) {
-        self.second.exit_jsx_fragment(node);
-        self.first.exit_jsx_fragment(node);
+    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment, ctx: &mut C) {
+        self.second.exit_jsx_fragment(node, ctx);
+        self.first.exit_jsx_fragment(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {
-        self.first.enter_jsx_member_expr(node);
-        self.second.enter_jsx_member_expr(node);
+    fn enter_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ctx: &mut C) {
+        self.first.enter_jsx_member_expr(node, ctx);
+        self.second.enter_jsx_member_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {
-        self.second.exit_jsx_member_expr(node);
-        self.first.exit_jsx_member_expr(node);
+    fn exit_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ctx: &mut C) {
+        self.second.exit_jsx_member_expr(node, ctx);
+        self.first.exit_jsx_member_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {
-        self.first.enter_jsx_namespaced_name(node);
-        self.second.enter_jsx_namespaced_name(node);
+    fn enter_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName, ctx: &mut C) {
+        self.first.enter_jsx_namespaced_name(node, ctx);
+        self.second.enter_jsx_namespaced_name(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {
-        self.second.exit_jsx_namespaced_name(node);
-        self.first.exit_jsx_namespaced_name(node);
+    fn exit_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName, ctx: &mut C) {
+        self.second.exit_jsx_namespaced_name(node, ctx);
+        self.first.exit_jsx_namespaced_name(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_object(&mut self, node: &mut JSXObject) {
-        self.first.enter_jsx_object(node);
-        self.second.enter_jsx_object(node);
+    fn enter_jsx_object(&mut self, node: &mut JSXObject, ctx: &mut C) {
+        self.first.enter_jsx_object(node, ctx);
+        self.second.enter_jsx_object(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_object(&mut self, node: &mut JSXObject) {
-        self.second.exit_jsx_object(node);
-        self.first.exit_jsx_object(node);
+    fn exit_jsx_object(&mut self, node: &mut JSXObject, ctx: &mut C) {
+        self.second.exit_jsx_object(node, ctx);
+        self.first.exit_jsx_object(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
-        self.first.enter_jsx_opening_element(node);
-        self.second.enter_jsx_opening_element(node);
+    fn enter_jsx_opening_element(&mut self, node: &mut JSXOpeningElement, ctx: &mut C) {
+        self.first.enter_jsx_opening_element(node, ctx);
+        self.second.enter_jsx_opening_element(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
-        self.second.exit_jsx_opening_element(node);
-        self.first.exit_jsx_opening_element(node);
+    fn exit_jsx_opening_element(&mut self, node: &mut JSXOpeningElement, ctx: &mut C) {
+        self.second.exit_jsx_opening_element(node, ctx);
+        self.first.exit_jsx_opening_element(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {
-        self.first.enter_jsx_opening_fragment(node);
-        self.second.enter_jsx_opening_fragment(node);
+    fn enter_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment, ctx: &mut C) {
+        self.first.enter_jsx_opening_fragment(node, ctx);
+        self.second.enter_jsx_opening_fragment(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {
-        self.second.exit_jsx_opening_fragment(node);
-        self.first.exit_jsx_opening_fragment(node);
+    fn exit_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment, ctx: &mut C) {
+        self.second.exit_jsx_opening_fragment(node, ctx);
+        self.first.exit_jsx_opening_fragment(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
-        self.first.enter_jsx_spread_child(node);
-        self.second.enter_jsx_spread_child(node);
+    fn enter_jsx_spread_child(&mut self, node: &mut JSXSpreadChild, ctx: &mut C) {
+        self.first.enter_jsx_spread_child(node, ctx);
+        self.second.enter_jsx_spread_child(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
-        self.second.exit_jsx_spread_child(node);
-        self.first.exit_jsx_spread_child(node);
+    fn exit_jsx_spread_child(&mut self, node: &mut JSXSpreadChild, ctx: &mut C) {
+        self.second.exit_jsx_spread_child(node, ctx);
+        self.first.exit_jsx_spread_child(node, ctx);
     }
 
     #[inline]
-    fn enter_jsx_text(&mut self, node: &mut JSXText) {
-        self.first.enter_jsx_text(node);
-        self.second.enter_jsx_text(node);
+    fn enter_jsx_text(&mut self, node: &mut JSXText, ctx: &mut C) {
+        self.first.enter_jsx_text(node, ctx);
+        self.second.enter_jsx_text(node, ctx);
     }
 
     #[inline]
-    fn exit_jsx_text(&mut self, node: &mut JSXText) {
-        self.second.exit_jsx_text(node);
-        self.first.exit_jsx_text(node);
+    fn exit_jsx_text(&mut self, node: &mut JSXText, ctx: &mut C) {
+        self.second.exit_jsx_text(node, ctx);
+        self.first.exit_jsx_text(node, ctx);
     }
 
     #[inline]
-    fn enter_key(&mut self, node: &mut Key) {
-        self.first.enter_key(node);
-        self.second.enter_key(node);
+    fn enter_key(&mut self, node: &mut Key, ctx: &mut C) {
+        self.first.enter_key(node, ctx);
+        self.second.enter_key(node, ctx);
     }
 
     #[inline]
-    fn exit_key(&mut self, node: &mut Key) {
-        self.second.exit_key(node);
-        self.first.exit_key(node);
+    fn exit_key(&mut self, node: &mut Key, ctx: &mut C) {
+        self.second.exit_key(node, ctx);
+        self.first.exit_key(node, ctx);
     }
 
     #[inline]
-    fn enter_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
-        self.first.enter_key_value_pat_prop(node);
-        self.second.enter_key_value_pat_prop(node);
+    fn enter_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp, ctx: &mut C) {
+        self.first.enter_key_value_pat_prop(node, ctx);
+        self.second.enter_key_value_pat_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
-        self.second.exit_key_value_pat_prop(node);
-        self.first.exit_key_value_pat_prop(node);
+    fn exit_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp, ctx: &mut C) {
+        self.second.exit_key_value_pat_prop(node, ctx);
+        self.first.exit_key_value_pat_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_key_value_prop(&mut self, node: &mut KeyValueProp) {
-        self.first.enter_key_value_prop(node);
-        self.second.enter_key_value_prop(node);
+    fn enter_key_value_prop(&mut self, node: &mut KeyValueProp, ctx: &mut C) {
+        self.first.enter_key_value_prop(node, ctx);
+        self.second.enter_key_value_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_key_value_prop(&mut self, node: &mut KeyValueProp) {
-        self.second.exit_key_value_prop(node);
-        self.first.exit_key_value_prop(node);
+    fn exit_key_value_prop(&mut self, node: &mut KeyValueProp, ctx: &mut C) {
+        self.second.exit_key_value_prop(node, ctx);
+        self.first.exit_key_value_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        self.first.enter_labeled_stmt(node);
-        self.second.enter_labeled_stmt(node);
+    fn enter_labeled_stmt(&mut self, node: &mut LabeledStmt, ctx: &mut C) {
+        self.first.enter_labeled_stmt(node, ctx);
+        self.second.enter_labeled_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        self.second.exit_labeled_stmt(node);
-        self.first.exit_labeled_stmt(node);
+    fn exit_labeled_stmt(&mut self, node: &mut LabeledStmt, ctx: &mut C) {
+        self.second.exit_labeled_stmt(node, ctx);
+        self.first.exit_labeled_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_lit(&mut self, node: &mut Lit) {
-        self.first.enter_lit(node);
-        self.second.enter_lit(node);
+    fn enter_lit(&mut self, node: &mut Lit, ctx: &mut C) {
+        self.first.enter_lit(node, ctx);
+        self.second.enter_lit(node, ctx);
     }
 
     #[inline]
-    fn exit_lit(&mut self, node: &mut Lit) {
-        self.second.exit_lit(node);
-        self.first.exit_lit(node);
+    fn exit_lit(&mut self, node: &mut Lit, ctx: &mut C) {
+        self.second.exit_lit(node, ctx);
+        self.first.exit_lit(node, ctx);
     }
 
     #[inline]
-    fn enter_member_expr(&mut self, node: &mut MemberExpr) {
-        self.first.enter_member_expr(node);
-        self.second.enter_member_expr(node);
+    fn enter_member_expr(&mut self, node: &mut MemberExpr, ctx: &mut C) {
+        self.first.enter_member_expr(node, ctx);
+        self.second.enter_member_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_member_expr(&mut self, node: &mut MemberExpr) {
-        self.second.exit_member_expr(node);
-        self.first.exit_member_expr(node);
+    fn exit_member_expr(&mut self, node: &mut MemberExpr, ctx: &mut C) {
+        self.second.exit_member_expr(node, ctx);
+        self.first.exit_member_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_member_prop(&mut self, node: &mut MemberProp) {
-        self.first.enter_member_prop(node);
-        self.second.enter_member_prop(node);
+    fn enter_member_prop(&mut self, node: &mut MemberProp, ctx: &mut C) {
+        self.first.enter_member_prop(node, ctx);
+        self.second.enter_member_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_member_prop(&mut self, node: &mut MemberProp) {
-        self.second.exit_member_prop(node);
-        self.first.exit_member_prop(node);
+    fn exit_member_prop(&mut self, node: &mut MemberProp, ctx: &mut C) {
+        self.second.exit_member_prop(node, ctx);
+        self.first.exit_member_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {
-        self.first.enter_meta_prop_expr(node);
-        self.second.enter_meta_prop_expr(node);
+    fn enter_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ctx: &mut C) {
+        self.first.enter_meta_prop_expr(node, ctx);
+        self.second.enter_meta_prop_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {
-        self.second.exit_meta_prop_expr(node);
-        self.first.exit_meta_prop_expr(node);
+    fn exit_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ctx: &mut C) {
+        self.second.exit_meta_prop_expr(node, ctx);
+        self.first.exit_meta_prop_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
-        self.first.enter_meta_prop_kind(node);
-        self.second.enter_meta_prop_kind(node);
+    fn enter_meta_prop_kind(&mut self, node: &mut MetaPropKind, ctx: &mut C) {
+        self.first.enter_meta_prop_kind(node, ctx);
+        self.second.enter_meta_prop_kind(node, ctx);
     }
 
     #[inline]
-    fn exit_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
-        self.second.exit_meta_prop_kind(node);
-        self.first.exit_meta_prop_kind(node);
+    fn exit_meta_prop_kind(&mut self, node: &mut MetaPropKind, ctx: &mut C) {
+        self.second.exit_meta_prop_kind(node, ctx);
+        self.first.exit_meta_prop_kind(node, ctx);
     }
 
     #[inline]
-    fn enter_method_kind(&mut self, node: &mut MethodKind) {
-        self.first.enter_method_kind(node);
-        self.second.enter_method_kind(node);
+    fn enter_method_kind(&mut self, node: &mut MethodKind, ctx: &mut C) {
+        self.first.enter_method_kind(node, ctx);
+        self.second.enter_method_kind(node, ctx);
     }
 
     #[inline]
-    fn exit_method_kind(&mut self, node: &mut MethodKind) {
-        self.second.exit_method_kind(node);
-        self.first.exit_method_kind(node);
+    fn exit_method_kind(&mut self, node: &mut MethodKind, ctx: &mut C) {
+        self.second.exit_method_kind(node, ctx);
+        self.first.exit_method_kind(node, ctx);
     }
 
     #[inline]
-    fn enter_method_prop(&mut self, node: &mut MethodProp) {
-        self.first.enter_method_prop(node);
-        self.second.enter_method_prop(node);
+    fn enter_method_prop(&mut self, node: &mut MethodProp, ctx: &mut C) {
+        self.first.enter_method_prop(node, ctx);
+        self.second.enter_method_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_method_prop(&mut self, node: &mut MethodProp) {
-        self.second.exit_method_prop(node);
-        self.first.exit_method_prop(node);
+    fn exit_method_prop(&mut self, node: &mut MethodProp, ctx: &mut C) {
+        self.second.exit_method_prop(node, ctx);
+        self.first.exit_method_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_module(&mut self, node: &mut Module) {
-        self.first.enter_module(node);
-        self.second.enter_module(node);
+    fn enter_module(&mut self, node: &mut Module, ctx: &mut C) {
+        self.first.enter_module(node, ctx);
+        self.second.enter_module(node, ctx);
     }
 
     #[inline]
-    fn exit_module(&mut self, node: &mut Module) {
-        self.second.exit_module(node);
-        self.first.exit_module(node);
+    fn exit_module(&mut self, node: &mut Module, ctx: &mut C) {
+        self.second.exit_module(node, ctx);
+        self.first.exit_module(node, ctx);
     }
 
     #[inline]
-    fn enter_module_decl(&mut self, node: &mut ModuleDecl) {
-        self.first.enter_module_decl(node);
-        self.second.enter_module_decl(node);
+    fn enter_module_decl(&mut self, node: &mut ModuleDecl, ctx: &mut C) {
+        self.first.enter_module_decl(node, ctx);
+        self.second.enter_module_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_module_decl(&mut self, node: &mut ModuleDecl) {
-        self.second.exit_module_decl(node);
-        self.first.exit_module_decl(node);
+    fn exit_module_decl(&mut self, node: &mut ModuleDecl, ctx: &mut C) {
+        self.second.exit_module_decl(node, ctx);
+        self.first.exit_module_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_module_export_name(&mut self, node: &mut ModuleExportName) {
-        self.first.enter_module_export_name(node);
-        self.second.enter_module_export_name(node);
+    fn enter_module_export_name(&mut self, node: &mut ModuleExportName, ctx: &mut C) {
+        self.first.enter_module_export_name(node, ctx);
+        self.second.enter_module_export_name(node, ctx);
     }
 
     #[inline]
-    fn exit_module_export_name(&mut self, node: &mut ModuleExportName) {
-        self.second.exit_module_export_name(node);
-        self.first.exit_module_export_name(node);
+    fn exit_module_export_name(&mut self, node: &mut ModuleExportName, ctx: &mut C) {
+        self.second.exit_module_export_name(node, ctx);
+        self.first.exit_module_export_name(node, ctx);
     }
 
     #[inline]
-    fn enter_module_item(&mut self, node: &mut ModuleItem) {
-        self.first.enter_module_item(node);
-        self.second.enter_module_item(node);
+    fn enter_module_item(&mut self, node: &mut ModuleItem, ctx: &mut C) {
+        self.first.enter_module_item(node, ctx);
+        self.second.enter_module_item(node, ctx);
     }
 
     #[inline]
-    fn exit_module_item(&mut self, node: &mut ModuleItem) {
-        self.second.exit_module_item(node);
-        self.first.exit_module_item(node);
+    fn exit_module_item(&mut self, node: &mut ModuleItem, ctx: &mut C) {
+        self.second.exit_module_item(node, ctx);
+        self.first.exit_module_item(node, ctx);
     }
 
     #[inline]
-    fn enter_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        self.first.enter_module_items(node);
-        self.second.enter_module_items(node);
+    fn enter_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut C) {
+        self.first.enter_module_items(node, ctx);
+        self.second.enter_module_items(node, ctx);
     }
 
     #[inline]
-    fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        self.second.exit_module_items(node);
-        self.first.exit_module_items(node);
+    fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut C) {
+        self.second.exit_module_items(node, ctx);
+        self.first.exit_module_items(node, ctx);
     }
 
     #[inline]
-    fn enter_named_export(&mut self, node: &mut NamedExport) {
-        self.first.enter_named_export(node);
-        self.second.enter_named_export(node);
+    fn enter_named_export(&mut self, node: &mut NamedExport, ctx: &mut C) {
+        self.first.enter_named_export(node, ctx);
+        self.second.enter_named_export(node, ctx);
     }
 
     #[inline]
-    fn exit_named_export(&mut self, node: &mut NamedExport) {
-        self.second.exit_named_export(node);
-        self.first.exit_named_export(node);
+    fn exit_named_export(&mut self, node: &mut NamedExport, ctx: &mut C) {
+        self.second.exit_named_export(node, ctx);
+        self.first.exit_named_export(node, ctx);
     }
 
     #[inline]
-    fn enter_new_expr(&mut self, node: &mut NewExpr) {
-        self.first.enter_new_expr(node);
-        self.second.enter_new_expr(node);
+    fn enter_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {
+        self.first.enter_new_expr(node, ctx);
+        self.second.enter_new_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_new_expr(&mut self, node: &mut NewExpr) {
-        self.second.exit_new_expr(node);
-        self.first.exit_new_expr(node);
+    fn exit_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {
+        self.second.exit_new_expr(node, ctx);
+        self.first.exit_new_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_null(&mut self, node: &mut Null) {
-        self.first.enter_null(node);
-        self.second.enter_null(node);
+    fn enter_null(&mut self, node: &mut Null, ctx: &mut C) {
+        self.first.enter_null(node, ctx);
+        self.second.enter_null(node, ctx);
     }
 
     #[inline]
-    fn exit_null(&mut self, node: &mut Null) {
-        self.second.exit_null(node);
-        self.first.exit_null(node);
+    fn exit_null(&mut self, node: &mut Null, ctx: &mut C) {
+        self.second.exit_null(node, ctx);
+        self.first.exit_null(node, ctx);
     }
 
     #[inline]
-    fn enter_number(&mut self, node: &mut Number) {
-        self.first.enter_number(node);
-        self.second.enter_number(node);
+    fn enter_number(&mut self, node: &mut Number, ctx: &mut C) {
+        self.first.enter_number(node, ctx);
+        self.second.enter_number(node, ctx);
     }
 
     #[inline]
-    fn exit_number(&mut self, node: &mut Number) {
-        self.second.exit_number(node);
-        self.first.exit_number(node);
+    fn exit_number(&mut self, node: &mut Number, ctx: &mut C) {
+        self.second.exit_number(node, ctx);
+        self.first.exit_number(node, ctx);
     }
 
     #[inline]
-    fn enter_object_lit(&mut self, node: &mut ObjectLit) {
-        self.first.enter_object_lit(node);
-        self.second.enter_object_lit(node);
+    fn enter_object_lit(&mut self, node: &mut ObjectLit, ctx: &mut C) {
+        self.first.enter_object_lit(node, ctx);
+        self.second.enter_object_lit(node, ctx);
     }
 
     #[inline]
-    fn exit_object_lit(&mut self, node: &mut ObjectLit) {
-        self.second.exit_object_lit(node);
-        self.first.exit_object_lit(node);
+    fn exit_object_lit(&mut self, node: &mut ObjectLit, ctx: &mut C) {
+        self.second.exit_object_lit(node, ctx);
+        self.first.exit_object_lit(node, ctx);
     }
 
     #[inline]
-    fn enter_object_pat(&mut self, node: &mut ObjectPat) {
-        self.first.enter_object_pat(node);
-        self.second.enter_object_pat(node);
+    fn enter_object_pat(&mut self, node: &mut ObjectPat, ctx: &mut C) {
+        self.first.enter_object_pat(node, ctx);
+        self.second.enter_object_pat(node, ctx);
     }
 
     #[inline]
-    fn exit_object_pat(&mut self, node: &mut ObjectPat) {
-        self.second.exit_object_pat(node);
-        self.first.exit_object_pat(node);
+    fn exit_object_pat(&mut self, node: &mut ObjectPat, ctx: &mut C) {
+        self.second.exit_object_pat(node, ctx);
+        self.first.exit_object_pat(node, ctx);
     }
 
     #[inline]
-    fn enter_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
-        self.first.enter_object_pat_prop(node);
-        self.second.enter_object_pat_prop(node);
+    fn enter_object_pat_prop(&mut self, node: &mut ObjectPatProp, ctx: &mut C) {
+        self.first.enter_object_pat_prop(node, ctx);
+        self.second.enter_object_pat_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
-        self.second.exit_object_pat_prop(node);
-        self.first.exit_object_pat_prop(node);
+    fn exit_object_pat_prop(&mut self, node: &mut ObjectPatProp, ctx: &mut C) {
+        self.second.exit_object_pat_prop(node, ctx);
+        self.first.exit_object_pat_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
-        self.first.enter_object_pat_props(node);
-        self.second.enter_object_pat_props(node);
+    fn enter_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>, ctx: &mut C) {
+        self.first.enter_object_pat_props(node, ctx);
+        self.second.enter_object_pat_props(node, ctx);
     }
 
     #[inline]
-    fn exit_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
-        self.second.exit_object_pat_props(node);
-        self.first.exit_object_pat_props(node);
+    fn exit_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>, ctx: &mut C) {
+        self.second.exit_object_pat_props(node, ctx);
+        self.first.exit_object_pat_props(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
-        self.first.enter_opt_accessibility(node);
-        self.second.enter_opt_accessibility(node);
+    fn enter_opt_accessibility(&mut self, node: &mut Option<Accessibility>, ctx: &mut C) {
+        self.first.enter_opt_accessibility(node, ctx);
+        self.second.enter_opt_accessibility(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
-        self.second.exit_opt_accessibility(node);
-        self.first.exit_opt_accessibility(node);
+    fn exit_opt_accessibility(&mut self, node: &mut Option<Accessibility>, ctx: &mut C) {
+        self.second.exit_opt_accessibility(node, ctx);
+        self.first.exit_opt_accessibility(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
-        self.first.enter_opt_atom(node);
-        self.second.enter_opt_atom(node);
+    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>, ctx: &mut C) {
+        self.first.enter_opt_atom(node, ctx);
+        self.second.enter_opt_atom(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
-        self.second.exit_opt_atom(node);
-        self.first.exit_opt_atom(node);
+    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>, ctx: &mut C) {
+        self.second.exit_opt_atom(node, ctx);
+        self.first.exit_opt_atom(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
-        self.first.enter_opt_block_stmt(node);
-        self.second.enter_opt_block_stmt(node);
+    fn enter_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>, ctx: &mut C) {
+        self.first.enter_opt_block_stmt(node, ctx);
+        self.second.enter_opt_block_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
-        self.second.exit_opt_block_stmt(node);
-        self.first.exit_opt_block_stmt(node);
+    fn exit_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>, ctx: &mut C) {
+        self.second.exit_opt_block_stmt(node, ctx);
+        self.first.exit_opt_block_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_call(&mut self, node: &mut OptCall) {
-        self.first.enter_opt_call(node);
-        self.second.enter_opt_call(node);
+    fn enter_opt_call(&mut self, node: &mut OptCall, ctx: &mut C) {
+        self.first.enter_opt_call(node, ctx);
+        self.second.enter_opt_call(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_call(&mut self, node: &mut OptCall) {
-        self.second.exit_opt_call(node);
-        self.first.exit_opt_call(node);
+    fn exit_opt_call(&mut self, node: &mut OptCall, ctx: &mut C) {
+        self.second.exit_opt_call(node, ctx);
+        self.first.exit_opt_call(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
-        self.first.enter_opt_catch_clause(node);
-        self.second.enter_opt_catch_clause(node);
+    fn enter_opt_catch_clause(&mut self, node: &mut Option<CatchClause>, ctx: &mut C) {
+        self.first.enter_opt_catch_clause(node, ctx);
+        self.second.enter_opt_catch_clause(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
-        self.second.exit_opt_catch_clause(node);
-        self.first.exit_opt_catch_clause(node);
+    fn exit_opt_catch_clause(&mut self, node: &mut Option<CatchClause>, ctx: &mut C) {
+        self.second.exit_opt_catch_clause(node, ctx);
+        self.first.exit_opt_catch_clause(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_chain_base(&mut self, node: &mut OptChainBase) {
-        self.first.enter_opt_chain_base(node);
-        self.second.enter_opt_chain_base(node);
+    fn enter_opt_chain_base(&mut self, node: &mut OptChainBase, ctx: &mut C) {
+        self.first.enter_opt_chain_base(node, ctx);
+        self.second.enter_opt_chain_base(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_chain_base(&mut self, node: &mut OptChainBase) {
-        self.second.exit_opt_chain_base(node);
-        self.first.exit_opt_chain_base(node);
+    fn exit_opt_chain_base(&mut self, node: &mut OptChainBase, ctx: &mut C) {
+        self.second.exit_opt_chain_base(node, ctx);
+        self.first.exit_opt_chain_base(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
-        self.first.enter_opt_chain_expr(node);
-        self.second.enter_opt_chain_expr(node);
+    fn enter_opt_chain_expr(&mut self, node: &mut OptChainExpr, ctx: &mut C) {
+        self.first.enter_opt_chain_expr(node, ctx);
+        self.second.enter_opt_chain_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
-        self.second.exit_opt_chain_expr(node);
-        self.first.exit_opt_chain_expr(node);
+    fn exit_opt_chain_expr(&mut self, node: &mut OptChainExpr, ctx: &mut C) {
+        self.second.exit_opt_chain_expr(node, ctx);
+        self.first.exit_opt_chain_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
-        self.first.enter_opt_expr(node);
-        self.second.enter_opt_expr(node);
+    fn enter_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ctx: &mut C) {
+        self.first.enter_opt_expr(node, ctx);
+        self.second.enter_opt_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
-        self.second.exit_opt_expr(node);
-        self.first.exit_opt_expr(node);
+    fn exit_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ctx: &mut C) {
+        self.second.exit_opt_expr(node, ctx);
+        self.first.exit_opt_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
-        self.first.enter_opt_expr_or_spread(node);
-        self.second.enter_opt_expr_or_spread(node);
+    fn enter_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>, ctx: &mut C) {
+        self.first.enter_opt_expr_or_spread(node, ctx);
+        self.second.enter_opt_expr_or_spread(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
-        self.second.exit_opt_expr_or_spread(node);
-        self.first.exit_opt_expr_or_spread(node);
+    fn exit_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>, ctx: &mut C) {
+        self.second.exit_opt_expr_or_spread(node, ctx);
+        self.first.exit_opt_expr_or_spread(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
-        self.first.enter_opt_expr_or_spreads(node);
-        self.second.enter_opt_expr_or_spreads(node);
+    fn enter_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>, ctx: &mut C) {
+        self.first.enter_opt_expr_or_spreads(node, ctx);
+        self.second.enter_opt_expr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
-        self.second.exit_opt_expr_or_spreads(node);
-        self.first.exit_opt_expr_or_spreads(node);
+    fn exit_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>, ctx: &mut C) {
+        self.second.exit_opt_expr_or_spreads(node, ctx);
+        self.first.exit_opt_expr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_ident(&mut self, node: &mut Option<Ident>) {
-        self.first.enter_opt_ident(node);
-        self.second.enter_opt_ident(node);
+    fn enter_opt_ident(&mut self, node: &mut Option<Ident>, ctx: &mut C) {
+        self.first.enter_opt_ident(node, ctx);
+        self.second.enter_opt_ident(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_ident(&mut self, node: &mut Option<Ident>) {
-        self.second.exit_opt_ident(node);
-        self.first.exit_opt_ident(node);
+    fn exit_opt_ident(&mut self, node: &mut Option<Ident>, ctx: &mut C) {
+        self.second.exit_opt_ident(node, ctx);
+        self.first.exit_opt_ident(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
-        self.first.enter_opt_jsx_attr_value(node);
-        self.second.enter_opt_jsx_attr_value(node);
+    fn enter_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>, ctx: &mut C) {
+        self.first.enter_opt_jsx_attr_value(node, ctx);
+        self.second.enter_opt_jsx_attr_value(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
-        self.second.exit_opt_jsx_attr_value(node);
-        self.first.exit_opt_jsx_attr_value(node);
+    fn exit_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>, ctx: &mut C) {
+        self.second.exit_opt_jsx_attr_value(node, ctx);
+        self.first.exit_opt_jsx_attr_value(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
-        self.first.enter_opt_jsx_closing_element(node);
-        self.second.enter_opt_jsx_closing_element(node);
+    fn enter_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>, ctx: &mut C) {
+        self.first.enter_opt_jsx_closing_element(node, ctx);
+        self.second.enter_opt_jsx_closing_element(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
-        self.second.exit_opt_jsx_closing_element(node);
-        self.first.exit_opt_jsx_closing_element(node);
+    fn exit_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>, ctx: &mut C) {
+        self.second.exit_opt_jsx_closing_element(node, ctx);
+        self.first.exit_opt_jsx_closing_element(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
-        self.first.enter_opt_module_export_name(node);
-        self.second.enter_opt_module_export_name(node);
+    fn enter_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>, ctx: &mut C) {
+        self.first.enter_opt_module_export_name(node, ctx);
+        self.second.enter_opt_module_export_name(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
-        self.second.exit_opt_module_export_name(node);
-        self.first.exit_opt_module_export_name(node);
+    fn exit_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>, ctx: &mut C) {
+        self.second.exit_opt_module_export_name(node, ctx);
+        self.first.exit_opt_module_export_name(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
-        self.first.enter_opt_object_lit(node);
-        self.second.enter_opt_object_lit(node);
+    fn enter_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>, ctx: &mut C) {
+        self.first.enter_opt_object_lit(node, ctx);
+        self.second.enter_opt_object_lit(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
-        self.second.exit_opt_object_lit(node);
-        self.first.exit_opt_object_lit(node);
+    fn exit_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>, ctx: &mut C) {
+        self.second.exit_opt_object_lit(node, ctx);
+        self.first.exit_opt_object_lit(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_pat(&mut self, node: &mut Option<Pat>) {
-        self.first.enter_opt_pat(node);
-        self.second.enter_opt_pat(node);
+    fn enter_opt_pat(&mut self, node: &mut Option<Pat>, ctx: &mut C) {
+        self.first.enter_opt_pat(node, ctx);
+        self.second.enter_opt_pat(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_pat(&mut self, node: &mut Option<Pat>) {
-        self.second.exit_opt_pat(node);
-        self.first.exit_opt_pat(node);
+    fn exit_opt_pat(&mut self, node: &mut Option<Pat>, ctx: &mut C) {
+        self.second.exit_opt_pat(node, ctx);
+        self.first.exit_opt_pat(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
-        self.first.enter_opt_span(node);
-        self.second.enter_opt_span(node);
+    fn enter_opt_span(&mut self, node: &mut Option<swc_common::Span>, ctx: &mut C) {
+        self.first.enter_opt_span(node, ctx);
+        self.second.enter_opt_span(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
-        self.second.exit_opt_span(node);
-        self.first.exit_opt_span(node);
+    fn exit_opt_span(&mut self, node: &mut Option<swc_common::Span>, ctx: &mut C) {
+        self.second.exit_opt_span(node, ctx);
+        self.first.exit_opt_span(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
-        self.first.enter_opt_stmt(node);
-        self.second.enter_opt_stmt(node);
+    fn enter_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ctx: &mut C) {
+        self.first.enter_opt_stmt(node, ctx);
+        self.second.enter_opt_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
-        self.second.exit_opt_stmt(node);
-        self.first.exit_opt_stmt(node);
+    fn exit_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ctx: &mut C) {
+        self.second.exit_opt_stmt(node, ctx);
+        self.first.exit_opt_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_str(&mut self, node: &mut Option<Box<Str>>) {
-        self.first.enter_opt_str(node);
-        self.second.enter_opt_str(node);
+    fn enter_opt_str(&mut self, node: &mut Option<Box<Str>>, ctx: &mut C) {
+        self.first.enter_opt_str(node, ctx);
+        self.second.enter_opt_str(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_str(&mut self, node: &mut Option<Box<Str>>) {
-        self.second.exit_opt_str(node);
-        self.first.exit_opt_str(node);
+    fn exit_opt_str(&mut self, node: &mut Option<Box<Str>>, ctx: &mut C) {
+        self.second.exit_opt_str(node, ctx);
+        self.first.exit_opt_str(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
-        self.first.enter_opt_true_plus_minus(node);
-        self.second.enter_opt_true_plus_minus(node);
+    fn enter_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>, ctx: &mut C) {
+        self.first.enter_opt_true_plus_minus(node, ctx);
+        self.second.enter_opt_true_plus_minus(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
-        self.second.exit_opt_true_plus_minus(node);
-        self.first.exit_opt_true_plus_minus(node);
+    fn exit_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>, ctx: &mut C) {
+        self.second.exit_opt_true_plus_minus(node, ctx);
+        self.first.exit_opt_true_plus_minus(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
-        self.first.enter_opt_ts_entity_name(node);
-        self.second.enter_opt_ts_entity_name(node);
+    fn enter_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>, ctx: &mut C) {
+        self.first.enter_opt_ts_entity_name(node, ctx);
+        self.second.enter_opt_ts_entity_name(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
-        self.second.exit_opt_ts_entity_name(node);
-        self.first.exit_opt_ts_entity_name(node);
+    fn exit_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>, ctx: &mut C) {
+        self.second.exit_opt_ts_entity_name(node, ctx);
+        self.first.exit_opt_ts_entity_name(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_ts_import_call_options(&mut self, node: &mut Option<TsImportCallOptions>) {
-        self.first.enter_opt_ts_import_call_options(node);
-        self.second.enter_opt_ts_import_call_options(node);
+    fn enter_opt_ts_import_call_options(
+        &mut self,
+        node: &mut Option<TsImportCallOptions>,
+        ctx: &mut C,
+    ) {
+        self.first.enter_opt_ts_import_call_options(node, ctx);
+        self.second.enter_opt_ts_import_call_options(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_ts_import_call_options(&mut self, node: &mut Option<TsImportCallOptions>) {
-        self.second.exit_opt_ts_import_call_options(node);
-        self.first.exit_opt_ts_import_call_options(node);
+    fn exit_opt_ts_import_call_options(
+        &mut self,
+        node: &mut Option<TsImportCallOptions>,
+        ctx: &mut C,
+    ) {
+        self.second.exit_opt_ts_import_call_options(node, ctx);
+        self.first.exit_opt_ts_import_call_options(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
-        self.first.enter_opt_ts_namespace_body(node);
-        self.second.enter_opt_ts_namespace_body(node);
+    fn enter_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>, ctx: &mut C) {
+        self.first.enter_opt_ts_namespace_body(node, ctx);
+        self.second.enter_opt_ts_namespace_body(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
-        self.second.exit_opt_ts_namespace_body(node);
-        self.first.exit_opt_ts_namespace_body(node);
+    fn exit_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>, ctx: &mut C) {
+        self.second.exit_opt_ts_namespace_body(node, ctx);
+        self.first.exit_opt_ts_namespace_body(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
-        self.first.enter_opt_ts_type(node);
-        self.second.enter_opt_ts_type(node);
+    fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {
+        self.first.enter_opt_ts_type(node, ctx);
+        self.second.enter_opt_ts_type(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
-        self.second.exit_opt_ts_type(node);
-        self.first.exit_opt_ts_type(node);
+    fn exit_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {
+        self.second.exit_opt_ts_type(node, ctx);
+        self.first.exit_opt_ts_type(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
-        self.first.enter_opt_ts_type_ann(node);
-        self.second.enter_opt_ts_type_ann(node);
+    fn enter_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>, ctx: &mut C) {
+        self.first.enter_opt_ts_type_ann(node, ctx);
+        self.second.enter_opt_ts_type_ann(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
-        self.second.exit_opt_ts_type_ann(node);
-        self.first.exit_opt_ts_type_ann(node);
+    fn exit_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>, ctx: &mut C) {
+        self.second.exit_opt_ts_type_ann(node, ctx);
+        self.first.exit_opt_ts_type_ann(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
-        self.first.enter_opt_ts_type_param_decl(node);
-        self.second.enter_opt_ts_type_param_decl(node);
+    fn enter_opt_ts_type_param_decl(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamDecl>>,
+        ctx: &mut C,
+    ) {
+        self.first.enter_opt_ts_type_param_decl(node, ctx);
+        self.second.enter_opt_ts_type_param_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
-        self.second.exit_opt_ts_type_param_decl(node);
-        self.first.exit_opt_ts_type_param_decl(node);
+    fn exit_opt_ts_type_param_decl(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamDecl>>,
+        ctx: &mut C,
+    ) {
+        self.second.exit_opt_ts_type_param_decl(node, ctx);
+        self.first.exit_opt_ts_type_param_decl(node, ctx);
     }
 
     #[inline]
     fn enter_opt_ts_type_param_instantiation(
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
+        ctx: &mut C,
     ) {
-        self.first.enter_opt_ts_type_param_instantiation(node);
-        self.second.enter_opt_ts_type_param_instantiation(node);
+        self.first.enter_opt_ts_type_param_instantiation(node, ctx);
+        self.second.enter_opt_ts_type_param_instantiation(node, ctx);
     }
 
     #[inline]
     fn exit_opt_ts_type_param_instantiation(
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
+        ctx: &mut C,
     ) {
-        self.second.exit_opt_ts_type_param_instantiation(node);
-        self.first.exit_opt_ts_type_param_instantiation(node);
+        self.second.exit_opt_ts_type_param_instantiation(node, ctx);
+        self.first.exit_opt_ts_type_param_instantiation(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
-        self.first.enter_opt_var_decl_or_expr(node);
-        self.second.enter_opt_var_decl_or_expr(node);
+    fn enter_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>, ctx: &mut C) {
+        self.first.enter_opt_var_decl_or_expr(node, ctx);
+        self.second.enter_opt_var_decl_or_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
-        self.second.exit_opt_var_decl_or_expr(node);
-        self.first.exit_opt_var_decl_or_expr(node);
+    fn exit_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>, ctx: &mut C) {
+        self.second.exit_opt_var_decl_or_expr(node, ctx);
+        self.first.exit_opt_var_decl_or_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
-        self.first.enter_opt_vec_expr_or_spreads(node);
-        self.second.enter_opt_vec_expr_or_spreads(node);
+    fn enter_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>, ctx: &mut C) {
+        self.first.enter_opt_vec_expr_or_spreads(node, ctx);
+        self.second.enter_opt_vec_expr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
-        self.second.exit_opt_vec_expr_or_spreads(node);
-        self.first.exit_opt_vec_expr_or_spreads(node);
+    fn exit_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>, ctx: &mut C) {
+        self.second.exit_opt_vec_expr_or_spreads(node, ctx);
+        self.first.exit_opt_vec_expr_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {
-        self.first.enter_opt_vec_pats(node);
-        self.second.enter_opt_vec_pats(node);
+    fn enter_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ctx: &mut C) {
+        self.first.enter_opt_vec_pats(node, ctx);
+        self.second.enter_opt_vec_pats(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {
-        self.second.exit_opt_vec_pats(node);
-        self.first.exit_opt_vec_pats(node);
+    fn exit_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ctx: &mut C) {
+        self.second.exit_opt_vec_pats(node, ctx);
+        self.first.exit_opt_vec_pats(node, ctx);
     }
 
     #[inline]
-    fn enter_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>) {
-        self.first.enter_opt_wtf_8_atom(node);
-        self.second.enter_opt_wtf_8_atom(node);
+    fn enter_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>, ctx: &mut C) {
+        self.first.enter_opt_wtf_8_atom(node, ctx);
+        self.second.enter_opt_wtf_8_atom(node, ctx);
     }
 
     #[inline]
-    fn exit_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>) {
-        self.second.exit_opt_wtf_8_atom(node);
-        self.first.exit_opt_wtf_8_atom(node);
+    fn exit_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>, ctx: &mut C) {
+        self.second.exit_opt_wtf_8_atom(node, ctx);
+        self.first.exit_opt_wtf_8_atom(node, ctx);
     }
 
     #[inline]
-    fn enter_param(&mut self, node: &mut Param) {
-        self.first.enter_param(node);
-        self.second.enter_param(node);
+    fn enter_param(&mut self, node: &mut Param, ctx: &mut C) {
+        self.first.enter_param(node, ctx);
+        self.second.enter_param(node, ctx);
     }
 
     #[inline]
-    fn exit_param(&mut self, node: &mut Param) {
-        self.second.exit_param(node);
-        self.first.exit_param(node);
+    fn exit_param(&mut self, node: &mut Param, ctx: &mut C) {
+        self.second.exit_param(node, ctx);
+        self.first.exit_param(node, ctx);
     }
 
     #[inline]
-    fn enter_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
-        self.first.enter_param_or_ts_param_prop(node);
-        self.second.enter_param_or_ts_param_prop(node);
+    fn enter_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp, ctx: &mut C) {
+        self.first.enter_param_or_ts_param_prop(node, ctx);
+        self.second.enter_param_or_ts_param_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
-        self.second.exit_param_or_ts_param_prop(node);
-        self.first.exit_param_or_ts_param_prop(node);
+    fn exit_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp, ctx: &mut C) {
+        self.second.exit_param_or_ts_param_prop(node, ctx);
+        self.first.exit_param_or_ts_param_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
-        self.first.enter_param_or_ts_param_props(node);
-        self.second.enter_param_or_ts_param_props(node);
+    fn enter_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>, ctx: &mut C) {
+        self.first.enter_param_or_ts_param_props(node, ctx);
+        self.second.enter_param_or_ts_param_props(node, ctx);
     }
 
     #[inline]
-    fn exit_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
-        self.second.exit_param_or_ts_param_props(node);
-        self.first.exit_param_or_ts_param_props(node);
+    fn exit_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>, ctx: &mut C) {
+        self.second.exit_param_or_ts_param_props(node, ctx);
+        self.first.exit_param_or_ts_param_props(node, ctx);
     }
 
     #[inline]
-    fn enter_params(&mut self, node: &mut Vec<Param>) {
-        self.first.enter_params(node);
-        self.second.enter_params(node);
+    fn enter_params(&mut self, node: &mut Vec<Param>, ctx: &mut C) {
+        self.first.enter_params(node, ctx);
+        self.second.enter_params(node, ctx);
     }
 
     #[inline]
-    fn exit_params(&mut self, node: &mut Vec<Param>) {
-        self.second.exit_params(node);
-        self.first.exit_params(node);
+    fn exit_params(&mut self, node: &mut Vec<Param>, ctx: &mut C) {
+        self.second.exit_params(node, ctx);
+        self.first.exit_params(node, ctx);
     }
 
     #[inline]
-    fn enter_paren_expr(&mut self, node: &mut ParenExpr) {
-        self.first.enter_paren_expr(node);
-        self.second.enter_paren_expr(node);
+    fn enter_paren_expr(&mut self, node: &mut ParenExpr, ctx: &mut C) {
+        self.first.enter_paren_expr(node, ctx);
+        self.second.enter_paren_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_paren_expr(&mut self, node: &mut ParenExpr) {
-        self.second.exit_paren_expr(node);
-        self.first.exit_paren_expr(node);
+    fn exit_paren_expr(&mut self, node: &mut ParenExpr, ctx: &mut C) {
+        self.second.exit_paren_expr(node, ctx);
+        self.first.exit_paren_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_pat(&mut self, node: &mut Pat) {
-        self.first.enter_pat(node);
-        self.second.enter_pat(node);
+    fn enter_pat(&mut self, node: &mut Pat, ctx: &mut C) {
+        self.first.enter_pat(node, ctx);
+        self.second.enter_pat(node, ctx);
     }
 
     #[inline]
-    fn exit_pat(&mut self, node: &mut Pat) {
-        self.second.exit_pat(node);
-        self.first.exit_pat(node);
+    fn exit_pat(&mut self, node: &mut Pat, ctx: &mut C) {
+        self.second.exit_pat(node, ctx);
+        self.first.exit_pat(node, ctx);
     }
 
     #[inline]
-    fn enter_pats(&mut self, node: &mut Vec<Pat>) {
-        self.first.enter_pats(node);
-        self.second.enter_pats(node);
+    fn enter_pats(&mut self, node: &mut Vec<Pat>, ctx: &mut C) {
+        self.first.enter_pats(node, ctx);
+        self.second.enter_pats(node, ctx);
     }
 
     #[inline]
-    fn exit_pats(&mut self, node: &mut Vec<Pat>) {
-        self.second.exit_pats(node);
-        self.first.exit_pats(node);
+    fn exit_pats(&mut self, node: &mut Vec<Pat>, ctx: &mut C) {
+        self.second.exit_pats(node, ctx);
+        self.first.exit_pats(node, ctx);
     }
 
     #[inline]
-    fn enter_private_method(&mut self, node: &mut PrivateMethod) {
-        self.first.enter_private_method(node);
-        self.second.enter_private_method(node);
+    fn enter_private_method(&mut self, node: &mut PrivateMethod, ctx: &mut C) {
+        self.first.enter_private_method(node, ctx);
+        self.second.enter_private_method(node, ctx);
     }
 
     #[inline]
-    fn exit_private_method(&mut self, node: &mut PrivateMethod) {
-        self.second.exit_private_method(node);
-        self.first.exit_private_method(node);
+    fn exit_private_method(&mut self, node: &mut PrivateMethod, ctx: &mut C) {
+        self.second.exit_private_method(node, ctx);
+        self.first.exit_private_method(node, ctx);
     }
 
     #[inline]
-    fn enter_private_name(&mut self, node: &mut PrivateName) {
-        self.first.enter_private_name(node);
-        self.second.enter_private_name(node);
+    fn enter_private_name(&mut self, node: &mut PrivateName, ctx: &mut C) {
+        self.first.enter_private_name(node, ctx);
+        self.second.enter_private_name(node, ctx);
     }
 
     #[inline]
-    fn exit_private_name(&mut self, node: &mut PrivateName) {
-        self.second.exit_private_name(node);
-        self.first.exit_private_name(node);
+    fn exit_private_name(&mut self, node: &mut PrivateName, ctx: &mut C) {
+        self.second.exit_private_name(node, ctx);
+        self.first.exit_private_name(node, ctx);
     }
 
     #[inline]
-    fn enter_private_prop(&mut self, node: &mut PrivateProp) {
-        self.first.enter_private_prop(node);
-        self.second.enter_private_prop(node);
+    fn enter_private_prop(&mut self, node: &mut PrivateProp, ctx: &mut C) {
+        self.first.enter_private_prop(node, ctx);
+        self.second.enter_private_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_private_prop(&mut self, node: &mut PrivateProp) {
-        self.second.exit_private_prop(node);
-        self.first.exit_private_prop(node);
+    fn exit_private_prop(&mut self, node: &mut PrivateProp, ctx: &mut C) {
+        self.second.exit_private_prop(node, ctx);
+        self.first.exit_private_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_program(&mut self, node: &mut Program) {
-        self.first.enter_program(node);
-        self.second.enter_program(node);
+    fn enter_program(&mut self, node: &mut Program, ctx: &mut C) {
+        self.first.enter_program(node, ctx);
+        self.second.enter_program(node, ctx);
     }
 
     #[inline]
-    fn exit_program(&mut self, node: &mut Program) {
-        self.second.exit_program(node);
-        self.first.exit_program(node);
+    fn exit_program(&mut self, node: &mut Program, ctx: &mut C) {
+        self.second.exit_program(node, ctx);
+        self.first.exit_program(node, ctx);
     }
 
     #[inline]
-    fn enter_prop(&mut self, node: &mut Prop) {
-        self.first.enter_prop(node);
-        self.second.enter_prop(node);
+    fn enter_prop(&mut self, node: &mut Prop, ctx: &mut C) {
+        self.first.enter_prop(node, ctx);
+        self.second.enter_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_prop(&mut self, node: &mut Prop) {
-        self.second.exit_prop(node);
-        self.first.exit_prop(node);
+    fn exit_prop(&mut self, node: &mut Prop, ctx: &mut C) {
+        self.second.exit_prop(node, ctx);
+        self.first.exit_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_prop_name(&mut self, node: &mut PropName) {
-        self.first.enter_prop_name(node);
-        self.second.enter_prop_name(node);
+    fn enter_prop_name(&mut self, node: &mut PropName, ctx: &mut C) {
+        self.first.enter_prop_name(node, ctx);
+        self.second.enter_prop_name(node, ctx);
     }
 
     #[inline]
-    fn exit_prop_name(&mut self, node: &mut PropName) {
-        self.second.exit_prop_name(node);
-        self.first.exit_prop_name(node);
+    fn exit_prop_name(&mut self, node: &mut PropName, ctx: &mut C) {
+        self.second.exit_prop_name(node, ctx);
+        self.first.exit_prop_name(node, ctx);
     }
 
     #[inline]
-    fn enter_prop_or_spread(&mut self, node: &mut PropOrSpread) {
-        self.first.enter_prop_or_spread(node);
-        self.second.enter_prop_or_spread(node);
+    fn enter_prop_or_spread(&mut self, node: &mut PropOrSpread, ctx: &mut C) {
+        self.first.enter_prop_or_spread(node, ctx);
+        self.second.enter_prop_or_spread(node, ctx);
     }
 
     #[inline]
-    fn exit_prop_or_spread(&mut self, node: &mut PropOrSpread) {
-        self.second.exit_prop_or_spread(node);
-        self.first.exit_prop_or_spread(node);
+    fn exit_prop_or_spread(&mut self, node: &mut PropOrSpread, ctx: &mut C) {
+        self.second.exit_prop_or_spread(node, ctx);
+        self.first.exit_prop_or_spread(node, ctx);
     }
 
     #[inline]
-    fn enter_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
-        self.first.enter_prop_or_spreads(node);
-        self.second.enter_prop_or_spreads(node);
+    fn enter_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>, ctx: &mut C) {
+        self.first.enter_prop_or_spreads(node, ctx);
+        self.second.enter_prop_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn exit_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
-        self.second.exit_prop_or_spreads(node);
-        self.first.exit_prop_or_spreads(node);
+    fn exit_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>, ctx: &mut C) {
+        self.second.exit_prop_or_spreads(node, ctx);
+        self.first.exit_prop_or_spreads(node, ctx);
     }
 
     #[inline]
-    fn enter_regex(&mut self, node: &mut Regex) {
-        self.first.enter_regex(node);
-        self.second.enter_regex(node);
+    fn enter_regex(&mut self, node: &mut Regex, ctx: &mut C) {
+        self.first.enter_regex(node, ctx);
+        self.second.enter_regex(node, ctx);
     }
 
     #[inline]
-    fn exit_regex(&mut self, node: &mut Regex) {
-        self.second.exit_regex(node);
-        self.first.exit_regex(node);
+    fn exit_regex(&mut self, node: &mut Regex, ctx: &mut C) {
+        self.second.exit_regex(node, ctx);
+        self.first.exit_regex(node, ctx);
     }
 
     #[inline]
-    fn enter_rest_pat(&mut self, node: &mut RestPat) {
-        self.first.enter_rest_pat(node);
-        self.second.enter_rest_pat(node);
+    fn enter_rest_pat(&mut self, node: &mut RestPat, ctx: &mut C) {
+        self.first.enter_rest_pat(node, ctx);
+        self.second.enter_rest_pat(node, ctx);
     }
 
     #[inline]
-    fn exit_rest_pat(&mut self, node: &mut RestPat) {
-        self.second.exit_rest_pat(node);
-        self.first.exit_rest_pat(node);
+    fn exit_rest_pat(&mut self, node: &mut RestPat, ctx: &mut C) {
+        self.second.exit_rest_pat(node, ctx);
+        self.first.exit_rest_pat(node, ctx);
     }
 
     #[inline]
-    fn enter_return_stmt(&mut self, node: &mut ReturnStmt) {
-        self.first.enter_return_stmt(node);
-        self.second.enter_return_stmt(node);
+    fn enter_return_stmt(&mut self, node: &mut ReturnStmt, ctx: &mut C) {
+        self.first.enter_return_stmt(node, ctx);
+        self.second.enter_return_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_return_stmt(&mut self, node: &mut ReturnStmt) {
-        self.second.exit_return_stmt(node);
-        self.first.exit_return_stmt(node);
+    fn exit_return_stmt(&mut self, node: &mut ReturnStmt, ctx: &mut C) {
+        self.second.exit_return_stmt(node, ctx);
+        self.first.exit_return_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_script(&mut self, node: &mut Script) {
-        self.first.enter_script(node);
-        self.second.enter_script(node);
+    fn enter_script(&mut self, node: &mut Script, ctx: &mut C) {
+        self.first.enter_script(node, ctx);
+        self.second.enter_script(node, ctx);
     }
 
     #[inline]
-    fn exit_script(&mut self, node: &mut Script) {
-        self.second.exit_script(node);
-        self.first.exit_script(node);
+    fn exit_script(&mut self, node: &mut Script, ctx: &mut C) {
+        self.second.exit_script(node, ctx);
+        self.first.exit_script(node, ctx);
     }
 
     #[inline]
-    fn enter_seq_expr(&mut self, node: &mut SeqExpr) {
-        self.first.enter_seq_expr(node);
-        self.second.enter_seq_expr(node);
+    fn enter_seq_expr(&mut self, node: &mut SeqExpr, ctx: &mut C) {
+        self.first.enter_seq_expr(node, ctx);
+        self.second.enter_seq_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_seq_expr(&mut self, node: &mut SeqExpr) {
-        self.second.exit_seq_expr(node);
-        self.first.exit_seq_expr(node);
+    fn exit_seq_expr(&mut self, node: &mut SeqExpr, ctx: &mut C) {
+        self.second.exit_seq_expr(node, ctx);
+        self.first.exit_seq_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_setter_prop(&mut self, node: &mut SetterProp) {
-        self.first.enter_setter_prop(node);
-        self.second.enter_setter_prop(node);
+    fn enter_setter_prop(&mut self, node: &mut SetterProp, ctx: &mut C) {
+        self.first.enter_setter_prop(node, ctx);
+        self.second.enter_setter_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_setter_prop(&mut self, node: &mut SetterProp) {
-        self.second.exit_setter_prop(node);
-        self.first.exit_setter_prop(node);
+    fn exit_setter_prop(&mut self, node: &mut SetterProp, ctx: &mut C) {
+        self.second.exit_setter_prop(node, ctx);
+        self.first.exit_setter_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        self.first.enter_simple_assign_target(node);
-        self.second.enter_simple_assign_target(node);
+    fn enter_simple_assign_target(&mut self, node: &mut SimpleAssignTarget, ctx: &mut C) {
+        self.first.enter_simple_assign_target(node, ctx);
+        self.second.enter_simple_assign_target(node, ctx);
     }
 
     #[inline]
-    fn exit_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        self.second.exit_simple_assign_target(node);
-        self.first.exit_simple_assign_target(node);
+    fn exit_simple_assign_target(&mut self, node: &mut SimpleAssignTarget, ctx: &mut C) {
+        self.second.exit_simple_assign_target(node, ctx);
+        self.first.exit_simple_assign_target(node, ctx);
     }
 
     #[inline]
-    fn enter_span(&mut self, node: &mut swc_common::Span) {
-        self.first.enter_span(node);
-        self.second.enter_span(node);
+    fn enter_span(&mut self, node: &mut swc_common::Span, ctx: &mut C) {
+        self.first.enter_span(node, ctx);
+        self.second.enter_span(node, ctx);
     }
 
     #[inline]
-    fn exit_span(&mut self, node: &mut swc_common::Span) {
-        self.second.exit_span(node);
-        self.first.exit_span(node);
+    fn exit_span(&mut self, node: &mut swc_common::Span, ctx: &mut C) {
+        self.second.exit_span(node, ctx);
+        self.first.exit_span(node, ctx);
     }
 
     #[inline]
-    fn enter_spread_element(&mut self, node: &mut SpreadElement) {
-        self.first.enter_spread_element(node);
-        self.second.enter_spread_element(node);
+    fn enter_spread_element(&mut self, node: &mut SpreadElement, ctx: &mut C) {
+        self.first.enter_spread_element(node, ctx);
+        self.second.enter_spread_element(node, ctx);
     }
 
     #[inline]
-    fn exit_spread_element(&mut self, node: &mut SpreadElement) {
-        self.second.exit_spread_element(node);
-        self.first.exit_spread_element(node);
+    fn exit_spread_element(&mut self, node: &mut SpreadElement, ctx: &mut C) {
+        self.second.exit_spread_element(node, ctx);
+        self.first.exit_spread_element(node, ctx);
     }
 
     #[inline]
-    fn enter_static_block(&mut self, node: &mut StaticBlock) {
-        self.first.enter_static_block(node);
-        self.second.enter_static_block(node);
+    fn enter_static_block(&mut self, node: &mut StaticBlock, ctx: &mut C) {
+        self.first.enter_static_block(node, ctx);
+        self.second.enter_static_block(node, ctx);
     }
 
     #[inline]
-    fn exit_static_block(&mut self, node: &mut StaticBlock) {
-        self.second.exit_static_block(node);
-        self.first.exit_static_block(node);
+    fn exit_static_block(&mut self, node: &mut StaticBlock, ctx: &mut C) {
+        self.second.exit_static_block(node, ctx);
+        self.first.exit_static_block(node, ctx);
     }
 
     #[inline]
-    fn enter_stmt(&mut self, node: &mut Stmt) {
-        self.first.enter_stmt(node);
-        self.second.enter_stmt(node);
+    fn enter_stmt(&mut self, node: &mut Stmt, ctx: &mut C) {
+        self.first.enter_stmt(node, ctx);
+        self.second.enter_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_stmt(&mut self, node: &mut Stmt) {
-        self.second.exit_stmt(node);
-        self.first.exit_stmt(node);
+    fn exit_stmt(&mut self, node: &mut Stmt, ctx: &mut C) {
+        self.second.exit_stmt(node, ctx);
+        self.first.exit_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_stmts(&mut self, node: &mut Vec<Stmt>) {
-        self.first.enter_stmts(node);
-        self.second.enter_stmts(node);
+    fn enter_stmts(&mut self, node: &mut Vec<Stmt>, ctx: &mut C) {
+        self.first.enter_stmts(node, ctx);
+        self.second.enter_stmts(node, ctx);
     }
 
     #[inline]
-    fn exit_stmts(&mut self, node: &mut Vec<Stmt>) {
-        self.second.exit_stmts(node);
-        self.first.exit_stmts(node);
+    fn exit_stmts(&mut self, node: &mut Vec<Stmt>, ctx: &mut C) {
+        self.second.exit_stmts(node, ctx);
+        self.first.exit_stmts(node, ctx);
     }
 
     #[inline]
-    fn enter_str(&mut self, node: &mut Str) {
-        self.first.enter_str(node);
-        self.second.enter_str(node);
+    fn enter_str(&mut self, node: &mut Str, ctx: &mut C) {
+        self.first.enter_str(node, ctx);
+        self.second.enter_str(node, ctx);
     }
 
     #[inline]
-    fn exit_str(&mut self, node: &mut Str) {
-        self.second.exit_str(node);
-        self.first.exit_str(node);
+    fn exit_str(&mut self, node: &mut Str, ctx: &mut C) {
+        self.second.exit_str(node, ctx);
+        self.first.exit_str(node, ctx);
     }
 
     #[inline]
-    fn enter_super(&mut self, node: &mut Super) {
-        self.first.enter_super(node);
-        self.second.enter_super(node);
+    fn enter_super(&mut self, node: &mut Super, ctx: &mut C) {
+        self.first.enter_super(node, ctx);
+        self.second.enter_super(node, ctx);
     }
 
     #[inline]
-    fn exit_super(&mut self, node: &mut Super) {
-        self.second.exit_super(node);
-        self.first.exit_super(node);
+    fn exit_super(&mut self, node: &mut Super, ctx: &mut C) {
+        self.second.exit_super(node, ctx);
+        self.first.exit_super(node, ctx);
     }
 
     #[inline]
-    fn enter_super_prop(&mut self, node: &mut SuperProp) {
-        self.first.enter_super_prop(node);
-        self.second.enter_super_prop(node);
+    fn enter_super_prop(&mut self, node: &mut SuperProp, ctx: &mut C) {
+        self.first.enter_super_prop(node, ctx);
+        self.second.enter_super_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_super_prop(&mut self, node: &mut SuperProp) {
-        self.second.exit_super_prop(node);
-        self.first.exit_super_prop(node);
+    fn exit_super_prop(&mut self, node: &mut SuperProp, ctx: &mut C) {
+        self.second.exit_super_prop(node, ctx);
+        self.first.exit_super_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
-        self.first.enter_super_prop_expr(node);
-        self.second.enter_super_prop_expr(node);
+    fn enter_super_prop_expr(&mut self, node: &mut SuperPropExpr, ctx: &mut C) {
+        self.first.enter_super_prop_expr(node, ctx);
+        self.second.enter_super_prop_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
-        self.second.exit_super_prop_expr(node);
-        self.first.exit_super_prop_expr(node);
+    fn exit_super_prop_expr(&mut self, node: &mut SuperPropExpr, ctx: &mut C) {
+        self.second.exit_super_prop_expr(node, ctx);
+        self.first.exit_super_prop_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_switch_case(&mut self, node: &mut SwitchCase) {
-        self.first.enter_switch_case(node);
-        self.second.enter_switch_case(node);
+    fn enter_switch_case(&mut self, node: &mut SwitchCase, ctx: &mut C) {
+        self.first.enter_switch_case(node, ctx);
+        self.second.enter_switch_case(node, ctx);
     }
 
     #[inline]
-    fn exit_switch_case(&mut self, node: &mut SwitchCase) {
-        self.second.exit_switch_case(node);
-        self.first.exit_switch_case(node);
+    fn exit_switch_case(&mut self, node: &mut SwitchCase, ctx: &mut C) {
+        self.second.exit_switch_case(node, ctx);
+        self.first.exit_switch_case(node, ctx);
     }
 
     #[inline]
-    fn enter_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
-        self.first.enter_switch_cases(node);
-        self.second.enter_switch_cases(node);
+    fn enter_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ctx: &mut C) {
+        self.first.enter_switch_cases(node, ctx);
+        self.second.enter_switch_cases(node, ctx);
     }
 
     #[inline]
-    fn exit_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
-        self.second.exit_switch_cases(node);
-        self.first.exit_switch_cases(node);
+    fn exit_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ctx: &mut C) {
+        self.second.exit_switch_cases(node, ctx);
+        self.first.exit_switch_cases(node, ctx);
     }
 
     #[inline]
-    fn enter_switch_stmt(&mut self, node: &mut SwitchStmt) {
-        self.first.enter_switch_stmt(node);
-        self.second.enter_switch_stmt(node);
+    fn enter_switch_stmt(&mut self, node: &mut SwitchStmt, ctx: &mut C) {
+        self.first.enter_switch_stmt(node, ctx);
+        self.second.enter_switch_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_switch_stmt(&mut self, node: &mut SwitchStmt) {
-        self.second.exit_switch_stmt(node);
-        self.first.exit_switch_stmt(node);
+    fn exit_switch_stmt(&mut self, node: &mut SwitchStmt, ctx: &mut C) {
+        self.second.exit_switch_stmt(node, ctx);
+        self.first.exit_switch_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
-        self.first.enter_syntax_context(node);
-        self.second.enter_syntax_context(node);
+    fn enter_syntax_context(&mut self, node: &mut swc_common::SyntaxContext, ctx: &mut C) {
+        self.first.enter_syntax_context(node, ctx);
+        self.second.enter_syntax_context(node, ctx);
     }
 
     #[inline]
-    fn exit_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
-        self.second.exit_syntax_context(node);
-        self.first.exit_syntax_context(node);
+    fn exit_syntax_context(&mut self, node: &mut swc_common::SyntaxContext, ctx: &mut C) {
+        self.second.exit_syntax_context(node, ctx);
+        self.first.exit_syntax_context(node, ctx);
     }
 
     #[inline]
-    fn enter_tagged_tpl(&mut self, node: &mut TaggedTpl) {
-        self.first.enter_tagged_tpl(node);
-        self.second.enter_tagged_tpl(node);
+    fn enter_tagged_tpl(&mut self, node: &mut TaggedTpl, ctx: &mut C) {
+        self.first.enter_tagged_tpl(node, ctx);
+        self.second.enter_tagged_tpl(node, ctx);
     }
 
     #[inline]
-    fn exit_tagged_tpl(&mut self, node: &mut TaggedTpl) {
-        self.second.exit_tagged_tpl(node);
-        self.first.exit_tagged_tpl(node);
+    fn exit_tagged_tpl(&mut self, node: &mut TaggedTpl, ctx: &mut C) {
+        self.second.exit_tagged_tpl(node, ctx);
+        self.first.exit_tagged_tpl(node, ctx);
     }
 
     #[inline]
-    fn enter_this_expr(&mut self, node: &mut ThisExpr) {
-        self.first.enter_this_expr(node);
-        self.second.enter_this_expr(node);
+    fn enter_this_expr(&mut self, node: &mut ThisExpr, ctx: &mut C) {
+        self.first.enter_this_expr(node, ctx);
+        self.second.enter_this_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_this_expr(&mut self, node: &mut ThisExpr) {
-        self.second.exit_this_expr(node);
-        self.first.exit_this_expr(node);
+    fn exit_this_expr(&mut self, node: &mut ThisExpr, ctx: &mut C) {
+        self.second.exit_this_expr(node, ctx);
+        self.first.exit_this_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        self.first.enter_throw_stmt(node);
-        self.second.enter_throw_stmt(node);
+    fn enter_throw_stmt(&mut self, node: &mut ThrowStmt, ctx: &mut C) {
+        self.first.enter_throw_stmt(node, ctx);
+        self.second.enter_throw_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        self.second.exit_throw_stmt(node);
-        self.first.exit_throw_stmt(node);
+    fn exit_throw_stmt(&mut self, node: &mut ThrowStmt, ctx: &mut C) {
+        self.second.exit_throw_stmt(node, ctx);
+        self.first.exit_throw_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_tpl(&mut self, node: &mut Tpl) {
-        self.first.enter_tpl(node);
-        self.second.enter_tpl(node);
+    fn enter_tpl(&mut self, node: &mut Tpl, ctx: &mut C) {
+        self.first.enter_tpl(node, ctx);
+        self.second.enter_tpl(node, ctx);
     }
 
     #[inline]
-    fn exit_tpl(&mut self, node: &mut Tpl) {
-        self.second.exit_tpl(node);
-        self.first.exit_tpl(node);
+    fn exit_tpl(&mut self, node: &mut Tpl, ctx: &mut C) {
+        self.second.exit_tpl(node, ctx);
+        self.first.exit_tpl(node, ctx);
     }
 
     #[inline]
-    fn enter_tpl_element(&mut self, node: &mut TplElement) {
-        self.first.enter_tpl_element(node);
-        self.second.enter_tpl_element(node);
+    fn enter_tpl_element(&mut self, node: &mut TplElement, ctx: &mut C) {
+        self.first.enter_tpl_element(node, ctx);
+        self.second.enter_tpl_element(node, ctx);
     }
 
     #[inline]
-    fn exit_tpl_element(&mut self, node: &mut TplElement) {
-        self.second.exit_tpl_element(node);
-        self.first.exit_tpl_element(node);
+    fn exit_tpl_element(&mut self, node: &mut TplElement, ctx: &mut C) {
+        self.second.exit_tpl_element(node, ctx);
+        self.first.exit_tpl_element(node, ctx);
     }
 
     #[inline]
-    fn enter_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
-        self.first.enter_tpl_elements(node);
-        self.second.enter_tpl_elements(node);
+    fn enter_tpl_elements(&mut self, node: &mut Vec<TplElement>, ctx: &mut C) {
+        self.first.enter_tpl_elements(node, ctx);
+        self.second.enter_tpl_elements(node, ctx);
     }
 
     #[inline]
-    fn exit_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
-        self.second.exit_tpl_elements(node);
-        self.first.exit_tpl_elements(node);
+    fn exit_tpl_elements(&mut self, node: &mut Vec<TplElement>, ctx: &mut C) {
+        self.second.exit_tpl_elements(node, ctx);
+        self.first.exit_tpl_elements(node, ctx);
     }
 
     #[inline]
-    fn enter_true_plus_minus(&mut self, node: &mut TruePlusMinus) {
-        self.first.enter_true_plus_minus(node);
-        self.second.enter_true_plus_minus(node);
+    fn enter_true_plus_minus(&mut self, node: &mut TruePlusMinus, ctx: &mut C) {
+        self.first.enter_true_plus_minus(node, ctx);
+        self.second.enter_true_plus_minus(node, ctx);
     }
 
     #[inline]
-    fn exit_true_plus_minus(&mut self, node: &mut TruePlusMinus) {
-        self.second.exit_true_plus_minus(node);
-        self.first.exit_true_plus_minus(node);
+    fn exit_true_plus_minus(&mut self, node: &mut TruePlusMinus, ctx: &mut C) {
+        self.second.exit_true_plus_minus(node, ctx);
+        self.first.exit_true_plus_minus(node, ctx);
     }
 
     #[inline]
-    fn enter_try_stmt(&mut self, node: &mut TryStmt) {
-        self.first.enter_try_stmt(node);
-        self.second.enter_try_stmt(node);
+    fn enter_try_stmt(&mut self, node: &mut TryStmt, ctx: &mut C) {
+        self.first.enter_try_stmt(node, ctx);
+        self.second.enter_try_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_try_stmt(&mut self, node: &mut TryStmt) {
-        self.second.exit_try_stmt(node);
-        self.first.exit_try_stmt(node);
+    fn exit_try_stmt(&mut self, node: &mut TryStmt, ctx: &mut C) {
+        self.second.exit_try_stmt(node, ctx);
+        self.first.exit_try_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_array_type(&mut self, node: &mut TsArrayType) {
-        self.first.enter_ts_array_type(node);
-        self.second.enter_ts_array_type(node);
+    fn enter_ts_array_type(&mut self, node: &mut TsArrayType, ctx: &mut C) {
+        self.first.enter_ts_array_type(node, ctx);
+        self.second.enter_ts_array_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_array_type(&mut self, node: &mut TsArrayType) {
-        self.second.exit_ts_array_type(node);
-        self.first.exit_ts_array_type(node);
+    fn exit_ts_array_type(&mut self, node: &mut TsArrayType, ctx: &mut C) {
+        self.second.exit_ts_array_type(node, ctx);
+        self.first.exit_ts_array_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_as_expr(&mut self, node: &mut TsAsExpr) {
-        self.first.enter_ts_as_expr(node);
-        self.second.enter_ts_as_expr(node);
+    fn enter_ts_as_expr(&mut self, node: &mut TsAsExpr, ctx: &mut C) {
+        self.first.enter_ts_as_expr(node, ctx);
+        self.second.enter_ts_as_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_as_expr(&mut self, node: &mut TsAsExpr) {
-        self.second.exit_ts_as_expr(node);
-        self.first.exit_ts_as_expr(node);
+    fn exit_ts_as_expr(&mut self, node: &mut TsAsExpr, ctx: &mut C) {
+        self.second.exit_ts_as_expr(node, ctx);
+        self.first.exit_ts_as_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
-        self.first.enter_ts_call_signature_decl(node);
-        self.second.enter_ts_call_signature_decl(node);
+    fn enter_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {
+        self.first.enter_ts_call_signature_decl(node, ctx);
+        self.second.enter_ts_call_signature_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
-        self.second.exit_ts_call_signature_decl(node);
-        self.first.exit_ts_call_signature_decl(node);
+    fn exit_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {
+        self.second.exit_ts_call_signature_decl(node, ctx);
+        self.first.exit_ts_call_signature_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
-        self.first.enter_ts_conditional_type(node);
-        self.second.enter_ts_conditional_type(node);
+    fn enter_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {
+        self.first.enter_ts_conditional_type(node, ctx);
+        self.second.enter_ts_conditional_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
-        self.second.exit_ts_conditional_type(node);
-        self.first.exit_ts_conditional_type(node);
+    fn exit_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {
+        self.second.exit_ts_conditional_type(node, ctx);
+        self.first.exit_ts_conditional_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {
-        self.first.enter_ts_const_assertion(node);
-        self.second.enter_ts_const_assertion(node);
+    fn enter_ts_const_assertion(&mut self, node: &mut TsConstAssertion, ctx: &mut C) {
+        self.first.enter_ts_const_assertion(node, ctx);
+        self.second.enter_ts_const_assertion(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {
-        self.second.exit_ts_const_assertion(node);
-        self.first.exit_ts_const_assertion(node);
+    fn exit_ts_const_assertion(&mut self, node: &mut TsConstAssertion, ctx: &mut C) {
+        self.second.exit_ts_const_assertion(node, ctx);
+        self.first.exit_ts_const_assertion(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {
-        self.first.enter_ts_construct_signature_decl(node);
-        self.second.enter_ts_construct_signature_decl(node);
+    fn enter_ts_construct_signature_decl(
+        &mut self,
+        node: &mut TsConstructSignatureDecl,
+        ctx: &mut C,
+    ) {
+        self.first.enter_ts_construct_signature_decl(node, ctx);
+        self.second.enter_ts_construct_signature_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {
-        self.second.exit_ts_construct_signature_decl(node);
-        self.first.exit_ts_construct_signature_decl(node);
+    fn exit_ts_construct_signature_decl(
+        &mut self,
+        node: &mut TsConstructSignatureDecl,
+        ctx: &mut C,
+    ) {
+        self.second.exit_ts_construct_signature_decl(node, ctx);
+        self.first.exit_ts_construct_signature_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_constructor_type(&mut self, node: &mut TsConstructorType) {
-        self.first.enter_ts_constructor_type(node);
-        self.second.enter_ts_constructor_type(node);
+    fn enter_ts_constructor_type(&mut self, node: &mut TsConstructorType, ctx: &mut C) {
+        self.first.enter_ts_constructor_type(node, ctx);
+        self.second.enter_ts_constructor_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_constructor_type(&mut self, node: &mut TsConstructorType) {
-        self.second.exit_ts_constructor_type(node);
-        self.first.exit_ts_constructor_type(node);
+    fn exit_ts_constructor_type(&mut self, node: &mut TsConstructorType, ctx: &mut C) {
+        self.second.exit_ts_constructor_type(node, ctx);
+        self.first.exit_ts_constructor_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_entity_name(&mut self, node: &mut TsEntityName) {
-        self.first.enter_ts_entity_name(node);
-        self.second.enter_ts_entity_name(node);
+    fn enter_ts_entity_name(&mut self, node: &mut TsEntityName, ctx: &mut C) {
+        self.first.enter_ts_entity_name(node, ctx);
+        self.second.enter_ts_entity_name(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_entity_name(&mut self, node: &mut TsEntityName) {
-        self.second.exit_ts_entity_name(node);
-        self.first.exit_ts_entity_name(node);
+    fn exit_ts_entity_name(&mut self, node: &mut TsEntityName, ctx: &mut C) {
+        self.second.exit_ts_entity_name(node, ctx);
+        self.first.exit_ts_entity_name(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        self.first.enter_ts_enum_decl(node);
-        self.second.enter_ts_enum_decl(node);
+    fn enter_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ctx: &mut C) {
+        self.first.enter_ts_enum_decl(node, ctx);
+        self.second.enter_ts_enum_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        self.second.exit_ts_enum_decl(node);
-        self.first.exit_ts_enum_decl(node);
+    fn exit_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ctx: &mut C) {
+        self.second.exit_ts_enum_decl(node, ctx);
+        self.first.exit_ts_enum_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_enum_member(&mut self, node: &mut TsEnumMember) {
-        self.first.enter_ts_enum_member(node);
-        self.second.enter_ts_enum_member(node);
+    fn enter_ts_enum_member(&mut self, node: &mut TsEnumMember, ctx: &mut C) {
+        self.first.enter_ts_enum_member(node, ctx);
+        self.second.enter_ts_enum_member(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_enum_member(&mut self, node: &mut TsEnumMember) {
-        self.second.exit_ts_enum_member(node);
-        self.first.exit_ts_enum_member(node);
+    fn exit_ts_enum_member(&mut self, node: &mut TsEnumMember, ctx: &mut C) {
+        self.second.exit_ts_enum_member(node, ctx);
+        self.first.exit_ts_enum_member(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
-        self.first.enter_ts_enum_member_id(node);
-        self.second.enter_ts_enum_member_id(node);
+    fn enter_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId, ctx: &mut C) {
+        self.first.enter_ts_enum_member_id(node, ctx);
+        self.second.enter_ts_enum_member_id(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
-        self.second.exit_ts_enum_member_id(node);
-        self.first.exit_ts_enum_member_id(node);
+    fn exit_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId, ctx: &mut C) {
+        self.second.exit_ts_enum_member_id(node, ctx);
+        self.first.exit_ts_enum_member_id(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
-        self.first.enter_ts_enum_members(node);
-        self.second.enter_ts_enum_members(node);
+    fn enter_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>, ctx: &mut C) {
+        self.first.enter_ts_enum_members(node, ctx);
+        self.second.enter_ts_enum_members(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
-        self.second.exit_ts_enum_members(node);
-        self.first.exit_ts_enum_members(node);
+    fn exit_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>, ctx: &mut C) {
+        self.second.exit_ts_enum_members(node, ctx);
+        self.first.exit_ts_enum_members(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
-        self.first.enter_ts_export_assignment(node);
-        self.second.enter_ts_export_assignment(node);
+    fn enter_ts_export_assignment(&mut self, node: &mut TsExportAssignment, ctx: &mut C) {
+        self.first.enter_ts_export_assignment(node, ctx);
+        self.second.enter_ts_export_assignment(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
-        self.second.exit_ts_export_assignment(node);
-        self.first.exit_ts_export_assignment(node);
+    fn exit_ts_export_assignment(&mut self, node: &mut TsExportAssignment, ctx: &mut C) {
+        self.second.exit_ts_export_assignment(node, ctx);
+        self.first.exit_ts_export_assignment(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
-        self.first.enter_ts_expr_with_type_args(node);
-        self.second.enter_ts_expr_with_type_args(node);
+    fn enter_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs, ctx: &mut C) {
+        self.first.enter_ts_expr_with_type_args(node, ctx);
+        self.second.enter_ts_expr_with_type_args(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
-        self.second.exit_ts_expr_with_type_args(node);
-        self.first.exit_ts_expr_with_type_args(node);
+    fn exit_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs, ctx: &mut C) {
+        self.second.exit_ts_expr_with_type_args(node, ctx);
+        self.first.exit_ts_expr_with_type_args(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
-        self.first.enter_ts_expr_with_type_argss(node);
-        self.second.enter_ts_expr_with_type_argss(node);
+    fn enter_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>, ctx: &mut C) {
+        self.first.enter_ts_expr_with_type_argss(node, ctx);
+        self.second.enter_ts_expr_with_type_argss(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
-        self.second.exit_ts_expr_with_type_argss(node);
-        self.first.exit_ts_expr_with_type_argss(node);
+    fn exit_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>, ctx: &mut C) {
+        self.second.exit_ts_expr_with_type_argss(node, ctx);
+        self.first.exit_ts_expr_with_type_argss(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
-        self.first.enter_ts_external_module_ref(node);
-        self.second.enter_ts_external_module_ref(node);
+    fn enter_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef, ctx: &mut C) {
+        self.first.enter_ts_external_module_ref(node, ctx);
+        self.second.enter_ts_external_module_ref(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
-        self.second.exit_ts_external_module_ref(node);
-        self.first.exit_ts_external_module_ref(node);
+    fn exit_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef, ctx: &mut C) {
+        self.second.exit_ts_external_module_ref(node, ctx);
+        self.first.exit_ts_external_module_ref(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
-        self.first.enter_ts_fn_or_constructor_type(node);
-        self.second.enter_ts_fn_or_constructor_type(node);
+    fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {
+        self.first.enter_ts_fn_or_constructor_type(node, ctx);
+        self.second.enter_ts_fn_or_constructor_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
-        self.second.exit_ts_fn_or_constructor_type(node);
-        self.first.exit_ts_fn_or_constructor_type(node);
+    fn exit_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {
+        self.second.exit_ts_fn_or_constructor_type(node, ctx);
+        self.first.exit_ts_fn_or_constructor_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_fn_param(&mut self, node: &mut TsFnParam) {
-        self.first.enter_ts_fn_param(node);
-        self.second.enter_ts_fn_param(node);
+    fn enter_ts_fn_param(&mut self, node: &mut TsFnParam, ctx: &mut C) {
+        self.first.enter_ts_fn_param(node, ctx);
+        self.second.enter_ts_fn_param(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_fn_param(&mut self, node: &mut TsFnParam) {
-        self.second.exit_ts_fn_param(node);
-        self.first.exit_ts_fn_param(node);
+    fn exit_ts_fn_param(&mut self, node: &mut TsFnParam, ctx: &mut C) {
+        self.second.exit_ts_fn_param(node, ctx);
+        self.first.exit_ts_fn_param(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
-        self.first.enter_ts_fn_params(node);
-        self.second.enter_ts_fn_params(node);
+    fn enter_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ctx: &mut C) {
+        self.first.enter_ts_fn_params(node, ctx);
+        self.second.enter_ts_fn_params(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
-        self.second.exit_ts_fn_params(node);
-        self.first.exit_ts_fn_params(node);
+    fn exit_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ctx: &mut C) {
+        self.second.exit_ts_fn_params(node, ctx);
+        self.first.exit_ts_fn_params(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_fn_type(&mut self, node: &mut TsFnType) {
-        self.first.enter_ts_fn_type(node);
-        self.second.enter_ts_fn_type(node);
+    fn enter_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {
+        self.first.enter_ts_fn_type(node, ctx);
+        self.second.enter_ts_fn_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_fn_type(&mut self, node: &mut TsFnType) {
-        self.second.exit_ts_fn_type(node);
-        self.first.exit_ts_fn_type(node);
+    fn exit_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {
+        self.second.exit_ts_fn_type(node, ctx);
+        self.first.exit_ts_fn_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {
-        self.first.enter_ts_getter_signature(node);
-        self.second.enter_ts_getter_signature(node);
+    fn enter_ts_getter_signature(&mut self, node: &mut TsGetterSignature, ctx: &mut C) {
+        self.first.enter_ts_getter_signature(node, ctx);
+        self.second.enter_ts_getter_signature(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {
-        self.second.exit_ts_getter_signature(node);
-        self.first.exit_ts_getter_signature(node);
+    fn exit_ts_getter_signature(&mut self, node: &mut TsGetterSignature, ctx: &mut C) {
+        self.second.exit_ts_getter_signature(node, ctx);
+        self.first.exit_ts_getter_signature(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_import_call_options(&mut self, node: &mut TsImportCallOptions) {
-        self.first.enter_ts_import_call_options(node);
-        self.second.enter_ts_import_call_options(node);
+    fn enter_ts_import_call_options(&mut self, node: &mut TsImportCallOptions, ctx: &mut C) {
+        self.first.enter_ts_import_call_options(node, ctx);
+        self.second.enter_ts_import_call_options(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_import_call_options(&mut self, node: &mut TsImportCallOptions) {
-        self.second.exit_ts_import_call_options(node);
-        self.first.exit_ts_import_call_options(node);
+    fn exit_ts_import_call_options(&mut self, node: &mut TsImportCallOptions, ctx: &mut C) {
+        self.second.exit_ts_import_call_options(node, ctx);
+        self.first.exit_ts_import_call_options(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
-        self.first.enter_ts_import_equals_decl(node);
-        self.second.enter_ts_import_equals_decl(node);
+    fn enter_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl, ctx: &mut C) {
+        self.first.enter_ts_import_equals_decl(node, ctx);
+        self.second.enter_ts_import_equals_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
-        self.second.exit_ts_import_equals_decl(node);
-        self.first.exit_ts_import_equals_decl(node);
+    fn exit_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl, ctx: &mut C) {
+        self.second.exit_ts_import_equals_decl(node, ctx);
+        self.first.exit_ts_import_equals_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_import_type(&mut self, node: &mut TsImportType) {
-        self.first.enter_ts_import_type(node);
-        self.second.enter_ts_import_type(node);
+    fn enter_ts_import_type(&mut self, node: &mut TsImportType, ctx: &mut C) {
+        self.first.enter_ts_import_type(node, ctx);
+        self.second.enter_ts_import_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_import_type(&mut self, node: &mut TsImportType) {
-        self.second.exit_ts_import_type(node);
-        self.first.exit_ts_import_type(node);
+    fn exit_ts_import_type(&mut self, node: &mut TsImportType, ctx: &mut C) {
+        self.second.exit_ts_import_type(node, ctx);
+        self.first.exit_ts_import_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_index_signature(&mut self, node: &mut TsIndexSignature) {
-        self.first.enter_ts_index_signature(node);
-        self.second.enter_ts_index_signature(node);
+    fn enter_ts_index_signature(&mut self, node: &mut TsIndexSignature, ctx: &mut C) {
+        self.first.enter_ts_index_signature(node, ctx);
+        self.second.enter_ts_index_signature(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_index_signature(&mut self, node: &mut TsIndexSignature) {
-        self.second.exit_ts_index_signature(node);
-        self.first.exit_ts_index_signature(node);
+    fn exit_ts_index_signature(&mut self, node: &mut TsIndexSignature, ctx: &mut C) {
+        self.second.exit_ts_index_signature(node, ctx);
+        self.first.exit_ts_index_signature(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {
-        self.first.enter_ts_indexed_access_type(node);
-        self.second.enter_ts_indexed_access_type(node);
+    fn enter_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType, ctx: &mut C) {
+        self.first.enter_ts_indexed_access_type(node, ctx);
+        self.second.enter_ts_indexed_access_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {
-        self.second.exit_ts_indexed_access_type(node);
-        self.first.exit_ts_indexed_access_type(node);
+    fn exit_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType, ctx: &mut C) {
+        self.second.exit_ts_indexed_access_type(node, ctx);
+        self.first.exit_ts_indexed_access_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_infer_type(&mut self, node: &mut TsInferType) {
-        self.first.enter_ts_infer_type(node);
-        self.second.enter_ts_infer_type(node);
+    fn enter_ts_infer_type(&mut self, node: &mut TsInferType, ctx: &mut C) {
+        self.first.enter_ts_infer_type(node, ctx);
+        self.second.enter_ts_infer_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_infer_type(&mut self, node: &mut TsInferType) {
-        self.second.exit_ts_infer_type(node);
-        self.first.exit_ts_infer_type(node);
+    fn exit_ts_infer_type(&mut self, node: &mut TsInferType, ctx: &mut C) {
+        self.second.exit_ts_infer_type(node, ctx);
+        self.first.exit_ts_infer_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_instantiation(&mut self, node: &mut TsInstantiation) {
-        self.first.enter_ts_instantiation(node);
-        self.second.enter_ts_instantiation(node);
+    fn enter_ts_instantiation(&mut self, node: &mut TsInstantiation, ctx: &mut C) {
+        self.first.enter_ts_instantiation(node, ctx);
+        self.second.enter_ts_instantiation(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_instantiation(&mut self, node: &mut TsInstantiation) {
-        self.second.exit_ts_instantiation(node);
-        self.first.exit_ts_instantiation(node);
+    fn exit_ts_instantiation(&mut self, node: &mut TsInstantiation, ctx: &mut C) {
+        self.second.exit_ts_instantiation(node, ctx);
+        self.first.exit_ts_instantiation(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {
-        self.first.enter_ts_interface_body(node);
-        self.second.enter_ts_interface_body(node);
+    fn enter_ts_interface_body(&mut self, node: &mut TsInterfaceBody, ctx: &mut C) {
+        self.first.enter_ts_interface_body(node, ctx);
+        self.second.enter_ts_interface_body(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {
-        self.second.exit_ts_interface_body(node);
-        self.first.exit_ts_interface_body(node);
+    fn exit_ts_interface_body(&mut self, node: &mut TsInterfaceBody, ctx: &mut C) {
+        self.second.exit_ts_interface_body(node, ctx);
+        self.first.exit_ts_interface_body(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {
-        self.first.enter_ts_interface_decl(node);
-        self.second.enter_ts_interface_decl(node);
+    fn enter_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl, ctx: &mut C) {
+        self.first.enter_ts_interface_decl(node, ctx);
+        self.second.enter_ts_interface_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {
-        self.second.exit_ts_interface_decl(node);
-        self.first.exit_ts_interface_decl(node);
+    fn exit_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl, ctx: &mut C) {
+        self.second.exit_ts_interface_decl(node, ctx);
+        self.first.exit_ts_interface_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {
-        self.first.enter_ts_intersection_type(node);
-        self.second.enter_ts_intersection_type(node);
+    fn enter_ts_intersection_type(&mut self, node: &mut TsIntersectionType, ctx: &mut C) {
+        self.first.enter_ts_intersection_type(node, ctx);
+        self.second.enter_ts_intersection_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {
-        self.second.exit_ts_intersection_type(node);
-        self.first.exit_ts_intersection_type(node);
+    fn exit_ts_intersection_type(&mut self, node: &mut TsIntersectionType, ctx: &mut C) {
+        self.second.exit_ts_intersection_type(node, ctx);
+        self.first.exit_ts_intersection_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_keyword_type(&mut self, node: &mut TsKeywordType) {
-        self.first.enter_ts_keyword_type(node);
-        self.second.enter_ts_keyword_type(node);
+    fn enter_ts_keyword_type(&mut self, node: &mut TsKeywordType, ctx: &mut C) {
+        self.first.enter_ts_keyword_type(node, ctx);
+        self.second.enter_ts_keyword_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_keyword_type(&mut self, node: &mut TsKeywordType) {
-        self.second.exit_ts_keyword_type(node);
-        self.first.exit_ts_keyword_type(node);
+    fn exit_ts_keyword_type(&mut self, node: &mut TsKeywordType, ctx: &mut C) {
+        self.second.exit_ts_keyword_type(node, ctx);
+        self.first.exit_ts_keyword_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {
-        self.first.enter_ts_keyword_type_kind(node);
-        self.second.enter_ts_keyword_type_kind(node);
+    fn enter_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind, ctx: &mut C) {
+        self.first.enter_ts_keyword_type_kind(node, ctx);
+        self.second.enter_ts_keyword_type_kind(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {
-        self.second.exit_ts_keyword_type_kind(node);
-        self.first.exit_ts_keyword_type_kind(node);
+    fn exit_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind, ctx: &mut C) {
+        self.second.exit_ts_keyword_type_kind(node, ctx);
+        self.first.exit_ts_keyword_type_kind(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_lit(&mut self, node: &mut TsLit) {
-        self.first.enter_ts_lit(node);
-        self.second.enter_ts_lit(node);
+    fn enter_ts_lit(&mut self, node: &mut TsLit, ctx: &mut C) {
+        self.first.enter_ts_lit(node, ctx);
+        self.second.enter_ts_lit(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_lit(&mut self, node: &mut TsLit) {
-        self.second.exit_ts_lit(node);
-        self.first.exit_ts_lit(node);
+    fn exit_ts_lit(&mut self, node: &mut TsLit, ctx: &mut C) {
+        self.second.exit_ts_lit(node, ctx);
+        self.first.exit_ts_lit(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_lit_type(&mut self, node: &mut TsLitType) {
-        self.first.enter_ts_lit_type(node);
-        self.second.enter_ts_lit_type(node);
+    fn enter_ts_lit_type(&mut self, node: &mut TsLitType, ctx: &mut C) {
+        self.first.enter_ts_lit_type(node, ctx);
+        self.second.enter_ts_lit_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_lit_type(&mut self, node: &mut TsLitType) {
-        self.second.exit_ts_lit_type(node);
-        self.first.exit_ts_lit_type(node);
+    fn exit_ts_lit_type(&mut self, node: &mut TsLitType, ctx: &mut C) {
+        self.second.exit_ts_lit_type(node, ctx);
+        self.first.exit_ts_lit_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_mapped_type(&mut self, node: &mut TsMappedType) {
-        self.first.enter_ts_mapped_type(node);
-        self.second.enter_ts_mapped_type(node);
+    fn enter_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {
+        self.first.enter_ts_mapped_type(node, ctx);
+        self.second.enter_ts_mapped_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType) {
-        self.second.exit_ts_mapped_type(node);
-        self.first.exit_ts_mapped_type(node);
+    fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {
+        self.second.exit_ts_mapped_type(node, ctx);
+        self.first.exit_ts_mapped_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_method_signature(&mut self, node: &mut TsMethodSignature) {
-        self.first.enter_ts_method_signature(node);
-        self.second.enter_ts_method_signature(node);
+    fn enter_ts_method_signature(&mut self, node: &mut TsMethodSignature, ctx: &mut C) {
+        self.first.enter_ts_method_signature(node, ctx);
+        self.second.enter_ts_method_signature(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_method_signature(&mut self, node: &mut TsMethodSignature) {
-        self.second.exit_ts_method_signature(node);
-        self.first.exit_ts_method_signature(node);
+    fn exit_ts_method_signature(&mut self, node: &mut TsMethodSignature, ctx: &mut C) {
+        self.second.exit_ts_method_signature(node, ctx);
+        self.first.exit_ts_method_signature(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        self.first.enter_ts_module_block(node);
-        self.second.enter_ts_module_block(node);
+    fn enter_ts_module_block(&mut self, node: &mut TsModuleBlock, ctx: &mut C) {
+        self.first.enter_ts_module_block(node, ctx);
+        self.second.enter_ts_module_block(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        self.second.exit_ts_module_block(node);
-        self.first.exit_ts_module_block(node);
+    fn exit_ts_module_block(&mut self, node: &mut TsModuleBlock, ctx: &mut C) {
+        self.second.exit_ts_module_block(node, ctx);
+        self.first.exit_ts_module_block(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
-        self.first.enter_ts_module_decl(node);
-        self.second.enter_ts_module_decl(node);
+    fn enter_ts_module_decl(&mut self, node: &mut TsModuleDecl, ctx: &mut C) {
+        self.first.enter_ts_module_decl(node, ctx);
+        self.second.enter_ts_module_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
-        self.second.exit_ts_module_decl(node);
-        self.first.exit_ts_module_decl(node);
+    fn exit_ts_module_decl(&mut self, node: &mut TsModuleDecl, ctx: &mut C) {
+        self.second.exit_ts_module_decl(node, ctx);
+        self.first.exit_ts_module_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_module_name(&mut self, node: &mut TsModuleName) {
-        self.first.enter_ts_module_name(node);
-        self.second.enter_ts_module_name(node);
+    fn enter_ts_module_name(&mut self, node: &mut TsModuleName, ctx: &mut C) {
+        self.first.enter_ts_module_name(node, ctx);
+        self.second.enter_ts_module_name(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_module_name(&mut self, node: &mut TsModuleName) {
-        self.second.exit_ts_module_name(node);
-        self.first.exit_ts_module_name(node);
+    fn exit_ts_module_name(&mut self, node: &mut TsModuleName, ctx: &mut C) {
+        self.second.exit_ts_module_name(node, ctx);
+        self.first.exit_ts_module_name(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_module_ref(&mut self, node: &mut TsModuleRef) {
-        self.first.enter_ts_module_ref(node);
-        self.second.enter_ts_module_ref(node);
+    fn enter_ts_module_ref(&mut self, node: &mut TsModuleRef, ctx: &mut C) {
+        self.first.enter_ts_module_ref(node, ctx);
+        self.second.enter_ts_module_ref(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_module_ref(&mut self, node: &mut TsModuleRef) {
-        self.second.exit_ts_module_ref(node);
-        self.first.exit_ts_module_ref(node);
+    fn exit_ts_module_ref(&mut self, node: &mut TsModuleRef, ctx: &mut C) {
+        self.second.exit_ts_module_ref(node, ctx);
+        self.first.exit_ts_module_ref(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {
-        self.first.enter_ts_namespace_body(node);
-        self.second.enter_ts_namespace_body(node);
+    fn enter_ts_namespace_body(&mut self, node: &mut TsNamespaceBody, ctx: &mut C) {
+        self.first.enter_ts_namespace_body(node, ctx);
+        self.second.enter_ts_namespace_body(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {
-        self.second.exit_ts_namespace_body(node);
-        self.first.exit_ts_namespace_body(node);
+    fn exit_ts_namespace_body(&mut self, node: &mut TsNamespaceBody, ctx: &mut C) {
+        self.second.exit_ts_namespace_body(node, ctx);
+        self.first.exit_ts_namespace_body(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
-        self.first.enter_ts_namespace_decl(node);
-        self.second.enter_ts_namespace_decl(node);
+    fn enter_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl, ctx: &mut C) {
+        self.first.enter_ts_namespace_decl(node, ctx);
+        self.second.enter_ts_namespace_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
-        self.second.exit_ts_namespace_decl(node);
-        self.first.exit_ts_namespace_decl(node);
+    fn exit_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl, ctx: &mut C) {
+        self.second.exit_ts_namespace_decl(node, ctx);
+        self.first.exit_ts_namespace_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {
-        self.first.enter_ts_namespace_export_decl(node);
-        self.second.enter_ts_namespace_export_decl(node);
+    fn enter_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl, ctx: &mut C) {
+        self.first.enter_ts_namespace_export_decl(node, ctx);
+        self.second.enter_ts_namespace_export_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {
-        self.second.exit_ts_namespace_export_decl(node);
-        self.first.exit_ts_namespace_export_decl(node);
+    fn exit_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl, ctx: &mut C) {
+        self.second.exit_ts_namespace_export_decl(node, ctx);
+        self.first.exit_ts_namespace_export_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {
-        self.first.enter_ts_non_null_expr(node);
-        self.second.enter_ts_non_null_expr(node);
+    fn enter_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ctx: &mut C) {
+        self.first.enter_ts_non_null_expr(node, ctx);
+        self.second.enter_ts_non_null_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {
-        self.second.exit_ts_non_null_expr(node);
-        self.first.exit_ts_non_null_expr(node);
+    fn exit_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ctx: &mut C) {
+        self.second.exit_ts_non_null_expr(node, ctx);
+        self.first.exit_ts_non_null_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_optional_type(&mut self, node: &mut TsOptionalType) {
-        self.first.enter_ts_optional_type(node);
-        self.second.enter_ts_optional_type(node);
+    fn enter_ts_optional_type(&mut self, node: &mut TsOptionalType, ctx: &mut C) {
+        self.first.enter_ts_optional_type(node, ctx);
+        self.second.enter_ts_optional_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_optional_type(&mut self, node: &mut TsOptionalType) {
-        self.second.exit_ts_optional_type(node);
-        self.first.exit_ts_optional_type(node);
+    fn exit_ts_optional_type(&mut self, node: &mut TsOptionalType, ctx: &mut C) {
+        self.second.exit_ts_optional_type(node, ctx);
+        self.first.exit_ts_optional_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_param_prop(&mut self, node: &mut TsParamProp) {
-        self.first.enter_ts_param_prop(node);
-        self.second.enter_ts_param_prop(node);
+    fn enter_ts_param_prop(&mut self, node: &mut TsParamProp, ctx: &mut C) {
+        self.first.enter_ts_param_prop(node, ctx);
+        self.second.enter_ts_param_prop(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_param_prop(&mut self, node: &mut TsParamProp) {
-        self.second.exit_ts_param_prop(node);
-        self.first.exit_ts_param_prop(node);
+    fn exit_ts_param_prop(&mut self, node: &mut TsParamProp, ctx: &mut C) {
+        self.second.exit_ts_param_prop(node, ctx);
+        self.first.exit_ts_param_prop(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {
-        self.first.enter_ts_param_prop_param(node);
-        self.second.enter_ts_param_prop_param(node);
+    fn enter_ts_param_prop_param(&mut self, node: &mut TsParamPropParam, ctx: &mut C) {
+        self.first.enter_ts_param_prop_param(node, ctx);
+        self.second.enter_ts_param_prop_param(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {
-        self.second.exit_ts_param_prop_param(node);
-        self.first.exit_ts_param_prop_param(node);
+    fn exit_ts_param_prop_param(&mut self, node: &mut TsParamPropParam, ctx: &mut C) {
+        self.second.exit_ts_param_prop_param(node, ctx);
+        self.first.exit_ts_param_prop_param(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {
-        self.first.enter_ts_parenthesized_type(node);
-        self.second.enter_ts_parenthesized_type(node);
+    fn enter_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType, ctx: &mut C) {
+        self.first.enter_ts_parenthesized_type(node, ctx);
+        self.second.enter_ts_parenthesized_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {
-        self.second.exit_ts_parenthesized_type(node);
-        self.first.exit_ts_parenthesized_type(node);
+    fn exit_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType, ctx: &mut C) {
+        self.second.exit_ts_parenthesized_type(node, ctx);
+        self.first.exit_ts_parenthesized_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_property_signature(&mut self, node: &mut TsPropertySignature) {
-        self.first.enter_ts_property_signature(node);
-        self.second.enter_ts_property_signature(node);
+    fn enter_ts_property_signature(&mut self, node: &mut TsPropertySignature, ctx: &mut C) {
+        self.first.enter_ts_property_signature(node, ctx);
+        self.second.enter_ts_property_signature(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_property_signature(&mut self, node: &mut TsPropertySignature) {
-        self.second.exit_ts_property_signature(node);
-        self.first.exit_ts_property_signature(node);
+    fn exit_ts_property_signature(&mut self, node: &mut TsPropertySignature, ctx: &mut C) {
+        self.second.exit_ts_property_signature(node, ctx);
+        self.first.exit_ts_property_signature(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {
-        self.first.enter_ts_qualified_name(node);
-        self.second.enter_ts_qualified_name(node);
+    fn enter_ts_qualified_name(&mut self, node: &mut TsQualifiedName, ctx: &mut C) {
+        self.first.enter_ts_qualified_name(node, ctx);
+        self.second.enter_ts_qualified_name(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {
-        self.second.exit_ts_qualified_name(node);
-        self.first.exit_ts_qualified_name(node);
+    fn exit_ts_qualified_name(&mut self, node: &mut TsQualifiedName, ctx: &mut C) {
+        self.second.exit_ts_qualified_name(node, ctx);
+        self.first.exit_ts_qualified_name(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_rest_type(&mut self, node: &mut TsRestType) {
-        self.first.enter_ts_rest_type(node);
-        self.second.enter_ts_rest_type(node);
+    fn enter_ts_rest_type(&mut self, node: &mut TsRestType, ctx: &mut C) {
+        self.first.enter_ts_rest_type(node, ctx);
+        self.second.enter_ts_rest_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_rest_type(&mut self, node: &mut TsRestType) {
-        self.second.exit_ts_rest_type(node);
-        self.first.exit_ts_rest_type(node);
+    fn exit_ts_rest_type(&mut self, node: &mut TsRestType, ctx: &mut C) {
+        self.second.exit_ts_rest_type(node, ctx);
+        self.first.exit_ts_rest_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {
-        self.first.enter_ts_satisfies_expr(node);
-        self.second.enter_ts_satisfies_expr(node);
+    fn enter_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr, ctx: &mut C) {
+        self.first.enter_ts_satisfies_expr(node, ctx);
+        self.second.enter_ts_satisfies_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {
-        self.second.exit_ts_satisfies_expr(node);
-        self.first.exit_ts_satisfies_expr(node);
+    fn exit_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr, ctx: &mut C) {
+        self.second.exit_ts_satisfies_expr(node, ctx);
+        self.first.exit_ts_satisfies_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
-        self.first.enter_ts_setter_signature(node);
-        self.second.enter_ts_setter_signature(node);
+    fn enter_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {
+        self.first.enter_ts_setter_signature(node, ctx);
+        self.second.enter_ts_setter_signature(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
-        self.second.exit_ts_setter_signature(node);
-        self.first.exit_ts_setter_signature(node);
+    fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {
+        self.second.exit_ts_setter_signature(node, ctx);
+        self.first.exit_ts_setter_signature(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_this_type(&mut self, node: &mut TsThisType) {
-        self.first.enter_ts_this_type(node);
-        self.second.enter_ts_this_type(node);
+    fn enter_ts_this_type(&mut self, node: &mut TsThisType, ctx: &mut C) {
+        self.first.enter_ts_this_type(node, ctx);
+        self.second.enter_ts_this_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_this_type(&mut self, node: &mut TsThisType) {
-        self.second.exit_ts_this_type(node);
-        self.first.exit_ts_this_type(node);
+    fn exit_ts_this_type(&mut self, node: &mut TsThisType, ctx: &mut C) {
+        self.second.exit_ts_this_type(node, ctx);
+        self.first.exit_ts_this_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {
-        self.first.enter_ts_this_type_or_ident(node);
-        self.second.enter_ts_this_type_or_ident(node);
+    fn enter_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent, ctx: &mut C) {
+        self.first.enter_ts_this_type_or_ident(node, ctx);
+        self.second.enter_ts_this_type_or_ident(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {
-        self.second.exit_ts_this_type_or_ident(node);
-        self.first.exit_ts_this_type_or_ident(node);
+    fn exit_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent, ctx: &mut C) {
+        self.second.exit_ts_this_type_or_ident(node, ctx);
+        self.first.exit_ts_this_type_or_ident(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {
-        self.first.enter_ts_tpl_lit_type(node);
-        self.second.enter_ts_tpl_lit_type(node);
+    fn enter_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ctx: &mut C) {
+        self.first.enter_ts_tpl_lit_type(node, ctx);
+        self.second.enter_ts_tpl_lit_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {
-        self.second.exit_ts_tpl_lit_type(node);
-        self.first.exit_ts_tpl_lit_type(node);
+    fn exit_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ctx: &mut C) {
+        self.second.exit_ts_tpl_lit_type(node, ctx);
+        self.first.exit_ts_tpl_lit_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
-        self.first.enter_ts_tuple_element(node);
-        self.second.enter_ts_tuple_element(node);
+    fn enter_ts_tuple_element(&mut self, node: &mut TsTupleElement, ctx: &mut C) {
+        self.first.enter_ts_tuple_element(node, ctx);
+        self.second.enter_ts_tuple_element(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
-        self.second.exit_ts_tuple_element(node);
-        self.first.exit_ts_tuple_element(node);
+    fn exit_ts_tuple_element(&mut self, node: &mut TsTupleElement, ctx: &mut C) {
+        self.second.exit_ts_tuple_element(node, ctx);
+        self.first.exit_ts_tuple_element(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
-        self.first.enter_ts_tuple_elements(node);
-        self.second.enter_ts_tuple_elements(node);
+    fn enter_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>, ctx: &mut C) {
+        self.first.enter_ts_tuple_elements(node, ctx);
+        self.second.enter_ts_tuple_elements(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
-        self.second.exit_ts_tuple_elements(node);
-        self.first.exit_ts_tuple_elements(node);
+    fn exit_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>, ctx: &mut C) {
+        self.second.exit_ts_tuple_elements(node, ctx);
+        self.first.exit_ts_tuple_elements(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_tuple_type(&mut self, node: &mut TsTupleType) {
-        self.first.enter_ts_tuple_type(node);
-        self.second.enter_ts_tuple_type(node);
+    fn enter_ts_tuple_type(&mut self, node: &mut TsTupleType, ctx: &mut C) {
+        self.first.enter_ts_tuple_type(node, ctx);
+        self.second.enter_ts_tuple_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_tuple_type(&mut self, node: &mut TsTupleType) {
-        self.second.exit_ts_tuple_type(node);
-        self.first.exit_ts_tuple_type(node);
+    fn exit_ts_tuple_type(&mut self, node: &mut TsTupleType, ctx: &mut C) {
+        self.second.exit_ts_tuple_type(node, ctx);
+        self.first.exit_ts_tuple_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type(&mut self, node: &mut TsType) {
-        self.first.enter_ts_type(node);
-        self.second.enter_ts_type(node);
+    fn enter_ts_type(&mut self, node: &mut TsType, ctx: &mut C) {
+        self.first.enter_ts_type(node, ctx);
+        self.second.enter_ts_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type(&mut self, node: &mut TsType) {
-        self.second.exit_ts_type(node);
-        self.first.exit_ts_type(node);
+    fn exit_ts_type(&mut self, node: &mut TsType, ctx: &mut C) {
+        self.second.exit_ts_type(node, ctx);
+        self.first.exit_ts_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        self.first.enter_ts_type_alias_decl(node);
-        self.second.enter_ts_type_alias_decl(node);
+    fn enter_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl, ctx: &mut C) {
+        self.first.enter_ts_type_alias_decl(node, ctx);
+        self.second.enter_ts_type_alias_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        self.second.exit_ts_type_alias_decl(node);
-        self.first.exit_ts_type_alias_decl(node);
+    fn exit_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl, ctx: &mut C) {
+        self.second.exit_ts_type_alias_decl(node, ctx);
+        self.first.exit_ts_type_alias_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_ann(&mut self, node: &mut TsTypeAnn) {
-        self.first.enter_ts_type_ann(node);
-        self.second.enter_ts_type_ann(node);
+    fn enter_ts_type_ann(&mut self, node: &mut TsTypeAnn, ctx: &mut C) {
+        self.first.enter_ts_type_ann(node, ctx);
+        self.second.enter_ts_type_ann(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_ann(&mut self, node: &mut TsTypeAnn) {
-        self.second.exit_ts_type_ann(node);
-        self.first.exit_ts_type_ann(node);
+    fn exit_ts_type_ann(&mut self, node: &mut TsTypeAnn, ctx: &mut C) {
+        self.second.exit_ts_type_ann(node, ctx);
+        self.first.exit_ts_type_ann(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {
-        self.first.enter_ts_type_assertion(node);
-        self.second.enter_ts_type_assertion(node);
+    fn enter_ts_type_assertion(&mut self, node: &mut TsTypeAssertion, ctx: &mut C) {
+        self.first.enter_ts_type_assertion(node, ctx);
+        self.second.enter_ts_type_assertion(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {
-        self.second.exit_ts_type_assertion(node);
-        self.first.exit_ts_type_assertion(node);
+    fn exit_ts_type_assertion(&mut self, node: &mut TsTypeAssertion, ctx: &mut C) {
+        self.second.exit_ts_type_assertion(node, ctx);
+        self.first.exit_ts_type_assertion(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_element(&mut self, node: &mut TsTypeElement) {
-        self.first.enter_ts_type_element(node);
-        self.second.enter_ts_type_element(node);
+    fn enter_ts_type_element(&mut self, node: &mut TsTypeElement, ctx: &mut C) {
+        self.first.enter_ts_type_element(node, ctx);
+        self.second.enter_ts_type_element(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_element(&mut self, node: &mut TsTypeElement) {
-        self.second.exit_ts_type_element(node);
-        self.first.exit_ts_type_element(node);
+    fn exit_ts_type_element(&mut self, node: &mut TsTypeElement, ctx: &mut C) {
+        self.second.exit_ts_type_element(node, ctx);
+        self.first.exit_ts_type_element(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
-        self.first.enter_ts_type_elements(node);
-        self.second.enter_ts_type_elements(node);
+    fn enter_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>, ctx: &mut C) {
+        self.first.enter_ts_type_elements(node, ctx);
+        self.second.enter_ts_type_elements(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
-        self.second.exit_ts_type_elements(node);
-        self.first.exit_ts_type_elements(node);
+    fn exit_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>, ctx: &mut C) {
+        self.second.exit_ts_type_elements(node, ctx);
+        self.first.exit_ts_type_elements(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_lit(&mut self, node: &mut TsTypeLit) {
-        self.first.enter_ts_type_lit(node);
-        self.second.enter_ts_type_lit(node);
+    fn enter_ts_type_lit(&mut self, node: &mut TsTypeLit, ctx: &mut C) {
+        self.first.enter_ts_type_lit(node, ctx);
+        self.second.enter_ts_type_lit(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_lit(&mut self, node: &mut TsTypeLit) {
-        self.second.exit_ts_type_lit(node);
-        self.first.exit_ts_type_lit(node);
+    fn exit_ts_type_lit(&mut self, node: &mut TsTypeLit, ctx: &mut C) {
+        self.second.exit_ts_type_lit(node, ctx);
+        self.first.exit_ts_type_lit(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_operator(&mut self, node: &mut TsTypeOperator) {
-        self.first.enter_ts_type_operator(node);
-        self.second.enter_ts_type_operator(node);
+    fn enter_ts_type_operator(&mut self, node: &mut TsTypeOperator, ctx: &mut C) {
+        self.first.enter_ts_type_operator(node, ctx);
+        self.second.enter_ts_type_operator(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_operator(&mut self, node: &mut TsTypeOperator) {
-        self.second.exit_ts_type_operator(node);
-        self.first.exit_ts_type_operator(node);
+    fn exit_ts_type_operator(&mut self, node: &mut TsTypeOperator, ctx: &mut C) {
+        self.second.exit_ts_type_operator(node, ctx);
+        self.first.exit_ts_type_operator(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {
-        self.first.enter_ts_type_operator_op(node);
-        self.second.enter_ts_type_operator_op(node);
+    fn enter_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp, ctx: &mut C) {
+        self.first.enter_ts_type_operator_op(node, ctx);
+        self.second.enter_ts_type_operator_op(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {
-        self.second.exit_ts_type_operator_op(node);
-        self.first.exit_ts_type_operator_op(node);
+    fn exit_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp, ctx: &mut C) {
+        self.second.exit_ts_type_operator_op(node, ctx);
+        self.first.exit_ts_type_operator_op(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_param(&mut self, node: &mut TsTypeParam) {
-        self.first.enter_ts_type_param(node);
-        self.second.enter_ts_type_param(node);
+    fn enter_ts_type_param(&mut self, node: &mut TsTypeParam, ctx: &mut C) {
+        self.first.enter_ts_type_param(node, ctx);
+        self.second.enter_ts_type_param(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_param(&mut self, node: &mut TsTypeParam) {
-        self.second.exit_ts_type_param(node);
-        self.first.exit_ts_type_param(node);
+    fn exit_ts_type_param(&mut self, node: &mut TsTypeParam, ctx: &mut C) {
+        self.second.exit_ts_type_param(node, ctx);
+        self.first.exit_ts_type_param(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
-        self.first.enter_ts_type_param_decl(node);
-        self.second.enter_ts_type_param_decl(node);
+    fn enter_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl, ctx: &mut C) {
+        self.first.enter_ts_type_param_decl(node, ctx);
+        self.second.enter_ts_type_param_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
-        self.second.exit_ts_type_param_decl(node);
-        self.first.exit_ts_type_param_decl(node);
+    fn exit_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl, ctx: &mut C) {
+        self.second.exit_ts_type_param_decl(node, ctx);
+        self.first.exit_ts_type_param_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
-        self.first.enter_ts_type_param_instantiation(node);
-        self.second.enter_ts_type_param_instantiation(node);
+    fn enter_ts_type_param_instantiation(
+        &mut self,
+        node: &mut TsTypeParamInstantiation,
+        ctx: &mut C,
+    ) {
+        self.first.enter_ts_type_param_instantiation(node, ctx);
+        self.second.enter_ts_type_param_instantiation(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
-        self.second.exit_ts_type_param_instantiation(node);
-        self.first.exit_ts_type_param_instantiation(node);
+    fn exit_ts_type_param_instantiation(
+        &mut self,
+        node: &mut TsTypeParamInstantiation,
+        ctx: &mut C,
+    ) {
+        self.second.exit_ts_type_param_instantiation(node, ctx);
+        self.first.exit_ts_type_param_instantiation(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
-        self.first.enter_ts_type_params(node);
-        self.second.enter_ts_type_params(node);
+    fn enter_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>, ctx: &mut C) {
+        self.first.enter_ts_type_params(node, ctx);
+        self.second.enter_ts_type_params(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
-        self.second.exit_ts_type_params(node);
-        self.first.exit_ts_type_params(node);
+    fn exit_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>, ctx: &mut C) {
+        self.second.exit_ts_type_params(node, ctx);
+        self.first.exit_ts_type_params(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {
-        self.first.enter_ts_type_predicate(node);
-        self.second.enter_ts_type_predicate(node);
+    fn enter_ts_type_predicate(&mut self, node: &mut TsTypePredicate, ctx: &mut C) {
+        self.first.enter_ts_type_predicate(node, ctx);
+        self.second.enter_ts_type_predicate(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {
-        self.second.exit_ts_type_predicate(node);
-        self.first.exit_ts_type_predicate(node);
+    fn exit_ts_type_predicate(&mut self, node: &mut TsTypePredicate, ctx: &mut C) {
+        self.second.exit_ts_type_predicate(node, ctx);
+        self.first.exit_ts_type_predicate(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_query(&mut self, node: &mut TsTypeQuery) {
-        self.first.enter_ts_type_query(node);
-        self.second.enter_ts_type_query(node);
+    fn enter_ts_type_query(&mut self, node: &mut TsTypeQuery, ctx: &mut C) {
+        self.first.enter_ts_type_query(node, ctx);
+        self.second.enter_ts_type_query(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_query(&mut self, node: &mut TsTypeQuery) {
-        self.second.exit_ts_type_query(node);
-        self.first.exit_ts_type_query(node);
+    fn exit_ts_type_query(&mut self, node: &mut TsTypeQuery, ctx: &mut C) {
+        self.second.exit_ts_type_query(node, ctx);
+        self.first.exit_ts_type_query(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {
-        self.first.enter_ts_type_query_expr(node);
-        self.second.enter_ts_type_query_expr(node);
+    fn enter_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr, ctx: &mut C) {
+        self.first.enter_ts_type_query_expr(node, ctx);
+        self.second.enter_ts_type_query_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {
-        self.second.exit_ts_type_query_expr(node);
-        self.first.exit_ts_type_query_expr(node);
+    fn exit_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr, ctx: &mut C) {
+        self.second.exit_ts_type_query_expr(node, ctx);
+        self.first.exit_ts_type_query_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_type_ref(&mut self, node: &mut TsTypeRef) {
-        self.first.enter_ts_type_ref(node);
-        self.second.enter_ts_type_ref(node);
+    fn enter_ts_type_ref(&mut self, node: &mut TsTypeRef, ctx: &mut C) {
+        self.first.enter_ts_type_ref(node, ctx);
+        self.second.enter_ts_type_ref(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_type_ref(&mut self, node: &mut TsTypeRef) {
-        self.second.exit_ts_type_ref(node);
-        self.first.exit_ts_type_ref(node);
+    fn exit_ts_type_ref(&mut self, node: &mut TsTypeRef, ctx: &mut C) {
+        self.second.exit_ts_type_ref(node, ctx);
+        self.first.exit_ts_type_ref(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
-        self.first.enter_ts_types(node);
-        self.second.enter_ts_types(node);
+    fn enter_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ctx: &mut C) {
+        self.first.enter_ts_types(node, ctx);
+        self.second.enter_ts_types(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
-        self.second.exit_ts_types(node);
-        self.first.exit_ts_types(node);
+    fn exit_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ctx: &mut C) {
+        self.second.exit_ts_types(node, ctx);
+        self.first.exit_ts_types(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {
-        self.first.enter_ts_union_or_intersection_type(node);
-        self.second.enter_ts_union_or_intersection_type(node);
+    fn enter_ts_union_or_intersection_type(
+        &mut self,
+        node: &mut TsUnionOrIntersectionType,
+        ctx: &mut C,
+    ) {
+        self.first.enter_ts_union_or_intersection_type(node, ctx);
+        self.second.enter_ts_union_or_intersection_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {
-        self.second.exit_ts_union_or_intersection_type(node);
-        self.first.exit_ts_union_or_intersection_type(node);
+    fn exit_ts_union_or_intersection_type(
+        &mut self,
+        node: &mut TsUnionOrIntersectionType,
+        ctx: &mut C,
+    ) {
+        self.second.exit_ts_union_or_intersection_type(node, ctx);
+        self.first.exit_ts_union_or_intersection_type(node, ctx);
     }
 
     #[inline]
-    fn enter_ts_union_type(&mut self, node: &mut TsUnionType) {
-        self.first.enter_ts_union_type(node);
-        self.second.enter_ts_union_type(node);
+    fn enter_ts_union_type(&mut self, node: &mut TsUnionType, ctx: &mut C) {
+        self.first.enter_ts_union_type(node, ctx);
+        self.second.enter_ts_union_type(node, ctx);
     }
 
     #[inline]
-    fn exit_ts_union_type(&mut self, node: &mut TsUnionType) {
-        self.second.exit_ts_union_type(node);
-        self.first.exit_ts_union_type(node);
+    fn exit_ts_union_type(&mut self, node: &mut TsUnionType, ctx: &mut C) {
+        self.second.exit_ts_union_type(node, ctx);
+        self.first.exit_ts_union_type(node, ctx);
     }
 
     #[inline]
-    fn enter_unary_expr(&mut self, node: &mut UnaryExpr) {
-        self.first.enter_unary_expr(node);
-        self.second.enter_unary_expr(node);
+    fn enter_unary_expr(&mut self, node: &mut UnaryExpr, ctx: &mut C) {
+        self.first.enter_unary_expr(node, ctx);
+        self.second.enter_unary_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_unary_expr(&mut self, node: &mut UnaryExpr) {
-        self.second.exit_unary_expr(node);
-        self.first.exit_unary_expr(node);
+    fn exit_unary_expr(&mut self, node: &mut UnaryExpr, ctx: &mut C) {
+        self.second.exit_unary_expr(node, ctx);
+        self.first.exit_unary_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_unary_op(&mut self, node: &mut UnaryOp) {
-        self.first.enter_unary_op(node);
-        self.second.enter_unary_op(node);
+    fn enter_unary_op(&mut self, node: &mut UnaryOp, ctx: &mut C) {
+        self.first.enter_unary_op(node, ctx);
+        self.second.enter_unary_op(node, ctx);
     }
 
     #[inline]
-    fn exit_unary_op(&mut self, node: &mut UnaryOp) {
-        self.second.exit_unary_op(node);
-        self.first.exit_unary_op(node);
+    fn exit_unary_op(&mut self, node: &mut UnaryOp, ctx: &mut C) {
+        self.second.exit_unary_op(node, ctx);
+        self.first.exit_unary_op(node, ctx);
     }
 
     #[inline]
-    fn enter_update_expr(&mut self, node: &mut UpdateExpr) {
-        self.first.enter_update_expr(node);
-        self.second.enter_update_expr(node);
+    fn enter_update_expr(&mut self, node: &mut UpdateExpr, ctx: &mut C) {
+        self.first.enter_update_expr(node, ctx);
+        self.second.enter_update_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_update_expr(&mut self, node: &mut UpdateExpr) {
-        self.second.exit_update_expr(node);
-        self.first.exit_update_expr(node);
+    fn exit_update_expr(&mut self, node: &mut UpdateExpr, ctx: &mut C) {
+        self.second.exit_update_expr(node, ctx);
+        self.first.exit_update_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_update_op(&mut self, node: &mut UpdateOp) {
-        self.first.enter_update_op(node);
-        self.second.enter_update_op(node);
+    fn enter_update_op(&mut self, node: &mut UpdateOp, ctx: &mut C) {
+        self.first.enter_update_op(node, ctx);
+        self.second.enter_update_op(node, ctx);
     }
 
     #[inline]
-    fn exit_update_op(&mut self, node: &mut UpdateOp) {
-        self.second.exit_update_op(node);
-        self.first.exit_update_op(node);
+    fn exit_update_op(&mut self, node: &mut UpdateOp, ctx: &mut C) {
+        self.second.exit_update_op(node, ctx);
+        self.first.exit_update_op(node, ctx);
     }
 
     #[inline]
-    fn enter_using_decl(&mut self, node: &mut UsingDecl) {
-        self.first.enter_using_decl(node);
-        self.second.enter_using_decl(node);
+    fn enter_using_decl(&mut self, node: &mut UsingDecl, ctx: &mut C) {
+        self.first.enter_using_decl(node, ctx);
+        self.second.enter_using_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_using_decl(&mut self, node: &mut UsingDecl) {
-        self.second.exit_using_decl(node);
-        self.first.exit_using_decl(node);
+    fn exit_using_decl(&mut self, node: &mut UsingDecl, ctx: &mut C) {
+        self.second.exit_using_decl(node, ctx);
+        self.first.exit_using_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_var_decl(&mut self, node: &mut VarDecl) {
-        self.first.enter_var_decl(node);
-        self.second.enter_var_decl(node);
+    fn enter_var_decl(&mut self, node: &mut VarDecl, ctx: &mut C) {
+        self.first.enter_var_decl(node, ctx);
+        self.second.enter_var_decl(node, ctx);
     }
 
     #[inline]
-    fn exit_var_decl(&mut self, node: &mut VarDecl) {
-        self.second.exit_var_decl(node);
-        self.first.exit_var_decl(node);
+    fn exit_var_decl(&mut self, node: &mut VarDecl, ctx: &mut C) {
+        self.second.exit_var_decl(node, ctx);
+        self.first.exit_var_decl(node, ctx);
     }
 
     #[inline]
-    fn enter_var_decl_kind(&mut self, node: &mut VarDeclKind) {
-        self.first.enter_var_decl_kind(node);
-        self.second.enter_var_decl_kind(node);
+    fn enter_var_decl_kind(&mut self, node: &mut VarDeclKind, ctx: &mut C) {
+        self.first.enter_var_decl_kind(node, ctx);
+        self.second.enter_var_decl_kind(node, ctx);
     }
 
     #[inline]
-    fn exit_var_decl_kind(&mut self, node: &mut VarDeclKind) {
-        self.second.exit_var_decl_kind(node);
-        self.first.exit_var_decl_kind(node);
+    fn exit_var_decl_kind(&mut self, node: &mut VarDeclKind, ctx: &mut C) {
+        self.second.exit_var_decl_kind(node, ctx);
+        self.first.exit_var_decl_kind(node, ctx);
     }
 
     #[inline]
-    fn enter_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {
-        self.first.enter_var_decl_or_expr(node);
-        self.second.enter_var_decl_or_expr(node);
+    fn enter_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ctx: &mut C) {
+        self.first.enter_var_decl_or_expr(node, ctx);
+        self.second.enter_var_decl_or_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {
-        self.second.exit_var_decl_or_expr(node);
-        self.first.exit_var_decl_or_expr(node);
+    fn exit_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ctx: &mut C) {
+        self.second.exit_var_decl_or_expr(node, ctx);
+        self.first.exit_var_decl_or_expr(node, ctx);
     }
 
     #[inline]
-    fn enter_var_declarator(&mut self, node: &mut VarDeclarator) {
-        self.first.enter_var_declarator(node);
-        self.second.enter_var_declarator(node);
+    fn enter_var_declarator(&mut self, node: &mut VarDeclarator, ctx: &mut C) {
+        self.first.enter_var_declarator(node, ctx);
+        self.second.enter_var_declarator(node, ctx);
     }
 
     #[inline]
-    fn exit_var_declarator(&mut self, node: &mut VarDeclarator) {
-        self.second.exit_var_declarator(node);
-        self.first.exit_var_declarator(node);
+    fn exit_var_declarator(&mut self, node: &mut VarDeclarator, ctx: &mut C) {
+        self.second.exit_var_declarator(node, ctx);
+        self.first.exit_var_declarator(node, ctx);
     }
 
     #[inline]
-    fn enter_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
-        self.first.enter_var_declarators(node);
-        self.second.enter_var_declarators(node);
+    fn enter_var_declarators(&mut self, node: &mut Vec<VarDeclarator>, ctx: &mut C) {
+        self.first.enter_var_declarators(node, ctx);
+        self.second.enter_var_declarators(node, ctx);
     }
 
     #[inline]
-    fn exit_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
-        self.second.exit_var_declarators(node);
-        self.first.exit_var_declarators(node);
+    fn exit_var_declarators(&mut self, node: &mut Vec<VarDeclarator>, ctx: &mut C) {
+        self.second.exit_var_declarators(node, ctx);
+        self.first.exit_var_declarators(node, ctx);
     }
 
     #[inline]
-    fn enter_while_stmt(&mut self, node: &mut WhileStmt) {
-        self.first.enter_while_stmt(node);
-        self.second.enter_while_stmt(node);
+    fn enter_while_stmt(&mut self, node: &mut WhileStmt, ctx: &mut C) {
+        self.first.enter_while_stmt(node, ctx);
+        self.second.enter_while_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_while_stmt(&mut self, node: &mut WhileStmt) {
-        self.second.exit_while_stmt(node);
-        self.first.exit_while_stmt(node);
+    fn exit_while_stmt(&mut self, node: &mut WhileStmt, ctx: &mut C) {
+        self.second.exit_while_stmt(node, ctx);
+        self.first.exit_while_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_with_stmt(&mut self, node: &mut WithStmt) {
-        self.first.enter_with_stmt(node);
-        self.second.enter_with_stmt(node);
+    fn enter_with_stmt(&mut self, node: &mut WithStmt, ctx: &mut C) {
+        self.first.enter_with_stmt(node, ctx);
+        self.second.enter_with_stmt(node, ctx);
     }
 
     #[inline]
-    fn exit_with_stmt(&mut self, node: &mut WithStmt) {
-        self.second.exit_with_stmt(node);
-        self.first.exit_with_stmt(node);
+    fn exit_with_stmt(&mut self, node: &mut WithStmt, ctx: &mut C) {
+        self.second.exit_with_stmt(node, ctx);
+        self.first.exit_with_stmt(node, ctx);
     }
 
     #[inline]
-    fn enter_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom) {
-        self.first.enter_wtf_8_atom(node);
-        self.second.enter_wtf_8_atom(node);
+    fn enter_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom, ctx: &mut C) {
+        self.first.enter_wtf_8_atom(node, ctx);
+        self.second.enter_wtf_8_atom(node, ctx);
     }
 
     #[inline]
-    fn exit_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom) {
-        self.second.exit_wtf_8_atom(node);
-        self.first.exit_wtf_8_atom(node);
+    fn exit_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom, ctx: &mut C) {
+        self.second.exit_wtf_8_atom(node, ctx);
+        self.first.exit_wtf_8_atom(node, ctx);
     }
 
     #[inline]
-    fn enter_yield_expr(&mut self, node: &mut YieldExpr) {
-        self.first.enter_yield_expr(node);
-        self.second.enter_yield_expr(node);
+    fn enter_yield_expr(&mut self, node: &mut YieldExpr, ctx: &mut C) {
+        self.first.enter_yield_expr(node, ctx);
+        self.second.enter_yield_expr(node, ctx);
     }
 
     #[inline]
-    fn exit_yield_expr(&mut self, node: &mut YieldExpr) {
-        self.second.exit_yield_expr(node);
-        self.first.exit_yield_expr(node);
+    fn exit_yield_expr(&mut self, node: &mut YieldExpr, ctx: &mut C) {
+        self.second.exit_yield_expr(node, ctx);
+        self.first.exit_yield_expr(node, ctx);
     }
 }
 #[doc = r" An adapter that implements VisitMut using a VisitMutHook."]
@@ -6053,1260 +6168,1285 @@ where
 #[doc = r" This allows any hook to be used as a visitor by calling:"]
 #[doc = r" - hook.enter_xxx before visiting children"]
 #[doc = r" - hook.exit_xxx after visiting children"]
-pub struct VisitMutWithHook<H> {
+pub struct VisitMutWithHook<H, C> {
     pub hook: H,
+    pub context: C,
 }
-impl<H: VisitMutHook> VisitMut for VisitMutWithHook<H> {
+impl<H: VisitMutHook<C>, C> VisitMut for VisitMutWithHook<H, C> {
     #[doc = "Visits a node of type `Accessibility` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_accessibility(&mut self, node: &mut Accessibility) {
-        self.hook.enter_accessibility(node);
+        self.hook.enter_accessibility(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_accessibility(node);
+        self.hook.exit_accessibility(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ArrayLit` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_array_lit(&mut self, node: &mut ArrayLit) {
-        self.hook.enter_array_lit(node);
+        self.hook.enter_array_lit(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_array_lit(node);
+        self.hook.exit_array_lit(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ArrayPat` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
-        self.hook.enter_array_pat(node);
+        self.hook.enter_array_pat(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_array_pat(node);
+        self.hook.exit_array_pat(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ArrowExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
-        self.hook.enter_arrow_expr(node);
+        self.hook.enter_arrow_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_arrow_expr(node);
+        self.hook.exit_arrow_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AssignExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
-        self.hook.enter_assign_expr(node);
+        self.hook.enter_assign_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_assign_expr(node);
+        self.hook.exit_assign_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AssignOp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_assign_op(&mut self, node: &mut AssignOp) {
-        self.hook.enter_assign_op(node);
+        self.hook.enter_assign_op(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_assign_op(node);
+        self.hook.exit_assign_op(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AssignPat` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
-        self.hook.enter_assign_pat(node);
+        self.hook.enter_assign_pat(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_assign_pat(node);
+        self.hook.exit_assign_pat(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AssignPatProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
-        self.hook.enter_assign_pat_prop(node);
+        self.hook.enter_assign_pat_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_assign_pat_prop(node);
+        self.hook.exit_assign_pat_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AssignProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_assign_prop(&mut self, node: &mut AssignProp) {
-        self.hook.enter_assign_prop(node);
+        self.hook.enter_assign_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_assign_prop(node);
+        self.hook.exit_assign_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AssignTarget` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_assign_target(&mut self, node: &mut AssignTarget) {
-        self.hook.enter_assign_target(node);
+        self.hook.enter_assign_target(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_assign_target(node);
+        self.hook.exit_assign_target(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AssignTargetPat` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_assign_target_pat(&mut self, node: &mut AssignTargetPat) {
-        self.hook.enter_assign_target_pat(node);
+        self.hook.enter_assign_target_pat(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_assign_target_pat(node);
+        self.hook.exit_assign_target_pat(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `swc_atoms :: Atom` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_atom(&mut self, node: &mut swc_atoms::Atom) {
-        self.hook.enter_atom(node);
+        self.hook.enter_atom(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_atom(node);
+        self.hook.exit_atom(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AutoAccessor` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor) {
-        self.hook.enter_auto_accessor(node);
+        self.hook.enter_auto_accessor(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_auto_accessor(node);
+        self.hook.exit_auto_accessor(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `AwaitExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_await_expr(&mut self, node: &mut AwaitExpr) {
-        self.hook.enter_await_expr(node);
+        self.hook.enter_await_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_await_expr(node);
+        self.hook.exit_await_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BigInt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_big_int(&mut self, node: &mut BigInt) {
-        self.hook.enter_big_int(node);
+        self.hook.enter_big_int(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_big_int(node);
+        self.hook.exit_big_int(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BigIntValue` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_big_int_value(&mut self, node: &mut BigIntValue) {
-        self.hook.enter_big_int_value(node);
+        self.hook.enter_big_int_value(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_big_int_value(node);
+        self.hook.exit_big_int_value(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BinExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
-        self.hook.enter_bin_expr(node);
+        self.hook.enter_bin_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_bin_expr(node);
+        self.hook.exit_bin_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BinaryOp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_binary_op(&mut self, node: &mut BinaryOp) {
-        self.hook.enter_binary_op(node);
+        self.hook.enter_binary_op(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_binary_op(node);
+        self.hook.exit_binary_op(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BindingIdent` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_binding_ident(&mut self, node: &mut BindingIdent) {
-        self.hook.enter_binding_ident(node);
+        self.hook.enter_binding_ident(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_binding_ident(node);
+        self.hook.exit_binding_ident(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BlockStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
-        self.hook.enter_block_stmt(node);
+        self.hook.enter_block_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_block_stmt(node);
+        self.hook.exit_block_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BlockStmtOrExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr) {
-        self.hook.enter_block_stmt_or_expr(node);
+        self.hook.enter_block_stmt_or_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_block_stmt_or_expr(node);
+        self.hook.exit_block_stmt_or_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Bool` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_bool(&mut self, node: &mut Bool) {
-        self.hook.enter_bool(node);
+        self.hook.enter_bool(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_bool(node);
+        self.hook.exit_bool(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `BreakStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_break_stmt(&mut self, node: &mut BreakStmt) {
-        self.hook.enter_break_stmt(node);
+        self.hook.enter_break_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_break_stmt(node);
+        self.hook.exit_break_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `CallExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        self.hook.enter_call_expr(node);
+        self.hook.enter_call_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_call_expr(node);
+        self.hook.exit_call_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Callee` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_callee(&mut self, node: &mut Callee) {
-        self.hook.enter_callee(node);
+        self.hook.enter_callee(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_callee(node);
+        self.hook.exit_callee(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `CatchClause` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
-        self.hook.enter_catch_clause(node);
+        self.hook.enter_catch_clause(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_catch_clause(node);
+        self.hook.exit_catch_clause(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Class` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_class(&mut self, node: &mut Class) {
-        self.hook.enter_class(node);
+        self.hook.enter_class(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_class(node);
+        self.hook.exit_class(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ClassDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        self.hook.enter_class_decl(node);
+        self.hook.enter_class_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_class_decl(node);
+        self.hook.exit_class_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ClassExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
-        self.hook.enter_class_expr(node);
+        self.hook.enter_class_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_class_expr(node);
+        self.hook.exit_class_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ClassMember` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_class_member(&mut self, node: &mut ClassMember) {
-        self.hook.enter_class_member(node);
+        self.hook.enter_class_member(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_class_member(node);
+        self.hook.exit_class_member(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ClassMember >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_class_members(&mut self, node: &mut Vec<ClassMember>) {
-        self.hook.enter_class_members(node);
+        self.hook.enter_class_members(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_class_members(node);
+        self.hook.exit_class_members(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ClassMethod` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
-        self.hook.enter_class_method(node);
+        self.hook.enter_class_method(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_class_method(node);
+        self.hook.exit_class_method(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ClassProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_class_prop(&mut self, node: &mut ClassProp) {
-        self.hook.enter_class_prop(node);
+        self.hook.enter_class_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_class_prop(node);
+        self.hook.exit_class_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ComputedPropName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_computed_prop_name(&mut self, node: &mut ComputedPropName) {
-        self.hook.enter_computed_prop_name(node);
+        self.hook.enter_computed_prop_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_computed_prop_name(node);
+        self.hook.exit_computed_prop_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `CondExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_cond_expr(&mut self, node: &mut CondExpr) {
-        self.hook.enter_cond_expr(node);
+        self.hook.enter_cond_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_cond_expr(node);
+        self.hook.exit_cond_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Constructor` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_constructor(&mut self, node: &mut Constructor) {
-        self.hook.enter_constructor(node);
+        self.hook.enter_constructor(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_constructor(node);
+        self.hook.exit_constructor(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ContinueStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_continue_stmt(&mut self, node: &mut ContinueStmt) {
-        self.hook.enter_continue_stmt(node);
+        self.hook.enter_continue_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_continue_stmt(node);
+        self.hook.exit_continue_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `DebuggerStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_debugger_stmt(&mut self, node: &mut DebuggerStmt) {
-        self.hook.enter_debugger_stmt(node);
+        self.hook.enter_debugger_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_debugger_stmt(node);
+        self.hook.exit_debugger_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Decl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_decl(&mut self, node: &mut Decl) {
-        self.hook.enter_decl(node);
+        self.hook.enter_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_decl(node);
+        self.hook.exit_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Decorator` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_decorator(&mut self, node: &mut Decorator) {
-        self.hook.enter_decorator(node);
+        self.hook.enter_decorator(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_decorator(node);
+        self.hook.exit_decorator(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Decorator >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_decorators(&mut self, node: &mut Vec<Decorator>) {
-        self.hook.enter_decorators(node);
+        self.hook.enter_decorators(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_decorators(node);
+        self.hook.exit_decorators(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `DefaultDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_default_decl(&mut self, node: &mut DefaultDecl) {
-        self.hook.enter_default_decl(node);
+        self.hook.enter_default_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_default_decl(node);
+        self.hook.exit_default_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `DoWhileStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
-        self.hook.enter_do_while_stmt(node);
+        self.hook.enter_do_while_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_do_while_stmt(node);
+        self.hook.exit_do_while_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `EmptyStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_empty_stmt(&mut self, node: &mut EmptyStmt) {
-        self.hook.enter_empty_stmt(node);
+        self.hook.enter_empty_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_empty_stmt(node);
+        self.hook.exit_empty_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportAll` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
-        self.hook.enter_export_all(node);
+        self.hook.enter_export_all(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_all(node);
+        self.hook.exit_export_all(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        self.hook.enter_export_decl(node);
+        self.hook.enter_export_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_decl(node);
+        self.hook.exit_export_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportDefaultDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
-        self.hook.enter_export_default_decl(node);
+        self.hook.enter_export_default_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_default_decl(node);
+        self.hook.exit_export_default_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportDefaultExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
-        self.hook.enter_export_default_expr(node);
+        self.hook.enter_export_default_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_default_expr(node);
+        self.hook.exit_export_default_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportDefaultSpecifier` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier) {
-        self.hook.enter_export_default_specifier(node);
+        self.hook
+            .enter_export_default_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_default_specifier(node);
+        self.hook
+            .exit_export_default_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportNamedSpecifier` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
-        self.hook.enter_export_named_specifier(node);
+        self.hook
+            .enter_export_named_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_named_specifier(node);
+        self.hook
+            .exit_export_named_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportNamespaceSpecifier` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_export_namespace_specifier(&mut self, node: &mut ExportNamespaceSpecifier) {
-        self.hook.enter_export_namespace_specifier(node);
+        self.hook
+            .enter_export_namespace_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_namespace_specifier(node);
+        self.hook
+            .exit_export_namespace_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExportSpecifier` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_export_specifier(&mut self, node: &mut ExportSpecifier) {
-        self.hook.enter_export_specifier(node);
+        self.hook.enter_export_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_specifier(node);
+        self.hook.exit_export_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ExportSpecifier >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
-        self.hook.enter_export_specifiers(node);
+        self.hook.enter_export_specifiers(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_export_specifiers(node);
+        self.hook.exit_export_specifiers(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Expr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        self.hook.enter_expr(node);
+        self.hook.enter_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_expr(node);
+        self.hook.exit_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExprOrSpread` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_expr_or_spread(&mut self, node: &mut ExprOrSpread) {
-        self.hook.enter_expr_or_spread(node);
+        self.hook.enter_expr_or_spread(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_expr_or_spread(node);
+        self.hook.exit_expr_or_spread(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ExprOrSpread >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>) {
-        self.hook.enter_expr_or_spreads(node);
+        self.hook.enter_expr_or_spreads(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_expr_or_spreads(node);
+        self.hook.exit_expr_or_spreads(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ExprStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_expr_stmt(&mut self, node: &mut ExprStmt) {
-        self.hook.enter_expr_stmt(node);
+        self.hook.enter_expr_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_expr_stmt(node);
+        self.hook.exit_expr_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Box < Expr > >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_exprs(&mut self, node: &mut Vec<Box<Expr>>) {
-        self.hook.enter_exprs(node);
+        self.hook.enter_exprs(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_exprs(node);
+        self.hook.exit_exprs(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `FnDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.hook.enter_fn_decl(node);
+        self.hook.enter_fn_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_fn_decl(node);
+        self.hook.exit_fn_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `FnExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
-        self.hook.enter_fn_expr(node);
+        self.hook.enter_fn_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_fn_expr(node);
+        self.hook.exit_fn_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ForHead` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_for_head(&mut self, node: &mut ForHead) {
-        self.hook.enter_for_head(node);
+        self.hook.enter_for_head(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_for_head(node);
+        self.hook.exit_for_head(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ForInStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
-        self.hook.enter_for_in_stmt(node);
+        self.hook.enter_for_in_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_for_in_stmt(node);
+        self.hook.exit_for_in_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ForOfStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
-        self.hook.enter_for_of_stmt(node);
+        self.hook.enter_for_of_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_for_of_stmt(node);
+        self.hook.exit_for_of_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ForStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
-        self.hook.enter_for_stmt(node);
+        self.hook.enter_for_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_for_stmt(node);
+        self.hook.exit_for_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Function` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_function(&mut self, node: &mut Function) {
-        self.hook.enter_function(node);
+        self.hook.enter_function(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_function(node);
+        self.hook.exit_function(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `GetterProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp) {
-        self.hook.enter_getter_prop(node);
+        self.hook.enter_getter_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_getter_prop(node);
+        self.hook.exit_getter_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Ident` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        self.hook.enter_ident(node);
+        self.hook.enter_ident(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ident(node);
+        self.hook.exit_ident(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `IdentName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ident_name(&mut self, node: &mut IdentName) {
-        self.hook.enter_ident_name(node);
+        self.hook.enter_ident_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ident_name(node);
+        self.hook.exit_ident_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `IfStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
-        self.hook.enter_if_stmt(node);
+        self.hook.enter_if_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_if_stmt(node);
+        self.hook.exit_if_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Import` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import(&mut self, node: &mut Import) {
-        self.hook.enter_import(node);
+        self.hook.enter_import(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import(node);
+        self.hook.exit_import(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl) {
-        self.hook.enter_import_decl(node);
+        self.hook.enter_import_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_decl(node);
+        self.hook.exit_import_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportDefaultSpecifier` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier) {
-        self.hook.enter_import_default_specifier(node);
+        self.hook
+            .enter_import_default_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_default_specifier(node);
+        self.hook
+            .exit_import_default_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportNamedSpecifier` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier) {
-        self.hook.enter_import_named_specifier(node);
+        self.hook
+            .enter_import_named_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_named_specifier(node);
+        self.hook
+            .exit_import_named_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportPhase` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import_phase(&mut self, node: &mut ImportPhase) {
-        self.hook.enter_import_phase(node);
+        self.hook.enter_import_phase(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_phase(node);
+        self.hook.exit_import_phase(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportSpecifier` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import_specifier(&mut self, node: &mut ImportSpecifier) {
-        self.hook.enter_import_specifier(node);
+        self.hook.enter_import_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_specifier(node);
+        self.hook.exit_import_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ImportSpecifier >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
-        self.hook.enter_import_specifiers(node);
+        self.hook.enter_import_specifiers(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_specifiers(node);
+        self.hook.exit_import_specifiers(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportStarAsSpecifier` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier) {
-        self.hook.enter_import_star_as_specifier(node);
+        self.hook
+            .enter_import_star_as_specifier(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_star_as_specifier(node);
+        self.hook
+            .exit_import_star_as_specifier(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportWith` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import_with(&mut self, node: &mut ImportWith) {
-        self.hook.enter_import_with(node);
+        self.hook.enter_import_with(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_with(node);
+        self.hook.exit_import_with(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ImportWithItem` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_import_with_item(&mut self, node: &mut ImportWithItem) {
-        self.hook.enter_import_with_item(node);
+        self.hook.enter_import_with_item(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_with_item(node);
+        self.hook.exit_import_with_item(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ImportWithItem >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_import_with_items(&mut self, node: &mut Vec<ImportWithItem>) {
-        self.hook.enter_import_with_items(node);
+        self.hook.enter_import_with_items(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_import_with_items(node);
+        self.hook.exit_import_with_items(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Invalid` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_invalid(&mut self, node: &mut Invalid) {
-        self.hook.enter_invalid(node);
+        self.hook.enter_invalid(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_invalid(node);
+        self.hook.exit_invalid(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXAttr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_attr(&mut self, node: &mut JSXAttr) {
-        self.hook.enter_jsx_attr(node);
+        self.hook.enter_jsx_attr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_attr(node);
+        self.hook.exit_jsx_attr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXAttrName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_attr_name(&mut self, node: &mut JSXAttrName) {
-        self.hook.enter_jsx_attr_name(node);
+        self.hook.enter_jsx_attr_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_attr_name(node);
+        self.hook.exit_jsx_attr_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXAttrOrSpread` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread) {
-        self.hook.enter_jsx_attr_or_spread(node);
+        self.hook.enter_jsx_attr_or_spread(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_attr_or_spread(node);
+        self.hook.exit_jsx_attr_or_spread(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < JSXAttrOrSpread >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>) {
-        self.hook.enter_jsx_attr_or_spreads(node);
+        self.hook.enter_jsx_attr_or_spreads(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_attr_or_spreads(node);
+        self.hook.exit_jsx_attr_or_spreads(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXAttrValue` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_attr_value(&mut self, node: &mut JSXAttrValue) {
-        self.hook.enter_jsx_attr_value(node);
+        self.hook.enter_jsx_attr_value(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_attr_value(node);
+        self.hook.exit_jsx_attr_value(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXClosingElement` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_closing_element(&mut self, node: &mut JSXClosingElement) {
-        self.hook.enter_jsx_closing_element(node);
+        self.hook.enter_jsx_closing_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_closing_element(node);
+        self.hook.exit_jsx_closing_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXClosingFragment` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment) {
-        self.hook.enter_jsx_closing_fragment(node);
+        self.hook
+            .enter_jsx_closing_fragment(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_closing_fragment(node);
+        self.hook.exit_jsx_closing_fragment(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXElement` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
-        self.hook.enter_jsx_element(node);
+        self.hook.enter_jsx_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_element(node);
+        self.hook.exit_jsx_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXElementChild` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_element_child(&mut self, node: &mut JSXElementChild) {
-        self.hook.enter_jsx_element_child(node);
+        self.hook.enter_jsx_element_child(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_element_child(node);
+        self.hook.exit_jsx_element_child(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < JSXElementChild >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>) {
-        self.hook.enter_jsx_element_childs(node);
+        self.hook.enter_jsx_element_childs(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_element_childs(node);
+        self.hook.exit_jsx_element_childs(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXElementName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
-        self.hook.enter_jsx_element_name(node);
+        self.hook.enter_jsx_element_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_element_name(node);
+        self.hook.exit_jsx_element_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXEmptyExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr) {
-        self.hook.enter_jsx_empty_expr(node);
+        self.hook.enter_jsx_empty_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_empty_expr(node);
+        self.hook.exit_jsx_empty_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_expr(&mut self, node: &mut JSXExpr) {
-        self.hook.enter_jsx_expr(node);
+        self.hook.enter_jsx_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_expr(node);
+        self.hook.exit_jsx_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXExprContainer` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
-        self.hook.enter_jsx_expr_container(node);
+        self.hook.enter_jsx_expr_container(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_expr_container(node);
+        self.hook.exit_jsx_expr_container(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXFragment` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_fragment(&mut self, node: &mut JSXFragment) {
-        self.hook.enter_jsx_fragment(node);
+        self.hook.enter_jsx_fragment(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_fragment(node);
+        self.hook.exit_jsx_fragment(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXMemberExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_member_expr(&mut self, node: &mut JSXMemberExpr) {
-        self.hook.enter_jsx_member_expr(node);
+        self.hook.enter_jsx_member_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_member_expr(node);
+        self.hook.exit_jsx_member_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXNamespacedName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName) {
-        self.hook.enter_jsx_namespaced_name(node);
+        self.hook.enter_jsx_namespaced_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_namespaced_name(node);
+        self.hook.exit_jsx_namespaced_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXObject` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject) {
-        self.hook.enter_jsx_object(node);
+        self.hook.enter_jsx_object(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_object(node);
+        self.hook.exit_jsx_object(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXOpeningElement` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
-        self.hook.enter_jsx_opening_element(node);
+        self.hook.enter_jsx_opening_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_opening_element(node);
+        self.hook.exit_jsx_opening_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXOpeningFragment` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment) {
-        self.hook.enter_jsx_opening_fragment(node);
+        self.hook
+            .enter_jsx_opening_fragment(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_opening_fragment(node);
+        self.hook.exit_jsx_opening_fragment(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXSpreadChild` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
-        self.hook.enter_jsx_spread_child(node);
+        self.hook.enter_jsx_spread_child(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_spread_child(node);
+        self.hook.exit_jsx_spread_child(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `JSXText` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText) {
-        self.hook.enter_jsx_text(node);
+        self.hook.enter_jsx_text(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_jsx_text(node);
+        self.hook.exit_jsx_text(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Key` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_key(&mut self, node: &mut Key) {
-        self.hook.enter_key(node);
+        self.hook.enter_key(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_key(node);
+        self.hook.exit_key(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `KeyValuePatProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp) {
-        self.hook.enter_key_value_pat_prop(node);
+        self.hook.enter_key_value_pat_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_key_value_pat_prop(node);
+        self.hook.exit_key_value_pat_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `KeyValueProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_key_value_prop(&mut self, node: &mut KeyValueProp) {
-        self.hook.enter_key_value_prop(node);
+        self.hook.enter_key_value_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_key_value_prop(node);
+        self.hook.exit_key_value_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `LabeledStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_labeled_stmt(&mut self, node: &mut LabeledStmt) {
-        self.hook.enter_labeled_stmt(node);
+        self.hook.enter_labeled_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_labeled_stmt(node);
+        self.hook.exit_labeled_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Lit` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_lit(&mut self, node: &mut Lit) {
-        self.hook.enter_lit(node);
+        self.hook.enter_lit(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_lit(node);
+        self.hook.exit_lit(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `MemberExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
-        self.hook.enter_member_expr(node);
+        self.hook.enter_member_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_member_expr(node);
+        self.hook.exit_member_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `MemberProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_member_prop(&mut self, node: &mut MemberProp) {
-        self.hook.enter_member_prop(node);
+        self.hook.enter_member_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_member_prop(node);
+        self.hook.exit_member_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `MetaPropExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_meta_prop_expr(&mut self, node: &mut MetaPropExpr) {
-        self.hook.enter_meta_prop_expr(node);
+        self.hook.enter_meta_prop_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_meta_prop_expr(node);
+        self.hook.exit_meta_prop_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `MetaPropKind` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_meta_prop_kind(&mut self, node: &mut MetaPropKind) {
-        self.hook.enter_meta_prop_kind(node);
+        self.hook.enter_meta_prop_kind(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_meta_prop_kind(node);
+        self.hook.exit_meta_prop_kind(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `MethodKind` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_method_kind(&mut self, node: &mut MethodKind) {
-        self.hook.enter_method_kind(node);
+        self.hook.enter_method_kind(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_method_kind(node);
+        self.hook.exit_method_kind(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `MethodProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_method_prop(&mut self, node: &mut MethodProp) {
-        self.hook.enter_method_prop(node);
+        self.hook.enter_method_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_method_prop(node);
+        self.hook.exit_method_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Module` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_module(&mut self, node: &mut Module) {
-        self.hook.enter_module(node);
+        self.hook.enter_module(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_module(node);
+        self.hook.exit_module(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ModuleDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_module_decl(&mut self, node: &mut ModuleDecl) {
-        self.hook.enter_module_decl(node);
+        self.hook.enter_module_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_module_decl(node);
+        self.hook.exit_module_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ModuleExportName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_module_export_name(&mut self, node: &mut ModuleExportName) {
-        self.hook.enter_module_export_name(node);
+        self.hook.enter_module_export_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_module_export_name(node);
+        self.hook.exit_module_export_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ModuleItem` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
-        self.hook.enter_module_item(node);
+        self.hook.enter_module_item(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_module_item(node);
+        self.hook.exit_module_item(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ModuleItem >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        self.hook.enter_module_items(node);
+        self.hook.enter_module_items(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_module_items(node);
+        self.hook.exit_module_items(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `NamedExport` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
-        self.hook.enter_named_export(node);
+        self.hook.enter_named_export(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_named_export(node);
+        self.hook.exit_named_export(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `NewExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
-        self.hook.enter_new_expr(node);
+        self.hook.enter_new_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_new_expr(node);
+        self.hook.exit_new_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Null` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_null(&mut self, node: &mut Null) {
-        self.hook.enter_null(node);
+        self.hook.enter_null(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_null(node);
+        self.hook.exit_null(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Number` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_number(&mut self, node: &mut Number) {
-        self.hook.enter_number(node);
+        self.hook.enter_number(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_number(node);
+        self.hook.exit_number(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ObjectLit` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_object_lit(&mut self, node: &mut ObjectLit) {
-        self.hook.enter_object_lit(node);
+        self.hook.enter_object_lit(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_object_lit(node);
+        self.hook.exit_object_lit(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ObjectPat` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat) {
-        self.hook.enter_object_pat(node);
+        self.hook.enter_object_pat(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_object_pat(node);
+        self.hook.exit_object_pat(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ObjectPatProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_object_pat_prop(&mut self, node: &mut ObjectPatProp) {
-        self.hook.enter_object_pat_prop(node);
+        self.hook.enter_object_pat_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_object_pat_prop(node);
+        self.hook.exit_object_pat_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ObjectPatProp >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>) {
-        self.hook.enter_object_pat_props(node);
+        self.hook.enter_object_pat_props(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_object_pat_props(node);
+        self.hook.exit_object_pat_props(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Accessibility >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
-        self.hook.enter_opt_accessibility(node);
+        self.hook.enter_opt_accessibility(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_accessibility(node);
+        self.hook.exit_opt_accessibility(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < swc_atoms :: Atom >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>) {
-        self.hook.enter_opt_atom(node);
+        self.hook.enter_opt_atom(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_atom(node);
+        self.hook.exit_opt_atom(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < BlockStmt >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>) {
-        self.hook.enter_opt_block_stmt(node);
+        self.hook.enter_opt_block_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_block_stmt(node);
+        self.hook.exit_opt_block_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `OptCall` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
-        self.hook.enter_opt_call(node);
+        self.hook.enter_opt_call(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_call(node);
+        self.hook.exit_opt_call(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < CatchClause >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_catch_clause(&mut self, node: &mut Option<CatchClause>) {
-        self.hook.enter_opt_catch_clause(node);
+        self.hook.enter_opt_catch_clause(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_catch_clause(node);
+        self.hook.exit_opt_catch_clause(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `OptChainBase` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_opt_chain_base(&mut self, node: &mut OptChainBase) {
-        self.hook.enter_opt_chain_base(node);
+        self.hook.enter_opt_chain_base(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_chain_base(node);
+        self.hook.exit_opt_chain_base(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `OptChainExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_opt_chain_expr(&mut self, node: &mut OptChainExpr) {
-        self.hook.enter_opt_chain_expr(node);
+        self.hook.enter_opt_chain_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_chain_expr(node);
+        self.hook.exit_opt_chain_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < Expr > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_expr(&mut self, node: &mut Option<Box<Expr>>) {
-        self.hook.enter_opt_expr(node);
+        self.hook.enter_opt_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_expr(node);
+        self.hook.exit_opt_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < ExprOrSpread >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>) {
-        self.hook.enter_opt_expr_or_spread(node);
+        self.hook.enter_opt_expr_or_spread(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_expr_or_spread(node);
+        self.hook.exit_opt_expr_or_spread(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Vec < ExprOrSpread > >` using the hook's enter and \
              exit methods."]
     #[inline]
     fn visit_mut_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>) {
-        self.hook.enter_opt_expr_or_spreads(node);
+        self.hook.enter_opt_expr_or_spreads(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_expr_or_spreads(node);
+        self.hook.exit_opt_expr_or_spreads(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Ident >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_opt_ident(&mut self, node: &mut Option<Ident>) {
-        self.hook.enter_opt_ident(node);
+        self.hook.enter_opt_ident(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ident(node);
+        self.hook.exit_opt_ident(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < JSXAttrValue >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>) {
-        self.hook.enter_opt_jsx_attr_value(node);
+        self.hook.enter_opt_jsx_attr_value(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_jsx_attr_value(node);
+        self.hook.exit_opt_jsx_attr_value(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < JSXClosingElement >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>) {
-        self.hook.enter_opt_jsx_closing_element(node);
+        self.hook
+            .enter_opt_jsx_closing_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_jsx_closing_element(node);
+        self.hook
+            .exit_opt_jsx_closing_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < ModuleExportName >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>) {
-        self.hook.enter_opt_module_export_name(node);
+        self.hook
+            .enter_opt_module_export_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_module_export_name(node);
+        self.hook
+            .exit_opt_module_export_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < ObjectLit > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>) {
-        self.hook.enter_opt_object_lit(node);
+        self.hook.enter_opt_object_lit(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_object_lit(node);
+        self.hook.exit_opt_object_lit(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Pat >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_opt_pat(&mut self, node: &mut Option<Pat>) {
-        self.hook.enter_opt_pat(node);
+        self.hook.enter_opt_pat(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_pat(node);
+        self.hook.exit_opt_pat(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < swc_common :: Span >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_span(&mut self, node: &mut Option<swc_common::Span>) {
-        self.hook.enter_opt_span(node);
+        self.hook.enter_opt_span(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_span(node);
+        self.hook.exit_opt_span(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < Stmt > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>) {
-        self.hook.enter_opt_stmt(node);
+        self.hook.enter_opt_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_stmt(node);
+        self.hook.exit_opt_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < Str > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_str(&mut self, node: &mut Option<Box<Str>>) {
-        self.hook.enter_opt_str(node);
+        self.hook.enter_opt_str(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_str(node);
+        self.hook.exit_opt_str(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < TruePlusMinus >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>) {
-        self.hook.enter_opt_true_plus_minus(node);
+        self.hook.enter_opt_true_plus_minus(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_true_plus_minus(node);
+        self.hook.exit_opt_true_plus_minus(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < TsEntityName >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>) {
-        self.hook.enter_opt_ts_entity_name(node);
+        self.hook.enter_opt_ts_entity_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ts_entity_name(node);
+        self.hook.exit_opt_ts_entity_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < TsImportCallOptions >` using the hook's enter and \
              exit methods."]
     #[inline]
     fn visit_mut_opt_ts_import_call_options(&mut self, node: &mut Option<TsImportCallOptions>) {
-        self.hook.enter_opt_ts_import_call_options(node);
+        self.hook
+            .enter_opt_ts_import_call_options(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ts_import_call_options(node);
+        self.hook
+            .exit_opt_ts_import_call_options(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < TsNamespaceBody >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>) {
-        self.hook.enter_opt_ts_namespace_body(node);
+        self.hook
+            .enter_opt_ts_namespace_body(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ts_namespace_body(node);
+        self.hook
+            .exit_opt_ts_namespace_body(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < TsType > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>) {
-        self.hook.enter_opt_ts_type(node);
+        self.hook.enter_opt_ts_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ts_type(node);
+        self.hook.exit_opt_ts_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < TsTypeAnn > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>) {
-        self.hook.enter_opt_ts_type_ann(node);
+        self.hook.enter_opt_ts_type_ann(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ts_type_ann(node);
+        self.hook.exit_opt_ts_type_ann(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < TsTypeParamDecl > >` using the hook's enter and \
              exit methods."]
     #[inline]
     fn visit_mut_opt_ts_type_param_decl(&mut self, node: &mut Option<Box<TsTypeParamDecl>>) {
-        self.hook.enter_opt_ts_type_param_decl(node);
+        self.hook
+            .enter_opt_ts_type_param_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ts_type_param_decl(node);
+        self.hook
+            .exit_opt_ts_type_param_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < Box < TsTypeParamInstantiation > >` using the hook's \
@@ -7316,1148 +7456,1191 @@ impl<H: VisitMutHook> VisitMut for VisitMutWithHook<H> {
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
     ) {
-        self.hook.enter_opt_ts_type_param_instantiation(node);
+        self.hook
+            .enter_opt_ts_type_param_instantiation(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_ts_type_param_instantiation(node);
+        self.hook
+            .exit_opt_ts_type_param_instantiation(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < VarDeclOrExpr >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>) {
-        self.hook.enter_opt_var_decl_or_expr(node);
+        self.hook
+            .enter_opt_var_decl_or_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_var_decl_or_expr(node);
+        self.hook.exit_opt_var_decl_or_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Option < ExprOrSpread > >` using the hook's enter and \
              exit methods."]
     #[inline]
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>) {
-        self.hook.enter_opt_vec_expr_or_spreads(node);
+        self.hook
+            .enter_opt_vec_expr_or_spreads(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_vec_expr_or_spreads(node);
+        self.hook
+            .exit_opt_vec_expr_or_spreads(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Option < Pat > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>) {
-        self.hook.enter_opt_vec_pats(node);
+        self.hook.enter_opt_vec_pats(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_vec_pats(node);
+        self.hook.exit_opt_vec_pats(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Option < swc_atoms :: Wtf8Atom >` using the hook's enter and \
              exit methods."]
     #[inline]
     fn visit_mut_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>) {
-        self.hook.enter_opt_wtf_8_atom(node);
+        self.hook.enter_opt_wtf_8_atom(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_opt_wtf_8_atom(node);
+        self.hook.exit_opt_wtf_8_atom(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Param` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_param(&mut self, node: &mut Param) {
-        self.hook.enter_param(node);
+        self.hook.enter_param(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_param(node);
+        self.hook.exit_param(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ParamOrTsParamProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp) {
-        self.hook.enter_param_or_ts_param_prop(node);
+        self.hook
+            .enter_param_or_ts_param_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_param_or_ts_param_prop(node);
+        self.hook
+            .exit_param_or_ts_param_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < ParamOrTsParamProp >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>) {
-        self.hook.enter_param_or_ts_param_props(node);
+        self.hook
+            .enter_param_or_ts_param_props(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_param_or_ts_param_props(node);
+        self.hook
+            .exit_param_or_ts_param_props(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Param >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_params(&mut self, node: &mut Vec<Param>) {
-        self.hook.enter_params(node);
+        self.hook.enter_params(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_params(node);
+        self.hook.exit_params(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ParenExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_paren_expr(&mut self, node: &mut ParenExpr) {
-        self.hook.enter_paren_expr(node);
+        self.hook.enter_paren_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_paren_expr(node);
+        self.hook.exit_paren_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Pat` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_pat(&mut self, node: &mut Pat) {
-        self.hook.enter_pat(node);
+        self.hook.enter_pat(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_pat(node);
+        self.hook.exit_pat(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Pat >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_pats(&mut self, node: &mut Vec<Pat>) {
-        self.hook.enter_pats(node);
+        self.hook.enter_pats(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_pats(node);
+        self.hook.exit_pats(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `PrivateMethod` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
-        self.hook.enter_private_method(node);
+        self.hook.enter_private_method(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_private_method(node);
+        self.hook.exit_private_method(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `PrivateName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_private_name(&mut self, node: &mut PrivateName) {
-        self.hook.enter_private_name(node);
+        self.hook.enter_private_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_private_name(node);
+        self.hook.exit_private_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `PrivateProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_private_prop(&mut self, node: &mut PrivateProp) {
-        self.hook.enter_private_prop(node);
+        self.hook.enter_private_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_private_prop(node);
+        self.hook.exit_private_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Program` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_program(&mut self, node: &mut Program) {
-        self.hook.enter_program(node);
+        self.hook.enter_program(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_program(node);
+        self.hook.exit_program(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Prop` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_prop(&mut self, node: &mut Prop) {
-        self.hook.enter_prop(node);
+        self.hook.enter_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_prop(node);
+        self.hook.exit_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `PropName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_prop_name(&mut self, node: &mut PropName) {
-        self.hook.enter_prop_name(node);
+        self.hook.enter_prop_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_prop_name(node);
+        self.hook.exit_prop_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `PropOrSpread` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_prop_or_spread(&mut self, node: &mut PropOrSpread) {
-        self.hook.enter_prop_or_spread(node);
+        self.hook.enter_prop_or_spread(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_prop_or_spread(node);
+        self.hook.exit_prop_or_spread(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < PropOrSpread >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>) {
-        self.hook.enter_prop_or_spreads(node);
+        self.hook.enter_prop_or_spreads(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_prop_or_spreads(node);
+        self.hook.exit_prop_or_spreads(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Regex` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_regex(&mut self, node: &mut Regex) {
-        self.hook.enter_regex(node);
+        self.hook.enter_regex(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_regex(node);
+        self.hook.exit_regex(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `RestPat` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
-        self.hook.enter_rest_pat(node);
+        self.hook.enter_rest_pat(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_rest_pat(node);
+        self.hook.exit_rest_pat(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ReturnStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
-        self.hook.enter_return_stmt(node);
+        self.hook.enter_return_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_return_stmt(node);
+        self.hook.exit_return_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Script` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_script(&mut self, node: &mut Script) {
-        self.hook.enter_script(node);
+        self.hook.enter_script(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_script(node);
+        self.hook.exit_script(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SeqExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
-        self.hook.enter_seq_expr(node);
+        self.hook.enter_seq_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_seq_expr(node);
+        self.hook.exit_seq_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SetterProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
-        self.hook.enter_setter_prop(node);
+        self.hook.enter_setter_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_setter_prop(node);
+        self.hook.exit_setter_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SimpleAssignTarget` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        self.hook.enter_simple_assign_target(node);
+        self.hook
+            .enter_simple_assign_target(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_simple_assign_target(node);
+        self.hook.exit_simple_assign_target(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `swc_common :: Span` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_span(&mut self, node: &mut swc_common::Span) {
-        self.hook.enter_span(node);
+        self.hook.enter_span(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_span(node);
+        self.hook.exit_span(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SpreadElement` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_spread_element(&mut self, node: &mut SpreadElement) {
-        self.hook.enter_spread_element(node);
+        self.hook.enter_spread_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_spread_element(node);
+        self.hook.exit_spread_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `StaticBlock` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_static_block(&mut self, node: &mut StaticBlock) {
-        self.hook.enter_static_block(node);
+        self.hook.enter_static_block(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_static_block(node);
+        self.hook.exit_static_block(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Stmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
-        self.hook.enter_stmt(node);
+        self.hook.enter_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_stmt(node);
+        self.hook.exit_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Stmt >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
-        self.hook.enter_stmts(node);
+        self.hook.enter_stmts(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_stmts(node);
+        self.hook.exit_stmts(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Str` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_str(&mut self, node: &mut Str) {
-        self.hook.enter_str(node);
+        self.hook.enter_str(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_str(node);
+        self.hook.exit_str(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Super` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_super(&mut self, node: &mut Super) {
-        self.hook.enter_super(node);
+        self.hook.enter_super(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_super(node);
+        self.hook.exit_super(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SuperProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_super_prop(&mut self, node: &mut SuperProp) {
-        self.hook.enter_super_prop(node);
+        self.hook.enter_super_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_super_prop(node);
+        self.hook.exit_super_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SuperPropExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_super_prop_expr(&mut self, node: &mut SuperPropExpr) {
-        self.hook.enter_super_prop_expr(node);
+        self.hook.enter_super_prop_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_super_prop_expr(node);
+        self.hook.exit_super_prop_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SwitchCase` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
-        self.hook.enter_switch_case(node);
+        self.hook.enter_switch_case(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_switch_case(node);
+        self.hook.exit_switch_case(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < SwitchCase >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_switch_cases(&mut self, node: &mut Vec<SwitchCase>) {
-        self.hook.enter_switch_cases(node);
+        self.hook.enter_switch_cases(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_switch_cases(node);
+        self.hook.exit_switch_cases(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `SwitchStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
-        self.hook.enter_switch_stmt(node);
+        self.hook.enter_switch_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_switch_stmt(node);
+        self.hook.exit_switch_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `swc_common :: SyntaxContext` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_syntax_context(&mut self, node: &mut swc_common::SyntaxContext) {
-        self.hook.enter_syntax_context(node);
+        self.hook.enter_syntax_context(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_syntax_context(node);
+        self.hook.exit_syntax_context(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TaggedTpl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl) {
-        self.hook.enter_tagged_tpl(node);
+        self.hook.enter_tagged_tpl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_tagged_tpl(node);
+        self.hook.exit_tagged_tpl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ThisExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_this_expr(&mut self, node: &mut ThisExpr) {
-        self.hook.enter_this_expr(node);
+        self.hook.enter_this_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_this_expr(node);
+        self.hook.exit_this_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `ThrowStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_throw_stmt(&mut self, node: &mut ThrowStmt) {
-        self.hook.enter_throw_stmt(node);
+        self.hook.enter_throw_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_throw_stmt(node);
+        self.hook.exit_throw_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Tpl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_tpl(&mut self, node: &mut Tpl) {
-        self.hook.enter_tpl(node);
+        self.hook.enter_tpl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_tpl(node);
+        self.hook.exit_tpl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TplElement` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_tpl_element(&mut self, node: &mut TplElement) {
-        self.hook.enter_tpl_element(node);
+        self.hook.enter_tpl_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_tpl_element(node);
+        self.hook.exit_tpl_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < TplElement >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_tpl_elements(&mut self, node: &mut Vec<TplElement>) {
-        self.hook.enter_tpl_elements(node);
+        self.hook.enter_tpl_elements(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_tpl_elements(node);
+        self.hook.exit_tpl_elements(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TruePlusMinus` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_true_plus_minus(&mut self, node: &mut TruePlusMinus) {
-        self.hook.enter_true_plus_minus(node);
+        self.hook.enter_true_plus_minus(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_true_plus_minus(node);
+        self.hook.exit_true_plus_minus(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TryStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
-        self.hook.enter_try_stmt(node);
+        self.hook.enter_try_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_try_stmt(node);
+        self.hook.exit_try_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsArrayType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_array_type(&mut self, node: &mut TsArrayType) {
-        self.hook.enter_ts_array_type(node);
+        self.hook.enter_ts_array_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_array_type(node);
+        self.hook.exit_ts_array_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsAsExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_as_expr(&mut self, node: &mut TsAsExpr) {
-        self.hook.enter_ts_as_expr(node);
+        self.hook.enter_ts_as_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_as_expr(node);
+        self.hook.exit_ts_as_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsCallSignatureDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl) {
-        self.hook.enter_ts_call_signature_decl(node);
+        self.hook
+            .enter_ts_call_signature_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_call_signature_decl(node);
+        self.hook
+            .exit_ts_call_signature_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsConditionalType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_conditional_type(&mut self, node: &mut TsConditionalType) {
-        self.hook.enter_ts_conditional_type(node);
+        self.hook.enter_ts_conditional_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_conditional_type(node);
+        self.hook.exit_ts_conditional_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsConstAssertion` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_const_assertion(&mut self, node: &mut TsConstAssertion) {
-        self.hook.enter_ts_const_assertion(node);
+        self.hook.enter_ts_const_assertion(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_const_assertion(node);
+        self.hook.exit_ts_const_assertion(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsConstructSignatureDecl` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_ts_construct_signature_decl(&mut self, node: &mut TsConstructSignatureDecl) {
-        self.hook.enter_ts_construct_signature_decl(node);
+        self.hook
+            .enter_ts_construct_signature_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_construct_signature_decl(node);
+        self.hook
+            .exit_ts_construct_signature_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsConstructorType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_constructor_type(&mut self, node: &mut TsConstructorType) {
-        self.hook.enter_ts_constructor_type(node);
+        self.hook.enter_ts_constructor_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_constructor_type(node);
+        self.hook.exit_ts_constructor_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsEntityName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_entity_name(&mut self, node: &mut TsEntityName) {
-        self.hook.enter_ts_entity_name(node);
+        self.hook.enter_ts_entity_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_entity_name(node);
+        self.hook.exit_ts_entity_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsEnumDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        self.hook.enter_ts_enum_decl(node);
+        self.hook.enter_ts_enum_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_enum_decl(node);
+        self.hook.exit_ts_enum_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsEnumMember` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_enum_member(&mut self, node: &mut TsEnumMember) {
-        self.hook.enter_ts_enum_member(node);
+        self.hook.enter_ts_enum_member(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_enum_member(node);
+        self.hook.exit_ts_enum_member(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsEnumMemberId` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId) {
-        self.hook.enter_ts_enum_member_id(node);
+        self.hook.enter_ts_enum_member_id(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_enum_member_id(node);
+        self.hook.exit_ts_enum_member_id(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < TsEnumMember >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>) {
-        self.hook.enter_ts_enum_members(node);
+        self.hook.enter_ts_enum_members(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_enum_members(node);
+        self.hook.exit_ts_enum_members(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsExportAssignment` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_export_assignment(&mut self, node: &mut TsExportAssignment) {
-        self.hook.enter_ts_export_assignment(node);
+        self.hook
+            .enter_ts_export_assignment(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_export_assignment(node);
+        self.hook.exit_ts_export_assignment(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsExprWithTypeArgs` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs) {
-        self.hook.enter_ts_expr_with_type_args(node);
+        self.hook
+            .enter_ts_expr_with_type_args(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_expr_with_type_args(node);
+        self.hook
+            .exit_ts_expr_with_type_args(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < TsExprWithTypeArgs >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>) {
-        self.hook.enter_ts_expr_with_type_argss(node);
+        self.hook
+            .enter_ts_expr_with_type_argss(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_expr_with_type_argss(node);
+        self.hook
+            .exit_ts_expr_with_type_argss(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsExternalModuleRef` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef) {
-        self.hook.enter_ts_external_module_ref(node);
+        self.hook
+            .enter_ts_external_module_ref(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_external_module_ref(node);
+        self.hook
+            .exit_ts_external_module_ref(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsFnOrConstructorType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType) {
-        self.hook.enter_ts_fn_or_constructor_type(node);
+        self.hook
+            .enter_ts_fn_or_constructor_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_fn_or_constructor_type(node);
+        self.hook
+            .exit_ts_fn_or_constructor_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsFnParam` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_fn_param(&mut self, node: &mut TsFnParam) {
-        self.hook.enter_ts_fn_param(node);
+        self.hook.enter_ts_fn_param(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_fn_param(node);
+        self.hook.exit_ts_fn_param(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < TsFnParam >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>) {
-        self.hook.enter_ts_fn_params(node);
+        self.hook.enter_ts_fn_params(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_fn_params(node);
+        self.hook.exit_ts_fn_params(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsFnType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_fn_type(&mut self, node: &mut TsFnType) {
-        self.hook.enter_ts_fn_type(node);
+        self.hook.enter_ts_fn_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_fn_type(node);
+        self.hook.exit_ts_fn_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsGetterSignature` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_getter_signature(&mut self, node: &mut TsGetterSignature) {
-        self.hook.enter_ts_getter_signature(node);
+        self.hook.enter_ts_getter_signature(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_getter_signature(node);
+        self.hook.exit_ts_getter_signature(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsImportCallOptions` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_import_call_options(&mut self, node: &mut TsImportCallOptions) {
-        self.hook.enter_ts_import_call_options(node);
+        self.hook
+            .enter_ts_import_call_options(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_import_call_options(node);
+        self.hook
+            .exit_ts_import_call_options(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsImportEqualsDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
-        self.hook.enter_ts_import_equals_decl(node);
+        self.hook
+            .enter_ts_import_equals_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_import_equals_decl(node);
+        self.hook
+            .exit_ts_import_equals_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsImportType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_import_type(&mut self, node: &mut TsImportType) {
-        self.hook.enter_ts_import_type(node);
+        self.hook.enter_ts_import_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_import_type(node);
+        self.hook.exit_ts_import_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsIndexSignature` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_index_signature(&mut self, node: &mut TsIndexSignature) {
-        self.hook.enter_ts_index_signature(node);
+        self.hook.enter_ts_index_signature(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_index_signature(node);
+        self.hook.exit_ts_index_signature(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsIndexedAccessType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType) {
-        self.hook.enter_ts_indexed_access_type(node);
+        self.hook
+            .enter_ts_indexed_access_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_indexed_access_type(node);
+        self.hook
+            .exit_ts_indexed_access_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsInferType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType) {
-        self.hook.enter_ts_infer_type(node);
+        self.hook.enter_ts_infer_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_infer_type(node);
+        self.hook.exit_ts_infer_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsInstantiation` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_instantiation(&mut self, node: &mut TsInstantiation) {
-        self.hook.enter_ts_instantiation(node);
+        self.hook.enter_ts_instantiation(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_instantiation(node);
+        self.hook.exit_ts_instantiation(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsInterfaceBody` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_interface_body(&mut self, node: &mut TsInterfaceBody) {
-        self.hook.enter_ts_interface_body(node);
+        self.hook.enter_ts_interface_body(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_interface_body(node);
+        self.hook.exit_ts_interface_body(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsInterfaceDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl) {
-        self.hook.enter_ts_interface_decl(node);
+        self.hook.enter_ts_interface_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_interface_decl(node);
+        self.hook.exit_ts_interface_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsIntersectionType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_intersection_type(&mut self, node: &mut TsIntersectionType) {
-        self.hook.enter_ts_intersection_type(node);
+        self.hook
+            .enter_ts_intersection_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_intersection_type(node);
+        self.hook.exit_ts_intersection_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsKeywordType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_keyword_type(&mut self, node: &mut TsKeywordType) {
-        self.hook.enter_ts_keyword_type(node);
+        self.hook.enter_ts_keyword_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_keyword_type(node);
+        self.hook.exit_ts_keyword_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsKeywordTypeKind` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind) {
-        self.hook.enter_ts_keyword_type_kind(node);
+        self.hook
+            .enter_ts_keyword_type_kind(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_keyword_type_kind(node);
+        self.hook.exit_ts_keyword_type_kind(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsLit` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_lit(&mut self, node: &mut TsLit) {
-        self.hook.enter_ts_lit(node);
+        self.hook.enter_ts_lit(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_lit(node);
+        self.hook.exit_ts_lit(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsLitType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_lit_type(&mut self, node: &mut TsLitType) {
-        self.hook.enter_ts_lit_type(node);
+        self.hook.enter_ts_lit_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_lit_type(node);
+        self.hook.exit_ts_lit_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsMappedType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_mapped_type(&mut self, node: &mut TsMappedType) {
-        self.hook.enter_ts_mapped_type(node);
+        self.hook.enter_ts_mapped_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_mapped_type(node);
+        self.hook.exit_ts_mapped_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsMethodSignature` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_method_signature(&mut self, node: &mut TsMethodSignature) {
-        self.hook.enter_ts_method_signature(node);
+        self.hook.enter_ts_method_signature(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_method_signature(node);
+        self.hook.exit_ts_method_signature(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsModuleBlock` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        self.hook.enter_ts_module_block(node);
+        self.hook.enter_ts_module_block(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_module_block(node);
+        self.hook.exit_ts_module_block(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsModuleDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
-        self.hook.enter_ts_module_decl(node);
+        self.hook.enter_ts_module_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_module_decl(node);
+        self.hook.exit_ts_module_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsModuleName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_module_name(&mut self, node: &mut TsModuleName) {
-        self.hook.enter_ts_module_name(node);
+        self.hook.enter_ts_module_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_module_name(node);
+        self.hook.exit_ts_module_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsModuleRef` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_module_ref(&mut self, node: &mut TsModuleRef) {
-        self.hook.enter_ts_module_ref(node);
+        self.hook.enter_ts_module_ref(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_module_ref(node);
+        self.hook.exit_ts_module_ref(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsNamespaceBody` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_namespace_body(&mut self, node: &mut TsNamespaceBody) {
-        self.hook.enter_ts_namespace_body(node);
+        self.hook.enter_ts_namespace_body(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_namespace_body(node);
+        self.hook.exit_ts_namespace_body(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsNamespaceDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
-        self.hook.enter_ts_namespace_decl(node);
+        self.hook.enter_ts_namespace_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_namespace_decl(node);
+        self.hook.exit_ts_namespace_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsNamespaceExportDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl) {
-        self.hook.enter_ts_namespace_export_decl(node);
+        self.hook
+            .enter_ts_namespace_export_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_namespace_export_decl(node);
+        self.hook
+            .exit_ts_namespace_export_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsNonNullExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr) {
-        self.hook.enter_ts_non_null_expr(node);
+        self.hook.enter_ts_non_null_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_non_null_expr(node);
+        self.hook.exit_ts_non_null_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsOptionalType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_optional_type(&mut self, node: &mut TsOptionalType) {
-        self.hook.enter_ts_optional_type(node);
+        self.hook.enter_ts_optional_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_optional_type(node);
+        self.hook.exit_ts_optional_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsParamProp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp) {
-        self.hook.enter_ts_param_prop(node);
+        self.hook.enter_ts_param_prop(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_param_prop(node);
+        self.hook.exit_ts_param_prop(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsParamPropParam` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_param_prop_param(&mut self, node: &mut TsParamPropParam) {
-        self.hook.enter_ts_param_prop_param(node);
+        self.hook.enter_ts_param_prop_param(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_param_prop_param(node);
+        self.hook.exit_ts_param_prop_param(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsParenthesizedType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType) {
-        self.hook.enter_ts_parenthesized_type(node);
+        self.hook
+            .enter_ts_parenthesized_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_parenthesized_type(node);
+        self.hook
+            .exit_ts_parenthesized_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsPropertySignature` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_property_signature(&mut self, node: &mut TsPropertySignature) {
-        self.hook.enter_ts_property_signature(node);
+        self.hook
+            .enter_ts_property_signature(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_property_signature(node);
+        self.hook
+            .exit_ts_property_signature(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsQualifiedName` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_qualified_name(&mut self, node: &mut TsQualifiedName) {
-        self.hook.enter_ts_qualified_name(node);
+        self.hook.enter_ts_qualified_name(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_qualified_name(node);
+        self.hook.exit_ts_qualified_name(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsRestType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_rest_type(&mut self, node: &mut TsRestType) {
-        self.hook.enter_ts_rest_type(node);
+        self.hook.enter_ts_rest_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_rest_type(node);
+        self.hook.exit_ts_rest_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsSatisfiesExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr) {
-        self.hook.enter_ts_satisfies_expr(node);
+        self.hook.enter_ts_satisfies_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_satisfies_expr(node);
+        self.hook.exit_ts_satisfies_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsSetterSignature` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_setter_signature(&mut self, node: &mut TsSetterSignature) {
-        self.hook.enter_ts_setter_signature(node);
+        self.hook.enter_ts_setter_signature(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_setter_signature(node);
+        self.hook.exit_ts_setter_signature(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsThisType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_this_type(&mut self, node: &mut TsThisType) {
-        self.hook.enter_ts_this_type(node);
+        self.hook.enter_ts_this_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_this_type(node);
+        self.hook.exit_ts_this_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsThisTypeOrIdent` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent) {
-        self.hook.enter_ts_this_type_or_ident(node);
+        self.hook
+            .enter_ts_this_type_or_ident(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_this_type_or_ident(node);
+        self.hook
+            .exit_ts_this_type_or_ident(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTplLitType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType) {
-        self.hook.enter_ts_tpl_lit_type(node);
+        self.hook.enter_ts_tpl_lit_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_tpl_lit_type(node);
+        self.hook.exit_ts_tpl_lit_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTupleElement` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_tuple_element(&mut self, node: &mut TsTupleElement) {
-        self.hook.enter_ts_tuple_element(node);
+        self.hook.enter_ts_tuple_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_tuple_element(node);
+        self.hook.exit_ts_tuple_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < TsTupleElement >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>) {
-        self.hook.enter_ts_tuple_elements(node);
+        self.hook.enter_ts_tuple_elements(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_tuple_elements(node);
+        self.hook.exit_ts_tuple_elements(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTupleType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_tuple_type(&mut self, node: &mut TsTupleType) {
-        self.hook.enter_ts_tuple_type(node);
+        self.hook.enter_ts_tuple_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_tuple_type(node);
+        self.hook.exit_ts_tuple_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type(&mut self, node: &mut TsType) {
-        self.hook.enter_ts_type(node);
+        self.hook.enter_ts_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type(node);
+        self.hook.exit_ts_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeAliasDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl) {
-        self.hook.enter_ts_type_alias_decl(node);
+        self.hook.enter_ts_type_alias_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_alias_decl(node);
+        self.hook.exit_ts_type_alias_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeAnn` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_ann(&mut self, node: &mut TsTypeAnn) {
-        self.hook.enter_ts_type_ann(node);
+        self.hook.enter_ts_type_ann(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_ann(node);
+        self.hook.exit_ts_type_ann(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeAssertion` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_assertion(&mut self, node: &mut TsTypeAssertion) {
-        self.hook.enter_ts_type_assertion(node);
+        self.hook.enter_ts_type_assertion(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_assertion(node);
+        self.hook.exit_ts_type_assertion(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeElement` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_element(&mut self, node: &mut TsTypeElement) {
-        self.hook.enter_ts_type_element(node);
+        self.hook.enter_ts_type_element(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_element(node);
+        self.hook.exit_ts_type_element(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < TsTypeElement >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>) {
-        self.hook.enter_ts_type_elements(node);
+        self.hook.enter_ts_type_elements(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_elements(node);
+        self.hook.exit_ts_type_elements(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeLit` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_lit(&mut self, node: &mut TsTypeLit) {
-        self.hook.enter_ts_type_lit(node);
+        self.hook.enter_ts_type_lit(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_lit(node);
+        self.hook.exit_ts_type_lit(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeOperator` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_operator(&mut self, node: &mut TsTypeOperator) {
-        self.hook.enter_ts_type_operator(node);
+        self.hook.enter_ts_type_operator(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_operator(node);
+        self.hook.exit_ts_type_operator(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeOperatorOp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp) {
-        self.hook.enter_ts_type_operator_op(node);
+        self.hook.enter_ts_type_operator_op(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_operator_op(node);
+        self.hook.exit_ts_type_operator_op(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeParam` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_param(&mut self, node: &mut TsTypeParam) {
-        self.hook.enter_ts_type_param(node);
+        self.hook.enter_ts_type_param(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_param(node);
+        self.hook.exit_ts_type_param(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeParamDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl) {
-        self.hook.enter_ts_type_param_decl(node);
+        self.hook.enter_ts_type_param_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_param_decl(node);
+        self.hook.exit_ts_type_param_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeParamInstantiation` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_ts_type_param_instantiation(&mut self, node: &mut TsTypeParamInstantiation) {
-        self.hook.enter_ts_type_param_instantiation(node);
+        self.hook
+            .enter_ts_type_param_instantiation(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_param_instantiation(node);
+        self.hook
+            .exit_ts_type_param_instantiation(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < TsTypeParam >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>) {
-        self.hook.enter_ts_type_params(node);
+        self.hook.enter_ts_type_params(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_params(node);
+        self.hook.exit_ts_type_params(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypePredicate` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_predicate(&mut self, node: &mut TsTypePredicate) {
-        self.hook.enter_ts_type_predicate(node);
+        self.hook.enter_ts_type_predicate(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_predicate(node);
+        self.hook.exit_ts_type_predicate(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeQuery` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_query(&mut self, node: &mut TsTypeQuery) {
-        self.hook.enter_ts_type_query(node);
+        self.hook.enter_ts_type_query(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_query(node);
+        self.hook.exit_ts_type_query(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeQueryExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr) {
-        self.hook.enter_ts_type_query_expr(node);
+        self.hook.enter_ts_type_query_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_query_expr(node);
+        self.hook.exit_ts_type_query_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsTypeRef` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_type_ref(&mut self, node: &mut TsTypeRef) {
-        self.hook.enter_ts_type_ref(node);
+        self.hook.enter_ts_type_ref(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_type_ref(node);
+        self.hook.exit_ts_type_ref(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < Box < TsType > >` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_ts_types(&mut self, node: &mut Vec<Box<TsType>>) {
-        self.hook.enter_ts_types(node);
+        self.hook.enter_ts_types(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_types(node);
+        self.hook.exit_ts_types(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsUnionOrIntersectionType` using the hook's enter and exit \
              methods."]
     #[inline]
     fn visit_mut_ts_union_or_intersection_type(&mut self, node: &mut TsUnionOrIntersectionType) {
-        self.hook.enter_ts_union_or_intersection_type(node);
+        self.hook
+            .enter_ts_union_or_intersection_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_union_or_intersection_type(node);
+        self.hook
+            .exit_ts_union_or_intersection_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `TsUnionType` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_ts_union_type(&mut self, node: &mut TsUnionType) {
-        self.hook.enter_ts_union_type(node);
+        self.hook.enter_ts_union_type(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_ts_union_type(node);
+        self.hook.exit_ts_union_type(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `UnaryExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
-        self.hook.enter_unary_expr(node);
+        self.hook.enter_unary_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_unary_expr(node);
+        self.hook.exit_unary_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `UnaryOp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_unary_op(&mut self, node: &mut UnaryOp) {
-        self.hook.enter_unary_op(node);
+        self.hook.enter_unary_op(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_unary_op(node);
+        self.hook.exit_unary_op(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `UpdateExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
-        self.hook.enter_update_expr(node);
+        self.hook.enter_update_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_update_expr(node);
+        self.hook.exit_update_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `UpdateOp` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_update_op(&mut self, node: &mut UpdateOp) {
-        self.hook.enter_update_op(node);
+        self.hook.enter_update_op(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_update_op(node);
+        self.hook.exit_update_op(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `UsingDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_using_decl(&mut self, node: &mut UsingDecl) {
-        self.hook.enter_using_decl(node);
+        self.hook.enter_using_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_using_decl(node);
+        self.hook.exit_using_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `VarDecl` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        self.hook.enter_var_decl(node);
+        self.hook.enter_var_decl(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_var_decl(node);
+        self.hook.exit_var_decl(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `VarDeclKind` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_var_decl_kind(&mut self, node: &mut VarDeclKind) {
-        self.hook.enter_var_decl_kind(node);
+        self.hook.enter_var_decl_kind(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_var_decl_kind(node);
+        self.hook.exit_var_decl_kind(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `VarDeclOrExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr) {
-        self.hook.enter_var_decl_or_expr(node);
+        self.hook.enter_var_decl_or_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_var_decl_or_expr(node);
+        self.hook.exit_var_decl_or_expr(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `VarDeclarator` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
-        self.hook.enter_var_declarator(node);
+        self.hook.enter_var_declarator(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_var_declarator(node);
+        self.hook.exit_var_declarator(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `Vec < VarDeclarator >` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_var_declarators(&mut self, node: &mut Vec<VarDeclarator>) {
-        self.hook.enter_var_declarators(node);
+        self.hook.enter_var_declarators(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_var_declarators(node);
+        self.hook.exit_var_declarators(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `WhileStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        self.hook.enter_while_stmt(node);
+        self.hook.enter_while_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_while_stmt(node);
+        self.hook.exit_while_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `WithStmt` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_with_stmt(&mut self, node: &mut WithStmt) {
-        self.hook.enter_with_stmt(node);
+        self.hook.enter_with_stmt(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_with_stmt(node);
+        self.hook.exit_with_stmt(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `swc_atoms :: Wtf8Atom` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom) {
-        self.hook.enter_wtf_8_atom(node);
+        self.hook.enter_wtf_8_atom(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_wtf_8_atom(node);
+        self.hook.exit_wtf_8_atom(node, &mut self.context);
     }
 
     #[doc = "Visits a node of type `YieldExpr` using the hook's enter and exit methods."]
     #[inline]
     fn visit_mut_yield_expr(&mut self, node: &mut YieldExpr) {
-        self.hook.enter_yield_expr(node);
+        self.hook.enter_yield_expr(node, &mut self.context);
         node.visit_mut_children_with(self);
-        self.hook.exit_yield_expr(node);
+        self.hook.exit_yield_expr(node, &mut self.context);
     }
 }
