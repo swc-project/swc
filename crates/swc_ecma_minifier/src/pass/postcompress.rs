@@ -132,10 +132,10 @@ impl SpecifierKey {
 /// This optimization reduces bundle size by combining multiple imports from
 /// the same source into a single import declaration.
 fn merge_imports_in_module(module: &mut Module) {
-    // Group imports by source and metadata
-    let mut import_groups: FxHashMap<ImportKey, Vec<ImportDecl>> = FxHashMap::default();
+    // Group imports by source and metadata, also track the first occurrence index
+    let mut import_groups: FxHashMap<ImportKey, (usize, Vec<ImportDecl>)> = FxHashMap::default();
 
-    for item in module.body.iter() {
+    for (idx, item) in module.body.iter().enumerate() {
         if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item {
             // Skip side-effect only imports (no specifiers)
             if import_decl.specifiers.is_empty() {
@@ -145,41 +145,62 @@ fn merge_imports_in_module(module: &mut Module) {
             let key = ImportKey::from_import_decl(import_decl);
             import_groups
                 .entry(key)
-                .or_default()
+                .or_insert_with(|| (idx, Vec::new()))
+                .1
                 .push(import_decl.clone());
         }
     }
 
+    // Build a map of indices where merged imports should be inserted
+    let mut inserts_at: FxHashMap<usize, Vec<ImportDecl>> = FxHashMap::default();
+
+    for (key, (first_idx, import_decls)) in import_groups.iter() {
+        if import_decls.len() > 1 {
+            let merged_imports = merge_import_decls(import_decls, key);
+            inserts_at.insert(*first_idx, merged_imports);
+        }
+    }
+
     // Remove all imports that will be merged (except side-effect imports)
-    module.body.retain(|item| {
+    // and insert merged imports at the position of the first occurrence
+    let mut new_body = Vec::new();
+    let mut processed_indices = FxHashMap::default();
+
+    for (idx, item) in module.body.iter().enumerate() {
         if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item {
             // Keep side-effect imports
             if import_decl.specifiers.is_empty() {
-                return true;
+                new_body.push(item.clone());
+                continue;
             }
 
             let key = ImportKey::from_import_decl(import_decl);
-            // Only keep if there's just one import for this key (no merging needed)
-            import_groups.get(&key).map_or(true, |v| v.len() <= 1)
+
+            // Check if this import is part of a merge group
+            if let Some((first_idx, decls)) = import_groups.get(&key) {
+                if decls.len() > 1 {
+                    // This import needs to be merged
+                    if idx == *first_idx && processed_indices.insert(*first_idx, ()).is_none() {
+                        // This is the first occurrence - insert merged imports here
+                        for merged in inserts_at.get(first_idx).unwrap() {
+                            new_body
+                                .push(ModuleItem::ModuleDecl(ModuleDecl::Import(merged.clone())));
+                        }
+                    }
+                    // Skip this individual import (it's been merged)
+                    continue;
+                }
+            }
+
+            // Keep imports that don't need merging
+            new_body.push(item.clone());
         } else {
-            true
-        }
-    });
-
-    // Create merged imports and add them back
-    for (key, import_decls) in import_groups.iter() {
-        if import_decls.len() <= 1 {
-            // No merging needed, already retained above
-            continue;
-        }
-
-        let merged_imports = merge_import_decls(import_decls, key);
-        for merged in merged_imports {
-            module
-                .body
-                .push(ModuleItem::ModuleDecl(ModuleDecl::Import(merged)));
+            // Keep all non-import items
+            new_body.push(item.clone());
         }
     }
+
+    module.body = new_body;
 }
 
 /// Merge multiple ImportDecl nodes.
