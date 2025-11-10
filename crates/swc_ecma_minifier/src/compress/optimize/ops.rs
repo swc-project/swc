@@ -1,7 +1,6 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
-use swc_ecma_visit::{Visit, VisitWith};
 use Value::Known;
 
 use super::{BitCtx, Optimizer};
@@ -296,21 +295,67 @@ impl Optimizer<'_> {
 /// Check if an expression contains update expressions (++, --) or assignments
 /// that would make duplicate evaluations produce different results.
 fn contains_update_or_assign(expr: &Expr) -> bool {
-    struct UpdateAssignFinder {
-        found: bool,
-    }
+    match expr {
+        Expr::Update(..) | Expr::Assign(..) => true,
 
-    impl Visit for UpdateAssignFinder {
-        fn visit_update_expr(&mut self, _: &UpdateExpr) {
-            self.found = true;
+        Expr::Bin(BinExpr { left, right, .. }) => {
+            contains_update_or_assign(left) || contains_update_or_assign(right)
         }
 
-        fn visit_assign_expr(&mut self, _: &AssignExpr) {
-            self.found = true;
-        }
-    }
+        Expr::Unary(UnaryExpr { arg, .. }) => contains_update_or_assign(arg),
 
-    let mut finder = UpdateAssignFinder { found: false };
-    expr.visit_with(&mut finder);
-    finder.found
+        Expr::Cond(CondExpr {
+            test, cons, alt, ..
+        }) => {
+            contains_update_or_assign(test)
+                || contains_update_or_assign(cons)
+                || contains_update_or_assign(alt)
+        }
+
+        Expr::Member(MemberExpr { obj, prop, .. }) => {
+            contains_update_or_assign(obj)
+                || match prop {
+                    MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                        contains_update_or_assign(expr)
+                    }
+                    _ => false,
+                }
+        }
+
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) => {
+            contains_update_or_assign(callee)
+                || args.iter().any(|arg| contains_update_or_assign(&arg.expr))
+        }
+
+        Expr::Seq(SeqExpr { exprs, .. }) => {
+            exprs.iter().any(|expr| contains_update_or_assign(expr))
+        }
+
+        Expr::Paren(ParenExpr { expr, .. }) => contains_update_or_assign(expr),
+
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(member) => {
+                contains_update_or_assign(&member.obj)
+                    || match &member.prop {
+                        MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                            contains_update_or_assign(expr)
+                        }
+                        _ => false,
+                    }
+            }
+            OptChainBase::Call(call) => {
+                contains_update_or_assign(&call.callee)
+                    || call
+                        .args
+                        .iter()
+                        .any(|arg| contains_update_or_assign(&arg.expr))
+            }
+        },
+
+        _ => false,
+    }
 }
