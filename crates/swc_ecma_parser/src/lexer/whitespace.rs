@@ -146,7 +146,7 @@ impl<'a> Lexer<'a> {
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
-    #[inline(never)]
+    #[inline]
     pub fn skip_space(&mut self) {
         loop {
             let byte = match self.input.as_str().as_bytes().first() {
