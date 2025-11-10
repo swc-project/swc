@@ -736,24 +736,3 @@ impl Pure<'_> {
     }
 }
 
-/// Check if an expression contains update expressions (++, --) or assignments
-/// that would make duplicate evaluations produce different results.
-fn contains_update_or_assign(expr: &Expr) -> bool {
-    struct UpdateAssignFinder {
-        found: bool,
-    }
-
-    impl Visit for UpdateAssignFinder {
-        fn visit_update_expr(&mut self, _: &UpdateExpr) {
-            self.found = true;
-        }
-
-        fn visit_assign_expr(&mut self, _: &AssignExpr) {
-            self.found = true;
-        }
-    }
-
-    let mut finder = UpdateAssignFinder { found: false };
-    expr.visit_with(&mut finder);
-    finder.found
-}
