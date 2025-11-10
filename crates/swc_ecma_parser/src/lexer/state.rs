@@ -74,9 +74,6 @@ impl crate::input::Tokens for Lexer<'_> {
 
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
-        if ctx.contains(Context::Module) && !self.module_errors.is_empty() {
-            self.errors.append(&mut self.module_errors);
-        }
         self.ctx = ctx
     }
 
@@ -106,22 +103,17 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     #[inline]
-    fn set_expr_allowed(&mut self, _: bool) {}
-
-    #[inline]
     fn set_next_regexp(&mut self, start: Option<BytePos>) {
         self.state.next_regexp = start;
     }
 
+    #[inline]
     fn add_error(&mut self, error: Error) {
         self.errors.push(error);
     }
 
+    #[inline]
     fn add_module_mode_error(&mut self, error: Error) {
-        if self.ctx.contains(Context::Module) {
-            self.add_error(error);
-            return;
-        }
         self.module_errors.push(error);
     }
 
@@ -133,6 +125,13 @@ impl crate::input::Tokens for Lexer<'_> {
     #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors)
+    }
+
+    #[inline]
+    fn merge_errors(&mut self) {
+        if !self.module_errors.is_empty() {
+            self.errors.append(&mut self.module_errors);
+        }
     }
 
     #[inline]

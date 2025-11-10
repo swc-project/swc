@@ -203,6 +203,8 @@ impl<I: Tokens> Parser<I> {
                 shebang,
             })?;
 
+        self.input_mut().iter_mut().merge_errors();
+
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
@@ -259,6 +261,10 @@ impl<I: Tokens> Parser<I> {
             })
         };
 
+        if has_module_item {
+            self.input_mut().iter_mut().merge_errors();
+        }
+
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
@@ -284,6 +290,8 @@ impl<I: Tokens> Parser<I> {
                 body,
                 shebang,
             })?;
+
+        self.input_mut().iter_mut().merge_errors();
 
         debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();

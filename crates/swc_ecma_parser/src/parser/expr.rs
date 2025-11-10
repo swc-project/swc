@@ -1083,7 +1083,6 @@ impl<I: Tokens> Parser<I> {
 
         if self.input().syntax().typescript() {
             if !self.input().had_line_break_before_cur() && self.input().is(Token::Bang) {
-                self.input_mut().set_expr_allowed(false);
                 self.assert_and_bump(Token::Bang);
 
                 let expr = Box::new(Expr::TsNonNull(TsNonNullExpr {

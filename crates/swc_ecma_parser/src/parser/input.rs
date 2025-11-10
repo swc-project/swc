@@ -27,7 +27,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
         BytePos(0)
     }
 
-    fn set_expr_allowed(&mut self, allow: bool);
+    fn end_pos(&self) -> BytePos;
+
     fn set_next_regexp(&mut self, start: Option<BytePos>);
 
     /// Implementors should use Rc<RefCell<Vec<Error>>>.
@@ -35,7 +36,6 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     /// It is required because parser should backtrack while parsing typescript
     /// code.
     fn add_error(&mut self, error: Error);
-
     /// Add an error which is valid syntax in script mode.
     ///
     /// This errors should be dropped if it's not a module.
@@ -44,14 +44,13 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     /// module is false. Also, implementors should move errors to the error
     /// buffer on set_ctx if the parser mode become module mode.
     fn add_module_mode_error(&mut self, error: Error);
-
-    fn end_pos(&self) -> BytePos;
-
     fn take_errors(&mut self) -> Vec<Error>;
-
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
+    /// This should be called after parsing is done.
+    fn merge_errors(&mut self);
+
     fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags));
     fn token_flags(&self) -> TokenFlags;
 
@@ -515,11 +514,6 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub fn target(&self) -> EsVersion {
         self.iter().target()
-    }
-
-    #[inline]
-    pub fn set_expr_allowed(&mut self, allow: bool) {
-        self.iter_mut().set_expr_allowed(allow)
     }
 
     #[inline]

@@ -480,7 +480,6 @@ impl<I: Tokens> Parser<I> {
         // This reads the next token after the `>` too, so do this in the enclosing
         // context. But be sure not to parse a regex in the jsx expression
         // `<C<number> />`, so set exprAllowed = false
-        self.input_mut().set_expr_allowed(false);
         self.expect_without_advance(Token::Gt)?;
         let span = Span::new_with_checked(start, self.input().cur_span().hi);
 

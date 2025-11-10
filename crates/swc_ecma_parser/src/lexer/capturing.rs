@@ -112,10 +112,6 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.target()
     }
 
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.inner.set_expr_allowed(allow);
-    }
-
     fn set_next_regexp(&mut self, start: Option<swc_common::BytePos>) {
         self.inner.set_next_regexp(start);
     }
@@ -138,6 +134,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         self.inner.take_script_module_errors()
+    }
+
+    fn merge_errors(&mut self) {
+        self.inner.merge_errors();
     }
 
     fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
