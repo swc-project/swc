@@ -1,6 +1,7 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
+use swc_ecma_visit::{Visit, VisitWith};
 use Value::Known;
 
 use super::{BitCtx, Optimizer};
@@ -42,7 +43,10 @@ impl Optimizer<'_> {
         }
 
         if e.op == op!("===") || e.op == op!("!==") {
-            if (e.left.is_ident() || e.left.is_member()) && e.left.eq_ignore_span(&e.right) {
+            if (e.left.is_ident() || e.left.is_member())
+                && e.left.eq_ignore_span(&e.right)
+                && !contains_update_or_assign(&e.left)
+            {
                 self.changed = true;
                 report_change!("Reducing comparison of same variable ({})", e.op);
 
@@ -58,7 +62,11 @@ impl Optimizer<'_> {
         if e.op == op!("===") {
             if let Known(lt) = e.left.get_type(self.ctx.expr_ctx) {
                 if let Known(rt) = e.right.get_type(self.ctx.expr_ctx) {
-                    if lt == rt {
+                    // Only optimize if types match AND neither operand contains update/assign
+                    if lt == rt
+                        && !contains_update_or_assign(&e.left)
+                        && !contains_update_or_assign(&e.right)
+                    {
                         e.op = op!("==");
                         self.changed = true;
                         report_change!(
@@ -287,4 +295,26 @@ impl Optimizer<'_> {
             }
         }
     }
+}
+
+/// Check if an expression contains update expressions (++, --) or assignments
+/// that would make duplicate evaluations produce different results.
+fn contains_update_or_assign(expr: &Expr) -> bool {
+    struct UpdateAssignFinder {
+        found: bool,
+    }
+
+    impl Visit for UpdateAssignFinder {
+        fn visit_update_expr(&mut self, _: &UpdateExpr) {
+            self.found = true;
+        }
+
+        fn visit_assign_expr(&mut self, _: &AssignExpr) {
+            self.found = true;
+        }
+    }
+
+    let mut finder = UpdateAssignFinder { found: false };
+    expr.visit_with(&mut finder);
+    finder.found
 }

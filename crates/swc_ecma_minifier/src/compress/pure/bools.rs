@@ -3,6 +3,7 @@ use std::mem::swap;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
+use swc_ecma_visit::{Visit, VisitWith};
 
 use super::Pure;
 use crate::{
@@ -262,9 +263,12 @@ impl Pure<'_> {
         let should_optimize = is_typeof_unaray(&e.left, &e.right)
             || is_typeof_unaray(&e.right, &e.left)
             || (self.options.comparisons && {
+                // Only optimize if both types match AND neither operand contains update/assign
                 if let Value::Known(l) = e.left.get_type(self.expr_ctx) {
                     if let Value::Known(r) = e.right.get_type(self.expr_ctx) {
                         l == r
+                            && !contains_update_or_assign(&e.left)
+                            && !contains_update_or_assign(&e.right)
                     } else {
                         false
                     }
@@ -733,4 +737,26 @@ impl Pure<'_> {
             _ => {}
         }
     }
+}
+
+/// Check if an expression contains update expressions (++, --) or assignments
+/// that would make duplicate evaluations produce different results.
+fn contains_update_or_assign(expr: &Expr) -> bool {
+    struct UpdateAssignFinder {
+        found: bool,
+    }
+
+    impl Visit for UpdateAssignFinder {
+        fn visit_update_expr(&mut self, _: &UpdateExpr) {
+            self.found = true;
+        }
+
+        fn visit_assign_expr(&mut self, _: &AssignExpr) {
+            self.found = true;
+        }
+    }
+
+    let mut finder = UpdateAssignFinder { found: false };
+    expr.visit_with(&mut finder);
+    finder.found
 }
