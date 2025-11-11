@@ -9,33 +9,19 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@swc/core">
-    <img alt="downloads (@swc/core)" src="https://img.shields.io/npm/dm/@swc/core?label=downloads%20%28%40swc%2Fcore%29">
-  </a>
-  <a href="https://www.npmjs.com/package/@swc/counter?activeTab=dependents">
-    <img alt="downloads (3rd party)" src="https://img.shields.io/npm/dm/@swc/counter?label=downloads%20%283rd%20party%29">
-  </a>
+  <a href="https://www.npmjs.com/package/@swc/core"><img alt="downloads (@swc/core)" src="https://img.shields.io/npm/dm/@swc/core?label=downloads%20%28%40swc%2Fcore%29"></a>
+  <a href="https://www.npmjs.com/package/@swc/counter?activeTab=dependents"><img alt="downloads (3rd party)" src="https://img.shields.io/npm/dm/@swc/counter?label=downloads%20%283rd%20party%29"></a>
 </p>
 <p align="center">
-  <a href="https://crates.io/crates/swc_ecma_parser">
-    <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads">
-  </a>
-  <a href="https://github.com/swc-project/swc/releases/latest">
-    <img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/swc-project/swc">
-  </a>
+  <a href="https://crates.io/crates/swc_ecma_parser"><img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads"></a>
+  <a href="https://github.com/swc-project/swc/releases/latest"><img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/swc-project/swc"></a>
 </p>
-
 <p align="center">
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/swc-project/swc">
-  <a href="https://github.com/swc-project/swc/blob/main/package.json#L22">
-    <img alt="node-current (scoped)" src="https://img.shields.io/node/v/@swc/core">
-  </a>
+  <a href="https://github.com/swc-project/swc/blob/main/package.json#L22"><img alt="node-current (scoped)" src="https://img.shields.io/node/v/@swc/core"></a>
 </p>
-
 <p align="center">
-  <a href="https://discord.com/invite/GnHbXTdZz6">
-    <img alt="Discord" src="https://img.shields.io/discord/889779439272075314">
-  </a>
+  <a href="https://discord.com/invite/GnHbXTdZz6"><img alt="Discord" src="https://img.shields.io/discord/889779439272075314"></a>
 </p>
 
 SWC (stands for `Speedy Web Compiler`) is a super-fast TypeScript / JavaScript compiler written in Rust. It's a library for Rust and JavaScript at the same time. If you are using SWC from Rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entry point for using the library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
