@@ -1,4 +1,4 @@
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -164,7 +164,7 @@ fn merge_imports_in_module(module: &mut Module) {
     // Remove all imports that will be merged (except side-effect imports)
     // and insert merged imports at the position of the first occurrence
     let mut new_body = Vec::new();
-    let mut processed_indices = FxHashMap::default();
+    let mut processed_indices = FxHashSet::default();
 
     for (idx, item) in module.body.iter().enumerate() {
         if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item {
@@ -180,9 +180,12 @@ fn merge_imports_in_module(module: &mut Module) {
             if let Some((first_idx, decls)) = import_groups.get(&key) {
                 if decls.len() > 1 {
                     // This import needs to be merged
-                    if idx == *first_idx && processed_indices.insert(*first_idx, ()).is_none() {
+                    if idx == *first_idx && processed_indices.insert(*first_idx) {
                         // This is the first occurrence - insert merged imports here
-                        for merged in inserts_at.get(first_idx).unwrap() {
+                        for merged in inserts_at.get(first_idx).expect(
+                            "Invariant violated: first_idx should always be present in inserts_at \
+                             due to import group construction",
+                        ) {
                             new_body
                                 .push(ModuleItem::ModuleDecl(ModuleDecl::Import(merged.clone())));
                         }
