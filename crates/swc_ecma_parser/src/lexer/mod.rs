@@ -755,89 +755,87 @@ impl<'a> Lexer<'a> {
 
         let had_line_break_before_last = self.had_line_break_before_last();
 
-        loop {
-            byte_search! {
-                lexer: self,
-                table: BLOCK_COMMENT_SCAN_TABLE,
-                continue_if: (matched_byte, pos_offset) {
-                    match matched_byte {
-                        LS_OR_PS_FIRST => {
-                            // 0xE2 - could be LS/PS or some other Unicode character
-                            let current_slice = self.input().as_str();
-                            let byte_pos = pos_offset;
-                            if byte_pos + 2 < current_slice.len() {
-                                let bytes = current_slice.as_bytes();
-                                let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
-                                if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
-                                    self.state_mut().mark_had_line_break();
-                                    self.input_mut().bump_bytes(2);
-                                }
+        byte_search! {
+            lexer: self,
+            table: BLOCK_COMMENT_SCAN_TABLE,
+            continue_if: (matched_byte, pos_offset) {
+                match matched_byte {
+                    LS_OR_PS_FIRST => {
+                        // 0xE2 - could be LS/PS or some other Unicode character
+                        let current_slice = self.input().as_str();
+                        let byte_pos = pos_offset;
+                        if byte_pos + 2 < current_slice.len() {
+                            let bytes = current_slice.as_bytes();
+                            let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
+                            if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
+                                self.state_mut().mark_had_line_break();
+                                self.input_mut().bump_bytes(2);
                             }
-                            true
                         }
-                        b'*' => {
-                            let bytes = self.input().as_str().as_bytes();
-                            if bytes.get(pos_offset + 1) == Some(&b'/') {
-                                // Consume "*/"
-                                self.input_mut().bump_bytes(pos_offset + 2);
-
-                                let end = self.cur_pos();
-
-                                // Decide trailing / leading
-                                let mut is_for_next =
-                                    had_line_break_before_last || !self.state().can_have_trailing_comment();
-
-                                // If next char is ';' without newline, treat as trailing
-                                if !had_line_break_before_last && self.input().is_byte(b';') {
-                                    is_for_next = false;
-                                }
-
-                                if self.comments_buffer().is_some() {
-                                    let src = unsafe {
-                                        // Safety: We got slice_start and end from self.input so those are
-                                        // valid.
-                                        self.input_mut().slice(slice_start, end)
-                                    };
-                                    let s = &src[..src.len() - 2];
-                                    let cmt = Comment {
-                                        kind: CommentKind::Block,
-                                        span: Span::new_with_checked(start, end),
-                                        text: self.atom(s),
-                                    };
-
-                                    if is_for_next {
-                                        self.comments_buffer_mut().unwrap().push_pending(cmt);
-                                    } else {
-                                        let pos = self.state().prev_hi();
-                                        self.comments_buffer_mut()
-                                            .unwrap()
-                                            .push_comment(BufferedComment {
-                                                kind: BufferedCommentKind::Trailing,
-                                                pos,
-                                                comment: cmt,
-                                            });
-                                    }
-                                }
-
-                                return;
-                            }
-
-                            true
-                        }
-                        _ => {
-                            self.state_mut().mark_had_line_break();
-                            true
-                        },
+                        true
                     }
-                },
-                handle_eof: {
-                    let end_pos = self.input().end_pos();
-                    let span = Span::new_with_checked(end_pos, end_pos);
-                    self.emit_error_span(span, SyntaxError::UnterminatedBlockComment);
-                    return;
+                    b'*' => {
+                        let bytes = self.input().as_str().as_bytes();
+                        if bytes.get(pos_offset + 1) == Some(&b'/') {
+                            // Consume "*/"
+                            self.input_mut().bump_bytes(pos_offset + 2);
+
+                            let end = self.cur_pos();
+
+                            // Decide trailing / leading
+                            let mut is_for_next =
+                                had_line_break_before_last || !self.state().can_have_trailing_comment();
+
+                            // If next char is ';' without newline, treat as trailing
+                            if !had_line_break_before_last && self.input().is_byte(b';') {
+                                is_for_next = false;
+                            }
+
+                            if self.comments_buffer().is_some() {
+                                let src = unsafe {
+                                    // Safety: We got slice_start and end from self.input so those are
+                                    // valid.
+                                    self.input_mut().slice(slice_start, end)
+                                };
+                                let s = &src[..src.len() - 2];
+                                let cmt = Comment {
+                                    kind: CommentKind::Block,
+                                    span: Span::new_with_checked(start, end),
+                                    text: self.atom(s),
+                                };
+
+                                if is_for_next {
+                                    self.comments_buffer_mut().unwrap().push_pending(cmt);
+                                } else {
+                                    let pos = self.state().prev_hi();
+                                    self.comments_buffer_mut()
+                                        .unwrap()
+                                        .push_comment(BufferedComment {
+                                            kind: BufferedCommentKind::Trailing,
+                                            pos,
+                                            comment: cmt,
+                                        });
+                                }
+                            }
+
+                            return;
+                        }
+
+                        true
+                    }
+                    _ => {
+                        self.state_mut().mark_had_line_break();
+                        true
+                    },
                 }
-            };
-        }
+            },
+            handle_eof: {
+                let end_pos = self.input().end_pos();
+                let span = Span::new_with_checked(end_pos, end_pos);
+                self.emit_error_span(span, SyntaxError::UnterminatedBlockComment);
+                return;
+            }
+        };
     }
 
     /// Ensure that ident cannot directly follow numbers.
