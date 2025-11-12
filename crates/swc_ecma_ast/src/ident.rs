@@ -622,7 +622,7 @@ pub trait EsReserved: AsRef<str> {
     #[inline]
     #[rustfmt::skip]
     fn is_reserved(&self) -> bool {
-        matches!(self.as_ref(), 
+        matches!(self.as_ref(),
             | "break" | "case" | "catch" | "class" | "const" | "continue" | "debugger" | "default"
             | "delete" | "do" | "else" | "enum" | "export" | "extends" | "false" | "finally"
             | "for" | "function" | "if" | "import" | "in" | "instanceof" | "new" | "null"
@@ -650,7 +650,7 @@ pub trait EsReserved: AsRef<str> {
     #[inline]
     #[rustfmt::skip]
     fn is_reserved_in_es3(&self) -> bool {
-        matches!(self.as_ref(), 
+        matches!(self.as_ref(),
             | "abstract" | "boolean" | "byte" | "char" | "double" | "final" | "float" | "goto"
             | "int" | "long" | "native" | "short" | "synchronized" | "throws" | "transient"
             | "volatile"
