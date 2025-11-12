@@ -5764,7 +5764,6 @@ dependencies = [
  "is-macro",
  "num-bigint",
  "once_cell",
- "phf",
  "rancor",
  "rkyv 0.8.9",
  "rustc-hash 2.1.1",

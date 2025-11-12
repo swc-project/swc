@@ -4,9 +4,6 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
-use once_cell::sync::Lazy;
-use phf::phf_set;
-use rustc_hash::FxHashSet;
 use swc_atoms::{atom, Atom, UnsafeAtom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -621,108 +618,6 @@ impl Ident {
     }
 }
 
-macro_rules! gen_reserved_set {
-    ($set: ident, $set_atoms: ident, [$($item: expr),*]) => {
-        static $set: phf::Set<&str> = phf_set!($($item),*);
-        static $set_atoms: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
-            let mut set = FxHashSet::with_capacity_and_hasher($set.len(), rustc_hash::FxBuildHasher);
-            $(
-                set.insert(atom!($item));
-            )*
-            set
-        });
-    };
-}
-
-gen_reserved_set!(
-    RESERVED,
-    RESERVED_ATOMS,
-    [
-        "break",
-        "case",
-        "catch",
-        "class",
-        "const",
-        "continue",
-        "debugger",
-        "default",
-        "delete",
-        "do",
-        "else",
-        "enum",
-        "export",
-        "extends",
-        "false",
-        "finally",
-        "for",
-        "function",
-        "if",
-        "import",
-        "in",
-        "instanceof",
-        "new",
-        "null",
-        "package",
-        "return",
-        "super",
-        "switch",
-        "this",
-        "throw",
-        "true",
-        "try",
-        "typeof",
-        "var",
-        "void",
-        "while",
-        "with"
-    ]
-);
-
-gen_reserved_set!(
-    RESSERVED_IN_STRICT_MODE,
-    RESSERVED_IN_STRICT_MODE_ATOMS,
-    [
-        "implements",
-        "interface",
-        "let",
-        "package",
-        "private",
-        "protected",
-        "public",
-        "static",
-        "yield"
-    ]
-);
-
-gen_reserved_set!(
-    RESSERVED_IN_STRICT_BIND,
-    RESSERVED_IN_STRICT_BIND_ATOMS,
-    ["eval", "arguments"]
-);
-
-gen_reserved_set!(
-    RESERVED_IN_ES3,
-    RESERVED_IN_ES3_ATOMS,
-    [
-        "abstract",
-        "boolean",
-        "byte",
-        "char",
-        "double",
-        "final",
-        "float",
-        "goto",
-        "int",
-        "long",
-        "native",
-        "short",
-        "synchronized",
-        "throws",
-        "transient",
-        "volatile"
-    ]
-);
-
 pub trait EsReserved {
     fn is_reserved(&self) -> bool;
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool;
@@ -733,86 +628,86 @@ pub trait EsReserved {
 
 impl EsReserved for Atom {
     fn is_reserved(&self) -> bool {
-        is_reserved_for_atom(self)
+        is_reserved_for_str(self)
     }
 
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_atom(self, is_module)
+        is_reserved_in_strict_mode_for_str(self, is_module)
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_atom(self)
+        is_reserved_in_strict_bind_for_str(self)
     }
 
     fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_atom(self)
+        is_reserved_in_es3_for_str(self)
     }
 
     fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_atom(self)
+        is_reserved_in_any_for_str(self)
     }
 }
 impl EsReserved for IdentName {
     fn is_reserved(&self) -> bool {
-        is_reserved_for_atom(&self.sym)
+        is_reserved_for_str(&self.sym)
     }
 
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_atom(&self.sym, is_module)
+        is_reserved_in_strict_mode_for_str(&self.sym, is_module)
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_atom(&self.sym)
+        is_reserved_in_strict_bind_for_str(&self.sym)
     }
 
     fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_atom(&self.sym)
+        is_reserved_in_es3_for_str(&self.sym)
     }
 
     fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_atom(&self.sym)
+        is_reserved_in_any_for_str(&self.sym)
     }
 }
 impl EsReserved for Ident {
     fn is_reserved(&self) -> bool {
-        is_reserved_for_atom(&self.sym)
+        is_reserved_for_str(&self.sym)
     }
 
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_atom(&self.sym, is_module)
+        is_reserved_in_strict_mode_for_str(&self.sym, is_module)
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_atom(&self.sym)
+        is_reserved_in_strict_bind_for_str(&self.sym)
     }
 
     fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_atom(&self.sym)
+        is_reserved_in_es3_for_str(&self.sym)
     }
 
     fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_atom(&self.sym)
+        is_reserved_in_any_for_str(&self.sym)
     }
 }
 impl EsReserved for BindingIdent {
     fn is_reserved(&self) -> bool {
-        is_reserved_for_atom(&self.sym)
+        is_reserved_for_str(&self.sym)
     }
 
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_atom(&self.sym, is_module)
+        is_reserved_in_strict_mode_for_str(&self.sym, is_module)
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_atom(&self.sym)
+        is_reserved_in_strict_bind_for_str(&self.sym)
     }
 
     fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_atom(&self.sym)
+        is_reserved_in_es3_for_str(&self.sym)
     }
 
     fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_atom(&self.sym)
+        is_reserved_in_any_for_str(&self.sym)
     }
 }
 impl EsReserved for &'_ str {
@@ -858,54 +753,41 @@ impl EsReserved for String {
     }
 }
 
+#[rustfmt::skip]
 fn is_reserved_for_str(n: impl AsRef<str>) -> bool {
-    RESERVED.contains(n.as_ref())
+    matches!(n.as_ref(), "break" | "case" | "catch" | "class" | "const" | "continue" | "debugger" | "default"
+        | "delete" | "do" | "else" | "enum" | "export" | "extends" | "false" | "finally"
+        | "for" | "function" | "if" | "import" | "in" | "instanceof" | "new" | "null"
+        | "package" | "return" | "super" | "switch" | "this" | "throw" | "true" | "try"
+        | "typeof" | "var" | "void" | "while" | "with")
 }
 
 fn is_reserved_in_strict_mode_for_str(n: impl AsRef<str>, is_module: bool) -> bool {
-    if is_module && n.as_ref() == "await" {
-        return true;
+    match n.as_ref() {
+        "await" if is_module => true,
+        "implements" | "interface" | "let" | "package" | "private" | "protected" | "public"
+        | "static" | "yield" => true,
+        _ => false,
     }
-    RESSERVED_IN_STRICT_MODE.contains(n.as_ref())
 }
 
 fn is_reserved_in_strict_bind_for_str(n: impl AsRef<str>) -> bool {
-    RESSERVED_IN_STRICT_BIND.contains(n.as_ref())
+    matches!(n.as_ref(), "eval" | "arguments")
 }
 
+#[rustfmt::skip]
 fn is_reserved_in_es3_for_str(n: impl AsRef<str>) -> bool {
-    RESERVED_IN_ES3.contains(n.as_ref())
+    matches!(n.as_ref(), 
+        | "abstract" | "boolean" | "byte" | "char" | "double" | "final" | "float" | "goto"
+        | "int" | "long" | "native" | "short" | "synchronized" | "throws" | "transient"
+        | "volatile"
+    )
 }
 
 fn is_reserved_in_any_for_str(n: impl AsRef<str>) -> bool {
-    RESERVED.contains(n.as_ref())
-        || RESSERVED_IN_STRICT_MODE.contains(n.as_ref())
-        || RESSERVED_IN_STRICT_BIND.contains(n.as_ref())
-        || RESERVED_IN_ES3.contains(n.as_ref())
-}
-
-fn is_reserved_for_atom(n: &Atom) -> bool {
-    RESERVED_ATOMS.contains(n)
-}
-
-fn is_reserved_in_strict_mode_for_atom(n: &Atom, is_module: bool) -> bool {
-    if is_module && *n == atom!("await") {
-        return true;
-    }
-    RESSERVED_IN_STRICT_MODE_ATOMS.contains(n)
-}
-
-fn is_reserved_in_strict_bind_for_atom(n: &Atom) -> bool {
-    RESSERVED_IN_STRICT_BIND_ATOMS.contains(n)
-}
-
-fn is_reserved_in_es3_for_atom(n: &Atom) -> bool {
-    RESERVED_IN_ES3_ATOMS.contains(n)
-}
-
-fn is_reserved_in_any_for_atom(n: &Atom) -> bool {
-    RESERVED_ATOMS.contains(n)
-        || RESSERVED_IN_STRICT_MODE_ATOMS.contains(n)
-        || RESSERVED_IN_STRICT_BIND_ATOMS.contains(n)
-        || RESERVED_IN_ES3_ATOMS.contains(n)
+    let n = n.as_ref();
+    is_reserved_for_str(n)
+        || is_reserved_in_strict_mode_for_str(n, false)
+        || is_reserved_in_strict_bind_for_str(n)
+        || is_reserved_in_es3_for_str(n)
 }
