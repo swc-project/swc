@@ -124,10 +124,10 @@
 //! * Babel plugin implementation: <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-arrow-functions>
 //! * Arrow function specification: <https://tc39.es/ecma262/#sec-arrow-function-definitions>
 
-use oxc_traverse::Traverse;
 use serde::Deserialize;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{context::TransformCtx, state::TransformState};
+use crate::context::{TransformCtx, TraverseCtx};
 
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct ArrowFunctionsOptions {
@@ -154,4 +154,4 @@ impl<'a, 'ctx> ArrowFunctions<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctions<'a, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ArrowFunctions<'_, '_> {}

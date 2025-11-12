@@ -1,6 +1,6 @@
-use oxc_traverse::Traverse;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{context::TransformCtx, state::TransformState};
+use crate::context::{TransformCtx, TraverseCtx};
 
 mod arrow_functions;
 mod options;
@@ -26,4 +26,4 @@ impl<'a, 'ctx> ES2015<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ES2015<'a, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ES2015<'_, '_> {}
