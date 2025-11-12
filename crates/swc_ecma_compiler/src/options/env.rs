@@ -1,5 +1,7 @@
+use oxc_compat::{ESFeature, EngineTargets};
 use serde::Deserialize;
 
+use super::{babel::BabelEnvOptions, Module};
 use crate::{
     es2015::{ArrowFunctionsOptions, ES2015Options},
     es2016::ES2016Options,
@@ -12,9 +14,6 @@ use crate::{
     es2026::ES2026Options,
     regexp::RegExpOptions,
 };
-
-use super::{Module, babel::BabelEnvOptions};
-use oxc_compat::{ESFeature, EngineTargets};
 
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 #[serde(try_from = "BabelEnvOptions")]
@@ -44,7 +43,8 @@ pub struct EnvOptions {
 }
 
 impl EnvOptions {
-    /// Explicitly enable all plugins that are ready, mainly for testing purposes.
+    /// Explicitly enable all plugins that are ready, mainly for testing
+    /// purposes.
     ///
     /// NOTE: for internal use only
     #[doc(hidden)]
@@ -69,13 +69,19 @@ impl EnvOptions {
                     None
                 },
             },
-            es2016: ES2016Options { exponentiation_operator: true },
-            es2017: ES2017Options { async_to_generator: true },
+            es2016: ES2016Options {
+                exponentiation_operator: true,
+            },
+            es2017: ES2017Options {
+                async_to_generator: true,
+            },
             es2018: ES2018Options {
                 object_rest_spread: Some(ObjectRestSpreadOptions::default()),
                 async_generator_functions: true,
             },
-            es2019: ES2019Options { optional_catch_binding: true },
+            es2019: ES2019Options {
+                optional_catch_binding: true,
+            },
             es2020: ES2020Options {
                 export_namespace_from: true,
                 nullish_coalescing_operator: true,
@@ -84,14 +90,18 @@ impl EnvOptions {
                 optional_chaining: true,
                 arbitrary_module_namespace_names: false,
             },
-            es2021: ES2021Options { logical_assignment_operators: true },
+            es2021: ES2021Options {
+                logical_assignment_operators: true,
+            },
             es2022: ES2022Options {
                 class_static_block: true,
                 class_properties: Some(ClassPropertiesOptions::default()),
                 // Turn this on would throw error for all top-level awaits.
                 top_level_await: false,
             },
-            es2026: ES2026Options { explicit_resource_management: true },
+            es2026: ES2026Options {
+                explicit_resource_management: true,
+            },
         }
     }
 
@@ -149,7 +159,9 @@ impl From<EngineTargets> for EnvOptions {
             es2016: ES2016Options {
                 exponentiation_operator: o.has_feature(ES2016ExponentiationOperator),
             },
-            es2017: ES2017Options { async_to_generator: o.has_feature(ES2017AsyncToGenerator) },
+            es2017: ES2017Options {
+                async_to_generator: o.has_feature(ES2017AsyncToGenerator),
+            },
             es2018: ES2018Options {
                 object_rest_spread: o.has_feature(ES2018ObjectRestSpread).then(Default::default),
                 async_generator_functions: o.has_feature(ES2018AsyncGeneratorFunctions),

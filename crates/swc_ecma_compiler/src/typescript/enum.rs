@@ -1,14 +1,12 @@
 use std::cell::Cell;
 
-use rustc_hash::FxHashMap;
-
 use oxc_allocator::{StringBuilder, TakeIn, Vec as ArenaVec};
-use oxc_ast::{NONE, ast::*};
-use oxc_ast_visit::{VisitMut, walk_mut};
+use oxc_ast::{ast::*, NONE};
+use oxc_ast_visit::{walk_mut, VisitMut};
 use oxc_data_structures::stack::NonEmptyStack;
 use oxc_ecmascript::{ToInt32, ToUint32};
 use oxc_semantic::{ScopeFlags, ScopeId};
-use oxc_span::{Atom, SPAN, Span};
+use oxc_span::{Atom, Span, SPAN};
 use oxc_syntax::{
     number::{NumberBase, ToJsString},
     operator::{AssignmentOperator, BinaryOperator, LogicalOperator, UnaryOperator},
@@ -16,10 +14,12 @@ use oxc_syntax::{
     symbol::SymbolFlags,
 };
 use oxc_traverse::{BoundIdentifier, Traverse};
+use rustc_hash::FxHashMap;
 
 use crate::{context::TraverseCtx, state::TransformState};
 
-/// enum member values (or None if it can't be evaluated at build time) keyed by names
+/// enum member values (or None if it can't be evaluated at build time) keyed by
+/// names
 type PrevMembers<'a> = FxHashMap<Atom<'a>, Option<ConstantValue<'a>>>;
 
 pub struct TypeScriptEnum<'a> {
@@ -28,7 +28,9 @@ pub struct TypeScriptEnum<'a> {
 
 impl TypeScriptEnum<'_> {
     pub fn new() -> Self {
-        Self { enums: FxHashMap::default() }
+        Self {
+            enums: FxHashMap::default(),
+        }
     }
 }
 
@@ -86,8 +88,11 @@ impl<'a> TypeScriptEnum<'a> {
 
         let enum_name = decl.id.name;
         let func_scope_id = decl.scope_id();
-        let param_binding =
-            ctx.generate_binding(enum_name, func_scope_id, SymbolFlags::FunctionScopedVariable);
+        let param_binding = ctx.generate_binding(
+            enum_name,
+            func_scope_id,
+            SymbolFlags::FunctionScopedVariable,
+        );
 
         let id = param_binding.create_binding_pattern(ctx);
 
@@ -136,8 +141,9 @@ impl<'a> TypeScriptEnum<'a> {
 
         // Foo[Foo["X"] = 0] = "X";
         let redeclarations = ctx.scoping().symbol_redeclarations(enum_symbol_id);
-        let is_already_declared =
-            redeclarations.first().map_or_else(|| false, |rd| rd.span != decl.id.span);
+        let is_already_declared = redeclarations
+            .first()
+            .map_or_else(|| false, |rd| rd.span != decl.id.span);
 
         let arguments = if (is_export || is_not_top_scope) && !is_already_declared {
             // }({});
@@ -216,8 +222,8 @@ impl<'a> TypeScriptEnum<'a> {
 
         let mut statements = ast.vec();
 
-        // If enum number has no initializer, its value will be the previous member value + 1,
-        // if it's the first member, it will be `0`.
+        // If enum number has no initializer, its value will be the previous member
+        // value + 1, if it's the first member, it will be `0`.
         // It used to keep track of the previous constant number.
         let mut prev_constant_number = Some(-1.0);
         let mut previous_enum_members = self.enums.entry(param_binding.name).or_default().clone();
@@ -258,7 +264,8 @@ impl<'a> TypeScriptEnum<'a> {
                         }
                     },
                 }
-                // No initializer, try to infer the value from the previous member.
+                // No initializer, try to infer the value from the previous
+                // member.
             } else if let Some(value) = &prev_constant_number {
                 let value = value + 1.0;
                 prev_constant_number = Some(value);
@@ -268,8 +275,11 @@ impl<'a> TypeScriptEnum<'a> {
                 previous_enum_members.insert(member_name, None);
                 let self_ref = {
                     let obj = param_binding.create_read_expression(ctx);
-                    let expr = ctx.ast.expression_string_literal(SPAN, prev_member_name, None);
-                    ast.member_expression_computed(SPAN, obj, expr, false).into()
+                    let expr = ctx
+                        .ast
+                        .expression_string_literal(SPAN, prev_member_name, None);
+                    ast.member_expression_computed(SPAN, obj, expr, false)
+                        .into()
                 };
 
                 // 1 + Foo["x"]
@@ -309,7 +319,8 @@ impl<'a> TypeScriptEnum<'a> {
             statements.push(ast.statement_expression(member.span, expr));
         }
 
-        self.enums.insert(param_binding.name, previous_enum_members.clone());
+        self.enums
+            .insert(param_binding.name, previous_enum_members.clone());
 
         let enum_ref = param_binding.create_read_expression(ctx);
         // return Foo;
@@ -320,7 +331,8 @@ impl<'a> TypeScriptEnum<'a> {
     }
 
     fn get_number_literal_expression(value: f64, ctx: &TraverseCtx<'a>) -> Expression<'a> {
-        ctx.ast.expression_numeric_literal(SPAN, value, None, NumberBase::Decimal)
+        ctx.ast
+            .expression_numeric_literal(SPAN, value, None, NumberBase::Decimal)
     }
 
     fn get_initializer_expr(value: f64, ctx: &mut TraverseCtx<'a>) -> Expression<'a> {
@@ -328,7 +340,9 @@ impl<'a> TypeScriptEnum<'a> {
 
         // Infinity
         let expr = if value.is_infinite() {
-            let infinity_symbol_id = ctx.scoping().find_binding(ctx.current_scope_id(), "Infinity");
+            let infinity_symbol_id = ctx
+                .scoping()
+                .find_binding(ctx.current_scope_id(), "Infinity");
             ctx.create_ident_expr(
                 SPAN,
                 Atom::from("Infinity"),
@@ -341,7 +355,8 @@ impl<'a> TypeScriptEnum<'a> {
         };
 
         if is_negative {
-            ctx.ast.expression_unary(SPAN, UnaryOperator::UnaryNegation, expr)
+            ctx.ast
+                .expression_unary(SPAN, UnaryOperator::UnaryNegation, expr)
         } else {
             expr
         }
@@ -374,7 +389,9 @@ impl<'a> TypeScriptEnum<'a> {
         match expr {
             match_member_expression!(Expression) => {
                 let expr = expr.to_member_expression();
-                let Expression::Identifier(ident) = expr.object() else { return None };
+                let Expression::Identifier(ident) = expr.object() else {
+                    return None;
+                };
                 let members = self.enums.get(&ident.name)?;
                 let property = expr.static_property_name()?;
                 *members.get(property)?
@@ -391,10 +408,11 @@ impl<'a> TypeScriptEnum<'a> {
                 }
 
                 // TODO:
-                // This is a bit tricky because we need to find the BindingIdentifier that corresponds to the identifier reference.
-                // and then we may to evaluate the initializer of the BindingIdentifier.
-                // finally, we can get the value of the identifier and call the `computed_constant_value` function.
-                // See https://github.com/babel/babel/blob/610897a9a96c5e344e77ca9665df7613d2f88358/packages/babel-plugin-transform-typescript/src/enum.ts#L327-L329
+                // This is a bit tricky because we need to find the BindingIdentifier that
+                // corresponds to the identifier reference. and then we may to
+                // evaluate the initializer of the BindingIdentifier.
+                // finally, we can get the value of the identifier and call the
+                // `computed_constant_value` function. See https://github.com/babel/babel/blob/610897a9a96c5e344e77ca9665df7613d2f88358/packages/babel-plugin-transform-typescript/src/enum.ts#L327-L329
                 None
             }
             _ => None,
@@ -493,15 +511,15 @@ impl<'a> TypeScriptEnum<'a> {
             BinaryOperator::ShiftLeft => Some(ConstantValue::Number(f64::from(
                 left.to_int_32().wrapping_shl(right.to_uint_32()),
             ))),
-            BinaryOperator::BitwiseXOR => {
-                Some(ConstantValue::Number(f64::from(left.to_int_32() ^ right.to_int_32())))
-            }
-            BinaryOperator::BitwiseOR => {
-                Some(ConstantValue::Number(f64::from(left.to_int_32() | right.to_int_32())))
-            }
-            BinaryOperator::BitwiseAnd => {
-                Some(ConstantValue::Number(f64::from(left.to_int_32() & right.to_int_32())))
-            }
+            BinaryOperator::BitwiseXOR => Some(ConstantValue::Number(f64::from(
+                left.to_int_32() ^ right.to_int_32(),
+            ))),
+            BinaryOperator::BitwiseOR => Some(ConstantValue::Number(f64::from(
+                left.to_int_32() | right.to_int_32(),
+            ))),
+            BinaryOperator::BitwiseAnd => Some(ConstantValue::Number(f64::from(
+                left.to_int_32() & right.to_int_32(),
+            ))),
             BinaryOperator::Multiplication => Some(ConstantValue::Number(left * right)),
             BinaryOperator::Division => Some(ConstantValue::Number(left / right)),
             BinaryOperator::Addition => Some(ConstantValue::Number(left + right)),
@@ -543,8 +561,8 @@ impl<'a> TypeScriptEnum<'a> {
     }
 }
 
-/// Rename the identifier references in the enum members to `enum_name.identifier`
-/// ```ts
+/// Rename the identifier references in the enum members to
+/// `enum_name.identifier` ```ts
 /// enum A {
 ///    a = 1,
 ///    b = a.toString(),
@@ -592,7 +610,8 @@ impl IdentifierReferenceRename<'_, '_> {
         let scoping = self.ctx.scoping.scoping();
         let Some(symbol_id) = scoping.get_reference(ident.reference_id()).symbol_id() else {
             // No symbol found, yet the name is found in previous_enum_members.
-            // It must be referencing a member declared in a previous enum block: `enum Foo { A }; enum Foo { B = A }`
+            // It must be referencing a member declared in a previous enum block: `enum Foo
+            // { A }; enum Foo { B = A }`
             return true;
         };
 
@@ -640,7 +659,11 @@ impl<'a> VisitMut<'a> for IdentifierReferenceRename<'a, '_> {
             Expression::Identifier(ident) if self.should_reference_enum_member(ident) => {
                 let object = self.ctx.ast.expression_identifier(SPAN, self.enum_name);
                 let property = self.ctx.ast.identifier_name(SPAN, ident.name);
-                *expr = self.ctx.ast.member_expression_static(SPAN, object, property, false).into();
+                *expr = self
+                    .ctx
+                    .ast
+                    .member_expression_static(SPAN, object, property, false)
+                    .into();
             }
             _ => {
                 walk_mut::walk_expression(self, expr);

@@ -1,8 +1,11 @@
-//! Utility transform to add new statements before or after the specified statement.
+//! Utility transform to add new statements before or after the specified
+//! statement.
 //!
-//! `StatementInjectorStore` contains a `FxHashMap<Address, Vec<AdjacentStatement>>`. It is stored on `TransformCtx`.
+//! `StatementInjectorStore` contains a `FxHashMap<Address,
+//! Vec<AdjacentStatement>>`. It is stored on `TransformCtx`.
 //!
-//! `StatementInjector` transform inserts new statements before or after a statement which is determined by the address of the statement.
+//! `StatementInjector` transform inserts new statements before or after a
+//! statement which is determined by the address of the statement.
 //!
 //! Other transforms can add statements to the store with following methods:
 //!
@@ -14,18 +17,18 @@
 
 use std::{cell::RefCell, collections::hash_map::Entry};
 
-use rustc_hash::FxHashMap;
-
 use oxc_allocator::{Address, GetAddress, Vec as ArenaVec};
 use oxc_ast::ast::*;
 use oxc_traverse::Traverse;
+use rustc_hash::FxHashMap;
 
 use crate::{
     context::{TransformCtx, TraverseCtx},
     state::TransformState,
 };
 
-/// Transform that inserts any statements which have been requested insertion via `StatementInjectorStore`
+/// Transform that inserts any statements which have been requested insertion
+/// via `StatementInjectorStore`
 pub struct StatementInjector<'a, 'ctx> {
     ctx: &'ctx TransformCtx<'a>,
 }
@@ -42,7 +45,9 @@ impl<'a> Traverse<'a, TransformState<'a>> for StatementInjector<'a, '_> {
         statements: &mut ArenaVec<'a, Statement<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.ctx.statement_injector.insert_into_statements(statements, ctx);
+        self.ctx
+            .statement_injector
+            .insert_into_statements(statements, ctx);
     }
 
     #[inline]
@@ -72,7 +77,9 @@ pub struct StatementInjectorStore<'a> {
 impl StatementInjectorStore<'_> {
     /// Create new `StatementInjectorStore`.
     pub fn new() -> Self {
-        Self { insertions: RefCell::new(FxHashMap::default()) }
+        Self {
+            insertions: RefCell::new(FxHashMap::default()),
+        }
     }
 }
 
@@ -83,8 +90,9 @@ impl StatementInjectorStore<'_> {
 // 1. Public outer function which is generic over any `GetAddress`.
 // 2. Private inner function which is non-generic and takes `Address`.
 //
-// Outer functions are marked `#[inline]`, as `GetAddress::address` is generally only 1 or 2 instructions.
-// The non-trivial inner functions are not marked `#[inline]` - compiler can decide whether to inline or not.
+// Outer functions are marked `#[inline]`, as `GetAddress::address` is generally
+// only 1 or 2 instructions. The non-trivial inner functions are not marked
+// `#[inline]` - compiler can decide whether to inline or not.
 impl<'a> StatementInjectorStore<'a> {
     /// Add a statement to be inserted immediately before the target statement.
     #[inline]
@@ -99,7 +107,13 @@ impl<'a> StatementInjectorStore<'a> {
             .iter()
             .position(|s| matches!(s.direction, Direction::After))
             .unwrap_or(adjacent_stmts.len());
-        adjacent_stmts.insert(index, AdjacentStatement { stmt, direction: Direction::Before });
+        adjacent_stmts.insert(
+            index,
+            AdjacentStatement {
+                stmt,
+                direction: Direction::Before,
+            },
+        );
     }
 
     /// Add a statement to be inserted immediately after the target statement.
@@ -111,10 +125,14 @@ impl<'a> StatementInjectorStore<'a> {
     fn insert_after_address(&self, target: Address, stmt: Statement<'a>) {
         let mut insertions = self.insertions.borrow_mut();
         let adjacent_stmts = insertions.entry(target).or_default();
-        adjacent_stmts.push(AdjacentStatement { stmt, direction: Direction::After });
+        adjacent_stmts.push(AdjacentStatement {
+            stmt,
+            direction: Direction::After,
+        });
     }
 
-    /// Add multiple statements to be inserted immediately before the target statement.
+    /// Add multiple statements to be inserted immediately before the target
+    /// statement.
     #[inline]
     pub fn insert_many_before<A, S>(&self, target: &A, stmts: S)
     where
@@ -132,11 +150,15 @@ impl<'a> StatementInjectorStore<'a> {
         let adjacent_stmts = insertions.entry(target).or_default();
         adjacent_stmts.splice(
             0..0,
-            stmts.into_iter().map(|stmt| AdjacentStatement { stmt, direction: Direction::Before }),
+            stmts.into_iter().map(|stmt| AdjacentStatement {
+                stmt,
+                direction: Direction::Before,
+            }),
         );
     }
 
-    /// Add multiple statements to be inserted immediately after the target statement.
+    /// Add multiple statements to be inserted immediately after the target
+    /// statement.
     #[inline]
     pub fn insert_many_after<A, S>(&self, target: &A, stmts: S)
     where
@@ -152,15 +174,16 @@ impl<'a> StatementInjectorStore<'a> {
     {
         let mut insertions = self.insertions.borrow_mut();
         let adjacent_stmts = insertions.entry(target).or_default();
-        adjacent_stmts.extend(
-            stmts.into_iter().map(|stmt| AdjacentStatement { stmt, direction: Direction::After }),
-        );
+        adjacent_stmts.extend(stmts.into_iter().map(|stmt| AdjacentStatement {
+            stmt,
+            direction: Direction::After,
+        }));
     }
 
     /// Move insertions from one [`Address`] to another.
     ///
-    /// Use this if you convert one statement to another, and other code may have attached
-    /// insertions to the original statement.
+    /// Use this if you convert one statement to another, and other code may
+    /// have attached insertions to the original statement.
     #[inline]
     pub fn move_insertions<A1: GetAddress, A2: GetAddress>(
         &self,
@@ -172,7 +195,9 @@ impl<'a> StatementInjectorStore<'a> {
 
     fn move_insertions_address(&self, old_address: Address, new_address: Address) {
         let mut insertions = self.insertions.borrow_mut();
-        let Some(mut adjacent_stmts) = insertions.remove(&old_address) else { return };
+        let Some(mut adjacent_stmts) = insertions.remove(&old_address) else {
+            return;
+        };
 
         match insertions.entry(new_address) {
             Entry::Occupied(entry) => {
@@ -206,7 +231,9 @@ impl<'a> StatementInjectorStore<'a> {
             return;
         }
 
-        let mut new_statements = ctx.ast.vec_with_capacity(statements.len() + new_statement_count);
+        let mut new_statements = ctx
+            .ast
+            .vec_with_capacity(statements.len() + new_statement_count);
 
         for stmt in statements.drain(..) {
             match insertions.remove(&stmt.address()) {

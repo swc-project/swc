@@ -23,7 +23,9 @@ impl<'a, 'ctx> ES2026<'a, 'ctx> {
         } else {
             None
         };
-        Self { explicit_resource_management }
+        Self {
+            explicit_resource_management,
+        }
     }
 }
 

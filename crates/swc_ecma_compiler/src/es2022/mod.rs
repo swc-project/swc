@@ -32,7 +32,8 @@ impl<'a, 'ctx> ES2022<'a, 'ctx> {
         ctx: &'ctx TransformCtx<'a>,
     ) -> Self {
         // Class properties transform performs the static block transform differently.
-        // So only enable static block transform if class properties transform is disabled.
+        // So only enable static block transform if class properties transform is
+        // disabled.
         let (class_static_block, class_properties) =
             if let Some(properties_options) = options.class_properties {
                 let class_properties = ClassProperties::new(
@@ -43,11 +44,19 @@ impl<'a, 'ctx> ES2022<'a, 'ctx> {
                 );
                 (None, Some(class_properties))
             } else {
-                let class_static_block =
-                    if options.class_static_block { Some(ClassStaticBlock::new()) } else { None };
+                let class_static_block = if options.class_static_block {
+                    Some(ClassStaticBlock::new())
+                } else {
+                    None
+                };
                 (class_static_block, None)
             };
-        Self { ctx, options, class_static_block, class_properties }
+        Self {
+            ctx,
+            options,
+            class_static_block,
+            class_properties,
+        }
     }
 }
 

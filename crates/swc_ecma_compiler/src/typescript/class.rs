@@ -4,6 +4,7 @@ use oxc_semantic::ScopeFlags;
 use oxc_span::SPAN;
 use oxc_traverse::BoundIdentifier;
 
+use super::TypeScript;
 use crate::{
     context::TraverseCtx,
     utils::ast_builder::{
@@ -11,25 +12,29 @@ use crate::{
     },
 };
 
-use super::TypeScript;
-
 impl<'a> TypeScript<'a, '_> {
-    /// Transform class fields, and constructor parameters that includes modifiers into `this` assignments.
+    /// Transform class fields, and constructor parameters that includes
+    /// modifiers into `this` assignments.
     ///
     /// This transformation is doing 2 things:
     ///
-    /// 1. Convert constructor parameters that include modifier to `this` assignments and insert them
-    ///    after the super call in the constructor body.
+    /// 1. Convert constructor parameters that include modifier to `this`
+    ///    assignments and insert them after the super call in the constructor
+    ///    body.
     ///
-    /// Same as `Self::convert_constructor_params` does, the reason why we still need that method because
-    /// this method only calls when `set_public_class_fields` is `true` and `class_properties` plugin is
-    /// disabled, otherwise the `convert_constructor_params` method will be called. Merging them together
-    /// will increase unnecessary check when only transform constructor parameters.
+    /// Same as `Self::convert_constructor_params` does, the reason why we still
+    /// need that method because this method only calls when
+    /// `set_public_class_fields` is `true` and `class_properties` plugin is
+    /// disabled, otherwise the `convert_constructor_params` method will be
+    /// called. Merging them together will increase unnecessary check when
+    /// only transform constructor parameters.
     ///
     /// 2. Convert class fields to `this` assignments in the constructor body.
     ///
-    /// > This transformation only works when `set_public_class_fields` is `true`,
-    /// > and the fields have initializers, which is to align with the behavior of TypeScript's
+    /// > This transformation only works when `set_public_class_fields` is
+    /// > `true`,
+    /// > and the fields have initializers, which is to align with the behavior
+    /// > of TypeScript's
     /// > `useDefineForClassFields: false` option.
     ///
     /// Input:
@@ -55,10 +60,12 @@ impl<'a> TypeScript<'a, '_> {
     /// ```
     ///
     /// The computed key transformation behavior is the same as `TypeScript`.
-    /// Computed key assignments are inserted into a static block, unlike Babel which inserts them before class.
-    /// We follow `TypeScript` just for simplicity, because `Babel` handles class expressions and class declarations
-    /// differently, which is quite troublesome to implement.
-    /// Anyway, `TypeScript` is the source of truth for the typescript transformation.
+    /// Computed key assignments are inserted into a static block, unlike Babel
+    /// which inserts them before class. We follow `TypeScript` just for
+    /// simplicity, because `Babel` handles class expressions and class
+    /// declarations differently, which is quite troublesome to implement.
+    /// Anyway, `TypeScript` is the source of truth for the typescript
+    /// transformation.
     ///
     /// For static properties, we convert them to static blocks.
     ///
@@ -83,9 +90,11 @@ impl<'a> TypeScript<'a, '_> {
     /// }
     /// ```
     ///
-    /// The transformation way is also the same as `TypeScript`, the advantage from the implementation is that
-    /// we don't need extra transformation for static properties, the output is the same as instance properties
-    /// transformation, and the greatest advantage is we don't need to care about `this` usage in static block.
+    /// The transformation way is also the same as `TypeScript`, the advantage
+    /// from the implementation is that we don't need extra transformation
+    /// for static properties, the output is the same as instance properties
+    /// transformation, and the greatest advantage is we don't need to care
+    /// about `this` usage in static block.
     pub(super) fn transform_class_fields(&self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
         let mut constructor = None;
         let mut property_assignments = Vec::new();
@@ -104,7 +113,8 @@ impl<'a> TypeScript<'a, '_> {
                         if prop.r#static {
                             // Convert static property to static block
                             // `class C { static x = 1; }` -> `class C { static { this.x = 1; } }`
-                            // `class C { static [x] = 1; }` -> `let _x; class C { static { this[_x] = 1; } }`
+                            // `class C { static [x] = 1; }` -> `let _x; class C { static { this[_x]
+                            // = 1; } }`
                             let body = ctx.ast.vec1(assignment);
                             *element = Self::create_class_static_block(body, ctx);
                         } else {
@@ -113,14 +123,17 @@ impl<'a> TypeScript<'a, '_> {
                     } else if self.remove_class_fields_without_initializer
                         && let Some(key) = prop.key.as_expression_mut()
                     {
-                        // `TypeScript` uses `isSimpleInlineableExpression` to check if the key needs to be kept.
-                        // There is a little difference that we treat `BigIntLiteral` and `RegExpLiteral` can be kept, and
+                        // `TypeScript` uses `isSimpleInlineableExpression` to check if the key
+                        // needs to be kept. There is a little difference
+                        // that we treat `BigIntLiteral` and `RegExpLiteral` can be kept, and
                         // `IdentifierReference` without symbol is not kept.
                         // https://github.com/microsoft/TypeScript/blob/8c62e08448e0ec76203bd519dd39608dbcb31705/src/compiler/transformers/classFields.ts#L2720
                         if self.ctx.key_needs_temp_var(key, ctx) {
-                            // When `remove_class_fields_without_initializer` is true, the property without initializer
-                            // would be removed in the `transform_class_on_exit`. We need to make sure the computed key
-                            // keeps and is evaluated in the same order as the original class field in static block.
+                            // When `remove_class_fields_without_initializer` is true, the property
+                            // without initializer would be removed in
+                            // the `transform_class_on_exit`. We need to make sure the computed key
+                            // keeps and is evaluated in the same order as the original class field
+                            // in static block.
                             computed_key_assignments.push(key.take_in(ctx.ast));
                         }
                     }
@@ -172,8 +185,10 @@ impl<'a> TypeScript<'a, '_> {
             let super_call_position = Self::get_super_call_position(constructor_body_statements);
 
             // Insert the assignments after the `super()` call
-            constructor_body_statements
-                .splice(super_call_position..super_call_position, property_assignments);
+            constructor_body_statements.splice(
+                super_call_position..super_call_position,
+                property_assignments,
+            );
 
             // Insert the static block after the constructor if there is a constructor
             if let Some(element) = computed_key_assignment_static_block {
@@ -182,7 +197,8 @@ impl<'a> TypeScript<'a, '_> {
         } else if !property_assignments.is_empty() {
             // If there is no constructor, we need to create a default constructor
             // that initializes the public fields
-            // TODO: should use `ctx.insert_scope_below_statements`, but it only accept an `ArenaVec` rather than std `Vec`.
+            // TODO: should use `ctx.insert_scope_below_statements`, but it only accept an
+            // `ArenaVec` rather than std `Vec`.
             let scope_id = ctx.create_child_scope_of_current(
                 ScopeFlags::StrictMode | ScopeFlags::Function | ScopeFlags::Constructor,
             );
@@ -193,11 +209,13 @@ impl<'a> TypeScript<'a, '_> {
                 ctx,
             );
 
-            // Insert the static block at the beginning of the class body if there is no constructor
+            // Insert the static block at the beginning of the class body if there is no
+            // constructor
             if let Some(element) = computed_key_assignment_static_block {
                 class.body.body.splice(0..0, [ctor, element]);
             } else {
-                // TODO(improve-on-babel): Could push constructor onto end of elements, instead of inserting as first
+                // TODO(improve-on-babel): Could push constructor onto end of elements, instead
+                // of inserting as first
                 class.body.body.insert(0, ctor);
             }
         } else if let Some(element) = computed_key_assignment_static_block {
@@ -225,8 +243,9 @@ impl<'a> TypeScript<'a, '_> {
         });
     }
 
-    /// Transform constructor parameters that include modifier to `this` assignments and
-    /// insert them after the super call in the constructor body.
+    /// Transform constructor parameters that include modifier to `this`
+    /// assignments and insert them after the super call in the constructor
+    /// body.
     ///
     /// Input:
     /// ```ts
@@ -263,12 +282,13 @@ impl<'a> TypeScript<'a, '_> {
 
     /// Convert property definition to `this` assignment in constructor.
     ///
-    /// * Computed key:
-    ///   `class C { [x()] = 1; }` -> `let _x; class C { static { _x = x(); } constructor() { this[_x] = 1; } }`
-    /// * Static key:
-    ///   `class C { x = 1; }` -> `class C { constructor() { this.x = 1; } }`
+    /// * Computed key: `class C { [x()] = 1; }` -> `let _x; class C { static {
+    ///   _x = x(); } constructor() { this[_x] = 1; } }`
+    /// * Static key: `class C { x = 1; }` -> `class C { constructor() { this.x
+    ///   = 1; } }`
     ///
-    /// Returns an assignment statement which would be inserted in the constructor body.
+    /// Returns an assignment statement which would be inserted in the
+    /// constructor body.
     fn convert_property_definition(
         &self,
         key: &mut PropertyKey<'a>,
@@ -289,8 +309,9 @@ impl<'a> TypeScript<'a, '_> {
                 // `class C { 'x' = true; 123 = false; }`
                 // No temp var is created for these.
                 let new_key = if self.ctx.key_needs_temp_var(key, ctx) {
-                    let (assignment, ident) =
-                        self.ctx.create_computed_key_temp_var(key.take_in(ctx.ast), ctx);
+                    let (assignment, ident) = self
+                        .ctx
+                        .create_computed_key_temp_var(key.take_in(ctx.ast), ctx);
                     computed_key_assignments.push(assignment);
                     ident
                 } else {
@@ -309,12 +330,15 @@ impl<'a> TypeScript<'a, '_> {
         Self::create_assignment(target, value, ctx)
     }
 
-    /// Find the position of the `super()` call in the constructor body, otherwise return 0.
+    /// Find the position of the `super()` call in the constructor body,
+    /// otherwise return 0.
     ///
-    /// Don't need to handle nested `super()` call because `TypeScript` doesn't allow it.
+    /// Don't need to handle nested `super()` call because `TypeScript` doesn't
+    /// allow it.
     pub fn get_super_call_position(statements: &[Statement<'a>]) -> usize {
         // Find the position of the `super()` call in the constructor body.
-        // Don't need to handle nested `super()` call because `TypeScript` doesn't allow it.
+        // Don't need to handle nested `super()` call because `TypeScript` doesn't allow
+        // it.
         statements
             .iter()
             .position(|stmt| {
@@ -350,7 +374,8 @@ impl<'a> TypeScript<'a, '_> {
     /// }
     /// ```
     ///
-    /// So that computed key keeps running in the same order as the original class field.
+    /// So that computed key keeps running in the same order as the original
+    /// class field.
     #[inline]
     fn convert_computed_key(
         key: &mut PropertyKey<'a>,
@@ -361,20 +386,24 @@ impl<'a> TypeScript<'a, '_> {
             return;
         }
         if let Some(key) = key.as_expression_mut() {
-            // If the key is already an expression, we need to create a new expression sequence
-            // to insert the assignments into.
+            // If the key is already an expression, we need to create a new expression
+            // sequence to insert the assignments into.
             let original_key = key.take_in(ctx.ast);
             let new_key = ctx.ast.expression_sequence(
                 SPAN,
                 ctx.ast.vec_from_iter(
-                    assignments.split_off(0).into_iter().chain(std::iter::once(original_key)),
+                    assignments
+                        .split_off(0)
+                        .into_iter()
+                        .chain(std::iter::once(original_key)),
                 ),
             );
             *key = new_key;
         }
     }
 
-    /// Convert constructor parameters that include modifier to `this` assignments
+    /// Convert constructor parameters that include modifier to `this`
+    /// assignments
     pub(super) fn convert_constructor_params(
         params: &ArenaVec<'a, FormalParameter<'a>>,
         ctx: &mut TraverseCtx<'a>,
@@ -398,7 +427,8 @@ impl<'a> TypeScript<'a, '_> {
     ) -> Statement<'a> {
         ctx.ast.statement_expression(
             SPAN,
-            ctx.ast.expression_assignment(SPAN, AssignmentOperator::Assign, target, value),
+            ctx.ast
+                .expression_assignment(SPAN, AssignmentOperator::Assign, target, value),
         )
     }
 

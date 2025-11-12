@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use crate::{Module, options::EngineTargets};
+use crate::{options::EngineTargets, Module};
 
 fn default_as_true() -> bool {
     true

@@ -1,10 +1,12 @@
 //! RegExp Transformer
 //!
-//! This module supports various RegExp plugins to handle unsupported RegExp literal features.
-//! When an unsupported feature is detected, these plugins convert the RegExp literal into
-//! a `new RegExp()` constructor call to avoid syntax errors.
+//! This module supports various RegExp plugins to handle unsupported RegExp
+//! literal features. When an unsupported feature is detected, these plugins
+//! convert the RegExp literal into a `new RegExp()` constructor call to avoid
+//! syntax errors.
 //!
-//! Note: You will need to include a polyfill for the `RegExp` constructor in your code to have the correct runtime behavior.
+//! Note: You will need to include a polyfill for the `RegExp` constructor in
+//! your code to have the correct runtime behavior.
 //!
 //! ### ES2015
 //!
@@ -40,13 +42,14 @@
 //! - @babel/plugin-transform-unicode-sets-regex: <https://babeljs.io/docs/en/babel-plugin-proposal-unicode-sets-regex>
 //! - TC39 Proposal: <https://github.com/tc39/proposal-regexp-set-notation>
 //!
-//! TODO(improve-on-babel): We could convert to plain `RegExp(...)` instead of `new RegExp(...)`.
-//! TODO(improve-on-babel): When flags is empty, we could output `RegExp("(?<=x)")` instead of `RegExp("(?<=x)", "")`.
-//! (actually these would be improvements on ESBuild, not Babel)
+//! TODO(improve-on-babel): We could convert to plain `RegExp(...)` instead of
+//! `new RegExp(...)`. TODO(improve-on-babel): When flags is empty, we could
+//! output `RegExp("(?<=x)")` instead of `RegExp("(?<=x)", "")`. (actually these
+//! would be improvements on ESBuild, not Babel)
 
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_regular_expression::{
-    RegexUnsupportedPatterns, has_unsupported_regular_expression_pattern,
+    has_unsupported_regular_expression_pattern, RegexUnsupportedPatterns,
 };
 use oxc_semantic::ReferenceFlags;
 use oxc_span::{Atom, SPAN};
@@ -114,7 +117,8 @@ impl<'a, 'ctx> RegExp<'a, 'ctx> {
 }
 
 impl<'a> Traverse<'a, TransformState<'a>> for RegExp<'a, '_> {
-    // `#[inline]` to avoid cost of function call for all `Expression`s which aren't `RegExpLiteral`s
+    // `#[inline]` to avoid cost of function call for all `Expression`s which aren't
+    // `RegExpLiteral`s
     #[inline]
     fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
         if matches!(expr, Expression::RegExpLiteral(_)) {
@@ -124,7 +128,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for RegExp<'a, '_> {
 }
 
 impl<'a> RegExp<'a, '_> {
-    /// If `RegExpLiteral` contains unsupported syntax or flags, transform to `new RegExp(...)`.
+    /// If `RegExpLiteral` contains unsupported syntax or flags, transform to
+    /// `new RegExp(...)`.
     fn transform_regexp(&self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
         let Expression::RegExpLiteral(regexp) = expr else {
             unreachable!();
@@ -136,8 +141,8 @@ impl<'a> RegExp<'a, '_> {
         let has_unsupported_flags = flags.intersects(self.unsupported_flags);
         if !has_unsupported_flags {
             if !self.some_unsupported_patterns {
-                // This RegExp has no unsupported flags, and there are no patterns which may need transforming,
-                // so there's nothing to do
+                // This RegExp has no unsupported flags, and there are no patterns which may
+                // need transforming, so there's nothing to do
                 return;
             }
 
@@ -164,7 +169,12 @@ impl<'a> RegExp<'a, '_> {
 
         let callee = {
             let symbol_id = ctx.scoping().find_binding(ctx.current_scope_id(), "RegExp");
-            ctx.create_ident_expr(SPAN, Atom::from("RegExp"), symbol_id, ReferenceFlags::read())
+            ctx.create_ident_expr(
+                SPAN,
+                Atom::from("RegExp"),
+                symbol_id,
+                ReferenceFlags::read(),
+            )
         };
 
         let arguments = ctx.ast.vec_from_array([

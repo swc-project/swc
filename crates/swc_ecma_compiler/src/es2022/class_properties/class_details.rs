@@ -54,7 +54,13 @@ impl<'a> PrivateProp<'a> {
         method_kind: Option<MethodDefinitionKind>,
         is_accessor: bool,
     ) -> Self {
-        Self { binding, is_static, method_kind, is_accessor, binding2: None }
+        Self {
+            binding,
+            is_static,
+            method_kind,
+            is_accessor,
+            binding2: None,
+        }
     }
 
     pub fn is_method(&self) -> bool {
@@ -62,7 +68,10 @@ impl<'a> PrivateProp<'a> {
     }
 
     pub fn is_accessor(&self) -> bool {
-        self.is_accessor || self.method_kind.is_some_and(MethodDefinitionKind::is_accessor)
+        self.is_accessor
+            || self
+                .method_kind
+                .is_some_and(MethodDefinitionKind::is_accessor)
     }
 
     pub fn set_binding2(&mut self, binding: BoundIdentifier<'a>) {
@@ -74,12 +83,13 @@ impl<'a> PrivateProp<'a> {
 ///
 /// Pushed to when entering a class, popped when exiting.
 ///
-/// We use a `NonEmptyStack` to make `last` and `last_mut` cheap (these are used a lot).
-/// The first entry is a dummy.
+/// We use a `NonEmptyStack` to make `last` and `last_mut` cheap (these are used
+/// a lot). The first entry is a dummy.
 ///
-/// This is a separate structure, rather than just storing stack as a property of `ClassProperties`
-/// to work around borrow-checker. You can call `find_private_prop` and retain the return value
-/// without holding a mut borrow of the whole of `&mut ClassProperties`. This allows accessing other
+/// This is a separate structure, rather than just storing stack as a property
+/// of `ClassProperties` to work around borrow-checker. You can call
+/// `find_private_prop` and retain the return value without holding a mut borrow
+/// of the whole of `&mut ClassProperties`. This allows accessing other
 /// properties of `ClassProperties` while that borrow is held.
 pub(super) struct ClassesStack<'a> {
     stack: NonEmptyStack<ClassDetails<'a>>,
@@ -88,8 +98,11 @@ pub(super) struct ClassesStack<'a> {
 impl<'a> ClassesStack<'a> {
     /// Create new `ClassesStack`.
     pub fn new() -> Self {
-        // Default stack capacity is 4. That's is probably good. More than 4 nested classes is rare.
-        Self { stack: NonEmptyStack::new(ClassDetails::dummy(false)) }
+        // Default stack capacity is 4. That's is probably good. More than 4 nested
+        // classes is rare.
+        Self {
+            stack: NonEmptyStack::new(ClassDetails::dummy(false)),
+        }
     }
 
     /// Push an entry to stack.
@@ -201,7 +214,8 @@ impl<'a> ClassesStack<'a> {
         })
     }
 
-    /// Look up details of the private property referred to by ident and it can either be read or written.
+    /// Look up details of the private property referred to by ident and it can
+    /// either be read or written.
     pub fn find_get_set_private_prop<'b>(
         &'b mut self,
         ident: &PrivateIdentifier<'a>,
@@ -239,8 +253,9 @@ pub(super) struct ResolvedPrivateProp<'a, 'b> {
     pub is_static: bool,
     /// `true` if is a private method or accessor property
     pub is_method: bool,
-    /// `true` if is a private accessor property or [`PrivateProp::method_kind`] is
-    /// `Some(MethodDefinitionKind::Get)` or `Some(MethodDefinitionKind::Set)`
+    /// `true` if is a private accessor property or [`PrivateProp::method_kind`]
+    /// is `Some(MethodDefinitionKind::Get)` or
+    /// `Some(MethodDefinitionKind::Set)`
     pub is_accessor: bool,
     /// `true` if class which defines this property is a class declaration
     pub is_declaration: bool,
@@ -260,8 +275,9 @@ pub(super) struct ResolvedGetSetPrivateProp<'a, 'b> {
     pub is_static: bool,
     /// `true` if is a private method or accessor property
     pub is_method: bool,
-    /// `true` if is a private accessor property or [`PrivateProp::method_kind`] is
-    /// `Some(MethodDefinitionKind::Get)` or `Some(MethodDefinitionKind::Set)`
+    /// `true` if is a private accessor property or [`PrivateProp::method_kind`]
+    /// is `Some(MethodDefinitionKind::Get)` or
+    /// `Some(MethodDefinitionKind::Set)`
     #[expect(unused)]
     pub is_accessor: bool,
     /// `true` if class which defines this property is a class declaration

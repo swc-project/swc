@@ -23,10 +23,14 @@ pub(super) fn create_variable_declaration<'a>(
         Some(init),
         false,
     );
-    Statement::from(ctx.ast.declaration_variable(SPAN, kind, ctx.ast.vec1(declarator), false))
+    Statement::from(
+        ctx.ast
+            .declaration_variable(SPAN, kind, ctx.ast.vec1(declarator), false),
+    )
 }
 
-/// Convert an iterator of `Expression`s into an iterator of `Statement::ExpressionStatement`s.
+/// Convert an iterator of `Expression`s into an iterator of
+/// `Statement::ExpressionStatement`s.
 pub(super) fn exprs_into_stmts<'a, E>(
     exprs: E,
     ctx: &TraverseCtx<'a>,
@@ -34,7 +38,9 @@ pub(super) fn exprs_into_stmts<'a, E>(
 where
     E: IntoIterator<Item = Expression<'a>>,
 {
-    exprs.into_iter().map(|expr| ctx.ast.statement_expression(SPAN, expr))
+    exprs
+        .into_iter()
+        .map(|expr| ctx.ast.statement_expression(SPAN, expr))
 }
 
 /// Create `IdentifierName` for `_`.
@@ -42,8 +48,8 @@ pub(super) fn create_underscore_ident_name<'a>(ctx: &TraverseCtx<'a>) -> Identif
     ctx.ast.identifier_name(SPAN, Atom::from("_"))
 }
 
-/// Debug assert that an `Expression` is not `ParenthesizedExpression` or TS syntax
-/// (e.g. `TSAsExpression`).
+/// Debug assert that an `Expression` is not `ParenthesizedExpression` or TS
+/// syntax (e.g. `TSAsExpression`).
 //
 // `#[inline(always)]` because this is a no-op in release mode
 #[expect(clippy::inline_always)]

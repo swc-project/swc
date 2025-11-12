@@ -18,7 +18,10 @@ pub struct ES2019 {
 
 impl ES2019 {
     pub fn new(options: ES2019Options) -> Self {
-        Self { optional_catch_binding: OptionalCatchBinding::new(), options }
+        Self {
+            optional_catch_binding: OptionalCatchBinding::new(),
+            options,
+        }
     }
 }
 

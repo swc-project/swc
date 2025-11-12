@@ -3,8 +3,6 @@
 
 use std::cell::Cell;
 
-use rustc_hash::FxHashMap;
-
 use oxc_ast::ast::*;
 use oxc_ast_visit::Visit;
 use oxc_data_structures::stack::Stack;
@@ -13,16 +11,17 @@ use oxc_syntax::{
     scope::{ScopeFlags, ScopeId},
     symbol::SymbolId,
 };
-
-use crate::context::TraverseCtx;
+use rustc_hash::FxHashMap;
 
 use super::ClassProperties;
+use crate::context::TraverseCtx;
 
 impl<'a> ClassProperties<'a, '_> {
     /// Reparent property initializers scope.
     ///
-    /// Instance property initializers move from the class body into either class constructor,
-    /// or a `_super` function. Change parent scope of first-level scopes in initializer to reflect this.
+    /// Instance property initializers move from the class body into either
+    /// class constructor, or a `_super` function. Change parent scope of
+    /// first-level scopes in initializer to reflect this.
     pub(super) fn reparent_initializers_scope(
         &mut self,
         inits: &[Expression<'a>],
@@ -51,12 +50,13 @@ impl<'a> ClassProperties<'a, '_> {
     }
 }
 
-/// Visitor to change parent scope of first-level scopes in instance property initializer,
-/// and find any `IdentifierReference`s which would be shadowed by bindings in constructor,
-/// once initializer moves into constructor body.
+/// Visitor to change parent scope of first-level scopes in instance property
+/// initializer, and find any `IdentifierReference`s which would be shadowed by
+/// bindings in constructor, once initializer moves into constructor body.
 struct InstanceInitializerVisitor<'a, 'v> {
     /// Pushed to when entering a scope, popped when exiting it.
-    /// Parent `ScopeId` should be updated when stack is empty (i.e. this is a first-level scope).
+    /// Parent `ScopeId` should be updated when stack is empty (i.e. this is a
+    /// first-level scope).
     scope_ids_stack: Stack<ScopeId>,
     /// New parent scope for first-level scopes in initializer
     parent_scope_id: ScopeId,
@@ -101,7 +101,8 @@ impl<'a> Visit<'a> for InstanceInitializerVisitor<'a, '_> {
         self.scope_ids_stack.push(scope_id);
     }
 
-    // `#[inline]` because this function is tiny and called from many `walk` functions
+    // `#[inline]` because this function is tiny and called from many `walk`
+    // functions
     #[inline]
     fn leave_scope(&mut self) {
         self.scope_ids_stack.pop();
@@ -117,26 +118,32 @@ impl<'a> Visit<'a> for InstanceInitializerVisitor<'a, '_> {
 impl<'a> InstanceInitializerVisitor<'a, '_> {
     /// Update parent of scope.
     fn reparent_scope(&mut self, scope_id: ScopeId) {
-        self.ctx.scoping_mut().change_scope_parent_id(scope_id, Some(self.parent_scope_id));
+        self.ctx
+            .scoping_mut()
+            .change_scope_parent_id(scope_id, Some(self.parent_scope_id));
     }
 
-    /// Check if symbol referenced by `ident` is shadowed by a binding in constructor's scope.
+    /// Check if symbol referenced by `ident` is shadowed by a binding in
+    /// constructor's scope.
     fn check_for_symbol_clash(&mut self, ident: &IdentifierReference<'a>) {
         // TODO: It would be ideal if could get reference `&Bindings` for constructor
-        // in `InstanceInitializerVisitor::new` rather than indexing into `ScopeTree::bindings`
-        // with same `ScopeId` every time here, but `ScopeTree` doesn't allow that, and we also
-        // take a `&mut ScopeTree` in `reparent_scope`, so borrow-checker doesn't allow that.
-        let Some(constructor_symbol_id) =
-            self.ctx.scoping().get_binding(self.constructor_scope_id, &ident.name)
+        // in `InstanceInitializerVisitor::new` rather than indexing into
+        // `ScopeTree::bindings` with same `ScopeId` every time here, but
+        // `ScopeTree` doesn't allow that, and we also take a `&mut ScopeTree`
+        // in `reparent_scope`, so borrow-checker doesn't allow that.
+        let Some(constructor_symbol_id) = self
+            .ctx
+            .scoping()
+            .get_binding(self.constructor_scope_id, &ident.name)
         else {
             return;
         };
 
-        // Check the symbol this identifier refers to is bound outside of the initializer itself.
-        // If it's bound within the initializer, there's no clash, so exit.
-        // e.g. `class C { double = (n) => n * 2; constructor(n) {} }`
-        // Even though there's a binding `n` in constructor, it doesn't shadow the use of `n` in init.
-        // This is an improvement over Babel.
+        // Check the symbol this identifier refers to is bound outside of the
+        // initializer itself. If it's bound within the initializer, there's no
+        // clash, so exit. e.g. `class C { double = (n) => n * 2; constructor(n)
+        // {} }` Even though there's a binding `n` in constructor, it doesn't
+        // shadow the use of `n` in init. This is an improvement over Babel.
         let reference_id = ident.reference_id();
         if let Some(ident_symbol_id) = self.ctx.scoping().get_reference(reference_id).symbol_id() {
             let scope_id = self.ctx.scoping().symbol_scope_id(ident_symbol_id);
@@ -146,19 +153,23 @@ impl<'a> InstanceInitializerVisitor<'a, '_> {
         }
 
         // Record the symbol clash. Symbol in constructor needs to be renamed.
-        self.clashing_symbols.entry(constructor_symbol_id).or_insert(ident.name);
+        self.clashing_symbols
+            .entry(constructor_symbol_id)
+            .or_insert(ident.name);
     }
 }
 
-/// Visitor to change parent scope of first-level scopes in instance property initializer.
+/// Visitor to change parent scope of first-level scopes in instance property
+/// initializer.
 ///
 /// Unlike `InstanceInitializerVisitor`, does not check for symbol clashes.
 ///
-/// Therefore only needs to walk until find a node which has a scope. No point continuing to traverse
-/// inside that scope, as by definition any nested scopes can't be first level.
+/// Therefore only needs to walk until find a node which has a scope. No point
+/// continuing to traverse inside that scope, as by definition any nested scopes
+/// can't be first level.
 ///
-/// The visitors here are for the only types which can be the first scope reached when starting
-/// traversal from an `Expression`.
+/// The visitors here are for the only types which can be the first scope
+/// reached when starting traversal from an `Expression`.
 struct FastInstanceInitializerVisitor<'a, 'v> {
     /// Parent scope
     parent_scope_id: ScopeId,
@@ -168,7 +179,10 @@ struct FastInstanceInitializerVisitor<'a, 'v> {
 
 impl<'a, 'v> FastInstanceInitializerVisitor<'a, 'v> {
     fn new(instance_inits_scope_id: ScopeId, ctx: &'v mut TraverseCtx<'a>) -> Self {
-        Self { parent_scope_id: instance_inits_scope_id, ctx }
+        Self {
+            parent_scope_id: instance_inits_scope_id,
+            ctx,
+        }
     }
 }
 
@@ -193,12 +207,14 @@ impl<'a> Visit<'a> for FastInstanceInitializerVisitor<'a, '_> {
 
     #[inline]
     fn visit_ts_conditional_type(&mut self, conditional: &TSConditionalType<'a>) {
-        // `check_type` is outside `TSConditionalType`'s scope and can contain scopes itself
+        // `check_type` is outside `TSConditionalType`'s scope and can contain scopes
+        // itself
         self.visit_ts_type(&conditional.check_type);
 
         self.reparent_scope(&conditional.scope_id);
 
-        // `false_type` is outside `TSConditionalType`'s scope and can contain scopes itself
+        // `false_type` is outside `TSConditionalType`'s scope and can contain scopes
+        // itself
         self.visit_ts_type(&conditional.false_type);
     }
 
@@ -225,6 +241,8 @@ impl FastInstanceInitializerVisitor<'_, '_> {
     /// Update parent of scope.
     fn reparent_scope(&mut self, scope_id: &Cell<Option<ScopeId>>) {
         let scope_id = scope_id.get().unwrap();
-        self.ctx.scoping_mut().change_scope_parent_id(scope_id, Some(self.parent_scope_id));
+        self.ctx
+            .scoping_mut()
+            .change_scope_parent_id(scope_id, Some(self.parent_scope_id));
     }
 }

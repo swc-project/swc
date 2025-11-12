@@ -6,9 +6,9 @@ use oxc_ast::ast::*;
 use oxc_traverse::Traverse;
 
 use crate::{
-    EnvOptions,
     context::{TransformCtx, TraverseCtx},
     state::TransformState,
+    EnvOptions,
 };
 
 pub mod arrow_function_converter;
@@ -84,7 +84,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for Common<'a, '_> {
         arrow: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.arrow_function_converter.enter_arrow_function_expression(arrow, ctx);
+        self.arrow_function_converter
+            .enter_arrow_function_expression(arrow, ctx);
     }
 
     fn exit_arrow_function_expression(
@@ -92,7 +93,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for Common<'a, '_> {
         arrow: &mut ArrowFunctionExpression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.arrow_function_converter.exit_arrow_function_expression(arrow, ctx);
+        self.arrow_function_converter
+            .exit_arrow_function_expression(arrow, ctx);
     }
 
     fn enter_function_body(&mut self, body: &mut FunctionBody<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -116,7 +118,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for Common<'a, '_> {
         element_name: &mut JSXElementName<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.arrow_function_converter.enter_jsx_element_name(element_name, ctx);
+        self.arrow_function_converter
+            .enter_jsx_element_name(element_name, ctx);
     }
 
     fn enter_jsx_member_expression_object(
@@ -124,7 +127,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for Common<'a, '_> {
         object: &mut JSXMemberExpressionObject<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.arrow_function_converter.enter_jsx_member_expression_object(object, ctx);
+        self.arrow_function_converter
+            .enter_jsx_member_expression_object(object, ctx);
     }
 
     fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -140,7 +144,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for Common<'a, '_> {
         node: &mut BindingIdentifier<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.arrow_function_converter.enter_binding_identifier(node, ctx);
+        self.arrow_function_converter
+            .enter_binding_identifier(node, ctx);
     }
 
     fn enter_identifier_reference(
@@ -148,6 +153,7 @@ impl<'a> Traverse<'a, TransformState<'a>> for Common<'a, '_> {
         node: &mut IdentifierReference<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        self.arrow_function_converter.enter_identifier_reference(node, ctx);
+        self.arrow_function_converter
+            .enter_identifier_reference(node, ctx);
     }
 }

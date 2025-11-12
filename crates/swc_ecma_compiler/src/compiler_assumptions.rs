@@ -79,9 +79,9 @@ pub struct CompilerAssumptions {
     #[deprecated = "Not Implemented"]
     pub set_computed_properties: bool,
 
-    /// When using public class fields, assume that they don't shadow any getter in the current class,
-    /// in its subclasses or in its superclass. Thus, it's safe to assign them rather than using
-    /// `Object.defineProperty`.
+    /// When using public class fields, assume that they don't shadow any getter
+    /// in the current class, in its subclasses or in its superclass. Thus,
+    /// it's safe to assign them rather than using `Object.defineProperty`.
     ///
     /// For example:
     ///
@@ -115,8 +115,10 @@ pub struct CompilerAssumptions {
     /// _defineProperty(Test, "staticField", 3);
     /// ```
     ///
-    /// NOTE: For TypeScript, if you wanted behavior is equivalent to `useDefineForClassFields: false`, you should
-    /// set both `set_public_class_fields` and [`crate::TypeScriptOptions::remove_class_fields_without_initializer`]
+    /// NOTE: For TypeScript, if you wanted behavior is equivalent to
+    /// `useDefineForClassFields: false`, you should
+    /// set both `set_public_class_fields` and
+    /// [`crate::TypeScriptOptions::remove_class_fields_without_initializer`]
     /// to `true`.
     #[serde(default)]
     pub set_public_class_fields: bool,

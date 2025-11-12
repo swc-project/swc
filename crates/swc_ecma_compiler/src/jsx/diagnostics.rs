@@ -22,11 +22,17 @@ pub fn invalid_import_source() -> OxcDiagnostic {
 }
 
 pub fn namespace_does_not_support(span: Span) -> OxcDiagnostic {
-    OxcDiagnostic::warn("Namespace tags are not supported by default. React's JSX doesn't support namespace tags. You can set `throwIfNamespace: false` to bypass this warning.")
-        .with_label(span)
+    OxcDiagnostic::warn(
+        "Namespace tags are not supported by default. React's JSX doesn't support namespace tags. \
+         You can set `throwIfNamespace: false` to bypass this warning.",
+    )
+    .with_label(span)
 }
 
 pub fn valueless_key(span: Span) -> OxcDiagnostic {
-    OxcDiagnostic::warn("Please provide an explicit key value. Using \"key\" as a shorthand for \"key={true}\" is not allowed.")
-        .with_label(span)
+    OxcDiagnostic::warn(
+        "Please provide an explicit key value. Using \"key\" as a shorthand for \"key={true}\" is \
+         not allowed.",
+    )
+    .with_label(span)
 }

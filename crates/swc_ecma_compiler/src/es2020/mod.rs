@@ -94,7 +94,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for ES2020<'a, '_> {
             && let ModuleExportName::StringLiteral(literal) = &node.imported
         {
             let warning = OxcDiagnostic::warn(
-                "Arbitrary module namespace identifier names are not available in the configured target environment.",
+                "Arbitrary module namespace identifier names are not available in the configured \
+                 target environment.",
             )
             .with_label(literal.span);
             self.ctx.error(warning);
@@ -109,14 +110,16 @@ impl<'a> Traverse<'a, TransformState<'a>> for ES2020<'a, '_> {
         if self.options.arbitrary_module_namespace_names {
             if let ModuleExportName::StringLiteral(literal) = &node.exported {
                 let warning = OxcDiagnostic::warn(
-                    "Arbitrary module namespace identifier names are not available in the configured target environment.",
+                    "Arbitrary module namespace identifier names are not available in the \
+                     configured target environment.",
                 )
                 .with_label(literal.span);
                 self.ctx.error(warning);
             }
             if let ModuleExportName::StringLiteral(literal) = &node.local {
                 let warning = OxcDiagnostic::warn(
-                    "Arbitrary module namespace identifier names are not available in the configured target environment.",
+                    "Arbitrary module namespace identifier names are not available in the \
+                     configured target environment.",
                 )
                 .with_label(literal.span);
                 self.ctx.error(warning);
@@ -133,7 +136,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for ES2020<'a, '_> {
             && let Some(ModuleExportName::StringLiteral(literal)) = &node.exported
         {
             let warning = OxcDiagnostic::warn(
-                "Arbitrary module namespace identifier names are not available in the configured target environment.",
+                "Arbitrary module namespace identifier names are not available in the configured \
+                 target environment.",
             )
             .with_label(literal.span);
             self.ctx.error(warning);

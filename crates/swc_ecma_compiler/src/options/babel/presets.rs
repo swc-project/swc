@@ -1,8 +1,7 @@
 use serde::Deserialize;
 
-use crate::{EnvOptions, JsxOptions, TypeScriptOptions};
-
 use super::PluginPresetEntries;
+use crate::{EnvOptions, JsxOptions, TypeScriptOptions};
 
 #[derive(Debug, Default, Clone, Deserialize)]
 #[serde(try_from = "PluginPresetEntries")]
@@ -25,14 +24,22 @@ impl TryFrom<PluginPresetEntries> for BabelPresets {
         for entry in entries.0 {
             match entry.name() {
                 "env" => {
-                    p.env = entry.value::<EnvOptions>().map_err(|err| p.errors.push(err)).ok();
+                    p.env = entry
+                        .value::<EnvOptions>()
+                        .map_err(|err| p.errors.push(err))
+                        .ok();
                 }
                 "typescript" => {
-                    p.typescript =
-                        entry.value::<TypeScriptOptions>().map_err(|err| p.errors.push(err)).ok();
+                    p.typescript = entry
+                        .value::<TypeScriptOptions>()
+                        .map_err(|err| p.errors.push(err))
+                        .ok();
                 }
                 "react" => {
-                    p.jsx = entry.value::<JsxOptions>().map_err(|err| p.errors.push(err)).ok();
+                    p.jsx = entry
+                        .value::<JsxOptions>()
+                        .map_err(|err| p.errors.push(err))
+                        .ok();
                 }
                 s => p.unsupported.push(s.to_string()),
             }

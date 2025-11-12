@@ -39,7 +39,8 @@
 //! obj["prop 3"] = React.createClass({});
 //! ```
 //!
-//! This implementation does, which is a divergence from Babel, but probably an improvement.
+//! This implementation does, which is a divergence from Babel, but probably an
+//! improvement.
 //!
 //! ## References:
 //!
@@ -137,9 +138,9 @@ impl<'a> ReactDisplayName<'a, '_> {
         call_expr: &'b mut CallExpression<'a>,
     ) -> Option<&'b mut ObjectExpression<'a>> {
         if match &call_expr.callee {
-            callee @ match_member_expression!(Expression) => {
-                !callee.to_member_expression().is_specific_member_access("React", "createClass")
-            }
+            callee @ match_member_expression!(Expression) => !callee
+                .to_member_expression()
+                .is_specific_member_access("React", "createClass"),
             Expression::Identifier(ident) => ident.name != "createReactClass",
             _ => true,
         } {

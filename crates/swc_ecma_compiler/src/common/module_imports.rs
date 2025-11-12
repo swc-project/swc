@@ -5,7 +5,8 @@
 //!
 //! `ModuleImports` transform
 //!
-//! Other transforms can add `import`s / `require`s to the store by calling methods of `ModuleImportsStore`:
+//! Other transforms can add `import`s / `require`s to the store by calling
+//! methods of `ModuleImportsStore`:
 //!
 //! ### Usage
 //!
@@ -27,16 +28,16 @@
 //! );
 //! ```
 //!
-//! > NOTE: Using `import` or `require` is determined by [`TransformCtx::source_type`].
+//! > NOTE: Using `import` or `require` is determined by
+//! > [`TransformCtx::source_type`].
 //!
 //! Based on `@babel/helper-module-imports`
 //! <https://github.com/nicolo-ribaudo/babel/tree/v7.25.8/packages/babel-helper-module-imports>
 
 use std::cell::RefCell;
 
-use indexmap::{IndexMap, map::Entry as IndexMapEntry};
-
-use oxc_ast::{NONE, ast::*};
+use indexmap::{map::Entry as IndexMapEntry, IndexMap};
+use oxc_ast::{ast::*, NONE};
 use oxc_semantic::ReferenceFlags;
 use oxc_span::{Atom, SPAN};
 use oxc_syntax::symbol::SymbolId;
@@ -75,8 +76,8 @@ enum Import<'a> {
 
 /// Store for `import` / `require` statements to be added at top of program.
 ///
-/// TODO(improve-on-babel): Insertion order does not matter. We only have to use `IndexMap`
-/// to produce output that's the same as Babel's.
+/// TODO(improve-on-babel): Insertion order does not matter. We only have to use
+/// `IndexMap` to produce output that's the same as Babel's.
 /// Substitute `FxHashMap` once we don't need to match Babel's output exactly.
 pub struct ModuleImportsStore<'a> {
     imports: RefCell<IndexMap<Atom<'a>, Vec<Import<'a>>>>,
@@ -86,7 +87,9 @@ pub struct ModuleImportsStore<'a> {
 impl<'a> ModuleImportsStore<'a> {
     /// Create new `ModuleImportsStore`.
     pub fn new() -> Self {
-        Self { imports: RefCell::new(IndexMap::default()) }
+        Self {
+            imports: RefCell::new(IndexMap::default()),
+        }
     }
 
     /// Add default `import` or `require` to top of program.
@@ -96,7 +99,8 @@ impl<'a> ModuleImportsStore<'a> {
     /// * `import named_import from 'source';` or
     /// * `var named_import = require('source');`
     ///
-    /// If `front` is `true`, `import`/`require` is added to front of the `import`s/`require`s.
+    /// If `front` is `true`, `import`/`require` is added to front of the
+    /// `import`s/`require`s.
     pub fn add_default_import(&self, source: Atom<'a>, local: BoundIdentifier<'a>, front: bool) {
         self.add_import(source, Import::Default(local), front);
     }
@@ -107,7 +111,8 @@ impl<'a> ModuleImportsStore<'a> {
     ///
     /// If `front` is `true`, `import` is added to front of the `import`s.
     ///
-    /// Adding named `require`s is not supported, and will cause a panic later on.
+    /// Adding named `require`s is not supported, and will cause a panic later
+    /// on.
     pub fn add_named_import(
         &self,
         source: Atom<'a>,
@@ -115,7 +120,11 @@ impl<'a> ModuleImportsStore<'a> {
         local: BoundIdentifier<'a>,
         front: bool,
     ) {
-        self.add_import(source, Import::Named(NamedImport { imported, local }), front);
+        self.add_import(
+            source,
+            Import::Named(NamedImport { imported, local }),
+            front,
+        );
     }
 
     /// Returns `true` if no imports have been scheduled for insertion.
@@ -133,11 +142,13 @@ impl<'a> ModuleImportsStore<'a> {
     /// * `import { named_import } from 'source';` or
     /// * `var named_import = require('source');`
     ///
-    /// Adding a named `require` is not supported, and will cause a panic later on.
+    /// Adding a named `require` is not supported, and will cause a panic later
+    /// on.
     ///
-    /// If `front` is `true`, `import`/`require` is added to front of the `import`s/`require`s.
-    /// TODO(improve-on-babel): `front` option is only required to pass one of Babel's tests. Output
-    /// without it is still valid. Remove this once our output doesn't need to match Babel exactly.
+    /// If `front` is `true`, `import`/`require` is added to front of the
+    /// `import`s/`require`s. TODO(improve-on-babel): `front` option is only
+    /// required to pass one of Babel's tests. Output without it is still
+    /// valid. Remove this once our output doesn't need to match Babel exactly.
     fn add_import(&self, source: Atom<'a>, import: Import<'a>, front: bool) {
         match self.imports.borrow_mut().entry(source) {
             IndexMapEntry::Occupied(mut entry) => {
@@ -168,7 +179,9 @@ impl<'a> ModuleImportsStore<'a> {
 
     fn insert_import_statements(&self, transform_ctx: &TransformCtx<'a>, ctx: &TraverseCtx<'a>) {
         let mut imports = self.imports.borrow_mut();
-        let stmts = imports.drain(..).map(|(source, names)| Self::get_import(source, names, ctx));
+        let stmts = imports
+            .drain(..)
+            .map(|(source, names)| Self::get_import(source, names, ctx));
         transform_ctx.top_level_statements.insert_statements(stmts);
     }
 
@@ -194,21 +207,26 @@ impl<'a> ModuleImportsStore<'a> {
         names: Vec<Import<'a>>,
         ctx: &TraverseCtx<'a>,
     ) -> Statement<'a> {
-        let specifiers = ctx.ast.vec_from_iter(names.into_iter().map(|import| match import {
-            Import::Named(import) => {
-                ImportDeclarationSpecifier::ImportSpecifier(ctx.ast.alloc_import_specifier(
-                    SPAN,
-                    ModuleExportName::IdentifierName(
-                        ctx.ast.identifier_name(SPAN, import.imported),
+        let specifiers =
+            ctx.ast
+                .vec_from_iter(names.into_iter().map(|import| match import {
+                    Import::Named(import) => {
+                        ImportDeclarationSpecifier::ImportSpecifier(ctx.ast.alloc_import_specifier(
+                            SPAN,
+                            ModuleExportName::IdentifierName(
+                                ctx.ast.identifier_name(SPAN, import.imported),
+                            ),
+                            import.local.create_binding_identifier(ctx),
+                            ImportOrExportKind::Value,
+                        ))
+                    }
+                    Import::Default(local) => ImportDeclarationSpecifier::ImportDefaultSpecifier(
+                        ctx.ast.alloc_import_default_specifier(
+                            SPAN,
+                            local.create_binding_identifier(ctx),
+                        ),
                     ),
-                    import.local.create_binding_identifier(ctx),
-                    ImportOrExportKind::Value,
-                ))
-            }
-            Import::Default(local) => ImportDeclarationSpecifier::ImportDefaultSpecifier(
-                ctx.ast.alloc_import_default_specifier(SPAN, local.create_binding_identifier(ctx)),
-            ),
-        }));
+                }));
 
         Statement::from(ctx.ast.module_declaration_import_declaration(
             SPAN,
@@ -237,12 +255,16 @@ impl<'a> ModuleImportsStore<'a> {
             let arg = Argument::from(ctx.ast.expression_string_literal(SPAN, source, None));
             ctx.ast.vec1(arg)
         };
-        let Some(Import::Default(local)) = names.into_iter().next() else { unreachable!() };
+        let Some(Import::Default(local)) = names.into_iter().next() else {
+            unreachable!()
+        };
         let id = local.create_binding_pattern(ctx);
         let var_kind = VariableDeclarationKind::Var;
         let decl = {
             let init = ctx.ast.expression_call(SPAN, callee, NONE, args, false);
-            let decl = ctx.ast.variable_declarator(SPAN, var_kind, id, Some(init), false);
+            let decl = ctx
+                .ast
+                .variable_declarator(SPAN, var_kind, id, Some(init), false);
             ctx.ast.vec1(decl)
         };
         Statement::from(ctx.ast.declaration_variable(SPAN, var_kind, decl, false))

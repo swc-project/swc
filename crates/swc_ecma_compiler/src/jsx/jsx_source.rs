@@ -34,9 +34,9 @@
 //! * Babel plugin implementation: <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-react-jsx-source/src/index.ts>
 
 use oxc_ast::ast::*;
-use oxc_data_structures::rope::{Rope, get_line_column};
+use oxc_data_structures::rope::{get_line_column, Rope};
 use oxc_diagnostics::OxcDiagnostic;
-use oxc_span::{SPAN, Span};
+use oxc_span::{Span, SPAN};
 use oxc_syntax::{number::NumberBase, symbol::SymbolFlags};
 use oxc_traverse::{BoundIdentifier, Traverse};
 
@@ -56,7 +56,11 @@ pub struct JsxSource<'a, 'ctx> {
 
 impl<'a, 'ctx> JsxSource<'a, 'ctx> {
     pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { filename_var: None, source_rope: None, ctx }
+        Self {
+            filename_var: None,
+            source_rope: None,
+            ctx,
+        }
     }
 }
 
@@ -84,8 +88,9 @@ impl<'a> JsxSource<'a, '_> {
     ///
     /// This matches Babel's output.
     pub fn get_line_column(&mut self, offset: u32) -> (u32, u32) {
-        let source_rope =
-            self.source_rope.get_or_insert_with(|| Rope::from_str(self.ctx.source_text));
+        let source_rope = self
+            .source_rope
+            .get_or_insert_with(|| Rope::from_str(self.ctx.source_text));
         let (line, column) = get_line_column(source_rope, offset, self.ctx.source_text);
         // line and column are zero-indexed, but we want 1-indexed
         (line + 1, column + 1)
@@ -100,7 +105,8 @@ impl<'a> JsxSource<'a, '_> {
         let kind = PropertyKind::Init;
         let key = ctx.ast.property_key_static_identifier(SPAN, SOURCE);
         let value = self.get_source_object(line, column, ctx);
-        ctx.ast.object_property_kind_object_property(SPAN, kind, key, value, false, false, false)
+        ctx.ast
+            .object_property_kind_object_property(SPAN, kind, key, value, false, false, false)
     }
 
     pub fn report_error(&self, span: Span) {
@@ -108,7 +114,8 @@ impl<'a> JsxSource<'a, '_> {
         self.ctx.error(error);
     }
 
-    /// `<sometag __source={ { fileName: 'this/file.js', lineNumber: 10, columnNumber: 1 } } />`
+    /// `<sometag __source={ { fileName: 'this/file.js', lineNumber: 10,
+    /// columnNumber: 1 } } />`
     ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     fn add_source_attribute(
         &mut self,
@@ -132,13 +139,14 @@ impl<'a> JsxSource<'a, '_> {
         }
 
         let key = ctx.ast.jsx_attribute_name_identifier(SPAN, SOURCE);
-        // TODO: We shouldn't calculate line + column from scratch each time as it's expensive.
-        // Build a table of byte indexes of each line's start on first usage, and save it.
-        // Then calculate line and column from that.
+        // TODO: We shouldn't calculate line + column from scratch each time as it's
+        // expensive. Build a table of byte indexes of each line's start on
+        // first usage, and save it. Then calculate line and column from that.
         let (line, column) = self.get_line_column(elem.span.start);
         let object = self.get_source_object(line, column, ctx);
-        let value =
-            ctx.ast.jsx_attribute_value_expression_container(SPAN, JSXExpression::from(object));
+        let value = ctx
+            .ast
+            .jsx_attribute_value_expression_container(SPAN, JSXExpression::from(object));
         let attribute_item = ctx.ast.jsx_attribute_item_attribute(SPAN, key, Some(value));
         elem.attributes.push(attribute_item);
     }
@@ -162,7 +170,8 @@ impl<'a> JsxSource<'a, '_> {
         let line_number = {
             let key = ctx.ast.property_key_static_identifier(SPAN, "lineNumber");
             let value =
-                ctx.ast.expression_numeric_literal(SPAN, line as f64, None, NumberBase::Decimal);
+                ctx.ast
+                    .expression_numeric_literal(SPAN, line as f64, None, NumberBase::Decimal);
             ctx.ast
                 .object_property_kind_object_property(SPAN, kind, key, value, false, false, false)
         };
@@ -170,12 +179,15 @@ impl<'a> JsxSource<'a, '_> {
         let column_number = {
             let key = ctx.ast.property_key_static_identifier(SPAN, "columnNumber");
             let value =
-                ctx.ast.expression_numeric_literal(SPAN, column as f64, None, NumberBase::Decimal);
+                ctx.ast
+                    .expression_numeric_literal(SPAN, column as f64, None, NumberBase::Decimal);
             ctx.ast
                 .object_property_kind_object_property(SPAN, kind, key, value, false, false, false)
         };
 
-        let properties = ctx.ast.vec_from_array([filename, line_number, column_number]);
+        let properties = ctx
+            .ast
+            .vec_from_array([filename, line_number, column_number]);
         ctx.ast.expression_object(SPAN, properties)
     }
 
@@ -201,7 +213,8 @@ impl<'a> JsxSource<'a, '_> {
         let source_path = ctx.ast.atom(&self.ctx.source_path.to_string_lossy());
         let init = ctx.ast.expression_string_literal(SPAN, source_path, None);
         let decl =
-            ctx.ast.variable_declarator(SPAN, VariableDeclarationKind::Var, id, Some(init), false);
+            ctx.ast
+                .variable_declarator(SPAN, VariableDeclarationKind::Var, id, Some(init), false);
         Some(decl)
     }
 

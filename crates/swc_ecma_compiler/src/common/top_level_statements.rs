@@ -1,10 +1,12 @@
 //! Utility transform to add statements to top of program.
 //!
-//! `TopLevelStatementsStore` contains a `Vec<Statement>`. It is stored on `TransformCtx`.
+//! `TopLevelStatementsStore` contains a `Vec<Statement>`. It is stored on
+//! `TransformCtx`.
 //!
 //! `TopLevelStatements` transform inserts those statements at top of program.
 //!
-//! Other transforms can add statements to the store with `TopLevelStatementsStore::insert_statement`:
+//! Other transforms can add statements to the store with
+//! `TopLevelStatementsStore::insert_statement`:
 //!
 //! ```rs
 //! self.ctx.top_level_statements.insert_statement(stmt);
@@ -20,8 +22,8 @@ use crate::{
     state::TransformState,
 };
 
-/// Transform that inserts any statements which have been requested insertion via `TopLevelStatementsStore`
-/// to top of the program.
+/// Transform that inserts any statements which have been requested insertion
+/// via `TopLevelStatementsStore` to top of the program.
 ///
 /// Insertions are made after any existing `import` statements.
 ///
@@ -51,7 +53,9 @@ pub struct TopLevelStatementsStore<'a> {
 impl<'a> TopLevelStatementsStore<'a> {
     /// Create new `TopLevelStatementsStore`.
     pub fn new() -> Self {
-        Self { stmts: RefCell::new(vec![]) }
+        Self {
+            stmts: RefCell::new(vec![]),
+        }
     }
 
     /// Add a statement to be inserted at top of program.

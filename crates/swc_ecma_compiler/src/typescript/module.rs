@@ -1,12 +1,11 @@
 use oxc_allocator::TakeIn;
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_semantic::{Reference, SymbolFlags};
 use oxc_span::SPAN;
 use oxc_syntax::reference::ReferenceFlags;
 use oxc_traverse::Traverse;
 
 use super::diagnostics;
-
 use crate::{
     context::{TransformCtx, TraverseCtx},
     state::TransformState,
@@ -20,14 +19,18 @@ pub struct TypeScriptModule<'a, 'ctx> {
 
 impl<'a, 'ctx> TypeScriptModule<'a, 'ctx> {
     pub fn new(only_remove_type_imports: bool, ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { only_remove_type_imports, ctx }
+        Self {
+            only_remove_type_imports,
+            ctx,
+        }
     }
 }
 
 impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptModule<'a, '_> {
     fn exit_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        // In Babel, it will insert `use strict` in `@babel/transform-modules-commonjs` plugin.
-        // Once we have a commonjs plugin, we can consider moving this logic there.
+        // In Babel, it will insert `use strict` in `@babel/transform-modules-commonjs`
+        // plugin. Once we have a commonjs plugin, we can consider moving this
+        // logic there.
         if self.ctx.module.is_commonjs() {
             let has_use_strict = program.directives.iter().any(Directive::is_use_strict);
             if !has_use_strict {
@@ -60,9 +63,10 @@ impl<'a> TypeScriptModule<'a, '_> {
         ctx: &mut TraverseCtx<'a>,
     ) -> Statement<'a> {
         if self.ctx.module.is_esm() {
-            self.ctx.error(diagnostics::export_assignment_cannot_bed_used_in_esm(
-                export_assignment.span,
-            ));
+            self.ctx
+                .error(diagnostics::export_assignment_cannot_bed_used_in_esm(
+                    export_assignment.span,
+                ));
         }
 
         // module.exports
@@ -70,16 +74,19 @@ impl<'a> TypeScriptModule<'a, '_> {
             let reference_id =
                 ctx.create_reference_in_current_scope("module", ReferenceFlags::Read);
             let reference =
-                ctx.ast.alloc_identifier_reference_with_reference_id(SPAN, "module", reference_id);
+                ctx.ast
+                    .alloc_identifier_reference_with_reference_id(SPAN, "module", reference_id);
             let object = Expression::Identifier(reference);
             let property = ctx.ast.identifier_name(SPAN, "exports");
-            ctx.ast.member_expression_static(SPAN, object, property, false)
+            ctx.ast
+                .member_expression_static(SPAN, object, property, false)
         };
 
         let left = AssignmentTarget::from(SimpleAssignmentTarget::from(module_exports));
         let right = export_assignment.expression.take_in(ctx.ast);
         let assignment_expr =
-            ctx.ast.expression_assignment(SPAN, AssignmentOperator::Assign, left, right);
+            ctx.ast
+                .expression_assignment(SPAN, AssignmentOperator::Assign, left, right);
         ctx.ast.statement_expression(SPAN, assignment_expr)
     }
 
@@ -88,7 +95,6 @@ impl<'a> TypeScriptModule<'a, '_> {
     /// ```TypeScript
     /// import module = require('module');
     /// import AliasModule = LongNameModule;
-    ///
     /// ```JavaScript
     /// const module = require('module');
     /// const AliasModule = LongNameModule;
@@ -100,18 +106,23 @@ impl<'a> TypeScriptModule<'a, '_> {
     ) -> Option<Declaration<'a>> {
         if !self.only_remove_type_imports
             && !ctx.parent().is_export_named_declaration()
-            && ctx.scoping().get_resolved_references(decl.id.symbol_id()).all(Reference::is_type)
+            && ctx
+                .scoping()
+                .get_resolved_references(decl.id.symbol_id())
+                .all(Reference::is_type)
         {
-            // No value reference, we will remove this declaration in `TypeScriptAnnotations`
+            // No value reference, we will remove this declaration in
+            // `TypeScriptAnnotations`
             match &mut decl.module_reference {
                 module_reference @ match_ts_type_name!(TSModuleReference) => {
-                    if let Some(ident) =
-                        module_reference.to_ts_type_name().get_identifier_reference()
+                    if let Some(ident) = module_reference
+                        .to_ts_type_name()
+                        .get_identifier_reference()
                     {
                         let reference = ctx.scoping_mut().get_reference_mut(ident.reference_id());
                         // The binding of TSImportEqualsDeclaration has treated as a type reference,
-                        // so an identifier reference that it referenced also should be treated as a type reference.
-                        // `import TypeBinding = X.Y.Z`
+                        // so an identifier reference that it referenced also should be treated as a
+                        // type reference. `import TypeBinding = X.Y.Z`
                         //                       ^ `X` should be treated as a type reference.
                         let flags = reference.flags_mut();
                         debug_assert_eq!(*flags, ReferenceFlags::Read);
@@ -146,27 +157,34 @@ impl<'a> TypeScriptModule<'a, '_> {
                 flags.insert(SymbolFlags::BlockScopedVariable | SymbolFlags::ConstVariable);
 
                 if self.ctx.module.is_esm() {
-                    self.ctx.error(diagnostics::import_equals_cannot_be_used_in_esm(decl_span));
+                    self.ctx
+                        .error(diagnostics::import_equals_cannot_be_used_in_esm(decl_span));
                 }
 
-                let require_symbol_id =
-                    ctx.scoping().find_binding(ctx.current_scope_id(), "require");
+                let require_symbol_id = ctx
+                    .scoping()
+                    .find_binding(ctx.current_scope_id(), "require");
                 let callee = ctx.create_ident_expr(
                     SPAN,
                     Atom::from("require"),
                     require_symbol_id,
                     ReferenceFlags::Read,
                 );
-                let arguments =
-                    ctx.ast.vec1(Argument::StringLiteral(ctx.alloc(reference.expression.clone())));
+                let arguments = ctx.ast.vec1(Argument::StringLiteral(
+                    ctx.alloc(reference.expression.clone()),
+                ));
                 (
                     VariableDeclarationKind::Const,
-                    ctx.ast.expression_call(SPAN, callee, NONE, arguments, false),
+                    ctx.ast
+                        .expression_call(SPAN, callee, NONE, arguments, false),
                 )
             }
         };
         let decls =
-            ctx.ast.vec1(ctx.ast.variable_declarator(SPAN, kind, binding, Some(init), false));
+            ctx.ast.vec1(
+                ctx.ast
+                    .variable_declarator(SPAN, kind, binding, Some(init), false),
+            );
 
         Some(ctx.ast.declaration_variable(SPAN, kind, decls, false))
     }

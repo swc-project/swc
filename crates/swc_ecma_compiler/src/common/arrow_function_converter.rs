@@ -1,6 +1,7 @@
 //! Arrow Functions Converter
 //!
-//! This converter transforms arrow functions (`() => {}`) to function expressions (`function () {}`).
+//! This converter transforms arrow functions (`() => {}`) to function
+//! expressions (`function () {}`).
 //!
 //! ## Example
 //!
@@ -89,11 +90,9 @@
 
 use compact_str::CompactString;
 use indexmap::IndexMap;
-use rustc_hash::{FxBuildHasher, FxHashSet};
-
 use oxc_allocator::{Box as ArenaBox, TakeIn, Vec as ArenaVec};
-use oxc_ast::{NONE, ast::*};
-use oxc_ast_visit::{VisitMut, walk_mut::walk_expression};
+use oxc_ast::{ast::*, NONE};
+use oxc_ast_visit::{walk_mut::walk_expression, VisitMut};
 use oxc_data_structures::stack::{NonEmptyStack, SparseStack};
 use oxc_semantic::{ReferenceFlags, SymbolId};
 use oxc_span::{GetSpan, SPAN};
@@ -102,9 +101,12 @@ use oxc_syntax::{
     symbol::SymbolFlags,
 };
 use oxc_traverse::{Ancestor, BoundIdentifier, Traverse};
+use rustc_hash::{FxBuildHasher, FxHashSet};
 
-use crate::{EnvOptions, utils::ast_builder::wrap_expression_in_arrow_function_iife};
-use crate::{context::TraverseCtx, state::TransformState};
+use crate::{
+    context::TraverseCtx, state::TransformState,
+    utils::ast_builder::wrap_expression_in_arrow_function_iife, EnvOptions,
+};
 
 type FxIndexMap<K, V> = IndexMap<K, V, FxBuildHasher>;
 
@@ -174,8 +176,8 @@ impl ArrowFunctionConverter<'_> {
 }
 
 impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
-    // Note: No visitors for `TSModuleBlock` because `this` is not legal in TS module blocks.
-    // <https://www.typescriptlang.org/play/?#code/HYQwtgpgzgDiDGEAEAxA9mpBvAsAKCSXjWCgBckANJAXiQAoBKWgPiTIAsBLKAbnwC++fGDQATAK4AbZACEQAJ2z5CxUhWp0mrdtz6D8QA>
+    // Note: No visitors for `TSModuleBlock` because `this` is not legal in TS
+    // module blocks. <https://www.typescriptlang.org/play/?#code/HYQwtgpgzgDiDGEAEAxA9mpBvAsAKCSXjWCgBckANJAXiQAoBKWgPiTIAsBLKAbnwC++fGDQATAK4AbZACEQAJ2z5CxUhWp0mrdtz6D8QA>
 
     /// Insert `var _this = this;` for the global scope.
     fn exit_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -200,8 +202,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
         debug_assert!(self.arguments_var_stack.is_exhausted());
         debug_assert!(self.arguments_var_stack.first().is_none());
         debug_assert!(self.constructor_super_stack.is_exhausted());
-        // TODO: This assertion currently failing because we don't handle `super` in arrow functions
-        // in class static properties correctly.
+        // TODO: This assertion currently failing because we don't handle `super` in
+        // arrow functions in class static properties correctly.
         // e.g. `class C { static f = () => super.prop; }`
         // debug_assert!(self.constructor_super_stack.first() == &false);
         debug_assert!(self.super_methods_stack.is_exhausted());
@@ -270,7 +272,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
     ) {
         if self.is_async_only() {
             let previous = *self.arguments_needs_transform_stack.last();
-            self.arguments_needs_transform_stack.push(previous || arrow.r#async);
+            self.arguments_needs_transform_stack
+                .push(previous || arrow.r#async);
 
             if Self::in_class_property_definition_value(ctx) {
                 self.this_var_stack.push(None);
@@ -387,9 +390,9 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
         }
 
         let new_expr = match expr {
-            Expression::ThisExpression(this) => {
-                self.get_this_identifier(this.span, ctx).map(Expression::Identifier)
-            }
+            Expression::ThisExpression(this) => self
+                .get_this_identifier(this.span, ctx)
+                .map(Expression::Identifier),
             Expression::Super(_) => {
                 *self.constructor_super_stack.last_mut() = true;
                 return;
@@ -402,7 +405,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
                 self.transform_member_expression_for_super(expr, None, ctx)
             }
             Expression::ArrowFunctionExpression(arrow) => {
-                // TODO: If the async arrow function without `this` or `super` usage, we can skip this step.
+                // TODO: If the async arrow function without `this` or `super` usage, we can
+                // skip this step.
                 if self.is_async_only()
                     && arrow.r#async
                     && Self::in_class_property_definition_value(ctx)
@@ -421,7 +425,10 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
                     //   prop = (() => { return async () => {} })();
                     // }
                     // ```
-                    Some(wrap_expression_in_arrow_function_iife(expr.take_in(ctx.ast), ctx))
+                    Some(wrap_expression_in_arrow_function_iife(
+                        expr.take_in(ctx.ast),
+                        ctx,
+                    ))
                 } else {
                     return;
                 }
@@ -440,8 +447,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
         }
 
         if let Expression::ArrowFunctionExpression(arrow_function_expr) = expr {
-            // TODO: Here should return early as long as the async-to-generator plugin is enabled,
-            // but currently we don't know which plugin is enabled.
+            // TODO: Here should return early as long as the async-to-generator plugin is
+            // enabled, but currently we don't know which plugin is enabled.
             if self.is_async_only() || arrow_function_expr.r#async {
                 return;
             }
@@ -462,8 +469,9 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
         ident: &mut IdentifierReference<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        // Do this check here rather than in `transform_identifier_reference_for_arguments`
-        // so that the fast path for "no transform required" doesn't require a function call
+        // Do this check here rather than in
+        // `transform_identifier_reference_for_arguments` so that the fast path
+        // for "no transform required" doesn't require a function call
         let arguments_needs_transform = *self.arguments_needs_transform_stack.last();
         if arguments_needs_transform {
             self.transform_identifier_reference_for_arguments(ident, ctx);
@@ -477,8 +485,9 @@ impl<'a> Traverse<'a, TransformState<'a>> for ArrowFunctionConverter<'a> {
         ident: &mut BindingIdentifier<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        // Do this check here rather than in `transform_binding_identifier_for_arguments`
-        // so that the fast path for "no transform required" doesn't require a function call
+        // Do this check here rather than in
+        // `transform_binding_identifier_for_arguments` so that the fast path
+        // for "no transform required" doesn't require a function call
         let arguments_needs_transform = *self.arguments_needs_transform_stack.last();
         if arguments_needs_transform {
             self.transform_binding_identifier_for_arguments(ident, ctx);
@@ -492,7 +501,8 @@ impl<'a> ArrowFunctionConverter<'a> {
         self.mode == ArrowFunctionConverterMode::Disabled
     }
 
-    /// Check if arrow function conversion has enabled for transform async arrow functions
+    /// Check if arrow function conversion has enabled for transform async arrow
+    /// functions
     #[inline]
     fn is_async_only(&self) -> bool {
         self.mode == ArrowFunctionConverterMode::AsyncOnly
@@ -506,10 +516,10 @@ impl<'a> ArrowFunctionConverter<'a> {
         // Find arrow function we are currently in (if we are)
         let arrow_scope_id = self.get_scope_id_from_this_affected_block(ctx)?;
 
-        // TODO(improve-on-babel): We create a new UID for every scope. This is pointless, as only one
-        // `this` can be in scope at a time. We could create a single `_this` UID and reuse it in each
-        // scope. But this does not match output for some of Babel's test cases.
-        // <https://github.com/oxc-project/oxc/pull/5840>
+        // TODO(improve-on-babel): We create a new UID for every scope. This is
+        // pointless, as only one `this` can be in scope at a time. We could
+        // create a single `_this` UID and reuse it in each scope. But this does
+        // not match output for some of Babel's test cases. <https://github.com/oxc-project/oxc/pull/5840>
         let this_var = self.this_var_stack.last_or_init(|| {
             let target_scope_id = ctx
                 .scoping()
@@ -525,20 +535,25 @@ impl<'a> ArrowFunctionConverter<'a> {
                 .unwrap();
             ctx.generate_uid("this", target_scope_id, SymbolFlags::FunctionScopedVariable)
         });
-        // TODO: Add `BoundIdentifier::create_spanned_read_reference_boxed` method (and friends)
-        // for this use case, so we can avoid `alloc()` call here.
-        // I (@overlookmotel) doubt it'd make a perf difference, but it'd be cleaner code.
-        Some(ctx.ast.alloc(this_var.create_spanned_read_reference(span, ctx)))
+        // TODO: Add `BoundIdentifier::create_spanned_read_reference_boxed` method (and
+        // friends) for this use case, so we can avoid `alloc()` call here.
+        // I (@overlookmotel) doubt it'd make a perf difference, but it'd be cleaner
+        // code.
+        Some(
+            ctx.ast
+                .alloc(this_var.create_spanned_read_reference(span, ctx)),
+        )
     }
 
-    /// Traverses upward through ancestor nodes to find the `ScopeId` of the block
-    /// that potential affects the `this` expression.
+    /// Traverses upward through ancestor nodes to find the `ScopeId` of the
+    /// block that potential affects the `this` expression.
     fn get_scope_id_from_this_affected_block(&self, ctx: &TraverseCtx<'a>) -> Option<ScopeId> {
         // `this` inside a class resolves to `this` *outside* the class in:
         // * `extends` clause
         // * Computed method key
         // * Computed property key
-        // * Computed accessor property key (but `this` in this position is not legal TS)
+        // * Computed accessor property key (but `this` in this position is not legal
+        //   TS)
         //
         // ```js
         // // All these `this` refer to global `this`
@@ -552,7 +567,8 @@ impl<'a> ArrowFunctionConverter<'a> {
         // }
         // ```
         //
-        // `this` resolves to the class / class instance (i.e. `this` defined *within* the class) in:
+        // `this` resolves to the class / class instance (i.e. `this` defined *within*
+        // the class) in:
         // * Method body
         // * Method param
         // * Property value
@@ -643,7 +659,9 @@ impl<'a> ArrowFunctionConverter<'a> {
         if arrow_function_expr.expression {
             assert!(body.statements.len() == 1);
             let stmt = body.statements.pop().unwrap();
-            let Statement::ExpressionStatement(stmt) = stmt else { unreachable!() };
+            let Statement::ExpressionStatement(stmt) = stmt else {
+                unreachable!()
+            };
             let stmt = stmt.unbox();
             let return_statement = ctx.ast.statement_return(stmt.span, Some(stmt.expression));
             body.statements.push(return_statement);
@@ -672,8 +690,8 @@ impl<'a> ArrowFunctionConverter<'a> {
         match ancestor {
             // `class A { async foo() {} }`
             Ancestor::MethodDefinitionValue(_) => true,
-            // Only `({ async foo() {} })` does not include non-method like `({ foo: async function() {} })`,
-            // because it's just a property with a function value
+            // Only `({ async foo() {} })` does not include non-method like `({ foo: async
+            // function() {} })`, because it's just a property with a function value
             Ancestor::ObjectPropertyValue(property) => *property.method(),
             _ => false,
         }
@@ -695,21 +713,24 @@ impl<'a> ArrowFunctionConverter<'a> {
     /// Transforms a `MemberExpression` whose object is a `super` expression.
     ///
     /// In the [`AsyncToGenerator`](crate::es2017::AsyncToGenerator) and
-    /// [`AsyncGeneratorFunctions`](crate::es2018::AsyncGeneratorFunctions) plugins,
-    /// we move the body of an async method to a new generator function. This can cause
-    /// `super` expressions to appear in unexpected places, leading to syntax errors.
+    /// [`AsyncGeneratorFunctions`](crate::es2018::AsyncGeneratorFunctions)
+    /// plugins, we move the body of an async method to a new generator
+    /// function. This can cause `super` expressions to appear in unexpected
+    /// places, leading to syntax errors.
     ///
     /// ## How it works
     ///
-    /// To correctly handle `super` expressions, we need to ensure that they remain
-    /// within the async method's body.
+    /// To correctly handle `super` expressions, we need to ensure that they
+    /// remain within the async method's body.
     ///
-    /// This function modifies the `super` expression to call a new arrow function
-    /// whose body includes the original `super` expression. The arrow function's name
-    /// is generated based on the property name, such as `_superprop_getProperty`.
+    /// This function modifies the `super` expression to call a new arrow
+    /// function whose body includes the original `super` expression. The
+    /// arrow function's name is generated based on the property name, such
+    /// as `_superprop_getProperty`.
     ///
-    /// The `super` expressions are temporarily stored in [`Self::super_methods_stack`]
-    /// and eventually inserted by [`Self::insert_variable_statement_at_the_top_of_statements`].`
+    /// The `super` expressions are temporarily stored in
+    /// [`Self::super_methods_stack`] and eventually inserted by
+    /// [`Self::insert_variable_statement_at_the_top_of_statements`].`
     ///
     /// ## Example
     ///
@@ -766,12 +787,19 @@ impl<'a> ArrowFunctionConverter<'a> {
         };
 
         let is_assignment = assign_value.is_some();
-        let key = SuperMethodKey { is_assignment, property };
+        let key = SuperMethodKey {
+            is_assignment,
+            property,
+        };
         let super_info = super_methods.entry(key).or_insert_with(|| {
             let binding_name = Self::generate_super_binding_name(is_assignment, property);
             let binding = ctx
                 .generate_uid_in_current_scope(&binding_name, SymbolFlags::FunctionScopedVariable);
-            SuperMethodInfo { binding, super_expr: init, is_computed: argument.is_some() }
+            SuperMethodInfo {
+                binding,
+                super_expr: init,
+                is_computed: argument.is_some(),
+            }
         });
 
         let callee = super_info.binding.create_read_expression(ctx);
@@ -786,11 +814,14 @@ impl<'a> ArrowFunctionConverter<'a> {
         if let Some(assign_value) = assign_value {
             arguments.push(Argument::from(assign_value.take_in(ctx.ast)));
         }
-        let call = ctx.ast.expression_call(SPAN, callee, NONE, arguments, false);
+        let call = ctx
+            .ast
+            .expression_call(SPAN, callee, NONE, arguments, false);
         Some(call)
     }
 
-    /// Transform a `CallExpression` whose callee is a `super` member expression.
+    /// Transform a `CallExpression` whose callee is a `super` member
+    /// expression.
     ///
     /// This function modifies calls to `super` methods within arrow functions
     /// to ensure the correct `this` context is maintained after transformation.
@@ -824,15 +855,22 @@ impl<'a> ArrowFunctionConverter<'a> {
         arguments.extend(call.arguments.take_in(ctx.ast));
 
         let property = ctx.ast.identifier_name(SPAN, "call");
-        let callee = ctx.ast.member_expression_static(SPAN, object, property, false);
+        let callee = ctx
+            .ast
+            .member_expression_static(SPAN, object, property, false);
         let callee = Expression::from(callee);
-        Some(ctx.ast.expression_call(SPAN, callee, NONE, arguments, false))
+        Some(
+            ctx.ast
+                .expression_call(SPAN, callee, NONE, arguments, false),
+        )
     }
 
-    /// Transform an `AssignmentExpression` whose assignment target is a `super` member expression.
+    /// Transform an `AssignmentExpression` whose assignment target is a `super`
+    /// member expression.
     ///
-    /// In this function, we replace assignments to call a new arrow function whose body includes
-    /// [AssignmentExpression::left], and use [AssignmentExpression::right] as arguments for the call expression.
+    /// In this function, we replace assignments to call a new arrow function
+    /// whose body includes [AssignmentExpression::left], and use
+    /// [AssignmentExpression::right] as arguments for the call expression.
     ///
     /// ## Example
     ///
@@ -853,7 +891,10 @@ impl<'a> ArrowFunctionConverter<'a> {
     ) -> Option<Expression<'a>> {
         // Check if the left of the assignment is a `super` member expression.
         if !*self.super_needs_transform_stack.last()
-            || !assignment.left.as_member_expression().is_some_and(|m| m.object().is_super())
+            || !assignment
+                .left
+                .as_member_expression()
+                .is_some_and(|m| m.object().is_super())
         {
             return None;
         }
@@ -869,8 +910,9 @@ impl<'a> ArrowFunctionConverter<'a> {
 
     /// Adjust the scope of the binding.
     ///
-    /// Since scope can be moved or deleted, we need to ensure the scope of the binding
-    /// same as the target scope, if it's mismatch, we need to move the binding to the target scope.
+    /// Since scope can be moved or deleted, we need to ensure the scope of the
+    /// binding same as the target scope, if it's mismatch, we need to move
+    /// the binding to the target scope.
     fn adjust_binding_scope(
         target_scope_id: ScopeId,
         binding: &BoundIdentifier<'a>,
@@ -878,31 +920,40 @@ impl<'a> ArrowFunctionConverter<'a> {
     ) {
         let original_scope_id = ctx.scoping().symbol_scope_id(binding.symbol_id);
         if target_scope_id != original_scope_id {
-            ctx.scoping_mut().set_symbol_scope_id(binding.symbol_id, target_scope_id);
-            ctx.scoping_mut().move_binding(original_scope_id, target_scope_id, &binding.name);
+            ctx.scoping_mut()
+                .set_symbol_scope_id(binding.symbol_id, target_scope_id);
+            ctx.scoping_mut()
+                .move_binding(original_scope_id, target_scope_id, &binding.name);
         }
     }
 
-    /// Generate a variable declarator for the super method by the given [`SuperMethodInfo`].
+    /// Generate a variable declarator for the super method by the given
+    /// [`SuperMethodInfo`].
     fn generate_super_method(
         target_scope_id: ScopeId,
         super_method: SuperMethodInfo<'a>,
         is_assignment: bool,
         ctx: &mut TraverseCtx<'a>,
     ) -> VariableDeclarator<'a> {
-        let SuperMethodInfo { binding, super_expr: mut init, is_computed } = super_method;
+        let SuperMethodInfo {
+            binding,
+            super_expr: mut init,
+            is_computed,
+        } = super_method;
 
         Self::adjust_binding_scope(target_scope_id, &binding, ctx);
         let scope_id =
             ctx.create_child_scope(target_scope_id, ScopeFlags::Arrow | ScopeFlags::Function);
 
-        let mut items =
-            ctx.ast.vec_with_capacity(usize::from(is_computed) + usize::from(is_assignment));
+        let mut items = ctx
+            .ast
+            .vec_with_capacity(usize::from(is_computed) + usize::from(is_assignment));
 
         // Create a parameter for the prop if it's a computed member expression.
         if is_computed {
-            // TODO(improve-on-babel): No need for UID here. Just `prop` would be fine as there's nothing
-            // in `prop => super[prop]` or `(prop, value) => super[prop] = value` which can clash.
+            // TODO(improve-on-babel): No need for UID here. Just `prop` would be fine as
+            // there's nothing in `prop => super[prop]` or `(prop, value) =>
+            // super[prop] = value` which can clash.
             let param_binding =
                 ctx.generate_uid("prop", scope_id, SymbolFlags::FunctionScopedVariable);
             let param = ctx.ast.formal_parameter(
@@ -926,8 +977,9 @@ impl<'a> ArrowFunctionConverter<'a> {
 
         // Create a parameter for the value if it's an assignment.
         if is_assignment {
-            // TODO(improve-on-babel): No need for UID here. Just `value` would be fine as there's nothing
-            // in `value => super.prop = value` or `(prop, value) => super[prop] = value` which can clash.
+            // TODO(improve-on-babel): No need for UID here. Just `value` would be fine as
+            // there's nothing in `value => super.prop = value` or `(prop,
+            // value) => super[prop] = value` which can clash.
             let param_binding =
                 ctx.generate_uid("value", scope_id, SymbolFlags::FunctionScopedVariable);
             let param = ctx.ast.formal_parameter(
@@ -944,7 +996,9 @@ impl<'a> ArrowFunctionConverter<'a> {
             let left = SimpleAssignmentTarget::from(init.into_member_expression());
             let left = AssignmentTarget::from(left);
             let right = param_binding.create_read_expression(ctx);
-            init = ctx.ast.expression_assignment(SPAN, AssignmentOperator::Assign, left, right);
+            init = ctx
+                .ast
+                .expression_assignment(SPAN, AssignmentOperator::Assign, left, right);
         }
 
         let params = ctx.ast.formal_parameters(
@@ -955,9 +1009,11 @@ impl<'a> ArrowFunctionConverter<'a> {
         );
         let statements = ctx.ast.vec1(ctx.ast.statement_expression(SPAN, init));
         let body = ctx.ast.function_body(SPAN, ctx.ast.vec(), statements);
-        let init = ctx.ast.expression_arrow_function_with_scope_id_and_pure_and_pife(
-            SPAN, true, false, NONE, params, NONE, body, scope_id, false, false,
-        );
+        let init = ctx
+            .ast
+            .expression_arrow_function_with_scope_id_and_pure_and_pife(
+                SPAN, true, false, NONE, params, NONE, body, scope_id, false, false,
+            );
         ctx.ast.variable_declarator(
             SPAN,
             VariableDeclarationKind::Var,
@@ -981,7 +1037,8 @@ impl<'a> ArrowFunctionConverter<'a> {
 
         // Capitalize the first letter of the property name.
         // Fast path for ASCII (very common case).
-        // TODO(improve-on-babel): We could just use format `superprop_get_prop` and avoid capitalizing.
+        // TODO(improve-on-babel): We could just use format `superprop_get_prop` and
+        // avoid capitalizing.
         if first_byte.is_ascii() {
             // We know `IdentifierName`s begin with `a-z`, `A-Z`, `_` or `$` if ASCII,
             // so can use a slightly cheaper conversion than `u8::to_ascii_uppercase`.
@@ -1016,10 +1073,12 @@ impl<'a> ArrowFunctionConverter<'a> {
     /// Rename the `arguments` symbol to a new name.
     fn rename_arguments_symbol(symbol_id: SymbolId, name: Atom<'a>, ctx: &mut TraverseCtx<'a>) {
         let scope_id = ctx.scoping().symbol_scope_id(symbol_id);
-        ctx.scoping_mut().rename_symbol(symbol_id, scope_id, name.as_str());
+        ctx.scoping_mut()
+            .rename_symbol(symbol_id, scope_id, name.as_str());
     }
 
-    /// Transform the identifier reference for `arguments` if it's affected after transformation.
+    /// Transform the identifier reference for `arguments` if it's affected
+    /// after transformation.
     ///
     /// See [`Self::transform_member_expression_for_super`] for the reason.
     fn transform_identifier_reference_for_arguments(
@@ -1043,35 +1102,45 @@ impl<'a> ArrowFunctionConverter<'a> {
                 BoundIdentifier::new(arguments_name, symbol_id)
             } else {
                 // We cannot determine the final scope ID of the `arguments` variable insertion,
-                // because the `arguments` variable will be inserted to a new scope which haven't been created yet,
-                // so we temporary use root scope id as the fake target scope ID.
+                // because the `arguments` variable will be inserted to a new scope which
+                // haven't been created yet, so we temporary use root scope id
+                // as the fake target scope ID.
                 let target_scope_id = ctx.scoping().root_scope_id();
-                ctx.generate_uid("arguments", target_scope_id, SymbolFlags::FunctionScopedVariable)
+                ctx.generate_uid(
+                    "arguments",
+                    target_scope_id,
+                    SymbolFlags::FunctionScopedVariable,
+                )
             }
         });
 
-        // If no symbol ID, it means there is no variable named `arguments` in the scope.
-        // The following code is just to sync semantics.
+        // If no symbol ID, it means there is no variable named `arguments` in the
+        // scope. The following code is just to sync semantics.
         if symbol_id.is_none() {
             let reference = ctx.scoping_mut().get_reference_mut(reference_id);
             reference.set_symbol_id(binding.symbol_id);
-            ctx.scoping_mut().delete_root_unresolved_reference(&ident.name, reference_id);
-            ctx.scoping_mut().add_resolved_reference(binding.symbol_id, reference_id);
+            ctx.scoping_mut()
+                .delete_root_unresolved_reference(&ident.name, reference_id);
+            ctx.scoping_mut()
+                .add_resolved_reference(binding.symbol_id, reference_id);
         }
 
         ident.name = binding.name;
     }
 
-    /// Transform the binding identifier for `arguments` if it's affected after transformation.
+    /// Transform the binding identifier for `arguments` if it's affected after
+    /// transformation.
     ///
-    /// The main work is to rename the `arguments` binding identifier to a new name.
+    /// The main work is to rename the `arguments` binding identifier to a new
+    /// name.
     fn transform_binding_identifier_for_arguments(
         &mut self,
         ident: &mut BindingIdentifier<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
         // `arguments` is not allowed to be defined in strict mode.
-        // Check if strict mode first to avoid the more expensive string comparison check if possible.
+        // Check if strict mode first to avoid the more expensive string comparison
+        // check if possible.
         if ctx.current_scope_flags().is_strict_mode() || &ident.name != "arguments" {
             return;
         }
@@ -1096,8 +1165,12 @@ impl<'a> ArrowFunctionConverter<'a> {
     ) -> Option<VariableDeclarator<'a>> {
         let arguments_var = arguments_var?;
 
-        // Just a renamed `arguments` variable, we don't need to create a new variable declaration.
-        if self.renamed_arguments_symbol_ids.contains(&arguments_var.symbol_id) {
+        // Just a renamed `arguments` variable, we don't need to create a new variable
+        // declaration.
+        if self
+            .renamed_arguments_symbol_ids
+            .contains(&arguments_var.symbol_id)
+        {
             return None;
         }
 
@@ -1111,7 +1184,9 @@ impl<'a> ArrowFunctionConverter<'a> {
         if ctx.scoping().root_scope_id() == target_scope_id {
             let argument =
                 ctx.create_unbound_ident_expr(SPAN, Atom::from("arguments"), ReferenceFlags::Read);
-            let typeof_arguments = ctx.ast.expression_unary(SPAN, UnaryOperator::Typeof, argument);
+            let typeof_arguments = ctx
+                .ast
+                .expression_unary(SPAN, UnaryOperator::Typeof, argument);
             let undefined_literal = ctx.ast.expression_string_literal(SPAN, "undefined", None);
             let test = ctx.ast.expression_binary(
                 SPAN,
@@ -1119,7 +1194,9 @@ impl<'a> ArrowFunctionConverter<'a> {
                 BinaryOperator::StrictEquality,
                 undefined_literal,
             );
-            init = ctx.ast.expression_conditional(SPAN, test, ctx.ast.void_0(SPAN), init);
+            init = ctx
+                .ast
+                .expression_conditional(SPAN, test, ctx.ast.void_0(SPAN), init);
         }
 
         Some(ctx.ast.variable_declarator(
@@ -1172,8 +1249,9 @@ impl<'a> ArrowFunctionConverter<'a> {
         if let Some(this_var) = this_var {
             let is_constructor = ctx.scoping().scope_flags(target_scope_id).is_constructor();
             let init = if is_constructor && *self.constructor_super_stack.last() {
-                // `super()` is called in the constructor body, so we need to insert `_this = this;`
-                // after `super()` call. Because `this` is not available before `super()` call.
+                // `super()` is called in the constructor body, so we need to insert `_this =
+                // this;` after `super()` call. Because `this` is not available
+                // before `super()` call.
                 ConstructorBodyThisAfterSuperInserter::new(&this_var, ctx)
                     .visit_statements(statements);
                 None
@@ -1214,7 +1292,10 @@ struct ConstructorBodyThisAfterSuperInserter<'a, 'v> {
 
 impl<'a, 'v> ConstructorBodyThisAfterSuperInserter<'a, 'v> {
     fn new(this_var_binding: &'v BoundIdentifier<'a>, ctx: &'v mut TraverseCtx<'a>) -> Self {
-        Self { this_var_binding, ctx }
+        Self {
+            this_var_binding,
+            ctx,
+        }
     }
 }
 
@@ -1300,7 +1381,8 @@ impl<'a> VisitMut<'a> for ConstructorBodyThisAfterSuperInserter<'a, '_> {
     }
 
     /// `const A = super()` -> `const A = (super(), _this = this);`
-    // `#[inline]` to avoid a function call for all `Expressions` which are not `super()` (vast majority)
+    // `#[inline]` to avoid a function call for all `Expressions` which are not `super()` (vast
+    // majority)
     #[inline]
     fn visit_expression(&mut self, expr: &mut Expression<'a>) {
         if expr.is_super_call_expression() {
@@ -1316,7 +1398,10 @@ impl<'a> ConstructorBodyThisAfterSuperInserter<'a, '_> {
     fn transform_super_call_expression(&mut self, expr: &mut Expression<'a>) {
         let assignment = self.create_assignment_to_this_temp_var();
         let span = expr.span();
-        let exprs = self.ctx.ast.vec_from_array([expr.take_in(self.ctx.ast), assignment]);
+        let exprs = self
+            .ctx
+            .ast
+            .vec_from_array([expr.take_in(self.ctx.ast), assignment]);
         *expr = self.ctx.ast.expression_sequence(span, exprs);
     }
 

@@ -39,8 +39,9 @@
 ///
 /// ### Compared to TypeScript
 ///
-/// We are lacking a kind of type inference ability that TypeScript has, so we are not able to determine
-/// the exactly type of the type reference. See [`LegacyDecoratorMetadata::serialize_type_reference_node`] does.
+/// We are lacking a kind of type inference ability that TypeScript has, so we
+/// are not able to determine the exactly type of the type reference. See
+/// [`LegacyDecoratorMetadata::serialize_type_reference_node`] does.
 ///
 /// For example:
 ///
@@ -82,8 +83,10 @@
 /// ### Compared to SWC
 ///
 /// SWC also has the above limitation, considering that SWC has been adopted in [NestJS](https://docs.nestjs.com/recipes/swc#jest--swc),
-/// so the limitation may not be a problem. In addition, SWC provides additional support for inferring enum members, which we currently
-/// do not have. We haven't dived into how NestJS uses it, so we don't know if it matters, thus we may leave it until we receive feedback.
+/// so the limitation may not be a problem. In addition, SWC provides additional
+/// support for inferring enum members, which we currently do not have. We
+/// haven't dived into how NestJS uses it, so we don't know if it matters, thus
+/// we may leave it until we receive feedback.
 ///
 /// ## References
 /// * TypeScript's [emitDecoratorMetadata](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
@@ -96,16 +99,17 @@ use oxc_traverse::{MaybeBoundIdentifier, Traverse};
 use rustc_hash::FxHashMap;
 
 use crate::{
-    Helper,
     context::{TransformCtx, TraverseCtx},
     state::TransformState,
     utils::ast_builder::create_property_access,
+    Helper,
 };
 
 /// Type of an enum inferred from its members
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum EnumType {
-    /// All members are string literals or template literals with string-only expressions
+    /// All members are string literals or template literals with string-only
+    /// expressions
     String,
     /// All members are numeric, bigint, unary numeric, or auto-incremented
     Number,
@@ -119,7 +123,8 @@ pub(super) struct MethodMetadata<'a> {
     pub r#type: Expression<'a>,
     /// The `design:paramtypes` metadata expression
     pub param_types: Expression<'a>,
-    /// The `design:returntype` metadata expression (optional, omitted for getters/setters)
+    /// The `design:returntype` metadata expression (optional, omitted for
+    /// getters/setters)
     pub return_type: Option<Expression<'a>>,
 }
 
@@ -127,16 +132,18 @@ pub struct LegacyDecoratorMetadata<'a, 'ctx> {
     ctx: &'ctx TransformCtx<'a>,
     /// Stack of method metadata.
     ///
-    /// Only the method that needs to be pushed onto a stack is the method metadata,
-    /// which should be inserted after all real decorators. However, method parameters
-    /// will be processed before the metadata generation, so we need to temporarily store
-    /// them in a stack and pop them when in exit_method_definition.
+    /// Only the method that needs to be pushed onto a stack is the method
+    /// metadata, which should be inserted after all real decorators.
+    /// However, method parameters will be processed before the metadata
+    /// generation, so we need to temporarily store them in a stack and pop
+    /// them when in exit_method_definition.
     method_metadata_stack: SparseStack<MethodMetadata<'a>>,
     /// Stack of constructor metadata expressions, each expression
     /// is the `design:paramtypes`.
     ///
-    /// Same as `method_metadata_stack`, but for constructors. Because the constructor is specially treated
-    /// in the class, we need to handle it in `exit_class` rather than `exit_method_definition`.
+    /// Same as `method_metadata_stack`, but for constructors. Because the
+    /// constructor is specially treated in the class, we need to handle it
+    /// in `exit_class` rather than `exit_method_definition`.
     constructor_metadata_stack: SparseStack<Expression<'a>>,
     enum_types: FxHashMap<SymbolId, EnumType>,
 }
@@ -165,13 +172,14 @@ impl<'a> Traverse<'a, TransformState<'a>> for LegacyDecoratorMetadata<'a, '_> {
         );
     }
 
-    // `#[inline]` because this is a hot path and most `Statement`s are not `TSEnumDeclaration`s.
-    // We want to avoid overhead of a function call for the common case.
+    // `#[inline]` because this is a hot path and most `Statement`s are not
+    // `TSEnumDeclaration`s. We want to avoid overhead of a function call for
+    // the common case.
     #[inline]
     fn enter_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
-        // Collect enum types here instead of in `enter_ts_enum_declaration` because the TypeScript
-        // plugin transforms enum declarations in `enter_statement`, and we need to collect the
-        // enum type before it gets transformed.
+        // Collect enum types here instead of in `enter_ts_enum_declaration` because the
+        // TypeScript plugin transforms enum declarations in `enter_statement`,
+        // and we need to collect the enum type before it gets transformed.
         if let Statement::TSEnumDeclaration(decl) = stmt {
             self.collect_enum_type(decl, ctx);
         }
@@ -188,7 +196,12 @@ impl<'a> Traverse<'a, TransformState<'a>> for LegacyDecoratorMetadata<'a, '_> {
         let metadata = if should_transform
             && let Some(constructor) = constructor
             && !(class.decorators.is_empty()
-                && constructor.value.params.items.iter().all(|param| param.decorators.is_empty()))
+                && constructor
+                    .value
+                    .params
+                    .items
+                    .iter()
+                    .all(|param| param.decorators.is_empty()))
         {
             let serialized_type =
                 self.serialize_parameters_types_of_node(&constructor.value.params, ctx);
@@ -214,7 +227,12 @@ impl<'a> Traverse<'a, TransformState<'a>> for LegacyDecoratorMetadata<'a, '_> {
         let is_typescript_syntax = method.value.is_typescript_syntax();
         let is_decorated = !is_typescript_syntax
             && (!method.decorators.is_empty()
-                || method.value.params.items.iter().any(|param| !param.decorators.is_empty()));
+                || method
+                    .value
+                    .params
+                    .items
+                    .iter()
+                    .any(|param| !param.decorators.is_empty()));
 
         let metadata = is_decorated.then(|| {
             // TypeScript only emits `design:returntype` for regular methods,
@@ -257,7 +275,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for LegacyDecoratorMetadata<'a, '_> {
         if prop.decorators.is_empty() {
             return;
         }
-        prop.decorators.push(self.create_design_type_metadata(prop.type_annotation.as_ref(), ctx));
+        prop.decorators
+            .push(self.create_design_type_metadata(prop.type_annotation.as_ref(), ctx));
     }
 
     #[inline]
@@ -281,8 +300,10 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         // Optimization:
         // If the enum doesn't have any type references, that implies that no decorators
         // refer to this enum, so there is no need to infer its type.
-        let has_type_reference =
-            ctx.scoping().get_resolved_references(symbol_id).any(Reference::is_type);
+        let has_type_reference = ctx
+            .scoping()
+            .get_resolved_references(symbol_id)
+            .any(Reference::is_type);
         if has_type_reference {
             let enum_type = Self::infer_enum_type(&decl.body.members);
             self.enum_types.insert(symbol_id, enum_type);
@@ -302,9 +323,11 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                         enum_type = EnumType::String;
                     }
                     // TS considers `+x`, `-x`, `~x` to be `Number` type, no matter what `x` is.
-                    // All other unary expressions (`!x`, `void x`, `typeof x`, `delete x`) are illegal in enum initializers,
-                    // so we can ignore those cases here and just say all `UnaryExpression`s are numeric.
-                    // Bigint literals are also illegal in enum initializers, so we don't need to consider them here.
+                    // All other unary expressions (`!x`, `void x`, `typeof x`, `delete x`) are
+                    // illegal in enum initializers, so we can ignore those
+                    // cases here and just say all `UnaryExpression`s are numeric.
+                    // Bigint literals are also illegal in enum initializers, so we don't need to
+                    // consider them here.
                     Expression::NumericLiteral(_) | Expression::UnaryExpression(_)
                         if enum_type != EnumType::String =>
                     {
@@ -349,15 +372,19 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
     ///
     /// Types are serialized in the following fashion:
     /// - Void types point to "undefined" (e.g. "void 0")
-    /// - Function and Constructor types point to the global "Function" constructor.
-    /// - Interface types with a call or construct signature types point to the global
-    ///   "Function" constructor.
+    /// - Function and Constructor types point to the global "Function"
+    ///   constructor.
+    /// - Interface types with a call or construct signature types point to the
+    ///   global "Function" constructor.
     /// - Array and Tuple types point to the global "Array" constructor.
-    /// - Type predicates and booleans point to the global "Boolean" constructor.
-    /// - String literal types and strings point to the global "String" constructor.
+    /// - Type predicates and booleans point to the global "Boolean"
+    ///   constructor.
+    /// - String literal types and strings point to the global "String"
+    ///   constructor.
     /// - Enum and number types point to the global "Number" constructor.
     /// - Symbol types point to the global "Symbol" constructor.
-    /// - Type references to classes (or class-like variables) point to the constructor for the class.
+    /// - Type references to classes (or class-like variables) point to the
+    ///   constructor for the class.
     /// - Anything else points to the global "Object" constructor.
     fn serialize_type_node(
         &mut self,
@@ -435,8 +462,9 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         params: &FormalParameters<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) -> Expression<'a> {
-        let mut elements =
-            ctx.ast.vec_with_capacity(params.items.len() + usize::from(params.rest.is_some()));
+        let mut elements = ctx
+            .ast
+            .vec_with_capacity(params.items.len() + usize::from(params.rest.is_some()));
         elements.extend(params.items.iter().map(|param| {
             ArrayExpressionElement::from(self.serialize_parameter_types_of_node(param, ctx))
         }));
@@ -461,7 +489,8 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         self.serialize_type_annotation(type_annotation, ctx)
     }
 
-    /// Serializes the return type of a node for use with decorator type metadata.
+    /// Serializes the return type of a node for use with decorator type
+    /// metadata.
     fn serialize_return_type_of_node(
         &mut self,
         func: &Function<'a>,
@@ -476,7 +505,8 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         }
     }
 
-    /// `A.B` -> `typeof (_a$b = typeof A !== "undefined" && A.B) == "function" ? _a$b : Object`
+    /// `A.B` -> `typeof (_a$b = typeof A !== "undefined" && A.B) == "function"
+    /// ? _a$b : Object`
     ///
     /// NOTE: This function only ports `unknown` part from [TypeScript](https://github.com/microsoft/TypeScript/blob/d85767abfd83880cea17cea70f9913e9c4496dcc/src/compiler/transformers/typeSerializer.ts#L499-L506)
     fn serialize_type_reference_node(
@@ -484,9 +514,13 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         name: &TSTypeName<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) -> Expression<'a> {
-        // Check if this is an enum type reference - if so, return the primitive type directly
+        // Check if this is an enum type reference - if so, return the primitive type
+        // directly
         if let TSTypeName::IdentifierReference(ident) = name {
-            let symbol_id = ctx.scoping().get_reference(ident.reference_id()).symbol_id();
+            let symbol_id = ctx
+                .scoping()
+                .get_reference(ident.reference_id())
+                .symbol_id();
             if let Some(symbol_id) = symbol_id
                 && let Some(enum_type) = self.enum_types.get(&symbol_id)
             {
@@ -503,7 +537,10 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
             // Reach here means the referent is a type symbol, so use `Object` as fallback.
             return Self::global_object(ctx);
         };
-        let binding = self.ctx.var_declarations.create_uid_var_based_on_node(&serialized_type, ctx);
+        let binding = self
+            .ctx
+            .var_declarations
+            .create_uid_var_based_on_node(&serialized_type, ctx);
         let target = binding.create_write_target(ctx);
         let assignment = ctx.ast.expression_assignment(
             SPAN,
@@ -511,16 +548,20 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
             target,
             serialized_type,
         );
-        let type_of = ctx.ast.expression_unary(SPAN, UnaryOperator::Typeof, assignment);
+        let type_of = ctx
+            .ast
+            .expression_unary(SPAN, UnaryOperator::Typeof, assignment);
         let right = ctx.ast.expression_string_literal(SPAN, "function", None);
         let operator = BinaryOperator::StrictEquality;
         let test = ctx.ast.expression_binary(SPAN, type_of, operator, right);
         let consequent = binding.create_read_expression(ctx);
         let alternate = Self::global_object(ctx);
-        ctx.ast.expression_conditional(SPAN, test, consequent, alternate)
+        ctx.ast
+            .expression_conditional(SPAN, test, consequent, alternate)
     }
 
-    /// Serializes an entity name which may not exist at runtime, but whose access shouldn't throw
+    /// Serializes an entity name which may not exist at runtime, but whose
+    /// access shouldn't throw
     fn serialize_entity_name_as_expression_fallback(
         &mut self,
         name: &TSTypeName<'a>,
@@ -554,9 +595,13 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                     // `A.B.C` -> `typeof A !== "undefined" && (_a = A.B) !== void 0 && _a.C`
                     let mut left =
                         self.serialize_entity_name_as_expression_fallback(&qualified.left, ctx)?;
-                    let binding =
-                        self.ctx.var_declarations.create_uid_var_based_on_node(&left, ctx);
-                    let Expression::LogicalExpression(logical) = &mut left else { unreachable!() };
+                    let binding = self
+                        .ctx
+                        .var_declarations
+                        .create_uid_var_based_on_node(&left, ctx);
+                    let Expression::LogicalExpression(logical) = &mut left else {
+                        unreachable!()
+                    };
                     let right = logical.right.take_in(ctx.ast);
                     // `(_a = A.B)`
                     let right = ctx.ast.expression_assignment(
@@ -575,7 +620,10 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
 
                     let object = binding.create_read_expression(ctx);
                     let member = create_property_access(SPAN, object, &qualified.right.name, ctx);
-                    Some(ctx.ast.expression_logical(SPAN, left, LogicalOperator::And, member))
+                    Some(
+                        ctx.ast
+                            .expression_logical(SPAN, left, LogicalOperator::And, member),
+                    )
                 }
             }
             TSTypeName::ThisExpression(_) => None,
@@ -647,8 +695,9 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                 return serialized_constituent;
             }
 
-            // If there exists union that is not `void 0` expression, check if the the common type is identifier.
-            // anything more complex and we will just default to Object
+            // If there exists union that is not `void 0` expression, check if the the
+            // common type is identifier. anything more complex and we will just
+            // default to Object
             if let Some(serialized_type) = &serialized_type {
                 // Different types
                 if !Self::equate_serialized_type_nodes(serialized_type, &serialized_constituent) {
@@ -685,7 +734,8 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         ctx: &TraverseCtx<'a>,
     ) -> ReferenceFlags {
         if let Some(symbol_id) = binding.symbol_id {
-            // Type symbols have filtered out in [`serialize_entity_name_as_expression_fallback`].
+            // Type symbols have filtered out in
+            // [`serialize_entity_name_as_expression_fallback`].
             debug_assert!(ctx.scoping().symbol_flags(symbol_id).is_value());
             // `design::*type` would be called by `reflect-metadata` APIs, use `Read` flag
             // to avoid TypeScript remove it because only used as types.
@@ -746,14 +796,16 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         Self::create_global_identifier("Promise", ctx)
     }
 
-    /// Produces an expression that results in `right` if `left` is not undefined at runtime:
+    /// Produces an expression that results in `right` if `left` is not
+    /// undefined at runtime:
     ///
     /// ```
     /// typeof left !== "undefined" && right
     /// ```
     ///
-    /// We use `typeof L !== "undefined"` (rather than `L !== undefined`) since `L` may not be declared.
-    /// It's acceptable for this expression to result in `false` at runtime, as the result is intended to be
+    /// We use `typeof L !== "undefined"` (rather than `L !== undefined`) since
+    /// `L` may not be declared. It's acceptable for this expression to
+    /// result in `false` at runtime, as the result is intended to be
     /// further checked by any containing expression.
     fn create_checked_value(
         left: Expression<'a>,
@@ -763,8 +815,11 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         let operator = BinaryOperator::StrictInequality;
         let undefined = ctx.ast.expression_string_literal(SPAN, "undefined", None);
         let typeof_left = ctx.ast.expression_unary(SPAN, UnaryOperator::Typeof, left);
-        let left_check = ctx.ast.expression_binary(SPAN, typeof_left, operator, undefined);
-        ctx.ast.expression_logical(SPAN, left_check, LogicalOperator::And, right)
+        let left_check = ctx
+            .ast
+            .expression_binary(SPAN, typeof_left, operator, undefined);
+        ctx.ast
+            .expression_logical(SPAN, left_check, LogicalOperator::And, right)
     }
 
     // `_metadata(key, value)
@@ -778,7 +833,8 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
             Argument::from(ctx.ast.expression_string_literal(SPAN, key, None)),
             Argument::from(value),
         ]);
-        self.ctx.helper_call_expr(Helper::DecorateMetadata, SPAN, arguments, ctx)
+        self.ctx
+            .helper_call_expr(Helper::DecorateMetadata, SPAN, arguments, ctx)
     }
 
     // `_metadata(key, value)
@@ -788,7 +844,8 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         value: Expression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) -> Decorator<'a> {
-        ctx.ast.decorator(SPAN, self.create_metadata(key, value, ctx))
+        ctx.ast
+            .decorator(SPAN, self.create_metadata(key, value, ctx))
     }
 
     /// `_metadata("design:type", type)`

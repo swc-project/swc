@@ -2,7 +2,7 @@ use oxc_allocator::{TakeIn, Vec as ArenaVec};
 use oxc_ast::ast::*;
 use oxc_diagnostics::OxcDiagnostic;
 use oxc_semantic::SymbolFlags;
-use oxc_span::{Atom, GetSpan, SPAN, Span};
+use oxc_span::{Atom, GetSpan, Span, SPAN};
 use oxc_syntax::{
     operator::AssignmentOperator,
     reference::ReferenceFlags,
@@ -12,9 +12,9 @@ use oxc_syntax::{
 use oxc_traverse::Traverse;
 
 use crate::{
-    TypeScriptOptions,
     context::{TransformCtx, TraverseCtx},
     state::TransformState,
+    TypeScriptOptions,
 };
 
 pub struct TypeScriptAnnotations<'a, 'ctx> {
@@ -36,13 +36,23 @@ pub struct TypeScriptAnnotations<'a, 'ctx> {
 impl<'a, 'ctx> TypeScriptAnnotations<'a, 'ctx> {
     pub fn new(options: &TypeScriptOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
         let jsx_element_import_name = if options.jsx_pragma.contains('.') {
-            options.jsx_pragma.split('.').next().map(String::from).unwrap()
+            options
+                .jsx_pragma
+                .split('.')
+                .next()
+                .map(String::from)
+                .unwrap()
         } else {
             options.jsx_pragma.to_string()
         };
 
         let jsx_fragment_import_name = if options.jsx_pragma_frag.contains('.') {
-            options.jsx_pragma_frag.split('.').next().map(String::from).unwrap()
+            options
+                .jsx_pragma_frag
+                .split('.')
+                .next()
+                .map(String::from)
+                .unwrap()
         } else {
             options.jsx_pragma_frag.to_string()
         };
@@ -166,7 +176,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptAnnotations<'a, '_> {
         // still considered a module
         if no_modules_remaining && some_modules_deleted && self.ctx.module_imports.is_empty() {
             let export_decl = Statement::ExportNamedDeclaration(
-                ctx.ast.plain_export_named_declaration(SPAN, ctx.ast.vec(), None),
+                ctx.ast
+                    .plain_export_named_declaration(SPAN, ctx.ast.vec(), None),
             );
             program.body.push(export_decl);
         }
@@ -240,9 +251,11 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptAnnotations<'a, '_> {
     }
 
     fn exit_class(&mut self, class: &mut Class<'a>, _: &mut TraverseCtx<'a>) {
-        // Remove `declare` properties from the class body, other ts-only properties have been removed in `enter_class`.
-        // The reason that removing `declare` properties here because the legacy-decorator plugin needs to transform
-        // `declare` field in the `exit_class` phase, so we have to ensure this step is run after the legacy-decorator plugin.
+        // Remove `declare` properties from the class body, other ts-only properties
+        // have been removed in `enter_class`. The reason that removing
+        // `declare` properties here because the legacy-decorator plugin needs to
+        // transform `declare` field in the `exit_class` phase, so we have to
+        // ensure this step is run after the legacy-decorator plugin.
         class
             .body
             .body
@@ -278,8 +291,12 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptAnnotations<'a, '_> {
                     *target = SimpleAssignmentTarget::from(member_expr);
                 }
                 _ => {
-                    // This should be never hit until more syntax is added to the JavaScript/TypeScrips
-                    self.ctx.error(OxcDiagnostic::error("Cannot strip out typescript syntax if SimpleAssignmentTarget is not an IdentifierReference or MemberExpression"));
+                    // This should be never hit until more syntax is added to the
+                    // JavaScript/TypeScrips
+                    self.ctx.error(OxcDiagnostic::error(
+                        "Cannot strip out typescript syntax if SimpleAssignmentTarget is not an \
+                         IdentifierReference or MemberExpression",
+                    ));
                 }
             }
         }
@@ -367,11 +384,13 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptAnnotations<'a, '_> {
         _ctx: &mut TraverseCtx<'a>,
     ) {
         // Remove declare declaration
-        stmts.retain(
-            |stmt| {
-                if let Some(decl) = stmt.as_declaration() { !decl.declare() } else { true }
-            },
-        );
+        stmts.retain(|stmt| {
+            if let Some(decl) = stmt.as_declaration() {
+                !decl.declare()
+            } else {
+                true
+            }
+        });
     }
 
     fn exit_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
@@ -409,8 +428,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptAnnotations<'a, '_> {
         });
     }
 
-    /// Transform if statement's consequent and alternate to block statements if they are super calls
-    /// ```ts
+    /// Transform if statement's consequent and alternate to block statements if
+    /// they are super calls ```ts
     /// if (true) super() else super();
     /// // to
     /// if (true) { super() } else { super() }
@@ -446,7 +465,11 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptAnnotations<'a, '_> {
 
         Self::replace_with_empty_block_if_ts(&mut stmt.consequent, ctx.current_scope_id(), ctx);
 
-        if stmt.alternate.as_ref().is_some_and(Statement::is_typescript_syntax) {
+        if stmt
+            .alternate
+            .as_ref()
+            .is_some_and(Statement::is_typescript_syntax)
+        {
             stmt.alternate = None;
         }
     }
@@ -509,7 +532,8 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
         ctx: &mut TraverseCtx<'a>,
     ) -> Statement<'a> {
         let scope_id = ctx.insert_scope_below_statement(&stmt, ScopeFlags::empty());
-        ctx.ast.statement_block_with_scope_id(span, ctx.ast.vec1(stmt), scope_id)
+        ctx.ast
+            .statement_block_with_scope_id(span, ctx.ast.vec1(stmt), scope_id)
     }
 
     fn replace_for_statement_body_with_empty_block_if_ts(
@@ -527,7 +551,9 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
     ) {
         if stmt.is_typescript_syntax() {
             let scope_id = ctx.create_child_scope(parent_scope_id, ScopeFlags::empty());
-            *stmt = ctx.ast.statement_block_with_scope_id(stmt.span(), ctx.ast.vec(), scope_id);
+            *stmt = ctx
+                .ast
+                .statement_block_with_scope_id(stmt.span(), ctx.ast.vec(), scope_id);
         }
     }
 
@@ -536,13 +562,18 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
 
         // `import T from 'mod'; const T = 1;` The T has a value redeclaration
         // `import T from 'mod'; type T = number;` The T has a type redeclaration
-        // If the symbol is still a value symbol after `SymbolFlags::Import` is removed, then it's a value redeclaration.
-        // That means the import is shadowed, and we can safely remove the import.
+        // If the symbol is still a value symbol after `SymbolFlags::Import` is removed,
+        // then it's a value redeclaration. That means the import is shadowed,
+        // and we can safely remove the import.
         if (ctx.scoping().symbol_flags(symbol_id) - SymbolFlags::Import).is_value() {
             return false;
         }
 
-        if ctx.scoping().get_resolved_references(symbol_id).any(|reference| !reference.is_type()) {
+        if ctx
+            .scoping()
+            .get_resolved_references(symbol_id)
+            .any(|reference| !reference.is_type())
+        {
             return true;
         }
 
@@ -563,7 +594,10 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
         reference.symbol_id().is_some_and(|symbol_id| {
             reference.is_type()
                 || scoping.symbol_flags(symbol_id).is_ambient()
-                    && scoping.symbol_redeclarations(symbol_id).iter().all(|r| r.flags.is_ambient())
+                    && scoping
+                        .symbol_redeclarations(symbol_id)
+                        .iter()
+                        .all(|r| r.flags.is_ambient())
         })
     }
 }
@@ -578,7 +612,9 @@ impl<'a> Assignment<'a> {
     // Creates `this.name = name`
     fn create_this_property_assignment(&self, ctx: &mut TraverseCtx<'a>) -> Statement<'a> {
         let reference_id = ctx.create_bound_reference(self.symbol_id, ReferenceFlags::Read);
-        let id = ctx.ast.identifier_reference_with_reference_id(self.span, self.name, reference_id);
+        let id = ctx
+            .ast
+            .identifier_reference_with_reference_id(self.span, self.name, reference_id);
 
         ctx.ast.statement_expression(
             SPAN,

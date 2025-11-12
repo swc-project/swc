@@ -1,7 +1,6 @@
 use std::borrow::Cow;
 
 use memchr::memchr;
-
 use oxc_ast::Comment;
 
 use crate::{JsxOptions, JsxRuntime, TransformCtx, TypeScriptOptions};
@@ -99,32 +98,41 @@ fn find_jsx_pragma(mut comment_str: &str) -> Option<(PragmaType, &str, &str)> {
     let pragma_type;
     loop {
         // Search for `@`.
-        // Note: Using `memchr::memmem::Finder` to search for `@jsx` is slower than only using `memchr`
-        // to find `@` characters, and then checking if `@` is followed by `jsx` separately.
+        // Note: Using `memchr::memmem::Finder` to search for `@jsx` is slower than only
+        // using `memchr` to find `@` characters, and then checking if `@` is
+        // followed by `jsx` separately.
         let at_sign_index = memchr(b'@', comment_str.as_bytes())?;
 
         // Check `@` is start of `@jsx`.
-        // Note: Checking 4 bytes including leading `@` is faster than checking the 3 bytes after `@`,
-        // because 4 bytes is a `u32`.
-        let next4 = comment_str.as_bytes().get(at_sign_index..at_sign_index + 4)?;
+        // Note: Checking 4 bytes including leading `@` is faster than checking the 3
+        // bytes after `@`, because 4 bytes is a `u32`.
+        let next4 = comment_str
+            .as_bytes()
+            .get(at_sign_index..at_sign_index + 4)?;
         if next4 != b"@jsx" {
             // Not `@jsx`. Trim off up to and including `@` and search again.
-            // SAFETY: Byte at `at_sign_index` is `@`, so `at_sign_index + 1` is either within string
-            // or end of string, and on a UTF-8 char boundary.
+            // SAFETY: Byte at `at_sign_index` is `@`, so `at_sign_index + 1` is either
+            // within string or end of string, and on a UTF-8 char boundary.
             comment_str = unsafe { comment_str.get_unchecked(at_sign_index + 1..) };
             continue;
         }
 
         // Trim `@jsx` and everything before it from start of `comment_str`.
-        // SAFETY: 4 bytes starting at `at_sign_index` are `@jsx`, so `at_sign_index + 4` is within string
-        // or end of string, and must be on a UTF-8 character boundary.
+        // SAFETY: 4 bytes starting at `at_sign_index` are `@jsx`, so `at_sign_index +
+        // 4` is within string or end of string, and must be on a UTF-8
+        // character boundary.
         comment_str = unsafe { comment_str.get_unchecked(at_sign_index + 4..) };
 
         // Get rest of keyword e.g. `Runtime` in `@jsxRuntime`
-        let space_index = comment_str.as_bytes().iter().position(|&b| matches!(b, b' ' | b'\t'))?;
-        // SAFETY: Byte at `space_index` is ASCII, so `space_index` is in bounds and on a UTF-8 char boundary
+        let space_index = comment_str
+            .as_bytes()
+            .iter()
+            .position(|&b| matches!(b, b' ' | b'\t'))?;
+        // SAFETY: Byte at `space_index` is ASCII, so `space_index` is in bounds and on
+        // a UTF-8 char boundary
         let keyword_str = unsafe { comment_str.get_unchecked(..space_index) };
-        // SAFETY: Byte at `space_index` is ASCII, so `space_index + 1` is in bounds and on a UTF-8 char boundary
+        // SAFETY: Byte at `space_index` is ASCII, so `space_index + 1` is in bounds and
+        // on a UTF-8 char boundary
         comment_str = unsafe { comment_str.get_unchecked(space_index + 1..) };
 
         pragma_type = match keyword_str {
@@ -146,34 +154,44 @@ fn find_jsx_pragma(mut comment_str: &str) -> Option<(PragmaType, &str, &str)> {
         if !matches!(next_byte, b' ' | b'\t') {
             break;
         }
-        // SAFETY: First byte of string is ASCII, so trimming it off must leave a valid UTF-8 string
+        // SAFETY: First byte of string is ASCII, so trimming it off must leave a valid
+        // UTF-8 string
         comment_str = unsafe { comment_str.get_unchecked(1..) };
     }
 
     // Get value
-    let space_index = comment_str.as_bytes().iter().position(|&b| is_ascii_whitespace(b));
+    let space_index = comment_str
+        .as_bytes()
+        .iter()
+        .position(|&b| is_ascii_whitespace(b));
     let value;
     if let Some(space_index) = space_index {
-        // SAFETY: Byte at `space_index` is ASCII, so `space_index` is in bounds and on a UTF-8 char boundary
+        // SAFETY: Byte at `space_index` is ASCII, so `space_index` is in bounds and on
+        // a UTF-8 char boundary
         value = unsafe { comment_str.get_unchecked(..space_index) };
-        // SAFETY: Byte at `space_index` is ASCII, so `space_index + 1` is in bounds and on a UTF-8 char boundary
+        // SAFETY: Byte at `space_index` is ASCII, so `space_index + 1` is in bounds and
+        // on a UTF-8 char boundary
         comment_str = unsafe { comment_str.get_unchecked(space_index + 1..) };
     } else {
         value = comment_str;
         comment_str = "";
     }
 
-    if value.is_empty() { None } else { Some((pragma_type, value, comment_str)) }
+    if value.is_empty() {
+        None
+    } else {
+        Some((pragma_type, value, comment_str))
+    }
 }
 
-/// Test if a byte is ASCII whitespace, using the same group of ASCII chars that `std::str::trim_start` uses.
-/// These the are ASCII chars which `char::is_whitespace` returns `true` for.
-/// Note: Slightly different from `u8::is_ascii_whitespace`, which does not include VT.
-/// <https://doc.rust-lang.org/std/primitive.u8.html#method.is_ascii_whitespace>
+/// Test if a byte is ASCII whitespace, using the same group of ASCII chars that
+/// `std::str::trim_start` uses. These the are ASCII chars which
+/// `char::is_whitespace` returns `true` for. Note: Slightly different from
+/// `u8::is_ascii_whitespace`, which does not include VT. <https://doc.rust-lang.org/std/primitive.u8.html#method.is_ascii_whitespace>
 #[inline]
 fn is_ascii_whitespace(byte: u8) -> bool {
-    const VT: u8 = 0x0B;
-    const FF: u8 = 0x0C;
+    const VT: u8 = 0x0b;
+    const FF: u8 = 0x0c;
     matches!(byte, b' ' | b'\t' | b'\r' | b'\n' | VT | FF)
 }
 
@@ -190,9 +208,18 @@ mod tests {
             ("@jsxDonkey abc", &[]),
             // Single pragma
             ("@jsx h", &[(PragmaType::Jsx, "h")]),
-            ("@jsx React.createDumpling", &[(PragmaType::Jsx, "React.createDumpling")]),
-            ("@jsxRuntime classic", &[(PragmaType::JsxRuntime, "classic")]),
-            ("@jsxImportSource preact", &[(PragmaType::JsxImportSource, "preact")]),
+            (
+                "@jsx React.createDumpling",
+                &[(PragmaType::Jsx, "React.createDumpling")],
+            ),
+            (
+                "@jsxRuntime classic",
+                &[(PragmaType::JsxRuntime, "classic")],
+            ),
+            (
+                "@jsxImportSource preact",
+                &[(PragmaType::JsxImportSource, "preact")],
+            ),
             ("@jsxFrag Fraggy", &[(PragmaType::JsxFrag, "Fraggy")]),
             // Multiple pragmas
             (
@@ -213,7 +240,8 @@ mod tests {
                 ],
             ),
             (
-                "* @jsx h\n  * @jsxRuntime classic\n  * @jsxImportSource importer-a-go-go\n  * @jsxFrag F\n  *",
+                "* @jsx h\n  * @jsxRuntime classic\n  * @jsxImportSource importer-a-go-go\n  * \
+                 @jsxFrag F\n  *",
                 &[
                     (PragmaType::Jsx, "h"),
                     (PragmaType::JsxRuntime, "classic"),

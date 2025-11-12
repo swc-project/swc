@@ -17,10 +17,10 @@ mod options;
 mod rewrite_extensions;
 
 use annotations::TypeScriptAnnotations;
-use r#enum::TypeScriptEnum;
 use module::TypeScriptModule;
 use namespace::TypeScriptNamespace;
 pub use options::{RewriteExtensionsMode, TypeScriptOptions};
+use r#enum::TypeScriptEnum;
 use rewrite_extensions::TypeScriptRewriteExtensions;
 
 /// [Preset TypeScript](https://babeljs.io/docs/babel-preset-typescript)
@@ -29,14 +29,17 @@ use rewrite_extensions::TypeScriptRewriteExtensions;
 ///
 /// * [transform-typescript](https://babeljs.io/docs/babel-plugin-transform-typescript)
 ///
-/// This plugin adds support for the types syntax used by the TypeScript programming language.
-/// However, this plugin does not add the ability to type-check the JavaScript passed to it.
-/// For that, you will need to install and set up TypeScript.
+/// This plugin adds support for the types syntax used by the TypeScript
+/// programming language. However, this plugin does not add the ability to
+/// type-check the JavaScript passed to it. For that, you will need to install
+/// and set up TypeScript.
 ///
-/// Note that although the TypeScript compiler tsc actively supports certain JavaScript proposals such as optional chaining (?.),
-/// nullish coalescing (??) and class properties (this.#x), this preset does not include these features
+/// Note that although the TypeScript compiler tsc actively supports certain
+/// JavaScript proposals such as optional chaining (?.), nullish coalescing (??)
+/// and class properties (this.#x), this preset does not include these features
 /// because they are not the types syntax available in TypeScript only.
-/// We recommend using preset-env with preset-typescript if you want to transpile these features.
+/// We recommend using preset-env with preset-typescript if you want to
+/// transpile these features.
 ///
 /// This plugin is included in `preset-typescript`.
 ///
@@ -121,8 +124,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScript<'a, '_> {
     fn enter_class(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
         self.annotations.enter_class(class, ctx);
 
-        // Avoid converting class fields when class-properties plugin is enabled, that plugin has covered all
-        // this transformation does.
+        // Avoid converting class fields when class-properties plugin is enabled, that
+        // plugin has covered all this transformation does.
         if !self.ctx.is_class_properties_plugin_enabled
             && self.ctx.assumptions.set_public_class_fields
         {
@@ -133,8 +136,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for TypeScript<'a, '_> {
     fn exit_class(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
         self.annotations.exit_class(class, ctx);
 
-        // Avoid converting class fields when class-properties plugin is enabled, that plugin has covered all
-        // this transformation does.
+        // Avoid converting class fields when class-properties plugin is enabled, that
+        // plugin has covered all this transformation does.
         if !self.ctx.is_class_properties_plugin_enabled {
             self.transform_class_on_exit(class, ctx);
         }

@@ -11,9 +11,8 @@ use oxc_ast::ast::{
 use oxc_span::Atom;
 use oxc_traverse::Traverse;
 
-use crate::{TypeScriptOptions, context::TraverseCtx, state::TransformState};
-
 use super::options::RewriteExtensionsMode;
+use crate::{context::TraverseCtx, state::TransformState, TypeScriptOptions};
 
 pub struct TypeScriptRewriteExtensions {
     mode: RewriteExtensionsMode,
@@ -30,7 +29,9 @@ impl TypeScriptRewriteExtensions {
             return;
         }
 
-        let Some((without_extension, extension)) = value.rsplit_once('.') else { return };
+        let Some((without_extension, extension)) = value.rsplit_once('.') else {
+            return;
+        };
 
         let replace = match extension {
             "mts" => ".mjs",

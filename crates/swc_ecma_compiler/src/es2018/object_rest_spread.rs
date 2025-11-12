@@ -1,6 +1,7 @@
 //! ES2018 object spread transformation.
 //!
-//! This plugin transforms rest properties for object destructuring assignment and spread properties for object literals.
+//! This plugin transforms rest properties for object destructuring assignment
+//! and spread properties for object literals.
 //!
 //! > This plugin is included in `preset-env`, in ES2018
 //!
@@ -29,15 +30,14 @@
 
 use std::mem;
 
-use serde::Deserialize;
-
 use oxc_allocator::{Box as ArenaBox, GetAddress, TakeIn, Vec as ArenaVec};
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_diagnostics::OxcDiagnostic;
 use oxc_ecmascript::{BoundNames, ToJsString, WithoutGlobalReferenceInformation};
 use oxc_semantic::{ScopeFlags, ScopeId, SymbolFlags};
 use oxc_span::{GetSpan, SPAN};
 use oxc_traverse::{Ancestor, MaybeBoundIdentifier, Traverse};
+use serde::Deserialize;
 
 use crate::{
     common::helper_loader::Helper,
@@ -75,26 +75,37 @@ impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
         }
         if ctx.assumptions.object_rest_no_symbols {
             ctx.error(OxcDiagnostic::error(
-                "Compiler assumption `objectRestNoSymbols` is not implemented for object-rest-spread.",
+                "Compiler assumption `objectRestNoSymbols` is not implemented for \
+                 object-rest-spread.",
             ));
         }
         if ctx.assumptions.ignore_function_length {
             ctx.error(OxcDiagnostic::error(
-                "Compiler assumption `ignoreFunctionLength` is not implemented for object-rest-spread.",
+                "Compiler assumption `ignoreFunctionLength` is not implemented for \
+                 object-rest-spread.",
             ));
         }
-        Self { ctx, options, excluded_variable_declarators: vec![] }
+        Self {
+            ctx,
+            options,
+            excluded_variable_declarators: vec![],
+        }
     }
 }
 
 impl<'a> Traverse<'a, TransformState<'a>> for ObjectRestSpread<'a, '_> {
     // For excluded keys when destructuring inside a function.
-    // `function foo() { ({a, ...b} = c) }` -> `const _excluded = ["a"]; function foo() { ... }`
+    // `function foo() { ({a, ...b} = c) }` -> `const _excluded = ["a"]; function
+    // foo() { ... }`
     fn exit_program(&mut self, _node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
         if !self.excluded_variable_declarators.is_empty() {
-            let declarators = ctx.ast.vec_from_iter(self.excluded_variable_declarators.drain(..));
+            let declarators = ctx
+                .ast
+                .vec_from_iter(self.excluded_variable_declarators.drain(..));
             let kind = VariableDeclarationKind::Const;
-            let declaration = ctx.ast.alloc_variable_declaration(SPAN, kind, declarators, false);
+            let declaration = ctx
+                .ast
+                .alloc_variable_declaration(SPAN, kind, declarators, false);
             let statement = Statement::VariableDeclaration(declaration);
             self.ctx.top_level_statements.insert_statement(statement);
         }
@@ -193,13 +204,16 @@ impl<'a> ObjectRestSpread<'a, '_> {
         expr: &mut Expression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::AssignmentExpression(assign_expr) = expr else { unreachable!() };
+        let Expression::AssignmentExpression(assign_expr) = expr else {
+            unreachable!()
+        };
         // Allow `{...x} = {}` and `[{...x}] = []`.
         if !Self::has_nested_target_rest(&assign_expr.left) {
             return;
         }
 
-        // If not an top `({ ...y })`, walk the pattern and create references for all the objects with a rest.
+        // If not an top `({ ...y })`, walk the pattern and create references for all
+        // the objects with a rest.
         if !matches!(&assign_expr.left, AssignmentTarget::ObjectAssignmentTarget(t) if t.rest.is_some())
         {
             self.walk_and_replace_nested_object_target(expr, ctx);
@@ -216,7 +230,10 @@ impl<'a> ObjectRestSpread<'a, '_> {
         let mut new_decls = vec![];
 
         if let Some(id) = reference_builder.binding.take() {
-            new_decls.push(ctx.ast.variable_declarator(SPAN, state.kind, id, None, false));
+            new_decls.push(
+                ctx.ast
+                    .variable_declarator(SPAN, state.kind, id, None, false),
+            );
         }
 
         let data = Self::walk_assignment_target(&mut assign_expr.left, &mut new_decls, state, ctx);
@@ -233,7 +250,9 @@ impl<'a> ObjectRestSpread<'a, '_> {
                         false,
                     );
                     let statement = Statement::VariableDeclaration(declaration);
-                    self.ctx.statement_injector.insert_before(&decl.address(), statement);
+                    self.ctx
+                        .statement_injector
+                        .insert_before(&decl.address(), statement);
                     break;
                 }
             }
@@ -245,12 +264,16 @@ impl<'a> ObjectRestSpread<'a, '_> {
 
         // Insert `_foo = rhs`
         if let Some(expr) = reference_builder.expr.take() {
-            expressions.push(ctx.ast.expression_assignment(
-                SPAN,
-                op,
-                reference_builder.maybe_bound_identifier.create_write_target(ctx),
-                expr,
-            ));
+            expressions.push(
+                ctx.ast.expression_assignment(
+                    SPAN,
+                    op,
+                    reference_builder
+                        .maybe_bound_identifier
+                        .create_write_target(ctx),
+                    expr,
+                ),
+            );
         }
 
         // Insert `{} = _foo`
@@ -326,9 +349,11 @@ impl<'a> ObjectRestSpread<'a, '_> {
         let rest = object_assignment_target.rest.take()?;
         let rest_target = rest.unbox().target;
         let mut all_primitives = true;
-        let keys =
-            ctx.ast.vec_from_iter(object_assignment_target.properties.iter_mut().filter_map(|e| {
-                match e {
+        let keys = ctx.ast.vec_from_iter(
+            object_assignment_target
+                .properties
+                .iter_mut()
+                .filter_map(|e| match e {
                     AssignmentTargetProperty::AssignmentTargetPropertyIdentifier(ident) => {
                         let name = ident.binding.name;
                         let expr = ctx.ast.expression_string_literal(SPAN, name, None);
@@ -343,8 +368,8 @@ impl<'a> ObjectRestSpread<'a, '_> {
                             ctx,
                         )
                     }
-                }
-            }));
+                }),
+        );
         Some(SpreadPair {
             lhs: BindingPatternOrAssignmentTarget::AssignmentTarget(rest_target),
             keys,
@@ -375,7 +400,10 @@ impl<'a> ObjectRestSpread<'a, '_> {
                         Self::has_nested_target_rest(&t.binding)
                     }
                     _ => Self::has_nested_target_rest(e.to_assignment_target()),
-                }) || t.rest.as_ref().is_some_and(|r| Self::has_nested_target_rest(&r.target))
+                }) || t
+                    .rest
+                    .as_ref()
+                    .is_some_and(|r| Self::has_nested_target_rest(&r.target))
             }
             _ => false,
         }
@@ -402,7 +430,9 @@ impl<'a> ObjectRestSpread<'a, '_> {
                     false,
                 );
                 let statement = Statement::VariableDeclaration(declaration);
-                self.ctx.statement_injector.insert_before(&decl.address(), statement);
+                self.ctx
+                    .statement_injector
+                    .insert_before(&decl.address(), statement);
                 break;
             }
         }
@@ -484,7 +514,9 @@ impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
         transform_ctx: &'ctx TransformCtx<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::ObjectExpression(obj_expr) = expr else { unreachable!() };
+        let Expression::ObjectExpression(obj_expr) = expr else {
+            unreachable!()
+        };
 
         if obj_expr.properties.iter().all(|prop| !prop.is_spread()) {
             return;
@@ -497,7 +529,11 @@ impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
             if let ObjectPropertyKind::SpreadProperty(mut spread_prop) = prop {
                 Self::make_object_spread(&mut call_expr, &mut props, transform_ctx, ctx);
                 let arg = spread_prop.argument.take_in(ctx.ast);
-                call_expr.as_mut().unwrap().arguments.push(Argument::from(arg));
+                call_expr
+                    .as_mut()
+                    .unwrap()
+                    .arguments
+                    .push(Argument::from(arg));
             } else {
                 props.push(prop);
             }
@@ -520,14 +556,18 @@ impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
         let obj = ctx.ast.expression_object(
             SPAN,
             // Reserve maximize might be used space for new vec
-            mem::replace(props, ctx.ast.vec_with_capacity(props.capacity() - props.len())),
+            mem::replace(
+                props,
+                ctx.ast.vec_with_capacity(props.capacity() - props.len()),
+            ),
         );
         let arguments = if let Some(call_expr) = expr.take() {
             let arg = Expression::CallExpression(call_expr);
             let arg = Argument::from(arg);
             if had_props {
                 let empty_object = ctx.ast.expression_object(SPAN, ctx.ast.vec());
-                ctx.ast.vec_from_array([arg, Argument::from(empty_object), Argument::from(obj)])
+                ctx.ast
+                    .vec_from_array([arg, Argument::from(empty_object), Argument::from(obj)])
             } else {
                 ctx.ast.vec1(arg)
             }
@@ -543,7 +583,9 @@ impl<'a> ObjectRestSpread<'a, '_> {
     // Transform `function foo({...x}) {}`.
     fn transform_function(func: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
         let scope_id = func.scope_id();
-        let Some(body) = func.body.as_mut() else { return };
+        let Some(body) = func.body.as_mut() else {
+            return;
+        };
         for param in &mut func.params.items {
             if Self::has_nested_object_rest(&param.pattern) {
                 Self::replace_rest_element(
@@ -571,11 +613,13 @@ impl<'a> ObjectRestSpread<'a, '_> {
                     let Statement::ExpressionStatement(stmt) = arrow.body.statements.pop().unwrap()
                     else {
                         unreachable!(
-                            "`arrow.expression` is true, which means it has only one ExpressionStatement."
+                            "`arrow.expression` is true, which means it has only one \
+                             ExpressionStatement."
                         );
                     };
-                    let return_stmt =
-                        ctx.ast.statement_return(stmt.span, Some(stmt.unbox().expression));
+                    let return_stmt = ctx
+                        .ast
+                        .statement_return(stmt.span, Some(stmt.unbox().expression));
                     arrow.body.statements.push(return_stmt);
                 }
                 Self::replace_rest_element(
@@ -591,7 +635,9 @@ impl<'a> ObjectRestSpread<'a, '_> {
 
     // Transform `try {} catch ({...x}) {}`.
     fn transform_catch_clause(clause: &mut CatchClause<'a>, ctx: &mut TraverseCtx<'a>) {
-        let Some(param) = &mut clause.param else { unreachable!() };
+        let Some(param) = &mut clause.param else {
+            unreachable!()
+        };
         if Self::has_nested_object_rest(&param.pattern) {
             let scope_id = clause.body.scope_id();
             // Remove `SymbolFlags::CatchVariable`.
@@ -624,18 +670,26 @@ impl<'a> ObjectRestSpread<'a, '_> {
                     unreachable!();
                 };
                 let mut bound_names = vec![];
-                declarator.id.bound_names(&mut |ident| bound_names.push(ident.clone()));
+                declarator
+                    .id
+                    .bound_names(&mut |ident| bound_names.push(ident.clone()));
                 Self::replace_rest_element(
                     declarator.kind,
                     &mut declarator.id,
                     &mut block.body,
-                    if decl.kind.is_var() { ctx.current_hoist_scope_id() } else { scope_id },
+                    if decl.kind.is_var() {
+                        ctx.current_hoist_scope_id()
+                    } else {
+                        scope_id
+                    },
                     ctx,
                 );
                 // Move the bindings from the for init scope to scope of the loop body.
                 for ident in bound_names {
-                    ctx.scoping_mut().set_symbol_scope_id(ident.symbol_id(), new_scope_id);
-                    ctx.scoping_mut().move_binding(scope_id, new_scope_id, ident.name.into());
+                    ctx.scoping_mut()
+                        .set_symbol_scope_id(ident.symbol_id(), new_scope_id);
+                    ctx.scoping_mut()
+                        .move_binding(scope_id, new_scope_id, ident.name.into());
                 }
             }
         }
@@ -660,8 +714,12 @@ impl<'a> ObjectRestSpread<'a, '_> {
         let bound_identifier = ctx.generate_uid("ref", scope_id, flags);
         let id = bound_identifier.create_binding_pattern(ctx);
         let kind = VariableDeclarationKind::Var;
-        let declarations = ctx.ast.vec1(ctx.ast.variable_declarator(SPAN, kind, id, None, false));
-        let decl = ctx.ast.alloc_variable_declaration(SPAN, kind, declarations, false);
+        let declarations = ctx
+            .ast
+            .vec1(ctx.ast.variable_declarator(SPAN, kind, id, None, false));
+        let decl = ctx
+            .ast
+            .alloc_variable_declaration(SPAN, kind, declarations, false);
         *left = ForStatementLeft::VariableDeclaration(decl);
         Self::try_replace_statement_with_block(body, scope_id, ctx);
         let Statement::BlockStatement(block) = body else {
@@ -669,7 +727,9 @@ impl<'a> ObjectRestSpread<'a, '_> {
         };
         let operator = AssignmentOperator::Assign;
         let right = bound_identifier.create_read_expression(ctx);
-        let expr = ctx.ast.expression_assignment(SPAN, operator, assign_left, right);
+        let expr = ctx
+            .ast
+            .expression_assignment(SPAN, operator, assign_left, right);
         let stmt = ctx.ast.statement_expression(SPAN, expr);
         block.body.insert(0, stmt);
     }
@@ -698,11 +758,19 @@ impl<'a> ObjectRestSpread<'a, '_> {
         match &pat.kind {
             BindingPatternKind::ObjectPattern(pat) => {
                 pat.rest.is_some()
-                    || pat.properties.iter().any(|p| Self::has_nested_object_rest(&p.value))
+                    || pat
+                        .properties
+                        .iter()
+                        .any(|p| Self::has_nested_object_rest(&p.value))
             }
             BindingPatternKind::ArrayPattern(pat) => {
-                pat.elements.iter().any(|e| e.as_ref().is_some_and(Self::has_nested_object_rest))
-                    || pat.rest.as_ref().is_some_and(|e| Self::has_nested_object_rest(&e.argument))
+                pat.elements
+                    .iter()
+                    .any(|e| e.as_ref().is_some_and(Self::has_nested_object_rest))
+                    || pat
+                        .rest
+                        .as_ref()
+                        .is_some_and(|e| Self::has_nested_object_rest(&e.argument))
             }
             BindingPatternKind::AssignmentPattern(pat) => Self::has_nested_object_rest(&pat.left),
             BindingPatternKind::BindingIdentifier(_) => false,
@@ -710,7 +778,8 @@ impl<'a> ObjectRestSpread<'a, '_> {
     }
 
     /// Move the binding to the body if it contains an object rest.
-    /// The object pattern will be transform by `transform_object_pattern` afterwards.
+    /// The object pattern will be transform by `transform_object_pattern`
+    /// afterwards.
     fn replace_rest_element(
         kind: VariableDeclarationKind,
         pattern: &mut BindingPattern<'a>,
@@ -776,8 +845,13 @@ impl<'a> ObjectRestSpread<'a, '_> {
         let id = mem::replace(pat, bound_identifier.create_binding_pattern(ctx));
         let init = bound_identifier.create_read_expression(ctx);
         let declarations =
-            ctx.ast.vec1(ctx.ast.variable_declarator(SPAN, kind, id, Some(init), false));
-        let decl = ctx.ast.variable_declaration(SPAN, kind, declarations, false);
+            ctx.ast.vec1(
+                ctx.ast
+                    .variable_declarator(SPAN, kind, id, Some(init), false),
+            );
+        let decl = ctx
+            .ast
+            .variable_declaration(SPAN, kind, declarations, false);
         decl.bound_names(&mut |ident| {
             *ctx.scoping_mut().symbol_flags_mut(ident.symbol_id()) =
                 SymbolFlags::BlockScopedVariable;
@@ -809,16 +883,18 @@ impl<'a> ObjectRestSpread<'a, '_> {
     }
 
     // The algorithm depth searches for object rest,
-    // and then creates a ref for the object, subsequent visit will then transform this object rest.
-    // Transforms:
-    // * `var {...a} = foo` -> `var a = _extends({}, (_objectDestructuringEmpty(foo), foo));`
+    // and then creates a ref for the object, subsequent visit will then transform
+    // this object rest. Transforms:
+    // * `var {...a} = foo` -> `var a = _extends({},
+    //   (_objectDestructuringEmpty(foo), foo));`
     // * `var [{x: {y: {...a}}}] = z` -> `var [{x: {y: _ref}}] = z, {...a} = _ref`
     fn transform_variable_declarator(
         &mut self,
         decl: &mut VariableDeclarator<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) -> ArenaVec<'a, VariableDeclarator<'a>> {
-        // It is syntax error or inside for loop if missing initializer in destructuring pattern.
+        // It is syntax error or inside for loop if missing initializer in destructuring
+        // pattern.
         let init = decl.init.as_mut().unwrap();
 
         // Use the scope of the identifier, scope is different for
@@ -888,7 +964,8 @@ impl<'a> ObjectRestSpread<'a, '_> {
                     has_no_properties: pat.properties.is_empty(),
                     all_primitives,
                 };
-                // Add `rest = babelHelpers.extends({}, (babelHelpers.objectDestructuringEmpty(_foo), _foo))`.
+                // Add `rest = babelHelpers.extends({},
+                // (babelHelpers.objectDestructuringEmpty(_foo), _foo))`.
                 // Or `rest = babelHelpers.objectWithoutProperties(_foo, ["x"])`.
                 let (lhs, rhs) = datum.get_lhs_rhs(
                     &mut reference_builder,
@@ -898,7 +975,8 @@ impl<'a> ObjectRestSpread<'a, '_> {
                 );
                 if let BindingPatternOrAssignmentTarget::BindingPattern(lhs) = lhs {
                     let decl =
-                        ctx.ast.variable_declarator(lhs.span(), decl.kind, lhs, Some(rhs), false);
+                        ctx.ast
+                            .variable_declarator(lhs.span(), decl.kind, lhs, Some(rhs), false);
                     temp_decls.push(decl);
                 }
             }
@@ -913,7 +991,8 @@ impl<'a> ObjectRestSpread<'a, '_> {
         // Insert the original declarator by copying its data out.
         if !remove_empty_object_pattern {
             let mut binding_pattern_kind =
-                ctx.ast.binding_pattern_kind_object_pattern(decl.span, ctx.ast.vec(), NONE);
+                ctx.ast
+                    .binding_pattern_kind_object_pattern(decl.span, ctx.ast.vec(), NONE);
             mem::swap(&mut binding_pattern_kind, &mut decl.id.kind);
             let decl = ctx.ast.variable_declarator(
                 decl.span,
@@ -960,7 +1039,8 @@ impl<'a> ObjectRestSpread<'a, '_> {
 
                     let init = bound_identifier.create_read_expression(ctx);
                     let mut decl =
-                        ctx.ast.variable_declarator(SPAN, state.kind, id, Some(init), false);
+                        ctx.ast
+                            .variable_declarator(SPAN, state.kind, id, Some(init), false);
                     let mut decls = self
                         .transform_variable_declarator(&mut decl, ctx)
                         .into_iter()
@@ -999,7 +1079,9 @@ impl<'a> ObjectRestSpread<'a, '_> {
             PropertyKey::TemplateLiteral(lit) if lit.is_no_substitution_template() => {
                 let quasis = ctx.ast.vec1(lit.quasis[0].clone());
                 let expressions = ctx.ast.vec();
-                let expr = ctx.ast.expression_template_literal(lit.span, quasis, expressions);
+                let expr = ctx
+                    .ast
+                    .expression_template_literal(lit.span, quasis, expressions);
                 Some(ArrayExpressionElement::from(expr))
             }
             PropertyKey::PrivateIdentifier(_) => {
@@ -1011,7 +1093,9 @@ impl<'a> ObjectRestSpread<'a, '_> {
                 // `let { [1], ... rest }`
                 if expr.is_literal() {
                     let span = expr.span();
-                    let s = expr.to_js_string(&WithoutGlobalReferenceInformation {}).unwrap();
+                    let s = expr
+                        .to_js_string(&WithoutGlobalReferenceInformation {})
+                        .unwrap();
                     let s = ctx.ast.atom_from_cow(&s);
                     let expr = ctx.ast.expression_string_literal(span, s, None);
                     return Some(ArrayExpressionElement::from(expr));
@@ -1029,8 +1113,13 @@ impl<'a> ObjectRestSpread<'a, '_> {
                 let p = bound_identifier.create_binding_pattern(ctx);
                 let mut lhs = bound_identifier.create_read_expression(ctx);
                 mem::swap(&mut lhs, expr);
-                new_decls.push(ctx.ast.variable_declarator(SPAN, state.kind, p, Some(lhs), false));
-                Some(ArrayExpressionElement::from(bound_identifier.create_read_expression(ctx)))
+                new_decls.push(
+                    ctx.ast
+                        .variable_declarator(SPAN, state.kind, p, Some(lhs), false),
+                );
+                Some(ArrayExpressionElement::from(
+                    bound_identifier.create_read_expression(ctx),
+                ))
             }
         }
     }
@@ -1045,7 +1134,11 @@ struct State {
 
 impl State {
     fn new(kind: VariableDeclarationKind, symbol_flags: SymbolFlags, scope_id: ScopeId) -> Self {
-        Self { kind, symbol_flags, scope_id }
+        Self {
+            kind,
+            symbol_flags,
+            scope_id,
+        }
     }
 }
 
@@ -1084,34 +1177,37 @@ impl<'a> SpreadPair<'a> {
         ctx: &mut TraverseCtx<'a>,
     ) -> (BindingPatternOrAssignmentTarget<'a>, Expression<'a>) {
         let rhs = if self.has_no_properties {
-            // The `ObjectDestructuringEmpty` function throws a type error when destructuring null.
-            // `function _objectDestructuringEmpty(t) { if (null == t) throw new TypeError("Cannot destructure " + t); }`
+            // The `ObjectDestructuringEmpty` function throws a type error when
+            // destructuring null. `function _objectDestructuringEmpty(t) { if
+            // (null == t) throw new TypeError("Cannot destructure " + t); }`
             let mut arguments = ctx.ast.vec();
             // Add `{}`.
             arguments.push(Argument::ObjectExpression(
                 ctx.ast.alloc_object_expression(SPAN, ctx.ast.vec()),
             ));
             // Add `(_objectDestructuringEmpty(b), b);`
-            arguments.push(Argument::SequenceExpression(ctx.ast.alloc_sequence_expression(
-                SPAN,
-                {
+            arguments.push(Argument::SequenceExpression(
+                ctx.ast.alloc_sequence_expression(SPAN, {
                     let mut sequence = ctx.ast.vec();
                     sequence.push(transform_ctx.helper_call_expr(
                         Helper::ObjectDestructuringEmpty,
                         SPAN,
-                        ctx.ast.vec1(Argument::from(reference_builder.create_read_expression(ctx))),
+                        ctx.ast.vec1(Argument::from(
+                            reference_builder.create_read_expression(ctx),
+                        )),
                         ctx,
                     ));
                     sequence.push(reference_builder.create_read_expression(ctx));
                     sequence
-                },
-            )));
+                }),
+            ));
             transform_ctx.helper_call_expr(Helper::Extends, SPAN, arguments, ctx)
         } else {
             // / `let { a, b, ...c } = z` -> _objectWithoutProperties(_z, ["a", "b"]);
             // / `_objectWithoutProperties(_z, ["a", "b"])`
-            let mut arguments =
-                ctx.ast.vec1(Argument::from(reference_builder.create_read_expression(ctx)));
+            let mut arguments = ctx.ast.vec1(Argument::from(
+                reference_builder.create_read_expression(ctx),
+            ));
             let key_expression = ctx.ast.expression_array(SPAN, self.keys);
 
             let key_expression = if self.all_primitives
@@ -1137,12 +1233,14 @@ impl<'a> SpreadPair<'a> {
                 // `[_ref].map(babelHelpers.toPropertyKey))`
                 let property = ctx.ast.identifier_name(SPAN, "map");
                 let callee = Expression::StaticMemberExpression(
-                    ctx.ast.alloc_static_member_expression(SPAN, key_expression, property, false),
+                    ctx.ast
+                        .alloc_static_member_expression(SPAN, key_expression, property, false),
                 );
-                let arguments = ctx
-                    .ast
-                    .vec1(Argument::from(transform_ctx.helper_load(Helper::ToPropertyKey, ctx)));
-                ctx.ast.expression_call(SPAN, callee, NONE, arguments, false)
+                let arguments = ctx.ast.vec1(Argument::from(
+                    transform_ctx.helper_load(Helper::ToPropertyKey, ctx),
+                ));
+                ctx.ast
+                    .expression_call(SPAN, callee, NONE, arguments, false)
             } else {
                 key_expression
             };
@@ -1183,10 +1281,16 @@ impl<'a> ReferenceBuilder<'a> {
                 maybe_bound_identifier = bound_identifier.to_maybe_bound_identifier();
             }
         }
-        Self { expr: Some(expr), binding, maybe_bound_identifier }
+        Self {
+            expr: Some(expr),
+            binding,
+            maybe_bound_identifier,
+        }
     }
 
     fn create_read_expression(&mut self, ctx: &mut TraverseCtx<'a>) -> Expression<'a> {
-        self.expr.take().unwrap_or_else(|| self.maybe_bound_identifier.create_read_expression(ctx))
+        self.expr
+            .take()
+            .unwrap_or_else(|| self.maybe_bound_identifier.create_read_expression(ctx))
     }
 }

@@ -16,15 +16,17 @@ use crate::context::{TransformCtx, TraverseCtx};
 impl<'a> TransformCtx<'a> {
     /// Duplicate expression to be used twice.
     ///
-    /// If `expr` may have side effects, create a temp var `_expr` and assign to it.
+    /// If `expr` may have side effects, create a temp var `_expr` and assign to
+    /// it.
     ///
     /// * `this` -> `this`, `this`
     /// * Bound identifier `foo` -> `foo`, `foo`
     /// * Unbound identifier `foo` -> `_foo = foo`, `_foo`
     /// * Anything else `foo()` -> `_foo = foo()`, `_foo`
     ///
-    /// If `mutated_symbol_needs_temp_var` is `true`, temp var will be created for a bound identifier,
-    /// if it's mutated (assigned to) anywhere in AST.
+    /// If `mutated_symbol_needs_temp_var` is `true`, temp var will be created
+    /// for a bound identifier, if it's mutated (assigned to) anywhere in
+    /// AST.
     ///
     /// Returns 2 `Expression`s. The first may be an `AssignmentExpression`,
     /// and must be inserted into output first.
@@ -42,15 +44,17 @@ impl<'a> TransformCtx<'a> {
 
     /// Duplicate expression to be used 3 times.
     ///
-    /// If `expr` may have side effects, create a temp var `_expr` and assign to it.
+    /// If `expr` may have side effects, create a temp var `_expr` and assign to
+    /// it.
     ///
     /// * `this` -> `this`, `this`, `this`
     /// * Bound identifier `foo` -> `foo`, `foo`, `foo`
     /// * Unbound identifier `foo` -> `_foo = foo`, `_foo`, `_foo`
     /// * Anything else `foo()` -> `_foo = foo()`, `_foo`, `_foo`
     ///
-    /// If `mutated_symbol_needs_temp_var` is `true`, temp var will be created for a bound identifier,
-    /// if it's mutated (assigned to) anywhere in AST.
+    /// If `mutated_symbol_needs_temp_var` is `true`, temp var will be created
+    /// for a bound identifier, if it's mutated (assigned to) anywhere in
+    /// AST.
     ///
     /// Returns 3 `Expression`s. The first may be an `AssignmentExpression`,
     /// and must be inserted into output first.
@@ -68,18 +72,20 @@ impl<'a> TransformCtx<'a> {
 
     /// Duplicate expression `N + 1` times.
     ///
-    /// If `expr` may have side effects, create a temp var `_expr` and assign to it.
+    /// If `expr` may have side effects, create a temp var `_expr` and assign to
+    /// it.
     ///
     /// * `this` -> `this`, [`this`; N]
     /// * Bound identifier `foo` -> `foo`, [`foo`; N]
     /// * Unbound identifier `foo` -> `_foo = foo`, [`_foo`; N]
     /// * Anything else `foo()` -> `_foo = foo()`, [`_foo`; N]
     ///
-    /// If `mutated_symbol_needs_temp_var` is `true`, temp var will be created for a bound identifier,
-    /// if it's mutated (assigned to) anywhere in AST.
+    /// If `mutated_symbol_needs_temp_var` is `true`, temp var will be created
+    /// for a bound identifier, if it's mutated (assigned to) anywhere in
+    /// AST.
     ///
-    /// Returns `N + 1` x `Expression`s. The first may be an `AssignmentExpression`,
-    /// and must be inserted into output first.
+    /// Returns `N + 1` x `Expression`s. The first may be an
+    /// `AssignmentExpression`, and must be inserted into output first.
     pub(crate) fn duplicate_expression_multiple<const N: usize>(
         &self,
         expr: Expression<'a>,
@@ -102,7 +108,8 @@ impl<'a> TransformCtx<'a> {
                     return (expr, references);
                 }
 
-                // Previously `x += 1` (`x` read + write), but moving to `_x = x` (`x` read only)
+                // Previously `x += 1` (`x` read + write), but moving to `_x = x` (`x` read
+                // only)
                 let reference = ctx.scoping_mut().get_reference_mut(reference_id);
                 *reference.flags_mut() = ReferenceFlags::Read;
 
@@ -121,10 +128,11 @@ impl<'a> TransformCtx<'a> {
                 return (expr, references);
             }
             // Template literal cannot have side effects if it has no expressions.
-            // If it *does* have expressions, but they're all literals, then also cannot have side effects,
-            // but don't bother checking for that as it shouldn't occur in real world code.
-            // Why would you write "`x${9}z`" when you can just write "`x9z`"?
-            // Note: "`x${foo}`" *can* have side effects if `foo` is an object with a `toString` method.
+            // If it *does* have expressions, but they're all literals, then also cannot have side
+            // effects, but don't bother checking for that as it shouldn't occur in real
+            // world code. Why would you write "`x${9}z`" when you can just write
+            // "`x9z`"? Note: "`x${foo}`" *can* have side effects if `foo` is an object
+            // with a `toString` method.
             Expression::TemplateLiteral(lit) if lit.expressions.is_empty() => {
                 let references = create_array(|| {
                     ctx.ast.expression_template_literal(
@@ -136,7 +144,9 @@ impl<'a> TransformCtx<'a> {
                 return (expr, references);
             }
             // Anything else requires temp var
-            _ => self.var_declarations.create_uid_var_based_on_node(&expr, ctx),
+            _ => self
+                .var_declarations
+                .create_uid_var_based_on_node(&expr, ctx),
         };
 
         let assignment = ctx.ast.expression_assignment(
@@ -152,21 +162,24 @@ impl<'a> TransformCtx<'a> {
     }
 }
 
-/// Create array of length `N`, with each item initialized with provided function `init`.
+/// Create array of length `N`, with each item initialized with provided
+/// function `init`.
 ///
 /// Implementation based on:
 /// * <https://github.com/rust-lang/rust/issues/62875#issuecomment-513834029>
 /// * <https://github.com/rust-lang/rust/issues/61956>
 //
-// `#[inline]` so compiler can inline `init()`, and it may unroll the loop if `init` is simple enough.
+// `#[inline]` so compiler can inline `init()`, and it may unroll the loop if `init` is simple
+// enough.
 #[inline]
 fn create_array<const N: usize, T, I: FnMut() -> T>(mut init: I) -> [T; N] {
     let mut array: [MaybeUninit<T>; N] = [const { MaybeUninit::uninit() }; N];
     for elem in &mut array {
         elem.write(init());
     }
-    // Wrapping in `ManuallyDrop` should not be necessary because `MaybeUninit` does not impl `Drop`,
-    // but do it anyway just to make sure, as it's mentioned in issues above.
+    // Wrapping in `ManuallyDrop` should not be necessary because `MaybeUninit` does
+    // not impl `Drop`, but do it anyway just to make sure, as it's mentioned in
+    // issues above.
     let mut array = ManuallyDrop::new(array);
     // SAFETY: All elements of array are initialized.
     // `[MaybeUninit<T>; N]` and `[T; N]` have same layout.

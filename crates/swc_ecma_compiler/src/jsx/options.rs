@@ -44,18 +44,20 @@ pub struct JsxOptions {
     pub jsx_source_plugin: bool,
 
     // Both Runtimes
-    //
     /// Decides which runtime to use.
     pub runtime: JsxRuntime,
 
-    /// This toggles behavior specific to development, such as adding __source and __self.
+    /// This toggles behavior specific to development, such as adding __source
+    /// and __self.
     ///
     /// Defaults to `false`.
     pub development: bool,
 
-    /// Toggles whether or not to throw an error if a XML namespaced tag name is used.
+    /// Toggles whether or not to throw an error if a XML namespaced tag name is
+    /// used.
     ///
-    /// Though the JSX spec allows this, it is disabled by default since React's JSX does not currently have support for it.
+    /// Though the JSX spec allows this, it is disabled by default since React's
+    /// JSX does not currently have support for it.
     #[serde(default = "default_as_true")]
     pub throw_if_namespace: bool,
 
@@ -68,7 +70,6 @@ pub struct JsxOptions {
     pub pure: bool,
 
     // React Automatic Runtime
-    //
     /// Replaces the import source when importing functions.
     ///
     /// Defaults to `react`.
@@ -76,18 +77,20 @@ pub struct JsxOptions {
     pub import_source: Option<String>,
 
     // React Classic Runtime
-    //
     /// Replace the function used when compiling JSX expressions.
     ///
-    /// It should be a qualified name (e.g. React.createElement) or an identifier (e.g. createElement).
+    /// It should be a qualified name (e.g. React.createElement) or an
+    /// identifier (e.g. createElement).
     ///
-    /// Note that the @jsx React.DOM pragma has been deprecated as of React v0.12
+    /// Note that the @jsx React.DOM pragma has been deprecated as of React
+    /// v0.12
     ///
     /// Defaults to `React.createElement`.
     #[serde(default)]
     pub pragma: Option<String>,
 
-    /// Replace the component used when compiling JSX fragments. It should be a valid JSX tag name.
+    /// Replace the component used when compiling JSX fragments. It should be a
+    /// valid JSX tag name.
     ///
     /// Defaults to `React.Fragment`.
     #[serde(default)]
@@ -176,15 +179,18 @@ pub struct ReactRefreshOptions {
     #[serde(default = "default_refresh_sig")]
     pub refresh_sig: String,
 
-    /// Controls whether to emit full signatures or use a more compact representation.
+    /// Controls whether to emit full signatures or use a more compact
+    /// representation.
     ///
-    /// When set to `true`, this option causes this plugin to emit full, readable signatures
-    /// for React components and hooks. This can be useful for debugging and development purposes.
+    /// When set to `true`, this option causes this plugin to emit full,
+    /// readable signatures for React components and hooks. This can be
+    /// useful for debugging and development purposes.
     ///
-    /// When set to `false` (default), the transformer will use a more compact representation.
-    /// Specifically, it generates a SHA-1 hash of the signature and then encodes it using Base64.
-    /// This process produces a deterministic, compact representation that's suitable for
-    /// production builds while still uniquely identifying components.
+    /// When set to `false` (default), the transformer will use a more compact
+    /// representation. Specifically, it generates a SHA-1 hash of the
+    /// signature and then encodes it using Base64. This process produces a
+    /// deterministic, compact representation that's suitable for production
+    /// builds while still uniquely identifying components.
     ///
     /// Defaults to `false`.
     #[serde(default)]

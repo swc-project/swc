@@ -3,16 +3,15 @@
 
 use oxc_allocator::TakeIn;
 use oxc_ast::ast::*;
-use oxc_ast_visit::{VisitMut, walk_mut};
+use oxc_ast_visit::{walk_mut, VisitMut};
 use oxc_semantic::ScopeFlags;
 use oxc_span::SPAN;
 
-use crate::{Helper, context::TraverseCtx};
-
 use super::{
-    ClassProperties,
     super_converter::{ClassPropertiesSuperConverter, ClassPropertiesSuperConverterMode},
+    ClassProperties,
 };
+use crate::{context::TraverseCtx, Helper};
 
 impl<'a> ClassProperties<'a, '_> {
     /// Convert method definition where the key is a private identifier and
@@ -41,7 +40,14 @@ impl<'a> ClassProperties<'a, '_> {
         method: &mut MethodDefinition<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) -> Option<Statement<'a>> {
-        let MethodDefinition { key, value, span, kind, r#static, .. } = method;
+        let MethodDefinition {
+            key,
+            value,
+            span,
+            kind,
+            r#static,
+            ..
+        } = method;
         let PropertyKey::PrivateIdentifier(ident) = &key else {
             return None;
         };
@@ -63,7 +69,8 @@ impl<'a> ClassProperties<'a, '_> {
         // strict mode flag if parent scope is not strict mode.
         let scope_id = function.scope_id();
         let new_parent_id = ctx.current_scope_id();
-        ctx.scoping_mut().change_scope_parent_id(scope_id, Some(new_parent_id));
+        ctx.scoping_mut()
+            .change_scope_parent_id(scope_id, Some(new_parent_id));
         let is_strict_mode = ctx.current_scope_flags().is_strict_mode();
         let flags = ctx.scoping_mut().scope_flags_mut(scope_id);
         *flags -= ScopeFlags::GetAccessor | ScopeFlags::SetAccessor;
@@ -89,7 +96,8 @@ impl<'a> ClassProperties<'a, '_> {
             Argument::from(ctx.ast.expression_this(SPAN)),
             Argument::from(brand.create_read_expression(ctx)),
         ]);
-        self.ctx.helper_call_expr(Helper::ClassPrivateMethodInitSpec, SPAN, arguments, ctx)
+        self.ctx
+            .helper_call_expr(Helper::ClassPrivateMethodInitSpec, SPAN, arguments, ctx)
     }
 }
 
@@ -117,7 +125,10 @@ impl<'a, 'ctx, 'v> PrivateMethodVisitor<'a, 'ctx, 'v> {
         } else {
             ClassPropertiesSuperConverterMode::PrivateMethod
         };
-        Self { super_converter: ClassPropertiesSuperConverter::new(mode, class_properties), ctx }
+        Self {
+            super_converter: ClassPropertiesSuperConverter::new(mode, class_properties),
+            ctx,
+        }
     }
 }
 
@@ -127,11 +138,13 @@ impl<'a> VisitMut<'a> for PrivateMethodVisitor<'a, '_, '_> {
         match expr {
             // `super.prop`
             Expression::StaticMemberExpression(_) => {
-                self.super_converter.transform_static_member_expression(expr, self.ctx);
+                self.super_converter
+                    .transform_static_member_expression(expr, self.ctx);
             }
             // `super[prop]`
             Expression::ComputedMemberExpression(_) => {
-                self.super_converter.transform_computed_member_expression(expr, self.ctx);
+                self.super_converter
+                    .transform_computed_member_expression(expr, self.ctx);
             }
             // `super.prop()`
             Expression::CallExpression(call_expr) => {
@@ -155,7 +168,9 @@ impl<'a> VisitMut<'a> for PrivateMethodVisitor<'a, '_, '_> {
 
     /// Transform reference to class name to temp var
     fn visit_identifier_reference(&mut self, ident: &mut IdentifierReference<'a>) {
-        self.super_converter.class_properties.replace_class_name_with_temp_var(ident, self.ctx);
+        self.super_converter
+            .class_properties
+            .replace_class_name_with_temp_var(ident, self.ctx);
     }
 
     #[inline]
@@ -166,7 +181,7 @@ impl<'a> VisitMut<'a> for PrivateMethodVisitor<'a, '_, '_> {
         // 1. Class decorators
         // 2. Class `extends` clause
         // 3. Class property/method/accessor computed keys
-        // 4. Class property/method/accessor decorators
-        //    (or does `super` in a decorator refer to inner class?)
+        // 4. Class property/method/accessor decorators (or does `super` in a
+        //    decorator refer to inner class?)
     }
 }

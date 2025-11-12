@@ -54,7 +54,7 @@
 use std::{borrow::Cow, mem};
 
 use oxc_allocator::{Box as ArenaBox, StringBuilder as ArenaStringBuilder, TakeIn};
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_ast_visit::Visit;
 use oxc_semantic::{ReferenceFlags, ScopeFlags, ScopeId, SymbolFlags};
 use oxc_span::{Atom, GetSpan, SPAN};
@@ -77,7 +77,10 @@ pub struct AsyncToGenerator<'a, 'ctx> {
 
 impl<'a, 'ctx> AsyncToGenerator<'a, 'ctx> {
     pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { ctx, executor: AsyncGeneratorExecutor::new(Helper::AsyncToGenerator, ctx) }
+        Self {
+            ctx,
+            executor: AsyncGeneratorExecutor::new(Helper::AsyncToGenerator, ctx),
+        }
     }
 }
 
@@ -137,7 +140,9 @@ impl<'a> Traverse<'a, TransformState<'a>> for AsyncToGenerator<'a, '_> {
             && !function.is_typescript_syntax()
         {
             let new_statement = self.executor.transform_function_declaration(function, ctx);
-            self.ctx.statement_injector.insert_after(stmt, new_statement);
+            self.ctx
+                .statement_injector
+                .insert_after(stmt, new_statement);
         }
     }
 
@@ -146,7 +151,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for AsyncToGenerator<'a, '_> {
             && !func.is_typescript_syntax()
             && AsyncGeneratorExecutor::is_class_method_like_ancestor(ctx.parent())
         {
-            self.executor.transform_function_for_method_definition(func, ctx);
+            self.executor
+                .transform_function_for_method_definition(func, ctx);
         }
     }
 }
@@ -154,7 +160,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for AsyncToGenerator<'a, '_> {
 impl<'a> AsyncToGenerator<'a, '_> {
     /// Check whether the current node is inside an async function.
     fn is_inside_async_function(ctx: &TraverseCtx<'a>) -> bool {
-        // Early return if current scope is top because we don't need to transform top-level await expression.
+        // Early return if current scope is top because we don't need to transform
+        // top-level await expression.
         if ctx.current_scope_flags().is_top() {
             return false;
         }
@@ -179,7 +186,10 @@ impl<'a> AsyncToGenerator<'a, '_> {
     ) -> Option<Expression<'a>> {
         // We don't need to handle top-level await.
         if Self::is_inside_async_function(ctx) {
-            Some(ctx.ast.expression_yield(SPAN, false, Some(expr.argument.take_in(ctx.ast))))
+            Some(
+                ctx.ast
+                    .expression_yield(SPAN, false, Some(expr.argument.take_in(ctx.ast))),
+            )
         } else {
             None
         }
@@ -196,7 +206,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         Self { helper, ctx }
     }
 
-    /// Transforms async method definitions to generator functions wrapped in asyncToGenerator.
+    /// Transforms async method definitions to generator functions wrapped in
+    /// asyncToGenerator.
     ///
     /// ## Example
     ///
@@ -232,9 +243,11 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         let (generator_scope_id, wrapper_scope_id) = {
             let new_scope_id = ctx.create_child_scope(ctx.current_scope_id(), ScopeFlags::Function);
             let scope_id = func.scope_id.replace(Some(new_scope_id)).unwrap();
-            // We need to change the parent id to new scope id because we need to this function's body inside the wrapper function,
-            // and then the new scope id will be wrapper function's scope id.
-            ctx.scoping_mut().change_scope_parent_id(scope_id, Some(new_scope_id));
+            // We need to change the parent id to new scope id because we need to this
+            // function's body inside the wrapper function, and then the new
+            // scope id will be wrapper function's scope id.
+            ctx.scoping_mut()
+                .change_scope_parent_id(scope_id, Some(new_scope_id));
             if !needs_move_parameters_to_inner_function {
                 // We need to change formal parameters's scope back to the original scope,
                 // because we only move out the function body.
@@ -270,8 +283,10 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         let (callee, arguments) = if needs_move_parameters_to_inner_function {
             // callee.apply(this, arguments)
             let property = ctx.ast.identifier_name(SPAN, "apply");
-            let callee =
-                Expression::from(ctx.ast.member_expression_static(SPAN, callee, property, false));
+            let callee = Expression::from(
+                ctx.ast
+                    .member_expression_static(SPAN, callee, property, false),
+            );
 
             // this, arguments
             let this_argument = Argument::from(ctx.ast.expression_this(SPAN));
@@ -280,23 +295,32 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
                 Atom::new_const("arguments"),
                 ReferenceFlags::Read,
             ));
-            (callee, ctx.ast.vec_from_array([this_argument, arguments_argument]))
+            (
+                callee,
+                ctx.ast.vec_from_array([this_argument, arguments_argument]),
+            )
         } else {
             // callee()
             (callee, ctx.ast.vec())
         };
 
-        let expression = ctx.ast.expression_call(SPAN, callee, NONE, arguments, false);
+        let expression = ctx
+            .ast
+            .expression_call(SPAN, callee, NONE, arguments, false);
         let statement = ctx.ast.statement_return(SPAN, Some(expression));
 
         // Modify the wrapper function
         func.r#async = false;
         func.generator = false;
-        func.body = Some(ctx.ast.alloc_function_body(SPAN, ctx.ast.vec(), ctx.ast.vec1(statement)));
+        func.body = Some(
+            ctx.ast
+                .alloc_function_body(SPAN, ctx.ast.vec(), ctx.ast.vec1(statement)),
+        );
         func.scope_id.set(Some(wrapper_scope_id));
     }
 
-    /// Transforms [`Function`] whose type is [`FunctionType::FunctionExpression`] to a generator function
+    /// Transforms [`Function`] whose type is
+    /// [`FunctionType::FunctionExpression`] to a generator function
     /// and wraps it in asyncToGenerator helper function.
     pub fn transform_function_expression(
         &self,
@@ -320,9 +344,13 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         let (generator_scope_id, wrapper_scope_id) = {
             let wrapper_scope_id =
                 ctx.create_child_scope(ctx.current_scope_id(), ScopeFlags::Function);
-            let scope_id = wrapper_function.scope_id.replace(Some(wrapper_scope_id)).unwrap();
+            let scope_id = wrapper_function
+                .scope_id
+                .replace(Some(wrapper_scope_id))
+                .unwrap();
             // Change the parent scope of the function scope with the current scope.
-            ctx.scoping_mut().change_scope_parent_id(scope_id, Some(wrapper_scope_id));
+            ctx.scoping_mut()
+                .change_scope_parent_id(scope_id, Some(wrapper_scope_id));
             // If there is an id, then we will use it as the name of caller_function,
             // and the caller_function is inside the wrapper function.
             // so we need to move the id to the new scope.
@@ -344,7 +372,9 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         let caller_function = {
             let scope_id = ctx.create_child_scope(wrapper_scope_id, ScopeFlags::Function);
             let params = Self::create_placeholder_params(&params, scope_id, ctx);
-            let statements = ctx.ast.vec1(Self::create_apply_call_statement(&bound_ident, ctx));
+            let statements = ctx
+                .ast
+                .vec1(Self::create_apply_call_statement(&bound_ident, ctx));
             let body = ctx.ast.alloc_function_body(SPAN, ctx.ast.vec(), statements);
             let id = id.or_else(|| Self::infer_function_id_from_parent_node(wrapper_scope_id, ctx));
             Self::create_function(id, params, body, scope_id, ctx)
@@ -371,14 +401,16 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
                 );
                 let func_decl = Statement::FunctionDeclaration(caller_function);
                 let statement_return = ctx.ast.statement_return(SPAN, Some(reference));
-                ctx.ast.vec_from_array([async_to_gen_decl, func_decl, statement_return])
+                ctx.ast
+                    .vec_from_array([async_to_gen_decl, func_decl, statement_return])
             } else {
-                // If the function doesn't have an id, then we need to return the function itself.
-                // `function() { ... }` -> `return function() { ... };`
+                // If the function doesn't have an id, then we need to return the function
+                // itself. `function() { ... }` -> `return function() { ... };`
                 let statement_return = ctx
                     .ast
                     .statement_return(SPAN, Some(Expression::FunctionExpression(caller_function)));
-                ctx.ast.vec_from_array([async_to_gen_decl, statement_return])
+                ctx.ast
+                    .vec_from_array([async_to_gen_decl, statement_return])
             };
             debug_assert!(wrapper_function.body.is_none());
             wrapper_function.r#async = false;
@@ -392,10 +424,12 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
 
         // Construct the IIFE
         let callee = Expression::FunctionExpression(wrapper_function.take_in_box(ctx.ast));
-        ctx.ast.expression_call_with_pure(SPAN, callee, NONE, ctx.ast.vec(), false, true)
+        ctx.ast
+            .expression_call_with_pure(SPAN, callee, NONE, ctx.ast.vec(), false, true)
     }
 
-    /// Transforms async function declarations into generator functions wrapped in the asyncToGenerator helper.
+    /// Transforms async function declarations into generator functions wrapped
+    /// in the asyncToGenerator helper.
     pub fn transform_function_declaration(
         &self,
         wrapper_function: &mut Function<'a>,
@@ -404,9 +438,13 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         let (generator_scope_id, wrapper_scope_id) = {
             let wrapper_scope_id =
                 ctx.create_child_scope(ctx.current_scope_id(), ScopeFlags::Function);
-            let scope_id = wrapper_function.scope_id.replace(Some(wrapper_scope_id)).unwrap();
+            let scope_id = wrapper_function
+                .scope_id
+                .replace(Some(wrapper_scope_id))
+                .unwrap();
             // Change the parent scope of the function scope with the current scope.
-            ctx.scoping_mut().change_scope_parent_id(scope_id, Some(wrapper_scope_id));
+            ctx.scoping_mut()
+                .change_scope_parent_id(scope_id, Some(wrapper_scope_id));
             (scope_id, wrapper_scope_id)
         };
         let body = wrapper_function.body.take().unwrap();
@@ -425,7 +463,9 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         {
             wrapper_function.r#async = false;
             wrapper_function.generator = false;
-            let statements = ctx.ast.vec1(Self::create_apply_call_statement(&bound_ident, ctx));
+            let statements = ctx
+                .ast
+                .vec1(Self::create_apply_call_statement(&bound_ident, ctx));
             debug_assert!(wrapper_function.body.is_none());
             wrapper_function.body.replace(ctx.ast.alloc_function_body(
                 SPAN,
@@ -450,8 +490,10 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
 
             let scope_id = ctx.create_child_scope(ctx.current_scope_id(), ScopeFlags::Function);
             // The generator function will move to this function, so we need
-            // to change the parent scope of the generator function to the scope of this function.
-            ctx.scoping_mut().change_scope_parent_id(generator_scope_id, Some(scope_id));
+            // to change the parent scope of the generator function to the scope of this
+            // function.
+            ctx.scoping_mut()
+                .change_scope_parent_id(generator_scope_id, Some(scope_id));
 
             let params = Self::create_empty_params(ctx);
             let id = Some(bound_ident.create_binding_identifier(ctx));
@@ -460,7 +502,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         }
     }
 
-    /// Transforms async arrow functions into generator functions wrapped in the asyncToGenerator helper.
+    /// Transforms async arrow functions into generator functions wrapped in the
+    /// asyncToGenerator helper.
     pub(self) fn transform_arrow_function(
         &self,
         arrow: &mut ArrowFunctionExpression<'a>,
@@ -468,19 +511,24 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
     ) -> Expression<'a> {
         let mut body = arrow.body.take_in_box(ctx.ast);
 
-        // If the arrow's expression is true, we need to wrap the only one expression with return statement.
+        // If the arrow's expression is true, we need to wrap the only one expression
+        // with return statement.
         if arrow.expression {
             let statement = body.statements.first_mut().unwrap();
             let expression = match statement {
                 Statement::ExpressionStatement(es) => es.expression.take_in(ctx.ast),
                 _ => unreachable!(),
             };
-            *statement = ctx.ast.statement_return(expression.span(), Some(expression));
+            *statement = ctx
+                .ast
+                .statement_return(expression.span(), Some(expression));
         }
 
         let params = arrow.params.take_in_box(ctx.ast);
         let generator_function_id = arrow.scope_id();
-        ctx.scoping_mut().scope_flags_mut(generator_function_id).remove(ScopeFlags::Arrow);
+        ctx.scoping_mut()
+            .scope_flags_mut(generator_function_id)
+            .remove(ScopeFlags::Arrow);
         let function_name = Self::infer_function_name_from_parent_node(ctx);
 
         if function_name.is_none() && !Self::is_function_length_affected(&params) {
@@ -491,7 +539,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
 
         // The generator function will move to inside wrapper, so we need
         // to change the parent scope of the generator function to the wrapper function.
-        ctx.scoping_mut().change_scope_parent_id(generator_function_id, Some(wrapper_scope_id));
+        ctx.scoping_mut()
+            .change_scope_parent_id(generator_function_id, Some(wrapper_scope_id));
 
         let bound_ident = Self::create_bound_identifier(
             None,
@@ -503,7 +552,9 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         let caller_function = {
             let scope_id = ctx.create_child_scope(wrapper_scope_id, ScopeFlags::Function);
             let params = Self::create_placeholder_params(&params, scope_id, ctx);
-            let statements = ctx.ast.vec1(Self::create_apply_call_statement(&bound_ident, ctx));
+            let statements = ctx
+                .ast
+                .vec1(Self::create_apply_call_statement(&bound_ident, ctx));
             let body = ctx.ast.alloc_function_body(SPAN, ctx.ast.vec(), statements);
             let id = function_name.map(|name| {
                 ctx.generate_binding(name, wrapper_scope_id, SymbolFlags::Function)
@@ -529,7 +580,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
             let wrapper_function = Self::create_function(None, params, body, wrapper_scope_id, ctx);
             // Construct the IIFE
             let callee = Expression::FunctionExpression(wrapper_function);
-            ctx.ast.expression_call(SPAN, callee, NONE, ctx.ast.vec(), false)
+            ctx.ast
+                .expression_call(SPAN, callee, NONE, ctx.ast.vec(), false)
         }
     }
 
@@ -553,9 +605,10 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
                 declarator.id().get_binding_identifier().map(|id| id.name)
             }
             // infer `foo` from `({ foo: async function() {} })`
-            Ancestor::ObjectPropertyValue(property) if !*property.method() => {
-                property.key().static_name().map(|key| Self::normalize_function_name(&key, ctx))
-            }
+            Ancestor::ObjectPropertyValue(property) if !*property.method() => property
+                .key()
+                .static_name()
+                .map(|key| Self::normalize_function_name(&key, ctx)),
             _ => None,
         }
     }
@@ -565,10 +618,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
     /// Examples:
     ///
     /// // Valid
-    /// * `foo` -> `foo`
-    ///   // Contains space
-    /// * `foo bar` -> `foo_bar`
-    ///   // Reserved keyword
+    /// * `foo` -> `foo` // Contains space
+    /// * `foo bar` -> `foo_bar` // Reserved keyword
     /// * `this` -> `_this`
     /// * `arguments` -> `_arguments`
     fn normalize_function_name(input: &Cow<'a, str>, ctx: &TraverseCtx<'a>) -> Atom<'a> {
@@ -641,7 +692,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         )
     }
 
-    /// Creates a [`Statement`] that calls the `apply` method on the bound identifier.
+    /// Creates a [`Statement`] that calls the `apply` method on the bound
+    /// identifier.
     ///
     /// The generated code structure is:
     /// ```js
@@ -651,7 +703,9 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         bound_ident: &BoundIdentifier<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) -> Statement<'a> {
-        let symbol_id = ctx.scoping().find_binding(ctx.current_scope_id(), "arguments");
+        let symbol_id = ctx
+            .scoping()
+            .find_binding(ctx.current_scope_id(), "arguments");
         let arguments_ident = Argument::from(ctx.create_ident_expr(
             SPAN,
             Atom::from("arguments"),
@@ -669,14 +723,17 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
             ctx.ast.identifier_name(SPAN, "apply"),
             false,
         ));
-        let argument = ctx.ast.expression_call(SPAN, callee, NONE, arguments, false);
+        let argument = ctx
+            .ast
+            .expression_call(SPAN, callee, NONE, arguments, false);
         ctx.ast.statement_return(SPAN, Some(argument))
     }
 
-    /// Creates an [`Expression`] that calls the [`AsyncGeneratorExecutor::helper`] helper function.
+    /// Creates an [`Expression`] that calls the
+    /// [`AsyncGeneratorExecutor::helper`] helper function.
     ///
-    /// This function constructs the helper call with arguments derived from the provided
-    /// parameters, body, and scope_id.
+    /// This function constructs the helper call with arguments derived from the
+    /// provided parameters, body, and scope_id.
     ///
     /// The generated code structure is:
     /// ```js
@@ -697,7 +754,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         self.ctx.helper_call_expr(self.helper, SPAN, arguments, ctx)
     }
 
-    /// Creates a helper declaration statement for async-to-generator transformation.
+    /// Creates a helper declaration statement for async-to-generator
+    /// transformation.
     ///
     /// This function generates code that looks like:
     /// ```js
@@ -729,7 +787,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         ))
     }
 
-    /// Creates a helper assignment statement for async-to-generator transformation.
+    /// Creates a helper assignment statement for async-to-generator
+    /// transformation.
     ///
     /// This function generates code that looks like:
     /// ```js
@@ -755,8 +814,9 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         ctx.ast.statement_expression(SPAN, expression)
     }
 
-    /// Creates placeholder [`FormalParameters`] which named `_x` based on the passed-in parameters.
-    /// `function p(x, y, z, d = 0, ...rest) {}` -> `function* (_x, _x1, _x2) {}`
+    /// Creates placeholder [`FormalParameters`] which named `_x` based on the
+    /// passed-in parameters. `function p(x, y, z, d = 0, ...rest) {}` ->
+    /// `function* (_x, _x1, _x2) {}`
     fn create_placeholder_params(
         params: &FormalParameters<'a>,
         scope_id: ScopeId,
@@ -769,7 +829,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
             }
             let binding = ctx.generate_uid("x", scope_id, SymbolFlags::FunctionScopedVariable);
             parameters.push(
-                ctx.ast.plain_formal_parameter(param.span(), binding.create_binding_pattern(ctx)),
+                ctx.ast
+                    .plain_formal_parameter(param.span(), binding.create_binding_pattern(ctx)),
             );
         }
 
@@ -781,7 +842,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         )
     }
 
-    /// Creates an empty [FormalParameters] with [FormalParameterKind::FormalParameter].
+    /// Creates an empty [FormalParameters] with
+    /// [FormalParameterKind::FormalParameter].
     #[inline]
     fn create_empty_params(ctx: &TraverseCtx<'a>) -> ArenaBox<'a, FormalParameters<'a>> {
         ctx.ast.alloc_formal_parameters(
@@ -800,7 +862,11 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         flags: SymbolFlags,
         ctx: &mut TraverseCtx<'a>,
     ) -> BoundIdentifier<'a> {
-        ctx.generate_uid(id.as_ref().map_or_else(|| "ref", |id| id.name.as_str()), scope_id, flags)
+        ctx.generate_uid(
+            id.as_ref().map_or_else(|| "ref", |id| id.name.as_str()),
+            scope_id,
+            flags,
+        )
     }
 
     /// Check whether the given [`Ancestor`] is a class method-like node.
@@ -808,8 +874,8 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
         match ancestor {
             // `class A { async foo() {} }`
             Ancestor::MethodDefinitionValue(_) => true,
-            // Only `({ async foo() {} })` does not include non-method like `({ foo: async function() {} })`,
-            // because it's just a property with a function value
+            // Only `({ async foo() {} })` does not include non-method like `({ foo: async
+            // function() {} })`, because it's just a property with a function value
             Ancestor::ObjectPropertyValue(property) => *property.method(),
             _ => false,
         }
@@ -821,7 +887,10 @@ impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
     // <https://github.com/babel/babel/blob/3bcfee232506a4cebe410f02042fb0f0adeeb0b1/packages/babel-helper-wrap-function/src/index.ts#L164>
     #[inline]
     fn is_function_length_affected(params: &FormalParameters<'_>) -> bool {
-        params.items.first().is_some_and(|param| !param.pattern.kind.is_assignment_pattern())
+        params
+            .items
+            .first()
+            .is_some_and(|param| !param.pattern.kind.is_assignment_pattern())
     }
 
     /// Check whether the function parameters could throw errors.
@@ -877,7 +946,10 @@ struct BindingMover<'a, 'ctx> {
 
 impl<'a, 'ctx> BindingMover<'a, 'ctx> {
     fn new(target_scope_id: ScopeId, ctx: &'ctx mut TraverseCtx<'a>) -> Self {
-        Self { ctx, target_scope_id }
+        Self {
+            ctx,
+            target_scope_id,
+        }
     }
 }
 

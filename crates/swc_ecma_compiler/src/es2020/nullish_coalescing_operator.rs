@@ -1,6 +1,7 @@
 //! ES2020: Nullish Coalescing Operator
 //!
-//! This plugin transforms nullish coalescing operators (`??`) to a series of ternary expressions.
+//! This plugin transforms nullish coalescing operators (`??`) to a series of
+//! ternary expressions.
 //!
 //! > This plugin is included in `preset-env`, in ES2020
 //!
@@ -29,7 +30,7 @@
 //! * Nullish coalescing TC39 proposal: <https://github.com/tc39-transfer/proposal-nullish-coalescing>
 
 use oxc_allocator::{Box as ArenaBox, TakeIn};
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_semantic::{ScopeFlags, SymbolFlags};
 use oxc_span::SPAN;
 use oxc_syntax::operator::{AssignmentOperator, BinaryOperator, LogicalOperator};
@@ -89,11 +90,19 @@ impl<'a> NullishCoalescingOperator<'a, '_> {
                 );
             }
             Expression::Identifier(ident) => {
-                let symbol_id = ctx.scoping().get_reference(ident.reference_id()).symbol_id();
+                let symbol_id = ctx
+                    .scoping()
+                    .get_reference(ident.reference_id())
+                    .symbol_id();
                 if let Some(symbol_id) = symbol_id {
                     // Check binding is not mutated.
-                    // TODO(improve-on-babel): Remove this check. Whether binding is mutated or not is not relevant.
-                    if ctx.scoping().get_resolved_references(symbol_id).all(|r| !r.is_write()) {
+                    // TODO(improve-on-babel): Remove this check. Whether binding is mutated or not
+                    // is not relevant.
+                    if ctx
+                        .scoping()
+                        .get_resolved_references(symbol_id)
+                        .all(|r| !r.is_write())
+                    {
                         let binding = BoundIdentifier::new(ident.name, symbol_id);
                         let ident_span = ident.span;
                         return Self::create_conditional_expression(
@@ -145,10 +154,13 @@ impl<'a> NullishCoalescingOperator<'a, '_> {
         );
 
         if is_parent_formal_parameter {
-            // Replace `function (a, x = a.b ?? c) {}` to `function (a, x = (() => a.b ?? c)() ){}`
-            // so the temporary variable can be injected in correct scope
+            // Replace `function (a, x = a.b ?? c) {}` to `function (a, x = (() => a.b ??
+            // c)() ){}` so the temporary variable can be injected in correct
+            // scope
             let id = binding.create_binding_pattern(ctx);
-            let param = ctx.ast.formal_parameter(SPAN, ctx.ast.vec(), id, None, false, false);
+            let param = ctx
+                .ast
+                .formal_parameter(SPAN, ctx.ast.vec(), id, None, false, false);
             let params = ctx.ast.formal_parameters(
                 SPAN,
                 FormalParameterKind::ArrowFormalParameters,
@@ -160,20 +172,24 @@ impl<'a> NullishCoalescingOperator<'a, '_> {
                 ctx.ast.vec(),
                 ctx.ast.vec1(ctx.ast.statement_expression(SPAN, new_expr)),
             );
-            let arrow_function = ctx.ast.expression_arrow_function_with_scope_id_and_pure_and_pife(
-                SPAN,
-                true,
-                false,
-                NONE,
-                params,
-                NONE,
-                body,
-                current_scope_id,
-                false,
-                false,
-            );
+            let arrow_function = ctx
+                .ast
+                .expression_arrow_function_with_scope_id_and_pure_and_pife(
+                    SPAN,
+                    true,
+                    false,
+                    NONE,
+                    params,
+                    NONE,
+                    body,
+                    current_scope_id,
+                    false,
+                    false,
+                );
             // `(x) => x;` -> `((x) => x)();`
-            new_expr = ctx.ast.expression_call(SPAN, arrow_function, NONE, ctx.ast.vec(), false);
+            new_expr = ctx
+                .ast
+                .expression_call(SPAN, arrow_function, NONE, ctx.ast.vec(), false);
         } else {
             self.ctx.var_declarations.insert_var(&binding, ctx);
         }
@@ -213,9 +229,14 @@ impl<'a> NullishCoalescingOperator<'a, '_> {
         let op = BinaryOperator::StrictInequality;
         let null = ctx.ast.expression_null_literal(SPAN);
         let left = ctx.ast.expression_binary(SPAN, assignment, op, null);
-        let right = ctx.ast.expression_binary(SPAN, reference1, op, ctx.ast.void_0(SPAN));
-        let test = ctx.ast.expression_logical(SPAN, left, LogicalOperator::And, right);
+        let right = ctx
+            .ast
+            .expression_binary(SPAN, reference1, op, ctx.ast.void_0(SPAN));
+        let test = ctx
+            .ast
+            .expression_logical(SPAN, left, LogicalOperator::And, right);
 
-        ctx.ast.expression_conditional(span, test, reference2, default)
+        ctx.ast
+            .expression_conditional(span, test, reference2, default)
     }
 }

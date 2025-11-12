@@ -1,7 +1,6 @@
 use std::path::PathBuf;
 
 use crate::{
-    ReactRefreshOptions,
     common::helper_loader::{HelperLoaderMode, HelperLoaderOptions},
     compiler_assumptions::CompilerAssumptions,
     decorator::DecoratorOptions,
@@ -19,6 +18,7 @@ use crate::{
     proposals::ProposalOptions,
     regexp::RegExpOptions,
     typescript::TypeScriptOptions,
+    ReactRefreshOptions,
 };
 
 pub mod babel;
@@ -36,8 +36,8 @@ pub use oxc_syntax::es_target::ESTarget;
 pub struct TransformOptions {
     //
     // Primary Options
-    //
-    /// The working directory that all paths in the programmatic options will be resolved relative to.
+    /// The working directory that all paths in the programmatic options will be
+    /// resolved relative to.
     pub cwd: PathBuf,
 
     // Core
@@ -70,7 +70,8 @@ pub struct TransformOptions {
 }
 
 impl TransformOptions {
-    /// Explicitly enable all plugins that are ready, mainly for testing purposes.
+    /// Explicitly enable all plugins that are ready, mainly for testing
+    /// purposes.
     ///
     /// NOTE: for internal use only
     #[doc(hidden)]
@@ -79,7 +80,10 @@ impl TransformOptions {
             cwd: PathBuf::new(),
             assumptions: CompilerAssumptions::default(),
             typescript: TypeScriptOptions::default(),
-            decorator: DecoratorOptions { legacy: true, emit_decorator_metadata: true },
+            decorator: DecoratorOptions {
+                legacy: true,
+                emit_decorator_metadata: true,
+            },
             jsx: JsxOptions {
                 development: true,
                 refresh: Some(ReactRefreshOptions::default()),
@@ -87,7 +91,9 @@ impl TransformOptions {
             },
             env: EnvOptions::enable_all(/* include_unfinished_plugins */ false),
             proposals: ProposalOptions::default(),
-            plugins: PluginsOptions { styled_components: Some(StyledComponentsOptions::default()) },
+            plugins: PluginsOptions {
+                styled_components: Some(StyledComponentsOptions::default()),
+            },
             helper_loader: HelperLoaderOptions {
                 mode: HelperLoaderMode::Runtime,
                 ..Default::default()
@@ -105,15 +111,20 @@ impl TransformOptions {
     /// * No matching target.
     /// * Invalid version.
     pub fn from_target(s: &str) -> Result<Self, String> {
-        EnvOptions::from_target(s).map(|env| Self { env, ..Self::default() })
+        EnvOptions::from_target(s).map(|env| Self {
+            env,
+            ..Self::default()
+        })
     }
 
     /// Initialize from a list of `target`s and `environmens`s.
     ///
-    /// e.g. `["es2020", "chrome58", "edge16", "firefox57", "node12", "safari11"]`.
+    /// e.g. `["es2020", "chrome58", "edge16", "firefox57", "node12",
+    /// "safari11"]`.
     ///
     /// `target`: `es5`, `es2015` ... `es2024`, `esnext`.
-    /// `environment`: `chrome`, `deno`, `edge`, `firefox`, `hermes`, `ie`, `ios`, `node`, `opera`, `rhino`, `safari`
+    /// `environment`: `chrome`, `deno`, `edge`, `firefox`, `hermes`, `ie`,
+    /// `ios`, `node`, `opera`, `rhino`, `safari`
     ///
     /// <https://esbuild.github.io/api/#target>
     ///
@@ -123,7 +134,10 @@ impl TransformOptions {
     /// * No matching target.
     /// * Invalid version.
     pub fn from_target_list<S: AsRef<str>>(list: &[S]) -> Result<Self, String> {
-        EnvOptions::from_target_list(list).map(|env| Self { env, ..Self::default() })
+        EnvOptions::from_target_list(list).map(|env| Self {
+            env,
+            ..Self::default()
+        })
     }
 }
 
@@ -133,14 +147,18 @@ impl From<ESTarget> for TransformOptions {
         let mut engine_targets = EngineTargets::default();
         engine_targets.insert(Engine::Es, target.version());
         let env = EnvOptions::from(engine_targets);
-        Self { env, ..Self::default() }
+        Self {
+            env,
+            ..Self::default()
+        }
     }
 }
 
 impl TryFrom<&BabelOptions> for TransformOptions {
     type Error = Vec<String>;
 
-    /// If the `options` contains any unknown fields, they will be returned as a list of errors.
+    /// If the `options` contains any unknown fields, they will be returned as a
+    /// list of errors.
     fn try_from(options: &BabelOptions) -> Result<Self, Self::Error> {
         let mut errors = Vec::<String>::new();
         errors.extend(options.plugins.errors.iter().map(Clone::clone));
@@ -182,7 +200,12 @@ impl TryFrom<&BabelOptions> for TransformOptions {
         let env = options.presets.env.unwrap_or_default();
 
         let module = Module::try_from(&options.plugins).unwrap_or_else(|_| {
-            options.presets.env.as_ref().map(|env| env.module).unwrap_or_default()
+            options
+                .presets
+                .env
+                .as_ref()
+                .map(|env| env.module)
+                .unwrap_or_default()
         });
 
         let regexp = RegExpOptions {
@@ -243,7 +266,10 @@ impl TryFrom<&BabelOptions> for TransformOptions {
 
         let es2022 = ES2022Options {
             class_static_block: options.plugins.class_static_block || env.es2022.class_static_block,
-            class_properties: options.plugins.class_properties.or(env.es2022.class_properties),
+            class_properties: options
+                .plugins
+                .class_properties
+                .or(env.es2022.class_properties),
             top_level_await: env.es2022.top_level_await,
         };
 

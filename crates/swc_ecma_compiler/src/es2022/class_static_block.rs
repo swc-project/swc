@@ -1,7 +1,7 @@
 //! ES2022: Class Static Block
 //!
-//! This plugin transforms class static blocks (`class C { static { foo } }`) to an equivalent
-//! using private fields (`class C { static #_ = foo }`).
+//! This plugin transforms class static blocks (`class C { static { foo } }`) to
+//! an equivalent using private fields (`class C { static #_ = foo }`).
 //!
 //! > This plugin is included in `preset-env`, in ES2022
 //!
@@ -40,9 +40,8 @@
 //! * Class static initialization blocks TC39 proposal: <https://github.com/tc39/proposal-class-static-block>
 
 use itoa::Buffer as ItoaBuffer;
-
 use oxc_allocator::TakeIn;
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_span::SPAN;
 use oxc_syntax::scope::{ScopeFlags, ScopeId};
 use oxc_traverse::Traverse;
@@ -66,8 +65,9 @@ impl<'a> Traverse<'a, TransformState<'a>> for ClassStaticBlock {
         // 1. Find if there are any `StaticBlock`s.
         // 2. Collate list of private keys matching `#_` or `#_[1-9]...`.
         //
-        // Don't collate private keys list conditionally only if a static block is found, as usually
-        // there will be no matching private keys, so those checks are cheap and will not allocate.
+        // Don't collate private keys list conditionally only if a static block is
+        // found, as usually there will be no matching private keys, so those
+        // checks are cheap and will not allocate.
         let mut has_static_block = false;
         let mut keys = Keys::default();
         for element in &body.body {
@@ -141,8 +141,8 @@ impl ClassStaticBlock {
     ) -> Expression<'a> {
         let scope_id = block.scope_id();
 
-        // If block contains only a single `ExpressionStatement`, no need to wrap in an IIFE.
-        // `static { foo }` -> `foo`
+        // If block contains only a single `ExpressionStatement`, no need to wrap in an
+        // IIFE. `static { foo }` -> `foo`
         // TODO(improve-on-babel): If block has no statements, could remove it entirely.
         let stmts = &mut block.body;
         if stmts.len() == 1
@@ -189,11 +189,12 @@ impl ClassStaticBlock {
 /// It's also uncommon to have more than 1 static block in a class.
 ///
 /// Therefore common case is only 1 static block, which will use key `#_`.
-/// So store whether `#_` is in set as a separate `bool`, to make a fast path this common case,
-/// which does not involve any allocations (`numbered` will remain empty).
+/// So store whether `#_` is in set as a separate `bool`, to make a fast path
+/// this common case, which does not involve any allocations (`numbered` will
+/// remain empty).
 ///
-/// Use a `Vec` rather than a `HashMap`, because number of matching private keys is usually small,
-/// and `Vec` is lower overhead in that case.
+/// Use a `Vec` rather than a `HashMap`, because number of matching private keys
+/// is usually small, and `Vec` is lower overhead in that case.
 #[derive(Default)]
 struct Keys<'a> {
     /// `true` if keys includes `#_`.
@@ -237,12 +238,13 @@ impl<'a> Keys<'a> {
         }
     }
 
-    // `#[cold]` and `#[inline(never)]` as it should be very rare to need a key other than `#_`.
+    // `#[cold]` and `#[inline(never)]` as it should be very rare to need a key
+    // other than `#_`.
     #[cold]
     #[inline(never)]
     fn get_unique_slow(&mut self, ctx: &TraverseCtx<'a>) -> Atom<'a> {
-        // Source text length is limited to `u32::MAX` so impossible to have more than `u32::MAX`
-        // private keys. So `u32` is sufficient here.
+        // Source text length is limited to `u32::MAX` so impossible to have more than
+        // `u32::MAX` private keys. So `u32` is sufficient here.
         let mut i = 2u32;
         let mut buffer = ItoaBuffer::new();
         let mut num_str;
@@ -267,9 +269,8 @@ mod test {
     use oxc_semantic::Scoping;
     use oxc_traverse::ReusableTraverseCtx;
 
-    use crate::state::TransformState;
-
     use super::Keys;
+    use crate::state::TransformState;
 
     macro_rules! setup {
         ($ctx:ident) => {

@@ -1,6 +1,6 @@
 use std::path::{Path, PathBuf};
 
-use serde::{Deserialize, de::DeserializeOwned};
+use serde::{de::DeserializeOwned, Deserialize};
 
 use crate::CompilerAssumptions;
 
@@ -110,8 +110,8 @@ fn default_as_true() -> bool {
 }
 
 impl BabelOptions {
-    /// Read options.json and merge them with options.json from ancestors directories.
-    /// # Panics
+    /// Read options.json and merge them with options.json from ancestors
+    /// directories. # Panics
     pub fn from_test_path(path: &Path) -> Self {
         let mut babel_options: Option<Self> = None;
         let mut plugins_json = None;
@@ -183,10 +183,14 @@ impl BabelOptions {
     }
 
     pub fn is_module(&self) -> bool {
-        self.source_type.as_ref().is_some_and(|s| s.as_str() == "module")
+        self.source_type
+            .as_ref()
+            .is_some_and(|s| s.as_str() == "module")
     }
 
     pub fn is_unambiguous(&self) -> bool {
-        self.source_type.as_ref().is_some_and(|s| s.as_str() == "unambiguous")
+        self.source_type
+            .as_ref()
+            .is_some_and(|s| s.as_str() == "unambiguous")
     }
 }

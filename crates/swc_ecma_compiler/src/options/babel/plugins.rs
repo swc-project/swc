@@ -1,12 +1,10 @@
 use serde::Deserialize;
 
-use crate::{
-    DecoratorOptions, TypeScriptOptions, es2015::ArrowFunctionsOptions,
-    es2018::ObjectRestSpreadOptions, es2022::ClassPropertiesOptions, jsx::JsxOptions,
-    plugins::StyledComponentsOptions,
-};
-
 use super::PluginPresetEntries;
+use crate::{
+    es2015::ArrowFunctionsOptions, es2018::ObjectRestSpreadOptions, es2022::ClassPropertiesOptions,
+    jsx::JsxOptions, plugins::StyledComponentsOptions, DecoratorOptions, TypeScriptOptions,
+};
 
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct SyntaxTypeScriptOptions {
@@ -97,8 +95,10 @@ impl TryFrom<PluginPresetEntries> for BabelPlugins {
                     p.proposal_decorators = Some(entry.value::<SyntaxDecoratorOptions>()?);
                 }
                 "transform-typescript" => {
-                    p.typescript =
-                        entry.value::<TypeScriptOptions>().map_err(|err| p.errors.push(err)).ok();
+                    p.typescript = entry
+                        .value::<TypeScriptOptions>()
+                        .map_err(|err| p.errors.push(err))
+                        .ok();
                 }
                 "transform-react-jsx" => {
                     #[derive(Deserialize, Default)]
@@ -106,7 +106,11 @@ impl TryFrom<PluginPresetEntries> for BabelPlugins {
                         pure: bool,
                     }
 
-                    let pure = entry.clone().value::<Pure>().map(|p| p.pure).unwrap_or(false);
+                    let pure = entry
+                        .clone()
+                        .value::<Pure>()
+                        .map(|p| p.pure)
+                        .unwrap_or(false);
                     p.react_jsx = entry
                         .value::<JsxOptions>()
                         .map_err(|err| p.errors.push(err))
@@ -118,8 +122,10 @@ impl TryFrom<PluginPresetEntries> for BabelPlugins {
                         .ok();
                 }
                 "transform-react-jsx-development" => {
-                    p.react_jsx_dev =
-                        entry.value::<JsxOptions>().map_err(|err| p.errors.push(err)).ok();
+                    p.react_jsx_dev = entry
+                        .value::<JsxOptions>()
+                        .map_err(|err| p.errors.push(err))
+                        .ok();
                 }
                 "transform-react-display-name" => p.react_display_name = true,
                 "transform-react-jsx-self" => p.react_jsx_self = true,
@@ -160,10 +166,13 @@ impl TryFrom<PluginPresetEntries> for BabelPlugins {
                         .map_err(|err| p.errors.push(err))
                         .ok();
                 }
-                // This is not a Babel plugin, we pretend it exists for running legacy decorator by Babel options
+                // This is not a Babel plugin, we pretend it exists for running legacy decorator by
+                // Babel options
                 "transform-legacy-decorator" => {
-                    p.legacy_decorator =
-                        entry.value::<DecoratorOptions>().map_err(|err| p.errors.push(err)).ok();
+                    p.legacy_decorator = entry
+                        .value::<DecoratorOptions>()
+                        .map_err(|err| p.errors.push(err))
+                        .ok();
                 }
                 "transform-explicit-resource-management" => p.explicit_resource_management = true,
                 "styled-components" => {

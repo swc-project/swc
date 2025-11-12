@@ -8,13 +8,13 @@ use oxc_diagnostics::OxcDiagnostic;
 use oxc_span::SourceType;
 
 use crate::{
-    CompilerAssumptions, Module, TransformOptions,
     common::{
         helper_loader::HelperLoaderStore, module_imports::ModuleImportsStore,
         statement_injector::StatementInjectorStore, top_level_statements::TopLevelStatementsStore,
         var_declarations::VarDeclarationsStore,
     },
     state::TransformState,
+    CompilerAssumptions, Module, TransformOptions,
 };
 
 pub type TraverseCtx<'a> = oxc_traverse::TraverseCtx<'a, TransformState<'a>>;
@@ -43,7 +43,8 @@ pub struct TransformCtx<'a> {
     pub module_imports: ModuleImportsStore<'a>,
     /// Manage inserting `var` statements globally
     pub var_declarations: VarDeclarationsStore<'a>,
-    /// Manage inserting statements immediately before or after the target statement
+    /// Manage inserting statements immediately before or after the target
+    /// statement
     pub statement_injector: StatementInjectorStore<'a>,
     /// Manage inserting statements at top of program globally
     pub top_level_statements: TopLevelStatementsStore<'a>,
@@ -57,7 +58,10 @@ impl TransformCtx<'_> {
     pub fn new(source_path: &Path, options: &TransformOptions) -> Self {
         let filename = source_path
             .file_stem() // omit file extension
-            .map_or_else(|| String::from("unknown"), |name| name.to_string_lossy().to_string());
+            .map_or_else(
+                || String::from("unknown"),
+                |name| name.to_string_lossy().to_string(),
+            );
 
         Self {
             errors: RefCell::new(vec![]),

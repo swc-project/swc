@@ -26,14 +26,13 @@
 //!
 //! ## References:
 //!
-//! * Babel plugin implementation:
-//!   <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-exponentiation-operator>
+//! * Babel plugin implementation: <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-exponentiation-operator>
 //!   <https://github.com/babel/babel/tree/v7.26.2/packages/babel-helper-builder-binary-assignment-operator-visitor>
 //! * Exponentiation operator TC39 proposal: <https://github.com/tc39/proposal-exponentiation-operator>
 //! * Exponentiation operator specification: <https://tc39.es/ecma262/#sec-exp-operator>
 
 use oxc_allocator::{CloneIn, TakeIn, Vec as ArenaVec};
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_semantic::ReferenceFlags;
 use oxc_span::SPAN;
 use oxc_syntax::operator::{AssignmentOperator, BinaryOperator};
@@ -55,7 +54,8 @@ impl<'a, 'ctx> ExponentiationOperator<'a, 'ctx> {
 }
 
 impl<'a> Traverse<'a, TransformState<'a>> for ExponentiationOperator<'a, '_> {
-    // Note: Do not transform to `Math.pow` with BigInt arguments - that's a runtime error
+    // Note: Do not transform to `Math.pow` with BigInt arguments - that's a runtime
+    // error
     fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
         match expr {
             // `left ** right`
@@ -87,9 +87,10 @@ impl<'a> Traverse<'a, TransformState<'a>> for ExponentiationOperator<'a, '_> {
                     AssignmentTarget::ComputedMemberExpression(_) => {
                         self.convert_computed_member_expression_assignment(expr, ctx);
                     }
-                    // Babel refuses to transform this: "We can't generate property ref for private name,
-                    // please install `@babel/plugin-transform-class-properties`".
-                    // But there's no reason not to.
+                    // Babel refuses to transform this: "We can't generate property ref for private
+                    // name, please install
+                    // `@babel/plugin-transform-class-properties`". But there's
+                    // no reason not to.
                     AssignmentTarget::PrivateFieldExpression(_) => {
                         self.convert_private_field_assignment(expr, ctx);
                     }
@@ -119,17 +120,20 @@ impl<'a> ExponentiationOperator<'a, '_> {
     /// Convert `AssignmentExpression` where assignee is an identifier.
     ///
     /// `left **= right` transformed to:
-    /// * If `left` is a bound symbol:
-    ///   -> `left = Math.pow(left, right)`
-    /// * If `left` is unbound:
-    ///   -> `var _left; _left = left, left = Math.pow(_left, right)`
+    /// * If `left` is a bound symbol: -> `left = Math.pow(left, right)`
+    /// * If `left` is unbound: -> `var _left; _left = left, left =
+    ///   Math.pow(_left, right)`
     ///
-    /// Temporary variable `_left` is to avoid side-effects of getting `left` from running twice.
+    /// Temporary variable `_left` is to avoid side-effects of getting `left`
+    /// from running twice.
     //
-    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with `IdentifierReference` on left
+    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with `IdentifierReference`
+    // on left
     #[inline]
     fn convert_identifier_assignment(&self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        let Expression::AssignmentExpression(assign_expr) = expr else { unreachable!() };
+        let Expression::AssignmentExpression(assign_expr) = expr else {
+            unreachable!()
+        };
         let AssignmentTarget::AssignmentTargetIdentifier(ident) = &mut assign_expr.left else {
             unreachable!()
         };
@@ -153,19 +157,22 @@ impl<'a> ExponentiationOperator<'a, '_> {
         let mut temp_var_inits = ctx.ast.vec();
 
         // Make sure side-effects of evaluating `left` only happen once
-        let reference = ctx.scoping.scoping_mut().get_reference_mut(ident.reference_id());
+        let reference = ctx
+            .scoping
+            .scoping_mut()
+            .get_reference_mut(ident.reference_id());
 
         // `left **= right` is being transformed to `left = Math.pow(left, right)`,
         // so `left` in `left =` is no longer being read from
         *reference.flags_mut() = ReferenceFlags::Write;
 
         let pow_left = if let Some(symbol_id) = reference.symbol_id() {
-            // This variable is declared in scope so evaluating it multiple times can't trigger a getter.
-            // No need for a temp var.
+            // This variable is declared in scope so evaluating it multiple times can't
+            // trigger a getter. No need for a temp var.
             ctx.create_bound_ident_expr(SPAN, ident.name, symbol_id, ReferenceFlags::Read)
         } else {
-            // Unbound reference. Could possibly trigger a getter so we need to only evaluate it once.
-            // Assign to a temp var.
+            // Unbound reference. Could possibly trigger a getter so we need to only
+            // evaluate it once. Assign to a temp var.
             let reference = ctx.create_unbound_ident_expr(SPAN, ident.name, ReferenceFlags::Read);
             let binding = self.create_temp_var(reference, &mut temp_var_inits, ctx);
             binding.create_read_expression(ctx)
@@ -174,13 +181,14 @@ impl<'a> ExponentiationOperator<'a, '_> {
         (pow_left, temp_var_inits)
     }
 
-    /// Convert `AssignmentExpression` where assignee is a static member expression.
+    /// Convert `AssignmentExpression` where assignee is a static member
+    /// expression.
     ///
     /// `obj.prop **= right` transformed to:
-    /// * If `obj` is a bound symbol:
-    ///   -> `obj["prop"] = Math.pow(obj["prop"], right)`
-    /// * If `obj` is unbound:
-    ///   -> `var _obj; _obj = obj, _obj["prop"] = Math.pow(_obj["prop"], right)`
+    /// * If `obj` is a bound symbol: -> `obj["prop"] = Math.pow(obj["prop"],
+    ///   right)`
+    /// * If `obj` is unbound: -> `var _obj; _obj = obj, _obj["prop"] =
+    ///   Math.pow(_obj["prop"], right)`
     ///
     /// `obj.foo.bar.qux **= right` transformed to:
     /// ```js
@@ -188,18 +196,23 @@ impl<'a> ExponentiationOperator<'a, '_> {
     /// _obj$foo$bar = obj.foo.bar, _obj$foo$bar["qux"] = Math.pow(_obj$foo$bar["qux"], right)
     /// ```
     ///
-    /// Temporary variables are to avoid side-effects of getting `obj` / `obj.foo.bar` being run twice.
+    /// Temporary variables are to avoid side-effects of getting `obj` /
+    /// `obj.foo.bar` being run twice.
     ///
-    /// TODO(improve-on-babel): `obj.prop` does not need to be transformed to `obj["prop"]`.
+    /// TODO(improve-on-babel): `obj.prop` does not need to be transformed to
+    /// `obj["prop"]`.
     //
-    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with `StaticMemberExpression` on left
+    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with
+    // `StaticMemberExpression` on left
     #[inline]
     fn convert_static_member_expression_assignment(
         &self,
         expr: &mut Expression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::AssignmentExpression(assign_expr) = expr else { unreachable!() };
+        let Expression::AssignmentExpression(assign_expr) = expr else {
+            unreachable!()
+        };
         let AssignmentTarget::StaticMemberExpression(member_expr) = &mut assign_expr.left else {
             unreachable!()
         };
@@ -244,7 +257,9 @@ impl<'a> ExponentiationOperator<'a, '_> {
         // ```
         let prop_span = member_expr.property.span;
         let prop_name = member_expr.property.name;
-        let prop = ctx.ast.expression_string_literal(prop_span, prop_name, None);
+        let prop = ctx
+            .ast
+            .expression_string_literal(prop_span, prop_name, None);
 
         // Complete 2nd member expression
         // ```
@@ -258,24 +273,27 @@ impl<'a> ExponentiationOperator<'a, '_> {
         // obj["prop"] = Math.pow(obj["prop"], right)
         // ^^^^^^^^^^^
         // ```
-        let replacement_left =
-            AssignmentTarget::ComputedMemberExpression(ctx.ast.alloc_computed_member_expression(
+        let replacement_left = AssignmentTarget::ComputedMemberExpression(
+            ctx.ast.alloc_computed_member_expression(
                 member_expr.span,
                 member_expr.object.take_in(ctx.ast),
-                ctx.ast.expression_string_literal(prop_span, prop_name, None),
+                ctx.ast
+                    .expression_string_literal(prop_span, prop_name, None),
                 false,
-            ));
+            ),
+        );
 
         (replacement_left, pow_left, temp_var_inits)
     }
 
-    /// Convert `AssignmentExpression` where assignee is a computed member expression.
+    /// Convert `AssignmentExpression` where assignee is a computed member
+    /// expression.
     ///
     /// `obj[prop] **= right` transformed to:
-    /// * If `obj` is a bound symbol:
-    ///   -> `var _prop; _prop = prop, obj[_prop] = Math.pow(obj[_prop], 2)`
-    /// * If `obj` is unbound:
-    ///   -> `var _obj, _prop; _obj = obj, _prop = prop, _obj[_prop] = Math.pow(_obj[_prop], 2)`
+    /// * If `obj` is a bound symbol: -> `var _prop; _prop = prop, obj[_prop] =
+    ///   Math.pow(obj[_prop], 2)`
+    /// * If `obj` is unbound: -> `var _obj, _prop; _obj = obj, _prop = prop,
+    ///   _obj[_prop] = Math.pow(_obj[_prop], 2)`
     ///
     /// `obj.foo.bar[qux] **= right` transformed to:
     /// ```js
@@ -283,22 +301,27 @@ impl<'a> ExponentiationOperator<'a, '_> {
     /// _obj$foo$bar = obj.foo.bar, _qux = qux, _obj$foo$bar[_qux] = Math.pow(_obj$foo$bar[_qux], right)
     /// ```
     ///
-    /// Temporary variables are to avoid side-effects of getting `obj` / `obj.foo.bar` or `prop` being run twice.
+    /// Temporary variables are to avoid side-effects of getting `obj` /
+    /// `obj.foo.bar` or `prop` being run twice.
     ///
     /// TODO(improve-on-babel):
     /// 1. If `prop` is bound, it doesn't need a temp variable `_prop`.
     /// 2. Temp var initializations could be inlined:
-    ///    * Current: `(_obj = obj, _prop = prop, _obj[_prop] = Math.pow(_obj[_prop], 2))`
+    ///    * Current: `(_obj = obj, _prop = prop, _obj[_prop] =
+    ///      Math.pow(_obj[_prop], 2))`
     ///    * Could be: `(_obj = obj)[_prop = prop] = Math.pow(_obj[_prop], 2)`
     //
-    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with `ComputedMemberExpression` on left
+    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with
+    // `ComputedMemberExpression` on left
     #[inline]
     fn convert_computed_member_expression_assignment(
         &self,
         expr: &mut Expression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::AssignmentExpression(assign_expr) = expr else { unreachable!() };
+        let Expression::AssignmentExpression(assign_expr) = expr else {
+            unreachable!()
+        };
         let AssignmentTarget::ComputedMemberExpression(member_expr) = &mut assign_expr.left else {
             unreachable!()
         };
@@ -308,7 +331,8 @@ impl<'a> ExponentiationOperator<'a, '_> {
         Self::revise_expression(expr, temp_var_inits, ctx);
     }
 
-    /// Get left side of `Math.pow(pow_left, ...)` for computed member expression
+    /// Get left side of `Math.pow(pow_left, ...)` for computed member
+    /// expression
     fn get_pow_left_computed_member(
         &self,
         member_expr: &mut ComputedMemberExpression<'a>,
@@ -356,13 +380,14 @@ impl<'a> ExponentiationOperator<'a, '_> {
         (pow_left, temp_var_inits)
     }
 
-    /// Convert `AssignmentExpression` where assignee is a private field member expression.
+    /// Convert `AssignmentExpression` where assignee is a private field member
+    /// expression.
     ///
     /// `obj.#prop **= right` transformed to:
-    /// * If `obj` is a bound symbol:
-    ///   -> `obj.#prop = Math.pow(obj.#prop, right)`
-    /// * If `obj` is unbound:
-    ///   -> `var _obj; _obj = obj, _obj.#prop = Math.pow(_obj.#prop, right)`
+    /// * If `obj` is a bound symbol: -> `obj.#prop = Math.pow(obj.#prop,
+    ///   right)`
+    /// * If `obj` is unbound: -> `var _obj; _obj = obj, _obj.#prop =
+    ///   Math.pow(_obj.#prop, right)`
     ///
     /// `obj.foo.bar.#qux **= right` transformed to:
     /// ```js
@@ -370,16 +395,20 @@ impl<'a> ExponentiationOperator<'a, '_> {
     /// _obj$foo$bar = obj.foo.bar, _obj$foo$bar.#qux = Math.pow(_obj$foo$bar.#qux, right)
     /// ```
     ///
-    /// Temporary variable is to avoid side-effects of getting `obj` / `obj.foo.bar` being run twice.
+    /// Temporary variable is to avoid side-effects of getting `obj` /
+    /// `obj.foo.bar` being run twice.
     //
-    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with `PrivateFieldExpression` on left
+    // `#[inline]` so compiler knows `expr` is an `AssignmentExpression` with
+    // `PrivateFieldExpression` on left
     #[inline]
     fn convert_private_field_assignment(
         &self,
         expr: &mut Expression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::AssignmentExpression(assign_expr) = expr else { unreachable!() };
+        let Expression::AssignmentExpression(assign_expr) = expr else {
+            unreachable!()
+        };
         let AssignmentTarget::PrivateFieldExpression(member_expr) = &mut assign_expr.left else {
             unreachable!()
         };
@@ -426,15 +455,18 @@ impl<'a> ExponentiationOperator<'a, '_> {
         //                      ^^^^^^^^^
         // ```
         let pow_left = Expression::from(
-            ctx.ast.member_expression_private_field_expression(SPAN, obj, field, false),
+            ctx.ast
+                .member_expression_private_field_expression(SPAN, obj, field, false),
         );
 
         (pow_left, temp_var_inits)
     }
 
-    /// Get object part of 2nd member expression to be used as `left` in `Math.pow(left, right)`.
+    /// Get object part of 2nd member expression to be used as `left` in
+    /// `Math.pow(left, right)`.
     ///
-    /// Also update the original `obj` passed in to function, and add a temp var initializer, if necessary.
+    /// Also update the original `obj` passed in to function, and add a temp var
+    /// initializer, if necessary.
     ///
     /// Original:
     /// ```js
@@ -476,16 +508,20 @@ impl<'a> ExponentiationOperator<'a, '_> {
         temp_var_inits: &mut ArenaVec<'a, Expression<'a>>,
         ctx: &mut TraverseCtx<'a>,
     ) -> Expression<'a> {
-        // If the object reference that we need to save is locally declared, evaluating it multiple times
-        // will not trigger getters or setters. `super` cannot be directly assigned, so use it directly too.
-        // TODO(improve-on-babel): We could also skip creating a temp var for `this.x **= 2`.
+        // If the object reference that we need to save is locally declared, evaluating
+        // it multiple times will not trigger getters or setters. `super` cannot
+        // be directly assigned, so use it directly too. TODO(improve-on-babel):
+        // We could also skip creating a temp var for `this.x **= 2`.
         match obj {
             Expression::Super(super_) => return ctx.ast.expression_super(super_.span),
             Expression::Identifier(ident) => {
-                let symbol_id = ctx.scoping().get_reference(ident.reference_id()).symbol_id();
+                let symbol_id = ctx
+                    .scoping()
+                    .get_reference(ident.reference_id())
+                    .symbol_id();
                 if let Some(symbol_id) = symbol_id {
-                    // This variable is declared in scope so evaluating it multiple times can't trigger a getter.
-                    // No need for a temp var.
+                    // This variable is declared in scope so evaluating it multiple times can't
+                    // trigger a getter. No need for a temp var.
                     return ctx.create_bound_ident_expr(
                         SPAN,
                         ident.name,
@@ -493,8 +529,9 @@ impl<'a> ExponentiationOperator<'a, '_> {
                         ReferenceFlags::Read,
                     );
                 }
-                // Unbound reference. Could possibly trigger a getter so we need to only evaluate it once.
-                // Assign to a temp var.
+                // Unbound reference. Could possibly trigger a getter so we need
+                // to only evaluate it once. Assign to a temp
+                // var.
             }
             _ => {
                 // Other expression. Assign to a temp var.
@@ -506,7 +543,8 @@ impl<'a> ExponentiationOperator<'a, '_> {
         binding.create_read_expression(ctx)
     }
 
-    /// `x **= right` -> `x = Math.pow(pow_left, right)` (with provided `pow_left`)
+    /// `x **= right` -> `x = Math.pow(pow_left, right)` (with provided
+    /// `pow_left`)
     fn convert_assignment(
         assign_expr: &mut AssignmentExpression<'a>,
         pow_left: Expression<'a>,
@@ -517,7 +555,8 @@ impl<'a> ExponentiationOperator<'a, '_> {
         assign_expr.operator = AssignmentOperator::Assign;
     }
 
-    /// If needs temp var initializers, replace expression `expr` with `(temp1, temp2, expr)`.
+    /// If needs temp var initializers, replace expression `expr` with `(temp1,
+    /// temp2, expr)`.
     fn revise_expression(
         expr: &mut Expression<'a>,
         mut temp_var_inits: ArenaVec<'a, Expression<'a>>,
@@ -537,13 +576,22 @@ impl<'a> ExponentiationOperator<'a, '_> {
         ctx: &mut TraverseCtx<'a>,
     ) -> Expression<'a> {
         let math_symbol_id = ctx.scoping().find_binding(ctx.current_scope_id(), "Math");
-        let object =
-            ctx.create_ident_expr(SPAN, Atom::from("Math"), math_symbol_id, ReferenceFlags::Read);
+        let object = ctx.create_ident_expr(
+            SPAN,
+            Atom::from("Math"),
+            math_symbol_id,
+            ReferenceFlags::Read,
+        );
         let property = ctx.ast.identifier_name(SPAN, "pow");
-        let callee =
-            Expression::from(ctx.ast.member_expression_static(SPAN, object, property, false));
-        let arguments = ctx.ast.vec_from_array([Argument::from(left), Argument::from(right)]);
-        ctx.ast.expression_call(SPAN, callee, NONE, arguments, false)
+        let callee = Expression::from(
+            ctx.ast
+                .member_expression_static(SPAN, object, property, false),
+        );
+        let arguments = ctx
+            .ast
+            .vec_from_array([Argument::from(left), Argument::from(right)]);
+        ctx.ast
+            .expression_call(SPAN, callee, NONE, arguments, false)
     }
 
     /// Create a temporary variable.
@@ -557,7 +605,10 @@ impl<'a> ExponentiationOperator<'a, '_> {
         ctx: &mut TraverseCtx<'a>,
     ) -> BoundIdentifier<'a> {
         // var _name;
-        let binding = self.ctx.var_declarations.create_uid_var_based_on_node(&expr, ctx);
+        let binding = self
+            .ctx
+            .var_declarations
+            .create_uid_var_based_on_node(&expr, ctx);
 
         // Add new reference `_name = name` to `temp_var_inits`
         temp_var_inits.push(ctx.ast.expression_assignment(

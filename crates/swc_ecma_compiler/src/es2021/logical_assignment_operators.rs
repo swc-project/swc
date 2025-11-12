@@ -29,7 +29,8 @@
 //!
 //! ### With Nullish Coalescing
 //!
-//! > While using the [nullish-coalescing-operator](https://github.com/oxc-project/oxc/blob/main/crates/oxc_transformer/src/es2020/nullish_coalescing_operator.rs) plugin (included in `preset-env``)
+//! > While using the [nullish-coalescing-operator](https://github.com/oxc-project/oxc/blob/main/crates/oxc_transformer/src/es2020/nullish_coalescing_operator.rs)
+//! > plugin (included in `preset-env``)
 //!
 //! Input:
 //! ```js
@@ -76,15 +77,20 @@ impl<'a, 'ctx> LogicalAssignmentOperators<'a, 'ctx> {
 }
 
 impl<'a> Traverse<'a, TransformState<'a>> for LogicalAssignmentOperators<'a, '_> {
-    // `#[inline]` because this is a hot path, and most `Expression`s are not `AssignmentExpression`s
-    // with a logical operator. So we want to bail out as fast as possible for everything else,
-    // without the cost of a function call.
+    // `#[inline]` because this is a hot path, and most `Expression`s are not
+    // `AssignmentExpression`s with a logical operator. So we want to bail out
+    // as fast as possible for everything else, without the cost of a function
+    // call.
     #[inline]
     fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        let Expression::AssignmentExpression(assignment_expr) = expr else { return };
+        let Expression::AssignmentExpression(assignment_expr) = expr else {
+            return;
+        };
 
         // `&&=` `||=` `??=`
-        let Some(operator) = assignment_expr.operator.to_logical_operator() else { return };
+        let Some(operator) = assignment_expr.operator.to_logical_operator() else {
+            return;
+        };
 
         self.transform_logical_assignment(expr, operator, ctx);
     }
@@ -97,7 +103,9 @@ impl<'a> LogicalAssignmentOperators<'a, '_> {
         operator: LogicalOperator,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::AssignmentExpression(assignment_expr) = expr else { unreachable!() };
+        let Expression::AssignmentExpression(assignment_expr) = expr else {
+            unreachable!()
+        };
 
         // `a &&= c` -> `a && (a = c);`
         //               ^     ^ assign_target
@@ -130,7 +138,9 @@ impl<'a> LogicalAssignmentOperators<'a, '_> {
 
         let assign_op = AssignmentOperator::Assign;
         let right = assignment_expr.right.take_in(ctx.ast);
-        let right = ctx.ast.expression_assignment(SPAN, assign_op, assign_target, right);
+        let right = ctx
+            .ast
+            .expression_assignment(SPAN, assign_op, assign_target, right);
 
         let logical_expr = ctx.ast.expression_logical(SPAN, left_expr, operator, right);
 

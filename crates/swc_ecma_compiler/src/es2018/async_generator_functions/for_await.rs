@@ -1,14 +1,13 @@
 //! This module is responsible for transforming `for await` to `for` statement
 
 use oxc_allocator::{TakeIn, Vec as ArenaVec};
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_semantic::{ScopeFlags, ScopeId, SymbolFlags};
 use oxc_span::SPAN;
 use oxc_traverse::{Ancestor, BoundIdentifier};
 
-use crate::{common::helper_loader::Helper, context::TraverseCtx};
-
 use super::AsyncGeneratorFunctions;
+use crate::{common::helper_loader::Helper, context::TraverseCtx};
 
 impl<'a> AsyncGeneratorFunctions<'a, '_> {
     /// Check the parent node to see if multiple statements are allowed.
@@ -50,20 +49,24 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
         };
 
         // We need to replace the current statement with new statements,
-        // but we don't have a such method to do it, so we leverage the statement injector.
+        // but we don't have a such method to do it, so we leverage the statement
+        // injector.
         //
         // Now, we use below steps to workaround it:
         // 1. Use the last statement as the new statement.
         // 2. insert the rest of the statements before the current statement.
-        // TODO: Once we have a method to replace the current statement, we can simplify this logic.
+        // TODO: Once we have a method to replace the current statement, we can simplify
+        // this logic.
         let mut statements = self.transform_for_of_statement(for_of, parent_scope_id, ctx);
         let mut new_stmt = statements.pop().unwrap();
 
-        // If it's a labeled statement, we need to wrap the ForStatement with a labeled statement.
+        // If it's a labeled statement, we need to wrap the ForStatement with a labeled
+        // statement.
         if let Some(label) = label {
             let Statement::TryStatement(try_statement) = &mut new_stmt else {
                 unreachable!(
-                    "The last statement should be a try statement, please see the `build_for_await` function"
+                    "The last statement should be a try statement, please see the \
+                     `build_for_await` function"
                 );
             };
             let try_statement_block_body = &mut try_statement.block.body;
@@ -74,11 +77,14 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
                 for_statement,
             ));
         }
-        self.ctx.statement_injector.insert_many_before(&new_stmt, statements);
+        self.ctx
+            .statement_injector
+            .insert_many_before(&new_stmt, statements);
 
-        // If the parent node doesn't allow multiple statements, we need to wrap the new statement
-        // with a block statement, this way we can ensure can insert statement correctly.
-        // e.g. `if (true) statement` to `if (true) { statement }`
+        // If the parent node doesn't allow multiple statements, we need to wrap the new
+        // statement with a block statement, this way we can ensure can insert
+        // statement correctly. e.g. `if (true) statement` to `if (true) {
+        // statement }`
         if !allow_multiple_statements {
             new_stmt = ctx.ast.statement_block_with_scope_id(
                 SPAN,
@@ -95,8 +101,11 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
         parent_scope_id: ScopeId,
         ctx: &mut TraverseCtx<'a>,
     ) -> ArenaVec<'a, Statement<'a>> {
-        let step_key =
-            ctx.generate_uid("step", ctx.current_scope_id(), SymbolFlags::FunctionScopedVariable);
+        let step_key = ctx.generate_uid(
+            "step",
+            ctx.current_scope_id(),
+            SymbolFlags::FunctionScopedVariable,
+        );
         // step.value
         let step_value = Expression::from(ctx.ast.member_expression_static(
             SPAN,
@@ -153,7 +162,14 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
             ctx.ast.vec1(Argument::from(iterator)),
             ctx,
         );
-        Self::build_for_await(iterator, &step_key, body, stmt.scope_id(), parent_scope_id, ctx)
+        Self::build_for_await(
+            iterator,
+            &step_key,
+            body,
+            stmt.scope_id(),
+            parent_scope_id,
+            ctx,
+        )
     }
 
     /// Build a `for` statement used to replace the `for await` statement.
@@ -186,7 +202,7 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
     //   }
     // }
     /// ```
-    ///
+    /// 
     /// Based on Babel's implementation:
     /// <https://github.com/babel/babel/blob/d20b314c14533ab86351ecf6ca6b7296b66a57b3/packages/babel-plugin-transform-async-generator-functions/src/for-await.ts#L3-L30>
     fn build_for_await(
@@ -199,15 +215,21 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
     ) -> ArenaVec<'a, Statement<'a>> {
         let var_scope_id = ctx.current_scope_id();
 
-        let iterator_had_error_key =
-            ctx.generate_uid("didIteratorError", var_scope_id, SymbolFlags::FunctionScopedVariable);
+        let iterator_had_error_key = ctx.generate_uid(
+            "didIteratorError",
+            var_scope_id,
+            SymbolFlags::FunctionScopedVariable,
+        );
         let iterator_abrupt_completion = ctx.generate_uid(
             "iteratorAbruptCompletion",
             var_scope_id,
             SymbolFlags::FunctionScopedVariable,
         );
-        let iterator_error_key =
-            ctx.generate_uid("iteratorError", var_scope_id, SymbolFlags::FunctionScopedVariable);
+        let iterator_error_key = ctx.generate_uid(
+            "iteratorError",
+            var_scope_id,
+            SymbolFlags::FunctionScopedVariable,
+        );
 
         let mut items = ctx.ast.vec_with_capacity(4);
         items.push(Statement::from(ctx.ast.declaration_variable(
@@ -247,8 +269,11 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
             false,
         )));
 
-        let iterator_key =
-            ctx.generate_uid("iterator", var_scope_id, SymbolFlags::FunctionScopedVariable);
+        let iterator_key = ctx.generate_uid(
+            "iterator",
+            var_scope_id,
+            SymbolFlags::FunctionScopedVariable,
+        );
         let block = {
             let block_scope_id = ctx.create_child_scope(parent_scope_id, ScopeFlags::empty());
             let for_statement_scope_id =
@@ -330,12 +355,14 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
                         );
                     }
 
-                    ctx.ast.statement_block_with_scope_id(SPAN, body, for_of_scope_id)
+                    ctx.ast
+                        .statement_block_with_scope_id(SPAN, body, for_of_scope_id)
                 },
                 for_statement_scope_id,
             );
 
-            ctx.ast.block_statement_with_scope_id(SPAN, ctx.ast.vec1(for_statement), block_scope_id)
+            ctx.ast
+                .block_statement_with_scope_id(SPAN, ctx.ast.vec1(for_statement), block_scope_id)
         };
 
         let catch_clause = {
@@ -346,37 +373,42 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
                 block_scope_id,
                 SymbolFlags::CatchVariable | SymbolFlags::FunctionScopedVariable,
             );
-            Some(ctx.ast.catch_clause_with_scope_id(
-                SPAN,
-                Some(ctx.ast.catch_parameter(SPAN, err_ident.create_binding_pattern(ctx))),
-                {
-                    ctx.ast.block_statement_with_scope_id(
-                        SPAN,
-                        ctx.ast.vec_from_array([
-                            ctx.ast.statement_expression(
-                                SPAN,
-                                ctx.ast.expression_assignment(
+            Some(
+                ctx.ast.catch_clause_with_scope_id(
+                    SPAN,
+                    Some(
+                        ctx.ast
+                            .catch_parameter(SPAN, err_ident.create_binding_pattern(ctx)),
+                    ),
+                    {
+                        ctx.ast.block_statement_with_scope_id(
+                            SPAN,
+                            ctx.ast.vec_from_array([
+                                ctx.ast.statement_expression(
                                     SPAN,
-                                    AssignmentOperator::Assign,
-                                    iterator_had_error_key.create_write_target(ctx),
-                                    ctx.ast.expression_boolean_literal(SPAN, true),
+                                    ctx.ast.expression_assignment(
+                                        SPAN,
+                                        AssignmentOperator::Assign,
+                                        iterator_had_error_key.create_write_target(ctx),
+                                        ctx.ast.expression_boolean_literal(SPAN, true),
+                                    ),
                                 ),
-                            ),
-                            ctx.ast.statement_expression(
-                                SPAN,
-                                ctx.ast.expression_assignment(
+                                ctx.ast.statement_expression(
                                     SPAN,
-                                    AssignmentOperator::Assign,
-                                    iterator_error_key.create_write_target(ctx),
-                                    err_ident.create_read_expression(ctx),
+                                    ctx.ast.expression_assignment(
+                                        SPAN,
+                                        AssignmentOperator::Assign,
+                                        iterator_error_key.create_write_target(ctx),
+                                        err_ident.create_read_expression(ctx),
+                                    ),
                                 ),
-                            ),
-                        ]),
-                        block_scope_id,
-                    )
-                },
-                catch_scope_id,
-            ))
+                            ]),
+                            block_scope_id,
+                        )
+                    },
+                    catch_scope_id,
+                ),
+            )
         };
 
         let finally = {

@@ -20,7 +20,10 @@ pub struct ES2017<'a, 'ctx> {
 
 impl<'a, 'ctx> ES2017<'a, 'ctx> {
     pub fn new(options: ES2017Options, ctx: &'ctx TransformCtx<'a>) -> ES2017<'a, 'ctx> {
-        ES2017 { async_to_generator: AsyncToGenerator::new(ctx), options }
+        ES2017 {
+            async_to_generator: AsyncToGenerator::new(ctx),
+            options,
+        }
     }
 }
 

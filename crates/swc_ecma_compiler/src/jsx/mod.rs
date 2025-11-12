@@ -1,4 +1,4 @@
-use oxc_ast::{AstBuilder, ast::*};
+use oxc_ast::{ast::*, AstBuilder};
 use oxc_traverse::Traverse;
 
 use crate::{
@@ -53,7 +53,11 @@ impl<'a, 'ctx> Jsx<'a, 'ctx> {
             options.conform();
         }
         let JsxOptions {
-            jsx_plugin, display_name_plugin, jsx_self_plugin, jsx_source_plugin, ..
+            jsx_plugin,
+            display_name_plugin,
+            jsx_self_plugin,
+            jsx_source_plugin,
+            ..
         } = options;
         let refresh = options.refresh.clone();
         Self {
@@ -111,10 +115,14 @@ impl<'a> Traverse<'a, TransformState<'a>> for Jsx<'a, '_> {
     ) {
         if !self.enable_jsx_plugin {
             if self.self_plugin && JsxSelf::can_add_self_attribute(ctx) {
-                self.implementation.jsx_self.enter_jsx_opening_element(elem, ctx);
+                self.implementation
+                    .jsx_self
+                    .enter_jsx_opening_element(elem, ctx);
             }
             if self.source_plugin {
-                self.implementation.jsx_source.enter_jsx_opening_element(elem, ctx);
+                self.implementation
+                    .jsx_source
+                    .enter_jsx_opening_element(elem, ctx);
             }
         }
     }

@@ -13,33 +13,29 @@ use crate::context::TraverseCtx;
 ///
 /// Temp var is required in the following circumstances:
 ///
-/// * Class expression has static properties.
-///   e.g. `C = class { static x = 1; }`
-/// * Class declaration has static properties and one of the static prop's initializers contains:
-///   a. `this`
-///   e.g. `class C { static x = this; }`
-///   b. Reference to class name
-///   e.g. `class C { static x = C; }`
-///   c. A private field referring to one of the class's static private props.
-///   e.g. `class C { static #x; static y = obj.#x; }`
+/// * Class expression has static properties. e.g. `C = class { static x = 1; }`
+/// * Class declaration has static properties and one of the static prop's
+///   initializers contains: a. `this` e.g. `class C { static x = this; }` b.
+///   Reference to class name e.g. `class C { static x = C; }` c. A private
+///   field referring to one of the class's static private props. e.g. `class C
+///   { static #x; static y = obj.#x; }`
 ///
-/// The logic for when transpiled private fields use a reference to class name or class temp var
-/// is unfortunately rather complicated.
+/// The logic for when transpiled private fields use a reference to class name
+/// or class temp var is unfortunately rather complicated.
 ///
 /// Transpiled private fields referring to a static private prop use:
 ///
-/// * Class name when field is within body of class declaration
-///   e.g. `class C { static #x; method() { return obj.#x; } }`
-///   -> `_assertClassBrand(C, obj, _x)._`
-/// * Temp var when field is within body of class expression
-///   e.g. `C = class C { static #x; method() { return obj.#x; } }`
-///   -> `_assertClassBrand(_C, obj, _x)._`
-/// * Temp var when field is within a static prop initializer
-///   e.g. `class C { static #x; static y = obj.#x; }`
-///   -> `_assertClassBrand(_C, obj, _x)._`
+/// * Class name when field is within body of class declaration e.g. `class C {
+///   static #x; method() { return obj.#x; } }` -> `_assertClassBrand(C, obj,
+///   _x)._`
+/// * Temp var when field is within body of class expression e.g. `C = class C {
+///   static #x; method() { return obj.#x; } }` -> `_assertClassBrand(_C, obj,
+///   _x)._`
+/// * Temp var when field is within a static prop initializer e.g. `class C {
+///   static #x; static y = obj.#x; }` -> `_assertClassBrand(_C, obj, _x)._`
 ///
-/// `static_private_fields_use_temp` is updated as transform moves through the class,
-/// to indicate which binding to use.
+/// `static_private_fields_use_temp` is updated as transform moves through the
+/// class, to indicate which binding to use.
 pub(super) struct ClassBindings<'a> {
     /// Binding for class name, if class has name
     pub name: Option<BoundIdentifier<'a>>,
@@ -48,10 +44,11 @@ pub(super) struct ClassBindings<'a> {
     pub temp: Option<BoundIdentifier<'a>>,
     /// Temp var for WeakSet.
     pub brand: Option<BoundIdentifier<'a>>,
-    /// `ScopeId` of hoist scope outside class (which temp `var` binding would be created in)
+    /// `ScopeId` of hoist scope outside class (which temp `var` binding would
+    /// be created in)
     pub outer_hoist_scope_id: ScopeId,
-    /// `true` if should use temp binding for references to class in transpiled static private fields,
-    /// `false` if can use name binding
+    /// `true` if should use temp binding for references to class in transpiled
+    /// static private fields, `false` if can use name binding
     pub static_private_fields_use_temp: bool,
     /// `true` if temp var for class has been inserted
     pub temp_var_is_created: bool,
@@ -79,7 +76,8 @@ impl<'a> ClassBindings<'a> {
 
     /// Create dummy `ClassBindings`.
     ///
-    /// Used when class needs no transform, and for dummy entry at top of `ClassesStack`.
+    /// Used when class needs no transform, and for dummy entry at top of
+    /// `ClassesStack`.
     pub fn dummy() -> Self {
         Self::new(None, None, None, ScopeId::new(0), false, false)
     }
@@ -100,19 +98,21 @@ impl<'a> ClassBindings<'a> {
         self.brand.as_ref().unwrap()
     }
 
-    /// Get binding to use for referring to class in transpiled static private fields.
+    /// Get binding to use for referring to class in transpiled static private
+    /// fields.
     ///
     /// e.g. `Class` in `_assertClassBrand(Class, object, _prop)._` (class name)
     /// or `_Class` in `_assertClassBrand(_Class, object, _prop)._` (temp var)
     ///
     /// * In class expressions, this is always be temp binding.
-    /// * In class declarations, it's the name binding when code is inside class body,
-    ///   and temp binding when code is outside class body.
+    /// * In class declarations, it's the name binding when code is inside class
+    ///   body, and temp binding when code is outside class body.
     ///
     /// `static_private_fields_use_temp` is set accordingly at the right moments
     /// elsewhere in this transform.
     ///
-    /// If a temp binding is required, and one doesn't already exist, a temp binding is created.
+    /// If a temp binding is required, and one doesn't already exist, a temp
+    /// binding is created.
     pub fn get_or_init_static_binding(
         &mut self,
         ctx: &mut TraverseCtx<'a>,
@@ -137,9 +137,13 @@ impl<'a> ClassBindings<'a> {
         ctx: &mut TraverseCtx<'a>,
     ) -> BoundIdentifier<'a> {
         // Base temp binding name on class name, or "Class" if no name.
-        // TODO(improve-on-babel): If class name var isn't mutated, no need for temp var for
-        // class declaration. Can just use class binding.
+        // TODO(improve-on-babel): If class name var isn't mutated, no need for temp var
+        // for class declaration. Can just use class binding.
         let name = name_binding.map_or("Class", |binding| binding.name.as_str());
-        ctx.generate_uid(name, outer_hoist_scope_id, SymbolFlags::FunctionScopedVariable)
+        ctx.generate_uid(
+            name,
+            outer_hoist_scope_id,
+            SymbolFlags::FunctionScopedVariable,
+        )
     }
 }

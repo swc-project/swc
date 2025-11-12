@@ -1,14 +1,16 @@
 //! Styled Components
 //!
-//! This plugin adds support for server-side rendering, minification of styles, and
-//! a nicer debugging experience when using styled-components.
+//! This plugin adds support for server-side rendering, minification of styles,
+//! and a nicer debugging experience when using styled-components.
 //!
 //! > This plugin is port from the official Babel plugin for styled-components.
 //!
 //! ## Implementation Status
 //!
-//! > Note: Currently, this plugin only supports styled-components imported via import statements.
-//! > The transformation will not be applied if you import it using `require("styled-components")`,
+//! > Note: Currently, this plugin only supports styled-components imported via
+//! > import statements.
+//! > The transformation will not be applied if you import it using
+//! > `require("styled-components")`,
 //! > in other words, it only supports `ESM` not `CJS`.
 //!
 //! ### Options:
@@ -19,10 +21,12 @@
 //! - `transpileTemplateLiterals`: Converts template literals to function calls
 //! - `minify`: Minifies CSS content in template literals
 //! - `namespace`: Adds namespace prefixes to component IDs
-//! - `meaninglessFileNames`: Controls which filenames are considered meaningless
+//! - `meaninglessFileNames`: Controls which filenames are considered
+//!   meaningless
 //!
 //! **⚠️ Partially Supported:**
-//! - `pure`: Only supports call expressions, not tagged template expressions (bundler limitation)
+//! - `pure`: Only supports call expressions, not tagged template expressions
+//!   (bundler limitation)
 //!
 //! **❌ Not Yet Implemented:**
 //! - `cssProp`: JSX css prop transformation
@@ -60,15 +64,14 @@ use std::{
     iter::once,
 };
 
-use rustc_hash::FxHasher;
-use serde::Deserialize;
-
 use oxc_allocator::{TakeIn, Vec as ArenaVec};
-use oxc_ast::{AstBuilder, NONE, ast::*};
+use oxc_ast::{ast::*, AstBuilder, NONE};
 use oxc_data_structures::{inline_string::InlineString, slice_iter::SliceIter};
 use oxc_semantic::SymbolId;
 use oxc_span::SPAN;
 use oxc_traverse::{Ancestor, Traverse};
+use rustc_hash::FxHasher;
+use serde::Deserialize;
 
 use crate::{
     context::{TransformCtx, TraverseCtx},
@@ -78,54 +81,60 @@ use crate::{
 #[derive(Debug, Clone, Deserialize)]
 #[serde(default, rename_all = "camelCase", deny_unknown_fields)]
 pub struct StyledComponentsOptions {
-    /// Enhances the attached CSS class name on each component with richer output to help
-    /// identify your components in the DOM without React DevTools. It also allows you to
-    /// see the component's `displayName` in React DevTools.
+    /// Enhances the attached CSS class name on each component with richer
+    /// output to help identify your components in the DOM without React
+    /// DevTools. It also allows you to see the component's `displayName` in
+    /// React DevTools.
     ///
-    /// When enabled, components show up as `<button class="Button-asdf123 asdf123" />`
-    /// instead of just `<button class="asdf123" />`, and display meaningful names like
-    /// `MyButton` instead of `styled.button` in React DevTools.
+    /// When enabled, components show up as `<button class="Button-asdf123
+    /// asdf123" />` instead of just `<button class="asdf123" />`, and
+    /// display meaningful names like `MyButton` instead of `styled.button`
+    /// in React DevTools.
     ///
     /// Default: `true`
     #[serde(default = "default_as_true")]
     pub display_name: bool,
 
-    /// Controls whether the `displayName` of a component will be prefixed with the filename
-    /// to make the component name as unique as possible.
+    /// Controls whether the `displayName` of a component will be prefixed with
+    /// the filename to make the component name as unique as possible.
     ///
-    /// When `true`, the filename is used to prefix component names. When `false`, only the
-    /// component name is used for the `displayName`. This can be useful for testing with
-    /// enzyme where you want to search components by displayName.
+    /// When `true`, the filename is used to prefix component names. When
+    /// `false`, only the component name is used for the `displayName`. This
+    /// can be useful for testing with enzyme where you want to search
+    /// components by displayName.
     ///
     /// Default: `true`
     #[serde(default = "default_as_true")]
     pub file_name: bool,
 
-    /// Adds a unique identifier to every styled component to avoid checksum mismatches
-    /// due to different class generation on the client and server during server-side rendering.
+    /// Adds a unique identifier to every styled component to avoid checksum
+    /// mismatches due to different class generation on the client and
+    /// server during server-side rendering.
     ///
-    /// Without this option, React will complain with an HTML attribute mismatch warning
-    /// during rehydration when using server-side rendering.
+    /// Without this option, React will complain with an HTML attribute mismatch
+    /// warning during rehydration when using server-side rendering.
     ///
     /// Default: `true`
     #[serde(default = "default_as_true")]
     pub ssr: bool,
 
-    /// Transpiles styled-components tagged template literals to a smaller representation
-    /// than what Babel normally creates, helping to reduce bundle size.
+    /// Transpiles styled-components tagged template literals to a smaller
+    /// representation than what Babel normally creates, helping to reduce
+    /// bundle size.
     ///
-    /// Converts `` styled.div`width: 100%;` `` to `styled.div(['width: 100%;'])`, which is
-    /// more compact than the standard Babel template literal transformation.
+    /// Converts `` styled.div`width: 100%;` `` to `styled.div(['width:
+    /// 100%;'])`, which is more compact than the standard Babel template
+    /// literal transformation.
     ///
     /// Default: `true`
     #[serde(default = "default_as_true")]
     pub transpile_template_literals: bool,
 
-    /// Minifies CSS content by removing all whitespace and comments from your CSS,
-    /// keeping valuable bytes out of your bundles.
+    /// Minifies CSS content by removing all whitespace and comments from your
+    /// CSS, keeping valuable bytes out of your bundles.
     ///
-    /// This optimization helps reduce the final bundle size by eliminating unnecessary
-    /// whitespace and comments in CSS template literals.
+    /// This optimization helps reduce the final bundle size by eliminating
+    /// unnecessary whitespace and comments in CSS template literals.
     ///
     /// Default: `true`
     #[serde(default = "default_as_true")]
@@ -133,8 +142,8 @@ pub struct StyledComponentsOptions {
 
     /// Enables transformation of JSX `css` prop when using styled-components.
     ///
-    /// When enabled, JSX elements with a `css` prop are transformed to work with
-    /// styled-components' css prop functionality.
+    /// When enabled, JSX elements with a `css` prop are transformed to work
+    /// with styled-components' css prop functionality.
     ///
     /// **Note: This feature is not yet implemented in oxc.**
     ///
@@ -144,49 +153,55 @@ pub struct StyledComponentsOptions {
 
     /// Enables "pure annotation" to aid dead code elimination by bundlers.
     ///
-    /// Adds `/*#__PURE__*/` comments to styled component calls, helping minifiers
-    /// perform better tree-shaking by indicating that these calls have no side effects.
-    /// This is particularly useful because styled components are normally assumed to
-    /// have side effects and can't be properly eliminated by minifiers.
+    /// Adds `/*#__PURE__*/` comments to styled component calls, helping
+    /// minifiers perform better tree-shaking by indicating that these calls
+    /// have no side effects. This is particularly useful because styled
+    /// components are normally assumed to have side effects and can't be
+    /// properly eliminated by minifiers.
     ///
-    /// **Note: Currently only supports call expressions. Tagged template expressions
-    /// are not yet supported due to bundler limitations. See:**
+    /// **Note: Currently only supports call expressions. Tagged template
+    /// expressions are not yet supported due to bundler limitations. See:**
     /// <https://github.com/rollup/rollup/issues/4035>
     ///
     /// Default: `false`
     #[serde(default)]
     pub pure: bool,
 
-    /// Adds a namespace prefix to component identifiers to ensure class names are unique.
+    /// Adds a namespace prefix to component identifiers to ensure class names
+    /// are unique.
     ///
-    /// This is particularly useful when working with micro-frontends where class name
-    /// collisions can occur. The namespace will be prepended to generated component IDs.
+    /// This is particularly useful when working with micro-frontends where
+    /// class name collisions can occur. The namespace will be prepended to
+    /// generated component IDs.
     ///
-    /// Example: With `namespace: "my-app"`, generates `componentId: "my-app__sc-3rfj0a-1"`
+    /// Example: With `namespace: "my-app"`, generates `componentId:
+    /// "my-app__sc-3rfj0a-1"`
     ///
     /// Default: `None`
     #[serde(default)]
     pub namespace: Option<String>,
 
-    /// List of file names that are considered meaningless for component naming purposes.
+    /// List of file names that are considered meaningless for component naming
+    /// purposes.
     ///
-    /// When the `fileName` option is enabled and a component is in a file with a name
-    /// from this list, the directory name will be used instead of the file name for
-    /// the component's display name. This is useful for patterns like `Button/index.jsx`
-    /// where "index" is not descriptive.
+    /// When the `fileName` option is enabled and a component is in a file with
+    /// a name from this list, the directory name will be used instead of
+    /// the file name for the component's display name. This is useful for
+    /// patterns like `Button/index.jsx` where "index" is not descriptive.
     ///
-    /// Example: With "index" in the list, `Button/index.jsx` will generate a display
-    /// name of "Button" instead of "index".
+    /// Example: With "index" in the list, `Button/index.jsx` will generate a
+    /// display name of "Button" instead of "index".
     ///
     /// Default: `["index"]`
     #[serde(default = "default_for_meaningless_file_names")]
     pub meaningless_file_names: Vec<String>,
 
-    /// Import paths to be considered as styled-components imports at the top level.
+    /// Import paths to be considered as styled-components imports at the top
+    /// level.
     ///
-    /// This option allows specifying additional import paths that should be treated
-    /// as styled-components imports, enabling the plugin to work with custom builds
-    /// or aliased imports of styled-components.
+    /// This option allows specifying additional import paths that should be
+    /// treated as styled-components imports, enabling the plugin to work
+    /// with custom builds or aliased imports of styled-components.
     ///
     /// **Note: This feature is not yet implemented in oxc.**
     ///
@@ -206,9 +221,9 @@ fn default_for_meaningless_file_names() -> Vec<String> {
 impl Default for StyledComponentsOptions {
     /// Creates the default configuration for styled-components transformation.
     ///
-    /// Most options are enabled by default to match the behavior of the official
-    /// Babel plugin. Note that some options like `cssProp` and `topLevelImportPaths`
-    /// are set but not yet implemented.
+    /// Most options are enabled by default to match the behavior of the
+    /// official Babel plugin. Note that some options like `cssProp` and
+    /// `topLevelImportPaths` are set but not yet implemented.
     ///
     /// The `pure` option is disabled by default to avoid potential issues with
     /// tree-shaking in some bundlers.
@@ -234,9 +249,11 @@ impl Default for StyledComponentsOptions {
 struct StyledComponentsBinding {
     /// `import * as styled from 'styled-components'`
     namespace: Option<SymbolId>,
-    /// `import styled from 'styled-components'` or `import { default as styled } from 'styled-components'`
+    /// `import styled from 'styled-components'` or `import { default as styled
+    /// } from 'styled-components'`
     styled: Option<SymbolId>,
-    /// Named imports like `import { createGlobalStyle, css, keyframes } from 'styled-components'`
+    /// Named imports like `import { createGlobalStyle, css, keyframes } from
+    /// 'styled-components'`
     helpers: [Option<SymbolId>; 6],
 }
 
@@ -267,7 +284,11 @@ enum StyledComponentsHelper {
 impl StyledComponentsHelper {
     /// Convert string to [`StyledComponentsHelper`].
     fn from_str(name: &str) -> Option<Self> {
-        if name == "injectGlobal" { Some(Self::InjectGlobal) } else { Self::pure_from_str(name) }
+        if name == "injectGlobal" {
+            Some(Self::InjectGlobal)
+        } else {
+            Self::pure_from_str(name)
+        }
     }
 
     /// Convert string to [`StyledComponentsHelper`], excluding `injectGlobal`.
@@ -324,7 +345,8 @@ impl<'a> Traverse<'a, TransformState<'a>> for StyledComponents<'a, '_> {
         self.handle_pure_annotation(variable_declarator, ctx);
     }
 
-    #[inline] // Because it's a hot path, and most `Expression`s are not `TaggedTemplateExpression`s
+    #[inline] // Because it's a hot path, and most `Expression`s are not
+              // `TaggedTemplateExpression`s
     fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
         if matches!(expr, Expression::TaggedTemplateExpression(_)) {
             self.transform_tagged_template_expression(expr, ctx);
@@ -404,7 +426,12 @@ impl<'a> StyledComponents<'a, '_> {
         let TaggedTemplateExpression {
             span,
             tag,
-            quasi: TemplateLiteral { span: quasi_span, quasis, expressions },
+            quasi:
+                TemplateLiteral {
+                    span: quasi_span,
+                    quasis,
+                    expressions,
+                },
             type_arguments,
         } = expr.take_in(ctx.ast);
 
@@ -417,14 +444,17 @@ impl<'a> StyledComponents<'a, '_> {
         }));
 
         let quasis = Argument::from(ctx.ast.expression_array(quasi_span, quasis_elements));
-        let arguments =
-            ctx.ast.vec_from_iter(once(quasis).chain(expressions.into_iter().map(Argument::from)));
-        ctx.ast.expression_call(span, tag, type_arguments, arguments, false)
+        let arguments = ctx
+            .ast
+            .vec_from_iter(once(quasis).chain(expressions.into_iter().map(Argument::from)));
+        ctx.ast
+            .expression_call(span, tag, type_arguments, arguments, false)
     }
 
     /// Add `displayName` and `componentId` to `withConfig({})`
     ///
-    /// If the call doesn't exist, then will create a new `withConfig` call expression
+    /// If the call doesn't exist, then will create a new `withConfig` call
+    /// expression
     fn add_display_name_and_component_id(
         &mut self,
         expr: &mut Expression<'a>,
@@ -452,9 +482,13 @@ impl<'a> StyledComponents<'a, '_> {
             let arguments = ctx.ast.vec1(Argument::ObjectExpression(object));
             let object = expr.take_in(ctx.ast);
             let property = ctx.ast.identifier_name(SPAN, "withConfig");
-            let callee =
-                Expression::from(ctx.ast.member_expression_static(SPAN, object, property, false));
-            let call = ctx.ast.expression_call(SPAN, callee, NONE, arguments, false);
+            let callee = Expression::from(
+                ctx.ast
+                    .member_expression_static(SPAN, object, property, false),
+            );
+            let call = ctx
+                .ast
+                .expression_call(SPAN, callee, NONE, arguments, false);
             *expr = call;
         } else {
             return false;
@@ -466,8 +500,12 @@ impl<'a> StyledComponents<'a, '_> {
     /// Collects import bindings which imports from `styled-components`
     fn collect_styled_bindings(&mut self, program: &Program<'a>, _ctx: &mut TraverseCtx<'a>) {
         for statement in &program.body {
-            let Statement::ImportDeclaration(import) = &statement else { continue };
-            let Some(specifiers) = &import.specifiers else { continue };
+            let Statement::ImportDeclaration(import) = &statement else {
+                continue;
+            };
+            let Some(specifiers) = &import.specifiers else {
+                continue;
+            };
             if !is_valid_styled_component_source(&import.source.value) {
                 continue;
             }
@@ -535,8 +573,8 @@ impl<'a> StyledComponents<'a, '_> {
         }
     }
 
-    // Infers the component name from the parent variable declarator, assignment expression,
-    // or object property.
+    // Infers the component name from the parent variable declarator, assignment
+    // expression, or object property.
     fn get_component_name(ctx: &TraverseCtx<'a>) -> Option<Atom<'a>> {
         let mut assignment_name = None;
 
@@ -637,9 +675,9 @@ impl<'a> StyledComponents<'a, '_> {
 
             let mut str = InlineString::new();
             while num != 0 {
-                // SAFETY: `num < 36.pow(6)` to start with, is and divided by 36 on each turn of loop,
-                // so we cannot push more than 6 bytes. Capacity of `InlineString` is 7.
-                // All bytes in `BASE36_BYTES` are ASCII.
+                // SAFETY: `num < 36.pow(6)` to start with, is and divided by 36 on each turn of
+                // loop, so we cannot push more than 6 bytes. Capacity of
+                // `InlineString` is 7. All bytes in `BASE36_BYTES` are ASCII.
                 unsafe { str.push_unchecked(BASE36_BYTES[(num % 36) as usize]) };
                 num /= 36;
             }
@@ -662,28 +700,37 @@ impl<'a> StyledComponents<'a, '_> {
             return None;
         }
 
-        let file_stem = self.ctx.source_path.file_stem().and_then(|stem| stem.to_str())?;
+        let file_stem = self
+            .ctx
+            .source_path
+            .file_stem()
+            .and_then(|stem| stem.to_str())?;
 
         Some(*self.block_name.get_or_insert_with(|| {
             // Should be a name, but if the file stem is in the meaningless file names list,
             // we will use the parent directory name instead.
-            let block_name =
-                if self.options.meaningless_file_names.iter().any(|name| name == file_stem) {
-                    self.ctx
-                        .source_path
-                        .parent()
-                        .and_then(|parent| parent.file_name())
-                        .and_then(|name| name.to_str())
-                        .unwrap_or(file_stem)
-                } else {
-                    file_stem
-                };
+            let block_name = if self
+                .options
+                .meaningless_file_names
+                .iter()
+                .any(|name| name == file_stem)
+            {
+                self.ctx
+                    .source_path
+                    .parent()
+                    .and_then(|parent| parent.file_name())
+                    .and_then(|name| name.to_str())
+                    .unwrap_or(file_stem)
+            } else {
+                file_stem
+            };
 
             ctx.ast.atom(block_name)
         }))
     }
 
-    /// Returns the display name which infers the component name or gets from the file name.
+    /// Returns the display name which infers the component name or gets from
+    /// the file name.
     fn get_display_name(&mut self, ctx: &TraverseCtx<'a>) -> Atom<'a> {
         let component_name = Self::get_component_name(ctx);
 
@@ -695,7 +742,8 @@ impl<'a> StyledComponents<'a, '_> {
             if block_name == component_name {
                 component_name
             } else {
-                ctx.ast.atom_from_strs_array([&block_name, "__", &component_name])
+                ctx.ast
+                    .atom_from_strs_array([&block_name, "__", &component_name])
             }
         } else {
             block_name
@@ -765,13 +813,15 @@ impl<'a> StyledComponents<'a, '_> {
         helper: StyledComponentsHelper,
         ctx: &TraverseCtx<'a>,
     ) -> bool {
-        self.styled_bindings.helper_symbol_id(helper).is_some_and(|symbol_id| {
-            let reference_id = ident.reference_id();
-            ctx.scoping()
-                .get_reference(reference_id)
-                .symbol_id()
-                .is_some_and(|reference_symbol_id| reference_symbol_id == symbol_id)
-        })
+        self.styled_bindings
+            .helper_symbol_id(helper)
+            .is_some_and(|symbol_id| {
+                let reference_id = ident.reference_id();
+                ctx.scoping()
+                    .get_reference(reference_id)
+                    .symbol_id()
+                    .is_some_and(|reference_symbol_id| reference_symbol_id == symbol_id)
+            })
     }
 
     /// Checks if the identifier is a reference to a styled binding.
@@ -822,19 +872,22 @@ fn is_valid_styled_component_source(source: &str) -> bool {
 
 /// Minify a styled-components [`TemplateLiteral`].
 ///
-/// This function iterates through the `TemplateElement`s of a `TemplateLiteral`, and applies CSS
-/// minification rules. It handles strings, comments, and whitespace.
+/// This function iterates through the `TemplateElement`s of a
+/// `TemplateLiteral`, and applies CSS minification rules. It handles strings,
+/// comments, and whitespace.
 ///
 /// # Steps
 ///
 /// 1. Initialize state variables to track whether:
 ///    - Currently inside a string.
 ///    - Current string quote character.
-///    - Depth of parentheses.
-///      This state is carried over across different quasis.
+///    - Depth of parentheses. This state is carried over across different
+///      quasis.
 /// 2. Iterate through each quasi, and each byte of each quasi:
-///    - If encounter a string quote (`"` or `'`), toggle the `string_quote` state.
-///    - Skip comments (both block and line comments) and whitespace, compressing them as needed.
+///    - If encounter a string quote (`"` or `'`), toggle the `string_quote`
+///      state.
+///    - Skip comments (both block and line comments) and whitespace,
+///      compressing them as needed.
 ///    - Handle escaped newlines (`\n`, `\r`) by replacing them with a space.
 /// 3. If a quasi ends with an incomplete comment:
 ///    - Remove next expression from `expressions`.
@@ -855,8 +908,8 @@ fn is_valid_styled_component_source(source: &str) -> bool {
 /// // expressions = [width, color]
 /// ```
 ///
-/// Only the first expression (`width`) is kept, and the second one (`color`) is removed
-/// because it was inside a comment. After minification:
+/// Only the first expression (`width`) is kept, and the second one (`color`) is
+/// removed because it was inside a comment. After minification:
 ///
 /// ```js
 /// quasis = ["width:", "px;color:red;height:100px;"]
@@ -865,8 +918,9 @@ fn is_valid_styled_component_source(source: &str) -> bool {
 fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a>) {
     const NOT_IN_STRING: u8 = 0;
     /// `Span` used as a sentinel indicating quasi should be removed.
-    /// Source text is limited to max `u32::MAX` bytes, so it's impossible for a `TemplateElement`
-    /// to have this span, because it's always followed by (at minimum) a '`'.
+    /// Source text is limited to max `u32::MAX` bytes, so it's impossible for a
+    /// `TemplateElement` to have this span, because it's always followed by
+    /// (at minimum) a '`'.
     const REMOVE_SENTINEL: Span = Span::new(u32::MAX, u32::MAX);
 
     debug_assert!(lit.quasis.len() == lit.expressions.len() + 1);
@@ -884,8 +938,9 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
     // `true` if some quasis and expressions need to be deleted.
     let mut delete_some = false;
     // `true` if in first output quasi.
-    // Equivalent to `quasi_index == 0`, except when merging quasis e.g. `x /* ${1} */ y`.
-    // In that case, when processing `y`, `quasi_index == 1` but `is_first_output == true`.
+    // Equivalent to `quasi_index == 0`, except when merging quasis e.g. `x /* ${1}
+    // */ y`. In that case, when processing `y`, `quasi_index == 1` but
+    // `is_first_output == true`.
     let mut is_first_output = true;
 
     // Current minified quasi being built
@@ -899,8 +954,8 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
         if quasi_index > 0 {
             if let Some(is_block_comment) = comment_type {
                 // This quasi is being merged with previous.
-                // Extend span start of this quasi to previous quasi's span start, as this quasi now covers both.
-                // Previous quasi will be deleted.
+                // Extend span start of this quasi to previous quasi's span start, as this quasi
+                // now covers both. Previous quasi will be deleted.
                 //
                 // ```
                 // // Input:
@@ -914,7 +969,8 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
                 // //         ^^^^^^^^^^^^^^^^^^^^^^
                 // ```
                 quasis[quasi_index].span.start = quasis[quasi_index - 1].span.start;
-                // Mark previous quasi as to be removed. It will be removed after all quasis are processed.
+                // Mark previous quasi as to be removed. It will be removed after all quasis are
+                // processed.
                 quasis[quasi_index - 1].span = REMOVE_SENTINEL;
 
                 delete_some = true;
@@ -935,8 +991,9 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
                 };
 
                 // Comments behave like whitespace.
-                // Block comments: `padding: 10/* */0` is equivalent to `padding: 10 0`, not `padding: 100`.
-                // Line comments: End with a newline (whitespace).
+                // Block comments: `padding: 10/* */0` is equivalent to `padding: 10 0`, not
+                // `padding: 100`. Line comments: End with a newline
+                // (whitespace).
                 insert_space_if_required(&mut output, is_first_output);
 
                 // Trim off to end of comment
@@ -944,10 +1001,12 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
 
                 comment_type = None;
 
-                // Don't touch `output`. This quasi continues appending to existing `output`.
+                // Don't touch `output`. This quasi continues appending to
+                // existing `output`.
             } else {
                 // Set `raw` for previous quasi to `output`
-                // SAFETY: Output is all picked from the original `raw` values and is guaranteed to be valid UTF-8.
+                // SAFETY: Output is all picked from the original `raw` values and is guaranteed
+                // to be valid UTF-8.
                 let output_str = unsafe { std::str::from_utf8_unchecked(&output) };
                 quasis[quasi_index - 1].value.raw = ast.atom(output_str);
                 output.clear();
@@ -1011,7 +1070,8 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
                                             bytes[i + 2..].windows(2).position(|q| q == b"*/");
                                         if let Some(end_index) = end_index {
                                             // Block comments behave like whitespace.
-                                            // `padding: 10/* */0` is equivalent to `padding: 10 0`, not `padding: 100`.
+                                            // `padding: 10/* */0` is equivalent to `padding: 10 0`,
+                                            // not `padding: 100`.
                                             insert_space_if_required(&mut output, is_first_output);
 
                                             i += end_index + 4; // After `*/`
@@ -1027,8 +1087,9 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
                             }
                             // Skip line comments, but be careful not to break URLs like `https://...`
                             b'/' if paren_depth == 0 && (i == 0 || bytes[i - 1] != b':') => {
-                                let end_index =
-                                    bytes[i + 2..].iter().position(|&b| matches!(b, b'\n' | b'\r'));
+                                let end_index = bytes[i + 2..]
+                                    .iter()
+                                    .position(|&b| matches!(b, b'\n' | b'\r'));
                                 if let Some(end_index) = end_index {
                                     // Insert space in place of `\n` / `\r`
                                     insert_space_if_required(&mut output, is_first_output);
@@ -1058,9 +1119,9 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
                 // - `${A} ${B}` - space between interpolations preserved
                 // - `.class :hover` - space before pseudo-selector preserved
                 _ if cur_byte.is_ascii_whitespace() => {
-                    // Preserve this space if it's not following a character which doesn't require one.
-                    // Note: If a space is inserted, it may be removed again if it's followed
-                    // by `{`, `}`, `,`, or `;`.
+                    // Preserve this space if it's not following a character which doesn't require
+                    // one. Note: If a space is inserted, it may be removed
+                    // again if it's followed by `{`, `}`, `,`, or `;`.
                     insert_space_if_required(&mut output, is_first_output);
 
                     i += 1;
@@ -1091,24 +1152,27 @@ fn minify_template_literal<'a>(lit: &mut TemplateLiteral<'a>, ast: AstBuilder<'a
     }
 
     // Update last quasi.
-    // SAFETY: Output is all picked from the original `raw` values and is guaranteed to be valid UTF-8.
+    // SAFETY: Output is all picked from the original `raw` values and is guaranteed
+    // to be valid UTF-8.
     let output_str = unsafe { std::str::from_utf8_unchecked(&output) };
     quasis.last_mut().unwrap().value.raw = ast.atom(output_str);
 
-    // Remove quasis that are marked for removal, and the expressions following them.
-    // TODO: Remove scopes, symbols, and references for removed `Expression`s.
+    // Remove quasis that are marked for removal, and the expressions following
+    // them. TODO: Remove scopes, symbols, and references for removed
+    // `Expression`s.
     if delete_some {
-        // We assert the lengths of `quasis` and `expressions` here so that we can safely
-        // use `next_unchecked` to skip bounds checks in the `retain` loop.
-        // It should always be true that `quasis.len() == expressions.len() + 1`
-        // but `quasis.len() >= expressions.len()` is all we need to ensure safety of `next_unchecked`
-        // below, and it's a cheaper check.
+        // We assert the lengths of `quasis` and `expressions` here so that we can
+        // safely use `next_unchecked` to skip bounds checks in the `retain`
+        // loop. It should always be true that `quasis.len() ==
+        // expressions.len() + 1` but `quasis.len() >= expressions.len()` is all
+        // we need to ensure safety of `next_unchecked` below, and it's a
+        // cheaper check.
         assert!(quasis.len() >= lit.expressions.len());
 
         let mut quasis_iter = quasis.iter();
         lit.expressions.retain(|_| {
-            // SAFETY: We asserted above that there are at least as many quasis as expressions,
-            // so `quasis_iter` cannot be exhausted in this loop
+            // SAFETY: We asserted above that there are at least as many quasis as
+            // expressions, so `quasis_iter` cannot be exhausted in this loop
             let quasi = unsafe { quasis_iter.next_unchecked() };
             quasi.span != REMOVE_SENTINEL
         });
@@ -1127,8 +1191,9 @@ fn insert_space_if_required(output: &mut Vec<u8>, is_first_output: bool) {
             return;
         }
     } else {
-        // We're at start of a quasi. If it's the first output quasi, trim leading space.
-        // Otherwise, preserve space to avoid joining with previous interpolation.
+        // We're at start of a quasi. If it's the first output quasi, trim leading
+        // space. Otherwise, preserve space to avoid joining with previous
+        // interpolation.
         if is_first_output {
             return;
         }
@@ -1139,10 +1204,11 @@ fn insert_space_if_required(output: &mut Vec<u8>, is_first_output: bool) {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use oxc_allocator::Allocator;
-    use oxc_ast::{AstBuilder, ast::TemplateElementValue};
+    use oxc_ast::{ast::TemplateElementValue, AstBuilder};
     use oxc_span::SPAN;
+
+    use super::*;
 
     fn minify_raw(input: &str) -> String {
         let allocator = Allocator::default();
@@ -1152,7 +1218,10 @@ mod tests {
             SPAN,
             ast.vec1(ast.template_element(
                 SPAN,
-                TemplateElementValue { raw: ast.atom(input), cooked: Some(ast.atom(input)) },
+                TemplateElementValue {
+                    raw: ast.atom(input),
+                    cooked: Some(ast.atom(input)),
+                },
                 true,
             )),
             ast.vec(),

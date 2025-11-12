@@ -2,11 +2,14 @@
 //!
 //! This plugin mainly does the following transformations:
 //!
-//! 1. transforms async generator functions (async function *name() {}) to generator functions
-//!    and wraps them with `awaitAsyncGenerator` helper function.
+//! 1. transforms async generator functions (async function *name() {}) to
+//!    generator functions and wraps them with `awaitAsyncGenerator` helper
+//!    function.
 //! 2. transforms `await expr` expression to `yield awaitAsyncGenerator(expr)`.
-//! 3. transforms `yield * argument` expression to `yield asyncGeneratorDelegate(asyncIterator(argument))`.
-//! 4. transforms `for await` statement to `for` statement, and inserts many code to handle async iteration.
+//! 3. transforms `yield * argument` expression to `yield
+//!    asyncGeneratorDelegate(asyncIterator(argument))`.
+//! 4. transforms `for await` statement to `for` statement, and inserts many
+//!    code to handle async iteration.
 //!
 //! ## Example
 //!
@@ -16,7 +19,7 @@
 //!  for await (let x of y) {
 //!    g(x);
 //!  }
-//!}
+//! }
 //! ```
 //!
 //! Output:
@@ -85,7 +88,10 @@ pub struct AsyncGeneratorFunctions<'a, 'ctx> {
 
 impl<'a, 'ctx> AsyncGeneratorFunctions<'a, 'ctx> {
     pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { ctx, executor: AsyncGeneratorExecutor::new(Helper::WrapAsyncGenerator, ctx) }
+        Self {
+            ctx,
+            executor: AsyncGeneratorExecutor::new(Helper::WrapAsyncGenerator, ctx),
+        }
     }
 }
 
@@ -145,7 +151,9 @@ impl<'a> Traverse<'a, TransformState<'a>> for AsyncGeneratorFunctions<'a, '_> {
             && !function.is_typescript_syntax()
         {
             let new_statement = self.executor.transform_function_declaration(function, ctx);
-            self.ctx.statement_injector.insert_after(stmt, new_statement);
+            self.ctx
+                .statement_injector
+                .insert_after(stmt, new_statement);
         }
     }
 
@@ -155,13 +163,15 @@ impl<'a> Traverse<'a, TransformState<'a>> for AsyncGeneratorFunctions<'a, '_> {
             && !func.is_typescript_syntax()
             && AsyncGeneratorExecutor::is_class_method_like_ancestor(ctx.parent())
         {
-            self.executor.transform_function_for_method_definition(func, ctx);
+            self.executor
+                .transform_function_for_method_definition(func, ctx);
         }
     }
 }
 
 impl<'a> AsyncGeneratorFunctions<'a, '_> {
-    /// Transform `yield * argument` expression to `yield asyncGeneratorDelegate(asyncIterator(argument))`.
+    /// Transform `yield * argument` expression to `yield
+    /// asyncGeneratorDelegate(asyncIterator(argument))`.
     fn transform_yield_expression(
         &self,
         expr: &mut YieldExpression<'a>,
@@ -175,11 +185,14 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
             let argument = Argument::from(argument.take_in(ctx.ast));
             let arguments = ctx.ast.vec1(argument);
             let mut argument =
-                self.ctx.helper_call_expr(Helper::AsyncIterator, SPAN, arguments, ctx);
+                self.ctx
+                    .helper_call_expr(Helper::AsyncIterator, SPAN, arguments, ctx);
             let arguments = ctx.ast.vec1(Argument::from(argument));
             argument =
-                self.ctx.helper_call_expr(Helper::AsyncGeneratorDelegate, SPAN, arguments, ctx);
-            ctx.ast.expression_yield(SPAN, expr.delegate, Some(argument))
+                self.ctx
+                    .helper_call_expr(Helper::AsyncGeneratorDelegate, SPAN, arguments, ctx);
+            ctx.ast
+                .expression_yield(SPAN, expr.delegate, Some(argument))
         })
     }
 
@@ -187,7 +200,8 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
     fn yield_is_inside_async_generator_function(ctx: &TraverseCtx<'a>) -> bool {
         for ancestor in ctx.ancestors() {
             // Note: `yield` cannot appear within function params.
-            // Also cannot appear in arrow functions because no such thing as a generator arrow function.
+            // Also cannot appear in arrow functions because no such thing as a generator
+            // arrow function.
             if let Ancestor::FunctionBody(func) = ancestor {
                 return *func.r#async();
             }
@@ -209,7 +223,9 @@ impl<'a> AsyncGeneratorFunctions<'a, '_> {
 
         let mut argument = expr.argument.take_in(ctx.ast);
         let arguments = ctx.ast.vec1(Argument::from(argument));
-        argument = self.ctx.helper_call_expr(Helper::AwaitAsyncGenerator, SPAN, arguments, ctx);
+        argument = self
+            .ctx
+            .helper_call_expr(Helper::AwaitAsyncGenerator, SPAN, arguments, ctx);
 
         Some(ctx.ast.expression_yield(SPAN, false, Some(argument)))
     }

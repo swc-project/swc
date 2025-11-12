@@ -3,7 +3,7 @@
 
 use indexmap::map::Entry;
 use oxc_allocator::{Address, GetAddress, TakeIn};
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_span::SPAN;
 use oxc_syntax::{
     node::NodeId,
@@ -13,23 +13,23 @@ use oxc_syntax::{
 };
 use oxc_traverse::{Ancestor, BoundIdentifier};
 
+use super::{
+    constructor::InstanceInitsInsertLocation,
+    utils::{create_variable_declaration, exprs_into_stmts},
+    ClassBindings, ClassDetails, ClassProperties, FxIndexMap, PrivateProp,
+};
 use crate::{
     common::helper_loader::Helper,
     context::{TransformCtx, TraverseCtx},
     utils::ast_builder::create_assignment,
 };
 
-use super::{
-    ClassBindings, ClassDetails, ClassProperties, FxIndexMap, PrivateProp,
-    constructor::InstanceInitsInsertLocation,
-    utils::{create_variable_declaration, exprs_into_stmts},
-};
+// TODO(improve-on-babel): If outer scope is sloppy mode, all code which is
+// moved to outside the class should be wrapped in an IIFE with `'use strict'`
+// directive. Babel doesn't do this.
 
-// TODO(improve-on-babel): If outer scope is sloppy mode, all code which is moved to outside
-// the class should be wrapped in an IIFE with `'use strict'` directive. Babel doesn't do this.
-
-// TODO: If static blocks transform is disabled, it's possible to get incorrect execution order.
-// ```js
+// TODO: If static blocks transform is disabled, it's possible to get incorrect
+// execution order. ```js
 // class C {
 //     static x = console.log('x');
 //     static {
@@ -38,24 +38,28 @@ use super::{
 //     static y = console.log('y');
 // }
 // ```
-// This logs "x", "block", "y". But in transformed output it'd be "block", "x", "y".
-// Maybe force transform of static blocks if any static properties?
-// Or alternatively could insert static property initializers into static blocks.
+// This logs "x", "block", "y". But in transformed output it'd be "block", "x",
+// "y". Maybe force transform of static blocks if any static properties?
+// Or alternatively could insert static property initializers into static
+// blocks.
 
 impl<'a> ClassProperties<'a, '_> {
     /// Perform first phase of transformation of class.
     ///
-    /// This is the only entry point into the transform upon entering class body.
+    /// This is the only entry point into the transform upon entering class
+    /// body.
     ///
     /// First we check if any transforms are necessary, and exit if not.
     ///
     /// If transform is required:
     /// * Build a hashmap of private property keys.
-    /// * Push `ClassDetails` containing info about the class to `classes_stack`.
-    /// * Extract instance property initializers (public or private) from class body and insert into
-    ///   class constructor.
-    /// * Temporarily replace computed keys of instance properties with assignments to temp vars.
-    ///   `class C { [foo()] = 123; }` -> `class C { [_foo = foo()]; }`
+    /// * Push `ClassDetails` containing info about the class to
+    ///   `classes_stack`.
+    /// * Extract instance property initializers (public or private) from class
+    ///   body and insert into class constructor.
+    /// * Temporarily replace computed keys of instance properties with
+    ///   assignments to temp vars. `class C { [foo()] = 123; }` -> `class C {
+    ///   [_foo = foo()]; }`
     pub(super) fn transform_class_body_on_entry(
         &mut self,
         body: &mut ClassBody<'a>,
@@ -63,7 +67,9 @@ impl<'a> ClassProperties<'a, '_> {
     ) {
         // Ignore TS class declarations
         // TODO: Is this correct?
-        let Ancestor::ClassBody(class) = ctx.parent() else { unreachable!() };
+        let Ancestor::ClassBody(class) = ctx.parent() else {
+            unreachable!()
+        };
         if *class.declare() {
             return;
         }
@@ -179,15 +185,19 @@ impl<'a> ClassProperties<'a, '_> {
             self.classes_stack.push(ClassDetails {
                 is_declaration,
                 is_transform_required: false,
-                private_props: if private_props.is_empty() { None } else { Some(private_props) },
+                private_props: if private_props.is_empty() {
+                    None
+                } else {
+                    Some(private_props)
+                },
                 bindings: ClassBindings::dummy(),
             });
             return;
         }
 
         // Initialize class binding vars.
-        // Static prop in class expression or anonymous `export default class {}` always require
-        // temp var for class. Static prop in class declaration doesn't.
+        // Static prop in class expression or anonymous `export default class {}` always
+        // require temp var for class. Static prop in class declaration doesn't.
         let need_temp_var = has_static_prop && (!is_declaration || class_name_binding.is_none());
 
         let outer_hoist_scope_id = ctx.current_hoist_scope_id();
@@ -203,9 +213,10 @@ impl<'a> ClassProperties<'a, '_> {
                 class_name_binding = Some(temp_binding.clone());
             } else {
                 // Create temp var `var _Class;` statement.
-                // TODO(improve-on-babel): Inserting the temp var `var _Class` statement here is only
-                // to match Babel's output. It'd be simpler just to insert it at the end and get rid of
-                // `temp_var_is_created` that tracks whether it's done already or not.
+                // TODO(improve-on-babel): Inserting the temp var `var _Class` statement here is
+                // only to match Babel's output. It'd be simpler just to insert
+                // it at the end and get rid of `temp_var_is_created` that
+                // tracks whether it's done already or not.
                 self.ctx.var_declarations.insert_var(&temp_binding, ctx);
             }
             Some(temp_binding)
@@ -215,7 +226,9 @@ impl<'a> ClassProperties<'a, '_> {
 
         let class_brand_binding = has_instance_private_method.then(|| {
             // `_Class_brand`
-            let name = class_name_binding.as_ref().map_or_else(|| "Class", |binding| &binding.name);
+            let name = class_name_binding
+                .as_ref()
+                .map_or_else(|| "Class", |binding| &binding.name);
             let name = &format!("_{name}_brand");
             ctx.generate_uid_in_current_hoist_scope(name)
         });
@@ -234,7 +247,11 @@ impl<'a> ClassProperties<'a, '_> {
         self.classes_stack.push(ClassDetails {
             is_declaration,
             is_transform_required: true,
-            private_props: if private_props.is_empty() { None } else { Some(private_props) },
+            private_props: if private_props.is_empty() {
+                None
+            } else {
+                Some(private_props)
+            },
             bindings: class_bindings,
         });
 
@@ -250,10 +267,10 @@ impl<'a> ClassProperties<'a, '_> {
         // Leave them in place to avoid shifting up all the elements twice.
         // We already have to do that in exit phase, so better to do it all at once.
         //
-        // Also replace any instance property computed keys with an assignment to temp var.
-        // `class C { [foo()] = 123; }` -> `class C { [_foo = foo()]; }`
-        // Those assignments will be moved to before class in exit phase of the transform.
-        // -> `_foo = foo(); class C {}`
+        // Also replace any instance property computed keys with an assignment to temp
+        // var. `class C { [foo()] = 123; }` -> `class C { [_foo = foo()]; }`
+        // Those assignments will be moved to before class in exit phase of the
+        // transform. -> `_foo = foo(); class C {}`
         let mut instance_inits =
             Vec::with_capacity(instance_prop_count + usize::from(has_instance_private_method));
 
@@ -287,20 +304,25 @@ impl<'a> ClassProperties<'a, '_> {
             }
         }
 
-        // When `self.set_public_class_fields` and `self.remove_class_fields_without_initializer` are both true,
-        // we don't need to convert properties without initializers, that means `instance_prop_count != 0` but `instance_inits` may be empty.
+        // When `self.set_public_class_fields` and
+        // `self.remove_class_fields_without_initializer` are both true,
+        // we don't need to convert properties without initializers, that means
+        // `instance_prop_count != 0` but `instance_inits` may be empty.
         if instance_inits.is_empty() {
             return;
         }
 
         // Scope that instance property initializers will be inserted into.
-        // This is usually class constructor, but can also be a `_super` function which is created.
+        // This is usually class constructor, but can also be a `_super` function which
+        // is created.
         let instance_inits_scope_id;
-        // Scope of class constructor, if instance property initializers will be inserted into constructor.
-        // Used for checking for variable name clashes.
-        // e.g. `class C { prop = x(); constructor(x) {} }`
-        // - `x` in constructor needs to be renamed when `x()` is moved into constructor body.
-        // `None` if class has no existing constructor, as then there can't be any clashes.
+        // Scope of class constructor, if instance property initializers will be
+        // inserted into constructor. Used for checking for variable name
+        // clashes. e.g. `class C { prop = x(); constructor(x) {} }`
+        // - `x` in constructor needs to be renamed when `x()` is moved into constructor
+        //   body.
+        // `None` if class has no existing constructor, as then there can't be any
+        // clashes.
         let mut instance_inits_constructor_scope_id = None;
 
         // Determine where to insert instance property initializers in constructor
@@ -315,8 +337,8 @@ impl<'a> ClassProperties<'a, '_> {
                 let constructor_scope_id = constructor.scope_id();
                 instance_inits_scope_id = constructor_scope_id;
                 // Only record `constructor_scope_id` if constructor's scope has some bindings.
-                // If it doesn't, no need to check for shadowed symbols in instance prop initializers,
-                // because no bindings to clash with.
+                // If it doesn't, no need to check for shadowed symbols in instance prop
+                // initializers, because no bindings to clash with.
                 instance_inits_constructor_scope_id =
                     if ctx.scoping().get_bindings(constructor_scope_id).is_empty() {
                         None
@@ -386,13 +408,15 @@ impl<'a> ClassProperties<'a, '_> {
 
     /// Transform class declaration on exit.
     ///
-    /// This is the exit phase of the transform. Only applies to class *declarations*.
-    /// Class *expressions* are handled in [`ClassProperties::transform_class_expression_on_exit`] below.
-    /// Both functions do much the same, `transform_class_expression_on_exit` inserts items as expressions,
-    /// whereas here we insert as statements.
+    /// This is the exit phase of the transform. Only applies to class
+    /// *declarations*. Class *expressions* are handled in
+    /// [`ClassProperties::transform_class_expression_on_exit`] below.
+    /// Both functions do much the same, `transform_class_expression_on_exit`
+    /// inserts items as expressions, whereas here we insert as statements.
     ///
-    /// At this point, other transforms have had a chance to run on the class body, so we can move
-    /// parts of the code out to before/after the class now.
+    /// At this point, other transforms have had a chance to run on the class
+    /// body, so we can move parts of the code out to before/after the class
+    /// now.
     ///
     /// * Transform static properties and insert after class.
     /// * Transform static blocks and insert after class.
@@ -429,8 +453,9 @@ impl<'a> ClassProperties<'a, '_> {
         // Pop off stack. We're done!
         let class_details = self.classes_stack.pop();
         if let Some(private_props) = &class_details.private_props {
-            // Note: `private_props` can be non-empty even if `is_transform_required == false`,
-            // if class contains private accessors, which we don't transform yet
+            // Note: `private_props` can be non-empty even if `is_transform_required ==
+            // false`, if class contains private accessors, which we don't
+            // transform yet
             self.private_field_count -= private_props.len();
         }
     }
@@ -441,10 +466,12 @@ impl<'a> ClassProperties<'a, '_> {
         ctx: &mut TraverseCtx<'a>,
     ) {
         // Static properties and static blocks
-        self.current_class_mut().bindings.static_private_fields_use_temp = true;
+        self.current_class_mut()
+            .bindings
+            .static_private_fields_use_temp = true;
 
-        // Transform static properties, remove static and instance properties, and move computed keys
-        // to before class
+        // Transform static properties, remove static and instance properties, and move
+        // computed keys to before class
         self.transform_class_elements(class, ctx);
 
         // Insert temp var for class if required. Name class if required.
@@ -466,8 +493,8 @@ impl<'a> ClassProperties<'a, '_> {
                 let stmt = ctx.ast.statement_expression(SPAN, expr);
                 self.insert_after_stmts.insert(0, stmt);
             } else {
-                // Class must be default export `export default class {}`, as all other class declarations
-                // always have a name. Set class name.
+                // Class must be default export `export default class {}`, as all other class
+                // declarations always have a name. Set class name.
                 *ctx.scoping_mut().symbol_flags_mut(temp_binding.symbol_id) = SymbolFlags::Class;
                 class.id = Some(temp_binding.create_binding_identifier(ctx));
             }
@@ -504,7 +531,9 @@ impl<'a> ClassProperties<'a, '_> {
                     })
                     .peekable();
                 if private_props.peek().is_some() {
-                    self.ctx.statement_injector.insert_many_before(&stmt_address, private_props);
+                    self.ctx
+                        .statement_injector
+                        .insert_many_before(&stmt_address, private_props);
                 }
             } else {
                 let mut weakmap_symbol_id = None;
@@ -529,7 +558,9 @@ impl<'a> ClassProperties<'a, '_> {
                     })
                     .peekable();
                 if private_props.peek().is_some() {
-                    self.ctx.statement_injector.insert_many_before(&stmt_address, private_props);
+                    self.ctx
+                        .statement_injector
+                        .insert_many_before(&stmt_address, private_props);
                 }
             }
         }
@@ -543,30 +574,35 @@ impl<'a> ClassProperties<'a, '_> {
 
     /// Transform class expression on exit.
     ///
-    /// This is the exit phase of the transform. Only applies to class *expressions*.
-    /// Class *expressions* are handled in [`ClassProperties::transform_class_declaration_on_exit`] above.
-    /// Both functions do much the same, `transform_class_declaration_on_exit` inserts items as statements,
-    /// whereas here we insert as expressions.
+    /// This is the exit phase of the transform. Only applies to class
+    /// *expressions*. Class *expressions* are handled in
+    /// [`ClassProperties::transform_class_declaration_on_exit`] above. Both
+    /// functions do much the same, `transform_class_declaration_on_exit`
+    /// inserts items as statements, whereas here we insert as expressions.
     ///
-    /// At this point, other transforms have had a chance to run on the class body, so we can move
-    /// parts of the code out to before/after the class now.
+    /// At this point, other transforms have had a chance to run on the class
+    /// body, so we can move parts of the code out to before/after the class
+    /// now.
     ///
     /// * Transform static properties and insert after class.
     /// * Transform static blocks and insert after class.
     /// * Extract computed key assignments and insert them before class.
     /// * Remove all properties and static blocks from class body.
     ///
-    /// Items needing insertion before/after class are inserted as expressions around, surrounding class
-    /// in a [`SequenceExpression`].
+    /// Items needing insertion before/after class are inserted as expressions
+    /// around, surrounding class in a [`SequenceExpression`].
     ///
     /// `let C = class { static [foo()] = 123; static { bar(); } };`
-    /// -> `let C = (_foo = foo(), _Class = class {}, _Class[_foo] = 123, bar(), _Class);`
+    /// -> `let C = (_foo = foo(), _Class = class {}, _Class[_foo] = 123, bar(),
+    /// _Class);`
     pub(super) fn transform_class_expression_on_exit(
         &mut self,
         expr: &mut Expression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::ClassExpression(class) = expr else { unreachable!() };
+        let Expression::ClassExpression(class) = expr else {
+            unreachable!()
+        };
 
         // Ignore TS class declarations
         // TODO: Is this correct?
@@ -585,8 +621,9 @@ impl<'a> ClassProperties<'a, '_> {
         // Pop off stack. We're done!
         let class_details = self.classes_stack.pop();
         if let Some(private_props) = &class_details.private_props {
-            // Note: `private_props` can be non-empty even if `is_transform_required == false`,
-            // if class contains private accessors, which we don't transform yet
+            // Note: `private_props` can be non-empty even if `is_transform_required ==
+            // false`, if class contains private accessors, which we don't
+            // transform yet
             self.private_field_count -= private_props.len();
         }
     }
@@ -596,27 +633,32 @@ impl<'a> ClassProperties<'a, '_> {
         expr: &mut Expression<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
-        let Expression::ClassExpression(class) = expr else { unreachable!() };
+        let Expression::ClassExpression(class) = expr else {
+            unreachable!()
+        };
 
-        // Transform static properties, remove static and instance properties, and move computed keys
-        // to before class
+        // Transform static properties, remove static and instance properties, and move
+        // computed keys to before class
         self.transform_class_elements(class, ctx);
 
         // Insert expressions before / after class.
         // `C = class { [x()] = 1; static y = 2 };`
-        // -> `C = (_x = x(), _Class = class C { constructor() { this[_x] = 1; } }, _Class.y = 2, _Class)`
+        // -> `C = (_x = x(), _Class = class C { constructor() { this[_x] = 1; } },
+        // _Class.y = 2, _Class)`
 
-        // TODO: Name class if had no name, and name is statically knowable (as in example above).
-        // If class name shadows var which is referenced within class, rename that var.
-        // `var C = class { prop = C }; var C2 = C;`
+        // TODO: Name class if had no name, and name is statically knowable (as in
+        // example above). If class name shadows var which is referenced within
+        // class, rename that var. `var C = class { prop = C }; var C2 = C;`
         // -> `var _C = class C { constructor() { this.prop = _C; } }; var C2 = _C;`
-        // This is really difficult as need to rename all references to that binding too,
-        // which can be very far above the class in AST, when it's a `var`.
-        // Maybe for now only add class name if it doesn't shadow a var used within class?
+        // This is really difficult as need to rename all references to that binding
+        // too, which can be very far above the class in AST, when it's a `var`.
+        // Maybe for now only add class name if it doesn't shadow a var used within
+        // class?
 
         // TODO: Deduct static private props and private methods from `expr_count`.
-        // Or maybe should store count and increment it when create private static props or private methods?
-        // They're probably pretty rare, so it'll be rarely used.
+        // Or maybe should store count and increment it when create private static props
+        // or private methods? They're probably pretty rare, so it'll be rarely
+        // used.
         let class_details = self.classes_stack.last();
 
         let mut expr_count = self.insert_before.len() + self.insert_after_exprs.len();
@@ -638,8 +680,8 @@ impl<'a> ClassProperties<'a, '_> {
         // Babel has these always go first, regardless of order of class elements.
         // Also insert `var _prop;` temp var declarations for private static props.
         if let Some(private_props) = &class_details.private_props {
-            // Insert `var _prop;` declarations here rather than when binding was created to maintain
-            // same order of `var` declarations as Babel.
+            // Insert `var _prop;` declarations here rather than when binding was created to
+            // maintain same order of `var` declarations as Babel.
             // `c = class C { #x = 1; static y = 2; }` -> `var _C, _x;`
             // TODO(improve-on-babel): Simplify this.
             if self.private_fields_as_properties {
@@ -734,12 +776,13 @@ impl<'a> ClassProperties<'a, '_> {
             exprs.push(binding.create_read_expression(ctx));
         } else {
             // Add static blocks (which didn't reference class name)
-            // TODO: If class has `extends` clause, and it may have side effects, then static block contents
-            // goes after class expression, and temp var is called `_temp` not `_Class`.
-            // `let C = class extends Unbound { static { x = 1; } };`
-            // -> `var _temp; let C = ((_temp = class C extends Unbound {}), (x = 1), _temp);`
-            // `let C = class extends Bound { static { x = 1; } };`
-            // -> `let C = ((x = 1), class C extends Bound {});`
+            // TODO: If class has `extends` clause, and it may have side effects, then
+            // static block contents goes after class expression, and temp var
+            // is called `_temp` not `_Class`. `let C = class extends Unbound {
+            // static { x = 1; } };` -> `var _temp; let C = ((_temp = class C
+            // extends Unbound {}), (x = 1), _temp);` `let C = class extends
+            // Bound { static { x = 1; } };` -> `let C = ((x = 1), class C
+            // extends Bound {});`
             exprs.extend(self.insert_after_exprs.drain(..));
 
             if exprs.is_empty() {
@@ -758,17 +801,19 @@ impl<'a> ClassProperties<'a, '_> {
 
     /// Transform class elements.
     ///
-    /// This is part of the exit phase of transform, performed on both class declarations
-    /// and class expressions.
+    /// This is part of the exit phase of transform, performed on both class
+    /// declarations and class expressions.
     ///
-    /// At this point, other transforms have had a chance to run on the class body, so we can move
-    /// parts of the code out to before/after the class now.
+    /// At this point, other transforms have had a chance to run on the class
+    /// body, so we can move parts of the code out to before/after the class
+    /// now.
     ///
     /// * Transform static properties and insert after class.
     /// * Transform static blocks and insert after class.
     /// * Transform private methods and insert after class.
     /// * Extract computed key assignments and insert them before class.
-    /// * Remove all properties, private methods and static blocks from class body.
+    /// * Remove all properties, private methods and static blocks from class
+    ///   body.
     fn transform_class_elements(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
         let mut class_methods = vec![];
         class.body.body.retain_mut(|element| {
@@ -776,7 +821,8 @@ impl<'a> ClassProperties<'a, '_> {
                 ClassElement::PropertyDefinition(prop) => {
                     debug_assert!(
                         !prop.declare,
-                        "`declare` property should have been removed in the TypeScript plugin's `exit_class`"
+                        "`declare` property should have been removed in the TypeScript plugin's \
+                         `exit_class`"
                     );
                     if prop.r#static {
                         self.convert_static_property(prop, ctx);
@@ -806,43 +852,50 @@ impl<'a> ClassProperties<'a, '_> {
             true
         });
 
-        // All methods are moved to after the class, but need to be before static properties
-        // TODO(improve-on-babel): Insertion order doesn't matter, and it more clear to insert according to
-        // definition order.
+        // All methods are moved to after the class, but need to be before static
+        // properties TODO(improve-on-babel): Insertion order doesn't matter,
+        // and it more clear to insert according to definition order.
         self.insert_after_stmts.splice(0..0, class_methods);
     }
 
     /// Flag that static private fields should be transpiled using temp binding,
     /// while in this static property or static block.
     ///
-    /// We turn `static_private_fields_use_temp` on and off when entering exiting static context.
+    /// We turn `static_private_fields_use_temp` on and off when entering
+    /// exiting static context.
     ///
-    /// Static private fields reference class name (not temp var) in class declarations.
-    /// `class Class { static #privateProp; method() { return obj.#privateProp; } }`
-    /// -> `method() { return _assertClassBrand(Class, obj, _privateProp)._; }`
-    ///                                         ^^^^^
+    /// Static private fields reference class name (not temp var) in class
+    /// declarations. `class Class { static #privateProp; method() { return
+    /// obj.#privateProp; } }` -> `method() { return
+    /// _assertClassBrand(Class, obj, _privateProp)._; }`                   
+    /// ^^^^^
     ///
     /// But in static properties and static blocks, they use the temp var.
-    /// `class Class { static #privateProp; static publicProp = obj.#privateProp; }`
-    /// -> `Class.publicProp = _assertClassBrand(_Class, obj, _privateProp)._`
-    ///                                          ^^^^^^
+    /// `class Class { static #privateProp; static publicProp =
+    /// obj.#privateProp; }` -> `Class.publicProp =
+    /// _assertClassBrand(_Class, obj, _privateProp)._`                     
+    /// ^^^^^^
     ///
     /// Also see comments on `ClassBindings`.
     ///
-    /// Note: If declaration is `export default class {}` with no name, and class has static props,
-    /// then class has had name binding created already in `transform_class`.
-    /// So name binding is always `Some`.
+    /// Note: If declaration is `export default class {}` with no name, and
+    /// class has static props, then class has had name binding created
+    /// already in `transform_class`. So name binding is always `Some`.
     pub(super) fn flag_entering_static_property_or_block(&mut self) {
-        // No need to check if class is a declaration, because `static_private_fields_use_temp`
-        // is always `true` for class expressions anyway
-        self.current_class_mut().bindings.static_private_fields_use_temp = true;
+        // No need to check if class is a declaration, because
+        // `static_private_fields_use_temp` is always `true` for class
+        // expressions anyway
+        self.current_class_mut()
+            .bindings
+            .static_private_fields_use_temp = true;
     }
 
-    /// Flag that static private fields should be transpiled using name binding again
-    /// as we're exiting this static property or static block.
+    /// Flag that static private fields should be transpiled using name binding
+    /// again as we're exiting this static property or static block.
     /// (see [`ClassProperties::flag_entering_static_property_or_block`])
     pub(super) fn flag_exiting_static_property_or_block(&mut self) {
-        // Flag that transpiled static private props use name binding in class declarations
+        // Flag that transpiled static private props use name binding in class
+        // declarations
         let class_details = self.current_class_mut();
         if class_details.is_declaration {
             class_details.bindings.static_private_fields_use_temp = false;
@@ -858,7 +911,9 @@ impl<'a> ClassProperties<'a, '_> {
         transform_ctx.helper_call_expr(
             Helper::ClassPrivateFieldLooseKey,
             SPAN,
-            ctx.ast.vec1(Argument::from(ctx.ast.expression_string_literal(SPAN, name, None))),
+            ctx.ast.vec1(Argument::from(
+                ctx.ast.expression_string_literal(SPAN, name, None),
+            )),
             ctx,
         )
     }
@@ -866,7 +921,8 @@ impl<'a> ClassProperties<'a, '_> {
     /// Insert an expression after the class.
     pub(super) fn insert_expr_after_class(&mut self, expr: Expression<'a>, ctx: &TraverseCtx<'a>) {
         if self.current_class().is_declaration {
-            self.insert_after_stmts.push(ctx.ast.statement_expression(SPAN, expr));
+            self.insert_after_stmts
+                .push(ctx.ast.statement_expression(SPAN, expr));
         } else {
             self.insert_after_exprs.push(expr);
         }
@@ -875,28 +931,36 @@ impl<'a> ClassProperties<'a, '_> {
 
 /// Create `new WeakMap()` expression.
 ///
-/// Takes an `&mut Option<Option<SymbolId>>` which is updated after looking up the binding for `WeakMap`.
+/// Takes an `&mut Option<Option<SymbolId>>` which is updated after looking up
+/// the binding for `WeakMap`.
 ///
 /// * `None` = Not looked up yet.
 /// * `Some(None)` = Has been looked up, and `WeakMap` is unbound.
-/// * `Some(Some(symbol_id))` = Has been looked up, and `WeakMap` has a local binding.
+/// * `Some(Some(symbol_id))` = Has been looked up, and `WeakMap` has a local
+///   binding.
 ///
-/// This is an optimization to avoid looking up the symbol for `WeakMap` over and over when defining
-/// multiple private properties.
+/// This is an optimization to avoid looking up the symbol for `WeakMap` over
+/// and over when defining multiple private properties.
 #[expect(clippy::option_option)]
 fn create_new_weakmap<'a>(
     symbol_id: &mut Option<Option<SymbolId>>,
     ctx: &mut TraverseCtx<'a>,
 ) -> Expression<'a> {
-    let symbol_id = *symbol_id
-        .get_or_insert_with(|| ctx.scoping().find_binding(ctx.current_scope_id(), "WeakMap"));
+    let symbol_id = *symbol_id.get_or_insert_with(|| {
+        ctx.scoping()
+            .find_binding(ctx.current_scope_id(), "WeakMap")
+    });
     let ident = ctx.create_ident_expr(SPAN, Atom::from("WeakMap"), symbol_id, ReferenceFlags::Read);
-    ctx.ast.expression_new_with_pure(SPAN, ident, NONE, ctx.ast.vec(), true)
+    ctx.ast
+        .expression_new_with_pure(SPAN, ident, NONE, ctx.ast.vec(), true)
 }
 
 /// Create `new WeakSet()` expression.
 fn create_new_weakset<'a>(ctx: &mut TraverseCtx<'a>) -> Expression<'a> {
-    let symbol_id = ctx.scoping().find_binding(ctx.current_scope_id(), "WeakSet");
+    let symbol_id = ctx
+        .scoping()
+        .find_binding(ctx.current_scope_id(), "WeakSet");
     let ident = ctx.create_ident_expr(SPAN, Atom::from("WeakSet"), symbol_id, ReferenceFlags::Read);
-    ctx.ast.expression_new_with_pure(SPAN, ident, NONE, ctx.ast.vec(), true)
+    ctx.ast
+        .expression_new_with_pure(SPAN, ident, NONE, ctx.ast.vec(), true)
 }

@@ -1,23 +1,23 @@
 //! ES2022: Class Properties
 //! Transform of class property declarations (instance or static properties).
 
-use oxc_ast::{NONE, ast::*};
+use oxc_ast::{ast::*, NONE};
 use oxc_span::SPAN;
 use oxc_syntax::reference::ReferenceFlags;
 
+use super::{
+    utils::{create_underscore_ident_name, create_variable_declaration},
+    ClassProperties,
+};
 use crate::{
     common::helper_loader::Helper, context::TraverseCtx, utils::ast_builder::create_assignment,
-};
-
-use super::{
-    ClassProperties,
-    utils::{create_underscore_ident_name, create_variable_declaration},
 };
 
 // Instance properties
 impl<'a> ClassProperties<'a, '_> {
     /// Convert instance property to initialization expression.
-    /// Property `prop = 123;` -> Expression `this.prop = 123` or `_defineProperty(this, "prop", 123)`.
+    /// Property `prop = 123;` -> Expression `this.prop = 123` or
+    /// `_defineProperty(this, "prop", 123)`.
     pub(super) fn convert_instance_property(
         &mut self,
         prop: &mut PropertyDefinition<'a>,
@@ -33,9 +33,9 @@ impl<'a> ClassProperties<'a, '_> {
         } else {
             let value = match value {
                 Some(value) => value,
-                // Do not need to convert property to `assignee.prop = void 0` if no initializer exists when
-                // `set_public_class_fields` and `remove_class_fields_without_initializer`
-                // are both true.
+                // Do not need to convert property to `assignee.prop = void 0` if no initializer
+                // exists when `set_public_class_fields` and
+                // `remove_class_fields_without_initializer` are both true.
                 // This is to align `TypeScript` with `useDefineForClassFields: false`.
                 None if self.set_public_class_fields
                     && self.remove_class_fields_without_initializer =>
@@ -52,10 +52,11 @@ impl<'a> ClassProperties<'a, '_> {
         instance_inits.push(init_expr);
     }
 
-    /// Create init assignment for private instance prop, to be inserted into class constructor.
+    /// Create init assignment for private instance prop, to be inserted into
+    /// class constructor.
     ///
-    /// Loose: `Object.defineProperty(this, _prop, {writable: true, value: value})`
-    /// Not loose: `_classPrivateFieldInitSpec(this, _prop, value)`
+    /// Loose: `Object.defineProperty(this, _prop, {writable: true, value:
+    /// value})` Not loose: `_classPrivateFieldInitSpec(this, _prop, value)`
     fn create_private_instance_init_assignment(
         &self,
         ident: &PrivateIdentifier<'a>,
@@ -85,22 +86,24 @@ impl<'a> ClassProperties<'a, '_> {
             Argument::from(value),
         ]);
         // TODO: Should this have span of original `PropertyDefinition`?
-        self.ctx.helper_call_expr(Helper::ClassPrivateFieldInitSpec, SPAN, arguments, ctx)
+        self.ctx
+            .helper_call_expr(Helper::ClassPrivateFieldInitSpec, SPAN, arguments, ctx)
     }
 }
 
 // Static properties
 impl<'a> ClassProperties<'a, '_> {
     /// Convert static property to initialization expression.
-    /// Property `static prop = 123;` -> Expression `C.prop = 123` or `_defineProperty(C, "prop", 123)`.
+    /// Property `static prop = 123;` -> Expression `C.prop = 123` or
+    /// `_defineProperty(C, "prop", 123)`.
     pub(super) fn convert_static_property(
         &mut self,
         prop: &mut PropertyDefinition<'a>,
         ctx: &mut TraverseCtx<'a>,
     ) {
         // Get value.
-        // Transform it to replace `this` and references to class name with temp var for class.
-        // Also transform `super`.
+        // Transform it to replace `this` and references to class name with temp var for
+        // class. Also transform `super`.
         let value = prop.value.take().map(|mut value| {
             self.transform_static_initializer(&mut value, ctx);
             value
@@ -112,9 +115,9 @@ impl<'a> ClassProperties<'a, '_> {
         } else {
             let value = match value {
                 Some(value) => value,
-                // Do not need to convert property to `assignee.prop = void 0` if no initializer exists when
-                // `set_public_class_fields` and `remove_class_fields_without_initializer`
-                // are both true.
+                // Do not need to convert property to `assignee.prop = void 0` if no initializer
+                // exists when `set_public_class_fields` and
+                // `remove_class_fields_without_initializer` are both true.
                 // This is to align `TypeScript` with `useDefineForClassFields: false`.
                 None if self.set_public_class_fields
                     && self.remove_class_fields_without_initializer =>
@@ -228,8 +231,9 @@ impl<'a> ClassProperties<'a, '_> {
 // Used for both instance and static properties
 impl<'a> ClassProperties<'a, '_> {
     /// `assignee.prop = value` or `_defineProperty(assignee, "prop", value)`
-    /// `#[inline]` because the caller has been checked `self.set_public_class_fields`.
-    /// After inlining, the two `self.set_public_class_fields` checks may be folded into one.
+    /// `#[inline]` because the caller has been checked
+    /// `self.set_public_class_fields`. After inlining, the two
+    /// `self.set_public_class_fields` checks may be folded into one.
     #[inline]
     fn create_init_assignment(
         &mut self,
@@ -257,7 +261,8 @@ impl<'a> ClassProperties<'a, '_> {
         is_static: bool,
         ctx: &mut TraverseCtx<'a>,
     ) -> Expression<'a> {
-        // In-built static props `name` and `length` need to be set with `_defineProperty`
+        // In-built static props `name` and `length` need to be set with
+        // `_defineProperty`
         let needs_define = |name| is_static && (name == "name" || name == "length");
 
         let left = match &mut prop.key {
@@ -266,7 +271,8 @@ impl<'a> ClassProperties<'a, '_> {
                     return self
                         .create_init_assignment_not_loose(prop, value, assignee, is_static, ctx);
                 }
-                ctx.ast.member_expression_static(SPAN, assignee, ident.as_ref().clone(), false)
+                ctx.ast
+                    .member_expression_static(SPAN, assignee, ident.as_ref().clone(), false)
             }
             PropertyKey::StringLiteral(str_lit) if needs_define(&str_lit.value) => {
                 return self
@@ -279,7 +285,8 @@ impl<'a> ClassProperties<'a, '_> {
                 // No temp var is created for these.
                 // TODO: Any other possible static key types?
                 let key = self.create_computed_key_temp_var_if_required(key, is_static, ctx);
-                ctx.ast.member_expression_computed(SPAN, assignee, key, false)
+                ctx.ast
+                    .member_expression_computed(SPAN, assignee, key, false)
             }
             PropertyKey::PrivateIdentifier(_) => {
                 // Handled in `convert_instance_property` and `convert_static_property`
@@ -296,7 +303,8 @@ impl<'a> ClassProperties<'a, '_> {
         )
     }
 
-    /// `_defineProperty(this, "prop", value)` or `_defineProperty(_Class, "prop", value)`
+    /// `_defineProperty(this, "prop", value)` or `_defineProperty(_Class,
+    /// "prop", value)`
     fn create_init_assignment_not_loose(
         &mut self,
         prop: &mut PropertyDefinition<'a>,
@@ -306,9 +314,9 @@ impl<'a> ClassProperties<'a, '_> {
         ctx: &mut TraverseCtx<'a>,
     ) -> Expression<'a> {
         let key = match &mut prop.key {
-            PropertyKey::StaticIdentifier(ident) => {
-                ctx.ast.expression_string_literal(ident.span, ident.name, None)
-            }
+            PropertyKey::StaticIdentifier(ident) => ctx
+                .ast
+                .expression_string_literal(ident.span, ident.name, None),
             key @ match_expression!(PropertyKey) => {
                 let key = key.to_expression_mut();
                 // Note: Key can also be static `StringLiteral` or `NumericLiteral`.
@@ -329,10 +337,12 @@ impl<'a> ClassProperties<'a, '_> {
             Argument::from(value),
         ]);
         // TODO: Should this have span of the original `PropertyDefinition`?
-        self.ctx.helper_call_expr(Helper::DefineProperty, SPAN, arguments, ctx)
+        self.ctx
+            .helper_call_expr(Helper::DefineProperty, SPAN, arguments, ctx)
     }
 
-    /// `Object.defineProperty(<assignee>, _prop, {writable: true, value: value})`
+    /// `Object.defineProperty(<assignee>, _prop, {writable: true, value:
+    /// value})`
     fn create_private_init_assignment_loose(
         &self,
         ident: &PrivateIdentifier<'a>,
@@ -349,8 +359,10 @@ impl<'a> ClassProperties<'a, '_> {
             ReferenceFlags::Read,
         );
         let property = ctx.ast.identifier_name(SPAN, "defineProperty");
-        let callee =
-            Expression::from(ctx.ast.member_expression_static(SPAN, object, property, false));
+        let callee = Expression::from(
+            ctx.ast
+                .member_expression_static(SPAN, object, property, false),
+        );
 
         // `{writable: true, value: <value>}`
         let prop_def = ctx.ast.expression_object(
@@ -359,7 +371,8 @@ impl<'a> ClassProperties<'a, '_> {
                 ctx.ast.object_property_kind_object_property(
                     SPAN,
                     PropertyKind::Init,
-                    ctx.ast.property_key_static_identifier(SPAN, Atom::from("writable")),
+                    ctx.ast
+                        .property_key_static_identifier(SPAN, Atom::from("writable")),
                     ctx.ast.expression_boolean_literal(SPAN, true),
                     false,
                     false,
@@ -368,7 +381,8 @@ impl<'a> ClassProperties<'a, '_> {
                 ctx.ast.object_property_kind_object_property(
                     SPAN,
                     PropertyKind::Init,
-                    ctx.ast.property_key_static_identifier(SPAN, Atom::from("value")),
+                    ctx.ast
+                        .property_key_static_identifier(SPAN, Atom::from("value")),
                     value,
                     false,
                     false,
@@ -385,6 +399,7 @@ impl<'a> ClassProperties<'a, '_> {
             Argument::from(prop_def),
         ]);
         // TODO: Should this have span of original `PropertyDefinition`?
-        ctx.ast.expression_call(SPAN, callee, NONE, arguments, false)
+        ctx.ast
+            .expression_call(SPAN, callee, NONE, arguments, false)
     }
 }

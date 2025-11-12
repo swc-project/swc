@@ -1,6 +1,7 @@
 //! ES2015 Arrow Functions
 //!
-//! This plugin transforms arrow functions (`() => {}`) to function expressions (`function () {}`).
+//! This plugin transforms arrow functions (`() => {}`) to function expressions
+//! (`function () {}`).
 //!
 //! > This plugin is included in `preset-env`, in ES2015
 //!
@@ -13,13 +14,10 @@
 //! * Handle `new.target` in arrow functions.
 //! * Handle arrow function in function params (`function f(g = () => this) {}`).
 //!   Babel gets this wrong: <https://babeljs.io/repl#?code_lz=GYVwdgxgLglg9mABMOcAUAPRBeRaCUOAfIlABYwDOhA3gL5A&presets=&externalPlugins=%40babel%2Fplugin-transform-arrow-functions%407.24.7>
-//! * Error on arrow functions in class properties.
-//!   <https://babeljs.io/repl#?code_lz=MYGwhgzhAEDC0G8BQ1oDMD2HoF5oAoBKXAPmgBcALASwgG4kBfJIA&presets=&externalPlugins=%40babel%2Fplugin-transform-arrow-functions%407.24.7>
-//!   or we can support it:
-//!   `class C { x = () => this; }`
-//!   -> `class C { x = (function(_this) { return () => _this; })(this); }`
-//! * Error on `super` in arrow functions.
-//!   <https://babeljs.io/repl#?code_lz=MYGwhgzhAEBiD29oG8C-AoUkYCEwCdoBTADwBciA7AExgSWXWmgFsiyALeagCgEoUTZtHzsArvkrR-0ALwA-aBDEAHIvgB0AM0QBuIRgxA&presets=&externalPlugins=%40babel%2Fplugin-transform-arrow-functions%407.24.7>
+//! * Error on arrow functions in class properties. <https://babeljs.io/repl#?code_lz=MYGwhgzhAEDC0G8BQ1oDMD2HoF5oAoBKXAPmgBcALASwgG4kBfJIA&presets=&externalPlugins=%40babel%2Fplugin-transform-arrow-functions%407.24.7>
+//!   or we can support it: `class C { x = () => this; }` -> `class C { x =
+//!   (function(_this) { return () => _this; })(this); }`
+//! * Error on `super` in arrow functions. <https://babeljs.io/repl#?code_lz=MYGwhgzhAEBiD29oG8C-AoUkYCEwCdoBTADwBciA7AExgSWXWmgFsiyALeagCgEoUTZtHzsArvkrR-0ALwA-aBDEAHIvgB0AM0QBuIRgxA&presets=&externalPlugins=%40babel%2Fplugin-transform-arrow-functions%407.24.7>
 //!
 //! ## Example
 //!
@@ -71,8 +69,8 @@
 //! `boolean`, defaults to `false`.
 //!
 //! This option enables the following:
-//! * Wrap the generated function in .bind(this) and keeps uses of this inside the function as-is,
-//!   instead of using a renamed this.
+//! * Wrap the generated function in .bind(this) and keeps uses of this inside
+//!   the function as-is, instead of using a renamed this.
 //! * Add a runtime check to ensure the functions are not instantiated.
 //! * Add names to arrow functions.
 //!
@@ -117,7 +115,8 @@
 //!
 //! ## Implementation
 //!
-//! The implementation is placed in [`crate::common::arrow_function_converter::ArrowFunctionConverter`],
+//! The implementation is placed in
+//! [`crate::common::arrow_function_converter::ArrowFunctionConverter`],
 //! which can be used in other plugins.
 //!
 //! ## References:
@@ -125,16 +124,16 @@
 //! * Babel plugin implementation: <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-arrow-functions>
 //! * Arrow function specification: <https://tc39.es/ecma262/#sec-arrow-function-definitions>
 
-use serde::Deserialize;
-
 use oxc_traverse::Traverse;
+use serde::Deserialize;
 
 use crate::{context::TransformCtx, state::TransformState};
 
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct ArrowFunctionsOptions {
     /// This option enables the following:
-    /// * Wrap the generated function in .bind(this) and keeps uses of this inside the function as-is, instead of using a renamed this.
+    /// * Wrap the generated function in .bind(this) and keeps uses of this
+    ///   inside the function as-is, instead of using a renamed this.
     /// * Add a runtime check to ensure the functions are not instantiated.
     /// * Add names to arrow functions.
     #[serde(default)]
@@ -148,7 +147,10 @@ pub struct ArrowFunctions<'a, 'ctx> {
 
 impl<'a, 'ctx> ArrowFunctions<'a, 'ctx> {
     pub fn new(options: ArrowFunctionsOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { _options: options, _ctx: ctx }
+        Self {
+            _options: options,
+            _ctx: ctx,
+        }
     }
 }
 
