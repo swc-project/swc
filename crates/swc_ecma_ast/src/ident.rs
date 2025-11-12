@@ -618,176 +618,57 @@ impl Ident {
     }
 }
 
-pub trait EsReserved {
-    fn is_reserved(&self) -> bool;
-    fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool;
-    fn is_reserved_in_strict_bind(&self) -> bool;
-    fn is_reserved_in_es3(&self) -> bool;
-    fn is_reserved_in_any(&self) -> bool;
-}
-
-impl EsReserved for Atom {
+pub trait EsReserved: AsRef<str> {
+    #[inline]
+    #[rustfmt::skip]
     fn is_reserved(&self) -> bool {
-        is_reserved_for_str(self)
+        matches!(self.as_ref(), 
+            | "break" | "case" | "catch" | "class" | "const" | "continue" | "debugger" | "default"
+            | "delete" | "do" | "else" | "enum" | "export" | "extends" | "false" | "finally"
+            | "for" | "function" | "if" | "import" | "in" | "instanceof" | "new" | "null"
+            | "package" | "return" | "super" | "switch" | "this" | "throw" | "true" | "try"
+            | "typeof" | "var" | "void" | "while" | "with"
+        )
     }
 
+    #[inline]
+    #[rustfmt::skip]
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_str(self, is_module)
+        match self.as_ref() {
+            "await" if is_module => true,
+            "implements" | "interface" | "let" | "package" | "private" | "protected" | "public"
+            | "static" | "yield" => true,
+            _ => false,
+        }
     }
 
+    #[inline]
     fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_str(self)
+        matches!(self.as_ref(), "eval" | "arguments")
     }
 
+    #[inline]
+    #[rustfmt::skip]
     fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_str(self)
+        matches!(self.as_ref(), 
+            | "abstract" | "boolean" | "byte" | "char" | "double" | "final" | "float" | "goto"
+            | "int" | "long" | "native" | "short" | "synchronized" | "throws" | "transient"
+            | "volatile"
+        )
     }
 
+    #[inline]
     fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_str(self)
-    }
-}
-impl EsReserved for IdentName {
-    fn is_reserved(&self) -> bool {
-        is_reserved_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_str(&self.sym, is_module)
-    }
-
-    fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_str(&self.sym)
-    }
-}
-impl EsReserved for Ident {
-    fn is_reserved(&self) -> bool {
-        is_reserved_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_str(&self.sym, is_module)
-    }
-
-    fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_str(&self.sym)
-    }
-}
-impl EsReserved for BindingIdent {
-    fn is_reserved(&self) -> bool {
-        is_reserved_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_str(&self.sym, is_module)
-    }
-
-    fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_str(&self.sym)
-    }
-
-    fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_str(&self.sym)
-    }
-}
-impl EsReserved for &'_ str {
-    fn is_reserved(&self) -> bool {
-        is_reserved_for_str(self)
-    }
-
-    fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_str(self, is_module)
-    }
-
-    fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_str(self)
-    }
-
-    fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_str(self)
-    }
-
-    fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_str(self)
-    }
-}
-impl EsReserved for String {
-    fn is_reserved(&self) -> bool {
-        is_reserved_for_str(self)
-    }
-
-    fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
-        is_reserved_in_strict_mode_for_str(self, is_module)
-    }
-
-    fn is_reserved_in_strict_bind(&self) -> bool {
-        is_reserved_in_strict_bind_for_str(self)
-    }
-
-    fn is_reserved_in_es3(&self) -> bool {
-        is_reserved_in_es3_for_str(self)
-    }
-
-    fn is_reserved_in_any(&self) -> bool {
-        is_reserved_in_any_for_str(self)
+        self.is_reserved()
+            || self.is_reserved_in_strict_mode(false)
+            || self.is_reserved_in_strict_bind()
+            || self.is_reserved_in_es3()
     }
 }
 
-#[rustfmt::skip]
-fn is_reserved_for_str(n: impl AsRef<str>) -> bool {
-    matches!(n.as_ref(), "break" | "case" | "catch" | "class" | "const" | "continue" | "debugger" | "default"
-        | "delete" | "do" | "else" | "enum" | "export" | "extends" | "false" | "finally"
-        | "for" | "function" | "if" | "import" | "in" | "instanceof" | "new" | "null"
-        | "package" | "return" | "super" | "switch" | "this" | "throw" | "true" | "try"
-        | "typeof" | "var" | "void" | "while" | "with")
-}
-
-fn is_reserved_in_strict_mode_for_str(n: impl AsRef<str>, is_module: bool) -> bool {
-    match n.as_ref() {
-        "await" if is_module => true,
-        "implements" | "interface" | "let" | "package" | "private" | "protected" | "public"
-        | "static" | "yield" => true,
-        _ => false,
-    }
-}
-
-fn is_reserved_in_strict_bind_for_str(n: impl AsRef<str>) -> bool {
-    matches!(n.as_ref(), "eval" | "arguments")
-}
-
-#[rustfmt::skip]
-fn is_reserved_in_es3_for_str(n: impl AsRef<str>) -> bool {
-    matches!(n.as_ref(), 
-        | "abstract" | "boolean" | "byte" | "char" | "double" | "final" | "float" | "goto"
-        | "int" | "long" | "native" | "short" | "synchronized" | "throws" | "transient"
-        | "volatile"
-    )
-}
-
-fn is_reserved_in_any_for_str(n: impl AsRef<str>) -> bool {
-    let n = n.as_ref();
-    is_reserved_for_str(n)
-        || is_reserved_in_strict_mode_for_str(n, false)
-        || is_reserved_in_strict_bind_for_str(n)
-        || is_reserved_in_es3_for_str(n)
-}
+impl EsReserved for Atom {}
+impl EsReserved for IdentName {}
+impl EsReserved for Ident {}
+impl EsReserved for BindingIdent {}
+impl EsReserved for &'_ str {}
+impl EsReserved for String {}
