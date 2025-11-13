@@ -78,8 +78,7 @@ impl TypeScriptAnnotations {
                         // `export {}` - Keep the export declaration
                         true
                     } else {
-                        decl.specifiers
-                            .retain(|specifier| Self::can_retain_export_specifier(specifier));
+                        decl.specifiers.retain(Self::can_retain_export_specifier);
                         // Keep the export declaration if there are still specifiers after removing
                         // type exports
                         !decl.specifiers.is_empty()
@@ -153,6 +152,7 @@ impl TypeScriptAnnotations {
         decl.definite = false;
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     pub fn enter_binding_pattern(&mut self, pat: &mut Pat, _ctx: &mut TraverseCtx) {
         // Remove type annotations from patterns
         match pat {
@@ -272,10 +272,8 @@ impl TypeScriptAnnotations {
             AssignTarget::Pat(pat) => match pat {
                 AssignTargetPat::Array(arr) => {
                     // Array patterns in assignments - recurse into each element
-                    for elem in &mut arr.elems {
-                        if let Some(elem) = elem {
-                            self.enter_binding_pattern(elem, _ctx);
-                        }
+                    for elem in arr.elems.iter_mut().flatten() {
+                        self.enter_binding_pattern(elem, _ctx);
                     }
                 }
                 AssignTargetPat::Object(obj) => {

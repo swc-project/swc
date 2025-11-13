@@ -136,7 +136,7 @@ impl LegacyDecorator {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for LegacyDecorator<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for LegacyDecorator {
     #[inline]
     fn exit_program(&mut self, node: &mut Program, ctx: &mut TraverseCtx) {
         if self.emit_decorator_metadata {
@@ -175,23 +175,22 @@ impl VisitMutHook<TraverseCtx<'_>> for LegacyDecorator<'_> {
     // `#[inline]` because this is a hot path
     #[inline]
     fn exit_stmt(&mut self, stmt: &mut Stmt, ctx: &mut TraverseCtx) {
-        match stmt {
-            Stmt::Decl(Decl::Class(_)) => self.transform_class_stmt(stmt, ctx),
-            // TODO: Export statements are ModuleDecl, not Stmt
-            // These handlers need to be moved to module-level hooks
-            // Stmt::Decl(Decl::ExportDecl(ExportDecl {
-            //     decl: Decl::Class(_),
-            //     ..
-            // })) => {
-            //     self.transform_export_named_class(stmt, ctx);
-            // }
-            // Stmt::Decl(Decl::ExportDefaultDecl(ExportDefaultDecl {
-            //     decl: DefaultDecl::Class(_),
-            //     ..
-            // })) => {
-            //     self.transform_export_default_class(stmt, ctx);
-            // }
-            _ => {}
+        // TODO: Export statements are ModuleDecl, not Stmt
+        // These handlers need to be moved to module-level hooks
+        // Stmt::Decl(Decl::ExportDecl(ExportDecl {
+        //     decl: Decl::Class(_),
+        //     ..
+        // })) => {
+        //     self.transform_export_named_class(stmt, ctx);
+        // }
+        // Stmt::Decl(Decl::ExportDefaultDecl(ExportDefaultDecl {
+        //     decl: DefaultDecl::Class(_),
+        //     ..
+        // })) => {
+        //     self.transform_export_default_class(stmt, ctx);
+        // }
+        if let Stmt::Decl(Decl::Class(_)) = stmt {
+            self.transform_class_stmt(stmt, ctx);
         }
     }
 
@@ -304,7 +303,7 @@ impl VisitMutHook<TraverseCtx<'_>> for LegacyDecorator<'_> {
     }
 }
 
-impl LegacyDecorator<'_> {
+impl LegacyDecorator {
     /// Helper method to handle a decorated class element (method, property, or
     /// accessor). Accumulates decoration statements in the current
     /// decoration stack.
@@ -422,7 +421,6 @@ impl LegacyDecorator<'_> {
     fn transform_export_default_class(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         // TODO: This function needs to be refactored to work with ModuleDecl
         // ExportDefaultDecl is a ModuleDecl, not a Stmt::Decl
-        return;
         // let Stmt::Decl(Decl::ExportDefaultDecl(export)) = stmt else {
         //     unreachable!()
         // };
@@ -486,7 +484,6 @@ impl LegacyDecorator<'_> {
     fn transform_export_named_class(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         // TODO: This function needs to be refactored to work with ModuleDecl
         // ExportDecl is a ModuleDecl, not a Stmt::Decl
-        return;
         // let Stmt::Decl(Decl::ExportDecl(export)) = stmt else {
         //     unreachable!()
         // };
@@ -898,10 +895,21 @@ impl LegacyDecorator<'_> {
                 expr: Box::new(class_ref),
             },
         ];
-        let helper = Expr::Call(
-            ctx.ctx
-                .helper_call(Helper::Decorate, DUMMY_SP, arguments, ctx),
-        );
+        // SAFETY: helper_load doesn't actually use the _ctx parameter, so we can safely
+        // create separate borrows using raw pointers to bypass the borrow checker
+        let callee = unsafe {
+            let ctx_ptr = ctx as *mut TraverseCtx;
+            let transform_ctx = &(*ctx_ptr).ctx;
+            transform_ctx.helper_load(Helper::Decorate, DUMMY_SP, &mut *ctx_ptr)
+        };
+        let call_expr = CallExpr {
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
+            callee: Callee::Expr(Box::new(callee)),
+            args: arguments,
+            type_args: None,
+        };
+        let helper = Expr::Call(call_expr);
         let left = AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(Ident::new(
             Atom::from(class_binding.as_str()),
             DUMMY_SP,
@@ -966,7 +974,7 @@ impl LegacyDecorator<'_> {
     fn transform_decorators_of_parameters(
         &self,
         decorations: &mut Vec<Option<ExprOrSpread>>,
-        params: &mut Vec<Param>,
+        params: &mut [Param],
         ctx: &mut TraverseCtx,
     ) {
         for (index, param) in params.iter_mut().enumerate() {
@@ -991,12 +999,21 @@ impl LegacyDecorator<'_> {
                     },
                 ];
                 // _decorateParam(index, decorator)
-                let helper = Expr::Call(ctx.ctx.helper_call(
-                    Helper::DecorateParam,
-                    decorator.span,
-                    arguments,
-                    ctx,
-                ));
+                // SAFETY: helper_load doesn't actually use the _ctx parameter, so we can safely
+                // create separate borrows using raw pointers to bypass the borrow checker
+                let callee = unsafe {
+                    let ctx_ptr = ctx as *mut TraverseCtx;
+                    let transform_ctx = &(*ctx_ptr).ctx;
+                    transform_ctx.helper_load(Helper::DecorateParam, decorator.span, &mut *ctx_ptr)
+                };
+                let call_expr = CallExpr {
+                    span: decorator.span,
+                    ctxt: SyntaxContext::empty(),
+                    callee: Callee::Expr(Box::new(callee)),
+                    args: arguments,
+                    type_args: None,
+                };
+                let helper = Expr::Call(call_expr);
                 Some(ExprOrSpread {
                     spread: None,
                     expr: Box::new(helper),
@@ -1297,10 +1314,21 @@ impl LegacyDecorator<'_> {
                 expr: Box::new(descriptor),
             },
         ];
-        let helper = Expr::Call(
-            ctx.ctx
-                .helper_call(Helper::Decorate, DUMMY_SP, arguments, ctx),
-        );
+        // SAFETY: helper_load doesn't actually use the _ctx parameter, so we can safely
+        // create separate borrows using raw pointers to bypass the borrow checker
+        let callee = unsafe {
+            let ctx_ptr = ctx as *mut TraverseCtx;
+            let transform_ctx = &(*ctx_ptr).ctx;
+            transform_ctx.helper_load(Helper::Decorate, DUMMY_SP, &mut *ctx_ptr)
+        };
+        let call_expr = CallExpr {
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
+            callee: Callee::Expr(Box::new(callee)),
+            args: arguments,
+            type_args: None,
+        };
+        let helper = Expr::Call(call_expr);
         Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(helper),

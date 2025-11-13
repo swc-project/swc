@@ -58,7 +58,7 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace {
                     );
 
                     self.handle_nested(
-                        decl,
+                        *decl,
                         /* is_export */ false,
                         &mut new_stmts,
                         None,
@@ -89,7 +89,7 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace {
                             );
 
                             self.handle_nested(
-                                decl,
+                                *decl,
                                 /* is_export */ true,
                                 &mut new_stmts,
                                 None,
@@ -116,9 +116,10 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace {
 }
 
 impl TypeScriptNamespace {
+    #[allow(clippy::only_used_in_recursion)]
     fn handle_nested(
         &self,
-        mut decl: Box<TsModuleDecl>,
+        mut decl: TsModuleDecl,
         is_export: bool,
         parent_stmts: &mut Vec<ModuleItem>,
         parent_ident: Option<&Ident>,
@@ -171,7 +172,7 @@ impl TypeScriptNamespace {
             match stmt {
                 ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(nested_decl))) => {
                     self.handle_nested(
-                        nested_decl,
+                        *nested_decl,
                         /* is_export */ false,
                         &mut new_stmts,
                         None,
@@ -183,7 +184,7 @@ impl TypeScriptNamespace {
                         Decl::TsModule(module_decl) => {
                             if !module_decl.declare {
                                 self.handle_nested(
-                                    module_decl,
+                                    *module_decl,
                                     /* is_export */ false,
                                     &mut new_stmts,
                                     Some(&uid_ident),
@@ -534,10 +535,8 @@ fn extract_idents_from_pat(pat: &Pat, namespace_ident: &Ident, result: &mut Vec<
             })));
         }
         Pat::Array(array_pat) => {
-            for elem in &array_pat.elems {
-                if let Some(elem) = elem {
-                    extract_idents_from_pat(elem, namespace_ident, result);
-                }
+            for elem in array_pat.elems.iter().flatten() {
+                extract_idents_from_pat(elem, namespace_ident, result);
             }
         }
         Pat::Object(object_pat) => {

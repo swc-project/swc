@@ -370,7 +370,7 @@ impl StyledComponents {
             prefix
         } else {
             let mut prefix = if let Some(namespace) = &self.options.namespace {
-                format!("{}__", namespace)
+                format!("{namespace}__")
             } else {
                 String::new()
             };

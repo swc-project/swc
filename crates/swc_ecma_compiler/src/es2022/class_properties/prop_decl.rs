@@ -15,7 +15,7 @@ impl ClassProperties {
     pub(super) fn convert_instance_property(
         &mut self,
         _prop: &mut ClassProp,
-        _instance_inits: &mut Vec<Box<Expr>>,
+        _instance_inits: &mut [Expr],
         _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation

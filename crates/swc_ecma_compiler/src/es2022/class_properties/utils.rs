@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use crate::context::TraverseCtx;
 
 /// Create `var` declaration from identifier name and initializer expression.
-pub(super) fn create_variable_declaration<'a>(
+pub(super) fn create_variable_declaration(
     name: &str,
     init: Box<Expr>,
     _ctx: &TraverseCtx<'_>,

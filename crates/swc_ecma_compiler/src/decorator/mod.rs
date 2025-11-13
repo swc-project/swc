@@ -28,7 +28,7 @@ impl DecoratorTransform {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for DecoratorTransform<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for DecoratorTransform {
     #[inline]
     fn exit_program(&mut self, node: &mut Program, ctx: &mut TraverseCtx) {
         if self.options.legacy {
@@ -114,7 +114,7 @@ impl VisitMutHook<TraverseCtx<'_>> for DecoratorTransform<'_> {
     }
 }
 
-impl DecoratorTransform<'_> {
+impl DecoratorTransform {
     #[inline]
     pub fn exit_class_at_end(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
         if self.options.legacy {

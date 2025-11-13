@@ -608,7 +608,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl {
             return;
         }
         *expr = match std::mem::replace(expr, Expr::Invalid(Invalid { span: DUMMY_SP })) {
-            Expr::JSXElement(e) => self.transform_jsx_element(e, ctx),
+            Expr::JSXElement(e) => self.transform_jsx_element(*e, ctx),
             Expr::JSXFragment(e) => {
                 let span = e.span;
                 let children = e.children;
@@ -650,17 +650,13 @@ impl<'a> JsxImpl {
         }
     }
 
-    fn transform_jsx_element(
-        &mut self,
-        element: Box<JSXElement>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> Expr {
+    fn transform_jsx_element(&mut self, element: JSXElement, ctx: &mut TraverseCtx<'a>) -> Expr {
         let JSXElement {
             span,
             opening,
             children,
             ..
-        } = *element;
+        } = element;
         self.transform_jsx(span, Some(opening), children, ctx)
     }
 
@@ -673,7 +669,7 @@ impl<'a> JsxImpl {
     ) -> Expr {
         let has_key_after_props_spread = opening_element
             .as_ref()
-            .is_some_and(|e| Self::has_key_after_props_spread(e));
+            .is_some_and(Self::has_key_after_props_spread);
         // If has_key_after_props_spread is true, we need to fallback to `createElement`
         // same behavior as classic runtime
         let is_classic = self.bindings.is_classic() || has_key_after_props_spread;
@@ -702,7 +698,11 @@ impl<'a> JsxImpl {
             for attribute in attributes {
                 match attribute {
                     JSXAttrOrSpread::JSXAttr(attr) => {
-                        let JSXAttr { span: _, name, value } = attr;
+                        let JSXAttr {
+                            span: _,
+                            name,
+                            value,
+                        } = attr;
                         match &name {
                             JSXAttrName::Ident(ident)
                                 if self.options.development
@@ -979,7 +979,7 @@ impl<'a> JsxImpl {
                 raw: None,
             })),
             JSXElementName::JSXMemberExpr(member_expr) => {
-                Self::transform_jsx_member_expression(Box::new(member_expr), ctx)
+                Self::transform_jsx_member_expression(member_expr, ctx)
             }
             JSXElementName::JSXNamespacedName(namespaced) => {
                 if self.options.throw_if_namespace {
@@ -1046,12 +1046,12 @@ impl<'a> JsxImpl {
         }
     }
 
-    fn transform_jsx_member_expression(expr: Box<JSXMemberExpr>, _ctx: &TraverseCtx<'a>) -> Expr {
-        let JSXMemberExpr { obj, prop, .. } = *expr;
+    fn transform_jsx_member_expression(expr: JSXMemberExpr, _ctx: &TraverseCtx<'a>) -> Expr {
+        let JSXMemberExpr { obj, prop, .. } = expr;
         let object = match obj {
             JSXObject::Ident(ident) => Box::new(Expr::Ident(ident)),
             JSXObject::JSXMemberExpr(expr) => {
-                Box::new(Self::transform_jsx_member_expression(expr, _ctx))
+                Box::new(Self::transform_jsx_member_expression(*expr, _ctx))
             }
         };
         Expr::Member(MemberExpr {
@@ -1081,7 +1081,7 @@ impl<'a> JsxImpl {
                     raw: None,
                 })))
             }
-            Some(JSXAttrValue::JSXElement(e)) => Box::new(self.transform_jsx_element(e, ctx)),
+            Some(JSXAttrValue::JSXElement(e)) => Box::new(self.transform_jsx_element(*e, ctx)),
             Some(JSXAttrValue::JSXFragment(e)) => {
                 let span = e.span;
                 let children = e.children;
@@ -1158,7 +1158,7 @@ impl<'a> JsxImpl {
                 JSXExpr::Expr(expr) => Some(*expr),
                 JSXExpr::JSXEmptyExpr(_) => None,
             },
-            JSXElementChild::JSXElement(e) => Some(self.transform_jsx_element(e, ctx)),
+            JSXElementChild::JSXElement(e) => Some(self.transform_jsx_element(*e, ctx)),
             JSXElementChild::JSXFragment(e) => {
                 let span = e.span;
                 let children = e.children;

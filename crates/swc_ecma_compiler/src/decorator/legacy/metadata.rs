@@ -235,14 +235,14 @@ impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata {
             return;
         }
         prop.decorators
-            .push(self.create_design_type_metadata(prop.type_ann.as_ref(), ctx));
+            .push(self.create_design_type_metadata(prop.type_ann.as_deref(), ctx));
     }
 
     #[inline]
     fn enter_auto_accessor(&mut self, prop: &mut AutoAccessor, ctx: &mut TraverseCtx) {
         if !prop.decorators.is_empty() {
             prop.decorators
-                .push(self.create_design_type_metadata(prop.type_ann.as_ref(), ctx));
+                .push(self.create_design_type_metadata(prop.type_ann.as_deref(), ctx));
         }
     }
 }
@@ -299,7 +299,7 @@ impl LegacyDecoratorMetadata {
 
     fn serialize_type_annotation(
         &mut self,
-        type_annotation: Option<&Box<TsTypeAnn>>,
+        type_annotation: Option<&TsTypeAnn>,
         ctx: &mut TraverseCtx,
     ) -> Expr {
         if let Some(type_annotation) = type_annotation {
@@ -405,7 +405,7 @@ impl LegacyDecoratorMetadata {
     ) -> Expr {
         let elements: Vec<_> = params
             .iter()
-            .filter_map(|param| match param {
+            .map(|param| match param {
                 ParamOrTsParamProp::Param(p) => Some(ExprOrSpread {
                     spread: None,
                     expr: Box::new(self.serialize_parameter_types_of_node(p, ctx)),
@@ -415,7 +415,6 @@ impl LegacyDecoratorMetadata {
                     expr: Box::new(self.serialize_ts_param_prop_param(&p.param, ctx)),
                 }),
             })
-            .map(Some)
             .collect();
         Expr::Array(ArrayLit {
             span: DUMMY_SP,
@@ -463,16 +462,16 @@ impl LegacyDecoratorMetadata {
                 _ => None,
             },
         };
-        self.serialize_type_annotation(type_annotation, ctx)
+        self.serialize_type_annotation(type_annotation.map(|v| &**v), ctx)
     }
 
     /// Get the type annotation from a pattern
-    fn get_pat_type_ann(pat: &Pat) -> Option<&Box<TsTypeAnn>> {
+    fn get_pat_type_ann(pat: &Pat) -> Option<&TsTypeAnn> {
         match pat {
-            Pat::Ident(ident) => ident.type_ann.as_ref(),
-            Pat::Array(arr) => arr.type_ann.as_ref(),
-            Pat::Object(obj) => obj.type_ann.as_ref(),
-            Pat::Rest(rest) => rest.type_ann.as_ref(),
+            Pat::Ident(ident) => ident.type_ann.as_deref(),
+            Pat::Array(arr) => arr.type_ann.as_deref(),
+            Pat::Object(obj) => obj.type_ann.as_deref(),
+            Pat::Rest(rest) => rest.type_ann.as_deref(),
             Pat::Assign(assign) => Self::get_pat_type_ann(&assign.left),
             Pat::Invalid(_) | Pat::Expr(_) => None,
         }
@@ -568,6 +567,7 @@ impl LegacyDecoratorMetadata {
 
     /// Serializes an entity name which may not exist at runtime, but whose
     /// access shouldn't throw
+    #[allow(clippy::only_used_in_recursion)]
     fn serialize_entity_name_as_expression_fallback(
         &mut self,
         name: &TsEntityName,
@@ -881,7 +881,20 @@ impl LegacyDecoratorMetadata {
                 expr: Box::new(value),
             },
         ];
-        Expr::Call(ctx.helper_call(Helper::DecorateMetadata, DUMMY_SP, arguments))
+        // SAFETY: helper_load doesn't actually use the _ctx parameter, so we can safely
+        // create separate borrows using raw pointers to bypass the borrow checker
+        let callee = unsafe {
+            let ctx_ptr = ctx as *mut TraverseCtx;
+            let transform_ctx = &(*ctx_ptr).ctx;
+            transform_ctx.helper_load(Helper::DecorateMetadata, DUMMY_SP, &mut *ctx_ptr)
+        };
+        Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
+            callee: Callee::Expr(Box::new(callee)),
+            args: arguments,
+            type_args: None,
+        })
     }
 
     // `_metadata(key, value)` as decorator
@@ -895,7 +908,7 @@ impl LegacyDecoratorMetadata {
     /// `_metadata("design:type", type)`
     fn create_design_type_metadata(
         &mut self,
-        type_annotation: Option<&Box<TsTypeAnn>>,
+        type_annotation: Option<&TsTypeAnn>,
         ctx: &mut TraverseCtx,
     ) -> Decorator {
         let serialized_type = self.serialize_type_annotation(type_annotation, ctx);

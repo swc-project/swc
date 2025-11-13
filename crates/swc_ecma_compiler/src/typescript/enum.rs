@@ -68,7 +68,7 @@ impl TypeScriptEnum {
             member
                 .init
                 .as_ref()
-                .map_or(false, |init| matches!(**init, Expr::New(_) | Expr::Call(_)))
+                .is_some_and(|init| matches!(**init, Expr::New(_) | Expr::Call(_)))
         });
 
         // Transform enum members
@@ -147,16 +147,12 @@ impl TypeScriptEnum {
             decls,
         };
 
-        if export_span.is_some() {
-            Some(Stmt::Decl(Decl::Var(Box::new(variable_declaration))))
-        } else {
-            Some(Stmt::Decl(Decl::Var(Box::new(variable_declaration))))
-        }
+        Some(Stmt::Decl(Decl::Var(Box::new(variable_declaration))))
     }
 
     fn transform_ts_enum_members(
         &mut self,
-        members: &mut Vec<TsEnumMember>,
+        members: &mut [TsEnumMember],
         enum_name: &str,
     ) -> Vec<Stmt> {
         let mut statements = Vec::new();
@@ -194,11 +190,11 @@ impl TypeScriptEnum {
                             prev_constant_number = Some(v);
                             Self::get_initializer_expr(v)
                         }
-                        ConstantValue::String(str) => {
+                        ConstantValue::String(string_val) => {
                             prev_constant_number = None;
                             Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: str.into(),
+                                value: string_val.into(),
                                 raw: None,
                             }))
                         }
@@ -456,8 +452,7 @@ impl TypeScriptEnum {
             };
 
             return Some(ConstantValue::String(format!(
-                "{}{}",
-                left_string, right_string
+                "{left_string}{right_string}"
             )));
         }
 

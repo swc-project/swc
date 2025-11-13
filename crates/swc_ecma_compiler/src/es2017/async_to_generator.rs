@@ -68,7 +68,6 @@ impl VisitMutHook<TraverseCtx<'_>> for AsyncToGenerator {}
 pub struct AsyncGeneratorExecutor;
 
 impl AsyncGeneratorExecutor {
-    #[expect(unused)]
     pub fn new() -> Self {
         Self
     }

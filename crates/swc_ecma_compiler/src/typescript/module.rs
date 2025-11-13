@@ -228,6 +228,7 @@ impl TypeScriptModule {
     /// - `X` -> `X`
     /// - `X.Y` -> `X.Y`
     /// - `X.Y.Z` -> `X.Y.Z`
+    #[allow(clippy::only_used_in_recursion)]
     fn transform_ts_entity_name(&self, entity_name: &TsEntityName) -> Expr {
         match entity_name {
             TsEntityName::Ident(ident) => Expr::Ident(ident.clone()),

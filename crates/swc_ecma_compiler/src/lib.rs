@@ -5,6 +5,8 @@
 //! * <https://babel.dev/docs/presets>
 //! * <https://github.com/microsoft/TypeScript/blob/v5.6.3/src/compiler/transformer.ts>
 
+#![allow(dead_code)]
+
 use std::path::Path;
 
 use swc_ecma_ast::*;
@@ -182,7 +184,7 @@ struct TransformerImpl<'a> {
     ctx: &'a mut TransformCtx,
     // NOTE: all callbacks must run in order.
     x0_typescript: TypeScript,
-    decorator: decorator::DecoratorTransform<'a>,
+    decorator: decorator::DecoratorTransform,
     plugins: Plugins,
     x1_jsx: Jsx,
     x2_es2026: ES2026,

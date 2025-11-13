@@ -116,6 +116,6 @@ impl ClassBindings {
         let name = name_binding.map_or("Class", |atom| atom.as_str());
         // Simple UID generation - just prepend underscore
         // In a full implementation, this would check for conflicts
-        Atom::from(format!("_{}", name))
+        Atom::from(format!("_{name}"))
     }
 }

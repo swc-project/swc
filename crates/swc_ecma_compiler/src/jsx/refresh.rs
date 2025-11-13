@@ -363,9 +363,6 @@ impl VisitMutHook<TraverseCtx<'_>> for ReactRefresh {
         let (args_key, mut key_len) = if hook_name == "useState" && !args.is_empty() {
             let args_key = ""; // Would need source text to get this
             (args_key, args_key.len() + 4)
-        } else if hook_name == "useReducer" && args.len() > 1 {
-            let args_key = ""; // Would need source text to get this
-            (args_key, args_key.len() + 4)
         } else {
             ("", 2)
         };
@@ -458,7 +455,7 @@ impl ReactRefresh {
                     };
 
                     let found_inside = self.replace_inner_components(
-                        &format!("{}${}", inferred_name, callee_name),
+                        &format!("{inferred_name}${callee_name}"),
                         argument_expr,
                         false,
                     );
@@ -847,7 +844,10 @@ fn is_componentish_name(name: &str) -> bool {
 }
 
 fn is_use_hook_name(name: &str) -> bool {
-    name.starts_with("use") && name.as_bytes().get(3).is_none_or(u8::is_ascii_uppercase)
+    #[allow(clippy::incompatible_msrv)]
+    {
+        name.starts_with("use") && name.as_bytes().get(3).is_none_or(u8::is_ascii_uppercase)
+    }
 }
 
 #[rustfmt::skip]

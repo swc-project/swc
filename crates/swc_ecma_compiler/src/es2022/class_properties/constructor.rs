@@ -47,8 +47,8 @@ impl ClassProperties {
     ///
     /// Stub implementation.
     pub(super) fn insert_constructor(
-        _body: &mut Vec<ClassMember>,
-        _instance_inits: Vec<Box<Expr>>,
+        _body: &mut [ClassMember],
+        _instance_inits: Vec<Expr>,
         _has_super_class: bool,
         _scope_id: (),
         _ctx: &mut TraverseCtx<'_>,
@@ -63,7 +63,7 @@ impl ClassProperties {
     pub(super) fn insert_inits_into_constructor_as_statements(
         &mut self,
         _constructor: &mut Function,
-        _inits: Vec<Box<Expr>>,
+        _inits: Vec<Expr>,
         _stmt_index: usize,
         _ctx: &mut TraverseCtx<'_>,
     ) {
@@ -77,7 +77,7 @@ impl ClassProperties {
     pub(super) fn create_super_function_inside_constructor(
         &mut self,
         _constructor: &mut Function,
-        _instance_inits: Vec<Box<Expr>>,
+        _instance_inits: Vec<Expr>,
         _super_binding: &Atom,
         _super_func_scope_id: (),
         _ctx: &mut TraverseCtx<'_>,
@@ -91,7 +91,7 @@ impl ClassProperties {
     /// Stub implementation.
     pub(super) fn create_super_function_outside_constructor(
         &mut self,
-        _instance_inits: Vec<Box<Expr>>,
+        _instance_inits: Vec<Expr>,
         _super_binding: &Atom,
         _super_func_scope_id: (),
         _ctx: &mut TraverseCtx<'_>,

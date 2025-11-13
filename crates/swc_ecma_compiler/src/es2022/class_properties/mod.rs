@@ -291,7 +291,7 @@ pub struct ClassProperties {
 
     // ----- State used only during exit phase -----
     /// Expressions to insert after class expression
-    insert_after_exprs: Vec<Box<Expr>>,
+    insert_after_exprs: Vec<Expr>,
     /// Statements to insert after class declaration
     insert_after_stmts: Vec<Stmt>,
 }

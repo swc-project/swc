@@ -165,5 +165,8 @@ fn create_array<const N: usize, T, I: FnMut() -> T>(mut init: I) -> [T; N] {
     let mut array = ManuallyDrop::new(array);
     // SAFETY: All elements of array are initialized.
     // `[MaybeUninit<T>; N]` and `[T; N]` have same layout.
-    unsafe { ptr::from_mut(&mut array).cast::<[T; N]>().read() }
+    #[allow(clippy::incompatible_msrv)]
+    unsafe {
+        ptr::from_mut(&mut array).cast::<[T; N]>().read()
+    }
 }

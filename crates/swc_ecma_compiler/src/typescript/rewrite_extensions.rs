@@ -65,7 +65,7 @@ impl TypeScriptRewriteExtensions {
         source.value = if self.mode.is_remove() {
             without_extension.into()
         } else {
-            format!("{}{}", without_extension, replace).into()
+            format!("{without_extension}{replace}").into()
         };
 
         // Clear the raw value since we've modified the value

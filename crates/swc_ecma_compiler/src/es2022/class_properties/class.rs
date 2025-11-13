@@ -18,7 +18,7 @@ impl ClassProperties {
     /// Stub implementation - performs basic checks but doesn't transform.
     pub fn transform_class_body_on_entry(
         &mut self,
-        body: &mut Vec<ClassMember>,
+        body: &mut [ClassMember],
         _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation - just check if transform is needed
@@ -141,7 +141,7 @@ impl ClassProperties {
                 expr,
             }));
         } else {
-            self.insert_after_exprs.push(expr);
+            self.insert_after_exprs.push(*expr);
         }
     }
 }

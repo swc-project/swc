@@ -87,7 +87,7 @@ impl TypeScript {
     /// for static properties, the output is the same as instance properties
     /// transformation, and the greatest advantage is we don't need to care
     /// about `this` usage in static block.
-    pub(super) fn transform_class_fields(&self, class: &mut Class, ctx: &mut TraverseCtx<'a>) {
+    pub(super) fn transform_class_fields(&self, class: &mut Class, ctx: &mut TraverseCtx) {
         let mut constructor = None;
         let mut property_assignments = Vec::new();
         let mut computed_key_assignments = Vec::new();
@@ -241,7 +241,7 @@ impl TypeScript {
         }
     }
 
-    pub(super) fn transform_class_on_exit(&self, class: &mut Class, _ctx: &mut TraverseCtx<'a>) {
+    pub(super) fn transform_class_on_exit(&self, class: &mut Class, _ctx: &mut TraverseCtx) {
         if !self.remove_class_fields_without_initializer {
             return;
         }
@@ -276,7 +276,7 @@ impl TypeScript {
     ///   this.y = y;
     /// }
     /// ```
-    pub(super) fn transform_class_constructor(method: &mut ClassMethod, ctx: &mut TraverseCtx<'a>) {
+    pub(super) fn transform_class_constructor(method: &mut ClassMethod, ctx: &mut TraverseCtx) {
         if method.kind != MethodKind::Method || !Self::is_constructor_key(&method.key) {
             return;
         }
@@ -315,7 +315,7 @@ impl TypeScript {
         key: &mut PropName,
         value: Expr,
         computed_key_assignments: &mut Vec<Expr>,
-        ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx,
     ) -> Stmt {
         let member = match key {
             PropName::Ident(ident) => Self::create_this_property_access(ident.sym.clone()),
@@ -368,7 +368,7 @@ impl TypeScript {
             },
         };
 
-        let target = SimpleAssignTarget::Member(MemberExpr::from(member));
+        let target = SimpleAssignTarget::Member(member);
         Self::create_assignment(target, value)
     }
 
@@ -441,7 +441,7 @@ impl TypeScript {
     /// assignments
     pub(super) fn convert_constructor_params<'b>(
         params: &'b [ParamOrTsParamProp],
-        _ctx: &TraverseCtx<'a>,
+        _ctx: &TraverseCtx,
     ) -> impl Iterator<Item = Stmt> + 'b {
         params
             .iter()
@@ -473,8 +473,8 @@ impl TypeScript {
     /// modifier to `this` assignments (for use with ClassMethod constructor)
     fn convert_constructor_params_from_function_params(
         _params: &[Param],
-        _ctx: &mut TraverseCtx<'a>,
-    ) -> impl Iterator<Item = Stmt> + 'a {
+        _ctx: &mut TraverseCtx,
+    ) -> impl Iterator<Item = Stmt> {
         // In SWC, ClassMethod constructors don't have TypeScript parameter properties
         // in their params. Those are only in Constructor nodes via ParamOrTsParamProp.
         // So this method returns an empty iterator.
@@ -518,9 +518,7 @@ impl TypeScript {
 
     /// Create `this.property` as assignment target
     fn create_this_property_assignment(property: swc_atoms::Atom) -> SimpleAssignTarget {
-        SimpleAssignTarget::Member(MemberExpr::from(Self::create_this_property_access(
-            property,
-        )))
+        SimpleAssignTarget::Member(Self::create_this_property_access(property))
     }
 
     /// Create a default constructor for the class
@@ -530,7 +528,7 @@ impl TypeScript {
     fn create_class_constructor(
         statements: Vec<Stmt>,
         has_super_class: bool,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx,
     ) -> ClassMember {
         let (params, body_stmts) = if has_super_class {
             // TODO: Generate unique identifier for args
@@ -618,7 +616,7 @@ impl TypeScript {
     /// Create `let _x;` statement and insert it.
     /// Return `_x = x()` assignment, and `_x` identifier referencing same temp
     /// var.
-    fn create_computed_key_temp_var(&self, key: Expr, _ctx: &mut TraverseCtx<'a>) -> (Expr, Expr) {
+    fn create_computed_key_temp_var(&self, key: Expr, _ctx: &mut TraverseCtx) -> (Expr, Expr) {
         // TODO: Generate unique identifier properly
         // For now, use a simple implementation
         let temp_name = swc_atoms::Atom::from("_key");
