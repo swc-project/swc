@@ -2,7 +2,7 @@ use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use super::diagnostics;
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 /// TypeScript module transformation handler
 ///
@@ -10,29 +10,27 @@ use crate::context::{TransformCtx, TraverseCtx};
 /// - `export = expression` -> `module.exports = expression`
 /// - `import = require('module')` -> `const x = require('module')`
 /// - `import = Namespace` -> `const x = Namespace`
-pub struct TypeScriptModule<'a> {
+pub struct TypeScriptModule {
     /// Controls whether to only remove type-only imports
     ///
     /// See: <https://babeljs.io/docs/babel-plugin-transform-typescript#onlyremovetypeimports>
     only_remove_type_imports: bool,
-    ctx: &'a TransformCtx,
 }
 
-impl<'a> TypeScriptModule<'a> {
-    pub fn new(only_remove_type_imports: bool, ctx: &'a TransformCtx) -> Self {
+impl TypeScriptModule {
+    pub fn new(only_remove_type_imports: bool) -> Self {
         Self {
             only_remove_type_imports,
-            ctx,
         }
     }
 }
 
-impl<'a> TypeScriptModule<'a> {
-    pub fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
+impl TypeScriptModule {
+    pub fn exit_program(&mut self, program: &mut Program, ctx: &mut TraverseCtx) {
         // In Babel, `use strict` is inserted by @babel/transform-modules-commonjs
         // plugin. Once we have a commonjs plugin, we can consider moving this
         // logic there.
-        if self.ctx.module.is_commonjs() {
+        if ctx.module.is_commonjs() {
             let Program::Module(module) = program else {
                 return;
             };
@@ -61,19 +59,19 @@ impl<'a> TypeScriptModule<'a> {
     pub fn enter_ts_export_assignment(
         &mut self,
         export_assignment: &mut TsExportAssignment,
-        _ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx,
     ) -> Option<Stmt> {
-        Some(self.transform_ts_export_assignment(export_assignment))
+        Some(self.transform_ts_export_assignment(export_assignment, ctx))
     }
 
     /// Enter TsImportEqualsDecl handler - called by parent TypeScript visitor
     pub fn enter_ts_import_equals_decl(
         &mut self,
         import_equals: &mut TsImportEqualsDecl,
-        _ctx: &mut TraverseCtx<'a>,
+        ctx: &mut TraverseCtx,
     ) -> Option<Decl> {
         if !import_equals.is_type_only {
-            self.transform_ts_import_equals(import_equals)
+            self.transform_ts_import_equals(import_equals, ctx)
         } else {
             None
         }
@@ -95,12 +93,15 @@ impl<'a> TypeScriptModule<'a> {
     /// ```javascript
     /// module.exports = someValue;
     /// ```
-    fn transform_ts_export_assignment(&self, export_assignment: &mut TsExportAssignment) -> Stmt {
-        if self.ctx.module.is_esm() {
-            self.ctx
-                .error(diagnostics::export_assignment_cannot_bed_used_in_esm(
-                    export_assignment.span,
-                ));
+    fn transform_ts_export_assignment(
+        &self,
+        export_assignment: &mut TsExportAssignment,
+        ctx: &mut TraverseCtx,
+    ) -> Stmt {
+        if ctx.module.is_esm() {
+            ctx.error(diagnostics::export_assignment_cannot_bed_used_in_esm(
+                export_assignment.span,
+            ));
         }
 
         // Create: module.exports = expression
@@ -151,7 +152,11 @@ impl<'a> TypeScriptModule<'a> {
     /// const module = require('module');
     /// var AliasModule = LongNameModule;
     /// ```
-    fn transform_ts_import_equals(&self, decl: &mut TsImportEqualsDecl) -> Option<Decl> {
+    fn transform_ts_import_equals(
+        &self,
+        decl: &mut TsImportEqualsDecl,
+        ctx: &mut TraverseCtx,
+    ) -> Option<Decl> {
         // Check if this declaration is only used in type positions
         // If so, we can remove it entirely
         // Note: In SWC, we don't have semantic analysis yet, so we skip this check
@@ -172,9 +177,8 @@ impl<'a> TypeScriptModule<'a> {
             TsModuleRef::TsExternalModuleRef(reference) => {
                 // External module reference: use `const` for block-scoped, read-only
                 // semantics
-                if self.ctx.module.is_esm() {
-                    self.ctx
-                        .error(diagnostics::import_equals_cannot_be_used_in_esm(decl.span));
+                if ctx.module.is_esm() {
+                    ctx.error(diagnostics::import_equals_cannot_be_used_in_esm(decl.span));
                 }
 
                 // Create: require('module')

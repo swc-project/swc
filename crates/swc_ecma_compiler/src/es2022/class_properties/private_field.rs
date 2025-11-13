@@ -8,14 +8,14 @@ use swc_ecma_ast::*;
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'_> {
+impl ClassProperties {
     /// Transform private field expression `object.#prop`.
     ///
     /// Stub implementation.
     pub(super) fn transform_private_field_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement private field transformation
@@ -27,7 +27,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_call_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement call expression transformation
@@ -39,7 +39,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_assignment_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement assignment expression transformation
@@ -51,7 +51,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_update_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement update expression transformation
@@ -63,7 +63,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_chain_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement chain expression transformation
@@ -75,7 +75,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_unary_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement unary expression transformation
@@ -87,7 +87,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_tagged_template_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement tagged template expression transformation
@@ -99,7 +99,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_private_in_expression(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement private in expression transformation
@@ -111,7 +111,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_assignment_target(
         &mut self,
         _target: &mut AssignTarget,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement assignment target transformation

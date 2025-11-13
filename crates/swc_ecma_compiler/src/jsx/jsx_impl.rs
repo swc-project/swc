@@ -213,28 +213,26 @@ static XML_ENTITIES: Lazy<HashMap<&'static str, char>> = Lazy::new(|| {
     map
 });
 
-pub struct JsxImpl<'a> {
+pub struct JsxImpl {
     pure: bool,
     options: JsxOptions,
     object_rest_spread_options: Option<ObjectRestSpreadOptions>,
 
-    ctx: &'a TransformCtx,
-
-    pub(super) jsx_self: JsxSelf<'a>,
-    pub(super) jsx_source: JsxSource<'a>,
+    pub(super) jsx_self: JsxSelf,
+    pub(super) jsx_source: JsxSource,
 
     // States
-    bindings: Bindings<'a>,
+    bindings: Bindings,
 }
 
 /// Bindings for different import options
-enum Bindings<'a> {
+enum Bindings {
     Classic(ClassicBindings),
-    AutomaticScript(AutomaticScriptBindings<'a>),
-    AutomaticModule(AutomaticModuleBindings<'a>),
+    AutomaticScript(AutomaticScriptBindings),
+    AutomaticModule(AutomaticModuleBindings),
 }
 
-impl Bindings<'_> {
+impl Bindings {
     #[inline]
     fn is_classic(&self) -> bool {
         matches!(self, Self::Classic(_))
@@ -246,8 +244,7 @@ struct ClassicBindings {
     pragma_frag: Pragma,
 }
 
-struct AutomaticScriptBindings<'a> {
-    ctx: &'a TransformCtx,
+struct AutomaticScriptBindings {
     jsx_runtime_importer: Cow<'static, str>,
     react_importer_len: u32,
     require_create_element: Option<Ident>,
@@ -255,15 +252,13 @@ struct AutomaticScriptBindings<'a> {
     is_development: bool,
 }
 
-impl<'a> AutomaticScriptBindings<'a> {
+impl AutomaticScriptBindings {
     fn new(
-        ctx: &'a TransformCtx,
         jsx_runtime_importer: Cow<'static, str>,
         react_importer_len: u32,
         is_development: bool,
     ) -> Self {
         Self {
-            ctx,
             jsx_runtime_importer,
             react_importer_len,
             require_create_element: None,
@@ -272,41 +267,49 @@ impl<'a> AutomaticScriptBindings<'a> {
         }
     }
 
-    fn require_create_element(&mut self, _ctx: &mut TraverseCtx<'a>) -> Ident {
+    fn require_create_element(&mut self, ctx: &TraverseCtx) -> Ident {
         if self.require_create_element.is_none() {
             let source = get_import_source(&self.jsx_runtime_importer, self.react_importer_len);
-            let id = self.add_require_statement("react", source, true);
+            let id = self.add_require_statement("react", source, true, ctx);
             self.require_create_element = Some(id);
         }
         self.require_create_element.clone().unwrap()
     }
 
-    fn require_jsx(&mut self, _ctx: &mut TraverseCtx<'a>) -> Ident {
+    fn require_jsx(&mut self, ctx: &TraverseCtx) -> Ident {
         if self.require_jsx.is_none() {
             let var_name = if self.is_development {
                 "reactJsxDevRuntime"
             } else {
                 "reactJsxRuntime"
             };
-            let id =
-                self.add_require_statement(var_name, self.jsx_runtime_importer.as_ref(), false);
+            let id = self.add_require_statement(
+                var_name,
+                self.jsx_runtime_importer.as_ref(),
+                false,
+                ctx,
+            );
             self.require_jsx = Some(id);
         }
         self.require_jsx.clone().unwrap()
     }
 
-    fn add_require_statement(&self, variable_name: &str, source: &str, front: bool) -> Ident {
+    fn add_require_statement(
+        &self,
+        variable_name: &str,
+        source: &str,
+        front: bool,
+        ctx: &TraverseCtx,
+    ) -> Ident {
         // Generate unique identifier
         let binding = Ident::new(variable_name.into(), DUMMY_SP, Default::default());
-        self.ctx
-            .module_imports
+        ctx.module_imports
             .add_default_import(source.into(), binding.sym.clone(), front);
         binding
     }
 }
 
-struct AutomaticModuleBindings<'a> {
-    ctx: &'a TransformCtx,
+struct AutomaticModuleBindings {
     jsx_runtime_importer: Cow<'static, str>,
     react_importer_len: u32,
     import_create_element: Option<Ident>,
@@ -316,15 +319,13 @@ struct AutomaticModuleBindings<'a> {
     is_development: bool,
 }
 
-impl<'a> AutomaticModuleBindings<'a> {
+impl AutomaticModuleBindings {
     fn new(
-        ctx: &'a TransformCtx,
         jsx_runtime_importer: Cow<'static, str>,
         react_importer_len: u32,
         is_development: bool,
     ) -> Self {
         Self {
-            ctx,
             jsx_runtime_importer,
             react_importer_len,
             import_create_element: None,
@@ -335,39 +336,39 @@ impl<'a> AutomaticModuleBindings<'a> {
         }
     }
 
-    fn import_create_element(&mut self, _ctx: &mut TraverseCtx<'a>) -> Ident {
+    fn import_create_element(&mut self, ctx: &TraverseCtx) -> Ident {
         if self.import_create_element.is_none() {
             let source = get_import_source(&self.jsx_runtime_importer, self.react_importer_len);
-            let id = self.add_import_statement("createElement", source);
+            let id = self.add_import_statement("createElement", source, ctx);
             self.import_create_element = Some(id);
         }
         self.import_create_element.clone().unwrap()
     }
 
-    fn import_fragment(&mut self, _ctx: &mut TraverseCtx<'a>) -> Ident {
+    fn import_fragment(&mut self, ctx: &TraverseCtx) -> Ident {
         if self.import_fragment.is_none() {
-            self.import_fragment = Some(self.add_jsx_import_statement("Fragment"));
+            self.import_fragment = Some(self.add_jsx_import_statement("Fragment", ctx));
         }
         self.import_fragment.clone().unwrap()
     }
 
-    fn import_jsx(&mut self, _ctx: &mut TraverseCtx<'a>) -> Ident {
+    fn import_jsx(&mut self, ctx: &TraverseCtx) -> Ident {
         if self.import_jsx.is_none() {
             if self.is_development {
-                self.add_import_jsx_dev();
+                self.add_import_jsx_dev(ctx);
             } else {
-                self.import_jsx = Some(self.add_jsx_import_statement("jsx"));
+                self.import_jsx = Some(self.add_jsx_import_statement("jsx", ctx));
             }
         }
         self.import_jsx.clone().unwrap()
     }
 
-    fn import_jsxs(&mut self, _ctx: &mut TraverseCtx<'a>) -> Ident {
+    fn import_jsxs(&mut self, ctx: &TraverseCtx) -> Ident {
         if self.import_jsxs.is_none() {
             if self.is_development {
-                self.add_import_jsx_dev();
+                self.add_import_jsx_dev(ctx);
             } else {
-                self.import_jsxs = Some(self.add_jsx_import_statement("jsxs"));
+                self.import_jsxs = Some(self.add_jsx_import_statement("jsxs", ctx));
             }
         }
         self.import_jsxs.clone().unwrap()
@@ -376,24 +377,20 @@ impl<'a> AutomaticModuleBindings<'a> {
     // Inline so that compiler can see in `import_jsx` and `import_jsxs` that fields
     // are always `Some` after calling this function, and can elide the `unwrap()`s
     #[inline]
-    fn add_import_jsx_dev(&mut self) {
-        let id = self.add_jsx_import_statement("jsxDEV");
+    fn add_import_jsx_dev(&mut self, ctx: &TraverseCtx) {
+        let id = self.add_jsx_import_statement("jsxDEV", ctx);
         self.import_jsx = Some(id.clone());
         self.import_jsxs = Some(id);
     }
 
-    fn add_jsx_import_statement(&self, name: &'static str) -> Ident {
-        self.add_import_statement(name, self.jsx_runtime_importer.as_ref())
+    fn add_jsx_import_statement(&self, name: &'static str, ctx: &TraverseCtx) -> Ident {
+        self.add_import_statement(name, self.jsx_runtime_importer.as_ref(), ctx)
     }
 
-    fn add_import_statement(&self, name: &'static str, source: &str) -> Ident {
+    fn add_import_statement(&self, name: &'static str, source: &str, ctx: &TraverseCtx) -> Ident {
         let binding = Ident::new(name.into(), DUMMY_SP, Default::default());
-        self.ctx.module_imports.add_named_import(
-            source.into(),
-            name.into(),
-            binding.sym.clone(),
-            false,
-        );
+        ctx.module_imports
+            .add_named_import(source.into(), name.into(), binding.sym.clone(), false);
         binding
     }
 }
@@ -517,11 +514,11 @@ impl Pragma {
     }
 }
 
-impl<'a> JsxImpl<'a> {
+impl JsxImpl {
     pub fn new(
         options: JsxOptions,
         object_rest_spread_options: Option<ObjectRestSpreadOptions>,
-        ctx: &'a TransformCtx,
+        ctx: &TransformCtx,
     ) -> Self {
         // Only add `pure` when `pure` is explicitly set to `true` or all JSX options
         // are default.
@@ -575,14 +572,12 @@ impl<'a> JsxImpl<'a> {
 
                 if ctx.module.is_script() {
                     Bindings::AutomaticScript(AutomaticScriptBindings::new(
-                        ctx,
                         jsx_runtime_importer,
                         source_len,
                         is_development,
                     ))
                 } else {
                     Bindings::AutomaticModule(AutomaticModuleBindings::new(
-                        ctx,
                         jsx_runtime_importer,
                         source_len,
                         is_development,
@@ -595,17 +590,16 @@ impl<'a> JsxImpl<'a> {
             pure,
             options,
             object_rest_spread_options,
-            ctx,
-            jsx_self: JsxSelf::new(ctx),
-            jsx_source: JsxSource::new(ctx),
+            jsx_self: JsxSelf::new(),
+            jsx_source: JsxSource::new(),
             bindings,
         }
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl<'a> {
-    fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
-        self.insert_filename_var_statement();
+impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl {
+    fn exit_program(&mut self, _program: &mut Program, ctx: &mut TraverseCtx<'a>) {
+        self.insert_filename_var_statement(ctx);
     }
 
     #[inline]
@@ -625,13 +619,13 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl<'a> {
     }
 }
 
-impl<'a> JsxImpl<'a> {
-    fn is_script(&self) -> bool {
-        self.ctx.module.is_script()
+impl<'a> JsxImpl {
+    fn is_script(&self, ctx: &TransformCtx) -> bool {
+        ctx.module.is_script()
     }
 
-    fn insert_filename_var_statement(&self) {
-        let Some(declarator) = self.jsx_source.get_filename_var_declarator() else {
+    fn insert_filename_var_statement(&self, ctx: &TraverseCtx<'a>) {
+        let Some(declarator) = self.jsx_source.get_filename_var_declarator(ctx) else {
             return;
         };
 
@@ -639,7 +633,7 @@ impl<'a> JsxImpl<'a> {
         // after `require`s. This is the same behavior as Babel.
         // If in classic mode, then there are no import statements, so it doesn't matter
         // either way.
-        if self.bindings.is_classic() || !self.is_script() {
+        if self.bindings.is_classic() || !self.is_script(ctx) {
             // Insert before imports - add to `top_level_statements` immediately
             let stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
@@ -648,11 +642,11 @@ impl<'a> JsxImpl<'a> {
                 decls: vec![declarator],
                 ..Default::default()
             })));
-            self.ctx.top_level_statements.insert_statement(stmt);
+            ctx.top_level_statements.insert_statement(stmt);
         } else {
             // Insert after imports - add to `var_declarations`, which are inserted after
             // `require` statements
-            self.ctx.var_declarations.insert_var_declarator(declarator);
+            ctx.var_declarations.insert_var_declarator(declarator);
         }
     }
 
@@ -708,25 +702,25 @@ impl<'a> JsxImpl<'a> {
             for attribute in attributes {
                 match attribute {
                     JSXAttrOrSpread::JSXAttr(attr) => {
-                        let JSXAttr { span, name, value } = attr;
+                        let JSXAttr { span: _, name, value } = attr;
                         match &name {
                             JSXAttrName::Ident(ident)
                                 if self.options.development
                                     && self.options.jsx_self_plugin
                                     && &*ident.sym == "__self" =>
                             {
-                                self.jsx_self.report_error(ident.span);
+                                self.jsx_self.report_error(ident.span, ctx);
                             }
                             JSXAttrName::Ident(ident)
                                 if self.options.development
                                     && self.options.jsx_source_plugin
                                     && &*ident.sym == "__source" =>
                             {
-                                self.jsx_source.report_error(ident.span);
+                                self.jsx_source.report_error(ident.span, ctx);
                             }
                             JSXAttrName::Ident(ident) if &*ident.sym == "key" => {
                                 if value.is_none() {
-                                    self.ctx.error(diagnostics::valueless_key(ident.span));
+                                    ctx.error(diagnostics::valueless_key(ident.span));
                                 } else if is_automatic {
                                     // In automatic mode, extract the key before spread prop,
                                     // and add it to the third argument later.
@@ -819,7 +813,7 @@ impl<'a> JsxImpl<'a> {
 
             // If runtime is automatic that means we always to add `{ .. }` as the second
             // argument even if it's empty
-            let mut object_expression = Box::new(Expr::Object(ObjectLit {
+            let object_expression = Box::new(Expr::Object(ObjectLit {
                 span: DUMMY_SP,
                 props: properties,
             }));
@@ -905,7 +899,7 @@ impl<'a> JsxImpl<'a> {
             }
 
             if !properties.is_empty() {
-                let mut object_expression = Box::new(Expr::Object(ObjectLit {
+                let object_expression = Box::new(Expr::Object(ObjectLit {
                     span: DUMMY_SP,
                     props: properties,
                 }));
@@ -985,12 +979,11 @@ impl<'a> JsxImpl<'a> {
                 raw: None,
             })),
             JSXElementName::JSXMemberExpr(member_expr) => {
-                Self::transform_jsx_member_expression(member_expr, ctx)
+                Self::transform_jsx_member_expression(Box::new(member_expr), ctx)
             }
             JSXElementName::JSXNamespacedName(namespaced) => {
                 if self.options.throw_if_namespace {
-                    self.ctx
-                        .error(diagnostics::namespace_does_not_support(namespaced.span));
+                    ctx.error(diagnostics::namespace_does_not_support(namespaced.span));
                 }
                 let namespace_name = format!("{}:{}", namespaced.ns.sym, namespaced.name.sym);
                 Expr::Lit(Lit::Str(Str {
@@ -1054,7 +1047,7 @@ impl<'a> JsxImpl<'a> {
     }
 
     fn transform_jsx_member_expression(expr: Box<JSXMemberExpr>, _ctx: &TraverseCtx<'a>) -> Expr {
-        let JSXMemberExpr { obj, prop } = *expr;
+        let JSXMemberExpr { obj, prop, .. } = *expr;
         let object = match obj {
             JSXObject::Ident(ident) => Box::new(Expr::Ident(ident)),
             JSXObject::JSXMemberExpr(expr) => {
@@ -1075,8 +1068,8 @@ impl<'a> JsxImpl<'a> {
     ) -> Box<Expr> {
         match value {
             Some(JSXAttrValue::Str(s)) => {
-                let s_value_str: &str = &s.value;
-                let decoded = decode_entities(s_value_str);
+                let s_value_str = s.value.to_string_lossy();
+                let decoded = decode_entities(&s_value_str);
                 let jsx_text = if let Some(decoded) = decoded {
                     decoded.into()
                 } else {

@@ -43,7 +43,7 @@ impl TypeScriptRewriteExtensions {
         let value = &source.value;
 
         // Find the extension
-        let value_str: &str = value;
+        let value_str = value.to_string_lossy();
 
         // Only process paths (sources containing '/' or '\')
         if !value_str.contains('/') && !value_str.contains('\\') {

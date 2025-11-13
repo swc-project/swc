@@ -50,7 +50,7 @@
 
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 /// Explicit Resource Management transform.
 ///
@@ -58,17 +58,15 @@ use crate::context::{TransformCtx, TraverseCtx};
 /// transformations. The full implementation requires porting complex logic from
 /// the oxc version, which uses features not yet available in this SWC-based
 /// infrastructure.
-pub struct ExplicitResourceManagement<'a> {
-    _ctx: &'a TransformCtx,
-}
+pub struct ExplicitResourceManagement;
 
-impl<'a> ExplicitResourceManagement<'a> {
-    pub fn new(ctx: &'a TransformCtx) -> Self {
-        Self { _ctx: ctx }
+impl ExplicitResourceManagement {
+    pub fn new() -> Self {
+        Self
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ExplicitResourceManagement<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for ExplicitResourceManagement {
     // Stub implementation - no transformations performed yet
     //
     // The full implementation would need to:

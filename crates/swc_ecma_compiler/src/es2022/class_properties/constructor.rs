@@ -28,13 +28,13 @@ pub(super) struct InstanceInitScopes {
     pub _placeholder: (),
 }
 
-impl<'a> ClassProperties<'_> {
+impl ClassProperties {
     /// Replace `super()` call(s) in constructor, if required.
     ///
     /// Stub implementation - returns basic insert location.
     pub(super) fn replace_super_in_constructor(
         _constructor: &mut Function,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) -> (InstanceInitScopes, InstanceInitsInsertLocation) {
         // Stub implementation
         (
@@ -51,7 +51,7 @@ impl<'a> ClassProperties<'_> {
         _instance_inits: Vec<Box<Expr>>,
         _has_super_class: bool,
         _scope_id: (),
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement constructor creation
@@ -65,7 +65,7 @@ impl<'a> ClassProperties<'_> {
         _constructor: &mut Function,
         _inits: Vec<Box<Expr>>,
         _stmt_index: usize,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement init insertion
@@ -80,7 +80,7 @@ impl<'a> ClassProperties<'_> {
         _instance_inits: Vec<Box<Expr>>,
         _super_binding: &Atom,
         _super_func_scope_id: (),
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement super function creation
@@ -94,7 +94,7 @@ impl<'a> ClassProperties<'_> {
         _instance_inits: Vec<Box<Expr>>,
         _super_binding: &Atom,
         _super_func_scope_id: (),
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement super function creation

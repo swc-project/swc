@@ -58,10 +58,7 @@ use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    common::helper_loader::Helper,
-    context::{TransformCtx, TraverseCtx},
-};
+use crate::{common::helper_loader::Helper, context::TraverseCtx};
 
 /// Type of an enum inferred from its members
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -86,8 +83,7 @@ pub(super) struct MethodMetadata {
     pub return_type: Option<Expr>,
 }
 
-pub struct LegacyDecoratorMetadata<'a> {
-    ctx: &'a TransformCtx,
+pub struct LegacyDecoratorMetadata {
     /// Stack of method metadata.
     ///
     /// Only the method that needs to be pushed onto a stack is the method
@@ -106,10 +102,9 @@ pub struct LegacyDecoratorMetadata<'a> {
     enum_types: FxHashMap<String, EnumType>,
 }
 
-impl<'a> LegacyDecoratorMetadata<'a> {
-    pub fn new(ctx: &'a TransformCtx) -> Self {
+impl LegacyDecoratorMetadata {
+    pub fn new() -> Self {
         LegacyDecoratorMetadata {
-            ctx,
             method_metadata_stack: vec![],
             constructor_metadata_stack: vec![],
             enum_types: FxHashMap::default(),
@@ -117,7 +112,7 @@ impl<'a> LegacyDecoratorMetadata<'a> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata {
     #[inline]
     fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {
         debug_assert!(
@@ -252,7 +247,7 @@ impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata<'_> {
     }
 }
 
-impl<'a> LegacyDecoratorMetadata<'a> {
+impl LegacyDecoratorMetadata {
     /// Collects enum type information for decorator metadata generation.
     fn collect_enum_type(&mut self, decl: &TsEnumDecl) {
         let name = decl.id.sym.to_string();
@@ -528,7 +523,7 @@ impl<'a> LegacyDecoratorMetadata<'a> {
             return Self::global_object(ctx);
         };
 
-        let binding = self.ctx.var_declarations.create_uid_var("ref");
+        let binding = ctx.var_declarations.create_uid_var("ref");
         let target =
             AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(Ident::new(
                 Atom::from(binding.as_str()),
@@ -603,7 +598,7 @@ impl<'a> LegacyDecoratorMetadata<'a> {
                     // `A.B.C` -> `typeof A !== "undefined" && (_a = A.B) !== void 0 && _a.C`
                     let mut left =
                         self.serialize_entity_name_as_expression_fallback(&qualified.left, ctx)?;
-                    let binding = self.ctx.var_declarations.create_uid_var("a");
+                    let binding = ctx.var_declarations.create_uid_var("a");
 
                     if let Expr::Bin(BinExpr {
                         op: BinaryOp::LogicalAnd,
@@ -886,10 +881,7 @@ impl<'a> LegacyDecoratorMetadata<'a> {
                 expr: Box::new(value),
             },
         ];
-        Expr::Call(
-            self.ctx
-                .helper_call(Helper::DecorateMetadata, DUMMY_SP, arguments, ctx),
-        )
+        Expr::Call(ctx.helper_call(Helper::DecorateMetadata, DUMMY_SP, arguments))
     }
 
     // `_metadata(key, value)` as decorator

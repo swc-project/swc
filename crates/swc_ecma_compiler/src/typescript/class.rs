@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use super::TypeScript;
 use crate::context::TraverseCtx;
 
-impl<'a> TypeScript<'a, '_> {
+impl TypeScript {
     /// Transform class fields, and constructor parameters that includes
     /// modifiers into `this` assignments.
     ///
@@ -140,7 +140,7 @@ impl<'a> TypeScript<'a, '_> {
                         Self::convert_computed_key(&mut method.key, &mut computed_key_assignments);
                     }
                 }
-                ClassMember::Constructor(ctor) => {
+                ClassMember::Constructor(_ctor) => {
                     constructor = Some(idx);
                 }
                 ClassMember::AutoAccessor(accessor) => {
@@ -170,36 +170,47 @@ impl<'a> TypeScript<'a, '_> {
             });
 
         if let Some(constructor_idx) = constructor {
-            let constructor_body_statements = match &mut class.body[constructor_idx] {
-                ClassMember::Constructor(ctor) => {
-                    let params = &ctor.params;
-                    let params_assignment = Self::convert_constructor_params(params, ctx);
+            // Process constructor body and property assignments
+            {
+                // First extract params to avoid lifetime issues
+                let (params_cloned, body_ref) = match &class.body[constructor_idx] {
+                    ClassMember::Constructor(ctor) => (Some(ctor.params.clone()), true),
+                    ClassMember::Method(_) => (None, true),
+                    _ => (None, false),
+                };
+
+                // Generate property assignments
+                if let Some(params) = params_cloned {
+                    let params_assignment: Vec<_> =
+                        Self::convert_constructor_params(&params, ctx).collect();
                     property_assignments.splice(0..0, params_assignment);
-
-                    ctor.body.as_mut().map(|b| &mut b.stmts)
                 }
-                ClassMember::Method(method) => {
-                    let params = &method.function.params;
-                    let params_assignment =
-                        Self::convert_constructor_params_from_function_params(params, ctx);
-                    property_assignments.splice(0..0, params_assignment);
 
-                    method.function.body.as_mut().map(|b| &mut b.stmts)
-                }
-                _ => None,
-            };
+                // Now get mutable reference to body
+                let constructor_body_statements = if body_ref {
+                    match &mut class.body[constructor_idx] {
+                        ClassMember::Constructor(ctor) => ctor.body.as_mut().map(|b| &mut b.stmts),
+                        ClassMember::Method(method) => {
+                            method.function.body.as_mut().map(|b| &mut b.stmts)
+                        }
+                        _ => None,
+                    }
+                } else {
+                    None
+                };
 
-            // Exit if there are no property and parameter assignments
-            if !property_assignments.is_empty() {
-                if let Some(constructor_body_statements) = constructor_body_statements {
-                    let super_call_position =
-                        Self::get_super_call_position(constructor_body_statements);
+                // Exit if there are no property and parameter assignments
+                if !property_assignments.is_empty() {
+                    if let Some(constructor_body_statements) = constructor_body_statements {
+                        let super_call_position =
+                            Self::get_super_call_position(constructor_body_statements);
 
-                    // Insert the assignments after the `super()` call
-                    constructor_body_statements.splice(
-                        super_call_position..super_call_position,
-                        property_assignments,
-                    );
+                        // Insert the assignments after the `super()` call
+                        constructor_body_statements.splice(
+                            super_call_position..super_call_position,
+                            property_assignments,
+                        );
+                    }
                 }
             }
 
@@ -428,10 +439,10 @@ impl<'a> TypeScript<'a, '_> {
 
     /// Convert constructor parameters that include modifier to `this`
     /// assignments
-    pub(super) fn convert_constructor_params(
-        params: &'a [ParamOrTsParamProp],
-        _ctx: &mut TraverseCtx<'a>,
-    ) -> impl Iterator<Item = Stmt> + 'a {
+    pub(super) fn convert_constructor_params<'b>(
+        params: &'b [ParamOrTsParamProp],
+        _ctx: &TraverseCtx<'a>,
+    ) -> impl Iterator<Item = Stmt> + 'b {
         params
             .iter()
             .filter_map(|param| {
@@ -519,7 +530,7 @@ impl<'a> TypeScript<'a, '_> {
     fn create_class_constructor(
         statements: Vec<Stmt>,
         has_super_class: bool,
-        ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'a>,
     ) -> ClassMember {
         let (params, body_stmts) = if has_super_class {
             // TODO: Generate unique identifier for args
@@ -607,7 +618,7 @@ impl<'a> TypeScript<'a, '_> {
     /// Create `let _x;` statement and insert it.
     /// Return `_x = x()` assignment, and `_x` identifier referencing same temp
     /// var.
-    fn create_computed_key_temp_var(&self, key: Expr, ctx: &mut TraverseCtx<'a>) -> (Expr, Expr) {
+    fn create_computed_key_temp_var(&self, key: Expr, _ctx: &mut TraverseCtx<'a>) -> (Expr, Expr) {
         // TODO: Generate unique identifier properly
         // For now, use a simple implementation
         let temp_name = swc_atoms::Atom::from("_key");

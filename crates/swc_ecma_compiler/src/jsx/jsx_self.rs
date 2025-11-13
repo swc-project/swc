@@ -35,38 +35,33 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 const SELF: &str = "__self";
 
-pub struct JsxSelf<'a> {
-    ctx: &'a TransformCtx,
-}
+pub struct JsxSelf {}
 
-impl<'a> JsxSelf<'a> {
-    pub fn new(ctx: &'a TransformCtx) -> Self {
-        Self { ctx }
+impl JsxSelf {
+    pub fn new() -> Self {
+        Self {}
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSelf<'a> {
-    fn enter_jsx_opening_element(
-        &mut self,
-        elem: &mut JSXOpeningElement,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+impl VisitMutHook<TraverseCtx<'_>> for JsxSelf {
+    fn enter_jsx_opening_element(&mut self, elem: &mut JSXOpeningElement, ctx: &mut TraverseCtx) {
         self.add_self_this_attribute(elem, ctx);
     }
 }
 
-impl<'a> JsxSelf<'a> {
-    pub fn report_error(&self, span: swc_common::Span) {
+impl JsxSelf {
+    pub fn report_error(&self, span: swc_common::Span, _ctx: &TraverseCtx) {
         let mut diagnostic = Diagnostic::new(Level::Error, "Duplicate __self prop found.");
         diagnostic.span_label(span, "duplicate __self");
-        self.ctx.error(diagnostic);
+        // TODO: Report error when TraverseCtx has error reporting capability
+        // ctx.error(diagnostic);
     }
 
-    fn is_inside_constructor(_ctx: &TraverseCtx<'a>) -> bool {
+    fn is_inside_constructor(_ctx: &TraverseCtx) -> bool {
         // In SWC, we need to traverse up the scope chain to check if we're in a
         // constructor. Since TraverseCtx is just TransformState, and we don't
         // have ancestor tracking, we'll implement a conservative approach for
@@ -74,14 +69,14 @@ impl<'a> JsxSelf<'a> {
         false
     }
 
-    fn has_no_super_class(_ctx: &TraverseCtx<'a>) -> bool {
+    fn has_no_super_class(_ctx: &TraverseCtx) -> bool {
         // In SWC, checking for super class requires ancestor information.
         // This should be enhanced when proper ancestor tracking is available.
         // For now, return true as a conservative default.
         true
     }
 
-    pub fn get_object_property_kind_for_jsx_plugin(_ctx: &TraverseCtx<'a>) -> PropOrSpread {
+    pub fn get_object_property_kind_for_jsx_plugin(_ctx: &TraverseCtx) -> PropOrSpread {
         // Create property: `__self: this`
         let key = PropName::Ident(IdentName {
             span: DUMMY_SP,
@@ -93,19 +88,19 @@ impl<'a> JsxSelf<'a> {
         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp { key, value })))
     }
 
-    pub fn can_add_self_attribute(ctx: &TraverseCtx<'a>) -> bool {
+    pub fn can_add_self_attribute(ctx: &TraverseCtx) -> bool {
         !Self::is_inside_constructor(ctx) || Self::has_no_super_class(ctx)
     }
 
     /// `<div __self={this} />`
     ///       ^^^^^^^^^^^^^
-    fn add_self_this_attribute(&self, elem: &mut JSXOpeningElement, _ctx: &TraverseCtx<'a>) {
+    fn add_self_this_attribute(&self, elem: &mut JSXOpeningElement, ctx: &TraverseCtx) {
         // Check if `__self` attribute already exists
         for item in &elem.attrs {
             if let JSXAttrOrSpread::JSXAttr(attribute) = item {
                 if let JSXAttrName::Ident(ident) = &attribute.name {
                     if &*ident.sym == SELF {
-                        self.report_error(ident.span);
+                        self.report_error(ident.span, ctx);
                         return;
                     }
                 }

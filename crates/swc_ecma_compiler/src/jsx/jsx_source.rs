@@ -40,44 +40,38 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 const SOURCE: &str = "__source";
 const FILE_NAME_VAR: &str = "jsxFileName";
 
-pub struct JsxSource<'a> {
+pub struct JsxSource {
     filename_var: Option<Ident>,
     filename_var_created: bool,
-    ctx: &'a TransformCtx,
 }
 
-impl<'a> JsxSource<'a> {
-    pub fn new(ctx: &'a TransformCtx) -> Self {
+impl JsxSource {
+    pub fn new() -> Self {
         Self {
             filename_var: None,
             filename_var_created: false,
-            ctx,
         }
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSource<'a> {
-    fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
-        if let Some(stmt) = self.get_filename_var_statement() {
-            self.ctx.top_level_statements.insert_statement(stmt);
+impl VisitMutHook<TraverseCtx<'_>> for JsxSource {
+    fn exit_program(&mut self, _program: &mut Program, ctx: &mut TraverseCtx) {
+        if let Some(stmt) = self.get_filename_var_statement(ctx) {
+            ctx.top_level_statements.insert_statement(stmt);
         }
     }
 
-    fn enter_jsx_opening_element(
-        &mut self,
-        elem: &mut JSXOpeningElement,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
-        self.add_source_attribute(elem);
+    fn enter_jsx_opening_element(&mut self, elem: &mut JSXOpeningElement, ctx: &mut TraverseCtx) {
+        self.add_source_attribute(elem, ctx);
     }
 }
 
-impl<'a> JsxSource<'a> {
+impl JsxSource {
     /// Get line and column from offset and source text.
     ///
     /// Line number starts at 1.
@@ -110,16 +104,16 @@ impl<'a> JsxSource<'a> {
         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp { key, value })))
     }
 
-    pub fn report_error(&self, span: swc_common::Span) {
+    pub fn report_error(&self, span: swc_common::Span, ctx: &TraverseCtx) {
         let mut diagnostic = Diagnostic::new(Level::Error, "Duplicate __source prop found.");
         diagnostic.span_label(span, "duplicate __source");
-        self.ctx.error(diagnostic);
+        ctx.error(diagnostic);
     }
 
     /// `<sometag __source={ { fileName: 'this/file.js', lineNumber: 10,
     /// columnNumber: 1 } } />`
     ///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    fn add_source_attribute(&mut self, elem: &mut JSXOpeningElement) {
+    fn add_source_attribute(&mut self, elem: &mut JSXOpeningElement, ctx: &TraverseCtx) {
         // Don't add `__source` if this node was generated
         if elem.span.is_dummy() {
             return;
@@ -130,7 +124,7 @@ impl<'a> JsxSource<'a> {
             if let JSXAttrOrSpread::JSXAttr(attribute) = item {
                 if let JSXAttrName::Ident(ident) = &attribute.name {
                     if &*ident.sym == SOURCE {
-                        self.report_error(ident.span);
+                        self.report_error(ident.span, ctx);
                         return;
                     }
                 }
@@ -210,12 +204,12 @@ impl<'a> JsxSource<'a> {
         })
     }
 
-    pub fn get_filename_var_statement(&self) -> Option<Stmt> {
+    pub fn get_filename_var_statement(&self, ctx: &TraverseCtx) -> Option<Stmt> {
         if !self.filename_var_created {
             return None;
         }
 
-        let decl = self.get_filename_var_declarator()?;
+        let decl = self.get_filename_var_declarator(ctx)?;
 
         let var_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
             span: DUMMY_SP,
@@ -228,7 +222,7 @@ impl<'a> JsxSource<'a> {
         Some(var_decl)
     }
 
-    pub fn get_filename_var_declarator(&self) -> Option<VarDeclarator> {
+    pub fn get_filename_var_declarator(&self, ctx: &TraverseCtx) -> Option<VarDeclarator> {
         let filename_var = self.filename_var.as_ref()?;
 
         let id = Pat::Ident(BindingIdent {
@@ -236,7 +230,7 @@ impl<'a> JsxSource<'a> {
             type_ann: None,
         });
 
-        let source_path = self.ctx.source_path.to_string_lossy();
+        let source_path = ctx.source_path.to_string_lossy();
         let init = Some(Box::new(Expr::Lit(Lit::Str(Str {
             span: DUMMY_SP,
             value: source_path.as_ref().into(),

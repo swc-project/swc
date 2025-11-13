@@ -296,7 +296,7 @@ impl HelperLoaderStore {
         helper: Helper,
         source: String,
         transform_ctx: &TransformCtx,
-        span: Span,
+        _span: Span,
     ) -> Expr {
         let mut loaded_helpers = self.loaded_helpers.borrow_mut();
         let binding = loaded_helpers

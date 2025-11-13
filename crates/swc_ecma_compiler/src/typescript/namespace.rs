@@ -4,25 +4,22 @@ use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::quote_ident;
 
 use super::{diagnostics, TypeScriptOptions};
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
-pub struct TypeScriptNamespace<'a> {
-    ctx: &'a TransformCtx,
-
+pub struct TypeScriptNamespace {
     // Options
     allow_namespaces: bool,
 }
 
-impl<'a> TypeScriptNamespace<'a> {
-    pub fn new(options: &TypeScriptOptions, ctx: &'a TransformCtx) -> Self {
+impl TypeScriptNamespace {
+    pub fn new(options: &TypeScriptOptions) -> Self {
         Self {
-            ctx,
             allow_namespaces: options.allow_namespaces,
         }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace {
     // `namespace Foo { }` -> `let Foo; (function (_Foo) { })(Foo || (Foo = {}));`
     fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx) {
         // Only process Module programs, not Script
@@ -40,23 +37,40 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace<'_> {
 
         for mut stmt in std::mem::take(&mut module.body) {
             let should_push = match &mut stmt {
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(_))) => {
-                    if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(decl))) = stmt {
-                        if !self.allow_namespaces {
-                            self.ctx
-                                .error(diagnostics::namespace_not_supported(decl.span));
-                        }
-
-                        self.handle_nested(decl, /* is_export */ false, &mut new_stmts, None);
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(decl))) => {
+                    if !self.allow_namespaces {
+                        _ctx.error(diagnostics::namespace_not_supported(decl.span));
                     }
+
+                    let decl = std::mem::replace(
+                        decl,
+                        Box::new(TsModuleDecl {
+                            span: DUMMY_SP,
+                            declare: true,
+                            global: false,
+                            namespace: false,
+                            id: TsModuleName::Ident(quote_ident!(
+                                SyntaxContext::empty(),
+                                "__dummy"
+                            )),
+                            body: None,
+                        }),
+                    );
+
+                    self.handle_nested(
+                        decl,
+                        /* is_export */ false,
+                        &mut new_stmts,
+                        None,
+                        _ctx,
+                    );
                     false
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
                     if let Decl::TsModule(decl) = &mut export_decl.decl {
                         if !decl.declare {
                             if !self.allow_namespaces {
-                                self.ctx
-                                    .error(diagnostics::namespace_not_supported(decl.span));
+                                _ctx.error(diagnostics::namespace_not_supported(decl.span));
                             }
 
                             let decl = std::mem::replace(
@@ -79,6 +93,7 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace<'_> {
                                 /* is_export */ true,
                                 &mut new_stmts,
                                 None,
+                                _ctx,
                             );
                             false
                         } else {
@@ -100,13 +115,14 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace<'_> {
     }
 }
 
-impl TypeScriptNamespace<'_> {
+impl TypeScriptNamespace {
     fn handle_nested(
         &self,
         mut decl: Box<TsModuleDecl>,
         is_export: bool,
         parent_stmts: &mut Vec<ModuleItem>,
         parent_ident: Option<&Ident>,
+        ctx: &TraverseCtx,
     ) {
         if decl.declare {
             return;
@@ -114,8 +130,7 @@ impl TypeScriptNamespace<'_> {
 
         // Skip empty declaration e.g. `namespace x;`
         let TsModuleName::Ident(ident) = &decl.id else {
-            self.ctx
-                .error(diagnostics::ambient_module_nested(decl.span));
+            ctx.error(diagnostics::ambient_module_nested(decl.span));
             return;
         };
 
@@ -160,6 +175,7 @@ impl TypeScriptNamespace<'_> {
                         /* is_export */ false,
                         &mut new_stmts,
                         None,
+                        ctx,
                     );
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
@@ -171,6 +187,7 @@ impl TypeScriptNamespace<'_> {
                                     /* is_export */ false,
                                     &mut new_stmts,
                                     Some(&uid_ident),
+                                    ctx,
                                 );
                             }
                         }
@@ -193,9 +210,9 @@ impl TypeScriptNamespace<'_> {
                         }
                         Decl::Var(var_decl) => {
                             // Check that all are const
-                            for declarator in &var_decl.decls {
+                            for _declarator in &var_decl.decls {
                                 if var_decl.kind != VarDeclKind::Const {
-                                    self.ctx.error(diagnostics::namespace_exporting_non_const(
+                                    ctx.error(diagnostics::namespace_exporting_non_const(
                                         var_decl.span,
                                     ));
                                 }

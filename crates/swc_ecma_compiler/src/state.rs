@@ -1,9 +1,12 @@
+use crate::context::TransformCtx;
+
 /// State that can be shared across different transform passes.
 ///
 /// In SWC's visitor pattern architecture, state is typically managed through
 /// the visitor struct itself rather than through a separate state object.
-/// This minimal struct serves as the context type (`C` parameter) for
-/// `VisitMutHook<C>` implementations.
+/// This struct serves as the context type (`C` parameter) for
+/// `VisitMutHook<C>` implementations and provides access to the transform
+/// context.
 ///
 /// # Design Notes
 ///
@@ -18,23 +21,32 @@
 /// The lifetime parameter `'a` allows this type to reference data that lives
 /// for the duration of the transformation, enabling zero-copy operations where
 /// possible for optimal performance.
-#[derive(Default)]
 pub struct TransformState<'a> {
-    /// Marker to maintain the lifetime relationship.
-    ///
-    /// This PhantomData ensures the struct is properly covariant over `'a`,
-    /// allowing it to be used in contexts where lifetime variance matters
-    /// for soundness.
-    _marker: std::marker::PhantomData<&'a ()>,
+    /// Reference to the transform context, providing access to configuration,
+    /// helpers, and utilities needed during transformation.
+    pub ctx: &'a mut TransformCtx,
 }
 
 impl<'a> TransformState<'a> {
-    /// Creates a new `TransformState` instance.
-    ///
-    /// This is equivalent to using `Default::default()` but provides
-    /// a more explicit constructor for clarity.
+    /// Creates a new `TransformState` instance with the given transform
+    /// context.
     #[inline]
-    pub fn new() -> Self {
-        Self::default()
+    pub fn new(ctx: &'a mut TransformCtx) -> Self {
+        Self { ctx }
+    }
+}
+
+// Convenience methods that delegate to TransformCtx
+impl<'a> std::ops::Deref for TransformState<'a> {
+    type Target = TransformCtx;
+
+    fn deref(&self) -> &Self::Target {
+        self.ctx
+    }
+}
+
+impl<'a> std::ops::DerefMut for TransformState<'a> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.ctx
     }
 }

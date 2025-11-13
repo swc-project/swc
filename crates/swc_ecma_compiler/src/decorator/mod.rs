@@ -12,15 +12,15 @@ use crate::context::{TransformCtx, TraverseCtx};
 ///
 /// This plugin transforms decorator syntax to equivalent JavaScript code.
 /// Currently supports legacy decorators (TypeScript experimental decorators).
-pub struct DecoratorTransform<'a> {
+pub struct DecoratorTransform {
     options: DecoratorOptions,
 
     // Plugins
-    legacy_decorator: LegacyDecorator<'a>,
+    legacy_decorator: LegacyDecorator,
 }
 
-impl<'a> DecoratorTransform<'a> {
-    pub fn new(options: DecoratorOptions, ctx: &'a TransformCtx) -> Self {
+impl DecoratorTransform {
+    pub fn new(options: DecoratorOptions, ctx: &TransformCtx) -> Self {
         Self {
             legacy_decorator: LegacyDecorator::new(options.emit_decorator_metadata, ctx),
             options,

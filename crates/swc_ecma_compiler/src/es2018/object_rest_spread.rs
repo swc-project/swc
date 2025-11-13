@@ -31,7 +31,7 @@
 use serde::Deserialize;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 /// Configuration options for object rest/spread transformation.
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
@@ -85,18 +85,16 @@ pub struct ObjectRestSpreadOptions {
 /// let { a, b } = obj;
 /// let rest = _objectWithoutProperties(obj, ["a", "b"]);
 /// ```
-pub struct ObjectRestSpread<'a> {
-    _ctx: &'a TransformCtx,
+pub struct ObjectRestSpread {
     _options: ObjectRestSpreadOptions,
 }
 
-impl<'a> ObjectRestSpread<'a> {
+impl ObjectRestSpread {
     /// Creates a new `ObjectRestSpread` transform.
     ///
     /// # Arguments
     ///
     /// * `options` - Configuration for the transformation
-    /// * `ctx` - Transform context containing helpers and state
     ///
     /// # Panics
     ///
@@ -106,7 +104,7 @@ impl<'a> ObjectRestSpread<'a> {
     /// - `use_built_ins` is not implemented
     /// - `objectRestNoSymbols` assumption is not implemented
     /// - `ignoreFunctionLength` assumption is not implemented
-    pub fn new(options: ObjectRestSpreadOptions, ctx: &'a TransformCtx) -> Self {
+    pub fn new(options: ObjectRestSpreadOptions) -> Self {
         // Validate configuration
         if options.loose {
             // In a full implementation, would emit: ctx.error(...)
@@ -122,27 +120,12 @@ impl<'a> ObjectRestSpread<'a> {
                  option will be ignored."
             );
         }
-        if ctx.assumptions.object_rest_no_symbols {
-            eprintln!(
-                "Warning: Compiler assumption `objectRestNoSymbols` is not implemented for \
-                 object-rest-spread. This assumption will be ignored."
-            );
-        }
-        if ctx.assumptions.ignore_function_length {
-            eprintln!(
-                "Warning: Compiler assumption `ignoreFunctionLength` is not implemented for \
-                 object-rest-spread. This assumption will be ignored."
-            );
-        }
 
-        Self {
-            _ctx: ctx,
-            _options: options,
-        }
+        Self { _options: options }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ObjectRestSpread<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for ObjectRestSpread {
     // TODO: Implement object rest/spread transformation
     //
     // This transformation requires:

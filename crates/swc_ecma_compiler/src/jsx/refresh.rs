@@ -22,7 +22,7 @@ use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{Visit, VisitWith};
 
 use super::options::ReactRefreshOptions;
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 /// Parse a string into a `RefreshIdentifierResolver` and convert it into an
 /// `Expr`
@@ -103,11 +103,10 @@ impl RefreshIdentifierResolver {
 /// React Fast Refresh
 ///
 /// Transform React functional components to integrate Fast Refresh.
-pub struct ReactRefresh<'a> {
+pub struct ReactRefresh {
     refresh_reg: RefreshIdentifierResolver,
     refresh_sig: RefreshIdentifierResolver,
     emit_full_signatures: bool,
-    ctx: &'a TransformCtx,
     // States
     registrations: Vec<(String, String)>,
     /// Used to wrap call expression with signature.
@@ -126,14 +125,13 @@ pub struct ReactRefresh<'a> {
     scope_depth: usize,
 }
 
-impl<'a> ReactRefresh<'a> {
-    pub fn new(options: &ReactRefreshOptions, ctx: &'a TransformCtx) -> Self {
+impl ReactRefresh {
+    pub fn new(options: &ReactRefreshOptions) -> Self {
         Self {
             refresh_reg: RefreshIdentifierResolver::parse(&options.refresh_reg),
             refresh_sig: RefreshIdentifierResolver::parse(&options.refresh_sig),
             emit_full_signatures: options.emit_full_signatures,
             registrations: Vec::default(),
-            ctx,
             last_signature: None,
             function_signature_keys: FxHashMap::default(),
             non_builtin_hooks_callee: FxHashMap::default(),
@@ -155,8 +153,8 @@ impl<'a> ReactRefresh<'a> {
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a> {
-    fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
+impl VisitMutHook<TraverseCtx<'_>> for ReactRefresh {
+    fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx) {
         // Collect bindings used in JSX
         self.used_in_jsx_bindings = UsedInJSXBindingsCollector::collect(program);
 
@@ -174,7 +172,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a> {
         }
     }
 
-    fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
+    fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx) {
         if self.registrations.is_empty() {
             return;
         }
@@ -241,7 +239,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a> {
         }
     }
 
-    fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx<'a>) {
+    fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
         let signature = match expr {
             Expr::Fn(func_expr) => {
                 self.create_signature_call_expression_for_fn(&mut func_expr.function)
@@ -306,7 +304,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a> {
         });
     }
 
-    fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx<'a>) {
+    fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx) {
         // Note: In the full implementation, we would insert a statement after the
         // function declaration using statement_injector.
         // For now, this is left as a no-op since statement_injector needs to be ported.
@@ -320,7 +318,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a> {
         // statement_injector is ported
     }
 
-    fn enter_call_expr(&mut self, call_expr: &mut CallExpr, _ctx: &mut TraverseCtx<'a>) {
+    fn enter_call_expr(&mut self, call_expr: &mut CallExpr, _ctx: &mut TraverseCtx) {
         let current_scope_id = self.scope_depth;
 
         let hook_name = match &call_expr.callee {
@@ -402,7 +400,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a> {
 }
 
 // Internal Methods
-impl<'a> ReactRefresh<'a> {
+impl ReactRefresh {
     fn create_registration(&mut self, persistent_id: String) -> String {
         let binding = self.next_registration_name();
         self.registrations.push((binding.clone(), persistent_id));

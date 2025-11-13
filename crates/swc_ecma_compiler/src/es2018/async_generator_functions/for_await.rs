@@ -56,12 +56,12 @@ use swc_ecma_ast::*;
 use super::AsyncGeneratorFunctions;
 use crate::context::TraverseCtx;
 
-impl<'a> AsyncGeneratorFunctions<'a> {
+impl AsyncGeneratorFunctions {
     /// Transform a `for await` statement.
     ///
     /// TODO: Implement the transformation. This currently does nothing.
     #[allow(unused)]
-    pub(crate) fn transform_statement(&self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx<'a>) {
+    pub(crate) fn transform_statement(&self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         // TODO: Check if this is a for-await statement and transform it
         // The transformation involves:
         // 1. Detecting for-await loops (ForOfStmt with await flag)

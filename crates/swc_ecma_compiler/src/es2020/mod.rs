@@ -1,7 +1,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 mod export_namespace_from;
 mod nullish_coalescing_operator;
@@ -12,29 +12,27 @@ use nullish_coalescing_operator::NullishCoalescingOperator;
 pub use optional_chaining::OptionalChaining;
 pub use options::ES2020Options;
 
-pub struct ES2020<'a> {
-    ctx: &'a TransformCtx,
+pub struct ES2020 {
     options: ES2020Options,
 
     // Plugins
-    export_namespace_from: ExportNamespaceFrom<'a>,
-    nullish_coalescing_operator: NullishCoalescingOperator<'a>,
-    optional_chaining: OptionalChaining<'a>,
+    export_namespace_from: ExportNamespaceFrom,
+    nullish_coalescing_operator: NullishCoalescingOperator,
+    optional_chaining: OptionalChaining,
 }
 
-impl<'a> ES2020<'a> {
-    pub fn new(options: ES2020Options, ctx: &'a TransformCtx) -> Self {
+impl ES2020 {
+    pub fn new(options: ES2020Options) -> Self {
         Self {
-            ctx,
             options,
-            export_namespace_from: ExportNamespaceFrom::new(ctx),
-            nullish_coalescing_operator: NullishCoalescingOperator::new(ctx),
-            optional_chaining: OptionalChaining::new(ctx),
+            export_namespace_from: ExportNamespaceFrom::new(),
+            nullish_coalescing_operator: NullishCoalescingOperator::new(),
+            optional_chaining: OptionalChaining::new(),
         }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2020<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for ES2020 {
     fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {
         // TODO: Delegate to export_namespace_from when enabled
         // if self.options.export_namespace_from {

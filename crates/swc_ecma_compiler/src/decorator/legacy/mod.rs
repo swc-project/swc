@@ -101,9 +101,9 @@ impl ClassDecorations {
     }
 }
 
-pub struct LegacyDecorator<'a> {
+pub struct LegacyDecorator {
     emit_decorator_metadata: bool,
-    metadata: LegacyDecoratorMetadata<'a>,
+    metadata: LegacyDecoratorMetadata,
     /// Decorated class data exists when a class or constructor is decorated.
     ///
     /// The data assigned in [`Self::transform_class`] and used in places where
@@ -122,18 +122,16 @@ pub struct LegacyDecorator<'a> {
     /// Each level represents the decoration state for a class in the hierarchy,
     /// with the top being the currently processed class.
     class_decorations_stack: Vec<ClassDecorations>,
-    ctx: &'a TransformCtx,
 }
 
-impl<'a> LegacyDecorator<'a> {
-    pub fn new(emit_decorator_metadata: bool, ctx: &'a TransformCtx) -> Self {
+impl LegacyDecorator {
+    pub fn new(emit_decorator_metadata: bool, _ctx: &TransformCtx) -> Self {
         Self {
             emit_decorator_metadata,
-            metadata: LegacyDecoratorMetadata::new(ctx),
+            metadata: LegacyDecoratorMetadata::new(),
             class_decorated_data: None,
             decorations: FxHashMap::default(),
             class_decorations_stack: vec![ClassDecorations::default()],
-            ctx,
         }
     }
 }
@@ -328,7 +326,7 @@ impl LegacyDecorator<'_> {
         let class_binding = current_class.class_binding.get_or_insert_with(|| {
             // We need to generate a unique identifier for the class
             // For now, use a simple default name
-            self.ctx.var_declarations.create_uid_var("default")
+            ctx.var_declarations.create_uid_var("default")
         });
 
         let prefix = Self::get_class_member_prefix(class_binding, is_static, ctx);
@@ -421,7 +419,7 @@ impl LegacyDecorator<'_> {
     /// ```
     // `#[inline]` so that compiler sees that `stmt` is a `Stmt::Decl(Decl::ExportDefaultDecl(_))`.
     #[inline]
-    fn transform_export_default_class(&mut self, stmt: &mut Stmt, ctx: &mut TraverseCtx) {
+    fn transform_export_default_class(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         // TODO: This function needs to be refactored to work with ModuleDecl
         // ExportDefaultDecl is a ModuleDecl, not a Stmt::Decl
         return;
@@ -485,7 +483,7 @@ impl LegacyDecorator<'_> {
     /// ```
     // `#[inline]` so that compiler sees that `stmt` is a `Stmt::Decl(Decl::ExportDecl(_))`.
     #[inline]
-    fn transform_export_named_class(&mut self, stmt: &mut Stmt, ctx: &mut TraverseCtx) {
+    fn transform_export_named_class(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         // TODO: This function needs to be refactored to work with ModuleDecl
         // ExportDecl is a ModuleDecl, not a Stmt::Decl
         return;
@@ -671,7 +669,7 @@ impl LegacyDecorator<'_> {
 
         let class_binding = class_binding_opt.unwrap_or_else(|| {
             // Generate a default binding for unnamed classes
-            self.ctx.var_declarations.create_uid_var("default")
+            ctx.var_declarations.create_uid_var("default")
         });
 
         let class_alias_binding = {
@@ -812,7 +810,7 @@ impl LegacyDecorator<'_> {
             should_transform: _,
         } = current_class_decorations;
 
-        let Some(class_binding) = class_binding else {
+        let Some(_class_binding) = class_binding else {
             unreachable!(
                 "Always has a class binding because there are decorators in class elements,
                 so that it has been added in `handle_decorated_class_element`"
@@ -862,12 +860,12 @@ impl LegacyDecorator<'_> {
         ctx: &mut TraverseCtx,
     ) -> Stmt {
         // Find first constructor method from the class
-        let constructor = class.body.iter_mut().find_map(|element| match element {
+        let _constructor = class.body.iter_mut().find_map(|element| match element {
             ClassMember::Constructor(ctor) => Some(ctor),
             _ => None,
         });
 
-        let decorations = if let Some(constructor) = constructor {
+        let decorations = if let Some(_constructor) = _constructor {
             // Constructor cannot have decorators, swap decorators of class and constructor
             // to use `get_all_decorators_of_class_method` to get all decorators
             // of the class and constructor params
@@ -901,7 +899,7 @@ impl LegacyDecorator<'_> {
             },
         ];
         let helper = Expr::Call(
-            self.ctx
+            ctx.ctx
                 .helper_call(Helper::Decorate, DUMMY_SP, arguments, ctx),
         );
         let left = AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(Ident::new(
@@ -993,7 +991,7 @@ impl LegacyDecorator<'_> {
                     },
                 ];
                 // _decorateParam(index, decorator)
-                let helper = Expr::Call(self.ctx.helper_call(
+                let helper = Expr::Call(ctx.ctx.helper_call(
                     Helper::DecorateParam,
                     decorator.span,
                     arguments,
@@ -1146,7 +1144,7 @@ impl LegacyDecorator<'_> {
     fn get_class_initializer(
         expr: Expr,
         class_alias_binding: Option<&BoundIdentifier>,
-        ctx: &mut TraverseCtx,
+        _ctx: &mut TraverseCtx,
     ) -> Expr {
         if let Some(class_alias_binding) = class_alias_binding {
             let left =
@@ -1243,7 +1241,7 @@ impl LegacyDecorator<'_> {
 
                 // Create a unique binding for the computed property key, and insert it outside
                 // of the class
-                let binding = self.ctx.var_declarations.create_uid_var("key");
+                let binding = ctx.var_declarations.create_uid_var("key");
                 let left = AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(
                     Ident::new(
                         Atom::from(binding.as_str()),
@@ -1300,7 +1298,7 @@ impl LegacyDecorator<'_> {
             },
         ];
         let helper = Expr::Call(
-            self.ctx
+            ctx.ctx
                 .helper_call(Helper::Decorate, DUMMY_SP, arguments, ctx),
         );
         Stmt::Expr(ExprStmt {

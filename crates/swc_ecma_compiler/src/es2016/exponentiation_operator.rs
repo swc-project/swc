@@ -33,16 +33,14 @@
 
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
-pub struct ExponentiationOperator<'a> {
-    _ctx: &'a TransformCtx,
-}
+pub struct ExponentiationOperator {}
 
-impl<'a> ExponentiationOperator<'a> {
-    pub fn new(ctx: &'a TransformCtx) -> Self {
-        Self { _ctx: ctx }
+impl ExponentiationOperator {
+    pub fn new() -> Self {
+        Self {}
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ExponentiationOperator<'_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ExponentiationOperator {}

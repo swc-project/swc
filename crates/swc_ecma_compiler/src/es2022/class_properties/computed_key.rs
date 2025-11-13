@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'_> {
+impl ClassProperties {
     /// Substitute temp var for method computed key.
     /// `class C { [x()]() {} }` -> `let _x; _x = x(); class C { [_x]() {} }`
     /// This transform is only required if class has properties or a static
@@ -15,7 +15,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn substitute_temp_var_for_method_computed_key(
         &mut self,
         _method: &mut ClassMethod,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation - methods handled differently in SWC
         // TODO: Implement full computed key transformation
@@ -35,7 +35,7 @@ impl<'a> ClassProperties<'_> {
         &mut self,
         key: &mut Box<Expr>,
         _is_static: bool,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) -> Box<Expr> {
         // Stub implementation - return key as-is
         // TODO: Implement temp var creation logic
@@ -58,7 +58,7 @@ impl<'a> ClassProperties<'_> {
     /// Do not extract computed key:
     /// `class C { [123] }`
     /// -> `class C { }`
-    pub(super) fn extract_computed_key(&mut self, _prop: &mut ClassProp, _ctx: &TraverseCtx<'a>) {
+    pub(super) fn extract_computed_key(&mut self, _prop: &mut ClassProp, _ctx: &TraverseCtx<'_>) {
         // Stub implementation
         // TODO: Implement computed key extraction logic
     }
@@ -73,7 +73,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn extract_instance_prop_computed_key(
         &mut self,
         _prop: &mut ClassProp,
-        _ctx: &TraverseCtx<'a>,
+        _ctx: &TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement instance property computed key extraction

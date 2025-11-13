@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'_> {
+impl ClassProperties {
     /// Reparent property initializers scope.
     ///
     /// Stub implementation - SWC handles scoping differently than oxc.
@@ -17,7 +17,7 @@ impl<'a> ClassProperties<'_> {
         _inits: &[Box<Expr>],
         _instance_inits_scope_id: (),
         _instance_inits_constructor_scope_id: Option<()>,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // In SWC, scope management is handled differently

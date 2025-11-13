@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 use super::{ClassBindings, ClassDetails, ClassProperties, FxIndexMap, PrivateProp};
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'_> {
+impl ClassProperties {
     /// Perform first phase of transformation of class.
     ///
     /// This is the only entry point into the transform upon entering class
@@ -19,7 +19,7 @@ impl<'a> ClassProperties<'_> {
     pub fn transform_class_body_on_entry(
         &mut self,
         body: &mut Vec<ClassMember>,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation - just check if transform is needed
         let mut has_properties = false;
@@ -73,7 +73,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_class_declaration_on_exit(
         &mut self,
         _class: &mut Class,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Pop from stack
         let class_details = self.classes_stack.pop();
@@ -91,7 +91,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn transform_class_expression_on_exit(
         &mut self,
         _expr: &mut Expr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Pop from stack
         let class_details = self.classes_stack.pop();
@@ -106,7 +106,7 @@ impl<'a> ClassProperties<'_> {
     /// Transform class elements.
     ///
     /// Stub implementation.
-    fn transform_class_elements(&mut self, _class: &mut Class, _ctx: &mut TraverseCtx<'a>) {
+    fn transform_class_elements(&mut self, _class: &mut Class, _ctx: &mut TraverseCtx<'_>) {
         // Stub implementation
         // TODO: Implement class element transformation
     }
@@ -116,9 +116,8 @@ impl<'a> ClassProperties<'_> {
     /// Stub implementation.
     pub(super) fn flag_entering_static_property_or_block(&mut self) {
         // Stub implementation
-        if let Some(class) = self.classes_stack.stack.last_mut() {
-            class.bindings.static_private_fields_use_temp = true;
-        }
+        let class = self.classes_stack.last_mut();
+        class.bindings.static_private_fields_use_temp = true;
     }
 
     /// Flag that static private fields should be transpiled using name binding.
@@ -126,17 +125,16 @@ impl<'a> ClassProperties<'_> {
     /// Stub implementation.
     pub(super) fn flag_exiting_static_property_or_block(&mut self) {
         // Stub implementation
-        if let Some(class) = self.classes_stack.stack.last_mut() {
-            if class.is_declaration {
-                class.bindings.static_private_fields_use_temp = false;
-            }
+        let class = self.classes_stack.last_mut();
+        if class.is_declaration {
+            class.bindings.static_private_fields_use_temp = false;
         }
     }
 
     /// Insert an expression after the class.
     ///
     /// Stub implementation.
-    pub(super) fn insert_expr_after_class(&mut self, expr: Box<Expr>, _ctx: &TraverseCtx<'a>) {
+    pub(super) fn insert_expr_after_class(&mut self, expr: Box<Expr>, _ctx: &TraverseCtx<'_>) {
         if self.current_class().is_declaration {
             self.insert_after_stmts.push(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,

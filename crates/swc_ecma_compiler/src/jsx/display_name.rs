@@ -53,32 +53,28 @@ use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
-pub struct ReactDisplayName<'a> {
-    ctx: &'a TransformCtx,
-}
+pub struct ReactDisplayName {}
 
-impl<'a> ReactDisplayName<'a> {
-    pub fn new(ctx: &'a TransformCtx) -> Self {
-        Self { ctx }
+impl ReactDisplayName {
+    pub fn new() -> Self {
+        Self {}
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ReactDisplayName<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for ReactDisplayName {
     // TODO: Implement transformation when SWC infrastructure is ready
     // This will transform React.createClass calls to add displayName
 }
 
-impl<'a> ReactDisplayName<'a> {
+impl ReactDisplayName {
     /// Main transformation entry point for the display name transform.
     ///
     /// This uses SWC's visitor pattern to traverse the AST and add displayName
     /// properties to React.createClass calls.
-    pub fn transform_program(&mut self, program: &mut Program) {
-        let mut visitor = DisplayNameVisitor {
-            filename: &self.ctx.filename,
-        };
+    pub fn transform_program(&mut self, program: &mut Program, filename: &str) {
+        let mut visitor = DisplayNameVisitor { filename };
         program.visit_mut_with(&mut visitor);
     }
 }

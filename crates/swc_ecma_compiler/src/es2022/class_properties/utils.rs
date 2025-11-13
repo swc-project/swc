@@ -10,7 +10,7 @@ use crate::context::TraverseCtx;
 pub(super) fn create_variable_declaration<'a>(
     name: &str,
     init: Box<Expr>,
-    _ctx: &TraverseCtx<'a>,
+    _ctx: &TraverseCtx<'_>,
 ) -> VarDeclarator {
     VarDeclarator {
         span: DUMMY_SP,

@@ -82,7 +82,7 @@ impl TransformCtx {
         &self,
         expr: Expr,
         mutated_symbol_needs_temp_var: bool,
-        ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'a>,
     ) -> (Expr, [Expr; N]) {
         // TODO: Handle if in a function's params
         match &expr {

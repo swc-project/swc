@@ -66,7 +66,7 @@ impl TransformCtx {
     pub fn create_computed_key_temp_var<'a>(
         &self,
         key: Expr,
-        ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'a>,
     ) -> (/* assignment */ Expr, /* identifier */ Expr) {
         // TODO: Implement proper temp var creation using SWC's scoping system
         // For now, create a simple identifier

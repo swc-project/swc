@@ -256,7 +256,7 @@ pub struct ClassPropertiesOptions {
 /// See [module docs] for details.
 ///
 /// [module docs]: self
-pub struct ClassProperties<'ctx> {
+pub struct ClassProperties {
     // ----- Options -----
     /// If `true`, set properties with `=`, instead of `_defineProperty` helper
     /// (loose option).
@@ -272,8 +272,6 @@ pub struct ClassProperties<'ctx> {
     /// This option is controlled by
     /// [`crate::TypeScriptOptions::remove_class_fields_without_initializer`].
     remove_class_fields_without_initializer: bool,
-
-    ctx: &'ctx TransformCtx,
 
     // ----- State used during all phases of transform -----
     /// Stack of classes.
@@ -298,13 +296,13 @@ pub struct ClassProperties<'ctx> {
     insert_after_stmts: Vec<Stmt>,
 }
 
-impl<'ctx> ClassProperties<'ctx> {
+impl ClassProperties {
     /// Create `ClassProperties` transformer
     pub fn new(
         options: ClassPropertiesOptions,
         transform_static_blocks: bool,
         remove_class_fields_without_initializer: bool,
-        ctx: &'ctx TransformCtx,
+        ctx: &TransformCtx,
     ) -> Self {
         // TODO: Raise error if these 2 options are inconsistent
         let set_public_class_fields = options.loose || ctx.assumptions.set_public_class_fields;
@@ -317,7 +315,6 @@ impl<'ctx> ClassProperties<'ctx> {
             private_fields_as_properties,
             transform_static_blocks,
             remove_class_fields_without_initializer,
-            ctx,
             classes_stack: ClassesStack::new(),
             private_field_count: 0,
             // `Vec`s which are reused for every class being transformed
@@ -327,7 +324,7 @@ impl<'ctx> ClassProperties<'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ClassProperties<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for ClassProperties {
     #[expect(clippy::inline_always)]
     #[inline(always)] // Because this is a no-op in release mode
     fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {

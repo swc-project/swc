@@ -1,28 +1,28 @@
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 mod async_to_generator;
 mod options;
 pub use async_to_generator::{AsyncGeneratorExecutor, AsyncToGenerator};
 pub use options::ES2017Options;
 
-pub struct ES2017<'a> {
+pub struct ES2017 {
     #[expect(unused)]
     options: ES2017Options,
 
     // Plugins
     #[expect(unused)]
-    async_to_generator: AsyncToGenerator<'a>,
+    async_to_generator: AsyncToGenerator,
 }
 
-impl<'a> ES2017<'a> {
-    pub fn new(options: ES2017Options, ctx: &'a TransformCtx) -> ES2017<'a> {
+impl ES2017 {
+    pub fn new(options: ES2017Options) -> ES2017 {
         ES2017 {
-            async_to_generator: AsyncToGenerator::new(ctx),
+            async_to_generator: AsyncToGenerator::new(),
             options,
         }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2017<'_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ES2017 {}

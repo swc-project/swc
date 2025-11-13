@@ -61,10 +61,10 @@ impl TypeScriptEnum {
 
         let is_export = export_span.is_some();
         let enum_name = decl.id.sym.clone();
-        let enum_id = decl.id.to_id();
+        let _enum_id = decl.id.to_id();
 
         // Check if enum has potential side effects
-        let has_potential_side_effect = decl.members.iter().any(|member| {
+        let _has_potential_side_effect = decl.members.iter().any(|member| {
             member
                 .init
                 .as_ref()

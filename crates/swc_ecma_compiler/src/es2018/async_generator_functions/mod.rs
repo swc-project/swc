@@ -78,28 +78,22 @@ mod for_await;
 
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    es2017::AsyncGeneratorExecutor,
-};
+use crate::{context::TraverseCtx, es2017::AsyncGeneratorExecutor};
 
-pub struct AsyncGeneratorFunctions<'a> {
+pub struct AsyncGeneratorFunctions {
     #[allow(unused)]
-    ctx: &'a TransformCtx,
-    #[allow(unused)]
-    executor: AsyncGeneratorExecutor<'a>,
+    executor: AsyncGeneratorExecutor,
 }
 
-impl<'a> AsyncGeneratorFunctions<'a> {
-    pub fn new(ctx: &'a TransformCtx) -> Self {
+impl AsyncGeneratorFunctions {
+    pub fn new() -> Self {
         Self {
-            ctx,
-            executor: AsyncGeneratorExecutor::new(ctx),
+            executor: AsyncGeneratorExecutor::new(),
         }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for AsyncGeneratorFunctions<'_> {
+impl VisitMutHook<TraverseCtx<'_>> for AsyncGeneratorFunctions {
     // TODO: Implement visitor hooks for:
     // - exit_expression: Transform await/yield expressions in async generators
     // - enter_statement: Transform for-await statements

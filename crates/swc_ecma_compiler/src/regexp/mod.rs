@@ -50,7 +50,7 @@
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 mod options;
 
@@ -62,21 +62,19 @@ pub use options::RegExpOptions;
 /// This transform is necessary when targeting older JavaScript environments
 /// that don't support certain RegExp flags or patterns. It detects unsupported
 /// features and rewrites the literal into a constructor call.
-pub struct RegExp<'a> {
-    ctx: &'a TransformCtx,
+pub struct RegExp {
     options: RegExpOptions,
 }
 
-impl<'a> RegExp<'a> {
+impl RegExp {
     /// Creates a new RegExp transformer with the given options.
     ///
     /// # Arguments
     ///
     /// * `options` - Configuration specifying which RegExp features to
     ///   transform
-    /// * `ctx` - Transform context for accessing utilities and error reporting
-    pub fn new(options: RegExpOptions, ctx: &'a TransformCtx) -> Self {
-        Self { ctx, options }
+    pub fn new(options: RegExpOptions) -> Self {
+        Self { options }
     }
 
     /// Checks if a RegExp literal needs to be transformed based on its flags.
@@ -158,13 +156,13 @@ impl<'a> RegExp<'a> {
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for RegExp<'a> {
+impl VisitMutHook<TraverseCtx<'_>> for RegExp {
     /// Called when entering an expression node.
     ///
     /// Checks if the expression is a RegExp literal that needs transformation,
     /// and if so, rewrites it to a constructor call.
     #[inline]
-    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx<'a>) {
+    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
         if let Expr::Lit(Lit::Regex(regex)) = expr {
             // Check if transformation is needed
             let needs_transform = self.has_unsupported_flags(&regex.flags)

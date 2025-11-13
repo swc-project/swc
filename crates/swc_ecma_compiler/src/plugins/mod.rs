@@ -6,37 +6,31 @@ pub use styled_components::StyledComponentsOptions;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    plugins::styled_components::StyledComponents,
-};
+use crate::{context::TraverseCtx, plugins::styled_components::StyledComponents};
 
 /// Container for various plugin transforms.
 ///
 /// This struct manages optional plugin transformations, delegating visitor
 /// calls to the appropriate plugin implementation when enabled.
-pub struct Plugins<'a> {
-    styled_components: Option<StyledComponents<'a>>,
+pub struct Plugins {
+    styled_components: Option<StyledComponents>,
 }
 
-impl<'a> Plugins<'a> {
+impl Plugins {
     /// Creates a new plugins manager with the given options.
     ///
     /// # Arguments
     ///
     /// * `options` - Configuration for which plugins to enable and their
     ///   settings
-    /// * `ctx` - Transform context for accessing utilities and error reporting
-    pub fn new(options: PluginsOptions, ctx: &'a TransformCtx) -> Self {
+    pub fn new(options: PluginsOptions) -> Self {
         Self {
-            styled_components: options
-                .styled_components
-                .map(|options| StyledComponents::new(options, ctx)),
+            styled_components: options.styled_components.map(StyledComponents::new),
         }
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for Plugins<'a> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for Plugins {
     fn enter_program(&mut self, node: &mut Program, ctx: &mut TraverseCtx<'a>) {
         if let Some(styled_components) = &mut self.styled_components {
             styled_components.enter_program(node, ctx);

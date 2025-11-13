@@ -67,7 +67,7 @@ use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(default, rename_all = "camelCase", deny_unknown_fields)]
@@ -306,9 +306,8 @@ impl StyledComponentsBinding {
 /// - Generating unique component IDs for SSR
 /// - Transpiling template literals to function calls
 /// - Minifying CSS content
-pub struct StyledComponents<'a> {
+pub struct StyledComponents {
     pub options: StyledComponentsOptions,
-    pub ctx: &'a TransformCtx,
 
     // State
     /// Tracks which variables are bound to styled-components imports
@@ -321,17 +320,15 @@ pub struct StyledComponents<'a> {
     block_name: Option<Atom>,
 }
 
-impl<'a> StyledComponents<'a> {
+impl StyledComponents {
     /// Creates a new styled-components transformer with the given options.
     ///
     /// # Arguments
     ///
     /// * `options` - Configuration for the transformation
-    /// * `ctx` - Transform context for accessing utilities and error reporting
-    pub fn new(options: StyledComponentsOptions, ctx: &'a TransformCtx) -> Self {
+    pub fn new(options: StyledComponentsOptions) -> Self {
         Self {
             options,
-            ctx,
             styled_bindings: StyledComponentsBinding::default(),
             component_id_prefix: None,
             component_count: 0,
@@ -340,7 +337,7 @@ impl<'a> StyledComponents<'a> {
     }
 
     /// Generates a unique file hash based on the source path or source code.
-    fn get_file_hash(&self) -> String {
+    fn get_file_hash<'a>(&self, ctx: &TraverseCtx<'a>) -> String {
         fn base36_encode(mut num: u64) -> String {
             const BASE36_BYTES: &[u8; 36] = b"abcdefghijklmnopqrstuvwxyz0123456789";
             const HASH_LEN: usize = 6;
@@ -356,18 +353,18 @@ impl<'a> StyledComponents<'a> {
         }
 
         let mut hasher = FxHasher::default();
-        if self.ctx.source_path.is_absolute() {
-            self.ctx.source_path.hash(&mut hasher);
+        if ctx.ctx.source_path.is_absolute() {
+            ctx.ctx.source_path.hash(&mut hasher);
         } else {
             // Hash the filename if path is not absolute
-            self.ctx.filename.hash(&mut hasher);
+            ctx.ctx.filename.hash(&mut hasher);
         }
 
         base36_encode(hasher.finish())
     }
 
     /// `<namespace__>sc-<file_hash>-<component_count>`
-    fn get_component_id(&mut self) -> Atom {
+    fn get_component_id<'a>(&mut self, ctx: &TraverseCtx<'a>) -> Atom {
         // Cache `<namespace__>sc-<file_hash>-` part as it's the same each time
         let prefix = if let Some(prefix) = self.component_id_prefix.as_deref() {
             prefix
@@ -378,7 +375,7 @@ impl<'a> StyledComponents<'a> {
                 String::new()
             };
 
-            prefix.push_str(&format!("sc-{}-", self.get_file_hash()));
+            prefix.push_str(&format!("sc-{}-", self.get_file_hash(ctx)));
 
             self.component_id_prefix = Some(prefix);
             self.component_id_prefix.as_deref().unwrap()
@@ -391,12 +388,12 @@ impl<'a> StyledComponents<'a> {
     }
 
     /// Returns the block name based on the file stem or parent directory name.
-    fn get_block_name(&mut self) -> Option<Atom> {
+    fn get_block_name<'a>(&mut self, ctx: &TraverseCtx<'a>) -> Option<Atom> {
         if !self.options.file_name {
             return None;
         }
 
-        let file_stem = self
+        let file_stem = ctx
             .ctx
             .source_path
             .file_stem()
@@ -413,7 +410,7 @@ impl<'a> StyledComponents<'a> {
                         .iter()
                         .any(|name| name == file_stem)
                     {
-                        self.ctx
+                        ctx.ctx
                             .source_path
                             .parent()
                             .and_then(|parent| parent.file_name())
@@ -441,7 +438,7 @@ impl<'a> StyledComponents<'a> {
                 continue;
             };
 
-            if !is_valid_styled_component_source(&import.src.value) {
+            if !is_valid_styled_component_source(&import.src.value.to_string_lossy()) {
                 continue;
             }
 
@@ -480,7 +477,7 @@ impl<'a> StyledComponents<'a> {
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for StyledComponents<'a> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for StyledComponents {
     fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
         self.collect_styled_bindings(program);
     }

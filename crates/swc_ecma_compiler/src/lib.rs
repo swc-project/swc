@@ -118,28 +118,45 @@ impl Transformer {
         //     jsx::update_options_with_comments(...);
         // }
 
+        // Create all sub-transformers first to avoid borrow conflicts
+        let common = Common::new(&self.env);
+        let decorator = decorator::DecoratorTransform::new(self.decorator, &self.ctx);
+        let plugins = Plugins::new(self.plugins);
+        let x0_typescript = TypeScript::new(&self.typescript, &self.ctx);
+        let x1_jsx = Jsx::new(self.jsx, self.env.es2018.object_rest_spread, &self.ctx);
+        let x2_es2026 = ES2026::new(self.env.es2026);
+        let x2_es2022 = ES2022::new(
+            self.env.es2022,
+            !self.typescript.allow_declare_fields
+                || self.typescript.remove_class_fields_without_initializer,
+            &self.ctx,
+        );
+        let x2_es2021 = ES2021::new(self.env.es2021);
+        let x2_es2020 = ES2020::new(self.env.es2020);
+        let x2_es2019 = ES2019::new(self.env.es2019);
+        let x2_es2018 = ES2018::new(self.env.es2018);
+        let x2_es2016 = ES2016::new(self.env.es2016);
+        let x2_es2017 = ES2017::new(self.env.es2017);
+        let x3_es2015 = ES2015::new(self.env.es2015);
+        let x4_regexp = RegExp::new(self.env.regexp);
+
         let mut transformer = TransformerImpl {
             ctx: &mut self.ctx,
-            common: Common::new(&self.env),
-            decorator: decorator::DecoratorTransform::new(self.decorator, &self.ctx),
-            plugins: Plugins::new(self.plugins, &self.ctx),
-            x0_typescript: TypeScript::new(&self.typescript, &self.ctx),
-            x1_jsx: Jsx::new(self.jsx, self.env.es2018.object_rest_spread, &self.ctx),
-            x2_es2026: ES2026::new(self.env.es2026, &self.ctx),
-            x2_es2022: ES2022::new(
-                self.env.es2022,
-                !self.typescript.allow_declare_fields
-                    || self.typescript.remove_class_fields_without_initializer,
-                &self.ctx,
-            ),
-            x2_es2021: ES2021::new(self.env.es2021, &self.ctx),
-            x2_es2020: ES2020::new(self.env.es2020, &self.ctx),
-            x2_es2019: ES2019::new(self.env.es2019, &self.ctx),
-            x2_es2018: ES2018::new(self.env.es2018, &self.ctx),
-            x2_es2016: ES2016::new(self.env.es2016, &self.ctx),
-            x2_es2017: ES2017::new(self.env.es2017, &self.ctx),
-            x3_es2015: ES2015::new(self.env.es2015, &self.ctx),
-            x4_regexp: RegExp::new(self.env.regexp, &self.ctx),
+            common,
+            decorator,
+            plugins,
+            x0_typescript,
+            x1_jsx,
+            x2_es2026,
+            x2_es2022,
+            x2_es2021,
+            x2_es2020,
+            x2_es2019,
+            x2_es2018,
+            x2_es2016,
+            x2_es2017,
+            x3_es2015,
+            x4_regexp,
         };
 
         // Visit the program using SWC's visitor pattern
@@ -164,22 +181,22 @@ impl Transformer {
 struct TransformerImpl<'a> {
     ctx: &'a mut TransformCtx,
     // NOTE: all callbacks must run in order.
-    x0_typescript: TypeScript<'a, 'a>,
+    x0_typescript: TypeScript,
     decorator: decorator::DecoratorTransform<'a>,
-    plugins: Plugins<'a>,
-    x1_jsx: Jsx<'a>,
-    x2_es2026: ES2026<'a>,
-    x2_es2022: ES2022<'a>,
-    x2_es2021: ES2021<'a>,
-    x2_es2020: ES2020<'a>,
-    x2_es2019: ES2019<'a>,
-    x2_es2018: ES2018<'a>,
-    x2_es2017: ES2017<'a>,
-    x2_es2016: ES2016<'a>,
+    plugins: Plugins,
+    x1_jsx: Jsx,
+    x2_es2026: ES2026,
+    x2_es2022: ES2022,
+    x2_es2021: ES2021,
+    x2_es2020: ES2020,
+    x2_es2019: ES2019,
+    x2_es2018: ES2018,
+    x2_es2017: ES2017,
+    x2_es2016: ES2016,
     #[expect(unused)]
-    x3_es2015: ES2015<'a>,
-    x4_regexp: RegExp<'a>,
-    common: Common<'a, 'a>,
+    x3_es2015: ES2015,
+    x4_regexp: RegExp,
+    common: Common,
 }
 
 /// The main transformer that implements SWC's VisitMut trait.
@@ -188,25 +205,29 @@ struct TransformerImpl<'a> {
 /// VisitMutHook enter/exit methods in the correct order.
 impl VisitMut for TransformerImpl<'_> {
     fn visit_mut_program(&mut self, program: &mut Program) {
-        let mut ctx = TransformState::default();
-
         // Enter hooks
-        self.x0_typescript.enter_program(program, &mut ctx);
-        self.plugins.enter_program(program, &mut ctx);
-        self.x1_jsx.enter_program(program, &mut ctx);
-        self.x2_es2026.enter_program(program, &mut ctx);
+        {
+            let mut ctx = TransformState::new(self.ctx);
+            self.x0_typescript.enter_program(program, &mut ctx);
+            self.plugins.enter_program(program, &mut ctx);
+            self.x1_jsx.enter_program(program, &mut ctx);
+            self.x2_es2026.enter_program(program, &mut ctx);
+        }
 
         // Visit children
         program.visit_mut_children_with(self);
 
         // Exit hooks
-        self.decorator.exit_program(program, &mut ctx);
-        self.x1_jsx.exit_program(program, &mut ctx);
-        self.x0_typescript.exit_program(program, &mut ctx);
-        self.x2_es2022.exit_program(program, &mut ctx);
-        self.x2_es2020.exit_program(program, &mut ctx);
-        self.x2_es2018.exit_program(program, &mut ctx);
-        self.common.exit_program(program, &mut ctx);
+        {
+            let mut ctx = TransformState::new(self.ctx);
+            self.decorator.exit_program(program, &mut ctx);
+            self.x1_jsx.exit_program(program, &mut ctx);
+            self.x0_typescript.exit_program(program, &mut ctx);
+            self.x2_es2022.exit_program(program, &mut ctx);
+            self.x2_es2020.exit_program(program, &mut ctx);
+            self.x2_es2018.exit_program(program, &mut ctx);
+            self.common.exit_program(program, &mut ctx);
+        }
     }
 
     // Additional visit_mut methods can be added here to call specific hooks

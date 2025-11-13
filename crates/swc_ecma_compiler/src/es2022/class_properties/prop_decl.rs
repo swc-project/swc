@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'_> {
+impl ClassProperties {
     /// Convert instance property definition.
     ///
     /// Stub implementation.
@@ -16,7 +16,7 @@ impl<'a> ClassProperties<'_> {
         &mut self,
         _prop: &mut ClassProp,
         _instance_inits: &mut Vec<Box<Expr>>,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement instance property conversion
@@ -28,7 +28,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn convert_static_property(
         &mut self,
         _prop: &mut ClassProp,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) {
         // Stub implementation
         // TODO: Implement static property conversion

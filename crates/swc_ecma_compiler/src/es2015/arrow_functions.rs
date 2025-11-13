@@ -127,7 +127,7 @@
 use serde::Deserialize;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 pub struct ArrowFunctionsOptions {
@@ -140,18 +140,14 @@ pub struct ArrowFunctionsOptions {
     pub spec: bool,
 }
 
-pub struct ArrowFunctions<'a> {
+pub struct ArrowFunctions {
     _options: ArrowFunctionsOptions,
-    _ctx: &'a TransformCtx,
 }
 
-impl<'a> ArrowFunctions<'a> {
-    pub fn new(options: ArrowFunctionsOptions, ctx: &'a TransformCtx) -> Self {
-        Self {
-            _options: options,
-            _ctx: ctx,
-        }
+impl ArrowFunctions {
+    pub fn new(options: ArrowFunctionsOptions) -> Self {
+        Self { _options: options }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ArrowFunctions<'_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ArrowFunctions {}

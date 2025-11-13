@@ -1,19 +1,14 @@
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    TypeScriptOptions,
-};
+use crate::{context::TraverseCtx, TypeScriptOptions};
 
 /// TypeScript annotations transformer
 ///
 /// Removes TypeScript-specific syntax including type annotations, interfaces,
 /// type aliases, and other type-only constructs. Also manages parameter
 /// properties and definite assignment assertions.
-pub struct TypeScriptAnnotations<'a> {
-    ctx: &'a TransformCtx,
-
+pub struct TypeScriptAnnotations {
     // Options
     only_remove_type_imports: bool,
 
@@ -27,8 +22,8 @@ pub struct TypeScriptAnnotations<'a> {
     jsx_fragment_import_name: String,
 }
 
-impl<'a> TypeScriptAnnotations<'a> {
-    pub fn new(options: &TypeScriptOptions, ctx: &'a TransformCtx) -> Self {
+impl TypeScriptAnnotations {
+    pub fn new(options: &TypeScriptOptions) -> Self {
         let jsx_element_import_name = if options.jsx_pragma.contains('.') {
             options
                 .jsx_pragma
@@ -52,7 +47,6 @@ impl<'a> TypeScriptAnnotations<'a> {
         };
 
         Self {
-            ctx,
             only_remove_type_imports: options.only_remove_type_imports,
             has_super_call: false,
             assignments: vec![],
@@ -64,8 +58,8 @@ impl<'a> TypeScriptAnnotations<'a> {
     }
 }
 
-impl<'a> TypeScriptAnnotations<'a> {
-    pub fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
+impl TypeScriptAnnotations {
+    pub fn exit_program(&mut self, program: &mut Program, ctx: &mut TraverseCtx) {
         // Only process Module programs, not Script
         let Program::Module(module) = program else {
             return;
@@ -134,7 +128,7 @@ impl<'a> TypeScriptAnnotations<'a> {
         // Determine if we still have import/export statements, otherwise we
         // need to inject an empty statement (`export {}`) so that the file is
         // still considered a module
-        if no_modules_remaining && some_modules_deleted && self.ctx.module_imports.is_empty() {
+        if no_modules_remaining && some_modules_deleted && ctx.module_imports.is_empty() {
             let export_decl = ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                 span: DUMMY_SP,
                 specifiers: vec![],
@@ -149,21 +143,17 @@ impl<'a> TypeScriptAnnotations<'a> {
     pub fn enter_arrow_function_expression(
         &mut self,
         expr: &mut ArrowExpr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx,
     ) {
         expr.type_params = None;
         expr.return_type = None;
     }
 
-    pub fn enter_variable_declarator(
-        &mut self,
-        decl: &mut VarDeclarator,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
+    pub fn enter_variable_declarator(&mut self, decl: &mut VarDeclarator, _ctx: &mut TraverseCtx) {
         decl.definite = false;
     }
 
-    pub fn enter_binding_pattern(&mut self, pat: &mut Pat, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_binding_pattern(&mut self, pat: &mut Pat, _ctx: &mut TraverseCtx) {
         // Remove type annotations from patterns
         match pat {
             Pat::Ident(ident) => {
@@ -189,7 +179,7 @@ impl<'a> TypeScriptAnnotations<'a> {
         }
     }
 
-    pub fn enter_call_expression(&mut self, expr: &mut CallExpr, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_call_expression(&mut self, expr: &mut CallExpr, _ctx: &mut TraverseCtx) {
         expr.type_args = None;
     }
 
@@ -208,7 +198,7 @@ impl<'a> TypeScriptAnnotations<'a> {
     pub fn enter_optional_chaining_expression(
         &mut self,
         expr: &mut OptChainExpr,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx,
     ) {
         // Strip TS non-null assertions from the base
         if let OptChainBase::Member(member) = &mut *expr.base {
@@ -218,7 +208,7 @@ impl<'a> TypeScriptAnnotations<'a> {
         }
     }
 
-    pub fn enter_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
         class.type_params = None;
         class.super_type_params = None;
         class.implements = vec![];
@@ -245,7 +235,7 @@ impl<'a> TypeScriptAnnotations<'a> {
         });
     }
 
-    pub fn exit_class(&mut self, class: &mut Class, _: &mut TraverseCtx<'a>) {
+    pub fn exit_class(&mut self, class: &mut Class, _: &mut TraverseCtx) {
         // Remove `declare` properties from the class body, other ts-only properties
         // have been removed in `enter_class`. The reason that removing
         // `declare` properties here because the legacy-decorator plugin needs to
@@ -256,14 +246,14 @@ impl<'a> TypeScriptAnnotations<'a> {
             .retain(|elem| !matches!(elem, ClassMember::ClassProp(prop) if prop.declare));
     }
 
-    pub fn enter_expression(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_expression(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
         strip_typescript_syntax(expr);
     }
 
     pub fn enter_simple_assignment_target(
         &mut self,
         target: &mut SimpleAssignTarget,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx,
     ) {
         // Strip TS syntax from simple assignment targets
         if let SimpleAssignTarget::Paren(paren) = target {
@@ -271,11 +261,7 @@ impl<'a> TypeScriptAnnotations<'a> {
         }
     }
 
-    pub fn enter_assignment_target(
-        &mut self,
-        target: &mut AssignTarget,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
+    pub fn enter_assignment_target(&mut self, target: &mut AssignTarget, _ctx: &mut TraverseCtx) {
         // Strip TS syntax from assignment targets
         match target {
             AssignTarget::Simple(simple) => {
@@ -316,12 +302,12 @@ impl<'a> TypeScriptAnnotations<'a> {
         }
     }
 
-    pub fn enter_formal_parameter(&mut self, param: &mut Param, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_formal_parameter(&mut self, param: &mut Param, _ctx: &mut TraverseCtx) {
         // Remove TypeScript-specific modifiers
         param.decorators.clear();
     }
 
-    pub fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx<'a>) {
+    pub fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx) {
         func.type_params = None;
         func.return_type = None;
     }
@@ -329,22 +315,22 @@ impl<'a> TypeScriptAnnotations<'a> {
     pub fn enter_jsx_opening_element(
         &mut self,
         elem: &mut JSXOpeningElement,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx,
     ) {
         elem.type_args = None;
     }
 
-    pub fn enter_class_method(&mut self, method: &mut ClassMethod, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_class_method(&mut self, method: &mut ClassMethod, _ctx: &mut TraverseCtx) {
         method.accessibility = None;
         method.is_optional = false;
         method.is_override = false;
     }
 
-    pub fn enter_new_expression(&mut self, expr: &mut NewExpr, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_new_expression(&mut self, expr: &mut NewExpr, _ctx: &mut TraverseCtx) {
         expr.type_args = None;
     }
 
-    pub fn enter_class_prop(&mut self, prop: &mut ClassProp, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_class_prop(&mut self, prop: &mut ClassProp, _ctx: &mut TraverseCtx) {
         prop.accessibility = None;
         prop.definite = false;
         prop.is_override = false;
@@ -353,7 +339,7 @@ impl<'a> TypeScriptAnnotations<'a> {
         prop.type_ann = None;
     }
 
-    pub fn enter_statements(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_statements(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
         // Remove declare declaration
         stmts.retain(|stmt| {
             if let Stmt::Decl(decl) = stmt {
@@ -364,7 +350,7 @@ impl<'a> TypeScriptAnnotations<'a> {
         });
     }
 
-    pub fn exit_statements(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx<'a>) {
+    pub fn exit_statements(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
         // Remove TS specific statements
         stmts.retain(|stmt| match stmt {
             Stmt::Expr(s) => !is_typescript_expr(&s.expr),
@@ -383,7 +369,7 @@ impl<'a> TypeScriptAnnotations<'a> {
     /// // to
     /// if (true) { super() } else { super() }
     /// ```
-    pub fn enter_if_statement(&mut self, stmt: &mut IfStmt, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_if_statement(&mut self, stmt: &mut IfStmt, _ctx: &mut TraverseCtx) {
         // Handle consequent
         if is_super_call_stmt(&stmt.cons) && !self.assignments.is_empty() {
             let cons = std::mem::replace(&mut *stmt.cons, create_empty_block());
@@ -409,31 +395,31 @@ impl<'a> TypeScriptAnnotations<'a> {
         }
     }
 
-    pub fn enter_for_statement(&mut self, stmt: &mut ForStmt, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_for_statement(&mut self, stmt: &mut ForStmt, _ctx: &mut TraverseCtx) {
         if is_typescript_stmt(&stmt.body) {
             *stmt.body = create_empty_block();
         }
     }
 
-    pub fn enter_for_in_statement(&mut self, stmt: &mut ForInStmt, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_for_in_statement(&mut self, stmt: &mut ForInStmt, _ctx: &mut TraverseCtx) {
         if is_typescript_stmt(&stmt.body) {
             *stmt.body = create_empty_block();
         }
     }
 
-    pub fn enter_for_of_statement(&mut self, stmt: &mut ForOfStmt, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_for_of_statement(&mut self, stmt: &mut ForOfStmt, _ctx: &mut TraverseCtx) {
         if is_typescript_stmt(&stmt.body) {
             *stmt.body = create_empty_block();
         }
     }
 
-    pub fn enter_while_statement(&mut self, stmt: &mut WhileStmt, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_while_statement(&mut self, stmt: &mut WhileStmt, _ctx: &mut TraverseCtx) {
         if is_typescript_stmt(&stmt.body) {
             *stmt.body = create_empty_block();
         }
     }
 
-    pub fn enter_do_while_statement(&mut self, stmt: &mut DoWhileStmt, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_do_while_statement(&mut self, stmt: &mut DoWhileStmt, _ctx: &mut TraverseCtx) {
         if is_typescript_stmt(&stmt.body) {
             *stmt.body = create_empty_block();
         }
@@ -442,21 +428,21 @@ impl<'a> TypeScriptAnnotations<'a> {
     pub fn enter_tagged_template_expression(
         &mut self,
         expr: &mut TaggedTpl,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx,
     ) {
         expr.type_params = None;
     }
 
-    pub fn enter_jsx_element(&mut self, _elem: &mut JSXElement, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_jsx_element(&mut self, _elem: &mut JSXElement, _ctx: &mut TraverseCtx) {
         self.has_jsx_element = true;
     }
 
-    pub fn enter_jsx_fragment(&mut self, _elem: &mut JSXFragment, _ctx: &mut TraverseCtx<'a>) {
+    pub fn enter_jsx_fragment(&mut self, _elem: &mut JSXFragment, _ctx: &mut TraverseCtx) {
         self.has_jsx_fragment = true;
     }
 }
 
-impl<'a> TypeScriptAnnotations<'a> {
+impl TypeScriptAnnotations {
     /// Check if the given name is a JSX pragma or fragment pragma import
     /// and if the file contains JSX elements or fragments
     #[allow(dead_code)]
@@ -480,7 +466,7 @@ impl<'a> TypeScriptAnnotations<'a> {
     }
 
     /// Exit statement handler - called by parent TypeScript visitor
-    pub fn exit_statement(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx<'a>) {
+    pub fn exit_statement(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         // Currently no-op, but kept for compatibility with oxc version
         // In oxc version, this handled adding assignments after super calls
     }

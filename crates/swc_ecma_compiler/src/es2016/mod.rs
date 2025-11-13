@@ -1,6 +1,6 @@
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::{TransformCtx, TraverseCtx};
+use crate::context::TraverseCtx;
 
 mod exponentiation_operator;
 mod options;
@@ -8,22 +8,22 @@ mod options;
 pub use exponentiation_operator::ExponentiationOperator;
 pub use options::ES2016Options;
 
-pub struct ES2016<'a> {
+pub struct ES2016 {
     #[expect(unused)]
     options: ES2016Options,
 
     // Plugins
     #[expect(unused)]
-    exponentiation_operator: ExponentiationOperator<'a>,
+    exponentiation_operator: ExponentiationOperator,
 }
 
-impl<'a> ES2016<'a> {
-    pub fn new(options: ES2016Options, ctx: &'a TransformCtx) -> Self {
+impl ES2016 {
+    pub fn new(options: ES2016Options) -> Self {
         Self {
-            exponentiation_operator: ExponentiationOperator::new(ctx),
+            exponentiation_operator: ExponentiationOperator::new(),
             options,
         }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2016<'_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ES2016 {}

@@ -25,17 +25,13 @@ pub mod var_declarations;
 /// Note: These are utility transforms that provide helper functionality
 /// to other transforms. They implement VisitMutHook but do not directly
 /// transform the AST themselves.
-pub struct Common<'a, 'ctx> {
-    _marker: std::marker::PhantomData<(&'a (), &'ctx ())>,
-}
+pub struct Common {}
 
-impl<'a, 'ctx> Common<'a, 'ctx> {
+impl Common {
     #[allow(unused)]
     pub fn new(_options: &EnvOptions) -> Self {
-        Self {
-            _marker: std::marker::PhantomData,
-        }
+        Self {}
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for Common<'_, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for Common {}

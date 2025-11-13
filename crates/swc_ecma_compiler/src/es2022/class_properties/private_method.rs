@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'_> {
+impl ClassProperties {
     /// Convert private method definition.
     ///
     /// Returns a statement to insert after the class, or `None` if method
@@ -18,7 +18,7 @@ impl<'a> ClassProperties<'_> {
     pub(super) fn convert_private_method(
         &mut self,
         _method: &mut ClassMethod,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) -> Option<Stmt> {
         // Stub implementation
         // TODO: Implement private method conversion
@@ -30,7 +30,7 @@ impl<'a> ClassProperties<'_> {
     /// Stub implementation.
     pub(super) fn create_class_private_method_init_spec(
         &mut self,
-        _ctx: &mut TraverseCtx<'a>,
+        _ctx: &mut TraverseCtx<'_>,
     ) -> Box<Expr> {
         // Stub implementation
         // TODO: Implement private method init spec creation
