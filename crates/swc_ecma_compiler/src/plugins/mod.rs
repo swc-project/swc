@@ -2,21 +2,31 @@ mod options;
 mod styled_components;
 
 pub use options::PluginsOptions;
-use oxc_ast::ast::*;
-use oxc_traverse::Traverse;
 pub use styled_components::StyledComponentsOptions;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
 use crate::{
     context::{TransformCtx, TraverseCtx},
     plugins::styled_components::StyledComponents,
-    state::TransformState,
 };
 
+/// Container for various plugin transforms.
+///
+/// This struct manages optional plugin transformations, delegating visitor
+/// calls to the appropriate plugin implementation when enabled.
 pub struct Plugins<'a, 'ctx> {
     styled_components: Option<StyledComponents<'a, 'ctx>>,
 }
 
 impl<'a, 'ctx> Plugins<'a, 'ctx> {
+    /// Creates a new plugins manager with the given options.
+    ///
+    /// # Arguments
+    ///
+    /// * `options` - Configuration for which plugins to enable and their
+    ///   settings
+    /// * `ctx` - Transform context for accessing utilities and error reporting
     pub fn new(options: PluginsOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
         Self {
             styled_components: options
@@ -26,36 +36,28 @@ impl<'a, 'ctx> Plugins<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for Plugins<'a, '_> {
-    fn enter_program(&mut self, node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+impl<'a, 'ctx> VisitMutHook<TraverseCtx<'a>> for Plugins<'a, 'ctx> {
+    fn enter_program(&mut self, node: &mut Program, ctx: &mut TraverseCtx<'a>) {
         if let Some(styled_components) = &mut self.styled_components {
             styled_components.enter_program(node, ctx);
         }
     }
 
-    fn enter_variable_declarator(
-        &mut self,
-        node: &mut VariableDeclarator<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_var_declarator(&mut self, node: &mut VarDeclarator, ctx: &mut TraverseCtx<'a>) {
         if let Some(styled_components) = &mut self.styled_components {
-            styled_components.enter_variable_declarator(node, ctx);
+            styled_components.enter_var_declarator(node, ctx);
         }
     }
 
-    fn enter_expression(
-        &mut self,
-        node: &mut Expression<'a>,
-        ctx: &mut oxc_traverse::TraverseCtx<'a, TransformState<'a>>,
-    ) {
+    fn enter_expr(&mut self, node: &mut Expr, ctx: &mut TraverseCtx<'a>) {
         if let Some(styled_components) = &mut self.styled_components {
-            styled_components.enter_expression(node, ctx);
+            styled_components.enter_expr(node, ctx);
         }
     }
 
-    fn enter_call_expression(&mut self, node: &mut CallExpression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_call_expr(&mut self, node: &mut CallExpr, ctx: &mut TraverseCtx<'a>) {
         if let Some(styled_components) = &mut self.styled_components {
-            styled_components.enter_call_expression(node, ctx);
+            styled_components.enter_call_expr(node, ctx);
         }
     }
 }

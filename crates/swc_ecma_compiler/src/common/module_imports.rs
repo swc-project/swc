@@ -1,9 +1,7 @@
-//! Utility transform to add `import` / `require` statements to top of program.
+//! Utility to add `import` / `require` statements to top of program.
 //!
 //! `ModuleImportsStore` contains an `IndexMap<Atom<'a>, Vec<ImportKind<'a>>>`.
 //! It is stored on `TransformCtx`.
-//!
-//! `ModuleImports` transform
 //!
 //! Other transforms can add `import`s / `require`s to the store by calling
 //! methods of `ModuleImportsStore`:
@@ -41,28 +39,9 @@ use oxc_ast::{ast::*, NONE};
 use oxc_semantic::ReferenceFlags;
 use oxc_span::{Atom, SPAN};
 use oxc_syntax::symbol::SymbolId;
-use oxc_traverse::{BoundIdentifier, Traverse};
+use oxc_traverse::BoundIdentifier;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
-
-pub struct ModuleImports<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
-}
-
-impl<'a, 'ctx> ModuleImports<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { ctx }
-    }
-}
-
-impl<'a> Traverse<'a, TransformState<'a>> for ModuleImports<'a, '_> {
-    fn exit_program(&mut self, _program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.ctx.module_imports.insert_into_program(self.ctx, ctx);
-    }
-}
+use crate::context::{TransformCtx, TraverseCtx};
 
 struct NamedImport<'a> {
     imported: Atom<'a>,

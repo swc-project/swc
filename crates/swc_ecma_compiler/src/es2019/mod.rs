@@ -1,7 +1,6 @@
-use oxc_ast::ast::*;
-use oxc_traverse::Traverse;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{context::TraverseCtx, state::TransformState};
+use crate::context::TraverseCtx;
 
 mod optional_catch_binding;
 mod options;
@@ -10,9 +9,11 @@ pub use optional_catch_binding::OptionalCatchBinding;
 pub use options::ES2019Options;
 
 pub struct ES2019 {
+    #[expect(unused)]
     options: ES2019Options,
 
     // Plugins
+    #[expect(unused)]
     optional_catch_binding: OptionalCatchBinding,
 }
 
@@ -25,10 +26,4 @@ impl ES2019 {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ES2019 {
-    fn enter_catch_clause(&mut self, clause: &mut CatchClause<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.options.optional_catch_binding {
-            self.optional_catch_binding.enter_catch_clause(clause, ctx);
-        }
-    }
-}
+impl VisitMutHook<TraverseCtx<'_>> for ES2019 {}

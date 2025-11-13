@@ -352,8 +352,8 @@ impl<'a> TypeScriptNamespace<'a, '_> {
         };
 
         // (function (_N) { var M; (function (_M) { var x; })(M || (M = _N.M || (_N.M =
-        // {})));})(N || (N = {}));                                             
-        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^^^                    
+        // {})));})(N || (N = {}));
+        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^^^
         // Nested namespace arguments         Normal namespace arguments
         let arguments = {
             // M

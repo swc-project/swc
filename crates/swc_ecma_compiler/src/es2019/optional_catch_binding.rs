@@ -36,9 +36,9 @@
 use oxc_ast::ast::*;
 use oxc_semantic::SymbolFlags;
 use oxc_span::SPAN;
-use oxc_traverse::Traverse;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{context::TraverseCtx, state::TransformState};
+use crate::context::TraverseCtx;
 
 pub struct OptionalCatchBinding;
 
@@ -48,9 +48,9 @@ impl OptionalCatchBinding {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for OptionalCatchBinding {
+impl VisitMutHook<TraverseCtx<'_>> for OptionalCatchBinding {
     /// If CatchClause has no param, add a parameter called `unused`.
-    fn enter_catch_clause(&mut self, clause: &mut CatchClause<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_catch_clause(&mut self, clause: &mut CatchClause, ctx: &mut TraverseCtx) {
         if clause.param.is_some() {
             return;
         }

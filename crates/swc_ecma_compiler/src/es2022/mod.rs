@@ -1,11 +1,7 @@
-use oxc_ast::ast::*;
-use oxc_diagnostics::OxcDiagnostic;
-use oxc_traverse::Traverse;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
 mod class_properties;
 mod class_static_block;
@@ -60,27 +56,27 @@ impl<'a, 'ctx> ES2022<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ES2022<'a, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ES2022<'_, '_> {
     #[inline] // Because this is a no-op in release mode
-    fn exit_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_program(&mut self, program: &mut Program, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
             class_properties.exit_program(program, ctx);
         }
     }
 
-    fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
-            class_properties.enter_expression(expr, ctx);
+            class_properties.enter_expr(expr, ctx);
         }
     }
 
-    fn exit_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
-            class_properties.exit_expression(expr, ctx);
+            class_properties.exit_expr(expr, ctx);
         }
     }
 
-    fn enter_class_body(&mut self, body: &mut ClassBody<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_class_body(&mut self, body: &mut Vec<ClassMember>, ctx: &mut TraverseCtx) {
         match &mut self.class_properties {
             Some(class_properties) => {
                 class_properties.enter_class_body(body, ctx);
@@ -93,65 +89,49 @@ impl<'a> Traverse<'a, TransformState<'a>> for ES2022<'a, '_> {
         }
     }
 
-    fn exit_class(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_class(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
             class_properties.exit_class(class, ctx);
         }
     }
 
-    fn enter_assignment_target(
-        &mut self,
-        target: &mut AssignmentTarget<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_assign_target(&mut self, target: &mut AssignTarget, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
-            class_properties.enter_assignment_target(target, ctx);
+            class_properties.enter_assign_target(target, ctx);
         }
     }
 
-    fn enter_property_definition(
-        &mut self,
-        prop: &mut PropertyDefinition<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_class_prop(&mut self, prop: &mut ClassProp, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
-            class_properties.enter_property_definition(prop, ctx);
+            class_properties.enter_class_prop(prop, ctx);
         }
     }
 
-    fn exit_property_definition(
-        &mut self,
-        prop: &mut PropertyDefinition<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn exit_class_prop(&mut self, prop: &mut ClassProp, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
-            class_properties.exit_property_definition(prop, ctx);
+            class_properties.exit_class_prop(prop, ctx);
         }
     }
 
-    fn enter_static_block(&mut self, block: &mut StaticBlock<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_static_block(&mut self, block: &mut StaticBlock, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
             class_properties.enter_static_block(block, ctx);
         }
     }
 
-    fn exit_static_block(&mut self, block: &mut StaticBlock<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_static_block(&mut self, block: &mut StaticBlock, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
             class_properties.exit_static_block(block, ctx);
         }
     }
 
-    fn enter_await_expression(
-        &mut self,
-        node: &mut AwaitExpression<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_expr_await(&mut self, node: &mut AwaitExpr, ctx: &mut TraverseCtx) {
         if self.options.top_level_await && Self::is_top_level(ctx) {
-            let warning = OxcDiagnostic::warn(
-                "Top-level await is not available in the configured target environment.",
-            )
-            .with_label(node.span);
-            self.ctx.error(warning);
+            // TODO: Port diagnostic system to SWC
+            // For now, we'll emit a warning through ctx
+            eprintln!(
+                "Warning: Top-level await is not available in the configured target environment."
+            );
         }
     }
 }

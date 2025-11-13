@@ -221,17 +221,13 @@
 //! * Class properties TC39 proposal: <https://github.com/tc39/proposal-class-fields>
 
 use indexmap::IndexMap;
-use oxc_ast::ast::*;
-use oxc_span::Atom;
-use oxc_syntax::symbol::SymbolId;
-use oxc_traverse::Traverse;
 use rustc_hash::{FxBuildHasher, FxHashMap};
 use serde::Deserialize;
+use swc_atoms::Atom;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
 mod class;
 mod class_bindings;
@@ -343,25 +339,25 @@ impl<'a, 'ctx> ClassProperties<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ClassProperties<'a, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ClassProperties<'_, '_> {
     #[expect(clippy::inline_always)]
     #[inline(always)] // Because this is a no-op in release mode
-    fn exit_program(&mut self, _program: &mut Program<'a>, _ctx: &mut TraverseCtx<'a>) {
+    fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {
         debug_assert_eq!(self.private_field_count, 0);
     }
 
-    fn enter_class_body(&mut self, body: &mut ClassBody<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_class_body(&mut self, body: &mut Vec<ClassMember>, ctx: &mut TraverseCtx) {
         self.transform_class_body_on_entry(body, ctx);
     }
 
-    fn exit_class(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_class(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
         self.transform_class_declaration_on_exit(class, ctx);
     }
 
     // `#[inline]` for fast exit for expressions which are not `Class`es
     #[inline]
-    fn exit_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        if matches!(expr, Expression::ClassExpression(_)) {
+    fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
+        if matches!(expr, Expr::Class(_)) {
             self.transform_class_expression_on_exit(expr, ctx);
         }
     }
@@ -369,46 +365,47 @@ impl<'a> Traverse<'a, TransformState<'a>> for ClassProperties<'a, '_> {
     // `#[inline]` for fast exit for expressions which are not any of the
     // transformed types
     #[inline]
-    fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        // All of transforms below only act on `PrivateFieldExpression`s or
-        // `PrivateInExpression`s. If we're not inside a class which has private
-        // fields, `#prop` can't be present here, so exit early - fast path for
-        // common case.
+    fn enter_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
+        // All of transforms below only act on `PrivateName` expressions.
+        // If we're not inside a class which has private fields, `#prop` can't be
+        // present here, so exit early - fast path for common case.
         if self.private_field_count == 0 {
             return;
         }
 
         match expr {
-            // `object.#prop`
-            Expression::PrivateFieldExpression(_) => {
+            // `object.#prop` - member expression with private name
+            Expr::Member(member_expr)
+                if matches!(&member_expr.prop, MemberProp::PrivateName(_)) =>
+            {
                 self.transform_private_field_expression(expr, ctx);
             }
             // `object.#prop()`
-            Expression::CallExpression(_) => {
+            Expr::Call(_) => {
                 self.transform_call_expression(expr, ctx);
             }
             // `object.#prop = value`, `object.#prop += value`, `object.#prop ??= value` etc
-            Expression::AssignmentExpression(_) => {
+            Expr::Assign(_) => {
                 self.transform_assignment_expression(expr, ctx);
             }
             // `object.#prop++`, `--object.#prop`
-            Expression::UpdateExpression(_) => {
+            Expr::Update(_) => {
                 self.transform_update_expression(expr, ctx);
             }
             // `object?.#prop`
-            Expression::ChainExpression(_) => {
+            Expr::OptChain(_) => {
                 self.transform_chain_expression(expr, ctx);
             }
             // `delete object?.#prop.xyz`
-            Expression::UnaryExpression(_) => {
+            Expr::Unary(_) => {
                 self.transform_unary_expression(expr, ctx);
             }
             // "object.#prop`xyz`"
-            Expression::TaggedTemplateExpression(_) => {
+            Expr::TaggedTpl(_) => {
                 self.transform_tagged_template_expression(expr, ctx);
             }
             // "#prop in object"
-            Expression::PrivateInExpression(_) => {
+            Expr::PrivateName(_) => {
                 self.transform_private_in_expression(expr, ctx);
             }
             _ => {}
@@ -418,43 +415,31 @@ impl<'a> Traverse<'a, TransformState<'a>> for ClassProperties<'a, '_> {
     // `#[inline]` for fast exit for assignment targets which are not private fields
     // (rare case)
     #[inline]
-    fn enter_assignment_target(
-        &mut self,
-        target: &mut AssignmentTarget<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_assign_target(&mut self, target: &mut AssignTarget, ctx: &mut TraverseCtx) {
         self.transform_assignment_target(target, ctx);
     }
 
-    fn enter_property_definition(
-        &mut self,
-        prop: &mut PropertyDefinition<'a>,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_class_prop(&mut self, prop: &mut ClassProp, _ctx: &mut TraverseCtx) {
         // Ignore `declare` properties as they don't have any runtime effect,
         // and will be removed in the TypeScript transform later
-        if prop.r#static && !prop.declare {
+        if prop.is_static && !prop.declare {
             self.flag_entering_static_property_or_block();
         }
     }
 
-    fn exit_property_definition(
-        &mut self,
-        prop: &mut PropertyDefinition<'a>,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn exit_class_prop(&mut self, prop: &mut ClassProp, _ctx: &mut TraverseCtx) {
         // Ignore `declare` properties as they don't have any runtime effect,
         // and will be removed in the TypeScript transform later
-        if prop.r#static && !prop.declare {
+        if prop.is_static && !prop.declare {
             self.flag_exiting_static_property_or_block();
         }
     }
 
-    fn enter_static_block(&mut self, _block: &mut StaticBlock<'a>, _ctx: &mut TraverseCtx<'a>) {
+    fn enter_static_block(&mut self, _block: &mut StaticBlock, _ctx: &mut TraverseCtx) {
         self.flag_entering_static_property_or_block();
     }
 
-    fn exit_static_block(&mut self, _block: &mut StaticBlock<'a>, _ctx: &mut TraverseCtx<'a>) {
+    fn exit_static_block(&mut self, _block: &mut StaticBlock, _ctx: &mut TraverseCtx) {
         self.flag_exiting_static_property_or_block();
     }
 }

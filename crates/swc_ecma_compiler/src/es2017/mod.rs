@@ -1,10 +1,6 @@
-use oxc_ast::ast::{Expression, Function, Statement};
-use oxc_traverse::Traverse;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
 mod async_to_generator;
 mod options;
@@ -12,9 +8,11 @@ pub use async_to_generator::{AsyncGeneratorExecutor, AsyncToGenerator};
 pub use options::ES2017Options;
 
 pub struct ES2017<'a, 'ctx> {
+    #[expect(unused)]
     options: ES2017Options,
 
     // Plugins
+    #[expect(unused)]
     async_to_generator: AsyncToGenerator<'a, 'ctx>,
 }
 
@@ -27,22 +25,4 @@ impl<'a, 'ctx> ES2017<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ES2017<'a, '_> {
-    fn exit_expression(&mut self, node: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.options.async_to_generator {
-            self.async_to_generator.exit_expression(node, ctx);
-        }
-    }
-
-    fn exit_function(&mut self, node: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.options.async_to_generator {
-            self.async_to_generator.exit_function(node, ctx);
-        }
-    }
-
-    fn exit_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.options.async_to_generator {
-            self.async_to_generator.exit_statement(stmt, ctx);
-        }
-    }
-}
+impl VisitMutHook<TraverseCtx<'_>> for ES2017<'_, '_> {}

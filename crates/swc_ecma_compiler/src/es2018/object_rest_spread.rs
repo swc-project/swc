@@ -36,13 +36,13 @@ use oxc_diagnostics::OxcDiagnostic;
 use oxc_ecmascript::{BoundNames, ToJsString, WithoutGlobalReferenceInformation};
 use oxc_semantic::{ScopeFlags, ScopeId, SymbolFlags};
 use oxc_span::{GetSpan, SPAN};
-use oxc_traverse::{Ancestor, MaybeBoundIdentifier, Traverse};
+use oxc_traverse::{Ancestor, MaybeBoundIdentifier};
 use serde::Deserialize;
+use swc_ecma_hooks::VisitMutHook;
 
 use crate::{
     common::helper_loader::Helper,
     context::{TransformCtx, TraverseCtx},
-    state::TransformState,
 };
 
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
@@ -93,11 +93,11 @@ impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ObjectRestSpread<'a, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ObjectRestSpread<'_, '_> {
     // For excluded keys when destructuring inside a function.
     // `function foo() { ({a, ...b} = c) }` -> `const _excluded = ["a"]; function
     // foo() { ... }`
-    fn exit_program(&mut self, _node: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_program(&mut self, _node: &mut Program, ctx: &mut TraverseCtx) {
         if !self.excluded_variable_declarators.is_empty() {
             let declarators = ctx
                 .ast
@@ -115,7 +115,7 @@ impl<'a> Traverse<'a, TransformState<'a>> for ObjectRestSpread<'a, '_> {
     // `({ x, ..y } = foo)`.
     // `([{ x, ..y }] = foo)`.
     #[inline]
-    fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_expression(&mut self, expr: &mut Expression, ctx: &mut TraverseCtx) {
         match expr {
             Expression::ObjectExpression(_) => {
                 Self::transform_object_expression(self.options, expr, self.ctx, ctx);
@@ -131,15 +131,15 @@ impl<'a> Traverse<'a, TransformState<'a>> for ObjectRestSpread<'a, '_> {
     #[inline]
     fn enter_arrow_function_expression(
         &mut self,
-        arrow: &mut ArrowFunctionExpression<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        arrow: &mut ArrowFunctionExpression,
+        ctx: &mut TraverseCtx,
     ) {
         Self::transform_arrow(arrow, ctx);
     }
 
     // `function foo({...x}) {}`.
     #[inline]
-    fn enter_function(&mut self, func: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_function(&mut self, func: &mut Function, ctx: &mut TraverseCtx) {
         Self::transform_function(func, ctx);
     }
 
@@ -149,15 +149,15 @@ impl<'a> Traverse<'a, TransformState<'a>> for ObjectRestSpread<'a, '_> {
     #[inline]
     fn enter_variable_declaration(
         &mut self,
-        decl: &mut VariableDeclaration<'a>,
-        ctx: &mut TraverseCtx<'a>,
+        decl: &mut VariableDeclaration,
+        ctx: &mut TraverseCtx,
     ) {
         self.transform_variable_declaration(decl, ctx);
     }
 
     // Transform `try {} catch (...x) {}`.
     #[inline]
-    fn enter_catch_clause(&mut self, clause: &mut CatchClause<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_catch_clause(&mut self, clause: &mut CatchClause, ctx: &mut TraverseCtx) {
         if clause.param.is_some() {
             Self::transform_catch_clause(clause, ctx);
         }
@@ -166,7 +166,7 @@ impl<'a> Traverse<'a, TransformState<'a>> for ObjectRestSpread<'a, '_> {
     // `for ({...x} in []);` `for ({...x} of []);`
     // `for ([{...x}] in []);` `for ([{...x}] of []);`
     #[inline]
-    fn enter_for_in_statement(&mut self, stmt: &mut ForInStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_for_in_statement(&mut self, stmt: &mut ForInStatement, ctx: &mut TraverseCtx) {
         let scope_id = stmt.scope_id();
         match &mut stmt.left {
             ForStatementLeft::VariableDeclaration(decl) => {
@@ -182,7 +182,7 @@ impl<'a> Traverse<'a, TransformState<'a>> for ObjectRestSpread<'a, '_> {
     // `for ({...x} in []);` `for ({...x} of []);`
     // `for ([{...x}] in []);` `for ([{...x}] of []);`
     #[inline]
-    fn enter_for_of_statement(&mut self, stmt: &mut ForOfStatement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_for_of_statement(&mut self, stmt: &mut ForOfStatement, ctx: &mut TraverseCtx) {
         let scope_id = stmt.scope_id();
         match &mut stmt.left {
             ForStatementLeft::VariableDeclaration(decl) => {

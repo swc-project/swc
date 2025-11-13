@@ -1508,7 +1508,7 @@ impl<'a> ClassProperties<'a, '_> {
         if is_optional && !object.is_identifier_reference() {
             // `o?.Foo.#self.self?.self.unicorn;` -> `(result ? void 0 :
             // object)?.self.unicorn`  ^^^^^^^^^^^^^^^^^ the object has
-            // transformed, if the current member is optional,                  
+            // transformed, if the current member is optional,
             // then we need to wrap it to a conditional expression
             let owned_object = object.take_in(ctx.ast);
             *object = Self::wrap_conditional_check(result, owned_object, ctx);
@@ -1546,7 +1546,7 @@ impl<'a> ClassProperties<'a, '_> {
         // `o?.Foo.#self.getSelf?.()?.self.#m();`
         //               ^^^^^^^^^^^  this is a optional function call, to make sure it
         // has a proper context,                            we also need to
-        // assign `o?.Foo.#self` to a temp variable, and                        
+        // assign `o?.Foo.#self` to a temp variable, and
         // then use it as a first argument of `getSelf` call.
         //
         // TODO(improve-on-babel): Consider remove this logic, because it seems no
@@ -1722,11 +1722,11 @@ impl<'a> ClassProperties<'a, '_> {
                 context
             } else {
                 // `o?.Foo.#self.getSelf?.().#m?.();` -> `(_ref = o === null || o === void 0 ?
-                // void 0 : (_babelHelpers$assertC =                            
+                // void 0 : (_babelHelpers$assertC =
                 // babelHelpers.assertClassBrand(Foo, o.Foo, _self)._).getSelf)`
                 // ^^^^^^^^^^^^^^^^^^^^^^ to make sure get `getSelf` call has a proper context,
                 // we need to assign                        the parent of callee
-                // (i.e `o?.Foo.#self`) to a temp variable,                     
+                // (i.e `o?.Foo.#self`) to a temp variable,
                 // and then use it as a first argument of `_ref.call`.
                 let (assignment, context) = self.duplicate_object(object.take_in(ctx.ast), ctx);
                 *object = assignment;

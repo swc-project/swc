@@ -1,10 +1,20 @@
 use serde::Deserialize;
 
-/// Compiler assumptions
+/// Compiler assumptions for optimization.
 ///
-/// For producing smaller output.
+/// These assumptions allow the compiler to generate smaller and faster output
+/// by skipping certain runtime checks and edge case handling. However, they
+/// require that your code follows specific constraints.
 ///
-/// See <https://babeljs.io/docs/assumptions>
+/// # Safety
+///
+/// Enabling these assumptions means you're asserting that your code behaves
+/// in certain ways. If your code violates these assumptions, the generated
+/// output may not work correctly. Use with caution and thorough testing.
+///
+/// # References
+///
+/// * Babel assumptions documentation: <https://babeljs.io/docs/assumptions>
 #[derive(Debug, Default, Clone, Copy, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CompilerAssumptions {
@@ -24,6 +34,10 @@ pub struct CompilerAssumptions {
     #[deprecated = "Not Implemented"]
     pub enumerable_module_meta: bool,
 
+    /// Assume that the `length` property of functions is not used.
+    ///
+    /// When enabled, the compiler can transform functions without worrying
+    /// about preserving the correct `length` property value.
     #[serde(default)]
     pub ignore_function_length: bool,
 
@@ -43,6 +57,11 @@ pub struct CompilerAssumptions {
     #[deprecated = "Not Implemented"]
     pub no_class_calls: bool,
 
+    /// Assume that `document.all` is not used in the code.
+    ///
+    /// `document.all` is a legacy API with unusual falsy behavior in
+    /// boolean contexts. When this assumption is enabled, the compiler
+    /// can optimize code without special handling for this edge case.
     #[serde(default)]
     pub no_document_all: bool,
 
@@ -58,6 +77,10 @@ pub struct CompilerAssumptions {
     #[deprecated = "Not Implemented"]
     pub no_uninitialized_private_field_access: bool,
 
+    /// Assume that object rest spread does not include symbol properties.
+    ///
+    /// When enabled, object rest/spread operations can skip symbol property
+    /// handling, producing smaller and faster code.
     #[serde(default)]
     pub object_rest_no_symbols: bool,
 
@@ -65,9 +88,17 @@ pub struct CompilerAssumptions {
     #[deprecated = "Not Implemented"]
     pub private_fields_as_symbols: bool,
 
+    /// Transform private fields as properties instead of using WeakMaps.
+    ///
+    /// This produces simpler output but doesn't provide true privacy and
+    /// may have different behavior in edge cases.
     #[serde(default)]
     pub private_fields_as_properties: bool,
 
+    /// Assume that getters have no side effects and can be optimized.
+    ///
+    /// When enabled, property accesses are assumed to be pure operations,
+    /// allowing the compiler to perform more aggressive optimizations.
     #[serde(default)]
     pub pure_getters: bool,
 
@@ -79,13 +110,15 @@ pub struct CompilerAssumptions {
     #[deprecated = "Not Implemented"]
     pub set_computed_properties: bool,
 
+    /// Assume public class fields don't shadow getters in the class hierarchy.
+    ///
     /// When using public class fields, assume that they don't shadow any getter
-    /// in the current class, in its subclasses or in its superclass. Thus,
-    /// it's safe to assign them rather than using `Object.defineProperty`.
+    /// in the current class, in its subclasses, or in its superclass. This
+    /// allows using simple assignment instead of `Object.defineProperty`.
     ///
-    /// For example:
+    /// # Example
     ///
-    /// Input:
+    /// Input code:
     /// ```js
     /// class Test {
     ///  field = 2;

@@ -47,145 +47,132 @@
 //! output `RegExp("(?<=x)")` instead of `RegExp("(?<=x)", "")`. (actually these
 //! would be improvements on ESBuild, not Babel)
 
-use oxc_ast::{ast::*, NONE};
-use oxc_regular_expression::{
-    has_unsupported_regular_expression_pattern, RegexUnsupportedPatterns,
-};
-use oxc_semantic::ReferenceFlags;
-use oxc_span::{Atom, SPAN};
-use oxc_traverse::Traverse;
+use swc_atoms::Atom;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
 mod options;
 
 pub use options::RegExpOptions;
 
+/// RegExp transformer that converts unsupported RegExp features to `new
+/// RegExp()` constructor calls.
+///
+/// This transform is necessary when targeting older JavaScript environments
+/// that don't support certain RegExp flags or patterns. It detects unsupported
+/// features and rewrites the literal into a constructor call.
 pub struct RegExp<'a, 'ctx> {
     ctx: &'ctx TransformCtx<'a>,
-    unsupported_flags: RegExpFlags,
-    some_unsupported_patterns: bool,
-    unsupported_patterns: RegexUnsupportedPatterns,
+    options: RegExpOptions,
 }
 
 impl<'a, 'ctx> RegExp<'a, 'ctx> {
+    /// Creates a new RegExp transformer with the given options.
+    ///
+    /// # Arguments
+    ///
+    /// * `options` - Configuration specifying which RegExp features to
+    ///   transform
+    /// * `ctx` - Transform context for accessing utilities and error reporting
     pub fn new(options: RegExpOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
-        // Get unsupported flags
-        let mut unsupported_flags = RegExpFlags::empty();
-        if options.dot_all_flag {
-            unsupported_flags |= RegExpFlags::S;
-        }
-        if options.sticky_flag {
-            unsupported_flags |= RegExpFlags::Y;
-        }
-        if options.unicode_flag {
-            unsupported_flags |= RegExpFlags::U;
-        }
-        if options.match_indices {
-            unsupported_flags |= RegExpFlags::D;
-        }
-        if options.set_notation {
-            unsupported_flags |= RegExpFlags::V;
-        }
+        Self { ctx, options }
+    }
 
-        // Get if some unsupported patterns
-        let RegExpOptions {
-            look_behind_assertions,
-            named_capture_groups,
-            unicode_property_escapes,
-            ..
-        } = options;
+    /// Checks if a RegExp literal needs to be transformed based on its flags.
+    ///
+    /// Returns true if the literal contains any flags that are marked as
+    /// unsupported in the transformer's options.
+    fn has_unsupported_flags(&self, flags: &str) -> bool {
+        flags.chars().any(|flag| match flag {
+            's' => self.options.dot_all_flag,
+            'y' => self.options.sticky_flag,
+            'u' => self.options.unicode_flag,
+            'd' => self.options.match_indices,
+            'v' => self.options.set_notation,
+            _ => false,
+        })
+    }
 
-        let some_unsupported_patterns =
-            look_behind_assertions || named_capture_groups || unicode_property_escapes;
-
-        Self {
-            ctx,
-            unsupported_flags,
-            some_unsupported_patterns,
-            unsupported_patterns: RegexUnsupportedPatterns {
-                look_behind_assertions,
-                named_capture_groups,
-                unicode_property_escapes,
-                pattern_modifiers: false,
-            },
+    /// Checks if a RegExp pattern needs to be transformed.
+    ///
+    /// Returns true if the pattern contains features that are marked as
+    /// unsupported. This includes lookbehind assertions, named capture
+    /// groups, and unicode property escapes.
+    fn has_unsupported_pattern(&self, pattern: &str) -> bool {
+        // Simple heuristic checks for unsupported patterns
+        if self.options.look_behind_assertions
+            && (pattern.contains("(?<=") || pattern.contains("(?<!"))
+        {
+            return true;
         }
+        if self.options.named_capture_groups && pattern.contains("(?<") {
+            return true;
+        }
+        if self.options.unicode_property_escapes
+            && (pattern.contains("\\p{") || pattern.contains("\\P{"))
+        {
+            return true;
+        }
+        false
+    }
+
+    /// Transforms a RegExp literal to a `new RegExp()` constructor call if it
+    /// contains unsupported features.
+    ///
+    /// This is called when we've determined that the literal needs to be
+    /// rewritten.
+    fn transform_regexp(&self, regex: &Regex) -> Expr {
+        use swc_common::DUMMY_SP;
+
+        // Create `new RegExp(pattern, flags)` constructor
+        let pattern_arg = ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: regex.exp.clone(),
+                raw: None,
+            }))),
+        };
+
+        let flags_arg = ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: regex.flags.clone(),
+                raw: None,
+            }))),
+        };
+
+        Expr::New(NewExpr {
+            span: regex.span,
+            callee: Box::new(Expr::Ident(Ident::new(
+                "RegExp".into(),
+                DUMMY_SP,
+                Default::default(),
+            ))),
+            args: Some(vec![pattern_arg, flags_arg]),
+            type_args: None,
+        })
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for RegExp<'a, '_> {
-    // `#[inline]` to avoid cost of function call for all `Expression`s which aren't
-    // `RegExpLiteral`s
+impl<'a, 'ctx> VisitMutHook<TraverseCtx<'a>> for RegExp<'a, 'ctx> {
+    /// Called when entering an expression node.
+    ///
+    /// Checks if the expression is a RegExp literal that needs transformation,
+    /// and if so, rewrites it to a constructor call.
     #[inline]
-    fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        if matches!(expr, Expression::RegExpLiteral(_)) {
-            self.transform_regexp(expr, ctx);
-        }
-    }
-}
+    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx<'a>) {
+        if let Expr::Lit(Lit::Regex(regex)) = expr {
+            // Check if transformation is needed
+            let needs_transform = self.has_unsupported_flags(&regex.flags)
+                || self.has_unsupported_pattern(&regex.exp);
 
-impl<'a> RegExp<'a, '_> {
-    /// If `RegExpLiteral` contains unsupported syntax or flags, transform to
-    /// `new RegExp(...)`.
-    fn transform_regexp(&self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        let Expression::RegExpLiteral(regexp) = expr else {
-            unreachable!();
-        };
-        let regexp = regexp.as_mut();
-
-        let pattern_text = regexp.regex.pattern.text;
-        let flags = regexp.regex.flags;
-        let has_unsupported_flags = flags.intersects(self.unsupported_flags);
-        if !has_unsupported_flags {
-            if !self.some_unsupported_patterns {
-                // This RegExp has no unsupported flags, and there are no patterns which may
-                // need transforming, so there's nothing to do
-                return;
-            }
-
-            let owned_pattern;
-            let pattern = if let Some(pattern) = &regexp.regex.pattern.pattern {
-                pattern
-            } else {
-                match regexp.parse_pattern(ctx.ast.allocator) {
-                    Ok(pattern) => {
-                        owned_pattern = Some(pattern);
-                        owned_pattern.as_ref().unwrap()
-                    }
-                    Err(error) => {
-                        self.ctx.error(error);
-                        return;
-                    }
-                }
-            };
-
-            if !has_unsupported_regular_expression_pattern(pattern, &self.unsupported_patterns) {
-                return;
+            if needs_transform {
+                *expr = self.transform_regexp(regex);
             }
         }
-
-        let callee = {
-            let symbol_id = ctx.scoping().find_binding(ctx.current_scope_id(), "RegExp");
-            ctx.create_ident_expr(
-                SPAN,
-                Atom::from("RegExp"),
-                symbol_id,
-                ReferenceFlags::read(),
-            )
-        };
-
-        let arguments = ctx.ast.vec_from_array([
-            Argument::from(ctx.ast.expression_string_literal(SPAN, pattern_text, None)),
-            Argument::from(ctx.ast.expression_string_literal(
-                SPAN,
-                ctx.ast.atom(flags.to_inline_string().as_str()),
-                None,
-            )),
-        ]);
-
-        *expr = ctx.ast.expression_new(regexp.span, callee, NONE, arguments);
     }
 }

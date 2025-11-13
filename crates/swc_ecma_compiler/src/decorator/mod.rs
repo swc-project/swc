@@ -3,22 +3,23 @@ mod options;
 
 use legacy::LegacyDecorator;
 pub use options::DecoratorOptions;
-use oxc_ast::ast::*;
-use oxc_traverse::Traverse;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct Decorator<'a, 'ctx> {
+/// Decorator transform plugin that handles both legacy and standard decorators.
+///
+/// This plugin transforms decorator syntax to equivalent JavaScript code.
+/// Currently supports legacy decorators (TypeScript experimental decorators).
+pub struct DecoratorTransform<'a, 'ctx> {
     options: DecoratorOptions,
 
     // Plugins
     legacy_decorator: LegacyDecorator<'a, 'ctx>,
 }
 
-impl<'a, 'ctx> Decorator<'a, 'ctx> {
+impl<'a, 'ctx> DecoratorTransform<'a, 'ctx> {
     pub fn new(options: DecoratorOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
         Self {
             legacy_decorator: LegacyDecorator::new(options.emit_decorator_metadata, ctx),
@@ -27,127 +28,95 @@ impl<'a, 'ctx> Decorator<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for Decorator<'a, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for DecoratorTransform<'_, '_> {
     #[inline]
-    fn exit_program(
-        &mut self,
-        node: &mut Program<'a>,
-        ctx: &mut oxc_traverse::TraverseCtx<'a, TransformState<'a>>,
-    ) {
+    fn exit_program(&mut self, node: &mut Program, ctx: &mut TraverseCtx) {
         if self.options.legacy {
             self.legacy_decorator.exit_program(node, ctx);
         }
     }
 
     #[inline]
-    fn enter_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_stmt(&mut self, stmt: &mut Stmt, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.enter_statement(stmt, ctx);
+            self.legacy_decorator.enter_stmt(stmt, ctx);
         }
     }
 
     #[inline]
-    fn exit_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_stmt(&mut self, stmt: &mut Stmt, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.exit_statement(stmt, ctx);
+            self.legacy_decorator.exit_stmt(stmt, ctx);
         }
     }
 
     #[inline]
-    fn enter_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_class(&mut self, node: &mut Class, ctx: &mut TraverseCtx) {
         if self.options.legacy {
             self.legacy_decorator.enter_class(node, ctx);
         }
     }
 
     #[inline]
-    fn exit_class(&mut self, node: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_class(&mut self, node: &mut Class, ctx: &mut TraverseCtx) {
         if self.options.legacy {
             self.legacy_decorator.exit_class(node, ctx);
         }
     }
 
     #[inline]
-    fn enter_method_definition(
-        &mut self,
-        node: &mut MethodDefinition<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_class_method(&mut self, node: &mut ClassMethod, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.enter_method_definition(node, ctx);
+            self.legacy_decorator.enter_class_method(node, ctx);
         }
     }
 
     #[inline]
-    fn exit_method_definition(
-        &mut self,
-        node: &mut MethodDefinition<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn exit_class_method(&mut self, node: &mut ClassMethod, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.exit_method_definition(node, ctx);
+            self.legacy_decorator.exit_class_method(node, ctx);
         }
     }
 
     #[inline]
-    fn enter_accessor_property(
-        &mut self,
-        node: &mut AccessorProperty<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.enter_accessor_property(node, ctx);
+            self.legacy_decorator.enter_auto_accessor(node, ctx);
         }
     }
 
     #[inline]
-    fn exit_accessor_property(
-        &mut self,
-        node: &mut AccessorProperty<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn exit_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.exit_accessor_property(node, ctx);
+            self.legacy_decorator.exit_auto_accessor(node, ctx);
         }
     }
 
     #[inline]
-    fn enter_property_definition(
-        &mut self,
-        node: &mut PropertyDefinition<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_class_prop(&mut self, node: &mut ClassProp, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.enter_property_definition(node, ctx);
+            self.legacy_decorator.enter_class_prop(node, ctx);
         }
     }
 
     #[inline]
-    fn exit_property_definition(
-        &mut self,
-        node: &mut PropertyDefinition<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn exit_class_prop(&mut self, node: &mut ClassProp, ctx: &mut TraverseCtx) {
         if self.options.legacy {
-            self.legacy_decorator.exit_property_definition(node, ctx);
+            self.legacy_decorator.exit_class_prop(node, ctx);
         }
     }
 
     #[inline]
-    fn enter_decorator(
-        &mut self,
-        node: &mut oxc_ast::ast::Decorator<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_decorator(&mut self, node: &mut swc_ecma_ast::Decorator, ctx: &mut TraverseCtx) {
         if self.options.legacy {
             self.legacy_decorator.enter_decorator(node, ctx);
         }
     }
 }
 
-impl<'a> Decorator<'a, '_> {
+impl DecoratorTransform<'_, '_> {
     #[inline]
-    pub fn exit_class_at_end(&mut self, class: &mut Class<'a>, ctx: &mut TraverseCtx<'a>) {
+    pub fn exit_class_at_end(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
         if self.options.legacy {
             self.legacy_decorator.exit_class_at_end(class, ctx);
         }

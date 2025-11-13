@@ -1,11 +1,7 @@
-use oxc_ast::ast::*;
-use oxc_diagnostics::OxcDiagnostic;
-use oxc_traverse::Traverse;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
 mod export_namespace_from;
 mod nullish_coalescing_operator;
@@ -38,109 +34,50 @@ impl<'a, 'ctx> ES2020<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ES2020<'a, '_> {
-    fn exit_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.options.export_namespace_from {
-            self.export_namespace_from.exit_program(program, ctx);
-        }
+impl VisitMutHook<TraverseCtx<'_>> for ES2020<'_, '_> {
+    fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {
+        // TODO: Delegate to export_namespace_from when enabled
+        // if self.options.export_namespace_from {
+        //     self.export_namespace_from.exit_program(program, ctx);
+        // }
     }
 
-    fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.options.nullish_coalescing_operator {
-            self.nullish_coalescing_operator.enter_expression(expr, ctx);
-        }
-
-        if self.options.optional_chaining {
-            self.optional_chaining.enter_expression(expr, ctx);
-        }
+    fn enter_expr(&mut self, _expr: &mut Expr, _ctx: &mut TraverseCtx) {
+        // TODO: Delegate to transforms when enabled
+        // if self.options.nullish_coalescing_operator {
+        //     self.nullish_coalescing_operator.enter_expr(expr, ctx);
+        // }
+        //
+        // if self.options.optional_chaining {
+        //     self.optional_chaining.enter_expr(expr, ctx);
+        // }
     }
 
-    fn enter_formal_parameters(
-        &mut self,
-        node: &mut FormalParameters<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        if self.options.optional_chaining {
-            self.optional_chaining.enter_formal_parameters(node, ctx);
-        }
+    fn enter_big_int(&mut self, _node: &mut BigInt, _ctx: &mut TraverseCtx) {
+        // TODO: Emit warning when big_int option is enabled
+        // if self.options.big_int {
+        //     // Warning: Big integer literals are not available
+        // }
     }
 
-    fn exit_formal_parameters(
-        &mut self,
-        node: &mut FormalParameters<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        if self.options.optional_chaining {
-            self.optional_chaining.exit_formal_parameters(node, ctx);
-        }
+    fn enter_import_specifier(&mut self, _node: &mut ImportSpecifier, _ctx: &mut TraverseCtx) {
+        // TODO: Check for arbitrary_module_namespace_names when enabled
+        // if self.options.arbitrary_module_namespace_names {
+        //     // Check for string literal module names
+        // }
     }
 
-    fn enter_big_int_literal(&mut self, node: &mut BigIntLiteral<'a>, _ctx: &mut TraverseCtx<'a>) {
-        if self.options.big_int {
-            let warning = OxcDiagnostic::warn(
-                "Big integer literals are not available in the configured target environment.",
-            )
-            .with_label(node.span);
-            self.ctx.error(warning);
-        }
+    fn enter_export_specifier(&mut self, _node: &mut ExportSpecifier, _ctx: &mut TraverseCtx) {
+        // TODO: Check for arbitrary_module_namespace_names when enabled
+        // if self.options.arbitrary_module_namespace_names {
+        //     // Check for string literal module names
+        // }
     }
 
-    fn enter_import_specifier(
-        &mut self,
-        node: &mut ImportSpecifier<'a>,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
-        if self.options.arbitrary_module_namespace_names
-            && let ModuleExportName::StringLiteral(literal) = &node.imported
-        {
-            let warning = OxcDiagnostic::warn(
-                "Arbitrary module namespace identifier names are not available in the configured \
-                 target environment.",
-            )
-            .with_label(literal.span);
-            self.ctx.error(warning);
-        }
-    }
-
-    fn enter_export_specifier(
-        &mut self,
-        node: &mut ExportSpecifier<'a>,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
-        if self.options.arbitrary_module_namespace_names {
-            if let ModuleExportName::StringLiteral(literal) = &node.exported {
-                let warning = OxcDiagnostic::warn(
-                    "Arbitrary module namespace identifier names are not available in the \
-                     configured target environment.",
-                )
-                .with_label(literal.span);
-                self.ctx.error(warning);
-            }
-            if let ModuleExportName::StringLiteral(literal) = &node.local {
-                let warning = OxcDiagnostic::warn(
-                    "Arbitrary module namespace identifier names are not available in the \
-                     configured target environment.",
-                )
-                .with_label(literal.span);
-                self.ctx.error(warning);
-            }
-        }
-    }
-
-    fn enter_export_all_declaration(
-        &mut self,
-        node: &mut ExportAllDeclaration<'a>,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
-        if self.options.arbitrary_module_namespace_names
-            && let Some(ModuleExportName::StringLiteral(literal)) = &node.exported
-        {
-            let warning = OxcDiagnostic::warn(
-                "Arbitrary module namespace identifier names are not available in the configured \
-                 target environment.",
-            )
-            .with_label(literal.span);
-            self.ctx.error(warning);
-        }
+    fn enter_export_all(&mut self, _node: &mut ExportAll, _ctx: &mut TraverseCtx) {
+        // TODO: Check for arbitrary_module_namespace_names when enabled
+        // if self.options.arbitrary_module_namespace_names {
+        //     // Check for string literal module names
+        // }
     }
 }

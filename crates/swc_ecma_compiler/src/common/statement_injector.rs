@@ -1,11 +1,10 @@
-//! Utility transform to add new statements before or after the specified
-//! statement.
+//! Utility to add new statements before or after the specified statement.
 //!
 //! `StatementInjectorStore` contains a `FxHashMap<Address,
 //! Vec<AdjacentStatement>>`. It is stored on `TransformCtx`.
 //!
-//! `StatementInjector` transform inserts new statements before or after a
-//! statement which is determined by the address of the statement.
+//! The store inserts new statements before or after a statement which is
+//! determined by the address of the statement.
 //!
 //! Other transforms can add statements to the store with following methods:
 //!
@@ -19,42 +18,9 @@ use std::{cell::RefCell, collections::hash_map::Entry};
 
 use oxc_allocator::{Address, GetAddress, Vec as ArenaVec};
 use oxc_ast::ast::*;
-use oxc_traverse::Traverse;
 use rustc_hash::FxHashMap;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
-
-/// Transform that inserts any statements which have been requested insertion
-/// via `StatementInjectorStore`
-pub struct StatementInjector<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
-}
-
-impl<'a, 'ctx> StatementInjector<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { ctx }
-    }
-}
-
-impl<'a> Traverse<'a, TransformState<'a>> for StatementInjector<'a, '_> {
-    fn exit_statements(
-        &mut self,
-        statements: &mut ArenaVec<'a, Statement<'a>>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        self.ctx
-            .statement_injector
-            .insert_into_statements(statements, ctx);
-    }
-
-    #[inline]
-    fn exit_program(&mut self, _program: &mut Program<'a>, _ctx: &mut TraverseCtx<'a>) {
-        self.ctx.statement_injector.assert_no_insertions_remaining();
-    }
-}
+use crate::context::TraverseCtx;
 
 #[derive(Debug)]
 enum Direction {

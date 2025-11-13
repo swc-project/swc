@@ -1,10 +1,7 @@
-use oxc_ast::ast::*;
-use oxc_traverse::Traverse;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
 mod logical_assignment_operators;
 mod options;
@@ -28,11 +25,11 @@ impl<'a, 'ctx> ES2021<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ES2021<'a, '_> {
-    fn enter_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.options.logical_assignment_operators {
-            self.logical_assignment_operators
-                .enter_expression(expr, ctx);
-        }
+impl VisitMutHook<TraverseCtx<'_>> for ES2021<'_, '_> {
+    fn enter_expr(&mut self, _expr: &mut Expr, _ctx: &mut TraverseCtx) {
+        // TODO: Delegate to logical_assignment_operators when enabled
+        // if self.options.logical_assignment_operators {
+        //     self.logical_assignment_operators.enter_expr(expr, ctx);
+        // }
     }
 }

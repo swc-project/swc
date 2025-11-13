@@ -72,13 +72,13 @@ mod for_await;
 use oxc_allocator::TakeIn;
 use oxc_ast::ast::*;
 use oxc_span::SPAN;
-use oxc_traverse::{Ancestor, Traverse};
+use oxc_traverse::Ancestor;
+use swc_ecma_hooks::VisitMutHook;
 
 use crate::{
     common::helper_loader::Helper,
     context::{TransformCtx, TraverseCtx},
     es2017::AsyncGeneratorExecutor,
-    state::TransformState,
 };
 
 pub struct AsyncGeneratorFunctions<'a, 'ctx> {
@@ -95,8 +95,8 @@ impl<'a, 'ctx> AsyncGeneratorFunctions<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for AsyncGeneratorFunctions<'a, '_> {
-    fn exit_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+impl VisitMutHook<TraverseCtx<'_>> for AsyncGeneratorFunctions<'_, '_> {
+    fn exit_expression(&mut self, expr: &mut Expression, ctx: &mut TraverseCtx) {
         let new_expr = match expr {
             Expression::AwaitExpression(await_expr) => {
                 self.transform_await_expression(await_expr, ctx)
@@ -119,11 +119,11 @@ impl<'a> Traverse<'a, TransformState<'a>> for AsyncGeneratorFunctions<'a, '_> {
         }
     }
 
-    fn enter_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn enter_statement(&mut self, stmt: &mut Statement, ctx: &mut TraverseCtx) {
         self.transform_statement(stmt, ctx);
     }
 
-    fn exit_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_statement(&mut self, stmt: &mut Statement, ctx: &mut TraverseCtx) {
         let function = match stmt {
             Statement::FunctionDeclaration(func) => Some(func),
             Statement::ExportDefaultDeclaration(decl) => {
@@ -157,7 +157,7 @@ impl<'a> Traverse<'a, TransformState<'a>> for AsyncGeneratorFunctions<'a, '_> {
         }
     }
 
-    fn exit_function(&mut self, func: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_function(&mut self, func: &mut Function, ctx: &mut TraverseCtx) {
         if func.r#async
             && func.generator
             && !func.is_typescript_syntax()

@@ -1,13 +1,10 @@
-//! Utility transform to add `var` or `let` declarations to top of statement
-//! blocks.
+//! Utility to add `var` or `let` declarations to top of statement blocks.
 //!
-//! `VarDeclarationsStore` contains a stack of `Declarators`s, each comprising
+//! `VarDeclarationsStore` contains a stack of `Declarators`, each comprising
 //! 2 x `Vec<Declarator<'a>>` (1 for `var`s, 1 for `let`s).
 //! `VarDeclarationsStore` is stored on `TransformCtx`.
 //!
-//! `VarDeclarations` transform pushes an empty entry onto this stack when
-//! entering a statement block, and when exiting the block, writes `var` / `let`
-//! statements to top of block.
+//! The store manages inserting `var` / `let` statements at the top of blocks.
 //!
 //! Other transforms can add declarators to the store by calling methods of
 //! `VarDeclarationsStore`:
@@ -23,49 +20,9 @@ use oxc_allocator::Vec as ArenaVec;
 use oxc_ast::ast::*;
 use oxc_data_structures::stack::SparseStack;
 use oxc_span::SPAN;
-use oxc_traverse::{ast_operations::GatherNodeParts, Ancestor, BoundIdentifier, Traverse};
+use oxc_traverse::{ast_operations::GatherNodeParts, Ancestor, BoundIdentifier};
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
-
-/// Transform that maintains the stack of `Vec<VariableDeclarator>`s, and adds a
-/// `var` statement to top of a statement block if another transform has
-/// requested that.
-///
-/// Must run after all other transforms except `TopLevelStatements`.
-pub struct VarDeclarations<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
-}
-
-impl<'a, 'ctx> VarDeclarations<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
-        Self { ctx }
-    }
-}
-
-impl<'a> Traverse<'a, TransformState<'a>> for VarDeclarations<'a, '_> {
-    fn enter_statements(
-        &mut self,
-        _stmts: &mut ArenaVec<'a, Statement<'a>>,
-        _ctx: &mut TraverseCtx<'a>,
-    ) {
-        self.ctx.var_declarations.record_entering_statements();
-    }
-
-    fn exit_statements(
-        &mut self,
-        stmts: &mut ArenaVec<'a, Statement<'a>>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        self.ctx.var_declarations.insert_into_statements(stmts, ctx);
-    }
-
-    fn exit_program(&mut self, _program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.ctx.var_declarations.insert_into_program(self.ctx, ctx);
-    }
-}
+use crate::context::{TransformCtx, TraverseCtx};
 
 /// Store for `VariableDeclarator`s to be added to enclosing statement block.
 pub struct VarDeclarationsStore<'a> {
