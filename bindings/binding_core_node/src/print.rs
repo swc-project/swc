@@ -48,6 +48,7 @@ impl Task for PrintTask {
                         codegen_config: swc_core::ecma::codegen::Config::default()
                             .with_target(options.config.jsc.target.unwrap_or(EsVersion::Es2020))
                             .with_minify(options.config.minify.into_bool()),
+                        source_file_name: Some(&options.filename),
                         ..Default::default()
                     },
                 )
@@ -108,6 +109,7 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
                 codegen_config: swc_core::ecma::codegen::Config::default()
                     .with_target(codegen_target)
                     .with_minify(options.config.minify.into_bool()),
+                source_file_name: Some(&options.filename),
                 ..Default::default()
             },
         )
