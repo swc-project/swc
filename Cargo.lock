@@ -5515,7 +5515,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "47.0.4"
+version = "47.0.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6020,7 +6020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_hooks"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -6097,7 +6097,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "36.0.1"
+version = "36.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6141,7 +6141,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "27.0.3"
+version = "27.0.4"
 dependencies = [
  "bitflags 2.6.0",
  "cbor4ii",
