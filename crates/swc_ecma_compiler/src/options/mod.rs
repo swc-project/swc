@@ -28,8 +28,6 @@ mod module;
 use babel::BabelOptions;
 pub use env::EnvOptions;
 pub use module::Module;
-pub use oxc_compat::{Engine, EngineTargets};
-pub use oxc_syntax::es_target::ESTarget;
 
 /// <https://babel.dev/docs/options>
 #[derive(Debug, Default, Clone)]
@@ -138,19 +136,6 @@ impl TransformOptions {
             env,
             ..Self::default()
         })
-    }
-}
-
-impl From<ESTarget> for TransformOptions {
-    fn from(target: ESTarget) -> Self {
-        use oxc_compat::ESVersion;
-        let mut engine_targets = EngineTargets::default();
-        engine_targets.insert(Engine::Es, target.version());
-        let env = EnvOptions::from(engine_targets);
-        Self {
-            env,
-            ..Self::default()
-        }
     }
 }
 

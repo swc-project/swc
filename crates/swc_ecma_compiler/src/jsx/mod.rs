@@ -1,10 +1,9 @@
-use oxc_ast::{ast::*, AstBuilder};
-use oxc_traverse::Traverse;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 
 use crate::{
     context::{TransformCtx, TraverseCtx},
     es2018::ObjectRestSpreadOptions,
-    state::TransformState,
 };
 
 mod comments;
@@ -46,7 +45,6 @@ impl<'a, 'ctx> Jsx<'a, 'ctx> {
     pub fn new(
         mut options: JsxOptions,
         object_rest_spread_options: Option<ObjectRestSpreadOptions>,
-        ast: AstBuilder<'a>,
         ctx: &'ctx TransformCtx<'a>,
     ) -> Self {
         if options.jsx_plugin || options.development {
@@ -61,29 +59,26 @@ impl<'a, 'ctx> Jsx<'a, 'ctx> {
         } = options;
         let refresh = options.refresh.clone();
         Self {
-            implementation: JsxImpl::new(options, object_rest_spread_options, ast, ctx),
+            implementation: JsxImpl::new(options, object_rest_spread_options, ctx),
             display_name: ReactDisplayName::new(ctx),
             enable_jsx_plugin: jsx_plugin,
             display_name_plugin,
             self_plugin: jsx_self_plugin,
             source_plugin: jsx_source_plugin,
             refresh_plugin: refresh.is_some(),
-            refresh: ReactRefresh::new(&refresh.unwrap_or_default(), ast, ctx),
+            refresh: ReactRefresh::new(&refresh.unwrap_or_default(), ctx),
         }
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for Jsx<'a, '_> {
-    fn enter_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        if self.enable_jsx_plugin {
-            program.source_type = program.source_type.with_standard(true);
-        }
+impl<'a> VisitMutHook<TraverseCtx<'a>> for Jsx<'a, '_> {
+    fn enter_program(&mut self, program: &mut Program, ctx: &mut TraverseCtx<'a>) {
         if self.refresh_plugin {
             self.refresh.enter_program(program, ctx);
         }
     }
 
-    fn exit_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_program(&mut self, program: &mut Program, ctx: &mut TraverseCtx<'a>) {
         if self.refresh_plugin {
             self.refresh.exit_program(program, ctx);
         }
@@ -94,23 +89,19 @@ impl<'a> Traverse<'a, TransformState<'a>> for Jsx<'a, '_> {
         }
     }
 
-    fn enter_call_expression(
-        &mut self,
-        call_expr: &mut CallExpression<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
+    fn enter_call_expr(&mut self, call_expr: &mut CallExpr, ctx: &mut TraverseCtx<'a>) {
         if self.display_name_plugin {
-            self.display_name.enter_call_expression(call_expr, ctx);
+            self.display_name.enter_call_expr(call_expr, ctx);
         }
 
         if self.refresh_plugin {
-            self.refresh.enter_call_expression(call_expr, ctx);
+            self.refresh.enter_call_expr(call_expr, ctx);
         }
     }
 
     fn enter_jsx_opening_element(
         &mut self,
-        elem: &mut JSXOpeningElement<'a>,
+        elem: &mut JSXOpeningElement,
         ctx: &mut TraverseCtx<'a>,
     ) {
         if !self.enable_jsx_plugin {
@@ -127,16 +118,16 @@ impl<'a> Traverse<'a, TransformState<'a>> for Jsx<'a, '_> {
         }
     }
 
-    fn exit_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx<'a>) {
         if self.enable_jsx_plugin {
-            self.implementation.exit_expression(expr, ctx);
+            self.implementation.exit_expr(expr, ctx);
         }
         if self.refresh_plugin {
-            self.refresh.exit_expression(expr, ctx);
+            self.refresh.exit_expr(expr, ctx);
         }
     }
 
-    fn exit_function(&mut self, func: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_function(&mut self, func: &mut Function, ctx: &mut TraverseCtx<'a>) {
         if self.refresh_plugin {
             self.refresh.exit_function(func, ctx);
         }

@@ -5996,13 +5996,16 @@ dependencies = [
 name = "swc_ecma_compiler"
 version = "8.0.0"
 dependencies = [
+ "base64 0.22.1",
  "bitflags 2.6.0",
  "indexmap 2.7.1",
  "itoa",
  "memchr",
+ "once_cell",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
+ "sha1",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",

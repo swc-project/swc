@@ -1,8 +1,10 @@
-use oxc_syntax::{
-    scope::ScopeId,
-    symbol::{SymbolFlags, SymbolId},
-};
-use oxc_traverse::BoundIdentifier;
+//! Store for bindings for class.
+//!
+//! This module provides simplified binding management for class transformations
+//! in SWC, replacing oxc's more complex semantic tracking system.
+
+use swc_atoms::Atom;
+use swc_ecma_ast::*;
 
 use crate::context::TraverseCtx;
 
@@ -19,34 +21,14 @@ use crate::context::TraverseCtx;
 ///   Reference to class name e.g. `class C { static x = C; }` c. A private
 ///   field referring to one of the class's static private props. e.g. `class C
 ///   { static #x; static y = obj.#x; }`
-///
-/// The logic for when transpiled private fields use a reference to class name
-/// or class temp var is unfortunately rather complicated.
-///
-/// Transpiled private fields referring to a static private prop use:
-///
-/// * Class name when field is within body of class declaration e.g. `class C {
-///   static #x; method() { return obj.#x; } }` -> `_assertClassBrand(C, obj,
-///   _x)._`
-/// * Temp var when field is within body of class expression e.g. `C = class C {
-///   static #x; method() { return obj.#x; } }` -> `_assertClassBrand(_C, obj,
-///   _x)._`
-/// * Temp var when field is within a static prop initializer e.g. `class C {
-///   static #x; static y = obj.#x; }` -> `_assertClassBrand(_C, obj, _x)._`
-///
-/// `static_private_fields_use_temp` is updated as transform moves through the
-/// class, to indicate which binding to use.
-pub(super) struct ClassBindings<'a> {
+pub(super) struct ClassBindings {
     /// Binding for class name, if class has name
-    pub name: Option<BoundIdentifier<'a>>,
+    pub name: Option<Atom>,
     /// Temp var for class.
     /// e.g. `_Class` in `_Class = class {}, _Class.x = 1, _Class`
-    pub temp: Option<BoundIdentifier<'a>>,
-    /// Temp var for WeakSet.
-    pub brand: Option<BoundIdentifier<'a>>,
-    /// `ScopeId` of hoist scope outside class (which temp `var` binding would
-    /// be created in)
-    pub outer_hoist_scope_id: ScopeId,
+    pub temp: Option<Atom>,
+    /// Temp var for WeakSet (for private methods).
+    pub brand: Option<Atom>,
     /// `true` if should use temp binding for references to class in transpiled
     /// static private fields, `false` if can use name binding
     pub static_private_fields_use_temp: bool,
@@ -54,13 +36,12 @@ pub(super) struct ClassBindings<'a> {
     pub temp_var_is_created: bool,
 }
 
-impl<'a> ClassBindings<'a> {
+impl ClassBindings {
     /// Create new `ClassBindings`.
     pub fn new(
-        name_binding: Option<BoundIdentifier<'a>>,
-        temp_binding: Option<BoundIdentifier<'a>>,
-        brand_binding: Option<BoundIdentifier<'a>>,
-        outer_scope_id: ScopeId,
+        name_binding: Option<Atom>,
+        temp_binding: Option<Atom>,
+        brand_binding: Option<Atom>,
         static_private_fields_use_temp: bool,
         temp_var_is_created: bool,
     ) -> Self {
@@ -68,7 +49,6 @@ impl<'a> ClassBindings<'a> {
             name: name_binding,
             temp: temp_binding,
             brand: brand_binding,
-            outer_hoist_scope_id: outer_scope_id,
             static_private_fields_use_temp,
             temp_var_is_created,
         }
@@ -79,22 +59,22 @@ impl<'a> ClassBindings<'a> {
     /// Used when class needs no transform, and for dummy entry at top of
     /// `ClassesStack`.
     pub fn dummy() -> Self {
-        Self::new(None, None, None, ScopeId::new(0), false, false)
+        Self::new(None, None, None, false, false)
     }
 
-    /// Get `SymbolId` of name binding.
-    pub fn name_symbol_id(&self) -> Option<SymbolId> {
-        self.name.as_ref().map(|binding| binding.symbol_id)
+    /// Get name as atom.
+    pub fn name_atom(&self) -> Option<&Atom> {
+        self.name.as_ref()
     }
 
-    /// Get [`BoundIdentifier`] for class brand.
+    /// Get [`Atom`] for class brand.
     ///
     /// Only use this method when you are sure that [Self::brand] is not `None`,
     /// this will happen when there is a private method in the class.
     ///
     /// # Panics
     /// Panics if [Self::brand] is `None`.
-    pub fn brand(&self) -> &BoundIdentifier<'a> {
+    pub fn brand(&self) -> &Atom {
         self.brand.as_ref().unwrap()
     }
 
@@ -104,7 +84,7 @@ impl<'a> ClassBindings<'a> {
     /// e.g. `Class` in `_assertClassBrand(Class, object, _prop)._` (class name)
     /// or `_Class` in `_assertClassBrand(_Class, object, _prop)._` (temp var)
     ///
-    /// * In class expressions, this is always be temp binding.
+    /// * In class expressions, this is always temp binding.
     /// * In class declarations, it's the name binding when code is inside class
     ///   body, and temp binding when code is outside class body.
     ///
@@ -113,15 +93,11 @@ impl<'a> ClassBindings<'a> {
     ///
     /// If a temp binding is required, and one doesn't already exist, a temp
     /// binding is created.
-    pub fn get_or_init_static_binding(
-        &mut self,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> &BoundIdentifier<'a> {
+    pub fn get_or_init_static_binding(&mut self, _ctx: &mut TraverseCtx) -> &Atom {
         if self.static_private_fields_use_temp {
             // Create temp binding if doesn't already exist
-            self.temp.get_or_insert_with(|| {
-                Self::create_temp_binding(self.name.as_ref(), self.outer_hoist_scope_id, ctx)
-            })
+            self.temp
+                .get_or_insert_with(|| Self::create_temp_binding_name(self.name.as_ref()))
         } else {
             // `static_private_fields_use_temp` is always `true` for class expressions.
             // Class declarations always have a name binding if they have any static props.
@@ -130,20 +106,17 @@ impl<'a> ClassBindings<'a> {
         }
     }
 
-    /// Generate binding for temp var.
-    pub fn create_temp_binding(
-        name_binding: Option<&BoundIdentifier<'a>>,
-        outer_hoist_scope_id: ScopeId,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> BoundIdentifier<'a> {
+    /// Generate binding name for temp var.
+    pub fn create_temp_binding(name_binding: Option<&Atom>, _ctx: &mut TraverseCtx) -> Atom {
+        Self::create_temp_binding_name(name_binding)
+    }
+
+    /// Generate binding name for temp var.
+    fn create_temp_binding_name(name_binding: Option<&Atom>) -> Atom {
         // Base temp binding name on class name, or "Class" if no name.
-        // TODO(improve-on-babel): If class name var isn't mutated, no need for temp var
-        // for class declaration. Can just use class binding.
-        let name = name_binding.map_or("Class", |binding| binding.name.as_str());
-        ctx.generate_uid(
-            name,
-            outer_hoist_scope_id,
-            SymbolFlags::FunctionScopedVariable,
-        )
+        let name = name_binding.map_or("Class", |atom| atom.as_str());
+        // Simple UID generation - just prepend underscore
+        // In a full implementation, this would check for conflicts
+        Atom::from(format!("_{}", name))
     }
 }

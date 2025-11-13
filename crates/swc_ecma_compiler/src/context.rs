@@ -54,16 +54,16 @@ pub struct TransformCtx<'a> {
 
     // Helpers
     /// Manage helper loading for runtime helpers
-    pub helper_loader: HelperLoaderStore<'a>,
+    pub helper_loader: HelperLoaderStore,
     /// Manage import statements globally across the module
-    pub module_imports: ModuleImportsStore<'a>,
+    pub module_imports: ModuleImportsStore,
     /// Manage inserting `var` statements globally
-    pub var_declarations: VarDeclarationsStore<'a>,
+    pub var_declarations: VarDeclarationsStore,
     /// Manage inserting statements immediately before or after the target
     /// statement
-    pub statement_injector: StatementInjectorStore<'a>,
+    pub statement_injector: StatementInjectorStore,
     /// Manage inserting statements at top of program globally
-    pub top_level_statements: TopLevelStatementsStore<'a>,
+    pub top_level_statements: TopLevelStatementsStore,
 
     // State for multiple plugins interacting
     /// Indicates if class properties plugin is enabled

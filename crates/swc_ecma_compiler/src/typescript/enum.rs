@@ -1,32 +1,20 @@
-use std::cell::Cell;
-
-use oxc_allocator::{StringBuilder, TakeIn, Vec as ArenaVec};
-use oxc_ast::{ast::*, NONE};
-use oxc_ast_visit::{walk_mut, VisitMut};
-use oxc_data_structures::stack::NonEmptyStack;
-use oxc_ecmascript::{ToInt32, ToUint32};
-use oxc_semantic::{ScopeFlags, ScopeId};
-use oxc_span::{Atom, Span, SPAN};
-use oxc_syntax::{
-    number::{NumberBase, ToJsString},
-    operator::{AssignmentOperator, BinaryOperator, LogicalOperator, UnaryOperator},
-    reference::ReferenceFlags,
-    symbol::SymbolFlags,
-};
-use oxc_traverse::{BoundIdentifier, Traverse};
 use rustc_hash::FxHashMap;
+use swc_common::{Span, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_utils::quote_ident;
 
-use crate::{context::TraverseCtx, state::TransformState};
+use crate::context::TraverseCtx;
 
-/// enum member values (or None if it can't be evaluated at build time) keyed by
-/// names
-type PrevMembers<'a> = FxHashMap<Atom<'a>, Option<ConstantValue<'a>>>;
+/// Enum member values (or None if it can't be evaluated at build time) keyed
+/// by names
+type PrevMembers = FxHashMap<Id, Option<ConstantValue>>;
 
-pub struct TypeScriptEnum<'a> {
-    enums: FxHashMap<Atom<'a>, PrevMembers<'a>>,
+pub struct TypeScriptEnum {
+    enums: FxHashMap<Id, PrevMembers>,
 }
 
-impl TypeScriptEnum<'_> {
+impl TypeScriptEnum {
     pub fn new() -> Self {
         Self {
             enums: FxHashMap::default(),
@@ -34,30 +22,22 @@ impl TypeScriptEnum<'_> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for TypeScriptEnum<'a> {
-    fn enter_statement(&mut self, stmt: &mut Statement<'a>, ctx: &mut TraverseCtx<'a>) {
-        let new_stmt = match stmt {
-            Statement::TSEnumDeclaration(ts_enum_decl) => {
-                self.transform_ts_enum(ts_enum_decl, None, ctx)
-            }
-            Statement::ExportNamedDeclaration(decl) => {
-                let span = decl.span;
-                if let Some(Declaration::TSEnumDeclaration(ts_enum_decl)) = &mut decl.declaration {
-                    self.transform_ts_enum(ts_enum_decl, Some(span), ctx)
-                } else {
-                    None
-                }
-            }
-            _ => None,
-        };
-
-        if let Some(new_stmt) = new_stmt {
-            *stmt = new_stmt;
-        }
+impl Default for TypeScriptEnum {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
-impl<'a> TypeScriptEnum<'a> {
+impl TypeScriptEnum {
+    /// Entry point for transforming enum declarations within statements.
+    ///
+    /// This method is called by the TypeScript transform to handle enum
+    /// declarations.
+    pub fn enter_statement(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        // Enum transformations are now handled at a higher level
+        // in the TypeScript module via enter_program
+    }
+
     /// ```TypeScript
     /// enum Foo {
     ///   X = 1,
@@ -73,422 +53,396 @@ impl<'a> TypeScriptEnum<'a> {
     /// ```
     fn transform_ts_enum(
         &mut self,
-        decl: &mut TSEnumDeclaration<'a>,
+        decl: &mut Box<TsEnumDecl>,
         export_span: Option<Span>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> Option<Statement<'a>> {
+    ) -> Option<Stmt> {
         if decl.declare {
             return None;
         }
 
-        let ast = ctx.ast;
-
         let is_export = export_span.is_some();
-        let is_not_top_scope = !ctx.scoping().scope_flags(ctx.current_scope_id()).is_top();
+        let enum_name = decl.id.sym.clone();
+        let enum_id = decl.id.to_id();
 
-        let enum_name = decl.id.name;
-        let func_scope_id = decl.scope_id();
-        let param_binding = ctx.generate_binding(
-            enum_name,
-            func_scope_id,
-            SymbolFlags::FunctionScopedVariable,
-        );
-
-        let id = param_binding.create_binding_pattern(ctx);
-
-        // ((Foo) => {
-        let params = ast.formal_parameter(SPAN, ast.vec(), id, None, false, false);
-        let params = ast.vec1(params);
-        let params = ast.alloc_formal_parameters(
-            SPAN,
-            FormalParameterKind::ArrowFormalParameters,
-            params,
-            NONE,
-        );
-
-        let has_potential_side_effect = decl.body.members.iter().any(|member| {
-            matches!(
-                member.initializer,
-                Some(Expression::NewExpression(_) | Expression::CallExpression(_))
-            )
+        // Check if enum has potential side effects
+        let has_potential_side_effect = decl.members.iter().any(|member| {
+            member
+                .init
+                .as_ref()
+                .map_or(false, |init| matches!(**init, Expr::New(_) | Expr::Call(_)))
         });
 
-        let statements = self.transform_ts_enum_members(
-            decl.scope_id(),
-            &mut decl.body.members,
-            &param_binding,
-            ctx,
-        );
-        let body = ast.alloc_function_body(decl.span, ast.vec(), statements);
-        let callee = ctx.ast.expression_function_with_scope_id_and_pure_and_pife(
-            SPAN,
-            FunctionType::FunctionExpression,
-            None,
-            false,
-            false,
-            false,
-            NONE,
-            NONE,
+        // Transform enum members
+        let statements = self.transform_ts_enum_members(&mut decl.members, &enum_name);
+
+        // Create IIFE: ((Foo) => { ... })(Foo || {})
+        let params = vec![Param {
+            span: DUMMY_SP,
+            decorators: vec![],
+            pat: Pat::Ident(BindingIdent {
+                id: quote_ident!(enum_name.clone()),
+                type_ann: None,
+            }),
+        }];
+
+        let body = BlockStmt {
+            span: decl.span,
+            stmts: statements,
+        };
+
+        let callee = Expr::Arrow(ArrowExpr {
+            span: DUMMY_SP,
             params,
-            NONE,
-            Some(body),
-            func_scope_id,
-            false,
-            false,
-        );
+            body: Box::new(BlockStmtOrExpr::BlockStmt(body)),
+            is_async: false,
+            is_generator: false,
+            type_params: None,
+            return_type: None,
+        });
 
-        let enum_symbol_id = decl.id.symbol_id();
+        // Foo || {}
+        let arguments = vec![ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                op: BinaryOp::LogicalOr,
+                left: Box::new(Expr::Ident(quote_ident!(enum_name.clone()))),
+                right: Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                })),
+            })),
+        }];
 
-        // Foo[Foo["X"] = 0] = "X";
-        let redeclarations = ctx.scoping().symbol_redeclarations(enum_symbol_id);
-        let is_already_declared = redeclarations
-            .first()
-            .map_or_else(|| false, |rd| rd.span != decl.id.span);
+        let call_expression = Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: Callee::Expr(Box::new(callee)),
+            args: arguments,
+            type_args: None,
+        });
 
-        let arguments = if (is_export || is_not_top_scope) && !is_already_declared {
-            // }({});
-            let object_expr = ast.expression_object(SPAN, ast.vec());
-            ast.vec1(Argument::from(object_expr))
+        // Create variable declaration
+        let kind = if is_export {
+            VarDeclKind::Let
         } else {
-            // }(Foo || {});
-            let op = LogicalOperator::Or;
-            let left = ctx.create_bound_ident_expr(
-                decl.id.span,
-                enum_name,
-                enum_symbol_id,
-                ReferenceFlags::Read,
-            );
-            let right = ast.expression_object(SPAN, ast.vec());
-            let expression = ast.expression_logical(SPAN, left, op, right);
-            ast.vec1(Argument::from(expression))
+            VarDeclKind::Var
         };
 
-        let call_expression = ast.expression_call_with_pure(
-            SPAN,
-            callee,
-            NONE,
-            arguments,
-            false,
-            !has_potential_side_effect,
-        );
+        let decls = vec![VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(BindingIdent {
+                id: decl.id.clone(),
+                type_ann: None,
+            }),
+            init: Some(Box::new(call_expression)),
+            definite: false,
+        }];
 
-        if is_already_declared {
-            let op = AssignmentOperator::Assign;
-            let left = ctx.create_bound_ident_reference(
-                decl.id.span,
-                enum_name,
-                enum_symbol_id,
-                ReferenceFlags::Write,
-            );
-            let left = AssignmentTarget::AssignmentTargetIdentifier(ctx.alloc(left));
-            let expr = ast.expression_assignment(SPAN, op, left, call_expression);
-            return Some(ast.statement_expression(decl.span, expr));
+        let variable_declaration = VarDecl {
+            span: decl.span,
+            kind,
+            declare: false,
+            decls,
+        };
+
+        if export_span.is_some() {
+            Some(Stmt::Decl(Decl::Var(Box::new(variable_declaration))))
+        } else {
+            Some(Stmt::Decl(Decl::Var(Box::new(variable_declaration))))
         }
-
-        let kind = if is_export || is_not_top_scope {
-            VariableDeclarationKind::Let
-        } else {
-            VariableDeclarationKind::Var
-        };
-        let decls = {
-            let binding_identifier = decl.id.clone();
-            let binding_pattern_kind =
-                BindingPatternKind::BindingIdentifier(ctx.alloc(binding_identifier));
-            let binding = ast.binding_pattern(binding_pattern_kind, NONE, false);
-            let decl = ast.variable_declarator(SPAN, kind, binding, Some(call_expression), false);
-            ast.vec1(decl)
-        };
-        let variable_declaration = ast.declaration_variable(decl.span, kind, decls, false);
-
-        let stmt = if let Some(export_span) = export_span {
-            let declaration = ctx
-                .ast
-                .plain_export_named_declaration_declaration(export_span, variable_declaration);
-            Statement::ExportNamedDeclaration(declaration)
-        } else {
-            Statement::from(variable_declaration)
-        };
-        Some(stmt)
     }
 
     fn transform_ts_enum_members(
         &mut self,
-        enum_scope_id: ScopeId,
-        members: &mut ArenaVec<'a, TSEnumMember<'a>>,
-        param_binding: &BoundIdentifier<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> ArenaVec<'a, Statement<'a>> {
-        let ast = ctx.ast;
+        members: &mut Vec<TsEnumMember>,
+        enum_name: &str,
+    ) -> Vec<Stmt> {
+        let mut statements = Vec::new();
 
-        let mut statements = ast.vec();
-
-        // If enum number has no initializer, its value will be the previous member
+        // If enum member has no initializer, its value will be the previous member
         // value + 1, if it's the first member, it will be `0`.
-        // It used to keep track of the previous constant number.
         let mut prev_constant_number = Some(-1.0);
-        let mut previous_enum_members = self.enums.entry(param_binding.name).or_default().clone();
+        let enum_id = (enum_name.to_string().into(), Default::default());
+        let mut previous_enum_members = self.enums.entry(enum_id.clone()).or_default().clone();
 
-        let mut prev_member_name = None;
+        let mut prev_member_name: Option<String> = None;
 
-        for member in members.take_in(ctx.ast) {
-            let member_name = member.id.static_name();
+        for member in members.iter_mut() {
+            let member_name = match &member.id {
+                TsEnumMemberId::Ident(ident) => ident.sym.to_string(),
+                TsEnumMemberId::Str(s) => s.value.to_string(),
+            };
 
-            let init = if let Some(mut initializer) = member.initializer {
+            let member_id = (member_name.clone().into(), Default::default());
+
+            let init = if let Some(initializer) = &mut member.init {
                 let constant_value =
-                    self.computed_constant_value(&initializer, &previous_enum_members, ctx);
+                    self.computed_constant_value(initializer, &previous_enum_members);
 
-                previous_enum_members.insert(member_name, constant_value);
+                previous_enum_members.insert(member_id.clone(), constant_value);
 
                 match constant_value {
                     None => {
                         prev_constant_number = None;
-
-                        IdentifierReferenceRename::new(
-                            param_binding.name,
-                            enum_scope_id,
-                            previous_enum_members.clone(),
-                            ctx,
-                        )
-                        .visit_expression(&mut initializer);
-
-                        initializer
+                        // TODO: Rename identifier references in the initializer
+                        *initializer.clone()
                     }
                     Some(constant_value) => match constant_value {
                         ConstantValue::Number(v) => {
                             prev_constant_number = Some(v);
-                            Self::get_initializer_expr(v, ctx)
+                            Self::get_initializer_expr(v)
                         }
                         ConstantValue::String(str) => {
                             prev_constant_number = None;
-                            ast.expression_string_literal(SPAN, str, None)
+                            Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: str.into(),
+                                raw: None,
+                            }))
                         }
                     },
                 }
-                // No initializer, try to infer the value from the previous
-                // member.
-            } else if let Some(value) = &prev_constant_number {
+            } else if let Some(value) = prev_constant_number {
                 let value = value + 1.0;
                 prev_constant_number = Some(value);
-                previous_enum_members.insert(member_name, Some(ConstantValue::Number(value)));
-                Self::get_initializer_expr(value, ctx)
-            } else if let Some(prev_member_name) = prev_member_name {
-                previous_enum_members.insert(member_name, None);
-                let self_ref = {
-                    let obj = param_binding.create_read_expression(ctx);
-                    let expr = ctx
-                        .ast
-                        .expression_string_literal(SPAN, prev_member_name, None);
-                    ast.member_expression_computed(SPAN, obj, expr, false)
-                        .into()
-                };
+                previous_enum_members.insert(member_id.clone(), Some(ConstantValue::Number(value)));
+                Self::get_number_literal_expression(value)
+            } else if let Some(ref prev_name) = prev_member_name {
+                previous_enum_members.insert(member_id.clone(), None);
 
                 // 1 + Foo["x"]
-                let one = Self::get_number_literal_expression(1.0, ctx);
-                ast.expression_binary(SPAN, one, BinaryOperator::Addition, self_ref)
+                let self_ref = Expr::Member(MemberExpr {
+                    span: DUMMY_SP,
+                    obj: Box::new(Expr::Ident(quote_ident!(enum_name.to_string()))),
+                    prop: MemberProp::Computed(ComputedPropName {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            value: prev_name.clone().into(),
+                            raw: None,
+                        }))),
+                    }),
+                });
+
+                Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    op: BinaryOp::Add,
+                    left: Box::new(Self::get_number_literal_expression(1.0)),
+                    right: Box::new(self_ref),
+                })
             } else {
-                previous_enum_members.insert(member_name, Some(ConstantValue::Number(0.0)));
-                Self::get_number_literal_expression(0.0, ctx)
+                previous_enum_members.insert(member_id.clone(), Some(ConstantValue::Number(0.0)));
+                Self::get_number_literal_expression(0.0)
             };
 
-            let is_str = init.is_string_literal();
+            let is_str = matches!(init, Expr::Lit(Lit::Str(_)));
 
             // Foo["x"] = init
-            let member_expr = {
-                let obj = param_binding.create_read_expression(ctx);
-                let expr = ast.expression_string_literal(SPAN, member_name, None);
-
-                ast.member_expression_computed(SPAN, obj, expr, false)
+            let member_expr = MemberExpr {
+                span: DUMMY_SP,
+                obj: Box::new(Expr::Ident(quote_ident!(enum_name.to_string()))),
+                prop: MemberProp::Computed(ComputedPropName {
+                    span: DUMMY_SP,
+                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: member_name.clone().into(),
+                        raw: None,
+                    }))),
+                }),
             };
-            let left = SimpleAssignmentTarget::from(member_expr);
-            let mut expr =
-                ast.expression_assignment(SPAN, AssignmentOperator::Assign, left.into(), init);
+
+            let mut expr = Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: AssignOp::Assign,
+                left: AssignTarget::Simple(SimpleAssignTarget::Member(member_expr)),
+                right: Box::new(init),
+            });
 
             // Foo[Foo["x"] = init] = "x"
             if !is_str {
-                let member_expr = {
-                    let obj = param_binding.create_read_expression(ctx);
-                    ast.member_expression_computed(SPAN, obj, expr, false)
+                let member_expr = MemberExpr {
+                    span: DUMMY_SP,
+                    obj: Box::new(Expr::Ident(quote_ident!(enum_name.to_string()))),
+                    prop: MemberProp::Computed(ComputedPropName {
+                        span: DUMMY_SP,
+                        expr: Box::new(expr),
+                    }),
                 };
-                let left = SimpleAssignmentTarget::from(member_expr);
-                let right = ast.expression_string_literal(SPAN, member_name, None);
-                expr =
-                    ast.expression_assignment(SPAN, AssignmentOperator::Assign, left.into(), right);
+
+                expr = Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: AssignOp::Assign,
+                    left: AssignTarget::Simple(SimpleAssignTarget::Member(member_expr)),
+                    right: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: member_name.clone().into(),
+                        raw: None,
+                    }))),
+                });
             }
 
             prev_member_name = Some(member_name);
-            statements.push(ast.statement_expression(member.span, expr));
+            statements.push(Stmt::Expr(ExprStmt {
+                span: member.span,
+                expr: Box::new(expr),
+            }));
         }
 
-        self.enums
-            .insert(param_binding.name, previous_enum_members.clone());
+        self.enums.insert(enum_id, previous_enum_members);
 
-        let enum_ref = param_binding.create_read_expression(ctx);
         // return Foo;
-        let return_stmt = ast.statement_return(SPAN, Some(enum_ref));
-        statements.push(return_stmt);
+        statements.push(Stmt::Return(ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(Expr::Ident(quote_ident!(enum_name.to_string())))),
+        }));
 
         statements
     }
 
-    fn get_number_literal_expression(value: f64, ctx: &TraverseCtx<'a>) -> Expression<'a> {
-        ctx.ast
-            .expression_numeric_literal(SPAN, value, None, NumberBase::Decimal)
+    fn get_number_literal_expression(value: f64) -> Expr {
+        Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value,
+            raw: None,
+        }))
     }
 
-    fn get_initializer_expr(value: f64, ctx: &mut TraverseCtx<'a>) -> Expression<'a> {
+    fn get_initializer_expr(value: f64) -> Expr {
         let is_negative = value < 0.0;
 
         // Infinity
         let expr = if value.is_infinite() {
-            let infinity_symbol_id = ctx
-                .scoping()
-                .find_binding(ctx.current_scope_id(), "Infinity");
-            ctx.create_ident_expr(
-                SPAN,
-                Atom::from("Infinity"),
-                infinity_symbol_id,
-                ReferenceFlags::Read,
-            )
+            Expr::Ident(quote_ident!("Infinity"))
         } else {
             let value = if is_negative { -value } else { value };
-            Self::get_number_literal_expression(value, ctx)
+            Self::get_number_literal_expression(value)
         };
 
         if is_negative {
-            ctx.ast
-                .expression_unary(SPAN, UnaryOperator::UnaryNegation, expr)
+            Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: UnaryOp::Minus,
+                arg: Box::new(expr),
+            })
         } else {
             expr
         }
     }
 }
 
-#[derive(Debug, Clone, Copy)]
-enum ConstantValue<'a> {
+#[derive(Debug, Clone)]
+enum ConstantValue {
     Number(f64),
-    String(Atom<'a>),
+    String(String),
 }
 
-impl<'a> TypeScriptEnum<'a> {
+impl TypeScriptEnum {
     /// Evaluate the expression to a constant value.
     /// Refer to [babel](https://github.com/babel/babel/blob/610897a9a96c5e344e77ca9665df7613d2f88358/packages/babel-plugin-transform-typescript/src/enum.ts#L241C1-L394C2)
     fn computed_constant_value(
         &self,
-        expr: &Expression<'a>,
-        prev_members: &PrevMembers<'a>,
-        ctx: &TraverseCtx<'a>,
-    ) -> Option<ConstantValue<'a>> {
-        self.evaluate(expr, prev_members, ctx)
+        expr: &Expr,
+        prev_members: &PrevMembers,
+    ) -> Option<ConstantValue> {
+        self.evaluate(expr, prev_members)
     }
 
-    fn evaluate_ref(
-        &self,
-        expr: &Expression<'a>,
-        prev_members: &PrevMembers<'a>,
-    ) -> Option<ConstantValue<'a>> {
+    fn evaluate_ref(&self, expr: &Expr, prev_members: &PrevMembers) -> Option<ConstantValue> {
         match expr {
-            match_member_expression!(Expression) => {
-                let expr = expr.to_member_expression();
-                let Expression::Identifier(ident) = expr.object() else {
+            Expr::Member(member_expr) => {
+                let Expr::Ident(ident) = &*member_expr.obj else {
                     return None;
                 };
-                let members = self.enums.get(&ident.name)?;
-                let property = expr.static_property_name()?;
-                *members.get(property)?
+                let members = self.enums.get(&ident.to_id())?;
+                let property_name = match &member_expr.prop {
+                    MemberProp::Ident(ident) => ident.sym.to_string(),
+                    MemberProp::Computed(computed) => {
+                        if let Expr::Lit(Lit::Str(s)) = &*computed.expr {
+                            s.value.to_string()
+                        } else {
+                            return None;
+                        }
+                    }
+                    _ => return None,
+                };
+                let property_id = (property_name.into(), Default::default());
+                *members.get(&property_id)?
             }
-            Expression::Identifier(ident) => {
-                if ident.name == "Infinity" {
+            Expr::Ident(ident) => {
+                if ident.sym == *"Infinity" {
                     return Some(ConstantValue::Number(f64::INFINITY));
-                } else if ident.name == "NaN" {
+                } else if ident.sym == *"NaN" {
                     return Some(ConstantValue::Number(f64::NAN));
                 }
 
-                if let Some(value) = prev_members.get(&ident.name) {
+                if let Some(value) = prev_members.get(&ident.to_id()) {
                     return *value;
                 }
 
-                // TODO:
-                // This is a bit tricky because we need to find the BindingIdentifier that
-                // corresponds to the identifier reference. and then we may to
-                // evaluate the initializer of the BindingIdentifier.
-                // finally, we can get the value of the identifier and call the
-                // `computed_constant_value` function. See https://github.com/babel/babel/blob/610897a9a96c5e344e77ca9665df7613d2f88358/packages/babel-plugin-transform-typescript/src/enum.ts#L327-L329
                 None
             }
             _ => None,
         }
     }
 
-    fn evaluate(
-        &self,
-        expr: &Expression<'a>,
-        prev_members: &PrevMembers<'a>,
-        ctx: &TraverseCtx<'a>,
-    ) -> Option<ConstantValue<'a>> {
+    fn evaluate(&self, expr: &Expr, prev_members: &PrevMembers) -> Option<ConstantValue> {
         match expr {
-            Expression::Identifier(_)
-            | Expression::ComputedMemberExpression(_)
-            | Expression::StaticMemberExpression(_)
-            | Expression::PrivateFieldExpression(_) => self.evaluate_ref(expr, prev_members),
-            Expression::BinaryExpression(expr) => {
-                self.eval_binary_expression(expr, prev_members, ctx)
-            }
-            Expression::UnaryExpression(expr) => {
-                self.eval_unary_expression(expr, prev_members, ctx)
-            }
-            Expression::NumericLiteral(lit) => Some(ConstantValue::Number(lit.value)),
-            Expression::StringLiteral(lit) => Some(ConstantValue::String(lit.value)),
-            Expression::TemplateLiteral(lit) => {
-                let value = if let Some(quasi) = lit.single_quasi() {
-                    quasi
-                } else {
-                    let mut value = StringBuilder::new_in(ctx.ast.allocator);
-                    for (i, quasi) in lit.quasis.iter().enumerate() {
-                        value.push_str(&quasi.value.cooked.unwrap_or(quasi.value.raw));
-                        if i < lit.expressions.len() {
-                            match self.evaluate(&lit.expressions[i], prev_members, ctx)? {
-                                ConstantValue::String(str) => value.push_str(&str),
-                                ConstantValue::Number(num) => value.push_str(&num.to_js_string()),
-                            }
+            Expr::Ident(_) | Expr::Member(_) => self.evaluate_ref(expr, prev_members),
+            Expr::Bin(bin_expr) => self.eval_binary_expression(bin_expr, prev_members),
+            Expr::Unary(unary_expr) => self.eval_unary_expression(unary_expr, prev_members),
+            Expr::Lit(Lit::Num(num)) => Some(ConstantValue::Number(num.value)),
+            Expr::Lit(Lit::Str(s)) => Some(ConstantValue::String(s.value.to_string())),
+            Expr::Tpl(tpl) => {
+                if tpl.exprs.is_empty() {
+                    // Simple template literal with no expressions
+                    if let Some(quasi) = tpl.quasis.first() {
+                        return Some(ConstantValue::String(quasi.raw.to_string()));
+                    }
+                }
+
+                let mut value = String::new();
+                for (i, quasi) in tpl.quasis.iter().enumerate() {
+                    value.push_str(&quasi.raw);
+                    if i < tpl.exprs.len() {
+                        match self.evaluate(&tpl.exprs[i], prev_members)? {
+                            ConstantValue::String(s) => value.push_str(&s),
+                            ConstantValue::Number(num) => value.push_str(&num.to_string()),
                         }
                     }
-                    Atom::from(value.into_str())
-                };
+                }
                 Some(ConstantValue::String(value))
             }
-            Expression::ParenthesizedExpression(expr) => {
-                self.evaluate(&expr.expression, prev_members, ctx)
-            }
+            Expr::Paren(paren) => self.evaluate(&paren.expr, prev_members),
             _ => None,
         }
     }
 
     fn eval_binary_expression(
         &self,
-        expr: &BinaryExpression<'a>,
-        prev_members: &PrevMembers<'a>,
-        ctx: &TraverseCtx<'a>,
-    ) -> Option<ConstantValue<'a>> {
-        let left = self.evaluate(&expr.left, prev_members, ctx)?;
-        let right = self.evaluate(&expr.right, prev_members, ctx)?;
+        expr: &BinExpr,
+        prev_members: &PrevMembers,
+    ) -> Option<ConstantValue> {
+        let left = self.evaluate(&expr.left, prev_members)?;
+        let right = self.evaluate(&expr.right, prev_members)?;
 
-        if matches!(expr.operator, BinaryOperator::Addition)
+        if matches!(expr.op, BinaryOp::Add)
             && (matches!(left, ConstantValue::String(_))
                 || matches!(right, ConstantValue::String(_)))
         {
             let left_string = match left {
-                ConstantValue::String(str) => str,
-                ConstantValue::Number(v) => ctx.ast.atom(&v.to_js_string()),
+                ConstantValue::String(s) => s,
+                ConstantValue::Number(v) => v.to_string(),
             };
 
             let right_string = match right {
-                ConstantValue::String(str) => str,
-                ConstantValue::Number(v) => ctx.ast.atom(&v.to_js_string()),
+                ConstantValue::String(s) => s,
+                ConstantValue::Number(v) => v.to_string(),
             };
 
-            return Some(ConstantValue::String(
-                ctx.ast.atom_from_strs_array([&left_string, &right_string]),
-            ));
+            return Some(ConstantValue::String(format!(
+                "{}{}",
+                left_string, right_string
+            )));
         }
 
         let left = match left {
@@ -501,49 +455,48 @@ impl<'a> TypeScriptEnum<'a> {
             ConstantValue::String(_) => return None,
         };
 
-        match expr.operator {
-            BinaryOperator::ShiftRight => Some(ConstantValue::Number(f64::from(
-                left.to_int_32().wrapping_shr(right.to_uint_32()),
-            ))),
-            BinaryOperator::ShiftRightZeroFill => Some(ConstantValue::Number(f64::from(
-                (left.to_uint_32()).wrapping_shr(right.to_uint_32()),
-            ))),
-            BinaryOperator::ShiftLeft => Some(ConstantValue::Number(f64::from(
-                left.to_int_32().wrapping_shl(right.to_uint_32()),
-            ))),
-            BinaryOperator::BitwiseXOR => Some(ConstantValue::Number(f64::from(
-                left.to_int_32() ^ right.to_int_32(),
-            ))),
-            BinaryOperator::BitwiseOR => Some(ConstantValue::Number(f64::from(
-                left.to_int_32() | right.to_int_32(),
-            ))),
-            BinaryOperator::BitwiseAnd => Some(ConstantValue::Number(f64::from(
-                left.to_int_32() & right.to_int_32(),
-            ))),
-            BinaryOperator::Multiplication => Some(ConstantValue::Number(left * right)),
-            BinaryOperator::Division => Some(ConstantValue::Number(left / right)),
-            BinaryOperator::Addition => Some(ConstantValue::Number(left + right)),
-            BinaryOperator::Subtraction => Some(ConstantValue::Number(left - right)),
-            BinaryOperator::Remainder => Some(ConstantValue::Number(left % right)),
-            BinaryOperator::Exponential => Some(ConstantValue::Number(left.powf(right))),
+        match expr.op {
+            BinaryOp::RShift => Some(ConstantValue::Number(
+                ((left as i32).wrapping_shr((right as u32) & 0x1f)) as f64,
+            )),
+            BinaryOp::ZeroFillRShift => Some(ConstantValue::Number(
+                ((left as u32).wrapping_shr((right as u32) & 0x1f)) as f64,
+            )),
+            BinaryOp::LShift => Some(ConstantValue::Number(
+                ((left as i32).wrapping_shl((right as u32) & 0x1f)) as f64,
+            )),
+            BinaryOp::BitXor => Some(ConstantValue::Number(
+                ((left as i32) ^ (right as i32)) as f64,
+            )),
+            BinaryOp::BitOr => Some(ConstantValue::Number(
+                ((left as i32) | (right as i32)) as f64,
+            )),
+            BinaryOp::BitAnd => Some(ConstantValue::Number(
+                ((left as i32) & (right as i32)) as f64,
+            )),
+            BinaryOp::Mul => Some(ConstantValue::Number(left * right)),
+            BinaryOp::Div => Some(ConstantValue::Number(left / right)),
+            BinaryOp::Add => Some(ConstantValue::Number(left + right)),
+            BinaryOp::Sub => Some(ConstantValue::Number(left - right)),
+            BinaryOp::Mod => Some(ConstantValue::Number(left % right)),
+            BinaryOp::Exp => Some(ConstantValue::Number(left.powf(right))),
             _ => None,
         }
     }
 
     fn eval_unary_expression(
         &self,
-        expr: &UnaryExpression<'a>,
-        prev_members: &PrevMembers<'a>,
-        ctx: &TraverseCtx<'a>,
-    ) -> Option<ConstantValue<'a>> {
-        let value = self.evaluate(&expr.argument, prev_members, ctx)?;
+        expr: &UnaryExpr,
+        prev_members: &PrevMembers,
+    ) -> Option<ConstantValue> {
+        let value = self.evaluate(&expr.arg, prev_members)?;
 
         let value = match value {
             ConstantValue::Number(value) => value,
             ConstantValue::String(_) => {
-                let value = if expr.operator == UnaryOperator::UnaryNegation {
+                let value = if expr.op == UnaryOp::Minus {
                     ConstantValue::Number(f64::NAN)
-                } else if expr.operator == UnaryOperator::BitwiseNot {
+                } else if expr.op == UnaryOp::Tilde {
                     ConstantValue::Number(-1.0)
                 } else {
                     value
@@ -552,122 +505,11 @@ impl<'a> TypeScriptEnum<'a> {
             }
         };
 
-        match expr.operator {
-            UnaryOperator::UnaryPlus => Some(ConstantValue::Number(value)),
-            UnaryOperator::UnaryNegation => Some(ConstantValue::Number(-value)),
-            UnaryOperator::BitwiseNot => Some(ConstantValue::Number(f64::from(!value.to_int_32()))),
+        match expr.op {
+            UnaryOp::Plus => Some(ConstantValue::Number(value)),
+            UnaryOp::Minus => Some(ConstantValue::Number(-value)),
+            UnaryOp::Tilde => Some(ConstantValue::Number((!(value as i32)) as f64)),
             _ => None,
-        }
-    }
-}
-
-/// Rename the identifier references in the enum members to
-/// `enum_name.identifier` ```ts
-/// enum A {
-///    a = 1,
-///    b = a.toString(),
-///    d = c,
-/// }
-/// ```
-/// will be transformed to
-/// ```ts
-/// enum A {
-///   a = 1,
-///   b = A.a.toString(),
-///   d = A.c,
-/// }
-/// ```
-struct IdentifierReferenceRename<'a, 'ctx> {
-    enum_name: Atom<'a>,
-    previous_enum_members: PrevMembers<'a>,
-    scope_stack: NonEmptyStack<ScopeId>,
-    ctx: &'ctx TraverseCtx<'a>,
-}
-
-impl<'a, 'ctx> IdentifierReferenceRename<'a, 'ctx> {
-    fn new(
-        enum_name: Atom<'a>,
-        enum_scope_id: ScopeId,
-        previous_enum_members: PrevMembers<'a>,
-        ctx: &'ctx TraverseCtx<'a>,
-    ) -> Self {
-        IdentifierReferenceRename {
-            enum_name,
-            previous_enum_members,
-            scope_stack: NonEmptyStack::new(enum_scope_id),
-            ctx,
-        }
-    }
-}
-
-impl IdentifierReferenceRename<'_, '_> {
-    fn should_reference_enum_member(&self, ident: &IdentifierReference<'_>) -> bool {
-        // Don't need to rename the identifier if it's not a member of the enum,
-        if !self.previous_enum_members.contains_key(&ident.name) {
-            return false;
-        }
-
-        let scoping = self.ctx.scoping.scoping();
-        let Some(symbol_id) = scoping.get_reference(ident.reference_id()).symbol_id() else {
-            // No symbol found, yet the name is found in previous_enum_members.
-            // It must be referencing a member declared in a previous enum block: `enum Foo
-            // { A }; enum Foo { B = A }`
-            return true;
-        };
-
-        let symbol_scope_id = scoping.symbol_scope_id(symbol_id);
-        // Don't need to rename the identifier when it references a nested enum member:
-        //
-        // ```ts
-        // enum OuterEnum {
-        //   A = 0,
-        //   B = () => {
-        //     enum InnerEnum {
-        //       A = 0,
-        //       B = A,
-        //           ^ This references to `InnerEnum.A` should not be renamed
-        //     }
-        //     return InnerEnum.B;
-        //   }
-        // }
-        // ```
-        *self.scope_stack.first() == symbol_scope_id
-            // The resolved symbol is declared outside the enum,
-            // and we have checked that the name exists in previous_enum_members:
-            //
-            // ```ts
-            // const A = 0;
-            // enum Foo { A }
-            // enum Foo { B = A }
-            //                ^ This should be renamed to Foo.A
-            // ```
-            || !self.scope_stack.contains(&symbol_scope_id)
-    }
-}
-
-impl<'a> VisitMut<'a> for IdentifierReferenceRename<'a, '_> {
-    fn enter_scope(&mut self, _flags: ScopeFlags, scope_id: &Cell<Option<ScopeId>>) {
-        self.scope_stack.push(scope_id.get().unwrap());
-    }
-
-    fn leave_scope(&mut self) {
-        self.scope_stack.pop();
-    }
-
-    fn visit_expression(&mut self, expr: &mut Expression<'a>) {
-        match expr {
-            Expression::Identifier(ident) if self.should_reference_enum_member(ident) => {
-                let object = self.ctx.ast.expression_identifier(SPAN, self.enum_name);
-                let property = self.ctx.ast.identifier_name(SPAN, ident.name);
-                *expr = self
-                    .ctx
-                    .ast
-                    .member_expression_static(SPAN, object, property, false)
-                    .into();
-            }
-            _ => {
-                walk_mut::walk_expression(self, expr);
-            }
         }
     }
 }

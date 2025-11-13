@@ -1,4 +1,3 @@
-use oxc_compat::{ESFeature, EngineTargets};
 use serde::Deserialize;
 
 use super::{babel::BabelEnvOptions, Module};
@@ -112,82 +111,36 @@ impl EnvOptions {
     /// * When the query failed to parse.
     ///
     /// [browserslist]: <https://github.com/browserslist/browserslist>
-    pub fn from_browserslist_query(query: &str) -> Result<Self, String> {
-        EngineTargets::try_from_query(query).map(Self::from)
+    ///
+    /// TODO: Implement browserslist query support when SWC infrastructure is
+    /// ready
+    pub fn from_browserslist_query(_query: &str) -> Result<Self, String> {
+        Err("Browserslist query support not yet implemented".to_string())
     }
 
     /// # Errors
     ///
     /// * When the query failed to parse.
-    pub fn from_target(s: &str) -> Result<Self, String> {
-        EngineTargets::from_target(s).map(Self::from)
+    ///
+    /// TODO: Implement target support when SWC infrastructure is ready
+    pub fn from_target(_s: &str) -> Result<Self, String> {
+        Err("Target support not yet implemented".to_string())
     }
 
     /// # Errors
     ///
     /// * When the query failed to parse.
-    pub fn from_target_list<S: AsRef<str>>(list: &[S]) -> Result<Self, String> {
-        EngineTargets::from_target_list(list).map(Self::from)
+    ///
+    /// TODO: Implement target list support when SWC infrastructure is ready
+    pub fn from_target_list<S: AsRef<str>>(_list: &[S]) -> Result<Self, String> {
+        Err("Target list support not yet implemented".to_string())
     }
 }
 
 impl From<BabelEnvOptions> for EnvOptions {
-    fn from(o: BabelEnvOptions) -> Self {
-        Self::from(o.targets)
-    }
-}
-
-impl From<EngineTargets> for EnvOptions {
-    fn from(o: EngineTargets) -> Self {
-        #[allow(clippy::enum_glob_use, clippy::allow_attributes)]
-        use ESFeature::*;
-        Self {
-            module: Module::default(),
-            regexp: RegExpOptions {
-                sticky_flag: o.has_feature(ES2015StickyRegex),
-                unicode_flag: o.has_feature(ES2015UnicodeRegex),
-                unicode_property_escapes: o.has_feature(ES2018UnicodePropertyRegex),
-                dot_all_flag: o.has_feature(ES2018DotallRegex),
-                named_capture_groups: o.has_feature(ES2018NamedCapturingGroupsRegex),
-                look_behind_assertions: o.has_feature(ES2018LookbehindRegex),
-                match_indices: o.has_feature(ES2022MatchIndicesRegex),
-                set_notation: o.has_feature(ES2024UnicodeSetsRegex),
-            },
-            es2015: ES2015Options {
-                arrow_function: o.has_feature(ES2015ArrowFunctions).then(Default::default),
-            },
-            es2016: ES2016Options {
-                exponentiation_operator: o.has_feature(ES2016ExponentiationOperator),
-            },
-            es2017: ES2017Options {
-                async_to_generator: o.has_feature(ES2017AsyncToGenerator),
-            },
-            es2018: ES2018Options {
-                object_rest_spread: o.has_feature(ES2018ObjectRestSpread).then(Default::default),
-                async_generator_functions: o.has_feature(ES2018AsyncGeneratorFunctions),
-            },
-            es2019: ES2019Options {
-                optional_catch_binding: o.has_feature(ES2019OptionalCatchBinding),
-            },
-            es2020: ES2020Options {
-                export_namespace_from: o.has_feature(ES2020ExportNamespaceFrom),
-                nullish_coalescing_operator: o.has_feature(ES2020NullishCoalescingOperator),
-                big_int: o.has_feature(ES2020BigInt),
-                optional_chaining: o.has_feature(ES2020OptionalChaining),
-                arbitrary_module_namespace_names: o
-                    .has_feature(ES2020ArbitraryModuleNamespaceNames),
-            },
-            es2021: ES2021Options {
-                logical_assignment_operators: o.has_feature(ES2021LogicalAssignmentOperators),
-            },
-            es2022: ES2022Options {
-                class_static_block: o.has_feature(ES2022ClassStaticBlock),
-                class_properties: o.has_feature(ES2022ClassProperties).then(Default::default),
-                top_level_await: o.has_feature(ES2022TopLevelAwait),
-            },
-            es2026: ES2026Options {
-                explicit_resource_management: o.has_feature(ES2026ExplicitResourceManagement),
-            },
-        }
+    fn from(_o: BabelEnvOptions) -> Self {
+        // TODO: Implement conversion from BabelEnvOptions when SWC infrastructure is
+        // ready
+        Self::default()
     }
 }

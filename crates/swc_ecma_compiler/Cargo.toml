@@ -13,13 +13,16 @@ version       = "8.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
+base64      = { workspace = true }
 bitflags    = { workspace = true }
 indexmap    = { workspace = true }
 itoa        = "1"
 memchr      = { workspace = true }
+once_cell   = { workspace = true }
 rustc-hash  = { workspace = true }
 serde       = { workspace = true }
 serde_json  = { workspace = true }
+sha1        = { workspace = true }
 tracing     = { workspace = true }
 
 swc_atoms                = { version = "9.0.0", path = "../swc_atoms" }

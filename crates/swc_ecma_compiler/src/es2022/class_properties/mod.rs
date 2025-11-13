@@ -292,20 +292,11 @@ pub struct ClassProperties<'a, 'ctx> {
     /// Count of private fields in current class and parent classes.
     private_field_count: usize,
 
-    // ----- State used only during enter phase -----
-    /// Symbols in constructor which clash with instance prop initializers.
-    /// Keys are symbols' IDs.
-    /// Values are initially the original name of binding, later on the name of
-    /// new UID name.
-    clashing_constructor_symbols: FxHashMap<SymbolId, Atom<'a>>,
-
     // ----- State used only during exit phase -----
-    /// Expressions to insert before class
-    insert_before: Vec<Expression<'a>>,
     /// Expressions to insert after class expression
-    insert_after_exprs: Vec<Expression<'a>>,
+    insert_after_exprs: Vec<Box<Expr>>,
     /// Statements to insert after class declaration
-    insert_after_stmts: Vec<Statement<'a>>,
+    insert_after_stmts: Vec<Stmt>,
 }
 
 impl<'a, 'ctx> ClassProperties<'a, 'ctx> {
@@ -330,9 +321,7 @@ impl<'a, 'ctx> ClassProperties<'a, 'ctx> {
             ctx,
             classes_stack: ClassesStack::new(),
             private_field_count: 0,
-            // `Vec`s and `FxHashMap`s which are reused for every class being transformed
-            clashing_constructor_symbols: FxHashMap::default(),
-            insert_before: vec![],
+            // `Vec`s which are reused for every class being transformed
             insert_after_exprs: vec![],
             insert_after_stmts: vec![],
         }
@@ -346,8 +335,8 @@ impl VisitMutHook<TraverseCtx<'_>> for ClassProperties<'_, '_> {
         debug_assert_eq!(self.private_field_count, 0);
     }
 
-    fn enter_class_body(&mut self, body: &mut Vec<ClassMember>, ctx: &mut TraverseCtx) {
-        self.transform_class_body_on_entry(body, ctx);
+    fn enter_class(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
+        self.transform_class_body_on_entry(&mut class.body, ctx);
     }
 
     fn exit_class(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {

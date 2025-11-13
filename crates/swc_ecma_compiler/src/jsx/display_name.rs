@@ -46,14 +46,14 @@
 //!
 //! * Babel plugin implementation: <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-react-display-name/src/index.ts>
 
-use oxc_ast::ast::*;
-use oxc_span::{Atom, SPAN};
-use oxc_traverse::{Ancestor, Traverse};
+use std::ops::DerefMut;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_visit::{VisitMut, VisitMutWith};
+
+use crate::context::{TransformCtx, TraverseCtx};
 
 pub struct ReactDisplayName<'a, 'ctx> {
     ctx: &'ctx TransformCtx<'a>,
@@ -65,123 +65,220 @@ impl<'a, 'ctx> ReactDisplayName<'a, 'ctx> {
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ReactDisplayName<'a, '_> {
-    fn enter_call_expression(
-        &mut self,
-        call_expr: &mut CallExpression<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        let Some(obj_expr) = Self::get_object_from_create_class(call_expr) else {
-            return;
-        };
-
-        let mut ancestors = ctx.ancestors();
-        let name = loop {
-            let Some(ancestor) = ancestors.next() else {
-                return;
-            };
-
-            match ancestor {
-                // `foo = React.createClass({})`
-                Ancestor::AssignmentExpressionRight(assign_expr) => match assign_expr.left() {
-                    AssignmentTarget::AssignmentTargetIdentifier(ident) => {
-                        break ident.name;
-                    }
-                    AssignmentTarget::StaticMemberExpression(expr) => {
-                        break expr.property.name;
-                    }
-                    // Babel does not handle computed member expressions e.g. `foo["bar"]`,
-                    // so we diverge from Babel here, but that's probably an improvement
-                    AssignmentTarget::ComputedMemberExpression(expr) => {
-                        if let Some(name) = expr.static_property_name() {
-                            break name;
-                        }
-                        return;
-                    }
-                    _ => return,
-                },
-                // `let foo = React.createClass({})`
-                Ancestor::VariableDeclaratorInit(declarator) => {
-                    if let BindingPatternKind::BindingIdentifier(ident) = &declarator.id().kind {
-                        break ident.name;
-                    }
-                    return;
-                }
-                // `{foo: React.createClass({})}`
-                Ancestor::ObjectPropertyValue(prop) => {
-                    // Babel only handles static identifiers e.g. `{foo: React.createClass({})}`,
-                    // whereas we also handle e.g. `{"foo-bar": React.createClass({})}`,
-                    // so we diverge from Babel here, but that's probably an improvement
-                    if let Some(name) = prop.key().static_name() {
-                        break ctx.ast.atom(&name);
-                    }
-                    return;
-                }
-                // `export default React.createClass({})`
-                // Uses the current file name as the display name.
-                Ancestor::ExportDefaultDeclarationDeclaration(_) => {
-                    break ctx.ast.atom(&self.ctx.filename);
-                }
-                // Stop crawling up when hit a statement
-                _ if ancestor.is_parent_of_statement() => return,
-                _ => {}
-            }
-        };
-
-        Self::add_display_name(obj_expr, name, ctx);
-    }
+impl VisitMutHook<TraverseCtx<'_>> for ReactDisplayName<'_, '_> {
+    // TODO: Implement transformation when SWC infrastructure is ready
+    // This will transform React.createClass calls to add displayName
 }
 
 impl<'a> ReactDisplayName<'a, '_> {
-    /// Get the object from `React.createClass({})` or `createReactClass({})`
-    fn get_object_from_create_class<'b>(
-        call_expr: &'b mut CallExpression<'a>,
-    ) -> Option<&'b mut ObjectExpression<'a>> {
-        if match &call_expr.callee {
-            callee @ match_member_expression!(Expression) => !callee
-                .to_member_expression()
-                .is_specific_member_access("React", "createClass"),
-            Expression::Identifier(ident) => ident.name != "createReactClass",
-            _ => true,
-        } {
-            return None;
+    /// Main transformation entry point for the display name transform.
+    ///
+    /// This uses SWC's visitor pattern to traverse the AST and add displayName
+    /// properties to React.createClass calls.
+    pub fn transform_program(&mut self, program: &mut Program) {
+        let mut visitor = DisplayNameVisitor {
+            filename: &self.ctx.filename,
+        };
+        program.visit_mut_with(&mut visitor);
+    }
+}
+
+struct DisplayNameVisitor<'a> {
+    filename: &'a str,
+}
+
+impl VisitMut for DisplayNameVisitor<'_> {
+    fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
+        expr.visit_mut_children_with(self);
+
+        if expr.op != op!("=") {
+            return;
         }
-        // Only 1 argument being the object expression.
-        if call_expr.arguments.len() != 1 {
-            return None;
+
+        // Handle `obj.prop = React.createClass({})`
+        if let AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+            prop: MemberProp::Ident(prop),
+            ..
+        })) = &expr.left
+        {
+            return expr.right.visit_mut_with(&mut CreateClassFolder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: prop.span,
+                    raw: None,
+                    value: prop.sym.clone(),
+                })))),
+            });
         }
-        let arg = call_expr.arguments.get_mut(0)?;
-        match arg {
-            Argument::ObjectExpression(obj_expr) => Some(obj_expr),
-            _ => None,
+
+        // Handle `obj["prop"] = React.createClass({})`
+        if let AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+            prop: MemberProp::Computed(computed),
+            ..
+        })) = &expr.left
+        {
+            // Check if the computed property is a string literal
+            if let Expr::Lit(Lit::Str(str_lit)) = &*computed.expr {
+                return expr.right.visit_mut_with(&mut CreateClassFolder {
+                    name: Some(Box::new(Expr::Lit(Lit::Str(str_lit.clone())))),
+                });
+            }
+        }
+
+        // Handle `foo = React.createClass({})`
+        if let Some(ident) = expr.left.as_ident() {
+            expr.right.visit_mut_with(&mut CreateClassFolder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: ident.span,
+                    raw: None,
+                    value: ident.sym.clone(),
+                })))),
+            });
         }
     }
 
-    /// Add key value `displayName: name` to the `React.createClass` object.
-    fn add_display_name(
-        obj_expr: &mut ObjectExpression<'a>,
-        name: Atom<'a>,
-        ctx: &TraverseCtx<'a>,
-    ) {
-        const DISPLAY_NAME: &str = "displayName";
-        // Not safe with existing display name.
-        let not_safe = obj_expr.properties.iter().any(|prop| {
-            matches!(prop, ObjectPropertyKind::ObjectProperty(p) if p.key.static_name().is_some_and(|name| name == DISPLAY_NAME))
-        });
-        if not_safe {
+    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
+        decl.visit_mut_children_with(self);
+
+        // Handle `export default React.createClass({})`
+        if let ModuleDecl::ExportDefaultExpr(e) = decl {
+            e.visit_mut_with(&mut CreateClassFolder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    raw: None,
+                    value: self.filename.into(),
+                })))),
+            });
+        }
+    }
+
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        prop.visit_mut_children_with(self);
+
+        // Handle `{ prop: React.createClass({}) }`
+        if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
+            let name = match key {
+                PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
+                    span: i.span,
+                    raw: None,
+                    value: i.sym.clone(),
+                }))),
+                PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+                PropName::Num(ref n) => Box::new(Expr::Lit(Lit::Num(n.clone()))),
+                PropName::BigInt(ref b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
+                PropName::Computed(ref c) => c.expr.clone(),
+            };
+
+            value.visit_mut_with(&mut CreateClassFolder { name: Some(name) });
+        }
+    }
+
+    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
+        // Handle `var foo = React.createClass({})`
+        if let Pat::Ident(ref ident) = decl.name {
+            decl.init.visit_mut_with(&mut CreateClassFolder {
+                name: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: ident.span,
+                    value: ident.sym.clone(),
+                    raw: None,
+                })))),
+            });
+        }
+    }
+}
+
+/// Inner visitor that actually adds the displayName property to
+/// React.createClass calls.
+struct CreateClassFolder {
+    name: Option<Box<Expr>>,
+}
+
+impl VisitMut for CreateClassFolder {
+    /// Don't recurse into array literals.
+    fn visit_mut_array_lit(&mut self, _: &mut ArrayLit) {}
+
+    fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
+        expr.visit_mut_children_with(self);
+
+        if is_create_class_call(expr) {
+            let name = match self.name.take() {
+                Some(name) => name,
+                None => return,
+            };
+            add_display_name(expr, name);
+        }
+    }
+
+    /// Don't recurse into object literals.
+    fn visit_mut_object_lit(&mut self, _: &mut ObjectLit) {}
+}
+
+/// Check if a call expression is `React.createClass()` or `createReactClass()`.
+fn is_create_class_call(call: &CallExpr) -> bool {
+    let callee = match &call.callee {
+        Callee::Super(_) | Callee::Import(_) => return false,
+        Callee::Expr(callee) => &**callee,
+    };
+
+    match callee {
+        // React.createClass()
+        Expr::Member(MemberExpr { obj, prop, .. }) if prop.is_ident_with("createClass") => {
+            if obj.is_ident_ref_to("React") {
+                return true;
+            }
+        }
+        // createReactClass()
+        Expr::Ident(Ident { sym, .. }) if &**sym == "createReactClass" => return true,
+        _ => {}
+    }
+
+    false
+}
+
+/// Add `displayName: name` property to the React.createClass object.
+fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
+    let props = match call.args.first_mut() {
+        Some(ExprOrSpread { expr, .. }) => match expr.deref_mut() {
+            Expr::Object(ObjectLit { props, .. }) => props,
+            _ => return,
+        },
+        _ => return,
+    };
+
+    // Check if displayName already exists
+    for prop in &*props {
+        if is_key_display_name(prop) {
             return;
         }
-        obj_expr.properties.insert(
-            0,
-            ctx.ast.object_property_kind_object_property(
-                SPAN,
-                PropertyKind::Init,
-                ctx.ast.property_key_static_identifier(SPAN, DISPLAY_NAME),
-                ctx.ast.expression_string_literal(SPAN, name, None),
-                false,
-                false,
-                false,
-            ),
-        );
+    }
+
+    // Insert displayName property at the beginning
+    props.insert(
+        0,
+        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            key: PropName::Ident(IdentName {
+                span: DUMMY_SP,
+                sym: "displayName".into(),
+            }),
+            value: name,
+        }))),
+    );
+}
+
+/// Check if a property is named "displayName".
+fn is_key_display_name(prop: &PropOrSpread) -> bool {
+    match *prop {
+        PropOrSpread::Prop(ref prop) => match **prop {
+            Prop::Shorthand(ref i) => i.sym == "displayName",
+            Prop::Method(MethodProp { ref key, .. })
+            | Prop::Getter(GetterProp { ref key, .. })
+            | Prop::Setter(SetterProp { ref key, .. })
+            | Prop::KeyValue(KeyValueProp { ref key, .. }) => match *key {
+                PropName::Ident(ref i) => i.sym == "displayName",
+                PropName::Str(ref s) => s.value == "displayName",
+                PropName::Num(..) | PropName::BigInt(..) | PropName::Computed(..) => false,
+            },
+            Prop::Assign(..) => false,
+        },
+        PropOrSpread::Spread(..) => false,
     }
 }

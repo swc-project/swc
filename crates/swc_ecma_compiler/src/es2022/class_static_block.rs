@@ -55,7 +55,13 @@ impl ClassStaticBlock {
 }
 
 impl VisitMutHook<TraverseCtx<'_>> for ClassStaticBlock {
-    fn enter_class_body(&mut self, body: &mut Vec<ClassMember>, ctx: &mut TraverseCtx) {
+    fn enter_class(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
+        self.enter_class_body(&mut class.body, ctx);
+    }
+}
+
+impl ClassStaticBlock {
+    pub fn enter_class_body(&mut self, body: &mut Vec<ClassMember>, ctx: &mut TraverseCtx) {
         // Loop through class body elements and:
         // 1. Find if there are any `StaticBlock`s.
         // 2. Collate list of private keys matching `#_` or `#_[1-9]...`.

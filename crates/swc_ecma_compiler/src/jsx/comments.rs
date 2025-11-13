@@ -1,9 +1,13 @@
 use std::borrow::Cow;
 
 use memchr::memchr;
-use oxc_ast::Comment;
+use swc_common::comments::Comment;
 
-use crate::{JsxOptions, JsxRuntime, TransformCtx, TypeScriptOptions};
+use crate::{
+    jsx::{JsxOptions, JsxRuntime},
+    typescript::TypeScriptOptions,
+    TransformCtx,
+};
 
 /// Scan through all comments and find the following pragmas:
 ///
@@ -23,9 +27,9 @@ pub fn update_options_with_comments(
     comments: &[Comment],
     typescript: &mut TypeScriptOptions,
     jsx: &mut JsxOptions,
-    ctx: &TransformCtx,
+    _ctx: &TransformCtx,
+    source_text: &str,
 ) {
-    let source_text = ctx.source_text;
     for comment in comments {
         update_options_with_comment(typescript, jsx, comment, source_text);
     }
@@ -37,7 +41,9 @@ fn update_options_with_comment(
     comment: &Comment,
     source_text: &str,
 ) {
-    let mut comment_str = comment.content_span().source_text(source_text);
+    // Extract comment text from source
+    let comment_text = &source_text[comment.span.lo.0 as usize..comment.span.hi.0 as usize];
+    let mut comment_str = comment_text;
 
     while let Some((keyword, value, remainder)) = find_jsx_pragma(comment_str) {
         match keyword {

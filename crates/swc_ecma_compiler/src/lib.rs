@@ -40,7 +40,7 @@ mod plugins;
 
 use common::Common;
 use context::{TransformCtx, TraverseCtx};
-use decorator::Decorator;
+use decorator::DecoratorTransform;
 use es2015::ES2015;
 use es2016::ES2016;
 use es2017::ES2017;
@@ -73,7 +73,7 @@ pub use crate::{
     jsx::{JsxOptions, JsxRuntime, ReactRefreshOptions},
     options::{
         babel::{BabelEnvOptions, BabelOptions},
-        ESTarget, Engine, EngineTargets, EnvOptions, Module, TransformOptions,
+        EnvOptions, Module, TransformOptions,
     },
     plugins::{PluginsOptions, StyledComponentsOptions},
     proposals::ProposalOptions,
@@ -136,7 +136,7 @@ impl<'a> Transformer<'a> {
             ),
             x2_es2021: ES2021::new(self.env.es2021, &self.ctx),
             x2_es2020: ES2020::new(self.env.es2020, &self.ctx),
-            x2_es2019: ES2019::new(self.env.es2019),
+            x2_es2019: ES2019::new(self.env.es2019, &self.ctx),
             x2_es2018: ES2018::new(self.env.es2018, &self.ctx),
             x2_es2016: ES2016::new(self.env.es2016, &self.ctx),
             x2_es2017: ES2017::new(self.env.es2017, &self.ctx),
@@ -174,7 +174,7 @@ struct TransformerImpl<'a, 'ctx> {
     x2_es2022: ES2022<'a, 'ctx>,
     x2_es2021: ES2021<'a, 'ctx>,
     x2_es2020: ES2020<'a, 'ctx>,
-    x2_es2019: ES2019,
+    x2_es2019: ES2019<'a, 'ctx>,
     x2_es2018: ES2018<'a, 'ctx>,
     x2_es2017: ES2017<'a, 'ctx>,
     x2_es2016: ES2016<'a, 'ctx>,

@@ -76,14 +76,14 @@ impl VisitMutHook<TraverseCtx<'_>> for ES2022<'_, '_> {
         }
     }
 
-    fn enter_class_body(&mut self, body: &mut Vec<ClassMember>, ctx: &mut TraverseCtx) {
+    fn enter_class(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
         match &mut self.class_properties {
             Some(class_properties) => {
-                class_properties.enter_class_body(body, ctx);
+                class_properties.transform_class_body_on_entry(&mut class.body, ctx);
             }
             _ => {
                 if let Some(class_static_block) = &mut self.class_static_block {
-                    class_static_block.enter_class_body(body, ctx);
+                    class_static_block.enter_class_body(&mut class.body, ctx);
                 }
             }
         }
@@ -125,7 +125,7 @@ impl VisitMutHook<TraverseCtx<'_>> for ES2022<'_, '_> {
         }
     }
 
-    fn enter_expr_await(&mut self, node: &mut AwaitExpr, ctx: &mut TraverseCtx) {
+    fn enter_await_expr(&mut self, _node: &mut AwaitExpr, ctx: &mut TraverseCtx) {
         if self.options.top_level_await && Self::is_top_level(ctx) {
             // TODO: Port diagnostic system to SWC
             // For now, we'll emit a warning through ctx

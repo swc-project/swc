@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use crate::{options::EngineTargets, Module};
+use crate::Module;
 
 fn default_as_true() -> bool {
     true
@@ -9,8 +9,11 @@ fn default_as_true() -> bool {
 #[derive(Default, Debug, Clone, Deserialize)]
 #[serde(default, rename_all = "camelCase", deny_unknown_fields)]
 pub struct BabelEnvOptions {
-    #[serde(default)]
-    pub targets: EngineTargets,
+    /// Target browsers/environments
+    ///
+    /// TODO: Implement proper target parsing when SWC infrastructure is ready
+    #[serde(default, skip)]
+    pub targets: (),
 
     #[deprecated = "Not Implemented"]
     #[serde(default = "default_as_true")]

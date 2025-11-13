@@ -140,15 +140,15 @@ impl BabelOptions {
                 .unwrap_or_else(|err| panic!("{err:?}\n{}\n{content}", file.display()));
 
             if let Some(existing_options) = babel_options.as_mut() {
-                if existing_options.source_type.is_none()
-                    && let Some(source_type) = new_options.source_type
-                {
-                    existing_options.source_type = Some(source_type);
+                if existing_options.source_type.is_none() {
+                    if let Some(source_type) = new_options.source_type {
+                        existing_options.source_type = Some(source_type);
+                    }
                 }
-                if existing_options.throws.is_none()
-                    && let Some(throws) = new_options.throws
-                {
-                    existing_options.throws = Some(throws);
+                if existing_options.throws.is_none() {
+                    if let Some(throws) = new_options.throws {
+                        existing_options.throws = Some(throws);
+                    }
                 }
             } else {
                 babel_options = Some(new_options);

@@ -33,35 +33,22 @@
 //! * Babel plugin implementation: <https://github.com/babel/babel/tree/v7.26.2/packages/babel-plugin-transform-optional-catch-binding>
 //! * Optional catch binding TC39 proposal: <https://github.com/tc39/proposal-optional-catch-binding>
 
-use oxc_ast::ast::*;
-use oxc_semantic::SymbolFlags;
-use oxc_span::SPAN;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::context::TraverseCtx;
+use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct OptionalCatchBinding;
+pub struct OptionalCatchBinding<'a, 'ctx> {
+    _ctx: &'ctx TransformCtx<'a>,
+}
 
-impl OptionalCatchBinding {
-    pub fn new() -> Self {
-        Self
+impl<'a, 'ctx> OptionalCatchBinding<'a, 'ctx> {
+    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+        Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for OptionalCatchBinding {
-    /// If CatchClause has no param, add a parameter called `unused`.
-    fn enter_catch_clause(&mut self, clause: &mut CatchClause, ctx: &mut TraverseCtx) {
-        if clause.param.is_some() {
-            return;
-        }
-
-        let binding = ctx.generate_uid(
-            "unused",
-            clause.body.scope_id(),
-            SymbolFlags::CatchVariable | SymbolFlags::FunctionScopedVariable,
-        );
-        let binding_pattern = binding.create_binding_pattern(ctx);
-        let param = ctx.ast.catch_parameter(SPAN, binding_pattern);
-        clause.param = Some(param);
-    }
+impl VisitMutHook<TraverseCtx<'_>> for OptionalCatchBinding<'_, '_> {
+    // TODO: Implement transformation when SWC infrastructure is ready
+    // This will add a parameter called `_unused` to catch clauses without
+    // parameters
 }

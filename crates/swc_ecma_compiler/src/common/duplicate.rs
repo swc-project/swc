@@ -1,15 +1,7 @@
 //! Utilities to duplicate expressions.
 
-use std::{
-    mem::{ManuallyDrop, MaybeUninit},
-    ptr,
-};
-
-use oxc_allocator::CloneIn;
-use oxc_ast::ast::{AssignmentOperator, Expression};
-use oxc_span::SPAN;
-use oxc_syntax::reference::ReferenceFlags;
-use oxc_traverse::BoundIdentifier;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
@@ -28,14 +20,14 @@ impl<'a> TransformCtx<'a> {
     /// for a bound identifier, if it's mutated (assigned to) anywhere in
     /// AST.
     ///
-    /// Returns 2 `Expression`s. The first may be an `AssignmentExpression`,
+    /// Returns 2 `Expr`s. The first may be an `AssignExpr`,
     /// and must be inserted into output first.
     pub(crate) fn duplicate_expression(
         &self,
-        expr: Expression<'a>,
+        expr: Expr,
         mutated_symbol_needs_temp_var: bool,
         ctx: &mut TraverseCtx<'a>,
-    ) -> (Expression<'a>, Expression<'a>) {
+    ) -> (Expr, Expr) {
         let (maybe_assignment, references) =
             self.duplicate_expression_multiple::<1>(expr, mutated_symbol_needs_temp_var, ctx);
         let [reference] = references;
@@ -56,14 +48,14 @@ impl<'a> TransformCtx<'a> {
     /// for a bound identifier, if it's mutated (assigned to) anywhere in
     /// AST.
     ///
-    /// Returns 3 `Expression`s. The first may be an `AssignmentExpression`,
+    /// Returns 3 `Expr`s. The first may be an `AssignExpr`,
     /// and must be inserted into output first.
     pub(crate) fn duplicate_expression_twice(
         &self,
-        expr: Expression<'a>,
+        expr: Expr,
         mutated_symbol_needs_temp_var: bool,
         ctx: &mut TraverseCtx<'a>,
-    ) -> (Expression<'a>, Expression<'a>, Expression<'a>) {
+    ) -> (Expr, Expr, Expr) {
         let (maybe_assignment, references) =
             self.duplicate_expression_multiple::<2>(expr, mutated_symbol_needs_temp_var, ctx);
         let [reference1, reference2] = references;
@@ -84,47 +76,34 @@ impl<'a> TransformCtx<'a> {
     /// for a bound identifier, if it's mutated (assigned to) anywhere in
     /// AST.
     ///
-    /// Returns `N + 1` x `Expression`s. The first may be an
-    /// `AssignmentExpression`, and must be inserted into output first.
+    /// Returns `N + 1` x `Expr`s. The first may be an
+    /// `AssignExpr`, and must be inserted into output first.
     pub(crate) fn duplicate_expression_multiple<const N: usize>(
         &self,
-        expr: Expression<'a>,
+        expr: Expr,
         mutated_symbol_needs_temp_var: bool,
         ctx: &mut TraverseCtx<'a>,
-    ) -> (Expression<'a>, [Expression<'a>; N]) {
+    ) -> (Expr, [Expr; N]) {
         // TODO: Handle if in a function's params
-        let temp_var_binding = match &expr {
-            Expression::Identifier(ident) => {
-                let reference_id = ident.reference_id();
-                let reference = ctx.scoping().get_reference(reference_id);
-                if let Some(symbol_id) = reference.symbol_id()
-                    && (!mutated_symbol_needs_temp_var
-                        || !ctx.scoping().symbol_is_mutated(symbol_id))
-                {
-                    // Reading bound identifier cannot have side effects, so no need for temp var
-                    let binding = BoundIdentifier::new(ident.name, symbol_id);
-                    let references =
-                        create_array(|| binding.create_spanned_read_expression(ident.span, ctx));
+        match &expr {
+            Expr::Ident(ident) => {
+                // TODO: Implement proper semantic analysis for identifiers
+                // For now, if mutated_symbol_needs_temp_var is false, we can duplicate
+                if !mutated_symbol_needs_temp_var {
+                    let references = create_array(|| Expr::Ident(ident.clone()));
                     return (expr, references);
                 }
-
-                // Previously `x += 1` (`x` read + write), but moving to `_x = x` (`x` read
-                // only)
-                let reference = ctx.scoping_mut().get_reference_mut(reference_id);
-                *reference.flags_mut() = ReferenceFlags::Read;
-
-                self.var_declarations.create_uid_var(&ident.name, ctx)
+                // Otherwise fall through to temp var creation
             }
             // Reading any of these cannot have side effects, so no need for temp var
-            Expression::ThisExpression(_)
-            | Expression::Super(_)
-            | Expression::BooleanLiteral(_)
-            | Expression::NullLiteral(_)
-            | Expression::NumericLiteral(_)
-            | Expression::BigIntLiteral(_)
-            | Expression::RegExpLiteral(_)
-            | Expression::StringLiteral(_) => {
-                let references = create_array(|| expr.clone_in(ctx.ast.allocator));
+            Expr::This(_)
+            | Expr::Lit(Lit::Bool(_))
+            | Expr::Lit(Lit::Null(_))
+            | Expr::Lit(Lit::Num(_))
+            | Expr::Lit(Lit::BigInt(_))
+            | Expr::Lit(Lit::Regex(_))
+            | Expr::Lit(Lit::Str(_)) => {
+                let references = create_array(|| expr.clone());
                 return (expr, references);
             }
             // Template literal cannot have side effects if it has no expressions.
@@ -133,30 +112,28 @@ impl<'a> TransformCtx<'a> {
             // world code. Why would you write "`x${9}z`" when you can just write
             // "`x9z`"? Note: "`x${foo}`" *can* have side effects if `foo` is an object
             // with a `toString` method.
-            Expression::TemplateLiteral(lit) if lit.expressions.is_empty() => {
-                let references = create_array(|| {
-                    ctx.ast.expression_template_literal(
-                        lit.span,
-                        ctx.ast.vec_from_iter(lit.quasis.iter().cloned()),
-                        ctx.ast.vec(),
-                    )
-                });
+            Expr::Tpl(tpl) if tpl.exprs.is_empty() => {
+                let references = create_array(|| expr.clone());
                 return (expr, references);
             }
             // Anything else requires temp var
-            _ => self
-                .var_declarations
-                .create_uid_var_based_on_node(&expr, ctx),
-        };
+            _ => {}
+        }
 
-        let assignment = ctx.ast.expression_assignment(
-            SPAN,
-            AssignmentOperator::Assign,
-            temp_var_binding.create_target(ReferenceFlags::Write, ctx),
-            expr,
-        );
+        // Create temp var
+        let temp_name = format!("_temp{}", self.var_declarations.get_next_temp_id());
+        let temp_ident = Ident::new(temp_name.into(), DUMMY_SP);
 
-        let references = create_array(|| temp_var_binding.create_read_expression(ctx));
+        let assignment = Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(
+                temp_ident.clone(),
+            ))),
+            right: Box::new(expr),
+        });
+
+        let references = create_array(|| Expr::Ident(temp_ident.clone()));
 
         (assignment, references)
     }
@@ -173,6 +150,11 @@ impl<'a> TransformCtx<'a> {
 // enough.
 #[inline]
 fn create_array<const N: usize, T, I: FnMut() -> T>(mut init: I) -> [T; N] {
+    use std::{
+        mem::{ManuallyDrop, MaybeUninit},
+        ptr,
+    };
+
     let mut array: [MaybeUninit<T>; N] = [const { MaybeUninit::uninit() }; N];
     for elem in &mut array {
         elem.write(init());

@@ -1,7 +1,7 @@
 //! Utilities to computed key expressions.
 
-use oxc_ast::ast::Expression;
-use oxc_semantic::SymbolFlags;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
 
 use crate::{
     context::{TransformCtx, TraverseCtx},
@@ -22,23 +22,23 @@ impl<'a> TransformCtx<'a> {
     // TODO(improve-on-babel): Can avoid the temp var if key is for a static prop/method,
     // as in that case the usage of `this` stays outside the class.
     #[expect(clippy::unused_self)] // Taking `self` makes it easier to use.
-    pub fn key_needs_temp_var(&self, key: &Expression, ctx: &TraverseCtx) -> bool {
+    pub fn key_needs_temp_var(&self, key: &Expr, ctx: &TraverseCtx) -> bool {
         match key {
             // Literals cannot have side effects.
             // e.g. `let x = 'x'; class C { [x] = 1; }` or `class C { ['x'] = 1; }`.
-            Expression::BooleanLiteral(_)
-            | Expression::NullLiteral(_)
-            | Expression::NumericLiteral(_)
-            | Expression::BigIntLiteral(_)
-            | Expression::RegExpLiteral(_)
-            | Expression::StringLiteral(_) => false,
+            Expr::Lit(Lit::Bool(_))
+            | Expr::Lit(Lit::Null(_))
+            | Expr::Lit(Lit::Num(_))
+            | Expr::Lit(Lit::BigInt(_))
+            | Expr::Lit(Lit::Regex(_))
+            | Expr::Lit(Lit::Str(_)) => false,
             // Template literal cannot have side effects if it has no expressions.
             // If it *does* have expressions, but they're all literals, then also cannot have side
             // effects, but don't bother checking for that as it shouldn't occur in real
             // world code. Why would you write "`x${9}z`" when you can just write
             // "`x9z`"? Note: "`x${foo}`" *can* have side effects if `foo` is an object
             // with a `toString` method.
-            Expression::TemplateLiteral(lit) => !lit.expressions.is_empty(),
+            Expr::Tpl(tpl) => !tpl.exprs.is_empty(),
             // `IdentifierReference`s can have side effects if is unbound.
             //
             // If var is mutated, it also needs a temp var, because of cases like
@@ -49,15 +49,12 @@ impl<'a> TransformCtx<'a> {
             // TODO: Add an exec test for this odd case.
             // TODO(improve-on-babel): That case is rare.
             // Test for it in first pass over class elements, and avoid temp vars where possible.
-            Expression::Identifier(ident) => {
-                match ctx
-                    .scoping()
-                    .get_reference(ident.reference_id())
-                    .symbol_id()
-                {
-                    Some(symbol_id) => ctx.scoping().symbol_is_mutated(symbol_id),
-                    None => true,
-                }
+            Expr::Ident(ident) => {
+                // TODO: Implement proper semantic analysis for identifiers
+                // For now, conservatively assume unbound or mutated
+                let _ = ident;
+                let _ = ctx;
+                true
             }
             // Treat any other expression as possibly having side effects e.g. `foo()`.
             // TODO: Do fuller analysis to detect expressions which cannot have side effects.
@@ -71,22 +68,30 @@ impl<'a> TransformCtx<'a> {
     /// var.
     pub fn create_computed_key_temp_var(
         &self,
-        key: Expression<'a>,
+        key: Expr,
         ctx: &mut TraverseCtx<'a>,
-    ) -> (
-        /* assignment */ Expression<'a>,
-        /* identifier */ Expression<'a>,
-    ) {
-        let outer_scope_id = ctx.current_block_scope_id();
-        // TODO: Handle if is a class expression defined in a function's params.
-        let binding =
-            ctx.generate_uid_based_on_node(&key, outer_scope_id, SymbolFlags::BlockScopedVariable);
+    ) -> (/* assignment */ Expr, /* identifier */ Expr) {
+        // TODO: Implement proper temp var creation using SWC's scoping system
+        // For now, create a simple identifier
+        let temp_name = format!("_temp{}", self.var_declarations.get_next_temp_id());
 
-        self.var_declarations.insert_let(&binding, None, ctx);
+        // Create assignment: _temp = key
+        let temp_ident = Ident::new(temp_name.clone().into(), DUMMY_SP);
+        let assignment = Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(
+                temp_ident.clone(),
+            ))),
+            right: Box::new(key),
+        });
 
-        let assignment = create_assignment(&binding, key, ctx);
-        let ident = binding.create_read_expression(ctx);
+        // Create identifier reference
+        let ident_ref = Expr::Ident(temp_ident);
 
-        (assignment, ident)
+        // TODO: Insert let declaration using var_declarations store
+        // self.var_declarations.insert_let(&binding, None, ctx);
+
+        (assignment, ident_ref)
     }
 }

@@ -1,103 +1,95 @@
-use std::{collections::hash_map::Entry, iter, str};
+//! React Fast Refresh
+//!
+//! Transform React functional components to integrate Fast Refresh.
+//!
+//! ## References
+//!
+//! * <https://github.com/facebook/react/issues/16604#issuecomment-528663101>
+//! * <https://github.com/facebook/react/blob/v18.3.1/packages/react-refresh/src/ReactFreshBabelPlugin.js>
+
+use std::{collections::hash_map::Entry, str};
 
 use base64::{
     encoded_len as base64_encoded_len,
     prelude::{Engine, BASE64_STANDARD},
 };
-use oxc_allocator::{
-    Address, CloneIn, GetAddress, StringBuilder as ArenaStringBuilder, TakeIn, Vec as ArenaVec,
-};
-use oxc_ast::{ast::*, match_expression, AstBuilder, NONE};
-use oxc_ast_visit::{
-    walk::{walk_call_expression, walk_declaration},
-    Visit,
-};
-use oxc_semantic::{ReferenceFlags, ScopeFlags, ScopeId, SymbolFlags, SymbolId};
-use oxc_span::{Atom, GetSpan, SPAN};
-use oxc_syntax::operator::AssignmentOperator;
-use oxc_traverse::{Ancestor, BoundIdentifier, Traverse};
 use rustc_hash::{FxHashMap, FxHashSet};
 use sha1::{Digest, Sha1};
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_visit::{Visit, VisitWith};
 
 use super::options::ReactRefreshOptions;
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    state::TransformState,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
 /// Parse a string into a `RefreshIdentifierResolver` and convert it into an
-/// `Expression`
-#[derive(Debug)]
-enum RefreshIdentifierResolver<'a> {
-    /// Simple IdentifierReference (e.g. `$RefreshReg$`)
-    Identifier(IdentifierReference<'a>),
-    /// StaticMemberExpression (object, property) (e.g. `window.$RefreshReg$`)
-    Member((IdentifierReference<'a>, IdentifierName<'a>)),
+/// `Expr`
+#[derive(Debug, Clone)]
+enum RefreshIdentifierResolver {
+    /// Simple Ident (e.g. `$RefreshReg$`)
+    Identifier(String),
+    /// MemberExpression (object, property) (e.g. `window.$RefreshReg$`)
+    Member((String, String)),
     /// Used for `import.meta` expression (e.g. `import.meta.$RefreshReg$`)
-    Expression(Expression<'a>),
+    ImportMeta(String),
 }
 
-impl<'a> RefreshIdentifierResolver<'a> {
+impl RefreshIdentifierResolver {
     /// Parses a string into a RefreshIdentifierResolver
-    pub fn parse(input: &str, ast: AstBuilder<'a>) -> Self {
+    pub fn parse(input: &str) -> Self {
         let mut parts = input.split('.');
 
         let first_part = parts.next().unwrap();
         let Some(second_part) = parts.next() else {
             // Handle simple identifier reference
-            return Self::Identifier(ast.identifier_reference(SPAN, ast.atom(input)));
+            return Self::Identifier(input.to_string());
         };
 
         if first_part == "import" {
             // Handle `import.meta.$RefreshReg$` expression
-            let mut expr = ast.expression_meta_property(
-                SPAN,
-                ast.identifier_name(SPAN, "import"),
-                ast.identifier_name(SPAN, ast.atom(second_part)),
-            );
             if let Some(property) = parts.next() {
-                expr = Expression::from(ast.member_expression_static(
-                    SPAN,
-                    expr,
-                    ast.identifier_name(SPAN, ast.atom(property)),
-                    false,
-                ));
+                return Self::ImportMeta(property.to_string());
             }
-            return Self::Expression(expr);
+            return Self::ImportMeta(second_part.to_string());
         }
 
         // Handle `window.$RefreshReg$` member expression
-        let object = ast.identifier_reference(SPAN, ast.atom(first_part));
-        let property = ast.identifier_name(SPAN, ast.atom(second_part));
-        Self::Member((object, property))
+        Self::Member((first_part.to_string(), second_part.to_string()))
     }
 
-    /// Converts the RefreshIdentifierResolver into an Expression
-    pub fn to_expression(&self, ctx: &mut TraverseCtx<'a>) -> Expression<'a> {
+    /// Converts the RefreshIdentifierResolver into an Expr
+    pub fn to_expression(&self) -> Box<Expr> {
         match self {
-            Self::Identifier(ident) => {
-                let reference_id = ctx.create_unbound_reference(&ident.name, ReferenceFlags::Read);
-                ctx.ast.expression_identifier_with_reference_id(
-                    ident.span,
-                    ident.name,
-                    reference_id,
-                )
+            Self::Identifier(name) => Box::new(Expr::Ident(quote_ident!(name.as_str()))),
+            Self::Member((object, property)) => {
+                let obj = Box::new(Expr::Ident(quote_ident!(object.as_str())));
+                let prop = IdentName {
+                    span: DUMMY_SP,
+                    sym: property.as_str().into(),
+                };
+                Box::new(Expr::Member(MemberExpr {
+                    span: DUMMY_SP,
+                    obj,
+                    prop: MemberProp::Ident(prop),
+                }))
             }
-            Self::Member((ident, property)) => {
-                let reference_id = ctx.create_unbound_reference(&ident.name, ReferenceFlags::Read);
-                let ident = ctx.ast.expression_identifier_with_reference_id(
-                    ident.span,
-                    ident.name,
-                    reference_id,
-                );
-                Expression::from(ctx.ast.member_expression_static(
-                    SPAN,
-                    ident,
-                    property.clone(),
-                    false,
-                ))
+            Self::ImportMeta(property) => {
+                let meta = Box::new(Expr::MetaProp(MetaPropExpr {
+                    span: DUMMY_SP,
+                    kind: MetaPropKind::ImportMeta,
+                }));
+                let prop = IdentName {
+                    span: DUMMY_SP,
+                    sym: property.as_str().into(),
+                };
+                Box::new(Expr::Member(MemberExpr {
+                    span: DUMMY_SP,
+                    obj: meta,
+                    prop: MemberProp::Ident(prop),
+                }))
             }
-            Self::Expression(expr) => expr.clone_in(ctx.ast.allocator),
         }
     }
 }
@@ -105,37 +97,34 @@ impl<'a> RefreshIdentifierResolver<'a> {
 /// React Fast Refresh
 ///
 /// Transform React functional components to integrate Fast Refresh.
-///
-/// References:
-///
-/// * <https://github.com/facebook/react/issues/16604#issuecomment-528663101>
-/// * <https://github.com/facebook/react/blob/v18.3.1/packages/react-refresh/src/ReactFreshBabelPlugin.js>
 pub struct ReactRefresh<'a, 'ctx> {
-    refresh_reg: RefreshIdentifierResolver<'a>,
-    refresh_sig: RefreshIdentifierResolver<'a>,
+    refresh_reg: RefreshIdentifierResolver,
+    refresh_sig: RefreshIdentifierResolver,
     emit_full_signatures: bool,
     ctx: &'ctx TransformCtx<'a>,
     // States
-    registrations: Vec<(BoundIdentifier<'a>, Atom<'a>)>,
+    registrations: Vec<(String, String)>,
     /// Used to wrap call expression with signature.
     /// (eg: hoc(() => {}) -> _s1(hoc(_s1(() => {}))))
-    last_signature: Option<(BindingIdentifier<'a>, ArenaVec<'a, Argument<'a>>)>,
+    last_signature: Option<(String, Vec<ExprOrSpread>)>,
     // (function_scope_id, key)
-    function_signature_keys: FxHashMap<ScopeId, String>,
-    non_builtin_hooks_callee: FxHashMap<ScopeId, Vec<Option<Expression<'a>>>>,
+    function_signature_keys: FxHashMap<usize, String>,
+    non_builtin_hooks_callee: FxHashMap<usize, Vec<Option<Box<Expr>>>>,
     /// Used to determine which bindings are used in JSX calls.
-    used_in_jsx_bindings: FxHashSet<SymbolId>,
+    used_in_jsx_bindings: FxHashSet<Id>,
+    /// Counter for generating unique signature variable names
+    signature_counter: usize,
+    /// Counter for generating unique registration variable names
+    registration_counter: usize,
+    /// Current scope depth for tracking function scopes
+    scope_depth: usize,
 }
 
 impl<'a, 'ctx> ReactRefresh<'a, 'ctx> {
-    pub fn new(
-        options: &ReactRefreshOptions,
-        ast: AstBuilder<'a>,
-        ctx: &'ctx TransformCtx<'a>,
-    ) -> Self {
+    pub fn new(options: &ReactRefreshOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
         Self {
-            refresh_reg: RefreshIdentifierResolver::parse(&options.refresh_reg, ast),
-            refresh_sig: RefreshIdentifierResolver::parse(&options.refresh_sig, ast),
+            refresh_reg: RefreshIdentifierResolver::parse(&options.refresh_reg),
+            refresh_sig: RefreshIdentifierResolver::parse(&options.refresh_sig),
             emit_full_signatures: options.emit_full_signatures,
             registrations: Vec::default(),
             ctx,
@@ -143,267 +132,226 @@ impl<'a, 'ctx> ReactRefresh<'a, 'ctx> {
             function_signature_keys: FxHashMap::default(),
             non_builtin_hooks_callee: FxHashMap::default(),
             used_in_jsx_bindings: FxHashSet::default(),
+            signature_counter: 0,
+            registration_counter: 0,
+            scope_depth: 0,
         }
+    }
+
+    fn next_signature_name(&mut self) -> String {
+        self.signature_counter += 1;
+        format!("_s{}", self.signature_counter)
+    }
+
+    fn next_registration_name(&mut self) -> String {
+        self.registration_counter += 1;
+        format!("_c{}", self.registration_counter)
     }
 }
 
-impl<'a> Traverse<'a, TransformState<'a>> for ReactRefresh<'a, '_> {
-    fn enter_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
-        self.used_in_jsx_bindings = UsedInJSXBindingsCollector::collect(program, ctx);
+impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
+    fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
+        // Collect bindings used in JSX
+        self.used_in_jsx_bindings = UsedInJSXBindingsCollector::collect(program);
 
-        let mut new_statements = ctx.ast.vec_with_capacity(program.body.len() * 2);
-        for mut statement in program.body.take_in(ctx.ast) {
-            let next_statement = self.process_statement(&mut statement, ctx);
+        // Process statements
+        let mut new_statements = Vec::with_capacity(program.body().len() * 2);
+        for mut statement in program.body_mut().drain(..).collect::<Vec<_>>() {
+            let next_statement = self.process_statement(&mut statement);
             new_statements.push(statement);
             if let Some(assignment_expression) = next_statement {
                 new_statements.push(assignment_expression);
             }
         }
-        program.body = new_statements;
+        *program.body_mut() = new_statements;
     }
 
-    fn exit_program(&mut self, program: &mut Program<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
         if self.registrations.is_empty() {
             return;
         }
 
-        let var_decl = Statement::from(ctx.ast.declaration_variable(
-            SPAN,
-            VariableDeclarationKind::Var,
-            ctx.ast.vec(), // This is replaced at the end
-            false,
-        ));
+        let mut variable_declarators = Vec::with_capacity(self.registrations.len());
+        let mut calls = Vec::with_capacity(self.registrations.len());
 
-        let mut variable_declarator_items = ctx.ast.vec_with_capacity(self.registrations.len());
-        let calls = self.registrations.iter().map(|(binding, persistent_id)| {
-            variable_declarator_items.push(ctx.ast.variable_declarator(
-                SPAN,
-                VariableDeclarationKind::Var,
-                binding.create_binding_pattern(ctx),
-                None,
-                false,
-            ));
+        for (binding_name, persistent_id) in &self.registrations {
+            variable_declarators.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(BindingIdent {
+                    id: quote_ident!(binding_name.as_str()),
+                    type_ann: None,
+                }),
+                init: None,
+                definite: false,
+            });
 
-            let callee = self.refresh_reg.to_expression(ctx);
-            let arguments = ctx.ast.vec_from_array([
-                Argument::from(binding.create_read_expression(ctx)),
-                Argument::from(
-                    ctx.ast
-                        .expression_string_literal(SPAN, *persistent_id, None),
-                ),
-            ]);
-            ctx.ast.statement_expression(
-                SPAN,
-                ctx.ast
-                    .expression_call(SPAN, callee, NONE, arguments, false),
-            )
-        });
+            let callee = self.refresh_reg.to_expression();
+            let args = vec![
+                ExprOrSpread {
+                    spread: None,
+                    expr: Box::new(Expr::Ident(quote_ident!(binding_name.as_str()))),
+                },
+                ExprOrSpread {
+                    spread: None,
+                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        value: persistent_id.as_str().into(),
+                        raw: None,
+                    }))),
+                },
+            ];
+            calls.push(
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: Callee::Expr(callee),
+                    args,
+                    type_args: None,
+                }
+                .into_stmt(),
+            );
+        }
 
-        let var_decl_index = program.body.len();
-        program.body.extend(iter::once(var_decl).chain(calls));
-
-        let Statement::VariableDeclaration(var_decl) = &mut program.body[var_decl_index] else {
-            unreachable!()
+        let var_decl = VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: variable_declarators,
         };
-        var_decl.declarations = variable_declarator_items;
+
+        program
+            .body_mut()
+            .extend(std::iter::once(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
+                Box::new(var_decl),
+            )))));
+        program
+            .body_mut()
+            .extend(calls.into_iter().map(ModuleItem::Stmt));
     }
 
-    fn exit_expression(&mut self, expr: &mut Expression<'a>, ctx: &mut TraverseCtx<'a>) {
+    fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx<'a>) {
         let signature = match expr {
-            Expression::FunctionExpression(func) => self.create_signature_call_expression(
-                func.scope_id(),
-                func.body.as_mut().unwrap(),
-                ctx,
-            ),
-            Expression::ArrowFunctionExpression(arrow) => {
-                let call_fn =
-                    self.create_signature_call_expression(arrow.scope_id(), &mut arrow.body, ctx);
+            Expr::Fn(func_expr) => {
+                self.create_signature_call_expression_for_fn(&mut func_expr.function)
+            }
+            Expr::Arrow(arrow) => {
+                let call_fn = self.create_signature_call_expression_for_arrow(arrow);
 
-                // If the signature is found, we will push a new statement to the arrow function
-                // body. So it's not an expression anymore.
+                // If the signature is found, we will transform arrow to block
                 if call_fn.is_some() {
-                    Self::transform_arrow_function_to_block(arrow, ctx);
+                    Self::transform_arrow_function_to_block(arrow);
                 }
                 call_fn
             }
             // hoc(_c = function() { })
-            Expression::AssignmentExpression(_) => return,
+            Expr::Assign(_) => return,
             // hoc1(hoc2(...))
-            Expression::CallExpression(_) => self.last_signature.take(),
+            Expr::Call(_) => self.last_signature.take(),
             _ => None,
         };
 
         let Some((binding_identifier, mut arguments)) = signature else {
             return;
         };
-        let binding = BoundIdentifier::from_binding_ident(&binding_identifier);
 
-        if !matches!(expr, Expression::CallExpression(_)) {
-            // Try to get binding from parent VariableDeclarator
-            if let Ancestor::VariableDeclaratorInit(declarator) = ctx.parent()
-                && let Some(ident) = declarator.id().get_binding_identifier()
-            {
-                let id_binding = BoundIdentifier::from_binding_ident(ident);
-                self.handle_function_in_variable_declarator(&id_binding, &binding, arguments, ctx);
-                return;
-            }
+        if !matches!(expr, Expr::Call(_)) {
+            // Try to get binding from parent VariableDeclarator - would need
+            // parent tracking For now, we'll handle this case in a
+            // simplified manner
         }
 
         let mut found_call_expression = false;
-        for ancestor in ctx.ancestors() {
-            if ancestor.is_assignment_expression() {
-                continue;
-            }
-            if ancestor.is_call_expression() {
-                found_call_expression = true;
-            }
-            break;
+        // In SWC, we don't have ancestor tracking in the same way as oxc
+        // We'll use a simplified approach for now
+        if matches!(expr, Expr::Call(_)) {
+            found_call_expression = true;
         }
 
         if found_call_expression {
-            self.last_signature = Some((
-                binding_identifier.clone(),
-                arguments.clone_in(ctx.ast.allocator),
-            ));
+            self.last_signature = Some((binding_identifier.clone(), arguments.clone()));
         }
 
-        arguments.insert(0, Argument::from(expr.take_in(ctx.ast)));
-        *expr = ctx.ast.expression_call(
-            SPAN,
-            binding.create_read_expression(ctx),
-            NONE,
-            arguments,
-            false,
+        arguments.insert(
+            0,
+            ExprOrSpread {
+                spread: None,
+                expr: Box::new(std::mem::replace(
+                    expr,
+                    Expr::Invalid(Invalid { span: DUMMY_SP }),
+                )),
+            },
         );
+
+        *expr = Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(
+                binding_identifier.as_str()
+            )))),
+            args: arguments,
+            type_args: None,
+        });
     }
 
-    fn exit_function(&mut self, func: &mut Function<'a>, ctx: &mut TraverseCtx<'a>) {
-        if !func.is_function_declaration() {
+    fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx<'a>) {
+        // Note: In the full implementation, we would insert a statement after the
+        // function declaration using statement_injector.
+        // For now, this is left as a no-op since statement_injector needs to be ported.
+        // The signature will be handled in the function body itself.
+        if func.body.is_none() {
             return;
         }
 
-        let Some((binding_identifier, mut arguments)) = self.create_signature_call_expression(
-            func.scope_id(),
-            func.body.as_mut().unwrap(),
-            ctx,
-        ) else {
-            return;
-        };
-
-        let Some(id) = func.id.as_ref() else {
-            return;
-        };
-        let id_binding = BoundIdentifier::from_binding_ident(id);
-
-        arguments.insert(0, Argument::from(id_binding.create_read_expression(ctx)));
-
-        let binding = BoundIdentifier::from_binding_ident(&binding_identifier);
-        let callee = binding.create_read_expression(ctx);
-        let expr = ctx
-            .ast
-            .expression_call(SPAN, callee, NONE, arguments, false);
-        let statement = ctx.ast.statement_expression(SPAN, expr);
-
-        // Get the address of the statement containing this `FunctionDeclaration`
-        let address = match ctx.parent() {
-            // For `export function Foo() {}`
-            // which is a `Statement::ExportNamedDeclaration`
-            Ancestor::ExportNamedDeclarationDeclaration(decl) => decl.address(),
-            // For `export default function() {}`
-            // which is a `Statement::ExportDefaultDeclaration`
-            Ancestor::ExportDefaultDeclarationDeclaration(decl) => decl.address(),
-            // Otherwise just a `function Foo() {}`
-            // which is a `Statement::FunctionDeclaration`.
-            // `Function` is always stored in a `Box`, so has a stable memory address.
-            _ => Address::from_ref(func),
-        };
-        self.ctx
-            .statement_injector
-            .insert_after(&address, statement);
+        let _signature = self.create_signature_call_expression_for_fn(func);
+        // TODO: Insert signature call after function declaration when
+        // statement_injector is ported
     }
 
-    fn enter_call_expression(
-        &mut self,
-        call_expr: &mut CallExpression<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        let current_scope_id = ctx.current_scope_id();
-        if !ctx.scoping().scope_flags(current_scope_id).is_function() {
-            return;
-        }
+    fn enter_call_expr(&mut self, call_expr: &mut CallExpr, _ctx: &mut TraverseCtx<'a>) {
+        let current_scope_id = self.scope_depth;
 
         let hook_name = match &call_expr.callee {
-            Expression::Identifier(ident) => ident.name,
-            Expression::StaticMemberExpression(member) => member.property.name,
+            Callee::Expr(expr) => match &**expr {
+                Expr::Ident(ident) => ident.sym.as_ref(),
+                Expr::Member(member) => {
+                    if let MemberProp::Ident(prop) = &member.prop {
+                        prop.sym.as_ref()
+                    } else {
+                        return;
+                    }
+                }
+                _ => return,
+            },
             _ => return,
         };
 
-        if !is_use_hook_name(&hook_name) {
+        if !is_use_hook_name(hook_name) {
             return;
         }
 
-        if !is_builtin_hook(&hook_name) {
-            // Check if a corresponding binding exists where we emit the signature.
-            let (binding_name, is_member_expression) = match &call_expr.callee {
-                Expression::Identifier(ident) => (Some(ident.name), false),
-                Expression::StaticMemberExpression(member) => {
-                    if let Expression::Identifier(object) = &member.object {
-                        (Some(object.name), true)
-                    } else {
-                        (None, false)
-                    }
-                }
-                _ => unreachable!(),
+        if !is_builtin_hook(hook_name) {
+            // Track custom hooks
+            let binding_expr = match &call_expr.callee {
+                Callee::Expr(expr) => match &**expr {
+                    Expr::Ident(ident) => Some(Box::new(Expr::Ident(ident.clone()))),
+                    Expr::Member(member) => Some(Box::new(Expr::Member(member.clone()))),
+                    _ => None,
+                },
+                _ => None,
             };
 
-            if let Some(binding_name) = binding_name {
-                self.non_builtin_hooks_callee
-                    .entry(current_scope_id)
-                    .or_default()
-                    .push(
-                        ctx.scoping()
-                            .find_binding(
-                                ctx.scoping()
-                                    .scope_parent_id(ctx.current_scope_id())
-                                    .unwrap(),
-                                binding_name.as_str(),
-                            )
-                            .map(|symbol_id| {
-                                let mut expr = ctx.create_bound_ident_expr(
-                                    SPAN,
-                                    binding_name,
-                                    symbol_id,
-                                    ReferenceFlags::Read,
-                                );
-
-                                if is_member_expression {
-                                    // binding_name.hook_name
-                                    expr = Expression::from(ctx.ast.member_expression_static(
-                                        SPAN,
-                                        expr,
-                                        ctx.ast.identifier_name(SPAN, hook_name),
-                                        false,
-                                    ));
-                                }
-                                expr
-                            }),
-                    );
-            }
+            self.non_builtin_hooks_callee
+                .entry(current_scope_id)
+                .or_default()
+                .push(binding_expr);
         }
 
-        let declarator_id = if let Ancestor::VariableDeclaratorInit(declarator) = ctx.parent() {
-            // TODO: if there is no LHS, consider some other heuristic.
-            declarator.id().span().source_text(self.ctx.source_text)
-        } else {
-            ""
-        };
+        let declarator_id = ""; // Would need parent tracking to get this properly
 
-        let args = &call_expr.arguments;
+        let args = &call_expr.args;
         let (args_key, mut key_len) = if hook_name == "useState" && !args.is_empty() {
-            let args_key = args[0].span().source_text(self.ctx.source_text);
+            let args_key = ""; // Would need source text to get this
             (args_key, args_key.len() + 4)
         } else if hook_name == "useReducer" && args.len() > 1 {
-            let args_key = args[1].span().source_text(self.ctx.source_text);
+            let args_key = ""; // Would need source text to get this
             (args_key, args_key.len() + 4)
         } else {
             ("", 2)
@@ -424,7 +372,7 @@ impl<'a> Traverse<'a, TransformState<'a>> for ReactRefresh<'a, '_> {
         // `hook_name{{declarator_id(args_key)}}` or `hook_name{{declarator_id}}`
         let old_len = string.len();
 
-        string.push_str(&hook_name);
+        string.push_str(hook_name);
         string.push('{');
         string.push_str(declarator_id);
         if !args_key.is_empty() {
@@ -440,72 +388,66 @@ impl<'a> Traverse<'a, TransformState<'a>> for ReactRefresh<'a, '_> {
 
 // Internal Methods
 impl<'a> ReactRefresh<'a, '_> {
-    fn create_registration(
-        &mut self,
-        persistent_id: Atom<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> AssignmentTarget<'a> {
-        let binding = ctx.generate_uid_in_root_scope("c", SymbolFlags::FunctionScopedVariable);
-        let target = binding.create_target(ReferenceFlags::Write, ctx);
-        self.registrations.push((binding, persistent_id));
-        target
+    fn create_registration(&mut self, persistent_id: String) -> String {
+        let binding = self.next_registration_name();
+        self.registrations.push((binding.clone(), persistent_id));
+        binding
     }
 
     /// Similar to the `findInnerComponents` function in `react-refresh/babel`.
     fn replace_inner_components(
         &mut self,
         inferred_name: &str,
-        expr: &mut Expression<'a>,
+        expr: &mut Expr,
         is_variable_declarator: bool,
-        ctx: &mut TraverseCtx<'a>,
     ) -> bool {
         match expr {
-            Expression::Identifier(ident) => {
+            Expr::Ident(ident) => {
                 // For case like:
                 // export const Something = hoc(Foo)
                 // we don't want to wrap Foo inside the call.
                 // Instead we assume it's registered at definition.
-                return is_componentish_name(&ident.name);
+                return is_componentish_name(&ident.sym);
             }
-            Expression::FunctionExpression(_) => {}
-            Expression::ArrowFunctionExpression(arrow) => {
+            Expr::Fn(_) => {}
+            Expr::Arrow(arrow) => {
                 // Don't transform `() => () => {}`
-                if arrow
-                    .get_expression()
-                    .is_some_and(|expr| matches!(expr, Expression::ArrowFunctionExpression(_)))
-                {
-                    return false;
+                if let Some(BlockStmtOrExpr::Expr(inner_expr)) = &arrow.body {
+                    if matches!(&**inner_expr, Expr::Arrow(_)) {
+                        return false;
+                    }
                 }
             }
-            Expression::CallExpression(call_expr) => {
+            Expr::Call(call_expr) => {
                 let allowed_callee = matches!(
-                    call_expr.callee,
-                    Expression::Identifier(_)
-                        | Expression::ComputedMemberExpression(_)
-                        | Expression::StaticMemberExpression(_)
+                    &call_expr.callee,
+                    Callee::Expr(expr) if matches!(
+                        &**expr,
+                        Expr::Ident(_) | Expr::Member(_)
+                    )
                 );
 
                 if allowed_callee {
-                    let callee_span = call_expr.callee.span();
-
-                    let Some(argument_expr) = call_expr
-                        .arguments
-                        .first_mut()
-                        .and_then(|e| e.as_expression_mut())
+                    let Some(ExprOrSpread {
+                        expr: argument_expr,
+                        ..
+                    }) = call_expr.args.first_mut()
                     else {
                         return false;
                     };
 
+                    let callee_name = match &call_expr.callee {
+                        Callee::Expr(expr) => match &**expr {
+                            Expr::Ident(ident) => ident.sym.as_ref(),
+                            _ => "",
+                        },
+                        _ => "",
+                    };
+
                     let found_inside = self.replace_inner_components(
-                        format!(
-                            "{}${}",
-                            inferred_name,
-                            callee_span.source_text(self.ctx.source_text)
-                        )
-                        .as_str(),
+                        &format!("{}${}", inferred_name, callee_name),
                         argument_expr,
-                        /* is_variable_declarator */ false,
-                        ctx,
+                        false,
                     );
 
                     if !found_inside {
@@ -527,42 +469,67 @@ impl<'a> ReactRefresh<'a, '_> {
         }
 
         if !is_variable_declarator {
-            *expr = ctx.ast.expression_assignment(
-                SPAN,
-                AssignmentOperator::Assign,
-                self.create_registration(ctx.ast.atom(inferred_name), ctx),
-                expr.take_in(ctx.ast),
-            );
+            let binding = self.create_registration(inferred_name.to_string());
+            let old_expr = std::mem::replace(expr, Expr::Invalid(Invalid { span: DUMMY_SP }));
+            *expr = Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                    id: quote_ident!(binding.as_str()),
+                    type_ann: None,
+                })),
+                right: Box::new(old_expr),
+            });
         }
 
         true
     }
 
     /// _c = id.name;
-    fn create_assignment_expression(
+    fn create_assignment_expression(&mut self, id: &Ident) -> Stmt {
+        let left = self.create_registration(id.sym.to_string());
+        let right = Box::new(Expr::Ident(id.clone()));
+        let expr = AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                id: quote_ident!(left.as_str()),
+                type_ann: None,
+            })),
+            right,
+        };
+        expr.into_stmt()
+    }
+
+    fn create_signature_call_expression_for_fn(
         &mut self,
-        id: &BindingIdentifier<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> Statement<'a> {
-        let left = self.create_registration(id.name, ctx);
-        let right =
-            ctx.create_bound_ident_expr(SPAN, id.name, id.symbol_id(), ReferenceFlags::Read);
-        let expr = ctx
-            .ast
-            .expression_assignment(SPAN, AssignmentOperator::Assign, left, right);
-        ctx.ast.statement_expression(SPAN, expr)
+        func: &mut Function,
+    ) -> Option<(String, Vec<ExprOrSpread>)> {
+        let scope_id = self.scope_depth;
+        self.create_signature_call_expression(scope_id, func.body.as_mut()?)
+    }
+
+    fn create_signature_call_expression_for_arrow(
+        &mut self,
+        arrow: &mut ArrowExpr,
+    ) -> Option<(String, Vec<ExprOrSpread>)> {
+        let scope_id = self.scope_depth;
+        let body = match &mut arrow.body {
+            BlockStmtOrExpr::BlockStmt(block) => Some(block),
+            _ => None,
+        };
+        self.create_signature_call_expression(scope_id, body?)
     }
 
     fn create_signature_call_expression(
         &mut self,
-        scope_id: ScopeId,
-        body: &mut FunctionBody<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> Option<(BindingIdentifier<'a>, ArenaVec<'a, Argument<'a>>)> {
+        scope_id: usize,
+        body: &mut BlockStmt,
+    ) -> Option<(String, Vec<ExprOrSpread>)> {
         let key = self.function_signature_keys.remove(&scope_id)?;
 
-        let key = if self.emit_full_signatures {
-            ctx.ast.atom(&key)
+        let key_str = if self.emit_full_signatures {
+            key
         } else {
             // Prefer to hash when we can (e.g. outside of ASTExplorer).
             // This makes it deterministically compact, even if there's
@@ -583,27 +550,11 @@ impl<'a> ReactRefresh<'a, '_> {
             let hash = hasher.finalize();
             debug_assert_eq!(hash.len(), SHA1_HASH_LEN);
 
-            // Encode to base64 string directly in arena, without an intermediate string
-            // allocation
-            #[expect(clippy::items_after_statements)]
-            const ZEROS_STR: &str = {
-                const ZEROS_BYTES: [u8; ENCODED_LEN] = [0; ENCODED_LEN];
-                match str::from_utf8(&ZEROS_BYTES) {
-                    Ok(s) => s,
-                    Err(_) => unreachable!(),
-                }
-            };
-
-            let mut hashed_key = ArenaStringBuilder::from_str_in(ZEROS_STR, ctx.ast.allocator);
-            // SAFETY: Base64 encoding only produces ASCII bytes. Even if our assumptions
-            // are incorrect, and Base64 bytes do not fill `hashed_key`
-            // completely, the remaining bytes are 0, so also ASCII.
-            let hashed_key_bytes = unsafe { hashed_key.as_mut_str().as_bytes_mut() };
-            let encoded_bytes = BASE64_STANDARD
-                .encode_slice(hash, hashed_key_bytes)
-                .unwrap();
+            let mut encoded = vec![0u8; ENCODED_LEN];
+            let encoded_bytes = BASE64_STANDARD.encode_slice(hash, &mut encoded).unwrap();
             debug_assert_eq!(encoded_bytes, ENCODED_LEN);
-            Atom::from(hashed_key)
+
+            String::from_utf8(encoded).unwrap()
         };
 
         let callee_list = self
@@ -611,213 +562,206 @@ impl<'a> ReactRefresh<'a, '_> {
             .remove(&scope_id)
             .unwrap_or_default();
         let callee_len = callee_list.len();
-        let custom_hooks_in_scope = ctx.ast.vec_from_iter(
-            callee_list
-                .into_iter()
-                .filter_map(|e| e.map(ArrayExpressionElement::from)),
-        );
+        let custom_hooks_in_scope: Vec<Option<ExprOrSpread>> = callee_list
+            .into_iter()
+            .map(|e| e.map(|expr| ExprOrSpread { spread: None, expr }))
+            .collect();
 
-        let force_reset = custom_hooks_in_scope.len() != callee_len;
+        let force_reset = custom_hooks_in_scope.iter().any(|e| e.is_none());
 
-        let mut arguments = ctx.ast.vec();
-        arguments.push(Argument::from(
-            ctx.ast.expression_string_literal(SPAN, key, None),
-        ));
+        let mut arguments = vec![ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: key_str.into(),
+                raw: None,
+            }))),
+        }];
 
         if force_reset || !custom_hooks_in_scope.is_empty() {
-            arguments.push(Argument::from(
-                ctx.ast.expression_boolean_literal(SPAN, force_reset),
-            ));
+            arguments.push(ExprOrSpread {
+                spread: None,
+                expr: Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: force_reset,
+                }))),
+            });
         }
 
         if !custom_hooks_in_scope.is_empty() {
             // function () { return custom_hooks_in_scope }
-            let formal_parameters = ctx.ast.formal_parameters(
-                SPAN,
-                FormalParameterKind::FormalParameter,
-                ctx.ast.vec(),
-                NONE,
-            );
-            let function_body = ctx.ast.function_body(
-                SPAN,
-                ctx.ast.vec(),
-                ctx.ast.vec1(ctx.ast.statement_return(
-                    SPAN,
-                    Some(ctx.ast.expression_array(SPAN, custom_hooks_in_scope)),
-                )),
-            );
-            let scope_id = ctx.create_child_scope_of_current(ScopeFlags::Function);
-            let function =
-                Argument::from(ctx.ast.expression_function_with_scope_id_and_pure_and_pife(
-                    SPAN,
-                    FunctionType::FunctionExpression,
-                    None,
-                    false,
-                    false,
-                    false,
-                    NONE,
-                    NONE,
-                    formal_parameters,
-                    NONE,
-                    Some(function_body),
-                    scope_id,
-                    false,
-                    false,
-                ));
-            arguments.push(function);
+            let elements: Vec<Option<ExprOrSpread>> = custom_hooks_in_scope;
+            let function = Box::new(Expr::Fn(FnExpr {
+                ident: None,
+                function: Box::new(Function {
+                    params: vec![],
+                    decorators: vec![],
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: elements,
+                            }))),
+                        })],
+                    }),
+                    is_generator: false,
+                    is_async: false,
+                    type_params: None,
+                    return_type: None,
+                    ident: None,
+                }),
+            }));
+            arguments.push(ExprOrSpread {
+                spread: None,
+                expr: function,
+            });
         }
 
         // _s = refresh_sig();
-        let init = ctx.ast.expression_call(
-            SPAN,
-            self.refresh_sig.to_expression(ctx),
-            NONE,
-            ctx.ast.vec(),
-            false,
-        );
-        let binding = self
-            .ctx
-            .var_declarations
-            .create_uid_var_with_init("s", init, ctx);
+        let binding = self.next_signature_name();
+        let init = CallExpr {
+            span: DUMMY_SP,
+            callee: Callee::Expr(self.refresh_sig.to_expression()),
+            args: vec![],
+            type_args: None,
+        };
+
+        let var_decl = VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(BindingIdent {
+                    id: quote_ident!(binding.as_str()),
+                    type_ann: None,
+                }),
+                init: Some(Box::new(Expr::Call(init))),
+                definite: false,
+            }],
+        };
+
+        // Insert var declaration at the top of the function
+        // TODO: Use var_declarations store when it's ported to SWC
+        body.stmts
+            .insert(0, Stmt::Decl(Decl::Var(Box::new(var_decl))));
 
         // _s();
-        let call_expression = ctx.ast.statement_expression(
-            SPAN,
-            ctx.ast.expression_call(
-                SPAN,
-                binding.create_read_expression(ctx),
-                NONE,
-                ctx.ast.vec(),
-                false,
-            ),
-        );
+        let call_expression = CallExpr {
+            span: DUMMY_SP,
+            callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(binding.as_str())))),
+            args: vec![],
+            type_args: None,
+        }
+        .into_stmt();
 
-        body.statements.insert(0, call_expression);
+        body.stmts.insert(1, call_expression);
 
         // Following is the signature call expression, will be generated in call site.
         // _s(App, signature_key, false, function() { return [] });
         //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ custom hooks only
-        let binding_identifier = binding.create_binding_identifier(ctx);
-        Some((binding_identifier, arguments))
+        Some((binding, arguments))
     }
 
-    fn process_statement(
-        &mut self,
-        statement: &mut Statement<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> Option<Statement<'a>> {
+    fn process_statement(&mut self, statement: &mut ModuleItem) -> Option<ModuleItem> {
         match statement {
-            Statement::VariableDeclaration(variable) => {
-                self.handle_variable_declaration(variable, ctx)
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(variable))) => {
+                self.handle_variable_declaration(variable)
             }
-            Statement::FunctionDeclaration(func) => self.handle_function_declaration(func, ctx),
-            Statement::ExportNamedDeclaration(export_decl) => {
-                if let Some(declaration) = &mut export_decl.declaration {
-                    match declaration {
-                        Declaration::FunctionDeclaration(func) => {
-                            self.handle_function_declaration(func, ctx)
-                        }
-                        Declaration::VariableDeclaration(variable) => {
-                            self.handle_variable_declaration(variable, ctx)
-                        }
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func))) => self.handle_function_declaration(func),
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export_decl)) => {
+                if let Some(decl) = &mut export_decl.decl {
+                    match decl {
+                        Decl::Fn(func) => self.handle_function_declaration(func),
+                        Decl::Var(variable) => self.handle_variable_declaration(variable),
                         _ => None,
                     }
                 } else {
                     None
                 }
             }
-            Statement::ExportDefaultDeclaration(stmt_decl) => {
-                match &mut stmt_decl.declaration {
-                    declaration @ match_expression!(ExportDefaultDeclarationKind) => {
-                        let expression = declaration.to_expression_mut();
-                        if !matches!(expression, Expression::CallExpression(_)) {
-                            // For now, we only support possible HOC calls here.
-                            // Named function declarations are handled in FunctionDeclaration.
-                            // Anonymous direct exports like export default function() {}
-                            // are currently ignored.
-                            return None;
-                        }
-
-                        // This code path handles nested cases like:
-                        // export default memo(() => {})
-                        // In those cases it is more plausible people will omit names
-                        // so they're worth handling despite possible false positives.
-                        // More importantly, it handles the named case:
-                        // export default memo(function Named() {})
-                        self.replace_inner_components(
-                            "%default%",
-                            expression,
-                            /* is_variable_declarator */ false,
-                            ctx,
-                        );
-
-                        None
-                    }
-                    ExportDefaultDeclarationKind::FunctionDeclaration(func) => {
-                        if let Some(id) = &func.id {
-                            if func.is_typescript_syntax() || !is_componentish_name(&id.name) {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(stmt_decl)) => {
+                match &mut stmt_decl.decl {
+                    DefaultDecl::Fn(func_expr) => {
+                        if let Some(id) = &func_expr.ident {
+                            if func_expr.function.is_typescript_syntax()
+                                || !is_componentish_name(&id.sym)
+                            {
                                 return None;
                             }
-
-                            return Some(self.create_assignment_expression(id, ctx));
+                            return Some(ModuleItem::Stmt(self.create_assignment_expression(id)));
                         }
                         None
                     }
                     _ => None,
                 }
             }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(expr_decl)) => {
+                let expression = &mut expr_decl.expr;
+                if !matches!(**expression, Expr::Call(_)) {
+                    // For now, we only support possible HOC calls here.
+                    // Named function declarations are handled in FunctionDeclaration.
+                    // Anonymous direct exports like export default function() {}
+                    // are currently ignored.
+                    return None;
+                }
+
+                // This code path handles nested cases like:
+                // export default memo(() => {})
+                // In those cases it is more plausible people will omit names
+                // so they're worth handling despite possible false positives.
+                // More importantly, it handles the named case:
+                // export default memo(function Named() {})
+                self.replace_inner_components("%default%", expression, false);
+
+                None
+            }
             _ => None,
         }
     }
 
-    fn handle_function_declaration(
-        &mut self,
-        func: &Function<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> Option<Statement<'a>> {
-        let Some(id) = &func.id else {
-            return None;
-        };
+    fn handle_function_declaration(&mut self, func: &FnDecl) -> Option<ModuleItem> {
+        let id = &func.ident;
 
-        if func.is_typescript_syntax() || !is_componentish_name(&id.name) {
+        if func.function.is_typescript_syntax() || !is_componentish_name(&id.sym) {
             return None;
         }
 
-        Some(self.create_assignment_expression(id, ctx))
+        Some(ModuleItem::Stmt(self.create_assignment_expression(id)))
     }
 
-    fn handle_variable_declaration(
-        &mut self,
-        decl: &mut VariableDeclaration<'a>,
-        ctx: &mut TraverseCtx<'a>,
-    ) -> Option<Statement<'a>> {
-        if decl.declarations.len() != 1 {
+    fn handle_variable_declaration(&mut self, decl: &mut VarDecl) -> Option<ModuleItem> {
+        if decl.decls.len() != 1 {
             return None;
         }
 
-        let declarator = decl
-            .declarations
-            .first_mut()
-            .unwrap_or_else(|| unreachable!());
+        let declarator = decl.decls.first_mut()?;
         let init = declarator.init.as_mut()?;
-        let id = declarator.id.get_binding_identifier()?;
-        let symbol_id = id.symbol_id();
+        let id = match &declarator.name {
+            Pat::Ident(ident) => &ident.id,
+            _ => return None,
+        };
 
-        if !is_componentish_name(&id.name) {
+        if !is_componentish_name(&id.sym) {
             return None;
         }
 
-        match init {
+        match &**init {
             // Likely component definitions.
-            Expression::ArrowFunctionExpression(arrow) => {
+            Expr::Arrow(arrow) => {
                 // () => () => {}
-                if arrow.get_expression().is_some_and(|expr| matches!(expr, Expression::ArrowFunctionExpression(_))) {
-                    return None;
+                if let Some(BlockStmtOrExpr::Expr(expr)) = &arrow.body {
+                    if matches!(&**expr, Expr::Arrow(_)) {
+                        return None;
+                    }
                 }
             }
-            Expression::FunctionExpression(_)
+            Expr::Fn(_)
             // Maybe something like styled.div`...`
-            | Expression::TaggedTemplateExpression(_) => {
+            | Expr::Tpl(_) => {
                 // Special case when a variable would get an inferred name:
                 // let Foo = () => {}
                 // let Foo = function() {}
@@ -827,15 +771,14 @@ impl<'a> ReactRefresh<'a, '_> {
                 // (eg: with @babel/plugin-transform-react-display-name or
                 // babel-plugin-styled-components)
             }
-            Expression::CallExpression(call_expr) => {
-                let is_import_expression = match call_expr.callee.get_inner_expression() {
-                    Expression::ImportExpression(_) => {
-                        true
-                    }
-                    Expression::Identifier(ident) => {
-                        ident.name.starts_with("require")
+            Expr::Call(call_expr) => {
+                let is_import_expression = match &call_expr.callee {
+                    Callee::Import(_) => true,
+                    Callee::Expr(expr) => match &**expr {
+                        Expr::Ident(ident) => ident.sym.starts_with("require"),
+                        _ => false,
                     },
-                    _ => false
+                    _ => false,
                 };
 
                 if is_import_expression {
@@ -849,62 +792,15 @@ impl<'a> ReactRefresh<'a, '_> {
 
         // Maybe a HOC.
         // Try to determine if this is some form of import.
-        let found_inside = self
-            .replace_inner_components(&id.name, init, /* is_variable_declarator */ true, ctx);
+        let found_inside = self.replace_inner_components(&id.sym, init, true);
 
-        if !found_inside && !self.used_in_jsx_bindings.contains(&symbol_id) {
+        let id_in_jsx = self.used_in_jsx_bindings.contains(&id.to_id());
+
+        if !found_inside && !id_in_jsx {
             return None;
         }
 
-        Some(self.create_assignment_expression(id, ctx))
-    }
-
-    /// Handle `export const Foo = () => {}` or `const Foo = function() {}`
-    fn handle_function_in_variable_declarator(
-        &self,
-        id_binding: &BoundIdentifier<'a>,
-        binding: &BoundIdentifier<'a>,
-        mut arguments: ArenaVec<'a, Argument<'a>>,
-        ctx: &mut TraverseCtx<'a>,
-    ) {
-        // Special case when a function would get an inferred name:
-        // let Foo = () => {}
-        // let Foo = function() {}
-        // We'll add signature it on next line so that
-        // we don't mess up the inferred 'Foo' function name.
-
-        // Result: let Foo = () => {}; __signature(Foo, ...);
-        arguments.insert(0, Argument::from(id_binding.create_read_expression(ctx)));
-        let statement = ctx.ast.statement_expression(
-            SPAN,
-            ctx.ast.expression_call(
-                SPAN,
-                binding.create_read_expression(ctx),
-                NONE,
-                arguments,
-                false,
-            ),
-        );
-
-        // Get the address of the statement containing this `VariableDeclarator`
-        let address =
-            if let Ancestor::ExportNamedDeclarationDeclaration(export_decl) = ctx.ancestor(2) {
-                // For `export const Foo = () => {}`
-                // which is a `VariableDeclaration` inside a `Statement::ExportNamedDeclaration`
-                export_decl.address()
-            } else {
-                // Otherwise just a `const Foo = () => {}` which is a
-                // `Statement::VariableDeclaration`
-                let var_decl = ctx.ancestor(1);
-                debug_assert!(matches!(
-                    var_decl,
-                    Ancestor::VariableDeclarationDeclarations(_)
-                ));
-                var_decl.address()
-            };
-        self.ctx
-            .statement_injector
-            .insert_after(&address, statement);
+        Some(ModuleItem::Stmt(self.create_assignment_expression(id)))
     }
 
     /// Convert arrow function expression to normal arrow function
@@ -916,24 +812,17 @@ impl<'a> ReactRefresh<'a, '_> {
     /// ```js
     /// () => { return 1 }
     /// ```
-    fn transform_arrow_function_to_block(
-        arrow: &mut ArrowFunctionExpression<'a>,
-        ctx: &TraverseCtx<'a>,
-    ) {
-        if !arrow.expression {
-            return;
+    fn transform_arrow_function_to_block(arrow: &mut ArrowExpr) {
+        if let BlockStmtOrExpr::Expr(expr) = &mut arrow.body {
+            let expr = std::mem::replace(&mut **expr, Expr::Invalid(Invalid { span: DUMMY_SP }));
+            arrow.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(Box::new(expr)),
+                })],
+            });
         }
-
-        arrow.expression = false;
-
-        let Some(Statement::ExpressionStatement(statement)) = arrow.body.statements.pop() else {
-            unreachable!("arrow function body is never empty")
-        };
-
-        arrow.body.statements.push(
-            ctx.ast
-                .statement_return(SPAN, Some(statement.unbox().expression)),
-        );
     }
 }
 
@@ -962,18 +851,16 @@ fn is_builtin_hook(hook_name: &str) -> bool {
 /// Collects all bindings that are used in JSX elements or JSX-like calls.
 ///
 /// For <https://github.com/facebook/react/blob/ba6a9e94edf0db3ad96432804f9931ce9dc89fec/packages/react-refresh/src/ReactFreshBabelPlugin.js#L161-L199>
-struct UsedInJSXBindingsCollector<'a, 'b> {
-    ctx: &'b TraverseCtx<'a>,
-    bindings: FxHashSet<SymbolId>,
+struct UsedInJSXBindingsCollector {
+    bindings: FxHashSet<Id>,
 }
 
-impl<'a, 'b> UsedInJSXBindingsCollector<'a, 'b> {
-    fn collect(program: &Program<'a>, ctx: &'b TraverseCtx<'a>) -> FxHashSet<SymbolId> {
+impl UsedInJSXBindingsCollector {
+    fn collect(program: &Program) -> FxHashSet<Id> {
         let mut visitor = Self {
-            ctx,
             bindings: FxHashSet::default(),
         };
-        visitor.visit_program(program);
+        program.visit_with(&mut visitor);
         visitor.bindings
     }
 
@@ -982,70 +869,63 @@ impl<'a, 'b> UsedInJSXBindingsCollector<'a, 'b> {
     }
 }
 
-impl<'a> Visit<'a> for UsedInJSXBindingsCollector<'a, '_> {
-    fn visit_call_expression(&mut self, it: &CallExpression<'a>) {
-        walk_call_expression(self, it);
+impl Visit for UsedInJSXBindingsCollector {
+    fn visit_call_expr(&mut self, call_expr: &CallExpr) {
+        call_expr.visit_children_with(self);
 
-        let is_jsx_call = match &it.callee {
-            Expression::Identifier(ident) => Self::is_jsx_like_call(&ident.name),
-            Expression::StaticMemberExpression(member) => {
-                Self::is_jsx_like_call(&member.property.name)
-            }
+        let is_jsx_call = match &call_expr.callee {
+            Callee::Expr(expr) => match &**expr {
+                Expr::Ident(ident) => Self::is_jsx_like_call(&ident.sym),
+                Expr::Member(member) => {
+                    if let MemberProp::Ident(prop) = &member.prop {
+                        Self::is_jsx_like_call(&prop.sym)
+                    } else {
+                        false
+                    }
+                }
+                _ => false,
+            },
             _ => false,
         };
 
-        if is_jsx_call
-            && let Some(Argument::Identifier(ident)) = it.arguments.first()
-            && let Some(symbol_id) = self
-                .ctx
-                .scoping()
-                .get_reference(ident.reference_id())
-                .symbol_id()
-        {
-            self.bindings.insert(symbol_id);
+        if is_jsx_call {
+            if let Some(ExprOrSpread { expr, .. }) = call_expr.args.first() {
+                if let Expr::Ident(ident) = &**expr {
+                    self.bindings.insert(ident.to_id());
+                }
+            }
         }
     }
 
-    fn visit_jsx_opening_element(&mut self, it: &JSXOpeningElement<'_>) {
-        if let Some(ident) = it.name.get_identifier()
-            && let Some(symbol_id) = self
-                .ctx
-                .scoping()
-                .get_reference(ident.reference_id())
-                .symbol_id()
-        {
-            self.bindings.insert(symbol_id);
+    fn visit_jsx_opening_element(&mut self, elem: &JSXOpeningElement) {
+        elem.visit_children_with(self);
+
+        if let JSXElementName::Ident(ident) = &elem.name {
+            self.bindings.insert(ident.to_id());
         }
     }
 
-    #[inline]
-    fn visit_ts_type_annotation(&mut self, _it: &TSTypeAnnotation<'a>) {
-        // Skip type annotations because it definitely doesn't have any JSX
+    fn visit_ts_type_ann(&mut self, _node: &TsTypeAnn) {
+        // Skip type annotations because they definitely don't have any JSX
         // bindings
     }
 
-    #[inline]
-    fn visit_declaration(&mut self, it: &Declaration<'a>) {
-        if matches!(
-            it,
-            Declaration::TSTypeAliasDeclaration(_) | Declaration::TSInterfaceDeclaration(_)
-        ) {
-            // Skip type-only declarations because it definitely doesn't have any JSX
+    fn visit_decl(&mut self, decl: &Decl) {
+        if matches!(decl, Decl::TsTypeAlias(_) | Decl::TsInterface(_)) {
+            // Skip type-only declarations because they definitely don't have any JSX
             // bindings
             return;
         }
-        walk_declaration(self, it);
+        decl.visit_children_with(self);
     }
 
-    #[inline]
-    fn visit_import_declaration(&mut self, _it: &ImportDeclaration<'a>) {
-        // Skip import declarations because it definitely doesn't have any JSX
-        // bindings
-    }
-
-    #[inline]
-    fn visit_export_all_declaration(&mut self, _it: &ExportAllDeclaration<'a>) {
-        // Skip export all declarations because it definitely doesn't have any
-        // JSX bindings
+    fn visit_module_decl(&mut self, decl: &ModuleDecl) {
+        match decl {
+            ModuleDecl::Import(_) | ModuleDecl::ExportAll(_) => {
+                // Skip import/export all declarations because they definitely
+                // don't have any JSX bindings
+            }
+            _ => decl.visit_children_with(self),
+        }
     }
 }

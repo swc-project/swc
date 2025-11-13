@@ -1,66 +1,67 @@
 //! ES2022: Class Properties
 //! Utility functions.
 
-use std::path::Path;
-
-use oxc_ast::ast::*;
-use oxc_span::SPAN;
-use oxc_traverse::BoundIdentifier;
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
 
 use crate::context::TraverseCtx;
 
-/// Create `var` declaration.
+/// Create `var` declaration from identifier name and initializer expression.
 pub(super) fn create_variable_declaration<'a>(
-    binding: &BoundIdentifier<'a>,
-    init: Expression<'a>,
-    ctx: &TraverseCtx<'a>,
-) -> Statement<'a> {
-    let kind = VariableDeclarationKind::Var;
-    let declarator = ctx.ast.variable_declarator(
-        SPAN,
-        kind,
-        binding.create_binding_pattern(ctx),
-        Some(init),
-        false,
-    );
-    Statement::from(
-        ctx.ast
-            .declaration_variable(SPAN, kind, ctx.ast.vec1(declarator), false),
-    )
+    name: &str,
+    init: Box<Expr>,
+    _ctx: &TraverseCtx<'a>,
+) -> VarDeclarator {
+    VarDeclarator {
+        span: DUMMY_SP,
+        name: Pat::Ident(BindingIdent {
+            id: Ident::new(name.into(), DUMMY_SP, Default::default()),
+            type_ann: None,
+        }),
+        init: Some(init),
+        definite: false,
+    }
 }
 
-/// Convert an iterator of `Expression`s into an iterator of
-/// `Statement::ExpressionStatement`s.
-pub(super) fn exprs_into_stmts<'a, E>(
-    exprs: E,
-    ctx: &TraverseCtx<'a>,
-) -> impl Iterator<Item = Statement<'a>>
+/// Convert an iterator of `Expr`s into an iterator of `Stmt::Expr`s.
+pub(super) fn exprs_into_stmts<E>(exprs: E) -> impl Iterator<Item = Stmt>
 where
-    E: IntoIterator<Item = Expression<'a>>,
+    E: IntoIterator<Item = Box<Expr>>,
 {
-    exprs
-        .into_iter()
-        .map(|expr| ctx.ast.statement_expression(SPAN, expr))
+    exprs.into_iter().map(|expr| {
+        Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr,
+        })
+    })
 }
 
 /// Create `IdentifierName` for `_`.
-pub(super) fn create_underscore_ident_name<'a>(ctx: &TraverseCtx<'a>) -> IdentifierName<'a> {
-    ctx.ast.identifier_name(SPAN, Atom::from("_"))
+pub(super) fn create_underscore_ident_name() -> Ident {
+    Ident::new("_".into(), DUMMY_SP, Default::default())
 }
 
-/// Debug assert that an `Expression` is not `ParenthesizedExpression` or TS
-/// syntax (e.g. `TSAsExpression`).
-//
-// `#[inline(always)]` because this is a no-op in release mode
+/// Debug assert that an `Expr` is not `Paren` or TS syntax (e.g. `TsAsExpr`).
+///
+/// `#[inline(always)]` because this is a no-op in release mode
 #[expect(clippy::inline_always)]
 #[inline(always)]
 pub(super) fn debug_assert_expr_is_not_parenthesis_or_typescript_syntax(
-    expr: &Expression,
-    path: &Path,
+    expr: &Expr,
+    _path: &std::path::Path,
 ) {
     debug_assert!(
-        !(matches!(expr, Expression::ParenthesizedExpression(_)) || expr.is_typescript_syntax()),
-        "Should not be: {expr:?} in {}",
-        path.display()
+        !matches!(
+            expr,
+            Expr::Paren(_)
+                | Expr::TsAs(_)
+                | Expr::TsTypeAssertion(_)
+                | Expr::TsConstAssertion(_)
+                | Expr::TsNonNull(_)
+                | Expr::TsInstantiation(_)
+                | Expr::TsSatisfies(_)
+        ),
+        "Should not be a parenthesis or TypeScript syntax expression: {expr:?} in {}",
+        _path.display()
     );
 }
