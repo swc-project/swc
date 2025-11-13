@@ -1,14 +1,11 @@
 //! Utilities to computed key expressions.
 
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
-use crate::{
-    context::{TransformCtx, TraverseCtx},
-    utils::ast_builder::create_assignment,
-};
+use crate::context::{TransformCtx, TraverseCtx};
 
-impl<'a> TransformCtx<'a> {
+impl TransformCtx {
     /// Check if temp var is required for `key`.
     ///
     /// `this` does not have side effects, but in this context, it needs a temp
@@ -66,7 +63,7 @@ impl<'a> TransformCtx<'a> {
     /// Create `let _x;` statement and insert it.
     /// Return `_x = x()` assignment, and `_x` identifier referencing same temp
     /// var.
-    pub fn create_computed_key_temp_var(
+    pub fn create_computed_key_temp_var<'a>(
         &self,
         key: Expr,
         ctx: &mut TraverseCtx<'a>,
@@ -76,7 +73,7 @@ impl<'a> TransformCtx<'a> {
         let temp_name = format!("_temp{}", self.var_declarations.get_next_temp_id());
 
         // Create assignment: _temp = key
-        let temp_ident = Ident::new(temp_name.clone().into(), DUMMY_SP);
+        let temp_ident = Ident::new(temp_name.clone().into(), DUMMY_SP, SyntaxContext::empty());
         let assignment = Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),

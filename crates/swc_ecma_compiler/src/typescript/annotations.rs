@@ -1,4 +1,4 @@
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::{
@@ -11,8 +11,8 @@ use crate::{
 /// Removes TypeScript-specific syntax including type annotations, interfaces,
 /// type aliases, and other type-only constructs. Also manages parameter
 /// properties and definite assignment assertions.
-pub struct TypeScriptAnnotations<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+pub struct TypeScriptAnnotations<'a> {
+    ctx: &'a TransformCtx,
 
     // Options
     only_remove_type_imports: bool,
@@ -27,8 +27,8 @@ pub struct TypeScriptAnnotations<'a, 'ctx> {
     jsx_fragment_import_name: String,
 }
 
-impl<'a, 'ctx> TypeScriptAnnotations<'a, 'ctx> {
-    pub fn new(options: &TypeScriptOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> TypeScriptAnnotations<'a> {
+    pub fn new(options: &TypeScriptOptions, ctx: &'a TransformCtx) -> Self {
         let jsx_element_import_name = if options.jsx_pragma.contains('.') {
             options
                 .jsx_pragma
@@ -64,12 +64,17 @@ impl<'a, 'ctx> TypeScriptAnnotations<'a, 'ctx> {
     }
 }
 
-impl<'a> TypeScriptAnnotations<'a, '_> {
+impl<'a> TypeScriptAnnotations<'a> {
     pub fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
+        // Only process Module programs, not Script
+        let Program::Module(module) = program else {
+            return;
+        };
+
         let mut no_modules_remaining = true;
         let mut some_modules_deleted = false;
 
-        program.body.retain_mut(|item| {
+        module.body.retain_mut(|item| {
             let need_retain = match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(decl)) if decl.src.is_none() => {
                     // export declaration without source
@@ -137,7 +142,7 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
                 type_only: false,
                 with: None,
             }));
-            program.body.push(export_decl);
+            module.body.push(export_decl);
         }
     }
 
@@ -177,7 +182,8 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
                 rest.type_ann = None;
             }
             Pat::Assign(assign) => {
-                assign.type_ann = None;
+                // AssignPat doesn't have type_ann, recurse into left pattern
+                self.enter_binding_pattern(&mut assign.left, _ctx);
             }
             _ => {}
         }
@@ -279,19 +285,28 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
             }
             AssignTarget::Pat(pat) => match pat {
                 AssignTargetPat::Array(arr) => {
+                    // Array patterns in assignments - recurse into each element
                     for elem in &mut arr.elems {
                         if let Some(elem) = elem {
-                            if let Some(expr) = elem.target.as_expr_mut() {
-                                strip_typescript_syntax(expr);
-                            }
+                            self.enter_binding_pattern(elem, _ctx);
                         }
                     }
                 }
                 AssignTargetPat::Object(obj) => {
+                    // Object patterns in assignments - recurse into properties
                     for prop in &mut obj.props {
-                        if let ObjectPatProp::KeyValue(kv) = prop {
-                            if let Some(expr) = kv.value.as_expr_mut() {
-                                strip_typescript_syntax(expr);
+                        match prop {
+                            ObjectPatProp::KeyValue(kv) => {
+                                self.enter_binding_pattern(&mut kv.value, _ctx);
+                            }
+                            ObjectPatProp::Assign(assign) => {
+                                // Handle assignment properties
+                                if let Some(value) = &mut assign.value {
+                                    strip_typescript_syntax(value);
+                                }
+                            }
+                            ObjectPatProp::Rest(rest) => {
+                                self.enter_binding_pattern(&mut rest.arg, _ctx);
                             }
                         }
                     }
@@ -441,7 +456,7 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
     }
 }
 
-impl<'a> TypeScriptAnnotations<'a, '_> {
+impl<'a> TypeScriptAnnotations<'a> {
     /// Check if the given name is a JSX pragma or fragment pragma import
     /// and if the file contains JSX elements or fragments
     #[allow(dead_code)]
@@ -459,7 +474,8 @@ impl<'a> TypeScriptAnnotations<'a, '_> {
                 !named.is_type_only
             }
             ExportSpecifier::Default(_) => true,
-            ExportSpecifier::Namespace(ns) => !ns.is_type_only,
+            // Namespace exports (export * as foo) are never type-only
+            ExportSpecifier::Namespace(_) => true,
         }
     }
 
@@ -576,6 +592,7 @@ fn is_super_call_stmt(stmt: &Stmt) -> bool {
 fn create_empty_block() -> Stmt {
     Stmt::Block(BlockStmt {
         span: DUMMY_SP,
+        ctxt: SyntaxContext::empty(),
         stmts: vec![],
     })
 }
@@ -584,6 +601,7 @@ fn create_empty_block() -> Stmt {
 fn create_block_with_stmt(stmt: Stmt) -> Stmt {
     Stmt::Block(BlockStmt {
         span: DUMMY_SP,
+        ctxt: SyntaxContext::empty(),
         stmts: vec![stmt],
     })
 }

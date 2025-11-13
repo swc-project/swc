@@ -1,4 +1,4 @@
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::quote_ident;
@@ -7,14 +7,14 @@ use super::{diagnostics, TypeScriptOptions};
 use crate::context::{TransformCtx, TraverseCtx};
 
 pub struct TypeScriptNamespace<'a> {
-    ctx: &'a TransformCtx<'a>,
+    ctx: &'a TransformCtx,
 
     // Options
     allow_namespaces: bool,
 }
 
 impl<'a> TypeScriptNamespace<'a> {
-    pub fn new(options: &TypeScriptOptions, ctx: &'a TransformCtx<'a>) -> Self {
+    pub fn new(options: &TypeScriptOptions, ctx: &'a TransformCtx) -> Self {
         Self {
             ctx,
             allow_namespaces: options.allow_namespaces,
@@ -25,31 +25,38 @@ impl<'a> TypeScriptNamespace<'a> {
 impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace<'_> {
     // `namespace Foo { }` -> `let Foo; (function (_Foo) { })(Foo || (Foo = {}));`
     fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx) {
+        // Only process Module programs, not Script
+        let Program::Module(module) = program else {
+            return;
+        };
+
         // namespace declaration is only allowed at the top level
-        if !has_namespace(&program.body) {
+        if !has_namespace(&module.body) {
             return;
         }
 
         // Recreate the statements vec for memory efficiency.
         let mut new_stmts = Vec::new();
 
-        for stmt in std::mem::take(&mut program.body) {
-            match stmt {
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(decl))) => {
-                    if !self.allow_namespaces {
-                        self.ctx
-                            .error(diagnostics::namespace_not_supported(self.ctx.handler));
-                    }
+        for mut stmt in std::mem::take(&mut module.body) {
+            let should_push = match &mut stmt {
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(_))) => {
+                    if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(decl))) = stmt {
+                        if !self.allow_namespaces {
+                            self.ctx
+                                .error(diagnostics::namespace_not_supported(decl.span));
+                        }
 
-                    self.handle_nested(decl, /* is_export */ false, &mut new_stmts, None);
-                    continue;
+                        self.handle_nested(decl, /* is_export */ false, &mut new_stmts, None);
+                    }
+                    false
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(mut export_decl)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
                     if let Decl::TsModule(decl) = &mut export_decl.decl {
                         if !decl.declare {
                             if !self.allow_namespaces {
                                 self.ctx
-                                    .error(diagnostics::namespace_not_supported(self.ctx.handler));
+                                    .error(diagnostics::namespace_not_supported(decl.span));
                             }
 
                             let decl = std::mem::replace(
@@ -58,7 +65,11 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace<'_> {
                                     span: DUMMY_SP,
                                     declare: true,
                                     global: false,
-                                    id: TsModuleName::Ident(quote_ident!("__dummy")),
+                                    namespace: false,
+                                    id: TsModuleName::Ident(quote_ident!(
+                                        SyntaxContext::empty(),
+                                        "__dummy"
+                                    )),
                                     body: None,
                                 }),
                             );
@@ -69,17 +80,23 @@ impl VisitMutHook<TraverseCtx<'_>> for TypeScriptNamespace<'_> {
                                 &mut new_stmts,
                                 None,
                             );
-                            continue;
+                            false
+                        } else {
+                            true
                         }
+                    } else {
+                        true
                     }
                 }
-                _ => {}
-            }
+                _ => true,
+            };
 
-            new_stmts.push(stmt);
+            if should_push {
+                new_stmts.push(stmt);
+            }
         }
 
-        program.body = new_stmts;
+        module.body = new_stmts;
     }
 }
 
@@ -98,7 +115,7 @@ impl TypeScriptNamespace<'_> {
         // Skip empty declaration e.g. `namespace x;`
         let TsModuleName::Ident(ident) = &decl.id else {
             self.ctx
-                .error(diagnostics::ambient_module_nested(self.ctx.handler));
+                .error(diagnostics::ambient_module_nested(decl.span));
             return;
         };
 
@@ -115,15 +132,23 @@ impl TypeScriptNamespace<'_> {
             //     export namespace Y {}
             //   }
             TsNamespaceBody::TsNamespaceDecl(nested_decl) => {
+                let ts_module_decl = TsModuleDecl {
+                    span: nested_decl.span,
+                    declare: nested_decl.declare,
+                    global: nested_decl.global,
+                    namespace: true,
+                    id: TsModuleName::Ident(nested_decl.id.clone()),
+                    body: Some(TsNamespaceBody::TsNamespaceDecl(nested_decl)),
+                };
                 let export_decl = ModuleDecl::ExportDecl(ExportDecl {
                     span: DUMMY_SP,
-                    decl: Decl::TsModule(nested_decl),
+                    decl: Decl::TsModule(Box::new(ts_module_decl)),
                 });
                 vec![ModuleItem::ModuleDecl(export_decl)]
             }
         };
 
-        let uid_ident = quote_ident!(format!("_{}", ident.sym));
+        let uid_ident = quote_ident!(SyntaxContext::empty(), format!("_{}", ident.sym));
 
         let mut new_stmts = Vec::new();
 
@@ -151,17 +176,16 @@ impl TypeScriptNamespace<'_> {
                         }
                         Decl::TsEnum(enum_decl) => {
                             if !enum_decl.declare {
+                                let enum_id = enum_decl.id.clone();
                                 new_stmts
                                     .push(ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(enum_decl))));
-                                Self::add_declaration(&uid_ident, &enum_decl.id, &mut new_stmts);
+                                Self::add_declaration(&uid_ident, &enum_id, &mut new_stmts);
                             }
                         }
                         Decl::Class(class_decl) => {
-                            if let Some(class_ident) = &class_decl.ident {
-                                new_stmts
-                                    .push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(class_decl))));
-                                Self::add_declaration(&uid_ident, class_ident, &mut new_stmts);
-                            }
+                            let class_ident = class_decl.ident.clone();
+                            new_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(class_decl))));
+                            Self::add_declaration(&uid_ident, &class_ident, &mut new_stmts);
                         }
                         Decl::Fn(fn_decl) => {
                             new_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(fn_decl.clone()))));
@@ -172,7 +196,7 @@ impl TypeScriptNamespace<'_> {
                             for declarator in &var_decl.decls {
                                 if var_decl.kind != VarDeclKind::Const {
                                     self.ctx.error(diagnostics::namespace_exporting_non_const(
-                                        self.ctx.handler,
+                                        var_decl.span,
                                     ));
                                 }
                             }
@@ -190,6 +214,7 @@ impl TypeScriptNamespace<'_> {
         // Create variable declaration
         let var_decl = VarDecl {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             kind: VarDeclKind::Let,
             declare: false,
             decls: vec![VarDeclarator {
@@ -253,6 +278,7 @@ impl TypeScriptNamespace<'_> {
 
         let body = BlockStmt {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             stmts,
         };
 
@@ -260,6 +286,7 @@ impl TypeScriptNamespace<'_> {
             ident: None,
             function: Box::new(Function {
                 span: DUMMY_SP,
+                ctxt: SyntaxContext::empty(),
                 params,
                 decorators: vec![],
                 body: Some(body),
@@ -365,6 +392,7 @@ impl TypeScriptNamespace<'_> {
 
         let call_expr = Expr::Call(CallExpr {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             callee: Callee::Expr(Box::new(callee)),
             args: arguments,
             type_args: None,
@@ -457,6 +485,7 @@ impl TypeScriptNamespace<'_> {
 
             return vec![ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: var_decl.span,
+                ctxt: SyntaxContext::empty(),
                 kind: var_decl.kind,
                 declare: false,
                 decls: new_decls,

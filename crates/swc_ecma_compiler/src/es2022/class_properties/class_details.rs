@@ -75,7 +75,7 @@ impl PrivateProp {
             || self
                 .method_kind
                 .as_ref()
-                .is_some_and(MethodKind::is_accessor)
+                .is_some_and(|kind| matches!(kind, MethodKind::Getter | MethodKind::Setter))
     }
 
     pub fn set_binding2(&mut self, binding: Atom) {
@@ -152,12 +152,12 @@ impl ClassesStack {
         // We skip the first, because it's a dummy first entry.
         for class in self.stack[1..].iter_mut().rev() {
             if let Some(private_props) = &mut class.private_props {
-                if let Some(prop) = private_props.get(&ident.id.sym) {
+                if let Some(prop) = private_props.get(&ident.name) {
                     return ret_fn(prop, &mut class.bindings, class.is_declaration);
                 }
             }
         }
-        unreachable!("Private property not found: {:?}", ident.id.sym);
+        unreachable!("Private property not found: {:?}", ident.name);
     }
 
     /// Lookup details of private property referred to by `ident`.
@@ -288,7 +288,7 @@ pub(super) struct ResolvedGetSetPrivateProp<'b> {
 }
 
 // Shortcut methods to get current class
-impl<'a> ClassProperties<'a, '_> {
+impl<'a> ClassProperties<'_> {
     /// Get details of current class.
     pub(super) fn current_class(&self) -> &ClassDetails {
         self.classes_stack.last()

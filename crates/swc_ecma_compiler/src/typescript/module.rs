@@ -1,4 +1,4 @@
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use super::diagnostics;
@@ -10,16 +10,16 @@ use crate::context::{TransformCtx, TraverseCtx};
 /// - `export = expression` -> `module.exports = expression`
 /// - `import = require('module')` -> `const x = require('module')`
 /// - `import = Namespace` -> `const x = Namespace`
-pub struct TypeScriptModule<'a, 'ctx> {
+pub struct TypeScriptModule<'a> {
     /// Controls whether to only remove type-only imports
     ///
     /// See: <https://babeljs.io/docs/babel-plugin-transform-typescript#onlyremovetypeimports>
     only_remove_type_imports: bool,
-    ctx: &'ctx TransformCtx<'a>,
+    ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> TypeScriptModule<'a, 'ctx> {
-    pub fn new(only_remove_type_imports: bool, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> TypeScriptModule<'a> {
+    pub fn new(only_remove_type_imports: bool, ctx: &'a TransformCtx) -> Self {
         Self {
             only_remove_type_imports,
             ctx,
@@ -27,13 +27,17 @@ impl<'a, 'ctx> TypeScriptModule<'a, 'ctx> {
     }
 }
 
-impl<'a> TypeScriptModule<'a, '_> {
+impl<'a> TypeScriptModule<'a> {
     pub fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
         // In Babel, `use strict` is inserted by @babel/transform-modules-commonjs
         // plugin. Once we have a commonjs plugin, we can consider moving this
         // logic there.
         if self.ctx.module.is_commonjs() {
-            let has_use_strict = program
+            let Program::Module(module) = program else {
+                return;
+            };
+
+            let has_use_strict = module
                 .body
                 .iter()
                 .any(|item| matches!(item, ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) if is_use_strict_directive(expr)));
@@ -48,25 +52,30 @@ impl<'a> TypeScriptModule<'a, '_> {
                         raw: None,
                     }))),
                 }));
-                program.body.insert(0, use_strict);
+                module.body.insert(0, use_strict);
             }
         }
     }
 
-    pub fn enter_statement(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx<'a>) {
-        if let Stmt::Decl(Decl::TsExportAssignment(export_assignment)) = stmt {
-            *stmt = self.transform_ts_export_assignment(export_assignment);
-        }
+    /// Enter TsExportAssignment handler - called by parent TypeScript visitor
+    pub fn enter_ts_export_assignment(
+        &mut self,
+        export_assignment: &mut TsExportAssignment,
+        _ctx: &mut TraverseCtx<'a>,
+    ) -> Option<Stmt> {
+        Some(self.transform_ts_export_assignment(export_assignment))
     }
 
-    /// Enter declaration handler - called by parent TypeScript visitor
-    pub fn enter_declaration(&mut self, decl: &mut Decl, _ctx: &mut TraverseCtx<'a>) {
-        if let Decl::TsImportEquals(import_equals) = decl {
-            if !import_equals.is_type_only {
-                if let Some(new_decl) = self.transform_ts_import_equals(import_equals) {
-                    *decl = new_decl;
-                }
-            }
+    /// Enter TsImportEqualsDecl handler - called by parent TypeScript visitor
+    pub fn enter_ts_import_equals_decl(
+        &mut self,
+        import_equals: &mut TsImportEqualsDecl,
+        _ctx: &mut TraverseCtx<'a>,
+    ) -> Option<Decl> {
+        if !import_equals.is_type_only {
+            self.transform_ts_import_equals(import_equals)
+        } else {
+            None
         }
     }
 
@@ -181,6 +190,7 @@ impl<'a> TypeScriptModule<'a, '_> {
                 }];
                 let init = Expr::Call(CallExpr {
                     span: DUMMY_SP,
+                    ctxt: SyntaxContext::empty(),
                     callee: Callee::Expr(Box::new(callee)),
                     args: arguments,
                     type_args: None,
@@ -198,6 +208,7 @@ impl<'a> TypeScriptModule<'a, '_> {
 
         Some(Decl::Var(Box::new(VarDecl {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             kind,
             declare: false,
             decls,
@@ -232,7 +243,7 @@ impl<'a> TypeScriptModule<'a, '_> {
 /// Helper to check if an expression is a "use strict" directive
 fn is_use_strict_directive(expr: &Expr) -> bool {
     matches!(
-        **expr,
-        Expr::Lit(Lit::Str(Str { value, .. })) if &*value == "use strict"
+        expr,
+        Expr::Lit(Lit::Str(Str { value, .. })) if &**value == "use strict"
     )
 }

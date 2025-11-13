@@ -85,12 +85,12 @@ pub struct ObjectRestSpreadOptions {
 /// let { a, b } = obj;
 /// let rest = _objectWithoutProperties(obj, ["a", "b"]);
 /// ```
-pub struct ObjectRestSpread<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct ObjectRestSpread<'a> {
+    _ctx: &'a TransformCtx,
     _options: ObjectRestSpreadOptions,
 }
 
-impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
+impl<'a> ObjectRestSpread<'a> {
     /// Creates a new `ObjectRestSpread` transform.
     ///
     /// # Arguments
@@ -106,7 +106,7 @@ impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
     /// - `use_built_ins` is not implemented
     /// - `objectRestNoSymbols` assumption is not implemented
     /// - `ignoreFunctionLength` assumption is not implemented
-    pub fn new(options: ObjectRestSpreadOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+    pub fn new(options: ObjectRestSpreadOptions, ctx: &'a TransformCtx) -> Self {
         // Validate configuration
         if options.loose {
             // In a full implementation, would emit: ctx.error(...)
@@ -142,7 +142,7 @@ impl<'a, 'ctx> ObjectRestSpread<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ObjectRestSpread<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ObjectRestSpread<'_> {
     // TODO: Implement object rest/spread transformation
     //
     // This transformation requires:

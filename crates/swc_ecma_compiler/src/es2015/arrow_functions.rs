@@ -140,13 +140,13 @@ pub struct ArrowFunctionsOptions {
     pub spec: bool,
 }
 
-pub struct ArrowFunctions<'a, 'ctx> {
+pub struct ArrowFunctions<'a> {
     _options: ArrowFunctionsOptions,
-    _ctx: &'ctx TransformCtx<'a>,
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> ArrowFunctions<'a, 'ctx> {
-    pub fn new(options: ArrowFunctionsOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ArrowFunctions<'a> {
+    pub fn new(options: ArrowFunctionsOptions, ctx: &'a TransformCtx) -> Self {
         Self {
             _options: options,
             _ctx: ctx,
@@ -154,4 +154,4 @@ impl<'a, 'ctx> ArrowFunctions<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ArrowFunctions<'_, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ArrowFunctions<'_> {}

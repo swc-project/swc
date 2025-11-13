@@ -30,17 +30,17 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct ExportNamespaceFrom<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct ExportNamespaceFrom<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> ExportNamespaceFrom<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ExportNamespaceFrom<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ExportNamespaceFrom<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ExportNamespaceFrom<'_> {
     // TODO: Implement transformation when SWC infrastructure is ready
     // This will transform `export * as ns from "mod"` to import/export pair
 }

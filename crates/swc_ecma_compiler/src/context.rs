@@ -4,7 +4,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::errors::DiagnosticBuilder;
+use swc_common::errors::Diagnostic;
 
 use crate::{
     common::{
@@ -32,9 +32,9 @@ pub type TraverseCtx<'a> = TransformState<'a>;
 /// transforming JavaScript/TypeScript code, including file information, module
 /// configuration, compiler assumptions, and various helper stores for managing
 /// code generation.
-pub struct TransformCtx<'a> {
+pub struct TransformCtx {
     /// Collection of diagnostic errors encountered during transformation
-    errors: RefCell<Vec<DiagnosticBuilder<'a>>>,
+    errors: RefCell<Vec<Diagnostic>>,
 
     /// Filename without extension from the source path
     ///
@@ -70,7 +70,7 @@ pub struct TransformCtx<'a> {
     pub is_class_properties_plugin_enabled: bool,
 }
 
-impl<'a> TransformCtx<'a> {
+impl TransformCtx {
     /// Creates a new transform context from a source path and transform
     /// options.
     ///
@@ -107,7 +107,7 @@ impl<'a> TransformCtx<'a> {
     ///
     /// This is typically called after transformation to retrieve any
     /// diagnostics that were collected during the process.
-    pub fn take_errors(&self) -> Vec<DiagnosticBuilder<'a>> {
+    pub fn take_errors(&self) -> Vec<Diagnostic> {
         mem::take(&mut self.errors.borrow_mut())
     }
 
@@ -115,7 +115,7 @@ impl<'a> TransformCtx<'a> {
     ///
     /// Errors are accumulated during transformation and can be retrieved later
     /// using `take_errors()`.
-    pub fn error(&self, error: DiagnosticBuilder<'a>) {
+    pub fn error(&self, error: Diagnostic) {
         self.errors.borrow_mut().push(error);
     }
 }

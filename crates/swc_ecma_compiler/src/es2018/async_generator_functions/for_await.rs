@@ -56,7 +56,7 @@ use swc_ecma_ast::*;
 use super::AsyncGeneratorFunctions;
 use crate::context::TraverseCtx;
 
-impl<'a> AsyncGeneratorFunctions<'a, '_> {
+impl<'a> AsyncGeneratorFunctions<'a> {
     /// Transform a `for await` statement.
     ///
     /// TODO: Implement the transformation. This currently does nothing.

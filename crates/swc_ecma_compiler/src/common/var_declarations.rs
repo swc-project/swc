@@ -16,7 +16,7 @@
 
 use std::cell::RefCell;
 
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::context::{TransformCtx, TraverseCtx};
@@ -64,7 +64,11 @@ impl VarDeclarationsStore {
     /// statement block, given a binding name.
     #[inline]
     pub fn insert_var(&self, name: &str, init: Option<Expr>) {
-        let pattern = Pat::Ident(BindingIdent::from(Ident::new(name.into(), DUMMY_SP)));
+        let pattern = Pat::Ident(BindingIdent::from(Ident::new(
+            name.into(),
+            DUMMY_SP,
+            SyntaxContext::empty(),
+        )));
         self.insert_var_binding_pattern(pattern, init);
     }
 
@@ -72,7 +76,11 @@ impl VarDeclarationsStore {
     /// top of current enclosing statement block.
     #[inline]
     pub fn insert_var_with_init(&self, name: &str, init: Expr) {
-        let pattern = Pat::Ident(BindingIdent::from(Ident::new(name.into(), DUMMY_SP)));
+        let pattern = Pat::Ident(BindingIdent::from(Ident::new(
+            name.into(),
+            DUMMY_SP,
+            SyntaxContext::empty(),
+        )));
         self.insert_var_binding_pattern(pattern, Some(init));
     }
 
@@ -99,7 +107,11 @@ impl VarDeclarationsStore {
     /// Add a `let` declaration to be inserted at top of current enclosing
     /// statement block.
     pub fn insert_let(&self, name: &str, init: Option<Expr>) {
-        let pattern = Pat::Ident(BindingIdent::from(Ident::new(name.into(), DUMMY_SP)));
+        let pattern = Pat::Ident(BindingIdent::from(Ident::new(
+            name.into(),
+            DUMMY_SP,
+            SyntaxContext::empty(),
+        )));
         self.insert_let_binding_pattern(pattern, init);
     }
 
@@ -134,13 +146,11 @@ impl VarDeclarationsStore {
         if stack.is_empty() {
             stack.push(Some(Declarators::new()));
         }
-        let declarators = stack
-            .last_mut()
-            .and_then(|opt| opt.as_mut())
-            .unwrap_or_else(|| {
-                *stack.last_mut().unwrap() = Some(Declarators::new());
-                stack.last_mut().unwrap().as_mut().unwrap()
-            });
+        let last = stack.last_mut().unwrap();
+        if last.is_none() {
+            *last = Some(Declarators::new());
+        }
+        let declarators = last.as_mut().unwrap();
         declarators.var_declarators.push(declarator);
     }
 
@@ -151,13 +161,11 @@ impl VarDeclarationsStore {
         if stack.is_empty() {
             stack.push(Some(Declarators::new()));
         }
-        let declarators = stack
-            .last_mut()
-            .and_then(|opt| opt.as_mut())
-            .unwrap_or_else(|| {
-                *stack.last_mut().unwrap() = Some(Declarators::new());
-                stack.last_mut().unwrap().as_mut().unwrap()
-            });
+        let last = stack.last_mut().unwrap();
+        if last.is_none() {
+            *last = Some(Declarators::new());
+        }
+        let declarators = last.as_mut().unwrap();
         declarators.let_declarators.push(declarator);
     }
 }
@@ -225,6 +233,7 @@ impl VarDeclarationsStore {
     fn create_declaration(kind: VarDeclKind, declarators: Vec<VarDeclarator>) -> Stmt {
         Stmt::Decl(Decl::Var(Box::new(VarDecl {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             kind,
             declare: false,
             decls: declarators,

@@ -39,7 +39,7 @@ pub struct StatementInjectorStore {
 }
 
 // Public methods
-impl StatementInjectorStore<'_> {
+impl StatementInjectorStore {
     /// Create new `StatementInjectorStore`.
     pub fn new() -> Self {
         Self {

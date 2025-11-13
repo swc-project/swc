@@ -40,7 +40,7 @@
 //! * Class static initialization blocks TC39 proposal: <https://github.com/tc39/proposal-class-static-block>
 
 use itoa::Buffer as ItoaBuffer;
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -78,24 +78,24 @@ impl ClassStaticBlock {
                     continue;
                 }
                 ClassMember::Method(method) => {
-                    if let PropName::Ident(PrivateName { id, .. }) = &method.key {
-                        keys.reserve(&id.sym);
+                    if let PropName::Ident(ident_name) = &method.key {
+                        keys.reserve(&ident_name.sym);
                     }
                 }
                 ClassMember::ClassProp(prop) => {
-                    if let PropName::Ident(PrivateName { id, .. }) = &prop.key {
-                        keys.reserve(&id.sym);
+                    if let PropName::Ident(ident_name) = &prop.key {
+                        keys.reserve(&ident_name.sym);
                     }
                 }
                 ClassMember::PrivateMethod(method) => {
-                    keys.reserve(&method.key.id.sym);
+                    keys.reserve(&method.key.name);
                 }
                 ClassMember::PrivateProp(prop) => {
-                    keys.reserve(&prop.key.id.sym);
+                    keys.reserve(&prop.key.name);
                 }
                 ClassMember::AutoAccessor(accessor) => {
                     if let Key::Private(private_name) = &accessor.key {
-                        keys.reserve(&private_name.id.sym);
+                        keys.reserve(&private_name.name);
                     }
                 }
                 _ => {}
@@ -135,11 +135,12 @@ impl ClassStaticBlock {
         let key_name = keys.get_unique();
         let key = PrivateName {
             span: DUMMY_SP,
-            id: Ident::new(key_name.into(), DUMMY_SP),
+            name: key_name.into(),
         };
 
         ClassMember::PrivateProp(PrivateProp {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             key,
             value: Some(Box::new(expr)),
             type_ann: None,
@@ -176,7 +177,7 @@ impl ClassStaticBlock {
         // Convert block to arrow function IIFE.
         // `static { foo; bar; }` -> `(() => { foo; bar; })()`
         let stmts = std::mem::take(&mut block.body.stmts);
-        wrap_statements_in_arrow_function_iife(stmts, ctx)
+        wrap_statements_in_arrow_function_iife(stmts, block.span, ctx)
     }
 
     /// Convert static block to expression which will be value of private field,

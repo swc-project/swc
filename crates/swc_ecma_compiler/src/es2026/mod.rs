@@ -8,13 +8,13 @@ mod options;
 use explicit_resource_management::ExplicitResourceManagement;
 pub use options::ES2026Options;
 
-pub struct ES2026<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
-    explicit_resource_management: Option<ExplicitResourceManagement<'a, 'ctx>>,
+pub struct ES2026<'a> {
+    _ctx: &'a TransformCtx,
+    explicit_resource_management: Option<ExplicitResourceManagement<'a>>,
 }
 
-impl<'a, 'ctx> ES2026<'a, 'ctx> {
-    pub fn new(options: ES2026Options, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ES2026<'a> {
+    pub fn new(options: ES2026Options, ctx: &'a TransformCtx) -> Self {
         let explicit_resource_management = if options.explicit_resource_management {
             Some(ExplicitResourceManagement::new(ctx))
         } else {
@@ -27,7 +27,7 @@ impl<'a, 'ctx> ES2026<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2026<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ES2026<'_> {
     // TODO: Port explicit resource management transform from oxc to SWC API
     // The transform requires complex scope management, symbol binding,
     // and AST manipulation that is not yet available in the SWC infrastructure.

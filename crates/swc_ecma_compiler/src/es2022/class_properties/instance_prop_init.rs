@@ -3,14 +3,12 @@
 //!
 //! Stub implementation for SWC.
 
-use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
 use swc_ecma_ast::*;
 
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'a, '_> {
+impl<'a> ClassProperties<'_> {
     /// Reparent property initializers scope.
     ///
     /// Stub implementation - SWC handles scoping differently than oxc.

@@ -28,7 +28,7 @@ pub(super) struct InstanceInitScopes {
     pub _placeholder: (),
 }
 
-impl<'a> ClassProperties<'a, '_> {
+impl<'a> ClassProperties<'_> {
     /// Replace `super()` call(s) in constructor, if required.
     ///
     /// Stub implementation - returns basic insert location.

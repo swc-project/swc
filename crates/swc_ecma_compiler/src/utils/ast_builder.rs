@@ -13,7 +13,7 @@
 //! or remove this module if the functionality can be achieved through other
 //! means in SWC's architecture.
 
-use swc_common::{Span, DUMMY_SP};
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 use crate::context::TraverseCtx;

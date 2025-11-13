@@ -15,11 +15,11 @@ use crate::{
 ///
 /// This struct manages optional plugin transformations, delegating visitor
 /// calls to the appropriate plugin implementation when enabled.
-pub struct Plugins<'a, 'ctx> {
-    styled_components: Option<StyledComponents<'a, 'ctx>>,
+pub struct Plugins<'a> {
+    styled_components: Option<StyledComponents<'a>>,
 }
 
-impl<'a, 'ctx> Plugins<'a, 'ctx> {
+impl<'a> Plugins<'a> {
     /// Creates a new plugins manager with the given options.
     ///
     /// # Arguments
@@ -27,7 +27,7 @@ impl<'a, 'ctx> Plugins<'a, 'ctx> {
     /// * `options` - Configuration for which plugins to enable and their
     ///   settings
     /// * `ctx` - Transform context for accessing utilities and error reporting
-    pub fn new(options: PluginsOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+    pub fn new(options: PluginsOptions, ctx: &'a TransformCtx) -> Self {
         Self {
             styled_components: options
                 .styled_components
@@ -36,7 +36,7 @@ impl<'a, 'ctx> Plugins<'a, 'ctx> {
     }
 }
 
-impl<'a, 'ctx> VisitMutHook<TraverseCtx<'a>> for Plugins<'a, 'ctx> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for Plugins<'a> {
     fn enter_program(&mut self, node: &mut Program, ctx: &mut TraverseCtx<'a>) {
         if let Some(styled_components) = &mut self.styled_components {
             styled_components.enter_program(node, ctx);

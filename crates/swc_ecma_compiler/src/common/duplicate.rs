@@ -1,11 +1,11 @@
 //! Utilities to duplicate expressions.
 
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-impl<'a> TransformCtx<'a> {
+impl TransformCtx {
     /// Duplicate expression to be used twice.
     ///
     /// If `expr` may have side effects, create a temp var `_expr` and assign to
@@ -22,7 +22,7 @@ impl<'a> TransformCtx<'a> {
     ///
     /// Returns 2 `Expr`s. The first may be an `AssignExpr`,
     /// and must be inserted into output first.
-    pub(crate) fn duplicate_expression(
+    pub(crate) fn duplicate_expression<'a>(
         &self,
         expr: Expr,
         mutated_symbol_needs_temp_var: bool,
@@ -50,7 +50,7 @@ impl<'a> TransformCtx<'a> {
     ///
     /// Returns 3 `Expr`s. The first may be an `AssignExpr`,
     /// and must be inserted into output first.
-    pub(crate) fn duplicate_expression_twice(
+    pub(crate) fn duplicate_expression_twice<'a>(
         &self,
         expr: Expr,
         mutated_symbol_needs_temp_var: bool,
@@ -78,7 +78,7 @@ impl<'a> TransformCtx<'a> {
     ///
     /// Returns `N + 1` x `Expr`s. The first may be an
     /// `AssignExpr`, and must be inserted into output first.
-    pub(crate) fn duplicate_expression_multiple<const N: usize>(
+    pub(crate) fn duplicate_expression_multiple<'a, const N: usize>(
         &self,
         expr: Expr,
         mutated_symbol_needs_temp_var: bool,
@@ -122,7 +122,7 @@ impl<'a> TransformCtx<'a> {
 
         // Create temp var
         let temp_name = format!("_temp{}", self.var_declarations.get_next_temp_id());
-        let temp_ident = Ident::new(temp_name.into(), DUMMY_SP);
+        let temp_ident = Ident::new(temp_name.into(), DUMMY_SP, SyntaxContext::empty());
 
         let assignment = Expr::Assign(AssignExpr {
             span: DUMMY_SP,

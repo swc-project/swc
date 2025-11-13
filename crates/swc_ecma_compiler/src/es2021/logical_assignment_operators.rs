@@ -59,17 +59,17 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct LogicalAssignmentOperators<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct LogicalAssignmentOperators<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> LogicalAssignmentOperators<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> LogicalAssignmentOperators<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for LogicalAssignmentOperators<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for LogicalAssignmentOperators<'_> {
     // TODO: Implement transformation when SWC infrastructure is ready
     // This will transform logical assignment operators to logical expressions
 }

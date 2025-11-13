@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'a, '_> {
+impl<'a> ClassProperties<'_> {
     /// Convert private method definition.
     ///
     /// Returns a statement to insert after the class, or `None` if method

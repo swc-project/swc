@@ -3,18 +3,13 @@
 //!
 //! Stub implementation for SWC - provides minimal structure for compilation.
 
-use indexmap::map::Entry;
-use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
-use super::{
-    constructor::InstanceInitsInsertLocation, utils::exprs_into_stmts, ClassBindings, ClassDetails,
-    ClassProperties, FxIndexMap, PrivateProp,
-};
+use super::{ClassBindings, ClassDetails, ClassProperties, FxIndexMap, PrivateProp};
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'a, '_> {
+impl<'a> ClassProperties<'_> {
     /// Perform first phase of transformation of class.
     ///
     /// This is the only entry point into the transform upon entering class
@@ -37,14 +32,14 @@ impl<'a> ClassProperties<'a, '_> {
                 }
                 ClassMember::PrivateProp(prop) => {
                     has_properties = true;
-                    let name = prop.key.id.sym.clone();
+                    let name = prop.key.name.clone();
                     private_props.insert(
                         name.clone(),
                         PrivateProp::new(name, prop.is_static, None, false),
                     );
                 }
                 ClassMember::PrivateMethod(method) => {
-                    let name = method.key.id.sym.clone();
+                    let name = method.key.name.clone();
                     private_props.insert(
                         name.clone(),
                         PrivateProp::new(name, method.is_static, Some(method.kind), false),

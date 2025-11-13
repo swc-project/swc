@@ -31,19 +31,18 @@
 //! * Exponentiation operator TC39 proposal: <https://github.com/tc39/proposal-exponentiation-operator>
 //! * Exponentiation operator specification: <https://tc39.es/ecma262/#sec-exp-operator>
 
-use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct ExponentiationOperator<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct ExponentiationOperator<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> ExponentiationOperator<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ExponentiationOperator<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ExponentiationOperator<'_, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ExponentiationOperator<'_> {}

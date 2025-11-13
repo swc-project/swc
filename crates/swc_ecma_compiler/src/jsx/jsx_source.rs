@@ -33,7 +33,10 @@
 //!
 //! * Babel plugin implementation: <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-react-jsx-source/src/index.ts>
 
-use swc_common::{errors::DiagnosticBuilder, DUMMY_SP};
+use swc_common::{
+    errors::{Diagnostic, Level},
+    SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -42,14 +45,14 @@ use crate::context::{TransformCtx, TraverseCtx};
 const SOURCE: &str = "__source";
 const FILE_NAME_VAR: &str = "jsxFileName";
 
-pub struct JsxSource<'a, 'ctx> {
+pub struct JsxSource<'a> {
     filename_var: Option<Ident>,
     filename_var_created: bool,
-    ctx: &'ctx TransformCtx<'a>,
+    ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> JsxSource<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> JsxSource<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self {
             filename_var: None,
             filename_var_created: false,
@@ -58,7 +61,7 @@ impl<'a, 'ctx> JsxSource<'a, 'ctx> {
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSource<'a, '_> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSource<'a> {
     fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
         if let Some(stmt) = self.get_filename_var_statement() {
             self.ctx.top_level_statements.insert_statement(stmt);
@@ -74,7 +77,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSource<'a, '_> {
     }
 }
 
-impl<'a> JsxSource<'a, '_> {
+impl<'a> JsxSource<'a> {
     /// Get line and column from offset and source text.
     ///
     /// Line number starts at 1.
@@ -108,9 +111,9 @@ impl<'a> JsxSource<'a, '_> {
     }
 
     pub fn report_error(&self, span: swc_common::Span) {
-        let error = DiagnosticBuilder::new("Duplicate __source prop found.")
-            .with_span_label(span, "duplicate __source");
-        self.ctx.error(error);
+        let mut diagnostic = Diagnostic::new(Level::Error, "Duplicate __source prop found.");
+        diagnostic.span_label(span, "duplicate __source");
+        self.ctx.error(diagnostic);
     }
 
     /// `<sometag __source={ { fileName: 'this/file.js', lineNumber: 10,
@@ -260,6 +263,7 @@ impl<'a> JsxSource<'a, '_> {
         // to avoid name collisions
         let ident = Ident {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             sym: FILE_NAME_VAR.into(),
             optional: false,
         };

@@ -1,7 +1,6 @@
 use rustc_hash::FxHashMap;
-use swc_common::{Span, DUMMY_SP};
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::quote_ident;
 
 use crate::context::TraverseCtx;
@@ -76,22 +75,20 @@ impl TypeScriptEnum {
         let statements = self.transform_ts_enum_members(&mut decl.members, &enum_name);
 
         // Create IIFE: ((Foo) => { ... })(Foo || {})
-        let params = vec![Param {
-            span: DUMMY_SP,
-            decorators: vec![],
-            pat: Pat::Ident(BindingIdent {
-                id: quote_ident!(enum_name.clone()),
-                type_ann: None,
-            }),
-        }];
+        let params = vec![Pat::Ident(BindingIdent {
+            id: quote_ident!(SyntaxContext::empty(), enum_name.clone()),
+            type_ann: None,
+        })];
 
         let body = BlockStmt {
             span: decl.span,
+            ctxt: SyntaxContext::empty(),
             stmts: statements,
         };
 
         let callee = Expr::Arrow(ArrowExpr {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             params,
             body: Box::new(BlockStmtOrExpr::BlockStmt(body)),
             is_async: false,
@@ -106,7 +103,10 @@ impl TypeScriptEnum {
             expr: Box::new(Expr::Bin(BinExpr {
                 span: DUMMY_SP,
                 op: BinaryOp::LogicalOr,
-                left: Box::new(Expr::Ident(quote_ident!(enum_name.clone()))),
+                left: Box::new(Expr::Ident(quote_ident!(
+                    SyntaxContext::empty(),
+                    enum_name.clone()
+                ))),
                 right: Box::new(Expr::Object(ObjectLit {
                     span: DUMMY_SP,
                     props: vec![],
@@ -116,6 +116,7 @@ impl TypeScriptEnum {
 
         let call_expression = Expr::Call(CallExpr {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             callee: Callee::Expr(Box::new(callee)),
             args: arguments,
             type_args: None,
@@ -140,6 +141,7 @@ impl TypeScriptEnum {
 
         let variable_declaration = VarDecl {
             span: decl.span,
+            ctxt: SyntaxContext::empty(),
             kind,
             declare: false,
             decls,
@@ -170,7 +172,7 @@ impl TypeScriptEnum {
         for member in members.iter_mut() {
             let member_name = match &member.id {
                 TsEnumMemberId::Ident(ident) => ident.sym.to_string(),
-                TsEnumMemberId::Str(s) => s.value.to_string(),
+                TsEnumMemberId::Str(s) => s.value.to_string_lossy().into_owned(),
             };
 
             let member_id = (member_name.clone().into(), Default::default());
@@ -179,7 +181,7 @@ impl TypeScriptEnum {
                 let constant_value =
                     self.computed_constant_value(initializer, &previous_enum_members);
 
-                previous_enum_members.insert(member_id.clone(), constant_value);
+                previous_enum_members.insert(member_id.clone(), constant_value.clone());
 
                 match constant_value {
                     None => {
@@ -213,7 +215,10 @@ impl TypeScriptEnum {
                 // 1 + Foo["x"]
                 let self_ref = Expr::Member(MemberExpr {
                     span: DUMMY_SP,
-                    obj: Box::new(Expr::Ident(quote_ident!(enum_name.to_string()))),
+                    obj: Box::new(Expr::Ident(quote_ident!(
+                        SyntaxContext::empty(),
+                        enum_name.to_string()
+                    ))),
                     prop: MemberProp::Computed(ComputedPropName {
                         span: DUMMY_SP,
                         expr: Box::new(Expr::Lit(Lit::Str(Str {
@@ -240,7 +245,10 @@ impl TypeScriptEnum {
             // Foo["x"] = init
             let member_expr = MemberExpr {
                 span: DUMMY_SP,
-                obj: Box::new(Expr::Ident(quote_ident!(enum_name.to_string()))),
+                obj: Box::new(Expr::Ident(quote_ident!(
+                    SyntaxContext::empty(),
+                    enum_name.to_string()
+                ))),
                 prop: MemberProp::Computed(ComputedPropName {
                     span: DUMMY_SP,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
@@ -262,7 +270,10 @@ impl TypeScriptEnum {
             if !is_str {
                 let member_expr = MemberExpr {
                     span: DUMMY_SP,
-                    obj: Box::new(Expr::Ident(quote_ident!(enum_name.to_string()))),
+                    obj: Box::new(Expr::Ident(quote_ident!(
+                        SyntaxContext::empty(),
+                        enum_name.to_string()
+                    ))),
                     prop: MemberProp::Computed(ComputedPropName {
                         span: DUMMY_SP,
                         expr: Box::new(expr),
@@ -293,7 +304,10 @@ impl TypeScriptEnum {
         // return Foo;
         statements.push(Stmt::Return(ReturnStmt {
             span: DUMMY_SP,
-            arg: Some(Box::new(Expr::Ident(quote_ident!(enum_name.to_string())))),
+            arg: Some(Box::new(Expr::Ident(quote_ident!(
+                SyntaxContext::empty(),
+                enum_name.to_string()
+            )))),
         }));
 
         statements
@@ -312,7 +326,7 @@ impl TypeScriptEnum {
 
         // Infinity
         let expr = if value.is_infinite() {
-            Expr::Ident(quote_ident!("Infinity"))
+            Expr::Ident(quote_ident!(SyntaxContext::empty(), "Infinity"))
         } else {
             let value = if is_negative { -value } else { value };
             Self::get_number_literal_expression(value)
@@ -358,7 +372,7 @@ impl TypeScriptEnum {
                     MemberProp::Ident(ident) => ident.sym.to_string(),
                     MemberProp::Computed(computed) => {
                         if let Expr::Lit(Lit::Str(s)) = &*computed.expr {
-                            s.value.to_string()
+                            s.value.to_string_lossy().into_owned()
                         } else {
                             return None;
                         }
@@ -366,7 +380,7 @@ impl TypeScriptEnum {
                     _ => return None,
                 };
                 let property_id = (property_name.into(), Default::default());
-                *members.get(&property_id)?
+                members.get(&property_id).cloned()?
             }
             Expr::Ident(ident) => {
                 if ident.sym == *"Infinity" {
@@ -376,7 +390,7 @@ impl TypeScriptEnum {
                 }
 
                 if let Some(value) = prev_members.get(&ident.to_id()) {
-                    return *value;
+                    return value.clone();
                 }
 
                 None
@@ -391,7 +405,9 @@ impl TypeScriptEnum {
             Expr::Bin(bin_expr) => self.eval_binary_expression(bin_expr, prev_members),
             Expr::Unary(unary_expr) => self.eval_unary_expression(unary_expr, prev_members),
             Expr::Lit(Lit::Num(num)) => Some(ConstantValue::Number(num.value)),
-            Expr::Lit(Lit::Str(s)) => Some(ConstantValue::String(s.value.to_string())),
+            Expr::Lit(Lit::Str(s)) => Some(ConstantValue::String(
+                s.value.to_string_lossy().into_owned(),
+            )),
             Expr::Tpl(tpl) => {
                 if tpl.exprs.is_empty() {
                     // Simple template literal with no expressions

@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use super::ClassProperties;
 use crate::context::TraverseCtx;
 
-impl<'a> ClassProperties<'a, '_> {
+impl<'a> ClassProperties<'_> {
     /// Substitute temp var for method computed key.
     /// `class C { [x()]() {} }` -> `let _x; _x = x(); class C { [_x]() {} }`
     /// This transform is only required if class has properties or a static

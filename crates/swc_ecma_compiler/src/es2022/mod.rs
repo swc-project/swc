@@ -12,20 +12,20 @@ pub use class_properties::ClassPropertiesOptions;
 use class_static_block::ClassStaticBlock;
 pub use options::ES2022Options;
 
-pub struct ES2022<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+pub struct ES2022<'ctx> {
+    ctx: &'ctx TransformCtx,
     options: ES2022Options,
 
     // Plugins
     class_static_block: Option<ClassStaticBlock>,
-    class_properties: Option<ClassProperties<'a, 'ctx>>,
+    class_properties: Option<ClassProperties<'ctx>>,
 }
 
-impl<'a, 'ctx> ES2022<'a, 'ctx> {
+impl<'ctx> ES2022<'ctx> {
     pub fn new(
         options: ES2022Options,
         remove_class_fields_without_initializer: bool,
-        ctx: &'ctx TransformCtx<'a>,
+        ctx: &'ctx TransformCtx,
     ) -> Self {
         // Class properties transform performs the static block transform differently.
         // So only enable static block transform if class properties transform is
@@ -56,7 +56,7 @@ impl<'a, 'ctx> ES2022<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2022<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ES2022<'_> {
     #[inline] // Because this is a no-op in release mode
     fn exit_program(&mut self, program: &mut Program, ctx: &mut TraverseCtx) {
         if let Some(class_properties) = &mut self.class_properties {
@@ -136,8 +136,16 @@ impl VisitMutHook<TraverseCtx<'_>> for ES2022<'_, '_> {
     }
 }
 
-impl ES2022<'_, '_> {
-    fn is_top_level(ctx: &TraverseCtx) -> bool {
-        ctx.current_hoist_scope_id() == ctx.scoping().root_scope_id()
+impl ES2022<'_> {
+    fn is_top_level(_ctx: &TraverseCtx) -> bool {
+        // TODO: Implement proper scope checking for top-level await diagnostic.
+        // In SWC, scope analysis is handled differently than in oxc.
+        // For now, we conservatively assume code is not at top level to avoid
+        // incorrect diagnostics. This should be implemented using SWC's resolver
+        // or scope analysis system.
+        //
+        // Original oxc implementation:
+        // ctx.current_hoist_scope_id() == ctx.scoping().root_scope_id()
+        false
     }
 }

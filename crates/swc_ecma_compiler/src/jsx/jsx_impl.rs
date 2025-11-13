@@ -103,7 +103,7 @@ use super::{
 };
 use crate::{
     context::{TransformCtx, TraverseCtx},
-    es2018::{ObjectRestSpread, ObjectRestSpreadOptions},
+    es2018::ObjectRestSpreadOptions,
 };
 
 /// XML entities mapping
@@ -213,28 +213,28 @@ static XML_ENTITIES: Lazy<HashMap<&'static str, char>> = Lazy::new(|| {
     map
 });
 
-pub struct JsxImpl<'a, 'ctx> {
+pub struct JsxImpl<'a> {
     pure: bool,
     options: JsxOptions,
     object_rest_spread_options: Option<ObjectRestSpreadOptions>,
 
-    ctx: &'ctx TransformCtx<'a>,
+    ctx: &'a TransformCtx,
 
-    pub(super) jsx_self: JsxSelf<'a, 'ctx>,
-    pub(super) jsx_source: JsxSource<'a, 'ctx>,
+    pub(super) jsx_self: JsxSelf<'a>,
+    pub(super) jsx_source: JsxSource<'a>,
 
     // States
-    bindings: Bindings<'a, 'ctx>,
+    bindings: Bindings<'a>,
 }
 
 /// Bindings for different import options
-enum Bindings<'a, 'ctx> {
+enum Bindings<'a> {
     Classic(ClassicBindings),
-    AutomaticScript(AutomaticScriptBindings<'a, 'ctx>),
-    AutomaticModule(AutomaticModuleBindings<'a, 'ctx>),
+    AutomaticScript(AutomaticScriptBindings<'a>),
+    AutomaticModule(AutomaticModuleBindings<'a>),
 }
 
-impl Bindings<'_, '_> {
+impl Bindings<'_> {
     #[inline]
     fn is_classic(&self) -> bool {
         matches!(self, Self::Classic(_))
@@ -246,8 +246,8 @@ struct ClassicBindings {
     pragma_frag: Pragma,
 }
 
-struct AutomaticScriptBindings<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+struct AutomaticScriptBindings<'a> {
+    ctx: &'a TransformCtx,
     jsx_runtime_importer: Cow<'static, str>,
     react_importer_len: u32,
     require_create_element: Option<Ident>,
@@ -255,9 +255,9 @@ struct AutomaticScriptBindings<'a, 'ctx> {
     is_development: bool,
 }
 
-impl<'a, 'ctx> AutomaticScriptBindings<'a, 'ctx> {
+impl<'a> AutomaticScriptBindings<'a> {
     fn new(
-        ctx: &'ctx TransformCtx<'a>,
+        ctx: &'a TransformCtx,
         jsx_runtime_importer: Cow<'static, str>,
         react_importer_len: u32,
         is_development: bool,
@@ -300,13 +300,13 @@ impl<'a, 'ctx> AutomaticScriptBindings<'a, 'ctx> {
         let binding = Ident::new(variable_name.into(), DUMMY_SP, Default::default());
         self.ctx
             .module_imports
-            .add_default_import(source.into(), binding.clone(), front);
+            .add_default_import(source.into(), binding.sym.clone(), front);
         binding
     }
 }
 
-struct AutomaticModuleBindings<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+struct AutomaticModuleBindings<'a> {
+    ctx: &'a TransformCtx,
     jsx_runtime_importer: Cow<'static, str>,
     react_importer_len: u32,
     import_create_element: Option<Ident>,
@@ -316,9 +316,9 @@ struct AutomaticModuleBindings<'a, 'ctx> {
     is_development: bool,
 }
 
-impl<'a, 'ctx> AutomaticModuleBindings<'a, 'ctx> {
+impl<'a> AutomaticModuleBindings<'a> {
     fn new(
-        ctx: &'ctx TransformCtx<'a>,
+        ctx: &'a TransformCtx,
         jsx_runtime_importer: Cow<'static, str>,
         react_importer_len: u32,
         is_development: bool,
@@ -391,7 +391,7 @@ impl<'a, 'ctx> AutomaticModuleBindings<'a, 'ctx> {
         self.ctx.module_imports.add_named_import(
             source.into(),
             name.into(),
-            binding.clone(),
+            binding.sym.clone(),
             false,
         );
         binding
@@ -472,7 +472,7 @@ impl Pragma {
                 return Expr::Member(MemberExpr {
                     span: DUMMY_SP,
                     obj: object,
-                    prop: MemberProp::Ident(IdentName::new(DUMMY_SP, second.as_ref().into())),
+                    prop: MemberProp::Ident(IdentName::new(second.as_ref().into(), DUMMY_SP)),
                 });
             }
             Self::Single(single) => {
@@ -497,7 +497,7 @@ impl Pragma {
                 (object, parts.iter())
             }
             Self::ImportMeta(parts) => {
-                let object = Box::new(Expr::MetaProperty(MetaPropExpr {
+                let object = Box::new(Expr::MetaProp(MetaPropExpr {
                     span: DUMMY_SP,
                     kind: MetaPropKind::ImportMeta,
                 }));
@@ -510,18 +510,18 @@ impl Pragma {
             expr = Box::new(Expr::Member(MemberExpr {
                 span: DUMMY_SP,
                 obj: expr,
-                prop: MemberProp::Ident(IdentName::new(DUMMY_SP, item.as_ref().into())),
+                prop: MemberProp::Ident(IdentName::new(item.as_ref().into(), DUMMY_SP)),
             }));
         }
         *expr
     }
 }
 
-impl<'a, 'ctx> JsxImpl<'a, 'ctx> {
+impl<'a> JsxImpl<'a> {
     pub fn new(
         options: JsxOptions,
         object_rest_spread_options: Option<ObjectRestSpreadOptions>,
-        ctx: &'ctx TransformCtx<'a>,
+        ctx: &'a TransformCtx,
     ) -> Self {
         // Only add `pure` when `pure` is explicitly set to `true` or all JSX options
         // are default.
@@ -603,7 +603,7 @@ impl<'a, 'ctx> JsxImpl<'a, 'ctx> {
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl<'a, '_> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl<'a> {
     fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
         self.insert_filename_var_statement();
     }
@@ -614,9 +614,10 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl<'a, '_> {
             return;
         }
         *expr = match std::mem::replace(expr, Expr::Invalid(Invalid { span: DUMMY_SP })) {
-            Expr::JSXElement(e) => self.transform_jsx_element(*e, ctx),
+            Expr::JSXElement(e) => self.transform_jsx_element(e, ctx),
             Expr::JSXFragment(e) => {
-                let JSXFragment { span, children, .. } = *e;
+                let span = e.span;
+                let children = e.children;
                 self.transform_jsx(span, None, children, ctx)
             }
             _ => unreachable!(),
@@ -624,7 +625,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxImpl<'a, '_> {
     }
 }
 
-impl<'a> JsxImpl<'a, '_> {
+impl<'a> JsxImpl<'a> {
     fn is_script(&self) -> bool {
         self.ctx.module.is_script()
     }
@@ -790,8 +791,8 @@ impl<'a> JsxImpl<'a, '_> {
                 .collect::<Vec<_>>();
             let children_len = children_exprs.len();
             if children_len != 0 {
-                let value = if children_len == 1 {
-                    children_exprs.pop().unwrap()
+                let value: Box<Expr> = if children_len == 1 {
+                    Box::new(children_exprs.pop().unwrap())
                 } else {
                     need_jsxs = true;
                     let elements = children_exprs
@@ -808,7 +809,7 @@ impl<'a> JsxImpl<'a, '_> {
                         elems: elements,
                     }))
                 };
-                let children = PropName::Ident(IdentName::new(DUMMY_SP, "children".into()));
+                let children = PropName::Ident(IdentName::new("children".into(), DUMMY_SP));
                 let property = PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                     key: children,
                     value,
@@ -822,14 +823,16 @@ impl<'a> JsxImpl<'a, '_> {
                 span: DUMMY_SP,
                 props: properties,
             }));
-            if let Some(options) = self.object_rest_spread_options {
-                ObjectRestSpread::transform_object_expression(
-                    options,
-                    &mut object_expression,
-                    self.ctx,
-                    ctx,
-                );
-            }
+            // TODO: Object rest spread transformation is not yet implemented
+            // if let Some(options) = self.object_rest_spread_options {
+            //     ObjectRestSpread::transform_object_expression(
+            //         options,
+            //         &mut object_expression,
+            //         self.ctx,
+            //         ctx,
+            //     );
+            // }
+            let _ = self.object_rest_spread_options;
             arguments.push(ExprOrSpread {
                 spread: None,
                 expr: object_expression,
@@ -889,7 +892,7 @@ impl<'a> JsxImpl<'a, '_> {
             // React.createElement's second argument
             if is_element {
                 if self.options.jsx_self_plugin && JsxSelf::can_add_self_attribute(ctx) {
-                    properties.push(JsxSelf::get_object_property_kind_for_jsx_plugin());
+                    properties.push(JsxSelf::get_object_property_kind_for_jsx_plugin(ctx));
                 }
 
                 if self.options.jsx_source_plugin {
@@ -906,14 +909,16 @@ impl<'a> JsxImpl<'a, '_> {
                     span: DUMMY_SP,
                     props: properties,
                 }));
-                if let Some(options) = self.object_rest_spread_options {
-                    ObjectRestSpread::transform_object_expression(
-                        options,
-                        &mut object_expression,
-                        self.ctx,
-                        ctx,
-                    );
-                }
+                // TODO: Object rest spread transformation is not yet implemented
+                // if let Some(options) = self.object_rest_spread_options {
+                //     ObjectRestSpread::transform_object_expression(
+                //         options,
+                //         &mut object_expression,
+                //         self.ctx,
+                //         ctx,
+                //     );
+                // }
+                let _ = self.object_rest_spread_options;
                 arguments.push(ExprOrSpread {
                     spread: None,
                     expr: object_expression,
@@ -976,11 +981,11 @@ impl<'a> JsxImpl<'a, '_> {
         match name {
             JSXElementName::Ident(ident) => Expr::Lit(Lit::Str(Str {
                 span: ident.span,
-                value: ident.sym,
+                value: ident.sym.into(),
                 raw: None,
             })),
             JSXElementName::JSXMemberExpr(member_expr) => {
-                Self::transform_jsx_member_expression(*member_expr, ctx)
+                Self::transform_jsx_member_expression(member_expr, ctx)
             }
             JSXElementName::JSXNamespacedName(namespaced) => {
                 if self.options.throw_if_namespace {
@@ -1069,26 +1074,24 @@ impl<'a> JsxImpl<'a, '_> {
         ctx: &mut TraverseCtx<'a>,
     ) -> Box<Expr> {
         match value {
-            Some(JSXAttrValue::Lit(s)) => {
-                if let Lit::Str(s) = s {
-                    let decoded = decode_entities(&s.value);
-                    let jsx_text = if let Some(decoded) = decoded {
-                        decoded.into()
-                    } else {
-                        s.value
-                    };
-                    Box::new(Expr::Lit(Lit::Str(Str {
-                        span: s.span,
-                        value: jsx_text,
-                        raw: None,
-                    })))
+            Some(JSXAttrValue::Str(s)) => {
+                let s_value_str: &str = &s.value;
+                let decoded = decode_entities(s_value_str);
+                let jsx_text = if let Some(decoded) = decoded {
+                    decoded.into()
                 } else {
-                    Box::new(Expr::Lit(s))
-                }
+                    s.value
+                };
+                Box::new(Expr::Lit(Lit::Str(Str {
+                    span: s.span,
+                    value: jsx_text,
+                    raw: None,
+                })))
             }
             Some(JSXAttrValue::JSXElement(e)) => Box::new(self.transform_jsx_element(e, ctx)),
             Some(JSXAttrValue::JSXFragment(e)) => {
-                let JSXFragment { span, children, .. } = *e;
+                let span = e.span;
+                let children = e.children;
                 Box::new(self.transform_jsx(span, None, children, ctx))
             }
             Some(JSXAttrValue::JSXExprContainer(c)) => match c.expr {
@@ -1164,7 +1167,8 @@ impl<'a> JsxImpl<'a, '_> {
             },
             JSXElementChild::JSXElement(e) => Some(self.transform_jsx_element(e, ctx)),
             JSXElementChild::JSXFragment(e) => {
-                let JSXFragment { span, children, .. } = *e;
+                let span = e.span;
+                let children = e.children;
                 Some(self.transform_jsx(span, None, children, ctx))
             }
             JSXElementChild::JSXSpreadChild(_) => unreachable!(),
@@ -1178,7 +1182,7 @@ impl<'a> JsxImpl<'a, '_> {
                 if name.contains('-') {
                     PropName::Str(Str {
                         span: ident.span,
-                        value: name,
+                        value: name.into(),
                         raw: None,
                     })
                 } else {
@@ -1203,7 +1207,7 @@ impl<'a> JsxImpl<'a, '_> {
         fixup_whitespace_and_decode_entities(&text.value).map(|value| {
             Expr::Lit(Lit::Str(Str {
                 span: text.span,
-                value,
+                value: value.into(),
                 raw: None,
             }))
         })
@@ -1233,7 +1237,7 @@ impl<'a> JsxImpl<'a, '_> {
             if matches!(attr, JSXAttrOrSpread::SpreadElement(_)) {
                 spread = true;
             } else if spread
-                && matches!(attr, JSXAttrOrSpread::JSXAttr(a) if &*a.name.as_ident().unwrap().sym == "key")
+                && matches!(attr, JSXAttrOrSpread::JSXAttr(a) if matches!(&a.name, JSXAttrName::Ident(ident) if &*ident.sym == "key"))
             {
                 return true;
             }
@@ -1384,7 +1388,7 @@ fn decode_entities(s: &str) -> Option<String> {
 
 fn create_static_member_expression(object_ident: Ident, property_name: &str) -> Expr {
     let object = Box::new(Expr::Ident(object_ident));
-    let property = IdentName::new(DUMMY_SP, property_name.into());
+    let property = IdentName::new(property_name.into(), DUMMY_SP);
     Expr::Member(MemberExpr {
         span: DUMMY_SP,
         obj: object,

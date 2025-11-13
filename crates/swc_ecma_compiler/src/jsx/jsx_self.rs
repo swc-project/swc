@@ -28,7 +28,10 @@
 //!
 //! * Babel plugin implementation: <https://github.com/babel/babel/blob/v7.26.2/packages/babel-plugin-transform-react-jsx-self/src/index.ts>
 
-use swc_common::{errors::DiagnosticBuilder, DUMMY_SP};
+use swc_common::{
+    errors::{Diagnostic, Level},
+    DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -36,17 +39,17 @@ use crate::context::{TransformCtx, TraverseCtx};
 
 const SELF: &str = "__self";
 
-pub struct JsxSelf<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+pub struct JsxSelf<'a> {
+    ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> JsxSelf<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> JsxSelf<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { ctx }
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSelf<'a, '_> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSelf<'a> {
     fn enter_jsx_opening_element(
         &mut self,
         elem: &mut JSXOpeningElement,
@@ -56,11 +59,11 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for JsxSelf<'a, '_> {
     }
 }
 
-impl<'a> JsxSelf<'a, '_> {
+impl<'a> JsxSelf<'a> {
     pub fn report_error(&self, span: swc_common::Span) {
-        let error = DiagnosticBuilder::new("Duplicate __self prop found.")
-            .with_span_label(span, "duplicate __self");
-        self.ctx.error(error);
+        let mut diagnostic = Diagnostic::new(Level::Error, "Duplicate __self prop found.");
+        diagnostic.span_label(span, "duplicate __self");
+        self.ctx.error(diagnostic);
     }
 
     fn is_inside_constructor(_ctx: &TraverseCtx<'a>) -> bool {

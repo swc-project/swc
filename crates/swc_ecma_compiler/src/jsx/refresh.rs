@@ -15,7 +15,7 @@ use base64::{
 };
 use rustc_hash::{FxHashMap, FxHashSet};
 use sha1::{Digest, Sha1};
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -62,9 +62,15 @@ impl RefreshIdentifierResolver {
     /// Converts the RefreshIdentifierResolver into an Expr
     pub fn to_expression(&self) -> Box<Expr> {
         match self {
-            Self::Identifier(name) => Box::new(Expr::Ident(quote_ident!(name.as_str()))),
+            Self::Identifier(name) => Box::new(Expr::Ident(quote_ident!(
+                SyntaxContext::empty(),
+                name.as_str()
+            ))),
             Self::Member((object, property)) => {
-                let obj = Box::new(Expr::Ident(quote_ident!(object.as_str())));
+                let obj = Box::new(Expr::Ident(quote_ident!(
+                    SyntaxContext::empty(),
+                    object.as_str()
+                )));
                 let prop = IdentName {
                     span: DUMMY_SP,
                     sym: property.as_str().into(),
@@ -97,11 +103,11 @@ impl RefreshIdentifierResolver {
 /// React Fast Refresh
 ///
 /// Transform React functional components to integrate Fast Refresh.
-pub struct ReactRefresh<'a, 'ctx> {
+pub struct ReactRefresh<'a> {
     refresh_reg: RefreshIdentifierResolver,
     refresh_sig: RefreshIdentifierResolver,
     emit_full_signatures: bool,
-    ctx: &'ctx TransformCtx<'a>,
+    ctx: &'a TransformCtx,
     // States
     registrations: Vec<(String, String)>,
     /// Used to wrap call expression with signature.
@@ -120,8 +126,8 @@ pub struct ReactRefresh<'a, 'ctx> {
     scope_depth: usize,
 }
 
-impl<'a, 'ctx> ReactRefresh<'a, 'ctx> {
-    pub fn new(options: &ReactRefreshOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ReactRefresh<'a> {
+    pub fn new(options: &ReactRefreshOptions, ctx: &'a TransformCtx) -> Self {
         Self {
             refresh_reg: RefreshIdentifierResolver::parse(&options.refresh_reg),
             refresh_sig: RefreshIdentifierResolver::parse(&options.refresh_sig),
@@ -149,21 +155,23 @@ impl<'a, 'ctx> ReactRefresh<'a, 'ctx> {
     }
 }
 
-impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a> {
     fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
         // Collect bindings used in JSX
         self.used_in_jsx_bindings = UsedInJSXBindingsCollector::collect(program);
 
-        // Process statements
-        let mut new_statements = Vec::with_capacity(program.body().len() * 2);
-        for mut statement in program.body_mut().drain(..).collect::<Vec<_>>() {
-            let next_statement = self.process_statement(&mut statement);
-            new_statements.push(statement);
-            if let Some(assignment_expression) = next_statement {
-                new_statements.push(assignment_expression);
+        // Process statements - only for Module, not Script
+        if let Program::Module(module) = program {
+            let mut new_statements = Vec::with_capacity(module.body.len() * 2);
+            for mut statement in module.body.drain(..).collect::<Vec<_>>() {
+                let next_statement = self.process_statement(&mut statement);
+                new_statements.push(statement);
+                if let Some(assignment_expression) = next_statement {
+                    new_statements.push(assignment_expression);
+                }
             }
+            module.body = new_statements;
         }
-        *program.body_mut() = new_statements;
     }
 
     fn exit_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
@@ -178,7 +186,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
             variable_declarators.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(BindingIdent {
-                    id: quote_ident!(binding_name.as_str()),
+                    id: quote_ident!(SyntaxContext::empty(), binding_name.as_str()),
                     type_ann: None,
                 }),
                 init: None,
@@ -189,7 +197,10 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
             let args = vec![
                 ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Ident(quote_ident!(binding_name.as_str()))),
+                    expr: Box::new(Expr::Ident(quote_ident!(
+                        SyntaxContext::empty(),
+                        binding_name.as_str()
+                    ))),
                 },
                 ExprOrSpread {
                     spread: None,
@@ -203,6 +214,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
             calls.push(
                 CallExpr {
                     span: DUMMY_SP,
+                    ctxt: SyntaxContext::empty(),
                     callee: Callee::Expr(callee),
                     args,
                     type_args: None,
@@ -213,19 +225,20 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
 
         let var_decl = VarDecl {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             kind: VarDeclKind::Var,
             declare: false,
             decls: variable_declarators,
         };
 
-        program
-            .body_mut()
-            .extend(std::iter::once(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
-                Box::new(var_decl),
-            )))));
-        program
-            .body_mut()
-            .extend(calls.into_iter().map(ModuleItem::Stmt));
+        if let Program::Module(module) = program {
+            module
+                .body
+                .extend(std::iter::once(ModuleItem::Stmt(Stmt::Decl(Decl::Var(
+                    Box::new(var_decl),
+                )))));
+            module.body.extend(calls.into_iter().map(ModuleItem::Stmt));
+        }
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx<'a>) {
@@ -283,7 +296,9 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
 
         *expr = Expr::Call(CallExpr {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(
+                SyntaxContext::empty(),
                 binding_identifier.as_str()
             )))),
             args: arguments,
@@ -387,7 +402,7 @@ impl<'a> VisitMutHook<TraverseCtx<'a>> for ReactRefresh<'a, '_> {
 }
 
 // Internal Methods
-impl<'a> ReactRefresh<'a, '_> {
+impl<'a> ReactRefresh<'a> {
     fn create_registration(&mut self, persistent_id: String) -> String {
         let binding = self.next_registration_name();
         self.registrations.push((binding.clone(), persistent_id));
@@ -412,8 +427,8 @@ impl<'a> ReactRefresh<'a, '_> {
             Expr::Fn(_) => {}
             Expr::Arrow(arrow) => {
                 // Don't transform `() => () => {}`
-                if let Some(BlockStmtOrExpr::Expr(inner_expr)) = &arrow.body {
-                    if matches!(&**inner_expr, Expr::Arrow(_)) {
+                if let BlockStmtOrExpr::Expr(inner_expr) = arrow.body.as_ref() {
+                    if matches!(inner_expr.as_ref(), Expr::Arrow(_)) {
                         return false;
                     }
                 }
@@ -475,7 +490,7 @@ impl<'a> ReactRefresh<'a, '_> {
                 span: DUMMY_SP,
                 op: op!("="),
                 left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
-                    id: quote_ident!(binding.as_str()),
+                    id: quote_ident!(SyntaxContext::empty(), binding.as_str()),
                     type_ann: None,
                 })),
                 right: Box::new(old_expr),
@@ -493,7 +508,7 @@ impl<'a> ReactRefresh<'a, '_> {
             span: DUMMY_SP,
             op: op!("="),
             left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
-                id: quote_ident!(left.as_str()),
+                id: quote_ident!(SyntaxContext::empty(), left.as_str()),
                 type_ann: None,
             })),
             right,
@@ -514,7 +529,7 @@ impl<'a> ReactRefresh<'a, '_> {
         arrow: &mut ArrowExpr,
     ) -> Option<(String, Vec<ExprOrSpread>)> {
         let scope_id = self.scope_depth;
-        let body = match &mut arrow.body {
+        let body = match arrow.body.as_mut() {
             BlockStmtOrExpr::BlockStmt(block) => Some(block),
             _ => None,
         };
@@ -561,7 +576,6 @@ impl<'a> ReactRefresh<'a, '_> {
             .non_builtin_hooks_callee
             .remove(&scope_id)
             .unwrap_or_default();
-        let callee_len = callee_list.len();
         let custom_hooks_in_scope: Vec<Option<ExprOrSpread>> = callee_list
             .into_iter()
             .map(|e| e.map(|expr| ExprOrSpread { spread: None, expr }))
@@ -597,8 +611,10 @@ impl<'a> ReactRefresh<'a, '_> {
                     params: vec![],
                     decorators: vec![],
                     span: DUMMY_SP,
+                    ctxt: SyntaxContext::empty(),
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
+                        ctxt: SyntaxContext::empty(),
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(Box::new(Expr::Array(ArrayLit {
@@ -611,7 +627,6 @@ impl<'a> ReactRefresh<'a, '_> {
                     is_async: false,
                     type_params: None,
                     return_type: None,
-                    ident: None,
                 }),
             }));
             arguments.push(ExprOrSpread {
@@ -624,6 +639,7 @@ impl<'a> ReactRefresh<'a, '_> {
         let binding = self.next_signature_name();
         let init = CallExpr {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             callee: Callee::Expr(self.refresh_sig.to_expression()),
             args: vec![],
             type_args: None,
@@ -631,12 +647,13 @@ impl<'a> ReactRefresh<'a, '_> {
 
         let var_decl = VarDecl {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             kind: VarDeclKind::Var,
             declare: false,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 name: Pat::Ident(BindingIdent {
-                    id: quote_ident!(binding.as_str()),
+                    id: quote_ident!(SyntaxContext::empty(), binding.as_str()),
                     type_ann: None,
                 }),
                 init: Some(Box::new(Expr::Call(init))),
@@ -652,7 +669,11 @@ impl<'a> ReactRefresh<'a, '_> {
         // _s();
         let call_expression = CallExpr {
             span: DUMMY_SP,
-            callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(binding.as_str())))),
+            ctxt: SyntaxContext::empty(),
+            callee: Callee::Expr(Box::new(Expr::Ident(quote_ident!(
+                SyntaxContext::empty(),
+                binding.as_str()
+            )))),
             args: vec![],
             type_args: None,
         }
@@ -672,24 +693,19 @@ impl<'a> ReactRefresh<'a, '_> {
                 self.handle_variable_declaration(variable)
             }
             ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func))) => self.handle_function_declaration(func),
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export_decl)) => {
-                if let Some(decl) = &mut export_decl.decl {
-                    match decl {
-                        Decl::Fn(func) => self.handle_function_declaration(func),
-                        Decl::Var(variable) => self.handle_variable_declaration(variable),
-                        _ => None,
-                    }
-                } else {
-                    None
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
+                match &mut export_decl.decl {
+                    Decl::Fn(func) => self.handle_function_declaration(func),
+                    Decl::Var(variable) => self.handle_variable_declaration(variable),
+                    _ => None,
                 }
             }
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(stmt_decl)) => {
                 match &mut stmt_decl.decl {
                     DefaultDecl::Fn(func_expr) => {
                         if let Some(id) = &func_expr.ident {
-                            if func_expr.function.is_typescript_syntax()
-                                || !is_componentish_name(&id.sym)
-                            {
+                            // Skip TypeScript-only function declarations
+                            if !is_componentish_name(&id.sym) {
                                 return None;
                             }
                             return Some(ModuleItem::Stmt(self.create_assignment_expression(id)));
@@ -726,7 +742,8 @@ impl<'a> ReactRefresh<'a, '_> {
     fn handle_function_declaration(&mut self, func: &FnDecl) -> Option<ModuleItem> {
         let id = &func.ident;
 
-        if func.function.is_typescript_syntax() || !is_componentish_name(&id.sym) {
+        // Skip TypeScript-only function declarations
+        if !is_componentish_name(&id.sym) {
             return None;
         }
 
@@ -753,8 +770,8 @@ impl<'a> ReactRefresh<'a, '_> {
             // Likely component definitions.
             Expr::Arrow(arrow) => {
                 // () => () => {}
-                if let Some(BlockStmtOrExpr::Expr(expr)) = &arrow.body {
-                    if matches!(&**expr, Expr::Arrow(_)) {
+                if let BlockStmtOrExpr::Expr(expr) = arrow.body.as_ref() {
+                    if matches!(expr.as_ref(), Expr::Arrow(_)) {
                         return None;
                     }
                 }
@@ -813,10 +830,11 @@ impl<'a> ReactRefresh<'a, '_> {
     /// () => { return 1 }
     /// ```
     fn transform_arrow_function_to_block(arrow: &mut ArrowExpr) {
-        if let BlockStmtOrExpr::Expr(expr) = &mut arrow.body {
-            let expr = std::mem::replace(&mut **expr, Expr::Invalid(Invalid { span: DUMMY_SP }));
-            arrow.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+        if let BlockStmtOrExpr::Expr(expr) = arrow.body.as_mut() {
+            let expr = std::mem::replace(expr.as_mut(), Expr::Invalid(Invalid { span: DUMMY_SP }));
+            *arrow.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
                 span: DUMMY_SP,
+                ctxt: SyntaxContext::empty(),
                 stmts: vec![Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
                     arg: Some(Box::new(expr)),

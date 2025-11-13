@@ -83,15 +83,15 @@ use crate::{
     es2017::AsyncGeneratorExecutor,
 };
 
-pub struct AsyncGeneratorFunctions<'a, 'ctx> {
+pub struct AsyncGeneratorFunctions<'a> {
     #[allow(unused)]
-    ctx: &'ctx TransformCtx<'a>,
+    ctx: &'a TransformCtx,
     #[allow(unused)]
-    executor: AsyncGeneratorExecutor<'a, 'ctx>,
+    executor: AsyncGeneratorExecutor<'a>,
 }
 
-impl<'a, 'ctx> AsyncGeneratorFunctions<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> AsyncGeneratorFunctions<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self {
             ctx,
             executor: AsyncGeneratorExecutor::new(ctx),
@@ -99,7 +99,7 @@ impl<'a, 'ctx> AsyncGeneratorFunctions<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for AsyncGeneratorFunctions<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for AsyncGeneratorFunctions<'_> {
     // TODO: Implement visitor hooks for:
     // - exit_expression: Transform await/yield expressions in async generators
     // - enter_statement: Transform for-await statements

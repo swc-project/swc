@@ -64,7 +64,6 @@ use std::hash::{Hash, Hasher};
 use rustc_hash::FxHasher;
 use serde::Deserialize;
 use swc_atoms::Atom;
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -307,9 +306,9 @@ impl StyledComponentsBinding {
 /// - Generating unique component IDs for SSR
 /// - Transpiling template literals to function calls
 /// - Minifying CSS content
-pub struct StyledComponents<'a, 'ctx> {
+pub struct StyledComponents<'a> {
     pub options: StyledComponentsOptions,
-    pub ctx: &'ctx TransformCtx<'a>,
+    pub ctx: &'a TransformCtx,
 
     // State
     /// Tracks which variables are bound to styled-components imports
@@ -322,14 +321,14 @@ pub struct StyledComponents<'a, 'ctx> {
     block_name: Option<Atom>,
 }
 
-impl<'a, 'ctx> StyledComponents<'a, 'ctx> {
+impl<'a> StyledComponents<'a> {
     /// Creates a new styled-components transformer with the given options.
     ///
     /// # Arguments
     ///
     /// * `options` - Configuration for the transformation
     /// * `ctx` - Transform context for accessing utilities and error reporting
-    pub fn new(options: StyledComponentsOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+    pub fn new(options: StyledComponentsOptions, ctx: &'a TransformCtx) -> Self {
         Self {
             options,
             ctx,
@@ -452,7 +451,9 @@ impl<'a, 'ctx> StyledComponents<'a, 'ctx> {
                         let local_name = named.local.sym.to_string();
                         let imported_name = match &named.imported {
                             Some(ModuleExportName::Ident(ident)) => ident.sym.to_string(),
-                            Some(ModuleExportName::Str(s)) => s.value.to_string(),
+                            Some(ModuleExportName::Str(s)) => {
+                                s.value.to_string_lossy().into_owned()
+                            }
                             None => local_name.clone(),
                         };
 
@@ -479,7 +480,7 @@ impl<'a, 'ctx> StyledComponents<'a, 'ctx> {
     }
 }
 
-impl<'a, 'ctx> VisitMutHook<TraverseCtx<'a>> for StyledComponents<'a, 'ctx> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for StyledComponents<'a> {
     fn enter_program(&mut self, program: &mut Program, _ctx: &mut TraverseCtx<'a>) {
         self.collect_styled_bindings(program);
     }

@@ -35,7 +35,7 @@ use std::cell::RefCell;
 
 use indexmap::{map::Entry as IndexMapEntry, IndexMap};
 use swc_atoms::Atom;
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::context::{TransformCtx, TraverseCtx};
@@ -152,10 +152,12 @@ impl ModuleImportsStore {
 
     fn insert_import_statements(&self, transform_ctx: &TransformCtx, _ctx: &TraverseCtx) {
         let mut imports = self.imports.borrow_mut();
-        let stmts = imports
+        let items = imports
             .drain(..)
             .map(|(source, names)| Self::get_import(source, names));
-        transform_ctx.top_level_statements.insert_statements(stmts);
+        transform_ctx
+            .top_level_statements
+            .insert_module_items(items);
     }
 
     fn insert_require_statements(&self, transform_ctx: &TransformCtx, _ctx: &mut TraverseCtx) {
@@ -170,32 +172,33 @@ impl ModuleImportsStore {
         transform_ctx.top_level_statements.insert_statements(stmts);
     }
 
-    fn get_import(source: Atom, names: Vec<Import>) -> Stmt {
+    fn get_import(source: Atom, names: Vec<Import>) -> ModuleItem {
         let specifiers = names
             .into_iter()
             .map(|import| match import {
                 Import::Named(import) => ImportSpecifier::Named(ImportNamedSpecifier {
                     span: DUMMY_SP,
-                    local: Ident::new(import.local, DUMMY_SP),
+                    local: Ident::new(import.local, DUMMY_SP, SyntaxContext::empty()),
                     imported: Some(ModuleExportName::Ident(Ident::new(
                         import.imported,
                         DUMMY_SP,
+                        SyntaxContext::empty(),
                     ))),
                     is_type_only: false,
                 }),
                 Import::Default(local) => ImportSpecifier::Default(ImportDefaultSpecifier {
                     span: DUMMY_SP,
-                    local: Ident::new(local, DUMMY_SP),
+                    local: Ident::new(local, DUMMY_SP, SyntaxContext::empty()),
                 }),
             })
             .collect();
 
-        Stmt::Decl(Decl::Import(ImportDecl {
+        ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
             span: DUMMY_SP,
             specifiers,
             src: Box::new(Str {
                 span: DUMMY_SP,
-                value: source,
+                value: source.into(),
                 raw: None,
             }),
             type_only: false,
@@ -209,24 +212,33 @@ impl ModuleImportsStore {
             unreachable!()
         };
 
-        let callee = Expr::Ident(Ident::new("require".into(), DUMMY_SP));
+        let callee = Expr::Ident(Ident::new(
+            "require".into(),
+            DUMMY_SP,
+            SyntaxContext::empty(),
+        ));
         let args = vec![ExprOrSpread {
             spread: None,
             expr: Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                value: source,
+                value: source.into(),
                 raw: None,
             }))),
         }];
 
         let init = Expr::Call(CallExpr {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             callee: Callee::Expr(Box::new(callee)),
             args,
             type_args: None,
         });
 
-        let id = Pat::Ident(BindingIdent::from(Ident::new(local, DUMMY_SP)));
+        let id = Pat::Ident(BindingIdent::from(Ident::new(
+            local,
+            DUMMY_SP,
+            SyntaxContext::empty(),
+        )));
 
         let decl = VarDeclarator {
             span: DUMMY_SP,
@@ -237,6 +249,7 @@ impl ModuleImportsStore {
 
         Stmt::Decl(Decl::Var(Box::new(VarDecl {
             span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
             kind: VarDeclKind::Var,
             declare: false,
             decls: vec![decl],

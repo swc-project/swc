@@ -55,25 +55,25 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct AsyncToGenerator<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct AsyncToGenerator<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> AsyncToGenerator<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> AsyncToGenerator<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for AsyncToGenerator<'_, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for AsyncToGenerator<'_> {}
 
-pub struct AsyncGeneratorExecutor<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct AsyncGeneratorExecutor<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> AsyncGeneratorExecutor<'a, 'ctx> {
+impl<'a> AsyncGeneratorExecutor<'a> {
     #[expect(unused)]
-    pub fn new(_ctx: &'ctx TransformCtx<'a>) -> Self {
+    pub fn new(_ctx: &'a TransformCtx) -> Self {
         Self { _ctx }
     }
 }

@@ -7,17 +7,17 @@ mod options;
 pub use async_to_generator::{AsyncGeneratorExecutor, AsyncToGenerator};
 pub use options::ES2017Options;
 
-pub struct ES2017<'a, 'ctx> {
+pub struct ES2017<'a> {
     #[expect(unused)]
     options: ES2017Options,
 
     // Plugins
     #[expect(unused)]
-    async_to_generator: AsyncToGenerator<'a, 'ctx>,
+    async_to_generator: AsyncToGenerator<'a>,
 }
 
-impl<'a, 'ctx> ES2017<'a, 'ctx> {
-    pub fn new(options: ES2017Options, ctx: &'ctx TransformCtx<'a>) -> ES2017<'a, 'ctx> {
+impl<'a> ES2017<'a> {
+    pub fn new(options: ES2017Options, ctx: &'a TransformCtx) -> ES2017<'a> {
         ES2017 {
             async_to_generator: AsyncToGenerator::new(ctx),
             options,
@@ -25,4 +25,4 @@ impl<'a, 'ctx> ES2017<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2017<'_, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ES2017<'_> {}

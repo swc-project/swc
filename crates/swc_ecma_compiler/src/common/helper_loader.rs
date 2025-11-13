@@ -74,7 +74,7 @@ use std::{borrow::Cow, cell::RefCell};
 
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::context::{TransformCtx, TraverseCtx};
@@ -221,7 +221,7 @@ pub struct HelperLoaderStore {
     pub(crate) used_helpers: RefCell<FxHashMap<Helper, String>>,
 }
 
-impl HelperLoaderStore<'_> {
+impl HelperLoaderStore {
     pub fn new(options: &HelperLoaderOptions) -> Self {
         Self {
             module_name: options.module_name.clone(),
@@ -234,9 +234,9 @@ impl HelperLoaderStore<'_> {
 
 // Public methods implemented directly on `TransformCtx`, as they need access to
 // `TransformCtx::module_imports`.
-impl<'a> TransformCtx<'a> {
+impl TransformCtx {
     /// Load and call a helper function and return a `CallExpr`.
-    pub fn helper_call(
+    pub fn helper_call<'a>(
         &self,
         helper: Helper,
         span: Span,
@@ -246,7 +246,8 @@ impl<'a> TransformCtx<'a> {
         let callee = self.helper_load(helper, span, _ctx);
         CallExpr {
             span,
-            callee: Box::new(callee),
+            ctxt: SyntaxContext::empty(),
+            callee: Callee::Expr(Box::new(callee)),
             args: arguments,
             type_args: None,
         }
@@ -254,7 +255,7 @@ impl<'a> TransformCtx<'a> {
 
     /// Same as [`TransformCtx::helper_call`], but returns a `CallExpr`
     /// wrapped in an `Expr`.
-    pub fn helper_call_expr(
+    pub fn helper_call_expr<'a>(
         &self,
         helper: Helper,
         span: Span,
@@ -265,7 +266,7 @@ impl<'a> TransformCtx<'a> {
     }
 
     /// Load a helper function and return a callee expression.
-    pub fn helper_load(&self, helper: Helper, span: Span, _ctx: &mut TraverseCtx<'a>) -> Expr {
+    pub fn helper_load<'a>(&self, helper: Helper, span: Span, _ctx: &mut TraverseCtx<'a>) -> Expr {
         let helper_loader = &self.helper_loader;
         let source = helper_loader.get_runtime_source(helper);
         helper_loader
@@ -308,11 +309,11 @@ impl HelperLoaderStore {
         let helper_name = helper.name();
 
         // Create a unique identifier for the helper
-        let binding = Ident::new(helper_name.into(), DUMMY_SP);
+        let binding = Ident::new(helper_name.into(), DUMMY_SP, SyntaxContext::empty());
 
         transform_ctx
             .module_imports
-            .add_default_import(source, binding.clone(), false);
+            .add_default_import(source.into(), binding.sym.clone(), false);
 
         binding
     }
@@ -325,8 +326,12 @@ impl HelperLoaderStore {
     fn transform_for_external_helper(helper: Helper, span: Span) -> Expr {
         static HELPER_VAR: &str = "babelHelpers";
 
-        let object = Box::new(Expr::Ident(Ident::new(HELPER_VAR.into(), span)));
-        let property = MemberProp::Ident(Ident::new(helper.name().into(), span));
+        let object = Box::new(Expr::Ident(Ident::new(
+            HELPER_VAR.into(),
+            span,
+            SyntaxContext::empty(),
+        )));
+        let property = MemberProp::Ident(IdentName::new(helper.name().into(), span));
         Expr::Member(MemberExpr {
             span,
             obj: object,

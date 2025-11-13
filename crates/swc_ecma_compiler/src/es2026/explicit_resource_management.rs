@@ -58,17 +58,17 @@ use crate::context::{TransformCtx, TraverseCtx};
 /// transformations. The full implementation requires porting complex logic from
 /// the oxc version, which uses features not yet available in this SWC-based
 /// infrastructure.
-pub struct ExplicitResourceManagement<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct ExplicitResourceManagement<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> ExplicitResourceManagement<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ExplicitResourceManagement<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ExplicitResourceManagement<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ExplicitResourceManagement<'_> {
     // Stub implementation - no transformations performed yet
     //
     // The full implementation would need to:

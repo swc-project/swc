@@ -8,17 +8,17 @@ mod options;
 pub use optional_catch_binding::OptionalCatchBinding;
 pub use options::ES2019Options;
 
-pub struct ES2019<'a, 'ctx> {
+pub struct ES2019<'a> {
     #[expect(unused)]
     options: ES2019Options,
 
     // Plugins
     #[expect(unused)]
-    optional_catch_binding: OptionalCatchBinding<'a, 'ctx>,
+    optional_catch_binding: OptionalCatchBinding<'a>,
 }
 
-impl<'a, 'ctx> ES2019<'a, 'ctx> {
-    pub fn new(options: ES2019Options, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ES2019<'a> {
+    pub fn new(options: ES2019Options, ctx: &'a TransformCtx) -> Self {
         Self {
             optional_catch_binding: OptionalCatchBinding::new(ctx),
             options,
@@ -26,4 +26,4 @@ impl<'a, 'ctx> ES2019<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2019<'_, '_> {}
+impl VisitMutHook<TraverseCtx<'_>> for ES2019<'_> {}

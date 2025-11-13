@@ -33,17 +33,17 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct NullishCoalescingOperator<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct NullishCoalescingOperator<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> NullishCoalescingOperator<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> NullishCoalescingOperator<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for NullishCoalescingOperator<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for NullishCoalescingOperator<'_> {
     // TODO: Implement transformation when SWC infrastructure is ready
     // This will transform `left ?? right` to conditional expressions
 }

@@ -55,22 +55,22 @@ use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct ReactDisplayName<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+pub struct ReactDisplayName<'a> {
+    ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> ReactDisplayName<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ReactDisplayName<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ReactDisplayName<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ReactDisplayName<'_> {
     // TODO: Implement transformation when SWC infrastructure is ready
     // This will transform React.createClass calls to add displayName
 }
 
-impl<'a> ReactDisplayName<'a, '_> {
+impl<'a> ReactDisplayName<'a> {
     /// Main transformation entry point for the display name transform.
     ///
     /// This uses SWC's visitor pattern to traverse the AST and add displayName
@@ -105,7 +105,7 @@ impl VisitMut for DisplayNameVisitor<'_> {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: prop.span,
                     raw: None,
-                    value: prop.sym.clone(),
+                    value: prop.sym.clone().into(),
                 })))),
             });
         }
@@ -130,7 +130,7 @@ impl VisitMut for DisplayNameVisitor<'_> {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: ident.span,
                     raw: None,
-                    value: ident.sym.clone(),
+                    value: ident.sym.clone().into(),
                 })))),
             });
         }
@@ -160,7 +160,7 @@ impl VisitMut for DisplayNameVisitor<'_> {
                 PropName::Ident(ref i) => Box::new(Expr::Lit(Lit::Str(Str {
                     span: i.span,
                     raw: None,
-                    value: i.sym.clone(),
+                    value: i.sym.clone().into(),
                 }))),
                 PropName::Str(ref s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
                 PropName::Num(ref n) => Box::new(Expr::Lit(Lit::Num(n.clone()))),
@@ -178,7 +178,7 @@ impl VisitMut for DisplayNameVisitor<'_> {
             decl.init.visit_mut_with(&mut CreateClassFolder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
                     span: ident.span,
-                    value: ident.sym.clone(),
+                    value: ident.sym.clone().into(),
                     raw: None,
                 })))),
             });

@@ -47,7 +47,6 @@
 //! output `RegExp("(?<=x)")` instead of `RegExp("(?<=x)", "")`. (actually these
 //! would be improvements on ESBuild, not Babel)
 
-use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -63,12 +62,12 @@ pub use options::RegExpOptions;
 /// This transform is necessary when targeting older JavaScript environments
 /// that don't support certain RegExp flags or patterns. It detects unsupported
 /// features and rewrites the literal into a constructor call.
-pub struct RegExp<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+pub struct RegExp<'a> {
+    ctx: &'a TransformCtx,
     options: RegExpOptions,
 }
 
-impl<'a, 'ctx> RegExp<'a, 'ctx> {
+impl<'a> RegExp<'a> {
     /// Creates a new RegExp transformer with the given options.
     ///
     /// # Arguments
@@ -76,7 +75,7 @@ impl<'a, 'ctx> RegExp<'a, 'ctx> {
     /// * `options` - Configuration specifying which RegExp features to
     ///   transform
     /// * `ctx` - Transform context for accessing utilities and error reporting
-    pub fn new(options: RegExpOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+    pub fn new(options: RegExpOptions, ctx: &'a TransformCtx) -> Self {
         Self { ctx, options }
     }
 
@@ -124,14 +123,14 @@ impl<'a, 'ctx> RegExp<'a, 'ctx> {
     /// This is called when we've determined that the literal needs to be
     /// rewritten.
     fn transform_regexp(&self, regex: &Regex) -> Expr {
-        use swc_common::DUMMY_SP;
+        use swc_common::{SyntaxContext, DUMMY_SP};
 
         // Create `new RegExp(pattern, flags)` constructor
         let pattern_arg = ExprOrSpread {
             spread: None,
             expr: Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                value: regex.exp.clone(),
+                value: regex.exp.clone().into(),
                 raw: None,
             }))),
         };
@@ -140,13 +139,14 @@ impl<'a, 'ctx> RegExp<'a, 'ctx> {
             spread: None,
             expr: Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
-                value: regex.flags.clone(),
+                value: regex.flags.clone().into(),
                 raw: None,
             }))),
         };
 
         Expr::New(NewExpr {
             span: regex.span,
+            ctxt: SyntaxContext::empty(),
             callee: Box::new(Expr::Ident(Ident::new(
                 "RegExp".into(),
                 DUMMY_SP,
@@ -158,7 +158,7 @@ impl<'a, 'ctx> RegExp<'a, 'ctx> {
     }
 }
 
-impl<'a, 'ctx> VisitMutHook<TraverseCtx<'a>> for RegExp<'a, 'ctx> {
+impl<'a> VisitMutHook<TraverseCtx<'a>> for RegExp<'a> {
     /// Called when entering an expression node.
     ///
     /// Checks if the expression is a RegExp literal that needs transformation,

@@ -12,18 +12,18 @@ use nullish_coalescing_operator::NullishCoalescingOperator;
 pub use optional_chaining::OptionalChaining;
 pub use options::ES2020Options;
 
-pub struct ES2020<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+pub struct ES2020<'a> {
+    ctx: &'a TransformCtx,
     options: ES2020Options,
 
     // Plugins
-    export_namespace_from: ExportNamespaceFrom<'a, 'ctx>,
-    nullish_coalescing_operator: NullishCoalescingOperator<'a, 'ctx>,
-    optional_chaining: OptionalChaining<'a, 'ctx>,
+    export_namespace_from: ExportNamespaceFrom<'a>,
+    nullish_coalescing_operator: NullishCoalescingOperator<'a>,
+    optional_chaining: OptionalChaining<'a>,
 }
 
-impl<'a, 'ctx> ES2020<'a, 'ctx> {
-    pub fn new(options: ES2020Options, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> ES2020<'a> {
+    pub fn new(options: ES2020Options, ctx: &'a TransformCtx) -> Self {
         Self {
             ctx,
             options,
@@ -34,7 +34,7 @@ impl<'a, 'ctx> ES2020<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ES2020<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ES2020<'_> {
     fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {
         // TODO: Delegate to export_namespace_from when enabled
         // if self.options.export_namespace_from {

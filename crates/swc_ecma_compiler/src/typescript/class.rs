@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use super::TypeScript;
@@ -95,7 +95,9 @@ impl<'a> TypeScript<'a, '_> {
         for (idx, element) in class.body.iter_mut().enumerate() {
             match element {
                 // `set_public_class_fields: true` only needs to transform non-private class fields.
-                ClassMember::ClassProp(prop) if !matches!(prop.key, PropName::PrivateName(_)) => {
+                // Note: Private fields are separate ClassMember::PrivateProp, not ClassProp with
+                // PrivateName key
+                ClassMember::ClassProp(prop) => {
                     if let Some(value) = prop.value.take() {
                         let assignment = self.convert_property_definition(
                             &mut prop.key,
@@ -126,7 +128,7 @@ impl<'a> TypeScript<'a, '_> {
                                 // the `transform_class_on_exit`. We need to make sure the computed
                                 // key keeps and is evaluated in the same order as the original
                                 // class field in static block.
-                                computed_key_assignments.push(computed.expr.take());
+                                computed_key_assignments.push(*computed.expr.take());
                             }
                         }
                     }
@@ -142,7 +144,9 @@ impl<'a> TypeScript<'a, '_> {
                     constructor = Some(idx);
                 }
                 ClassMember::AutoAccessor(accessor) => {
-                    Self::convert_computed_key(&mut accessor.key, &mut computed_key_assignments);
+                    if let Key::Public(ref mut prop_name) = accessor.key {
+                        Self::convert_computed_key(prop_name, &mut computed_key_assignments);
+                    }
                 }
                 _ => (),
             }
@@ -155,7 +159,7 @@ impl<'a> TypeScript<'a, '_> {
                 } else {
                     Expr::Seq(SeqExpr {
                         span: DUMMY_SP,
-                        exprs: computed_key_assignments,
+                        exprs: computed_key_assignments.into_iter().map(Box::new).collect(),
                     })
                 };
                 let statement = Stmt::Expr(ExprStmt {
@@ -233,7 +237,8 @@ impl<'a> TypeScript<'a, '_> {
 
         class.body.retain(|element| {
             if let ClassMember::ClassProp(prop) = element {
-                if prop.value.is_none() && !matches!(prop.key, PropName::PrivateName(_)) {
+                // Note: Private fields are separate ClassMember::PrivateProp, not ClassProp
+                if prop.value.is_none() {
                     return false;
                 }
             }
@@ -303,9 +308,6 @@ impl<'a> TypeScript<'a, '_> {
     ) -> Stmt {
         let member = match key {
             PropName::Ident(ident) => Self::create_this_property_access(ident.sym.clone()),
-            PropName::PrivateName(_) => {
-                unreachable!("PrivateIdentifier is skipped in transform_class_fields");
-            }
             PropName::Computed(computed) => {
                 let key_expr = &mut computed.expr;
                 // Note: Key can also be static `StringLiteral` or `NumericLiteral`.
@@ -313,11 +315,11 @@ impl<'a> TypeScript<'a, '_> {
                 // No temp var is created for these.
                 let new_key = if self.key_needs_temp_var(key_expr, ctx) {
                     let (assignment, ident) =
-                        self.create_computed_key_temp_var(key_expr.take(), ctx);
+                        self.create_computed_key_temp_var(*key_expr.take(), ctx);
                     computed_key_assignments.push(assignment);
                     ident
                 } else {
-                    key_expr.take()
+                    *key_expr.take()
                 };
 
                 MemberExpr {
@@ -414,8 +416,8 @@ impl<'a> TypeScript<'a, '_> {
             // If the key is already an expression, we need to create a new expression
             // sequence to insert the assignments into.
             let original_key = computed.expr.take();
-            let mut exprs = assignments.drain(..).collect::<Vec<_>>();
-            exprs.push(*original_key);
+            let mut exprs = assignments.drain(..).map(Box::new).collect::<Vec<_>>();
+            exprs.push(original_key);
             let new_key = Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs,
@@ -427,8 +429,8 @@ impl<'a> TypeScript<'a, '_> {
     /// Convert constructor parameters that include modifier to `this`
     /// assignments
     pub(super) fn convert_constructor_params(
-        params: &[ParamOrTsParamProp],
-        ctx: &mut TraverseCtx<'a>,
+        params: &'a [ParamOrTsParamProp],
+        _ctx: &mut TraverseCtx<'a>,
     ) -> impl Iterator<Item = Stmt> + 'a {
         params
             .iter()
@@ -438,7 +440,7 @@ impl<'a> TypeScript<'a, '_> {
                     match &ts_param.param {
                         TsParamPropParam::Ident(ident) => Some(&ident.id),
                         TsParamPropParam::Assign(assign) => {
-                            if let Pat::Ident(ident) = &**assign.left {
+                            if let Pat::Ident(ident) = assign.left.as_ref() {
                                 Some(&ident.id)
                             } else {
                                 None
@@ -459,8 +461,8 @@ impl<'a> TypeScript<'a, '_> {
     /// Convert constructor parameters from function params that include
     /// modifier to `this` assignments (for use with ClassMethod constructor)
     fn convert_constructor_params_from_function_params(
-        params: &[Param],
-        ctx: &mut TraverseCtx<'a>,
+        _params: &[Param],
+        _ctx: &mut TraverseCtx<'a>,
     ) -> impl Iterator<Item = Stmt> + 'a {
         // In SWC, ClassMethod constructors don't have TypeScript parameter properties
         // in their params. Those are only in Constructor nodes via ParamOrTsParamProp.
@@ -488,6 +490,7 @@ impl<'a> TypeScript<'a, '_> {
             span: DUMMY_SP,
             body: BlockStmt {
                 span: DUMMY_SP,
+                ctxt: SyntaxContext::empty(),
                 stmts: body,
             },
         })
@@ -525,7 +528,7 @@ impl<'a> TypeScript<'a, '_> {
                 span: DUMMY_SP,
                 dot3_token: DUMMY_SP,
                 arg: Box::new(Pat::Ident(BindingIdent {
-                    id: Ident::new("_args".into(), DUMMY_SP),
+                    id: Ident::new("_args".into(), DUMMY_SP, SyntaxContext::empty()),
                     type_ann: None,
                 })),
                 type_ann: None,
@@ -541,10 +544,15 @@ impl<'a> TypeScript<'a, '_> {
                 span: DUMMY_SP,
                 expr: Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
+                    ctxt: SyntaxContext::empty(),
                     callee: Callee::Super(Super { span: DUMMY_SP }),
                     args: vec![ExprOrSpread {
                         spread: Some(DUMMY_SP),
-                        expr: Box::new(Expr::Ident(Ident::new("_args".into(), DUMMY_SP))),
+                        expr: Box::new(Expr::Ident(Ident::new(
+                            "_args".into(),
+                            DUMMY_SP,
+                            SyntaxContext::empty(),
+                        ))),
                     }],
                     type_args: None,
                 })),
@@ -564,6 +572,7 @@ impl<'a> TypeScript<'a, '_> {
             params,
             body: Some(BlockStmt {
                 span: DUMMY_SP,
+                ctxt: SyntaxContext::empty(),
                 stmts: body_stmts,
             }),
             accessibility: None,
@@ -602,7 +611,7 @@ impl<'a> TypeScript<'a, '_> {
         // TODO: Generate unique identifier properly
         // For now, use a simple implementation
         let temp_name = swc_atoms::Atom::from("_key");
-        let temp_ident = Ident::new(temp_name.clone(), DUMMY_SP);
+        let temp_ident = Ident::new(temp_name.clone(), DUMMY_SP, SyntaxContext::empty());
 
         // Create assignment expression: _key = key
         let assignment = Expr::Assign(AssignExpr {

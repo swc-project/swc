@@ -54,7 +54,7 @@
 /// * TypeScript's [emitDecoratorMetadata](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::DUMMY_SP;
+use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -86,8 +86,8 @@ pub(super) struct MethodMetadata {
     pub return_type: Option<Expr>,
 }
 
-pub struct LegacyDecoratorMetadata<'a, 'ctx> {
-    ctx: &'ctx TransformCtx<'a>,
+pub struct LegacyDecoratorMetadata<'a> {
+    ctx: &'a TransformCtx,
     /// Stack of method metadata.
     ///
     /// Only the method that needs to be pushed onto a stack is the method
@@ -106,8 +106,8 @@ pub struct LegacyDecoratorMetadata<'a, 'ctx> {
     enum_types: FxHashMap<String, EnumType>,
 }
 
-impl<'a, 'ctx> LegacyDecoratorMetadata<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> LegacyDecoratorMetadata<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         LegacyDecoratorMetadata {
             ctx,
             method_metadata_stack: vec![],
@@ -117,7 +117,7 @@ impl<'a, 'ctx> LegacyDecoratorMetadata<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata<'_> {
     #[inline]
     fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {
         debug_assert!(
@@ -221,7 +221,8 @@ impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata<'_, '_> {
                 )
             };
 
-            let param_types = self.serialize_parameters_types_of_node(&method.function.params, ctx);
+            let param_types =
+                self.serialize_parameters_types_of_function(&method.function.params, ctx);
 
             MethodMetadata {
                 r#type: self.create_metadata("design:type", design_type, ctx),
@@ -251,7 +252,7 @@ impl VisitMutHook<TraverseCtx<'_>> for LegacyDecoratorMetadata<'_, '_> {
     }
 }
 
-impl<'a> LegacyDecoratorMetadata<'a, '_> {
+impl<'a> LegacyDecoratorMetadata<'a> {
     /// Collects enum type information for decorator metadata generation.
     fn collect_enum_type(&mut self, decl: &TsEnumDecl) {
         let name = decl.id.sym.to_string();
@@ -377,7 +378,7 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                 Self::serialize_literal_of_literal_type_node(&literal.lit, ctx)
             }
             TsType::TsTypeRef(t) => self.serialize_type_reference_node(&t.type_name, ctx),
-            TsType::TsIntersectionType(t) => {
+            TsType::TsUnionOrIntersectionType(TsUnionOrIntersectionType::TsIntersectionType(t)) => {
                 self.serialize_union_or_intersection_constituents(
                     &t.types, /* is_intersection */ true, ctx,
                 )
@@ -388,7 +389,7 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                 )
             }
             TsType::TsConditionalType(t) => self.serialize_union_or_intersection_constituents(
-                &[&*t.true_type, &*t.false_type],
+                &[t.true_type.clone(), t.false_type.clone()],
                 false,
                 ctx,
             ),
@@ -416,7 +417,7 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                 }),
                 ParamOrTsParamProp::TsParamProp(p) => Some(ExprOrSpread {
                     spread: None,
-                    expr: Box::new(self.serialize_parameter_types_of_node(&p.param, ctx)),
+                    expr: Box::new(self.serialize_ts_param_prop_param(&p.param, ctx)),
                 }),
             })
             .map(Some)
@@ -427,12 +428,59 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         })
     }
 
+    fn serialize_parameters_types_of_function(
+        &mut self,
+        params: &[Param],
+        ctx: &mut TraverseCtx,
+    ) -> Expr {
+        let elements: Vec<_> = params
+            .iter()
+            .map(|p| {
+                Some(ExprOrSpread {
+                    spread: None,
+                    expr: Box::new(self.serialize_parameter_types_of_node(p, ctx)),
+                })
+            })
+            .collect();
+        Expr::Array(ArrayLit {
+            span: DUMMY_SP,
+            elems: elements,
+        })
+    }
+
     fn serialize_parameter_types_of_node(&mut self, param: &Param, ctx: &mut TraverseCtx) -> Expr {
         let type_annotation = match &param.pat {
-            Pat::Assign(pattern) => pattern.left.type_ann(),
-            _ => param.pat.type_ann(),
+            Pat::Assign(pattern) => Self::get_pat_type_ann(&pattern.left),
+            _ => Self::get_pat_type_ann(&param.pat),
         };
         self.serialize_type_annotation(type_annotation, ctx)
+    }
+
+    fn serialize_ts_param_prop_param(
+        &mut self,
+        param: &TsParamPropParam,
+        ctx: &mut TraverseCtx,
+    ) -> Expr {
+        let type_annotation = match param {
+            TsParamPropParam::Ident(ident) => ident.type_ann.as_ref(),
+            TsParamPropParam::Assign(assign) => match assign.left.as_ref() {
+                Pat::Ident(ident) => ident.type_ann.as_ref(),
+                _ => None,
+            },
+        };
+        self.serialize_type_annotation(type_annotation, ctx)
+    }
+
+    /// Get the type annotation from a pattern
+    fn get_pat_type_ann(pat: &Pat) -> Option<&Box<TsTypeAnn>> {
+        match pat {
+            Pat::Ident(ident) => ident.type_ann.as_ref(),
+            Pat::Array(arr) => arr.type_ann.as_ref(),
+            Pat::Object(obj) => obj.type_ann.as_ref(),
+            Pat::Rest(rest) => rest.type_ann.as_ref(),
+            Pat::Assign(assign) => Self::get_pat_type_ann(&assign.left),
+            Pat::Invalid(_) | Pat::Expr(_) => None,
+        }
     }
 
     /// Serializes the return type of a node for use with decorator type
@@ -481,9 +529,12 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         };
 
         let binding = self.ctx.var_declarations.create_uid_var("ref");
-        let target = AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(
-            Ident::new(Atom::from(binding.as_str()), DUMMY_SP),
-        )));
+        let target =
+            AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent::from(Ident::new(
+                Atom::from(binding.as_str()),
+                DUMMY_SP,
+                SyntaxContext::empty(),
+            ))));
         let assignment = Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: AssignOp::Assign,
@@ -497,7 +548,7 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
         });
         let right = Expr::Lit(Lit::Str(Str {
             span: DUMMY_SP,
-            value: Atom::from("function"),
+            value: "function".into(),
             raw: None,
         }));
         let test = Expr::Bin(BinExpr {
@@ -506,7 +557,11 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
             left: Box::new(type_of),
             right: Box::new(right),
         });
-        let consequent = Expr::Ident(Ident::new(Atom::from(binding.as_str()), DUMMY_SP));
+        let consequent = Expr::Ident(Ident::new(
+            Atom::from(binding.as_str()),
+            DUMMY_SP,
+            SyntaxContext::empty(),
+        ));
         let alternate = Self::global_object(ctx);
         Expr::Cond(CondExpr {
             span: DUMMY_SP,
@@ -556,7 +611,7 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                         ..
                     }) = &mut left
                     {
-                        let right_expr = right.take();
+                        let right_expr = std::mem::take(right);
                         // `(_a = A.B)`
                         let assignment = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -565,9 +620,10 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                                 BindingIdent::from(Ident::new(
                                     Atom::from(binding.as_str()),
                                     DUMMY_SP,
+                                    SyntaxContext::empty(),
                                 )),
                             )),
-                            right: Box::new(*right_expr),
+                            right: right_expr,
                         });
                         // `(_a = A.B) !== void 0`
                         *right = Box::new(Expr::Bin(BinExpr {
@@ -586,7 +642,11 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                         }));
                     }
 
-                    let object = Expr::Ident(Ident::new(Atom::from(binding.as_str()), DUMMY_SP));
+                    let object = Expr::Ident(Ident::new(
+                        Atom::from(binding.as_str()),
+                        DUMMY_SP,
+                        SyntaxContext::empty(),
+                    ));
                     let member = Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(object),
@@ -722,7 +782,11 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
 
     #[inline]
     fn create_global_identifier(ident: &str, _ctx: &mut TraverseCtx) -> Expr {
-        Expr::Ident(Ident::new(Atom::from(ident), DUMMY_SP))
+        Expr::Ident(Ident::new(
+            Atom::from(ident),
+            DUMMY_SP,
+            SyntaxContext::empty(),
+        ))
     }
 
     #[inline]
@@ -784,7 +848,7 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
     fn create_checked_value(left: Expr, right: Expr, _ctx: &TraverseCtx) -> Expr {
         let undefined = Expr::Lit(Lit::Str(Str {
             span: DUMMY_SP,
-            value: Atom::from("undefined"),
+            value: "undefined".into(),
             raw: None,
         }));
         let typeof_left = Expr::Unary(UnaryExpr {
@@ -813,7 +877,7 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                 spread: None,
                 expr: Box::new(Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
-                    value: Atom::from(key),
+                    value: key.into(),
                     raw: None,
                 }))),
             },
@@ -822,10 +886,10 @@ impl<'a> LegacyDecoratorMetadata<'a, '_> {
                 expr: Box::new(value),
             },
         ];
-        self.ctx
-            .helper_loader
-            .load_helper(Helper::DecorateMetadata, DUMMY_SP)
-            .as_call(DUMMY_SP, arguments)
+        Expr::Call(
+            self.ctx
+                .helper_call(Helper::DecorateMetadata, DUMMY_SP, arguments, ctx),
+        )
     }
 
     // `_metadata(key, value)` as decorator

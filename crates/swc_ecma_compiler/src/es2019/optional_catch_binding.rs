@@ -37,17 +37,17 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct OptionalCatchBinding<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct OptionalCatchBinding<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> OptionalCatchBinding<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> OptionalCatchBinding<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for OptionalCatchBinding<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for OptionalCatchBinding<'_> {
     // TODO: Implement transformation when SWC infrastructure is ready
     // This will add a parameter called `_unused` to catch clauses without
     // parameters

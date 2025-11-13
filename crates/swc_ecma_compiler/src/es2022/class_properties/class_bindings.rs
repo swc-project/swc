@@ -4,7 +4,6 @@
 //! in SWC, replacing oxc's more complex semantic tracking system.
 
 use swc_atoms::Atom;
-use swc_ecma_ast::*;
 
 use crate::context::TraverseCtx;
 

@@ -7,7 +7,6 @@
 
 use std::path::Path;
 
-use swc_common::errors::DiagnosticBuilder;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -39,8 +38,7 @@ mod decorator;
 mod plugins;
 
 use common::Common;
-use context::{TransformCtx, TraverseCtx};
-use decorator::DecoratorTransform;
+use context::TransformCtx;
 use es2015::ES2015;
 use es2016::ES2016;
 use es2017::ES2017;
@@ -81,15 +79,15 @@ pub use crate::{
 };
 
 #[non_exhaustive]
-pub struct TransformerReturn<'a> {
-    pub errors: std::vec::Vec<DiagnosticBuilder<'a>>,
+pub struct TransformerReturn {
+    pub errors: std::vec::Vec<swc_common::errors::Diagnostic>,
     /// Helpers used by this transform.
     #[deprecated = "Internal usage only"]
     pub helpers_used: FxHashMap<Helper, String>,
 }
 
-pub struct Transformer<'a> {
-    ctx: TransformCtx<'a>,
+pub struct Transformer {
+    ctx: TransformCtx,
 
     typescript: TypeScriptOptions,
     decorator: DecoratorOptions,
@@ -100,7 +98,7 @@ pub struct Transformer<'a> {
     proposals: ProposalOptions,
 }
 
-impl<'a> Transformer<'a> {
+impl Transformer {
     pub fn new(source_path: &Path, options: &TransformOptions) -> Self {
         let ctx = TransformCtx::new(source_path, options);
         Self {
@@ -114,7 +112,7 @@ impl<'a> Transformer<'a> {
         }
     }
 
-    pub fn build(mut self, program: &mut Program) -> TransformerReturn<'a> {
+    pub fn build(mut self, program: &mut Program) -> TransformerReturn {
         // TODO: Handle JSX comment-based configuration
         // if program.source_type.is_jsx() {
         //     jsx::update_options_with_comments(...);
@@ -122,7 +120,7 @@ impl<'a> Transformer<'a> {
 
         let mut transformer = TransformerImpl {
             ctx: &mut self.ctx,
-            common: Common::new(&self.env, &self.ctx),
+            common: Common::new(&self.env),
             decorator: decorator::DecoratorTransform::new(self.decorator, &self.ctx),
             plugins: Plugins::new(self.plugins, &self.ctx),
             x0_typescript: TypeScript::new(&self.typescript, &self.ctx),
@@ -163,32 +161,32 @@ impl<'a> Transformer<'a> {
     }
 }
 
-struct TransformerImpl<'a, 'ctx> {
-    ctx: &'a mut TransformCtx<'ctx>,
+struct TransformerImpl<'a> {
+    ctx: &'a mut TransformCtx,
     // NOTE: all callbacks must run in order.
-    x0_typescript: TypeScript<'a, 'ctx>,
-    decorator: decorator::DecoratorTransform<'a, 'ctx>,
-    plugins: Plugins<'a, 'ctx>,
-    x1_jsx: Jsx<'a, 'ctx>,
-    x2_es2026: ES2026<'a, 'ctx>,
-    x2_es2022: ES2022<'a, 'ctx>,
-    x2_es2021: ES2021<'a, 'ctx>,
-    x2_es2020: ES2020<'a, 'ctx>,
-    x2_es2019: ES2019<'a, 'ctx>,
-    x2_es2018: ES2018<'a, 'ctx>,
-    x2_es2017: ES2017<'a, 'ctx>,
-    x2_es2016: ES2016<'a, 'ctx>,
+    x0_typescript: TypeScript<'a, 'a>,
+    decorator: decorator::DecoratorTransform<'a>,
+    plugins: Plugins<'a>,
+    x1_jsx: Jsx<'a>,
+    x2_es2026: ES2026<'a>,
+    x2_es2022: ES2022<'a>,
+    x2_es2021: ES2021<'a>,
+    x2_es2020: ES2020<'a>,
+    x2_es2019: ES2019<'a>,
+    x2_es2018: ES2018<'a>,
+    x2_es2017: ES2017<'a>,
+    x2_es2016: ES2016<'a>,
     #[expect(unused)]
-    x3_es2015: ES2015<'a, 'ctx>,
-    x4_regexp: RegExp<'a, 'ctx>,
-    common: Common<'a, 'ctx>,
+    x3_es2015: ES2015<'a>,
+    x4_regexp: RegExp<'a>,
+    common: Common<'a, 'a>,
 }
 
 /// The main transformer that implements SWC's VisitMut trait.
 ///
 /// This orchestrates all the individual transform plugins by calling their
 /// VisitMutHook enter/exit methods in the correct order.
-impl VisitMut for TransformerImpl<'_, '_> {
+impl VisitMut for TransformerImpl<'_> {
     fn visit_mut_program(&mut self, program: &mut Program) {
         let mut ctx = TransformState::default();
 

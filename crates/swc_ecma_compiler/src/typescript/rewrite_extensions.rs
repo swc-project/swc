@@ -42,13 +42,13 @@ impl TypeScriptRewriteExtensions {
     fn rewrite_extensions(&self, source: &mut Str) {
         let value = &source.value;
 
+        // Find the extension
+        let value_str: &str = value;
+
         // Only process paths (sources containing '/' or '\')
-        if !value.contains('/') && !value.contains('\\') {
+        if !value_str.contains('/') && !value_str.contains('\\') {
             return;
         }
-
-        // Find the extension
-        let value_str = value.as_ref();
         let Some((without_extension, extension)) = value_str.rsplit_once('.') else {
             return;
         };

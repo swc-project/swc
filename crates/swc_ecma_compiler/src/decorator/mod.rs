@@ -12,15 +12,15 @@ use crate::context::{TransformCtx, TraverseCtx};
 ///
 /// This plugin transforms decorator syntax to equivalent JavaScript code.
 /// Currently supports legacy decorators (TypeScript experimental decorators).
-pub struct DecoratorTransform<'a, 'ctx> {
+pub struct DecoratorTransform<'a> {
     options: DecoratorOptions,
 
     // Plugins
-    legacy_decorator: LegacyDecorator<'a, 'ctx>,
+    legacy_decorator: LegacyDecorator<'a>,
 }
 
-impl<'a, 'ctx> DecoratorTransform<'a, 'ctx> {
-    pub fn new(options: DecoratorOptions, ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> DecoratorTransform<'a> {
+    pub fn new(options: DecoratorOptions, ctx: &'a TransformCtx) -> Self {
         Self {
             legacy_decorator: LegacyDecorator::new(options.emit_decorator_metadata, ctx),
             options,
@@ -28,7 +28,7 @@ impl<'a, 'ctx> DecoratorTransform<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for DecoratorTransform<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for DecoratorTransform<'_> {
     #[inline]
     fn exit_program(&mut self, node: &mut Program, ctx: &mut TraverseCtx) {
         if self.options.legacy {
@@ -114,7 +114,7 @@ impl VisitMutHook<TraverseCtx<'_>> for DecoratorTransform<'_, '_> {
     }
 }
 
-impl DecoratorTransform<'_, '_> {
+impl DecoratorTransform<'_> {
     #[inline]
     pub fn exit_class_at_end(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
         if self.options.legacy {

@@ -29,6 +29,15 @@ impl Module {
     pub fn is_commonjs(self) -> bool {
         matches!(self, Self::CommonJS)
     }
+
+    /// Check if the module is a script (not ESM).
+    ///
+    /// In the context of JavaScript modules, a "script" refers to code that
+    /// doesn't use ES module syntax (import/export). This includes CommonJS
+    /// modules and code that preserves the original module format.
+    pub fn is_script(self) -> bool {
+        !self.is_esm()
+    }
 }
 
 impl TryFrom<BabelModule> for Module {

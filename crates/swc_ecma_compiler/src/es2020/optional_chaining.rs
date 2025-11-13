@@ -52,17 +52,17 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::context::{TransformCtx, TraverseCtx};
 
-pub struct OptionalChaining<'a, 'ctx> {
-    _ctx: &'ctx TransformCtx<'a>,
+pub struct OptionalChaining<'a> {
+    _ctx: &'a TransformCtx,
 }
 
-impl<'a, 'ctx> OptionalChaining<'a, 'ctx> {
-    pub fn new(ctx: &'ctx TransformCtx<'a>) -> Self {
+impl<'a> OptionalChaining<'a> {
+    pub fn new(ctx: &'a TransformCtx) -> Self {
         Self { _ctx: ctx }
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for OptionalChaining<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for OptionalChaining<'_> {
     // TODO: Implement transformation when SWC infrastructure is ready
     // This will transform optional chaining expressions to conditional expressions
 }

@@ -221,9 +221,8 @@
 //! * Class properties TC39 proposal: <https://github.com/tc39/proposal-class-fields>
 
 use indexmap::IndexMap;
-use rustc_hash::{FxBuildHasher, FxHashMap};
+use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -242,7 +241,7 @@ mod static_block_and_prop_init;
 mod super_converter;
 mod utils;
 use class_bindings::ClassBindings;
-use class_details::{ClassDetails, ClassesStack, PrivateProp, ResolvedPrivateProp};
+use class_details::{ClassDetails, ClassesStack, PrivateProp};
 
 type FxIndexMap<K, V> = IndexMap<K, V, FxBuildHasher>;
 
@@ -257,7 +256,7 @@ pub struct ClassPropertiesOptions {
 /// See [module docs] for details.
 ///
 /// [module docs]: self
-pub struct ClassProperties<'a, 'ctx> {
+pub struct ClassProperties<'ctx> {
     // ----- Options -----
     /// If `true`, set properties with `=`, instead of `_defineProperty` helper
     /// (loose option).
@@ -274,7 +273,7 @@ pub struct ClassProperties<'a, 'ctx> {
     /// [`crate::TypeScriptOptions::remove_class_fields_without_initializer`].
     remove_class_fields_without_initializer: bool,
 
-    ctx: &'ctx TransformCtx<'a>,
+    ctx: &'ctx TransformCtx,
 
     // ----- State used during all phases of transform -----
     /// Stack of classes.
@@ -288,7 +287,7 @@ pub struct ClassProperties<'a, 'ctx> {
     /// will remove a class expression in this way, so should be OK.
     /// This problem only affects class expressions. Class declarations aren't
     /// affected, as their exit-phase transform happens in `exit_class`.
-    classes_stack: ClassesStack<'a>,
+    classes_stack: ClassesStack,
     /// Count of private fields in current class and parent classes.
     private_field_count: usize,
 
@@ -299,13 +298,13 @@ pub struct ClassProperties<'a, 'ctx> {
     insert_after_stmts: Vec<Stmt>,
 }
 
-impl<'a, 'ctx> ClassProperties<'a, 'ctx> {
+impl<'ctx> ClassProperties<'ctx> {
     /// Create `ClassProperties` transformer
     pub fn new(
         options: ClassPropertiesOptions,
         transform_static_blocks: bool,
         remove_class_fields_without_initializer: bool,
-        ctx: &'ctx TransformCtx<'a>,
+        ctx: &'ctx TransformCtx,
     ) -> Self {
         // TODO: Raise error if these 2 options are inconsistent
         let set_public_class_fields = options.loose || ctx.assumptions.set_public_class_fields;
@@ -328,7 +327,7 @@ impl<'a, 'ctx> ClassProperties<'a, 'ctx> {
     }
 }
 
-impl VisitMutHook<TraverseCtx<'_>> for ClassProperties<'_, '_> {
+impl VisitMutHook<TraverseCtx<'_>> for ClassProperties<'_> {
     #[expect(clippy::inline_always)]
     #[inline(always)] // Because this is a no-op in release mode
     fn exit_program(&mut self, _program: &mut Program, _ctx: &mut TraverseCtx) {

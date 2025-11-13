@@ -3,8 +3,6 @@
 //!
 //! Stub implementation for SWC.
 
-use swc_ecma_ast::*;
-
 /// Mode for super converter
 pub(super) enum ClassPropertiesSuperConverterMode {
     /// Normal mode
