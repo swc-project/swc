@@ -1,6 +1,6 @@
-function f(x) {
+function f() {
     (function() {
-        x || console.log("PASS");
+        console.log("PASS");
     })();
 }
-f(0);
+f();

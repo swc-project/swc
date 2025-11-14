@@ -6014,7 +6014,8 @@
      *
      * _.words('fred, barney, & pebbles', /[^, ]+/g);
      * // => ['fred', 'barney', '&', 'pebbles']
-     */ function words(string, pattern, guard) {
+     */ function words(string) {
+            let pattern, guard;
             if (string = toString(string), pattern = guard ? undefined : pattern, undefined === pattern) {
                 var string1;
                 return (string1 = string, reHasUnicodeWord.test(string1)) ? string.match(reUnicodeWord) || [] : string.match(reAsciiWord) || [];

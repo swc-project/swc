@@ -1,2 +1,4 @@
 var c = "FAIL";
-(c = "PASS"), console.log(c);
+(function() {
+    c = "PASS";
+})(), console.log(c);

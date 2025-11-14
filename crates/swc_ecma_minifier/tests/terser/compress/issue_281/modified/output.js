@@ -1,5 +1,5 @@
-function f5(b) {
-    var a = b;
-    return b++ + a;
+function f5() {
+    let b = 1;
+    return b++ + 1;
 }
-console.log(f5(1));
+console.log(f5());

@@ -1,7 +1,7 @@
-(void 0).setStatus({message:`${(void 0).message} ${(void 0).code?`
+let e;(void 0).setStatus({message:`${e.message} ${e.code?`
 Mon	go
 os
 e Error
  C
 od
-e: ${(void 0).code}`:"1\n23"}`});
+e: ${e.code}`:"1\n23"}`});

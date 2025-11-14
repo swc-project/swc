@@ -42,6 +42,10 @@ pub trait Storage: Sized + Default {
     fn mark_property_mutation(&mut self, id: Id);
 
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
+
+    /// Records arguments passed to a function at a call site.
+    /// Used for parameter inlining optimization.
+    fn record_call_site_args(&mut self, callee_id: Id, args: &[Option<Box<Expr>>]);
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {

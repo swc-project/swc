@@ -1548,7 +1548,8 @@
                 var value1, replaceValue, valueStr = (value1 = value.toString(), void 0 === replaceValue && (replaceValue = "-"), value1.replace(/\s+/g, replaceValue));
                 return valueStr.includes("\\.") || Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
-            function cssVar(name, options) {
+            function cssVar(name) {
+                let options;
                 var fallback, prefix, prefix1, fallback1, cssVariable = (void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (void 0 === (prefix1 = prefix) && (prefix1 = ""), [
                     prefix1,
                     chakra_ui_theme_tools_esm_escape(name)

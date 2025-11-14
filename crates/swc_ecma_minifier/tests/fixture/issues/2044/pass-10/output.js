@@ -19,7 +19,8 @@ createCommonjsModule(function(module, exports) {
         value: !0
     });
 }), createCommonjsModule(function(module, exports) {
-    function _interopRequireDefault(obj) {
+    function _interopRequireDefault() {
+        let obj;
         return obj && obj.__esModule ? obj : {
             default: obj
         };

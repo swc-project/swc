@@ -1,5 +1,5 @@
 function foo() {}
-var gen = function*(s) {
+var gen = function*() {
     for(;;)yield foo;
 }();
 (function() {
