@@ -11,7 +11,7 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_compiler::compat::{CompatCompiler, HelperLoaderMode, TransformOptions};
+use swc_ecma_compiler::{HelperLoaderMode, TransformOptions, Transformer};
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
@@ -69,44 +69,6 @@ where
         }};
     }
 
-    macro_rules! add_compiler {
-        ($($feature:ident)|*) => {{
-            let mut feature = swc_ecma_compiler::Features::empty();
-            $(
-                {
-                    let f = transform_data::Feature::$feature;
-                    let enable = !caniuse(f);
-
-                    if debug {
-                        println!("{}: {:?}", f.as_str(), enable);
-                    }
-
-                    if enable {
-                        feature |= swc_ecma_compiler::Features::from(f);
-                    }
-                }
-            )*
-            feature
-        }};
-        (| $($feature:ident)|*) => {{
-            add_compiler!($($feature)|*)
-        }};
-        ($prev:expr, $($feature:ident)|*) => {{
-            let feature = add_compiler!($($feature)|*);
-            (
-                $prev,
-                swc_ecma_compiler::Compiler::new(swc_ecma_compiler::Config {
-                    includes: feature,
-                    assumptions,
-                    ..Default::default()
-                }),
-            )
-        }};
-        ($prev:expr, | $($feature:ident)|*) => {{
-            add_compiler!($prev, $($feature)|*)
-        }};
-    }
-
     compiler_options.assumptions.set_public_class_fields = assumptions.set_public_class_fields;
 
     {
@@ -151,7 +113,7 @@ where
         )
     );
 
-    let pass = add_compiler!(pass, /* ES2022 */ PrivatePropertyInObject);
+    // let pass = add_compiler!(pass, /* ES2022 */ PrivatePropertyInObject);
 
     if !caniuse(Feature::LogicalAssignmentOperators) {
         compiler_options.env.es2021.logical_assignment_operators = true;
@@ -319,7 +281,7 @@ where
         bugfixes::safari_id_destructuring_collision_in_function_expression()
     );
 
-    (visit_mut_pass(CompatCompiler::new(&compiler_options)), pass)
+    (Transformer::new("".as_ref(), &compiler_options), pass)
 }
 
 pub fn transform_from_env<C>(
