@@ -114,7 +114,7 @@ impl Transformer {
         }
     }
 
-    pub fn build(mut self, program: &mut Program) -> TransformerReturn {
+    pub fn build(&mut self, program: &mut Program) -> TransformerReturn {
         // TODO: Handle JSX comment-based configuration
         // if program.source_type.is_jsx() {
         //     jsx::update_options_with_comments(...);
@@ -123,9 +123,13 @@ impl Transformer {
         // Create all sub-transformers first to avoid borrow conflicts
         let common = Common::new(&self.env);
         let decorator = decorator::DecoratorTransform::new(self.decorator, &self.ctx);
-        let plugins = Plugins::new(self.plugins);
+        let plugins = Plugins::new(self.plugins.clone());
         let x0_typescript = TypeScript::new(&self.typescript, &self.ctx);
-        let x1_jsx = Jsx::new(self.jsx, self.env.es2018.object_rest_spread, &self.ctx);
+        let x1_jsx = Jsx::new(
+            self.jsx.clone(),
+            self.env.es2018.object_rest_spread,
+            &self.ctx,
+        );
         let x2_es2026 = ES2026::new(self.env.es2026);
         let x2_es2022 = ES2022::new(
             self.env.es2022,
@@ -242,4 +246,10 @@ impl VisitMut for TransformerImpl<'_> {
     //     expr.visit_mut_children_with(self);
     //     self.common.exit_expr(expr, &mut ctx);
     // }
+}
+
+impl Pass for Transformer {
+    fn process(&mut self, program: &mut Program) {
+        self.build(program);
+    }
 }
