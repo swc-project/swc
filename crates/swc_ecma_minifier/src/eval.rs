@@ -78,7 +78,6 @@ impl Mode for Eval {
 }
 
 impl Evaluator {
-    #[tracing::instrument(name = "Evaluator::run", level = "debug", skip_all)]
     fn run(&mut self) {
         if !self.done {
             self.done = true;

@@ -138,7 +138,6 @@ impl VisitMut for SimplifyExpr {
                             match seq.exprs.first().map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
                                 _ => {
-                                    tracing::debug!("Injecting `0` to preserve `this = undefined`");
                                     seq.exprs.insert(0, 0.0.into());
                                 }
                             }
@@ -482,7 +481,6 @@ impl VisitMut for SimplifyExpr {
                     if exprs.is_empty() {
                         exprs.push(0.0.into());
 
-                        tracing::trace!("expr_simplifier: Preserving first zero");
                     }
                 }
 
@@ -494,7 +492,6 @@ impl VisitMut for SimplifyExpr {
 
                         exprs.push(0.0.into());
 
-                        tracing::debug!("expr_simplifier: Injected first zero");
                     }
                 }
 

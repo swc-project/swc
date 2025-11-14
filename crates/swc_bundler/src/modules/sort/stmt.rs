@@ -55,7 +55,6 @@ pub(super) fn sort_stmts(
 
     let mut id_graph = calc_deps(&stmts);
 
-    tracing::debug!("Analyzed dependencies between statements");
 
     let orders = iter(
         &mut id_graph,
@@ -66,7 +65,6 @@ pub(super) fn sort_stmts(
     )
     .collect::<Vec<_>>();
 
-    tracing::debug!("Sorted statements");
 
     debug_assert_eq!(total_len, orders.len());
 
@@ -656,7 +654,6 @@ impl Visit for RequirementCalculator {
 }
 
 fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
-    tracing::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 
     let mut declared_by = FxHashMap::<Id, Vec<usize>>::default();

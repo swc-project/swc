@@ -6,7 +6,6 @@ use swc_transform_common::output::experimental_emit;
 
 use crate::{host_environment::BaseHostEnvironment, memory_interop::copy_bytes_into_host, runtime};
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn emit_diagnostics(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &BaseHostEnvironment,

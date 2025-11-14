@@ -82,7 +82,6 @@ impl SwcLoader {
     }
 
     fn load_with_handler(&self, handler: &Handler, name: &FileName) -> Result<ModuleData, Error> {
-        tracing::debug!("JsLoader.load({})", name);
         let helpers = Helpers::new(false);
 
         if let FileName::Custom(id) = name {
@@ -150,7 +149,6 @@ impl SwcLoader {
             }
         }
 
-        tracing::trace!("JsLoader.load: loaded");
 
         let program = if fm.name.to_string().contains("node_modules") {
             let comments = self.compiler.comments().clone();
@@ -251,7 +249,6 @@ impl SwcLoader {
                 |_| noop_pass(),
             )?;
 
-            tracing::trace!("JsLoader.load: loaded config");
 
             // We run transform at this phase to strip out unused dependencies.
             //
@@ -308,7 +305,6 @@ impl SwcLoader {
                     .context("tried to parse as ecmascript as it's excluded by .swcrc")?
             };
 
-            tracing::trace!("JsLoader.load: applied transforms");
 
             program
         };

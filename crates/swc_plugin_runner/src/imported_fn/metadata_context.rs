@@ -35,7 +35,6 @@ impl MetadataContextHostEnvironment {
 
 /// Copy given serialized byte into host's comment buffer, subsequent proxy call
 /// in the host can read it.
-#[tracing::instrument(level = "info", skip_all)]
 pub fn copy_context_key_to_host_env(
     caller: &mut dyn runtime::Caller<'_>,
     env: &MetadataContextHostEnvironment,
@@ -46,7 +45,6 @@ pub fn copy_context_key_to_host_env(
     copy_bytes_into_host(caller, bytes_ptr, bytes_ptr_len, &mut buf);
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn get_transform_plugin_config(
     caller: &mut dyn runtime::Caller<'_>,
     env: &MetadataContextHostEnvironment,
@@ -70,7 +68,6 @@ pub fn get_transform_plugin_config(
     0
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn get_transform_context(
     caller: &mut dyn runtime::Caller<'_>,
     env: &MetadataContextHostEnvironment,
@@ -91,7 +88,6 @@ pub fn get_transform_context(
     1
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn get_experimental_transform_context(
     caller: &mut dyn runtime::Caller<'_>,
     env: &MetadataContextHostEnvironment,
@@ -121,7 +117,6 @@ pub fn get_experimental_transform_context(
     0
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn get_raw_experiemtal_transform_context(
     caller: &mut dyn runtime::Caller<'_>,
     env: &MetadataContextHostEnvironment,

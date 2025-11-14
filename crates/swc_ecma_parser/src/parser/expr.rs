@@ -1800,25 +1800,12 @@ impl<I: Tokens> Parser<I> {
 
         if op.precedence() <= min_prec {
             if cfg!(feature = "debug") {
-                tracing::trace!(
-                    "returning {:?} without parsing {:?} because min_prec={}, prec={}",
-                    left,
-                    op,
-                    min_prec,
-                    op.precedence()
-                );
             }
 
             return Ok((left, None));
         }
         self.bump();
         if cfg!(feature = "debug") {
-            tracing::trace!(
-                "parsing binary op {:?} min_prec={}, prec={}",
-                op,
-                min_prec,
-                op.precedence()
-            );
         }
         match *left {
             // This is invalid syntax.

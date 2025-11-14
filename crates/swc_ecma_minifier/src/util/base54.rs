@@ -254,8 +254,6 @@ impl CharFreq {
         all.extend_from_slice(&alpha);
         all.extend_from_slice(&digits);
 
-        #[cfg(feature = "debug")]
-        tracing::info!("Chars: {}", String::from_utf8_lossy(&all));
 
         Base54Chars {
             chars: all.try_into().unwrap(),

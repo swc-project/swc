@@ -36,13 +36,6 @@ macro_rules! syntax_error {
             }
         }
         if cfg!(feature = "debug") {
-            tracing::error!(
-                "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
-                file!(),
-                line!(),
-                column!(),
-                $p.input().cur()
-            );
         }
         return Err(err.into());
     }};
@@ -63,7 +56,6 @@ Current token is {:?}",
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
         if cfg!(feature = "debug") {
-            tracing::debug!("{}: {:?}", stringify!($name), $p.input().cur());
         }
     }};
 }

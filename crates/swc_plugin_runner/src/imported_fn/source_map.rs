@@ -38,7 +38,6 @@ impl SourceMapHostEnvironment {
 /// Returns `Loc` form given bytepos to the guest.
 /// Returned `Loc` is partial, which excludes `SourceFile` from original struct
 /// to avoid unnecessary data copying.
-#[tracing::instrument(level = "info", skip_all)]
 pub fn lookup_char_pos_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
@@ -65,7 +64,6 @@ pub fn lookup_char_pos_proxy(
     1
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn doctest_offset_line_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
@@ -75,7 +73,6 @@ pub fn doctest_offset_line_proxy(
 }
 
 #[allow(clippy::too_many_arguments)]
-#[tracing::instrument(level = "info", skip_all)]
 pub fn merge_spans_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
@@ -107,7 +104,6 @@ pub fn merge_spans_proxy(
     }
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn span_to_lines_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
@@ -143,7 +139,6 @@ pub fn span_to_lines_proxy(
     1
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn lookup_byte_offset_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
@@ -161,7 +156,6 @@ pub fn lookup_byte_offset_proxy(
     1
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn span_to_string_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
@@ -182,7 +176,6 @@ pub fn span_to_string_proxy(
     1
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn span_to_filename_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
@@ -203,7 +196,6 @@ pub fn span_to_filename_proxy(
     1
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn span_to_source_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,

@@ -390,7 +390,6 @@ impl VisitMut for AsyncToGenerator {
 /// Creates
 ///
 /// `_async_to_generator(function*() {})()` from `async function() {}`;
-#[tracing::instrument(level = "debug", skip_all)]
 fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr {
     let helper = if fn_state.is_generator {
         helper_expr!(DUMMY_SP, wrap_async_generator)
@@ -430,7 +429,6 @@ fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr 
     }
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
 fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> bool {
     for param in param {
         debug_assert!(param.decorators.is_empty());
@@ -491,7 +489,6 @@ impl Check for ShouldWork {
     }
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
 fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     let s = match stmt {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),

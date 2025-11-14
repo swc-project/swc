@@ -226,7 +226,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         if self.ctx().contains(Context::IgnoreError) {
             return;
         }
-        tracing::warn!("Lexer error at {:?}", span);
         let err = crate::error::Error::new(span, kind);
         self.push_error(err);
     }
@@ -567,7 +566,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         );
 
         if cfg!(feature = "debug") {
-            tracing::trace!("read_digits(radix = {}), cur = {:?}", RADIX, self.cur());
         }
 
         let start = self.cur_pos();

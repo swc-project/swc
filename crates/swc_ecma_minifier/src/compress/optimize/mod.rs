@@ -1991,9 +1991,6 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.reduce_escaped_newline_for_str_lit(e);
-
-        #[cfg(feature = "trace-ast")]
-        tracing::debug!("Output: {}", dump(e, true));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]

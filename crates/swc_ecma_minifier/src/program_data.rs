@@ -471,7 +471,6 @@ impl Storage for ProgramData {
             {
                 #[cfg(feature = "debug")]
                 {
-                    tracing::trace!("declare_decl(`{}`): Already declared", i);
                 }
 
                 v.flags |= VarUsageInfoFlags::REASSIGNED;

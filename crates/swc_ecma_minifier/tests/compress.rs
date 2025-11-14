@@ -248,11 +248,6 @@ fn run(
             },
         );
         let end = Instant::now();
-        tracing::info!(
-            "optimize({}) took {:?}",
-            input.display(),
-            end - optimization_start
-        );
 
         if !disable_hygiene {
             output.visit_mut_with(&mut hygiene())
@@ -261,11 +256,6 @@ fn run(
         let output = output.apply(&mut fixer(None));
 
         let end = Instant::now();
-        tracing::info!(
-            "process({}) took {:?}",
-            input.display(),
-            end - minification_start
-        );
 
         Some(output)
     })

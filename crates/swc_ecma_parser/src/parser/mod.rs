@@ -449,7 +449,6 @@ impl<I: Tokens> Parser<I> {
 
     pub fn eat_general_semi(&mut self) -> bool {
         if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", self.input().cur());
         }
         let cur = self.input().cur();
         if cur == Token::Semi {

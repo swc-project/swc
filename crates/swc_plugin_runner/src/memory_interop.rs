@@ -2,7 +2,6 @@ use swc_common::plugin::serialized::PluginSerializedBytes;
 
 use crate::runtime;
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn copy_bytes_into_host(
     caller: &dyn runtime::Caller<'_>,
     bytes_ptr: i32,
@@ -17,7 +16,6 @@ pub fn copy_bytes_into_host(
 }
 
 /// Locate a view from given memory, write serialized bytes into.
-#[tracing::instrument(level = "info", skip_all)]
 pub fn write_into_memory_view<F>(
     view: &mut dyn runtime::Caller<'_>,
     serialized_bytes: &PluginSerializedBytes,
@@ -44,7 +42,6 @@ where
 /// non-deterministic size like `Vec<Comment>`. Guest pre-allocates a struct to
 /// contain ptr to the value, host in here allocates guest memory for the actual
 /// value then returns its ptr with length to the preallocated struct.
-#[tracing::instrument(level = "info", skip_all)]
 pub fn allocate_return_values_into_guest(
     caller: &mut dyn runtime::Caller<'_>,
     allocated_ret_ptr: u32,
