@@ -1,9 +1,18 @@
 use swc_ecma_ast::Pass;
-use swc_ecma_compiler::{Compiler, Features};
+use swc_ecma_compiler::{ES2020Options, EnvOptions, TransformOptions, Transformer};
 
 pub fn export_namespace_from() -> impl Pass {
-    Compiler::new(swc_ecma_compiler::Config {
-        includes: Features::EXPORT_NAMESPACE_FROM,
-        ..Default::default()
-    })
+    Transformer::new(
+        "".as_ref(),
+        &TransformOptions {
+            env: EnvOptions {
+                es2020: ES2020Options {
+                    export_namespace_from: true,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
 }
