@@ -44,7 +44,7 @@ swc_node_comments = { version = "17.0.0", path = "../swc_node_comments/" }
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc                 = { version = "45.0.0", path = "../swc", default-features = false }
+swc                 = { version = "45.0.1", path = "../swc", default-features = false }
 swc_ecma_ast        = { version = "18.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "27.0.4", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "38.0.0", path = "../swc_ecma_transforms/" }
