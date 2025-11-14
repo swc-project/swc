@@ -1,9 +1,18 @@
 use swc_ecma_ast::*;
-use swc_ecma_compiler::{Compiler, Features};
+use swc_ecma_compiler::{ES2022Options, EnvOptions, TransformOptions, Transformer};
 
 pub fn static_blocks() -> impl Pass {
-    Compiler::new(swc_ecma_compiler::Config {
-        includes: Features::STATIC_BLOCKS,
-        ..Default::default()
-    })
+    Transformer::new(
+        "".as_ref(),
+        &TransformOptions {
+            env: EnvOptions {
+                es2022: ES2022Options {
+                    class_static_block: true,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
 }

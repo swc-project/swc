@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
-use swc_ecma_compiler::{Compiler, Features};
+use swc_ecma_compiler::{ES2020Options, EnvOptions, TransformOptions, Transformer};
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
 pub use self::{
@@ -19,11 +19,20 @@ pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Pass {
 
     (
         optional_chaining(config.optional_chaining, unresolved_mark),
-        Compiler::new(swc_ecma_compiler::Config {
-            includes: Features::EXPORT_NAMESPACE_FROM | Features::NULLISH_COALESCING,
-            assumptions,
-            ..Default::default()
-        }),
+        Transformer::new(
+            "".as_ref(),
+            &TransformOptions {
+                env: EnvOptions {
+                    es2020: ES2020Options {
+                        export_namespace_from: true,
+                        nullish_coalescing_operator: true,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        ),
     )
 }
 

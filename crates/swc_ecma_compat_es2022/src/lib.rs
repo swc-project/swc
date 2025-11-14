@@ -3,7 +3,7 @@
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
 use swc_ecma_compat_common::regexp::{self, regexp};
-use swc_ecma_compiler::{Compiler, Features};
+use swc_ecma_compiler::{ES2022Options, EnvOptions, TransformOptions, Transformer};
 
 pub use self::{
     class_properties::class_properties, private_in_object::private_in_object,
@@ -27,10 +27,20 @@ pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
             unicode_regex: false,
             unicode_sets_regex: false,
         }),
-        Compiler::new(swc_ecma_compiler::Config {
-            includes: Features::STATIC_BLOCKS | Features::PRIVATE_IN_OBJECT,
-            ..Default::default()
-        }),
+        Transformer::new(
+            "".as_ref(),
+            &TransformOptions {
+                env: EnvOptions {
+                    es2022: ES2022Options {
+                        class_static_block: true,
+                        top_level_await: true,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        ),
         class_properties(config.class_properties, unresolved_mark),
     )
 }
