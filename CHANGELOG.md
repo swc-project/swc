@@ -1986,9 +1986,6 @@
 
 
 
-- **(es/minifier)** Merge alt's cons with cons ([#10256](https://github.com/swc-project/swc/issues/10256)) ([589bcd7](https://github.com/swc-project/swc/commit/589bcd70c4c3ad9f66ba2bbf5e4c46b82a5ddb68))
-
-
 - **(swc_core)** Expose features of `swc_parallel` ([#10258](https://github.com/swc-project/swc/issues/10258)) ([042f19f](https://github.com/swc-project/swc/commit/042f19ff66e56a28a8a7616049744498c1349bfb))
 
 ### Performance
