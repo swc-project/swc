@@ -1,6 +1,6 @@
 //// [asyncFunctionDeclarationParameterEvaluation.ts]
-// https://github.com/microsoft/TypeScript/issues/40410
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+// https://github.com/microsoft/TypeScript/issues/40410
 function f1(_0) {
     return _async_to_generator(function*(x, y = z) {}).apply(this, arguments);
 }

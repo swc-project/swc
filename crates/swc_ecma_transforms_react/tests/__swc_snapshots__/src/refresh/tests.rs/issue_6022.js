@@ -1,5 +1,5 @@
-/* @refresh reset */ var _s = $RefreshSig$();
-import { useState } from 'react';
+var _s = $RefreshSig$();
+/* @refresh reset */ import { useState } from 'react';
 function Counter() {
     _s();
     const [count, setCount] = useState(0);

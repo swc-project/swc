@@ -1,5 +1,4 @@
 //// [anyAssignabilityInInheritance.ts]
-// any is not a subtype of any other types, errors expected on all the below derived classes unless otherwise noted
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var a;
 var r3 = foo2(a); // any, not a subtype of number so it skips that overload, is a subtype of itself so it picks second (if truly ambiguous it would pick first overload)

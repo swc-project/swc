@@ -1,11 +1,11 @@
 //// [propertiesOfGenericConstructorFunctions.js]
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 /**
  * @template {string} K
  * @template V
  * @param {string} ik
  * @param {V} iv
- */ import { _ as _define_property } from "@swc/helpers/_/_define_property";
-function Multimap(ik, iv) {
+ */ function Multimap(ik, iv) {
     /** @type {{ [s: string]: V }} */ this._map = {};
     // without type annotation
     this._map2 = _define_property({}, ik, iv);

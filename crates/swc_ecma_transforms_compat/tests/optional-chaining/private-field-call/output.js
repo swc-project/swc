@@ -1,5 +1,5 @@
-// @target: es2015
 var _fieldFunc = /*#__PURE__*/ new WeakMap();
+// @target: es2015
 class A {
     test() {
         var _this, _this1, _ref;
