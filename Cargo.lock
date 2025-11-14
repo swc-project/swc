@@ -5342,6 +5342,7 @@ version = "9.0.0"
 dependencies = [
  "arbitrary",
  "bytecheck 0.8.1",
+ "byteorder",
  "cbor4ii",
  "hstr",
  "once_cell",

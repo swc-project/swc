@@ -19,6 +19,7 @@ use std::{
     rc::Rc,
 };
 
+pub use hash::{AtomMap, AtomSet, IdentityBuildHasher};
 pub use hstr::wtf8;
 use once_cell::sync::Lazy;
 use serde::Serializer;
@@ -27,6 +28,7 @@ use wtf8::Wtf8;
 pub use crate::{fast::UnsafeAtom, wtf8_atom::Wtf8Atom};
 
 mod fast;
+mod hash;
 mod wtf8_atom;
 
 /// Clone-on-write string.

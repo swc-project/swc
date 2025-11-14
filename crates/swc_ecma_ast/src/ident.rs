@@ -1,13 +1,13 @@
 use std::{
     borrow::Cow,
     fmt::Display,
+    hash::BuildHasherDefault,
     ops::{Deref, DerefMut},
 };
 
 use once_cell::sync::Lazy;
 use phf::phf_set;
-use rustc_hash::FxHashSet;
-use swc_atoms::{atom, Atom, UnsafeAtom};
+use swc_atoms::{atom, Atom, AtomSet, UnsafeAtom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -624,8 +624,8 @@ impl Ident {
 macro_rules! gen_reserved_set {
     ($set: ident, $set_atoms: ident, [$($item: expr),*]) => {
         static $set: phf::Set<&str> = phf_set!($($item),*);
-        static $set_atoms: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
-            let mut set = FxHashSet::with_capacity_and_hasher($set.len(), rustc_hash::FxBuildHasher);
+        static $set_atoms: Lazy<AtomSet> = Lazy::new(|| {
+            let mut set = AtomSet::with_capacity_and_hasher($set.len(), BuildHasherDefault::default());
             $(
                 set.insert(atom!($item));
             )*

@@ -21,6 +21,7 @@ shrink-to-fit = ["dep:shrink-to-fit"]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
 arbitrary     = { workspace = true, optional = true }
 bytecheck     = { workspace = true, optional = true }
+byteorder     = { workspace = true }
 cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
 once_cell     = { workspace = true }
 rancor        = { workspace = true, optional = true }
