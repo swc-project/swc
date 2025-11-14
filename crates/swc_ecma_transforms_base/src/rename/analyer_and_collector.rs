@@ -1,7 +1,7 @@
 use std::hash::Hash;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, AtomSet};
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
@@ -536,7 +536,7 @@ pub(super) fn analyzer_and_collect_unresolved<N>(
     has_eval: bool,
     top_level_mark: Mark,
     skip_first_fn_or_class_decl: bool,
-) -> (Scope, FxHashSet<Atom>)
+) -> (Scope, AtomSet)
 where
     N: VisitWith<AnalyzerAndCollector>,
 {
@@ -573,7 +573,7 @@ where
         .filter(|used_id| !decls.contains(used_id))
         .map(|v| v.0)
         .chain(preserved.into_iter().map(|v| v.0))
-        .collect::<FxHashSet<_>>();
+        .collect::<AtomSet>();
 
     (v.analyzer.scope, unresolved)
 }

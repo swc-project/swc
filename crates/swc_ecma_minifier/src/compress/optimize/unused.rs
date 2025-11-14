@@ -1,7 +1,6 @@
 use std::borrow::Borrow;
 
-use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::AtomSet;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
@@ -1110,7 +1109,7 @@ fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
 
 #[derive(Default)]
 struct ThisPropertyVisitor {
-    properties: FxHashSet<Atom>,
+    properties: AtomSet,
 
     should_abort: bool,
 }

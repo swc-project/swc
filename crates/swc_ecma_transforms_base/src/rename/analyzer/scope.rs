@@ -6,7 +6,7 @@ use indexmap::IndexSet;
 #[cfg(feature = "concurrent-renamer")]
 use par_iter::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, AtomSet};
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use tracing::debug;
@@ -100,7 +100,7 @@ impl Scope {
         previous: &FxHashMap<Id, V>,
         reverse: &mut ReverseMap,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<Atom>,
+        preserved_symbols: &AtomSet,
     ) where
         R: Renamer,
         V: RenamedVariable,
@@ -139,7 +139,7 @@ impl Scope {
         reverse: &mut ReverseMap,
         queue: FxIndexSet<Id>,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<Atom>,
+        preserved_symbols: &AtomSet,
     ) where
         R: Renamer,
         V: RenamedVariable,
@@ -215,7 +215,7 @@ impl Scope {
         previous: &FxHashMap<Id, V>,
         reverse: &ReverseMap,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<Atom>,
+        preserved_symbols: &AtomSet,
         parallel: bool,
     ) where
         R: Renamer,
@@ -287,7 +287,7 @@ impl Scope {
         reverse: &mut ReverseMap,
         queue: FxIndexSet<Id>,
         preserved: &FxHashSet<Id>,
-        preserved_symbols: &FxHashSet<Atom>,
+        preserved_symbols: &AtomSet,
     ) where
         R: Renamer,
         V: RenamedVariable,

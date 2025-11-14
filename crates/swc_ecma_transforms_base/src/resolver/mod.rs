@@ -1,5 +1,4 @@
-use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, AtomMap, AtomSet};
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
@@ -169,10 +168,10 @@ struct Scope<'a> {
     mark: Mark,
 
     /// All declarations in the scope
-    declared_symbols: FxHashMap<Atom, DeclKind>,
+    declared_symbols: AtomMap<DeclKind>,
 
     /// All types declared in the scope
-    declared_types: FxHashSet<Atom>,
+    declared_types: AtomSet,
 }
 
 impl<'a> Scope<'a> {
@@ -1564,8 +1563,8 @@ struct Hoister<'a, 'b> {
 
     in_catch_body: bool,
 
-    excluded_from_catch: FxHashSet<Atom>,
-    catch_param_decls: FxHashSet<Atom>,
+    excluded_from_catch: AtomSet,
+    catch_param_decls: AtomSet,
 }
 
 impl Hoister<'_, '_> {

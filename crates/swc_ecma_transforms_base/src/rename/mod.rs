@@ -2,7 +2,7 @@ use std::{borrow::Cow, collections::hash_map::Entry};
 
 use analyer_and_collector::AnalyzerAndCollector;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, AtomSet};
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -178,7 +178,7 @@ where
     renamer: R,
 
     preserved: FxHashSet<Id>,
-    unresolved: FxHashSet<Atom>,
+    unresolved: AtomSet,
 
     previous_cache: FxHashMap<Id, V>,
 
