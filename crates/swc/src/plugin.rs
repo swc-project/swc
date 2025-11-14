@@ -11,6 +11,8 @@ use std::{path::PathBuf, sync::Arc};
 use anyhow::{Context, Result};
 use atoms::Atom;
 use common::FileName;
+#[cfg(all(feature = "plugin", not(feature = "manual-tokio-runtime")))]
+use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use swc_common::errors::{DiagnosticId, HANDLER};
 use swc_ecma_ast::Pass;
@@ -23,6 +25,15 @@ use swc_ecma_loader::{
 use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
 #[cfg(feature = "plugin")]
 use swc_plugin_runner::runtime::Runtime as PluginRuntime;
+
+/// Shared tokio runtime for plugin execution.
+/// This avoids the expensive overhead of creating a new runtime for each plugin
+/// call.
+#[cfg(all(feature = "plugin", not(feature = "manual-tokio-runtime")))]
+static SHARED_RUNTIME: Lazy<tokio::runtime::Runtime> = Lazy::new(|| {
+    tokio::runtime::Runtime::new()
+        .expect("Failed to create shared tokio runtime for plugin execution")
+});
 
 /// A tuple represents a plugin.
 ///
@@ -85,7 +96,7 @@ impl RustPlugins {
             if let Ok(handle) = tokio::runtime::Handle::try_current() {
                 handle.block_on(fut)
             } else {
-                tokio::runtime::Runtime::new().unwrap().block_on(fut)
+                SHARED_RUNTIME.block_on(fut)
             }
         }
         .with_context(|| format!("failed to invoke plugin on '{filename:?}'"))
