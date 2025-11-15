@@ -43,6 +43,9 @@ ignore = [
   #"RUSTSEC-0000-0000",
   "RUSTSEC-2020-0071",
   "RUSTSEC-2020-0159",
+  # Temporary: wasmtime vulnerability - needs upgrade to >= 36.0.3
+  # See: https://rustsec.org/advisories/RUSTSEC-2025-0118
+  "RUSTSEC-2025-0118",
 ]
 # Threshold for security vulnerabilities, any vulnerability with a CVSS score
 # lower than the range specified will be ignored. Note that ignored advisories
