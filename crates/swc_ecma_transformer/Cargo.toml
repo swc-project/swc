@@ -1,0 +1,25 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Hook-based AST transformer for SWC ECMAScript"
+documentation = "https://rustdoc.swc.rs/swc_ecma_transformer/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_ecma_transformer"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[lib]
+bench = false
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+
+swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
+swc_common     = { version = "17.0.1", path = "../swc_common" }
+swc_ecma_ast   = { version = "18.0.0", path = "../swc_ecma_ast" }
+swc_ecma_hooks = { version = "0.2.0", path = "../swc_ecma_hooks" }
+swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
