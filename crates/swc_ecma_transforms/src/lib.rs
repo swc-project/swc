@@ -29,3 +29,10 @@ pub use swc_ecma_transforms_react as react;
 pub use swc_ecma_transforms_typescript as typescript;
 
 pub use self::{fixer::fixer, hygiene::hygiene};
+
+/// OXC Transformer adapter infrastructure for SWC
+///
+/// This module provides infrastructure for porting OXC transformers to work
+/// with SWC's VisitMutHook API pattern. See the module documentation for
+/// details.
+pub mod oxc_adapter;
