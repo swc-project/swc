@@ -23,14 +23,14 @@
 //! use swc_ecma_visit::VisitMutWith;
 //! use std::sync::Arc;
 //! use std::path::PathBuf;
-//! use swc_common::{SourceMap, errors::Handler};
+//! use swc_common::{SourceMap, errors::Handler, sync::Lrc};
 //!
 //! // Create options
 //! let options = TransformOptions::ES2015 | TransformOptions::ES2016;
 //!
 //! // Create context
-//! let source_map = Arc::new(SourceMap::default());
-//! let handler = Arc::new(Handler::with_tty_emitter(/* ... */));
+//! let source_map = Lrc::new(SourceMap::default());
+//! let handler = Lrc::new(Handler::with_tty_emitter(/* ... */));
 //! let ctx = TransformCtx::new(
 //!     PathBuf::from("input.js"),
 //!     Arc::new("const x = 1;".to_string()),
@@ -184,7 +184,7 @@ impl VisitMut for Transformer {
 
 #[cfg(test)]
 mod tests {
-    use std::{path::PathBuf, sync::Arc};
+    use std::{io, path::PathBuf, sync::Arc};
 
     use swc_common::{errors::Handler, sync::Lrc, FileName, SourceMap};
 
@@ -193,21 +193,19 @@ mod tests {
     /// Creates a test context for unit tests.
     fn create_test_ctx() -> TransformCtx {
         let source_map_lrc = Lrc::new(SourceMap::default());
-        let source_file = source_map_lrc
-            .new_source_file(Lrc::new(FileName::Anon.into()), "const x = 1;".to_string());
+        let source_file =
+            source_map_lrc.new_source_file(Lrc::new(FileName::Anon), "const x = 1;".to_string());
 
-        let handler = Arc::new(Handler::with_emitter_writer(
-            Box::new(std::io::stderr()),
+        // Use Lrc (Rc) instead of Arc for Handler in tests since it's not Send/Sync
+        let handler = Lrc::new(Handler::with_emitter_writer(
+            Box::new(io::sink()),
             Some(source_map_lrc.clone()),
         ));
-
-        // Convert Lrc to Arc by creating a new Arc with a clone of the SourceMap
-        let source_map = Arc::new(SourceMap::default());
 
         TransformCtx::new(
             PathBuf::from("test.js"),
             Arc::new(source_file.src.to_string()),
-            source_map,
+            source_map_lrc.clone(),
             handler,
         )
     }

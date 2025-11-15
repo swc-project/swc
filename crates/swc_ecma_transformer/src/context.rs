@@ -4,6 +4,7 @@ use std::{path::PathBuf, sync::Arc};
 
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
+    sync::Lrc,
     SourceMap, Span,
 };
 
@@ -11,6 +12,10 @@ use swc_common::{
 ///
 /// This context holds shared state that is accessible to all hooks during
 /// the transformation process, similar to oxc_transformer's TransformCtx.
+///
+/// Note: We use `Lrc` (reference-counted pointer) for `SourceMap` and `Handler`
+/// since they are not `Send + Sync`. The source text uses `Arc` since it's just
+/// a String which is `Send + Sync`.
 pub struct TransformCtx {
     /// Path to the source file being transformed.
     pub source_path: PathBuf,
@@ -19,10 +24,10 @@ pub struct TransformCtx {
     pub source_text: Arc<String>,
 
     /// Source map for generating accurate error messages and source locations.
-    pub source_map: Arc<SourceMap>,
+    pub source_map: Lrc<SourceMap>,
 
     /// Handler for diagnostics and errors.
-    pub handler: Arc<Handler>,
+    pub handler: Lrc<Handler>,
 }
 
 impl TransformCtx {
@@ -37,8 +42,8 @@ impl TransformCtx {
     pub fn new(
         source_path: PathBuf,
         source_text: Arc<String>,
-        source_map: Arc<SourceMap>,
-        handler: Arc<Handler>,
+        source_map: Lrc<SourceMap>,
+        handler: Lrc<Handler>,
     ) -> Self {
         Self {
             source_path,
