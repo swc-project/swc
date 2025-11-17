@@ -137,6 +137,11 @@ pub fn resolver(
         Mark::root(),
         "Marker provided to resolver should not be the root mark"
     );
+    assert_ne!(
+        top_level_mark,
+        Mark::root(),
+        "Marker provided to resolver should not be the root mark"
+    );
 
     let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
     let _ = SyntaxContext::empty().apply_mark(top_level_mark);
@@ -279,9 +284,6 @@ impl<'a> Resolver<'a> {
                 // if cur.declared_types.contains(sym) ||
                 // cur.hoisted_symbols.borrow().contains(sym) {
                 if cur.declared_types.contains(sym) {
-                    if mark == Mark::root() {
-                        break;
-                    }
                     return Some(mark);
                 }
 
@@ -301,10 +303,6 @@ impl<'a> Resolver<'a> {
 
         while let Some(cur) = scope {
             if cur.declared_symbols.contains_key(sym) {
-                if mark == Mark::root() {
-                    return None;
-                }
-
                 return match &**sym {
                     // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
                     // non configurable global value
@@ -350,10 +348,7 @@ impl<'a> Resolver<'a> {
         }
 
         let mark = self.current.mark;
-
-        if mark != Mark::root() {
-            id.ctxt = id.ctxt.apply_mark(mark);
-        }
+        id.ctxt = id.ctxt.apply_mark(mark);
     }
 
     fn mark_block(&mut self, ctxt: &mut SyntaxContext) {
@@ -362,10 +357,7 @@ impl<'a> Resolver<'a> {
         }
 
         let mark = self.current.mark;
-
-        if mark != Mark::root() {
-            *ctxt = ctxt.apply_mark(mark)
-        }
+        *ctxt = ctxt.apply_mark(mark)
     }
 
     fn try_resolving_as_type(&mut self, i: &mut Ident) {
