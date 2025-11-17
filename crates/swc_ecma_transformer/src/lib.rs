@@ -67,6 +67,7 @@ pub use swc_ecma_visit;
 pub mod common;
 mod context;
 mod options;
+pub mod typescript;
 
 pub use context::TransformCtx;
 pub use options::TransformOptions;
