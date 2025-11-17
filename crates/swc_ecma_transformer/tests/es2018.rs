@@ -51,10 +51,9 @@ fn create_test_ctx(code: &str) -> TransformCtx {
 #[test]
 fn test_es2018_transformer_creation() {
     let options = ES2018Options::all();
-    let transformer = ES2018::new(options);
+    let _transformer = ES2018::new(options);
 
-    // Should not panic
-    drop(transformer);
+    // Should not panic - transformer is dropped automatically
 }
 
 #[test]
