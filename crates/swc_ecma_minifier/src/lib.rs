@@ -40,7 +40,9 @@
 
 use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
-use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{
+    comments::Comments, pass::Repeated, sync::Lrc, SourceMap, Spanned, SyntaxContext,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
@@ -157,6 +159,11 @@ pub fn optimize(
         {
             let _timer = timer!("compress ast");
 
+            let first_span = match &n {
+                Program::Module(module) => module.body.first().map(|s| s.span()),
+                Program::Script(script) => script.body.first().map(|s| s.span()),
+            };
+
             perform_dce(&mut n, c, marks);
 
             n.mutate(&mut compressor(
@@ -167,6 +174,22 @@ pub fn optimize(
             ));
 
             perform_dce(&mut n, c, marks);
+
+            let new_first_span = match &n {
+                Program::Module(module) => module.body.first().map(|s| s.span()),
+                Program::Script(script) => script.body.first().map(|s| s.span()),
+            };
+
+            if first_span.map(|s| s.lo) != new_first_span.map(|s| s.lo) {
+                if let (Some(span), Some(comments)) = (first_span, comments) {
+                    let comment = comments.take_leading(span.lo);
+                    let new_pos = new_first_span.unwrap_or(n.span()).lo;
+
+                    for cmt in comment.into_iter().flatten() {
+                        comments.add_leading(new_pos, cmt);
+                    }
+                }
+            }
         }
 
         // Again, we don't need to validate ast

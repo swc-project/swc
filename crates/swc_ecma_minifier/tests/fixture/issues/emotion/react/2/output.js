@@ -1,4 +1,4 @@
-var fn, cache, cursor, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g, unitless_browser_esm = {
+/* harmony default export */ var fn, cache, cursor, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g, unitless_browser_esm = {
     animationIterationCount: 1,
     borderImageOutset: 1,
     borderImageSlice: 1,
