@@ -61,6 +61,7 @@ pub struct RegExpFeatures {
 
 impl RegExpFeatures {
     /// Creates a new RegExp features transformer.
+    #[allow(dead_code)]
     pub fn new(enabled: bool) -> Self {
         Self { enabled }
     }

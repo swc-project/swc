@@ -51,16 +51,14 @@ impl ObjectRestSpread {
 impl VisitMutHook<TransformCtx> for ObjectRestSpread {
     fn exit_program(&mut self, _node: &mut Program, _ctx: &mut TransformCtx) {
         if !self.enabled {
-            return;
+            // TODO: Implement program-level transformations
         }
-        // TODO: Implement program-level transformations
     }
 
     fn enter_expr(&mut self, _node: &mut Expr, _ctx: &mut TransformCtx) {
         if !self.enabled {
-            return;
+            // TODO: Handle object spread in expressions
         }
-        // TODO: Handle object spread in expressions
     }
 
     fn exit_expr(&mut self, node: &mut Expr, _ctx: &mut TransformCtx) {
@@ -76,42 +74,38 @@ impl VisitMutHook<TransformCtx> for ObjectRestSpread {
 
     fn exit_var_declarator(&mut self, _node: &mut VarDeclarator, _ctx: &mut TransformCtx) {
         if !self.enabled {
-            return;
+            // TODO: Handle rest patterns in variable declarations
         }
-        // TODO: Handle rest patterns in variable declarations
     }
 
     fn exit_assign_expr(&mut self, _node: &mut AssignExpr, _ctx: &mut TransformCtx) {
         if !self.enabled {
-            return;
+            // TODO: Handle rest patterns in assignment expressions
         }
-        // TODO: Handle rest patterns in assignment expressions
     }
 
     fn exit_function(&mut self, _node: &mut Function, _ctx: &mut TransformCtx) {
         if !self.enabled {
-            return;
+            // TODO: Handle rest patterns in function parameters
         }
-        // TODO: Handle rest patterns in function parameters
     }
 
     fn exit_arrow_expr(&mut self, _node: &mut ArrowExpr, _ctx: &mut TransformCtx) {
         if !self.enabled {
-            return;
+            // TODO: Handle rest patterns in arrow function parameters
         }
-        // TODO: Handle rest patterns in arrow function parameters
     }
 
     fn exit_catch_clause(&mut self, _node: &mut CatchClause, _ctx: &mut TransformCtx) {
         if !self.enabled {
-            return;
+            // TODO: Handle rest patterns in catch clause parameters
         }
-        // TODO: Handle rest patterns in catch clause parameters
     }
 }
 
 impl ObjectRestSpread {
     /// Check if an object literal has any spread properties.
+    #[allow(dead_code)]
     fn has_spread_properties(&self, obj: &ObjectLit) -> bool {
         obj.props
             .iter()
