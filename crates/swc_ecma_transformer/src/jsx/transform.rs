@@ -7,10 +7,7 @@ use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use super::{JsxOptions, Runtime};
-use crate::{
-    common::{ModuleImports, VarDeclarations},
-    TransformCtx,
-};
+use crate::{common::ModuleImports, TransformCtx};
 
 /// JSX transformer implementing the VisitMutHook pattern.
 ///
@@ -20,7 +17,6 @@ use crate::{
 pub struct JsxTransform {
     options: JsxOptions,
     module_imports: ModuleImports,
-    var_declarations: VarDeclarations,
 
     // Track which helper imports are needed for automatic runtime
     needs_jsx: bool,
@@ -34,7 +30,6 @@ impl JsxTransform {
         Self {
             options,
             module_imports: ModuleImports::new(),
-            var_declarations: VarDeclarations::new(),
             needs_jsx: false,
             needs_jsxs: false,
             needs_fragment: false,
