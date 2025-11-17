@@ -66,6 +66,7 @@ pub use swc_ecma_visit;
 
 pub mod common;
 mod context;
+pub mod es2019;
 mod options;
 
 pub use context::TransformCtx;
@@ -148,20 +149,16 @@ impl VisitMut for Transformer {
     /// execute all enabled transform hooks in sequence based on the
     /// configured options.
     fn visit_mut_program(&mut self, n: &mut Program) {
-        // Visit children first using the default visitor
+        // Apply ES2019 transforms if enabled
+        if self.options.es2019() {
+            let mut es2019_transform = es2019::ES2019::default();
+            n.visit_mut_with(&mut es2019_transform);
+        }
+
+        // Visit children with default visitor
         n.visit_mut_children_with(self);
 
-        // TODO: Add transform hooks here as they are implemented
-        // Example pattern:
-        // if self.options.es2015() {
-        //     let mut hook = Es2015Transform::new();
-        //     hook.enter_program(n, &mut self.ctx);
-        //     n.visit_mut_children_with(&mut HookVisitor {
-        //         hook: &mut hook,
-        //         ctx: &mut self.ctx,
-        //     });
-        //     hook.exit_program(n, &mut self.ctx);
-        // }
+        // TODO: Add other transform hooks here as they are implemented
     }
 
     /// Entry point for transforming a module.
@@ -258,5 +255,97 @@ mod tests {
 
         // This should not panic
         module.visit_mut_with(&mut transformer);
+    }
+
+    #[test]
+    fn test_es2019_transforms_enabled() {
+        let options = TransformOptions::ES2019;
+        let ctx = create_test_ctx();
+        let mut transformer = Transformer::new(options, ctx);
+
+        // Create a try-catch without parameter
+        let mut program = Program::Module(Module {
+            span: Default::default(),
+            body: vec![ModuleItem::Stmt(Stmt::Try(Box::new(TryStmt {
+                span: Default::default(),
+                block: BlockStmt {
+                    span: Default::default(),
+                    ctxt: Default::default(),
+                    stmts: vec![],
+                },
+                handler: Some(CatchClause {
+                    span: Default::default(),
+                    param: None, // No parameter
+                    body: BlockStmt {
+                        span: Default::default(),
+                        ctxt: Default::default(),
+                        stmts: vec![],
+                    },
+                }),
+                finalizer: None,
+            })))],
+            shebang: None,
+        });
+
+        // Transform
+        program.visit_mut_with(&mut transformer);
+
+        // Check that parameter was added
+        if let Program::Module(module) = &program {
+            if let Some(ModuleItem::Stmt(Stmt::Try(try_stmt))) = module.body.first() {
+                if let Some(handler) = &try_stmt.handler {
+                    assert!(
+                        handler.param.is_some(),
+                        "ES2019 transform should add parameter to catch clause"
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_es2019_transforms_disabled() {
+        let options = TransformOptions::new(); // No ES2019
+        let ctx = create_test_ctx();
+        let mut transformer = Transformer::new(options, ctx);
+
+        // Create a try-catch without parameter
+        let mut program = Program::Module(Module {
+            span: Default::default(),
+            body: vec![ModuleItem::Stmt(Stmt::Try(Box::new(TryStmt {
+                span: Default::default(),
+                block: BlockStmt {
+                    span: Default::default(),
+                    ctxt: Default::default(),
+                    stmts: vec![],
+                },
+                handler: Some(CatchClause {
+                    span: Default::default(),
+                    param: None, // No parameter
+                    body: BlockStmt {
+                        span: Default::default(),
+                        ctxt: Default::default(),
+                        stmts: vec![],
+                    },
+                }),
+                finalizer: None,
+            })))],
+            shebang: None,
+        });
+
+        // Transform
+        program.visit_mut_with(&mut transformer);
+
+        // Check that parameter was NOT added (transform disabled)
+        if let Program::Module(module) = &program {
+            if let Some(ModuleItem::Stmt(Stmt::Try(try_stmt))) = module.body.first() {
+                if let Some(handler) = &try_stmt.handler {
+                    assert!(
+                        handler.param.is_none(),
+                        "Parameter should not be added when ES2019 transform is disabled"
+                    );
+                }
+            }
+        }
     }
 }
