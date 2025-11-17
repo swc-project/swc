@@ -66,6 +66,7 @@ pub use swc_ecma_visit;
 
 pub mod common;
 mod context;
+pub mod es2016;
 mod options;
 
 pub use context::TransformCtx;
