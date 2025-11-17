@@ -247,8 +247,8 @@ impl VisitMut for OptionalChaining {
         expr.visit_mut_children_with(self);
 
         // Transform optional chaining expressions
-        match expr {
-            Expr::OptChain(opt_chain) => match opt_chain.base.as_ref() {
+        if let Expr::OptChain(opt_chain) = expr {
+            match opt_chain.base.as_ref() {
                 OptChainBase::Member(member_expr) => {
                     *expr = *self.transform_optional_member(
                         member_expr.obj.clone(),
@@ -263,8 +263,7 @@ impl VisitMut for OptionalChaining {
                         opt_chain.optional,
                     );
                 }
-            },
-            _ => {}
+            }
         }
     }
 }
