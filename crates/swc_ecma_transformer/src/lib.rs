@@ -66,6 +66,7 @@ pub use swc_ecma_visit;
 
 pub mod common;
 mod context;
+pub mod es2022;
 mod options;
 
 pub use context::TransformCtx;
@@ -100,6 +101,9 @@ pub struct Transformer {
 
     /// Context shared across all transform passes.
     ctx: TransformCtx,
+
+    /// ES2022 transformer, if enabled.
+    es2022: Option<es2022::ES2022>,
 }
 
 impl Transformer {
@@ -122,7 +126,20 @@ impl Transformer {
     /// let transformer = Transformer::new(options, ctx);
     /// ```
     pub fn new(options: TransformOptions, ctx: TransformCtx) -> Self {
-        Self { options, ctx }
+        // Initialize ES2022 transformer if enabled
+        let es2022 = if options.es2022() {
+            Some(es2022::ES2022::new(es2022::ES2022Options {
+                class_static_block: true,
+            }))
+        } else {
+            None
+        };
+
+        Self {
+            options,
+            ctx,
+            es2022,
+        }
     }
 
     /// Returns a reference to the transform options.
@@ -150,18 +167,6 @@ impl VisitMut for Transformer {
     fn visit_mut_program(&mut self, n: &mut Program) {
         // Visit children first using the default visitor
         n.visit_mut_children_with(self);
-
-        // TODO: Add transform hooks here as they are implemented
-        // Example pattern:
-        // if self.options.es2015() {
-        //     let mut hook = Es2015Transform::new();
-        //     hook.enter_program(n, &mut self.ctx);
-        //     n.visit_mut_children_with(&mut HookVisitor {
-        //         hook: &mut hook,
-        //         ctx: &mut self.ctx,
-        //     });
-        //     hook.exit_program(n, &mut self.ctx);
-        // }
     }
 
     /// Entry point for transforming a module.
@@ -169,8 +174,6 @@ impl VisitMut for Transformer {
     /// This is called for ES modules specifically.
     fn visit_mut_module(&mut self, n: &mut Module) {
         n.visit_mut_children_with(self);
-
-        // TODO: Add module-specific transform hooks
     }
 
     /// Entry point for transforming a script.
@@ -178,8 +181,28 @@ impl VisitMut for Transformer {
     /// This is called for non-module scripts.
     fn visit_mut_script(&mut self, n: &mut Script) {
         n.visit_mut_children_with(self);
+    }
 
-        // TODO: Add script-specific transform hooks
+    /// Visit class nodes to apply ES2022 transformations.
+    fn visit_mut_class(&mut self, n: &mut Class) {
+        use swc_ecma_hooks::VisitMutHook;
+
+        // Apply ES2022 class static block transformation
+        if let Some(es2022) = &mut self.es2022 {
+            if let Some(class_static_block) = es2022.class_static_block_mut() {
+                class_static_block.enter_class(n, &mut self.ctx);
+            }
+        }
+
+        // Continue with default visiting behavior for children
+        n.visit_mut_children_with(self);
+
+        // Exit hook
+        if let Some(es2022) = &mut self.es2022 {
+            if let Some(class_static_block) = es2022.class_static_block_mut() {
+                class_static_block.exit_class(n, &mut self.ctx);
+            }
+        }
     }
 }
 
