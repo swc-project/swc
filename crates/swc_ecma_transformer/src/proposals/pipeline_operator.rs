@@ -76,21 +76,15 @@ use swc_ecma_visit::{VisitMut, VisitMutWith};
 use crate::TransformCtx;
 
 /// Configuration for pipeline operator transformation.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum PipelineProposal {
     /// Hack-style pipeline with `%` topic token.
+    #[default]
     Hack,
     /// F#-style pipeline with `^` placeholder.
     Fsharp,
     /// Minimal proposal with implicit parameter passing.
     Minimal,
-}
-
-impl Default for PipelineProposal {
-    fn default() -> Self {
-        // Default to Hack-style as it appears to have more traction
-        PipelineProposal::Hack
-    }
 }
 
 /// Transformer for pipeline operator.
@@ -107,18 +101,11 @@ impl Default for PipelineProposal {
 /// let mut transform = PipelineOperator::new();
 /// transform.visit_mut_program(&mut program, &mut ctx);
 /// ```
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct PipelineOperator {
     /// Which pipeline proposal syntax to support.
+    #[allow(dead_code)]
     proposal: PipelineProposal,
-}
-
-impl Default for PipelineOperator {
-    fn default() -> Self {
-        Self {
-            proposal: PipelineProposal::default(),
-        }
-    }
 }
 
 impl PipelineOperator {
