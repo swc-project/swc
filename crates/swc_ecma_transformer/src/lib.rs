@@ -64,6 +64,7 @@ pub use swc_ecma_ast;
 pub use swc_ecma_hooks;
 pub use swc_ecma_visit;
 
+pub mod common;
 mod context;
 mod options;
 
