@@ -128,7 +128,7 @@ impl JsxTransform {
                     )))
                 }
             }
-            JSXElementName::JSXMemberExpr(member) => self.jsx_member_expr_to_expr(member),
+            JSXElementName::JSXMemberExpr(member) => Self::jsx_member_expr_to_expr(member),
             JSXElementName::JSXNamespacedName(namespaced) => {
                 // Convert namespace to string "namespace:name"
                 let name = format!("{}:{}", namespaced.ns.sym, namespaced.name.sym);
@@ -142,19 +142,19 @@ impl JsxTransform {
     }
 
     /// Converts a JSX member expression to an expression.
-    fn jsx_member_expr_to_expr(&self, member: &JSXMemberExpr) -> Box<Expr> {
+    fn jsx_member_expr_to_expr(member: &JSXMemberExpr) -> Box<Expr> {
         let obj = match &member.obj {
             JSXObject::Ident(ident) => Box::new(Expr::Ident(Ident::new(
                 ident.sym.clone(),
                 DUMMY_SP,
                 Default::default(),
             ))),
-            JSXObject::JSXMemberExpr(nested) => self.jsx_member_expr_to_expr(nested),
+            JSXObject::JSXMemberExpr(nested) => Self::jsx_member_expr_to_expr(nested),
         };
 
         Box::new(Expr::Member(MemberExpr {
             span: DUMMY_SP,
-            obj: obj.into(),
+            obj,
             prop: MemberProp::Ident(IdentName::new(member.prop.sym.clone(), DUMMY_SP)),
         }))
     }
@@ -298,7 +298,7 @@ impl JsxTransform {
         &self,
         children: Vec<JSXElementChild>,
         ctx: &mut TransformCtx,
-    ) -> Vec<Box<Expr>> {
+    ) -> Vec<Expr> {
         children
             .into_iter()
             .filter_map(|child| self.jsx_child_to_expr(child, ctx))
@@ -306,43 +306,39 @@ impl JsxTransform {
     }
 
     /// Converts a JSX child to an expression, filtering out empty text nodes.
-    fn jsx_child_to_expr(
-        &self,
-        child: JSXElementChild,
-        _ctx: &mut TransformCtx,
-    ) -> Option<Box<Expr>> {
+    fn jsx_child_to_expr(&self, child: JSXElementChild, _ctx: &mut TransformCtx) -> Option<Expr> {
         match child {
             JSXElementChild::JSXText(text) => {
                 let normalized = self.normalize_jsx_text(&text.value);
                 if normalized.is_empty() {
                     None
                 } else {
-                    Some(Box::new(Expr::Lit(Lit::Str(Str {
+                    Some(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         value: normalized.into(),
                         raw: None,
-                    }))))
+                    })))
                 }
             }
             JSXElementChild::JSXExprContainer(container) => match container.expr {
-                JSXExpr::Expr(expr) => Some(expr),
+                JSXExpr::Expr(expr) => Some(*expr),
                 JSXExpr::JSXEmptyExpr(_) => None,
             },
             JSXElementChild::JSXElement(_elem) => {
                 // TODO: Recursive transformation
-                Some(Box::new(Expr::Ident(Ident::new(
+                Some(Expr::Ident(Ident::new(
                     "null".into(),
                     DUMMY_SP,
                     Default::default(),
-                ))))
+                )))
             }
             JSXElementChild::JSXFragment(_frag) => {
                 // TODO: Recursive transformation
-                Some(Box::new(Expr::Ident(Ident::new(
+                Some(Expr::Ident(Ident::new(
                     "null".into(),
                     DUMMY_SP,
                     Default::default(),
-                ))))
+                )))
             }
             JSXElementChild::JSXSpreadChild(_) => {
                 // Spread children are not commonly supported
@@ -392,7 +388,7 @@ impl JsxTransform {
         tag: Box<Expr>,
         props: Option<Box<Expr>>,
         key: Option<Box<Expr>>,
-        children: Vec<Box<Expr>>,
+        children: Vec<Expr>,
         use_jsxs: bool,
         _is_fragment: bool,
     ) -> Box<Expr> {
@@ -413,7 +409,7 @@ impl JsxTransform {
             })
         } else {
             let children_value = if children.len() == 1 {
-                children.into_iter().next().unwrap()
+                Box::new(children.into_iter().next().unwrap())
             } else {
                 Box::new(Expr::Array(ArrayLit {
                     span: DUMMY_SP,
@@ -422,7 +418,7 @@ impl JsxTransform {
                         .map(|child| {
                             Some(ExprOrSpread {
                                 spread: None,
-                                expr: child,
+                                expr: Box::new(child),
                             })
                         })
                         .collect(),
@@ -485,7 +481,7 @@ impl JsxTransform {
         &self,
         tag: Box<Expr>,
         props: Option<Box<Expr>>,
-        children: Vec<Box<Expr>>,
+        children: Vec<Expr>,
     ) -> Box<Expr> {
         let pragma = self.get_pragma_expr();
 
@@ -505,7 +501,7 @@ impl JsxTransform {
         for child in children {
             args.push(ExprOrSpread {
                 spread: None,
-                expr: child,
+                expr: Box::new(child),
             });
         }
 
@@ -537,7 +533,7 @@ impl JsxTransform {
             for part in &parts[1..] {
                 expr = Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
-                    obj: expr.into(),
+                    obj: expr,
                     prop: MemberProp::Ident(IdentName::new((*part).into(), DUMMY_SP)),
                 }));
             }
@@ -572,7 +568,7 @@ impl JsxTransform {
             for part in &parts[1..] {
                 expr = Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
-                    obj: expr.into(),
+                    obj: expr,
                     prop: MemberProp::Ident(IdentName::new((*part).into(), DUMMY_SP)),
                 }));
             }
