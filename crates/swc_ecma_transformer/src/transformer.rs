@@ -270,8 +270,14 @@ mod tests {
     /// Test adding hooks to a transformer.
     #[test]
     fn test_add_hook() {
-        // Unit type implements VisitMutHook with no-op methods
-        let transformer = Transformer::new();
-        let _transformer_with_hook = transformer.add_hook(());
+        // Create simple test hooks
+        struct FirstHook;
+        impl VisitMutHook<TraverseCtx> for FirstHook {}
+
+        struct SecondHook;
+        impl VisitMutHook<TraverseCtx> for SecondHook {}
+
+        let transformer = Transformer::with_hook(FirstHook);
+        let _transformer_with_hooks = transformer.add_hook(SecondHook);
     }
 }
