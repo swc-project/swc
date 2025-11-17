@@ -26,7 +26,7 @@
 
 use rustc_hash::FxHashMap;
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
 /// Handles TypeScript enum transformations.
@@ -39,11 +39,13 @@ use swc_ecma_ast::*;
 /// - Const enum inlining (future enhancement)
 pub struct TypeScriptEnum {
     /// Map of enum members to their computed values
+    #[allow(dead_code)]
     enum_values: FxHashMap<(Id, Atom), EnumValue>,
 }
 
 /// Represents the value of an enum member.
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 enum EnumValue {
     /// A numeric value
     Number(f64),
@@ -55,6 +57,7 @@ enum EnumValue {
 
 impl EnumValue {
     /// Increments a numeric value by 1, or returns None for non-numeric values.
+    #[allow(dead_code)]
     fn increment(&self) -> Option<EnumValue> {
         match self {
             EnumValue::Number(n) => Some(EnumValue::Number(n + 1.0)),
@@ -63,6 +66,7 @@ impl EnumValue {
     }
 
     /// Converts the enum value to an expression.
+    #[allow(dead_code)]
     fn to_expr(&self) -> Expr {
         match self {
             EnumValue::Number(n) => Expr::Lit(Lit::Num(Number {
@@ -102,11 +106,12 @@ impl TypeScriptEnum {
     }
 
     /// Evaluates an enum member initializer to a constant value if possible.
+    #[allow(dead_code)]
     fn evaluate_initializer(&self, expr: &Expr, _enum_id: &Id) -> EnumValue {
         match expr {
             // Literal values
             Expr::Lit(Lit::Num(num)) => EnumValue::Number(num.value),
-            Expr::Lit(Lit::Str(str)) => EnumValue::String(str.value.clone().into()),
+            Expr::Lit(Lit::Str(s)) => EnumValue::String(s.value.clone()),
 
             // Unary expressions
             Expr::Unary(UnaryExpr {
@@ -146,6 +151,7 @@ impl TypeScriptEnum {
     }
 
     /// Evaluates a binary expression to a constant value if possible.
+    #[allow(dead_code)]
     fn evaluate_binary_expr(
         &self,
         left: &Expr,
@@ -281,6 +287,8 @@ impl Default for TypeScriptEnum {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::SyntaxContext;
+
     use super::*;
 
     #[test]
