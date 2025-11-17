@@ -6290,9 +6290,11 @@ name = "swc_ecma_transformer"
 version = "0.1.0"
 dependencies = [
  "bitflags 2.6.0",
+ "serde",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_hooks",
+ "swc_ecma_parser",
  "swc_ecma_visit",
 ]
 
