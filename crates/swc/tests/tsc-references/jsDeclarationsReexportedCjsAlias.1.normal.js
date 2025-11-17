@@ -1,8 +1,8 @@
 //// [lib.js]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /**
  * @param {string} a
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-function bar(a) {
+ */ function bar(a) {
     return a + a;
 }
 var SomeClass = /*#__PURE__*/ function() {

@@ -12,7 +12,6 @@ define([
     "use strict";
 });
 //// [file1.ts]
-/// <reference lib="dom" />
 define([
     "require",
     "exports"

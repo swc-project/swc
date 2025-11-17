@@ -20,7 +20,6 @@ define([
     }
 });
 //// [2.ts]
-// We use Promise<any> for now as there is no way to specify shape of module object
 define([
     "require",
     "exports",
@@ -30,6 +29,7 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    // We use Promise<any> for now as there is no way to specify shape of module object
     function foo(x) {
         x.then((value)=>{
             let b = new value.B();

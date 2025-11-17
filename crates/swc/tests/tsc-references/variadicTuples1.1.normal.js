@@ -1,5 +1,4 @@
 //// [variadicTuples1.ts]
-// Variadics in tuple types
 import { _ as _to_array } from "@swc/helpers/_/_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 // Variadics in array literals

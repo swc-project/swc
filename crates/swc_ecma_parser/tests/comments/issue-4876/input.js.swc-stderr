@@ -1,3 +1,13 @@
+  > Trailing (hi)
+
+Advice: 
+  >  b
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+  9 | // a
+ 10 | console.log(1);
+    :                ^
+ 11 | // b
+    `----
   > Leading (lo)
 
 Advice: 
@@ -23,15 +33,5 @@ Advice:
   9 | // a
  10 | console.log(1);
     : ^
- 11 | // b
-    `----
-  > Trailing (hi)
-
-Advice: 
-  >  b
-    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
-  9 | // a
- 10 | console.log(1);
-    :                ^
  11 | // b
     `----

@@ -1,6 +1,6 @@
 //// [a.js]
-/** @param {number} x */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-function C(x) {
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
+/** @param {number} x */ function C(x) {
     this.x = x;
 }
 C.prototype.m = function() {

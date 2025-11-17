@@ -1,10 +1,10 @@
 //// [cb.js]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /** @template T
  * @callback Id
  * @param {T} t
  * @returns {T} Maybe just return 120 and cast it?
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var x = 1;
+ */ var x = 1;
 /** @type {Id<string>} I actually wanted to write `const "120"` */ var one_twenty = function(s) {
     return "120";
 };

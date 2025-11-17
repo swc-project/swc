@@ -1,12 +1,4 @@
 //// [assignments.ts]
-// In this file:
-//  Assign to a module
-//  Assign to a class
-//  Assign to an enum
-//  Assign to a function
-//  Assign to a variable
-//  Assign to a parameter
-//  Assign to an interface
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 M = null; // Error
 var C = function C() {

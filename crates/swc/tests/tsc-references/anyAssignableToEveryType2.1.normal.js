@@ -1,5 +1,4 @@
 //// [anyAssignableToEveryType2.ts]
-// any is not a subtype of any other types, but is assignable, all the below should work
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A = function A() {
     "use strict";

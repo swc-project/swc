@@ -1,8 +1,8 @@
 //// [source.js]
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 /**
  * @param {number} len
- */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-export function Vec(len) {
+ */ export function Vec(len) {
     /**
      * @type {number[]}
      */ this.storage = new Array(len);
