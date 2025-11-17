@@ -224,19 +224,15 @@ impl VisitMut for TypeAnnotations {
     // Remove 'this' parameters from function signatures
     fn visit_mut_params(&mut self, params: &mut Vec<Param>) {
         // Remove 'this' parameter if present
-        if params
-            .first()
-            .filter(|param| {
-                matches!(
-                    &param.pat,
-                    Pat::Ident(BindingIdent {
-                        id: Ident { sym, .. },
-                        ..
-                    }) if &**sym == "this"
-                )
-            })
-            .is_some()
-        {
+        if params.first().is_some_and(|param| {
+            matches!(
+                &param.pat,
+                Pat::Ident(BindingIdent {
+                    id: Ident { sym, .. },
+                    ..
+                }) if &**sym == "this"
+            )
+        }) {
             params.drain(0..1);
         }
 
