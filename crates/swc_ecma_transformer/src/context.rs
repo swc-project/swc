@@ -5,6 +5,7 @@
 //! passed through all transformation hooks via the `VisitMutHook` trait.
 
 use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 
@@ -84,7 +85,7 @@ impl TraverseCtx {
     /// Generates a unique identifier with a given base name.
     pub fn generate_uid_ident(&mut self, prefix: &str) -> Ident {
         let name = self.generate_uid(prefix);
-        Ident::new(name.into(), Default::default(), SyntaxContext::empty())
+        Ident::new(Atom::from(name), Default::default(), SyntaxContext::empty())
     }
 
     /// Enters a new scope level.
