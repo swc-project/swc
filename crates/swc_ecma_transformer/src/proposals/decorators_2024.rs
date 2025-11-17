@@ -165,7 +165,7 @@ mod tests {
     fn test_decorators_2024_creation() {
         let transform = Decorators2024::new();
         // Basic smoke test to ensure the struct can be created
-        let _ = format!("{:?}", transform);
+        let _ = format!("{transform:?}");
     }
 
     // TODO: Add comprehensive tests for decorator transformations

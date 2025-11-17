@@ -162,7 +162,7 @@ mod tests {
     fn test_explicit_resource_management_creation() {
         let transform = ExplicitResourceManagement::new();
         // Basic smoke test to ensure the struct can be created
-        let _ = format!("{:?}", transform);
+        let _ = format!("{transform:?}");
     }
 
     // TODO: Add comprehensive tests for resource management
