@@ -102,6 +102,22 @@ impl<H> Transformer<H> {
     }
 }
 
+// Special implementation for empty transformer (no hooks)
+impl VisitMut for Transformer<()> {
+    // No-op implementations - just visit children
+    fn visit_mut_program(&mut self, node: &mut Program) {
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_module(&mut self, node: &mut Module) {
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_script(&mut self, node: &mut Script) {
+        node.visit_mut_children_with(self);
+    }
+}
+
 impl<H> VisitMut for Transformer<H>
 where
     H: VisitMutHook<TraverseCtx>,
