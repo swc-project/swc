@@ -11,3 +11,9 @@
 [submodule "crates/swc_ecma_transforms_proposal/tests/decorator-tests"]
 	path = crates/swc_ecma_transforms_proposal/tests/decorator-tests
 	url = https://github.com/evanw/decorator-tests
+[submodule "test262"]
+	path = test262
+	url = https://github.com/tc39/test262.git
+	shallow = true
+	ignore = dirty
+	branch = main
