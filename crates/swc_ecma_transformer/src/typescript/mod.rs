@@ -110,6 +110,6 @@ mod tests {
     fn test_typescript_transformer_creation() {
         let options = TypeScriptOptions::default();
         let transformer = TypeScript::new(options);
-        assert_eq!(transformer.options.strip_annotations, true);
+        assert!(transformer.options.strip_annotations);
     }
 }
