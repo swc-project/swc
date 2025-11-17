@@ -84,24 +84,56 @@ impl RegExp {
     }
 
     /// Check if a regex pattern needs transformation based on its content.
+    /// Uses a single-pass algorithm to check for multiple pattern features
+    /// efficiently while avoiding false positives from escaped sequences.
     fn needs_pattern_transformation(&self, pattern: &str) -> bool {
-        // Check for lookbehind assertions: (?<= or (?<!
-        if self.options.look_behind_assertions
-            && (pattern.contains("(?<=") || pattern.contains("(?<!"))
-        {
-            return true;
-        }
+        let bytes = pattern.as_bytes();
+        let len = bytes.len();
+        let mut i = 0;
 
-        // Check for named capture groups: (?<name>
-        if self.options.named_capture_groups && pattern.contains("(?<") {
-            return true;
-        }
+        while i < len {
+            // Check for escape sequences
+            if bytes[i] == b'\\' && i + 1 < len {
+                // Check for unicode property escapes: \p{ or \P{
+                if self.options.unicode_property_escapes
+                    && i + 2 < len
+                    && (bytes[i + 1] == b'p' || bytes[i + 1] == b'P')
+                    && bytes[i + 2] == b'{'
+                {
+                    return true;
+                }
+                // Skip the escaped character
+                i += 2;
+                continue;
+            }
 
-        // Check for unicode property escapes: \p{ or \P{
-        if self.options.unicode_property_escapes
-            && (pattern.contains("\\p{") || pattern.contains("\\P{"))
-        {
-            return true;
+            // Check for regex group patterns starting with (?
+            if bytes[i] == b'('
+                && i + 2 < len
+                && bytes[i + 1] == b'?'
+                && i + 3 < len
+                && bytes[i + 2] == b'<'
+            {
+                // Differentiate between lookbehind assertions and named capture groups
+                if i + 4 < len {
+                    if bytes[i + 3] == b'=' || bytes[i + 3] == b'!' {
+                        // Lookbehind assertions: (?<= or (?<!
+                        if self.options.look_behind_assertions {
+                            return true;
+                        }
+                    } else {
+                        // Named capture groups: (?<name>
+                        // Valid name must start with letter or underscore
+                        if self.options.named_capture_groups
+                            && (bytes[i + 3].is_ascii_alphabetic() || bytes[i + 3] == b'_')
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            i += 1;
         }
 
         false
@@ -249,5 +281,101 @@ mod tests {
 
         assert!(!transformer.needs_flag_transformation(&regex));
         assert!(!transformer.needs_pattern_transformation(&regex.exp));
+    }
+
+    #[test]
+    fn test_escaped_sequences_not_matched() {
+        let options = RegExpOptions {
+            named_capture_groups: true,
+            look_behind_assertions: true,
+            unicode_property_escapes: true,
+            ..Default::default()
+        };
+        let transformer = RegExp::new(options);
+
+        // Escaped sequences should not trigger transformation
+        assert!(!transformer.needs_pattern_transformation("\\(?<name>"));
+        assert!(!transformer.needs_pattern_transformation("\\(?<=x)"));
+        assert!(!transformer.needs_pattern_transformation("\\\\p{Letter}"));
+    }
+
+    #[test]
+    fn test_named_capture_vs_lookbehind() {
+        let options = RegExpOptions {
+            named_capture_groups: true,
+            look_behind_assertions: false,
+            ..Default::default()
+        };
+        let transformer = RegExp::new(options);
+
+        // Named capture groups should be detected
+        assert!(transformer.needs_pattern_transformation("(?<name>x)"));
+        assert!(transformer.needs_pattern_transformation("(?<_var>x)"));
+
+        // Lookbehind should not be detected when option is disabled
+        assert!(!transformer.needs_pattern_transformation("(?<=x)"));
+        assert!(!transformer.needs_pattern_transformation("(?<!x)"));
+    }
+
+    #[test]
+    fn test_lookbehind_vs_named_capture() {
+        let options = RegExpOptions {
+            named_capture_groups: false,
+            look_behind_assertions: true,
+            ..Default::default()
+        };
+        let transformer = RegExp::new(options);
+
+        // Lookbehind should be detected
+        assert!(transformer.needs_pattern_transformation("(?<=x)"));
+        assert!(transformer.needs_pattern_transformation("(?<!x)"));
+
+        // Named capture groups should not be detected when option is disabled
+        assert!(!transformer.needs_pattern_transformation("(?<name>x)"));
+    }
+
+    #[test]
+    fn test_mixed_transformations() {
+        let options = RegExpOptions {
+            named_capture_groups: true,
+            look_behind_assertions: true,
+            unicode_property_escapes: true,
+            ..Default::default()
+        };
+        let transformer = RegExp::new(options);
+
+        // Multiple features in one pattern
+        assert!(transformer.needs_pattern_transformation("(?<name>\\p{Letter})"));
+        assert!(transformer.needs_pattern_transformation("(?<=\\d)(?<num>\\d+)"));
+        assert!(transformer.needs_pattern_transformation("\\p{Letter}+(?<!s)"));
+    }
+
+    #[test]
+    fn test_invalid_named_groups_not_matched() {
+        let options = RegExpOptions {
+            named_capture_groups: true,
+            ..Default::default()
+        };
+        let transformer = RegExp::new(options);
+
+        // Invalid named groups (starting with digits or special chars) should not match
+        // Note: These would be syntax errors in actual regex, but we check our
+        // detection
+        assert!(!transformer.needs_pattern_transformation("(?<123>x)"));
+        assert!(!transformer.needs_pattern_transformation("(?<=>x)"));
+        assert!(!transformer.needs_pattern_transformation("(?<!>x)"));
+    }
+
+    #[test]
+    fn test_empty_patterns() {
+        let options = RegExpOptions {
+            named_capture_groups: true,
+            look_behind_assertions: true,
+            unicode_property_escapes: true,
+            ..Default::default()
+        };
+        let transformer = RegExp::new(options);
+
+        assert!(!transformer.needs_pattern_transformation(""));
     }
 }
