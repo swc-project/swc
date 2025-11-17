@@ -1257,6 +1257,26 @@ fn issue_8701_1() {
     );
 }
 
+#[test]
+fn issue_9727_1() {
+    let f = file("tests/projects/issue-9727/pass-1/input.ts").unwrap();
+
+    assert!(f.contains(
+        "export class Foo {
+}"
+    ));
+}
+
+#[test]
+fn issue_9727_2() {
+    let f = file("tests/projects/issue-9727/pass-4/input.ts").unwrap();
+
+    assert!(f.contains(
+        "export class Foo {
+}"
+    ));
+}
+
 #[testing::fixture("tests/minify/**/input.js")]
 fn minify(input_js: PathBuf) {
     let input_dir = input_js.parent().unwrap();

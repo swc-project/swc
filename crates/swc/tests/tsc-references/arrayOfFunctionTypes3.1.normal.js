@@ -1,6 +1,6 @@
 //// [arrayOfFunctionTypes3.ts]
-// valid uses of arrays of function types
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// valid uses of arrays of function types
 var x = [
     function() {
         return 1;

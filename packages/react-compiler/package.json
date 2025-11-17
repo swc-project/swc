@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler",
-  "version": "1.15.1",
+  "version": "1.15.2",
   "description": "SWC support for React Compiler",
   "homepage": "https://swc.rs",
   "main": "./index.js",
@@ -38,7 +38,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "types": "./index.d.ts",
   "scripts": {

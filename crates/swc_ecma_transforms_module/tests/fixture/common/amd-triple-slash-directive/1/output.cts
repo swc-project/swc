@@ -1,5 +1,5 @@
-///<amd-module name='NamedModule'/>
 "use strict";
+///<amd-module name='NamedModule'/>
 class Foo {
     x;
     constructor(){

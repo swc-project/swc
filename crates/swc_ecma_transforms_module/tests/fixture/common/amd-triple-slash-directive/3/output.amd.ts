@@ -1,8 +1,8 @@
-///<AmD-moDulE nAme='NamedModule'/>
-define("NamedModule", [
+define([
     "require"
 ], function(require) {
     "use strict";
+    ///<AmD-moDulE nAme='NamedModule'/>
     class Foo {
         x;
         constructor(){

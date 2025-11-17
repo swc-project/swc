@@ -1,6 +1,6 @@
 //// [objectTypeWithRecursiveWrappedProperty.ts]
-// Basic recursive type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// Basic recursive type
 var List = function List() {
     "use strict";
     _class_call_check(this, List);

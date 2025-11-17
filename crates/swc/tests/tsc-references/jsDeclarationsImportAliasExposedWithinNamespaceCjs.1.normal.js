@@ -1,10 +1,10 @@
 //// [file.js]
+"use strict";
 /**
  * @namespace myTypes
  * @global
  * @type {Object<string,*>}
- */ "use strict";
-const myTypes = {
+ */ const myTypes = {
 };
 /** @typedef {string|RegExp|Array<string|RegExp>} myTypes.typeA */ /**
  * @typedef myTypes.typeB

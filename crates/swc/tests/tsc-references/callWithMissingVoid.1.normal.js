@@ -1,6 +1,6 @@
 //// [callWithMissingVoid.ts]
-// From #4260
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// From #4260
 var X = /*#__PURE__*/ function() {
     "use strict";
     function X() {

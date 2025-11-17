@@ -27611,9 +27611,6 @@ class Zip {
             }), exports.LoggerFactory = void 0;
             let ConsoleLoggerFactory_1 = __webpack_require__(4089);
             class LoggerFactory {
-                constructor(){
-                // not instantiable from outside
-                }
                 setOptions(newOptions, moduleName) {
                     LoggerFactory.INST.setOptions(newOptions, moduleName);
                 }

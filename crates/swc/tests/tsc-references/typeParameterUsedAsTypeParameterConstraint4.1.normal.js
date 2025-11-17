@@ -1,7 +1,7 @@
 //// [typeParameterUsedAsTypeParameterConstraint4.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Type parameters are in scope in their own and other type parameter lists
 // Some negative cases
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

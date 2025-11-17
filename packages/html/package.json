@@ -1,6 +1,6 @@
 {
     "name": "@swc/html",
-    "version": "1.15.1",
+    "version": "1.15.2",
     "description": "Super-fast HTML minifier",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -37,7 +37,8 @@
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
-        "access": "public"
+        "access": "public",
+        "provenance": true
     },
     "scripts": {
         "artifacts": "napi artifacts --npm-dir scripts/npm",

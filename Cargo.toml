@@ -132,12 +132,12 @@ resolver = "2"
   url                       = "2.5.4"
   vergen                    = { version = "9.0.0", default-features = false }
   walkdir                   = "2.4.0"
-  wasi-common               = { version = "35", default-features = false }
+  wasi-common               = { version = "38", default-features = false }
   wasm-bindgen              = "0.2.100"
   wasm-bindgen-futures      = "0.4.50"
   wasmer                    = { version = "6.1.0-rc.2", default-features = false }
   wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
-  wasmtime                  = { version = "35", default-features = false }
+  wasmtime                  = { version = "38", default-features = false }
 
 
   cbor4ii         = "1.2"

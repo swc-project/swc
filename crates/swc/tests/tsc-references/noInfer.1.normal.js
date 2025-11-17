@@ -1,5 +1,4 @@
 //// [noInfer.ts]
-// NoInfer<T> is erased for primitives
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 foo1('foo', 'foo'); // ok

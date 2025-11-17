@@ -1,4 +1,3 @@
-// Simulate accessing a .js file in a third party package that shouldn't be edited
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true

@@ -1,5 +1,4 @@
 //// [typeAliases.ts]
-// Writing a reference to a type alias has exactly the same effect as writing the aliased type itself.
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var x1;
 var x1;

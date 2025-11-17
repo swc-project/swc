@@ -1,5 +1,4 @@
 //// [objectTypesIdentityWithGenericCallSignaturesDifferingTypeParameterCounts2.ts]
-// object types are identical structurally
 var a;
 function foo1(x) {}
 function foo2(x) {}

@@ -1,7 +1,7 @@
 //// [argumentExpressionContextualTyping.ts]
-// In a typed function call, argument expressions are contextually typed by their corresponding parameter types.
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+// In a typed function call, argument expressions are contextually typed by their corresponding parameter types.
 function foo(param) {
     var _param_x = _sliced_to_array(param.x, 2), a = _param_x[0], b = _param_x[1], _param_y = param.y, c = _param_y.c, d = _param_y.d, e = _param_y.e;
 }

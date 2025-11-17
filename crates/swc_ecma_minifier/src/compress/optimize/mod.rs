@@ -1709,6 +1709,12 @@ impl VisitMut for Optimizer<'_> {
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
+
+        {
+            if n.super_class.is_none() {
+                self.drop_empty_constructors(n);
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]

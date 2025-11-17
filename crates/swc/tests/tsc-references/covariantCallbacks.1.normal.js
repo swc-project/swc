@@ -1,5 +1,4 @@
 //// [covariantCallbacks.ts]
-// Test that callback parameters are related covariantly
 function f1(a, b) {
     a = b;
     b = a; // Error
