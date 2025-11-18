@@ -48,13 +48,14 @@ const EOF: ByteHandler = Some(|lexer| {
 
 const ERR: ByteHandler = Some(|lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // Get the char representation for error messages
+        lexer.cur_as_char().unwrap_unchecked()
     };
 
     let start = lexer.cur_pos();
     unsafe {
-        // Safety: Byte handler is only called for non-last chracters
+        // Safety: Byte handler is only called for non-last characters
         lexer.input.bump();
     }
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
@@ -361,11 +362,12 @@ const DIG: ByteHandler = Some(|lexer| {
 /// String literals with `'` or `"`
 const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit());
 
-/// Unicode
+/// Unicode - handles multi-byte UTF-8 sequences
 const UNI: ByteHandler = Some(|lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // For non-ASCII bytes, we need the full char
+        lexer.cur_as_char().unwrap_unchecked()
     };
 
     // Identifier or keyword. '\uXXXX' sequences are allowed in
@@ -376,7 +378,7 @@ const UNI: ByteHandler = Some(|lexer| {
 
     let start = lexer.cur_pos();
     unsafe {
-        // Safety: Byte handler is only called for non-last chracters
+        // Safety: Byte handler is only called for non-last characters
         lexer.input.bump();
     }
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?

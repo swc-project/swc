@@ -114,31 +114,33 @@ const SPC: ByteHandler = |lexer| {
 };
 
 const SLH: ByteHandler = |lexer| match lexer.peek() {
-    Some('/') => {
+    Some(b'/') => {
         lexer.skip_line_comment(2);
         true
     }
-    Some('*') => {
+    Some(b'*') => {
         lexer.skip_block_comment();
         true
     }
     _ => false,
 };
 
-/// Unicode
+/// Unicode - handles multi-byte UTF-8 whitespace characters
 const UNI: ByteHandler = |lexer| {
-    let c = lexer.cur().unwrap();
-    match c {
-        c if is_irregular_whitespace(c) => {
-            lexer.bump();
-            true
-        }
-        c if is_irregular_line_terminator(c) => {
-            lexer.bump();
-            lexer.state.mark_had_line_break();
-            true
-        }
-        _ => false,
+    // For non-ASCII bytes, we need the full UTF-8 character
+    let Some(c) = lexer.cur_as_char() else {
+        return false;
+    };
+
+    if is_irregular_whitespace(c) {
+        lexer.bump();
+        true
+    } else if is_irregular_line_terminator(c) {
+        lexer.bump();
+        lexer.state.mark_had_line_break();
+        true
+    } else {
+        false
     }
 };
 
