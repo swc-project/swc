@@ -1,4 +1,23 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/quote)** Replace usage of `swc_atoms` with `swc_core::atoms` ([#11299](https://github.com/swc-project/swc/issues/11299)) ([c1e32fa](https://github.com/swc-project/swc/commit/c1e32fafd3dd8c2424331730c6ebc03bc793b058))
+
+## [swc_core@v47.0.7] - 2025-11-17
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Prevent compress.comparisons from transforming expressions with side effects ([#11256](https://github.com/swc-project/swc/issues/11256)) ([58a9d81](https://github.com/swc-project/swc/commit/58a9d81959162778f6ca1200436c90f3545bd387))
+
+
+- **(es/parser)** Make the span of Program start at input start ([#11199](https://github.com/swc-project/swc/issues/11199)) ([b56e008](https://github.com/swc-project/swc/commit/b56e0083c60e9d96fbe7aef9de20ff83d4c77279))
+
 ## [swc_core@v47.0.6] - 2025-11-14
 
 ### Bug Fixes
@@ -2462,16 +2481,10 @@
 
 
 
-- **(deps)** Update cargo (patch) ([#10081](https://github.com/swc-project/swc/issues/10081)) ([e0ff00e](https://github.com/swc-project/swc/commit/e0ff00ecb347a7a907e17162b095eb32d9c602a6))
-
-
 - **(es)** Do not reuse `Compiler` for `minify()` and `transform()` ([#10273](https://github.com/swc-project/swc/issues/10273)) ([63bd8a1](https://github.com/swc-project/swc/commit/63bd8a10a9e90bb021d8425cd0563e2f0cd200a0))
 
 
 - **(es/bugfix)** Do not rename in non-ident-function ([#10274](https://github.com/swc-project/swc/issues/10274)) ([48b6bdb](https://github.com/swc-project/swc/commit/48b6bdb6398cfd5f18e8a7d1313f8e794179446b))
-
-
-- **(es/minifier)** Remove unnecessary check when invoke IIFE ([#10257](https://github.com/swc-project/swc/issues/10257)) ([6b75775](https://github.com/swc-project/swc/commit/6b75775dbf18a67a28f3d63a1035ff83613b74c8))
 
 
 - **(es/parser)** Parser a program as a module with TLA in non-expression statement ([#10287](https://github.com/swc-project/swc/issues/10287)) ([157c52a](https://github.com/swc-project/swc/commit/157c52aaa7ae2c5fbd30afd537c2b5c681d85508))
@@ -2492,19 +2505,10 @@
 
 
 
-- **(es/minifier)** Allow disabling char frequency analysis ([#10259](https://github.com/swc-project/swc/issues/10259)) ([50c62d1](https://github.com/swc-project/swc/commit/50c62d1ca20da77fe47e9af1b484c09ca180a830))
-
-
 - Add parallel iterators ([#10075](https://github.com/swc-project/swc/issues/10075)) ([3b775bf](https://github.com/swc-project/swc/commit/3b775bf38dd76fabf2fc5fdb21a4431e959d02f3))
 
 ### Performance
 
-
-
-- **(es/minifier)** Adjust parallelism threshold ([#10260](https://github.com/swc-project/swc/issues/10260)) ([28cc6f6](https://github.com/swc-project/swc/commit/28cc6f647dfead420600cd585530783f2961313c))
-
-
-- **(es/minifier)** Process `cons` and `alt` of `IfStmt` in parallel ([#10262](https://github.com/swc-project/swc/issues/10262)) ([ccb6eb8](https://github.com/swc-project/swc/commit/ccb6eb8f043db57c47dabfeb77e78da26e52ae24))
 
 
 - **(es/minifier)** Move logic to the pure minifier ([#10264](https://github.com/swc-project/swc/issues/10264)) ([7ecd807](https://github.com/swc-project/swc/commit/7ecd807c97513fbff4461bfcbe3207c3dfaba932))
