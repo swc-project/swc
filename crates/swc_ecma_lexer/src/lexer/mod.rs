@@ -176,7 +176,7 @@ impl<'a> Lexer<'a> {
         }
 
         // '++', '--'
-        Ok(if self.input.cur() == Some(C as char) {
+        Ok(if self.input.cur() == Some(C) {
             unsafe {
                 // Safety: cur() is Some(c)
                 self.input.bump();
@@ -273,7 +273,10 @@ impl Lexer<'_> {
         }
 
         // XML style comment. `<!--`
-        if C == b'<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-')
+        if C == b'<'
+            && self.is(b'!')
+            && self.peek() == Some(b'-')
+            && self.peek_ahead() == Some(b'-')
         {
             self.skip_line_comment(3);
             self.skip_space::<true>();
@@ -289,7 +292,7 @@ impl Lexer<'_> {
         };
 
         // '<<', '>>'
-        if self.cur() == Some(C as char) {
+        if self.cur() == Some(C) {
             self.bump();
             op = if C == b'<' {
                 BinOpToken::LShift
@@ -298,7 +301,7 @@ impl Lexer<'_> {
             };
 
             //'>>>'
-            if C == b'>' && self.cur() == Some(C as char) {
+            if C == b'>' && self.cur() == Some(C) {
                 self.bump();
                 op = BinOpToken::ZeroFillRShift;
             }

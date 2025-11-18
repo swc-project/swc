@@ -12,7 +12,7 @@ impl Lexer<'_> {
 
         loop {
             let cur = match self.input.cur() {
-                Some(c) => c,
+                Some(c) => c as char,
                 None => {
                     let start = self.state.start;
                     self.error(start, SyntaxError::UnterminatedJSXContents)?

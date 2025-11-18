@@ -352,7 +352,7 @@ const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero());
 
 /// Numbers
 const DIG: ByteHandler = Some(|lexer| {
-    debug_assert!(lexer.cur().is_some_and(|cur| cur != '0'));
+    debug_assert!(lexer.cur().is_some_and(|cur| cur != b'0'));
     lexer.read_number::<false, false>().map(|v| match v {
         Either::Left((value, raw)) => Token::Num { value, raw },
         Either::Right((value, raw)) => Token::BigInt { value, raw },
