@@ -4,6 +4,7 @@
 //! similar to oxc's options structure.
 
 use serde::{Deserialize, Serialize};
+use swc_ecma_ast::EsVersion;
 
 /// Options for the transformer.
 ///
@@ -79,59 +80,14 @@ pub struct JsxOptions {
 }
 
 /// JSX runtime mode.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum JsxRuntime {
     /// Classic JSX transform (React.createElement)
+    #[default]
     Classic,
     /// Automatic JSX transform (react/jsx-runtime)
     Automatic,
-}
-
-impl Default for JsxRuntime {
-    fn default() -> Self {
-        JsxRuntime::Classic
-    }
-}
-
-/// Target ECMAScript version.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum EsVersion {
-    /// ES5
-    Es5,
-    /// ES2015 (ES6)
-    Es2015,
-    /// ES2016 (ES7)
-    Es2016,
-    /// ES2017
-    Es2017,
-    /// ES2018
-    Es2018,
-    /// ES2019
-    Es2019,
-    /// ES2020
-    Es2020,
-    /// ES2021
-    Es2021,
-    /// ES2022
-    Es2022,
-    /// ES2023
-    Es2023,
-    /// ES2024
-    Es2024,
-    /// ES2025
-    Es2025,
-    /// ES2026 (future spec)
-    Es2026,
-    /// ESNext (latest)
-    EsNext,
-}
-
-impl Default for EsVersion {
-    fn default() -> Self {
-        EsVersion::EsNext
-    }
 }
 
 /// Decorator transformation options.
@@ -148,19 +104,14 @@ pub struct DecoratorOptions {
 }
 
 /// Decorator proposal version.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum DecoratorVersion {
     /// Legacy decorator proposal
     Legacy,
     /// 2022-03 decorator proposal
+    #[default]
     V202203,
-}
-
-impl Default for DecoratorVersion {
-    fn default() -> Self {
-        DecoratorVersion::V202203
-    }
 }
 
 /// Regular expression transformation options.

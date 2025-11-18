@@ -138,7 +138,7 @@ impl<'a> TraverseCtx<'a> {
     pub fn create_member_expr(&self, obj: Box<Expr>, prop: &str) -> Expr {
         Expr::Member(MemberExpr {
             span: DUMMY_SP,
-            obj: obj.into(),
+            obj,
             prop: MemberProp::Ident(IdentName {
                 span: DUMMY_SP,
                 sym: prop.into(),

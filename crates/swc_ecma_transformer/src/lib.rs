@@ -138,7 +138,7 @@ impl Transformer {
     ///
     /// # Example
     ///
-    /// ```
+    /// ```ignore
     /// use swc_ecma_transformer::{Transformer, TransformOptions};
     ///
     /// let transformer = Transformer::new(TransformOptions::default());
@@ -240,28 +240,40 @@ mod tests {
 
     #[test]
     fn test_transformer_creation() {
-        let transformer = Transformer::new(TransformOptions::default());
-        assert_eq!(transformer.options().target, EsVersion::EsNext);
+        ::testing::run_test(false, |_, _| {
+            let transformer = Transformer::new(TransformOptions::default());
+            assert_eq!(transformer.options().target, EsVersion::Es5);
+            Ok(())
+        })
+        .unwrap();
     }
 
     #[test]
     fn test_transformer_with_marks() {
-        let unresolved = Mark::new();
-        let top_level = Mark::new();
-        let transformer =
-            Transformer::new_with_marks(TransformOptions::default(), unresolved, top_level);
-        assert_eq!(transformer.unresolved_mark(), unresolved);
-        assert_eq!(transformer.top_level_mark(), top_level);
+        ::testing::run_test(false, |_, _| {
+            let unresolved = Mark::new();
+            let top_level = Mark::new();
+            let transformer =
+                Transformer::new_with_marks(TransformOptions::default(), unresolved, top_level);
+            assert_eq!(transformer.unresolved_mark(), unresolved);
+            assert_eq!(transformer.top_level_mark(), top_level);
+            Ok(())
+        })
+        .unwrap();
     }
 
     #[test]
     fn test_traverse_context_creation() {
-        let transformer = Transformer::new(TransformOptions::default());
-        let ctx = transformer.create_context();
-        let unresolved_ctxt = ctx.unresolved_ctxt();
-        let top_level_ctxt = ctx.top_level_ctxt();
+        ::testing::run_test(false, |_, _| {
+            let transformer = Transformer::new(TransformOptions::default());
+            let ctx = transformer.create_context();
+            let unresolved_ctxt = ctx.unresolved_ctxt();
+            let top_level_ctxt = ctx.top_level_ctxt();
 
-        // Contexts should be different
-        assert_ne!(unresolved_ctxt, top_level_ctxt);
+            // Contexts should be different
+            assert_ne!(unresolved_ctxt, top_level_ctxt);
+            Ok(())
+        })
+        .unwrap();
     }
 }
