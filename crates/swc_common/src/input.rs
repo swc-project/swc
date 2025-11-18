@@ -374,12 +374,12 @@ mod tests {
         with_test_sess("foo/d", |mut i| {
             assert_eq!(unsafe { i.slice(BytePos(1), BytePos(2)) }, "f");
             assert_eq!(i.last_pos, BytePos(2));
-            assert_eq!(i.cur(), Some('o'));
+            assert_eq!(i.cur(), Some(b'o'));
 
             assert_eq!(unsafe { i.slice(BytePos(2), BytePos(4)) }, "oo");
             assert_eq!(unsafe { i.slice(BytePos(1), BytePos(4)) }, "foo");
             assert_eq!(i.last_pos, BytePos(4));
-            assert_eq!(i.cur(), Some('/'));
+            assert_eq!(i.cur(), Some(b'/'));
         });
     }
 
@@ -388,10 +388,10 @@ mod tests {
         with_test_sess("load", |mut i| {
             assert_eq!(unsafe { i.slice(BytePos(1), BytePos(3)) }, "lo");
             assert_eq!(i.last_pos, BytePos(3));
-            assert_eq!(i.cur(), Some('a'));
+            assert_eq!(i.cur(), Some(b'a'));
             unsafe { i.reset_to(BytePos(1)) };
 
-            assert_eq!(i.cur(), Some('l'));
+            assert_eq!(i.cur(), Some(b'l'));
             assert_eq!(i.last_pos, BytePos(1));
         });
     }
@@ -405,13 +405,13 @@ mod tests {
 
             // assert_eq!(i.cur_pos(), BytePos(4));
             assert_eq!(i.last_pos, BytePos(4));
-            assert_eq!(i.cur(), Some('/'));
+            assert_eq!(i.cur(), Some(b'/'));
 
             unsafe {
                 i.bump();
             }
             assert_eq!(i.last_pos, BytePos(5));
-            assert_eq!(i.cur(), Some('d'));
+            assert_eq!(i.cur(), Some(b'd'));
 
             unsafe {
                 i.bump();
