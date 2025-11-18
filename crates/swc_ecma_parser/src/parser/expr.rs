@@ -8,6 +8,81 @@ use crate::{
     parser::{pat::PatType, util::IsSimpleParameterList, Parser},
 };
 
+/// Expression operator precedence for Pratt parsing.
+/// Lower numeric values bind tighter (higher precedence).
+/// This is the inverse of the traditional precedence numbering.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+enum Precedence {
+    /// Postfix update operators: `++` and `--` (postfix)
+    PostfixUpdate = 0,
+    /// Unary operators: includes prefix update, unary +/-, !, ~, typeof, void,
+    /// delete, await.
+    Unary = 1,
+    /// Exponentiation: `**` (right-associative)
+    Exponentiation = 2,
+    /// Multiplicative: `*`, `/`, `%`
+    Multiplication = 3,
+    /// Additive: `+`, `-`
+    Addition = 4,
+    /// Shift: `<<`, `>>`, `>>>`
+    Shift = 5,
+    /// Relational: `<`, `>`, `<=`, `>=`, `in`, `instanceof`
+    /// TypeScript: `as`, `satisfies` (injected at this level)
+    Relational = 6,
+    /// Equality: `==`, `!=`, `===`, `!==`
+    Equality = 7,
+    /// Bitwise AND: `&`
+    BitwiseAnd = 8,
+    /// Bitwise XOR: `^`
+    BitwiseXor = 9,
+    /// Bitwise OR: `|`
+    BitwiseOr = 10,
+    /// Logical AND: `&&`
+    LogicalAnd = 11,
+    /// Logical OR: `||` and Nullish coalescing: `??`
+    /// Note: These operators have the same precedence but cannot be mixed
+    /// without parentheses
+    LogicalOr = 12,
+    /// Conditional (ternary): `? :`
+    /// Note: This is handled separately outside the main Pratt parser loop
+    Conditional = 13,
+}
+
+impl Precedence {
+    /// Returns true if this precedence level is weaker (binds less tightly)
+    /// than the other. Since lower numbers bind tighter, "weaker" means a
+    /// higher numeric value.
+    #[inline]
+    fn is_weaker_than(self, other: Precedence) -> bool {
+        (self as u8) > (other as u8)
+    }
+
+    /// Convert from BinaryOp to Precedence
+    fn from_binary_op(op: BinaryOp) -> Precedence {
+        match op {
+            BinaryOp::Exp => Precedence::Exponentiation,
+            BinaryOp::Mul | BinaryOp::Div | BinaryOp::Mod => Precedence::Multiplication,
+            BinaryOp::Add | BinaryOp::Sub => Precedence::Addition,
+            BinaryOp::LShift | BinaryOp::RShift | BinaryOp::ZeroFillRShift => Precedence::Shift,
+            BinaryOp::Lt
+            | BinaryOp::LtEq
+            | BinaryOp::Gt
+            | BinaryOp::GtEq
+            | BinaryOp::In
+            | BinaryOp::InstanceOf => Precedence::Relational,
+            BinaryOp::EqEq | BinaryOp::NotEq | BinaryOp::EqEqEq | BinaryOp::NotEqEq => {
+                Precedence::Equality
+            }
+            BinaryOp::BitAnd => Precedence::BitwiseAnd,
+            BinaryOp::BitXor => Precedence::BitwiseXor,
+            BinaryOp::BitOr => Precedence::BitwiseOr,
+            BinaryOp::LogicalAnd => Precedence::LogicalAnd,
+            // LogicalOr and NullishCoalescing have the same precedence
+            BinaryOp::LogicalOr | BinaryOp::NullishCoalescing => Precedence::LogicalOr,
+        }
+    }
+}
+
 #[ast_node]
 pub(crate) enum AssignTargetOrSpread {
     #[tag("ExprOrSpread")]
@@ -168,125 +243,24 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_unary_expr);
 
-        let token_and_span = self.input().get_cur();
-        let start = token_and_span.span.lo;
-        let cur = token_and_span.token;
+        // Parse prefix expressions (unary operators, prefix ++/--, await, primary
+        // expressions)
+        let expr = self.parse_expression_prefix()?;
 
-        if cur == Token::Lt && self.input().syntax().typescript() && !self.input().syntax().jsx() {
-            self.bump(); // consume `<`
-            return if self.input_mut().eat(Token::Const) {
-                self.expect(Token::Gt)?;
-                let expr = self.parse_unary_expr()?;
-                Ok(TsConstAssertion {
-                    span: self.span(start),
-                    expr,
-                }
-                .into())
-            } else {
-                self.parse_ts_type_assertion(start)
-                    .map(Expr::from)
-                    .map(Box::new)
-            };
-        } else if cur == Token::Lt
-            && self.input().syntax().jsx()
-            && self.input_mut().peek().is_some_and(|peek| {
-                peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
-            })
-        {
-            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
-                match e {
-                    Either::Left(l) => l.into(),
-                    Either::Right(r) => r.into(),
-                }
-            }
-            return self.parse_jsx_element(true).map(into_expr);
-        } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
-            // Parse update expression
-            let op = if cur == Token::PlusPlus {
-                op!("++")
-            } else {
-                op!("--")
-            };
-            self.bump();
-
-            let arg = self.parse_unary_expr()?;
-            let span = Span::new_with_checked(start, arg.span_hi());
-            self.check_assign_target(&arg, false);
-
-            return Ok(UpdateExpr {
-                span,
-                prefix: true,
-                op,
-                arg,
-            }
-            .into());
-        } else if cur == Token::Delete
-            || cur == Token::Void
-            || cur == Token::TypeOf
-            || cur == Token::Plus
-            || cur == Token::Minus
-            || cur == Token::Tilde
-            || cur == Token::Bang
-        {
-            // Parse unary expression
-            let op = if cur == Token::Delete {
-                op!("delete")
-            } else if cur == Token::Void {
-                op!("void")
-            } else if cur == Token::TypeOf {
-                op!("typeof")
-            } else if cur == Token::Plus {
-                op!(unary, "+")
-            } else if cur == Token::Minus {
-                op!(unary, "-")
-            } else if cur == Token::Tilde {
-                op!("~")
-            } else {
-                debug_assert!(cur == Token::Bang);
-                op!("!")
-            };
-            self.bump();
-            let arg_start = self.cur_pos() - BytePos(1);
-            let arg = match self.parse_unary_expr() {
-                Ok(expr) => expr,
-                Err(err) => {
-                    self.emit_error(err);
-                    Invalid {
-                        span: Span::new_with_checked(arg_start, arg_start),
-                    }
-                    .into()
-                }
-            };
-
-            if op == op!("delete") {
-                if let Expr::Ident(ref i) = *arg {
-                    self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
-                }
-            }
-
-            return Ok(UnaryExpr {
-                span: Span::new_with_checked(start, arg.span_hi()),
-                op,
-                arg,
-            }
-            .into());
-        } else if cur == Token::Await {
-            return self.parse_await_expr(None);
-        }
-
-        // UpdateExpression
-        let expr = self.parse_lhs_expr()?;
+        // Check for arrow functions
         if let Expr::Arrow { .. } = *expr {
             return Ok(expr);
         }
 
-        // Line terminator isn't allowed here.
+        // Line terminator isn't allowed before postfix update operators
         if self.input_mut().had_line_break_before_cur() {
             return Ok(expr);
         }
 
+        // Handle postfix update operators (++, --)
         let cur = self.input().cur();
         if cur == Token::PlusPlus || cur == Token::MinusMinus {
+            let start = expr.span_lo();
             let op = if cur == Token::PlusPlus {
                 op!("++")
             } else {
@@ -297,7 +271,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
 
             return Ok(UpdateExpr {
-                span: self.span(expr.span_lo()),
+                span: self.span(start),
                 prefix: false,
                 op,
                 arg: expr,
@@ -1669,8 +1643,14 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);
 
-        let left = match self.parse_unary_expr() {
-            Ok(v) => v,
+        // Use the new Pratt Parser implementation
+        // Precedence::Conditional is the weakest level, so it will parse all binary
+        // operators
+        let result = self.parse_expression_with_precedence(Precedence::Conditional);
+
+        // Handle error recovery - maintain compatibility with old implementation
+        let left: Box<Expr> = match result {
+            Ok(v) => return Ok(v),
             Err(err) => {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
 
@@ -1690,26 +1670,61 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
+        // Continue parsing binary operators with the Invalid expression
+        // This matches the old implementation's behavior
         return_if_arrow!(self, left);
         self.parse_bin_op_recursively(left, 0)
     }
 
-    /// Parse binary operators with the operator precedence parsing
-    /// algorithm. `left` is the left-hand side of the operator.
-    /// `minPrec` provides context that allows the function to stop and
-    /// defer further parser to one of its callers when it encounters an
-    /// operator that has a lower precedence than the set it is parsing.
+    /// Parse binary operators with the operator precedence parsing algorithm.
+    /// This is a compatibility wrapper that maintains the old interface.
     ///
-    /// `parseExprOp`
+    /// `left` is the left-hand side of the operator.
+    /// `min_prec` provides context (currently unused as all callers pass 0).
     pub(crate) fn parse_bin_op_recursively(
         &mut self,
-        mut left: Box<Expr>,
-        mut min_prec: u8,
+        left: Box<Expr>,
+        _min_prec: u8,
     ) -> PResult<Box<Expr>> {
-        loop {
-            let (next_left, next_prec) = self.parse_bin_op_recursively_inner(left, min_prec)?;
+        let start = left.span_lo();
+        self.parse_expression_with_precedence_from(left, Precedence::Conditional, start)
+    }
 
-            match &*next_left {
+    /// Pratt Parser implementation for binary expressions and below.
+    /// This is the core implementation that uses explicit precedence levels.
+    ///
+    /// Based on the Pratt parsing algorithm with precedence climbing.
+    /// The precedence parameter specifies the minimum precedence level to
+    /// parse.
+    fn parse_expression_with_precedence(&mut self, precedence: Precedence) -> PResult<Box<Expr>> {
+        let start = self.cur_pos();
+
+        // Parse prefix expression (unary operators, primary expressions, etc.)
+        let current_expr = self.parse_expression_prefix()?;
+
+        // Continue parsing from the prefix expression
+        self.parse_expression_with_precedence_from(current_expr, precedence, start)
+    }
+
+    /// Continue parsing binary expressions from an existing left expression.
+    /// This is used by parse_bin_op_recursively and for error recovery.
+    fn parse_expression_with_precedence_from(
+        &mut self,
+        mut current_expr: Box<Expr>,
+        precedence: Precedence,
+        start: BytePos,
+    ) -> PResult<Box<Expr>> {
+        // Loop to consume infix operators
+        loop {
+            // Get raw pointer for comparison (to detect when no operator was consumed)
+            let current_expr_ptr = &*current_expr as *const Expr as usize;
+
+            // Try to parse an infix operator
+            let next_expr = self.parse_expression_infix(current_expr, precedence, start)?;
+
+            // Validate nullish coalescing after constructing the expression
+            // This matches the old implementation's behavior
+            match &*next_expr {
                 Expr::Bin(BinExpr {
                     span,
                     left,
@@ -1729,26 +1744,193 @@ impl<I: Tokens> Parser<I> {
                 _ => {}
             }
 
-            min_prec = match next_prec {
-                Some(v) => v,
-                None => return Ok(next_left),
-            };
+            // Check if we consumed an operator by comparing pointers
+            let next_expr_ptr = &*next_expr as *const Expr as usize;
+            if current_expr_ptr == next_expr_ptr {
+                // No operator was consumed, we're done
+                return Ok(next_expr);
+            }
 
-            left = next_left;
+            current_expr = next_expr;
         }
     }
 
-    /// Returns `(left, Some(next_prec))` or `(expr, None)`.
-    fn parse_bin_op_recursively_inner(
+    /// Parse prefix expressions: unary operators, update operators, await,
+    /// primary expressions.
+    ///
+    /// This handles:
+    /// - Unary operators: +, -, !, ~, typeof, void, delete
+    /// - Prefix update operators: ++, --
+    /// - await expressions
+    /// - Primary expressions (literals, identifiers, etc.)
+    /// - TypeScript type assertions (<Type>expr)
+    /// - JSX elements
+    fn parse_expression_prefix(&mut self) -> PResult<Box<Expr>> {
+        let token_and_span = self.input().get_cur();
+        let start = token_and_span.span.lo;
+        let cur = token_and_span.token;
+
+        // TypeScript type assertions: <Type>expr or <const>expr
+        if cur == Token::Lt && self.input().syntax().typescript() && !self.input().syntax().jsx() {
+            self.bump(); // consume `<`
+            return if self.input_mut().eat(Token::Const) {
+                self.expect(Token::Gt)?;
+                // Use Pratt Parser with Precedence::Unary
+                // This is safe: Unary has highest precedence, so won't consume binary operators
+                let expr = self.parse_expression_with_precedence(Precedence::Unary)?;
+                Ok(TsConstAssertion {
+                    span: self.span(start),
+                    expr,
+                }
+                .into())
+            } else {
+                self.parse_ts_type_assertion(start)
+                    .map(Expr::from)
+                    .map(Box::new)
+            };
+        }
+
+        // JSX elements: <div>...</div>
+        if cur == Token::Lt
+            && self.input().syntax().jsx()
+            && self.input_mut().peek().is_some_and(|peek| {
+                peek.is_word() || peek == Token::Gt || peek.should_rescan_into_gt_in_jsx()
+            })
+        {
+            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                match e {
+                    Either::Left(l) => l.into(),
+                    Either::Right(r) => r.into(),
+                }
+            }
+            return self.parse_jsx_element(true).map(into_expr);
+        }
+
+        // Prefix update expressions: ++x, --x
+        if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
+            return self.parse_prefix_update_expr(start);
+        }
+
+        // Unary expressions: +x, -x, !x, ~x, typeof x, void x, delete x
+        if cur == Token::Delete
+            || cur == Token::Void
+            || cur == Token::TypeOf
+            || cur == Token::Plus
+            || cur == Token::Minus
+            || cur == Token::Tilde
+            || cur == Token::Bang
+        {
+            return self.parse_prefix_unary_expr(start);
+        }
+
+        // Await expression: await x
+        if cur == Token::Await {
+            return self.parse_await_expr(None);
+        }
+
+        // Default: parse left-hand side expression (primary, member, call, etc.)
+        self.parse_lhs_expr()
+    }
+
+    /// Parse prefix update expression: ++x or --x
+    /// Uses Precedence::Unary to parse the operand (won't consume binary
+    /// operators)
+    fn parse_prefix_update_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+        let cur = self.input().cur();
+        let op = if cur == Token::PlusPlus {
+            op!("++")
+        } else {
+            op!("--")
+        };
+        self.bump();
+
+        // Use Pratt Parser with Precedence::Unary
+        // This is safe: Unary has highest precedence, so won't consume binary operators
+        let arg = self.parse_expression_with_precedence(Precedence::Unary)?;
+        let span = Span::new_with_checked(start, arg.span_hi());
+        self.check_assign_target(&arg, false);
+
+        Ok(UpdateExpr {
+            span,
+            prefix: true,
+            op,
+            arg,
+        }
+        .into())
+    }
+
+    /// Parse prefix unary expression: +x, -x, !x, ~x, typeof x, void x, delete
+    /// x Uses Precedence::Unary to parse the operand (won't consume binary
+    /// operators)
+    fn parse_prefix_unary_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+        let cur = self.input().cur();
+        let op = if cur == Token::Delete {
+            op!("delete")
+        } else if cur == Token::Void {
+            op!("void")
+        } else if cur == Token::TypeOf {
+            op!("typeof")
+        } else if cur == Token::Plus {
+            op!(unary, "+")
+        } else if cur == Token::Minus {
+            op!(unary, "-")
+        } else if cur == Token::Tilde {
+            op!("~")
+        } else {
+            debug_assert!(cur == Token::Bang);
+            op!("!")
+        };
+        self.bump();
+
+        let arg_start = self.cur_pos() - BytePos(1);
+        // Use Pratt Parser with Precedence::Unary
+        // This is safe: Unary has highest precedence, so won't consume binary operators
+        let arg = match self.parse_expression_with_precedence(Precedence::Unary) {
+            Ok(expr) => expr,
+            Err(err) => {
+                self.emit_error(err);
+                Invalid {
+                    span: Span::new_with_checked(arg_start, arg_start),
+                }
+                .into()
+            }
+        };
+
+        if op == op!("delete") {
+            if let Expr::Ident(ref i) = *arg {
+                self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+            }
+        }
+
+        Ok(UnaryExpr {
+            span: Span::new_with_checked(start, arg.span_hi()),
+            op,
+            arg,
+        }
+        .into())
+    }
+
+    /// Parse infix expressions: binary operators, postfix update operators.
+    ///
+    /// This handles:
+    /// - Binary operators: +, -, *, /, %, **, <<, >>, >>>, <, >, <=, >=, ==,
+    ///   !=, ===, !==, &, ^, |, &&, ||, ??, in, instanceof
+    /// - Postfix update operators: ++, --
+    /// - TypeScript operators: as, satisfies
+    /// - Non-null assertion: !
+    ///
+    /// Returns the left expression unchanged if no operator can be consumed at
+    /// the current precedence level.
+    fn parse_expression_infix(
         &mut self,
         left: Box<Expr>,
-        min_prec: u8,
-    ) -> PResult<(Box<Expr>, Option<u8>)> {
-        const PREC_OF_IN: u8 = 7;
-
+        min_precedence: Precedence,
+        start: BytePos,
+    ) -> PResult<Box<Expr>> {
+        // Handle TypeScript operators first (they have special precedence handling)
         if self.input().syntax().typescript() && !self.input().had_line_break_before_cur() {
-            if PREC_OF_IN > min_prec && self.input().is(Token::As) {
-                let start = left.span_lo();
+            // TypeScript 'as' type assertion
+            if min_precedence.is_weaker_than(Precedence::Relational) && self.input().is(Token::As) {
                 let expr = left;
                 let node = if peek!(self).is_some_and(|cur| cur == Token::Const) {
                     self.bump(); // as
@@ -1767,26 +1949,71 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into()
                 };
+                // Recursively parse more infix operators
+                return self.parse_expression_infix(node, min_precedence, start);
+            }
 
-                return self.parse_bin_op_recursively_inner(node, min_prec);
-            } else if self.input().is(Token::Satisfies) {
-                let start = left.span_lo();
+            // TypeScript 'satisfies' operator
+            if min_precedence.is_weaker_than(Precedence::Relational)
+                && self.input().is(Token::Satisfies)
+            {
                 let expr = left;
-                let node = {
-                    let type_ann = self.next_then_parse_ts_type()?;
-                    TsSatisfiesExpr {
-                        span: self.span(start),
-                        expr,
-                        type_ann,
-                    }
-                    .into()
-                };
+                let type_ann = self.next_then_parse_ts_type()?;
+                let node = TsSatisfiesExpr {
+                    span: self.span(start),
+                    expr,
+                    type_ann,
+                }
+                .into();
+                // Recursively parse more infix operators
+                return self.parse_expression_infix(node, min_precedence, start);
+            }
 
-                return self.parse_bin_op_recursively_inner(node, min_prec);
+            // TypeScript non-null assertion (!)
+            if min_precedence.is_weaker_than(Precedence::PostfixUpdate)
+                && self.input().is(Token::Bang)
+                && !self.input().had_line_break_before_cur()
+            {
+                self.bump(); // consume !
+                let node = TsNonNullExpr {
+                    span: self.span(start),
+                    expr: left,
+                }
+                .into();
+                // Recursively parse more infix operators
+                return self.parse_expression_infix(node, min_precedence, start);
             }
         }
 
-        // Return left on eof
+        // Handle postfix update operators (++, --)
+        if !self.input().had_line_break_before_cur() {
+            let cur = self.input().cur();
+            if min_precedence.is_weaker_than(Precedence::PostfixUpdate)
+                && matches!(cur, Token::PlusPlus | Token::MinusMinus)
+            {
+                let op = if cur == Token::PlusPlus {
+                    op!("++")
+                } else {
+                    op!("--")
+                };
+
+                self.check_assign_target(&left, false);
+                self.bump(); // consume ++ or --
+
+                let node = UpdateExpr {
+                    span: self.span(start),
+                    prefix: false,
+                    op,
+                    arg: left,
+                }
+                .into();
+
+                // Recursively parse more infix operators
+                return self.parse_expression_infix(node, min_precedence, start);
+            }
+        }
+
+        // Try to get binary operator from current token
         let cur = self.input().cur();
         let op = if cur == Token::In && self.ctx().contains(Context::IncludeInExpr) {
             op!("in")
@@ -1795,74 +2022,60 @@ impl<I: Tokens> Parser<I> {
         } else if let Some(op) = cur.as_bin_op() {
             op
         } else {
-            return Ok((left, None));
+            // No operator to consume, return left unchanged
+            return Ok(left);
         };
 
-        if op.precedence() <= min_prec {
-            if cfg!(feature = "debug") {
-                tracing::trace!(
-                    "returning {:?} without parsing {:?} because min_prec={}, prec={}",
-                    left,
-                    op,
-                    min_prec,
-                    op.precedence()
-                );
-            }
+        // Get precedence of this operator
+        let op_precedence = Precedence::from_binary_op(op);
 
-            return Ok((left, None));
+        // Check if this operator's precedence is allowed at the current level
+        // We can only parse this operator if min_precedence is weaker than (or equal
+        // to) op_precedence
+        if !min_precedence.is_weaker_than(op_precedence) {
+            // Current precedence level doesn't allow this operator
+            return Ok(left);
         }
+
+        // Consume the operator token
         self.bump();
-        if cfg!(feature = "debug") {
-            tracing::trace!(
-                "parsing binary op {:?} min_prec={}, prec={}",
-                op,
-                min_prec,
-                op.precedence()
-            );
-        }
-        match *left {
-            // This is invalid syntax.
-            Expr::Unary { .. } | Expr::Await(..) if op == op!("**") => {
-                // Correct implementation would be returning Ok(left) and
-                // returning "unexpected token '**'" on next.
-                // But it's not useful error message.
 
-                syntax_error!(
-                    self,
-                    SyntaxError::UnaryInExp {
-                        // FIXME: Use display
-                        left: format!("{left:?}"),
-                        left_span: left.span(),
-                    }
-                )
+        // Check for invalid unary/await on left side of **
+        if op == op!("**") {
+            match *left {
+                // This is invalid syntax.
+                Expr::Unary { .. } | Expr::Await(..) => {
+                    // Correct implementation would be returning Ok(left) and
+                    // returning "unexpected token '**'" on next.
+                    // But it's not useful error message.
+
+                    syntax_error!(
+                        self,
+                        SyntaxError::UnaryInExp {
+                            // FIXME: Use display
+                            left: format!("{left:?}"),
+                            left_span: left.span(),
+                        }
+                    )
+                }
+                _ => {}
             }
-            _ => {}
         }
 
-        let right = {
-            let left_of_right = self.parse_unary_expr()?;
-            self.parse_bin_op_recursively(
-                left_of_right,
-                if op == op!("**") {
-                    // exponential operator is right associative
-                    op.precedence() - 1
-                } else {
-                    op.precedence()
-                },
-            )?
+        // Parse the right-hand side
+        // For right-associative operators (only **), use one precedence level lower
+        let right_precedence = if op == op!("**") {
+            // Right associative: allow same precedence on the right
+            Precedence::Multiplication
+        } else {
+            // Left associative: require higher precedence on the right
+            op_precedence
         };
-        /* this check is for all ?? operators
-         * a ?? b && c for this example
-         * b && c => This is considered as a logical expression in the ast tree
-         * a => Identifier
-         * so for ?? operator we need to check in this case the right expression to
-         * have parenthesis second case a && b ?? c
-         * here a && b => This is considered as a logical expression in the ast tree
-         * c => identifier
-         * so now here for ?? operator we need to check the left expression to have
-         * parenthesis if the parenthesis is missing we raise an error and
-         * throw it
-         */
+
+        let right = self.parse_expression_with_precedence(right_precedence)?;
+
+        // Validate nullish coalescing mixed with logical operators
+        // This checks if ?? has && or || on either side without parentheses
         if op == op!("??") {
             match *left {
                 Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
@@ -1879,6 +2092,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        // Construct the binary expression node
         let node = BinExpr {
             span: Span::new_with_checked(left.span_lo(), right.span_hi()),
             op,
@@ -1887,7 +2101,8 @@ impl<I: Tokens> Parser<I> {
         }
         .into();
 
-        Ok((node, Some(min_prec)))
+        // Recursively parse more infix operators
+        self.parse_expression_infix(node, min_precedence, start)
     }
 
     pub(crate) fn parse_await_expr(
@@ -2342,8 +2557,12 @@ impl<I: Tokens> Parser<I> {
                 if self.input().cur().is_bin_op() {
                     // ) is required
                     self.emit_err(self.input().cur_span(), SyntaxError::TS1005);
-                    let errorred_expr =
-                        self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
+                    // Parse remaining binary operators using Pratt Parser
+                    let errorred_expr = self.parse_expression_with_precedence_from(
+                        Box::new(arrow_expr.into()),
+                        Precedence::Conditional,
+                        expr_start,
+                    )?;
 
                     if !self.is_general_semi() {
                         // ; is required
@@ -2713,4 +2932,196 @@ fn unwrap_ts_non_null(mut expr: &Expr) -> &Expr {
     }
 
     expr
+}
+
+#[cfg(test)]
+mod pratt_parser_tests {
+    use std::sync::Arc;
+
+    use swc_common::{FileName, SourceMap};
+    use swc_ecma_ast::EsVersion;
+
+    use super::*;
+    use crate::{lexer::Lexer, EsSyntax, Syntax};
+
+    fn parse_expr_with_pratt(src: &str) -> PResult<Box<Expr>> {
+        let cm = Arc::new(SourceMap::default());
+        let fm = cm.new_source_file(Arc::new(FileName::Anon), src.to_string());
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsSyntax::default()),
+            EsVersion::latest(),
+            swc_common::input::StringInput::from(&*fm),
+            None,
+        );
+
+        let mut parser = Parser::new_from(lexer);
+        parser.parse_expression_with_precedence(Precedence::Conditional)
+    }
+
+    #[test]
+    fn test_basic_arithmetic() {
+        let expr = parse_expr_with_pratt("1 + 2 * 3").unwrap();
+        // Should parse as: 1 + (2 * 3)
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::Add);
+            // Right side should be 2 * 3
+            if let Expr::Bin(right_bin) = &*bin.right {
+                assert_eq!(right_bin.op, BinaryOp::Mul);
+            } else {
+                panic!("Expected binary expression for 2 * 3");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
+
+    #[test]
+    fn test_exponentiation_associativity() {
+        let expr = parse_expr_with_pratt("2 ** 3 ** 4").unwrap();
+        // Should parse as: 2 ** (3 ** 4) (right-associative)
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::Exp);
+            // Right side should be 3 ** 4
+            if let Expr::Bin(right_bin) = &*bin.right {
+                assert_eq!(right_bin.op, BinaryOp::Exp);
+            } else {
+                panic!("Expected binary expression for 3 ** 4");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
+
+    #[test]
+    fn test_complex_precedence() {
+        let expr = parse_expr_with_pratt("1 + 2 * 3 ** 4 - 5").unwrap();
+        // Should parse as: (1 + (2 * (3 ** 4))) - 5
+        // Top level should be subtraction
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::Sub);
+        } else {
+            panic!("Expected binary expression with subtraction");
+        }
+    }
+
+    #[test]
+    fn test_logical_operators() {
+        let expr = parse_expr_with_pratt("a && b || c").unwrap();
+        // Should parse as: (a && b) || c
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::LogicalOr);
+            // Left side should be a && b
+            if let Expr::Bin(left_bin) = &*bin.left {
+                assert_eq!(left_bin.op, BinaryOp::LogicalAnd);
+            } else {
+                panic!("Expected binary expression for a && b");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
+
+    #[test]
+    fn test_nullish_coalescing() {
+        let expr = parse_expr_with_pratt("a ?? b ?? c").unwrap();
+        // Should parse as: (a ?? b) ?? c (left-associative)
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::NullishCoalescing);
+            // Left side should be a ?? b
+            if let Expr::Bin(left_bin) = &*bin.left {
+                assert_eq!(left_bin.op, BinaryOp::NullishCoalescing);
+            } else {
+                panic!("Expected binary expression for a ?? b");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
+
+    #[test]
+    fn test_unary_with_binary() {
+        let expr = parse_expr_with_pratt("-a * b").unwrap();
+        // Should parse as: (-a) * b
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::Mul);
+            // Left side should be -a
+            if let Expr::Unary(unary) = &*bin.left {
+                assert_eq!(unary.op, UnaryOp::Minus);
+            } else {
+                panic!("Expected unary expression for -a");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
+
+    #[test]
+    fn test_unary_after_exponentiation() {
+        let expr = parse_expr_with_pratt("a ** !b").unwrap();
+        // Should parse as: a ** (!b) - unary on right side is valid
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::Exp);
+            // Right side should be !b
+            if let Expr::Unary(unary) = &*bin.right {
+                assert_eq!(unary.op, UnaryOp::Bang);
+            } else {
+                panic!("Expected unary expression for !b");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
+
+    #[test]
+    fn test_prefix_update_with_binary() {
+        let expr = parse_expr_with_pratt("++x * 2").unwrap();
+        // Should parse as: (++x) * 2
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::Mul);
+            // Left side should be ++x
+            if let Expr::Update(update) = &*bin.left {
+                assert_eq!(update.op, UpdateOp::PlusPlus);
+                assert!(update.prefix);
+            } else {
+                panic!("Expected update expression for ++x");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
+
+    #[test]
+    fn test_nested_unary() {
+        let expr = parse_expr_with_pratt("!-x").unwrap();
+        // Should parse as: !(-x)
+        if let Expr::Unary(outer_unary) = &*expr {
+            assert_eq!(outer_unary.op, UnaryOp::Bang);
+            // Argument should be -x
+            if let Expr::Unary(inner_unary) = &*outer_unary.arg {
+                assert_eq!(inner_unary.op, UnaryOp::Minus);
+            } else {
+                panic!("Expected unary expression for -x");
+            }
+        } else {
+            panic!("Expected unary expression");
+        }
+    }
+
+    #[test]
+    fn test_typeof_with_addition() {
+        let expr = parse_expr_with_pratt("typeof x + y").unwrap();
+        // Should parse as: (typeof x) + y
+        if let Expr::Bin(bin) = &*expr {
+            assert_eq!(bin.op, BinaryOp::Add);
+            // Left side should be typeof x
+            if let Expr::Unary(unary) = &*bin.left {
+                assert_eq!(unary.op, UnaryOp::TypeOf);
+            } else {
+                panic!("Expected unary expression for typeof x");
+            }
+        } else {
+            panic!("Expected binary expression");
+        }
+    }
 }
