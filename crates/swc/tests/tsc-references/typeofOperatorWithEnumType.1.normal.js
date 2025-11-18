@@ -1,6 +1,6 @@
 //// [typeofOperatorWithEnumType.ts]
-// typeof  operator on enum type
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
+// typeof  operator on enum type
 var ENUM = /*#__PURE__*/ function(ENUM) {
     return ENUM;
 }(ENUM || {});

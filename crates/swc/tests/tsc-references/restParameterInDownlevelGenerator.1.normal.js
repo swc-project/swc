@@ -1,6 +1,6 @@
 //// [restParameterInDownlevelGenerator.ts]
-// https://github.com/Microsoft/TypeScript/issues/30653
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+// https://github.com/Microsoft/TypeScript/issues/30653
 function mergeStringLists() {
     var _len, strings, _key, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, str;
     var _arguments = arguments;

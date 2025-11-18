@@ -1,9 +1,9 @@
 //// [asyncAwaitNestedClasses_es5.ts]
-// https://github.com/Microsoft/TypeScript/issues/20744
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var _B;
+// https://github.com/Microsoft/TypeScript/issues/20744
 var A = function A() {
     "use strict";
     _class_call_check(this, A);

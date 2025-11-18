@@ -1,6 +1,6 @@
 //// [constructorWithAssignableReturnExpression.ts]
-// a class constructor may return an expression, it must be assignable to the class instance type to be valid
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// a class constructor may return an expression, it must be assignable to the class instance type to be valid
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

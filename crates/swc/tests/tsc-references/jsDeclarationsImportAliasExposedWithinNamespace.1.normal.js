@@ -1,9 +1,5 @@
 //// [file.js]
-/**
- * @namespace myTypes
- * @global
- * @type {Object<string,*>}
- */ "use strict";
+"use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -13,7 +9,11 @@ Object.defineProperty(exports, "myTypes", {
         return myTypes;
     }
 });
-const myTypes = {
+/**
+ * @namespace myTypes
+ * @global
+ * @type {Object<string,*>}
+ */ const myTypes = {
 };
 //// [file2.js]
 "use strict";

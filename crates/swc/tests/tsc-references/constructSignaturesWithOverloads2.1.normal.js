@@ -1,7 +1,7 @@
 //// [constructSignaturesWithOverloads2.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // No errors expected for basic overloads of construct signatures with merged declarations
 // clodules
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C(x) {
     "use strict";
     _class_call_check(this, C);

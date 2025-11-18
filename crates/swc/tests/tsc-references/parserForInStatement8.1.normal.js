@@ -1,6 +1,6 @@
 //// [parserForInStatement8.ts]
-// repro from https://github.com/microsoft/TypeScript/issues/54769
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+// repro from https://github.com/microsoft/TypeScript/issues/54769
 for(var ref in {
     '': 0
 }){

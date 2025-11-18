@@ -1,6 +1,6 @@
 //// [destructuringWithLiteralInitializers.ts]
-// (arg: { x: any, y: any }) => void
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+// (arg: { x: any, y: any }) => void
 function f1(param) {
     var x = param.x, y = param.y;
 }

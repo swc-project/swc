@@ -1,4 +1,3 @@
-// Simulate accessing a .js file in a third party package that shouldn't be edited
 System.register([
     "lodash/dist/something.js"
 ], function(_export, _context) {
