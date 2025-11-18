@@ -42,13 +42,14 @@ pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
 
 const ERR: ByteHandler = |lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // Get the char representation for error messages
+        lexer.input.cur_as_char().unwrap_unchecked()
     };
 
     let start = lexer.cur_pos();
     unsafe {
-        // Safety: Byte handler is only called for non-last chracters
+        // Safety: Byte handler is only called for non-last characters
         lexer.input.bump();
     }
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
@@ -281,7 +282,7 @@ const ZER: ByteHandler = |lexer| lexer.read_token_zero();
 
 /// Numbers
 const DIG: ByteHandler = |lexer| {
-    debug_assert!(lexer.cur().is_some_and(|cur| cur != '0'));
+    debug_assert!(lexer.cur().is_some_and(|cur| cur != b'0'));
     lexer.read_number::<false, false>().map(|v| match v {
         Either::Left((value, raw)) => {
             lexer.state.set_token_value(TokenValue::Num { value, raw });
@@ -299,11 +300,12 @@ const DIG: ByteHandler = |lexer| {
 /// String literals with `'` or `"`
 const QOT: ByteHandler = |lexer| lexer.read_str_lit();
 
-/// Unicode
+/// Unicode - handles multi-byte UTF-8 sequences
 const UNI: ByteHandler = |lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // For non-ASCII bytes, we need the full char
+        lexer.input.cur_as_char().unwrap_unchecked()
     };
 
     // Identifier or keyword. '\uXXXX' sequences are allowed in
@@ -314,7 +316,7 @@ const UNI: ByteHandler = |lexer| {
 
     let start = lexer.cur_pos();
     unsafe {
-        // Safety: Byte handler is only called for non-last chracters
+        // Safety: Byte handler is only called for non-last characters
         lexer.input.bump();
     }
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?

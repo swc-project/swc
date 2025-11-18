@@ -175,18 +175,23 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(always)]
-    fn cur(&self) -> Option<char> {
+    fn cur(&self) -> Option<u8> {
         self.input().cur()
     }
 
     #[inline(always)]
-    fn peek(&self) -> Option<char> {
+    fn peek(&self) -> Option<u8> {
         self.input().peek()
     }
 
     #[inline(always)]
-    fn peek_ahead(&self) -> Option<char> {
+    fn peek_ahead(&self) -> Option<u8> {
         self.input().peek_ahead()
+    }
+
+    #[inline(always)]
+    fn cur_as_char(&self) -> Option<char> {
+        self.input().cur_as_char()
     }
 
     #[inline(always)]
