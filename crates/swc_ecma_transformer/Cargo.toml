@@ -21,6 +21,4 @@ swc_ecma_hooks = { version = "0.2.0", path = "../swc_ecma_hooks" }
 swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "20.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser  = { version = "27.0.5", path = "../swc_ecma_parser" }
-testing          = { version = "18.0.0", path = "../testing" }
+testing = { version = "18.0.0", path = "../testing" }
