@@ -1,4 +1,6 @@
 //// [intraExpressionInferencesJsx.tsx]
+/// <reference path="/.lib/react16.d.ts" />
+// repro from #52798
 var Component = function(param) {
     var animations = param.animations, style = param.style;
     return /*#__PURE__*/ React.createElement(React.Fragment, null);

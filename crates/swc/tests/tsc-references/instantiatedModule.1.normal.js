@@ -1,6 +1,6 @@
 //// [instantiatedModule.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // adding the var makes this an instantiated module
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(M) {
     M.Point = 1;
 })(M || (M = {}));

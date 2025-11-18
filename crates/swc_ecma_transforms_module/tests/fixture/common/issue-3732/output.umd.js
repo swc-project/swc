@@ -1,3 +1,4 @@
+// index.ts
 (function(global, factory) {
     if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("./get"));
     else if (typeof define === "function" && define.amd) define([

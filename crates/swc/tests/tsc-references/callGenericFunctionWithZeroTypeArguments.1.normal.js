@@ -1,6 +1,6 @@
 //// [callGenericFunctionWithZeroTypeArguments.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // valid invocations of generic functions with no explicit type arguments provided 
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function f(x) {
     return null;
 }

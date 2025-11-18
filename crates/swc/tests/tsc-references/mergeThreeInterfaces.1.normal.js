@@ -1,4 +1,6 @@
 //// [mergeThreeInterfaces.ts]
+// interfaces with the same root module should merge
+// basic case
 var a;
 var r1 = a.foo;
 var r2 = a.bar;

@@ -1,5 +1,7 @@
 ```==================== .D.TS ====================
 
+// @isolatedDeclarations: true
+// @emitDeclarationOnly: true
 export declare const foo: {
     [Symbol.toStringTag]: string;
 };

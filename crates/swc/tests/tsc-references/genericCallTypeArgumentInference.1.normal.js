@@ -1,6 +1,6 @@
 //// [genericCallTypeArgumentInference.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Basic type inference with generic calls, no errors expected
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function foo(t) {
     return t;
 }

@@ -1,7 +1,7 @@
 //// [checkJsdocTypeTagOnObjectProperty1.ts]
 //// [0.js]
-import { _ as _define_property } from "@swc/helpers/_/_define_property";
 // @ts-check
+import { _ as _define_property } from "@swc/helpers/_/_define_property";
 var lol = "hello Lol";
 var _obj;
 var obj = (_obj = {

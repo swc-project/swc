@@ -1,4 +1,5 @@
 //// [mappedTypeAsClauses.ts]
+// Mapped type 'as N' clauses
 var e1 = {
     foo: "hello"
 };

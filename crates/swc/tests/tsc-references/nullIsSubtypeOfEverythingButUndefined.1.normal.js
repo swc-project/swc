@@ -1,6 +1,6 @@
 //// [nullIsSubtypeOfEverythingButUndefined.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // null is a subtype of any other types except undefined
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var r0 = true ? null : null;
 var r0 = true ? null : null;
 var u;

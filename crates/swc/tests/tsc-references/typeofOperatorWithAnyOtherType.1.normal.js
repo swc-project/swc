@@ -1,7 +1,7 @@
 //// [typeofOperatorWithAnyOtherType.ts]
+// typeof  operator on any type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-// typeof  operator on any type
 var ANY;
 var ANY1;
 var ANY2 = [

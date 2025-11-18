@@ -1,4 +1,5 @@
 //// [objectTypesIdentityWithCallSignatures3.ts]
+// object types are identical structurally
 var a;
 function foo2(x) {}
 function foo3(x) {}

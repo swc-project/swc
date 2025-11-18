@@ -1,7 +1,7 @@
   x Module
    ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
  1 | /*#__PURE__*/ (console.log('simple'))
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :               ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
    ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]

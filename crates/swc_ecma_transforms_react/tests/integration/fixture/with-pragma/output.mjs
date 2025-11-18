@@ -1,5 +1,5 @@
-import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";
-/**@jsxRuntime automatic */ const App = /*#__PURE__*/ _jsxDEV("div", {
+/**@jsxRuntime automatic */ import { jsxDEV as _jsxDEV, Fragment as _Fragment } from "react/jsx-dev-runtime";
+const App = /*#__PURE__*/ _jsxDEV("div", {
     children: [
         /*#__PURE__*/ _jsxDEV("div", {}, void 0, false, {
             fileName: "input.js",

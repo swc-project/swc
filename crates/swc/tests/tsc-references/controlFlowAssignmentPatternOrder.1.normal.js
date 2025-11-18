@@ -1,4 +1,5 @@
 //// [controlFlowAssignmentPatternOrder.ts]
+// https://github.com/microsoft/TypeScript/pull/41094#issuecomment-716044363
 {
     let a = 0;
     let b;

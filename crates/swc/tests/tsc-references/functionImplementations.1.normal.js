@@ -1,8 +1,8 @@
 //// [functionImplementations.ts]
+// FunctionExpression with no return type annotation and no return statement returns void
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-// FunctionExpression with no return type annotation and no return statement returns void
 var v = function() {}();
 // FunctionExpression f with no return type annotation and directly references f in its body returns any
 var a = function f() {

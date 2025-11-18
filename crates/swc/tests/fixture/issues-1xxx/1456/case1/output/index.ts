@@ -1,3 +1,4 @@
+// not work
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -5,7 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const _ts_metadata = require("@swc/helpers/_/_ts_metadata");
 const _ts_param = require("@swc/helpers/_/_ts_param");
-// not work
 class MyClass1 {
     constructor(param1){
         this.param1 = param1;

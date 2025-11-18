@@ -1,7 +1,7 @@
-"use strict";
 /**
  * This is a
  * long
  * license
  * header
- */ console.log(new Error().stack);
+ */ "use strict";
+console.log(new Error().stack);
