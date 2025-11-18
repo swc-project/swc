@@ -9,7 +9,13 @@
 //! The transformer architecture consists of three main components:
 //!
 //! 1. **`TraverseCtx`**: Holds shared state and context during transformations
+//!    - Tracks ancestry stack for parent node queries
+//!    - Provides helper methods for creating AST nodes
+//!    - Manages scope depth and identifier metadata
+//!    - Offers context predicates (in_function, in_loop, etc.)
 //! 2. **`Transformer`**: Implements `VisitMut` by delegating to composed hooks
+//!    - Automatically maintains parent tracking during traversal
+//!    - Supports composing multiple transformation hooks
 //! 3. **Transform Hooks**: Individual transforms that implement
 //!    `VisitMutHook<TraverseCtx>`
 //!

@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_hooks::{CompositeHook, VisitMutHook};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
-use crate::context::TraverseCtx;
+use crate::context::{AncestorNode, TraverseCtx};
 
 /// Main transformer that coordinates multiple transformation passes.
 ///
@@ -207,15 +207,22 @@ where
 
     fn visit_mut_function(&mut self, node: &mut Function) {
         self.transformer
+            .context
+            .push_ancestor(AncestorNode::Function);
+        self.transformer
             .hook
             .enter_function(node, &mut self.transformer.context);
         node.visit_mut_children_with(self);
         self.transformer
             .hook
             .exit_function(node, &mut self.transformer.context);
+        self.transformer.context.pop_ancestor();
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
+        self.transformer
+            .context
+            .push_ancestor(AncestorNode::ArrowFunction);
         self.transformer
             .hook
             .enter_arrow_expr(node, &mut self.transformer.context);
@@ -223,9 +230,11 @@ where
         self.transformer
             .hook
             .exit_arrow_expr(node, &mut self.transformer.context);
+        self.transformer.context.pop_ancestor();
     }
 
     fn visit_mut_class(&mut self, node: &mut Class) {
+        self.transformer.context.push_ancestor(AncestorNode::Class);
         self.transformer
             .hook
             .enter_class(node, &mut self.transformer.context);
@@ -233,9 +242,11 @@ where
         self.transformer
             .hook
             .exit_class(node, &mut self.transformer.context);
+        self.transformer.context.pop_ancestor();
     }
 
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Block);
         self.transformer
             .hook
             .enter_block_stmt(node, &mut self.transformer.context);
@@ -243,6 +254,93 @@ where
         self.transformer
             .hook
             .exit_block_stmt(node, &mut self.transformer.context);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Loop);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Loop);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Loop);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Loop);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, node: &mut DoWhileStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Loop);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_try_stmt(&mut self, node: &mut TryStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Try);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_catch_clause(&mut self, node: &mut CatchClause) {
+        self.transformer.context.push_ancestor(AncestorNode::Catch);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_switch_stmt(&mut self, node: &mut SwitchStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::Switch);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::If);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_cond_expr(&mut self, node: &mut CondExpr) {
+        self.transformer
+            .context
+            .push_ancestor(AncestorNode::Conditional);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
+        self.transformer.context.push_ancestor(AncestorNode::Call);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_with_stmt(&mut self, node: &mut WithStmt) {
+        self.transformer.context.push_ancestor(AncestorNode::With);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
+        self.transformer.context.push_ancestor(AncestorNode::Method);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
+    }
+
+    fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
+        self.transformer.context.push_ancestor(AncestorNode::Method);
+        node.visit_mut_children_with(self);
+        self.transformer.context.pop_ancestor();
     }
 }
 
