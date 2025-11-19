@@ -7,9 +7,7 @@ use swc_ecma_compat_common::regexp::{self, regexp};
 
 pub use self::object_rest_spread::object_rest_spread;
 
-mod object_rest;
 pub mod object_rest_spread;
-mod object_spread;
 
 pub fn es2018(c: Config) -> impl Pass {
     (

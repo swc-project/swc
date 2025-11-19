@@ -19,7 +19,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 serde                    = { workspace = true, features = ["derive"] }
 swc_common               = { version = "17.0.1", path = "../swc_common" }
 swc_ecma_ast             = { version = "18.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transformer     = { version = "0.1.0", path = "../swc_ecma_transformer" }
+swc_ecma_transformer     = { version = "1.0.0", path = "../swc_ecma_transformer" }
 swc_ecma_transforms_base = { version = "30.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils           = { version = "24.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "18.0.1", path = "../swc_ecma_visit" }
