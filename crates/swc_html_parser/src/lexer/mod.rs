@@ -119,6 +119,9 @@ where
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: String,
     is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
+    /// The full UTF-8 character corresponding to the current byte (for
+    /// non-ASCII)
+    current_char: Option<char>,
     phantom: std::marker::PhantomData<&'a ()>,
 }
 
@@ -149,6 +152,7 @@ where
             // Do this without a new allocation.
             temporary_buffer: String::with_capacity(33),
             is_adjusted_current_node_is_element_in_html_namespace: None,
+            current_char: None,
             phantom: std::marker::PhantomData,
         };
 
@@ -275,6 +279,17 @@ where
         // input. The current input character is the last character to have been
         // consumed.
         let c = self.next();
+
+        // Store the full UTF-8 character before consuming (for helper functions)
+        if let Some(byte) = c {
+            if is_non_ascii(byte) {
+                self.current_char = self.input.cur_as_char();
+            } else {
+                self.current_char = Some(byte as char);
+            }
+        } else {
+            self.current_char = None;
+        }
 
         self.consume();
 
@@ -421,7 +436,13 @@ where
                 sub_buf.push('\n');
             }
         } else {
-            sub_buf.push(c as char);
+            let ch = if is_non_ascii(c) {
+                self.current_char.unwrap_or(c as char)
+            } else {
+                c as char
+            };
+
+            sub_buf.push(ch);
         }
     }
 
@@ -435,15 +456,30 @@ where
         let mut buf = b.borrow_mut();
 
         if let Some(name) = name {
-            buf.push(name as char);
+            let ch = if is_non_ascii(name) {
+                self.input.cur_as_char().unwrap_or(name as char)
+            } else {
+                name as char
+            };
+            buf.push(ch);
         }
 
         if let Some(public_id) = public_id {
-            buf.push(public_id as char);
+            let ch = if is_non_ascii(public_id) {
+                self.input.cur_as_char().unwrap_or(public_id as char)
+            } else {
+                public_id as char
+            };
+            buf.push(ch);
         }
 
         if let Some(system_id) = system_id {
-            buf.push(system_id as char);
+            let ch = if is_non_ascii(system_id) {
+                self.input.cur_as_char().unwrap_or(system_id as char)
+            } else {
+                system_id as char
+            };
+            buf.push(ch);
         }
     }
 
@@ -456,8 +492,14 @@ where
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
 
-        buf.push((c as char).to_ascii_lowercase());
-        sub_buf.push(c as char);
+        let ch = if is_non_ascii(c) {
+            self.current_char.unwrap_or(c as char)
+        } else {
+            c as char
+        };
+
+        buf.push(ch.to_ascii_lowercase());
+        sub_buf.push(ch);
 
         let value = self.input.uncons_while(f);
 
@@ -489,8 +531,14 @@ where
                 sub_buf.push('\n');
             }
         } else {
-            buf.push(c as char);
-            sub_buf.push(c as char);
+            let ch = if is_non_ascii(c) {
+                self.current_char.unwrap_or(c as char)
+            } else {
+                c as char
+            };
+
+            buf.push(ch);
+            sub_buf.push(ch);
         }
 
         let value = self.input.uncons_while(f);
@@ -523,8 +571,14 @@ where
                 sub_buf.push('\n');
             }
         } else {
-            buf.push(c as char);
-            sub_buf.push(c as char);
+            let ch = if is_non_ascii(c) {
+                self.current_char.unwrap_or(c as char)
+            } else {
+                c as char
+            };
+
+            buf.push(ch);
+            sub_buf.push(ch);
         }
 
         let value = self.input.uncons_while(f);
@@ -660,8 +714,14 @@ where
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
 
-        buf.push((c as char).to_ascii_lowercase());
-        sub_buf.push(c as char);
+        let ch = if is_non_ascii(c) {
+            self.current_char.unwrap_or(c as char)
+        } else {
+            c as char
+        };
+
+        buf.push(ch.to_ascii_lowercase());
+        sub_buf.push(ch);
 
         let value = self.input.uncons_while(f);
 
@@ -718,8 +778,20 @@ where
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
 
-        buf.push(c as char);
-        sub_buf.push(raw_c as char);
+        let ch = if is_non_ascii(c) {
+            self.current_char.unwrap_or(c as char)
+        } else {
+            c as char
+        };
+
+        let raw_ch = if is_non_ascii(raw_c) {
+            self.input.cur_as_char().unwrap_or(raw_c as char)
+        } else {
+            raw_c as char
+        };
+
+        buf.push(ch);
+        sub_buf.push(raw_ch);
     }
 
     fn consume_and_append_to_attribute_token_name<F>(&mut self, c: u8, f: F)
@@ -731,8 +803,14 @@ where
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
 
-        buf.push((c as char).to_ascii_lowercase());
-        sub_buf.push(c as char);
+        let ch = if is_non_ascii(c) {
+            self.current_char.unwrap_or(c as char)
+        } else {
+            c as char
+        };
+
+        buf.push(ch.to_ascii_lowercase());
+        sub_buf.push(ch);
 
         let value = self.input.uncons_while(f);
 
@@ -749,10 +827,16 @@ where
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
 
-        buf.push((c as char).to_ascii_lowercase());
-        sub_buf.push(c as char);
+        let ch = if is_non_ascii(c) {
+            self.current_char.unwrap_or(c as char)
+        } else {
+            c as char
+        };
 
-        self.temporary_buffer.push(c as char);
+        buf.push(ch.to_ascii_lowercase());
+        sub_buf.push(ch);
+
+        self.temporary_buffer.push(ch);
 
         let value = self.input.uncons_while(f);
 
@@ -857,8 +941,14 @@ where
                 sub_buf.push('\n');
             }
         } else {
-            buf.push(c as char);
-            sub_buf.push(c as char);
+            let ch = if is_non_ascii(c) {
+                self.current_char.unwrap_or(c as char)
+            } else {
+                c as char
+            };
+
+            buf.push(ch);
+            sub_buf.push(ch);
         }
 
         let value = self.input.uncons_while(f);
@@ -988,8 +1078,14 @@ where
                 sub_buf.push('\n');
             }
         } else {
-            buf.push(c as char);
-            sub_buf.push(c as char);
+            let ch = if is_non_ascii(c) {
+                self.current_char.unwrap_or(c as char)
+            } else {
+                c as char
+            };
+
+            buf.push(ch);
+            sub_buf.push(ch);
         }
 
         let value = self.input.uncons_while(f);
@@ -5013,4 +5109,9 @@ fn is_allowed_character(c: char) -> bool {
     }
 
     return true;
+}
+
+#[inline(always)]
+fn is_non_ascii(c: u8) -> bool {
+    c >= 0x80
 }
