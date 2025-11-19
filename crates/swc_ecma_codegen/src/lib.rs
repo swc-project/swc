@@ -1431,16 +1431,12 @@ impl MacroNode for Program {
 impl MacroNode for Module {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        let first_stmt_span_lo = self.body.first().map(|s| s.span().lo);
+        let should_skip_leading_comments = self
+            .body
+            .first()
+            .is_some_and(|s| s.span().lo == self.span.lo);
 
-        // If the first statement and module span are the same, then do not take the
-        // comment of the module.
-
-        let should_skip = first_stmt_span_lo
-            .map(|lo| lo == self.span.lo)
-            .unwrap_or(false);
-
-        if !should_skip {
+        if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
@@ -1470,16 +1466,12 @@ impl MacroNode for Module {
 impl MacroNode for Script {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        let first_stmt_span_lo = self.body.first().map(|s| s.span().lo);
+        let should_skip_leading_comments = self
+            .body
+            .first()
+            .is_some_and(|s| s.span().lo == self.span.lo);
 
-        // If the first statement and module span are the same, then do not take the
-        // comment of the module.
-
-        let should_skip = first_stmt_span_lo
-            .map(|lo| lo == self.span.lo)
-            .unwrap_or(false);
-
-        if !should_skip {
+        if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
