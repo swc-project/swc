@@ -3,16 +3,15 @@ use swc_ecma_ast::Pass;
 pub fn regexp(config: Config) -> impl Pass {
     let mut options = swc_ecma_transformer::Options::default();
 
-    options.env.regexp = swc_ecma_transformer::RegExpOptions {
-        dot_all_regex: config.dot_all_regex,
-        has_indices: config.has_indices,
-        lookbehind_assertion: config.lookbehind_assertion,
-        named_capturing_groups_regex: config.named_capturing_groups_regex,
-        sticky_regex: config.sticky_regex,
-        unicode_property_regex: config.unicode_property_regex,
-        unicode_regex: config.unicode_regex,
-        unicode_sets_regex: config.unicode_sets_regex,
-    };
+    let t = &mut options.env.regexp;
+    t.dot_all_regex = config.dot_all_regex;
+    t.has_indices = config.has_indices;
+    t.lookbehind_assertion = config.lookbehind_assertion;
+    t.named_capturing_groups_regex = config.named_capturing_groups_regex;
+    t.sticky_regex = config.sticky_regex;
+    t.unicode_property_regex = config.unicode_property_regex;
+    t.unicode_regex = config.unicode_regex;
+    t.unicode_sets_regex = config.unicode_sets_regex;
 
     options.into_pass()
 }

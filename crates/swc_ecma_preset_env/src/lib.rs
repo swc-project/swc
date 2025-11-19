@@ -11,7 +11,6 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transformer::RegExpOptions;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
@@ -115,18 +114,20 @@ where
         ),
     );
 
-    options.env.regexp = RegExpOptions {
-        dot_all_regex: !caniuse(Feature::DotAllRegex),
-        named_capturing_groups_regex: !caniuse(Feature::NamedCapturingGroupsRegex),
-        sticky_regex: !caniuse(Feature::StickyRegex),
-        unicode_property_regex: !caniuse(Feature::UnicodePropertyRegex),
-        unicode_regex: !caniuse(Feature::UnicodeRegex),
-        unicode_sets_regex: !caniuse(Feature::UnicodeSetsRegex),
+    {
+        let t = &mut options.env.regexp;
+
+        t.dot_all_regex = !caniuse(Feature::DotAllRegex);
+        t.named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
+        t.sticky_regex = !caniuse(Feature::StickyRegex);
+        t.unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
+        t.unicode_regex = !caniuse(Feature::UnicodeRegex);
+        t.unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
         // TODO: add Feature:HasIndicesRegex
-        has_indices: false,
+        t.has_indices = false;
         // TODO: add Feature::LookbehindAssertion
-        lookbehind_assertion: false,
-    };
+        t.lookbehind_assertion = false;
+    }
 
     // Proposals
 
