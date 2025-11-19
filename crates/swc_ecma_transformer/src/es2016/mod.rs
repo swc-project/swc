@@ -1,17 +1,19 @@
+mod exponentation_operator;
+
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::TraverseCtx;
+use crate::{hook_utils::OptionalHook, TraverseCtx};
 
 #[derive(Debug, Default)]
 #[non_exhaustive]
-pub struct Es2016Options {}
+pub struct Es2016Options {
+    pub exponentation_operator: bool,
+}
 
 pub fn hook(options: Es2016Options) -> impl VisitMutHook<TraverseCtx> {
-    Es2016Pass { options }
+    OptionalHook(if options.exponentation_operator {
+        Some(self::exponentation_operator::hook())
+    } else {
+        None
+    })
 }
-
-struct Es2016Pass {
-    options: Es2016Options,
-}
-
-impl VisitMutHook<TraverseCtx> for Es2016Pass {}
