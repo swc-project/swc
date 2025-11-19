@@ -1,3 +1,5 @@
+pub use crate::{decorators::DecoratorOptions, jsx::JsxOptions, typescript::TypescriptOptions};
+
 pub struct Options {
     pub typescript: TypescriptOptions,
     pub decorator: DecoratorOptions,

@@ -5,6 +5,7 @@ use swc_ecma_visit::visit_mut_pass;
 use crate::hook_utils::{HookBuilder, NoopHook};
 pub use crate::options::*;
 
+mod decorators;
 mod es2015;
 mod es2016;
 mod es2017;
