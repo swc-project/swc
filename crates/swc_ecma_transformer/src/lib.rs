@@ -5,8 +5,18 @@ use swc_ecma_visit::visit_mut_pass;
 use crate::hook_utils::{HookBuilder, NoopHook};
 pub use crate::options::*;
 
+mod es2015;
+mod es2016;
+mod es2017;
+mod es2018;
+mod es2019;
+mod es2021;
+mod es2022;
+mod es2026;
 mod hook_utils;
+mod jsx;
 mod options;
+mod typescript;
 
 pub struct TraverseCtx {}
 
