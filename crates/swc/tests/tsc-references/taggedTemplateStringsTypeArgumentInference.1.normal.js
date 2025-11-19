@@ -1,4 +1,5 @@
 //// [taggedTemplateStringsTypeArgumentInference.ts]
+// Generic tag with one parameter
 import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
 function _templateObject() {
     var data = _tagged_template_literal([
@@ -308,7 +309,6 @@ function _templateObject27() {
     };
     return data;
 }
-// Generic tag with one parameter
 function noParams(n) {}
 noParams(_templateObject());
 // Generic tag with parameter which does not use type parameter

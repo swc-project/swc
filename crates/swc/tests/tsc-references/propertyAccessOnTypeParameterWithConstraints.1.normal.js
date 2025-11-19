@@ -1,7 +1,7 @@
 //// [propertyAccessOnTypeParameterWithConstraints.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // generic types should behave as if they have properties of their constraint type
 // no errors expected 
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

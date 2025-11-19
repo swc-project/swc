@@ -1,6 +1,6 @@
 //// [voidOperatorWithAnyOtherType.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // void  operator on any type
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var ANY;
 var ANY1;
 var ANY2 = [

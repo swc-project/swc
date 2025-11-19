@@ -1,5 +1,4 @@
 //// [templateInsideCallback.js]
-import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 /**
  * @typedef Oops
  * @template T
@@ -13,7 +12,8 @@ import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
  */ /**
  * @template T
  * @type {Call<T>}
- */ var identity = function(x) {
+ */ import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+var identity = function(x) {
     return x;
 };
 /**

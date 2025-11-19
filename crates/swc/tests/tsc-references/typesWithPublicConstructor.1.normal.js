@@ -1,6 +1,6 @@
 //// [typesWithPublicConstructor.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // public is allowed on a constructor but is not meaningful
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

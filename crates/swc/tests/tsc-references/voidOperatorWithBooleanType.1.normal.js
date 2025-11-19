@@ -1,6 +1,6 @@
 //// [voidOperatorWithBooleanType.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // void  operator on boolean type
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var BOOLEAN;
 function foo() {
     return true;

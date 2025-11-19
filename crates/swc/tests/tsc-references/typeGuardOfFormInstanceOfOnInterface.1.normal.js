@@ -1,4 +1,9 @@
 //// [typeGuardOfFormInstanceOfOnInterface.ts]
+// A type guard of the form x instanceof C, where C is of a subtype of the global type 'Function' 
+// and C has a property named 'prototype'
+//  - when true, narrows the type of x to the type of the 'prototype' property in C provided 
+//    it is a subtype of the type of x, or
+//  - when false, has no effect on the type of x.
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 var str;
 var num;

@@ -1,6 +1,6 @@
 //// [scannertest1.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ///<reference path='References.ts' />
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var CharacterInfo = /*#__PURE__*/ function() {
     "use strict";
     function CharacterInfo() {

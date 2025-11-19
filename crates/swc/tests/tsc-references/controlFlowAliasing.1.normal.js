@@ -1,6 +1,6 @@
 //// [controlFlowAliasing.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Narrowing by aliased conditional expressions
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function f10(x) {
     var isString = typeof x === "string";
     if (isString) {

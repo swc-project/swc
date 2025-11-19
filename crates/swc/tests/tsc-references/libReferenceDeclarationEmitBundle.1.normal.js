@@ -1,4 +1,5 @@
 //// [file1.ts]
+/// <reference lib="dom" preserve="true" />
 define([
     "require",
     "exports"
@@ -9,6 +10,7 @@ define([
     });
 });
 //// [file2.ts]
+/// <reference lib="dom" preserve="true" />
 define([
     "require",
     "exports"

@@ -1,4 +1,6 @@
 //// [intersectionsAndEmptyObjects.ts]
+// Empty object type literals are removed from intersections types
+// that contain other object types
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true

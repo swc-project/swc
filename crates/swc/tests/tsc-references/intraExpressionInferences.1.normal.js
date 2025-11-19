@@ -1,4 +1,5 @@
 //// [intraExpressionInferences.ts]
+// Repros from #47599
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 callIt({

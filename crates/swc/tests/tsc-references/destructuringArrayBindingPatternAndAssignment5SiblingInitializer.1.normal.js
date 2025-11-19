@@ -1,6 +1,6 @@
 //// [destructuringArrayBindingPatternAndAssignment5SiblingInitializer.ts]
-import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 // To be inferred as `number`
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 function f1() {
     var _ref = [
         1

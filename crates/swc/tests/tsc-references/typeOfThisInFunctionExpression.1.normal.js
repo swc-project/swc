@@ -1,6 +1,6 @@
 //// [typeOfThisInFunctionExpression.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // type of 'this' in FunctionExpression is Any
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function fn() {
     var p = this;
     var p;

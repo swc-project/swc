@@ -1,4 +1,5 @@
 //// [assignmentCompatWithStringIndexer3.ts]
+// Derived type indexer must be subtype of base type indexer
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var a;
 var b1;

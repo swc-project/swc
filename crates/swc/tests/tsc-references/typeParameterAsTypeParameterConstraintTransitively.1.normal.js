@@ -1,4 +1,6 @@
 //// [typeParameterAsTypeParameterConstraintTransitively.ts]
+// using a type parameter as a constraint for a type parameter is valid
+// no errors expected
 var a;
 var b;
 var c;

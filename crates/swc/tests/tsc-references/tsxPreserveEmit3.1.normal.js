@@ -28,6 +28,7 @@ define([
     var React;
 });
 //// [react-consumer.tsx]
+// This import should be elided
 define([
     "require",
     "exports",
