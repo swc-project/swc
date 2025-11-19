@@ -32,7 +32,7 @@ where
         Self { hook }
     }
 
-    pub fn chain<B>(self, hook: B) -> HookBuilder<CompositeHook<H, B>>
+    pub fn chain<B>(self, hook: B) -> HookBuilder<impl VisitMutHook<TraverseCtx>>
     where
         B: VisitMutHook<TraverseCtx>,
     {
@@ -42,6 +42,13 @@ where
                 second: hook,
             },
         }
+    }
+
+    pub fn chain_optional<B>(self, hook: Option<B>) -> HookBuilder<impl VisitMutHook<TraverseCtx>>
+    where
+        B: VisitMutHook<TraverseCtx>,
+    {
+        self.chain(OptionalHook(hook))
     }
 
     pub fn build(self) -> impl VisitMutHook<TraverseCtx> {
