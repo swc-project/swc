@@ -1431,10 +1431,7 @@ impl MacroNode for Program {
 impl MacroNode for Module {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        let should_skip_leading_comments = self
-            .body
-            .first()
-            .is_some_and(|s| s.span().lo == self.span.lo);
+        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
 
         if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
@@ -1466,10 +1463,7 @@ impl MacroNode for Module {
 impl MacroNode for Script {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        let should_skip_leading_comments = self
-            .body
-            .first()
-            .is_some_and(|s| s.span().lo == self.span.lo);
+        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
 
         if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
