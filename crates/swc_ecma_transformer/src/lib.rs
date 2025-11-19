@@ -1,12 +1,20 @@
 use swc_ecma_ast::*;
-use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+use swc_ecma_hooks::{CompositeHook, VisitMutHook, VisitMutWithHook};
 use swc_ecma_visit::visit_mut_pass;
 
 pub struct TraverseCtx {}
 
 pub struct Options {}
 
-pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {}
+pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
+    let builder = HookBuilder::new(NoopHook);
+
+    builder.build()
+}
+
+struct NoopHook;
+
+impl VisitMutHook<TraverseCtx> for NoopHook {}
 
 pub struct HookBuilder<H>
 where
@@ -21,6 +29,18 @@ where
 {
     pub fn new(hook: H) -> Self {
         Self { hook }
+    }
+
+    pub fn chain<B>(self, hook: B) -> HookBuilder<CompositeHook<H, B>>
+    where
+        B: VisitMutHook<TraverseCtx>,
+    {
+        HookBuilder {
+            hook: CompositeHook {
+                first: self.hook,
+                second: hook,
+            },
+        }
     }
 
     pub fn build(self) -> impl VisitMutHook<TraverseCtx> {
