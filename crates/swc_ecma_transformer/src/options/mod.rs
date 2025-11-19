@@ -6,6 +6,7 @@ pub use crate::{
 };
 
 #[derive(Debug, Default)]
+#[non_exhaustive]
 pub struct Options {
     pub typescript: Option<TypescriptOptions>,
     pub decorator: Option<DecoratorOptions>,
@@ -15,6 +16,7 @@ pub struct Options {
 }
 
 #[derive(Debug, Default)]
+#[non_exhaustive]
 pub struct EnvOptions {
     pub es2026: Es2026Options,
     pub es2022: Es2022Options,
