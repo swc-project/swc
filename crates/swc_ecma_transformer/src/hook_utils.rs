@@ -1,0 +1,47 @@
+use swc_ecma_hooks::{CompositeHook, VisitMutHook};
+
+use crate::TraverseCtx;
+
+pub(crate) struct OptionalHook<H>
+where
+    H: VisitMutHook<TraverseCtx>,
+{
+    pub hook: H,
+    pub enabled: bool,
+}
+
+pub(crate) struct NoopHook;
+
+impl VisitMutHook<TraverseCtx> for NoopHook {}
+
+pub(crate) struct HookBuilder<H>
+where
+    H: VisitMutHook<TraverseCtx>,
+{
+    hook: H,
+}
+
+impl<H> HookBuilder<H>
+where
+    H: VisitMutHook<TraverseCtx>,
+{
+    pub fn new(hook: H) -> Self {
+        Self { hook }
+    }
+
+    pub fn chain<B>(self, hook: B) -> HookBuilder<CompositeHook<H, B>>
+    where
+        B: VisitMutHook<TraverseCtx>,
+    {
+        HookBuilder {
+            hook: CompositeHook {
+                first: self.hook,
+                second: hook,
+            },
+        }
+    }
+
+    pub fn build(self) -> impl VisitMutHook<TraverseCtx> {
+        self.hook
+    }
+}
