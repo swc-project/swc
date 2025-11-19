@@ -23,6 +23,7 @@ mod jsx;
 mod options;
 mod regexp;
 mod typescript;
+mod utils;
 
 pub struct TraverseCtx {}
 
