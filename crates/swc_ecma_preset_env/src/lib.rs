@@ -51,6 +51,8 @@ where
 {
     let pass = noop_pass();
     let mut options = swc_ecma_transformer::Options::default();
+    options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+    options.assumptions = assumptions;
 
     macro_rules! add {
         ($prev:expr, $feature:ident, $pass:expr) => {{
@@ -197,16 +199,9 @@ where
     );
 
     // ES2017
-    let pass = add!(
-        pass,
-        AsyncToGenerator,
-        es2017::async_to_generator(
-            es2017::async_to_generator::Config {
-                ignore_function_length: loose || assumptions.ignore_function_length,
-            },
-            unresolved_mark
-        )
-    );
+    if !caniuse(Feature::AsyncToGenerator) {
+        options.env.es2017.async_to_generator = true;
+    }
 
     // ES2016
     if !caniuse(Feature::ExponentiationOperator) {
