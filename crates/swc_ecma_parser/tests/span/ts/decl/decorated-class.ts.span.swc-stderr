@@ -1,7 +1,7 @@
   x Module
-    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:1:1]
-  1 | ,-> 
-  2 | |   @Controller(COMMENT_CONTROLLER_ROUTE)
+    ,-[$DIR/tests/span/ts/decl/decorated-class.ts:2:1]
+  1 |     
+  2 | ,-> @Controller(COMMENT_CONTROLLER_ROUTE)
   3 | |   @UseInterceptors(MongooseClassSerializerInterceptor(Comment))
   4 | |   export class CommentController {
   5 | |       constructor(private commentService: CommentService) { }

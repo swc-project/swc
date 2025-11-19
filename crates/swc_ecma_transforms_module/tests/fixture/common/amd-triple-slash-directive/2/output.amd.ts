@@ -1,4 +1,4 @@
-define([
+define("SecondModuleName", [
     "require"
 ], function(require) {
     "use strict";

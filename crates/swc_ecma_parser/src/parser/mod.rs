@@ -142,7 +142,7 @@ impl<I: Tokens> Parser<I> {
         let ctx = (self.ctx() & !Context::Module) | Context::TopLevel;
         self.set_ctx(ctx);
 
-        let start = self.input.start;
+        let start = self.cur_pos();
 
         let shebang = self.parse_shebang()?;
 
@@ -167,7 +167,7 @@ impl<I: Tokens> Parser<I> {
             | Context::InsideNonArrowFunctionScope;
         self.set_ctx(ctx);
 
-        let start = self.input.start;
+        let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
         let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
@@ -215,7 +215,7 @@ impl<I: Tokens> Parser<I> {
     /// Note: This is not perfect yet. It means, some strict mode violations may
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
-        let start = self.input.start;
+        let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
         let body: Vec<ModuleItem> = self
@@ -274,7 +274,7 @@ impl<I: Tokens> Parser<I> {
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
-        let start = self.input.start;
+        let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
 
         let ret = self

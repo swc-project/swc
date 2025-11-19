@@ -1,16 +1,9 @@
   x Module
-    ,-[$DIR/tests/comments/issue-4876/input.js:1:1]
-  1 | ,-> /*!
-  2 | |   
-  3 | |    something v5.1.0
-  4 | |   
-  5 | |   more
-  6 | |   
-  7 | |   else
-  8 | |   */
-  9 | |   // a
- 10 | `-> console.log(1);
- 11 |     // b
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^^^^^
+ 11 | // b
     `----
   x ModuleItem
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]

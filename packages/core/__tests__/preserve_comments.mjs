@@ -8,14 +8,14 @@ describe("Should preserve comments", () => {
     it("Should preserve comments preceding types", async () => {
         const input = `/*comment*/ type X = number; const x: X = 1`;
         const result = swc.transformSync(input, {
-            jsc: {
-                parser: {
-                    syntax: "typescript",
+            "jsc": {
+                "parser": {
+                    "syntax": "typescript",
                 },
-                preserveAllComments: true,
-            },
+                "preserveAllComments": true
+            }
         });
-        expect(result.code).toBe("/*comment*/ var x = 1;\n");
+        expect(result.code).toBe('/*comment*/ var x = 1;\n');
     });
 
     it("Should preserve comments preceding shifted functions", () => {
@@ -25,8 +25,8 @@ describe("Should preserve comments", () => {
 
         const { code } = swc.transformFileSync(filename);
 
-        expect(code).toContain("/* input 1 comment 1 */ var tail");
-        expect(code).toContain(`// input 1 comment 2\nvar saysHello =`);
+        expect(code).toContain("/* input 1 comment 1 */ var tail")
+        expect(code).toContain(`// input 1 comment 2\nvar saysHello =`)
     });
 
     it("Should not share comments between modules", () => {
@@ -46,6 +46,6 @@ describe("Should preserve comments", () => {
         expect(result1.code).not.toMatch("input 2");
 
         expect(result2.code).toMatch("input 2");
-        expect(result2.code).not.toMatch("input 1");
+        expect(result2.code).not.toMatch("input 1")
     });
-});
+})
