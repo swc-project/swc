@@ -1,4 +1,4 @@
-define("NamedModule", [
+define([
     "require"
 ], function(require) {
     "use strict";

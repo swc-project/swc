@@ -1,4 +1,5 @@
 //// [libReferenceNoLib.ts]
+// Test that passing noLib disables <reference lib> resolution.
 "use strict";
 //// [fakelib.ts]
 "use strict";

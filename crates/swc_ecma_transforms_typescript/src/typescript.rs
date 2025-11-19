@@ -228,12 +228,9 @@ where
         }
 
         if !self.config.verbatim_module_syntax {
-            let span = if n.shebang.is_some() {
-                n.span
-                    .with_lo(n.body.first().map(|s| s.span_lo()).unwrap_or(n.span.lo))
-            } else {
-                n.span
-            };
+            let span = n
+                .span
+                .with_lo(n.body.first().map(|s| s.span_lo()).unwrap_or(n.span.lo));
 
             let JsxDirectives {
                 pragma,
