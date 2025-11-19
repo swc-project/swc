@@ -2,7 +2,7 @@ use swc_ecma_ast::*;
 use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_visit::visit_mut_pass;
 
-use crate::hook_utils::{HookBuilder, NoopHook};
+use crate::hook_utils::{HookBuilder, NoopHook, OptionalHook};
 pub use crate::options::*;
 
 mod bugfix;
@@ -25,18 +25,11 @@ mod typescript;
 pub struct TraverseCtx {}
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
-    let builder = HookBuilder::new(NoopHook);
+    let hook = HookBuilder::new(NoopHook);
 
-    macro_rules! add {
-        ($cond:expr, $hook:expr) => {
-            let builder = builder.chain(OptionalHook {
-                enabled: $cond,
-                hook: $hook,
-            });
-        };
-    }
+    let hook = hook.chain(OptionalHook(crate::regexp::hook(options.env.regexp)));
 
-    builder.build()
+    hook.build()
 }
 
 pub fn hook_pass<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
