@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use swc_ecma_ast::*;
 use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_visit::visit_mut_pass;
@@ -41,7 +43,7 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain(crate::es2016::hook(options.env.es2016));
     let hook = hook.chain(crate::es2015::hook(options.env.es2015));
     let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
-    let hook = hook.chain_optional(crate::bugfix::hook(options.env.bugfix));
+    let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
 
     hook.build()
 }
