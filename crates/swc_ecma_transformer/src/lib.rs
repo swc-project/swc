@@ -4,6 +4,10 @@ use swc_ecma_visit::visit_mut_pass;
 
 pub struct TraverseCtx {}
 
+pub struct Options {}
+
+pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {}
+
 pub struct HookBuilder<H>
 where
     H: VisitMutHook<TraverseCtx>,
@@ -24,7 +28,7 @@ where
     }
 }
 
-pub fn transform_pass<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
+pub fn hook_pass<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
     let ctx = TraverseCtx {};
 
     visit_mut_pass(VisitMutWithHook { hook, context: ctx })
