@@ -156,8 +156,10 @@ where
         pass,
         /* ES2022 */ | PrivatePropertyInObject
         /* ES2021 */ | LogicalAssignmentOperators
-        /* ES2020 */ | ExportNamespaceFrom
     );
+    if !caniuse(Feature::ExportNamespaceFrom) {
+        options.env.es2020.export_namespace_from = true;
+    }
 
     // ES2020
     let pass = add!(
@@ -208,6 +210,9 @@ where
 
     // ES2016
     let pass = add!(pass, ExponentiationOperator, es2016::exponentiation());
+
+    // Single-pass compiler
+    let pass = (pass, options.into_pass());
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
@@ -325,13 +330,11 @@ where
         bugfixes::template_literal_caching()
     );
 
-    let pass = add!(
+    add!(
         pass,
         BugfixSafariIdDestructuringCollisionInFunctionExpression,
         bugfixes::safari_id_destructuring_collision_in_function_expression()
-    );
-
-    (pass, options.into_pass())
+    )
 }
 
 pub fn transform_from_env<C>(
