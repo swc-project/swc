@@ -183,7 +183,9 @@ where
     );
 
     // ES2019
-    let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
+    if !caniuse(Feature::OptionalCatchBinding) {
+        options.env.es2019.optional_catch_binding = true;
+    }
 
     // ES2018
     let pass = add!(
