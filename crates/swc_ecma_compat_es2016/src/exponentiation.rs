@@ -21,7 +21,7 @@ use swc_ecma_ast::*;
 /// ```
 pub fn exponentiation() -> impl Pass {
     let mut options = swc_ecma_transformer::Options::default();
-    options.env.es2016.exponentation_operator = true;
+    options.env.es2016.exponentiation_operator = true;
     options.into_pass()
 }
 

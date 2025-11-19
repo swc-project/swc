@@ -210,7 +210,7 @@ where
 
     // ES2016
     if !caniuse(Feature::ExponentiationOperator) {
-        options.env.es2016.exponentation_operator = true;
+        options.env.es2016.exponentiation_operator = true;
     }
 
     // Single-pass compiler
