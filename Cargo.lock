@@ -6326,6 +6326,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_transformer"
+version = "0.1.0"
+dependencies = [
+ "swc_ecma_ast",
+ "swc_ecma_hooks",
+ "swc_ecma_transforms_base",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "tracing",
+]
+
+[[package]]
 name = "swc_ecma_transforms"
 version = "38.0.0"
 dependencies = [

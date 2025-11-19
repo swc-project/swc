@@ -1,0 +1,16 @@
+use swc_ecma_hooks::VisitMutHook;
+
+use crate::TraverseCtx;
+
+#[derive(Debug, Default)]
+pub struct Es2021Options {}
+
+pub fn hook(options: Es2021Options) -> impl VisitMutHook<TraverseCtx> {
+    Es2021Pass { options }
+}
+
+struct Es2021Pass {
+    options: Es2021Options,
+}
+
+impl VisitMutHook<TraverseCtx> for Es2021Pass {}
