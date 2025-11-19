@@ -1,6 +1,6 @@
 //// [callSignaturesWithOptionalParameters.ts]
-// Optional parameters should be valid in all the below casts
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// Optional parameters should be valid in all the below casts
 function foo(x) {}
 var f = function foo(x) {};
 var f2 = function(x, y) {};

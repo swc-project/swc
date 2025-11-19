@@ -1,6 +1,6 @@
 //// [ES5For-ofTypeCheck10.ts]
-// In ES3/5, you cannot for...of over an arbitrary iterable.
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// In ES3/5, you cannot for...of over an arbitrary iterable.
 var StringIterator = /*#__PURE__*/ function() {
     "use strict";
     function StringIterator() {

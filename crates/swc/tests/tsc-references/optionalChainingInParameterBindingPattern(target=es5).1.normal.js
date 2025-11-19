@@ -1,6 +1,6 @@
 //// [optionalChainingInParameterBindingPattern.ts]
-// https://github.com/microsoft/TypeScript/issues/36295
 var _a;
+// https://github.com/microsoft/TypeScript/issues/36295
 var a = function() {
     return undefined;
 };

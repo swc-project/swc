@@ -1,7 +1,7 @@
 //// [genericClassWithFunctionTypedMemberArguments.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Generic functions used as arguments for function typed parameters are not used to make inferences from
 // Using function arguments, no errors expected
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(ImmediatelyFix) {
     var C = /*#__PURE__*/ function() {
         "use strict";

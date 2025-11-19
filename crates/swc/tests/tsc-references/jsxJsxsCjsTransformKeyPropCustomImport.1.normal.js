@@ -1,11 +1,11 @@
 //// [jsxJsxsCjsTransformKeyPropCustomImport.tsx]
-/// <reference path="/.lib/react16.d.ts" />
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _object_spread = require("@swc/helpers/_/_object_spread");
 var _object_spread_props = require("@swc/helpers/_/_object_spread_props");
+/// <reference path="/.lib/react16.d.ts" />
 var props = {
     answer: 42
 };
