@@ -5880,6 +5880,7 @@ version = "24.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_transformer",
  "swc_ecma_utils",
  "swc_ecma_visit",
 ]
