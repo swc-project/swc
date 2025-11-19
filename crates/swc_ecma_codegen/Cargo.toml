@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_codegen"
 repository    = { workspace = true }
-version       = "20.0.0"
+version       = "20.0.1"
 
 [features]
 # This does not enable serde for ast nodes.
@@ -49,7 +49,7 @@ swc_allocator = { version = "4.0.1", path = "../swc_allocator" }
 swc_common = { version = "17.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "27.0.5", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "27.0.6", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "18.0.0", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "18.0.0", path = "../testing" }

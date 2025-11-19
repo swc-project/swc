@@ -41,7 +41,7 @@ tracing     = { workspace = true }
 swc_atoms       = { version = "9.0.0", path = "../swc_atoms" }
 swc_common      = { version = "17.0.1", path = "../swc_common" }
 swc_ecma_ast    = { version = "18.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "27.0.5", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "27.0.6", path = "../swc_ecma_parser" }
 swc_ecma_visit  = { version = "18.0.1", path = "../swc_ecma_visit", optional = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]

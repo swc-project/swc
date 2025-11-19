@@ -5555,7 +5555,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "47.0.8"
+version = "47.0.9"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5820,7 +5820,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "20.0.0"
+version = "20.0.1"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -6181,7 +6181,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "27.0.5"
+version = "27.0.6"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",

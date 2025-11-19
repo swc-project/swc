@@ -42,13 +42,13 @@ swc_css_codegen = { version = "17.0.0", path = "../swc_css_codegen", optional = 
 swc_css_minifier = { version = "17.0.0", path = "../swc_css_minifier", optional = true }
 swc_css_parser = { version = "17.0.0", path = "../swc_css_parser", optional = true }
 swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "20.0.0", path = "../swc_ecma_codegen", features = [
+swc_ecma_codegen = { version = "20.0.1", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
 swc_ecma_minifier = { version = "36.0.3", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "27.0.5", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "27.0.6", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
