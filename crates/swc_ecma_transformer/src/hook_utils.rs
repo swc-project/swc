@@ -2,12 +2,15 @@ use swc_ecma_hooks::{CompositeHook, VisitMutHook};
 
 use crate::TraverseCtx;
 
-pub(crate) struct OptionalHook<H>
+pub(crate) struct OptionalHook<H>(pub Option<H>)
+where
+    H: VisitMutHook<TraverseCtx>;
+
+impl<H> VisitMutHook<TraverseCtx> for OptionalHook<H>
 where
     H: VisitMutHook<TraverseCtx>,
 {
-    pub hook: H,
-    pub enabled: bool,
+    // TODO: Implement lots of hooks, or move it to `swc_ecma_hooks`
 }
 
 pub(crate) struct NoopHook;
