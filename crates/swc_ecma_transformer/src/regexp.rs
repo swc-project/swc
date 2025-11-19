@@ -4,6 +4,7 @@ use crate::TraverseCtx;
 
 /// If true, the syntax will be transformed.
 #[derive(Debug, Default)]
+#[non_exhaustive]
 pub struct RegExpOptions {
     /// [s/dotAll flag for regular expressions](https://tc39.github.io/proposal-regexp-dotall-flag/)
     pub dot_all_regex: bool,
