@@ -11,13 +11,13 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transformer::RegExpOptions;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
         es2016, es2017, es2018, es2019, es2020, es2022, es3,
-        regexp::{self, regexp},
     },
     Assumptions,
 };
@@ -51,6 +51,7 @@ where
     C: Comments + Clone,
 {
     let pass = noop_pass();
+    let mut options = swc_ecma_transformer::Options::default();
 
     macro_rules! add {
         ($prev:expr, $feature:ident, $pass:expr) => {{
@@ -114,38 +115,17 @@ where
         ),
     );
 
-    let pass = {
-        let enable_dot_all_regex = !caniuse(Feature::DotAllRegex);
-        let enable_named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
-        let enable_sticky_regex = !caniuse(Feature::StickyRegex);
-        let enable_unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
-        let enable_unicode_regex = !caniuse(Feature::UnicodeRegex);
-        let enable_unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
-
-        let enable = enable_dot_all_regex
-            || enable_named_capturing_groups_regex
-            || enable_sticky_regex
-            || enable_unicode_property_regex
-            || enable_unicode_regex;
-
-        (
-            pass,
-            Optional::new(
-                regexp(regexp::Config {
-                    dot_all_regex: enable_dot_all_regex,
-                    // TODO: add Feature:HasIndicesRegex
-                    has_indices: false,
-                    // TODO: add Feature::LookbehindAssertion
-                    lookbehind_assertion: false,
-                    named_capturing_groups_regex: enable_named_capturing_groups_regex,
-                    sticky_regex: enable_sticky_regex,
-                    unicode_property_regex: enable_unicode_property_regex,
-                    unicode_regex: enable_unicode_regex,
-                    unicode_sets_regex: enable_unicode_sets_regex,
-                }),
-                enable,
-            ),
-        )
+    options.env.regexp = RegExpOptions {
+        dot_all_regex: !caniuse(Feature::DotAllRegex),
+        named_capturing_groups_regex: !caniuse(Feature::NamedCapturingGroupsRegex),
+        sticky_regex: !caniuse(Feature::StickyRegex),
+        unicode_property_regex: !caniuse(Feature::UnicodePropertyRegex),
+        unicode_regex: !caniuse(Feature::UnicodeRegex),
+        unicode_sets_regex: !caniuse(Feature::UnicodeSetsRegex),
+        // TODO: add Feature:HasIndicesRegex
+        has_indices: false,
+        // TODO: add Feature::LookbehindAssertion
+        lookbehind_assertion: false,
     };
 
     // Proposals
@@ -344,11 +324,13 @@ where
         bugfixes::template_literal_caching()
     );
 
-    add!(
+    let pass = add!(
         pass,
         BugfixSafariIdDestructuringCollisionInFunctionExpression,
         bugfixes::safari_id_destructuring_collision_in_function_expression()
-    )
+    );
+
+    (pass, options.into_pass())
 }
 
 pub fn transform_from_env<C>(
