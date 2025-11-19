@@ -11,7 +11,7 @@ pub fn regexp(config: Config) -> impl Pass {
         sticky_regex: config.sticky_regex,
         unicode_property_regex: config.unicode_property_regex,
         unicode_regex: config.unicode_regex,
-        unicode_sets_regex: config.unicode_regex,
+        unicode_sets_regex: config.unicode_sets_regex,
     };
 
     options.into_pass()
