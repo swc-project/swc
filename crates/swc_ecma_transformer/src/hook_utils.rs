@@ -1,3 +1,4 @@
+use swc_ecma_ast::*;
 use swc_ecma_hooks::{CompositeHook, VisitMutHook};
 
 use crate::TraverseCtx;
@@ -6,11 +7,41 @@ pub(crate) struct OptionalHook<H>(pub Option<H>)
 where
     H: VisitMutHook<TraverseCtx>;
 
+macro_rules! optional_method {
+    ($enter_name:ident, $exit_name:ident, $T:ty) => {
+        fn $enter_name(&mut self, node: &mut $T, ctx: &mut TraverseCtx) {
+            if let Some(hook) = &mut self.0 {
+                hook.$enter_name(node, ctx);
+            }
+        }
+
+        fn $exit_name(&mut self, node: &mut $T, ctx: &mut TraverseCtx) {
+            if let Some(hook) = &mut self.0 {
+                hook.$exit_name(node, ctx);
+            }
+        }
+    };
+}
+
 impl<H> VisitMutHook<TraverseCtx> for OptionalHook<H>
 where
     H: VisitMutHook<TraverseCtx>,
 {
     // TODO: Implement lots of hooks, or move it to `swc_ecma_hooks`
+
+    optional_method!(enter_expr, exit_expr, Expr);
+
+    optional_method!(enter_pat, exit_pat, Pat);
+
+    optional_method!(enter_stmt, exit_stmt, Stmt);
+
+    optional_method!(enter_module_item, exit_module_item, ModuleItem);
+
+    optional_method!(enter_module, exit_module, Module);
+
+    optional_method!(enter_script, exit_script, Script);
+
+    optional_method!(enter_program, exit_program, Program);
 }
 
 pub(crate) struct NoopHook;
