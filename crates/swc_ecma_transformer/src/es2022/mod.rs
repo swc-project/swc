@@ -2,7 +2,8 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::TraverseCtx;
 
-#[derive(Debug, Default)]#[non_exhaustive]
+#[derive(Debug, Default)]
+#[non_exhaustive]
 pub struct Es2022Options {}
 
 pub fn hook(options: Es2022Options) -> impl VisitMutHook<TraverseCtx> {

@@ -5,7 +5,8 @@ pub use crate::{
     jsx::JsxOptions, regexp::RegExpOptions, typescript::TypescriptOptions,
 };
 
-#[derive(Debug, Default)]#[non_exhaustive]
+#[derive(Debug, Default)]
+#[non_exhaustive]
 pub struct Options {
     pub typescript: Option<TypescriptOptions>,
     pub decorator: Option<DecoratorOptions>,
@@ -14,7 +15,8 @@ pub struct Options {
     pub env: EnvOptions,
 }
 
-#[derive(Debug, Default)]#[non_exhaustive]
+#[derive(Debug, Default)]
+#[non_exhaustive]
 pub struct EnvOptions {
     pub es2026: Es2026Options,
     pub es2022: Es2022Options,
