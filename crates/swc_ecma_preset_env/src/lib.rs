@@ -156,8 +156,10 @@ where
         pass,
         /* ES2022 */ | PrivatePropertyInObject
         /* ES2021 */ | LogicalAssignmentOperators
-        /* ES2020 */ | ExportNamespaceFrom
     );
+    if !caniuse(Feature::ExportNamespaceFrom) {
+        options.env.es2020.export_namespace_from = true;
+    }
 
     // ES2020
     let pass = add!(

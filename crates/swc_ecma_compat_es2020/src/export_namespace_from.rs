@@ -1,9 +1,7 @@
 use swc_ecma_ast::Pass;
-use swc_ecma_compiler::{Compiler, Features};
 
 pub fn export_namespace_from() -> impl Pass {
-    Compiler::new(swc_ecma_compiler::Config {
-        includes: Features::EXPORT_NAMESPACE_FROM,
-        ..Default::default()
-    })
+    let mut options = swc_ecma_transformer::Options::default();
+    options.env.es2020.export_namespace_from = true;
+    options.into_pass()
 }
