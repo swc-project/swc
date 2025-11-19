@@ -1,4 +1,7 @@
+use swc_common::util::take::Take;
+use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_utils::{quote_ident, ExprFactory};
 
 use crate::TraverseCtx;
 
@@ -44,4 +47,38 @@ struct RegexpPass {
     options: RegExpOptions,
 }
 
-impl VisitMutHook<TraverseCtx> for RegexpPass {}
+impl VisitMutHook<TraverseCtx> for RegexpPass {
+    fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
+        if let Expr::Lit(Lit::Regex(regex)) = expr {
+            if (self.options.dot_all_regex && regex.flags.contains('s'))
+                || (self.options.sticky_regex && regex.flags.contains('y'))
+                || (self.options.unicode_regex && regex.flags.contains('u'))
+                || (self.options.unicode_sets_regex && regex.flags.contains('v'))
+                || (self.options.has_indices && regex.flags.contains('d'))
+                || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
+                || (self.options.lookbehind_assertion && regex.exp.contains("(?<=")
+                    || regex.exp.contains("(?<!"))
+                || (self.options.unicode_property_regex
+                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")))
+            {
+                let Regex { exp, flags, span } = regex.take();
+
+                let exp: Expr = exp.into();
+                let mut args = vec![exp.into()];
+
+                if !flags.is_empty() {
+                    let flags: Expr = flags.into();
+                    args.push(flags.into());
+                }
+
+                *expr = CallExpr {
+                    span,
+                    callee: quote_ident!("RegExp").as_callee(),
+                    args,
+                    ..Default::default()
+                }
+                .into()
+            }
+        }
+    }
+}
