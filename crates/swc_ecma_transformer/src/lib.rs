@@ -2,7 +2,7 @@ use swc_ecma_ast::*;
 use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_visit::visit_mut_pass;
 
-use crate::hook_utils::{HookBuilder, NoopHook, OptionalHook};
+use crate::hook_utils::{HookBuilder, NoopHook};
 pub use crate::options::*;
 
 mod bugfix;
