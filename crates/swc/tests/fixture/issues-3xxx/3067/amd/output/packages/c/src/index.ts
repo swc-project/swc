@@ -1,3 +1,4 @@
+// Simulate accessing a .js file in a third party package that shouldn't be edited
 define([
     "require",
     "exports",

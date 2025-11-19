@@ -11,6 +11,7 @@ define([
     "use strict";
 });
 //// [test.tsx]
+// Should emit 'react-router' in the AMD dependency list
 define([
     "require",
     "exports",

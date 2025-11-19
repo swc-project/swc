@@ -1,6 +1,8 @@
 ```==================== .D.TS ====================
 
-declare class StripInternalClassFields {
+/*
+@internal
+*/ declare class StripInternalClassFields {
 }
 export { stripInternalFunction, StripInternalClass, StripInternalClassFields };
 export interface StripInternalInterfaceSignatures {

@@ -21,6 +21,7 @@
     }
 });
 //// [1.ts]
+// https://github.com/microsoft/TypeScript/issues/36780
 (function(global, factory) {
     if (typeof module === "object" && typeof module.exports === "object") factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_wildcard"));
     else if (typeof define === "function" && define.amd) define([
@@ -34,7 +35,6 @@
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    // https://github.com/microsoft/TypeScript/issues/36780
     function func() {
         return _async_to_generator._(function*() {
             const packageName = '.';

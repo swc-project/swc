@@ -1,8 +1,8 @@
+// input.ts
 define([
     "require",
     "exports"
 ], function(require, exports) {
-    // input.ts
     "use client";
     "use strict";
     Object.defineProperty(exports, "__esModule", {

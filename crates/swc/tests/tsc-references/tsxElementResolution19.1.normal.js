@@ -32,6 +32,7 @@ define([
     };
 });
 //// [file2.tsx]
+// Should not elide React import
 define([
     "require",
     "exports",

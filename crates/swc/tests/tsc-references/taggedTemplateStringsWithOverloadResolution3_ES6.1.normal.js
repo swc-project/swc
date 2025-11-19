@@ -1,4 +1,5 @@
 //// [taggedTemplateStringsWithOverloadResolution3_ES6.ts]
+// Ambiguous call picks the first overload in declaration order
 function fn1() {
     return null;
 }

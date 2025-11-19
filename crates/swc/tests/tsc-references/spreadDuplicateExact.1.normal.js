@@ -1,4 +1,5 @@
 //// [spreadDuplicateExact.ts]
+// Repro from #44438
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 var a1 = _object_spread({
     a: 123

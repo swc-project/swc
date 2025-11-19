@@ -11,6 +11,7 @@ export default Cls; /**
  * @typedef {string | number} default
  */ 
 //// [index2.js]
+// merge type alias and class (error message improvement needed, see #32368)
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C() {
     "use strict";

@@ -1,4 +1,5 @@
 //// [stringMappingOverPatternLiterals.ts]
+// non-template
 function f1(a, b, c, a_template, b_template, c_template) {
     // non-template versions should be assignable to templated versions (empty string matches string)
     a_template = a;

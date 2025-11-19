@@ -1,4 +1,5 @@
 //// [typeArgumentInferenceConstructSignatures.ts]
+// Generic call with no parameters
 var noParams;
 new noParams();
 new noParams();

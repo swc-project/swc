@@ -18,7 +18,8 @@ var b = /*#__PURE__*/ (0, _preact.createElement)("div", _object_spread_props._(_
     key: "bar"
 }), "text");
 //// [react.tsx]
-"use strict";
+/// <reference path="/.lib/react16.d.ts" />
+/* @jsxImportSource react */ "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

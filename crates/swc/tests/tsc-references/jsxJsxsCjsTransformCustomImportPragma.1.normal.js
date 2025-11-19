@@ -15,7 +15,8 @@ var _jsxruntime = require("preact/jsx-runtime");
     ]
 });
 //// [react.tsx]
-"use strict";
+/// <reference path="/.lib/react16.d.ts" />
+/* @jsxImportSource react */ "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

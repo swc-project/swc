@@ -1431,13 +1431,13 @@ impl MacroNode for Program {
 impl MacroNode for Module {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        // Don't emit leading comments at Module level when the module has a body.
-        // This ensures that comments appear after any injected imports (e.g., helper
-        // imports) rather than before them. The first body item with a real
-        // span will emit the comments.
-        if self.body.is_empty() {
-            // For empty modules, emit leading comments to ensure they're not lost
+        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
+
+        if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
+        }
+
+        if self.body.is_empty() {
             srcmap!(emitter, self, true);
         }
 
@@ -1463,13 +1463,13 @@ impl MacroNode for Module {
 impl MacroNode for Script {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        // Don't emit leading comments at Script level when the script has a body.
-        // This ensures that comments appear after any injected imports (e.g., helper
-        // imports) rather than before them. The first body item with a real
-        // span will emit the comments.
-        if self.body.is_empty() {
-            // For empty scripts, emit leading comments to ensure they're not lost
+        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
+
+        if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
+        }
+
+        if self.body.is_empty() {
             srcmap!(emitter, self, true);
         }
 

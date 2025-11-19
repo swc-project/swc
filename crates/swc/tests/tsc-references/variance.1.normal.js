@@ -1,4 +1,6 @@
 //// [variance.ts]
+// Test cases for parameter variances affected by conditional types.
+// Repro from #30047
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var foo = {
     prop: true

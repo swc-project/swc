@@ -1,4 +1,6 @@
 //// [stringLiteralTypeIsSubtypeOfString.ts]
+// string literal types are subtypes of string, any
+// ok
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function f1(x) {}
 function f2(x) {}
