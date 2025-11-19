@@ -963,6 +963,18 @@ where
     // will return a code point.
     fn read_escape(&mut self) -> LexResult<(char, String)> {
         self.with_sub_buf(|l, buf| {
+            // Get the full character before consuming (for non-ASCII)
+            let cur_byte = l.input.cur();
+            let cur_char = if let Some(b) = cur_byte {
+                if is_non_ascii(b) {
+                    l.input.cur_as_char()
+                } else {
+                    Some(b as char)
+                }
+            } else {
+                None
+            };
+
             // Consume the next input code point.
             match l.consume() {
                 // hex digit
@@ -1027,9 +1039,10 @@ where
                 // anything else
                 // Return the current input code point.
                 Some(c) => {
-                    buf.push(c as char);
+                    let ch = cur_char.unwrap_or(c as char);
+                    buf.push(ch);
 
-                    Ok((c as char, (&**buf).into()))
+                    Ok((ch, (&**buf).into()))
                 }
             }
         })
@@ -1178,20 +1191,37 @@ where
 
             // Repeatedly consume the next input code point from the stream:
             loop {
-                match l.consume() {
+                // For non-ASCII bytes, we need to get the full UTF-8 character before consuming
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+
+                let c = l.consume();
+
+                match c {
                     // name code point
                     // Append the code point to result.
-                    Some(c) if is_name(c) => {
-                        buf.push(c as char);
-                        raw.push(c as char);
+                    Some(byte) if is_name(byte) => {
+                        // Use the full character we got earlier
+                        if let Some(ch) = cur_char {
+                            buf.push(ch);
+                            raw.push(ch);
+                        }
                     }
                     // the stream starts with a valid escape
                     // Consume an escaped code point. Append the returned code point to result.
-                    Some(c) if l.is_valid_escape(None, None) => {
+                    Some(byte) if l.is_valid_escape(None, None) => {
                         let escaped = l.read_escape()?;
 
                         buf.push(escaped.0);
-                        raw.push(c as char);
+                        raw.push(byte as char);
                         raw.push_str(&escaped.1);
                     }
                     // anything else
