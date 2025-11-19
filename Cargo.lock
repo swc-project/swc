@@ -5882,7 +5882,6 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_transformer",
  "swc_ecma_utils",
- "swc_ecma_visit",
 ]
 
 [[package]]
