@@ -44,7 +44,7 @@ pub(crate) fn generate_temp_var_name(expr: &Expr) -> String {
             };
             match &member.prop {
                 MemberProp::Ident(prop) => format!("_{}_{}", obj_name, prop.sym),
-                _ => format!("_{}", obj_name),
+                _ => format!("_{obj_name}"),
             }
         }
         _ => "_ref".to_string(),
