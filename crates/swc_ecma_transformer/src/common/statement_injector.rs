@@ -15,12 +15,8 @@
 //! self.ctx.statement_injector.insert_many_after(address, statements);
 //! ```
 
-use std::cell::RefCell;
-
-use rustc_hash::FxHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_visit::AstKindPath;
 
 use crate::TraverseCtx;
 
@@ -41,8 +37,6 @@ struct AdjacentStmt {
 
 /// Store for Stmts to be added to the Stmts.
 #[derive(Default)]
-pub struct StmtInjectorStore {
-    insertions: RefCell<FxHashMap<AstKindPath, Vec<AdjacentStmt>>>,
-}
+pub struct StmtInjectorStore {}
 
 impl VisitMutHook<TraverseCtx> for StmtInjector {}
