@@ -83,23 +83,30 @@ impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
+
         if self.plugins.is_none() || self.plugins.as_ref().unwrap().is_empty() {
             return Ok(n);
         }
 
         let filename = self.metadata_context.filename.clone();
 
-        if cfg!(feature = "manual-tokio-runtime") {
-            self.apply_inner(n)
-        } else {
+        #[cfg(feature = "manual-tokio-runtime")]
+        let ret = self
+            .apply_inner(n)
+            .with_context(|| format!("failed to invoke plugin on '{filename:?}'"));
+
+        #[cfg(not(feature = "manual-tokio-runtime"))]
+        let ret = {
             let fut = async move { self.apply_inner(n) };
             if let Ok(handle) = tokio::runtime::Handle::try_current() {
                 handle.block_on(fut)
             } else {
                 SHARED_RUNTIME.block_on(fut)
             }
-        }
-        .with_context(|| format!("failed to invoke plugin on '{filename:?}'"))
+            .with_context(|| format!("failed to invoke plugin on '{filename:?}'"))
+        };
+
+        ret
     }
 
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
