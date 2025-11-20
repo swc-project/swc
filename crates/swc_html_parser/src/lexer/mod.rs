@@ -446,43 +446,6 @@ where
         }
     }
 
-    fn append_to_doctype_token(
-        &mut self,
-        name: Option<u8>,
-        public_id: Option<u8>,
-        system_id: Option<u8>,
-    ) {
-        let b = self.buf.clone();
-        let mut buf = b.borrow_mut();
-
-        if let Some(name) = name {
-            let ch = if is_non_ascii(name) {
-                self.current_char.unwrap_or(name as char)
-            } else {
-                name as char
-            };
-            buf.push(ch);
-        }
-
-        if let Some(public_id) = public_id {
-            let ch = if is_non_ascii(public_id) {
-                self.current_char.unwrap_or(public_id as char)
-            } else {
-                public_id as char
-            };
-            buf.push(ch);
-        }
-
-        if let Some(system_id) = system_id {
-            let ch = if is_non_ascii(system_id) {
-                self.current_char.unwrap_or(system_id as char)
-            } else {
-                system_id as char
-            };
-            buf.push(ch);
-        }
-    }
-
     fn consume_and_append_to_doctype_token_name<F>(&mut self, c: u8, f: F)
     where
         F: Fn(char) -> bool,
@@ -5079,21 +5042,6 @@ fn is_ascii_hex_digit(c: u8) -> bool {
 }
 
 #[inline(always)]
-fn is_upper_hex_digit_char(c: char) -> bool {
-    is_upper_hex_digit(c as u8)
-}
-
-#[inline(always)]
-fn is_lower_hex_digit_char(c: char) -> bool {
-    is_lower_hex_digit(c as u8)
-}
-
-#[inline(always)]
-fn is_ascii_hex_digit_char(c: char) -> bool {
-    is_ascii_hex_digit(c as u8)
-}
-
-#[inline(always)]
 fn is_ascii_upper_alpha(c: u8) -> bool {
     c.is_ascii_uppercase()
 }
@@ -5111,16 +5059,6 @@ fn is_ascii_alpha(c: u8) -> bool {
 #[inline(always)]
 fn is_ascii_upper_alpha_char(c: char) -> bool {
     c.is_ascii_uppercase()
-}
-
-#[inline(always)]
-fn is_ascii_lower_alpha_char(c: char) -> bool {
-    c.is_ascii_lowercase()
-}
-
-#[inline(always)]
-fn is_ascii_alpha_char(c: char) -> bool {
-    is_ascii_upper_alpha_char(c) || is_ascii_lower_alpha_char(c)
 }
 
 #[inline(always)]

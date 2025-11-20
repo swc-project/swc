@@ -723,6 +723,18 @@ where
 
             // Repeatedly consume the next input code point from the stream:
             loop {
+                // Get the full character before consuming (for non-ASCII)
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+
                 match l.consume() {
                     // ending code point
                     // Return the <string-token>.
@@ -784,9 +796,11 @@ where
 
                     // Anything else
                     // Append the current input code point to the <string-token>'s value.
-                    Some(c) => {
-                        buf.push(c as char);
-                        raw.push(c as char);
+                    Some(_) => {
+                        if let Some(ch) = cur_char {
+                            buf.push(ch);
+                            raw.push(ch);
+                        }
                     }
                 }
             }
@@ -808,9 +822,15 @@ where
             // Consume as much whitespace as possible.
             while let Some(c) = l.next() {
                 if is_whitespace(c) {
+                    // Get char before consuming
+                    let ch = if is_non_ascii(c) {
+                        l.input.cur_as_char().unwrap_or(c as char)
+                    } else {
+                        c as char
+                    };
                     l.consume();
 
-                    raw.push(c as char);
+                    raw.push(ch);
                 } else {
                     break;
                 }
@@ -818,6 +838,18 @@ where
 
             // Repeatedly consume the next input code point from the stream:
             loop {
+                // Get the full character before consuming (for non-ASCII)
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+
                 match l.consume() {
                     // U+0029 RIGHT PARENTHESIS ())
                     // Return the <url-token>.
@@ -843,13 +875,21 @@ where
                     Some(c) if is_whitespace(c) => {
                         // Consume as much whitespace as possible.
                         let whitespaces: String = l.with_sub_buf(|l, buf| {
-                            buf.push(c as char);
+                            if let Some(ch) = cur_char {
+                                buf.push(ch);
+                            }
 
                             while let Some(c) = l.next() {
                                 if is_whitespace(c) {
+                                    // Get char before consuming
+                                    let ch = if is_non_ascii(c) {
+                                        l.input.cur_as_char().unwrap_or(c as char)
+                                    } else {
+                                        c as char
+                                    };
                                     l.consume();
 
-                                    buf.push(c as char);
+                                    buf.push(ch);
                                 } else {
                                     break;
                                 }
@@ -947,9 +987,11 @@ where
 
                     // anything else
                     // Append the current input code point to the <url-token>'s value.
-                    Some(c) => {
-                        out.push(c as char);
-                        raw.push(c as char);
+                    Some(_) => {
+                        if let Some(ch) = cur_char {
+                            out.push(ch);
+                            raw.push(ch);
+                        }
                     }
                 }
             }
@@ -1362,6 +1404,18 @@ where
         self.with_sub_buf(|l, raw| {
             // Repeatedly consume the next input code point from the stream:
             loop {
+                // Get the full character before consuming (for non-ASCII)
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+
                 match l.consume() {
                     // U+0029 RIGHT PARENTHESIS ())
                     // EOF
@@ -1385,8 +1439,10 @@ where
                     }
                     // anything else
                     // Do nothing.
-                    Some(c) => {
-                        raw.push(c as char);
+                    Some(_) => {
+                        if let Some(ch) = cur_char {
+                            raw.push(ch);
+                        }
                     }
                 }
             }
