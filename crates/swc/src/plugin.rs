@@ -82,9 +82,13 @@ struct RustPlugins {
 impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
+        use anyhow::Context;
+
         if self.plugins.is_none() || self.plugins.as_ref().unwrap().is_empty() {
             return Ok(n);
         }
+
+        let filename = self.metadata_context.filename.clone();
 
         #[cfg(feature = "manual-tokio-runtime")]
         let ret = self
@@ -93,9 +97,6 @@ impl RustPlugins {
 
         #[cfg(not(feature = "manual-tokio-runtime"))]
         let ret = {
-            use anyhow::Context;
-
-            let filename = self.metadata_context.filename.clone();
             let fut = async move { self.apply_inner(n) };
             if let Ok(handle) = tokio::runtime::Handle::try_current() {
                 handle.block_on(fut)
