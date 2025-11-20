@@ -457,7 +457,7 @@ where
 
         if let Some(name) = name {
             let ch = if is_non_ascii(name) {
-                self.input.cur_as_char().unwrap_or(name as char)
+                self.current_char.unwrap_or(name as char)
             } else {
                 name as char
             };
@@ -466,7 +466,7 @@ where
 
         if let Some(public_id) = public_id {
             let ch = if is_non_ascii(public_id) {
-                self.input.cur_as_char().unwrap_or(public_id as char)
+                self.current_char.unwrap_or(public_id as char)
             } else {
                 public_id as char
             };
@@ -475,7 +475,7 @@ where
 
         if let Some(system_id) = system_id {
             let ch = if is_non_ascii(system_id) {
-                self.input.cur_as_char().unwrap_or(system_id as char)
+                self.current_char.unwrap_or(system_id as char)
             } else {
                 system_id as char
             };
@@ -785,7 +785,7 @@ where
         };
 
         let raw_ch = if is_non_ascii(raw_c) {
-            self.input.cur_as_char().unwrap_or(raw_c as char)
+            self.current_char.unwrap_or(raw_c as char)
         } else {
             raw_c as char
         };
@@ -1115,8 +1115,13 @@ where
 
     #[inline(always)]
     fn emit_character_token(&mut self, value: u8) {
+        let ch = if is_non_ascii(value) {
+            self.current_char.unwrap_or(value as char)
+        } else {
+            value as char
+        };
         self.emit_token(Token::Character {
-            value: value as char,
+            value: ch,
             raw: Some(Raw::Same),
         });
     }
@@ -1126,7 +1131,12 @@ where
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
 
-        buf.push(raw_c as char);
+        let raw_ch = if is_non_ascii(raw_c) {
+            self.current_char.unwrap_or(raw_c as char)
+        } else {
+            raw_c as char
+        };
+        buf.push(raw_ch);
 
         self.emit_token(Token::Character {
             value: c,
@@ -1160,8 +1170,13 @@ where
 
             buf.clear();
         } else {
+            let ch = if is_non_ascii(c) {
+                self.current_char.unwrap_or(c as char)
+            } else {
+                c as char
+            };
             self.emit_token(Token::Character {
-                value: c as char,
+                value: ch,
                 raw: Some(Raw::Same),
             });
         }
@@ -2539,7 +2554,9 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's name.
                     Some(c @ b'\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_attribute_token_name(REPLACEMENT_CHARACTER as u8, c);
+                        let b = self.buf.clone();
+                        let mut buf = b.borrow_mut();
+                        buf.push(REPLACEMENT_CHARACTER);
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -3552,7 +3569,10 @@ where
                     Some(c @ b'\x00') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(Some(REPLACEMENT_CHARACTER as u8), None, None);
+
+                        let b = self.buf.clone();
+                        let mut buf = b.borrow_mut();
+                        buf.push(REPLACEMENT_CHARACTER);
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3834,7 +3854,9 @@ where
                     Some(c @ b'\x00') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, Some(REPLACEMENT_CHARACTER as u8), None);
+                        let b = self.buf.clone();
+                        let mut buf = b.borrow_mut();
+                        buf.push(REPLACEMENT_CHARACTER);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -3894,7 +3916,9 @@ where
                     Some(c @ b'\x00') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, Some(REPLACEMENT_CHARACTER as u8), None);
+                        let b = self.buf.clone();
+                        let mut buf = b.borrow_mut();
+                        buf.push(REPLACEMENT_CHARACTER);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -4216,7 +4240,9 @@ where
                     Some(c @ b'\x00') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, None, Some(REPLACEMENT_CHARACTER as u8));
+                        let b = self.buf.clone();
+                        let mut buf = b.borrow_mut();
+                        buf.push(REPLACEMENT_CHARACTER);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -4276,7 +4302,9 @@ where
                     Some(c @ b'\x00') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, None, Some(REPLACEMENT_CHARACTER as u8));
+                        let b = self.buf.clone();
+                        let mut buf = b.borrow_mut();
+                        buf.push(REPLACEMENT_CHARACTER);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
