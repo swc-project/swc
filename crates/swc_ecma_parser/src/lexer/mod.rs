@@ -2198,7 +2198,7 @@ impl<'a> Lexer<'a> {
     fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur() == Some(b'\'') || self.cur() == Some(b'"'));
         let start = self.cur_pos();
-        let quote = self.cur().unwrap() as u8;
+        let quote = self.cur().unwrap();
 
         self.bump(); // '"' or '\''
 

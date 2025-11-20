@@ -173,9 +173,9 @@ where
 
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
         // ignored and will itself be skipped.
-        if lexer.input.is_at_start() && lexer.input.cur() == Some('\u{feff}') {
+        if lexer.input.is_at_start() && lexer.input.cur_as_char() == Some('\u{feff}') {
             unsafe {
-                // Safety: cur() is Some('\u{feff}')
+                // Safety: cur_as_char() is Some('\u{feff}')
                 lexer.input.bump();
             }
         }
@@ -224,7 +224,7 @@ where
 {
     #[inline(always)]
     fn next(&mut self) -> Option<char> {
-        self.input.cur()
+        self.input.cur_as_char()
     }
 
     // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
@@ -249,12 +249,12 @@ where
 
     #[inline(always)]
     fn consume(&mut self) {
-        self.cur = self.input.cur();
+        self.cur = self.input.cur_as_char();
         self.cur_pos = self.input.cur_pos();
 
         if self.cur.is_some() {
             unsafe {
-                // Safety: cur() is Some(c)
+                // Safety: cur_as_char() is Some(c)
                 self.input.bump();
             }
         }
@@ -573,9 +573,9 @@ where
 
                 raw.push(c);
 
-                if self.input.cur() == Some('\n') {
+                if self.input.cur() == Some(b'\n') {
                     unsafe {
-                        // Safety: cur() is Some('\n')
+                        // Safety: cur() is Some(b'\n')
                         self.input.bump();
                     }
 
@@ -895,9 +895,9 @@ where
 
                 raw_c.push(c);
 
-                if self.input.cur() == Some('\n') {
+                if self.input.cur() == Some(b'\n') {
                     unsafe {
-                        // Safety: cur() is Some('\n')
+                        // Safety: cur() is Some(b'\n')
                         self.input.bump();
                     }
 
@@ -962,9 +962,9 @@ where
 
             raw.push(c);
 
-            if self.input.cur() == Some('\n') {
+            if self.input.cur() == Some(b'\n') {
                 unsafe {
-                    // Safety: cur() is Some('\n')
+                    // Safety: cur() is Some(b'\n')
                     self.input.bump();
                 }
 
@@ -3104,9 +3104,9 @@ where
 
     #[inline(always)]
     fn skip_next_lf(&mut self, c: char) {
-        if c == '\r' && self.input.cur() == Some('\n') {
+        if c == '\r' && self.input.cur() == Some(b'\n') {
             unsafe {
-                // Safety: cur() is Some('\n')
+                // Safety: cur() is Some(b'\n')
                 self.input.bump();
             }
         }
