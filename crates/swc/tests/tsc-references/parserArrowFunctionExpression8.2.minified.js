@@ -1,9 +1,5 @@
 //// [parserArrowFunctionExpression8.ts]
 //// [fileJs.js]
-x || ((z)=>({
-        z
-    }));
+x;
 //// [fileTs.ts]
-x || ((z)=>({
-        z
-    }));
+x;
