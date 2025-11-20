@@ -5555,7 +5555,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "48.0.1"
+version = "48.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6138,7 +6138,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "36.0.3"
+version = "36.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
