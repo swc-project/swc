@@ -8,6 +8,7 @@ use crate::hook_utils::{HookBuilder, NoopHook};
 pub use crate::options::*;
 
 mod bugfix;
+mod common;
 mod decorators;
 mod es2015;
 mod es2016;
