@@ -87,11 +87,14 @@ impl RustPlugins {
         }
 
         #[cfg(feature = "manual-tokio-runtime")]
-        let ret = self.apply_inner(n);
+        let ret = self
+            .apply_inner(n)
+            .with_context(|| format!("failed to invoke plugin on '{filename:?}'"));
 
         #[cfg(not(feature = "manual-tokio-runtime"))]
         let ret = {
             use anyhow::Context;
+
             let filename = self.metadata_context.filename.clone();
             let fut = async move { self.apply_inner(n) };
             if let Ok(handle) = tokio::runtime::Handle::try_current() {
