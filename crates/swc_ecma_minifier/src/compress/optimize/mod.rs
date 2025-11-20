@@ -658,6 +658,16 @@ impl Optimizer<'_> {
                 return None;
             }
 
+            // Arrow function expression cannot have a side effect.
+            Expr::Arrow(_) => {
+                report_change!(
+                    "ignore_return_value: Dropping unused arrow expr as it does not have any side \
+                     effect"
+                );
+                self.changed = true;
+                return None;
+            }
+
             Expr::Class(cls) => {
                 // Do not remove class if it's self-referencing
                 if let Some(id) = &cls.ident {
