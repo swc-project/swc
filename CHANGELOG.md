@@ -14,6 +14,9 @@
 - **(es/minifier)** Prevent compress.comparisons from transforming expressions with side effects ([#11256](https://github.com/swc-project/swc/issues/11256)) ([58a9d81](https://github.com/swc-project/swc/commit/58a9d81959162778f6ca1200436c90f3545bd387))
 
 
+- **(es/minifier)** Remove unused arrow functions in dead code elimination ([#11319](https://github.com/swc-project/swc/issues/11319)) ([88c6ac7](https://github.com/swc-project/swc/commit/88c6ac7eb05e3367d3d14e40bad8468218576783))
+
+
 - **(es/parser)** Make the span of Program start at input start ([#11199](https://github.com/swc-project/swc/issues/11199)) ([b56e008](https://github.com/swc-project/swc/commit/b56e0083c60e9d96fbe7aef9de20ff83d4c77279))
 
 
@@ -1933,18 +1936,6 @@
 
 
 - **(es/analysis)** Support comments ([#10299](https://github.com/swc-project/swc/issues/10299)) ([2919d16](https://github.com/swc-project/swc/commit/2919d1688a880e1fa4c6b1e6595e5aacb9167754))
-
-
-- **(es/parser)** Parser a program as a module with TLA in non-expression statement ([#10287](https://github.com/swc-project/swc/issues/10287)) ([157c52a](https://github.com/swc-project/swc/commit/157c52aaa7ae2c5fbd30afd537c2b5c681d85508))
-
-
-- **(html)** Remove `async` from `minifyFragmentSync` ([#10289](https://github.com/swc-project/swc/issues/10289)) ([7028457](https://github.com/swc-project/swc/commit/702845784361953050ce06450a05c6ef2a598311))
-
-### Documentation
-
-
-
-- Add star history to `README.md` ([b51eea9](https://github.com/swc-project/swc/commit/b51eea9f48a943fb8c0fb457f4961e1178c203bc))
 
 ### Features
 
