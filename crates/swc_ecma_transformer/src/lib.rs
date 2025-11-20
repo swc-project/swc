@@ -26,7 +26,17 @@ mod regexp;
 mod typescript;
 mod utils;
 
-pub struct TraverseCtx {}
+pub struct TraverseCtx {
+    pub statement_injector: common::StmtInjectorStore,
+}
+
+impl Default for TraverseCtx {
+    fn default() -> Self {
+        Self {
+            statement_injector: Default::default(),
+        }
+    }
+}
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
@@ -47,11 +57,14 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
     let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
 
+    // Statement injector must be last to process all injected statements
+    let hook = hook.chain(common::StmtInjector::default());
+
     hook.build()
 }
 
 pub fn hook_pass<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
-    let ctx = TraverseCtx {};
+    let ctx = TraverseCtx::default();
 
     visit_mut_pass(VisitMutWithHook { hook, context: ctx })
 }
