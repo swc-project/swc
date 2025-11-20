@@ -233,7 +233,12 @@ where
     // `anything else`
     #[inline(always)]
     fn validate_input_stream_character(&mut self, c: u8) {
-        let code = (c as char) as u32;
+        let ch = if is_non_ascii(c) {
+            self.current_char.unwrap_or(c as char)
+        } else {
+            c as char
+        };
+        let code = ch as u32;
 
         if is_surrogate(code) {
             self.emit_error(ErrorKind::SurrogateInInputStream);
@@ -2515,7 +2520,7 @@ where
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current attribute's name.
-                    Some(c @ b'\x00') => {
+                    Some(_c @ b'\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         let b = self.buf.clone();
                         let mut buf = b.borrow_mut();
@@ -3493,7 +3498,12 @@ where
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
                         self.create_doctype_token();
-                        self.set_doctype_token_name(c as char);
+                        let ch = if is_non_ascii(c) {
+                            self.current_char.unwrap_or(c as char)
+                        } else {
+                            c as char
+                        };
+                        self.set_doctype_token_name(ch);
                         self.state = State::DoctypeName;
                     }
                 }
