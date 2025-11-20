@@ -26,16 +26,9 @@ mod regexp;
 mod typescript;
 mod utils;
 
+#[derive(Default)]
 pub struct TraverseCtx {
-    pub statement_injector: common::StmtInjectorStore,
-}
-
-impl Default for TraverseCtx {
-    fn default() -> Self {
-        Self {
-            statement_injector: Default::default(),
-        }
-    }
+    pub(crate) statement_injector: common::StmtInjectorStore,
 }
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
