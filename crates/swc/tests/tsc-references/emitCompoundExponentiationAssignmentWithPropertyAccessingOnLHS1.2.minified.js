@@ -5,4 +5,4 @@ function foo() {
         prop: 2
     };
 }
-foo().prop = Math.pow(foo().prop, 2), foo().prop = Math.pow(foo().prop, 2), foo().prop = Math.pow(foo().prop, foo().prop = Math.pow(foo().prop, 2)), foo().prop = Math.pow(foo().prop, foo().prop = Math.pow(foo().prop, 2)), foo().prop = Math.pow(foo().prop, Math.pow(foo().prop, 2)), foo().prop = Math.pow(foo().prop, Math.pow(foo().prop, 2));
+(_ref = foo()).prop = Math.pow(_ref.prop, 2), (_ref = foo()).prop = Math.pow(_ref.prop, 2), (_ref = foo()).prop = Math.pow(_ref.prop, (_ref = foo()).prop = Math.pow(_ref.prop, 2)), (_ref = foo()).prop = Math.pow(_ref.prop, (_ref = foo()).prop = Math.pow(_ref.prop, 2)), (_ref = foo()).prop = Math.pow(_ref.prop, Math.pow(foo().prop, 2)), (_ref = foo()).prop = Math.pow(_ref.prop, Math.pow(foo().prop, 2));

@@ -6,9 +6,9 @@ function foo() {
         prop: 2
     };
 }
-foo().prop = Math.pow(foo().prop, 2);
-var result0 = foo().prop = Math.pow(foo().prop, 2);
-foo().prop = Math.pow(foo().prop, foo().prop = Math.pow(foo().prop, 2));
-var result1 = foo().prop = Math.pow(foo().prop, foo().prop = Math.pow(foo().prop, 2));
-foo().prop = Math.pow(foo().prop, Math.pow(foo().prop, 2));
-var result2 = foo().prop = Math.pow(foo().prop, Math.pow(foo().prop, 2));
+_ref = foo(), _ref.prop = Math.pow(_ref.prop, 2);
+var result0 = (_ref = foo(), _ref.prop = Math.pow(_ref.prop, 2));
+_ref = foo(), _ref.prop = Math.pow(_ref.prop, (_ref = foo(), _ref.prop = Math.pow(_ref.prop, 2)));
+var result1 = (_ref = foo(), _ref.prop = Math.pow(_ref.prop, (_ref = foo(), _ref.prop = Math.pow(_ref.prop, 2))));
+_ref = foo(), _ref.prop = Math.pow(_ref.prop, Math.pow(foo().prop, 2));
+var result2 = (_ref = foo(), _ref.prop = Math.pow(_ref.prop, Math.pow(foo().prop, 2)));
