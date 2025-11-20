@@ -35,7 +35,7 @@ use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::TraverseCtx;
+use crate::{utils, TraverseCtx};
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
     ExponentiationOperatorPass::default()
@@ -118,7 +118,10 @@ impl ExponentiationOperatorPass {
 
     /// Transform member expression exponentiation assignment implementation
     ///
-    /// `obj.prop **= 2` or `obj[prop] **= 2`
+    /// Uses temporary variables to avoid side effects:
+    /// - `obj.prop **= 2` -> `(_obj = obj, _obj.prop = Math.pow(_obj.prop, 2))`
+    /// - `obj[prop] **= 2` -> `(_obj = obj, _prop = prop, _obj[_prop] =
+    ///   Math.pow(_obj[_prop], 2))`
     fn transform_member_exp_assign_impl(
         &self,
         expr: &mut Expr,
@@ -126,64 +129,145 @@ impl ExponentiationOperatorPass {
         prop: MemberProp,
         right: Box<Expr>,
     ) {
-        // For simplicity, handle the basic case without temp variables
-        // A more complete implementation would add temp variables to avoid side effects
+        // Check if we need a temp variable for the object
+        let needs_obj_temp = !matches!(*obj, Expr::Ident(_));
+
+        let mut sequence_exprs = Vec::new();
+
+        // Create temp variable for object if needed
+        let (final_obj, obj_for_pow) = if needs_obj_temp {
+            let temp_name = utils::generate_temp_var_name(&obj);
+            let temp_ident = utils::create_private_ident(&temp_name);
+
+            // Add assignment to sequence: _obj = obj
+            sequence_exprs.push(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: AssignOp::Assign,
+                left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                    id: temp_ident.clone(),
+                    type_ann: None,
+                })),
+                right: obj,
+            }));
+
+            let obj_expr = Box::new(Expr::Ident(temp_ident.clone()));
+            (obj_expr.clone(), obj_expr)
+        } else {
+            (obj.clone(), obj)
+        };
+
         match prop {
-            // obj.prop **= right -> obj.prop = Math.pow(obj.prop, right)
+            // obj.prop **= right -> (_obj = obj, _obj.prop = Math.pow(_obj.prop, right))
             MemberProp::Ident(prop_name) => {
                 // Create Math.pow(obj.prop, right)
                 let pow_left = Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
-                    obj: obj.clone(),
+                    obj: obj_for_pow,
                     prop: MemberProp::Ident(prop_name.clone()),
                 }));
                 let pow_call = create_math_pow(pow_left, right);
 
                 // obj.prop = Math.pow(obj.prop, right)
-                *expr = Expr::Assign(AssignExpr {
+                let assignment = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj,
+                        obj: final_obj,
                         prop: MemberProp::Ident(prop_name),
                     })),
                     right: Box::new(pow_call),
                 });
+
+                if needs_obj_temp {
+                    sequence_exprs.push(assignment);
+                    *expr = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: sequence_exprs.into_iter().map(Box::new).collect(),
+                    });
+                } else {
+                    *expr = assignment;
+                }
             }
-            // obj[computed] **= right -> obj[computed] = Math.pow(obj[computed], right)
+            // obj[computed] **= right -> (_obj = obj, _prop = prop, _obj[_prop] =
+            // Math.pow(_obj[_prop], right))
             MemberProp::Computed(computed) => {
                 let computed_prop = computed.expr;
+
+                // Check if we need a temp variable for the computed property
+                let needs_prop_temp = !is_literal_expr(&computed_prop);
+
+                let (final_prop, prop_for_pow) = if needs_prop_temp {
+                    let temp_name = match &*computed_prop {
+                        Expr::Ident(ident) => format!("_{}", ident.sym),
+                        _ => "_prop".to_string(),
+                    };
+                    let temp_ident = utils::create_private_ident(&temp_name);
+
+                    // Add assignment to sequence: _prop = prop
+                    sequence_exprs.push(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: AssignOp::Assign,
+                        left: AssignTarget::Simple(SimpleAssignTarget::Ident(BindingIdent {
+                            id: temp_ident.clone(),
+                            type_ann: None,
+                        })),
+                        right: computed_prop,
+                    }));
+
+                    let prop_expr = Box::new(Expr::Ident(temp_ident.clone()));
+                    (prop_expr.clone(), prop_expr)
+                } else {
+                    (computed_prop.clone(), computed_prop)
+                };
 
                 // Create Math.pow(obj[computed], right)
                 let pow_left = Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
-                    obj: obj.clone(),
+                    obj: obj_for_pow,
                     prop: MemberProp::Computed(ComputedPropName {
                         span: DUMMY_SP,
-                        expr: computed_prop.clone(),
+                        expr: prop_for_pow,
                     }),
                 }));
                 let pow_call = create_math_pow(pow_left, right);
 
                 // obj[computed] = Math.pow(obj[computed], right)
-                *expr = Expr::Assign(AssignExpr {
+                let assignment = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
                     left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj,
+                        obj: final_obj,
                         prop: MemberProp::Computed(ComputedPropName {
                             span: DUMMY_SP,
-                            expr: computed_prop,
+                            expr: final_prop,
                         }),
                     })),
                     right: Box::new(pow_call),
                 });
+
+                if needs_obj_temp || needs_prop_temp {
+                    sequence_exprs.push(assignment);
+                    *expr = Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: sequence_exprs.into_iter().map(Box::new).collect(),
+                    });
+                } else {
+                    *expr = assignment;
+                }
             }
             _ => {}
         }
     }
+}
+
+/// Check if an expression is a literal (and safe to evaluate multiple times)
+fn is_literal_expr(expr: &Expr) -> bool {
+    matches!(
+        expr,
+        Expr::Lit(_) | Expr::Ident(_) | Expr::This(_) | Expr::PrivateName(_)
+    )
 }
 
 /// Create `Math.pow(left, right)` call expression
