@@ -1,2 +1,3 @@
 var self = {};
-self.x = Math.pow(self.x, 3);
+var ref = self.x;
+self.x = Math.pow(ref, 3);

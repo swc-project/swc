@@ -12,6 +12,9 @@ var array1 = [
     4,
     5
 ];
-_prop = incrementIdx(array1.length), array1[_prop] = Math.pow(array1[_prop], 3);
-_prop = incrementIdx(array1.length), array1[_prop] = Math.pow(array1[_prop], (_prop = incrementIdx(array1.length), array1[_prop] = Math.pow(array1[_prop], 2)));
-_prop = incrementIdx(array1.length), array1[_prop] = Math.pow(array1[_prop], Math.pow(array1[incrementIdx(array1.length)], 2));
+var ref = array1[incrementIdx(array1.length)];
+array1[incrementIdx(array1.length)] = Math.pow(ref, 3);
+var ref1 = array1[incrementIdx(array1.length)], ref2 = array1[incrementIdx(array1.length)];
+array1[incrementIdx(array1.length)] = Math.pow(ref2, array1[incrementIdx(array1.length)] = Math.pow(ref1, 2));
+var ref3 = array1[incrementIdx(array1.length)];
+array1[incrementIdx(array1.length)] = Math.pow(ref3, Math.pow(array1[incrementIdx(array1.length)], 2));
