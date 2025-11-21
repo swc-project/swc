@@ -930,6 +930,18 @@ impl Fixer<'_> {
                                 callee: Callee::Expr(callee_expr),
                                 ..
                             }) if callee_expr.is_fn_expr() => self.wrap(callee_expr),
+                            // Also handle when the call is inside a binary expression
+                            Expr::Bin(BinExpr { left, .. }) => {
+                                if let Expr::Call(CallExpr {
+                                    callee: Callee::Expr(callee_expr),
+                                    ..
+                                }) = &mut **left
+                                {
+                                    if callee_expr.is_fn_expr() {
+                                        self.wrap(callee_expr)
+                                    }
+                                }
+                            }
                             _ => (),
                         }
                     }
@@ -1811,4 +1823,22 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_5417, "console.log(a ?? b ?? c)");
 
     identical!(bin_and_unary, "console.log(a++ && b--)");
+
+    test_fixer!(
+        issue_11322,
+        "((function () { })() && a, b)",
+        "(function () { })() && a, b"
+    );
+
+    test_fixer!(
+        issue_11322_simple,
+        "(function () { })() && a",
+        "(function () { })() && a"
+    );
+
+    test_fixer!(
+        issue_11322_stmt,
+        "(function () { })() && a;",
+        "(function () { })() && a;"
+    );
 }
