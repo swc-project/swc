@@ -754,6 +754,7 @@ impl<'a> Lexer<'a> {
         let slice_start = self.cur_pos();
 
         let had_line_break_before_last = self.had_line_break_before_last();
+        let mut had_line_break = false;
 
         byte_search! {
             lexer: self,
@@ -768,8 +769,8 @@ impl<'a> Lexer<'a> {
                             let bytes = current_slice.as_bytes();
                             let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
                             if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
-                                self.state_mut().mark_had_line_break();
-                                self.input_mut().bump_bytes(2);
+                                had_line_break = true;
+                                pos_offset += 2;
                             }
                         }
                         true
@@ -818,13 +819,16 @@ impl<'a> Lexer<'a> {
                                 }
                             }
 
+                            if had_line_break {
+                                self.state_mut().mark_had_line_break();
+                            }
                             return;
                         }
 
                         true
                     }
                     _ => {
-                        self.state_mut().mark_had_line_break();
+                        had_line_break = true;
                         true
                     },
                 }
@@ -836,6 +840,10 @@ impl<'a> Lexer<'a> {
                 return;
             }
         };
+
+        if had_line_break {
+            self.state_mut().mark_had_line_break();
+        }
     }
 
     /// Ensure that ident cannot directly follow numbers.
