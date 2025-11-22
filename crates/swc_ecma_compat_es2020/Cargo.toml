@@ -24,7 +24,7 @@ swc_ecma_ast             = { version = "18.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compat_es2022   = { version = "32.0.0", path = "../swc_ecma_compat_es2022" }
 swc_ecma_compiler        = { version = "8.0.0", path = "../swc_ecma_compiler" }
 swc_ecma_transformer     = { version = "1.0.0", path = "../swc_ecma_transformer" }
-swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "30.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils           = { version = "24.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "18.0.1", path = "../swc_ecma_visit" }
 

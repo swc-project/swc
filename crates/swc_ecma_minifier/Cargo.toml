@@ -64,7 +64,7 @@ swc_ecma_codegen = { version = "20.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "27.0.7", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "30.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "32.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "25.0.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "24.0.0", path = "../swc_ecma_utils" }

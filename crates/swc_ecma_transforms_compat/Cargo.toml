@@ -41,7 +41,7 @@ swc_ecma_compat_es2020   = { version = "32.0.0", path = "../swc_ecma_compat_es20
 swc_ecma_compat_es2021   = { version = "30.0.0", path = "../swc_ecma_compat_es2021" }
 swc_ecma_compat_es2022   = { version = "32.0.0", path = "../swc_ecma_compat_es2022" }
 swc_ecma_compat_es3      = { version = "25.0.0", path = "../swc_ecma_compat_es3" }
-swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "30.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils           = { version = "24.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "18.0.1", path = "../swc_ecma_visit" }
 
@@ -50,7 +50,7 @@ par-core   = { workspace = true, features = ["chili"] }
 serde_json = { workspace = true }
 
 swc_ecma_parser = { version = "27.0.7", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "30.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_testing = { version = "33.0.0", path = "../swc_ecma_transforms_testing" }

@@ -5555,7 +5555,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "48.0.3"
+version = "48.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6363,7 +6363,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "30.0.0"
+version = "30.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",

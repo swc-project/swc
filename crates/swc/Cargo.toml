@@ -108,7 +108,7 @@ swc_ecma_transforms = { version = "39.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "30.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "35.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "32.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "24.0.0", path = "../swc_ecma_utils" }
@@ -152,7 +152,7 @@ swc_ecma_lints = { version = "25.0.0", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
 swc_ecma_testing = { version = "18.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "30.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "30.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
