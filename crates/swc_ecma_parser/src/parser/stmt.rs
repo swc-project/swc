@@ -553,109 +553,37 @@ impl<I: Tokens> Parser<I> {
         self.parse_stmt_like(false, handle_import_export)
     }
 
-    /// Utility function used to parse large if else statements iteratively.
-    ///
-    /// THis function is recursive, but it is very cheap so stack overflow will
-    /// not occur.
-    fn adjust_if_else_clause(&mut self, cur: &mut IfStmt, alt: Box<Stmt>) {
-        cur.span = self.span(cur.span.lo);
-
-        if let Some(Stmt::If(prev_alt)) = cur.alt.as_deref_mut() {
-            self.adjust_if_else_clause(prev_alt, alt)
-        } else {
-            debug_assert_eq!(cur.alt, None);
-            cur.alt = Some(alt);
-        }
-    }
-
     fn parse_if_stmt(&mut self) -> PResult<IfStmt> {
         let start = self.cur_pos();
-
-        self.assert_and_bump(Token::If);
-        let if_token = self.input().prev_span();
-
-        expect!(self, Token::LParen);
-
-        let test = self
-            .do_outside_of_context(Context::IgnoreElseClause, |p| {
-                p.allow_in_expr(|p| p.parse_expr())
-            })
-            .map_err(|err| {
-                Error::new(
-                    err.span(),
-                    SyntaxError::WithLabel {
-                        inner: Box::new(err),
-                        span: if_token,
-                        note: "Tried to parse the condition for an if statement",
-                    },
-                )
-            })?;
-
-        expect!(self, Token::RParen);
-
-        let cons = {
-            // Prevent stack overflow
-            crate::maybe_grow(256 * 1024, 1024 * 1024, || {
-                // // Annex B
-                // if !self.ctx().contains(Context::Strict) && self.input().is(Token::FUNCTION)
-                // {     // TODO: report error?
-                // }
-                self.do_outside_of_context(
-                    Context::IgnoreElseClause.union(Context::TopLevel),
-                    Self::parse_stmt,
-                )
-                .map(Box::new)
-            })?
-        };
+        let (test, cons) = self.parse_if_stmt_test_and_cons()?;
+        let mut alt = None;
 
         // We parse `else` branch iteratively, to avoid stack overflow
-        // See https://github.com/swc-project/swc/pull/3961
-
-        let alt = if self.ctx().contains(Context::IgnoreElseClause) {
-            None
-        } else {
-            let mut cur = None;
-
-            let last = loop {
-                if !self.input_mut().eat(Token::Else) {
-                    break None;
-                }
-
-                if !self.input().is(Token::If) {
-                    // As we eat `else` above, we need to parse statement once.
-                    let last = self.do_outside_of_context(
-                        Context::IgnoreElseClause.union(Context::TopLevel),
-                        Self::parse_stmt,
-                    )?;
-                    break Some(last);
-                }
-
-                // We encountered `else if`
-
-                let alt =
-                    self.do_inside_of_context(Context::IgnoreElseClause, Self::parse_if_stmt)?;
-
-                match &mut cur {
-                    Some(cur) => {
-                        self.adjust_if_else_clause(cur, Box::new(alt.into()));
-                    }
-                    _ => {
-                        cur = Some(alt);
-                    }
-                }
-            };
-
-            match cur {
-                Some(mut cur) => {
-                    if let Some(last) = last {
-                        self.adjust_if_else_clause(&mut cur, Box::new(last));
-                    }
-                    Some(cur.into())
-                }
-                _ => last,
+        loop {
+            if !self.input_mut().eat(Token::Else) {
+                break;
             }
+
+            if !self.input().is(Token::If) {
+                // As we eat `else` above, we need to parse statement once.
+                alt = Some(Box::new(self.parse_stmt()?));
+                break;
+            }
+
+            let start = self.cur_pos();
+            let (test, cons) = self.parse_if_stmt_test_and_cons()?;
+            self.if_stmt_stack.push((start, test, cons));
         }
-        .map(Box::new);
+
+        while let Some((start, test, cons)) = self.if_stmt_stack.pop() {
+            let span = self.span(start);
+            alt = Some(Box::new(Stmt::If(IfStmt {
+                span,
+                test,
+                cons,
+                alt,
+            })));
+        }
 
         let span = self.span(start);
         Ok(IfStmt {
@@ -664,6 +592,31 @@ impl<I: Tokens> Parser<I> {
             cons,
             alt,
         })
+    }
+
+    fn parse_if_stmt_test_and_cons(&mut self) -> PResult<(Box<Expr>, Box<Stmt>)> {
+        self.assert_and_bump(Token::If);
+        let if_token = self.input().prev_span();
+
+        expect!(self, Token::LParen);
+        let test = self.allow_in_expr(|p| p.parse_expr()).map_err(|err| {
+            Error::new(
+                err.span(),
+                SyntaxError::WithLabel {
+                    inner: Box::new(err),
+                    span: if_token,
+                    note: "Tried to parse the condition for an if statement",
+                },
+            )
+        })?;
+        expect!(self, Token::RParen);
+
+        let cons = {
+            // Prevent stack overflow
+            crate::maybe_grow(256 * 1024, 1024 * 1024, || self.parse_stmt().map(Box::new))?
+        };
+
+        Ok((test, cons))
     }
 
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {

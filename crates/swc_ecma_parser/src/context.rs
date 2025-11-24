@@ -60,8 +60,6 @@ bitflags::bitflags! {
       // If true, allow super.x and super[x]
       const AllowDirectSuper = 1 << 25;
 
-      const IgnoreElseClause = 1 << 26;
-
       const DisallowConditionalTypes = 1 << 27;
 
       const AllowUsingDecl = 1 << 28;

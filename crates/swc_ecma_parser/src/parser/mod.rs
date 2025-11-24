@@ -60,6 +60,8 @@ pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
+    /// (start pos, test expr, cons stmt)
+    if_stmt_stack: Vec<(BytePos, Box<Expr>, Box<Stmt>)>,
 }
 
 impl<I: Tokens> Parser<I> {
@@ -123,6 +125,7 @@ impl<I: Tokens> Parser<I> {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
+            if_stmt_stack: Vec::default(),
         };
         p.input.bump(); // consume EOF
         p
