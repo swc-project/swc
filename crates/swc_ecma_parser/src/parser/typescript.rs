@@ -1968,14 +1968,14 @@ impl<I: Tokens> Parser<I> {
                     let err = p.input_mut().expect_error_token_and_bump();
                     return Err(err);
                 } else {
-                    p.parse_maybe_private_name().map(|e| match e {
-                        Either::Left(e) => {
-                            p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
-
-                            e.into()
+                    Ok(Box::new(match p.input.cur() {
+                        Token::Hash => {
+                            let private_name = p.parse_private_name()?;
+                            p.emit_err(private_name.span(), SyntaxError::PrivateNameInInterface);
+                            Expr::PrivateName(private_name)
                         }
-                        Either::Right(e) => e.into(),
-                    })
+                        _ => Expr::Ident(p.parse_ident_name()?.into()),
+                    }))
                 };
                 key.map(|key| (false, key))
             })?

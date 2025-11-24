@@ -1,4 +1,3 @@
-use either::Either;
 use swc_atoms::atom;
 use swc_common::BytePos;
 use swc_ecma_ast::*;
@@ -33,15 +32,6 @@ impl<I: Tokens> Parser<I> {
             syntax_error!(self, SyntaxError::ExpectedIdent)
         };
         Ok(IdentName::new(w, self.span(start)))
-    }
-
-    pub(crate) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
-        let is_private = self.input().is(Token::Hash);
-        if is_private {
-            self.parse_private_name().map(Either::Left)
-        } else {
-            self.parse_ident_name().map(Either::Right)
-        }
     }
 
     pub(crate) fn parse_private_name(&mut self) -> PResult<PrivateName> {

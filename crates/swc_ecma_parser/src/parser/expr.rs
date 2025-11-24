@@ -1283,10 +1283,10 @@ impl<I: Tokens> Parser<I> {
         // member expression
         // $obj.name
         if question_dot || self.input_mut().eat(Token::Dot) {
-            let prop = self.parse_maybe_private_name().map(|e| match e {
-                Either::Left(p) => MemberProp::PrivateName(p),
-                Either::Right(i) => MemberProp::Ident(i),
-            })?;
+            let prop = match self.input.cur() {
+                Token::Hash => MemberProp::PrivateName(self.parse_private_name()?),
+                _ => MemberProp::Ident(self.parse_ident_name()?),
+            };
             let span = self.span(callee.span_lo());
             debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
@@ -1397,10 +1397,10 @@ impl<I: Tokens> Parser<I> {
             }
             Token::Dot => {
                 self.bump();
-                let prop = self.parse_maybe_private_name().map(|e| match e {
-                    Either::Left(p) => MemberProp::PrivateName(p),
-                    Either::Right(i) => MemberProp::Ident(i),
-                })?;
+                let prop = match self.input.cur() {
+                    Token::Hash => MemberProp::PrivateName(self.parse_private_name()?),
+                    _ => MemberProp::Ident(self.parse_ident_name()?),
+                };
                 let span = self.span(lhs.span_lo());
                 debug_assert_eq!(lhs.span_lo(), span.lo());
                 debug_assert_eq!(prop.span_hi(), span.hi());
