@@ -559,6 +559,7 @@ impl<I: Tokens> Parser<I> {
         let mut alt = None;
 
         // We parse `else` branch iteratively, to avoid stack overflow
+        let if_stmt_stack_start = self.if_stmt_stack.len();
         loop {
             if !self.input_mut().eat(Token::Else) {
                 break;
@@ -575,6 +576,7 @@ impl<I: Tokens> Parser<I> {
             self.if_stmt_stack.push((start, test, cons));
         }
 
+        // Construct IfStmt backward
         while let Some((start, test, cons)) = self.if_stmt_stack.pop() {
             let span = self.span(start);
             alt = Some(Box::new(Stmt::If(IfStmt {
@@ -583,6 +585,10 @@ impl<I: Tokens> Parser<I> {
                 cons,
                 alt,
             })));
+
+            if self.if_stmt_stack.len() == if_stmt_stack_start {
+                break;
+            }
         }
 
         let span = self.span(start);
