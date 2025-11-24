@@ -1210,7 +1210,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
             Ok(true)
         } else if (cur == Token::LBrace || cur == Token::LBracket)
-            && self.parse_binding_pat_or_ident(false).is_ok()
+            && self.parse_binding_pat_or_ident().is_ok()
         {
             Ok(true)
         } else {

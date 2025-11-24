@@ -29,18 +29,11 @@ struct MakeMethodArgs {
 
 impl<I: Tokens> Parser<I> {
     /// If `required` is `true`, this never returns `None`.
-    fn parse_maybe_opt_binding_ident(
-        &mut self,
-        required: bool,
-        disallow_let: bool,
-    ) -> PResult<Option<Ident>> {
+    fn parse_maybe_opt_binding_ident(&mut self, required: bool) -> PResult<Option<Ident>> {
         if required {
-            self.parse_binding_ident(disallow_let)
-                .map(|v| v.id)
-                .map(Some)
+            self.parse_binding_ident().map(|v| v.id).map(Some)
         } else {
-            self.parse_opt_binding_ident(disallow_let)
-                .map(|v| v.map(|v| v.id))
+            self.parse_opt_binding_ident().map(|v| v.map(|v| v.id))
         }
     }
 
@@ -366,11 +359,11 @@ impl<I: Tokens> Parser<I> {
             let f_with_generator_context = |p: &mut Self| {
                 if is_generator {
                     p.do_inside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_binding_ident(is_ident_required, false)
+                        p.parse_maybe_opt_binding_ident(is_ident_required)
                     })
                 } else {
                     p.do_outside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_binding_ident(is_ident_required, false)
+                        p.parse_maybe_opt_binding_ident(is_ident_required)
                     })
                 }
             };
@@ -389,7 +382,7 @@ impl<I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.do_outside_of_context(
                 Context::AllowDirectSuper.union(Context::InClassField),
-                |p| p.parse_maybe_opt_binding_ident(is_ident_required, false),
+                |p| p.parse_maybe_opt_binding_ident(is_ident_required),
             )?
         };
 
@@ -1545,7 +1538,7 @@ impl<I: Tokens> Parser<I> {
         self.strict_mode(|p| {
             expect!(p, Token::Class);
 
-            let ident = p.parse_maybe_opt_binding_ident(is_ident_required, true)?;
+            let ident = p.parse_maybe_opt_binding_ident(is_ident_required)?;
             if p.input().syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);

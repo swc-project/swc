@@ -1,7 +1,21 @@
-  x Unexpected token `let`. Expected let is reserved in const, let, class declaration
+  x `let` cannot be used as an identifier in strict mode
    ,-[$DIR/tests/errors/issue-8269/input.js:2:1]
  1 | {
  2 |     let let
    :         ^^^
  3 | }
+   `----
+  x `let` cannot be used as an identifier in strict mode
+   ,-[$DIR/tests/errors/issue-8269/input.js:5:1]
+ 4 | {
+ 5 |     const let = 0
+   :           ^^^
+ 6 | }
+   `----
+  x `let` cannot be used as an identifier in strict mode
+   ,-[$DIR/tests/errors/issue-8269/input.js:8:1]
+ 7 | {
+ 8 |     class let { }
+   :           ^^^
+ 9 | }
    `----

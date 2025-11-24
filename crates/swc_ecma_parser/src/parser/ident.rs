@@ -71,13 +71,11 @@ impl<I: Tokens> Parser<I> {
     /// babel: `parseBindingIdentifier`
     ///
     /// spec: `BindingIdentifier`
-    pub(crate) fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
+    pub(crate) fn parse_binding_ident(&mut self) -> PResult<BindingIdent> {
         trace_cur!(self, parse_binding_ident);
 
         let cur = self.input().cur();
-        if disallow_let && cur == Token::Let {
-            unexpected!(self, "let is reserved in const, let, class declaration")
-        } else if cur == Token::Ident {
+        if cur == Token::Ident {
             let span = self.input().cur_span();
             let word = self.input_mut().expect_word_token_and_bump();
             if atom!("arguments") == word || atom!("eval") == word {
@@ -98,10 +96,7 @@ impl<I: Tokens> Parser<I> {
         Ok(ident.into())
     }
 
-    pub(crate) fn parse_opt_binding_ident(
-        &mut self,
-        disallow_let: bool,
-    ) -> PResult<Option<BindingIdent>> {
+    pub(crate) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
         let token_and_span = self.input().get_cur();
         let cur = token_and_span.token;
@@ -111,7 +106,7 @@ impl<I: Tokens> Parser<I> {
                 Ident::new_no_ctxt(atom!("this"), self.span(start)).into(),
             ))
         } else if cur.is_word() && !cur.is_reserved(self.ctx()) {
-            self.parse_binding_ident(disallow_let).map(Some)
+            self.parse_binding_ident().map(Some)
         } else {
             Ok(None)
         }

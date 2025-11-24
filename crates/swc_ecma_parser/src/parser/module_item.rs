@@ -147,7 +147,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_imported_binding(&mut self) -> PResult<Ident> {
         Ok(self
             .do_outside_of_context(Context::InAsync.union(Context::InGenerator), |p| {
-                p.parse_binding_ident(false)
+                p.parse_binding_ident()
             })?
             .into())
     }
@@ -196,12 +196,12 @@ impl<I: Tokens> Parser<I> {
                             }));
                         }
 
-                        let maybe_as: Ident = self.parse_binding_ident(false)?.into();
+                        let maybe_as: Ident = self.parse_binding_ident()?.into();
                         if maybe_as.sym == "as" {
                             if self.input().cur().is_word() {
                                 // `import { type as as as } from 'mod'`
                                 // `import { type as as foo } from 'mod'`
-                                let local: Ident = self.parse_binding_ident(false)?.into();
+                                let local: Ident = self.parse_binding_ident()?.into();
 
                                 if type_only {
                                     self.emit_err(orig_name.span, SyntaxError::TS2206);
@@ -244,7 +244,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if self.input_mut().eat(Token::As) {
-                    let local: Ident = self.parse_binding_ident(false)?.into();
+                    let local: Ident = self.parse_binding_ident()?.into();
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new_with_checked(start, local.span.hi()),
                         local,
@@ -271,7 +271,7 @@ impl<I: Tokens> Parser<I> {
             }
             ModuleExportName::Str(orig_str) => {
                 if self.input_mut().eat(Token::As) {
-                    let local: Ident = self.parse_binding_ident(false)?.into();
+                    let local: Ident = self.parse_binding_ident()?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new_with_checked(start, local.span.hi()),
                         local,

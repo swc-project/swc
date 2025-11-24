@@ -25,7 +25,7 @@ impl PatType {
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
-        self.parse_binding_pat_or_ident(false)
+        self.parse_binding_pat_or_ident()
     }
 
     /// argument of arrow is pattern, although idents in pattern is already
@@ -382,7 +382,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_binding_element);
 
         let start = self.cur_pos();
-        let left = self.parse_binding_pat_or_ident(false)?;
+        let left = self.parse_binding_pat_or_ident()?;
 
         if self.input_mut().eat(Token::Eq) {
             let right = self.allow_in_expr(Self::parse_assignment_expr)?;
@@ -402,12 +402,12 @@ impl<I: Tokens> Parser<I> {
         Ok(left)
     }
 
-    pub(crate) fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
+    pub(crate) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
         let cur = self.input().cur();
         if cur.is_word() {
-            self.parse_binding_ident(disallow_let).map(Pat::from)
+            self.parse_binding_ident().map(Pat::from)
         } else if cur == Token::LBracket {
             self.parse_array_binding_pat()
         } else if cur == Token::LBrace {
@@ -446,7 +446,7 @@ impl<I: Tokens> Parser<I> {
                 is_rest = true;
                 let dot3_token = self.span(start);
 
-                let pat = self.parse_binding_pat_or_ident(false)?;
+                let pat = self.parse_binding_pat_or_ident()?;
                 rest_span = self.span(start);
                 let pat = RestPat {
                     span: rest_span,
@@ -651,7 +651,7 @@ impl<I: Tokens> Parser<I> {
                 is_rest = true;
                 let dot3_token = self.span(pat_start);
 
-                let pat = self.parse_binding_pat_or_ident(false)?;
+                let pat = self.parse_binding_pat_or_ident()?;
                 let type_ann =
                     if self.input().syntax().typescript() && self.input().is(Token::Colon) {
                         let cur_pos = self.cur_pos();
@@ -704,7 +704,7 @@ impl<I: Tokens> Parser<I> {
             let pat = if self.input_mut().eat(Token::DotDotDot) {
                 let dot3_token = self.span(pat_start);
 
-                let mut pat = self.parse_binding_pat_or_ident(false)?;
+                let mut pat = self.parse_binding_pat_or_ident()?;
 
                 if self.input_mut().eat(Token::Eq) {
                     let right = self.parse_assignment_expr()?;
@@ -859,9 +859,7 @@ mod tests {
     }
 
     fn object_pat(s: &'static str) -> Pat {
-        test_parser(s, Syntax::default(), |p| {
-            p.parse_binding_pat_or_ident(false)
-        })
+        test_parser(s, Syntax::default(), |p| p.parse_binding_pat_or_ident())
     }
 
     fn ident(s: &str) -> Ident {

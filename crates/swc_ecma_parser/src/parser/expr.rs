@@ -2497,7 +2497,7 @@ impl<I: Tokens> Parser<I> {
                         return Ok(id.into());
                     }
 
-                    let ident = p.parse_binding_ident(false)?;
+                    let ident = p.parse_binding_ident()?;
                     if p.input().syntax().typescript()
                         && ident.sym == "as"
                         && !p.input().is(Token::Arrow)
