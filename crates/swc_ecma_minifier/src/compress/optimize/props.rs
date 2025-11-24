@@ -225,7 +225,7 @@ impl Optimizer<'_> {
                 .get(&(obj.to_id(), sym.clone()))
                 .cloned()
             {
-                report_change!("hoist_props: Inlining `{}.{}`", obj.sym, sym);
+                report_change!("hoist_props: Inlining `{}.{:?}`", obj.sym, sym);
                 self.changed = true;
                 *e = value.into();
             }

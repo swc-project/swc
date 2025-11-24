@@ -594,7 +594,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision()` as `{}`",
+                    "evaluate: Evaluating `{}.toPrecision()` as `{:?}`",
                     num,
                     value
                 );
@@ -642,7 +642,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toExponential()` as `{}`",
+                    "evaluate: Evaluating `{}.toExponential()` as `{:?}`",
                     num,
                     value
                 );
@@ -668,7 +668,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision({})` as `{}`",
+                    "evaluate: Evaluating `{}.toPrecision({})` as `{:?}`",
                     num,
                     precision,
                     value
