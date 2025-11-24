@@ -391,7 +391,7 @@ impl Pure<'_> {
                     self.changed = true;
 
                     report_change!(
-                        "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
+                        "template: Concatted a string (`{:?}`) on rhs of `+` to a template literal",
                         rs.value
                     );
 
@@ -427,7 +427,7 @@ impl Pure<'_> {
                     self.changed = true;
 
                     report_change!(
-                        "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
+                        "template: Prepended a string (`{:?}`) on lhs of `+` to a template literal",
                         ls.value
                     );
 
@@ -500,13 +500,16 @@ impl Pure<'_> {
                     if let Value::Known(Type::Str) = type_of_third {
                         if let Value::Known(second_str) = left.right.as_pure_wtf8(self.expr_ctx) {
                             if let Value::Known(third_str) = bin.right.as_pure_wtf8(self.expr_ctx) {
+                                #[cfg(feature = "debug")]
+                                let debug_second_str = second_str.clone();
+
                                 let new_str = second_str.into_owned() + &*third_str;
                                 let left_span = left.span;
 
                                 self.changed = true;
                                 report_change!(
-                                    "strings: Concatting `{} + {}` to `{}`",
-                                    second_str,
+                                    "strings: Concatting `{:?} + {:?}` to `{:?}`",
+                                    debug_second_str,
                                     third_str,
                                     new_str
                                 );
