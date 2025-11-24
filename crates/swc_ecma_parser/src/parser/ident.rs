@@ -124,76 +124,54 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_ident);
 
         let token_and_span = self.input().get_cur();
-        if !token_and_span.token.is_word() {
-            syntax_error!(self, SyntaxError::ExpectedIdent)
-        }
         let span = token_and_span.span;
-        let start = span.lo;
         let t = token_and_span.token;
 
-        // Spec:
-        // It is a Syntax Error if this phrase is contained in strict mode code and the
-        // StringValue of IdentifierName is: "implements", "interface", "let",
-        // "package", "private", "protected", "public", "static", or "yield".
-        if t == Token::Enum {
-            let word = self.input_mut().expect_word_token_and_bump();
-            self.emit_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
-            return Ok(Ident::new_no_ctxt(word, self.span(start)));
-        } else if t == Token::Yield
-            || t == Token::Let
-            || t == Token::Static
-            || t == Token::Implements
-            || t == Token::Interface
-            || t == Token::Package
-            || t == Token::Private
-            || t == Token::Protected
-            || t == Token::Public
-        {
-            let word = self.input_mut().expect_word_token_and_bump();
-            self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
-            return Ok(Ident::new_no_ctxt(word, self.span(start)));
+        // https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-keywords-and-reserved-words
+        let word = match t {
+            Token::Let
+            | Token::Static
+            | Token::Enum
+            | Token::Implements
+            | Token::Interface
+            | Token::Package
+            | Token::Private
+            | Token::Protected
+            | Token::Public => {
+                let word = t.take_word(self.input_mut()).unwrap();
+                self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
+                word
+            }
+            Token::Yield if incl_yield => {
+                atom!("yield")
+            }
+            Token::Await => {
+                let ctx = self.ctx();
+                if ctx.contains(Context::InDeclare) {
+                    atom!("await")
+                } else if ctx.contains(Context::InStaticBlock) {
+                    syntax_error!(self, span, SyntaxError::ExpectedIdent)
+                } else if ctx.contains(Context::Module) | ctx.contains(Context::InAsync) {
+                    syntax_error!(self, span, SyntaxError::InvalidIdentInAsync)
+                } else if incl_await {
+                    atom!("await")
+                } else {
+                    syntax_error!(self, span, SyntaxError::ExpectedIdent)
+                }
+            }
+            Token::This if self.syntax().typescript() => atom!("this"),
+            Token::Ident => {
+                let word = t.take_word(self.input_mut()).unwrap();
+                if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
+                    self.emit_err(span, SyntaxError::ArgumentsInClassField)
+                }
+                word
+            }
+            t if t.is_known_ident() => t.take_known_ident(),
+            _ => syntax_error!(self, SyntaxError::ExpectedIdent),
         };
 
-        let word;
-
-        // Spec:
-        // It is a Syntax Error if StringValue of IdentifierName is the same String
-        // value as the StringValue of any ReservedWord except for yield or await.
-        if t == Token::Await {
-            let ctx = self.ctx();
-            if ctx.contains(Context::InDeclare) {
-                word = atom!("await");
-            } else if ctx.contains(Context::InStaticBlock) {
-                syntax_error!(self, span, SyntaxError::ExpectedIdent)
-            } else if ctx.contains(Context::Module) | ctx.contains(Context::InAsync) {
-                syntax_error!(self, span, SyntaxError::InvalidIdentInAsync)
-            } else if incl_await {
-                word = atom!("await")
-            } else {
-                syntax_error!(self, span, SyntaxError::ExpectedIdent)
-            }
-        } else if t == Token::This && self.input().syntax().typescript() {
-            word = atom!("this")
-        } else if t == Token::Let {
-            word = atom!("let")
-        } else if t.is_known_ident() {
-            let ident = t.take_known_ident();
-            word = ident
-        } else if t == Token::Ident {
-            let word = self.input_mut().expect_word_token_and_bump();
-            if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
-                self.emit_err(span, SyntaxError::ArgumentsInClassField)
-            }
-            return Ok(Ident::new_no_ctxt(word, self.span(start)));
-        } else if t == Token::Yield && incl_yield {
-            word = atom!("yield")
-        } else if t == Token::Null || t == Token::True || t == Token::False || t.is_keyword() {
-            syntax_error!(self, span, SyntaxError::ExpectedIdent)
-        } else {
-            unreachable!()
-        }
         self.bump();
-
-        Ok(Ident::new_no_ctxt(word, self.span(start)))
+        Ok(Ident::new_no_ctxt(word, span))
     }
 }
