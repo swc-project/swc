@@ -577,18 +577,15 @@ impl<I: Tokens> Parser<I> {
         }
 
         // Construct IfStmt backward
-        while let Some((start, test, cons)) = self.if_stmt_stack.pop() {
-            let span = self.span(start);
+        let end = self.last_pos();
+        for (start, test, cons) in self.if_stmt_stack.drain(if_stmt_stack_start..).rev() {
+            let span = Span::new_with_checked(start, end);
             alt = Some(Box::new(Stmt::If(IfStmt {
                 span,
                 test,
                 cons,
                 alt,
             })));
-
-            if self.if_stmt_stack.len() == if_stmt_stack_start {
-                break;
-            }
         }
 
         let span = self.span(start);
