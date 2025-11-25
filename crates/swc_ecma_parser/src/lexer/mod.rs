@@ -244,17 +244,11 @@ impl<'a> Lexer<'a> {
     fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
 
-        unsafe {
-            // Safety: cur() is Some(c), if this method is called.
-            self.input.bump();
-        }
+        self.bump();
 
         // '++', '--'
         Ok(if self.input.cur() == Some(C) {
-            unsafe {
-                // Safety: cur() is Some(c)
-                self.input.bump();
-            }
+            self.bump();
 
             // Handle -->
             if self.state.had_line_break && C == b'-' && self.eat(b'>') {
@@ -286,10 +280,7 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
-        unsafe {
-            // Safety: cur() is Some(c) if this method is called.
-            self.input.bump();
-        }
+        self.bump();
 
         Ok(if self.input.eat_byte(b'=') {
             // "=="
@@ -543,9 +534,18 @@ impl<'a> Lexer<'a> {
 
     #[inline(always)]
     fn bump(&mut self) {
-        unsafe {
-            // Safety: Actually this is not safe but this is an internal method.
-            self.input_mut().bump()
+        if let Some(byte) = self.input().cur() {
+            // Calculate the number of bytes in this UTF-8 character
+            let len = if byte < 0x80 {
+                1 // ASCII
+            } else if byte < 0xe0 {
+                2 // 2-byte UTF-8
+            } else if byte < 0xf0 {
+                3 // 3-byte UTF-8
+            } else {
+                4 // 4-byte UTF-8
+            };
+            self.input_mut().bump_bytes(len);
         }
     }
 
@@ -929,10 +929,7 @@ impl<'a> Lexer<'a> {
                     }
 
                     // Ignore this _ character
-                    unsafe {
-                        // Safety: cur() returns Some(c) where c is a valid char
-                        self.input_mut().bump();
-                    }
+                    self.bump();
 
                     continue;
                 }
@@ -1349,10 +1346,7 @@ impl<'a> Lexer<'a> {
     fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
         debug_assert!(self.syntax().jsx());
         let start = self.input().cur_pos();
-        unsafe {
-            // Safety: cur() was Some(quote)
-            self.input_mut().bump(); // `quote`
-        }
+        self.bump(); // `quote`
         let mut out = String::new();
         let mut chunk_start = self.input().cur_pos();
         loop {
@@ -1416,10 +1410,7 @@ impl<'a> Lexer<'a> {
 
                 chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
             } else {
-                unsafe {
-                    // Safety: cur() was Some(ch)
-                    self.input_mut().bump();
-                }
+                self.bump();
             }
         }
         let s = unsafe {
@@ -1719,10 +1710,7 @@ impl<'a> Lexer<'a> {
             _ => c,
         };
 
-        unsafe {
-            // Safety: cur() is Some(c) if this method is called.
-            self.input_mut().bump();
-        }
+        self.bump();
 
         Ok(CodePoint::from_u32(c as u32))
     }
@@ -2074,10 +2062,7 @@ impl<'a> Lexer<'a> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
-        unsafe {
-            // Safety: cur() is Some(c as char)
-            self.input_mut().bump();
-        }
+        self.bump();
         let token = if is_bit_and {
             Token::Ampersand
         } else {
@@ -2096,16 +2081,10 @@ impl<'a> Lexer<'a> {
 
         // '||', '&&'
         if self.input().cur() == Some(C) {
-            unsafe {
-                // Safety: cur() is Some(c)
-                self.input_mut().bump();
-            }
+            self.bump();
 
             if self.input().cur() == Some(b'=') {
-                unsafe {
-                    // Safety: cur() is Some('=')
-                    self.input_mut().bump();
-                }
+                self.bump();
 
                 return Ok(if is_bit_and {
                     Token::LogicalAndEq
@@ -2252,10 +2231,7 @@ impl<'a> Lexer<'a> {
                         self.wtf8_atom(Wtf8::from_str(s))
                     };
 
-                    unsafe {
-                        // Safety: cur is quote
-                        self.input_mut().bump();
-                    }
+                    self.bump(); // cur is quote
 
                     let end = self.cur_pos();
                     let raw = unsafe {

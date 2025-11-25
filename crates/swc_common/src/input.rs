@@ -156,6 +156,13 @@ impl<'a> Input<'a> for StringInput<'a> {
     }
 
     #[inline]
+    fn bump_bytes(&mut self, n: usize) {
+        debug_assert!(n <= self.remaining.len());
+        self.remaining = unsafe { self.remaining.get_unchecked(n..) };
+        self.last_pos.0 += n as u32;
+    }
+
+    #[inline]
     fn cur_as_ascii(&self) -> Option<u8> {
         let first_byte = *self.remaining.as_bytes().first()?;
         if first_byte <= 0x7f {
@@ -286,6 +293,10 @@ pub trait Input<'a>: Clone {
     /// This should be called only when `cur()` returns `Some`. i.e.
     /// when the Input is not empty.
     unsafe fn bump(&mut self);
+
+    /// Advances the input by exactly `n` bytes.
+    /// Unlike `bump()`, this does not calculate UTF-8 character boundaries.
+    fn bump_bytes(&mut self, n: usize);
 
     /// Returns the current byte as ASCII if it's valid ASCII (0x00-0x7F).
     /// Returns [None] if it's end of input or if the byte is not ASCII.

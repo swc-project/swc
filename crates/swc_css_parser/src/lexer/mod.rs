@@ -220,11 +220,18 @@ where
         self.cur = cur;
         self.cur_pos = self.input.last_pos();
 
-        if cur.is_some() {
-            unsafe {
-                // Safety: cur is Some
-                self.input.bump();
-            }
+        if let Some(byte) = cur {
+            // Calculate the number of bytes in this UTF-8 character
+            let len = if byte < 0x80 {
+                1 // ASCII
+            } else if byte < 0xe0 {
+                2 // 2-byte UTF-8
+            } else if byte < 0xf0 {
+                3 // 3-byte UTF-8
+            } else {
+                4 // 4-byte UTF-8
+            };
+            self.input.bump_bytes(len);
         }
 
         cur

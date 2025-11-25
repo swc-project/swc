@@ -48,10 +48,7 @@ const ERR: ByteHandler = |lexer| {
     };
 
     let start = lexer.cur_pos();
-    unsafe {
-        // Safety: Byte handler is only called for non-last characters
-        lexer.input.bump();
-    }
+    lexer.bump();
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 };
 
@@ -315,10 +312,7 @@ const UNI: ByteHandler = |lexer| {
     }
 
     let start = lexer.cur_pos();
-    unsafe {
-        // Safety: Byte handler is only called for non-last characters
-        lexer.input.bump();
-    }
+    lexer.bump();
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 };
 

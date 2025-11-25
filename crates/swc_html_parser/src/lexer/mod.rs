@@ -159,10 +159,8 @@ where
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
         // ignored and will itself be skipped.
         if lexer.input.is_at_start() && lexer.input.cur_as_char() == Some('\u{feff}') {
-            unsafe {
-                // Safety: We know that the current character is '\u{feff}'.
-                lexer.input.bump();
-            }
+            // Safety: We know that the current character is '\u{feff}' (3 bytes: EF BB BF).
+            lexer.input.bump_bytes(3);
         }
 
         lexer
@@ -254,11 +252,18 @@ where
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
 
-        if self.cur.is_some() {
-            unsafe {
-                // Safety: self.cur is Some()
-                self.input.bump();
-            }
+        if let Some(byte) = self.cur {
+            // Calculate the number of bytes in this UTF-8 character
+            let len = if byte < 0x80 {
+                1 // ASCII
+            } else if byte < 0xe0 {
+                2 // 2-byte UTF-8
+            } else if byte < 0xf0 {
+                3 // 3-byte UTF-8
+            } else {
+                4 // 4-byte UTF-8
+            };
+            self.input.bump_bytes(len);
         }
     }
 
@@ -433,10 +438,8 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                unsafe {
-                    // Safety: cur() is Some(b'\n')
-                    self.input.bump();
-                }
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
 
                 sub_buf.push('\n');
             }
@@ -491,10 +494,8 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                unsafe {
-                    // Safety: cur() is Some(b'\n')
-                    self.input.bump();
-                }
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
 
                 sub_buf.push('\n');
             }
@@ -531,10 +532,8 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                unsafe {
-                    // Safety: cur() is Some(b'\n')
-                    self.input.bump();
-                }
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
 
                 sub_buf.push('\n');
             }
@@ -867,10 +866,8 @@ where
             sub_buf.push('\r');
 
             if self.input.cur() == Some(b'\n') {
-                unsafe {
-                    // Safety: cur() is Some(b'\n')
-                    self.input.bump();
-                }
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
 
                 sub_buf.push('\n');
             }
@@ -901,10 +898,8 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                unsafe {
-                    // Safety: cur() is Some(b'\n')
-                    self.input.bump();
-                }
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
 
                 sub_buf.push('\n');
             }
@@ -1038,10 +1033,8 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                unsafe {
-                    // Safety: cur() is Some(b'\n')
-                    self.input.bump();
-                }
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
 
                 sub_buf.push('\n');
             }
@@ -1124,10 +1117,8 @@ where
             buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                unsafe {
-                    // Safety: cur() is Some(b'\n')
-                    self.input.bump();
-                }
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
                 buf.push('\n');
             }
 
@@ -4957,10 +4948,8 @@ where
     #[inline(always)]
     fn skip_whitespaces(&mut self, c: u8) {
         if c == b'\r' && self.input.cur() == Some(b'\n') {
-            unsafe {
-                // Safety: cur() is Some
-                self.input.bump();
-            }
+            // Safety: cur() is Some(b'\n'), which is 1 byte
+            self.input.bump_bytes(1);
         }
     }
 }
