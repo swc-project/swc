@@ -794,13 +794,13 @@ impl<'a> Lexer<'a> {
                                     let cur = self.input().cur_pos();
                                     // Safety: We got slice_start and end from self.input so those are
                                     // valid.
-                                    let s = self.input_mut().slice(slice_start, BytePos((pos_offset - 2) as u32));
+                                    let s = self.input_mut().slice(slice_start, slice_start + BytePos((pos_offset - 2) as u32));
                                     self.input_mut().reset_to(cur);
                                     s
                                 };
                                 let cmt = Comment {
                                     kind: CommentKind::Block,
-                                    span: Span::new_with_checked(start, BytePos(pos_offset as u32)),
+                                    span: Span::new_with_checked(start, slice_start + BytePos(pos_offset as u32)),
                                     text: self.atom(s),
                                 };
 
