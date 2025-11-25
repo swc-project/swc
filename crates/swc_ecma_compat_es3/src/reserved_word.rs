@@ -143,7 +143,8 @@ impl VisitMut for ReservedWord {
         }
 
         if i.is_reserved_in_es3() {
-            i.sym = format!("_{}", i.sym).into()
+            // Use with_prefix to ensure SyntaxContext is explicitly preserved
+            *i = i.with_prefix("_");
         }
     }
 
@@ -219,6 +220,53 @@ function utf8CheckByte(byte) {
             console.log("char====char");
             return "";
         }
+        "#
+    );
+
+    // Test for Next.js issue #86076 - ensure SyntaxContext is preserved
+    // when transforming ES3 reserved words
+    test!(
+        Default::default(),
+        |_| reserved_words(false),
+        nextjs_issue_86076,
+        r#"
+        export function char(input) {
+            return input.toUpperCase();
+        }
+
+        export const byte = 255;
+
+        export class int {
+            constructor(value) {
+                this.value = value;
+            }
+        }
+        "#
+    );
+
+    // Test multiple reserved words in same module
+    test!(
+        Default::default(),
+        |_| reserved_words(false),
+        multiple_reserved_words,
+        r#"
+        function byte() { return 8; }
+        function char() { return "c"; }
+        function int() { return 42; }
+
+        export { byte, char, int };
+        "#
+    );
+
+    // Test variable declarations with reserved words
+    test!(
+        Default::default(),
+        |_| reserved_words(false),
+        reserved_var_declarations,
+        r#"
+        export var byte = 8;
+        export let char = "c";
+        export const int = 42;
         "#
     );
 }
