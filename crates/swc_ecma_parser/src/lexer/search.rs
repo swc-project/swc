@@ -58,6 +58,15 @@ macro_rules! safe_byte_match_table {
 }
 
 #[macro_export]
+/// Macro to search for first byte matching a `ByteMatchTable` or
+/// `SafeByteMatchTable`.
+///
+/// Search processes source in batches of `SEARCH_BATCH_SIZE` bytes for speed.
+/// When not enough bytes remaining in source for a batch, search source byte by
+/// byte.
+///
+/// The search process is pointer-based and bump the lexer at the end. So pay
+/// attention not to change the pos of lexer in `continue_if`.
 macro_rules! byte_search {
     // Simple version without continue_if
     (

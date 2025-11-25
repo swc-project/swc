@@ -754,7 +754,6 @@ impl<'a> Lexer<'a> {
         let slice_start = self.cur_pos();
 
         let had_line_break_before_last = self.had_line_break_before_last();
-        let mut had_line_break = false;
 
         byte_search! {
             lexer: self,
@@ -769,8 +768,8 @@ impl<'a> Lexer<'a> {
                             let bytes = current_slice.as_bytes();
                             let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
                             if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
-                                had_line_break = true;
-                                pos_offset += 2;
+                                self.state_mut().mark_had_line_break();
+                                pos_offset += 2
                             }
                         }
                         true
@@ -779,29 +778,29 @@ impl<'a> Lexer<'a> {
                         let bytes = self.input().as_str().as_bytes();
                         if bytes.get(pos_offset + 1) == Some(&b'/') {
                             // Consume "*/"
-                            self.input_mut().bump_bytes(pos_offset + 2);
-
-                            let end = self.cur_pos();
+                            pos_offset += 2;
 
                             // Decide trailing / leading
                             let mut is_for_next =
                                 had_line_break_before_last || !self.state().can_have_trailing_comment();
 
                             // If next char is ';' without newline, treat as trailing
-                            if !had_line_break_before_last && self.input().is_byte(b';') {
+                            if !had_line_break_before_last && bytes.get(pos_offset) == Some(&b';') {
                                 is_for_next = false;
                             }
 
                             if self.comments_buffer().is_some() {
-                                let src = unsafe {
+                                let s = unsafe {
+                                    let cur = self.input().cur_pos();
                                     // Safety: We got slice_start and end from self.input so those are
                                     // valid.
-                                    self.input_mut().slice(slice_start, end)
+                                    let s = self.input_mut().slice(slice_start, BytePos((pos_offset - 2) as u32));
+                                    self.input_mut().reset_to(cur);
+                                    s
                                 };
-                                let s = &src[..src.len() - 2];
                                 let cmt = Comment {
                                     kind: CommentKind::Block,
-                                    span: Span::new_with_checked(start, end),
+                                    span: Span::new_with_checked(start, BytePos(pos_offset as u32)),
                                     text: self.atom(s),
                                 };
 
@@ -819,16 +818,13 @@ impl<'a> Lexer<'a> {
                                 }
                             }
 
-                            if had_line_break {
-                                self.state_mut().mark_had_line_break();
-                            }
-                            return;
+                            false
+                        } else {
+                            true
                         }
-
-                        true
                     }
                     _ => {
-                        had_line_break = true;
+                        self.state_mut().mark_had_line_break();
                         true
                     },
                 }
@@ -840,10 +836,6 @@ impl<'a> Lexer<'a> {
                 return;
             }
         };
-
-        if had_line_break {
-            self.state_mut().mark_had_line_break();
-        }
     }
 
     /// Ensure that ident cannot directly follow numbers.
