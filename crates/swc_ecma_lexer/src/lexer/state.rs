@@ -56,11 +56,6 @@ pub struct State {
 impl State {
     pub(super) fn update(&mut self, start: BytePos, next: TokenKind) {
         if cfg!(feature = "debug") {
-            tracing::trace!(
-                "updating state: next={:?}, had_line_break={} ",
-                next,
-                self.had_line_break()
-            );
         }
         let prev = self.token_type();
         self.set_token_type(next.into());

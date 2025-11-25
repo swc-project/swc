@@ -109,7 +109,6 @@ impl RustPlugins {
         ret
     }
 
-    #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]
     #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         use anyhow::Context;
@@ -185,7 +184,6 @@ impl RustPlugins {
     }
 
     #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
-    #[tracing::instrument(level = "info", skip_all)]
     fn apply_inner(&mut self, n: Program) -> Result<Program, anyhow::Error> {
         // [TODO]: unimplemented
         n
@@ -258,7 +256,6 @@ pub(crate) fn compile_wasm_plugins(
             };
 
             inner_cache.store_bytes_from_path(plugin_runtime, &path, plugin_name)?;
-            tracing::debug!("Initialized WASM plugin {plugin_name}");
         }
     }
 

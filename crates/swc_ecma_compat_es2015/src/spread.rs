@@ -486,7 +486,6 @@ impl Spread {
     }
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
 fn expand_literal_args(
     args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
 ) -> Vec<Option<ExprOrSpread>> {

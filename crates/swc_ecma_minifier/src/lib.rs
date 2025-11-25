@@ -260,11 +260,6 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: Marks) {
         #[cfg(feature = "debug")]
         if visitor.changed() {
             let src = crate::debug::dump(&*m, false);
-            tracing::debug!(
-                "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
-                start,
-                src
-            );
         }
 
         if !visitor.changed() {

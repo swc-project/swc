@@ -878,7 +878,6 @@ impl ObjectRest {
     }
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
 fn object_without_properties(
     obj: Box<Expr>,
     excluded_props: Vec<Option<ExprOrSpread>>,
@@ -956,7 +955,6 @@ fn object_without_properties(
     .into()
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
 fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
     props
         .iter()

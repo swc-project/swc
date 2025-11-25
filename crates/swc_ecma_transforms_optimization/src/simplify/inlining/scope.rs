@@ -62,7 +62,6 @@ impl Inlining<'_> {
             (child.scope.unresolved_usages, child.scope.bindings)
         };
 
-        tracing::trace!("propagating variables");
 
         self.scope.unresolved_usages.extend(unresolved_usages);
 
@@ -78,7 +77,6 @@ impl Inlining<'_> {
             }) {
                 let v: VarInfo = v;
 
-                tracing::trace!("Hoisting a variable {:?}", id);
 
                 if self.scope.unresolved_usages.contains(&id) {
                     v.inline_prevented.set(true)
@@ -102,12 +100,6 @@ impl Inlining<'_> {
         is_change: bool,
         kind: VarType,
     ) {
-        tracing::trace!(
-            "({}, {:?}) declare({})",
-            self.scope.depth(),
-            self.phase,
-            id.0
-        );
 
         let init = init.map(|cow| match cow {
             Cow::Owned(v) => Cow::Owned(v),
@@ -143,10 +135,8 @@ impl Inlining<'_> {
             };
 
         if is_inline_prevented {
-            tracing::trace!("\tdeclare: Inline prevented: {:?}", id)
         }
         if is_undefined {
-            tracing::trace!("\tdeclare: {:?} is undefined", id);
         }
 
         let idx = match self.scope.bindings.entry(id.clone()) {
@@ -192,7 +182,6 @@ impl Inlining<'_> {
                 }
 
                 if scope.kind == ScopeKind::Loop {
-                    tracing::trace!("preventing inline as it's declared in a loop");
                     self.scope.prevent_inline(&id);
                     break;
                 }
@@ -210,7 +199,6 @@ impl Inlining<'_> {
 
         if barrier_works {
             if let Some((value_idx, vi)) = value_idx {
-                tracing::trace!("\tdeclare: {} -> {}", idx, value_idx);
 
                 let barrier_exists = (|| {
                     for &blocker in self.scope.inline_barriers.borrow().iter() {
@@ -225,12 +213,10 @@ impl Inlining<'_> {
                 })();
 
                 if value_idx > idx || barrier_exists {
-                    tracing::trace!("Variable use before declaration: {:?}", id);
                     self.scope.prevent_inline(&id);
                     self.scope.prevent_inline(&vi)
                 }
             } else {
-                tracing::trace!("\tdeclare: value idx is none");
             }
         }
     }
@@ -315,7 +301,6 @@ impl<'a> Scope<'a> {
     }
 
     fn read_prevents_inlining(&self, id: &Id) -> bool {
-        tracing::trace!("read_prevents_inlining({:?})", id);
 
         if let Some(v) = self.find_binding(id) {
             match v.kind {
@@ -339,17 +324,11 @@ impl<'a> Scope<'a> {
                 let found = scope.find_binding_from_current(id).is_some();
 
                 if found {
-                    tracing::trace!("found");
                     break;
                 }
-                tracing::trace!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
 
                 match scope.kind {
                     ScopeKind::Fn { .. } => {
-                        tracing::trace!(
-                            "{}: variable access from a nested function detected",
-                            id.0
-                        );
                         return true;
                     }
                     ScopeKind::Loop | ScopeKind::Cond => {
@@ -366,7 +345,6 @@ impl<'a> Scope<'a> {
 
     pub fn add_read(&mut self, id: &Id) {
         if self.read_prevents_inlining(id) {
-            tracing::trace!("prevent inlining because of read: {}", id.0);
 
             self.prevent_inline(id)
         }
@@ -381,7 +359,6 @@ impl<'a> Scope<'a> {
                 var_info.inline_prevented.set(true);
             }
         } else {
-            tracing::trace!("({}): Unresolved usage.: {:?}", self.depth(), id);
             self.unresolved_usages.insert(id.clone());
         }
 
@@ -394,7 +371,6 @@ impl<'a> Scope<'a> {
     }
 
     fn write_prevents_inline(&self, id: &Id) -> bool {
-        tracing::trace!("write_prevents_inline({})", id.0);
 
         {
             let mut cur = Some(self);
@@ -405,14 +381,9 @@ impl<'a> Scope<'a> {
                 if found {
                     break;
                 }
-                tracing::trace!("({}): {}: kind = {:?}", scope.depth(), id.0, scope.kind);
 
                 match scope.kind {
                     ScopeKind::Fn { .. } => {
-                        tracing::trace!(
-                            "{}: variable access from a nested function detected",
-                            id.0
-                        );
                         return true;
                     }
                     ScopeKind::Loop | ScopeKind::Cond => {
@@ -437,7 +408,6 @@ impl<'a> Scope<'a> {
         .entered();
 
         if self.write_prevents_inline(id) {
-            tracing::trace!("prevent inlining because of write: {}", id.0);
 
             self.prevent_inline(id)
         }
@@ -457,12 +427,6 @@ impl<'a> Scope<'a> {
         } else if self.has_constant(id) {
             // noop
         } else {
-            tracing::trace!(
-                "({}): Unresolved. (scope = ({})): {:?}",
-                self.depth(),
-                scope.depth(),
-                id
-            );
             self.bindings.insert(
                 id.clone(),
                 VarInfo {
@@ -534,7 +498,6 @@ impl<'a> Scope<'a> {
     }
 
     pub fn store_inline_barrier(&self, phase: Phase) {
-        tracing::trace!("store_inline_barrier({:?})", phase);
 
         match phase {
             Phase::Analysis => {
@@ -578,7 +541,6 @@ impl<'a> Scope<'a> {
     }
 
     pub fn prevent_inline(&self, id: &Id) {
-        tracing::trace!("({}) Prevent inlining: {:?}", self.depth(), id);
 
         if let Some(v) = self.find_binding_from_current(id) {
             v.inline_prevented.set(true);

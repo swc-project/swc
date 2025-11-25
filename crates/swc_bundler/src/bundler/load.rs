@@ -74,11 +74,9 @@ where
         file_name: &FileName,
     ) -> Result<Option<TransformedModule>, Error> {
         self.run(|| {
-            tracing::trace!("load_transformed: ({})", file_name);
 
             // In case of common module
             if let Some(cached) = self.scope.get_module_by_path(file_name) {
-                tracing::debug!("Cached: {}", file_name);
                 return Ok(Some(cached));
             }
 
@@ -88,20 +86,12 @@ where
                 .context("failed to analyze module")?;
             files.dedup_by_key(|v| v.1.clone());
 
-            tracing::debug!(
-                "({:?}, {:?}, {:?}) Storing module: {}",
-                v.id,
-                v.local_ctxt(),
-                v.export_ctxt(),
-                file_name
-            );
             self.scope.store_module(v.clone());
 
             // Load dependencies and store them in the `Scope`
             let results = files
                 .into_par_iter()
                 .map(|(_src, path)| {
-                    tracing::trace!("loading dependency: {}", path);
                     self.load_transformed(&path)
                 })
                 .collect::<Vec<_>>();
@@ -135,7 +125,6 @@ where
         mut data: ModuleData,
     ) -> Result<(TransformedModule, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            tracing::trace!("transform_module({})", data.fm.name);
             let (id, local_mark, export_mark) = self.scope.module_id_gen.gen(file_name);
 
             data.module.visit_mut_with(&mut ClearMark);
@@ -225,7 +214,6 @@ where
         raw: RawExports,
     ) -> Result<(Exports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            tracing::trace!("resolve_exports({})", base);
             let mut files = Vec::new();
 
             let mut exports = Exports::default();
@@ -282,7 +270,6 @@ where
         info: RawImports,
     ) -> Result<(Imports, Vec<(Source, Lrc<FileName>)>), Error> {
         self.run(|| {
-            tracing::trace!("resolve_imports({})", base);
             let mut files = Vec::new();
 
             let mut merged = Imports::default();

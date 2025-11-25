@@ -126,7 +126,6 @@ static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "t
 /// Infer list of files to be transformed from cli arguments.
 /// If given input is a directory, it'll traverse it and collect all supported
 /// files.
-#[tracing::instrument(level = "info", skip_all)]
 fn get_files_list(
     raw_files_input: &[PathBuf],
     extensions: &[String],

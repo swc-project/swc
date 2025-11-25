@@ -119,7 +119,6 @@ impl<'a> CompilerImpl<'a> {
 }
 
 /// Generate the conditional expression for nullish coalescing
-#[tracing::instrument(level = "debug", skip_all)]
 fn make_cond(
     no_document_all: bool,
     span: Span,

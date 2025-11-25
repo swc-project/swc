@@ -208,7 +208,6 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn eat_general_semi(&mut self) -> bool {
         if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", self.input().cur());
         }
         let cur = self.input().cur();
         if cur.is_semi() {

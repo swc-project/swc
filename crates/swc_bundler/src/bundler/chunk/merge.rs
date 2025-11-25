@@ -98,7 +98,6 @@ where
             let all_deps_of_entry =
                 self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
-            tracing::debug!("Merging dependencies: {:?}", all_deps_of_entry);
 
             let deps = all_deps_of_entry.iter().map(|id| {
                 let dep_info = self.scope.get_module(*id).unwrap();
@@ -438,14 +437,11 @@ where
     }
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
-        tracing::trace!("All modules are merged");
 
-        tracing::debug!("Injecting reexports");
         self.inject_reexports(ctx, id, entry);
 
         // entry.print(&self.cm, "before inline");
 
-        tracing::debug!("Inlining injected variables");
 
         inline(self.injected_ctxt, entry);
 
@@ -495,7 +491,6 @@ where
             true
         });
 
-        tracing::debug!("Renaming keywords");
 
         entry.visit_mut_with(&mut KeywordRenamer::default());
 
@@ -511,10 +506,8 @@ where
 
     /// Remove exports with wrong syntax context
     fn remove_wrong_exports(&self, ctx: &Ctx, info: &TransformedModule, module: &mut Modules) {
-        tracing::debug!("Removing wrong exports");
 
         let item_count = module.iter().count();
-        tracing::trace!("Item count = {}", item_count);
 
         module.retain_mut(|_, item| {
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -552,7 +545,6 @@ where
             true
         });
 
-        tracing::debug!("Removed wrong exports");
     }
 
     /// This method handles imports and exports.
@@ -779,10 +771,6 @@ where
                         }
 
                         // Create `export { local_default as default }`
-                        tracing::trace!(
-                            "Exporting `default` with `export default decl` ({})",
-                            local.sym
-                        );
 
                         let exported = Ident::new(atom!("default"), DUMMY_SP, info.export_ctxt());
 
@@ -851,7 +839,6 @@ where
                             exported: Some(ModuleExportName::Ident(exported)),
                             is_type_only: false,
                         });
-                        tracing::trace!("Exporting `default` with `export default expr`");
                         extra.push(
                             NamedExport {
                                 span: export.span,
@@ -904,11 +891,6 @@ where
                                                 info.export_ctxt(),
                                             );
 
-                                            tracing::trace!(
-                                                "Exporting `{}{:?}` with `export decl`",
-                                                id.sym,
-                                                id.ctxt
-                                            );
 
                                             new.push(
                                                 id.clone()
@@ -952,10 +934,6 @@ where
                             _ => panic!("unable to access unknown nodes"),
                         };
 
-                        tracing::trace!(
-                            "Exporting `default` with `export default decl` ({})",
-                            local.sym
-                        );
 
                         // Create `export { local_ident as exported_ident }`
                         let exported =

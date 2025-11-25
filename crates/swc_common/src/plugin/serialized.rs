@@ -47,7 +47,6 @@ impl PluginSerializedBytes {
      * Constructs an instance from already serialized byte
      * slices.
      */
-    #[tracing::instrument(level = "info", skip_all)]
     pub fn from_bytes(field: Vec<u8>) -> PluginSerializedBytes {
         PluginSerializedBytes { field }
     }
@@ -59,7 +58,6 @@ impl PluginSerializedBytes {
      * to implement TryFrom trait
      */
     /*
-    #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
         W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
@@ -78,7 +76,6 @@ impl PluginSerializedBytes {
     }
      */
 
-    #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
         W: cbor4ii::core::enc::Encode,
@@ -93,7 +90,6 @@ impl PluginSerializedBytes {
     /*
      * Internal fn to constructs an instance from raw bytes ptr.
      */
-    #[tracing::instrument(level = "info", skip_all)]
     #[allow(clippy::not_unsafe_ptr_arg_deref)]
     pub fn from_raw_ptr(
         raw_allocated_ptr: *const u8,
@@ -113,7 +109,6 @@ impl PluginSerializedBytes {
         (self.field.as_ptr(), self.field.len())
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: for<'de> cbor4ii::core::dec::Decode<'de>,
@@ -127,7 +122,6 @@ impl PluginSerializedBytes {
     }
 
     /*
-    #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: rkyv::Archive,

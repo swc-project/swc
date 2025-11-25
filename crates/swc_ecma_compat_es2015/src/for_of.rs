@@ -569,7 +569,6 @@ impl ForOf {
 ///     }
 ///   }
 /// ```
-#[tracing::instrument(level = "debug", skip_all)]
 fn make_finally_block(
     iterator_return: Box<Expr>,
     normal_completion_ident: &Ident,

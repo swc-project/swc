@@ -150,7 +150,6 @@ impl VisitMut for TypeOfSymbol {
     }
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
 fn is_non_symbol_literal(e: &Expr) -> bool {
     match e {
         Expr::Lit(Lit::Str(Str { value, .. })) => matches!(

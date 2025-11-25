@@ -24,7 +24,6 @@ pub fn mark_parent_proxy(self_mark: u32) -> u32 {
 /// via serialized MutableMarkContext.
 /// Inside of guest context, once this host function returns it'll assign params
 /// with return value accordingly.
-#[tracing::instrument(level = "info", skip_all)]
 pub fn mark_is_descendant_of_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &BaseHostEnvironment,
@@ -48,7 +47,6 @@ pub fn mark_is_descendant_of_proxy(
     write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn mark_least_ancestor_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &BaseHostEnvironment,
@@ -69,14 +67,12 @@ pub fn mark_least_ancestor_proxy(
     write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u32 {
     SyntaxContext::from_u32(self_syntax_context)
         .apply_mark(Mark::from_u32(mark))
         .as_u32()
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn syntax_context_remove_mark_proxy(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &BaseHostEnvironment,
@@ -98,7 +94,6 @@ pub fn syntax_context_remove_mark_proxy(
     write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
-#[tracing::instrument(level = "info", skip_all)]
 pub fn syntax_context_outer_proxy(self_mark: u32) -> u32 {
     SyntaxContext::from_u32(self_mark).outer().as_u32()
 }

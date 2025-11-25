@@ -123,7 +123,6 @@ where
                 let path = match &*self.scope.get_module(bundle.id).unwrap().fm.name {
                     FileName::Real(ref v) => v.clone(),
                     _ => {
-                        tracing::error!("Cannot rename: not a real file");
                         return bundle;
                     }
                 };
