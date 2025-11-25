@@ -49,6 +49,7 @@ pub struct StmtInjectorStore {
 impl StmtInjectorStore {
     /// Insert a statement before the statement at the given address
     pub fn insert_before(&mut self, address: *const Stmt, stmt: Stmt) {
+        dbg!("insert_before", address);
         self.stmts.entry(address).or_default().push(AdjacentStmt {
             stmt,
             direction: Direction::Before,
@@ -81,11 +82,25 @@ impl StmtInjectorStore {
 }
 
 impl VisitMutHook<TraverseCtx> for StmtInjector {
+    fn enter_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
+        dbg!(&ctx.statement_injector.stmts);
+    }
+
+    fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
+        dbg!(&ctx.statement_injector.stmts);
+    }
+
     fn enter_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
+        dbg!(&ctx.statement_injector.stmts);
+    }
+
+    fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
+        dbg!(&ctx.statement_injector.stmts);
         let mut i = 0;
         while i < stmts.len() {
             let stmt = &stmts[i];
             let address = stmt as *const Stmt;
+            dbg!(address);
 
             // Check if there are any statements to insert at this address
             if let Some(adjacent_stmts) = ctx.statement_injector.take_stmts(address) {
