@@ -82,7 +82,8 @@ impl StmtInjectorStore {
 
 impl VisitMutHook<TraverseCtx> for StmtInjector {
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
-        // First pass: collect all (index, adjacent_stmts) pairs while addresses are valid
+        // First pass: collect all (index, adjacent_stmts) pairs while addresses are
+        // valid
         let mut insertions = Vec::new();
         for (i, item) in node.iter().enumerate() {
             // Only process ModuleItem::Stmt variants
@@ -126,7 +127,8 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
     }
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
-        // First pass: collect all (index, adjacent_stmts) pairs while addresses are valid
+        // First pass: collect all (index, adjacent_stmts) pairs while addresses are
+        // valid
         let mut insertions = Vec::new();
         for (i, stmt) in stmts.iter().enumerate() {
             let address = stmt as *const Stmt;
