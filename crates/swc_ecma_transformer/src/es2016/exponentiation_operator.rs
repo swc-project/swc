@@ -74,12 +74,10 @@ impl VisitMutHook<TraverseCtx> for ExponentiationOperatorPass {
     }
 
     fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        dbg!("enter_stmt", stmt as *const Stmt);
         self.cur_stmt_address = Some(stmt as *const Stmt);
     }
 
     fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        dbg!("exit_stmt", _stmt as *const Stmt);
         self.cur_stmt_address = None;
     }
 }
