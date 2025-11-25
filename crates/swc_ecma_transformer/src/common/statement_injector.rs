@@ -81,8 +81,6 @@ impl StmtInjectorStore {
 }
 
 impl VisitMutHook<TraverseCtx> for StmtInjector {
-    fn enter_module_items(&mut self, _node: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {}
-
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
         // Process in reverse order to avoid address invalidation when inserting
         let mut i = node.len();
@@ -125,8 +123,6 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
             }
         }
     }
-
-    fn enter_stmts(&mut self, _stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {}
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
         // Process in reverse order to avoid address invalidation when inserting
