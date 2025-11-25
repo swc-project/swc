@@ -133,10 +133,10 @@ const UNI: ByteHandler = |lexer| {
     };
 
     if is_irregular_whitespace(c) {
-        lexer.bump();
+        lexer.bump(c.len_utf8());
         true
     } else if is_irregular_line_terminator(c) {
-        lexer.bump();
+        lexer.bump(c.len_utf8());
         lexer.state.mark_had_line_break();
         true
     } else {
