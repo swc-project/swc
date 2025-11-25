@@ -31,11 +31,19 @@ where
 
     optional_method!(enter_expr, exit_expr, Expr);
 
+    optional_method!(enter_expr_stmt, exit_expr_stmt, ExprStmt);
+
     optional_method!(enter_pat, exit_pat, Pat);
 
     optional_method!(enter_stmt, exit_stmt, Stmt);
 
+    optional_method!(enter_stmts, exit_stmts, Vec<Stmt>);
+
+    optional_method!(enter_block_stmt, exit_block_stmt, BlockStmt);
+
     optional_method!(enter_module_item, exit_module_item, ModuleItem);
+
+    optional_method!(enter_module_items, exit_module_items, Vec<ModuleItem>);
 
     optional_method!(enter_module, exit_module, Module);
 

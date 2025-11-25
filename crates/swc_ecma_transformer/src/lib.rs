@@ -8,6 +8,7 @@ use crate::hook_utils::{HookBuilder, NoopHook};
 pub use crate::options::*;
 
 mod bugfix;
+mod common;
 mod decorators;
 mod es2015;
 mod es2016;
@@ -25,7 +26,10 @@ mod regexp;
 mod typescript;
 mod utils;
 
-pub struct TraverseCtx {}
+#[derive(Default)]
+pub struct TraverseCtx {
+    pub(crate) statement_injector: common::StmtInjectorStore,
+}
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
@@ -46,11 +50,14 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
     let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
 
+    // Statement injector must be last to process all injected statements
+    let hook = hook.chain(common::StmtInjector::default());
+
     hook.build()
 }
 
 pub fn hook_pass<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
-    let ctx = TraverseCtx {};
+    let ctx = TraverseCtx::default();
 
     visit_mut_pass(VisitMutWithHook { hook, context: ctx })
 }

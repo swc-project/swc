@@ -5915,15 +5915,12 @@ dependencies = [
 name = "swc_ecma_compat_es2016"
 version = "30.0.0"
 dependencies = [
- "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
+ "swc_ecma_transformer",
  "swc_ecma_transforms_base",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_trace_macro",
  "tracing",
 ]
 
@@ -6331,6 +6328,7 @@ dependencies = [
 name = "swc_ecma_transformer"
 version = "1.0.0"
 dependencies = [
+ "rustc-hash 2.1.1",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
