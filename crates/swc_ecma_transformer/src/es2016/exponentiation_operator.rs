@@ -94,7 +94,7 @@ impl ExponentiationOperatorPass {
             return;
         };
 
-        match &assign_expr.left {
+        match &mut assign_expr.left {
             // Simple identifier: `x **= 2` -> `x = Math.pow(x, 2)`
             AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) => {
                 let left = ident.id.clone();
@@ -116,8 +116,8 @@ impl ExponentiationOperatorPass {
             // Member expression: needs special handling to avoid side effects
             AssignTarget::Simple(SimpleAssignTarget::Member(member_expr)) => {
                 // Clone the data we need before borrowing mutably
-                let obj = member_expr.obj.clone();
-                let prop = member_expr.prop.clone();
+                let obj = member_expr.obj.take();
+                let prop = member_expr.prop.take();
                 let right = assign_expr.right.take();
 
                 self.transform_member_exp_assign_impl(expr, ctx, obj, prop, right);
