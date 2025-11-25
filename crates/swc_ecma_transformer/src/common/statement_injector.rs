@@ -49,7 +49,6 @@ pub struct StmtInjectorStore {
 impl StmtInjectorStore {
     /// Insert a statement before the statement at the given address
     pub fn insert_before(&mut self, address: *const Stmt, stmt: Stmt) {
-        dbg!("insert_before", address);
         self.stmts.entry(address).or_default().push(AdjacentStmt {
             stmt,
             direction: Direction::Before,
@@ -82,18 +81,17 @@ impl StmtInjectorStore {
 }
 
 impl VisitMutHook<TraverseCtx> for StmtInjector {
-    fn enter_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
-        dbg!(&ctx.statement_injector.stmts);
-    }
+    fn enter_module_items(&mut self, _node: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {}
 
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
-        dbg!(&ctx.statement_injector.stmts);
-        let mut i = 0;
-        while i < node.len() {
+        // Process in reverse order to avoid address invalidation when inserting
+        let mut i = node.len();
+        while i > 0 {
+            i -= 1;
+
             // Only process ModuleItem::Stmt variants
             if let ModuleItem::Stmt(stmt) = &node[i] {
                 let address = stmt as *const Stmt;
-                dbg!(address);
 
                 // Check if there are any statements to insert at this address
                 if let Some(adjacent_stmts) = ctx.statement_injector.take_stmts(address) {
@@ -108,42 +106,36 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
                         }
                     }
 
-                    // Insert statements before
-                    let before_count = before_stmts.len();
-                    if before_count > 0 {
-                        // Insert all before statements at position i
-                        for (offset, stmt) in before_stmts.into_iter().enumerate() {
-                            node.insert(i + offset, ModuleItem::Stmt(stmt));
-                        }
-                        // Move index forward by the number of inserted statements
-                        i += before_count;
-                    }
-
-                    // Insert statements after
+                    // Insert statements after (insert first since we're going backwards)
                     if !after_stmts.is_empty() {
                         // Insert all after statements at position i + 1
                         for (offset, stmt) in after_stmts.into_iter().enumerate() {
                             node.insert(i + 1 + offset, ModuleItem::Stmt(stmt));
                         }
                     }
+
+                    // Insert statements before
+                    if !before_stmts.is_empty() {
+                        // Insert all before statements at position i
+                        for (offset, stmt) in before_stmts.into_iter().enumerate() {
+                            node.insert(i + offset, ModuleItem::Stmt(stmt));
+                        }
+                    }
                 }
             }
-
-            i += 1;
         }
     }
 
-    fn enter_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
-        dbg!(&ctx.statement_injector.stmts);
-    }
+    fn enter_stmts(&mut self, _stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {}
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
-        dbg!(&ctx.statement_injector.stmts);
-        let mut i = 0;
-        while i < stmts.len() {
+        // Process in reverse order to avoid address invalidation when inserting
+        let mut i = stmts.len();
+        while i > 0 {
+            i -= 1;
+
             let stmt = &stmts[i];
             let address = stmt as *const Stmt;
-            dbg!(address);
 
             // Check if there are any statements to insert at this address
             if let Some(adjacent_stmts) = ctx.statement_injector.take_stmts(address) {
@@ -158,27 +150,22 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
                     }
                 }
 
-                // Insert statements before
-                let before_count = before_stmts.len();
-                if before_count > 0 {
-                    // Insert all before statements at position i
-                    for (offset, stmt) in before_stmts.into_iter().enumerate() {
-                        stmts.insert(i + offset, stmt);
-                    }
-                    // Move index forward by the number of inserted statements
-                    i += before_count;
-                }
-
-                // Insert statements after
+                // Insert statements after (insert first since we're going backwards)
                 if !after_stmts.is_empty() {
                     // Insert all after statements at position i + 1
                     for (offset, stmt) in after_stmts.into_iter().enumerate() {
                         stmts.insert(i + 1 + offset, stmt);
                     }
                 }
-            }
 
-            i += 1;
+                // Insert statements before
+                if !before_stmts.is_empty() {
+                    // Insert all before statements at position i
+                    for (offset, stmt) in before_stmts.into_iter().enumerate() {
+                        stmts.insert(i + offset, stmt);
+                    }
+                }
+            }
         }
     }
 }
