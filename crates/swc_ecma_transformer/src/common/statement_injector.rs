@@ -88,6 +88,49 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
 
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
         dbg!(&ctx.statement_injector.stmts);
+        let mut i = 0;
+        while i < node.len() {
+            // Only process ModuleItem::Stmt variants
+            if let ModuleItem::Stmt(stmt) = &node[i] {
+                let address = stmt as *const Stmt;
+                dbg!(address);
+
+                // Check if there are any statements to insert at this address
+                if let Some(adjacent_stmts) = ctx.statement_injector.take_stmts(address) {
+                    let mut before_stmts = Vec::new();
+                    let mut after_stmts = Vec::new();
+
+                    // Separate statements by direction
+                    for adjacent in adjacent_stmts {
+                        match adjacent.direction {
+                            Direction::Before => before_stmts.push(adjacent.stmt),
+                            Direction::After => after_stmts.push(adjacent.stmt),
+                        }
+                    }
+
+                    // Insert statements before
+                    let before_count = before_stmts.len();
+                    if before_count > 0 {
+                        // Insert all before statements at position i
+                        for (offset, stmt) in before_stmts.into_iter().enumerate() {
+                            node.insert(i + offset, ModuleItem::Stmt(stmt));
+                        }
+                        // Move index forward by the number of inserted statements
+                        i += before_count;
+                    }
+
+                    // Insert statements after
+                    if !after_stmts.is_empty() {
+                        // Insert all after statements at position i + 1
+                        for (offset, stmt) in after_stmts.into_iter().enumerate() {
+                            node.insert(i + 1 + offset, ModuleItem::Stmt(stmt));
+                        }
+                    }
+                }
+            }
+
+            i += 1;
+        }
     }
 
     fn enter_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
