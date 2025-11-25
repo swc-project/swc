@@ -33,6 +33,9 @@ jobs:
 
       - name: Run Claude Code Review
         id: claude-review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        if: ${{ env.ANTHROPIC_API_KEY }}
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
