@@ -42,10 +42,12 @@ pub fn hook() -> impl VisitMutHook<TraverseCtx> {
 }
 
 #[derive(Default)]
-struct ExponentiationOperatorPass {}
+struct ExponentiationOperatorPass {
+    cur_stmt_address: Option<*const Stmt>,
+}
 
 impl VisitMutHook<TraverseCtx> for ExponentiationOperatorPass {
-    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
+    fn enter_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         match expr {
             // `left ** right` -> `Math.pow(left, right)`
             Expr::Bin(bin_expr) if bin_expr.op == BinaryOp::Exp => {
@@ -65,10 +67,18 @@ impl VisitMutHook<TraverseCtx> for ExponentiationOperatorPass {
                     return;
                 }
 
-                self.transform_exp_assign(expr);
+                self.transform_exp_assign(expr, ctx);
             }
             _ => {}
         }
+    }
+
+    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        self.cur_stmt_address = Some(stmt as *const Stmt);
+    }
+
+    fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        self.cur_stmt_address = None;
     }
 }
 
@@ -79,7 +89,7 @@ impl ExponentiationOperatorPass {
     /// - Identifier: `x **= 2` -> `x = Math.pow(x, 2)`
     /// - Member expression: `obj.prop **= 2` -> `obj.prop = Math.pow(obj.prop,
     ///   2)` or with temp var
-    fn transform_exp_assign(&self, expr: &mut Expr) {
+    fn transform_exp_assign(&self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         let Expr::Assign(assign_expr) = expr else {
             return;
         };
@@ -110,7 +120,7 @@ impl ExponentiationOperatorPass {
                 let prop = member_expr.prop.clone();
                 let right = assign_expr.right.take();
 
-                self.transform_member_exp_assign_impl(expr, obj, prop, right);
+                self.transform_member_exp_assign_impl(expr, ctx, obj, prop, right);
             }
             _ => {}
         }
@@ -125,6 +135,7 @@ impl ExponentiationOperatorPass {
     fn transform_member_exp_assign_impl(
         &self,
         expr: &mut Expr,
+        ctx: &mut TraverseCtx,
         obj: Box<Expr>,
         prop: MemberProp,
         right: Box<Expr>,
@@ -138,6 +149,22 @@ impl ExponentiationOperatorPass {
         let (final_obj, obj_for_pow) = if needs_obj_temp {
             let temp_name = utils::generate_temp_var_name(&obj);
             let temp_ident = utils::create_private_ident(&temp_name);
+
+            // Add variable declaration
+            ctx.statement_injector.insert_before(
+                self.cur_stmt_address.unwrap(),
+                Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(temp_ident.clone().into()),
+                        init: None,
+                        definite: false,
+                    }],
+                    ..Default::default()
+                }))),
+            );
 
             // Add assignment to sequence: _obj = obj
             sequence_exprs.push(Expr::Assign(AssignExpr {
@@ -203,6 +230,21 @@ impl ExponentiationOperatorPass {
                         _ => "_prop".to_string(),
                     };
                     let temp_ident = utils::create_private_ident(&temp_name);
+
+                    ctx.statement_injector.insert_before(
+                        self.cur_stmt_address.unwrap(),
+                        Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(temp_ident.clone().into()),
+                                init: None,
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        }))),
+                    );
 
                     // Add assignment to sequence: _prop = prop
                     sequence_exprs.push(Expr::Assign(AssignExpr {

@@ -43,12 +43,12 @@ struct AdjacentStmt {
 #[derive(Default)]
 pub struct StmtInjectorStore {
     /// Map from statement address to adjacent statements to insert
-    stmts: FxHashMap<usize, Vec<AdjacentStmt>>,
+    stmts: FxHashMap<*const Stmt, Vec<AdjacentStmt>>,
 }
 
 impl StmtInjectorStore {
     /// Insert a statement before the statement at the given address
-    pub fn insert_before(&mut self, address: usize, stmt: Stmt) {
+    pub fn insert_before(&mut self, address: *const Stmt, stmt: Stmt) {
         self.stmts.entry(address).or_default().push(AdjacentStmt {
             stmt,
             direction: Direction::Before,
@@ -56,7 +56,7 @@ impl StmtInjectorStore {
     }
 
     /// Insert a statement after the statement at the given address
-    pub fn insert_after(&mut self, address: usize, stmt: Stmt) {
+    pub fn insert_after(&mut self, address: *const Stmt, stmt: Stmt) {
         self.stmts.entry(address).or_default().push(AdjacentStmt {
             stmt,
             direction: Direction::After,
@@ -64,7 +64,7 @@ impl StmtInjectorStore {
     }
 
     /// Insert multiple statements after the statement at the given address
-    pub fn insert_many_after(&mut self, address: usize, stmts: Vec<Stmt>) {
+    pub fn insert_many_after(&mut self, address: *const Stmt, stmts: Vec<Stmt>) {
         let entry = self.stmts.entry(address).or_default();
         for stmt in stmts {
             entry.push(AdjacentStmt {
@@ -75,7 +75,7 @@ impl StmtInjectorStore {
     }
 
     /// Get all statements to be inserted at the given address
-    fn take_stmts(&mut self, address: usize) -> Option<Vec<AdjacentStmt>> {
+    fn take_stmts(&mut self, address: *const Stmt) -> Option<Vec<AdjacentStmt>> {
         self.stmts.remove(&address)
     }
 }
@@ -85,7 +85,7 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
         let mut i = 0;
         while i < stmts.len() {
             let stmt = &stmts[i];
-            let address = stmt as *const Stmt as usize;
+            let address = stmt as *const Stmt;
 
             // Check if there are any statements to insert at this address
             if let Some(adjacent_stmts) = ctx.statement_injector.take_stmts(address) {
