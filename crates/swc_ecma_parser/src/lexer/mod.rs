@@ -769,7 +769,7 @@ impl<'a> Lexer<'a> {
                             let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
                             if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
                                 self.state_mut().mark_had_line_break();
-                                pos_offset += 2
+                                pos_offset += 2;
                             }
                         }
                         true
