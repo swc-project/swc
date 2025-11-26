@@ -619,8 +619,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     }
 
                     // Ignore this _ character
-                        // Safety: cur() returns Some(c) where c is a valid char
-                        self.bump();
+                    // Safety: cur() returns Some(c) where c is a valid char
+                    self.bump();
 
                     continue;
                 }
@@ -1067,8 +1067,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_jsx_str(&mut self, quote: char) -> LexResult<Self::Token> {
         debug_assert!(self.syntax().jsx());
         let start = self.input().cur_pos();
-            // Safety: cur() was Some(quote)
-            self.bump(); // `quote`
+        // Safety: cur() was Some(quote)
+        self.bump(); // `quote`
         let mut out = String::new();
         let mut chunk_start = self.input().cur_pos();
         loop {
@@ -1132,8 +1132,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
             } else {
-                    // Safety: cur() was Some(ch)
-                    self.bump();
+                // Safety: cur() was Some(ch)
+                self.bump();
             }
         }
         let cur_pos = self.input().cur_pos();
@@ -1569,8 +1569,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             _ => c,
         };
 
-            // Safety: cur() is Some(c) if this method is called.
-            self.bump();
+        // Safety: cur() is Some(c) if this method is called.
+        self.bump();
 
         Ok(CodePoint::from_u32(c as u32))
     }
@@ -1931,8 +1931,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
-            // Safety: cur() is Some(c as char)
-            self.bump();
+        // Safety: cur() is Some(c as char)
+        self.bump();
         let token = if is_bit_and {
             Self::Token::BIT_AND
         } else {
@@ -1951,12 +1951,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         // '||', '&&'
         if self.input().cur() == Some(C) {
-                // Safety: cur() is Some(c)
-                self.bump();
+            // Safety: cur() is Some(c)
+            self.bump();
 
             if self.input().cur() == Some(b'=') {
-                    // Safety: cur() is Some('=')
-                    self.bump();
+                // Safety: cur() is Some('=')
+                self.bump();
 
                 return Ok(if is_bit_and {
                     Self::Token::LOGICAL_AND_EQ
@@ -2105,8 +2105,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.wtf8_atom(Wtf8::from_str(s))
                     };
 
-                        // Safety: cur is quote
-                        self.bump();
+                    // Safety: cur is quote
+                    self.bump();
 
                     let end = self.cur_pos();
                     let raw = unsafe {
