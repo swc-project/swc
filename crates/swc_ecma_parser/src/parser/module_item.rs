@@ -225,7 +225,7 @@ impl<I: Tokens> Parser<I> {
                                     }
 
                                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                        span: Span::new_with_checked(start, orig_name.span.hi()),
+                                        span: Span::new_with_checked(start, local.span.hi()),
                                         local,
                                         imported: Some(ModuleExportName::Ident(possibly_orig_name)),
                                         is_type_only: true,
@@ -242,7 +242,7 @@ impl<I: Tokens> Parser<I> {
                             } else {
                                 // `import { type as xxx } from 'mod'`
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_name.span.hi()),
+                                    span: Span::new_with_checked(start, maybe_as.span.hi()),
                                     local: maybe_as,
                                     imported: Some(ModuleExportName::Ident(orig_name)),
                                     is_type_only: false,
