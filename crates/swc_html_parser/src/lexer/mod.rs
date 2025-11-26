@@ -248,21 +248,11 @@ where
     }
 
     #[inline(always)]
-    fn consume(&mut self) {
+    fn consume(&mut self, len: usize) {
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
 
-        if let Some(byte) = self.cur {
-            // Calculate the number of bytes in this UTF-8 character
-            let len = if byte < 0x80 {
-                1 // ASCII
-            } else if byte < 0xe0 {
-                2 // 2-byte UTF-8
-            } else if byte < 0xf0 {
-                3 // 3-byte UTF-8
-            } else {
-                4 // 4-byte UTF-8
-            };
+        if self.cur.is_some() {
             self.input.bump_bytes(len);
         }
     }
@@ -291,17 +281,20 @@ where
         let c = self.next();
 
         // Store the full UTF-8 character before consuming (for helper functions)
-        if let Some(byte) = c {
+        let len = if let Some(byte) = c {
             if is_non_ascii(byte) {
                 self.current_char = self.input.cur_as_char();
+                self.current_char.map(|c| c.len_utf8()).unwrap_or(1)
             } else {
                 self.current_char = Some(byte as char);
+                1
             }
         } else {
             self.current_char = None;
-        }
+            1
+        };
 
-        self.consume();
+        self.consume(len);
 
         c
     }
