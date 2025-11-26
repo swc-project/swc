@@ -188,8 +188,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     #[inline(always)]
     fn bump(&mut self) {
+        let c = self.cur_as_char().unwrap();
         unsafe {
-            self.input_mut().bump_bytes(1);
+            self.input_mut().bump_bytes(c.len_utf8());
         }
     }
 
