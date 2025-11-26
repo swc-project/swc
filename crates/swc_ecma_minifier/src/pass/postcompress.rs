@@ -47,7 +47,7 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
     let mut reexport_map =
         FxHashMap::<Wtf8Atom, VecDeque<(ModuleExportName, Option<ModuleExportName>)>>::default();
     // Local exports without source: `export { foo, bar }`
-    let mut local_exports = Vec::default();
+    let mut local_export_list = Vec::default();
 
     for item in &module.body {
         match item {
@@ -146,7 +146,7 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
                     // Local export: `export { foo, bar }`
                     for spec in &export_named.specifiers {
                         if let ExportSpecifier::Named(..) = spec {
-                            local_exports.push(spec.clone());
+                            local_export_list.push(spec.clone());
                         }
                     }
                 }
@@ -155,9 +155,11 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
         }
     }
 
-    if import_map.is_empty() && reexport_map.is_empty() && local_exports.is_empty() {
+    if import_map.is_empty() && reexport_map.is_empty() && local_export_list.is_empty() {
         return;
     }
+
+    let mut run_once = false;
 
     module.body.retain_mut(|item| {
         match item {
@@ -295,13 +297,12 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
 
                     true
                 } else {
-                    // Local export: `export { foo, bar }`
-                    // Preserve empty exports `export { }` as-is
-                    if local_exports.is_empty() {
-                        return export_named.specifiers.is_empty();
+                    if run_once {
+                        return false;
                     }
 
-                    export_named.specifiers = local_exports.take();
+                    export_named.specifiers = local_export_list.take();
+                    run_once = true;
 
                     true
                 }
