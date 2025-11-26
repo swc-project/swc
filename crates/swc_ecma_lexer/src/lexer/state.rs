@@ -812,7 +812,7 @@ impl Lexer<'_> {
                     if c == '>' {
                         unsafe {
                             // Safety: cur() is Some('>')
-                            self.input.bump();
+                            self.input.bump_bytes(1);
                         }
                         return Ok(Token::JSXTagEnd);
                     }
@@ -830,7 +830,7 @@ impl Lexer<'_> {
 
                     unsafe {
                         // Safety: cur() is Some('<')
-                        self.input.bump();
+                        self.input.bump_bytes(1);
                     }
 
                     if had_line_break_before_last && self.is_str("<<<<<< ") {

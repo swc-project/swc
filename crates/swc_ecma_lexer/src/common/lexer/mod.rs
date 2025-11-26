@@ -187,6 +187,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(always)]
+    fn bump(&mut self) {
+        unsafe {
+            self.input_mut().bump_bytes(1);
+        }
+    }
+
+    #[inline(always)]
     fn cur_pos(&self) -> BytePos {
         self.input().cur_pos()
     }
@@ -252,7 +259,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn skip_line_comment(&mut self, start_skip: usize) {
         // Position after the initial `//` (or similar)
         let start = self.cur_pos();
-        self.input_mut().bump_bytes(start_skip);
+        unsafe {
+            self.input_mut().bump_bytes(start_skip);
+        }
         let slice_start = self.cur_pos();
 
         // foo // comment for foo
@@ -365,7 +374,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         debug_assert_eq!(self.peek(), Some(b'*'));
 
         // Consume initial "/*"
-        self.input_mut().bump_bytes(2);
+        unsafe {
+            self.input_mut().bump_bytes(2);
+        }
 
         // jsdoc
         let slice_start = self.cur_pos();
@@ -416,7 +427,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 b'*' => {
                     if self.peek() == Some(b'/') {
                         // Consume "*/"
-                        self.input_mut().bump_bytes(2);
+                        unsafe {
+                            self.input_mut().bump_bytes(2);
+                        }
 
                         if should_mark_had_line_break {
                             self.state_mut().mark_had_line_break();
@@ -506,7 +519,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 (skip.offset, skip.newline)
             };
 
-            self.input_mut().bump_bytes(offset as usize);
+            unsafe {
+                self.input_mut().bump_bytes(offset as usize);
+            }
             if newline {
                 self.state_mut().mark_had_line_break();
             }
@@ -603,10 +618,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     }
 
                     // Ignore this _ character
-                    unsafe {
                         // Safety: cur() returns Some(c) where c is a valid char
-                        self.input_mut().bump();
-                    }
+                        self.bump();
 
                     continue;
                 }
@@ -1053,10 +1066,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_jsx_str(&mut self, quote: char) -> LexResult<Self::Token> {
         debug_assert!(self.syntax().jsx());
         let start = self.input().cur_pos();
-        unsafe {
             // Safety: cur() was Some(quote)
-            self.input_mut().bump(); // `quote`
-        }
+            self.bump(); // `quote`
         let mut out = String::new();
         let mut chunk_start = self.input().cur_pos();
         loop {
@@ -1120,10 +1131,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
             } else {
-                unsafe {
                     // Safety: cur() was Some(ch)
-                    self.input_mut().bump();
-                }
+                    self.bump();
             }
         }
         let cur_pos = self.input().cur_pos();
@@ -1191,7 +1200,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let before_second = self.input().cur_pos();
 
         // Bump `\u`
-        self.input_mut().bump_bytes(2);
+        unsafe {
+            self.input_mut().bump_bytes(2);
+        }
 
         let Some(low) = self.read_int_u32::<16>(4)? else {
             return Ok(None);
@@ -1557,10 +1568,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             _ => c,
         };
 
-        unsafe {
             // Safety: cur() is Some(c) if this method is called.
-            self.input_mut().bump();
-        }
+            self.bump();
 
         Ok(CodePoint::from_u32(c as u32))
     }
@@ -1921,10 +1930,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
-        unsafe {
             // Safety: cur() is Some(c as char)
-            self.input_mut().bump();
-        }
+            self.bump();
         let token = if is_bit_and {
             Self::Token::BIT_AND
         } else {
@@ -1943,16 +1950,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         // '||', '&&'
         if self.input().cur() == Some(C) {
-            unsafe {
                 // Safety: cur() is Some(c)
-                self.input_mut().bump();
-            }
+                self.bump();
 
             if self.input().cur() == Some(b'=') {
-                unsafe {
                     // Safety: cur() is Some('=')
-                    self.input_mut().bump();
-                }
+                    self.bump();
 
                 return Ok(if is_bit_and {
                     Self::Token::LOGICAL_AND_EQ
@@ -2101,10 +2104,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.wtf8_atom(Wtf8::from_str(s))
                     };
 
-                    unsafe {
                         // Safety: cur is quote
-                        self.input_mut().bump();
-                    }
+                        self.bump();
 
                     let end = self.cur_pos();
                     let raw = unsafe {

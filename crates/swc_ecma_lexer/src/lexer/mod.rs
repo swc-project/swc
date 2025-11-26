@@ -158,7 +158,9 @@ impl<'a> Lexer<'a> {
             Some(handler) => handler(self),
             None => {
                 let start = self.cur_pos();
-                self.input.bump_bytes(1);
+                unsafe {
+                    self.input.bump_bytes(1);
+                }
                 self.error_span(
                     pos_span(start),
                     SyntaxError::UnexpectedChar { c: byte as _ },
@@ -172,14 +174,14 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some(c), if this method is called.
-            self.input.bump();
+            self.input.bump_bytes(1);
         }
 
         // '++', '--'
         Ok(if self.input.cur() == Some(C) {
             unsafe {
                 // Safety: cur() is Some(c)
-                self.input.bump();
+                self.input.bump_bytes(1);
             }
 
             // Handle -->
@@ -216,7 +218,7 @@ impl<'a> Lexer<'a> {
 
         unsafe {
             // Safety: cur() is Some(c) if this method is called.
-            self.input.bump();
+            self.input.bump_bytes(1);
         }
 
         Ok(if self.input.eat_byte(b'=') {
