@@ -70,4 +70,4 @@ export default function(r, t, e) {
 			 */ a.HmacSHA256 = n._createHmacHelper(u);
     }(Math), // CommonJS
     r.exports = a.SHA256;
-/***/ }
+/***/ };

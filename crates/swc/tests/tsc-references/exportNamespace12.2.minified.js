@@ -1,7 +1,7 @@
 //// [main.ts]
+import { c } from './types';
+import * as types from './types';
 console.log(c), console.log(types.c);
-import * as types from "./types";
-import { c } from "./types";
 //// [types.ts]
 export { };
 //// [values.ts]

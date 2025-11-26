@@ -1,347 +1,313 @@
+use std::collections::VecDeque;
+
 use rustc_hash::FxHashMap;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 
 use crate::option::CompressOptions;
 
+/// Records all import specifiers for a single source module.
+#[derive(Default)]
+struct ImportRecord {
+    /// Default imports: stores local Id in order
+    /// e.g., `import A, { default as B, "default" as C } from 'm.js'`
+    /// stores A's Id, B's Id, C's Id
+    defaults: VecDeque<Ident>,
+
+    /// Namespace imports: stores local Id in order
+    /// e.g., `import * as X from 'm.js'` stores X's Id
+    namespaces: VecDeque<Ident>,
+
+    /// Named imports: stores (import_name, local_id) in order
+    /// e.g., `import { foo } from 'm.js'` stores ("foo", foo's Id)
+    /// e.g., `import { foo as bar } from 'm.js'` stores ("foo", bar's Id)
+    /// Note: import_name "default" cases are classified into defaults
+    named: VecDeque<(Atom, Ident)>,
+}
+
+impl ImportRecord {
+    fn is_empty(&self) -> bool {
+        self.defaults.is_empty() && self.namespaces.is_empty() && self.named.is_empty()
+    }
+}
+
 pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) {
+    if !options.merge_imports {
+        return;
+    }
+
     let Some(module) = program.as_mut_module() else {
         return;
     };
 
-    for item in &mut module.body {
-        let Some(m) = item.as_mut_module_decl() else {
-            continue;
-        };
+    // First pass: collect all imports and exports
+    let mut import_map = FxHashMap::<Wtf8Atom, ImportRecord>::default();
+    // Re-exports: only named re-exports can be merged
+    let mut reexport_map =
+        FxHashMap::<Wtf8Atom, VecDeque<(ModuleExportName, Option<ModuleExportName>)>>::default();
+    // Local exports without source: `export { foo, bar }`
+    let mut local_export_list = Vec::default();
 
-        if let ModuleDecl::ExportDefaultExpr(e) = m {
-            match &mut *e.expr {
-                Expr::Fn(f) => {
-                    if f.ident.is_some() {
-                        if options.top_level() {
-                            *m = ExportDefaultDecl {
-                                span: e.span,
-                                decl: DefaultDecl::Fn(f.take()),
+    for item in &module.body {
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                // Skip conditions
+                if import_decl.type_only {
+                    continue;
+                }
+                if import_decl.with.is_some() {
+                    continue;
+                }
+                if import_decl.phase != ImportPhase::Evaluation {
+                    continue;
+                }
+
+                let src = import_decl.src.value.clone();
+                let record = import_map.entry(src).or_default();
+
+                for spec in &import_decl.specifiers {
+                    match spec {
+                        ImportSpecifier::Default(d) => {
+                            record.defaults.push_back(d.local.clone());
+                        }
+                        ImportSpecifier::Namespace(ns) => {
+                            record.namespaces.push_back(ns.local.clone());
+                        }
+                        ImportSpecifier::Named(n) => {
+                            debug_assert!(
+                                !n.is_type_only,
+                                "type-only imports/exports should be stripped earlier"
+                            );
+                            if n.is_type_only {
+                                continue;
                             }
-                            .into()
+                            let remote: Atom = n
+                                .imported
+                                .as_ref()
+                                .map(|i| match i {
+                                    ModuleExportName::Ident(id) => id.sym.clone(),
+                                    ModuleExportName::Str(s) => {
+                                        Atom::new(s.value.to_string_lossy())
+                                    }
+                                })
+                                .unwrap_or_else(|| n.local.sym.clone());
+                            let local_id = n.local.clone();
+
+                            // If remote is "default", classify as default import
+                            if &*remote == "default" {
+                                record.defaults.push_back(local_id);
+                            } else {
+                                record.named.push_back((remote, local_id));
+                            }
                         }
-                    } else {
-                        *m = ExportDefaultDecl {
-                            span: e.span,
-                            decl: DefaultDecl::Fn(f.take()),
-                        }
-                        .into()
                     }
                 }
-                Expr::Class(c) => {
-                    if c.ident.is_some() {
-                        if options.top_level() {
-                            *m = ExportDefaultDecl {
-                                span: e.span,
-                                decl: DefaultDecl::Class(c.take()),
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export_named)) => {
+                if export_named.type_only {
+                    continue;
+                }
+                if export_named.with.is_some() {
+                    continue;
+                }
+
+                if let Some(ref src) = export_named.src {
+                    // Re-export: `export { foo } from 'm.js'`
+                    // Only collect named specifiers; namespace/default can't be merged
+                    let has_non_named = export_named.specifiers.iter().any(|s| {
+                        matches!(
+                            s,
+                            ExportSpecifier::Namespace(_) | ExportSpecifier::Default(_)
+                        )
+                    });
+                    if has_non_named {
+                        // Keep as-is, don't collect
+                        continue;
+                    }
+
+                    let reexports = reexport_map.entry(src.value.clone()).or_default();
+
+                    for spec in &export_named.specifiers {
+                        if let ExportSpecifier::Named(n) = spec {
+                            debug_assert!(
+                                !n.is_type_only,
+                                "type-only imports/exports should be stripped earlier"
+                            );
+                            if n.is_type_only {
+                                continue;
                             }
-                            .into()
+                            let orig = n.orig.clone();
+                            let exported = n.exported.clone();
+                            reexports.push_back((orig, exported));
                         }
-                    } else {
-                        *m = ExportDefaultDecl {
-                            span: e.span,
-                            decl: DefaultDecl::Class(c.take()),
+                    }
+                } else {
+                    // Local export: `export { foo, bar }`
+                    for spec in &export_named.specifiers {
+                        if let ExportSpecifier::Named(..) = spec {
+                            local_export_list.push(spec.clone());
                         }
-                        .into()
                     }
                 }
-                _ => (),
             }
+            _ => {}
         }
     }
 
-    // Merge duplicate imports if enabled
-    if options.merge_imports {
-        merge_imports_in_module(module);
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-struct ImportKey {
-    src: String,
-    type_only: bool,
-    phase: ImportPhase,
-    /// Hash of the `with` clause to group imports with the same assertions
-    with_hash: Option<u64>,
-}
-
-impl ImportKey {
-    fn from_import_decl(decl: &ImportDecl) -> Self {
-        use std::{
-            collections::hash_map::DefaultHasher,
-            hash::{Hash, Hasher},
-        };
-
-        let with_hash = decl.with.as_ref().map(|w| {
-            let mut hasher = DefaultHasher::new();
-            // Hash the with clause structure
-            format!("{w:?}").hash(&mut hasher);
-            hasher.finish()
-        });
-
-        Self {
-            src: decl.src.value.to_string_lossy().to_string(),
-            type_only: decl.type_only,
-            phase: decl.phase,
-            with_hash,
-        }
-    }
-}
-
-/// Key to identify unique import specifiers.
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-enum SpecifierKey {
-    /// Named import: (imported name, local name, is_type_only)
-    Named(String, String, bool),
-    /// Default import: (local name)
-    Default(String),
-    /// Namespace import: (local name)
-    Namespace(String),
-}
-
-impl SpecifierKey {
-    fn from_specifier(spec: &ImportSpecifier) -> Self {
-        match spec {
-            ImportSpecifier::Named(named) => {
-                let imported = named
-                    .imported
-                    .as_ref()
-                    .map(|n| match n {
-                        ModuleExportName::Ident(id) => id.sym.to_string(),
-                        ModuleExportName::Str(s) => s.value.to_string_lossy().to_string(),
-                    })
-                    .unwrap_or_else(|| named.local.sym.to_string());
-
-                SpecifierKey::Named(imported, named.local.sym.to_string(), named.is_type_only)
-            }
-            ImportSpecifier::Default(default) => {
-                SpecifierKey::Default(default.local.sym.to_string())
-            }
-            ImportSpecifier::Namespace(ns) => SpecifierKey::Namespace(ns.local.sym.to_string()),
-        }
-    }
-}
-
-/// Merge duplicate import statements from the same module source.
-///
-/// This optimization reduces bundle size by combining multiple imports from
-/// the same source into a single import declaration.
-fn merge_imports_in_module(module: &mut Module) {
-    // Group imports by source and metadata
-    let mut import_groups: FxHashMap<ImportKey, Vec<ImportDecl>> = FxHashMap::default();
-
-    for item in module.body.iter() {
-        if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item {
-            // Skip side-effect only imports (no specifiers)
-            if import_decl.specifiers.is_empty() {
-                continue;
-            }
-
-            let key = ImportKey::from_import_decl(import_decl);
-            import_groups
-                .entry(key)
-                .or_default()
-                .push(import_decl.clone());
-        }
+    if import_map.is_empty() && reexport_map.is_empty() && local_export_list.is_empty() {
+        return;
     }
 
-    // Remove all imports that will be merged (except side-effect imports)
-    module.body.retain(|item| {
-        if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item {
-            // Keep side-effect imports
-            if import_decl.specifiers.is_empty() {
-                return true;
-            }
+    let mut run_once = false;
 
-            let key = ImportKey::from_import_decl(import_decl);
-            // Only keep if there's just one import for this key (no merging needed)
-            import_groups.get(&key).map_or(true, |v| v.len() <= 1)
-        } else {
-            true
+    module.body.retain_mut(|item| {
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                // Don't process these, keep as-is
+                if import_decl.type_only {
+                    return true;
+                }
+                if import_decl.with.is_some() {
+                    return true;
+                }
+                if import_decl.phase != ImportPhase::Evaluation {
+                    return true;
+                }
+
+                let src = &import_decl.src.value;
+                let Some(record) = import_map.get_mut(src) else {
+                    return false; // No record, remove
+                };
+
+                let has_namespace = import_decl
+                    .specifiers
+                    .iter()
+                    .any(|s| matches!(s, ImportSpecifier::Namespace(_)));
+
+                let mut new_specs: Vec<ImportSpecifier> = Vec::new();
+
+                if has_namespace || (record.named.is_empty() && !record.namespaces.is_empty()) {
+                    // Has namespace: take one default + one namespace
+                    if let Some(local) = record.defaults.pop_front() {
+                        new_specs.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                        }));
+                    }
+                    if let Some(local) = record.namespaces.pop_front() {
+                        new_specs.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                        }));
+                    }
+                } else {
+                    // No namespace: take one default + remaining defaults as named + all named
+                    if let Some(local) = record.defaults.pop_front() {
+                        new_specs.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                        }));
+                    }
+
+                    // Keep ns_count defaults for later namespace imports
+                    let ns_count = record.namespaces.len();
+                    let drain_count = record.defaults.len().saturating_sub(ns_count);
+
+                    // Remaining defaults become { default as X }
+                    for local in record.defaults.drain(..drain_count) {
+                        new_specs.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                            imported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
+                                "default".into(),
+                                DUMMY_SP,
+                            ))),
+                            is_type_only: false,
+                        }));
+                    }
+
+                    // All named imports
+                    for (remote, local) in record.named.drain(..) {
+                        let imported = if remote == local.sym {
+                            None
+                        } else {
+                            Some(ModuleExportName::Ident(Ident::new_no_ctxt(
+                                remote, DUMMY_SP,
+                            )))
+                        };
+                        new_specs.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                            imported,
+                            is_type_only: false,
+                        }));
+                    }
+                }
+
+                if record.is_empty() {
+                    import_map.remove(src);
+                }
+
+                import_decl.specifiers = new_specs;
+                true
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export_named)) => {
+                if export_named.type_only {
+                    return true;
+                }
+                if export_named.with.is_some() {
+                    return true;
+                }
+
+                if let Some(ref src) = export_named.src {
+                    // Re-export: `export { foo } from 'm.js'`
+                    // Statements with namespace/default specifiers are kept as-is
+                    let has_non_named = export_named.specifiers.iter().any(|s| {
+                        matches!(
+                            s,
+                            ExportSpecifier::Namespace(_) | ExportSpecifier::Default(_)
+                        )
+                    });
+                    if has_non_named {
+                        return true;
+                    }
+
+                    let Some(reexports) = reexport_map.get_mut(&src.value) else {
+                        return false;
+                    };
+
+                    let mut new_specs: Vec<ExportSpecifier> = Vec::new();
+
+                    // Take named exports
+                    for (orig, exported) in reexports.drain(..) {
+                        new_specs.push(ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig,
+                            exported,
+                            is_type_only: false,
+                        }));
+                    }
+
+                    if reexports.is_empty() {
+                        reexport_map.remove(&src.value);
+                    }
+
+                    export_named.specifiers = new_specs;
+
+                    true
+                } else {
+                    if run_once {
+                        return false;
+                    }
+
+                    export_named.specifiers = local_export_list.take();
+                    run_once = true;
+
+                    true
+                }
+            }
+            _ => true,
         }
     });
-
-    // Create merged imports and add them back
-    for (key, import_decls) in import_groups.iter() {
-        if import_decls.len() <= 1 {
-            // No merging needed, already retained above
-            continue;
-        }
-
-        let merged_imports = merge_import_decls(import_decls, key);
-        for merged in merged_imports {
-            module
-                .body
-                .push(ModuleItem::ModuleDecl(ModuleDecl::Import(merged)));
-        }
-    }
-}
-
-/// Merge multiple ImportDecl nodes.
-/// Returns a Vec because in some cases (namespace + named), we need to create
-/// multiple import statements since they cannot be combined in valid ES syntax.
-fn merge_import_decls(decls: &[ImportDecl], key: &ImportKey) -> Vec<ImportDecl> {
-    let mut default_spec: Option<ImportSpecifier> = None;
-    let mut namespace_spec: Option<ImportSpecifier> = None;
-    let mut named_specs: Vec<ImportSpecifier> = Vec::new();
-    let mut seen_named: FxHashMap<SpecifierKey, ()> = FxHashMap::default();
-
-    let first_decl = &decls[0];
-    let span = first_decl.span;
-
-    // Separate specifiers by type
-    for decl in decls {
-        for spec in &decl.specifiers {
-            match spec {
-                ImportSpecifier::Default(_) => {
-                    if default_spec.is_none() {
-                        default_spec = Some(spec.clone());
-                    }
-                }
-                ImportSpecifier::Namespace(_) => {
-                    if namespace_spec.is_none() {
-                        namespace_spec = Some(spec.clone());
-                    }
-                }
-                ImportSpecifier::Named(_) => {
-                    let spec_key = SpecifierKey::from_specifier(spec);
-                    if let std::collections::hash_map::Entry::Vacant(e) = seen_named.entry(spec_key)
-                    {
-                        e.insert(());
-                        named_specs.push(spec.clone());
-                    }
-                }
-            }
-        }
-    }
-
-    let mut result = Vec::new();
-
-    // Valid combinations in ES modules:
-    // - default only
-    // - namespace only
-    // - named only
-    // - default + named
-    // - default + namespace (ONLY these two, no named allowed)
-    // Note: namespace + named (without default) is NOT valid - must split
-    // Note: default + namespace + named is NOT valid - must split
-
-    if let Some(namespace) = namespace_spec {
-        if default_spec.is_some() {
-            if named_specs.is_empty() {
-                // default + namespace only (valid combination)
-                result.push(ImportDecl {
-                    span,
-                    specifiers: vec![default_spec.unwrap(), namespace],
-                    src: Box::new(Str {
-                        span: DUMMY_SP,
-                        value: key.src.clone().into(),
-                        raw: None,
-                    }),
-                    type_only: key.type_only,
-                    with: first_decl.with.clone(),
-                    phase: key.phase,
-                });
-            } else {
-                // default + namespace + named - MUST SPLIT
-                // Create one import for default + named
-                let mut specs = vec![default_spec.unwrap()];
-                specs.extend(named_specs);
-                result.push(ImportDecl {
-                    span,
-                    specifiers: specs,
-                    src: Box::new(Str {
-                        span: DUMMY_SP,
-                        value: key.src.clone().into(),
-                        raw: None,
-                    }),
-                    type_only: key.type_only,
-                    with: first_decl.with.clone(),
-                    phase: key.phase,
-                });
-                // Create one import for namespace
-                result.push(ImportDecl {
-                    span,
-                    specifiers: vec![namespace],
-                    src: Box::new(Str {
-                        span: DUMMY_SP,
-                        value: key.src.clone().into(),
-                        raw: None,
-                    }),
-                    type_only: key.type_only,
-                    with: first_decl.with.clone(),
-                    phase: key.phase,
-                });
-            }
-        } else if named_specs.is_empty() {
-            // Just namespace
-            result.push(ImportDecl {
-                span,
-                specifiers: vec![namespace],
-                src: Box::new(Str {
-                    span: DUMMY_SP,
-                    value: key.src.clone().into(),
-                    raw: None,
-                }),
-                type_only: key.type_only,
-                with: first_decl.with.clone(),
-                phase: key.phase,
-            });
-        } else {
-            // namespace + named without default - MUST SPLIT
-            // Create one import for namespace
-            result.push(ImportDecl {
-                span,
-                specifiers: vec![namespace],
-                src: Box::new(Str {
-                    span: DUMMY_SP,
-                    value: key.src.clone().into(),
-                    raw: None,
-                }),
-                type_only: key.type_only,
-                with: first_decl.with.clone(),
-                phase: key.phase,
-            });
-            // Create one import for named
-            result.push(ImportDecl {
-                span,
-                specifiers: named_specs,
-                src: Box::new(Str {
-                    span: DUMMY_SP,
-                    value: key.src.clone().into(),
-                    raw: None,
-                }),
-                type_only: key.type_only,
-                with: first_decl.with.clone(),
-                phase: key.phase,
-            });
-        }
-    } else {
-        // No namespace - merge default and/or named
-        let mut specs = Vec::new();
-        if let Some(default) = default_spec {
-            specs.push(default);
-        }
-        specs.extend(named_specs);
-
-        result.push(ImportDecl {
-            span,
-            specifiers: specs,
-            src: Box::new(Str {
-                span: DUMMY_SP,
-                value: key.src.clone().into(),
-                raw: None,
-            }),
-            type_only: key.type_only,
-            with: first_decl.with.clone(),
-            phase: key.phase,
-        });
-    }
-
-    result
 }

@@ -32,4 +32,4 @@ export default function(e) {
     })(Function.prototype, "toString", function() {
         return "function" == typeof this && t(this).source || Pi(this);
     });
-}
+};
