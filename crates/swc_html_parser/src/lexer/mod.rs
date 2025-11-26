@@ -255,7 +255,9 @@ where
         self.cur_pos = self.input.cur_pos();
 
         if self.cur.is_some() {
-            self.input.bump_bytes(len);
+            unsafe {
+                self.input.bump_bytes(len);
+            }
         }
     }
 
@@ -433,8 +435,10 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                // Safety: cur() is Some(b'\n'), which is 1 byte
-                self.input.bump_bytes(1);
+                unsafe {
+                    // Safety: cur() is Some(b'\n'), which is 1 byte
+                    self.input.bump_bytes(1);
+                }
 
                 sub_buf.push('\n');
             }
@@ -489,8 +493,10 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                // Safety: cur() is Some(b'\n'), which is 1 byte
-                self.input.bump_bytes(1);
+                unsafe {
+                    // Safety: cur() is Some(b'\n'), which is 1 byte
+                    self.input.bump_bytes(1);
+                }
 
                 sub_buf.push('\n');
             }
@@ -527,8 +533,10 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                // Safety: cur() is Some(b'\n'), which is 1 byte
-                self.input.bump_bytes(1);
+                unsafe {
+                    // Safety: cur() is Some(b'\n'), which is 1 byte
+                    self.input.bump_bytes(1);
+                }
 
                 sub_buf.push('\n');
             }
@@ -861,8 +869,10 @@ where
             sub_buf.push('\r');
 
             if self.input.cur() == Some(b'\n') {
-                // Safety: cur() is Some(b'\n'), which is 1 byte
-                self.input.bump_bytes(1);
+                unsafe {
+                    // Safety: cur() is Some(b'\n'), which is 1 byte
+                    self.input.bump_bytes(1);
+                }
 
                 sub_buf.push('\n');
             }
@@ -893,8 +903,10 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                // Safety: cur() is Some(b'\n'), which is 1 byte
-                self.input.bump_bytes(1);
+                unsafe {
+                    // Safety: cur() is Some(b'\n'), which is 1 byte
+                    self.input.bump_bytes(1);
+                }
 
                 sub_buf.push('\n');
             }
@@ -1028,8 +1040,10 @@ where
             sub_buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                // Safety: cur() is Some(b'\n'), which is 1 byte
-                self.input.bump_bytes(1);
+                unsafe {
+                    // Safety: cur() is Some(b'\n'), which is 1 byte
+                    self.input.bump_bytes(1);
+                }
 
                 sub_buf.push('\n');
             }
@@ -1112,8 +1126,10 @@ where
             buf.push(c as char);
 
             if self.input.cur() == Some(b'\n') {
-                // Safety: cur() is Some(b'\n'), which is 1 byte
-                self.input.bump_bytes(1);
+                unsafe {
+                    // Safety: cur() is Some(b'\n'), which is 1 byte
+                    self.input.bump_bytes(1);
+                }
                 buf.push('\n');
             }
 
@@ -4943,8 +4959,10 @@ where
     #[inline(always)]
     fn skip_whitespaces(&mut self, c: u8) {
         if c == b'\r' && self.input.cur() == Some(b'\n') {
-            // Safety: cur() is Some(b'\n'), which is 1 byte
-            self.input.bump_bytes(1);
+            unsafe {
+                // Safety: cur() is Some(b'\n'), which is 1 byte
+                self.input.bump_bytes(1);
+            }
         }
     }
 }

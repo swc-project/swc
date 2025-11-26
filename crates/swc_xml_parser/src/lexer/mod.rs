@@ -175,8 +175,8 @@ where
         // ignored and will itself be skipped.
         if lexer.input.is_at_start() && lexer.input.cur_as_char() == Some('\u{feff}') {
             unsafe {
-                // Safety: cur_as_char() is Some('\u{feff}')
-                lexer.input.bump();
+                // Safety: cur_as_char() is Some('\u{feff}'), which is 3 bytes (EF BB BF)
+                lexer.input.bump_bytes(3);
             }
         }
 
@@ -252,10 +252,10 @@ where
         self.cur = self.input.cur_as_char();
         self.cur_pos = self.input.cur_pos();
 
-        if self.cur.is_some() {
+        if let Some(c) = self.cur {
             unsafe {
                 // Safety: cur_as_char() is Some(c)
-                self.input.bump();
+                self.input.bump_bytes(c.len_utf8());
             }
         }
     }
@@ -576,7 +576,7 @@ where
                 if self.input.cur() == Some(b'\n') {
                     unsafe {
                         // Safety: cur() is Some(b'\n')
-                        self.input.bump();
+                        self.input.bump_bytes(1);
                     }
 
                     raw.push('\n');
@@ -898,7 +898,7 @@ where
                 if self.input.cur() == Some(b'\n') {
                     unsafe {
                         // Safety: cur() is Some(b'\n')
-                        self.input.bump();
+                        self.input.bump_bytes(1);
                     }
 
                     raw_c.push('\n');
@@ -965,7 +965,7 @@ where
             if self.input.cur() == Some(b'\n') {
                 unsafe {
                     // Safety: cur() is Some(b'\n')
-                    self.input.bump();
+                    self.input.bump_bytes(1);
                 }
 
                 raw.push('\n');
@@ -3107,7 +3107,7 @@ where
         if c == '\r' && self.input.cur() == Some(b'\n') {
             unsafe {
                 // Safety: cur() is Some(b'\n')
-                self.input.bump();
+                self.input.bump_bytes(1);
             }
         }
     }

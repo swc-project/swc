@@ -337,7 +337,9 @@ const PIP: ByteHandler = |lexer| lexer.read_token_logical::<b'|'>();
 macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
         const $name: ByteHandler = |lexer| {
-            lexer.input.bump_one();
+            unsafe {
+                lexer.input.bump_bytes(1);
+            }
             Ok(Token::$token)
         };
     };
@@ -364,9 +366,13 @@ single_char!(BEC, b'}', RBrace);
 /// `^`
 const CRT: ByteHandler = |lexer| {
     // Bitwise xor
-    lexer.input.bump_one();
+    unsafe {
+        lexer.input.bump_bytes(1);
+    }
     Ok(if lexer.input.cur_as_ascii() == Some(b'=') {
-        lexer.input.bump_one();
+        unsafe {
+            lexer.input.bump_bytes(1);
+        }
         Token::BitXorEq
     } else {
         Token::Caret

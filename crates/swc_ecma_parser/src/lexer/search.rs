@@ -134,7 +134,9 @@ macro_rules! byte_search {
 
                     // We don't find a matched byte in the remaining,
                     // which also means we have reached the end of the input.
-                    $lexer.input_mut().bump_bytes(len);
+                    unsafe {
+                        $lexer.input_mut().bump_bytes(len);
+                    }
                     $eof_handler
                 }
             };
@@ -149,7 +151,9 @@ macro_rules! byte_search {
             break $byte;
         };
 
-        $lexer.input_mut().bump_bytes($pos);
+        unsafe {
+            $lexer.input_mut().bump_bytes($pos);
+        }
         $byte
     }};
 }

@@ -221,7 +221,9 @@ where
         self.cur_pos = self.input.last_pos();
 
         if cur.is_some() {
-            self.input.bump_bytes(len);
+            unsafe {
+                self.input.bump_bytes(len);
+            }
         }
 
         cur

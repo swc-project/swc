@@ -450,7 +450,9 @@ impl Lexer<'_> {
                 consume_cooked!();
                 let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
                 let raw = raw_atom(self);
-                self.input.bump_bytes(2);
+                unsafe {
+                    self.input.bump_bytes(2);
+                }
                 return Ok(if started_with_backtick {
                     self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::TemplateHead
@@ -538,7 +540,9 @@ impl<'a> Lexer<'a> {
     /// For unknown character length, use `c.len_utf8()` where c is a char.
     #[inline(always)]
     fn bump(&mut self, len: usize) {
-        self.input_mut().bump_bytes(len);
+        unsafe {
+            self.input_mut().bump_bytes(len);
+        }
     }
 
     #[inline(always)]
@@ -642,7 +646,9 @@ impl<'a> Lexer<'a> {
     fn skip_line_comment(&mut self, start_skip: usize) {
         // Position after the initial `//` (or similar)
         let start = self.cur_pos();
-        self.input_mut().bump_bytes(start_skip);
+        unsafe {
+            self.input_mut().bump_bytes(start_skip);
+        }
         let slice_start = self.cur_pos();
 
         // foo // comment for foo
@@ -755,7 +761,9 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(self.peek(), Some(b'*'));
 
         // Consume initial "/*"
-        self.input_mut().bump_bytes(2);
+        unsafe {
+            self.input_mut().bump_bytes(2);
+        }
 
         // jsdoc
         let slice_start = self.cur_pos();
@@ -1468,7 +1476,9 @@ impl<'a> Lexer<'a> {
         let before_second = self.input().cur_pos();
 
         // Bump `\u`
-        self.input_mut().bump_bytes(2);
+        unsafe {
+            self.input_mut().bump_bytes(2);
+        }
 
         let Some(low) = self.read_int_u32::<16>(4)? else {
             return Ok(None);

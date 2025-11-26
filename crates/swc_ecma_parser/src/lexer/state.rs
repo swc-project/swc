@@ -518,7 +518,9 @@ impl Lexer<'_> {
             if ch <= 0x7f {
                 if ch.is_ident_part() {
                     v.push(ch as char);
-                    self.input_mut().bump_bytes(1);
+                    unsafe {
+                        self.input_mut().bump_bytes(1);
+                    }
                 } else if ch == b'\\' {
                     self.bump(1); // bump '\'
                     if !self.is(b'u') {
