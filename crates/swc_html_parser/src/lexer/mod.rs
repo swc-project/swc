@@ -159,8 +159,10 @@ where
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
         // ignored and will itself be skipped.
         if lexer.input.is_at_start() && lexer.input.cur_as_char() == Some('\u{feff}') {
-            // Safety: We know that the current character is '\u{feff}' (3 bytes: EF BB BF).
-            lexer.input.bump_bytes(3);
+            unsafe {
+                // Safety: We know that the current character is '\u{feff}' (3 bytes: EF BB BF).
+                lexer.input.bump_bytes(3);
+            }
         }
 
         lexer

@@ -152,14 +152,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(always)]
-    fn bump(&mut self) {
-        unsafe {
-            // Safety: Actually this is not safe but this is an internal method.
-            self.input_mut().bump()
-        }
-    }
-
-    #[inline(always)]
     fn is(&self, c: u8) -> bool {
         self.input().is_byte(c)
     }
