@@ -8,5 +8,4 @@ export * from './0';
 import * as _ns from './0';
 export { _ns as ns };
 //// [2.ts]
-export { a, b } from './0';
-export { a as c, b as d } from './0';
+export { a, b, a as c, b as d } from './0';

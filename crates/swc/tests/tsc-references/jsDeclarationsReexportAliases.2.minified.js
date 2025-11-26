@@ -5,6 +5,6 @@ var Foo = function Foo() {
 };
 export { Foo as default };
 //// [usage.js]
-import { default as Fooa } from "./cls";
+import Fooa from "./cls";
 export var x = new Fooa();
 export { default as Foob } from "./cls";
