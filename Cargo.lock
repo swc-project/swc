@@ -5476,7 +5476,6 @@ dependencies = [
  "cbor4ii",
  "either",
  "from_variant",
- "new_debug_unreachable",
  "num-bigint",
  "once_cell",
  "par-iter",
