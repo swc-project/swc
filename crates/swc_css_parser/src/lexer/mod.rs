@@ -214,23 +214,13 @@ where
     }
 
     #[inline(always)]
-    fn consume(&mut self) -> Option<u8> {
+    fn consume(&mut self, len: usize) -> Option<u8> {
         let cur = self.input.cur();
 
         self.cur = cur;
         self.cur_pos = self.input.last_pos();
 
-        if let Some(byte) = cur {
-            // Calculate the number of bytes in this UTF-8 character
-            let len = if byte < 0x80 {
-                1 // ASCII
-            } else if byte < 0xe0 {
-                2 // 2-byte UTF-8
-            } else if byte < 0xf0 {
-                3 // 3-byte UTF-8
-            } else {
-                4 // 4-byte UTF-8
-            };
+        if cur.is_some() {
             self.input.bump_bytes(len);
         }
 
@@ -265,7 +255,16 @@ where
         }
 
         // Consume the next input code point.
-        match self.consume() {
+        let byte_len = if let Some(b) = self.input.cur() {
+            if b < 0x80 {
+                1 // ASCII
+            } else {
+                self.input.cur_as_char().map(|c| c.len_utf8()).unwrap_or(1)
+            }
+        } else {
+            1
+        };
+        match self.consume(byte_len) {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => self.with_buf(|l, buf| {
@@ -276,7 +275,7 @@ where
 
                     match c {
                         Some(c) if is_whitespace(c) => {
-                            l.consume();
+                            l.consume(1);
 
                             buf.push(c as char);
                         }
@@ -364,8 +363,8 @@ where
                 // Otherwise, if the next 2 input code points are U+002D HYPHEN-MINUS U+003E
                 // GREATER-THAN SIGN (->), consume them and return a <CDC-token>.
                 else if self.next() == Some(b'-') && self.next_next() == Some(b'>') {
-                    self.consume();
-                    self.consume();
+                    self.consume(1); // -
+                    self.consume(1); // >
 
                     return Ok(Token::CDC);
                 }
@@ -410,9 +409,9 @@ where
                     && self.next_next() == Some(b'-')
                     && self.next_next_next() == Some(b'-')
                 {
-                    self.consume(); // !
-                    self.consume(); // -
-                    self.consume(); // -
+                    self.consume(1); // !
+                    self.consume(1); // -
+                    self.consume(1); // -
 
                     return Ok(tok!("<!--"));
                 }
@@ -511,13 +510,22 @@ where
             let cmt_start = self.input.last_pos();
 
             while self.next() == Some(b'/') && self.next_next() == Some(b'*') {
-                self.consume(); // '*'
-                self.consume(); // '/'
+                self.consume(1); // '/'
+                self.consume(1); // '*'
 
                 loop {
-                    match self.consume() {
+                    let byte_len = if let Some(b) = self.input.cur() {
+                        if b < 0x80 {
+                            1 // ASCII
+                        } else {
+                            self.input.cur_as_char().map(|c| c.len_utf8()).unwrap_or(1)
+                        }
+                    } else {
+                        1
+                    };
+                    match self.consume(byte_len) {
                         Some(b'*') if self.next() == Some(b'/') => {
-                            self.consume(); // '/'
+                            self.consume(1); // '/'
 
                             if self.comments.is_some() {
                                 let last_pos = self.input.last_pos();
@@ -553,13 +561,22 @@ where
             && self.next_next() == Some(b'/')
         {
             while self.next() == Some(b'/') && self.next_next() == Some(b'/') {
-                self.consume(); // '/'
-                self.consume(); // '/'
+                self.consume(1); // '/'
+                self.consume(1); // '/'
 
                 let start_of_content = self.input.last_pos();
 
                 loop {
-                    match self.consume() {
+                    let byte_len = if let Some(b) = self.input.cur() {
+                        if b < 0x80 {
+                            1 // ASCII
+                        } else {
+                            self.input.cur_as_char().map(|c| c.len_utf8()).unwrap_or(1)
+                        }
+                    } else {
+                        1
+                    };
+                    match self.consume(byte_len) {
                         Some(c) if is_newline(c) => {
                             if self.comments.is_some() {
                                 let last_pos = self.input.last_pos();
@@ -618,7 +635,7 @@ where
         // Otherwise, if the next input code point is U+0025 PERCENTAGE SIGN (%), consume it. Create
         // a <percentage-token> with the same value as number, and return it.
         else if next_first == Some(b'%') {
-            self.consume();
+            self.consume(1);
 
             return Ok(Token::Percentage {
                 value: number.0,
@@ -645,7 +662,7 @@ where
         // If string's value is an ASCII case-insensitive match for "url", and the next
         // input code point is U+0028 LEFT PARENTHESIS ((), consume it.
         if matches_eq_ignore_ascii_case!(ident_sequence.0, "url") && self.next() == Some(b'(') {
-            self.consume();
+            self.consume(1);
 
             let start_whitespace = self.input.last_pos();
 
@@ -654,7 +671,7 @@ where
             let whitespaces = self.with_buf(|l, buf| {
                 while let (Some(next), Some(next_next)) = (l.next(), l.next_next()) {
                     if is_whitespace(next) && is_whitespace(next_next) {
-                        l.consume();
+                        l.consume(1);
 
                         buf.push(next as char);
                     } else {
@@ -698,7 +715,7 @@ where
         // Otherwise, if the next input code point is U+0028 LEFT PARENTHESIS ((), consume it.
         // Create a <function-token> with its value set to string and return it.
         else if self.next() == Some(b'(') {
-            self.consume();
+            self.consume(1);
 
             return Ok(Token::Function {
                 value: ident_sequence.0,
@@ -741,8 +758,17 @@ where
                 } else {
                     None
                 };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
 
-                match l.consume() {
+                match l.consume(byte_len) {
                     // ending code point
                     // Return the <string-token>.
                     Some(c) if c == ending_code_point.unwrap() => {
@@ -784,7 +810,7 @@ where
                         }
                         // Otherwise, if the next input code point is a newline, consume it.
                         else if l.next().is_some() && is_newline(l.next().unwrap()) {
-                            l.consume();
+                            l.consume(1);
 
                             raw.push(c as char);
                             raw.push(next.unwrap() as char);
@@ -835,7 +861,7 @@ where
                     } else {
                         c as char
                     };
-                    l.consume();
+                    l.consume(1);
 
                     raw.push(ch);
                 } else {
@@ -856,8 +882,17 @@ where
                 } else {
                     None
                 };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
 
-                match l.consume() {
+                match l.consume(byte_len) {
                     // U+0029 RIGHT PARENTHESIS ())
                     // Return the <url-token>.
                     Some(b')') => {
@@ -894,7 +929,7 @@ where
                                     } else {
                                         c as char
                                     };
-                                    l.consume();
+                                    l.consume(1);
 
                                     buf.push(ch);
                                 } else {
@@ -910,7 +945,7 @@ where
                         // encountered, this is a parse error);
                         match l.next() {
                             Some(b')') => {
-                                l.consume();
+                                l.consume(1);
 
                                 raw.push_str(&whitespaces);
 
@@ -1023,9 +1058,18 @@ where
             } else {
                 None
             };
+            let byte_len = if let Some(b) = cur_byte {
+                if b < 0x80 {
+                    1 // ASCII
+                } else {
+                    cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                }
+            } else {
+                1
+            };
 
             // Consume the next input code point.
-            match l.consume() {
+            match l.consume(byte_len) {
                 // hex digit
                 Some(c) if is_hex_digit(c) => {
                     let mut hex = (c as char).to_digit(16).unwrap();
@@ -1041,7 +1085,7 @@ where
                             None => break,
                         };
 
-                        l.consume();
+                        l.consume(1);
 
                         buf.push(next.unwrap() as char);
                         hex = hex * 16 + digit;
@@ -1052,7 +1096,7 @@ where
 
                     if let Some(next) = next {
                         if is_whitespace(next) {
-                            l.consume();
+                            l.consume(1);
 
                             buf.push(next as char);
                         }
@@ -1251,8 +1295,17 @@ where
                 } else {
                     None
                 };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
 
-                let c = l.consume();
+                let c = l.consume(byte_len);
 
                 match c {
                     // name code point
@@ -1299,7 +1352,7 @@ where
             let next = l.next();
 
             if next == Some(b'+') || next == Some(b'-') {
-                l.consume();
+                l.consume(1);
 
                 out.push(next.unwrap() as char);
             }
@@ -1307,7 +1360,7 @@ where
             // While the next input code point is a digit, consume it and append it to repr.
             while let Some(c) = l.next() {
                 if c.is_ascii_digit() {
-                    l.consume();
+                    l.consume(1);
 
                     out.push(c as char);
                 } else {
@@ -1323,8 +1376,8 @@ where
                 if let Some(n) = l.next_next() {
                     if n.is_ascii_digit() {
                         // Consume them.
-                        l.consume();
-                        l.consume();
+                        l.consume(1);
+                        l.consume(1);
 
                         // Append them to repr.
                         out.push(next.unwrap() as char);
@@ -1337,7 +1390,7 @@ where
                         // repr.
                         while let Some(c) = l.next() {
                             if c.is_ascii_digit() {
-                                l.consume();
+                                l.consume(1);
 
                                 out.push(c as char);
                             } else {
@@ -1364,8 +1417,8 @@ where
                     || next_next.is_some() && next_next.unwrap().is_ascii_digit()
                 {
                     // Consume them.
-                    l.consume();
-                    l.consume();
+                    l.consume(1);
+                    l.consume(1);
 
                     // Append them to repr.
                     out.push(next.unwrap() as char);
@@ -1378,7 +1431,7 @@ where
                     // to repr.
                     while let Some(c) = l.next() {
                         if c.is_ascii_digit() {
-                            l.consume();
+                            l.consume(1);
 
                             out.push(c as char);
                         } else {
@@ -1422,8 +1475,17 @@ where
                 } else {
                     None
                 };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
 
-                match l.consume() {
+                match l.consume(byte_len) {
                     // U+0029 RIGHT PARENTHESIS ())
                     // EOF
                     // Return.
