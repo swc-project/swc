@@ -60,6 +60,7 @@ swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
+swc_test262 = { version = "0.1.0", path = "../swc_test262" }
 testing = { version = "18.0.0", path = "../testing" }
 
 [[example]]

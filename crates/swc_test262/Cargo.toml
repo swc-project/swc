@@ -1,0 +1,46 @@
+[package]
+name = "swc_test262"
+version = "0.1.0"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Test262 conformance test infrastructure for SWC"
+documentation = "https://rustdoc.swc.rs/swc_test262/"
+edition = { workspace = true }
+include = ["Cargo.toml", "src/**/*.rs", "known_failures/**/*.txt"]
+license = { workspace = true }
+repository = { workspace = true }
+
+[lib]
+bench = false
+
+[features]
+default = []
+runtime = ["tokio", "reqwest"]  # Enable runtime tests (requires Node.js 22+)
+
+[dependencies]
+# YAML parsing for test262 metadata
+saphyr = "0.0.5"
+serde = { workspace = true, features = ["derive"] }
+serde_yaml = "0.9"
+serde_json = { workspace = true }
+
+# File system operations
+walkdir = { workspace = true }
+
+# Parallel execution
+rayon = { workspace = true }
+
+# Async runtime (optional, for runtime tests)
+tokio = { workspace = true, features = ["full"], optional = true }
+reqwest = { workspace = true, features = ["json"], optional = true }
+
+# SWC dependencies
+swc_common = { version = "17.0.1", path = "../swc_common" }
+swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "27.0.4", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
+
+# Utilities
+once_cell = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
