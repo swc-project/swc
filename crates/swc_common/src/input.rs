@@ -1,7 +1,5 @@
 use std::str;
 
-use debug_unreachable::debug_unreachable;
-
 use crate::syntax_pos::{BytePos, SourceFile};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
@@ -73,25 +71,6 @@ impl<'a> StringInput<'a> {
         ret
     }
 
-    #[inline]
-    pub fn bump_bytes(&mut self, n: usize) {
-        debug_assert!(n <= self.remaining.len());
-        self.remaining = unsafe { self.remaining.get_unchecked(n..) };
-        self.last_pos.0 += n as u32;
-    }
-
-    #[inline]
-    pub fn bump_one(&mut self) {
-        if !self.remaining.is_empty() {
-            self.remaining = unsafe { self.remaining.get_unchecked(1..) };
-            self.last_pos.0 += 1;
-        } else {
-            unsafe {
-                debug_unreachable!("bump should not be called when cur() == None");
-            }
-        }
-    }
-
     pub fn start_pos(&self) -> BytePos {
         self.orig_start
     }
@@ -130,33 +109,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     }
 
     #[inline]
-    unsafe fn bump(&mut self) {
-        let bytes = self.remaining.as_bytes();
-        if bytes.is_empty() {
-            unsafe {
-                debug_unreachable!("bump should not be called when cur() == None");
-            }
-        }
-
-        let first_byte = unsafe { *bytes.get_unchecked(0) };
-
-        // Calculate the number of bytes in this UTF-8 character
-        let len = if first_byte < 0x80 {
-            1 // ASCII
-        } else if first_byte < 0xe0 {
-            2 // 2-byte UTF-8
-        } else if first_byte < 0xf0 {
-            3 // 3-byte UTF-8
-        } else {
-            4 // 4-byte UTF-8
-        };
-
-        self.remaining = unsafe { self.remaining.get_unchecked(len..) };
-        self.last_pos = self.last_pos + BytePos(len as u32);
-    }
-
-    #[inline]
-    fn bump_bytes(&mut self, n: usize) {
+    unsafe fn bump_bytes(&mut self, n: usize) {
         debug_assert!(n <= self.remaining.len());
         self.remaining = unsafe { self.remaining.get_unchecked(n..) };
         self.last_pos.0 += n as u32;
@@ -288,15 +241,15 @@ pub trait Input<'a>: Clone {
     /// Returns the byte after the next byte without consuming anything.
     fn peek_ahead(&self) -> Option<u8>;
 
-    /// # Safety
-    ///
-    /// This should be called only when `cur()` returns `Some`. i.e.
-    /// when the Input is not empty.
-    unsafe fn bump(&mut self);
-
     /// Advances the input by exactly `n` bytes.
     /// Unlike `bump()`, this does not calculate UTF-8 character boundaries.
-    fn bump_bytes(&mut self, n: usize);
+    ///
+    /// # Safety
+    ///
+    /// - This should be called only when `cur()` returns `Some`. i.e. when the
+    ///   Input is not empty.
+    /// - `n` should be the number of bytes of the current character.
+    unsafe fn bump_bytes(&mut self, n: usize);
 
     /// Returns the current byte as ASCII if it's valid ASCII (0x00-0x7F).
     /// Returns [None] if it's end of input or if the byte is not ASCII.
@@ -356,7 +309,7 @@ pub trait Input<'a>: Clone {
         if self.is_byte(c) {
             unsafe {
                 // Safety: We are sure that the input is not empty
-                self.bump();
+                self.bump_bytes(1);
             }
             true
         } else {
@@ -419,13 +372,13 @@ mod tests {
             assert_eq!(i.cur(), Some(b'/'));
 
             unsafe {
-                i.bump();
+                i.bump_bytes(1);
             }
             assert_eq!(i.last_pos, BytePos(5));
             assert_eq!(i.cur(), Some(b'd'));
 
             unsafe {
-                i.bump();
+                i.bump_bytes(1);
             }
             assert_eq!(i.last_pos, BytePos(6));
             assert_eq!(i.cur(), None);
