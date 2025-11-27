@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_transform_common"
 repository    = { workspace = true }
-version       = "11.0.0"
+version       = "12.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -20,4 +20,4 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true }
 
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls" }
-swc_common        = { version = "17.0.1", path = "../swc_common" }
+swc_common        = { version = "18.0.0", path = "../swc_common" }

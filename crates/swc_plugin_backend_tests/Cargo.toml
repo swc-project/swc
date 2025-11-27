@@ -33,21 +33,21 @@ tokio                     = { workspace = true, features = ["rt"] }
 tracing                   = { workspace = true }
 cbor4ii                   = { workspace = true, features = [ "use_std" ] }
 
-swc_common = { version = "17.0.1", path = "../swc_common", features = [
+swc_common = { version = "18.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "22.0.1", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
-swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast", features = [
+swc_plugin_runner = { version = "23.0.0", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
+swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
-swc_ecma_parser = { version = "27.0.7", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
-swc_transform_common = { version = "11.0.0", path = "../swc_transform_common" }
+swc_ecma_parser = { version = "28.0.0", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit" }
+swc_transform_common = { version = "12.0.0", path = "../swc_transform_common" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
-testing = { version = "18.0.0", path = "../testing" }
+testing = { version = "19.0.0", path = "../testing" }
 
-swc_plugin_backend_wasmer   = { version = "5.0", path = "../swc_plugin_backend_wasmer" }
-swc_plugin_backend_wasmtime = { version = "4.0", path = "../swc_plugin_backend_wasmtime" }
+swc_plugin_backend_wasmer   = { version = "6.0", path = "../swc_plugin_backend_wasmer" }
+swc_plugin_backend_wasmtime = { version = "5.0", path = "../swc_plugin_backend_wasmtime" }
 
 [[bench]]
 harness = false

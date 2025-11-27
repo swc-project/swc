@@ -13,7 +13,7 @@ include = [
 license = { workspace = true }
 name = "swc_ecma_preset_env"
 repository = { workspace = true }
-version = "40.0.0"
+version = "41.0.0"
 
 [lib]
 bench = false
@@ -36,16 +36,16 @@ precomputed-map = { workspace = true }
 rustc-hash = { workspace = true }
 string_enum = { version = "1.0.2", path = "../string_enum" }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "17.0.1", path = "../swc_common" }
-swc_ecma_ast = { version = "18.0.0", path = "../swc_ecma_ast" }
-swc_ecma_compiler = { version = "8.0.0", path = "../swc_ecma_compiler" }
-swc_ecma_transformer = { version = "1.0.0", path = "../swc_ecma_transformer" }
-swc_ecma_transforms = { version = "39.0.0", path = "../swc_ecma_transforms", features = [
+swc_common = { version = "18.0.0", path = "../swc_common" }
+swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast" }
+swc_ecma_compiler = { version = "9.0.0", path = "../swc_ecma_compiler" }
+swc_ecma_transformer = { version = "2.0.0", path = "../swc_ecma_transformer" }
+swc_ecma_transforms = { version = "40.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",
 ] }
-swc_ecma_utils = { version = "24.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "18.0.1", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "25.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit" }
 
 [build-dependencies]
 anyhow          = { workspace = true }
@@ -59,9 +59,9 @@ serde_json      = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc_ecma_codegen = { version = "20.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser  = { version = "27.0.7", path = "../swc_ecma_parser" }
-testing          = { version = "18.0.0", path = "../testing" }
+swc_ecma_codegen = { version = "21.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser  = { version = "28.0.0", path = "../swc_ecma_parser" }
+testing          = { version = "19.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
