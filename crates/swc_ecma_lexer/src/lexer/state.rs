@@ -801,6 +801,7 @@ impl Lexer<'_> {
 
             let c = self.cur();
             if let Some(c) = c {
+                let c = c as char;
                 if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
                     || self.state.context.current() == Some(TokenContext::JSXClosingTag)
                 {
@@ -811,7 +812,7 @@ impl Lexer<'_> {
                     if c == '>' {
                         unsafe {
                             // Safety: cur() is Some('>')
-                            self.input.bump();
+                            self.input.bump_bytes(1);
                         }
                         return Ok(Token::JSXTagEnd);
                     }
@@ -823,13 +824,13 @@ impl Lexer<'_> {
                     }
                 }
 
-                if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
+                if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some(b'!') {
                     let had_line_break_before_last = self.had_line_break_before_last();
                     let cur_pos = self.input.cur_pos();
 
                     unsafe {
                         // Safety: cur() is Some('<')
-                        self.input.bump();
+                        self.input.bump_bytes(1);
                     }
 
                     if had_line_break_before_last && self.is_str("<<<<<< ") {

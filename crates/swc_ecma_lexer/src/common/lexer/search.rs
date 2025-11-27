@@ -121,17 +121,23 @@ macro_rules! byte_search {
                     let $pos = i; // Index within current slice
                     if $should_continue {
                         // Continue searching from next position
-                        $lexer.input_mut().bump_bytes(i + 1);
+                        unsafe {
+                            $lexer.input_mut().bump_bytes(i + 1);
+                        }
                         continue;
                     } else {
-                        $lexer.input_mut().bump_bytes(i);
+                        unsafe {
+                            $lexer.input_mut().bump_bytes(i);
+                        }
                         break $byte;
                     }
                 }
                 None => {
                     // Consume remainder then run handler.
                     let len = $lexer.input().as_str().len();
-                    $lexer.input_mut().bump_bytes(len);
+                    unsafe {
+                        $lexer.input_mut().bump_bytes(len);
+                    }
                     $eof_handler
                 }
             }

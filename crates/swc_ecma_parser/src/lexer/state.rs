@@ -246,9 +246,9 @@ impl crate::input::Tokens for Lexer<'_> {
         debug_assert!(token.is_word());
         let mut v = String::with_capacity(16);
         while let Some(ch) = self.input().cur() {
-            if ch == '-' {
-                v.push(ch);
-                self.bump();
+            if ch == b'-' {
+                v.push(ch as char);
+                self.bump(1);
             } else {
                 let old_pos = self.cur_pos();
                 v.push_str(&self.scan_identifier_parts());
@@ -296,8 +296,8 @@ impl crate::input::Tokens for Lexer<'_> {
         let start = self.cur_pos();
 
         match cur {
-            '\'' | '"' => {
-                let token = self.read_jsx_str(cur);
+            b'\'' | b'"' => {
+                let token = self.read_jsx_str(cur as char);
                 let token = match token {
                     Ok(token) => token,
                     Err(e) => {
@@ -417,21 +417,21 @@ impl Lexer<'_> {
         let mut value = String::new();
 
         while let Some(ch) = self.input_mut().cur() {
-            if ch == '{' {
+            if ch == b'{' {
                 break;
-            } else if ch == '<' {
+            } else if ch == b'<' {
                 // TODO: check git conflict mark
                 break;
             }
 
-            if ch == '>' {
+            if ch == b'>' {
                 self.emit_error(
                     self.input().cur_pos(),
                     SyntaxError::UnexpectedTokenWithSuggestions {
                         candidate_list: vec!["`{'>'}`", "`&gt;`"],
                     },
                 );
-            } else if ch == '}' {
+            } else if ch == b'}' {
                 self.emit_error(
                     self.input().cur_pos(),
                     SyntaxError::UnexpectedTokenWithSuggestions {
@@ -447,11 +447,11 @@ impl Lexer<'_> {
                 && first_non_whitespace > 0
             {
                 break;
-            } else if ch.is_whitespace() {
+            } else if ch <= 0x7f && (ch as char).is_whitespace() {
                 first_non_whitespace = self.cur_pos().0 as i32;
             }
 
-            if ch == '&' {
+            if ch == b'&' {
                 let s = unsafe {
                     // Safety: We already checked for the range
                     self.input_slice_to_cur(chunk_start)
@@ -464,7 +464,13 @@ impl Lexer<'_> {
                     chunk_start = self.input.cur_pos();
                 }
             } else {
-                self.bump();
+                let len = if ch < 0x80 {
+                    1 // ASCII
+                } else {
+                    // For multi-byte UTF-8, get the full character
+                    self.input().cur_as_char().unwrap().len_utf8()
+                };
+                self.bump(len);
             }
         }
 
@@ -508,28 +514,45 @@ impl Lexer<'_> {
     fn scan_identifier_parts(&mut self) -> String {
         let mut v = String::with_capacity(16);
         while let Some(ch) = self.input().cur() {
-            if ch.is_ident_part() {
-                v.push(ch);
-                self.input_mut().bump_bytes(ch.len_utf8());
-            } else if ch == '\\' {
-                self.bump(); // bump '\'
-                if !self.is(b'u') {
-                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
-                    continue;
-                }
-                self.bump(); // bump 'u'
-                let Ok(value) = self.read_unicode_escape() else {
-                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
-                    break;
-                };
-                if let Some(c) = CodePoint::from(value).to_char() {
-                    v.push(c);
+            // For ASCII, check if it's an identifier part quickly
+            if ch <= 0x7f {
+                if ch.is_ident_part() {
+                    v.push(ch as char);
+                    unsafe {
+                        self.input_mut().bump_bytes(1);
+                    }
+                } else if ch == b'\\' {
+                    self.bump(1); // bump '\'
+                    if !self.is(b'u') {
+                        self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                        continue;
+                    }
+                    self.bump(1); // bump 'u'
+                    let Ok(value) = self.read_unicode_escape() else {
+                        self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                        break;
+                    };
+                    if let Some(c) = CodePoint::from(value).to_char() {
+                        v.push(c);
+                    } else {
+                        self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    }
+                    self.token_flags |= TokenFlags::UNICODE;
                 } else {
-                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    break;
                 }
-                self.token_flags |= TokenFlags::UNICODE;
             } else {
-                break;
+                // Non-ASCII byte - need to get full UTF-8 character
+                if let Some(c) = self.input().cur_as_char() {
+                    if c.is_ident_part() {
+                        v.push(c);
+                        self.bump(c.len_utf8());
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
             }
         }
         v

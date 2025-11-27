@@ -51,27 +51,26 @@ shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 
 
 [dependencies]
-anyhow                = { workspace = true }
-arbitrary             = { workspace = true, features = ["derive"], optional = true }
-bytecheck             = { workspace = true, optional = true }
-bytes-str             = { workspace = true, features = ["serde"] }
-cbor4ii               = { workspace = true, features = ["use_std"], optional = true }
-either                = { workspace = true }
-new_debug_unreachable = { workspace = true }
-num-bigint            = { workspace = true }
-once_cell             = { workspace = true }
-parking_lot           = { workspace = true, optional = true }
-rancor                = { workspace = true, optional = true }
-rkyv                  = { workspace = true, optional = true }
-rustc-hash            = { workspace = true }
-serde                 = { workspace = true, features = ["derive"] }
-shrink-to-fit         = { workspace = true, optional = true }
-siphasher             = { workspace = true }
-swc_sourcemap         = { workspace = true, optional = true }
-termcolor             = { workspace = true, optional = true }
-tracing               = { workspace = true }
-unicode-width         = { workspace = true }
-url                   = { workspace = true }
+anyhow        = { workspace = true }
+arbitrary     = { workspace = true, features = ["derive"], optional = true }
+bytecheck     = { workspace = true, optional = true }
+bytes-str     = { workspace = true, features = ["serde"] }
+cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
+either        = { workspace = true }
+num-bigint    = { workspace = true }
+once_cell     = { workspace = true }
+parking_lot   = { workspace = true, optional = true }
+rancor        = { workspace = true, optional = true }
+rkyv          = { workspace = true, optional = true }
+rustc-hash    = { workspace = true }
+serde         = { workspace = true, features = ["derive"] }
+shrink-to-fit = { workspace = true, optional = true }
+siphasher     = { workspace = true }
+swc_sourcemap = { workspace = true, optional = true }
+termcolor     = { workspace = true, optional = true }
+tracing       = { workspace = true }
+unicode-width = { workspace = true }
+url           = { workspace = true }
 
 ast_node             = { version = "5.0.0", path = "../ast_node" }
 better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls" }
