@@ -903,7 +903,7 @@ impl VisitMut for AssignFolder {
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
                 AssignTargetPat::Object(ObjectPat { span, props, .. }) => {
-                    if props.len() == 1 {
+                    if ignore_return_value && props.len() == 1 {
                         if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
                             &props[0]
                         {
