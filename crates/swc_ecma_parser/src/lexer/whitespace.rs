@@ -153,8 +153,8 @@ impl<'a> Lexer<'a> {
     #[inline]
     pub fn skip_space(&mut self) {
         loop {
-            let byte = match self.input.as_str().as_bytes().first() {
-                Some(&v) => v,
+            let byte = match self.input.cur() {
+                Some(v) => v,
                 None => return,
             };
 
