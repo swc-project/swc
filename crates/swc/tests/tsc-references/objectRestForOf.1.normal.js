@@ -14,16 +14,16 @@ for (let _ref of array){
 }
 let xx;
 let rrestOff;
-for (var _ref of array){
-    var _ref1;
-    _ref1 = _ref, rrestOff = _object_without_properties(_ref1, [
+for (_ref of array){
+    ({ x: xx } = _ref), rrestOff = _object_without_properties(_ref, [
         "x"
-    ]), ({ x: xx } = _ref1), _ref1;
+    ]), _ref;
     [
         xx,
         rrestOff
     ];
 }
+var _ref;
 for (const norest of array.map((a)=>_object_spread_props(_object_spread({}, a), {
         x: 'a string'
     }))){

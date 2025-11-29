@@ -19,7 +19,7 @@ suddenly(function(_param) {
             ka: 1
         },
         y: 'noo'
-    }, nested = (_param.x.z, _object_without_properties(_param.x, [
+    }, _ref = _param.x, nested = (_ref.z, _object_without_properties(_ref, [
         "z"
     ]));
     return _object_without_properties(_param, [

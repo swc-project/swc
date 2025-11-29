@@ -16,7 +16,7 @@ var _strArray2 = _to_array(strArray), s3 = _strArray2.slice(2);
 s3.push(undefined); // Should error, 'undefined' not part of s2's element type
 var t1 = strMap.t1;
 t1.toString(); // Should error, t1 possibly undefined
-var t2 = _extends({}, _object_destructuring_empty(strMap));
+var ref = _object_destructuring_empty(strMap), t2 = _extends({}, strMap);
 t2.z.toString(); // Should error
 {
     var x = numMapPoint.x, y = numMapPoint.y, z = numMapPoint.z;
@@ -37,17 +37,17 @@ t2.z.toString(); // Should error
     x2.toFixed(); // Should OK
     q1.y.toFixed(); // Should OK
     q1.z.toFixed(); // Should error
-}var ref;
+}var ref1;
 // Assignment forms
-ref = _sliced_to_array(strArray, 1), target_string = ref[0], ref; // Should error
-var ref1;
-ref1 = _sliced_to_array(strArray, 1), target_string_undef = ref1[0], ref1; // Should OK
+ref1 = _sliced_to_array(strArray, 1), target_string = ref1[0], ref1; // Should error
 var ref2;
-ref2 = _to_array(strArray), target_string_arr = ref2.slice(3), ref2; // Should OK
+ref2 = _sliced_to_array(strArray, 1), target_string_undef = ref2[0], ref2; // Should OK
+var ref3;
+ref3 = _to_array(strArray), target_string_arr = ref3.slice(3), ref3; // Should OK
 {
     var x3, y1, z1;
-    var ref3;
-    ref3 = numMapPoint, x3 = ref3.x, y1 = ref3.y, z1 = ref3.z, ref3; // Should OK
+    var ref4;
+    ref4 = numMapPoint, x3 = ref4.x, y1 = ref4.y, z1 = ref4.z, ref4; // Should OK
     var q2;
     q2 = numMapPoint.q; // Should error
 }

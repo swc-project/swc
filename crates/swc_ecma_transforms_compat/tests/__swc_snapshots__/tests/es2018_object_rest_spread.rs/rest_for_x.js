@@ -4,19 +4,19 @@ for (var _ref of []){
         "a"
     ]);
 }
-for (var _ref1 of []){
-    var _ref2;
-    _ref2 = _ref1, b = _object_without_properties(_ref2, [
+for (_ref1 of []){
+    ({ a } = _ref1), b = _object_without_properties(_ref1, [
         "a"
-    ]), ({ a } = _ref2), _ref2;
+    ]), _ref1;
 }
+var _ref1;
 async function a() {
-    for await (var _ref of []){
-        var _ref1;
-        _ref1 = _ref, b = _object_without_properties(_ref1, [
+    for await (_ref of []){
+        ({ a } = _ref), b = _object_without_properties(_ref, [
             "a"
-        ]), ({ a } = _ref1), _ref1;
+        ]), _ref;
     }
+    var _ref;
 }
 // skip
 for({ a } in {}){}

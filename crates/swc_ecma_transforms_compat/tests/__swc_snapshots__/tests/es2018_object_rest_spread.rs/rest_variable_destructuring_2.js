@@ -1,7 +1,7 @@
-let { x: { a: xa, [d]: f } } = complex, asdf = _object_without_properties(complex.x, [
+let { x: _ref, y: _ref1 } = complex, { a: xa, [d]: f } = _ref, asdf = _object_without_properties(_ref, [
     "a",
-    d
-].map(_to_property_key)), d = _extends({}, _object_destructuring_empty(complex.y)), g = _object_without_properties(complex, [
+    _to_property_key(d)
+]), {} = _ref1, d = _extends({}, _ref1), g = _object_without_properties(complex, [
     "x",
     "y"
 ]);

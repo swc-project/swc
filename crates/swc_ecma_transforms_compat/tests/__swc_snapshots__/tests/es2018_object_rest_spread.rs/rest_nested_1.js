@@ -6,6 +6,6 @@ const defunct = {
         }
     }
 };
-const { outer: { inner: { three } } } = defunct, other = _object_without_properties(defunct.outer.inner, [
+const { outer: { inner: _ref } } = defunct, { three } = _ref, other = _object_without_properties(_ref, [
     "three"
 ]);
