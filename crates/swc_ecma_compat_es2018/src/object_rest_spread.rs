@@ -10,10 +10,7 @@ use crate::{object_rest::ObjectRest, object_spread::ObjectSpread};
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread(config: Config) -> impl Pass {
     (
-        visit_mut_pass(ObjectRest {
-            config,
-            ..Default::default()
-        }),
+        visit_mut_pass(ObjectRest::new(config)),
         visit_mut_pass(ObjectSpread { config }),
     )
 }
