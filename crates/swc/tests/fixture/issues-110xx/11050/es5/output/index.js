@@ -66,7 +66,7 @@ function func1() {
                     result = "One";
                     return [
                         3,
-                        6
+                        7
                     ];
                 case 4:
                     return [
@@ -79,13 +79,13 @@ function func1() {
                         result = "Two Modified";
                         return [
                             3,
-                            6
+                            7
                         ];
                     }
                     result = "Two";
                     return [
                         3,
-                        6
+                        7
                     ];
                 case 6:
                     result = "Out of scope";

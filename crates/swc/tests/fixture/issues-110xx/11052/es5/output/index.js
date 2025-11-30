@@ -66,7 +66,7 @@ var MyClass = /*#__PURE__*/ function() {
                                     this.fetchMoreData()
                                 ];
                             case 2:
-                                _2 += _3 + _state.sent();
+                                _1._value = _2 + (_3 + _state.sent());
                                 return [
                                     2
                                 ];
