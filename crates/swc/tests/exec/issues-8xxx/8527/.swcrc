@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "target": "es2015",
+        "externalHelpers": false
+    },
+    "module": {
+        "type": "es6"
+    },
+    "isModule": true,
+    "minify": false
+}
