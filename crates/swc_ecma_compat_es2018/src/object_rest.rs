@@ -2,9 +2,12 @@ use std::{collections::VecDeque, mem};
 
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr};
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{alias_if_required, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use super::object_rest_spread::Config;
 
@@ -60,6 +63,30 @@ impl ObjectRest {
     }
 }
 
+/// Fast-path visitor to check if a node contains object rest patterns.
+#[derive(Default)]
+struct RestVisitor {
+    found: bool,
+}
+
+impl Visit for RestVisitor {
+    noop_visit_type!(fail);
+
+    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
+        match prop {
+            ObjectPatProp::Rest(..) => self.found = true,
+            _ => prop.visit_children_with(self),
+        }
+    }
+}
+
+impl Check for RestVisitor {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
+}
+
+#[fast_path(RestVisitor)]
 impl VisitMut for ObjectRest {
     noop_visit_mut_type!(fail);
 
