@@ -1,6 +1,6 @@
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
-let aa, rest;
-const src = {
+var aa, rest;
+var src = {
     get aa () {
         console.log('getter aa (deleting zz)');
         delete this.zz;
@@ -9,7 +9,7 @@ const src = {
     yy: 2,
     zz: 3
 };
-({ aa } = src), rest = _object_without_properties(src, [
+aa = src.aa, rest = _object_without_properties(src, [
     "aa"
 ]), src;
 console.log('rest keys:', Object.keys(rest));

@@ -3,7 +3,7 @@
     "parser": {
       "syntax": "ecmascript"
     },
-    "target": "es5"
+    "target": "es2017"
   },
   "module": {
     "type": "es6"
