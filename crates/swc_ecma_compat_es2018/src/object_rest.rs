@@ -834,7 +834,12 @@ impl ObjectRest {
             for pending in pending_items {
                 let temp = pending.temp.as_ref().unwrap_or(&current_source);
 
-                // For nested rest, destructure the non-rest properties
+                // When temp.is_some(), this is a nested pattern (e.g., `{ x: { a, ...b } }`).
+                // The outer pattern assigned the nested value to temp, so we need to
+                // destructure the non-rest properties (`{ a }`) from temp before
+                // generating the rest call (`...b`).
+                // When temp.is_none(), this is a top-level pattern and the non-rest
+                // properties are destructured directly by the parent declarator.
                 if pending.temp.is_some() {
                     out.push(VarDeclarator {
                         span: DUMMY_SP,
@@ -873,7 +878,7 @@ impl ObjectRest {
                 definite: false,
             });
 
-            // 6. Update source for next iteration
+            // 5. Update source for next iteration
             current_source = deferred.temp;
         }
     }
