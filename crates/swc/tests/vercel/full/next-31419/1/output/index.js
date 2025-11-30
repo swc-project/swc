@@ -7,7 +7,7 @@ Promise.all(assignAll).then(function(t) {
         return e(this, function(a) {
             switch(a.label){
                 case 0:
-                    for(c in r = function(r) {
+                    for(o in r = function(r) {
                         var n;
                         return e(this, function(e) {
                             switch(e.label){
@@ -24,21 +24,25 @@ Promise.all(assignAll).then(function(t) {
                                     ];
                             }
                         });
-                    }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], t)i.push(c);
-                    o = 0, a.label = 1;
+                    }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', c = [], i = t)c.push(o);
+                    u = 0, a.label = 1;
                 case 1:
-                    if (!(o < i.length)) return [
+                    if (!(u < c.length)) return [
                         3,
                         4
                     ];
-                    return u = i[o], [
+                    if (!((o = c[u]) in i)) return [
+                        3,
+                        3
+                    ];
+                    return [
                         5,
-                        n(r(u))
+                        n(r(o))
                     ];
                 case 2:
                     a.sent(), a.label = 3;
                 case 3:
-                    return o++, [
+                    return u++, [
                         3,
                         1
                     ];
