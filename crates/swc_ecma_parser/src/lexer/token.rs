@@ -384,12 +384,6 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn into_atom(self, lexer: &mut crate::Lexer<'a>) -> Option<Atom> {
-        let value = lexer.get_token_value();
-        self.as_word_atom(value)
-    }
-
-    #[inline(always)]
     pub fn take_error<I: Tokens>(self, buffer: &mut Buffer<I>) -> Error {
         buffer.expect_error_token_value()
     }
@@ -432,11 +426,6 @@ impl<'a> Token {
         let span = buffer.cur.span;
         let atom = Atom::new(buffer.iter.read_string(span));
         atom
-    }
-
-    #[inline(always)]
-    pub fn take_unknown_ident<I: Tokens>(self, buffer: &mut Buffer<I>) -> Atom {
-        buffer.expect_word_token_value()
     }
 
     #[inline(always)]
@@ -791,49 +780,6 @@ impl Token {
         .to_string()
     }
 
-    pub fn as_keyword_atom(self) -> Option<Atom> {
-        let atom = match self {
-            Token::Await => atom!("await"),
-            Token::Break => atom!("break"),
-            Token::Case => atom!("case"),
-            Token::Catch => atom!("catch"),
-            Token::Class => atom!("class"),
-            Token::Const => atom!("const"),
-            Token::Continue => atom!("continue"),
-            Token::Debugger => atom!("debugger"),
-            Token::Default => atom!("default"),
-            Token::Delete => atom!("delete"),
-            Token::Do => atom!("do"),
-            Token::Else => atom!("else"),
-            Token::Export => atom!("export"),
-            Token::Extends => atom!("extends"),
-            Token::Finally => atom!("finally"),
-            Token::For => atom!("for"),
-            Token::Function => atom!("function"),
-            Token::If => atom!("if"),
-            Token::Import => atom!("import"),
-            Token::In => atom!("in"),
-            Token::InstanceOf => atom!("instanceof"),
-            Token::Let => atom!("let"),
-            Token::New => atom!("new"),
-            Token::Return => atom!("return"),
-            Token::Super => atom!("super"),
-            Token::Switch => atom!("switch"),
-            Token::This => atom!("this"),
-            Token::Throw => atom!("throw"),
-            Token::Try => atom!("try"),
-            Token::TypeOf => atom!("typeof"),
-            Token::Var => atom!("var"),
-            Token::Void => atom!("void"),
-            Token::While => atom!("while"),
-            Token::With => atom!("with"),
-            Token::Yield => atom!("yield"),
-            Token::Module => atom!("module"),
-            _ => return None,
-        };
-        Some(atom)
-    }
-
     #[inline(always)]
     pub const fn is_keyword(self) -> bool {
         let t = self as u8;
@@ -905,23 +851,6 @@ impl Token {
             Token::Null | Token::True | Token::False | Token::Ident
         ) || self.is_known_ident()
             || self.is_keyword()
-    }
-
-    pub fn as_word_atom(self, value: Option<&TokenValue>) -> Option<Atom> {
-        match self {
-            Token::Null => Some(atom!("null")),
-            Token::True => Some(atom!("true")),
-            Token::False => Some(atom!("false")),
-            Token::Ident => {
-                let Some(TokenValue::Word(w)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                Some(w.clone())
-            }
-            _ => self
-                .as_known_ident_atom()
-                .or_else(|| self.as_keyword_atom()),
-        }
     }
 
     #[inline(always)]
