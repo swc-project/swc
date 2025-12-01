@@ -232,8 +232,8 @@ impl<'a> Lexer<'a> {
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Token> {
         self.token_flags = TokenFlags::empty();
-        let byte = match self.input.as_str().as_bytes().first() {
-            Some(&v) => v,
+        let byte = match self.input.cur() {
+            Some(v) => v,
             None => return Ok(Token::Eof),
         };
 
@@ -1591,8 +1591,7 @@ impl<'a> Lexer<'a> {
         if self.input().cur() != Some(b'#') || self.input().peek() != Some(b'!') {
             return Ok(None);
         }
-        self.bump(1); // `#`
-        self.bump(1); // `!`
+        self.bump(2); // `#` and `!`
         let s = self.input_uncons_while(|c| !c.is_line_terminator());
         Ok(Some(self.atom(s)))
     }
@@ -1995,9 +1994,7 @@ impl<'a> Lexer<'a> {
         self.bump(1); // 1st `.`
 
         if next == b'.' && self.input().peek() == Some(b'.') {
-            self.bump(1); // 2nd `.`
-            self.bump(1); // 3rd `.`
-
+            self.bump(2); // 2nd and 3rd `.`
             return Ok(Token::DotDotDot);
         }
 

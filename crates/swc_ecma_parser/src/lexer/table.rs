@@ -369,7 +369,7 @@ const CRT: ByteHandler = |lexer| {
     unsafe {
         lexer.input.bump_bytes(1);
     }
-    Ok(if lexer.input.cur_as_ascii() == Some(b'=') {
+    Ok(if lexer.input.cur() == Some(b'=') {
         unsafe {
             lexer.input.bump_bytes(1);
         }
