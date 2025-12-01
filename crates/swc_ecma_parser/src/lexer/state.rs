@@ -74,6 +74,7 @@ impl crate::input::Tokens for Lexer<'_> {
 
     #[inline]
     fn read_string(&self, span: Span) -> &str {
+        assert!(span.lo >= self.input.start_pos() && span.hi <= self.input.end_pos());
         unsafe { self.input_slice_str(span.lo, span.hi) }
     }
 
