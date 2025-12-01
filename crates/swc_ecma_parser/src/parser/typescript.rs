@@ -341,7 +341,7 @@ impl<I: Tokens> Parser<I> {
             let modifier = if cur == Token::Ident {
                 cur.clone().take_unknown_ident_ref(self.input()).clone()
             } else if cur.is_known_ident() {
-                cur.take_known_ident()
+                cur.take_known_ident(&self.input)
             } else if cur == Token::In {
                 atom!("in")
             } else if cur == Token::Const {

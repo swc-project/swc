@@ -1,5 +1,5 @@
 use num_bigint::BigInt;
-use swc_atoms::{atom, Atom, Wtf8Atom};
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Span;
 use swc_ecma_ast::AssignOp;
 
@@ -429,8 +429,10 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn take_known_ident(self) -> Atom {
-        self.as_known_ident_atom().unwrap()
+    pub fn take_known_ident<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
+        let span = buffer.cur.span;
+        let atom = Atom::new(buffer.iter.read_string(span));
+        atom
     }
 
     #[inline(always)]
@@ -784,59 +786,6 @@ impl Token {
     pub const fn is_keyword(self) -> bool {
         let t = self as u8;
         t >= Token::Await as u8 && t <= Token::Module as u8
-    }
-
-    pub fn as_known_ident_atom(self) -> Option<Atom> {
-        let atom = match self {
-            Token::Abstract => atom!("abstract"),
-            Token::Any => atom!("any"),
-            Token::As => atom!("as"),
-            Token::Asserts => atom!("asserts"),
-            Token::Assert => atom!("assert"),
-            Token::Async => atom!("async"),
-            Token::Bigint => atom!("bigint"),
-            Token::Boolean => atom!("boolean"),
-            Token::Constructor => atom!("constructor"),
-            Token::Declare => atom!("declare"),
-            Token::Enum => atom!("enum"),
-            Token::From => atom!("from"),
-            Token::Get => atom!("get"),
-            Token::Global => atom!("global"),
-            Token::Implements => atom!("implements"),
-            Token::Interface => atom!("interface"),
-            Token::Intrinsic => atom!("intrinsic"),
-            Token::Is => atom!("is"),
-            Token::Keyof => atom!("keyof"),
-            Token::Namespace => atom!("namespace"),
-            Token::Never => atom!("never"),
-            Token::Number => atom!("number"),
-            Token::Object => atom!("object"),
-            Token::Of => atom!("of"),
-            Token::Out => atom!("out"),
-            Token::Override => atom!("override"),
-            Token::Package => atom!("package"),
-            Token::Private => atom!("private"),
-            Token::Protected => atom!("protected"),
-            Token::Public => atom!("public"),
-            Token::Readonly => atom!("readonly"),
-            Token::Require => atom!("require"),
-            Token::Set => atom!("set"),
-            Token::Static => atom!("static"),
-            Token::String => atom!("string"),
-            Token::Symbol => atom!("symbol"),
-            Token::Type => atom!("type"),
-            Token::Undefined => atom!("undefined"),
-            Token::Unique => atom!("unique"),
-            Token::Unknown => atom!("unknown"),
-            Token::Using => atom!("using"),
-            Token::Accessor => atom!("accessor"),
-            Token::Infer => atom!("infer"),
-            Token::Satisfies => atom!("satisfies"),
-            Token::Meta => atom!("meta"),
-            Token::Target => atom!("target"),
-            _ => return None,
-        };
-        Some(atom)
     }
 
     #[inline(always)]
