@@ -2766,7 +2766,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if p.input().cur().is_word() {
-                let value = p.input_mut().cur().take_word(p.input_mut()).unwrap();
+                let value = p.input_mut().cur().take_word(&p.input);
                 return p
                     .parse_ts_decl(start, decorators, value, /* next */ true)
                     .map(|v| v.map(make_decl_declare));

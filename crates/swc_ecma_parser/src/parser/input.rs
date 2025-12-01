@@ -23,6 +23,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn checkpoint_save(&self) -> Self::Checkpoint;
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 
+    fn read_string(&self, span: Span) -> &str;
+
     fn start_pos(&self) -> BytePos {
         BytePos(0)
     }
@@ -299,7 +301,7 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
         let cur = self.cur();
-        let word = cur.take_word(self).unwrap();
+        let word = cur.take_word(self);
         self.bump();
         word
     }

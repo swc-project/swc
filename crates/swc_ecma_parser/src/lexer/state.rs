@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use swc_atoms::wtf8::CodePoint;
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use super::{Context, Input, Lexer};
@@ -70,6 +70,11 @@ impl crate::input::Tokens for Lexer<'_> {
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);
         }
+    }
+
+    #[inline]
+    fn read_string(&self, span: Span) -> &str {
+        unsafe { self.input_slice_str(span.lo, span.hi) }
     }
 
     #[inline]

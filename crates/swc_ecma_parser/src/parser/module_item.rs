@@ -343,7 +343,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().syntax().typescript() {
             let cur = self.input().cur();
             if cur.is_word() {
-                let sym = cur.take_word(self.input()).unwrap();
+                let sym = cur.take_word(&self.input);
                 // TODO: remove clone
                 if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
                     return Ok(ExportDecl {

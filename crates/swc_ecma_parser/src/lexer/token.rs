@@ -420,8 +420,18 @@ impl<'a> Token {
     }
 
     #[inline]
-    pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Option<Atom> {
-        self.as_word_atom(buffer.get_token_value())
+    pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
+        if buffer.cur() == Token::Ident {
+            let value = buffer.get_token_value();
+            let Some(TokenValue::Word(word)) = value else {
+                unreachable!("{:#?}", value)
+            };
+            return word.clone();
+        }
+
+        let span = buffer.cur.span;
+        let atom = Atom::new(buffer.iter.read_string(span));
+        atom
     }
 
     #[inline(always)]
