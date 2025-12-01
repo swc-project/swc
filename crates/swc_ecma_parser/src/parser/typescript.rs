@@ -341,7 +341,7 @@ impl<I: Tokens> Parser<I> {
             let modifier = if cur == Token::Ident {
                 cur.clone().take_unknown_ident_ref(self.input()).clone()
             } else if cur.is_known_ident() {
-                cur.take_known_ident()
+                cur.take_known_ident(&self.input)
             } else if cur == Token::In {
                 atom!("in")
             } else if cur == Token::Const {
@@ -2766,7 +2766,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if p.input().cur().is_word() {
-                let value = p.input_mut().cur().take_word(p.input_mut()).unwrap();
+                let value = p.input().cur().take_word(&p.input);
                 return p
                     .parse_ts_decl(start, decorators, value, /* next */ true)
                     .map(|v| v.map(make_decl_declare));

@@ -187,7 +187,7 @@ impl<I: Tokens> Parser<I> {
         } else if t == Token::Let {
             word = atom!("let")
         } else if t.is_known_ident() {
-            let ident = t.take_known_ident();
+            let ident = t.take_known_ident(&self.input);
             word = ident
         } else if t == Token::Ident {
             let word = self.input_mut().expect_word_token_and_bump();

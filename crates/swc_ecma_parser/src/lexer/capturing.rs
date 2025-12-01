@@ -1,5 +1,7 @@
 use std::mem;
 
+use swc_common::Span;
+
 use crate::{
     error::Error,
     input::Tokens,
@@ -90,6 +92,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
         self.captured.truncate(checkpoint.pos);
         self.inner.checkpoint_load(checkpoint.inner);
+    }
+
+    fn read_string(&self, span: Span) -> &str {
+        self.inner.read_string(span)
     }
 
     fn set_ctx(&mut self, ctx: Context) {

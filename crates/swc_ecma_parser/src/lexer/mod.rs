@@ -179,8 +179,8 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
-    unsafe fn input_slice_to_cur(&mut self, start: BytePos) -> &'a str {
-        self.input.slice_to_cur(start)
+    unsafe fn input_slice_str(&self, start: BytePos, end: BytePos) -> &'a str {
+        self.input.slice_str(start, end)
     }
 
     #[inline(always)]
@@ -725,7 +725,7 @@ impl<'a> Lexer<'a> {
         if self.comments_buffer().is_some() {
             let s = unsafe {
                 // Safety: We know that the start and the end are valid
-                self.input_slice_to_cur(slice_start)
+                self.input_slice_str(slice_start, self.cur_pos())
             };
             let cmt = swc_common::comments::Comment {
                 kind: swc_common::comments::CommentKind::Line,
@@ -1029,7 +1029,7 @@ impl<'a> Lexer<'a> {
             let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
             let s = unsafe {
                 // Safety: We got both start and end position from `self.input`
-                self.input_slice_to_cur(lazy_integer.start)
+                self.input_slice_str(lazy_integer.start, self.cur_pos())
             };
 
             // legacy octal number is not allowed in bigint.
@@ -1038,7 +1038,7 @@ impl<'a> Lexer<'a> {
             {
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
-                    self.input_slice_to_cur(start)
+                    self.input_slice_str(start, self.cur_pos())
                 };
                 let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
                 return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
@@ -1057,7 +1057,7 @@ impl<'a> Lexer<'a> {
                     if start.0 != self.last_pos().0 - 1 {
                         let raw = unsafe {
                             // Safety: We got both start and end position from `self.input`
-                            self.input_slice_to_cur(start)
+                            self.input_slice_str(start, self.cur_pos())
                         };
                         let raw = self.atom(raw);
                         return self
@@ -1073,7 +1073,7 @@ impl<'a> Lexer<'a> {
                     let val = parse_integer::<8>(&s);
                     let raw = unsafe {
                         // Safety: We got both start and end position from `self.input`
-                        self.input_slice_to_cur(start)
+                        self.input_slice_str(start, self.cur_pos())
                     };
                     let raw = self.atom(raw);
                     return self
@@ -1131,7 +1131,7 @@ impl<'a> Lexer<'a> {
         let val = if has_dot || has_e {
             let raw = unsafe {
                 // Safety: We got both start and end position from `self.input`
-                self.input_slice_to_cur(start)
+                self.input_slice_str(start, self.cur_pos())
             };
 
             let raw = remove_underscore(raw, has_underscore);
@@ -1146,7 +1146,7 @@ impl<'a> Lexer<'a> {
 
         let raw_str = unsafe {
             // Safety: We got both start and end position from `self.input`
-            self.input_slice_to_cur(start)
+            self.input_slice_str(start, self.cur_pos())
         };
         Ok(Either::Left((val, raw_str.into())))
     }
@@ -1203,12 +1203,12 @@ impl<'a> Lexer<'a> {
 
         let s = unsafe {
             // Safety: We got both start and end position from `self.input`
-            self.input_slice_to_cur(lazy_integer.start)
+            self.input_slice_str(lazy_integer.start, self.cur_pos())
         };
         if self.eat(b'n') {
             let raw = unsafe {
                 // Safety: We got both start and end position from `self.input`
-                self.input_slice_to_cur(start)
+                self.input_slice_str(start, self.cur_pos())
             };
 
             let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), RADIX as _).unwrap();
@@ -1221,7 +1221,7 @@ impl<'a> Lexer<'a> {
 
         let raw = unsafe {
             // Safety: We got both start and end position from `self.input`
-            self.input_slice_to_cur(start)
+            self.input_slice_str(start, self.cur_pos())
         };
 
         Ok(Either::Left((val, self.atom(raw))))
@@ -1361,7 +1361,7 @@ impl<'a> Lexer<'a> {
             if ch == '\\' {
                 let value = unsafe {
                     // Safety: We already checked for the range
-                    self.input_slice_to_cur(chunk_start)
+                    self.input_slice_str(chunk_start, cur_pos)
                 };
 
                 out.push_str(value);
@@ -1381,7 +1381,7 @@ impl<'a> Lexer<'a> {
             if ch == '&' {
                 let value = unsafe {
                     // Safety: We already checked for the range
-                    self.input_slice_to_cur(chunk_start)
+                    self.input_slice_str(chunk_start, cur_pos)
                 };
 
                 out.push_str(value);
@@ -1394,7 +1394,7 @@ impl<'a> Lexer<'a> {
             } else if ch.is_line_terminator() {
                 let value = unsafe {
                     // Safety: We already checked for the range
-                    self.input_slice_to_cur(chunk_start)
+                    self.input_slice_str(chunk_start, cur_pos)
                 };
 
                 out.push_str(value);
@@ -1415,7 +1415,7 @@ impl<'a> Lexer<'a> {
         }
         let s = unsafe {
             // Safety: We already checked for the range
-            self.input_slice_to_cur(chunk_start)
+            self.input_slice_str(chunk_start, self.cur_pos())
         };
         let value = if out.is_empty() {
             // Fast path: We don't need to allocate
@@ -1433,7 +1433,7 @@ impl<'a> Lexer<'a> {
 
         let raw = unsafe {
             // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input_slice_to_cur(start)
+            self.input_slice_str(start, self.cur_pos())
         };
         let raw = self.atom(raw);
         Ok(Token::str(value.into(), raw, self))
@@ -1763,7 +1763,7 @@ impl<'a> Lexer<'a> {
         }
 
         let content = {
-            let s = unsafe { self.input_slice_to_cur(slice_start) };
+            let s = unsafe { self.input_slice_str(slice_start, self.cur_pos()) };
             self.atom(s)
         };
 
@@ -1818,7 +1818,7 @@ impl<'a> Lexer<'a> {
                         let s = unsafe {
                             // Safety: slice_start and end are valid position because we got them from
                             // `self.input`
-                            self.input_slice_to_cur(slice_start)
+                            self.input_slice_str(slice_start, self.cur_pos())
                         };
 
                         return Ok((Cow::Borrowed(s), false));
@@ -1837,7 +1837,7 @@ impl<'a> Lexer<'a> {
                     let s = unsafe {
                         // Safety: slice_start and end are valid position because we got them from
                         // `self.input`
-                        self.input_slice_to_cur(slice_start)
+                        self.input_slice_str(slice_start, self.cur_pos())
                     };
 
                     return Ok((Cow::Borrowed(s), false));
@@ -1886,7 +1886,7 @@ impl<'a> Lexer<'a> {
                         let s = unsafe {
                             // Safety: start and end are valid position because we got them from
                             // `self.input`
-                            self.input_slice(slice_start, start)
+                            self.input_slice_str(slice_start, start)
                         };
                         buf.push_str(s);
                         unsafe {
@@ -2334,7 +2334,7 @@ impl<'a> Lexer<'a> {
                 let s = unsafe {
                     // Safety: slice_start and end are valid position because we got them from
                     // `self.input`
-                    self.input_slice_to_cur(slice_start)
+                    self.input_slice_str(slice_start, self.cur_pos())
                 };
 
                 return Ok((Cow::Borrowed(s), false));
@@ -2351,7 +2351,7 @@ impl<'a> Lexer<'a> {
             let s = unsafe {
                 // Safety: slice_start and end are valid position because we got them from
                 // `self.input`
-                self.input_slice_to_cur(slice_start)
+                self.input_slice_str(slice_start, self.cur_pos())
             };
 
             Ok((Cow::Borrowed(s), false))

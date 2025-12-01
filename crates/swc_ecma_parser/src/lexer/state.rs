@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use swc_atoms::wtf8::CodePoint;
-use swc_common::BytePos;
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use super::{Context, Input, Lexer};
@@ -70,6 +70,12 @@ impl crate::input::Tokens for Lexer<'_> {
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);
         }
+    }
+
+    #[inline]
+    fn read_string(&self, span: Span) -> &str {
+        assert!(span.lo >= self.input.start_pos() && span.hi <= self.input.end_pos());
+        unsafe { self.input_slice_str(span.lo, span.hi) }
     }
 
     #[inline]
@@ -454,7 +460,7 @@ impl Lexer<'_> {
             if ch == b'&' {
                 let s = unsafe {
                     // Safety: We already checked for the range
-                    self.input_slice_to_cur(chunk_start)
+                    self.input_slice_str(chunk_start, self.cur_pos())
                 };
                 value.push_str(s);
 
@@ -476,14 +482,14 @@ impl Lexer<'_> {
 
         let raw = unsafe {
             // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input_slice_to_cur(start)
+            self.input_slice_str(start, self.cur_pos())
         };
         let value = if value.is_empty() {
             self.atom(raw)
         } else {
             let s = unsafe {
                 // Safety: We already checked for the range
-                self.input_slice_to_cur(chunk_start)
+                self.input_slice_str(chunk_start, self.cur_pos())
             };
             value.push_str(s);
             self.atom(value)
