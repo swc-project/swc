@@ -415,7 +415,7 @@ impl<'a> Token {
 
     #[inline]
     pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
-        if buffer.cur() == Token::Ident {
+        if self == Token::Ident {
             let value = buffer.get_token_value();
             let Some(TokenValue::Word(word)) = value else {
                 unreachable!("{:#?}", value)
