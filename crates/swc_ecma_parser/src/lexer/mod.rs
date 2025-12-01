@@ -1994,7 +1994,7 @@ impl<'a> Lexer<'a> {
         self.bump(1); // 1st `.`
 
         if next == b'.' && self.input().peek() == Some(b'.') {
-            self.bump(2); // 2nd `.`
+            self.bump(2); // 2nd and 3rd `.`
             return Ok(Token::DotDotDot);
         }
 
