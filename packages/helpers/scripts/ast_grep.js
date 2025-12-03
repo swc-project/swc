@@ -20,7 +20,8 @@ export function ast_grep() {
         const source = new MagicString(tree.root().text());
         source.prepend(`"use strict";\n\n`);
 
-        if (filename.startsWith("_ts")) {
+        // We have forked _ts_generator from tslib
+        if (filename.startsWith("_ts") && filename !== "_ts_generator") {
             const match = tree.root().find(`export { $NAME as _ } from "tslib"`);
             if (match) {
                 const name = match.getMatch("NAME").text();

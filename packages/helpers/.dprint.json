@@ -14,8 +14,15 @@
     "json": {
         "indentWidth": 4
     },
-    "includes": ["{esm,cjs,src}/*.{js,mjs,cjs}", "**/*.json"],
-    "excludes": ["**/node_modules", "**/*-lock.json"],
+    "includes": [
+        "{esm,cjs,src}/*.{js,mjs,cjs}",
+        "**/*.json"
+    ],
+    "excludes": [
+        "**/node_modules",
+        "**/*-lock.json",
+        "_ts_generator.{js,cjs}"
+    ],
     "plugins": [
         "https://plugins.dprint.dev/typescript-0.84.0.wasm",
         "https://plugins.dprint.dev/json-0.17.1.wasm"
