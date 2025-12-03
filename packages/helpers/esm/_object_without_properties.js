@@ -3,13 +3,24 @@ import { _ as _object_without_properties_loose } from "./_object_without_propert
 function _object_without_properties(source, excluded) {
     if (source == null) return {};
 
-    var target = _object_without_properties_loose(source, excluded);
-    var key, i;
+    var target = {}, sourceKeys, key, i;
+    if (typeof Reflect !== "undefined" && Reflect.ownKeys) {
+        sourceKeys = Reflect.ownKeys(source);
+        for (i = 0; i < sourceKeys.length; i++) {
+            key = sourceKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
 
+        return target;
+    }
+
+    target = _object_without_properties_loose(source, excluded);
     if (Object.getOwnPropertySymbols) {
-        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-        for (i = 0; i < sourceSymbolKeys.length; i++) {
-            key = sourceSymbolKeys[i];
+        sourceKeys = Object.getOwnPropertySymbols(source);
+        for (i = 0; i < sourceKeys.length; i++) {
+            key = sourceKeys[i];
             if (excluded.indexOf(key) >= 0) continue;
             if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
             target[key] = source[key];
@@ -18,4 +29,5 @@ function _object_without_properties(source, excluded) {
 
     return target;
 }
+
 export { _object_without_properties as _ };
