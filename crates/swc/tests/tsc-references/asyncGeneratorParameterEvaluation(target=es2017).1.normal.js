@@ -4,7 +4,7 @@ import { _ as _extends } from "@swc/helpers/_/_extends";
 async function* f1(x, y = z) {}
 async function* f2({ [z]: x }) {}
 class Sub extends Super {
-    async *m(x, _1, _2) {
+    async *m(x, _1 = void 0, _2) {
         let _ref = [
             _1,
             _2

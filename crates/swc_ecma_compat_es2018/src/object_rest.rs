@@ -1092,6 +1092,14 @@ impl ParamCollector {
 
         let original_pat = match pat {
             Pat::Rest(rest_pat) => mem::replace(&mut *rest_pat.arg, temp.clone().into()),
+            Pat::Assign(pat) => {
+                let init = AssignPat {
+                    span: DUMMY_SP,
+                    left: Box::new(temp.clone().into()),
+                    right: Expr::undefined(DUMMY_SP),
+                };
+                mem::replace(pat, init).into()
+            }
             pat => mem::replace(pat, temp.clone().into()),
         };
 

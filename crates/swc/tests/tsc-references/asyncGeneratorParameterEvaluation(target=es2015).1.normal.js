@@ -9,14 +9,14 @@ function f2(_0) {
     return _wrap_async_generator(function*({ [z]: x }) {}).apply(this, arguments);
 }
 class Sub extends Super {
-    m(x, _1, _2) {
+    m(_0, _1) {
         var _this = this, _superprop_get_foo = ()=>super.foo;
-        return _wrap_async_generator(function*() {
+        return _wrap_async_generator(function*(x, _1 = void 0, _2) {
             let _ref = [
                 _1,
                 _2
             ], [y = z, _ref1] = _ref, {} = _ref1, w = _extends({}, _ref1);
             _superprop_get_foo().call(_this);
-        })();
+        }).apply(this, arguments);
     }
 }

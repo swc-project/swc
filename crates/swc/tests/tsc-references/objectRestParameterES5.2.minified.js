@@ -3,8 +3,8 @@ import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_create_class";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
-function foobar(_0) {
-    var tmp = _sliced_to_array([
+function foobar() {
+    var _0 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : void 0, tmp = _sliced_to_array([
         _0
     ], 1)[0], _ref2 = void 0 === tmp ? {} : tmp;
     _ref2.bar, _object_without_properties(_ref2, [
@@ -15,8 +15,8 @@ suddenly(function(_0) {
     return _0.x, _object_without_properties(_0, [
         "x"
     ]).y;
-}), suddenly(function(_0) {
-    var tmp = _sliced_to_array([
+}), suddenly(function() {
+    var _0 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : void 0, tmp = _sliced_to_array([
         _0
     ], 1)[0], _ref2 = void 0 === tmp ? {
         x: {

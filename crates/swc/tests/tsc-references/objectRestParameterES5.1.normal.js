@@ -14,7 +14,8 @@ suddenly(function(_0) {
     ]);
     return rest.y;
 });
-suddenly(function(_0) {
+suddenly(function() {
+    var _0 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : void 0;
     var _ref = [
         _0
     ], _ref1 = _sliced_to_array(_ref, 1), tmp = _ref1[0], _ref2 = tmp === void 0 ? {
@@ -55,7 +56,8 @@ var C = /*#__PURE__*/ function() {
     ]);
     return C;
 }();
-function foobar(_0) {
+function foobar() {
+    var _0 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : void 0;
     var _ref = [
         _0
     ], _ref1 = _sliced_to_array(_ref, 1), tmp = _ref1[0], _ref2 = tmp === void 0 ? {} : tmp, _ref_bar = _ref2.bar, bar = _ref_bar === void 0 ? {} : _ref_bar, opts = _object_without_properties(_ref2, [

@@ -11,7 +11,7 @@ suddenly((_0)=>{
     ]);
     return rest.y;
 });
-suddenly((_0)=>{
+suddenly((_0 = void 0)=>{
     let _ref = [
         _0
     ], [_ref1 = {
@@ -41,7 +41,7 @@ class C {
     // actually, never mind, don't clone
     }
 }
-function foobar(_0) {
+function foobar(_0 = void 0) {
     let _ref = [
         _0
     ], [_ref1 = {}] = _ref, { bar = {} } = _ref1, opts = _object_without_properties(_ref1, [
