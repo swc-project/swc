@@ -1,3 +1,6 @@
+use swc_common::SyntaxContext;
+use swc_ecma_transforms_base::assumptions::Assumptions;
+
 pub use crate::{
     bugfix::BugfixOptions, decorators::DecoratorOptions, es2015::Es2015Options,
     es2016::Es2016Options, es2017::Es2017Options, es2018::Es2018Options, es2019::Es2019Options,
@@ -8,6 +11,9 @@ pub use crate::{
 #[derive(Debug, Default)]
 #[non_exhaustive]
 pub struct Options {
+    pub unresolved_ctxt: SyntaxContext,
+    pub assumptions: Assumptions,
+
     pub typescript: Option<TypescriptOptions>,
     pub decorator: Option<DecoratorOptions>,
     pub jsx: Option<JsxOptions>,

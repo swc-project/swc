@@ -52,6 +52,9 @@ where
     let pass = noop_pass();
     let mut options = swc_ecma_transformer::Options::default();
 
+    options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+    options.assumptions = assumptions;
+
     macro_rules! add {
         ($prev:expr, $feature:ident, $pass:expr) => {{
             add!($prev, $feature, $pass, false)
