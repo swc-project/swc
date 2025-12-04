@@ -1,7 +1,4 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn optional_catch_binding() -> impl Pass {
     let mut options = swc_ecma_transformer::Options::default();
@@ -15,14 +12,13 @@ mod tests {
     use swc_ecma_ast::Pass;
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
-    use swc_ecma_visit::visit_mut_pass;
 
-    use crate::optional_catch_binding::OptionalCatchBinding;
+    use crate::optional_catch_binding;
 
     pub fn tr() -> impl Pass {
         (
             resolver(Mark::new(), Mark::new(), false),
-            visit_mut_pass(OptionalCatchBinding),
+            optional_catch_binding(),
         )
     }
 

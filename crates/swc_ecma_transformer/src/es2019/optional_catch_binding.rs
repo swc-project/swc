@@ -15,7 +15,7 @@ impl VisitMutHook<TraverseCtx> for OptionalCatchBindingPass {
         if node.param.is_none() {
             // TODO: Do not use private_ident! here.
             // All private identifiers should be tracked using TraverseCtx.
-            node.param = Some(Pat::Ident(private_ident!("unused")));
+            node.param = Some(Pat::Ident(private_ident!("unused").into()));
         }
     }
 }
