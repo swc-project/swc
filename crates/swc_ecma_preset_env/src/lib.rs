@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2017, es2018, es2020, es2022, es3,
+        es2018, es2020, es2022, es3,
     },
     Assumptions,
 };
@@ -199,16 +199,13 @@ where
     );
 
     // ES2017
-    let pass = add!(
-        pass,
-        AsyncToGenerator,
-        es2017::async_to_generator(
-            es2017::async_to_generator::Config {
+    if !caniuse(Feature::AsyncToGenerator) {
+        options.env.es2017.async_to_generator =
+            Some(swc_ecma_transformer::es2017::async_to_generator::Config {
                 ignore_function_length: loose || assumptions.ignore_function_length,
-            },
-            unresolved_mark
-        )
-    );
+                unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+            });
+    }
 
     // ES2016
     if !caniuse(Feature::ExponentiationOperator) {

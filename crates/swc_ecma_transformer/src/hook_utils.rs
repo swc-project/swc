@@ -52,6 +52,20 @@ where
     optional_method!(enter_program, exit_program, Program);
 
     optional_method!(enter_catch_clause, exit_catch_clause, CatchClause);
+
+    optional_method!(enter_function, exit_function, Function);
+
+    optional_method!(enter_arrow_expr, exit_arrow_expr, ArrowExpr);
+
+    optional_method!(enter_class, exit_class, Class);
+
+    optional_method!(enter_constructor, exit_constructor, Constructor);
+
+    optional_method!(enter_getter_prop, exit_getter_prop, GetterProp);
+
+    optional_method!(enter_setter_prop, exit_setter_prop, SetterProp);
+
+    optional_method!(enter_super, exit_super, Super);
 }
 
 pub(crate) struct NoopHook;
