@@ -343,6 +343,13 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
     }
 
+    fn exit_assign_expr(&mut self, assign: &mut AssignExpr, ctx: &mut TraverseCtx) {
+        // Handle rest in assignment expressions like ({ x, ...rest } = obj)
+        if !self.pending_rest.is_empty() {
+            self.flush_pending_rest(ctx, &assign.right);
+        }
+    }
+
     fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx) {
         if self.pending_function_vars.is_empty() {
             return;
