@@ -144,6 +144,8 @@ impl ObjectRestSpreadPass {
                     // Add spread expression
                     args.push(ExprOrSpread { spread: None, expr });
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => unreachable!("unknown PropOrSpread variant"),
             }
         }
 
@@ -187,6 +189,8 @@ impl ObjectRestSpreadPass {
                 ObjectPatProp::KeyValue(kv) => Some(kv.key.clone()),
                 ObjectPatProp::Assign(a) => Some(PropName::Ident(IdentName::from(a.key.clone()))),
                 ObjectPatProp::Rest(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => unreachable!("unknown ObjectPatProp variant"),
             })
             .collect();
 
@@ -218,6 +222,8 @@ impl ObjectRestSpreadPass {
                             PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
                             PropName::Computed(c) => *c.expr.clone(),
                             PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                            #[cfg(swc_ast_unknown)]
+                            _ => unreachable!("unknown PropName variant"),
                         };
                         Some(ExprOrSpread {
                             spread: None,
@@ -302,6 +308,8 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                                     PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
                                     PropName::Computed(c) => *c.expr.clone(),
                                     PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => unreachable!("unknown PropName variant"),
                                 };
                                 Some(ExprOrSpread {
                                     spread: None,
@@ -426,6 +434,8 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
                             PropName::Computed(c) => *c.expr.clone(),
                             PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                            #[cfg(swc_ast_unknown)]
+                            _ => unreachable!("unknown PropName variant"),
                         };
                         Some(ExprOrSpread {
                             spread: None,
@@ -496,6 +506,8 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
                             PropName::Computed(c) => *c.expr.clone(),
                             PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                            #[cfg(swc_ast_unknown)]
+                            _ => unreachable!("unknown PropName variant"),
                         };
                         Some(ExprOrSpread {
                             spread: None,
@@ -616,6 +628,8 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
                             PropName::Computed(c) => *c.expr.clone(),
                             PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                            #[cfg(swc_ast_unknown)]
+                            _ => unreachable!("unknown PropName variant"),
                         };
                         Some(ExprOrSpread {
                             spread: None,
