@@ -80,6 +80,7 @@ impl ObjectRestSpreadPass {
     }
 
     /// Transform object spread properties
+    #[allow(unreachable_patterns)]
     fn transform_object_spread(&mut self, expr: &mut Expr) {
         let Expr::Object(obj_lit) = expr else {
             return;
@@ -109,6 +110,7 @@ impl ObjectRestSpreadPass {
         let mut first = true;
 
         for prop in obj_lit.props.take() {
+            #[allow(unreachable_patterns)]
             match prop {
                 PropOrSpread::Prop(p) => {
                     // Before spread element, may need to wrap
@@ -165,6 +167,7 @@ impl ObjectRestSpreadPass {
     }
 
     /// Process object rest in patterns
+    #[allow(unreachable_patterns)]
     fn handle_object_pat(&mut self, obj: &mut ObjectPat) {
         // Check if there's a rest element
         let has_rest = matches!(obj.props.last(), Some(ObjectPatProp::Rest(..)));
@@ -182,10 +185,16 @@ impl ObjectRestSpreadPass {
         let keys: Vec<PropName> = obj
             .props
             .iter()
-            .filter_map(|p| match p {
-                ObjectPatProp::KeyValue(kv) => Some(kv.key.clone()),
-                ObjectPatProp::Assign(a) => Some(PropName::Ident(IdentName::from(a.key.clone()))),
-                ObjectPatProp::Rest(_) => None,
+            .filter_map(|p| {
+                #[allow(unreachable_patterns)]
+                match p {
+                    ObjectPatProp::KeyValue(kv) => Some(kv.key.clone()),
+                    ObjectPatProp::Assign(a) => {
+                        Some(PropName::Ident(IdentName::from(a.key.clone())))
+                    }
+                    ObjectPatProp::Rest(_) => None,
+                    _ => None,
+                }
             })
             .collect();
 
@@ -198,6 +207,7 @@ impl ObjectRestSpreadPass {
     }
 
     /// Flush pending rest patterns into variable declarations
+    #[allow(unreachable_patterns)]
     fn flush_pending_rest(&mut self, ctx: &mut TraverseCtx, source_expr: &Expr) {
         while let Some(pending) = self.pending_rest.pop() {
             // Create the keys array for _objectWithoutProperties
@@ -207,6 +217,7 @@ impl ObjectRestSpreadPass {
                     .keys
                     .iter()
                     .map(|key| {
+                        #[allow(unreachable_patterns)]
                         let expr = match key {
                             PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
@@ -355,6 +366,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         // This is handled in visit_mut_key_value_pat_prop for nested patterns
     }
 
+    #[allow(unreachable_patterns)]
     fn exit_param(&mut self, param: &mut Param, _ctx: &mut TraverseCtx) {
         // If we have pending rest patterns from this parameter
         if self.pending_rest.is_empty() {
@@ -396,6 +408,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     .keys
                     .iter()
                     .map(|key| {
+                        #[allow(unreachable_patterns)]
                         let expr = match key {
                             PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
