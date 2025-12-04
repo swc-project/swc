@@ -10,7 +10,7 @@ pub use crate::options::*;
 mod bugfix;
 mod common;
 mod decorators;
-mod es2015;
+pub mod es2015;
 mod es2016;
 mod es2017;
 mod es2018;
@@ -28,7 +28,7 @@ mod utils;
 
 #[derive(Default)]
 pub struct TraverseCtx {
-    pub(crate) statement_injector: common::StmtInjectorStore,
+    pub statement_injector: common::StmtInjectorStore,
 }
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {

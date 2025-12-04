@@ -218,10 +218,15 @@ where
         options.env.es2016.exponentiation_operator = true;
     }
 
+    // ES2015
+    if !caniuse(Feature::ArrowFunctions) {
+        options.env.es2015.arrow_functions = Some(unresolved_mark);
+    }
+
     // Single-pass compiler
     let pass = (pass, options.into_pass());
 
-    // ES2015
+    // ES2015 (legacy compat passes)
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
     let pass = add!(
         pass,
@@ -271,7 +276,6 @@ where
             unresolved_mark
         )
     );
-    let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
     let pass = add!(pass, StickyRegex, es2015::sticky_regex());
     let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
