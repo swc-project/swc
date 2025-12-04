@@ -12,6 +12,7 @@ use swc_ecma_visit::{
 use super::object_rest_spread::Config;
 
 /// Pending rest pattern to be processed at consumption point.
+#[allow(dead_code)]
 struct PendingRest {
     /// For nested rest: the temp identifier that replaced the pattern.
     /// For top-level rest: None (caller provides source).
@@ -27,6 +28,7 @@ struct PendingRest {
 /// Deferred array pattern to be destructured after object rest is processed.
 /// This ensures correct evaluation order when array elements reference
 /// variables defined by earlier object rest patterns.
+#[allow(dead_code)]
 struct DeferredArrayPat {
     /// The temp identifier that captured the remaining elements via `..._rest`.
     temp: Ident,
@@ -39,6 +41,7 @@ struct DeferredArrayPat {
 /// Uses post-order traversal: children bubble up data to parents via
 /// pending_rest. Consumption points (VarDecl, Function, etc.) flush
 /// pending_rest to generate the final output.
+#[allow(dead_code)]
 #[derive(Default)]
 pub(super) struct ObjectRest {
     pub config: Config,
@@ -65,8 +68,8 @@ impl ObjectRest {
 }
 
 /// Fast-path visitor to check if a node contains object rest patterns.
-#[derive(Default)]
 #[allow(dead_code)]
+#[derive(Default)]
 struct RestVisitor {
     found: bool,
 }
