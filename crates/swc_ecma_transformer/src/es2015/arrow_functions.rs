@@ -101,7 +101,12 @@ struct ScopeState {
 
 impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
     fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.cur_stmt_address = Some(stmt as *const Stmt);
+        // Only set cur_stmt_address if we haven't already set it in this scope
+        // This ensures we inject before the first statement that contains an arrow,
+        // not before statements inside the arrow body
+        if self.cur_stmt_address.is_none() {
+            self.cur_stmt_address = Some(stmt as *const Stmt);
+        }
     }
 
     fn exit_stmt(&mut self, _stmt: &mut Stmt, ctx: &mut TraverseCtx) {
