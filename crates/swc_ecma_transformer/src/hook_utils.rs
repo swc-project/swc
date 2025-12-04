@@ -50,6 +50,8 @@ where
     optional_method!(enter_script, exit_script, Script);
 
     optional_method!(enter_program, exit_program, Program);
+
+    optional_method!(enter_catch_clause, exit_catch_clause, CatchClause);
 }
 
 pub(crate) struct NoopHook;

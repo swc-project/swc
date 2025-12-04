@@ -209,7 +209,7 @@ try {
             const result = _ts_dispose_resources(env);
             if (result) await result;
         }
-    } catch (e) {
+    } catch (unused) {
         const env = {
             stack: [],
             error: void 0,

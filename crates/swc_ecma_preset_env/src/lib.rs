@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2017, es2018, es2019, es2020, es2022, es3,
+        es2017, es2018, es2020, es2022, es3,
     },
     Assumptions,
 };
@@ -183,7 +183,9 @@ where
     );
 
     // ES2019
-    let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
+    if !caniuse(Feature::OptionalCatchBinding) {
+        options.env.es2019.optional_catch_binding = true;
+    }
 
     // ES2018
     let pass = add!(

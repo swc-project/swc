@@ -1,5 +1,5 @@
 try {
     throw new Error();
-} catch (e1) {
+} catch (unused) {
     log(e);
 }

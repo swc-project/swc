@@ -22,6 +22,6 @@ var Foo = /*#__PURE__*/ function(Bar) {
 }(Bar);
 try {
     new Foo();
-} catch (e) {
+} catch (unused) {
     console.log("catched");
 }

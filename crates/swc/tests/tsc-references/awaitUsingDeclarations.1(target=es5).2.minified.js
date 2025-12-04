@@ -133,7 +133,7 @@ try {
             var result4 = _ts_dispose_resources(env5);
             result4 && await result4;
         }
-    } catch (e) {
+    } catch (unused) {
         var env6 = {
             stack: [],
             error: void 0,

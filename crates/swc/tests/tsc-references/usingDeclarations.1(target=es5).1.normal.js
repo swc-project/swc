@@ -431,7 +431,7 @@ try {
         } finally{
             _ts_dispose_resources(env5);
         }
-    } catch (e) {
+    } catch (unused) {
         var env6 = {
             stack: [],
             error: void 0,

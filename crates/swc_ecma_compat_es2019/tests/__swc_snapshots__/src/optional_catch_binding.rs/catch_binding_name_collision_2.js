@@ -1,4 +1,4 @@
 var e;
-try {} catch (e1) {
+try {} catch (unused) {
     log(e);
 }

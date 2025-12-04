@@ -231,7 +231,7 @@ function fn39(x) {
 }
 function fn40(x) {
     return _async_to_generator(function*() {
-        try {} catch (e) {
+        try {} catch (unused) {
             var x;
         }
     })();
