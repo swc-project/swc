@@ -1,1 +1,1 @@
-try {} catch (e) {}
+try {} catch (unused) {}
