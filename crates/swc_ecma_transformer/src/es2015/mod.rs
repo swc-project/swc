@@ -12,9 +12,5 @@ pub struct Es2015Options {
 }
 
 pub fn hook(options: Es2015Options) -> impl VisitMutHook<TraverseCtx> {
-    OptionalHook(
-        options
-            .arrow_functions
-            .map(|mark| self::arrow_functions::hook(mark)),
-    )
+    OptionalHook(options.arrow_functions.map(self::arrow_functions::hook))
 }

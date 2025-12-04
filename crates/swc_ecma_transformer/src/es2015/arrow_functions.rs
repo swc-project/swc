@@ -238,7 +238,6 @@ impl ArrowFunctionsPass {
                 })],
                 ctxt: Default::default(),
             },
-            _ => unreachable!("BlockStmtOrExpr only has BlockStmt and Expr variants"),
         };
 
         Expr::Fn(FnExpr {
@@ -261,8 +260,7 @@ impl ArrowFunctionsPass {
     fn expr_uses_this(&self, body: &BlockStmtOrExpr) -> bool {
         match body {
             BlockStmtOrExpr::BlockStmt(block) => self.stmts_use_this(&block.stmts),
-            BlockStmtOrExpr::Expr(expr) => self.check_expr_for_this(expr),
-            _ => false,
+            BlockStmtOrExpr::Expr(expr) => Self::check_expr_for_this(expr),
         }
     }
 
@@ -274,16 +272,16 @@ impl ArrowFunctionsPass {
     /// Check if a statement uses `this`
     fn stmt_uses_this(&self, stmt: &Stmt) -> bool {
         match stmt {
-            Stmt::Expr(ExprStmt { expr, .. }) => self.check_expr_for_this(expr),
+            Stmt::Expr(ExprStmt { expr, .. }) => Self::check_expr_for_this(expr),
             Stmt::Return(ReturnStmt {
                 arg: Some(expr), ..
-            }) => self.check_expr_for_this(expr),
+            }) => Self::check_expr_for_this(expr),
             Stmt::If(IfStmt {
                 test, cons, alt, ..
             }) => {
-                self.check_expr_for_this(test)
+                Self::check_expr_for_this(test)
                     || self.stmt_uses_this(cons)
-                    || alt.as_ref().map_or(false, |s| self.stmt_uses_this(s))
+                    || alt.as_ref().is_some_and(|s| self.stmt_uses_this(s))
             }
             Stmt::Block(BlockStmt { stmts, .. }) => self.stmts_use_this(stmts),
             _ => false,
@@ -291,68 +289,61 @@ impl ArrowFunctionsPass {
     }
 
     /// Check if an expression uses `this` (recursively)
-    fn check_expr_for_this(&self, expr: &Expr) -> bool {
+    fn check_expr_for_this(expr: &Expr) -> bool {
         match expr {
             Expr::This(_) => true,
             Expr::Member(MemberExpr { obj, prop, .. }) => {
-                self.check_expr_for_this(obj)
+                Self::check_expr_for_this(obj)
                     || match prop {
                         MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                            self.check_expr_for_this(expr)
+                            Self::check_expr_for_this(expr)
                         }
                         _ => false,
                     }
             }
             Expr::Call(CallExpr { callee, args, .. }) => {
-                match callee {
-                    Callee::Expr(e) => {
-                        if self.check_expr_for_this(e) {
-                            return true;
-                        }
+                if let Callee::Expr(e) = callee {
+                    if Self::check_expr_for_this(e) {
+                        return true;
                     }
-                    _ => {}
                 }
-                args.iter().any(|arg| self.check_expr_for_this(&arg.expr))
+                args.iter().any(|arg| Self::check_expr_for_this(&arg.expr))
             }
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.check_expr_for_this(left) || self.check_expr_for_this(right)
+                Self::check_expr_for_this(left) || Self::check_expr_for_this(right)
             }
-            Expr::Unary(UnaryExpr { arg, .. }) => self.check_expr_for_this(arg),
+            Expr::Unary(UnaryExpr { arg, .. }) => Self::check_expr_for_this(arg),
             Expr::Cond(CondExpr {
                 test, cons, alt, ..
             }) => {
-                self.check_expr_for_this(test)
-                    || self.check_expr_for_this(cons)
-                    || self.check_expr_for_this(alt)
+                Self::check_expr_for_this(test)
+                    || Self::check_expr_for_this(cons)
+                    || Self::check_expr_for_this(alt)
             }
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.check_expr_for_this(e)),
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| Self::check_expr_for_this(e)),
             Expr::Assign(AssignExpr { left, right, .. }) => {
                 let left_has_this = match left {
                     AssignTarget::Simple(SimpleAssignTarget::Member(m)) => {
-                        self.check_expr_for_this(&m.obj)
+                        Self::check_expr_for_this(&m.obj)
                     }
                     _ => false,
                 };
-                left_has_this || self.check_expr_for_this(right)
+                left_has_this || Self::check_expr_for_this(right)
             }
             Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| {
                 elem.as_ref()
-                    .map_or(false, |e| self.check_expr_for_this(&e.expr))
+                    .is_some_and(|e| Self::check_expr_for_this(&e.expr))
             }),
             Expr::Object(ObjectLit { props, .. }) => props.iter().any(|prop| match prop {
                 PropOrSpread::Prop(p) => match &**p {
-                    Prop::KeyValue(KeyValueProp { value, .. }) => self.check_expr_for_this(value),
-                    Prop::Method(MethodProp { key, .. }) => {
-                        if let PropName::Computed(ComputedPropName { expr, .. }) = key {
-                            self.check_expr_for_this(expr)
-                        } else {
-                            false
-                        }
-                    }
+                    Prop::KeyValue(KeyValueProp { value, .. }) => Self::check_expr_for_this(value),
+                    Prop::Method(MethodProp {
+                        key: PropName::Computed(ComputedPropName { expr, .. }),
+                        ..
+                    }) => Self::check_expr_for_this(expr),
                     _ => false,
                 },
-                PropOrSpread::Spread(SpreadElement { expr, .. }) => self.check_expr_for_this(expr),
-                _ => false,
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => Self::check_expr_for_this(expr),
             }),
             // Arrow functions create their own scope, don't recurse into them
             Expr::Arrow(_) => false,
@@ -367,7 +358,6 @@ impl ArrowFunctionsPass {
         match body {
             BlockStmtOrExpr::BlockStmt(block) => self.stmts_use_arguments(&block.stmts),
             BlockStmtOrExpr::Expr(expr) => self.check_expr_for_arguments(expr),
-            _ => false,
         }
     }
 
@@ -388,7 +378,7 @@ impl ArrowFunctionsPass {
             }) => {
                 self.check_expr_for_arguments(test)
                     || self.stmt_uses_arguments(cons)
-                    || alt.as_ref().map_or(false, |s| self.stmt_uses_arguments(s))
+                    || alt.as_ref().is_some_and(|s| self.stmt_uses_arguments(s))
             }
             Stmt::Block(BlockStmt { stmts, .. }) => self.stmts_use_arguments(stmts),
             _ => false,
@@ -414,13 +404,10 @@ impl ArrowFunctionsPass {
                     }
             }
             Expr::Call(CallExpr { callee, args, .. }) => {
-                match callee {
-                    Callee::Expr(e) => {
-                        if self.check_expr_for_arguments(e) {
-                            return true;
-                        }
+                if let Callee::Expr(e) = callee {
+                    if self.check_expr_for_arguments(e) {
+                        return true;
                     }
-                    _ => {}
                 }
                 args.iter()
                     .any(|arg| self.check_expr_for_arguments(&arg.expr))
@@ -450,26 +437,22 @@ impl ArrowFunctionsPass {
             }
             Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| {
                 elem.as_ref()
-                    .map_or(false, |e| self.check_expr_for_arguments(&e.expr))
+                    .is_some_and(|e| self.check_expr_for_arguments(&e.expr))
             }),
             Expr::Object(ObjectLit { props, .. }) => props.iter().any(|prop| match prop {
                 PropOrSpread::Prop(p) => match &**p {
                     Prop::KeyValue(KeyValueProp { value, .. }) => {
                         self.check_expr_for_arguments(value)
                     }
-                    Prop::Method(MethodProp { key, .. }) => {
-                        if let PropName::Computed(ComputedPropName { expr, .. }) = key {
-                            self.check_expr_for_arguments(expr)
-                        } else {
-                            false
-                        }
-                    }
+                    Prop::Method(MethodProp {
+                        key: PropName::Computed(ComputedPropName { expr, .. }),
+                        ..
+                    }) => self.check_expr_for_arguments(expr),
                     _ => false,
                 },
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                     self.check_expr_for_arguments(expr)
                 }
-                _ => false,
             }),
             // Arrow functions create their own scope, don't recurse into them
             Expr::Arrow(_) => false,

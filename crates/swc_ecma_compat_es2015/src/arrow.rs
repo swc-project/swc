@@ -1,6 +1,6 @@
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
-use swc_ecma_visit::{visit_mut_pass, InjectVars, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, InjectVars, VisitMut};
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -65,7 +65,7 @@ struct ArrowCompat {
 
 impl VisitMut for ArrowCompat {
     fn visit_mut_program(&mut self, program: &mut swc_ecma_ast::Program) {
-        use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+        use swc_ecma_hooks::VisitMutWithHook;
         use swc_ecma_transformer::{
             es2015::{self, Es2015Options},
             TraverseCtx,
@@ -85,7 +85,7 @@ impl VisitMut for ArrowCompat {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut swc_ecma_ast::Expr) {
-        use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+        use swc_ecma_hooks::VisitMutWithHook;
         use swc_ecma_transformer::{
             es2015::{self, Es2015Options},
             TraverseCtx,
