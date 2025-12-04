@@ -20,6 +20,6 @@ pub fn hook(options: Es2018Options) -> impl VisitMutHook<TraverseCtx> {
     OptionalHook(
         options
             .object_rest_spread
-            .map(|config| self::object_rest_spread::hook(config)),
+            .map(self::object_rest_spread::hook),
     )
 }
