@@ -3,6 +3,7 @@
 //! This plugin transforms async functions to generator functions wrapped in a
 //! helper.
 //!
+//!
 //! > This plugin is included in `preset-env`, in ES2017
 //!
 //! ## Example
