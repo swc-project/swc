@@ -378,7 +378,6 @@ impl ArrowFunctionsPass {
                     _ => false,
                 },
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => Self::check_expr_for_this(expr),
-                _ => false,
             }),
             // Arrow functions create their own scope, don't recurse into them
             Expr::Arrow(_) => false,
@@ -488,7 +487,6 @@ impl ArrowFunctionsPass {
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                     self.check_expr_for_arguments(expr)
                 }
-                _ => false,
             }),
             // Arrow functions create their own scope, don't recurse into them
             Expr::Arrow(_) => false,
