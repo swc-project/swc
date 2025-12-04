@@ -1,4 +1,3 @@
-
 //! ES2018: Object Rest/Spread Properties
 //!
 //! This plugin transforms object rest and spread patterns.

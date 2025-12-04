@@ -6,12 +6,8 @@ mod object_rest_spread;
 
 pub use self::object_rest_spread::Config as ObjectRestSpreadConfig;
 
-mod object_rest_spread;
-
 #[derive(Debug, Default)]
 #[non_exhaustive]
-pub struct Es2018Options {
-    pub object_rest_spread: bool,
 pub struct Es2018Options {
     pub object_rest_spread: Option<ObjectRestSpreadConfig>,
 }
