@@ -159,49 +159,52 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
         self.cur_stmt_address = None;
     }
 
-    fn enter_arrow_expr(&mut self, arrow: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
-        // Check if arrow uses `this` or `arguments` BEFORE visiting children
-        let uses_this = self.expr_uses_this(&arrow.body);
-        let uses_arguments = self.expr_uses_arguments(&arrow.body);
-
-        // If arrow uses `this`, ensure we have a saved identifier
-        if uses_this && self.this_var.is_none() {
-            self.this_var = Some(utils::create_private_ident("_this"));
-        }
-
-        // If arrow uses `arguments`, ensure we have a saved identifier
-        if uses_arguments && self.arguments_var.is_none() {
-            self.arguments_var = Some(utils::create_private_ident("_arguments"));
-        }
-
-        // Track that we're inside an arrow function that needs this/arguments
-        // replacement We'll decrement this in exit_expr after transforming the
-        // arrow
-        if uses_this || uses_arguments {
-            self.arrow_depth += 1;
-        }
-    }
-
     fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
-        // Only replace this/arguments when we're inside an arrow function that needs it
-        if self.arrow_depth == 0 {
+        // Handle arrow expressions
+        if let Expr::Arrow(arrow) = expr {
+            // Check if arrow uses `this` or `arguments` BEFORE visiting children
+            let uses_this = self.expr_uses_this(&arrow.body);
+            let uses_arguments = self.expr_uses_arguments(&arrow.body);
+
+            // If arrow uses `this`, ensure we have a saved identifier
+            if uses_this && self.this_var.is_none() {
+                self.this_var = Some(utils::create_private_ident("_this"));
+            }
+
+            // If arrow uses `arguments`, ensure we have a saved identifier
+            if uses_arguments && self.arguments_var.is_none() {
+                self.arguments_var = Some(utils::create_private_ident("_arguments"));
+            }
+
+            // Track that we're inside an arrow function that needs this/arguments
+            // replacement. We'll decrement this in exit_expr after transforming the arrow
+            if uses_this || uses_arguments {
+                self.arrow_depth += 1;
+            }
             return;
         }
 
-        // Replace `this` with the saved identifier
+        // Replace `this` with the saved identifier if we have one
+        // Note: this_var is only set when we're inside an arrow that uses `this`
         if let Expr::This(_) = expr {
             if let Some(this_id) = &self.this_var {
-                *expr = Expr::Ident(this_id.clone());
+                // Only replace if arrow_depth > 0 (inside an arrow needing replacement)
+                if self.arrow_depth > 0 {
+                    *expr = Expr::Ident(this_id.clone());
+                }
             }
         }
 
-        // Replace `arguments` with the saved identifier
+        // Replace `arguments` with the saved identifier if we have one
         if let Expr::Ident(ident) = expr {
             if ident.sym == "arguments"
                 && (ident.ctxt == self.unresolved_ctxt || ident.ctxt == SyntaxContext::empty())
             {
                 if let Some(args_id) = &self.arguments_var {
-                    *expr = Expr::Ident(args_id.clone());
+                    // Only replace if arrow_depth > 0 (inside an arrow needing replacement)
+                    if self.arrow_depth > 0 {
+                        *expr = Expr::Ident(args_id.clone());
+                    }
                 }
             }
         }
