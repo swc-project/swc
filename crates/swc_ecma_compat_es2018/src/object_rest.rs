@@ -2,9 +2,12 @@ use std::{collections::VecDeque, mem};
 
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
+use swc_ecma_transforms_base::{
+    helper, helper_expr,
+    perf::{should_work, Check},
+};
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::{alias_if_required, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{alias_if_required, prepend_stmt, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -312,235 +315,92 @@ impl VisitMut for ObjectRest {
             return;
         };
 
-        // Visit children
+        if should_work::<RestVisitor, _>(&func.params) {
+            let mut collector = ParamCollector::default();
+
+            for (index, param) in func
+                .params
+                .iter_mut()
+                .enumerate()
+                .skip_while(|(_, param)| param.pat.is_ident())
+            {
+                collector.collect(index, &mut param.pat);
+            }
+
+            if let Some(var_decl) = collector.into_stmt() {
+                prepend_stmt(&mut body.stmts, var_decl);
+            }
+        }
+
+        // Visit body - this will process the var decl we just inserted
         body.visit_mut_with(self);
-
-        let mut decls = Vec::new();
-
-        for mut param in func.params.take() {
-            // Visit pattern
-            param.pat.visit_mut_with(self);
-
-            if self.pending_rest.is_empty() {
-                func.params.push(param);
-                self.computed_key_decls.clear();
-                continue;
-            }
-
-            // Has rest - replace param with temp
-            let ref_ident = private_ident!("_param");
-
-            // Extract default value if param is AssignPat
-            // e.g., `{ a, ...b } = defaultValue` -> keep defaultValue on temp param
-            //
-            // NOTE: In the SWC AST, both function parameter defaults (`function f(x = 1)`)
-            // and destructuring defaults (`let {a = 1} = obj`) use `Pat::Assign`.
-            // TypeScript's AST distinguishes these, which could simplify this logic.
-            let (destructure_pat, default_value) = match param.pat {
-                Pat::Assign(AssignPat { left, right, .. }) => (*left, Some(right)),
-                pat => (pat, None),
-            };
-
-            // Insert computed key declarations first
-            decls.append(&mut self.computed_key_decls);
-
-            // Destructure the prepared pattern (without default value)
-            decls.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: destructure_pat,
-                init: Some(Box::new(ref_ident.clone().into())),
-                definite: false,
-            });
-
-            // Flush pending rest
-            self.flush_pending_rest_decls(&mut decls, &ref_ident);
-
-            // Build new param with default value if present
-            let new_param_pat = if let Some(default_expr) = default_value {
-                Pat::Assign(AssignPat {
-                    span: DUMMY_SP,
-                    left: Box::new(ref_ident.into()),
-                    right: default_expr,
-                })
-            } else {
-                ref_ident.into()
-            };
-
-            func.params.push(Param {
-                pat: new_param_pat,
-                ..param
-            });
-        }
-
-        // Insert declarations at start of body
-        if !decls.is_empty() {
-            let stmt: Stmt = VarDecl {
-                decls,
-                ..Default::default()
-            }
-            .into();
-            body.stmts.insert(0, stmt);
-        }
     }
 
     fn visit_mut_arrow_expr(&mut self, arrow: &mut ArrowExpr) {
-        // Visit children
+        if should_work::<RestVisitor, _>(&arrow.params) {
+            let mut collector = ParamCollector::default();
+
+            for (index, param) in arrow
+                .params
+                .iter_mut()
+                .enumerate()
+                .skip_while(|(_, param)| param.is_ident())
+            {
+                collector.collect(index, param);
+            }
+
+            if let Some(var_decl) = collector.into_stmt() {
+                // Insert into body
+                match &mut *arrow.body {
+                    BlockStmtOrExpr::BlockStmt(block) => {
+                        prepend_stmt(&mut block.stmts, var_decl);
+                    }
+                    BlockStmtOrExpr::Expr(expr) => {
+                        arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                            stmts: vec![
+                                var_decl,
+                                ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(expr.take()),
+                                }
+                                .into(),
+                            ],
+                            ..Default::default()
+                        }));
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                }
+            }
+        }
+
+        // Visit body - this will process the var decl we just inserted
         arrow.body.visit_mut_with(self);
-
-        let mut decls = Vec::new();
-        for mut param in arrow.params.take() {
-            // Visit pattern
-            param.visit_mut_with(self);
-
-            if self.pending_rest.is_empty() {
-                arrow.params.push(param);
-                self.computed_key_decls.clear();
-                continue;
-            }
-
-            // Has rest - replace param with temp
-            let ref_ident = private_ident!("_param");
-
-            // Extract default value if param is AssignPat
-            let (destructure_pat, default_value) = match param {
-                Pat::Assign(AssignPat { left, right, .. }) => (*left, Some(right)),
-                pat => (pat, None),
-            };
-
-            // Insert computed key declarations first
-            decls.append(&mut self.computed_key_decls);
-
-            // Destructure the prepared pattern (without default value)
-            decls.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: destructure_pat,
-                init: Some(Box::new(ref_ident.clone().into())),
-                definite: false,
-            });
-
-            // Flush pending rest
-            self.flush_pending_rest_decls(&mut decls, &ref_ident);
-
-            // Build new param with default value if present
-            let new_param_pat: Pat = if let Some(default_expr) = default_value {
-                Pat::Assign(AssignPat {
-                    span: DUMMY_SP,
-                    left: Box::new(ref_ident.into()),
-                    right: default_expr,
-                })
-            } else {
-                ref_ident.into()
-            };
-
-            arrow.params.push(new_param_pat);
-        }
-
-        // Insert declarations into body
-        if !decls.is_empty() {
-            let stmt: Stmt = VarDecl {
-                decls,
-                ..Default::default()
-            }
-            .into();
-
-            match &mut *arrow.body {
-                BlockStmtOrExpr::BlockStmt(block) => {
-                    block.stmts.insert(0, stmt);
-                }
-                BlockStmtOrExpr::Expr(expr) => {
-                    arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
-                        stmts: vec![
-                            stmt,
-                            ReturnStmt {
-                                span: DUMMY_SP,
-                                arg: Some(expr.take()),
-                            }
-                            .into(),
-                        ],
-                        ..Default::default()
-                    }));
-                }
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            }
-        }
     }
 
     fn visit_mut_constructor(&mut self, cons: &mut Constructor) {
-        // Visit children
-        cons.body.visit_mut_children_with(self);
+        let Some(body) = &mut cons.body else {
+            return;
+        };
 
-        let mut decls = Vec::new();
-        for param in cons.params.take() {
-            match param {
-                ParamOrTsParamProp::Param(mut param) => {
-                    // Visit pattern
-                    param.pat.visit_mut_with(self);
+        if should_work::<RestVisitor, _>(&cons.params) {
+            let mut collector = ParamCollector::default();
 
-                    if self.pending_rest.is_empty() {
-                        cons.params.push(ParamOrTsParamProp::Param(param));
-                        self.computed_key_decls.clear();
-                        continue;
-                    }
-
-                    // Has rest - replace param with temp
-                    let ref_ident = private_ident!("_param");
-
-                    // Extract default value if param is AssignPat
-                    let (destructure_pat, default_value) = match param.pat {
-                        Pat::Assign(AssignPat { left, right, .. }) => (*left, Some(right)),
-                        pat => (pat, None),
-                    };
-
-                    // Insert computed key declarations first
-                    decls.append(&mut self.computed_key_decls);
-
-                    // Destructure the prepared pattern (without default value)
-                    decls.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: destructure_pat,
-                        init: Some(Box::new(ref_ident.clone().into())),
-                        definite: false,
-                    });
-
-                    // Flush pending rest
-                    self.flush_pending_rest_decls(&mut decls, &ref_ident);
-
-                    // Build new param with default value if present
-                    let new_param_pat = if let Some(default_expr) = default_value {
-                        Pat::Assign(AssignPat {
-                            span: DUMMY_SP,
-                            left: Box::new(ref_ident.into()),
-                            right: default_expr,
-                        })
-                    } else {
-                        ref_ident.into()
-                    };
-
-                    cons.params.push(ParamOrTsParamProp::Param(Param {
-                        pat: new_param_pat,
-                        ..param
-                    }));
+            for (index, param) in cons.params.iter_mut().enumerate().skip_while(
+                |(_, param)| matches!(param, ParamOrTsParamProp::Param(p) if p.pat.is_ident()),
+            ) {
+                if let ParamOrTsParamProp::Param(param) = param {
+                    collector.collect(index, &mut param.pat);
                 }
-                ParamOrTsParamProp::TsParamProp(ts_param) => {
-                    cons.params.push(ParamOrTsParamProp::TsParamProp(ts_param));
-                }
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
+            }
+
+            if let Some(var_decl) = collector.into_stmt() {
+                prepend_stmt(&mut body.stmts, var_decl);
             }
         }
 
-        // Insert declarations at start of body
-        if let Some(body) = &mut cons.body {
-            if !decls.is_empty() {
-                let stmt: Stmt = VarDecl {
-                    decls,
-                    ..Default::default()
-                }
-                .into();
-                body.stmts.insert(0, stmt);
-            }
-        }
+        // Visit body - this will process the var decl we just inserted
+        body.visit_mut_with(self);
     }
 
     fn visit_mut_catch_clause(&mut self, clause: &mut CatchClause) {
@@ -1207,6 +1067,94 @@ impl ObjectRest {
 // ========================================
 // Utility functions
 // ========================================
+
+/// Collector for function parameters that need to be destructured in body.
+///
+/// ```JavaScript
+/// function foo(a, { b, ...c}, d = b, ...e) {}
+/// ```
+/// ->
+/// ```JavaScript
+/// function foo(a, _1, _2, ..._3) {
+///   let [{ b, ...c}, d = b, e] = [_1, _2, _3];
+/// }
+/// ```
+#[derive(Default)]
+struct ParamCollector {
+    collected_pats: Vec<Pat>,
+    temp_exprs: Vec<ExprOrSpread>,
+}
+
+impl ParamCollector {
+    /// Process a single parameter: extract pattern, replace with temp variable.
+    fn collect(&mut self, index: usize, pat: &mut Pat) {
+        let temp = private_ident!(format!("_{}", index));
+
+        let original_pat = match pat {
+            Pat::Rest(rest_pat) => mem::replace(&mut *rest_pat.arg, temp.clone().into()),
+            pat => mem::replace(pat, temp.clone().into()),
+        };
+
+        self.collected_pats.push(original_pat);
+        self.temp_exprs.push(temp.clone().as_arg());
+    }
+
+    /// Create array destructuring declaration: `let [patterns...] = [temps...]`
+    fn into_stmt(mut self) -> Option<Stmt> {
+        if self.collected_pats.is_empty() {
+            return None;
+        }
+
+        // Special case: single non-assign pattern can be emitted directly without array
+        // wrapper
+        if self.collected_pats.len() == 1 {
+            let pat = self.collected_pats.pop()?;
+            if !matches!(pat, Pat::Assign(_)) {
+                let init = self.temp_exprs.pop().map(|e| e.expr);
+                return Some(
+                    VarDecl {
+                        kind: VarDeclKind::Let,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: pat,
+                            init,
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
+            // Put it back if it's an assign pattern
+            self.collected_pats.push(pat);
+        }
+
+        Some(
+            VarDecl {
+                kind: VarDeclKind::Let,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Array(ArrayPat {
+                        span: DUMMY_SP,
+                        elems: self.collected_pats.into_iter().map(Some).collect(),
+                        optional: false,
+                        type_ann: None,
+                    }),
+                    init: Some(Box::new(
+                        ArrayLit {
+                            span: DUMMY_SP,
+                            elems: self.temp_exprs.into_iter().map(Some).collect(),
+                        }
+                        .into(),
+                    )),
+                    definite: false,
+                }],
+                ..Default::default()
+            }
+            .into(),
+        )
+    }
+}
 
 fn collect_idents_from_pat(pat: &Pat, out: &mut Vec<Ident>) {
     match pat {
