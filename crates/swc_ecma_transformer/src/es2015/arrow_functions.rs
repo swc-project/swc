@@ -73,6 +73,7 @@ pub fn hook(unresolved_mark: Mark) -> impl VisitMutHook<TraverseCtx> {
         cur_stmt_address: None,
         scope_stack: Vec::new(),
         injected_in_current_scope: false,
+        arrow_depth: 0,
     }
 }
 
@@ -86,6 +87,8 @@ struct ArrowFunctionsPass {
     scope_stack: Vec<ScopeState>,
     /// Whether we've already injected bindings for the current scope
     injected_in_current_scope: bool,
+    /// Track depth of arrow functions that need this/arguments replacement
+    arrow_depth: usize,
 }
 
 #[derive(Clone)]
@@ -170,9 +173,21 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
         if uses_arguments && self.arguments_var.is_none() {
             self.arguments_var = Some(utils::create_private_ident("_arguments"));
         }
+
+        // Track that we're inside an arrow function that needs this/arguments
+        // replacement We'll decrement this in exit_expr after transforming the
+        // arrow
+        if uses_this || uses_arguments {
+            self.arrow_depth += 1;
+        }
     }
 
     fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
+        // Only replace this/arguments when we're inside an arrow function that needs it
+        if self.arrow_depth == 0 {
+            return;
+        }
+
         // Replace `this` with the saved identifier
         if let Expr::This(_) = expr {
             if let Some(this_id) = &self.this_var {
@@ -195,7 +210,16 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
         // Transform arrow functions after children have been visited
         if let Expr::Arrow(arrow) = expr {
+            // Transform the arrow to a regular function
             *expr = self.transform_arrow(arrow);
+
+            // Decrement depth if we're exiting an arrow that was being tracked
+            // Note: We can't check the arrow body here because we've already replaced
+            // `this` with `_this` during traversal. Instead, we rely on the fact that
+            // if arrow_depth > 0, we must be exiting an arrow that incremented it.
+            if self.arrow_depth > 0 {
+                self.arrow_depth -= 1;
+            }
         }
     }
 
