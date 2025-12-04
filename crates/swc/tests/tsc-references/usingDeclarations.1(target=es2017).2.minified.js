@@ -120,7 +120,7 @@ try {
         } finally{
             _ts_dispose_resources(env);
         }
-    } catch (e) {
+    } catch (unused) {
         let env = {
             stack: [],
             error: void 0,

@@ -30,7 +30,7 @@ expect(function() {
         function _class() {
             _class_call_check(this, _class);
             var _this;
-            try {} catch (e) {
+            try {} catch (unused) {
                 _this = _call_super(this, _class);
             }
             return _assert_this_initialized(_this);
@@ -48,7 +48,7 @@ expect(function() {
             try {
                 throw 0;
                 _this = _call_super(this, _class);
-            } catch (e) {}
+            } catch (unused) {}
             return _assert_this_initialized(_this);
         }
         return _class;

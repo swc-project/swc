@@ -95,7 +95,7 @@ try {
             let result = _ts_dispose_resources(env);
             result && await result;
         }
-    } catch (e) {
+    } catch (unused) {
         let env = {
             stack: [],
             error: void 0,
