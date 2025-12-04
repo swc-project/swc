@@ -1,1 +1,1 @@
-let y4 = _extends({}, _object_destructuring_empty(z.x4));
+let { x4: _ref } = z, {} = _ref, y4 = _extends({}, _ref);

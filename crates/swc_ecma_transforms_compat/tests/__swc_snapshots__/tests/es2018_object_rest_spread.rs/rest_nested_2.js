@@ -11,6 +11,6 @@ const test = {
         }
     }
 };
-const { foo: { bar: { baz: { a: { x } } } } } = test, other = _object_without_properties(test.foo.bar.baz.a, [
+const { foo: { bar: { baz: { a: _ref } } } } = test, { x } = _ref, other = _object_without_properties(_ref, [
     "x"
 ]);

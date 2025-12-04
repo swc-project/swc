@@ -1,14 +1,13 @@
 //// [objectRest.ts]
 let nestedrest, complex;
 import { _ as _extends } from "@swc/helpers/_/_extends";
-import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
-var _tmp, _o, o = {
+var _ref2, _ref4, o = {
     a: 1,
     b: 'no'
-};
-_extends({}, _object_destructuring_empty(o));
+}, {} = o;
+_extends({}, o);
 var { a } = o;
 _object_without_properties(o, [
     "a"
@@ -33,35 +32,35 @@ var { d: renamed } = o2;
 _object_without_properties(o2, [
     "d"
 ]);
-var { x, n1: { y, n2: { z } } } = nestedrest;
-_extends({}, _object_destructuring_empty(nestedrest.n1.n2.n3)), _object_without_properties(nestedrest, [
+var { x, n1: { y, n2: { z, n3: _ref } } } = nestedrest, {} = _ref;
+_extends({}, _ref), _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
-var { x: { ka }, y: other } = complex;
-_object_without_properties(complex.x, [
+var { x: _ref1, y: other } = complex, { ka } = _ref1;
+_object_without_properties(_ref1, [
     "ka"
 ]), _object_without_properties(complex, [
     "x",
     "y"
-]), _object_without_properties(complex.x, [
+]), ({ x: _ref2, y: other } = complex), ({ ka } = _ref2), _object_without_properties(_ref2, [
     "ka"
 ]), _object_without_properties(complex, [
     "x",
     "y"
-]), { x: { ka }, y: other } = complex;
-var _ref = {
+]);
+var _ref3 = {
     x: 1,
     y: 2
-}, { x } = _ref;
-_object_without_properties(_ref, [
+}, { x } = _ref3;
+_object_without_properties(_ref3, [
     "x"
-]), _object_without_properties(_tmp = {
+]), _ref4 = {
     x: 1,
     y: 2
-}, [
+}, ({ x } = _ref4), _object_without_properties(_ref4, [
     "x"
-]), { x } = _tmp;
+]);
 var removable = new class {
     set z(value) {}
     get both() {
@@ -81,7 +80,7 @@ var { b: stillNotGreat, a: soSo } = o, o = _object_without_properties(o, [
     'b',
     'a'
 ].map(_to_property_key));
-o = _object_without_properties(_o = o, [
+({ b: stillNotGreat, a: soSo } = o), o = _object_without_properties(o, [
     'b',
     'a'
-].map(_to_property_key)), { b: stillNotGreat, a: soSo } = _o;
+].map(_to_property_key));

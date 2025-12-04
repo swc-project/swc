@@ -1,150 +1,79 @@
-use std::{
-    iter,
-    mem::{self, replace},
-};
+use std::{collections::VecDeque, mem};
 
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_compat_common::impl_visit_mut_fn;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, find_pat_ids, is_literal, private_ident, quote_ident,
-    var::VarCollector, ExprFactory, StmtLike,
-};
+use swc_ecma_utils::{alias_if_required, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use swc_trace_macro::swc_trace;
 
 use super::object_rest_spread::Config;
 
+/// Pending rest pattern to be processed at consumption point.
+struct PendingRest {
+    /// For nested rest: the temp identifier that replaced the pattern.
+    /// For top-level rest: None (caller provides source).
+    temp: Option<Ident>,
+    /// The object pattern with rest removed.
+    props_pat: ObjectPat,
+    /// Keys to exclude in _objectWithoutProperties call.
+    keys: Vec<PropName>,
+    /// The rest binding pattern.
+    rest_pat: Pat,
+}
+
+/// Deferred array pattern to be destructured after object rest is processed.
+/// This ensures correct evaluation order when array elements reference
+/// variables defined by earlier object rest patterns.
+struct DeferredArrayPat {
+    /// The temp identifier that captured the remaining elements via `..._rest`.
+    temp: Ident,
+    /// The array pattern to destructure from temp.
+    pat: ArrayPat,
+}
+
+/// Object rest pattern transformer.
+///
+/// Uses post-order traversal: children bubble up data to parents via
+/// pending_rest. Consumption points (VarDecl, Function, etc.) flush
+/// pending_rest to generate the final output.
 #[derive(Default)]
 pub(super) struct ObjectRest {
-    /// Injected before the original statement.
-    pub vars: Vec<VarDeclarator>,
-    /// Variables which should be declared using `var`
-    pub mutable_vars: Vec<VarDeclarator>,
-    /// Assignment expressions.
-    pub exprs: Vec<Box<Expr>>,
     pub config: Config,
+    /// Pending variable declarations to insert after statement.
+    vars: Vec<VarDeclarator>,
+    /// Pending rest patterns to process.
+    pending_rest: Vec<PendingRest>,
+    /// Computed key declarations to insert before destructuring.
+    computed_key_decls: Vec<VarDeclarator>,
+    /// Deferred array patterns to process after object rest.
+    /// Used to ensure correct evaluation order for patterns
+    /// like `[{ ...a }, b = a]`.
+    deferred_array_pats: VecDeque<DeferredArrayPat>,
 }
 
-macro_rules! impl_for_for_stmt {
-    ($name:ident, $T:tt) => {
-        fn $name(&mut self, for_stmt: &mut $T) {
-            if !contains_rest(for_stmt) {
-                return;
-            }
-
-            let stmt;
-
-            let left = match &mut for_stmt.left {
-                ForHead::VarDecl(var_decl) => {
-                    let ref_ident = private_ident!("_ref");
-
-                    // Unpack variables
-                    let mut decls = var_decl
-                        .decls
-                        .take()
-                        .into_iter()
-                        .map(|decl| VarDeclarator {
-                            name: decl.name,
-                            init: Some(Box::new(Expr::Ident(ref_ident.clone()))),
-                            ..decl
-                        })
-                        .collect::<Vec<_>>();
-
-                    // **prepend** decls to self.vars
-                    decls.append(&mut self.vars.take());
-
-                    stmt = Some(Stmt::Decl(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Let,
-                            decls,
-                            ..Default::default()
-                        }
-                        .into(),
-                    ));
-
-                    VarDecl {
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: ref_ident.into(),
-                            init: None,
-                            definite: false,
-                        }],
-                        ..*var_decl.take()
-                    }
-                    .into()
-                }
-                ForHead::Pat(pat) => {
-                    let var_ident = private_ident!("_ref");
-                    let pat = pat.take();
-
-                    // initialize (or destructure)
-                    stmt = Some(
-                        var_ident
-                            .clone()
-                            .make_assign_to(op!("="), pat.try_into().unwrap())
-                            .into_stmt(),
-                    );
-
-                    // `var _ref` in `for (var _ref in foo)`
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: var_ident.into(),
-                            init: None,
-                            definite: false,
-                        }],
-                        ..Default::default()
-                    }
-                    .into()
-                }
-
-                ForHead::UsingDecl(..) => {
-                    unreachable!("using declaration must be removed by previous pass")
-                }
-
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            };
-            for_stmt.left = left;
-
-            for_stmt.body = Box::new(Stmt::Block(match &mut *for_stmt.body {
-                Stmt::Block(BlockStmt { span, stmts, ctxt }) => BlockStmt {
-                    span: *span,
-                    stmts: stmt.into_iter().chain(stmts.take()).collect(),
-                    ctxt: *ctxt,
-                },
-                body => BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: stmt.into_iter().chain(iter::once(body.take())).collect(),
-                    ..Default::default()
-                },
-            }));
-
-            for_stmt.right.visit_mut_with(self);
-            for_stmt.body.visit_mut_with(self);
+impl ObjectRest {
+    pub fn new(config: Config) -> Self {
+        ObjectRest {
+            config,
+            ..Default::default()
         }
-    };
+    }
 }
 
+/// Fast-path visitor to check if a node contains object rest patterns.
 #[derive(Default)]
 struct RestVisitor {
     found: bool,
 }
 
-#[swc_trace]
 impl Visit for RestVisitor {
     noop_visit_type!(fail);
 
     fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
-        match *prop {
+        match prop {
             ObjectPatProp::Rest(..) => self.found = true,
             _ => prop.visit_children_with(self),
         }
@@ -157,875 +86,1177 @@ impl Check for RestVisitor {
     }
 }
 
-fn contains_rest<N>(node: &N) -> bool
-where
-    N: VisitWith<RestVisitor>,
-{
-    let mut v = RestVisitor { found: false };
-    node.visit_with(&mut v);
-    v.found
-}
-
-#[swc_trace]
 #[fast_path(RestVisitor)]
 impl VisitMut for ObjectRest {
     noop_visit_mut_type!(fail);
 
-    impl_for_for_stmt!(visit_mut_for_in_stmt, ForInStmt);
+    // ========================================
+    // Pattern handlers - add to pending_rest
+    // ========================================
 
-    impl_for_for_stmt!(visit_mut_for_of_stmt, ForOfStmt);
+    fn visit_mut_object_pat(&mut self, obj: &mut ObjectPat) {
+        // Post-order: visit children first
+        obj.visit_mut_children_with(self);
 
-    impl_visit_mut_fn!();
+        // Check and extract rest element (JS requires rest to be the last element)
+        let arg = match obj.props.pop() {
+            Some(ObjectPatProp::Rest(RestPat { arg, .. })) => arg,
+            Some(prop) => {
+                obj.props.push(prop);
+                return;
+            }
+            None => return,
+        };
 
-    /// Handles assign expression
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        // fast path
-        if !contains_rest(expr) {
+        // Pre-evaluate impure computed keys into temp variables
+        for prop in &mut obj.props {
+            if let ObjectPatProp::KeyValue(kv) = prop {
+                if let PropName::Computed(computed) = &mut kv.key {
+                    if !is_pure_expr(&computed.expr) {
+                        let temp = private_ident!("_key");
+                        self.computed_key_decls.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: temp.clone().into(),
+                            init: Some(computed.expr.take()),
+                            definite: false,
+                        });
+                        computed.expr = Box::new(temp.into());
+                    }
+                }
+            }
+        }
+
+        // Collect keys to exclude
+        let keys: Vec<PropName> = obj
+            .props
+            .iter()
+            .filter_map(|p| match p {
+                ObjectPatProp::KeyValue(kv) => Some(kv.key.clone()),
+                ObjectPatProp::Assign(a) => Some(PropName::Ident(a.key.clone().into())),
+                ObjectPatProp::Rest(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            })
+            .collect();
+
+        // Push to pending_rest (temp will be set by parent if nested)
+        self.pending_rest.push(PendingRest {
+            temp: None,
+            props_pat: obj.clone(),
+            keys,
+            rest_pat: *arg,
+        });
+    }
+
+    fn visit_mut_key_value_pat_prop(&mut self, kv: &mut KeyValuePatProp) {
+        // Visit computed key expression (may contain arrow functions or assignments)
+        if let PropName::Computed(computed) = &mut kv.key {
+            computed.expr.visit_mut_with(self);
+        }
+
+        let prev_len = self.pending_rest.len();
+
+        // Visit value pattern
+        kv.value.visit_mut_with(self);
+
+        // If new pending_rest was added, replace value with temp
+        if self.pending_rest.len() > prev_len {
+            if let Some(pending) = self.pending_rest.last_mut() {
+                if pending.temp.is_none() {
+                    let temp = private_ident!("_ref");
+                    pending.temp = Some(temp.clone());
+
+                    // If value has a default (Pat::Assign), preserve it
+                    // e.g., { x: { a, ...b } = d } -> { x: _ref = d }
+                    if let Pat::Assign(assign_pat) = kv.value.as_mut() {
+                        assign_pat.left = Box::new(temp.into());
+                    } else {
+                        *kv.value = temp.into();
+                    }
+                }
+            }
+        }
+    }
+
+    fn visit_mut_array_pat(&mut self, arr: &mut ArrayPat) {
+        let mut i = 0;
+        while i < arr.elems.len() {
+            let Some(pat) = arr.elems[i].as_mut() else {
+                i += 1;
+                continue;
+            };
+
+            let prev_len = self.pending_rest.len();
+            pat.visit_mut_with(self);
+
+            // If new pending_rest was added (element contains object rest)
+            if self.pending_rest.len() > prev_len {
+                if let Some(pending) = self.pending_rest.last_mut() {
+                    if pending.temp.is_none() {
+                        let temp = private_ident!("_ref");
+                        pending.temp = Some(temp.clone());
+
+                        // If element has a default (Pat::Assign), preserve it
+                        // e.g., [{ a, ...b } = d] -> [_ref = d]
+                        if let Some(Pat::Assign(assign_pat)) = arr.elems[i].as_mut() {
+                            assign_pat.left = Box::new(temp.into());
+                        } else {
+                            arr.elems[i] = Some(temp.into());
+                        }
+                    }
+                }
+
+                // If there are subsequent elements, capture them with array rest
+                // to ensure correct evaluation order.
+                // e.g., [{ ...a }, b = a] -> [_ref, ..._rest], then [b = a] = _rest
+                if i + 1 < arr.elems.len() {
+                    let tail_ref = private_ident!("_rest");
+
+                    // Collect remaining elements
+                    let remaining: Vec<_> = arr.elems.drain(i + 1..).collect();
+
+                    // Add array rest pattern to capture them
+                    arr.elems.push(Some(Pat::Rest(RestPat {
+                        span: DUMMY_SP,
+                        arg: Box::new(tail_ref.clone().into()),
+                        dot3_token: DUMMY_SP,
+                        type_ann: None,
+                    })));
+
+                    // Store deferred pattern to be processed after object rest
+                    self.deferred_array_pats.push_back(DeferredArrayPat {
+                        temp: tail_ref,
+                        pat: ArrayPat {
+                            span: DUMMY_SP,
+                            elems: remaining,
+                            optional: false,
+                            type_ann: None,
+                        },
+                    });
+                }
+
+                // After splitting, we're done with this array
+                return;
+            }
+
+            i += 1;
+        }
+    }
+
+    // ========================================
+    // Consumption points - flush pending_rest
+    // ========================================
+
+    fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
+        let mut new_decls = Vec::with_capacity(decl.decls.len());
+
+        for mut declarator in decl.decls.take() {
+            // 1. Visit init first (RHS before LHS semantics)
+            if let Some(init) = &mut declarator.init {
+                init.visit_mut_with(self);
+            }
+
+            // 2. Take init for processing
+            let Some(init) = declarator.init.take() else {
+                new_decls.push(declarator);
+                continue;
+            };
+
+            // 3. Visit pattern (adds to pending_rest if has rest)
+            declarator.name.visit_mut_with(self);
+
+            // 4. Check if pattern has rest
+            if self.pending_rest.is_empty() {
+                declarator.init = Some(init);
+                new_decls.push(declarator);
+                self.computed_key_decls.clear();
+                continue;
+            }
+
+            // 5. Has rest - create temp for init if needed
+            let (ref_ident, aliased) = alias_if_required(&init, "_ref");
+
+            let destructure_init = if aliased {
+                // Need temp variable for complex expression
+                new_decls.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: ref_ident.clone().into(),
+                    init: Some(init),
+                    definite: false,
+                });
+                Box::new(ref_ident.clone().into())
+            } else {
+                init
+            };
+
+            // 6. Insert computed key declarations (after source temp)
+            new_decls.append(&mut self.computed_key_decls);
+
+            // 7. Destructure the prepared pattern
+            new_decls.push(VarDeclarator {
+                span: declarator.span,
+                name: declarator.name,
+                init: Some(destructure_init),
+                definite: false,
+            });
+
+            // 8. Flush pending rest
+            self.flush_pending_rest_decls(&mut new_decls, &ref_ident);
+        }
+
+        decl.decls = new_decls;
+    }
+
+    fn visit_mut_function(&mut self, func: &mut Function) {
+        let Some(body) = &mut func.body else {
+            return;
+        };
+
+        // Visit children
+        body.visit_mut_with(self);
+
+        let mut decls = Vec::new();
+
+        for mut param in func.params.take() {
+            // Visit pattern
+            param.pat.visit_mut_with(self);
+
+            if self.pending_rest.is_empty() {
+                func.params.push(param);
+                self.computed_key_decls.clear();
+                continue;
+            }
+
+            // Has rest - replace param with temp
+            let ref_ident = private_ident!("_param");
+
+            // Extract default value if param is AssignPat
+            // e.g., `{ a, ...b } = defaultValue` -> keep defaultValue on temp param
+            //
+            // NOTE: In the SWC AST, both function parameter defaults (`function f(x = 1)`)
+            // and destructuring defaults (`let {a = 1} = obj`) use `Pat::Assign`.
+            // TypeScript's AST distinguishes these, which could simplify this logic.
+            let (destructure_pat, default_value) = match param.pat {
+                Pat::Assign(AssignPat { left, right, .. }) => (*left, Some(right)),
+                pat => (pat, None),
+            };
+
+            // Insert computed key declarations first
+            decls.append(&mut self.computed_key_decls);
+
+            // Destructure the prepared pattern (without default value)
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: destructure_pat,
+                init: Some(Box::new(ref_ident.clone().into())),
+                definite: false,
+            });
+
+            // Flush pending rest
+            self.flush_pending_rest_decls(&mut decls, &ref_ident);
+
+            // Build new param with default value if present
+            let new_param_pat = if let Some(default_expr) = default_value {
+                Pat::Assign(AssignPat {
+                    span: DUMMY_SP,
+                    left: Box::new(ref_ident.into()),
+                    right: default_expr,
+                })
+            } else {
+                ref_ident.into()
+            };
+
+            func.params.push(Param {
+                pat: new_param_pat,
+                ..param
+            });
+        }
+
+        // Insert declarations at start of body
+        if !decls.is_empty() {
+            let stmt: Stmt = VarDecl {
+                decls,
+                ..Default::default()
+            }
+            .into();
+            body.stmts.insert(0, stmt);
+        }
+    }
+
+    fn visit_mut_arrow_expr(&mut self, arrow: &mut ArrowExpr) {
+        // Visit children
+        arrow.body.visit_mut_with(self);
+
+        let mut decls = Vec::new();
+        for mut param in arrow.params.take() {
+            // Visit pattern
+            param.visit_mut_with(self);
+
+            if self.pending_rest.is_empty() {
+                arrow.params.push(param);
+                self.computed_key_decls.clear();
+                continue;
+            }
+
+            // Has rest - replace param with temp
+            let ref_ident = private_ident!("_param");
+
+            // Extract default value if param is AssignPat
+            let (destructure_pat, default_value) = match param {
+                Pat::Assign(AssignPat { left, right, .. }) => (*left, Some(right)),
+                pat => (pat, None),
+            };
+
+            // Insert computed key declarations first
+            decls.append(&mut self.computed_key_decls);
+
+            // Destructure the prepared pattern (without default value)
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: destructure_pat,
+                init: Some(Box::new(ref_ident.clone().into())),
+                definite: false,
+            });
+
+            // Flush pending rest
+            self.flush_pending_rest_decls(&mut decls, &ref_ident);
+
+            // Build new param with default value if present
+            let new_param_pat: Pat = if let Some(default_expr) = default_value {
+                Pat::Assign(AssignPat {
+                    span: DUMMY_SP,
+                    left: Box::new(ref_ident.into()),
+                    right: default_expr,
+                })
+            } else {
+                ref_ident.into()
+            };
+
+            arrow.params.push(new_param_pat);
+        }
+
+        // Insert declarations into body
+        if !decls.is_empty() {
+            let stmt: Stmt = VarDecl {
+                decls,
+                ..Default::default()
+            }
+            .into();
+
+            match &mut *arrow.body {
+                BlockStmtOrExpr::BlockStmt(block) => {
+                    block.stmts.insert(0, stmt);
+                }
+                BlockStmtOrExpr::Expr(expr) => {
+                    arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        stmts: vec![
+                            stmt,
+                            ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(expr.take()),
+                            }
+                            .into(),
+                        ],
+                        ..Default::default()
+                    }));
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            }
+        }
+    }
+
+    fn visit_mut_constructor(&mut self, cons: &mut Constructor) {
+        // Visit children
+        cons.body.visit_mut_children_with(self);
+
+        let mut decls = Vec::new();
+        for param in cons.params.take() {
+            match param {
+                ParamOrTsParamProp::Param(mut param) => {
+                    // Visit pattern
+                    param.pat.visit_mut_with(self);
+
+                    if self.pending_rest.is_empty() {
+                        cons.params.push(ParamOrTsParamProp::Param(param));
+                        self.computed_key_decls.clear();
+                        continue;
+                    }
+
+                    // Has rest - replace param with temp
+                    let ref_ident = private_ident!("_param");
+
+                    // Extract default value if param is AssignPat
+                    let (destructure_pat, default_value) = match param.pat {
+                        Pat::Assign(AssignPat { left, right, .. }) => (*left, Some(right)),
+                        pat => (pat, None),
+                    };
+
+                    // Insert computed key declarations first
+                    decls.append(&mut self.computed_key_decls);
+
+                    // Destructure the prepared pattern (without default value)
+                    decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: destructure_pat,
+                        init: Some(Box::new(ref_ident.clone().into())),
+                        definite: false,
+                    });
+
+                    // Flush pending rest
+                    self.flush_pending_rest_decls(&mut decls, &ref_ident);
+
+                    // Build new param with default value if present
+                    let new_param_pat = if let Some(default_expr) = default_value {
+                        Pat::Assign(AssignPat {
+                            span: DUMMY_SP,
+                            left: Box::new(ref_ident.into()),
+                            right: default_expr,
+                        })
+                    } else {
+                        ref_ident.into()
+                    };
+
+                    cons.params.push(ParamOrTsParamProp::Param(Param {
+                        pat: new_param_pat,
+                        ..param
+                    }));
+                }
+                ParamOrTsParamProp::TsParamProp(ts_param) => {
+                    cons.params.push(ParamOrTsParamProp::TsParamProp(ts_param));
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            }
+        }
+
+        // Insert declarations at start of body
+        if let Some(body) = &mut cons.body {
+            if !decls.is_empty() {
+                let stmt: Stmt = VarDecl {
+                    decls,
+                    ..Default::default()
+                }
+                .into();
+                body.stmts.insert(0, stmt);
+            }
+        }
+    }
+
+    fn visit_mut_catch_clause(&mut self, clause: &mut CatchClause) {
+        // Visit body first
+        clause.body.visit_mut_with(self);
+
+        let Some(ref mut param) = clause.param else {
+            return;
+        };
+
+        // Visit pattern
+        param.visit_mut_with(self);
+
+        if self.pending_rest.is_empty() {
+            self.computed_key_decls.clear();
             return;
         }
 
-        expr.visit_mut_children_with(self);
+        // Has rest - replace param with temp
+        let ref_ident = private_ident!("_param");
+        let pat = clause.param.take().unwrap();
 
-        if let Expr::Assign(AssignExpr {
+        clause.param = Some(ref_ident.clone().into());
+
+        // Create declarations
+        let mut decls = mem::take(&mut self.computed_key_decls);
+        decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: pat,
+            init: Some(Box::new(ref_ident.clone().into())),
+            definite: false,
+        });
+        self.flush_pending_rest_decls(&mut decls, &ref_ident);
+
+        // Insert at start of body
+        let stmt: Stmt = VarDecl {
+            kind: VarDeclKind::Let,
+            decls,
+            ..Default::default()
+        }
+        .into();
+
+        clause.body.stmts.insert(0, stmt);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, stmt: &mut ForInStmt) {
+        stmt.right.visit_mut_with(self);
+        stmt.body.visit_mut_with(self);
+
+        self.transform_for_loop(&mut stmt.left, &mut stmt.body);
+    }
+
+    fn visit_mut_for_of_stmt(&mut self, stmt: &mut ForOfStmt) {
+        stmt.right.visit_mut_with(self);
+        stmt.body.visit_mut_with(self);
+
+        self.transform_for_loop(&mut stmt.left, &mut stmt.body);
+    }
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        // Check if this is an assignment expression with pattern
+        let Expr::Assign(AssignExpr {
             span,
             left: AssignTarget::Pat(pat),
             op: op!("="),
             right,
         }) = expr
-        {
-            let mut var_ident = alias_ident_for(right, "_tmp");
-            var_ident.ctxt = var_ident.ctxt.apply_mark(Mark::new());
+        else {
+            // Not a pattern assignment, visit children normally
+            expr.visit_mut_children_with(self);
+            return;
+        };
 
-            // println!("Var: var_ident = None");
-            self.mutable_vars.push(VarDeclarator {
+        // 1. Visit RHS first (RHS before LHS semantics)
+        right.visit_mut_with(self);
+
+        // 2. Visit LHS pattern
+        let mut inner_pat: Pat = pat.take().into();
+        inner_pat.visit_mut_with(self);
+
+        // 3. Check if has rest
+        if self.pending_rest.is_empty() {
+            *pat = pat_to_assign_target_pat(inner_pat);
+            self.computed_key_decls.clear();
+            return;
+        }
+
+        // 4. Has rest - create temp for RHS if needed
+        let (ref_ident, aliased) = alias_if_required(right, "_ref");
+
+        // 5. Build sequence expression
+        let mut exprs: Vec<Box<Expr>> = Vec::new();
+
+        if aliased {
+            // Declare the temp var
+            self.vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: var_ident.clone().into(),
+                name: ref_ident.clone().into(),
                 init: None,
                 definite: false,
             });
-            // println!("Expr: var_ident = right");
-            self.exprs.push(
+
+            // _ref = source
+            exprs.push(Box::new(
                 AssignExpr {
                     span: DUMMY_SP,
-                    left: var_ident.clone().into(),
+                    left: ref_ident.clone().into(),
                     op: op!("="),
                     right: right.take(),
                 }
                 .into(),
-            );
-            let pat = self.fold_rest(
-                &mut 0,
-                pat.take().into(),
-                var_ident.clone().into(),
-                true,
-                true,
-            );
-
-            match pat {
-                Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                _ => self.exprs.push(
-                    AssignExpr {
-                        span: *span,
-                        left: pat.try_into().unwrap(),
-                        op: op!("="),
-                        right: Box::new(var_ident.clone().into()),
-                    }
-                    .into(),
-                ),
-            }
-            self.exprs.push(Box::new(var_ident.into()));
-            *expr = SeqExpr {
-                span: DUMMY_SP,
-                exprs: mem::take(&mut self.exprs),
-            }
-            .into();
-        };
-    }
-
-    /// export var { b, ...c } = asdf2;
-    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
-        if !contains_rest(decl) {
-            // fast path
-            return;
+            ));
         }
 
-        match decl {
-            ModuleDecl::ExportDecl(ExportDecl {
-                span,
-                decl: Decl::Var(var_decl),
-                ..
-            }) if var_decl.decls.iter().any(|v| v.name.is_object()) => {
-                let specifiers = {
-                    let mut found: Vec<Ident> = Vec::new();
-                    let mut finder = VarCollector { to: &mut found };
-                    var_decl.visit_with(&mut finder);
-                    found
-                        .into_iter()
-                        .map(|ident| ExportNamedSpecifier {
-                            span: DUMMY_SP,
-                            orig: ident.into(),
-                            exported: None,
-                            is_type_only: false,
-                        })
-                        .map(ExportSpecifier::Named)
-                        .collect()
-                };
-
-                let export = NamedExport {
-                    span: *span,
-                    specifiers,
-                    src: None,
-                    type_only: false,
-                    with: None,
-                };
-
-                var_decl.visit_mut_with(self);
-                self.vars.append(&mut var_decl.decls);
-
-                *decl = export.into();
-            }
-            _ => {
-                decl.visit_mut_children_with(self);
-            }
-        };
-    }
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n);
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(n);
-    }
-
-    fn visit_mut_var_declarators(&mut self, decls: &mut Vec<VarDeclarator>) {
-        // fast path
-        if !contains_rest(decls) {
-            return;
-        }
-
-        for mut decl in decls.drain(..) {
-            // fast path
-            if !contains_rest(&decl) {
-                // println!("Var: no rest",);
-                self.vars.push(decl);
-                continue;
-            }
-
-            decl.visit_mut_children_with(self);
-
-            //            if !contains_rest(&decl.name) {
-            //                // println!("Var: no rest",);
-            //                self.vars.push(decl);
-            //                continue;
-            //            }
-
-            let (var_ident, _) = match decl.name {
-                Pat::Ident(ref i) => (Ident::from(i), false),
-
-                _ => match decl.init {
-                    Some(ref e) => alias_if_required(e, "ref"),
-                    _ => (private_ident!("_ref"), true),
-                },
-            };
-
-            let has_init = decl.init.is_some();
+        // Insert computed key assignments
+        for decl in self.computed_key_decls.drain(..) {
             if let Some(init) = decl.init {
-                match decl.name {
-                    // Optimize { ...props } = this.props
-                    Pat::Object(ObjectPat { props, .. })
-                        if props.len() == 1 && matches!(props[0], ObjectPatProp::Rest(..)) =>
-                    {
-                        let prop = match props.into_iter().next().unwrap() {
-                            ObjectPatProp::Rest(r) => r,
-                            _ => unreachable!(),
-                        };
-
-                        self.vars.push(VarDeclarator {
-                            span: prop.span(),
-                            name: *prop.arg,
-                            init: Some(
-                                CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: helper!(extends),
-                                    args: vec![
-                                        ObjectLit {
-                                            span: DUMMY_SP,
-                                            props: Vec::new(),
-                                        }
-                                        .as_arg(),
-                                        helper_expr!(object_destructuring_empty)
-                                            .as_call(DUMMY_SP, vec![init.as_arg()])
-                                            .as_arg(),
-                                    ],
-                                    ..Default::default()
-                                }
-                                .into(),
-                            ),
-                            definite: false,
-                        });
-                        continue;
-                    }
-                    _ => {}
-                }
-
-                match *init {
-                    // skip `z = z`
-                    Expr::Ident(..) => {}
-                    _ => {
-                        // println!("Var: var_ident = init",);
-                        self.push_var_if_not_empty(VarDeclarator {
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: decl.name.clone(),
+                    init: None,
+                    definite: false,
+                });
+                if let Pat::Ident(ident) = decl.name {
+                    exprs.push(Box::new(
+                        AssignExpr {
                             span: DUMMY_SP,
-                            name: var_ident.clone().into(),
-                            init: Some(init),
-                            definite: false,
-                        });
-                    }
-                }
-            }
-
-            let mut index = self.vars.len();
-            let mut pat =
-                self.fold_rest(&mut index, decl.name, var_ident.clone().into(), false, true);
-            match pat {
-                // skip `{} = z`
-                Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-
-                _ => {
-                    // insert at index to create
-                    // `var { a } = _ref, b = _object_without_properties(_ref, ['a']);`
-                    // instead of
-                    // `var b = _object_without_properties(_ref, ['a']), { a } = _ref;`
-                    // println!("var: simplified pat = var_ident({:?})", var_ident);
-
-                    pat.visit_mut_with(&mut PatSimplifier);
-
-                    self.insert_var_if_not_empty(
-                        index,
-                        VarDeclarator {
-                            name: pat,
-                            // preserve
-                            init: if has_init {
-                                Some(var_ident.clone().into())
-                            } else {
-                                None
-                            },
-                            ..decl
-                        },
-                    )
-                }
-            }
-        }
-
-        *decls = mem::take(&mut self.vars);
-    }
-}
-
-#[swc_trace]
-impl ObjectRest {
-    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike + VisitWith<RestVisitor> + VisitMutWith<ObjectRest>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<RestVisitor>,
-    {
-        if !contains_rest(stmts) {
-            return;
-        }
-
-        let mut buf = Vec::with_capacity(stmts.len());
-
-        for mut stmt in stmts.drain(..) {
-            let mut folder = ObjectRest {
-                config: self.config,
-                ..Default::default()
-            };
-            stmt.visit_mut_with(&mut folder);
-
-            // Add variable declaration
-            // e.g. var ref
-            if !folder.mutable_vars.is_empty() {
-                buf.push(T::from(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: folder.mutable_vars,
-                        ..Default::default()
-                    }
-                    .into(),
-                ));
-            }
-
-            if !folder.vars.is_empty() {
-                buf.push(T::from(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: folder.vars,
-                        ..Default::default()
-                    }
-                    .into(),
-                ));
-            }
-
-            buf.push(stmt);
-
-            buf.extend(folder.exprs.into_iter().map(|v| v.into_stmt()).map(T::from));
-        }
-
-        *stmts = buf;
-    }
-}
-
-impl ObjectRest {
-    fn insert_var_if_not_empty(&mut self, idx: usize, mut decl: VarDeclarator) {
-        if let Some(e1) = decl.init {
-            if let Expr::Ident(ref i1) = *e1 {
-                if let Pat::Ident(ref i2) = decl.name {
-                    if i1.ctxt == i2.ctxt && i1.sym == i2.sym {
-                        return;
-                    }
-                }
-            }
-            decl.init = Some(e1);
-        }
-
-        if let Pat::Object(..) | Pat::Array(..) = decl.name {
-            let ids: Vec<Id> = find_pat_ids(&decl.name);
-            if ids.is_empty() {
-                return;
-            }
-        }
-        self.vars.insert(idx, decl)
-    }
-
-    fn push_var_if_not_empty(&mut self, mut decl: VarDeclarator) {
-        if let Some(e1) = decl.init {
-            if let Expr::Ident(ref i1) = *e1 {
-                if let Pat::Ident(ref i2) = decl.name {
-                    if i1.sym == i2.sym && i1.ctxt == i2.ctxt {
-                        return;
-                    }
-                }
-            }
-            decl.init = Some(e1);
-        }
-
-        if let Pat::Object(ObjectPat { ref props, .. }) = decl.name {
-            if props.is_empty() {
-                return;
-            }
-        }
-        self.vars.push(decl)
-    }
-
-    fn visit_mut_fn_like(
-        &mut self,
-        params: &mut Vec<Param>,
-        body: &mut BlockStmt,
-    ) -> (Vec<Param>, BlockStmt) {
-        if !contains_rest(params) {
-            // fast-path
-            return (params.take(), body.take());
-        }
-
-        let prev_state = replace(
-            self,
-            Self {
-                config: self.config,
-                ..Default::default()
-            },
-        );
-
-        let params = params
-            .drain(..)
-            .map(|mut param| {
-                let var_ident = private_ident!(param.span(), "_param");
-                let mut index = self.vars.len();
-                param.pat =
-                    self.fold_rest(&mut index, param.pat, var_ident.clone().into(), false, true);
-
-                match param.pat {
-                    Pat::Rest(..) | Pat::Ident(..) => param,
-                    Pat::Assign(AssignPat { ref left, .. })
-                        if left.is_ident() || left.is_rest() || left.is_array() =>
-                    {
-                        param
-                    }
-                    Pat::Assign(n) => {
-                        let AssignPat {
-                            span, left, right, ..
-                        } = n;
-                        self.insert_var_if_not_empty(
-                            index,
-                            VarDeclarator {
-                                span,
-                                name: *left,
-                                init: Some(var_ident.clone().into()),
-                                definite: false,
-                            },
-                        );
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: AssignPat {
-                                span,
-                                left: var_ident.into(),
-                                right,
-                            }
-                            .into(),
-                        }
-                    }
-                    _ => {
-                        // initialize snd destructure
-                        self.insert_var_if_not_empty(
-                            index,
-                            VarDeclarator {
-                                span: DUMMY_SP,
-                                name: param.pat,
-                                init: Some(var_ident.clone().into()),
-                                definite: false,
-                            },
-                        );
-                        Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: var_ident.into(),
-                        }
-                    }
-                }
-            })
-            .collect();
-
-        let ret = (
-            params,
-            BlockStmt {
-                stmts: if self.vars.is_empty() {
-                    None
-                } else {
-                    Some(
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: mem::take(&mut self.vars),
-                            ..Default::default()
+                            left: ident.id.into(),
+                            op: op!("="),
+                            right: init,
                         }
                         .into(),
-                    )
+                    ));
                 }
-                .into_iter()
-                .chain(body.stmts.take())
-                .collect(),
-                ..body.take()
-            },
-        );
+            }
+        }
 
-        *self = prev_state;
+        // Destructure the prepared pattern
+        exprs.push(Box::new(
+            AssignExpr {
+                span: DUMMY_SP,
+                left: AssignTarget::Pat(pat_to_assign_target_pat(inner_pat)),
+                op: op!("="),
+                right: Box::new(ref_ident.clone().into()),
+            }
+            .into(),
+        ));
 
-        ret
+        // Flush pending rest as expressions
+        self.flush_pending_rest_exprs(&mut exprs, &ref_ident);
+
+        // Return original value
+        exprs.push(Box::new(ref_ident.into()));
+
+        *expr = SeqExpr { span: *span, exprs }.into();
     }
 
-    fn fold_rest(
-        &mut self,
-        index: &mut usize,
-        pat: Pat,
-        obj: Box<Expr>,
-        use_expr_for_assign: bool,
-        use_member_for_array: bool,
-    ) -> Pat {
-        // TODO(kdy1): Optimize when all fields are statically known.
-        //
-        // const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
-        //
-        // can be
-        //
-        // const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo =
-        // _extends({}, obj);
+    // ========================================
+    // Statement/module item handlers
+    // ========================================
 
-        if pat.is_ident() {
-            // panic!()
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let mut new_stmts = Vec::with_capacity(stmts.len());
+
+        for stmt in stmts.drain(..) {
+            let mut stmt = stmt;
+            stmt.visit_mut_with(self);
+            new_stmts.push(stmt);
+
+            // Insert var declarations after current
+            if !self.vars.is_empty() {
+                new_stmts.push(
+                    VarDecl {
+                        decls: mem::take(&mut self.vars),
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
         }
 
-        let ObjectPat {
-            span,
-            props,
-            type_ann,
-            ..
-        } = match pat {
-            Pat::Object(pat) => pat,
-            Pat::Assign(n) => {
-                let AssignPat {
-                    span, left, right, ..
-                } = n;
-                let left = Box::new(self.fold_rest(
-                    index,
-                    *left,
-                    obj,
-                    use_expr_for_assign,
-                    use_member_for_array,
-                ));
-                return AssignPat { span, left, right }.into();
-            }
-            Pat::Array(n) => {
-                let ArrayPat { span, elems, .. } = n;
-                let elems = elems
-                    .into_iter()
-                    .enumerate()
-                    .map(|(i, elem)| {
-                        elem.map(|elem| {
-                            self.fold_rest(
-                                index,
-                                elem,
-                                if use_member_for_array {
-                                    obj.clone().computed_member(i as f64).into()
-                                } else {
-                                    obj.clone()
-                                },
-                                use_expr_for_assign,
-                                use_member_for_array,
-                            )
-                        })
-                    })
-                    .collect();
+        *stmts = new_stmts;
+    }
 
-                return ArrayPat { span, elems, ..n }.into();
-            }
-            _ => return pat,
-        };
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let mut new_items = Vec::with_capacity(items.len());
 
-        let mut props: Vec<ObjectPatProp> = props
-            .into_iter()
-            .map(|prop| match prop {
-                ObjectPatProp::Rest(n) => {
-                    let RestPat {
-                        arg, dot3_token, ..
-                    } = n;
+        for item in items.drain(..) {
+            match item {
+                ModuleItem::Stmt(stmt) => {
+                    let mut stmt = stmt;
+                    stmt.visit_mut_with(self);
+                    new_items.push(ModuleItem::Stmt(stmt));
 
-                    let pat = self.fold_rest(
-                        index,
-                        *arg,
-                        // TODO: fix this. this is wrong
-                        obj.clone(),
-                        use_expr_for_assign,
-                        true,
-                    );
-                    ObjectPatProp::Rest(RestPat {
-                        dot3_token,
-                        arg: Box::new(pat),
-                        ..n
-                    })
-                }
-                ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
-                    let (key, prop) = match key {
-                        PropName::Ident(ref ident) => {
-                            let ident = ident.clone();
-                            (key, MemberProp::Ident(ident))
-                        }
-                        PropName::Str(Str {
-                            ref value, span, ..
-                        }) => {
-                            let value = value.clone();
-                            (
-                                key,
-                                MemberProp::Computed(ComputedPropName {
-                                    span,
-                                    expr: Lit::Str(Str {
-                                        span,
-                                        raw: None,
-                                        value: value.clone(),
-                                    })
-                                    .into(),
-                                }),
-                            )
-                        }
-                        PropName::Num(Number { span, value, .. }) => (
-                            key,
-                            MemberProp::Computed(ComputedPropName {
-                                span,
-                                expr: Lit::Str(Str {
-                                    span,
-                                    raw: None,
-
-                                    value: format!("{value}").into(),
-                                })
-                                .into(),
-                            }),
-                        ),
-                        PropName::BigInt(BigInt {
-                            span, ref value, ..
-                        }) => {
-                            let value = value.clone();
-                            (
-                                key,
-                                MemberProp::Computed(ComputedPropName {
-                                    span,
-                                    expr: Lit::Str(Str {
-                                        span,
-                                        raw: None,
-                                        value: format!("{value}").into(),
-                                    })
-                                    .into(),
-                                }),
-                            )
-                        }
-                        PropName::Computed(ref c) if is_literal(&c.expr) => {
-                            let c = c.clone();
-                            (key, MemberProp::Computed(c))
-                        }
-                        PropName::Computed(c) => {
-                            let (ident, aliased) = alias_if_required(&c.expr, "key");
-                            if aliased {
-                                *index += 1;
-                                self.vars.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: ident.clone().into(),
-                                    init: Some(c.expr),
-                                    definite: false,
-                                });
+                    if !self.vars.is_empty() {
+                        new_items.push(ModuleItem::Stmt(
+                            VarDecl {
+                                decls: mem::take(&mut self.vars),
+                                ..Default::default()
                             }
-
-                            (
-                                PropName::Computed(ComputedPropName {
-                                    span: c.span,
-                                    expr: ident.clone().into(),
-                                }),
-                                MemberProp::Computed(ComputedPropName {
-                                    span: c.span,
-                                    expr: ident.into(),
-                                }),
-                            )
-                        }
-                        #[cfg(swc_ast_unknown)]
-                        _ => panic!("unable to access unknown nodes"),
-                    };
-
-                    let value = Box::new(
-                        self.fold_rest(
-                            index,
-                            *value,
-                            Box::new(
-                                MemberExpr {
-                                    span: DUMMY_SP,
-                                    obj: obj.clone(),
-                                    prop,
-                                }
-                                .into(),
-                            ),
-                            use_expr_for_assign,
-                            true,
-                        ),
-                    );
-                    ObjectPatProp::KeyValue(KeyValuePatProp { key, value })
+                            .into(),
+                        ));
+                    }
                 }
-                _ => prop,
-            })
-            .collect();
-
-        match props.last() {
-            Some(ObjectPatProp::Rest(..)) => {}
-            _ => {
-                return ObjectPat {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span,
-                    props,
-                    optional: false,
-                    type_ann,
+                    decl: Decl::Var(mut var_decl),
+                })) => {
+                    // Collect names before transformation (these are the actual exports)
+                    let mut exported_names = Vec::new();
+                    for decl in &var_decl.decls {
+                        collect_idents_from_pat(&decl.name, &mut exported_names);
+                    }
+
+                    let var_decl_lens = var_decl.decls.len();
+
+                    var_decl.visit_mut_with(self);
+
+                    // Check if transformation happened
+                    if var_decl.decls.len() == var_decl_lens && self.vars.is_empty() {
+                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                            ExportDecl {
+                                span,
+                                decl: Decl::Var(var_decl),
+                            },
+                        )));
+                        continue;
+                    }
+
+                    // Insert var declaration
+                    new_items.push(ModuleItem::Stmt((*var_decl).into()));
+
+                    // Insert additional var declarations
+                    if !self.vars.is_empty() {
+                        new_items.push(ModuleItem::Stmt(
+                            VarDecl {
+                                decls: mem::take(&mut self.vars),
+                                ..Default::default()
+                            }
+                            .into(),
+                        ));
+                    }
+
+                    // Export the names
+                    if !exported_names.is_empty() {
+                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                            NamedExport {
+                                span,
+                                specifiers: exported_names
+                                    .into_iter()
+                                    .map(|id| {
+                                        ExportSpecifier::Named(ExportNamedSpecifier {
+                                            span: DUMMY_SP,
+                                            orig: ModuleExportName::Ident(id),
+                                            exported: None,
+                                            is_type_only: false,
+                                        })
+                                    })
+                                    .collect(),
+                                src: None,
+                                type_only: false,
+                                with: None,
+                            },
+                        )));
+                    }
                 }
-                .into();
+                _ => {
+                    let mut item = item;
+                    item.visit_mut_with(self);
+                    new_items.push(item);
+                }
             }
         }
-        let last = match props.pop() {
-            Some(ObjectPatProp::Rest(rest)) => rest,
-            _ => unreachable!(),
-        };
 
-        let excluded_props = excluded_props(&props);
-
-        if use_expr_for_assign {
-            // println!("Expr: last.arg = objectWithoutProperties()",);
-            self.exprs.push(
-                AssignExpr {
-                    span: DUMMY_SP,
-                    left: last.arg.try_into().unwrap(),
-                    op: op!("="),
-                    right: Box::new(object_without_properties(
-                        obj,
-                        excluded_props,
-                        self.config.no_symbol,
-                    )),
-                }
-                .into(),
-            );
-        } else {
-            // println!("Var: rest = objectWithoutProperties()",);
-            self.push_var_if_not_empty(VarDeclarator {
-                span: DUMMY_SP,
-                name: *last.arg,
-                init: Some(Box::new(object_without_properties(
-                    obj,
-                    excluded_props,
-                    self.config.no_symbol,
-                ))),
-                definite: false,
-            });
-        }
-
-        ObjectPat {
-            props,
-            span,
-            type_ann,
-            optional: false,
-        }
-        .into()
+        *items = new_items;
     }
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
-fn object_without_properties(
-    obj: Box<Expr>,
-    excluded_props: Vec<Option<ExprOrSpread>>,
-    no_symbol: bool,
-) -> Expr {
-    if excluded_props.is_empty() {
-        return CallExpr {
-            span: DUMMY_SP,
-            callee: helper!(extends),
-            args: vec![
-                ObjectLit {
-                    span: DUMMY_SP,
-                    props: Vec::new(),
+// ========================================
+// Helper methods
+// ========================================
+
+impl ObjectRest {
+    /// Flush pending rest operations as var declarations.
+    fn flush_pending_rest_decls(&mut self, out: &mut Vec<VarDeclarator>, source: &Ident) {
+        let mut current_source = source.clone();
+
+        loop {
+            // 1. Flush pending_rest
+            let pending_items: Vec<_> = self.pending_rest.drain(..).collect();
+            for pending in pending_items {
+                let temp = pending.temp.as_ref().unwrap_or(&current_source);
+
+                // When temp.is_some(), this is a nested pattern (e.g., `{ x: { a, ...b } }`).
+                // The outer pattern assigned the nested value to temp, so we need to
+                // destructure the non-rest properties (`{ a }`) from temp before
+                // generating the rest call (`...b`).
+                // When temp.is_none(), this is a top-level pattern and the non-rest
+                // properties are destructured directly by the parent declarator.
+                if pending.temp.is_some() {
+                    out.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: pending.props_pat.into(),
+                        init: Some(Box::new(temp.clone().into())),
+                        definite: false,
+                    });
                 }
-                .as_arg(),
-                helper_expr!(object_destructuring_empty)
-                    .as_call(DUMMY_SP, vec![obj.as_arg()])
-                    .as_arg(),
-            ],
-            ..Default::default()
+
+                // Generate the rest call
+                let rest_call = self.make_rest_call(temp.clone(), &pending.keys);
+                out.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: pending.rest_pat,
+                    init: Some(Box::new(rest_call)),
+                    definite: false,
+                });
+            }
+
+            // 2. Take one deferred pattern and visit it
+            let Some(deferred) = self.deferred_array_pats.pop_front() else {
+                break;
+            };
+
+            let mut pat: Pat = deferred.pat.into();
+            pat.visit_mut_with(self);
+
+            // 3. Output computed keys
+            out.append(&mut self.computed_key_decls);
+
+            // 4. Output the declarator
+            out.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: pat,
+                init: Some(Box::new(deferred.temp.clone().into())),
+                definite: false,
+            });
+
+            // 5. Update source for next iteration
+            current_source = deferred.temp;
         }
-        .into();
     }
 
-    let excluded_props = excluded_props
-        .into_iter()
-        .map(|v| {
-            v.map(|v| match *v.expr {
-                Expr::Lit(Lit::Num(Number { span, value, .. })) => ExprOrSpread {
-                    expr: Lit::Str(Str {
-                        span,
-                        raw: None,
-                        value: value.to_string().into(),
-                    })
-                    .into(),
-                    ..v
-                },
-                _ => v,
-            })
-        })
-        .collect();
+    /// Flush pending rest operations as expressions.
+    fn flush_pending_rest_exprs(&mut self, exprs: &mut Vec<Box<Expr>>, source: &Ident) {
+        let mut current_source = source.clone();
 
-    CallExpr {
-        span: DUMMY_SP,
-        callee: if no_symbol {
+        loop {
+            // 1. Flush pending_rest
+            let pending_items: Vec<_> = self.pending_rest.drain(..).collect();
+            for pending in pending_items {
+                let temp = pending.temp.as_ref().unwrap_or(&current_source);
+
+                // For nested rest, declare temp and destructure the non-rest properties
+                if let Some(ref temp_ident) = pending.temp {
+                    // Declare the temp variable
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: temp_ident.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
+
+                    exprs.push(Box::new(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: AssignTarget::Pat(AssignTargetPat::Object(pending.props_pat)),
+                            op: op!("="),
+                            right: Box::new(temp.clone().into()),
+                        }
+                        .into(),
+                    ));
+                }
+
+                // Generate the rest call
+                let rest_call = self.make_rest_call(temp.clone(), &pending.keys);
+                if let Ok(target) = pending.rest_pat.try_into() {
+                    exprs.push(Box::new(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: target,
+                            op: op!("="),
+                            right: Box::new(rest_call),
+                        }
+                        .into(),
+                    ));
+                }
+            }
+
+            // 2. Take one deferred pattern and visit it
+            let Some(deferred) = self.deferred_array_pats.pop_front() else {
+                break;
+            };
+
+            let mut pat: Pat = deferred.pat.into();
+            pat.visit_mut_with(self);
+
+            // 3. Insert computed key assignments
+            for decl in self.computed_key_decls.drain(..) {
+                if let Some(init) = decl.init {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: decl.name.clone(),
+                        init: None,
+                        definite: false,
+                    });
+                    if let Pat::Ident(ident) = decl.name {
+                        exprs.push(Box::new(
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                left: ident.id.into(),
+                                op: op!("="),
+                                right: init,
+                            }
+                            .into(),
+                        ));
+                    }
+                }
+            }
+
+            // 4. Output the assignment expression
+            if let Ok(target) = pat.try_into() {
+                exprs.push(Box::new(
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: target,
+                        op: op!("="),
+                        right: Box::new(deferred.temp.clone().into()),
+                    }
+                    .into(),
+                ));
+            }
+
+            // 5. Update source for next iteration
+            current_source = deferred.temp;
+        }
+    }
+
+    /// Generate rest call: _extends({}, source) if no exclusions,
+    /// otherwise _objectWithoutProperties(source, [...keys]).
+    fn make_rest_call(&self, source: Ident, excluded: &[PropName]) -> Expr {
+        // If no keys to exclude, use _extends({}, source) for efficiency
+        if excluded.is_empty() {
+            return CallExpr {
+                callee: helper!(extends),
+                args: vec![ObjectLit::default().as_arg(), source.as_arg()],
+                ..Default::default()
+            }
+            .into();
+        }
+
+        let helper = if self.config.no_symbol {
             helper!(object_without_properties_loose)
         } else {
             helper!(object_without_properties)
-        },
-        args: vec![
-            obj.as_arg(),
-            if is_literal(&excluded_props) {
-                ArrayLit {
-                    span: DUMMY_SP,
-                    elems: excluded_props,
-                }
-                .as_arg()
-            } else {
-                CallExpr {
-                    span: DUMMY_SP,
-                    callee: ArrayLit {
-                        span: DUMMY_SP,
-                        elems: excluded_props,
+        };
+
+        let impure_count = excluded
+            .iter()
+            .filter(|k| matches!(k, PropName::Computed(expr) if !is_lit_str(&expr.expr)))
+            .count();
+
+        let keys: Vec<Option<ExprOrSpread>> = excluded
+            .iter()
+            .map(|key| {
+                let key_expr = match key {
+                    PropName::Ident(id) => Expr::Lit(Lit::Str(id.sym.clone().into())),
+                    PropName::Str(s) => Expr::Lit(Lit::Str(s.clone())),
+                    PropName::Num(n) => Expr::Lit(Lit::Str(Str {
+                        span: n.span,
+                        value: n.value.to_string().into(),
+                        raw: None,
+                    })),
+                    PropName::Computed(c) if impure_count == 1 && !is_lit_str(&c.expr) => {
+                        CallExpr {
+                            callee: helper!(to_property_key),
+                            args: vec![(*c.expr).clone().as_arg()],
+                            ..Default::default()
+                        }
+                        .into()
                     }
-                    .make_member(quote_ident!("map"))
-                    .as_callee(),
-                    args: vec![helper_expr!(to_property_key).as_arg()],
+                    PropName::Computed(c) => (*c.expr).clone(),
+                    PropName::BigInt(b) => Expr::Lit(Lit::Str(Str {
+                        span: b.span,
+                        value: b.value.to_string().into(),
+                        raw: None,
+                    })),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                };
+                Some(key_expr.as_arg())
+            })
+            .collect();
+
+        let mut expr: Expr = ArrayLit {
+            elems: keys,
+            ..Default::default()
+        }
+        .into();
+
+        // Optimization: If there is exactly one impure computed key, we can
+        // directly call to_property_key on it here, rather than mapping over
+        // the array later. This avoids unnecessary array creation and mapping.
+        if impure_count > 1 {
+            // [].map(to_property_key)
+            expr = expr
+                .make_member(quote_ident!("map"))
+                .as_call(DUMMY_SP, vec![helper_expr!(to_property_key).as_arg()]);
+        }
+
+        CallExpr {
+            callee: helper,
+            args: vec![source.as_arg(), expr.as_arg()],
+            ..Default::default()
+        }
+        .into()
+    }
+
+    /// Transform for-in/for-of loop head.
+    fn transform_for_loop(&mut self, left: &mut ForHead, body: &mut Box<Stmt>) {
+        match left {
+            ForHead::VarDecl(var_decl) => {
+                debug_assert!(
+                    var_decl.decls.len() == 1,
+                    "for-in/of loop variable declaration must have exactly one declarator"
+                );
+
+                // Visit pattern
+                var_decl.decls[0].name.visit_mut_with(self);
+
+                if self.pending_rest.is_empty() {
+                    self.computed_key_decls.clear();
+                    return;
+                }
+
+                let ref_ident = private_ident!("_ref");
+                let pat = var_decl.decls[0].name.take();
+
+                var_decl.decls[0].name = ref_ident.clone().into();
+
+                // Create declarations
+                let mut decls = mem::take(&mut self.computed_key_decls);
+                decls.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: pat,
+                    init: Some(Box::new(ref_ident.clone().into())),
+                    definite: false,
+                });
+                self.flush_pending_rest_decls(&mut decls, &ref_ident);
+
+                // Insert at start of body
+                let stmt: Stmt = VarDecl {
+                    kind: VarDeclKind::Let,
+                    decls,
                     ..Default::default()
                 }
-                .as_arg()
-            },
-        ],
-        ..Default::default()
-    }
-    .into()
-}
+                .into();
 
-#[tracing::instrument(level = "debug", skip_all)]
-fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
-    props
-        .iter()
-        .map(|prop| match prop {
-            ObjectPatProp::KeyValue(KeyValuePatProp { key, .. }) => match key {
-                PropName::Ident(ident) => Lit::Str(Str {
-                    span: ident.span,
-                    raw: None,
-                    value: ident.sym.clone().into(),
-                })
-                .as_arg(),
-                PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
-                PropName::Num(Number { span, value, .. }) => Lit::Str(Str {
-                    span: *span,
-                    raw: None,
+                match &mut **body {
+                    Stmt::Block(block) => {
+                        block.stmts.insert(0, stmt);
+                    }
+                    _ => {
+                        *body = Box::new(
+                            BlockStmt {
+                                stmts: vec![stmt, (**body).take()],
+                                ..Default::default()
+                            }
+                            .into(),
+                        );
+                    }
+                }
+            }
+            ForHead::Pat(pat) => {
+                // Visit pattern
+                pat.visit_mut_with(self);
 
-                    value: format!("{value}").into(),
-                })
-                .as_arg(),
-                PropName::BigInt(BigInt { span, value, .. }) => Lit::Str(Str {
-                    span: *span,
-                    raw: None,
+                if self.pending_rest.is_empty() {
+                    self.computed_key_decls.clear();
+                    return;
+                }
 
-                    value: format!("{value}").into(),
-                })
-                .as_arg(),
-                PropName::Computed(c) => c.expr.clone().as_arg(),
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            },
-            ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
-                span: key.span,
-                raw: None,
-                value: key.sym.clone().into(),
-            })
-            .as_arg(),
-            ObjectPatProp::Rest(..) => unreachable!("invalid syntax (multiple rest element)"),
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        })
-        .map(Some)
-        .collect()
-}
+                let ref_ident = private_ident!("_ref");
 
-/// e.g.
-///
-///  - `{ x4: {}  }` -> `{}`
-struct PatSimplifier;
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: ref_ident.clone().into(),
+                    init: None,
+                    definite: false,
+                });
 
-#[swc_trace]
-impl VisitMut for PatSimplifier {
-    noop_visit_mut_type!(fail);
+                let old_pat = *pat.take();
+                **pat = ref_ident.clone().into();
 
-    fn visit_mut_pat(&mut self, pat: &mut Pat) {
-        pat.visit_mut_children_with(self);
+                // Build assignment expressions
+                let mut exprs: Vec<Box<Expr>> = Vec::new();
 
-        if let Pat::Object(o) = pat {
-            o.props.retain(|prop| {
-                if let ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) = prop {
-                    match &**value {
-                        Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
-                            return false;
+                // Insert computed key assignments
+                for decl in self.computed_key_decls.drain(..) {
+                    if let Some(init) = decl.init {
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: decl.name.clone(),
+                            init: None,
+                            definite: false,
+                        });
+                        if let Pat::Ident(ident) = decl.name {
+                            exprs.push(Box::new(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: ident.id.into(),
+                                    op: op!("="),
+                                    right: init,
+                                }
+                                .into(),
+                            ));
                         }
-                        _ => {}
                     }
                 }
 
-                true
-            });
+                // Destructure the prepared pattern
+                if let Ok(target) = old_pat.try_into() {
+                    exprs.push(Box::new(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            left: target,
+                            op: op!("="),
+                            right: Box::new(ref_ident.clone().into()),
+                        }
+                        .into(),
+                    ));
+                }
+
+                // Flush pending rest
+                self.flush_pending_rest_exprs(&mut exprs, &ref_ident);
+
+                exprs.push(Box::new(ref_ident.into()));
+
+                let assign_stmt: Stmt = SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                }
+                .into_stmt();
+
+                match &mut **body {
+                    Stmt::Block(block) => {
+                        block.stmts.insert(0, assign_stmt);
+                    }
+                    _ => {
+                        *body = Box::new(
+                            BlockStmt {
+                                stmts: vec![assign_stmt, (**body).take()],
+                                ..Default::default()
+                            }
+                            .into(),
+                        );
+                    }
+                }
+            }
+            _ => {}
         }
+    }
+}
+
+// ========================================
+// Utility functions
+// ========================================
+
+fn collect_idents_from_pat(pat: &Pat, out: &mut Vec<Ident>) {
+    match pat {
+        Pat::Ident(id) => out.push(id.id.clone()),
+        Pat::Object(obj) => {
+            for prop in &obj.props {
+                match prop {
+                    ObjectPatProp::KeyValue(kv) => collect_idents_from_pat(&kv.value, out),
+                    ObjectPatProp::Assign(a) => out.push(a.key.id.clone()),
+                    ObjectPatProp::Rest(r) => collect_idents_from_pat(&r.arg, out),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                }
+            }
+        }
+        Pat::Array(arr) => {
+            for elem in arr.elems.iter().flatten() {
+                collect_idents_from_pat(elem, out);
+            }
+        }
+        Pat::Rest(r) => collect_idents_from_pat(&r.arg, out),
+        Pat::Assign(a) => collect_idents_from_pat(&a.left, out),
+        _ => {}
+    }
+}
+
+fn pat_to_assign_target_pat(pat: Pat) -> AssignTargetPat {
+    pat.try_into()
+        .unwrap_or_else(|p: Pat| AssignTargetPat::Invalid(Invalid { span: p.span() }))
+}
+
+fn is_lit_str(expr: &Expr) -> bool {
+    match expr {
+        Expr::Lit(Lit::Str(_)) => true,
+        Expr::Tpl(tpl) => tpl.exprs.is_empty(),
+        _ => false,
+    }
+}
+
+/// Check if an expression is "pure" (has no side effects).
+fn is_pure_expr(expr: &Expr) -> bool {
+    match expr {
+        Expr::Ident(_) | Expr::Lit(_) => true,
+        Expr::Tpl(tpl) => tpl.exprs.is_empty(),
+        // Symbol.iterator, Symbol.toStringTag, etc.
+        Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(_),
+            ..
+        }) => matches!(&**obj, Expr::Ident(i) if &*i.sym == "Symbol"),
+        _ => false,
     }
 }

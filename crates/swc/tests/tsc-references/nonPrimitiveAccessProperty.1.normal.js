@@ -5,4 +5,4 @@ var a;
 a.toString();
 a.nonExist(); // error
 var destructuring = a.destructuring; // error
-var rest = _extends({}, _object_destructuring_empty(a)); // ok
+var ref = _object_destructuring_empty(a), rest = _extends({}, a); // ok

@@ -1,13 +1,12 @@
 //// [objectRest.ts]
 import { _ as _extends } from "@swc/helpers/_/_extends";
-import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 var o = {
     a: 1,
     b: 'no'
 };
-var clone = _extends({}, _object_destructuring_empty(o));
+var {} = o, clone = _extends({}, o);
 var { a } = o, justB = _object_without_properties(o, [
     "a"
 ]);
@@ -32,37 +31,37 @@ var { d: renamed } = o2, d = _object_without_properties(o2, [
     "d"
 ]);
 let nestedrest;
-var { x, n1: { y, n2: { z } } } = nestedrest, nr = _extends({}, _object_destructuring_empty(nestedrest.n1.n2.n3)), restrest = _object_without_properties(nestedrest, [
+var { x, n1: { y, n2: { z, n3: _ref } } } = nestedrest, {} = _ref, nr = _extends({}, _ref), restrest = _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
 let complex;
-var { x: { ka }, y: other } = complex, nested = _object_without_properties(complex.x, [
+var { x: _ref1, y: other } = complex, { ka } = _ref1, nested = _object_without_properties(_ref1, [
     "ka"
 ]), rest = _object_without_properties(complex, [
     "x",
     "y"
 ]);
-var _complex;
-_complex = complex, nested = _object_without_properties(_complex.x, [
+({ x: _ref2, y: other } = complex), ({ ka } = _ref2), nested = _object_without_properties(_ref2, [
     "ka"
-]), rest = _object_without_properties(_complex, [
+]), rest = _object_without_properties(complex, [
     "x",
     "y"
-]), ({ x: { ka }, y: other } = _complex), _complex;
-var _ref = {
+]), complex;
+var _ref2;
+var _ref3 = {
     x: 1,
     y: 2
-}, { x } = _ref, fresh = _object_without_properties(_ref, [
+}, { x } = _ref3, fresh = _object_without_properties(_ref3, [
     "x"
 ]);
-var _tmp;
-_tmp = {
+_ref4 = {
     x: 1,
     y: 2
-}, fresh = _object_without_properties(_tmp, [
+}, ({ x } = _ref4), fresh = _object_without_properties(_ref4, [
     "x"
-]), ({ x } = _tmp), _tmp;
+]), _ref4;
+var _ref4;
 class Removable {
     set z(value) {}
     get both() {
@@ -85,11 +84,10 @@ var { [computed]: stillNotGreat, [computed2]: soSo } = o, o = _object_without_pr
     computed,
     computed2
 ].map(_to_property_key));
-var _o;
-_o = o, o = _object_without_properties(_o, [
+({ [computed]: stillNotGreat, [computed2]: soSo } = o), o = _object_without_properties(o, [
     computed,
     computed2
-].map(_to_property_key)), ({ [computed]: stillNotGreat, [computed2]: soSo } = _o), _o;
+].map(_to_property_key)), o;
 var noContextualType = (_param)=>{
     var { aNumber = 12 } = _param, notEmptyObject = _object_without_properties(_param, [
         "aNumber"

@@ -6,7 +6,7 @@ let a, b, c = {
         y: 2
     }
 }, d;
-var _c;
-_c = c, b = _object_without_properties(_c.x, [
+({ x: _ref = d } = c), ({ a } = _ref), b = _object_without_properties(_ref, [
     "a"
-]), ({ x: { a } = d } = _c), _c;
+]), c;
+var _ref;

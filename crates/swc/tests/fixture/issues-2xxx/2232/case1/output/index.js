@@ -11,19 +11,20 @@ var Foo = /*#__PURE__*/ function() {
     _create_class(Foo, [
         {
             key: "sendSomeMessage",
-            value: function sendSomeMessage(_parent, _param, _param1) {
-                return _async_to_generator(function() {
-                    var _param_input, toNumber, messageBody, all, dataSources;
+            value: function sendSomeMessage(_0, _1, _2) {
+                return _async_to_generator(function(_parent, _param, param) {
+                    var dataSources, _ref, toNumber, messageBody, all;
                     return _ts_generator(this, function(_state) {
-                        _param_input = _param.input, toNumber = _param_input.toNumber, messageBody = _param_input.messageBody, all = _object_without_properties(_param.input, [
+                        dataSources = param.dataSources;
+                        _ref = _param.input, toNumber = _ref.toNumber, messageBody = _ref.messageBody, all = _object_without_properties(_ref, [
                             "toNumber",
                             "messageBody"
-                        ]), dataSources = _param1.dataSources;
+                        ]);
                         return [
                             2
                         ];
                     });
-                })();
+                }).apply(this, arguments);
             }
         }
     ]);

@@ -21,7 +21,7 @@ suddenly(function() {
         },
         y: 'noo'
     };
-    var _param_x = _param.x, _param_x_z = _param_x.z, z = _param_x_z === void 0 ? 12 : _param_x_z, nested = _object_without_properties(_param.x, [
+    var _ref = _param.x, _ref_z = _ref.z, z = _ref_z === void 0 ? 12 : _ref_z, nested = _object_without_properties(_ref, [
         "z"
     ]), rest = _object_without_properties(_param, [
         "x"

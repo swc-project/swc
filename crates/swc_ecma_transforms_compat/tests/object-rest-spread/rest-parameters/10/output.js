@@ -1,3 +1,3 @@
 function a10(_param) {
-    var [a1, {}] = _param, a2 = _extends({}, _object_destructuring_empty(_param[1]));
+    var [a1, _ref] = _param, {} = _ref, a2 = _extends({}, _ref);
 }

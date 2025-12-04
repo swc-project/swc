@@ -6,8 +6,8 @@ var a, b, c = {
         y: 2
     }
 }, d;
-var _c;
 var ref, ref1;
-_c = c, b = _object_without_properties(_c.x, [
+ref = c, ref1 = ref.x, _ref = ref1 === void 0 ? d : ref1, ref, a = _ref.a, b = _object_without_properties(_ref, [
     "a"
-]), ref = _c, ref1 = ref.x, a = (ref1 === void 0 ? d : ref1).a, ref, _c;
+]), c;
+var _ref;

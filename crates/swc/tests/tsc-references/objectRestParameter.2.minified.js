@@ -18,7 +18,7 @@ suddenly((_param)=>{
     },
     y: 'noo'
 })=>{
-    var { x: { z = 12 } } = _param, nested = _object_without_properties(_param.x, [
+    var { x: _ref } = _param, { z = 12 } = _ref, nested = _object_without_properties(_ref, [
         "z"
     ]);
     return _object_without_properties(_param, [
