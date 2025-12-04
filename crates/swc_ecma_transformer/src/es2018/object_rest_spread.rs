@@ -144,10 +144,6 @@ impl ObjectRestSpreadPass {
                     // Add spread expression
                     args.push(ExprOrSpread { spread: None, expr });
                 }
-                _ => {
-                    // Handle any other variants
-                    current_obj.props.push(prop);
-                }
             }
         }
 
@@ -190,7 +186,6 @@ impl ObjectRestSpreadPass {
                 ObjectPatProp::KeyValue(kv) => Some(kv.key.clone()),
                 ObjectPatProp::Assign(a) => Some(PropName::Ident(IdentName::from(a.key.clone()))),
                 ObjectPatProp::Rest(_) => None,
-                _ => None,
             })
             .collect();
 
@@ -222,11 +217,6 @@ impl ObjectRestSpreadPass {
                             PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
                             PropName::Computed(c) => *c.expr.clone(),
                             PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
-                            _ => Expr::Lit(Lit::Str(Str {
-                                span: DUMMY_SP,
-                                value: "unknown".into(),
-                                raw: None,
-                            })),
                         };
                         Some(ExprOrSpread {
                             spread: None,
@@ -416,11 +406,6 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
                             PropName::Computed(c) => *c.expr.clone(),
                             PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
-                            _ => Expr::Lit(Lit::Str(Str {
-                                span: DUMMY_SP,
-                                value: "unknown".into(),
-                                raw: None,
-                            })),
                         };
                         Some(ExprOrSpread {
                             spread: None,
