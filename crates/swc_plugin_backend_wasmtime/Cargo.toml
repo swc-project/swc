@@ -12,7 +12,7 @@ anyhow      = { workspace = true }
 wasi-common = { workspace = true, features = ["sync", "wasmtime"] }
 wasmtime    = { workspace = true, features = ["runtime", "cranelift", "threads"] }
 
-swc_common = { version = "18.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_plugin_runner = { version = "23.0.0", path = "../swc_plugin_runner" }

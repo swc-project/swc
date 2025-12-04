@@ -39,7 +39,7 @@ serde_json  = { workspace = true }
 tracing     = { workspace = true }
 
 swc_atoms = { version = "9.0.0", path = '../swc_atoms' }
-swc_common = { version = "18.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast", optional = true }

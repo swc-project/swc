@@ -20,4 +20,4 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true }
 
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls" }
-swc_common        = { version = "18.0.0", path = "../swc_common" }
+swc_common        = { version = "18.0.1", path = "../swc_common" }

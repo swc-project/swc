@@ -5,7 +5,19 @@
 
 
 
+- **(es/compat)** Preserve return value for single-property object destructuring ([#11334](https://github.com/swc-project/swc/issues/11334)) ([847ad22](https://github.com/swc-project/swc/commit/847ad222a9a95e189850172345b0c26dfeb6c225))
+
+
+- **(es/compat)** Fix generator transform for compound assignments, for-in, and labeled break ([#11339](https://github.com/swc-project/swc/issues/11339)) ([9b6bedd](https://github.com/swc-project/swc/commit/9b6bedd6dab07f81808ee949c769c24e7ecda8a0))
+
+
+- **(es/compat)** Destructuring evaluation order ([#11337](https://github.com/swc-project/swc/issues/11337)) ([49d04c7](https://github.com/swc-project/swc/commit/49d04c750dc771a6b4a01ae7a0b438f48098a485))
+
+
 - **(es/fixer)** Preserve parens around IFFE in binary expressions within sequences ([#11324](https://github.com/swc-project/swc/issues/11324)) ([a4c84ea](https://github.com/swc-project/swc/commit/a4c84ea7807839a87300d2e931b6a457f248b33a))
+
+
+- **(es/helpers)** Avoid extra trap calls on excluded keys in object rest spread ([#11338](https://github.com/swc-project/swc/issues/11338)) ([4662caf](https://github.com/swc-project/swc/commit/4662caf427c67a2aea7dade478b0f7c00276b30e))
 
 
 - **(es/minifier)** Fix `debug` cargo feature ([#11325](https://github.com/swc-project/swc/issues/11325)) ([be86fad](https://github.com/swc-project/swc/commit/be86fad7e9b935faac2da7d881a6991295a6dbad))
@@ -27,6 +39,12 @@
 
 
 - **(es/parser)** Optimize `byte_search!` ([#11323](https://github.com/swc-project/swc/issues/11323)) ([67f67c1](https://github.com/swc-project/swc/commit/67f67c1dcb45203601d96d4e7a77cb4c16e82d79))
+
+
+- **(es/parser)** Small optimization after byte-based lexer ([#11340](https://github.com/swc-project/swc/issues/11340)) ([c92ea4e](https://github.com/swc-project/swc/commit/c92ea4ec5f32654921efaee9af8cb09dc39457df))
+
+
+- **(es/parser)** Use `slice` rather than matching keywords ([#11341](https://github.com/swc-project/swc/issues/11341)) ([b6ad2cb](https://github.com/swc-project/swc/commit/b6ad2cb114c99676c912ffa6984e50da677630cf))
 
 
 - **(parser)** Make all parsers work by byte instead of char  ([#11318](https://github.com/swc-project/swc/issues/11318)) ([725efd1](https://github.com/swc-project/swc/commit/725efd16c67f4f2d42c6b3c673cb0ad473ff0ff3))
@@ -1956,12 +1974,6 @@
 - **(deps)** Update actions ([#10222](https://github.com/swc-project/swc/issues/10222)) ([cf33196](https://github.com/swc-project/swc/commit/cf33196160fdcd004e188c33f8f665a4c81263f2))
 
 ## [1.11.15] - 2025-04-01
-
-### Bug Fixes
-
-
-
-- **(bindings/node)** Fix build on platforms without plugin ([#10301](https://github.com/swc-project/swc/issues/10301)) ([3faae55](https://github.com/swc-project/swc/commit/3faae55a170664ff6d22824fe8dcb8cf1a110bec))
 
 ### Features
 

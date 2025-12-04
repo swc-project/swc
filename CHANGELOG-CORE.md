@@ -5,6 +5,32 @@
 
 
 
+- **(es/compat)** Preserve return value for single-property object destructuring ([#11334](https://github.com/swc-project/swc/issues/11334)) ([847ad22](https://github.com/swc-project/swc/commit/847ad222a9a95e189850172345b0c26dfeb6c225))
+
+
+- **(es/compat)** Fix generator transform for compound assignments, for-in, and labeled break ([#11339](https://github.com/swc-project/swc/issues/11339)) ([9b6bedd](https://github.com/swc-project/swc/commit/9b6bedd6dab07f81808ee949c769c24e7ecda8a0))
+
+
+- **(es/compat)** Destructuring evaluation order ([#11337](https://github.com/swc-project/swc/issues/11337)) ([49d04c7](https://github.com/swc-project/swc/commit/49d04c750dc771a6b4a01ae7a0b438f48098a485))
+
+
+- **(es/helpers)** Avoid extra trap calls on excluded keys in object rest spread ([#11338](https://github.com/swc-project/swc/issues/11338)) ([4662caf](https://github.com/swc-project/swc/commit/4662caf427c67a2aea7dade478b0f7c00276b30e))
+
+### Performance
+
+
+
+- **(es/parser)** Small optimization after byte-based lexer ([#11340](https://github.com/swc-project/swc/issues/11340)) ([c92ea4e](https://github.com/swc-project/swc/commit/c92ea4ec5f32654921efaee9af8cb09dc39457df))
+
+
+- **(es/parser)** Use `slice` rather than matching keywords ([#11341](https://github.com/swc-project/swc/issues/11341)) ([b6ad2cb](https://github.com/swc-project/swc/commit/b6ad2cb114c99676c912ffa6984e50da677630cf))
+
+## [swc_core@v49.0.0] - 2025-11-27
+
+### Bug Fixes
+
+
+
 - **(es/minifier)** Fix `debug` cargo feature ([#11325](https://github.com/swc-project/swc/issues/11325)) ([be86fad](https://github.com/swc-project/swc/commit/be86fad7e9b935faac2da7d881a6991295a6dbad))
 
 
@@ -2492,9 +2518,6 @@
 
 ### Bug Fixes
 
-
-
-- **(bindings/node)** Fix build on platforms without plugin ([#10301](https://github.com/swc-project/swc/issues/10301)) ([3faae55](https://github.com/swc-project/swc/commit/3faae55a170664ff6d22824fe8dcb8cf1a110bec))
 
 
 - **(errors)** Disable wrapping of text lines ([#10314](https://github.com/swc-project/swc/issues/10314)) ([f6840ea](https://github.com/swc-project/swc/commit/f6840ea41411adcc46cfb7570ad800d479f2014d))
