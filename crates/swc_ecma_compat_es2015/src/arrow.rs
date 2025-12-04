@@ -158,6 +158,9 @@ impl VisitMut for Arrow {
                             })],
                             ..Default::default()
                         },
+                        _ => {
+                            unreachable!("BlockStmtOrExpr only has BlockStmt and Expr variants")
+                        }
                     }),
                     ..Default::default()
                 }
