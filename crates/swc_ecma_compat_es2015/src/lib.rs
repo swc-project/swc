@@ -92,9 +92,6 @@ where
             exprs(unresolved_mark),
             typeof_symbol(c.typeof_symbol),
             computed_properties(c.computed_props),
-            // Object rest/spread must run before destructuring
-            // See: https://github.com/swc-project/swc/issues/11348
-            swc_ecma_compat_es2018::object_rest_spread(Default::default()),
             destructuring(c.destructuring),
             block_scoping(unresolved_mark),
             generator::generator(unresolved_mark, comments.clone()),
