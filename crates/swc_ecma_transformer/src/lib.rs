@@ -65,6 +65,7 @@ pub fn hook_pass<H: VisitMutHook<TraverseCtx>>(hook: H) -> impl Pass {
 impl Options {
     pub fn into_pass(self) -> impl Pass {
         let hook = transform_hook(self);
+
         hook_pass(hook)
     }
 }
