@@ -139,12 +139,23 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
         self.cur_stmt_address = None;
     }
 
-    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
-        // Transform arrow functions
-        if let Expr::Arrow(arrow) = expr {
-            *expr = self.transform_arrow(arrow);
+    fn enter_arrow_expr(&mut self, arrow: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
+        // Check if arrow uses `this` or `arguments` BEFORE visiting children
+        let uses_this = self.expr_uses_this(&arrow.body);
+        let uses_arguments = self.expr_uses_arguments(&arrow.body);
+
+        // If arrow uses `this`, ensure we have a saved identifier
+        if uses_this && self.this_var.is_none() {
+            self.this_var = Some(utils::create_private_ident("_this"));
         }
 
+        // If arrow uses `arguments`, ensure we have a saved identifier
+        if uses_arguments && self.arguments_var.is_none() {
+            self.arguments_var = Some(utils::create_private_ident("_arguments"));
+        }
+    }
+
+    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
         // Replace `this` with the saved identifier
         if let Expr::This(_) = expr {
             if let Some(this_id) = &self.this_var {
@@ -161,6 +172,13 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
                     *expr = Expr::Ident(args_id.clone());
                 }
             }
+        }
+    }
+
+    fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
+        // Transform arrow functions after children have been visited
+        if let Expr::Arrow(arrow) = expr {
+            *expr = self.transform_arrow(arrow);
         }
     }
 
@@ -195,19 +213,8 @@ impl ArrowFunctionsPass {
             ..
         } = arrow;
 
-        // Check if arrow uses `this` or `arguments`
-        let uses_this = self.expr_uses_this(body);
-        let uses_arguments = self.expr_uses_arguments(body);
-
-        // If arrow uses `this`, ensure we have a saved identifier
-        if uses_this && self.this_var.is_none() {
-            self.this_var = Some(utils::create_private_ident("_this"));
-        }
-
-        // If arrow uses `arguments`, ensure we have a saved identifier
-        if uses_arguments && self.arguments_var.is_none() {
-            self.arguments_var = Some(utils::create_private_ident("_arguments"));
-        }
+        // Note: `this` and `arguments` detection is done in `enter_arrow_expr`
+        // before children are visited, so we don't need to check again here.
 
         // Convert parameters
         let fn_params: Vec<Param> = params

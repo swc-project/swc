@@ -65,64 +65,43 @@ struct ArrowCompat {
 
 impl VisitMut for ArrowCompat {
     fn visit_mut_program(&mut self, program: &mut swc_ecma_ast::Program) {
-        use swc_ecma_hooks::VisitMutHook;
+        use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
         use swc_ecma_transformer::{
             es2015::{self, Es2015Options},
             TraverseCtx,
         };
+        use swc_ecma_visit::VisitMutWith;
 
         let mut options = Es2015Options::default();
         options.arrow_functions = Some(self.unresolved_mark);
 
-        let mut hook = es2015::hook(options);
-        let mut ctx = TraverseCtx {
+        let hook = es2015::hook(options);
+        let ctx = TraverseCtx {
             statement_injector: Default::default(),
         };
 
-        hook.enter_program(program, &mut ctx);
-        program.visit_mut_children_with(&mut HookVisitor {
-            hook: &mut hook,
-            ctx: &mut ctx,
-        });
-        hook.exit_program(program, &mut ctx);
+        let mut visitor = VisitMutWithHook { hook, context: ctx };
+        program.visit_mut_with(&mut visitor);
     }
-}
 
-/// Helper visitor that delegates to the hook
-struct HookVisitor<'a, H>
-where
-    H: swc_ecma_hooks::VisitMutHook<swc_ecma_transformer::TraverseCtx>,
-{
-    hook: &'a mut H,
-    ctx: &'a mut swc_ecma_transformer::TraverseCtx,
-}
-
-impl<H> VisitMut for HookVisitor<'_, H>
-where
-    H: swc_ecma_hooks::VisitMutHook<swc_ecma_transformer::TraverseCtx>,
-{
     fn visit_mut_expr(&mut self, expr: &mut swc_ecma_ast::Expr) {
-        self.hook.enter_expr(expr, self.ctx);
-        expr.visit_mut_children_with(self);
-        self.hook.exit_expr(expr, self.ctx);
-    }
+        use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+        use swc_ecma_transformer::{
+            es2015::{self, Es2015Options},
+            TraverseCtx,
+        };
+        use swc_ecma_visit::VisitMutWith;
 
-    fn visit_mut_stmt(&mut self, stmt: &mut swc_ecma_ast::Stmt) {
-        self.hook.enter_stmt(stmt, self.ctx);
-        stmt.visit_mut_children_with(self);
-        self.hook.exit_stmt(stmt, self.ctx);
-    }
+        let mut options = Es2015Options::default();
+        options.arrow_functions = Some(self.unresolved_mark);
 
-    fn visit_mut_class(&mut self, class: &mut swc_ecma_ast::Class) {
-        self.hook.enter_class(class, self.ctx);
-        class.visit_mut_children_with(self);
-        self.hook.exit_class(class, self.ctx);
-    }
+        let hook = es2015::hook(options);
+        let ctx = TraverseCtx {
+            statement_injector: Default::default(),
+        };
 
-    fn visit_mut_function(&mut self, func: &mut swc_ecma_ast::Function) {
-        self.hook.enter_function(func, self.ctx);
-        func.visit_mut_children_with(self);
-        self.hook.exit_function(func, self.ctx);
+        let mut visitor = VisitMutWithHook { hook, context: ctx };
+        expr.visit_mut_with(&mut visitor);
     }
 }
 
