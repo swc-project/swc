@@ -656,7 +656,6 @@ test!(
             spread(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
         )
     },
     destructuring_for_of,
@@ -1095,7 +1094,6 @@ test!(
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
         )
     },
     destructuring_es7_object_rest,
@@ -1320,7 +1318,6 @@ test!(
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
         )
     },
     destructuring_issue_9834,
