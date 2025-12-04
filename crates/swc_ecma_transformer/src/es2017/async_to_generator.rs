@@ -303,6 +303,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             return;
         };
 
+        let unresolved_ctxt = self.config.unresolved_ctxt;
+
         match expr {
             Expr::This(..) => {
                 fn_state.use_this = true;
@@ -314,7 +316,11 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 // Transform await to yield
                 *expr = if fn_state.is_generator {
                     // For async generators, wrap in helper
-                    let helper_call = create_helper_call("_awaitAsyncGenerator", vec![*arg.take()]);
+                    let helper_call = create_helper_call(
+                        "_awaitAsyncGenerator",
+                        vec![*arg.take()],
+                        unresolved_ctxt,
+                    );
                     YieldExpr {
                         span: *span,
                         delegate: false,
@@ -335,8 +341,13 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 delegate: true,
             }) if fn_state.is_generator => {
                 // Transform yield* in async generators
-                let async_iter = create_helper_call("_asyncIterator", vec![*arg.take()]);
-                let delegated = create_helper_call("_asyncGeneratorDelegate", vec![async_iter]);
+                let async_iter =
+                    create_helper_call("_asyncIterator", vec![*arg.take()], unresolved_ctxt);
+                let delegated = create_helper_call(
+                    "_asyncGeneratorDelegate",
+                    vec![async_iter],
+                    unresolved_ctxt,
+                );
 
                 *expr = YieldExpr {
                     span: *span,
@@ -363,7 +374,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             ..
         }) = self.fn_state
         {
-            handle_await_for(stmt, is_generator);
+            handle_await_for(stmt, is_generator, self.config.unresolved_ctxt);
         }
     }
 }
@@ -463,7 +474,7 @@ fn could_potentially_throw(params: &[Param], unresolved_ctxt: SyntaxContext) -> 
 }
 
 /// Handle for-await-of loops
-fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
+fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool, unresolved_ctxt: SyntaxContext) {
     let s = match stmt {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
         _ => return,
@@ -558,7 +569,9 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             VarDeclarator {
                 span: DUMMY_SP,
                 name: iterator.clone().into(),
-                init: Some(create_helper_call("_asyncIterator", vec![*s.right]).into()),
+                init: Some(
+                    create_helper_call("_asyncIterator", vec![*s.right], unresolved_ctxt).into(),
+                ),
                 definite: false,
             },
             VarDeclarator {
@@ -592,7 +605,11 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 };
 
                 let yield_arg = if is_async_generator {
-                    create_helper_call("_awaitAsyncGenerator", vec![iter_next.into()])
+                    create_helper_call(
+                        "_awaitAsyncGenerator",
+                        vec![iter_next.into()],
+                        unresolved_ctxt,
+                    )
                 } else {
                     iter_next.into()
                 };
@@ -682,6 +699,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         did_iteration_error.clone(),
         iterator_error.clone(),
         is_async_generator,
+        unresolved_ctxt,
     );
 
     let try_stmt = TryStmt {
@@ -736,6 +754,7 @@ fn build_finally_block(
     did_iteration_error: Ident,
     iterator_error: Ident,
     is_async_generator: bool,
+    unresolved_ctxt: SyntaxContext,
 ) -> BlockStmt {
     // Build: if (iteratorAbruptCompletion && iterator.return != null) { ... }
     let return_call = {
@@ -755,6 +774,7 @@ fn build_finally_block(
                 arg: Some(Box::new(create_helper_call(
                     "_awaitAsyncGenerator",
                     vec![call.into()],
+                    unresolved_ctxt,
                 ))),
             }
             .into()
@@ -837,13 +857,13 @@ fn build_finally_block(
 }
 
 /// Create a helper function call
-fn create_helper_call(helper_name: &str, args: Vec<Expr>) -> Expr {
+fn create_helper_call(helper_name: &str, args: Vec<Expr>, unresolved_ctxt: SyntaxContext) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
         ctxt: SyntaxContext::empty(),
         callee: Callee::Expr(Box::new(Expr::Ident(Ident {
             span: DUMMY_SP,
-            ctxt: SyntaxContext::empty(),
+            ctxt: unresolved_ctxt,
             sym: helper_name.into(),
             optional: false,
         }))),
