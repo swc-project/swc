@@ -218,7 +218,6 @@ impl ObjectRestSpreadPass {
                     .iter()
                     .map(|key| {
                         #[allow(unreachable_patterns)]
-                        #[allow(unreachable_patterns)]
                         let expr = match key {
                             PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
@@ -409,7 +408,6 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     .keys
                     .iter()
                     .map(|key| {
-                        #[allow(unreachable_patterns)]
                         #[allow(unreachable_patterns)]
                         let expr = match key {
                             PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
