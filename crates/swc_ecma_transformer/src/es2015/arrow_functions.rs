@@ -272,6 +272,10 @@ impl ArrowFunctionsPass {
                 })],
                 ctxt: Default::default(),
             },
+            #[cfg(swc_ast_unknown)]
+            _ => {
+                unreachable!("BlockStmtOrExpr only has BlockStmt and Expr variants")
+            }
         };
 
         Expr::Fn(FnExpr {
@@ -295,6 +299,8 @@ impl ArrowFunctionsPass {
         match body {
             BlockStmtOrExpr::BlockStmt(block) => self.stmts_use_this(&block.stmts),
             BlockStmtOrExpr::Expr(expr) => Self::check_expr_for_this(expr),
+            #[cfg(swc_ast_unknown)]
+            _ => false,
         }
     }
 
@@ -378,6 +384,8 @@ impl ArrowFunctionsPass {
                     _ => false,
                 },
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => Self::check_expr_for_this(expr),
+                #[cfg(swc_ast_unknown)]
+                _ => false,
             }),
             // Arrow functions create their own scope, don't recurse into them
             Expr::Arrow(_) => false,
@@ -392,6 +400,8 @@ impl ArrowFunctionsPass {
         match body {
             BlockStmtOrExpr::BlockStmt(block) => self.stmts_use_arguments(&block.stmts),
             BlockStmtOrExpr::Expr(expr) => self.check_expr_for_arguments(expr),
+            #[cfg(swc_ast_unknown)]
+            _ => false,
         }
     }
 
@@ -487,6 +497,8 @@ impl ArrowFunctionsPass {
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                     self.check_expr_for_arguments(expr)
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => false,
             }),
             // Arrow functions create their own scope, don't recurse into them
             Expr::Arrow(_) => false,

@@ -158,6 +158,7 @@ impl VisitMut for Arrow {
                             })],
                             ..Default::default()
                         },
+                        #[cfg(swc_ast_unknown)]
                         _ => {
                             unreachable!("BlockStmtOrExpr only has BlockStmt and Expr variants")
                         }
