@@ -1,6 +1,10 @@
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::TraverseCtx;
+use crate::{hook_utils::OptionalHook, TraverseCtx};
+
+mod object_rest_spread;
+
+pub use self::object_rest_spread::Config as ObjectRestSpreadConfig;
 
 mod object_rest_spread;
 
@@ -8,14 +12,14 @@ mod object_rest_spread;
 #[non_exhaustive]
 pub struct Es2018Options {
     pub object_rest_spread: bool,
+pub struct Es2018Options {
+    pub object_rest_spread: Option<ObjectRestSpreadConfig>,
 }
 
 pub fn hook(options: Es2018Options) -> impl VisitMutHook<TraverseCtx> {
-    Es2018Pass { options }
+    OptionalHook(
+        options
+            .object_rest_spread
+            .map(|config| self::object_rest_spread::hook(config)),
+    )
 }
-
-struct Es2018Pass {
-    options: Es2018Options,
-}
-
-impl VisitMutHook<TraverseCtx> for Es2018Pass {}

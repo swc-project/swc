@@ -13,7 +13,7 @@ mod decorators;
 mod es2015;
 mod es2016;
 mod es2017;
-mod es2018;
+pub mod es2018;
 mod es2019;
 mod es2020;
 mod es2021;
@@ -69,4 +69,3 @@ impl Options {
         hook_pass(hook)
     }
 }
-

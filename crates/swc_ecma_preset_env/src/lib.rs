@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2017, es2018, es2020, es2022, es3,
+        es2017, es2020, es2022, es3,
     },
     Assumptions,
 };
@@ -191,15 +191,14 @@ where
     }
 
     // ES2018
-    let pass = add!(
-        pass,
-        ObjectRestSpread,
-        es2018::object_rest_spread(es2018::object_rest_spread::Config {
-            no_symbol: loose || assumptions.object_rest_no_symbols,
-            set_property: loose || assumptions.set_spread_properties,
-            pure_getters: loose || assumptions.pure_getters
-        })
-    );
+    if !caniuse(Feature::ObjectRestSpread) {
+        options.env.es2018.object_rest_spread =
+            Some(swc_ecma_transformer::Es2018ObjectRestSpreadConfig {
+                no_symbol: loose || assumptions.object_rest_no_symbols,
+                set_property: loose || assumptions.set_spread_properties,
+                pure_getters: loose || assumptions.pure_getters,
+            });
+    }
 
     // ES2017
     let pass = add!(
