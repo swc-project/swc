@@ -171,6 +171,7 @@ impl ObjectRestSpreadPass {
     fn handle_object_pat(&mut self, obj: &mut ObjectPat) {
         // Check if there's a rest element
         let has_rest = matches!(obj.props.last(), Some(ObjectPatProp::Rest(..)));
+
         if !has_rest {
             return;
         }
@@ -237,9 +238,9 @@ impl ObjectRestSpreadPass {
                     .collect(),
             };
 
-            // Create the _objectWithoutProperties call
+            // Create the _object_without_properties call
             let helper_call = create_helper_call(
-                "objectWithoutProperties",
+                "_object_without_properties",
                 vec![
                     ExprOrSpread {
                         spread: None,
@@ -278,7 +279,76 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         self.cur_stmt_address = Some(stmt as *const Stmt);
     }
 
-    fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+    fn enter_decl(&mut self, _decl: &mut Decl, _ctx: &mut TraverseCtx) {}
+
+    fn exit_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        // If we have pending rest patterns and this is a VarDecl, add them as new
+        // declarators
+        if !self.pending_rest.is_empty() {
+            if let Stmt::Decl(Decl::Var(var_decl)) = stmt {
+                // Get the init expression from the last declarator
+                let source_expr = match var_decl.decls.last().and_then(|d| d.init.as_ref()) {
+                    Some(init) => init.as_ref().clone(),
+                    None => {
+                        self.cur_stmt_address = None;
+                        return;
+                    }
+                };
+
+                while let Some(pending) = self.pending_rest.pop() {
+                    // Create the keys array for _objectWithoutProperties
+                    let keys_array = ArrayLit {
+                        span: DUMMY_SP,
+                        elems: pending
+                            .keys
+                            .iter()
+                            .map(|key| {
+                                #[allow(unreachable_patterns)]
+                                let expr = match key {
+                                    PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
+                                        span: DUMMY_SP,
+                                        value: ident.sym.clone().into(),
+                                        raw: None,
+                                    })),
+                                    PropName::Str(s) => Expr::Lit(Lit::Str(s.clone())),
+                                    PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
+                                    PropName::Computed(c) => *c.expr.clone(),
+                                    PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                                };
+                                Some(ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(expr),
+                                })
+                            })
+                            .collect(),
+                    };
+
+                    // Create the _object_without_properties call
+                    let helper_call = create_helper_call(
+                        "_object_without_properties",
+                        vec![
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(source_expr.clone()),
+                            },
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(Expr::Array(keys_array)),
+                            },
+                        ],
+                    );
+
+                    // Add as a new declarator in the same VarDecl
+                    var_decl.decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: pending.rest_pat,
+                        init: Some(Box::new(helper_call)),
+                        definite: false,
+                    });
+                }
+            }
+        }
+
         self.cur_stmt_address = None;
     }
 
@@ -325,26 +395,162 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
     }
 
-    fn exit_var_declarator(&mut self, var_decl: &mut VarDeclarator, ctx: &mut TraverseCtx) {
-        // If we have pending rest patterns, flush them
-        if !self.pending_rest.is_empty() {
-            if let Some(init) = &var_decl.init {
-                self.flush_pending_rest(ctx, init);
-            }
+    fn enter_var_decl(&mut self, var_decl: &mut VarDecl, _ctx: &mut TraverseCtx) {}
+
+    fn exit_var_declarator(&mut self, var_decl: &mut VarDeclarator, _ctx: &mut TraverseCtx) {
+        // Track the init expression for later use in exit_var_declarators
+        // We don't flush here because we want to add to the same VarDecl
+        if !self.pending_rest.is_empty() && var_decl.init.is_some() {
+            // Just mark that this declarator has rest patterns to process
+            // The actual flushing happens in exit_var_declarators
         }
     }
 
-    fn exit_assign_pat_prop(&mut self, prop: &mut AssignPatProp, ctx: &mut TraverseCtx) {
-        // Handle rest in assignment patterns
-        if !self.pending_rest.is_empty() {
-            if let Some(value) = &prop.value {
-                self.flush_pending_rest(ctx, value);
-            }
+    fn exit_var_decl(&mut self, var_decl: &mut VarDecl, _ctx: &mut TraverseCtx) {
+        // If we have pending rest patterns, add them as new declarators
+        if self.pending_rest.is_empty() {
+            return;
         }
+
+        // Get the init expression from the last declarator
+        let source_expr = match var_decl.decls.last().and_then(|d| d.init.as_ref()) {
+            Some(init) => init.as_ref().clone(),
+            None => {
+                return;
+            }
+        };
+
+        while let Some(pending) = self.pending_rest.pop() {
+            // Create the keys array for _objectWithoutProperties
+            let keys_array = ArrayLit {
+                span: DUMMY_SP,
+                elems: pending
+                    .keys
+                    .iter()
+                    .map(|key| {
+                        #[allow(unreachable_patterns)]
+                        let expr = match key {
+                            PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: ident.sym.clone().into(),
+                                raw: None,
+                            })),
+                            PropName::Str(s) => Expr::Lit(Lit::Str(s.clone())),
+                            PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
+                            PropName::Computed(c) => *c.expr.clone(),
+                            PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                        };
+                        Some(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(expr),
+                        })
+                    })
+                    .collect(),
+            };
+
+            // Create the _object_without_properties call
+            let helper_call = create_helper_call(
+                "_object_without_properties",
+                vec![
+                    ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(source_expr.clone()),
+                    },
+                    ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Array(keys_array)),
+                    },
+                ],
+            );
+
+            // Add as a new declarator in the same VarDecl
+            var_decl.decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: pending.rest_pat,
+                init: Some(Box::new(helper_call)),
+                definite: false,
+            });
+        }
+    }
+
+    fn exit_var_declarators(
+        &mut self,
+        declarators: &mut Vec<VarDeclarator>,
+        _ctx: &mut TraverseCtx,
+    ) {
+        // If we have pending rest patterns, add them as new declarators
+        if self.pending_rest.is_empty() {
+            return;
+        }
+
+        // Get the init expression from the last declarator (the one we just processed)
+        let source_expr = match declarators.last().and_then(|d| d.init.as_ref()) {
+            Some(init) => init.as_ref().clone(),
+            None => {
+                return;
+            }
+        };
+
+        while let Some(pending) = self.pending_rest.pop() {
+            // Create the keys array for _objectWithoutProperties
+            let keys_array = ArrayLit {
+                span: DUMMY_SP,
+                elems: pending
+                    .keys
+                    .iter()
+                    .map(|key| {
+                        #[allow(unreachable_patterns)]
+                        let expr = match key {
+                            PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: ident.sym.clone().into(),
+                                raw: None,
+                            })),
+                            PropName::Str(s) => Expr::Lit(Lit::Str(s.clone())),
+                            PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
+                            PropName::Computed(c) => *c.expr.clone(),
+                            PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                        };
+                        Some(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(expr),
+                        })
+                    })
+                    .collect(),
+            };
+
+            // Create the _object_without_properties call
+            let helper_call = create_helper_call(
+                "_object_without_properties",
+                vec![
+                    ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(source_expr.clone()),
+                    },
+                    ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Array(keys_array)),
+                    },
+                ],
+            );
+
+            // Add as a new declarator in the same VarDecl
+            declarators.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: pending.rest_pat,
+                init: Some(Box::new(helper_call)),
+                definite: false,
+            });
+        }
+    }
+
+    fn exit_assign_pat_prop(&mut self, _prop: &mut AssignPatProp, _ctx: &mut TraverseCtx) {
+        // Assignment patterns with rest are handled via exit_var_declarators
     }
 
     fn exit_assign_expr(&mut self, assign: &mut AssignExpr, ctx: &mut TraverseCtx) {
         // Handle rest in assignment expressions like ({ x, ...rest } = obj)
+        // These need statement injection since they're not in a VarDecl
         if !self.pending_rest.is_empty() {
             self.flush_pending_rest(ctx, &assign.right);
         }
@@ -435,9 +641,9 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     .collect(),
             };
 
-            // Create the _objectWithoutProperties call
+            // Create the _object_without_properties call
             let helper_call = create_helper_call(
-                "objectWithoutProperties",
+                "_object_without_properties",
                 vec![
                     ExprOrSpread {
                         spread: None,
