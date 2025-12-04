@@ -6,8 +6,8 @@ var x = z.x, y = _object_without_properties(z, [
 var x = z[x], y = _object_without_properties(z, [
     _to_property_key(x)
 ]);
-(function(_param) {
-    var x = _param.x, y = _object_without_properties(_param, [
+(function(_0) {
+    var x = _0.x, y = _object_without_properties(_0, [
         "x"
     ]);
 });

@@ -5,8 +5,8 @@ var o = function(r) {
     return c(i, {
         children: r
     });
-}, s = function(_param) {
-    var r = _param.text, tmp = _param.renderText, t = tmp === void 0 ? o : tmp, p = _object_without_properties(_param, [
+}, s = function(_0) {
+    var r = _0.text, tmp = _0.renderText, t = tmp === void 0 ? o : tmp, p = _object_without_properties(_0, [
         "text",
         "renderText"
     ]);

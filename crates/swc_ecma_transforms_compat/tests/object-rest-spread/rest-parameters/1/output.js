@@ -1,3 +1,3 @@
-function a(_param) {
-    var {} = _param, a34 = _extends({}, _param);
+function a(_0) {
+    let {} = _0, a34 = _extends({}, _0);
 }

@@ -88,8 +88,8 @@ var { [computed]: stillNotGreat, [computed2]: soSo } = o, o = _object_without_pr
     computed,
     computed2
 ].map(_to_property_key)), o;
-var noContextualType = (_param)=>{
-    var { aNumber = 12 } = _param, notEmptyObject = _object_without_properties(_param, [
+var noContextualType = (_0)=>{
+    let { aNumber = 12 } = _0, notEmptyObject = _object_without_properties(_0, [
         "aNumber"
     ]);
     return aNumber + notEmptyObject.anythingGoes;
