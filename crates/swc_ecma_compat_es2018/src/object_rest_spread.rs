@@ -16,7 +16,6 @@ pub fn object_rest_spread(config: Config) -> impl Pass {
                 set_property: config.set_property,
                 pure_getters: config.pure_getters,
             }),
-            ..Default::default()
         },
     ))
 }

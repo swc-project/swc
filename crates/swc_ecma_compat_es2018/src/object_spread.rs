@@ -8,6 +8,7 @@ use swc_trace_macro::swc_trace;
 use super::object_rest_spread::Config;
 
 #[derive(Clone, Copy)]
+#[allow(dead_code)]
 pub(super) struct ObjectSpread {
     pub config: Config,
 }

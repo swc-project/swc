@@ -55,6 +55,7 @@ pub(super) struct ObjectRest {
 }
 
 impl ObjectRest {
+    #[allow(dead_code)]
     pub fn new(config: Config) -> Self {
         ObjectRest {
             config,
@@ -65,6 +66,7 @@ impl ObjectRest {
 
 /// Fast-path visitor to check if a node contains object rest patterns.
 #[derive(Default)]
+#[allow(dead_code)]
 struct RestVisitor {
     found: bool,
 }
@@ -825,6 +827,7 @@ impl VisitMut for ObjectRest {
 
 impl ObjectRest {
     /// Flush pending rest operations as var declarations.
+    #[allow(dead_code)]
     fn flush_pending_rest_decls(&mut self, out: &mut Vec<VarDeclarator>, source: &Ident) {
         let mut current_source = source.clone();
 
@@ -884,6 +887,7 @@ impl ObjectRest {
     }
 
     /// Flush pending rest operations as expressions.
+    #[allow(dead_code)]
     fn flush_pending_rest_exprs(&mut self, exprs: &mut Vec<Box<Expr>>, source: &Ident) {
         let mut current_source = source.clone();
 
@@ -980,6 +984,7 @@ impl ObjectRest {
 
     /// Generate rest call: _extends({}, source) if no exclusions,
     /// otherwise _objectWithoutProperties(source, [...keys]).
+    #[allow(dead_code)]
     fn make_rest_call(&self, source: Ident, excluded: &[PropName]) -> Expr {
         // If no keys to exclude, use _extends({}, source) for efficiency
         if excluded.is_empty() {
@@ -1059,6 +1064,7 @@ impl ObjectRest {
     }
 
     /// Transform for-in/for-of loop head.
+    #[allow(dead_code)]
     fn transform_for_loop(&mut self, left: &mut ForHead, body: &mut Box<Stmt>) {
         match left {
             ForHead::VarDecl(var_decl) => {
@@ -1208,6 +1214,7 @@ impl ObjectRest {
 // Utility functions
 // ========================================
 
+#[allow(dead_code)]
 fn collect_idents_from_pat(pat: &Pat, out: &mut Vec<Ident>) {
     match pat {
         Pat::Ident(id) => out.push(id.id.clone()),
@@ -1233,11 +1240,13 @@ fn collect_idents_from_pat(pat: &Pat, out: &mut Vec<Ident>) {
     }
 }
 
+#[allow(dead_code)]
 fn pat_to_assign_target_pat(pat: Pat) -> AssignTargetPat {
     pat.try_into()
         .unwrap_or_else(|p: Pat| AssignTargetPat::Invalid(Invalid { span: p.span() }))
 }
 
+#[allow(dead_code)]
 fn is_lit_str(expr: &Expr) -> bool {
     match expr {
         Expr::Lit(Lit::Str(_)) => true,
@@ -1247,6 +1256,7 @@ fn is_lit_str(expr: &Expr) -> bool {
 }
 
 /// Check if an expression is "pure" (has no side effects).
+#[allow(dead_code)]
 fn is_pure_expr(expr: &Expr) -> bool {
     match expr {
         Expr::Ident(_) | Expr::Lit(_) => true,
