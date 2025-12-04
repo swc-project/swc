@@ -210,14 +210,21 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
         // Transform arrow functions after children have been visited
         if let Expr::Arrow(arrow) = expr {
+            // Check if this arrow needed replacement BEFORE transforming
+            // We need to check the ORIGINAL body (before transformation) to see if it used
+            // this/arguments However, by this point we've already replaced
+            // `this` with `_this` in the body, so we can't reliably detect it.
+            // Instead, we check if this arrow would have incremented the depth
+            // by checking if it uses the saved variables.
+            let should_decrement = self.arrow_depth > 0
+                && (self.has_this_reference(&arrow.body)
+                    || self.has_arguments_reference(&arrow.body));
+
             // Transform the arrow to a regular function
             *expr = self.transform_arrow(arrow);
 
-            // Decrement depth if we're exiting an arrow that was being tracked
-            // Note: We can't check the arrow body here because we've already replaced
-            // `this` with `_this` during traversal. Instead, we rely on the fact that
-            // if arrow_depth > 0, we must be exiting an arrow that incremented it.
-            if self.arrow_depth > 0 {
+            // Decrement depth if this arrow incremented it
+            if should_decrement {
                 self.arrow_depth -= 1;
             }
         }
@@ -449,6 +456,146 @@ impl ArrowFunctionsPass {
                     || alt.as_ref().is_some_and(|s| self.stmt_uses_arguments(s))
             }
             Stmt::Block(BlockStmt { stmts, .. }) => self.stmts_use_arguments(stmts),
+            _ => false,
+        }
+    }
+
+    /// Check if the arrow body has references to the saved _this variable
+    fn has_this_reference(&self, body: &BlockStmtOrExpr) -> bool {
+        match body {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                self.stmts_have_ident_reference(&block.stmts, self.this_var.as_ref())
+            }
+            BlockStmtOrExpr::Expr(expr) => {
+                self.expr_has_ident_reference(expr, self.this_var.as_ref())
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => false,
+        }
+    }
+
+    /// Check if the arrow body has references to the saved _arguments variable
+    fn has_arguments_reference(&self, body: &BlockStmtOrExpr) -> bool {
+        match body {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                self.stmts_have_ident_reference(&block.stmts, self.arguments_var.as_ref())
+            }
+            BlockStmtOrExpr::Expr(expr) => {
+                self.expr_has_ident_reference(expr, self.arguments_var.as_ref())
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => false,
+        }
+    }
+
+    /// Check if statements contain references to a specific identifier
+    fn stmts_have_ident_reference(&self, stmts: &[Stmt], ident: Option<&Ident>) -> bool {
+        let Some(target_ident) = ident else {
+            return false;
+        };
+        stmts
+            .iter()
+            .any(|stmt| self.stmt_has_ident_reference(stmt, target_ident))
+    }
+
+    /// Check if a statement contains references to a specific identifier
+    fn stmt_has_ident_reference(&self, stmt: &Stmt, ident: &Ident) -> bool {
+        match stmt {
+            Stmt::Expr(ExprStmt { expr, .. }) => self.expr_has_ident_reference(expr, Some(ident)),
+            Stmt::Return(ReturnStmt {
+                arg: Some(expr), ..
+            }) => self.expr_has_ident_reference(expr, Some(ident)),
+            Stmt::If(IfStmt {
+                test, cons, alt, ..
+            }) => {
+                self.expr_has_ident_reference(test, Some(ident))
+                    || self.stmt_has_ident_reference(cons, ident)
+                    || alt
+                        .as_ref()
+                        .is_some_and(|s| self.stmt_has_ident_reference(s, ident))
+            }
+            Stmt::Block(BlockStmt { stmts, .. }) => {
+                self.stmts_have_ident_reference(stmts, Some(ident))
+            }
+            _ => false,
+        }
+    }
+
+    /// Check if an expression contains references to a specific identifier
+    /// (recursively)
+    fn expr_has_ident_reference(&self, expr: &Expr, ident: Option<&Ident>) -> bool {
+        let Some(target_ident) = ident else {
+            return false;
+        };
+        match expr {
+            Expr::Ident(id) if id.sym == target_ident.sym && id.ctxt == target_ident.ctxt => true,
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                self.expr_has_ident_reference(obj, Some(target_ident))
+                    || match prop {
+                        MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                            self.expr_has_ident_reference(expr, Some(target_ident))
+                        }
+                        _ => false,
+                    }
+            }
+            Expr::Call(CallExpr { callee, args, .. }) => {
+                if let Callee::Expr(e) = callee {
+                    if self.expr_has_ident_reference(e, Some(target_ident)) {
+                        return true;
+                    }
+                }
+                args.iter()
+                    .any(|arg| self.expr_has_ident_reference(&arg.expr, Some(target_ident)))
+            }
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.expr_has_ident_reference(left, Some(target_ident))
+                    || self.expr_has_ident_reference(right, Some(target_ident))
+            }
+            Expr::Unary(UnaryExpr { arg, .. }) => {
+                self.expr_has_ident_reference(arg, Some(target_ident))
+            }
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                self.expr_has_ident_reference(test, Some(target_ident))
+                    || self.expr_has_ident_reference(cons, Some(target_ident))
+                    || self.expr_has_ident_reference(alt, Some(target_ident))
+            }
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs
+                .iter()
+                .any(|e| self.expr_has_ident_reference(e, Some(target_ident))),
+            Expr::Assign(AssignExpr { left, right, .. }) => {
+                let left_has_ref = match left {
+                    AssignTarget::Simple(SimpleAssignTarget::Member(m)) => {
+                        self.expr_has_ident_reference(&m.obj, Some(target_ident))
+                    }
+                    _ => false,
+                };
+                left_has_ref || self.expr_has_ident_reference(right, Some(target_ident))
+            }
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| {
+                elem.as_ref()
+                    .is_some_and(|e| self.expr_has_ident_reference(&e.expr, Some(target_ident)))
+            }),
+            Expr::Object(ObjectLit { props, .. }) => props.iter().any(|prop| match prop {
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::KeyValue(KeyValueProp { value, .. }) => {
+                        self.expr_has_ident_reference(value, Some(target_ident))
+                    }
+                    Prop::Method(MethodProp {
+                        key: PropName::Computed(ComputedPropName { expr, .. }),
+                        ..
+                    }) => self.expr_has_ident_reference(expr, Some(target_ident)),
+                    _ => false,
+                },
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => {
+                    self.expr_has_ident_reference(expr, Some(target_ident))
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => false,
+            }),
+            // Don't recurse into nested arrows or functions
+            Expr::Arrow(_) | Expr::Fn(_) => false,
             _ => false,
         }
     }
