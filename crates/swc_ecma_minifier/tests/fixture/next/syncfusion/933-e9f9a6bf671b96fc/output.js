@@ -7773,7 +7773,8 @@
      * @param {Element[] | NodeList} elements - The elements which are needed to add / remove classes.
      * @param {string} oldClass
      * - Css class names which are needed to remove. If old classes are need to remove, can give this optional parameter.
-     */ function setCssClass(cssClass, elements, oldClass) {
+     */ function setCssClass(cssClass, elements) {
+                    let oldClass;
                     (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(oldClass) || '' === oldClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, oldClass.split(' ')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(cssClass) || '' === cssClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, cssClass.split(' '));
                 }
                 /**
@@ -7813,7 +7814,8 @@
      * - Boolean value to specify whether to set read only. Setting "True" value enables read only.
      * @param {HTMLInputElement | HTMLTextAreaElement} element
      * - The element which is need to enable read only.
-     */ function setReadonly(isReadonly, element, floatLabelType) {
+     */ function setReadonly(isReadonly, element) {
+                    let floatLabelType;
                     isReadonly ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
                         readonly: ''
                     }) : element.removeAttribute('readonly'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);

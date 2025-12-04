@@ -15928,7 +15928,8 @@
      */ function registerPostUpdate(postUpdateFunc) {
         0 > indexOf(postUpdateFuncs, postUpdateFunc) && postUpdateFunc && postUpdateFuncs.push(postUpdateFunc);
     }
-    function registerAction(actionInfo, eventName, action) {
+    function registerAction(actionInfo, eventName) {
+        let action;
         'function' == typeof eventName && (action = eventName, eventName = '');
         var actionType = isObject$2(actionInfo) ? actionInfo.type : [
             actionInfo,
@@ -33078,7 +33079,7 @@
         });
         group.add(elN), setLargeStyle$1(1, elP, seriesModel), setLargeStyle$1(-1, elN, seriesModel), incremental && (elP.incremental = !0, elN.incremental = !0);
     }
-    function setLargeStyle$1(sign, el, seriesModel, data) {
+    function setLargeStyle$1(sign, el, seriesModel) {
         // TODO put in visual?
         var borderColor = seriesModel.get([
             'itemStyle',
@@ -35529,7 +35530,8 @@
                 });
             }
             return result;
-        }(_a[0], _a[1], 0, Math.PI), isIndividualMorphingPath(toPath) || (toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath), function(morphingPath, morphingData, morphT) {
+        }(_a[0], _a[1], 0, Math.PI), isIndividualMorphingPath(toPath) || (toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath), function(morphingPath, morphingData) {
+            let morphT = 0;
             morphingPath.__morphingData = morphingData, morphingPath.__morphT = morphT;
         }(toPath, morphingData, 0);
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
@@ -36328,13 +36330,15 @@
             txCfgOpt && (stateObj.textConfig = txCfgOpt), setDefaultStateProxy(elDisplayable);
         }
     }
-    function setLagecyTransformProp(elOption, targetProps, legacyName, fromTransformable // If provided, retrieve from the element.
-    ) {
+    function setLagecyTransformProp(elOption, targetProps, legacyName) {
+        let fromTransformable // If provided, retrieve from the element.
+        ;
         var legacyArr = elOption[legacyName], xyName = LEGACY_TRANSFORM_PROPS[legacyName];
         legacyArr && (fromTransformable ? (targetProps[xyName[0]] = fromTransformable[xyName[0]], targetProps[xyName[1]] = fromTransformable[xyName[1]]) : (targetProps[xyName[0]] = legacyArr[0], targetProps[xyName[1]] = legacyArr[1]));
     }
-    function setTransformProp(elOption, allProps, name, fromTransformable // If provided, retrieve from the element.
-    ) {
+    function setTransformProp(elOption, allProps, name) {
+        let fromTransformable // If provided, retrieve from the element.
+        ;
         null != elOption[name] && (allProps[name] = fromTransformable ? fromTransformable[name] : elOption[name]);
     }
     function setTransformPropToTransitionFrom(transitionFrom, name, fromTransformable // If provided, retrieve from the element.

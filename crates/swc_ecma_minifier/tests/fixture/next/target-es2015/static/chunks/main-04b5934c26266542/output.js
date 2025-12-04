@@ -928,7 +928,8 @@
                     throw map.delete(key), err;
                 }) : prom;
             }
-            let canPrefetch = function(link) {
+            let canPrefetch = function() {
+                let link;
                 try {
                     return link = document.createElement("link"), !!window.MSInputMethodContext && !!document.documentMode || link.relList.supports("prefetch");
                 } catch (e) {

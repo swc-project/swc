@@ -18,11 +18,11 @@ function _objectSpread(t) {
         e % 2 ? ownKeys(Object(o), !0).forEach(function(e) {
             !function(e, t, o) {
                 var e1;
-                (e1 = function(e, t) {
+                (e1 = function(e) {
                     if ("object" != _typeof(e) || !e) return e;
                     var o = e[Symbol.toPrimitive];
-                    if (void 0 === o) return ("string" === t ? String : Number)(e);
-                    if (o = o.call(e, t || "default"), "object" != _typeof(o)) return o;
+                    if (void 0 === o) return String(e);
+                    if (o = o.call(e, "string"), "object" != _typeof(o)) return o;
                     throw TypeError("@@toPrimitive must return a primitive value.");
                 }(e1 = t, "string"), (t = "symbol" == _typeof(e1) ? e1 : e1 + "") in e) ? Object.defineProperty(e, t, {
                     value: o,

@@ -1,4 +1,4 @@
-let x = 'asdf', y = "PASS 1";
+let NaN, x = 'asdf', y = "PASS 1";
 switch(x){
     case x:
     default:
@@ -21,7 +21,7 @@ var c = "FAIL";
 switch(0 / 0){
     case 0 / 0:
         break;
-    case void (c = "PASS"):
+    case c = "PASS", NaN:
         c = "FAIL";
 }
 console.log(c);

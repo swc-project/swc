@@ -435,6 +435,26 @@ where
                 self.data.var_or_default(i.to_id()).mark_used_as_callee();
             });
 
+            // Record call site arguments for parameter inlining optimization
+            if let Expr::Ident(callee_ident) = &**callee {
+                // Collect arguments for this call site
+                let mut call_args = Vec::new();
+                for arg in &n.args {
+                    if arg.spread.is_some() {
+                        // Spread arguments prevent parameter inlining
+                        call_args.clear();
+                        break;
+                    }
+                    call_args.push(Some(arg.expr.clone()));
+                }
+
+                // Only record if we have a valid argument list (no spread)
+                if !call_args.is_empty() || n.args.is_empty() {
+                    self.data
+                        .record_call_site_args(callee_ident.to_id(), &call_args);
+                }
+            }
+
             match &**callee {
                 Expr::Fn(callee) => {
                     for (idx, p) in callee.function.params.iter().enumerate() {

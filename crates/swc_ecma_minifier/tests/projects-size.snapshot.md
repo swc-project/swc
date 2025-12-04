@@ -2,7 +2,7 @@
 | --- | --- | --- | --- |
 | angular-1.2.5.js | 757.44 KiB | 101.91 KiB | 37.18 KiB |
 | backbone-1.1.0.js | 59.77 KiB | 18.33 KiB | 6.29 KiB |
-| jquery-1.9.1.js | 309.61 KiB | 90.76 KiB | 32.09 KiB |
+| jquery-1.9.1.js | 309.61 KiB | 90.78 KiB | 32.08 KiB |
 | jquery.mobile-1.4.2.js | 534.38 KiB | 191.23 KiB | 52.60 KiB |
 | mootools-1.4.5.js | 181.36 KiB | 88.54 KiB | 27.48 KiB |
 | react-17.0.1.js | 82.58 KiB | 22.44 KiB | 8.04 KiB |

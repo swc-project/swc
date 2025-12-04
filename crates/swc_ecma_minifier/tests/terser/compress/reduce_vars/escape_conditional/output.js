@@ -1,9 +1,8 @@
-function baz(s) {
-    return s ? foo : bar;
+function baz() {
+    return bar;
 }
-function foo() {}
 function bar() {}
-(function () {
+(function() {
     var thing = baz();
     if (thing !== (thing = baz())) console.log("FAIL");
     else console.log("PASS");

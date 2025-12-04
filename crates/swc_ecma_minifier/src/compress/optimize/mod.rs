@@ -46,6 +46,7 @@ mod iife;
 mod inline;
 mod loops;
 mod ops;
+mod params;
 mod props;
 mod rest_params;
 mod sequences;
@@ -91,6 +92,7 @@ pub(super) fn optimizer<'a>(
         ctx,
         mode,
         functions: Default::default(),
+        inlined_params: Default::default(),
     }
 }
 
@@ -240,6 +242,11 @@ struct Optimizer<'a> {
     mode: &'a dyn Mode,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
+
+    /// Tracks which parameter indices have been inlined for each function.
+    /// Maps function ID to a sorted vector of parameter indices that were
+    /// removed.
+    inlined_params: Box<FxHashMap<Id, Vec<usize>>>,
 }
 
 #[derive(Default)]
@@ -1693,6 +1700,9 @@ impl VisitMut for Optimizer<'_> {
 
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
+
+        // Remove arguments for parameters that have been inlined
+        self.remove_inlined_call_args(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -2110,6 +2120,9 @@ impl VisitMut for Optimizer<'_> {
 
         self.drop_unused_params(&mut f.function.params);
 
+        // Inline parameters that are consistently passed the same constant value
+        self.inline_function_parameters(&mut f.function, &f.ident.to_id());
+
         let ctx = self
             .ctx
             .clone()
@@ -2126,6 +2139,9 @@ impl VisitMut for Optimizer<'_> {
             self.functions
                 .entry(ident.to_id())
                 .or_insert_with(|| FnMetadata::from(&*e.function));
+
+            // Inline parameters for named function expressions
+            self.inline_function_parameters(&mut e.function, &ident.to_id());
         }
 
         if !self.options.keep_fnames {

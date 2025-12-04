@@ -1,0 +1,592 @@
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+
+use super::Optimizer;
+use crate::program_data::{ScopeData, VarUsageInfoFlags};
+
+/// Methods related to parameter inlining optimization.
+impl Optimizer<'_> {
+    /// Inline function parameters that are consistently passed the same
+    /// constant value.
+    ///
+    /// This optimization identifies function parameters where all call sites
+    /// pass the same constant value (including implicit undefined), and
+    /// transforms the function to use a variable declaration instead.
+    ///
+    /// Example:
+    /// ```js
+    /// function complex(foo, fn) {
+    ///     if (Math.random() > 0.5) throw new Error();
+    ///     return fn?.(foo);
+    /// }
+    /// complex("foo");
+    /// complex("bar");
+    /// complex("baz");
+    /// ```
+    /// =>
+    /// ```js
+    /// function complex(foo) {
+    ///     const fn = undefined; // const if not reassigned, let otherwise
+    ///     if (Math.random() > 0.5) throw new Error();
+    ///     return fn?.(foo);
+    /// }
+    /// complex("foo");
+    /// complex("bar");
+    /// complex("baz");
+    /// ```
+    pub(super) fn inline_function_parameters(&mut self, f: &mut Function, fn_id: &Id) {
+        // Skip if optimization is disabled
+        if self.options.inline == 0 && !self.options.reduce_vars {
+            return;
+        }
+
+        // Skip if function uses eval or with statement
+        if let Some(scope_data) = self.data.scopes.get(&f.ctxt) {
+            if scope_data.intersects(ScopeData::HAS_EVAL_CALL | ScopeData::HAS_WITH_STMT) {
+                return;
+            }
+        }
+
+        // Skip if function uses arguments object
+        if let Some(scope_data) = self.data.scopes.get(&f.ctxt) {
+            if scope_data.contains(ScopeData::USED_ARGUMENTS) {
+                return;
+            }
+        }
+
+        // Get usage info for the function
+        let usage = match self.data.vars.get(fn_id) {
+            Some(u) => u,
+            None => return,
+        };
+
+        // Skip if function is exported, reassigned, or inlining is prevented
+        if usage.flags.contains(VarUsageInfoFlags::EXPORTED)
+            || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
+            || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+        {
+            return;
+        }
+
+        // Skip if function is used as a reference/argument (not just called)
+        // Check if the function is used in ways other than being called directly
+        // USED_AS_ARG indicates the function is passed to another function, which means
+        // we don't have visibility into all call sites
+        if usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG) {
+            return;
+        }
+
+        // Get call site arguments
+        let call_sites = match &usage.call_site_args {
+            Some(sites) if !sites.is_empty() => sites,
+            _ => return,
+        };
+
+        // Check if all call sites are known (callee_count should match call_sites
+        // length)
+        if usage.callee_count as usize != call_sites.len() {
+            return;
+        }
+
+        // Analyze each parameter
+        let mut params_to_inline: Vec<(usize, Box<Expr>)> = Vec::new();
+
+        for (param_idx, param) in f.params.iter().enumerate() {
+            // Only handle simple identifier parameters
+            let param_id = match &param.pat {
+                Pat::Ident(ident) => ident.id.to_id(),
+                _ => continue, // Skip destructuring, rest params, etc.
+            };
+
+            // Check if this parameter is shadowed by a function declaration in the body
+            // Function declarations are hoisted and would conflict with the inlined
+            // `let` declaration
+            if self.is_param_shadowed_by_fn_decl(f, &param_id) {
+                continue;
+            }
+
+            // Check if this parameter has the same name as the function itself
+            // This would cause shadowing issues when we create a `let` declaration
+            if param_id == *fn_id {
+                continue;
+            }
+
+            // Collect argument values for this parameter across all call sites
+            // Use Option<Option<Box<Expr>>> to track:
+            // - None = no common value yet established
+            // - Some(None) = all call sites have implicit undefined
+            // - Some(Some(expr)) = all call sites have the same explicit expression
+            let mut common_value: Option<Option<Box<Expr>>> = None;
+            let mut inlinable = true;
+
+            for call_site in call_sites {
+                // Get argument at this position, or None if implicit undefined
+                let arg_value: Option<Box<Expr>> = if param_idx < call_site.len() {
+                    call_site[param_idx].clone()
+                } else {
+                    None // Implicit undefined
+                };
+
+                // Check if this is a safe, constant value to inline
+                if let Some(ref expr) = arg_value {
+                    if !self.is_safe_constant_for_param_inline(expr) {
+                        inlinable = false;
+                        break;
+                    }
+                }
+                // Implicit undefined (None) is always safe to inline
+
+                match &common_value {
+                    None => {
+                        // First call site, establish the common value
+                        common_value = Some(arg_value);
+                    }
+                    Some(existing) => {
+                        // Check if this call site has the same value
+                        if !self.arg_eq(existing, &arg_value) {
+                            inlinable = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // If all call sites pass the same constant value, mark for inlining
+            if inlinable {
+                if let Some(Some(value)) = &common_value {
+                    // Inline the constant value
+                    params_to_inline.push((param_idx, value.clone()));
+                } else if let Some(None) = common_value {
+                    // All call sites have implicit undefined
+                    let undefined_expr = Box::new(Expr::Ident(Ident::new(
+                        "undefined".into(),
+                        DUMMY_SP,
+                        self.ctx.expr_ctx.unresolved_ctxt,
+                    )));
+                    params_to_inline.push((param_idx, undefined_expr));
+                }
+            }
+        }
+
+        // Apply the parameter inlining transformation
+        // Only inline if we can inline a contiguous suffix of parameters to avoid
+        // creating parameter lists with "holes" that might confuse other optimizations
+        if !params_to_inline.is_empty() {
+            // Sort by parameter index to check for contiguity
+            let mut sorted_for_check = params_to_inline.clone();
+            sorted_for_check.sort_by_key(|(idx, _)| *idx);
+
+            // Check if the parameters form a contiguous suffix
+            let mut is_valid_suffix = true;
+            let total_params = f.params.len();
+            let first_inline_idx = sorted_for_check[0].0;
+
+            // Must start at some index and continue to the end
+            if first_inline_idx + sorted_for_check.len() != total_params {
+                is_valid_suffix = false;
+            } else {
+                // Check contiguity
+                for (i, (idx, _)) in sorted_for_check.iter().enumerate() {
+                    if *idx != first_inline_idx + i {
+                        is_valid_suffix = false;
+                        break;
+                    }
+                }
+            }
+
+            if is_valid_suffix {
+                self.apply_param_inlining(f, &params_to_inline, fn_id);
+            }
+        }
+    }
+
+    /// Apply parameter inlining transformation to a function.
+    fn apply_param_inlining(
+        &mut self,
+        f: &mut Function,
+        params_to_inline: &[(usize, Box<Expr>)],
+        fn_id: &Id,
+    ) {
+        // Sort in reverse order to remove from the end first
+        let mut sorted_params = params_to_inline.to_vec();
+        sorted_params.sort_by(|a, b| b.0.cmp(&a.0));
+
+        // Collect variable declarations to add at the beginning of function body
+        let mut var_decls = Vec::new();
+
+        // Track which parameter indices are being inlined (will be sorted)
+        let mut inlined_indices = Vec::new();
+
+        for (param_idx, value) in &sorted_params {
+            inlined_indices.push(*param_idx);
+
+            if let Some(param) = f.params.get(*param_idx) {
+                if let Pat::Ident(ident) = &param.pat {
+                    // Create variable declaration: let paramName = value;
+                    // Always use 'let' to preserve parameter semantics (reassignable)
+                    var_decls.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        span: DUMMY_SP,
+                        ctxt: Default::default(),
+                        kind: VarDeclKind::Let,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(ident.clone()),
+                            init: Some(value.clone()),
+                            definite: false,
+                        }],
+                    }))));
+                }
+            }
+        }
+
+        // Remove parameters (in reverse order)
+        for (param_idx, _) in &sorted_params {
+            f.params.remove(*param_idx);
+        }
+
+        // Add variable declarations to function body
+        if let Some(body) = &mut f.body {
+            var_decls.reverse(); // Reverse to maintain original order
+            var_decls.append(&mut body.stmts);
+            body.stmts = var_decls;
+        }
+
+        // Store the inlined parameter indices for later use when visiting call
+        // sites. Reverse sort to get descending order for efficient removal.
+        inlined_indices.sort_by(|a, b| b.cmp(a));
+        self.inlined_params.insert(fn_id.clone(), inlined_indices);
+
+        self.changed = true;
+        report_change!(
+            "params: Inlined {} parameter(s) for function '{}{:?}'",
+            params_to_inline.len(),
+            fn_id.0,
+            fn_id.1
+        );
+    }
+
+    /// Check if an expression is a safe constant value for parameter inlining.
+    fn is_safe_constant_for_param_inline(&self, expr: &Expr) -> bool {
+        match expr {
+            // Literal values are always safe
+            Expr::Lit(Lit::Null(_))
+            | Expr::Lit(Lit::Bool(_))
+            | Expr::Lit(Lit::Num(_))
+            | Expr::Lit(Lit::Str(_))
+            | Expr::Lit(Lit::BigInt(_)) => true,
+
+            // Only allow unresolved "undefined" identifier
+            // We DO NOT inline variable references because:
+            // 1. It doesn't save code (just moves a reference)
+            // 2. It can interfere with other optimizations
+            // 3. The goal is to inline actual constants, not variable names
+            Expr::Ident(id) => {
+                let is_unresolved = id.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
+                // Only allow unresolved "undefined"
+                is_unresolved && id.sym == "undefined"
+            }
+
+            // Negated or numeric-negated literals
+            Expr::Unary(UnaryExpr {
+                op: UnaryOp::Bang | UnaryOp::Minus,
+                arg,
+                ..
+            }) => self.is_safe_constant_for_param_inline(arg),
+
+            // Parenthesized expressions
+            Expr::Paren(ParenExpr { expr, .. }) => self.is_safe_constant_for_param_inline(expr),
+
+            _ => false,
+        }
+    }
+
+    /// Compare two optional argument values for equality.
+    /// None represents implicit undefined.
+    fn arg_eq(&self, a: &Option<Box<Expr>>, b: &Option<Box<Expr>>) -> bool {
+        match (a, b) {
+            (None, None) => true, // Both implicit undefined
+            (Some(a_expr), Some(b_expr)) => self.expr_eq(a_expr, b_expr),
+            _ => false, // One is implicit undefined, the other is not
+        }
+    }
+
+    /// Compare two expressions for equality (structural equality for simple
+    /// cases).
+    ///
+    /// We cannot use the derived `Eq` trait because:
+    /// 1. NaN handling: We treat NaN as equal to NaN for parameter inlining
+    ///    purposes, whereas standard floating point comparison has NaN != NaN.
+    /// 2. Context-aware identifier comparison: We only consider unresolved
+    ///    "undefined" identifiers as safe to inline, checking the syntax
+    ///    context.
+    fn expr_eq(&self, a: &Expr, b: &Expr) -> bool {
+        match (a, b) {
+            (Expr::Lit(Lit::Null(_)), Expr::Lit(Lit::Null(_))) => true,
+            (Expr::Lit(Lit::Bool(a)), Expr::Lit(Lit::Bool(b))) => a.value == b.value,
+            (Expr::Lit(Lit::Num(a)), Expr::Lit(Lit::Num(b))) => {
+                // Handle NaN specially: treat NaN as equal to NaN for parameter inlining
+                if a.value.is_nan() && b.value.is_nan() {
+                    true
+                } else {
+                    a.value == b.value
+                }
+            }
+            (Expr::Lit(Lit::Str(a)), Expr::Lit(Lit::Str(b))) => a.value == b.value,
+            (Expr::Lit(Lit::BigInt(a)), Expr::Lit(Lit::BigInt(b))) => a.value == b.value,
+            // Compare identifiers: we can compare naively since is_safe_constant_for_param_inline
+            // already validated that only unresolved "undefined" identifiers reach here
+            (Expr::Ident(a), Expr::Ident(b)) => a.sym == b.sym && a.ctxt == b.ctxt,
+            (
+                Expr::Unary(UnaryExpr {
+                    op: op_a,
+                    arg: arg_a,
+                    ..
+                }),
+                Expr::Unary(UnaryExpr {
+                    op: op_b,
+                    arg: arg_b,
+                    ..
+                }),
+            ) if op_a == op_b => self.expr_eq(arg_a, arg_b),
+            (Expr::Paren(ParenExpr { expr: a, .. }), b) => self.expr_eq(a, b),
+            (a, Expr::Paren(ParenExpr { expr: b, .. })) => self.expr_eq(a, b),
+            _ => false,
+        }
+    }
+
+    /// Remove arguments from a call expression that correspond to inlined
+    /// parameters.
+    ///
+    /// This method should be called when visiting a call expression to ensure
+    /// that arguments are removed for parameters that have been inlined.
+    pub(super) fn remove_inlined_call_args(&mut self, call: &mut CallExpr) {
+        // Get the function identifier from the callee
+        let fn_id = match &call.callee {
+            Callee::Expr(expr) => match &**expr {
+                Expr::Ident(ident) => ident.to_id(),
+                _ => return, // Not a simple identifier call
+            },
+            _ => return,
+        };
+
+        // Check if this function has inlined parameters
+        let inlined_indices = match self.inlined_params.get(&fn_id) {
+            Some(indices) if !indices.is_empty() => indices,
+            _ => return,
+        };
+
+        // Remove arguments at the inlined parameter indices
+        // The indices are already sorted in descending order from apply_param_inlining
+        for &idx in inlined_indices {
+            if idx < call.args.len() {
+                call.args.remove(idx);
+                self.changed = true;
+            }
+        }
+
+        if !inlined_indices.is_empty() {
+            report_change!(
+                "params: Removed {} argument(s) from call to '{}{:?}'",
+                inlined_indices.len(),
+                fn_id.0,
+                fn_id.1
+            );
+        }
+    }
+
+    /// Check if a parameter is shadowed by a function declaration in the
+    /// function body.
+    ///
+    /// This prevents inlining parameters that would conflict with hoisted
+    /// function declarations or var declarations. For example:
+    /// ```js
+    /// function f(a) {
+    ///     function a() { ... }
+    /// }
+    /// function g(arg) {
+    ///     if (condition) {
+    ///         var arg = 2; // var is hoisted and shadows parameter
+    ///     }
+    /// }
+    /// ```
+    /// We cannot inline `a` or `arg` as `let a = value` because the
+    /// declarations are hoisted.
+    fn is_param_shadowed_by_fn_decl(&self, f: &Function, param_id: &Id) -> bool {
+        if let Some(body) = &f.body {
+            self.check_stmts_for_shadowing(&body.stmts, param_id)
+        } else {
+            false
+        }
+    }
+
+    /// Recursively check statements for shadowing declarations.
+    fn check_stmts_for_shadowing(&self, stmts: &[Stmt], param_id: &Id) -> bool {
+        for stmt in stmts {
+            match stmt {
+                // Check for function declarations
+                Stmt::Decl(Decl::Fn(fn_decl)) => {
+                    if fn_decl.ident.to_id() == *param_id {
+                        return true;
+                    }
+                }
+                // Check for var declarations (which are hoisted)
+                Stmt::Decl(Decl::Var(var_decl)) if var_decl.kind == VarDeclKind::Var => {
+                    for decl in &var_decl.decls {
+                        if self.check_pat_for_id(&decl.name, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check block statements
+                Stmt::Block(block) => {
+                    if self.check_stmts_for_shadowing(&block.stmts, param_id) {
+                        return true;
+                    }
+                }
+                // Recursively check if statements
+                Stmt::If(if_stmt) => {
+                    if self.check_stmt_for_shadowing(&if_stmt.cons, param_id) {
+                        return true;
+                    }
+                    if let Some(alt) = &if_stmt.alt {
+                        if self.check_stmt_for_shadowing(alt, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check loops
+                Stmt::While(while_stmt) => {
+                    if self.check_stmt_for_shadowing(&while_stmt.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::DoWhile(do_while) => {
+                    if self.check_stmt_for_shadowing(&do_while.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::For(for_stmt) => {
+                    // Check init for var declarations
+                    if let Some(init) = &for_stmt.init {
+                        match init {
+                            VarDeclOrExpr::VarDecl(var_decl)
+                                if var_decl.kind == VarDeclKind::Var =>
+                            {
+                                for decl in &var_decl.decls {
+                                    if self.check_pat_for_id(&decl.name, param_id) {
+                                        return true;
+                                    }
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                    if self.check_stmt_for_shadowing(&for_stmt.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::ForIn(for_in) => {
+                    // Check left side for var declarations
+                    match &for_in.left {
+                        ForHead::VarDecl(var_decl) if var_decl.kind == VarDeclKind::Var => {
+                            for decl in &var_decl.decls {
+                                if self.check_pat_for_id(&decl.name, param_id) {
+                                    return true;
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                    if self.check_stmt_for_shadowing(&for_in.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::ForOf(for_of) => {
+                    // Check left side for var declarations
+                    match &for_of.left {
+                        ForHead::VarDecl(var_decl) if var_decl.kind == VarDeclKind::Var => {
+                            for decl in &var_decl.decls {
+                                if self.check_pat_for_id(&decl.name, param_id) {
+                                    return true;
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                    if self.check_stmt_for_shadowing(&for_of.body, param_id) {
+                        return true;
+                    }
+                }
+                // Recursively check try-catch-finally
+                Stmt::Try(try_stmt) => {
+                    if self.check_stmts_for_shadowing(&try_stmt.block.stmts, param_id) {
+                        return true;
+                    }
+                    if let Some(handler) = &try_stmt.handler {
+                        if self.check_stmts_for_shadowing(&handler.body.stmts, param_id) {
+                            return true;
+                        }
+                    }
+                    if let Some(finalizer) = &try_stmt.finalizer {
+                        if self.check_stmts_for_shadowing(&finalizer.stmts, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check switch statements
+                Stmt::Switch(switch) => {
+                    for case in &switch.cases {
+                        if self.check_stmts_for_shadowing(&case.cons, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check labeled statements
+                Stmt::Labeled(labeled) => {
+                    if self.check_stmt_for_shadowing(&labeled.body, param_id) {
+                        return true;
+                    }
+                }
+                // Recursively check with statements
+                Stmt::With(with) => {
+                    if self.check_stmt_for_shadowing(&with.body, param_id) {
+                        return true;
+                    }
+                }
+                _ => {}
+            }
+        }
+        false
+    }
+
+    /// Helper to check a single statement for shadowing.
+    fn check_stmt_for_shadowing(&self, stmt: &Stmt, param_id: &Id) -> bool {
+        match stmt {
+            Stmt::Block(block) => self.check_stmts_for_shadowing(&block.stmts, param_id),
+            _ => {
+                // For non-block statements, wrap in a slice and check
+                self.check_stmts_for_shadowing(std::slice::from_ref(stmt), param_id)
+            }
+        }
+    }
+
+    /// Check if a pattern contains a specific identifier.
+    fn check_pat_for_id(&self, pat: &Pat, param_id: &Id) -> bool {
+        match pat {
+            Pat::Ident(ident) => ident.id.to_id() == *param_id,
+            Pat::Array(array) => array.elems.iter().any(|elem| {
+                elem.as_ref()
+                    .is_some_and(|e| self.check_pat_for_id(e, param_id))
+            }),
+            Pat::Object(obj) => obj.props.iter().any(|prop| match prop {
+                ObjectPatProp::KeyValue(kv) => self.check_pat_for_id(&kv.value, param_id),
+                ObjectPatProp::Assign(assign) => assign.key.to_id() == *param_id,
+                ObjectPatProp::Rest(rest) => self.check_pat_for_id(&rest.arg, param_id),
+            }),
+            Pat::Rest(rest) => self.check_pat_for_id(&rest.arg, param_id),
+            Pat::Assign(assign) => self.check_pat_for_id(&assign.left, param_id),
+            _ => false,
+        }
+    }
+}

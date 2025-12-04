@@ -50,6 +50,11 @@ pub(crate) struct ProgramData {
 bitflags::bitflags! {
     #[derive(Debug, Clone, Copy)]
     pub(crate) struct VarUsageInfoFlags: u32 {
+        /// `true` if the variable cannot be safely inlined.
+        /// This is set when the variable is used in contexts that prevent
+        /// inlining optimizations, such as being passed to unknown functions,
+        /// used in complex expressions, or accessed in ways that require
+        /// preserving the original variable binding.
         const INLINE_PREVENTED          = 1 << 0;
         /// `false` if it's only used.
         const DECLARED                  = 1 << 1;
@@ -128,6 +133,13 @@ pub(crate) struct VarUsageInfo {
     infects_to: Vec<Access>,
     /// Only **string** properties.
     pub(crate) accessed_props: FxHashMap<Wtf8Atom, u32>,
+
+    /// Tracks call sites for functions. Each inner Vec contains the arguments
+    /// passed at that call site. Used for parameter inlining optimization.
+    /// Arguments are represented as Option<Box<Expr>> where:
+    /// - Some(expr) = explicit argument passed
+    /// - None = implicit undefined (argument not provided)
+    pub(crate) call_site_args: Option<Vec<Vec<Option<Box<Expr>>>>>,
 }
 
 impl Default for VarUsageInfo {
@@ -146,6 +158,7 @@ impl Default for VarUsageInfo {
             callee_count: Default::default(),
             infects_to: Default::default(),
             accessed_props: Default::default(),
+            call_site_args: Default::default(),
         }
     }
 }
@@ -553,6 +566,20 @@ impl Storage for ProgramData {
 
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
         self.vars.get(&id).map(|v| v.as_ref())
+    }
+
+    fn record_call_site_args(&mut self, callee_id: Id, args: &[Option<Box<Expr>>]) {
+        let var = self.vars.entry(callee_id).or_default();
+
+        // Initialize the call_site_args if it doesn't exist
+        if var.call_site_args.is_none() {
+            var.call_site_args = Some(Vec::new());
+        }
+
+        // Add this call site's arguments (cloned from the slice)
+        if let Some(ref mut call_sites) = var.call_site_args {
+            call_sites.push(args.to_vec());
+        }
     }
 }
 

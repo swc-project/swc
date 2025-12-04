@@ -2723,10 +2723,10 @@ function(global, factory) {
                 emitter(this, arguments).end(event);
             }).tween("brush", function() {
                 var that = this, state = that.__brush, emit = emitter(that, arguments), selection0 = state.selection, selection1 = dim.input("function" == typeof selection ? selection.apply(this, arguments) : selection, state.extent), i = interpolate(selection0, selection1);
-                function tween(t) {
-                    state.selection = 1 === t && null === selection1 ? null : i(t), redraw.call(that), emit.brush();
+                function tween() {
+                    state.selection = null === selection1 ? null : i(1), redraw.call(that), emit.brush();
                 }
-                return null !== selection0 && null !== selection1 ? tween : tween(1);
+                return null !== selection0 && null !== selection1 ? tween : tween();
             }) : group.each(function() {
                 var args = arguments, state = this.__brush, selection1 = dim.input("function" == typeof selection ? selection.apply(this, args) : selection, state.extent), emit = emitter(this, args).beforestart();
                 interrupt(this), state.selection = null === selection1 ? null : selection1, redraw.call(this), emit.start().brush().end();
@@ -9746,7 +9746,8 @@ function(global, factory) {
         function step() {
             tick(), event.call("tick", simulation), alpha < alphaMin && (stepper.stop(), event.call("end", simulation));
         }
-        function tick(iterations) {
+        function tick() {
+            let iterations;
             var i, node, n = nodes.length;
             void 0 === iterations && (iterations = 1);
             for(var k = 0; k < iterations; ++k)for(alpha += (alphaTarget - alpha) * alphaDecay, forces.forEach(function(force) {

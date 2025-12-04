@@ -6589,8 +6589,8 @@ function(global, factory) {
         function setFlipSided(flipSided) {
             currentFlipSided !== flipSided && (flipSided ? gl.frontFace(2304) : gl.frontFace(2305), currentFlipSided = flipSided);
         }
-        function setCullFace(cullFace) {
-            0 !== cullFace ? (enable(2884), cullFace !== currentCullFace && (1 === cullFace ? gl.cullFace(1029) : 2 === cullFace ? gl.cullFace(1028) : gl.cullFace(1032))) : disable(2884), currentCullFace = cullFace;
+        function setCullFace() {
+            enable(2884), 1 !== currentCullFace && gl.cullFace(1029), currentCullFace = 1;
         }
         function setPolygonOffset(polygonOffset, factor, units) {
             polygonOffset ? (enable(32823), (currentPolygonOffsetFactor !== factor || currentPolygonOffsetUnits !== units) && (gl.polygonOffset(factor, units), currentPolygonOffsetFactor = factor, currentPolygonOffsetUnits = units)) : disable(32823);

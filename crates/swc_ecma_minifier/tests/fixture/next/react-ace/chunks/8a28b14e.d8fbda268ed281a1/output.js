@@ -156,7 +156,8 @@
                         importCssString(item[0], item[1]);
                     });
                 }
-                function importCssString(cssText, id, target) {
+                function importCssString(cssText, id) {
+                    let target;
                     if ("undefined" != typeof document) {
                         if (cssCache) {
                             if (target) insertPendingStyles();
@@ -1806,9 +1807,9 @@
                 var reportErrorIfPathIsNotConfigured = function() {
                     options.basePath || options.workerPath || options.modePath || options.themePath || Object.keys(options.$moduleUrls).length || (console.error("Unable to infer path to ace from script src,", "use ace.config.set('basePath', 'path') to enable dynamic loading of modes and themes", "or with webpack use ace/webpack-resolver"), reportErrorIfPathIsNotConfigured = function() {});
                 };
-                function init(packaged) {
+                function init() {
                     if (global && global.document) {
-                        options.packaged = packaged || require.packaged || module.packaged || global.define && __webpack_require__.amdD.packaged;
+                        options.packaged = !0;
                         for(var scriptOptions = {}, scriptUrl = "", currentScript = document.currentScript || document._currentScript, scripts = (currentScript && currentScript.ownerDocument || document).getElementsByTagName("script"), i = 0; i < scripts.length; i++){
                             var script = scripts[i], src = script.src || script.getAttribute("src");
                             if (src) {
