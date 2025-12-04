@@ -71,6 +71,8 @@ pub fn hook(unresolved_mark: Mark) -> impl VisitMutHook<TraverseCtx> {
         arguments_var: None,
         in_subclass: false,
         cur_stmt_address: None,
+        scope_stack: Vec::new(),
+        injected_in_current_scope: false,
     }
 }
 
@@ -80,6 +82,18 @@ struct ArrowFunctionsPass {
     arguments_var: Option<Ident>,
     in_subclass: bool,
     cur_stmt_address: Option<*const Stmt>,
+    /// Stack to save state when entering nested scopes
+    scope_stack: Vec<ScopeState>,
+    /// Whether we've already injected bindings for the current scope
+    injected_in_current_scope: bool,
+}
+
+#[derive(Clone)]
+struct ScopeState {
+    this_var: Option<Ident>,
+    arguments_var: Option<Ident>,
+    in_subclass: bool,
+    injected: bool,
 }
 
 impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
@@ -88,12 +102,14 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
     }
 
     fn exit_stmt(&mut self, _stmt: &mut Stmt, ctx: &mut TraverseCtx) {
-        // Inject this/arguments declarations if needed
+        // Inject this/arguments declarations if needed (only once per scope)
         if let Some(stmt_addr) = self.cur_stmt_address {
-            if self.this_var.is_some() || self.arguments_var.is_some() {
+            if !self.injected_in_current_scope
+                && (self.this_var.is_some() || self.arguments_var.is_some())
+            {
                 let mut decls = Vec::new();
 
-                if let Some(this_id) = self.this_var.take() {
+                if let Some(this_id) = &self.this_var {
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(BindingIdent {
@@ -105,7 +121,7 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
                     });
                 }
 
-                if let Some(args_id) = self.arguments_var.take() {
+                if let Some(args_id) = &self.arguments_var {
                     decls.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: Pat::Ident(BindingIdent {
@@ -132,6 +148,7 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
                             ..Default::default()
                         }))),
                     );
+                    self.injected_in_current_scope = true;
                 }
             }
         }
@@ -196,8 +213,25 @@ impl VisitMutHook<TraverseCtx> for ArrowFunctionsPass {
 
     fn enter_function(&mut self, _f: &mut Function, _ctx: &mut TraverseCtx) {
         // Functions create a new scope for `this` and `arguments`
-        // We don't need to track them inside regular functions
-        // The visitor will handle nested arrow functions correctly
+        // Save current state and reset for the new function scope
+        self.scope_stack.push(ScopeState {
+            this_var: self.this_var.take(),
+            arguments_var: self.arguments_var.take(),
+            in_subclass: self.in_subclass,
+            injected: self.injected_in_current_scope,
+        });
+        self.in_subclass = false;
+        self.injected_in_current_scope = false;
+    }
+
+    fn exit_function(&mut self, _f: &mut Function, _ctx: &mut TraverseCtx) {
+        // Restore previous scope state
+        if let Some(state) = self.scope_stack.pop() {
+            self.this_var = state.this_var;
+            self.arguments_var = state.arguments_var;
+            self.in_subclass = state.in_subclass;
+            self.injected_in_current_scope = state.injected;
+        }
     }
 }
 
