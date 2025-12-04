@@ -51,8 +51,11 @@ struct ObjectRestSpreadPass {
     cur_stmt_address: Option<*const Stmt>,
     /// Pending rest patterns that need to be processed
     pending_rest: Vec<PendingRest>,
-    /// Pending variable declarations to inject
-    pending_vars: Vec<VarDeclarator>,
+    /// Pending variable declarations to inject at function body start
+    pending_function_vars: Vec<VarDeclarator>,
+    /// Track pending_rest length at different points for nested pattern
+    /// detection
+    pending_rest_stack: Vec<usize>,
 }
 
 struct PendingRest {
@@ -72,7 +75,8 @@ impl ObjectRestSpreadPass {
             config,
             cur_stmt_address: None,
             pending_rest: Vec::new(),
-            pending_vars: Vec::new(),
+            pending_function_vars: Vec::new(),
+            pending_rest_stack: Vec::new(),
         }
     }
 
@@ -280,6 +284,37 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
     }
 
+    fn enter_key_value_pat_prop(&mut self, _kv: &mut KeyValuePatProp, _ctx: &mut TraverseCtx) {
+        // Track the current length before visiting the value pattern
+        self.pending_rest_stack.push(self.pending_rest.len());
+    }
+
+    fn exit_key_value_pat_prop(&mut self, kv: &mut KeyValuePatProp, _ctx: &mut TraverseCtx) {
+        // Check if the value pattern added any pending rest
+        let prev_len = self.pending_rest_stack.pop().unwrap_or(0);
+
+        if self.pending_rest.len() <= prev_len {
+            return;
+        }
+
+        // The value pattern created a pending rest (nested pattern with rest)
+        // We need to replace it with a temp identifier
+        if let Some(pending) = self.pending_rest.last_mut() {
+            if pending.temp.is_none() {
+                let temp = utils::create_private_ident("_ref");
+                pending.temp = Some(temp.clone());
+
+                // Replace the value with temp, preserving default if it exists
+                if let Pat::Assign(assign_pat) = kv.value.as_mut() {
+                    // Keep the default value, just replace the pattern
+                    assign_pat.left = Box::new(Pat::Ident(temp.into()));
+                } else {
+                    *kv.value = Pat::Ident(temp.into());
+                }
+            }
+        }
+    }
+
     fn exit_var_declarator(&mut self, var_decl: &mut VarDeclarator, ctx: &mut TraverseCtx) {
         // If we have pending rest patterns, flush them
         if !self.pending_rest.is_empty() {
@@ -298,15 +333,122 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
     }
 
-    fn exit_param(&mut self, _param: &mut Param, _ctx: &mut TraverseCtx) {
-        // Handle rest in function parameters
-        // For now, we'll need the function to provide the source
-        // This is a simplified version - the full implementation would be more complex
-        if !self.pending_rest.is_empty() {
-            // In function parameters, we need to use the parameter name as source
-            // This would require more context tracking
-            self.pending_rest.clear();
+    fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx) {
+        if self.pending_function_vars.is_empty() {
+            return;
         }
+
+        // Inject variable declarations at the start of function body
+        if let Some(body) = &mut func.body {
+            let var_stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Const,
+                decls: self.pending_function_vars.drain(..).collect(),
+                ..Default::default()
+            })));
+            body.stmts.insert(0, var_stmt);
+        }
+    }
+
+    fn enter_param(&mut self, _param: &mut Param, _ctx: &mut TraverseCtx) {
+        // For parameters, we need to track and handle them differently
+        // Store the current param pattern to potentially replace it
+        // This is handled in visit_mut_key_value_pat_prop for nested patterns
+    }
+
+    fn exit_param(&mut self, param: &mut Param, _ctx: &mut TraverseCtx) {
+        // If we have pending rest patterns from this parameter
+        if self.pending_rest.is_empty() {
+            return;
+        }
+
+        // Replace parameter with temp identifier and create destructuring statements
+        let temp_ident = utils::create_private_ident("_param");
+
+        // Extract default value if param is AssignPat
+        let (_destructure_pat, default_value) = match &mut param.pat {
+            Pat::Assign(AssignPat { left, right, .. }) => (left.take(), Some(right.take())),
+            pat => (Box::new(pat.take()), None),
+        };
+
+        // For nested patterns that already have temps, we need to destructure them
+        // first Process in reverse order (last pending rest was innermost)
+        while let Some(pending) = self.pending_rest.pop() {
+            let source_expr = if let Some(temp) = &pending.temp {
+                Expr::Ident(temp.clone())
+            } else {
+                Expr::Ident(temp_ident.clone())
+            };
+
+            // First, if this pending has props_pat (not empty), create destructuring for it
+            if !pending.props_pat.props.is_empty() {
+                self.pending_function_vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Object(pending.props_pat.clone()),
+                    init: Some(Box::new(source_expr.clone())),
+                    definite: false,
+                });
+            }
+
+            // Create the keys array for _objectWithoutProperties
+            let keys_array = ArrayLit {
+                span: DUMMY_SP,
+                elems: pending
+                    .keys
+                    .iter()
+                    .map(|key| {
+                        let expr = match key {
+                            PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: ident.sym.clone().into(),
+                                raw: None,
+                            })),
+                            PropName::Str(s) => Expr::Lit(Lit::Str(s.clone())),
+                            PropName::Num(n) => Expr::Lit(Lit::Num(n.clone())),
+                            PropName::Computed(c) => *c.expr.clone(),
+                            PropName::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                        };
+                        Some(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(expr),
+                        })
+                    })
+                    .collect(),
+            };
+
+            // Create the _objectWithoutProperties call
+            let helper_call = create_helper_call(
+                "objectWithoutProperties",
+                vec![
+                    ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(source_expr),
+                    },
+                    ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(Expr::Array(keys_array)),
+                    },
+                ],
+            );
+
+            self.pending_function_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: pending.rest_pat,
+                init: Some(Box::new(helper_call)),
+                definite: false,
+            });
+        }
+
+        // Replace param pattern with temp (and default if it exists)
+        param.pat = if let Some(default) = default_value {
+            Pat::Assign(AssignPat {
+                span: DUMMY_SP,
+                left: Box::new(Pat::Ident(temp_ident.into())),
+                right: default,
+            })
+        } else {
+            Pat::Ident(temp_ident.into())
+        };
     }
 }
 
