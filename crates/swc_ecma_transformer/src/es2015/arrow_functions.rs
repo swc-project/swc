@@ -467,7 +467,7 @@ impl ArrowFunctionsPass {
                 self.stmts_have_ident_reference(&block.stmts, self.this_var.as_ref())
             }
             BlockStmtOrExpr::Expr(expr) => {
-                self.expr_has_ident_reference(expr, self.this_var.as_ref())
+                Self::expr_has_ident_reference(expr, self.this_var.as_ref())
             }
             #[cfg(swc_ast_unknown)]
             _ => false,
@@ -481,7 +481,7 @@ impl ArrowFunctionsPass {
                 self.stmts_have_ident_reference(&block.stmts, self.arguments_var.as_ref())
             }
             BlockStmtOrExpr::Expr(expr) => {
-                self.expr_has_ident_reference(expr, self.arguments_var.as_ref())
+                Self::expr_has_ident_reference(expr, self.arguments_var.as_ref())
             }
             #[cfg(swc_ast_unknown)]
             _ => false,
@@ -501,14 +501,14 @@ impl ArrowFunctionsPass {
     /// Check if a statement contains references to a specific identifier
     fn stmt_has_ident_reference(&self, stmt: &Stmt, ident: &Ident) -> bool {
         match stmt {
-            Stmt::Expr(ExprStmt { expr, .. }) => self.expr_has_ident_reference(expr, Some(ident)),
+            Stmt::Expr(ExprStmt { expr, .. }) => Self::expr_has_ident_reference(expr, Some(ident)),
             Stmt::Return(ReturnStmt {
                 arg: Some(expr), ..
-            }) => self.expr_has_ident_reference(expr, Some(ident)),
+            }) => Self::expr_has_ident_reference(expr, Some(ident)),
             Stmt::If(IfStmt {
                 test, cons, alt, ..
             }) => {
-                self.expr_has_ident_reference(test, Some(ident))
+                Self::expr_has_ident_reference(test, Some(ident))
                     || self.stmt_has_ident_reference(cons, ident)
                     || alt
                         .as_ref()
@@ -523,73 +523,73 @@ impl ArrowFunctionsPass {
 
     /// Check if an expression contains references to a specific identifier
     /// (recursively)
-    fn expr_has_ident_reference(&self, expr: &Expr, ident: Option<&Ident>) -> bool {
+    fn expr_has_ident_reference(expr: &Expr, ident: Option<&Ident>) -> bool {
         let Some(target_ident) = ident else {
             return false;
         };
         match expr {
             Expr::Ident(id) if id.sym == target_ident.sym && id.ctxt == target_ident.ctxt => true,
             Expr::Member(MemberExpr { obj, prop, .. }) => {
-                self.expr_has_ident_reference(obj, Some(target_ident))
+                Self::expr_has_ident_reference(obj, Some(target_ident))
                     || match prop {
                         MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                            self.expr_has_ident_reference(expr, Some(target_ident))
+                            Self::expr_has_ident_reference(expr, Some(target_ident))
                         }
                         _ => false,
                     }
             }
             Expr::Call(CallExpr { callee, args, .. }) => {
                 if let Callee::Expr(e) = callee {
-                    if self.expr_has_ident_reference(e, Some(target_ident)) {
+                    if Self::expr_has_ident_reference(e, Some(target_ident)) {
                         return true;
                     }
                 }
                 args.iter()
-                    .any(|arg| self.expr_has_ident_reference(&arg.expr, Some(target_ident)))
+                    .any(|arg| Self::expr_has_ident_reference(&arg.expr, Some(target_ident)))
             }
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.expr_has_ident_reference(left, Some(target_ident))
-                    || self.expr_has_ident_reference(right, Some(target_ident))
+                Self::expr_has_ident_reference(left, Some(target_ident))
+                    || Self::expr_has_ident_reference(right, Some(target_ident))
             }
             Expr::Unary(UnaryExpr { arg, .. }) => {
-                self.expr_has_ident_reference(arg, Some(target_ident))
+                Self::expr_has_ident_reference(arg, Some(target_ident))
             }
             Expr::Cond(CondExpr {
                 test, cons, alt, ..
             }) => {
-                self.expr_has_ident_reference(test, Some(target_ident))
-                    || self.expr_has_ident_reference(cons, Some(target_ident))
-                    || self.expr_has_ident_reference(alt, Some(target_ident))
+                Self::expr_has_ident_reference(test, Some(target_ident))
+                    || Self::expr_has_ident_reference(cons, Some(target_ident))
+                    || Self::expr_has_ident_reference(alt, Some(target_ident))
             }
             Expr::Seq(SeqExpr { exprs, .. }) => exprs
                 .iter()
-                .any(|e| self.expr_has_ident_reference(e, Some(target_ident))),
+                .any(|e| Self::expr_has_ident_reference(e, Some(target_ident))),
             Expr::Assign(AssignExpr { left, right, .. }) => {
                 let left_has_ref = match left {
                     AssignTarget::Simple(SimpleAssignTarget::Member(m)) => {
-                        self.expr_has_ident_reference(&m.obj, Some(target_ident))
+                        Self::expr_has_ident_reference(&m.obj, Some(target_ident))
                     }
                     _ => false,
                 };
-                left_has_ref || self.expr_has_ident_reference(right, Some(target_ident))
+                left_has_ref || Self::expr_has_ident_reference(right, Some(target_ident))
             }
             Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| {
                 elem.as_ref()
-                    .is_some_and(|e| self.expr_has_ident_reference(&e.expr, Some(target_ident)))
+                    .is_some_and(|e| Self::expr_has_ident_reference(&e.expr, Some(target_ident)))
             }),
             Expr::Object(ObjectLit { props, .. }) => props.iter().any(|prop| match prop {
                 PropOrSpread::Prop(p) => match &**p {
                     Prop::KeyValue(KeyValueProp { value, .. }) => {
-                        self.expr_has_ident_reference(value, Some(target_ident))
+                        Self::expr_has_ident_reference(value, Some(target_ident))
                     }
                     Prop::Method(MethodProp {
                         key: PropName::Computed(ComputedPropName { expr, .. }),
                         ..
-                    }) => self.expr_has_ident_reference(expr, Some(target_ident)),
+                    }) => Self::expr_has_ident_reference(expr, Some(target_ident)),
                     _ => false,
                 },
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => {
-                    self.expr_has_ident_reference(expr, Some(target_ident))
+                    Self::expr_has_ident_reference(expr, Some(target_ident))
                 }
                 #[cfg(swc_ast_unknown)]
                 _ => false,
