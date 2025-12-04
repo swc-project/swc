@@ -314,7 +314,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 // Transform await to yield
                 *expr = if fn_state.is_generator {
                     // For async generators, wrap in helper
-                    let helper_call = create_helper_call("_awaitAsyncGenerator", vec![arg.take()]);
+                    let helper_call = create_helper_call("_awaitAsyncGenerator", vec![*arg.take()]);
                     YieldExpr {
                         span: *span,
                         delegate: false,
@@ -335,9 +335,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 delegate: true,
             }) if fn_state.is_generator => {
                 // Transform yield* in async generators
-                let async_iter = create_helper_call("_asyncIterator", vec![arg.take()]);
-                let delegated =
-                    create_helper_call("_asyncGeneratorDelegate", vec![Box::new(async_iter)]);
+                let async_iter = create_helper_call("_asyncIterator", vec![*arg.take()]);
+                let delegated = create_helper_call("_asyncGeneratorDelegate", vec![async_iter]);
 
                 *expr = YieldExpr {
                     span: *span,
@@ -555,20 +554,20 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ..Default::default()
         };
 
-        let mut init_var_decls = Vec::new();
-        // _iterator = _asyncIterator(iterable)
-        init_var_decls.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: iterator.clone().into(),
-            init: Some(create_helper_call("_asyncIterator", vec![s.right]).into()),
-            definite: false,
-        });
-        init_var_decls.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: step.clone().into(),
-            init: None,
-            definite: false,
-        });
+        let init_var_decls = vec![
+            VarDeclarator {
+                span: DUMMY_SP,
+                name: iterator.clone().into(),
+                init: Some(create_helper_call("_asyncIterator", vec![*s.right]).into()),
+                definite: false,
+            },
+            VarDeclarator {
+                span: DUMMY_SP,
+                name: step.clone().into(),
+                init: None,
+                definite: false,
+            },
+        ];
 
         let for_stmt = ForStmt {
             span: s.span,
@@ -593,7 +592,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 };
 
                 let yield_arg = if is_async_generator {
-                    create_helper_call("_awaitAsyncGenerator", vec![Box::new(iter_next.into())])
+                    create_helper_call("_awaitAsyncGenerator", vec![iter_next.into()])
                 } else {
                     iter_next.into()
                 };
@@ -755,7 +754,7 @@ fn build_finally_block(
                 delegate: false,
                 arg: Some(Box::new(create_helper_call(
                     "_awaitAsyncGenerator",
-                    vec![Box::new(call.into())],
+                    vec![call.into()],
                 ))),
             }
             .into()
@@ -838,7 +837,7 @@ fn build_finally_block(
 }
 
 /// Create a helper function call
-fn create_helper_call(helper_name: &str, args: Vec<Box<Expr>>) -> Expr {
+fn create_helper_call(helper_name: &str, args: Vec<Expr>) -> Expr {
     Expr::Call(CallExpr {
         span: DUMMY_SP,
         ctxt: SyntaxContext::empty(),
@@ -850,7 +849,10 @@ fn create_helper_call(helper_name: &str, args: Vec<Box<Expr>>) -> Expr {
         }))),
         args: args
             .into_iter()
-            .map(|expr| ExprOrSpread { spread: None, expr })
+            .map(|expr| ExprOrSpread {
+                spread: None,
+                expr: Box::new(expr),
+            })
             .collect(),
         type_args: None,
     })
