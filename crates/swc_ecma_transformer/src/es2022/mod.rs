@@ -2,12 +2,15 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::TraverseCtx;
 
+mod class_properties;
 mod class_static_block;
 mod private_property_in_object;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]
 pub struct Es2022Options {
+    pub class_properties: bool,
+
     pub class_static_block: bool,
 
     pub private_property_in_object: bool,
