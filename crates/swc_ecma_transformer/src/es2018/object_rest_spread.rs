@@ -407,7 +407,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
     }
 
-    fn enter_var_decl(&mut self, var_decl: &mut VarDecl, _ctx: &mut TraverseCtx) {}
+    fn enter_var_decl(&mut self, _var_decl: &mut VarDecl, _ctx: &mut TraverseCtx) {}
 
     fn exit_var_declarator(&mut self, var_decl: &mut VarDeclarator, _ctx: &mut TraverseCtx) {
         // Track the init expression for later use in exit_var_declarators
