@@ -111,7 +111,6 @@ impl ObjectRestSpreadPass {
 
         for prop in obj_lit.props.take() {
             #[allow(unreachable_patterns)]
-            #[allow(unreachable_patterns, clippy::unreachable_patterns)]
             match prop {
                 PropOrSpread::Prop(p) => {
                     // Before spread element, may need to wrap
@@ -188,7 +187,6 @@ impl ObjectRestSpreadPass {
             .iter()
             .filter_map(|p| {
                 #[allow(unreachable_patterns)]
-                #[allow(unreachable_patterns, clippy::unreachable_patterns)]
                 match p {
                     ObjectPatProp::KeyValue(kv) => Some(kv.key.clone()),
                     ObjectPatProp::Assign(a) => {
@@ -220,7 +218,7 @@ impl ObjectRestSpreadPass {
                     .iter()
                     .map(|key| {
                         #[allow(unreachable_patterns)]
-                        #[allow(unreachable_patterns, clippy::unreachable_patterns)]
+                        #[allow(unreachable_patterns)]
                         let expr = match key {
                             PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
@@ -412,7 +410,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     .iter()
                     .map(|key| {
                         #[allow(unreachable_patterns)]
-                        #[allow(unreachable_patterns, clippy::unreachable_patterns)]
+                        #[allow(unreachable_patterns)]
                         let expr = match key {
                             PropName::Ident(ident) => Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
