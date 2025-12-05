@@ -24,9 +24,9 @@ suddenly(function(_0) {
             ka: 1
         },
         y: 'noo'
-    } : tmp, nested = (_ref3.z, _object_without_properties(_ref3, [
+    } : tmp, _ref3 = _ref2.x, nested = (_ref3.z, _object_without_properties(_ref3, [
         "z"
-    ])), _ref3 = _ref2.x;
+    ]));
     return _object_without_properties(_ref2, [
         "x"
     ]).y + nested.ka;

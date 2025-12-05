@@ -3,7 +3,7 @@ let nestedrest, complex;
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
-var _ref2, _ref4, o = {
+var _ref4, _ref6, o = {
     a: 1,
     b: 'no'
 }, {} = o;
@@ -32,33 +32,33 @@ var { d: renamed } = o2;
 _object_without_properties(o2, [
     "d"
 ]);
-var { x, n1: { y, n2: { z, n3: _ref } } } = nestedrest, {} = _ref;
-_extends({}, _ref), _object_without_properties(nestedrest, [
+var { x, n1: _ref } = nestedrest, { y, n2: _ref1 } = _ref, { z, n3: _ref2 } = _ref1, {} = _ref2;
+_extends({}, _ref2), _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
-var { x: _ref1, y: other } = complex, { ka } = _ref1;
-_object_without_properties(_ref1, [
+var { x: _ref3 } = complex, { ka } = _ref3, { y: other } = (_object_without_properties(_ref3, [
     "ka"
-]), _object_without_properties(complex, [
+]), complex);
+_object_without_properties(complex, [
     "x",
     "y"
-]), ({ x: _ref2, y: other } = complex), ({ ka } = _ref2), _object_without_properties(_ref2, [
+]), ({ x: _ref4 } = complex), ({ ka } = _ref4), _object_without_properties(_ref4, [
     "ka"
-]), _object_without_properties(complex, [
+]), ({ y: other } = complex), _object_without_properties(complex, [
     "x",
     "y"
 ]);
-var _ref3 = {
+var _ref5 = {
     x: 1,
     y: 2
-}, { x } = _ref3;
-_object_without_properties(_ref3, [
+}, { x } = _ref5;
+_object_without_properties(_ref5, [
     "x"
-]), _ref4 = {
+]), _ref6 = {
     x: 1,
     y: 2
-}, ({ x } = _ref4), _object_without_properties(_ref4, [
+}, ({ x } = _ref6), _object_without_properties(_ref6, [
     "x"
 ]);
 var removable = new class {

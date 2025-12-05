@@ -22,9 +22,9 @@ suddenly((_0)=>{
         y: 'noo'
     }] = [
         _0
-    ], { z = 12 } = _ref2, nested = _object_without_properties(_ref2, [
+    ], { x: _ref2 } = _ref1, { z = 12 } = _ref2, nested = _object_without_properties(_ref2, [
         "z"
-    ]), { x: _ref2 } = _ref1;
+    ]);
     return _object_without_properties(_ref1, [
         "x"
     ]).y + nested.ka;
