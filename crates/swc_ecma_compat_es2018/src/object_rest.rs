@@ -161,6 +161,8 @@ impl<O: RestOutput> RestLowerer<O> {
                     self.lower_object_rest(obj, i, rest_arg, init, mem::take(captured_keys));
                     return;
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
