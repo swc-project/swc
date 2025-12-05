@@ -39,8 +39,8 @@ export default function Home() {
                         lineNumber: 15,
                         columnNumber: 17
                     }, this),
-                    icon.map(function(_param) {
-                        var href = _param.href, linkProps = _object_without_properties(_param, [
+                    icon.map(function(_0) {
+                        var href = _0.href, linkProps = _object_without_properties(_0, [
                             "href"
                         ]);
                         return /*#__PURE__*/ _createElement("link", _object_spread_props(_object_spread({

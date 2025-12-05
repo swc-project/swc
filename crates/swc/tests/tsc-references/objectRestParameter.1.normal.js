@@ -1,46 +1,50 @@
 //// [objectRestParameter.ts]
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
-function cloneAgain(_param) {
-    var { a } = _param, clone = _object_without_properties(_param, [
+function cloneAgain(_0) {
+    let { a } = _0, clone = _object_without_properties(_0, [
         "a"
     ]);
 }
-suddenly((_param)=>{
-    var { x: a } = _param, rest = _object_without_properties(_param, [
+suddenly((_0)=>{
+    let { x: a } = _0, rest = _object_without_properties(_0, [
         "x"
     ]);
     return rest.y;
 });
-suddenly((_param = {
-    x: {
-        z: 1,
-        ka: 1
-    },
-    y: 'noo'
-})=>{
-    var { x: _ref } = _param, { z = 12 } = _ref, nested = _object_without_properties(_ref, [
+suddenly((_0 = void 0)=>{
+    let _ref = [
+        _0
+    ], [_ref1 = {
+        x: {
+            z: 1,
+            ka: 1
+        },
+        y: 'noo'
+    }] = _ref, { x: _ref2 } = _ref1, { z = 12 } = _ref2, nested = _object_without_properties(_ref2, [
         "z"
-    ]), rest = _object_without_properties(_param, [
+    ]), rest = _object_without_properties(_ref1, [
         "x"
     ]);
     return rest.y + nested.ka;
 });
 class C {
-    m(_param) {
-        var { a } = _param, clone = _object_without_properties(_param, [
+    m(_0) {
+        let { a } = _0, clone = _object_without_properties(_0, [
             "a"
         ]);
     // actually, never mind, don't clone
     }
-    set p(_param) {
-        var { a } = _param, clone = _object_without_properties(_param, [
+    set p(_0) {
+        let { a } = _0, clone = _object_without_properties(_0, [
             "a"
         ]);
     // actually, never mind, don't clone
     }
 }
-function foobar(_param = {}) {
-    var { bar = {} } = _param, opts = _object_without_properties(_param, [
+function foobar(_0 = void 0) {
+    let _ref = [
+        _0
+    ], [_ref1 = {}] = _ref, { bar = {} } = _ref1, opts = _object_without_properties(_ref1, [
         "bar"
     ]);
 }

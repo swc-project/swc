@@ -1,3 +1,3 @@
-function foo(_param) {
-    var [_ref] = _param, {} = _ref, bar = _extends({}, _ref);
+function foo(_0) {
+    let [_ref] = _0, {} = _ref, bar = _extends({}, _ref);
 }

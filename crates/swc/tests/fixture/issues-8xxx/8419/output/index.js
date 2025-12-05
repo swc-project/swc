@@ -1,8 +1,8 @@
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_without_properties_loose } from "@swc/helpers/_/_object_without_properties_loose";
 import { jsx as _jsx } from "@emotion/react/jsx-runtime";
-export const SearchLayoutRoot = (_param)=>{
-    var { children, sx } = _param, others = _object_without_properties_loose(_param, [
+export const SearchLayoutRoot = (_0)=>{
+    let { children, sx } = _0, others = _object_without_properties_loose(_0, [
         "children",
         "sx"
     ]);

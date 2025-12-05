@@ -1,5 +1,5 @@
-const fn = (_param)=>{
-    var { a } = _param, otherProps = _object_without_properties(_param, [
+const fn = (_0)=>{
+    let { a } = _0, otherProps = _object_without_properties(_0, [
         "a"
     ]);
     return otherProps;

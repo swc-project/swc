@@ -31,37 +31,37 @@ var { d: renamed } = o2, d = _object_without_properties(o2, [
     "d"
 ]);
 let nestedrest;
-var { x, n1: { y, n2: { z, n3: _ref } } } = nestedrest, {} = _ref, nr = _extends({}, _ref), restrest = _object_without_properties(nestedrest, [
+var { x, n1: _ref } = nestedrest, { y, n2: _ref1 } = _ref, { z, n3: _ref2 } = _ref1, {} = _ref2, nr = _extends({}, _ref2), restrest = _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
 let complex;
-var { x: _ref1, y: other } = complex, { ka } = _ref1, nested = _object_without_properties(_ref1, [
+var { x: _ref3 } = complex, { ka } = _ref3, nested = _object_without_properties(_ref3, [
     "ka"
-]), rest = _object_without_properties(complex, [
+]), { y: other } = complex, rest = _object_without_properties(complex, [
     "x",
     "y"
 ]);
-({ x: _ref2, y: other } = complex), ({ ka } = _ref2), nested = _object_without_properties(_ref2, [
+({ x: _ref4 } = complex), ({ ka } = _ref4), nested = _object_without_properties(_ref4, [
     "ka"
-]), rest = _object_without_properties(complex, [
+]), ({ y: other } = complex), rest = _object_without_properties(complex, [
     "x",
     "y"
 ]), complex;
-var _ref2;
-var _ref3 = {
+var _ref4;
+var _ref5 = {
     x: 1,
     y: 2
-}, { x } = _ref3, fresh = _object_without_properties(_ref3, [
+}, { x } = _ref5, fresh = _object_without_properties(_ref5, [
     "x"
 ]);
-_ref4 = {
+_ref6 = {
     x: 1,
     y: 2
-}, ({ x } = _ref4), fresh = _object_without_properties(_ref4, [
+}, ({ x } = _ref6), fresh = _object_without_properties(_ref6, [
     "x"
-]), _ref4;
-var _ref4;
+]), _ref6;
+var _ref6;
 class Removable {
     set z(value) {}
     get both() {
@@ -88,8 +88,8 @@ var { [computed]: stillNotGreat, [computed2]: soSo } = o, o = _object_without_pr
     computed,
     computed2
 ].map(_to_property_key)), o;
-var noContextualType = (_param)=>{
-    var { aNumber = 12 } = _param, notEmptyObject = _object_without_properties(_param, [
+var noContextualType = (_0)=>{
+    let { aNumber = 12 } = _0, notEmptyObject = _object_without_properties(_0, [
         "aNumber"
     ]);
     return aNumber + notEmptyObject.anythingGoes;

@@ -1,5 +1,5 @@
-const foo = ()=>(_param)=>{
-        var { x } = _param, y = _object_without_properties(_param, [
+const foo = ()=>(_0)=>{
+        let { x } = _0, y = _object_without_properties(_0, [
             "x"
         ]);
         return y;

@@ -11,8 +11,11 @@ function f2(_0) {
 class Sub extends Super {
     m(_0, _1) {
         var _this = this, _superprop_get_foo = ()=>super.foo;
-        return _wrap_async_generator(function*(x, y = z, _param) {
-            var {} = _param, w = _extends({}, _param);
+        return _wrap_async_generator(function*(x, _1 = void 0, _2) {
+            let _ref = [
+                _1,
+                _2
+            ], [y = z, _ref1] = _ref, {} = _ref1, w = _extends({}, _ref1);
             _superprop_get_foo().call(_this);
         }).apply(this, arguments);
     }
