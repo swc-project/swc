@@ -99,7 +99,7 @@ swc_ecma_minifier = { version = "38.0.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "29.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_preset_env = { version = "42.0.0", path = "../swc_ecma_preset_env" }
+swc_ecma_preset_env = { version = "42.0.1", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "41.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
