@@ -103,26 +103,25 @@ impl<O: RestOutput> RestLowerer<O> {
 
     /// Main entry point: lower a pattern with potential object rest.
     // https://github.com/evanw/esbuild/blob/5e0e56d6d62076dfeff47f5227ae5300f91d2b16/internal/js_parser/js_parser_lower.go#L1622
-    fn visit(&mut self, pat: &Pat, init: Box<Expr>) {
+    fn visit(&mut self, pat: Pat, init: Box<Expr>) {
         match pat {
             Pat::Object(obj) => self.visit_object(obj, init, &mut Vec::new()),
             Pat::Array(arr) => self.visit_array(arr, init),
-            _ => self.out.assign(pat.clone(), init),
+            _ => self.out.assign(pat, init),
         }
     }
 
     // https://github.com/evanw/esbuild/blob/5e0e56d6d62076dfeff47f5227ae5300f91d2b16/internal/js_parser/js_parser_lower.go#L1634
     fn visit_object(
         &mut self,
-        obj: &ObjectPat,
+        mut obj: ObjectPat,
         init: Box<Expr>,
         captured_keys: &mut Vec<PropName>,
     ) {
         let has_rest = matches!(obj.props.last(), Some(ObjectPatProp::Rest(_)));
-        let mut props = obj.props.clone();
 
         // Pre-evaluate impure computed keys
-        for prop in &mut props {
+        for prop in &mut obj.props {
             if let ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Computed(computed),
                 ..
@@ -130,21 +129,21 @@ impl<O: RestOutput> RestLowerer<O> {
             {
                 if !is_pure_expr(&computed.expr) {
                     let temp = self.out.declare_temp("_key");
-                    self.out.assign(temp.clone().into(), computed.expr.clone());
+                    self.out.assign(temp.clone().into(), computed.expr.take());
                     computed.expr = Box::new(temp.into());
                 }
             }
         }
 
         // Sequential processing: find first property with nested rest
-        for (i, prop) in props.iter().enumerate() {
-            match prop {
+        for i in 0..obj.props.len() {
+            match &obj.props[i] {
                 ObjectPatProp::KeyValue(kv) => {
                     if has_rest {
                         captured_keys.push(kv.key.clone());
                     }
                     if should_work::<PatternRestVisitor, _>(&kv.value) {
-                        self.split_object_pattern(obj, &props, i, init, captured_keys);
+                        self.split_object_pattern(obj, i, init, captured_keys);
                         return;
                     }
                 }
@@ -153,103 +152,93 @@ impl<O: RestOutput> RestLowerer<O> {
                         captured_keys.push(PropName::Ident(IdentName::from(assign.key.clone())));
                     }
                 }
-                ObjectPatProp::Rest(rest) => {
-                    self.lower_object_rest(obj, &props, i, &rest.arg, init, captured_keys);
+                ObjectPatProp::Rest(_) => {
+                    // Extract rest_arg by taking from props
+                    let rest_arg = match obj.props.pop() {
+                        Some(ObjectPatProp::Rest(rest)) => rest.arg,
+                        _ => unreachable!(),
+                    };
+                    self.lower_object_rest(obj, i, rest_arg, init, mem::take(captured_keys));
                     return;
                 }
             }
         }
 
         // No rest pattern found
-        self.out.assign(
-            ObjectPat {
-                span: obj.span,
-                props,
-                optional: false,
-                type_ann: None,
-            }
-            .into(),
-            init,
-        );
+        self.out.assign(obj.into(), init);
     }
 
     // https://github.com/evanw/esbuild/blob/5e0e56d6d62076dfeff47f5227ae5300f91d2b16/internal/js_parser/js_parser_lower.go#L1563
     fn split_object_pattern(
         &mut self,
-        obj: &ObjectPat,
-        props: &[ObjectPatProp],
+        mut obj: ObjectPat,
         split_idx: usize,
         init: Box<Expr>,
         captured_keys: &mut Vec<PropName>,
     ) {
         let split_ref = self.out.declare_temp("_ref");
 
-        // Build props up to split with temp replacement
-        let mut props_up_to: Vec<_> = props[..=split_idx].to_vec();
-        if let Some(ObjectPatProp::KeyValue(kv)) = props_up_to.last_mut() {
-            kv.value = Box::new(match kv.value.as_ref() {
-                Pat::Assign(assign) => Pat::Assign(AssignPat {
-                    span: DUMMY_SP,
-                    left: Box::new(split_ref.clone().into()),
-                    right: assign.right.clone(),
-                }),
-                _ => split_ref.clone().into(),
-            });
-        }
+        // Split props: take remaining, keep up to split_idx
+        let remaining_props: Vec<_> = obj.props.drain(split_idx + 1..).collect();
+
+        // Extract nested pattern before modifying
+        let nested_pat: Pat = match &mut obj.props[split_idx] {
+            ObjectPatProp::KeyValue(kv) => match kv.value.as_mut() {
+                Pat::Assign(assign) => {
+                    let nested = assign.left.take();
+                    assign.left = Box::new(split_ref.clone().into());
+                    *nested
+                }
+                pat => {
+                    let nested = pat.take();
+                    kv.value = Box::new(split_ref.clone().into());
+                    nested
+                }
+            },
+            _ => unreachable!(),
+        };
 
         // Capture init if there are remaining properties
-        let (destructure_init, after_init) = if split_idx + 1 < props.len() {
+        let (destructure_init, after_init) = if !remaining_props.is_empty() {
             let (obj_ref, init_expr) = self.out.capture_init(init);
             (init_expr, Some(Box::new(Expr::Ident(obj_ref))))
         } else {
             (init, None)
         };
 
+        let span = obj.span;
+
         // Emit destructuring up to split point
-        self.out.assign(
-            ObjectPat {
-                span: obj.span,
-                props: props_up_to,
-                optional: false,
-                type_ann: None,
-            }
-            .into(),
-            destructure_init,
-        );
+        self.out.assign(obj.into(), destructure_init);
 
         // Process nested pattern
-        let nested_pat: &Pat = match &props[split_idx] {
-            ObjectPatProp::KeyValue(kv) => match kv.value.as_ref() {
-                Pat::Assign(assign) => &assign.left,
-                pat => pat,
-            },
-            _ => unreachable!(),
-        };
         self.visit(nested_pat, Box::new(split_ref.into()));
 
         // Continue with remaining properties
         if let Some(after_init) = after_init {
             let remaining = ObjectPat {
-                span: obj.span,
-                props: props[split_idx + 1..].to_vec(),
+                span,
+                props: remaining_props,
                 optional: false,
                 type_ann: None,
             };
-            self.visit_object(&remaining, after_init, captured_keys);
+            self.visit_object(remaining, after_init, captured_keys);
         }
     }
 
     // https://github.com/evanw/esbuild/blob/5e0e56d6d62076dfeff47f5227ae5300f91d2b16/internal/js_parser/js_parser_lower.go#L1488
     fn lower_object_rest(
         &mut self,
-        obj: &ObjectPat,
-        props: &[ObjectPatProp],
+        mut obj: ObjectPat,
         rest_idx: usize,
-        rest_pat: &Pat,
+        rest_pat: Box<Pat>,
         init: Box<Expr>,
-        captured_keys: &[PropName],
+        captured_keys: Vec<PropName>,
     ) {
         let (source, init_expr) = self.out.capture_init(init);
+
+        // Remove rest pattern and beyond
+        obj.props.truncate(rest_idx);
 
         // Emit destructuring for properties before rest.
         // When rest_idx == 0 (only rest pattern, no other props):
@@ -257,99 +246,79 @@ impl<O: RestOutput> RestLowerer<O> {
         //     emit `{} = x` to ensure x is not null/undefined (throws TypeError)
         //   - If captured_keys is non-empty: we already destructured from this source
         //     in a previous split, null check was already done, skip empty pattern
-        if rest_idx > 0 || captured_keys.is_empty() {
-            self.out.assign(
-                ObjectPat {
-                    span: obj.span,
-                    props: props[..rest_idx].to_vec(),
-                    optional: false,
-                    type_ann: None,
-                }
-                .into(),
-                init_expr,
-            );
+        let is_fresh_source = captured_keys.is_empty();
+        if rest_idx > 0 || is_fresh_source {
+            self.out.assign(obj.into(), init_expr);
         }
 
         // Emit rest call
-        let rest_call = make_rest_call(self.config, &source, captured_keys);
-        self.out.assign(rest_pat.clone(), Box::new(rest_call));
+        let rest_call = make_rest_call(self.config, source, captured_keys);
+        self.out.assign(*rest_pat, Box::new(rest_call));
     }
 
     // https://github.com/evanw/esbuild/blob/5e0e56d6d62076dfeff47f5227ae5300f91d2b16/internal/js_parser/js_parser_lower.go#L1624
-    fn visit_array(&mut self, arr: &ArrayPat, init: Box<Expr>) {
-        for (i, elem) in arr.elems.iter().enumerate() {
-            let Some(elem) = elem else { continue };
+    fn visit_array(&mut self, arr: ArrayPat, init: Box<Expr>) {
+        for i in 0..arr.elems.len() {
+            let Some(elem) = &arr.elems[i] else { continue };
             if should_work::<PatternRestVisitor, _>(elem) {
                 self.split_array_pattern(arr, i, init);
                 return;
             }
         }
-        self.out.assign(
-            ArrayPat {
-                span: arr.span,
-                elems: arr.elems.clone(),
-                optional: false,
-                type_ann: None,
-            }
-            .into(),
-            init,
-        );
+        self.out.assign(arr.into(), init);
     }
 
     // https://github.com/evanw/esbuild/blob/5e0e56d6d62076dfeff47f5227ae5300f91d2b16/internal/js_parser/js_parser_lower.go#L1518
-    fn split_array_pattern(&mut self, arr: &ArrayPat, split_idx: usize, init: Box<Expr>) {
+    fn split_array_pattern(&mut self, mut arr: ArrayPat, split_idx: usize, init: Box<Expr>) {
         let split_ref = self.out.declare_temp("_ref");
-        let mut elems_up_to: Vec<_> = arr.elems[..=split_idx].to_vec();
 
-        if let Some(Some(elem)) = elems_up_to.last_mut() {
-            *elem = match elem {
-                Pat::Assign(assign) => Pat::Assign(AssignPat {
-                    span: DUMMY_SP,
-                    left: Box::new(split_ref.clone().into()),
-                    right: assign.right.clone(),
-                }),
-                _ => split_ref.clone().into(),
-            };
-        }
+        // Split: take remaining elements
+        let remaining_elems: Vec<_> = arr.elems.drain(split_idx + 1..).collect();
 
-        let remaining = if split_idx + 1 < arr.elems.len() {
+        // Extract nested pattern and replace with temp
+        let nested_pat: Pat = match arr.elems[split_idx].as_mut() {
+            Some(Pat::Assign(assign)) => {
+                let nested = assign.left.take();
+                assign.left = Box::new(split_ref.clone().into());
+                *nested
+            }
+            Some(pat) => {
+                let nested = pat.take();
+                arr.elems[split_idx] = Some(split_ref.clone().into());
+                nested
+            }
+            None => unreachable!(),
+        };
+
+        // Add rest pattern to capture remaining if needed
+        let remaining = if !remaining_elems.is_empty() {
             let tail_ref = self.out.declare_temp("_rest");
-            elems_up_to.push(Some(Pat::Rest(RestPat {
+            arr.elems.push(Some(Pat::Rest(RestPat {
                 span: DUMMY_SP,
                 arg: Box::new(tail_ref.clone().into()),
                 dot3_token: DUMMY_SP,
                 type_ann: None,
             })));
-            Some((tail_ref, arr.elems[split_idx + 1..].to_vec()))
+            Some((tail_ref, remaining_elems))
         } else {
             None
         };
 
-        self.out.assign(
-            ArrayPat {
-                span: arr.span,
-                elems: elems_up_to,
-                optional: false,
-                type_ann: None,
-            }
-            .into(),
-            init,
-        );
+        let span = arr.span;
+        self.out.assign(arr.into(), init);
 
-        let nested_pat: &Pat = match arr.elems[split_idx].as_ref().unwrap() {
-            Pat::Assign(assign) => &assign.left,
-            pat => pat,
-        };
+        // Process nested pattern
         self.visit(nested_pat, Box::new(split_ref.into()));
 
+        // Continue with remaining elements
         if let Some((tail_ref, remaining_elems)) = remaining {
             let remaining_arr = ArrayPat {
-                span: arr.span,
+                span,
                 elems: remaining_elems,
                 optional: false,
                 type_ann: None,
             };
-            self.visit_array(&remaining_arr, Box::new(tail_ref.into()));
+            self.visit_array(remaining_arr, Box::new(tail_ref.into()));
         }
     }
 }
@@ -404,7 +373,7 @@ impl VisitMut for ObjectRest {
 
             // 6. Use unified lowering
             let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
-            lowerer.visit(&declarator.name, source_init);
+            lowerer.visit(declarator.name.take(), source_init);
             new_decls.extend(lowerer.out.into_decls());
         }
 
@@ -516,7 +485,7 @@ impl VisitMut for ObjectRest {
         clause.param = Some(ref_ident.clone().into());
 
         let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
-        lowerer.visit(&pat, Box::new(ref_ident.into()));
+        lowerer.visit(pat, Box::new(ref_ident.into()));
 
         let stmt: Stmt = VarDecl {
             kind: VarDeclKind::Let,
@@ -593,7 +562,7 @@ impl VisitMut for ObjectRest {
         }
 
         let mut lowerer = RestLowerer::new(self.config, out);
-        lowerer.visit(&inner_pat, Box::new(ref_ident.clone().into()));
+        lowerer.visit(inner_pat, Box::new(ref_ident.clone().into()));
 
         lowerer.out.exprs.push(Box::new(ref_ident.into()));
 
@@ -834,11 +803,11 @@ impl RestOutput for ExprOutput {
     }
 }
 
-fn make_rest_call(config: Config, source: &Ident, excluded: &[PropName]) -> Expr {
+fn make_rest_call(config: Config, source: Ident, excluded: Vec<PropName>) -> Expr {
     if excluded.is_empty() {
         return CallExpr {
             callee: helper!(extends),
-            args: vec![ObjectLit::default().as_arg(), source.clone().as_arg()],
+            args: vec![ObjectLit::default().as_arg(), source.as_arg()],
             ..Default::default()
         }
         .into();
@@ -856,11 +825,11 @@ fn make_rest_call(config: Config, source: &Ident, excluded: &[PropName]) -> Expr
         .count();
 
     let keys: Vec<Option<ExprOrSpread>> = excluded
-        .iter()
+        .into_iter()
         .map(|key| {
             let key_expr = match key {
-                PropName::Ident(id) => Expr::Lit(Lit::Str(id.sym.clone().into())),
-                PropName::Str(s) => Expr::Lit(Lit::Str(s.clone())),
+                PropName::Ident(id) => Expr::Lit(Lit::Str(id.sym.into())),
+                PropName::Str(s) => Expr::Lit(Lit::Str(s)),
                 PropName::Num(n) => Expr::Lit(Lit::Str(Str {
                     span: n.span,
                     value: n.value.to_string().into(),
@@ -868,11 +837,11 @@ fn make_rest_call(config: Config, source: &Ident, excluded: &[PropName]) -> Expr
                 })),
                 PropName::Computed(c) if impure_count == 1 && !is_lit_str(&c.expr) => CallExpr {
                     callee: helper!(to_property_key),
-                    args: vec![(*c.expr).clone().as_arg()],
+                    args: vec![c.expr.as_arg()],
                     ..Default::default()
                 }
                 .into(),
-                PropName::Computed(c) => (*c.expr).clone(),
+                PropName::Computed(c) => *c.expr,
                 PropName::BigInt(b) => Expr::Lit(Lit::Str(Str {
                     span: b.span,
                     value: b.value.to_string().into(),
@@ -903,7 +872,7 @@ fn make_rest_call(config: Config, source: &Ident, excluded: &[PropName]) -> Expr
 
     CallExpr {
         callee: helper,
-        args: vec![source.clone().as_arg(), expr.as_arg()],
+        args: vec![source.as_arg(), expr.as_arg()],
         ..Default::default()
     }
     .into()
@@ -922,7 +891,7 @@ impl ObjectRest {
                 var_decl.decls[0].name = ref_ident.clone().into();
 
                 let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
-                lowerer.visit(&pat, Box::new(ref_ident.into()));
+                lowerer.visit(pat, Box::new(ref_ident.into()));
 
                 let stmt: Stmt = VarDecl {
                     kind: VarDeclKind::Let,
@@ -958,11 +927,10 @@ impl ObjectRest {
                     definite: false,
                 });
 
-                let old_pat = (**pat).clone();
-                **pat = ref_ident.clone().into();
+                let old_pat = mem::replace(&mut **pat, ref_ident.clone().into());
 
                 let mut lowerer = RestLowerer::new(self.config, ExprOutput::new());
-                lowerer.visit(&old_pat, Box::new(ref_ident.clone().into()));
+                lowerer.visit(old_pat, Box::new(ref_ident.clone().into()));
                 lowerer.out.exprs.push(Box::new(ref_ident.into()));
 
                 let (exprs, mut vars) = lowerer.out.into_parts();
