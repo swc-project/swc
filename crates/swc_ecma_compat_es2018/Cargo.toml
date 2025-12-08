@@ -20,6 +20,7 @@ serde                      = { workspace = true, features = ["derive"] }
 swc_common                 = { version = "18.0.1", path = "../swc_common" }
 swc_ecma_ast               = { version = "19.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compat_common     = { version = "27.0.0", path = "../swc_ecma_compat_common" }
+swc_ecma_transformer = { version = "3.1.1", path = "../swc_ecma_transformer" }
 swc_ecma_transforms_base   = { version = "32.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_macros = { version = "1.0.1", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils             = { version = "25.0.0", path = "../swc_ecma_utils" }
