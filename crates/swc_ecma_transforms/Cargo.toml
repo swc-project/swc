@@ -51,7 +51,7 @@ swc_ecma_utils                   = { version = "25.0.0", path = "../swc_ecma_uti
 
 [dev-dependencies]
 par-core = { workspace = true, features = ["chili"] }
-swc_ecma_parser = { version = "29.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "29.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "32.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }

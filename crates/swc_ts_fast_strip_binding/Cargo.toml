@@ -25,4 +25,4 @@ unicode-width       = { workspace = true }
 
 [dev-dependencies]
 serde_json.workspace = true
-swc_ecma_parser = { version = "29.0.0", path = "../../crates/swc_ecma_parser" }
+swc_ecma_parser = { version = "29.0.1", path = "../../crates/swc_ecma_parser" }
