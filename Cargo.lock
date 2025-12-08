@@ -5554,7 +5554,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "50.1.1"
+version = "50.1.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5925,7 +5925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "32.0.0"
+version = "32.0.1"
 dependencies = [
  "serde",
  "swc_common",
@@ -6204,7 +6204,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "42.0.1"
+version = "42.0.2"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6323,7 +6323,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "3.1.0"
+version = "3.1.1"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",

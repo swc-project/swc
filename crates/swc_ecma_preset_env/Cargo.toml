@@ -13,7 +13,7 @@ include = [
 license = { workspace = true }
 name = "swc_ecma_preset_env"
 repository = { workspace = true }
-version = "42.0.1"
+version = "42.0.2"
 
 [lib]
 bench = false
@@ -39,7 +39,7 @@ swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
 swc_common = { version = "18.0.1", path = "../swc_common" }
 swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compiler = { version = "10.0.0", path = "../swc_ecma_compiler" }
-swc_ecma_transformer = { version = "3.1.0", path = "../swc_ecma_transformer" }
+swc_ecma_transformer = { version = "3.1.1", path = "../swc_ecma_transformer" }
 swc_ecma_transforms = { version = "41.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",
