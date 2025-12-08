@@ -12,10 +12,6 @@ pub struct Es2017Options {
     pub async_to_generator: bool,
 }
 
-struct Es2017Context {
-    unresolved_ctxt: SyntaxContext,
-    assumptions: Assumptions,
-}
 
 pub(crate) fn hook(
     options: Es2017Options,
