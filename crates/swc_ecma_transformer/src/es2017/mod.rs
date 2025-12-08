@@ -17,7 +17,7 @@ struct Es2017Context {
     assumptions: Assumptions,
 }
 
-pub fn hook_with_context(
+pub(crate) fn hook(
     options: Es2017Options,
     unresolved_ctxt: SyntaxContext,
     assumptions: Assumptions,
@@ -27,8 +27,4 @@ pub fn hook_with_context(
     } else {
         None
     })
-}
-
-pub fn hook(options: Es2017Options) -> impl VisitMutHook<TraverseCtx> {
-    hook_with_context(options, SyntaxContext::empty(), Assumptions::default())
 }
