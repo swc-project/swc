@@ -1,6 +1,8 @@
 # Changelog
 ## [unreleased]
 
+## [swc_core@v50.1.2] - 2025-12-08
+
 ### Features
 
 
@@ -2575,12 +2577,6 @@
 
 
 - **(es/minifier)** Remove useless to number ([#10308](https://github.com/swc-project/swc/issues/10308)) ([898f170](https://github.com/swc-project/swc/commit/898f17057af46dbc9a10d9e94c638db764733278))
-
-### Miscellaneous Tasks
-
-
-
-- **(deps)** Update actions ([#10222](https://github.com/swc-project/swc/issues/10222)) ([cf33196](https://github.com/swc-project/swc/commit/cf33196160fdcd004e188c33f8f665a4c81263f2))
 
 ### Refactor
 
