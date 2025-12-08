@@ -32,8 +32,6 @@ pub struct TraverseCtx {
 }
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
-    let unresolved_ctxt = options.unresolved_ctxt;
-
     let hook = HookBuilder::new(NoopHook);
 
     let hook = hook.chain_optional(options.typescript.map(crate::typescript::hook));
@@ -46,11 +44,7 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain(crate::es2020::hook(options.env.es2020));
     let hook = hook.chain(crate::es2019::hook(options.env.es2019));
     let hook = hook.chain(crate::es2018::hook(options.env.es2018));
-    let hook = hook.chain(crate::es2017::hook(
-        options.env.es2017,
-        unresolved_ctxt,
-        options.assumptions,
-    ));
+    let hook = hook.chain(crate::es2017::hook(options.env.es2017));
     let hook = hook.chain(crate::es2016::hook(options.env.es2016));
     let hook = hook.chain(crate::es2015::hook(options.env.es2015));
     let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
