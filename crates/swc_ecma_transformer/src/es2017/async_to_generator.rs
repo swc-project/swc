@@ -206,6 +206,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 .into()],
                 ..Default::default()
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let expr = make_fn_ref(&fn_state, vec![], body);
@@ -560,6 +562,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ForHead::UsingDecl(..) => {
                 unreachable!("using declaration must be removed by previous pass")
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         for_loop_body.extend(orig_body);
@@ -879,6 +883,8 @@ fn replace_this_in_block_stmt_or_expr(body: &mut BlockStmtOrExpr, this_var: &Ide
         BlockStmtOrExpr::Expr(expr) => {
             replace_this_in_expr(expr, this_var);
         }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
