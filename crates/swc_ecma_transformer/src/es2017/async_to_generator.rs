@@ -1,6 +1,6 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::{helper, helper_expr};
@@ -12,12 +12,17 @@ use swc_ecma_visit::VisitMutWith;
 
 use crate::TraverseCtx;
 
-pub fn hook(unresolved_mark: Mark) -> impl VisitMutHook<TraverseCtx> {
+pub fn hook(
+    unresolved_ctxt: SyntaxContext,
+    ignore_function_length: bool,
+) -> impl VisitMutHook<TraverseCtx> {
     AsyncToGeneratorPass {
         fn_state: None,
         fn_state_stack: vec![],
         in_subclass: false,
-        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+        in_subclass_stack: vec![],
+        ignore_function_length,
+        unresolved_ctxt,
         this_var: None,
     }
 }
@@ -38,6 +43,8 @@ struct AsyncToGeneratorPass {
     fn_state: Option<FnState>,
     fn_state_stack: Vec<FnState>,
     in_subclass: bool,
+    in_subclass_stack: Vec<bool>,
+    ignore_function_length: bool,
     unresolved_ctxt: SyntaxContext,
     /// The `_this` identifier to use in constructor context
     this_var: Option<Ident>,
@@ -85,17 +92,19 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         let params = if fn_state.use_arguments {
             let mut params = vec![];
 
-            let fn_len = function
-                .params
-                .iter()
-                .filter(|p| !matches!(p.pat, Pat::Assign(..) | Pat::Rest(..)))
-                .count();
-            for i in 0..fn_len {
-                params.push(Param {
-                    pat: private_ident!(format!("_{}", i)).into(),
-                    span: DUMMY_SP,
-                    decorators: vec![],
-                });
+            if !self.ignore_function_length {
+                let fn_len = function
+                    .params
+                    .iter()
+                    .filter(|p| !matches!(p.pat, Pat::Assign(..) | Pat::Rest(..)))
+                    .count();
+                for i in 0..fn_len {
+                    params.push(Param {
+                        pat: private_ident!(format!("_{}", i)).into(),
+                        span: DUMMY_SP,
+                        decorators: vec![],
+                    });
+                }
             }
 
             mem::replace(&mut function.params, params)
@@ -238,11 +247,12 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn enter_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
+        self.in_subclass_stack.push(self.in_subclass);
         self.in_subclass = class.super_class.is_some();
     }
 
-    fn exit_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
-        self.in_subclass = class.super_class.is_some();
+    fn exit_class(&mut self, _class: &mut Class, _ctx: &mut TraverseCtx) {
+        self.in_subclass = self.in_subclass_stack.pop().unwrap_or(false);
     }
 
     fn enter_constructor(&mut self, _constructor: &mut Constructor, _ctx: &mut TraverseCtx) {
@@ -297,13 +307,23 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn enter_getter_prop(&mut self, _f: &mut GetterProp, _ctx: &mut TraverseCtx) {
-        let fn_state = self.fn_state.take();
-        self.fn_state = fn_state;
+        if let Some(prev) = self.fn_state.take() {
+            self.fn_state_stack.push(prev);
+        }
+    }
+
+    fn exit_getter_prop(&mut self, _f: &mut GetterProp, _ctx: &mut TraverseCtx) {
+        self.fn_state = self.fn_state_stack.pop();
     }
 
     fn enter_setter_prop(&mut self, _f: &mut SetterProp, _ctx: &mut TraverseCtx) {
-        let fn_state = self.fn_state.take();
-        self.fn_state = fn_state;
+        if let Some(prev) = self.fn_state.take() {
+            self.fn_state_stack.push(prev);
+        }
+    }
+
+    fn exit_setter_prop(&mut self, _f: &mut SetterProp, _ctx: &mut TraverseCtx) {
+        self.fn_state = self.fn_state_stack.pop();
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
