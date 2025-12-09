@@ -28,6 +28,8 @@ struct FnState {
     use_this: bool,
     use_arguments: bool,
     use_super: bool,
+    /// True if this function is in a constructor body (not nested in another function)
+    in_constructor: bool,
 }
 
 struct AsyncToGeneratorPass {
@@ -147,7 +149,9 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         let parent_fn_state = self.fn_state_stack.pop();
 
         // `this`/`arguments`/`super` are inherited from the parent function
-        if let Some(out_fn_state) = &mut parent_fn_state.as_ref() {
+        // If arrow is in a constructor and uses `this`, we need to propagate it
+        // to use the _this variable pattern at the constructor level
+        if let Some(out_fn_state) = &parent_fn_state {
             let mut updated = out_fn_state.clone();
             updated.use_this |= fn_state.use_this;
             updated.use_arguments |= fn_state.use_arguments;
@@ -156,11 +160,17 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
 
         let mut stmts = vec![];
-        if fn_state.use_super {
-            // slow path
+        // When using `super`, or in constructor context with `this`, we need to hoist
+        if fn_state.use_super || (fn_state.in_constructor && fn_state.use_this) {
+            // slow path - hoist this/super references
             let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
-            fn_env_hoister.disable_this();
-            fn_env_hoister.disable_arguments();
+
+            if fn_state.use_super {
+                fn_env_hoister.disable_this();
+                fn_env_hoister.disable_arguments();
+            }
+            // Note: when in_constructor && use_this, we let FnEnvHoister replace
+            // `this` with `_this` in the arrow body
 
             arrow_expr.body.visit_mut_with(&mut fn_env_hoister);
 
@@ -183,7 +193,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
         let expr = make_fn_ref(&fn_state, vec![], body);
 
-        arrow_expr.body = if fn_state.use_super {
+        arrow_expr.body = if fn_state.use_super || (fn_state.in_constructor && fn_state.use_this) {
             stmts.push(expr.into_stmt());
             BlockStmtOrExpr::BlockStmt(BlockStmt {
                 stmts,
@@ -201,6 +211,12 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
 
         // Save the current fn_state to stack before entering nested arrow function
+        let in_constructor = self
+            .fn_state
+            .as_ref()
+            .map(|s| s.in_constructor)
+            .unwrap_or(false);
+
         if let Some(prev) = self.fn_state.take() {
             self.fn_state_stack.push(prev);
         }
@@ -208,36 +224,60 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         self.fn_state = Some(FnState {
             is_async: true,
             is_generator: false,
+            in_constructor,
             ..Default::default()
         });
     }
 
     fn enter_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
-        let in_subclass = mem::replace(&mut self.in_subclass, class.super_class.is_some());
-        self.in_subclass = in_subclass;
+        self.in_subclass = class.super_class.is_some();
     }
 
     fn exit_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
         self.in_subclass = class.super_class.is_some();
     }
 
-    fn enter_constructor(&mut self, constructor: &mut Constructor, _ctx: &mut TraverseCtx) {
-        if let Some(BlockStmt { stmts, .. }) = &mut constructor.body {
-            let (decl, this_id) = if self.in_subclass {
-                let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
-                stmts.visit_mut_with(&mut fn_env_hoister);
-                fn_env_hoister.to_stmt_in_subclass()
-            } else {
-                (None, None)
-            };
-
-            if let Some(this_id) = this_id {
-                init_this(stmts, &this_id)
+    fn enter_constructor(&mut self, _constructor: &mut Constructor, _ctx: &mut TraverseCtx) {
+        // Mark that we're in a constructor for nested async arrows
+        if self.in_subclass {
+            // Save the current fn_state to stack
+            if let Some(prev) = self.fn_state.take() {
+                self.fn_state_stack.push(prev);
             }
 
-            if let Some(decl) = decl {
-                prepend_stmt(stmts, decl)
+            self.fn_state = Some(FnState {
+                in_constructor: true,
+                ..Default::default()
+            });
+        }
+    }
+
+    fn exit_constructor(&mut self, constructor: &mut Constructor, _ctx: &mut TraverseCtx) {
+        if self.in_subclass {
+            let fn_state = self.fn_state.take();
+
+            // If any async arrows used `this`, we need to hoist it
+            if let Some(BlockStmt { stmts, .. }) = &mut constructor.body {
+                if let Some(fn_state) = &fn_state {
+                    if fn_state.use_this {
+                        let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
+                        stmts.visit_mut_with(&mut fn_env_hoister);
+
+                        let (decl, this_id) = fn_env_hoister.to_stmt_in_subclass();
+
+                        if let Some(this_id) = this_id {
+                            init_this(stmts, &this_id)
+                        }
+
+                        if let Some(decl) = decl {
+                            prepend_stmt(stmts, decl)
+                        }
+                    }
+                }
             }
+
+            // Restore the previous fn_state from stack
+            self.fn_state = self.fn_state_stack.pop();
         }
     }
 
@@ -361,8 +401,10 @@ fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr 
         call_async
             .make_member(quote_ident!("apply"))
             .as_call(DUMMY_SP, vec![this.as_arg(), arguments.as_arg()])
-    } else if fn_state.use_this {
+    } else if fn_state.use_this && !fn_state.in_constructor {
         // fn.call(this)
+        // Note: in constructor context, we don't use .call(this) because
+        // FnEnvHoister has already replaced `this` with `_this`
         call_async
             .make_member(quote_ident!("call"))
             .as_call(DUMMY_SP, vec![this.as_arg()])
