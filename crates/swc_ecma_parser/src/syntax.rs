@@ -177,7 +177,9 @@ pub struct TsSyntax {
     pub dts: bool,
 
     #[serde(default)]
-    /// Unwrap parenthesized expression in parser
+    /// When enabled, the parser will not create ParenExpr nodes for parenthesized expressions.
+    /// Instead, it returns the inner expression directly. This aligns with the ESTree spec,
+    /// which does not have a ParenthesizedExpression type.
     pub no_paren: bool,
 
     #[serde(skip, default)]
