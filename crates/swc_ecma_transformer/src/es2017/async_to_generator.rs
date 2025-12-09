@@ -18,6 +18,7 @@ pub fn hook(unresolved_mark: Mark) -> impl VisitMutHook<TraverseCtx> {
         fn_state_stack: vec![],
         in_subclass: false,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+        this_var: None,
     }
 }
 
@@ -28,7 +29,8 @@ struct FnState {
     use_this: bool,
     use_arguments: bool,
     use_super: bool,
-    /// True if this function is in a constructor body (not nested in another function)
+    /// True if this function is in a constructor body (not nested in another
+    /// function)
     in_constructor: bool,
 }
 
@@ -37,6 +39,8 @@ struct AsyncToGeneratorPass {
     fn_state_stack: Vec<FnState>,
     in_subclass: bool,
     unresolved_ctxt: SyntaxContext,
+    /// The `_this` identifier to use in constructor context
+    this_var: Option<Ident>,
 }
 
 impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
@@ -160,21 +164,25 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
 
         let mut stmts = vec![];
-        // When using `super`, or in constructor context with `this`, we need to hoist
-        if fn_state.use_super || (fn_state.in_constructor && fn_state.use_this) {
-            // slow path - hoist this/super references
+        // When using `super`, we need to hoist
+        if fn_state.use_super {
+            // slow path - hoist super references
             let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
-
-            if fn_state.use_super {
-                fn_env_hoister.disable_this();
-                fn_env_hoister.disable_arguments();
-            }
-            // Note: when in_constructor && use_this, we let FnEnvHoister replace
-            // `this` with `_this` in the arrow body
+            fn_env_hoister.disable_this();
+            fn_env_hoister.disable_arguments();
 
             arrow_expr.body.visit_mut_with(&mut fn_env_hoister);
 
             stmts.extend(fn_env_hoister.to_stmt());
+        }
+
+        // In constructor context with `this`, replace `this` with `_this`
+        if fn_state.in_constructor && fn_state.use_this {
+            if self.this_var.is_none() {
+                self.this_var = Some(private_ident!("_this"));
+            }
+            let this_var = self.this_var.clone().unwrap();
+            replace_this_in_block_stmt_or_expr(&mut arrow_expr.body, &this_var);
         }
 
         arrow_expr.is_async = false;
@@ -193,7 +201,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
         let expr = make_fn_ref(&fn_state, vec![], body);
 
-        arrow_expr.body = if fn_state.use_super || (fn_state.in_constructor && fn_state.use_this) {
+        arrow_expr.body = if fn_state.use_super {
             stmts.push(expr.into_stmt());
             BlockStmtOrExpr::BlockStmt(BlockStmt {
                 stmts,
@@ -256,22 +264,29 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         if self.in_subclass {
             let fn_state = self.fn_state.take();
 
-            // If any async arrows used `this`, we need to hoist it
+            // If any async arrows used `this`, we need to add var _this and _this = this
             if let Some(BlockStmt { stmts, .. }) = &mut constructor.body {
                 if let Some(fn_state) = &fn_state {
                     if fn_state.use_this {
-                        let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
-                        stmts.visit_mut_with(&mut fn_env_hoister);
+                        let this_var = self.this_var.take().unwrap();
 
-                        let (decl, this_id) = fn_env_hoister.to_stmt_in_subclass();
+                        // Add `_this = this` after super() call
+                        init_this(stmts, &this_var);
 
-                        if let Some(this_id) = this_id {
-                            init_this(stmts, &this_id)
-                        }
-
-                        if let Some(decl) = decl {
-                            prepend_stmt(stmts, decl)
-                        }
+                        // Add `var _this;` at the beginning
+                        let decl = VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: this_var.into(),
+                                init: None,
+                                definite: false,
+                            }],
+                            ctxt: Default::default(),
+                            declare: false,
+                        };
+                        prepend_stmt(stmts, decl.into());
                     }
                 }
             }
@@ -832,4 +847,114 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         ..Default::default()
     }
     .into()
+}
+
+/// Replace all `this` expressions with the given identifier in a
+/// BlockStmtOrExpr
+fn replace_this_in_block_stmt_or_expr(body: &mut BlockStmtOrExpr, this_var: &Ident) {
+    match body {
+        BlockStmtOrExpr::BlockStmt(block) => {
+            replace_this_in_stmts(&mut block.stmts, this_var);
+        }
+        BlockStmtOrExpr::Expr(expr) => {
+            replace_this_in_expr(expr, this_var);
+        }
+    }
+}
+
+fn replace_this_in_stmts(stmts: &mut [Stmt], this_var: &Ident) {
+    for stmt in stmts {
+        replace_this_in_stmt(stmt, this_var);
+    }
+}
+
+fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
+    match stmt {
+        Stmt::Block(block) => {
+            replace_this_in_stmts(&mut block.stmts, this_var);
+        }
+        Stmt::If(if_stmt) => {
+            replace_this_in_expr(&mut if_stmt.test, this_var);
+            replace_this_in_stmt(&mut if_stmt.cons, this_var);
+            if let Some(alt) = &mut if_stmt.alt {
+                replace_this_in_stmt(alt, this_var);
+            }
+        }
+        Stmt::Return(ret) => {
+            if let Some(arg) = &mut ret.arg {
+                replace_this_in_expr(arg, this_var);
+            }
+        }
+        Stmt::Expr(expr_stmt) => {
+            replace_this_in_expr(&mut expr_stmt.expr, this_var);
+        }
+        Stmt::Decl(decl) => {
+            if let Decl::Var(var_decl) = decl {
+                for decl in &mut var_decl.decls {
+                    if let Some(init) = &mut decl.init {
+                        replace_this_in_expr(init, this_var);
+                    }
+                }
+            }
+        }
+        _ => {}
+    }
+}
+
+fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
+    match expr {
+        Expr::This(_) => {
+            *expr = Expr::Ident(this_var.clone());
+        }
+        Expr::Member(member) => {
+            replace_this_in_expr(&mut member.obj, this_var);
+        }
+        Expr::Call(call) => {
+            match &mut call.callee {
+                Callee::Expr(expr) => replace_this_in_expr(expr, this_var),
+                _ => {}
+            }
+            for arg in &mut call.args {
+                replace_this_in_expr(&mut arg.expr, this_var);
+            }
+        }
+        Expr::Bin(bin) => {
+            replace_this_in_expr(&mut bin.left, this_var);
+            replace_this_in_expr(&mut bin.right, this_var);
+        }
+        Expr::Unary(unary) => {
+            replace_this_in_expr(&mut unary.arg, this_var);
+        }
+        Expr::Await(await_expr) => {
+            replace_this_in_expr(&mut await_expr.arg, this_var);
+        }
+        Expr::Yield(yield_expr) => {
+            if let Some(arg) = &mut yield_expr.arg {
+                replace_this_in_expr(arg, this_var);
+            }
+        }
+        Expr::Assign(assign) => {
+            if let AssignTarget::Simple(SimpleAssignTarget::Member(member)) = &mut assign.left {
+                replace_this_in_member_expr(member, this_var);
+            }
+            replace_this_in_expr(&mut assign.right, this_var);
+        }
+        Expr::Paren(paren) => {
+            replace_this_in_expr(&mut paren.expr, this_var);
+        }
+        Expr::Seq(seq) => {
+            for expr in &mut seq.exprs {
+                replace_this_in_expr(expr, this_var);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn replace_this_in_member_expr(member: &mut MemberExpr, this_var: &Ident) {
+    replace_this_in_expr(&mut member.obj, this_var);
+}
+
+fn replace_this_in_expr_or_spread(expr: &mut ExprOrSpread, this_var: &Ident) {
+    replace_this_in_expr(&mut expr.expr, this_var);
 }
