@@ -2416,6 +2416,11 @@ impl<I: Tokens> Parser<I> {
                 } => syntax_error!(self, expr.span(), SyntaxError::SpreadInParenExpr),
                 ExprOrSpread { expr, .. } => expr,
             };
+
+            if self.syntax().no_paren() {
+                return Ok(expr);
+            }
+
             Ok(ParenExpr {
                 span: self.span(expr_start),
                 expr,
@@ -2445,6 +2450,11 @@ impl<I: Tokens> Parser<I> {
                 exprs,
             }
             .into();
+
+            if self.syntax().no_paren() {
+                return Ok(seq_expr);
+            }
+
             Ok(ParenExpr {
                 span: self.span(expr_start),
                 expr: seq_expr,

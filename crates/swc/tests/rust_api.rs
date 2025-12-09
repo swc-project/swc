@@ -130,6 +130,7 @@ fn shopify_2_same_opt() {
                         tsx: true,
                         decorators: false,
                         dts: false,
+                        no_paren: false,
                         no_early_errors: false,
                         disallow_ambiguous_jsx_like: false,
                     })),
