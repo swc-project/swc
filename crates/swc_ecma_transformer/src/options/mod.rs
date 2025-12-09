@@ -2,10 +2,20 @@ use swc_common::SyntaxContext;
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
 pub use crate::{
-    bugfix::BugfixOptions, decorators::DecoratorOptions, es2015::Es2015Options,
-    es2016::Es2016Options, es2017::Es2017Options, es2018::Es2018Options, es2019::Es2019Options,
-    es2020::Es2020Options, es2021::Es2021Options, es2022::Es2022Options, es2026::Es2026Options,
-    jsx::JsxOptions, regexp::RegExpOptions, typescript::TypescriptOptions,
+    bugfix::BugfixOptions,
+    decorators::DecoratorOptions,
+    es2015::Es2015Options,
+    es2016::Es2016Options,
+    es2017::Es2017Options,
+    es2018::{object_rest_spread, Es2018Options},
+    es2019::Es2019Options,
+    es2020::Es2020Options,
+    es2021::Es2021Options,
+    es2022::Es2022Options,
+    es2026::Es2026Options,
+    jsx::JsxOptions,
+    regexp::RegExpOptions,
+    typescript::TypescriptOptions,
 };
 
 #[derive(Debug, Default)]
