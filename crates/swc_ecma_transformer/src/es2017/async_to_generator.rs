@@ -3,15 +3,12 @@ use std::mem;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_transforms_base::{
-    helper, helper_expr,
-    perf::{should_work, Check},
-};
+use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::VisitMutWith;
 
 use crate::TraverseCtx;
 
@@ -226,10 +223,6 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
     fn enter_constructor(&mut self, constructor: &mut Constructor, _ctx: &mut TraverseCtx) {
         if let Some(BlockStmt { stmts, .. }) = &mut constructor.body {
-            if !should_work::<ShouldWork, _>(&*stmts) {
-                return;
-            }
-
             let (decl, this_id) = if self.in_subclass {
                 let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
                 stmts.visit_mut_with(&mut fn_env_hoister);
@@ -259,12 +252,6 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
-        if self.fn_state.as_ref().is_some_and(|f| !f.is_async)
-            && !should_work::<ShouldWork, _>(&*expr)
-        {
-            return;
-        }
-
         let Some(fn_state @ FnState { is_async: true, .. }) = &mut self.fn_state else {
             return;
         };
@@ -325,12 +312,6 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn exit_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        if self.fn_state.as_ref().is_some_and(|f| !f.is_async)
-            && !should_work::<ShouldWork, _>(&*stmt)
-        {
-            return;
-        }
-
         if let Some(FnState {
             is_async: true,
             is_generator,
@@ -418,37 +399,6 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
     }
 
     false
-}
-
-#[derive(Default)]
-struct ShouldWork {
-    found: bool,
-}
-
-impl Visit for ShouldWork {
-    noop_visit_type!(fail);
-
-    fn visit_function(&mut self, f: &Function) {
-        if f.is_async {
-            self.found = true;
-            return;
-        }
-        f.visit_children_with(self);
-    }
-
-    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
-        if f.is_async {
-            self.found = true;
-            return;
-        }
-        f.visit_children_with(self);
-    }
-}
-
-impl Check for ShouldWork {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
 }
 
 #[tracing::instrument(level = "debug", skip_all)]
