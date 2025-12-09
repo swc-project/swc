@@ -908,12 +908,10 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
         Stmt::Expr(expr_stmt) => {
             replace_this_in_expr(&mut expr_stmt.expr, this_var);
         }
-        Stmt::Decl(decl) => {
-            if let Decl::Var(var_decl) = decl {
-                for decl in &mut var_decl.decls {
-                    if let Some(init) = &mut decl.init {
-                        replace_this_in_expr(init, this_var);
-                    }
+        Stmt::Decl(Decl::Var(var_decl)) => {
+            for decl in &mut var_decl.decls {
+                if let Some(init) = &mut decl.init {
+                    replace_this_in_expr(init, this_var);
                 }
             }
         }
@@ -930,9 +928,8 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
             replace_this_in_expr(&mut member.obj, this_var);
         }
         Expr::Call(call) => {
-            match &mut call.callee {
-                Callee::Expr(expr) => replace_this_in_expr(expr, this_var),
-                _ => {}
+            if let Callee::Expr(expr) = &mut call.callee {
+                replace_this_in_expr(expr, this_var)
             }
             for arg in &mut call.args {
                 replace_this_in_expr(&mut arg.expr, this_var);
