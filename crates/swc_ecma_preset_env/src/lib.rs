@@ -16,8 +16,6 @@ use swc_ecma_transforms::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2018, es2020, es2022, es3,
-        es2017, es2018, es2020, es2022, es3,
         es2020, es2022, es3,
     },
     Assumptions,
