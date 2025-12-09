@@ -16,6 +16,6 @@ export var CompanyBgStore = function CompanyBgStore() {
                     2
                 ];
             });
-        })();
+        }).call(_this);
     });
 };
