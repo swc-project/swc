@@ -202,7 +202,7 @@ where
     );
 
     if !caniuse(Feature::AsyncToGenerator) {
-        options.env.es2017.async_to_generator = true;
+        options.env.es2017.async_to_generator = Some(unresolved_mark);
     }
 
     // ES2016

@@ -27,7 +27,7 @@ pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Pass {
 
     options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     options.assumptions.ignore_function_length = c.ignore_function_length;
-    options.env.es2017.async_to_generator = true;
+    options.env.es2017.async_to_generator = Some(unresolved_mark);
 
     options.into_pass()
 }
