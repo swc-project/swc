@@ -309,6 +309,63 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
     }
 
+    // Object Rest: Transform class (manually handle methods)
+    fn exit_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
+        for member in &mut class.body {
+            match member {
+                ClassMember::Method(method) => {
+                    let Some(body) = &mut method.function.body else {
+                        continue;
+                    };
+
+                    if should_work::<RestVisitor, _>(&method.function.params) {
+                        let mut collector = ParamCollector::new(self.config);
+
+                        for (index, param) in method
+                            .function
+                            .params
+                            .iter_mut()
+                            .enumerate()
+                            .skip_while(|(_, param)| param.pat.is_ident())
+                        {
+                            collector.collect(index, &mut param.pat);
+                        }
+
+                        let stmts = collector.into_stmts();
+                        for stmt in stmts.into_iter().rev() {
+                            body.stmts.insert(0, stmt);
+                        }
+                    }
+                }
+                ClassMember::PrivateMethod(method) => {
+                    let Some(body) = &mut method.function.body else {
+                        continue;
+                    };
+
+                    if should_work::<RestVisitor, _>(&method.function.params) {
+                        let mut collector = ParamCollector::new(self.config);
+
+                        for (index, param) in method
+                            .function
+                            .params
+                            .iter_mut()
+                            .enumerate()
+                            .skip_while(|(_, param)| param.pat.is_ident())
+                        {
+                            collector.collect(index, &mut param.pat);
+                        }
+
+                        let stmts = collector.into_stmts();
+                        for stmt in stmts.into_iter().rev() {
+                            body.stmts.insert(0, stmt);
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
     // Object Rest: Transform catch clause
     fn exit_catch_clause(&mut self, clause: &mut CatchClause, _ctx: &mut TraverseCtx) {
         let Some(ref mut param) = clause.param else {
@@ -1100,35 +1157,181 @@ impl ParamCollector {
             self.temp_exprs.push(init_arg);
         }
 
-        // Multiple patterns - create array destructuring
-        let array_pat = Pat::Array(ArrayPat {
-            span: DUMMY_SP,
-            elems: self.collected_pats.into_iter().map(Some).collect(),
-            optional: false,
-            type_ann: None,
-        });
+        // Multiple patterns - check if any need lowering
+        let has_rest = self
+            .collected_pats
+            .iter()
+            .any(|p| should_work::<PatternRestVisitor, _>(p));
 
-        let array_init = Box::new(
-            ArrayLit {
+        if has_rest {
+            // Need special handling: create array variable first, then destructure iteratively
+            let mut decls = Vec::new();
+
+            // Step 1: Create array variable: _ref = [temps...]
+            let array_temp = private_ident!("_ref");
+            decls.push(VarDeclarator {
                 span: DUMMY_SP,
-                elems: self.temp_exprs.into_iter().map(Some).collect(),
-            }
-            .into(),
-        );
+                name: array_temp.clone().into(),
+                init: Some(Box::new(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: self.temp_exprs.into_iter().map(Some).collect(),
+                    }
+                    .into(),
+                )),
+                definite: false,
+            });
 
-        // Check if array pattern has rest and needs lowering
-        if should_work::<PatternRestVisitor, _>(&array_pat) {
-            let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
-            lowerer.visit(array_pat, array_init);
+            // Step 2: Process patterns iteratively
+            let mut current_array: Ident = array_temp;
+            let num_pats = self.collected_pats.len();
+
+            for (i, pat) in self.collected_pats.into_iter().enumerate() {
+                let is_last = i == num_pats - 1;
+
+                // Check if this pattern needs lowering
+                let inner_pat = if let Pat::Assign(ref assign_pat) = pat {
+                    &*assign_pat.left
+                } else {
+                    &pat
+                };
+                let needs_lowering = should_work::<PatternRestVisitor, _>(inner_pat);
+
+                if needs_lowering {
+                    // Pattern needs lowering - create temp
+                    let temp = private_ident!(format!("_ref{}", i + 1));
+
+                    // Create the element pattern, preserving default value if present
+                    let elem_pat = if let Pat::Assign(ref assign_pat) = pat {
+                        Pat::Assign(AssignPat {
+                            span: DUMMY_SP,
+                            left: Box::new(temp.clone().into()),
+                            right: assign_pat.right.clone(),
+                        })
+                    } else {
+                        temp.clone().into()
+                    };
+
+                    // Destructure array to extract this pattern
+                    if is_last {
+                        // Last element: [temp] = current_array or [temp = default] = current_array
+                        decls.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ArrayPat {
+                                span: DUMMY_SP,
+                                elems: vec![Some(elem_pat)],
+                                optional: false,
+                                type_ann: None,
+                            }
+                            .into(),
+                            init: Some(Box::new(current_array.clone().into())),
+                            definite: false,
+                        });
+                    } else {
+                        // Not last: [temp, ...rest] = current_array or [temp = default, ...rest] = current_array
+                        let rest = private_ident!("_rest");
+                        decls.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ArrayPat {
+                                span: DUMMY_SP,
+                                elems: vec![
+                                    Some(elem_pat),
+                                    Some(Pat::Rest(RestPat {
+                                        span: DUMMY_SP,
+                                        arg: Box::new(rest.clone().into()),
+                                        dot3_token: DUMMY_SP,
+                                        type_ann: None,
+                                    })),
+                                ],
+                                optional: false,
+                                type_ann: None,
+                            }
+                            .into(),
+                            init: Some(Box::new(current_array.clone().into())),
+                            definite: false,
+                        });
+                        current_array = rest;
+                    }
+
+                    // Lower the pattern
+                    let inner_pat = if let Pat::Assign(assign_pat) = pat {
+                        *assign_pat.left
+                    } else {
+                        pat
+                    };
+
+                    let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
+                    lowerer.visit(inner_pat, Box::new(temp.into()));
+                    decls.extend(lowerer.out.into_decls());
+                } else {
+                    // Pattern doesn't need lowering - use directly
+                    if is_last {
+                        // Last element: [pattern] = current_array
+                        decls.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ArrayPat {
+                                span: DUMMY_SP,
+                                elems: vec![Some(pat)],
+                                optional: false,
+                                type_ann: None,
+                            }
+                            .into(),
+                            init: Some(Box::new(current_array.clone().into())),
+                            definite: false,
+                        });
+                    } else {
+                        // Not last: [pattern, ...rest] = current_array
+                        let rest = private_ident!("_rest");
+                        decls.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ArrayPat {
+                                span: DUMMY_SP,
+                                elems: vec![
+                                    Some(pat),
+                                    Some(Pat::Rest(RestPat {
+                                        span: DUMMY_SP,
+                                        arg: Box::new(rest.clone().into()),
+                                        dot3_token: DUMMY_SP,
+                                        type_ann: None,
+                                    })),
+                                ],
+                                optional: false,
+                                type_ann: None,
+                            }
+                            .into(),
+                            init: Some(Box::new(current_array.clone().into())),
+                            definite: false,
+                        });
+                        current_array = rest;
+                    }
+                }
+            }
+
             stmts.push(
                 VarDecl {
                     kind: VarDeclKind::Let,
-                    decls: lowerer.out.into_decls(),
+                    decls,
                     ..Default::default()
                 }
                 .into(),
             );
         } else {
+            // No rest - simple array destructuring
+            let array_pat = Pat::Array(ArrayPat {
+                span: DUMMY_SP,
+                elems: self.collected_pats.into_iter().map(Some).collect(),
+                optional: false,
+                type_ann: None,
+            });
+
+            let array_init = Box::new(
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: self.temp_exprs.into_iter().map(Some).collect(),
+                }
+                .into(),
+            );
+
             stmts.push(
                 VarDecl {
                     kind: VarDeclKind::Let,
