@@ -12,12 +12,6 @@ pub fn object_rest_spread(config: Config) -> impl Pass {
     options.assumptions.set_spread_properties = config.set_property;
     options.assumptions.pure_getters = config.pure_getters;
     options.env.es2018.object_rest_spread = true;
-    options.env.es2018.object_rest_spread_config =
-        swc_ecma_transformer::object_rest_spread::Config {
-            no_symbol: config.no_symbol,
-            set_property: config.set_property,
-            pure_getters: config.pure_getters,
-        };
 
     options.into_pass()
 }

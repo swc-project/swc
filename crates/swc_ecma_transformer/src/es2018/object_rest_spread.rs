@@ -4,6 +4,7 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::{
+    assumptions::Assumptions,
     helper, helper_expr,
     perf::{should_work, Check},
 };
@@ -13,15 +14,19 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::TraverseCtx;
 
 #[derive(Debug, Clone, Copy, Default)]
-pub struct Config {
+struct Config {
     pub no_symbol: bool,
     pub set_property: bool,
     pub pure_getters: bool,
 }
 
-pub fn hook(config: Config) -> impl VisitMutHook<TraverseCtx> {
+pub fn hook(assumptions: Assumptions) -> impl VisitMutHook<TraverseCtx> {
     ObjectRestSpreadPass {
-        config,
+        config: Config {
+            no_symbol: assumptions.object_rest_no_symbols,
+            set_property: assumptions.set_spread_properties,
+            pure_getters: assumptions.pure_getters,
+        },
         vars: Vec::new(),
     }
 }
@@ -1183,7 +1188,7 @@ impl ParamCollector {
         let has_rest = self
             .collected_pats
             .iter()
-            .any(|p| should_work::<PatternRestVisitor, _>(p));
+            .any(should_work::<PatternRestVisitor, _>);
 
         if has_rest {
             // Need special handling: create array variable first, then destructure
