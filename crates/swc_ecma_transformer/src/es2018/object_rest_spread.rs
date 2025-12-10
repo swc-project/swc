@@ -403,10 +403,15 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         self.transform_for_loop(&mut stmt.left, &mut stmt.body);
     }
 
-    fn exit_stmt(&mut self, stmt: &mut Stmt, ctx: &mut TraverseCtx) {
-        // Insert pending var declarations after this statement using statement_injector
-        if !self.vars.is_empty() {
-            let address = stmt as *const Stmt;
+    fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
+        // Register pending var declarations with statement_injector
+        // The statement_injector will insert them after the last statement
+        if self.vars.is_empty() {
+            return;
+        }
+
+        if let Some(last_stmt) = stmts.last() {
+            let address = last_stmt as *const Stmt;
             ctx.statement_injector.insert_after(
                 address,
                 VarDecl {
@@ -418,86 +423,103 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
     }
 
-    fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
+    fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
         // Only process export var declarations that need transformation
-        // Regular statements are handled by exit_stmt + statement_injector
-        let mut new_items = Vec::with_capacity(items.len());
-
-        for item in items.drain(..) {
-            match item {
+        // Regular module statements are handled by exit_stmts + statement_injector
+        let mut i = 0;
+        while i < items.len() {
+            let needs_transform = matches!(
+                &items[i],
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    span,
-                    decl: Decl::Var(var_decl),
-                })) => {
-                    // Note: The var_decl has already been transformed by exit_var_decl
-                    // which was called during the traversal before this exit_module_items
+                    decl: Decl::Var(_),
+                    ..
+                }))
+            );
 
-                    // Check if transformation happened: if decls.len() > 1, transformation occurred
-                    // because object rest creates additional declarators
-                    let transformation_occurred = var_decl.decls.len() > 1 || !self.vars.is_empty();
+            if !needs_transform {
+                i += 1;
+                continue;
+            }
 
-                    if !transformation_occurred {
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                            ExportDecl {
-                                span,
-                                decl: Decl::Var(var_decl),
-                            },
-                        )));
-                        continue;
-                    }
+            // Extract the export declaration
+            let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl: Decl::Var(var_decl),
+            })) = items.remove(i)
+            else {
+                unreachable!()
+            };
 
-                    // Collect names from all declarators
-                    let mut exported_names = Vec::new();
-                    for decl in &var_decl.decls {
-                        collect_idents_from_pat(&decl.name, &mut exported_names);
-                    }
+            // Note: The var_decl has already been transformed by exit_var_decl
+            // Check if transformation happened: if decls.len() > 1, transformation occurred
+            let transformation_occurred = var_decl.decls.len() > 1 || !self.vars.is_empty();
 
-                    // Insert var declaration
-                    new_items.push(ModuleItem::Stmt((*var_decl).into()));
+            if !transformation_occurred {
+                // No transformation, restore the export declaration
+                items.insert(
+                    i,
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span,
+                        decl: Decl::Var(var_decl),
+                    })),
+                );
+                i += 1;
+                continue;
+            }
 
-                    // Insert additional var declarations from pending vars
-                    if !self.vars.is_empty() {
-                        new_items.push(ModuleItem::Stmt(
-                            VarDecl {
-                                decls: mem::take(&mut self.vars),
-                                ..Default::default()
-                            }
-                            .into(),
-                        ));
-                    }
+            // Collect names from all declarators
+            let mut exported_names = Vec::new();
+            for decl in &var_decl.decls {
+                collect_idents_from_pat(&decl.name, &mut exported_names);
+            }
 
-                    // Export the names
-                    if !exported_names.is_empty() {
-                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                            NamedExport {
-                                span,
-                                specifiers: exported_names
-                                    .into_iter()
-                                    .map(|id| {
-                                        ExportSpecifier::Named(ExportNamedSpecifier {
-                                            span: DUMMY_SP,
-                                            orig: ModuleExportName::Ident(id),
-                                            exported: None,
-                                            is_type_only: false,
-                                        })
-                                    })
-                                    .collect(),
-                                src: None,
-                                type_only: false,
-                                with: None,
-                            },
-                        )));
-                    }
-                }
-                _ => {
-                    // All other items pass through unchanged
-                    // Regular statements with vars are handled by exit_stmt + statement_injector
-                    new_items.push(item);
+            // Insert var declaration as a statement
+            let var_stmt: Stmt = (*var_decl).into();
+            items.insert(i, ModuleItem::Stmt(var_stmt));
+
+            // Register pending vars with statement_injector to be inserted after var_stmt
+            if !self.vars.is_empty() {
+                // Get the address of the newly inserted statement
+                if let ModuleItem::Stmt(stmt) = &items[i] {
+                    let address = stmt as *const Stmt;
+                    ctx.statement_injector.insert_after(
+                        address,
+                        VarDecl {
+                            decls: mem::take(&mut self.vars),
+                            ..Default::default()
+                        }
+                        .into(),
+                    );
                 }
             }
-        }
 
-        *items = new_items;
+            // Insert named export
+            if !exported_names.is_empty() {
+                items.insert(
+                    i + 1,
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                        span,
+                        specifiers: exported_names
+                            .into_iter()
+                            .map(|id| {
+                                ExportSpecifier::Named(ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ModuleExportName::Ident(id),
+                                    exported: None,
+                                    is_type_only: false,
+                                })
+                            })
+                            .collect(),
+                        src: None,
+                        type_only: false,
+                        with: None,
+                    })),
+                );
+                i += 1; // Skip the export we just inserted
+            }
+
+            i += 1;
+        }
     }
 }
 
@@ -1164,7 +1186,8 @@ impl ParamCollector {
             .any(|p| should_work::<PatternRestVisitor, _>(p));
 
         if has_rest {
-            // Need special handling: create array variable first, then destructure iteratively
+            // Need special handling: create array variable first, then destructure
+            // iteratively
             let mut decls = Vec::new();
 
             // Step 1: Create array variable: _ref = [temps...]
@@ -1228,7 +1251,8 @@ impl ParamCollector {
                             definite: false,
                         });
                     } else {
-                        // Not last: [temp, ...rest] = current_array or [temp = default, ...rest] = current_array
+                        // Not last: [temp, ...rest] = current_array or [temp = default, ...rest] =
+                        // current_array
                         let rest = private_ident!("_rest");
                         decls.push(VarDeclarator {
                             span: DUMMY_SP,
