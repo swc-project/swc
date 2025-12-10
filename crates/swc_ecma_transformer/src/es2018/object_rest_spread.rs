@@ -346,45 +346,28 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         self.transform_for_loop(&mut stmt.left, &mut stmt.body);
     }
 
-    fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
-        let mut new_stmts = Vec::with_capacity(stmts.len() + self.vars.len());
-
-        for stmt in stmts.drain(..) {
-            new_stmts.push(stmt);
-
-            // Insert var declarations after current
-            if !self.vars.is_empty() {
-                new_stmts.push(
-                    VarDecl {
-                        decls: mem::take(&mut self.vars),
-                        ..Default::default()
-                    }
-                    .into(),
-                );
-            }
+    fn exit_stmt(&mut self, stmt: &mut Stmt, ctx: &mut TraverseCtx) {
+        // Insert pending var declarations after this statement using statement_injector
+        if !self.vars.is_empty() {
+            let address = stmt as *const Stmt;
+            ctx.statement_injector.insert_after(
+                address,
+                VarDecl {
+                    decls: mem::take(&mut self.vars),
+                    ..Default::default()
+                }
+                .into(),
+            );
         }
-
-        *stmts = new_stmts;
     }
 
     fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
+        // Only process export var declarations that need transformation
+        // Regular statements are handled by exit_stmt + statement_injector
         let mut new_items = Vec::with_capacity(items.len());
 
         for item in items.drain(..) {
             match item {
-                ModuleItem::Stmt(stmt) => {
-                    new_items.push(ModuleItem::Stmt(stmt));
-
-                    if !self.vars.is_empty() {
-                        new_items.push(ModuleItem::Stmt(
-                            VarDecl {
-                                decls: mem::take(&mut self.vars),
-                                ..Default::default()
-                            }
-                            .into(),
-                        ));
-                    }
-                }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span,
                     decl: Decl::Var(var_decl),
@@ -406,23 +389,16 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         continue;
                     }
 
-                    // Collect names from the ORIGINAL pattern (before transformation)
-                    // Since transformation occurred, we need to collect from the first declarator's
-                    // pattern
+                    // Collect names from all declarators
                     let mut exported_names = Vec::new();
-                    // The first declarator contains the original binding names
-                    if let Some(first_decl) = var_decl.decls.first() {
-                        collect_idents_from_pat(&first_decl.name, &mut exported_names);
-                    }
-                    // Also collect from other declarators (these are the rest bindings)
-                    for decl in var_decl.decls.iter().skip(1) {
+                    for decl in &var_decl.decls {
                         collect_idents_from_pat(&decl.name, &mut exported_names);
                     }
 
                     // Insert var declaration
                     new_items.push(ModuleItem::Stmt((*var_decl).into()));
 
-                    // Insert additional var declarations
+                    // Insert additional var declarations from pending vars
                     if !self.vars.is_empty() {
                         new_items.push(ModuleItem::Stmt(
                             VarDecl {
@@ -457,6 +433,8 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     }
                 }
                 _ => {
+                    // All other items pass through unchanged
+                    // Regular statements with vars are handled by exit_stmt + statement_injector
                     new_items.push(item);
                 }
             }
