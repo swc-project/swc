@@ -429,13 +429,13 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     // Object Rest: Transform for-in statement
-    fn exit_for_in_stmt(&mut self, stmt: &mut ForInStmt, _ctx: &mut TraverseCtx) {
-        self.transform_for_loop(&mut stmt.left, &mut stmt.body);
+    fn exit_for_in_stmt(&mut self, stmt: &mut ForInStmt, ctx: &mut TraverseCtx) {
+        self.transform_for_loop(&mut stmt.left, &mut stmt.body, ctx);
     }
 
     // Object Rest: Transform for-of statement
-    fn exit_for_of_stmt(&mut self, stmt: &mut ForOfStmt, _ctx: &mut TraverseCtx) {
-        self.transform_for_loop(&mut stmt.left, &mut stmt.body);
+    fn exit_for_of_stmt(&mut self, stmt: &mut ForOfStmt, ctx: &mut TraverseCtx) {
+        self.transform_for_loop(&mut stmt.left, &mut stmt.body, ctx);
     }
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
@@ -559,7 +559,12 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 }
 
 impl ObjectRestSpreadPass {
-    fn transform_for_loop(&mut self, left: &mut ForHead, body: &mut Box<Stmt>) {
+    fn transform_for_loop(
+        &mut self,
+        left: &mut ForHead,
+        body: &mut Box<Stmt>,
+        ctx: &mut TraverseCtx,
+    ) {
         match left {
             ForHead::VarDecl(var_decl) => {
                 if !should_work::<PatternRestVisitor, _>(&var_decl.decls[0].name) {
@@ -600,12 +605,28 @@ impl ObjectRestSpreadPass {
 
                 let ref_ident = private_ident!("_ref");
 
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ref_ident.clone().into(),
-                    init: None,
-                    definite: false,
-                });
+                if let Some(stmt_ptr) = self.stmt_ptr {
+                    ctx.statement_injector.insert_after(
+                        stmt_ptr,
+                        VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ref_ident.clone().into(),
+                                init: None,
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        }
+                        .into(),
+                    );
+                } else {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ref_ident.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
+                }
 
                 let old_pat = mem::replace(&mut **pat, ref_ident.clone().into());
 
