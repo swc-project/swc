@@ -627,7 +627,7 @@ impl ObjectRestSpreadPass {
                 }
             }
             ForHead::Pat(pat) => {
-                if !has_object_rest_in_pat(&**pat) {
+                if !has_object_rest_in_pat(pat) {
                     return;
                 }
 
