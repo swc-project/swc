@@ -1,18 +1,19 @@
 use serde::Deserialize;
 use swc_ecma_ast::Pass;
-use swc_ecma_visit::visit_mut_pass;
-
-use crate::{object_rest::ObjectRest, object_spread::ObjectSpread};
 
 // TODO: currently swc behaves like babel with
 // `ignoreFunctionLength` on
 
 /// `@babel/plugin-proposal-object-rest-spread`
 pub fn object_rest_spread(config: Config) -> impl Pass {
-    (
-        visit_mut_pass(ObjectRest::new(config)),
-        visit_mut_pass(ObjectSpread { config }),
-    )
+    let mut options = swc_ecma_transformer::Options::default();
+
+    options.assumptions.object_rest_no_symbols = config.no_symbol;
+    options.assumptions.set_spread_properties = config.set_property;
+    options.assumptions.pure_getters = config.pure_getters;
+    options.env.es2018.object_rest_spread = true;
+
+    options.into_pass()
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]

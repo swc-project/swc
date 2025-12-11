@@ -33,7 +33,8 @@ class Test {
         _ref1 = {
             foo
         }, ({ foo: _ref2 } = _ref1), ({} = _ref2), (this, _write_only_error("#value")).foo = _extends({}, _ref2), _ref1; //error
-        var _ref1, _ref2;
+        var _ref1;
+        var _ref2;
         let r = {
             o: (this, _write_only_error("#value"))
         }; //error

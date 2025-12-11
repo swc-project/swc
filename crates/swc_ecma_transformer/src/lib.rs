@@ -34,6 +34,10 @@ pub struct TraverseCtx {
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 
+    // Statement injector must be first to process all injected statements because
+    // exit_stmts must be called after all statements are injected
+    let hook = hook.chain(common::StmtInjector::default());
+
     let hook = hook.chain_optional(options.typescript.map(crate::typescript::hook));
     let hook = hook.chain_optional(options.decorator.map(crate::decorators::hook));
     let hook = hook.chain_optional(options.jsx.map(crate::jsx::hook));
@@ -43,7 +47,7 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain(crate::es2021::hook(options.env.es2021));
     let hook = hook.chain(crate::es2020::hook(options.env.es2020));
     let hook = hook.chain(crate::es2019::hook(options.env.es2019));
-    let hook = hook.chain(crate::es2018::hook(options.env.es2018));
+    let hook = hook.chain(crate::es2018::hook(options.env.es2018, options.assumptions));
     let hook = hook.chain(crate::es2017::hook(
         options.env.es2017,
         options.unresolved_ctxt,
@@ -53,9 +57,6 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain(crate::es2015::hook(options.env.es2015));
     let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
     let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
-
-    // Statement injector must be last to process all injected statements
-    let hook = hook.chain(common::StmtInjector::default());
 
     hook.build()
 }

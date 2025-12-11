@@ -66,6 +66,12 @@ where
     optional_method!(enter_setter_prop, exit_setter_prop, SetterProp);
 
     optional_method!(enter_super, exit_super, Super);
+
+    optional_method!(enter_var_decl, exit_var_decl, VarDecl);
+
+    optional_method!(enter_for_in_stmt, exit_for_in_stmt, ForInStmt);
+
+    optional_method!(enter_for_of_stmt, exit_for_of_stmt, ForOfStmt);
 }
 
 pub(crate) struct NoopHook;
@@ -93,8 +99,8 @@ where
     {
         HookBuilder {
             hook: CompositeHook {
-                first: self.hook,
-                second: hook,
+                first: hook,
+                second: self.hook,
             },
         }
     }

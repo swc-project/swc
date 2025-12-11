@@ -6,7 +6,8 @@ var ref;
 _ref = [
     {}
 ], ref = _sliced_to_array(_ref, 1), _ref1 = ref[0], ref, _object_destructuring_empty(_ref1), rest = _extends({}, _ref1), _ref;
-var _ref, _ref1;
+var _ref;
+var _ref1;
 for(var _i = 0, _iter = [
     [
         {}
@@ -17,4 +18,5 @@ for(var _i = 0, _iter = [
     ref1 = _sliced_to_array(_ref2, 1), _ref3 = ref1[0], ref1, _object_destructuring_empty(_ref3), rest = _extends({}, _ref3), _ref2;
     ;
 }
-var _ref2, _ref3;
+var _ref2;
+var _ref3;

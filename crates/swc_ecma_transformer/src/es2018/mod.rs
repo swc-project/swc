@@ -1,6 +1,7 @@
 use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_transforms_base::assumptions::Assumptions;
 
-use crate::TraverseCtx;
+use crate::{hook_utils::OptionalHook, TraverseCtx};
 
 mod object_rest_spread;
 
@@ -10,12 +11,13 @@ pub struct Es2018Options {
     pub object_rest_spread: bool,
 }
 
-pub fn hook(options: Es2018Options) -> impl VisitMutHook<TraverseCtx> {
-    Es2018Pass { options }
-}
-
-struct Es2018Pass {
+pub(crate) fn hook(
     options: Es2018Options,
+    assumptions: Assumptions,
+) -> impl VisitMutHook<TraverseCtx> {
+    if options.object_rest_spread {
+        OptionalHook(Some(object_rest_spread::hook(assumptions)))
+    } else {
+        OptionalHook(None)
+    }
 }
-
-impl VisitMutHook<TraverseCtx> for Es2018Pass {}
