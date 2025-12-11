@@ -28,4 +28,7 @@ var { a: _ref1 } = overEmit, [_ref2, ..._rest] = _ref1, {} = _ref2, nested2 = _e
     "a",
     "b"
 ]), overEmit;
-var _ref4, _ref5, _rest1, _ref6;
+var _ref4;
+var _ref5;
+var _rest1;
+var _ref6;
