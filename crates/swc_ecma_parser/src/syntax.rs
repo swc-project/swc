@@ -176,13 +176,6 @@ pub struct TsSyntax {
     #[serde(skip, default)]
     pub dts: bool,
 
-    #[serde(default)]
-    /// When enabled, the parser will not create ParenExpr nodes for
-    /// parenthesized expressions. Instead, it returns the inner expression
-    /// directly. This aligns with the ESTree spec, which does not have a
-    /// ParenthesizedExpression type.
-    pub no_paren: bool,
-
     #[serde(skip, default)]
     pub no_early_errors: bool,
 
@@ -210,9 +203,6 @@ impl TsSyntax {
         if self.decorators {
             flags |= SyntaxFlags::DECORATORS;
         }
-        if self.no_paren {
-            flags |= SyntaxFlags::NO_PAREN;
-        }
         if self.dts {
             flags |= SyntaxFlags::DTS;
         }
@@ -236,13 +226,6 @@ pub struct EsSyntax {
     #[serde(rename = "functionBind")]
     #[serde(default)]
     pub fn_bind: bool,
-
-    #[serde(default)]
-    /// When enabled, the parser will not create ParenExpr nodes for
-    /// parenthesized expressions. Instead, it returns the inner expression
-    /// directly. This aligns with the ESTree spec, which does not have a
-    /// ParenthesizedExpression type.
-    pub no_paren: bool,
 
     /// Enable decorators.
     #[serde(default)]
@@ -287,9 +270,6 @@ impl EsSyntax {
         }
         if self.decorators {
             flags |= SyntaxFlags::DECORATORS;
-        }
-        if self.no_paren {
-            flags |= SyntaxFlags::NO_PAREN;
         }
         if self.decorators_before_export {
             flags |= SyntaxFlags::DECORATORS_BEFORE_EXPORT;
@@ -336,11 +316,6 @@ impl SyntaxFlags {
     #[inline(always)]
     pub const fn fn_bind(&self) -> bool {
         self.contains(SyntaxFlags::FN_BIND)
-    }
-
-    #[inline(always)]
-    pub const fn no_paren(&self) -> bool {
-        self.contains(SyntaxFlags::NO_PAREN)
     }
 
     #[inline(always)]
@@ -420,6 +395,5 @@ bitflags::bitflags! {
         const NO_EARLY_ERRORS = 1 << 11;
         const DISALLOW_AMBIGUOUS_JSX_LIKE = 1 << 12;
         const TS = 1 << 13;
-        const NO_PAREN = 1 << 14;
     }
 }
