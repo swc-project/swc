@@ -1049,10 +1049,8 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
             *expr = Expr::Ident(this_var.clone());
         }
         Expr::Array(array) => {
-            for elem in &mut array.elems {
-                if let Some(elem) = elem {
-                    replace_this_in_expr(&mut elem.expr, this_var);
-                }
+            for elem in array.elems.iter_mut().flatten() {
+                replace_this_in_expr(&mut elem.expr, this_var);
             }
         }
         Expr::Object(obj) => {
@@ -1251,10 +1249,8 @@ fn replace_this_in_opt_chain_base(base: &mut OptChainBase, this_var: &Ident) {
 fn replace_this_in_pat(pat: &mut AssignTargetPat, this_var: &Ident) {
     match pat {
         AssignTargetPat::Array(array) => {
-            for elem in &mut array.elems {
-                if let Some(elem) = elem {
-                    replace_this_in_pat_inner(elem, this_var);
-                }
+            for elem in array.elems.iter_mut().flatten() {
+                replace_this_in_pat_inner(elem, this_var);
             }
         }
         AssignTargetPat::Object(obj) => {
@@ -1288,10 +1284,8 @@ fn replace_this_in_pat(pat: &mut AssignTargetPat, this_var: &Ident) {
 fn replace_this_in_pat_inner(pat: &mut Pat, this_var: &Ident) {
     match pat {
         Pat::Array(array) => {
-            for elem in &mut array.elems {
-                if let Some(elem) = elem {
-                    replace_this_in_pat_inner(elem, this_var);
-                }
+            for elem in array.elems.iter_mut().flatten() {
+                replace_this_in_pat_inner(elem, this_var);
             }
         }
         Pat::Object(obj) => {
