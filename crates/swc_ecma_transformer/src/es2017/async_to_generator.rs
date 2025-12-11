@@ -1073,6 +1073,8 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
                         Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => {
                             // Don't traverse into nested functions
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
                     },
                     #[cfg(swc_ast_unknown)]
                     _ => {}
