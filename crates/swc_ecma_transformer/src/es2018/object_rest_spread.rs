@@ -81,10 +81,10 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 
     // Object Spread and Rest: Transform { ...x } and ({ ...x } = y)
     fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
-        // Handle object spread
+        // Handle object spread FIRST (fast path for most common case)
         if let Expr::Object(ObjectLit { span, props }) = expr {
-            let has_spread = props.iter().any(|p| matches!(p, PropOrSpread::Spread(..)));
-            if !has_spread {
+            // Quick check for spread
+            if !props.iter().any(|p| matches!(p, PropOrSpread::Spread(..))) {
                 return;
             }
 
@@ -235,6 +235,11 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 
     // Object Rest: Transform variable declarations
     fn exit_var_decl(&mut self, decl: &mut VarDecl, ctx: &mut TraverseCtx) {
+        // Fast path: check if any declarator needs transformation
+        if !decl.decls.iter().any(|d| has_object_rest_in_pat(&d.name)) {
+            return;
+        }
+
         let mut new_decls = Vec::with_capacity(decl.decls.len());
 
         for declarator in decl.decls.take() {
@@ -283,7 +288,12 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         };
 
-        if params_have_rest(&func.params) {
+        // Fast path: check if params need transformation
+        if !params_have_rest(&func.params) {
+            return;
+        }
+
+        {
             let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in func
@@ -304,7 +314,12 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 
     // Object Rest: Transform arrow functions
     fn exit_arrow_expr(&mut self, arrow: &mut ArrowExpr, ctx: &mut TraverseCtx) {
-        if params_have_rest(&arrow.params) {
+        // Fast path: check if params need transformation
+        if !params_have_rest(&arrow.params) {
+            return;
+        }
+
+        {
             let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in arrow
@@ -352,7 +367,12 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         };
 
-        if constructor_params_have_rest(&cons.params) {
+        // Fast path: check if params need transformation
+        if !constructor_params_have_rest(&cons.params) {
+            return;
+        }
+
+        {
             let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in cons.params.iter_mut().enumerate().skip_while(
@@ -429,10 +449,11 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 
     // Object Rest: Transform catch clause
     fn exit_catch_clause(&mut self, clause: &mut CatchClause, ctx: &mut TraverseCtx) {
-        let Some(ref mut param) = clause.param else {
+        let Some(ref param) = clause.param else {
             return;
         };
 
+        // Fast path: check if param needs transformation
         if !has_object_rest_in_pat(param) {
             return;
         }
@@ -592,12 +613,19 @@ impl ObjectRestSpreadPass {
         body: &mut Box<Stmt>,
         ctx: &mut TraverseCtx,
     ) {
+        // Fast path: check if transformation is needed
+        let needs_transform = match left {
+            ForHead::VarDecl(var_decl) => has_object_rest_in_pat(&var_decl.decls[0].name),
+            ForHead::Pat(pat) => has_object_rest_in_pat(pat),
+            _ => false,
+        };
+
+        if !needs_transform {
+            return;
+        }
+
         match left {
             ForHead::VarDecl(var_decl) => {
-                if !has_object_rest_in_pat(&var_decl.decls[0].name) {
-                    return;
-                }
-
                 let ref_ident = private_ident!("_ref");
                 let pat = var_decl.decls[0].name.take();
                 var_decl.decls[0].name = ref_ident.clone().into();
@@ -627,10 +655,6 @@ impl ObjectRestSpreadPass {
                 }
             }
             ForHead::Pat(pat) => {
-                if !has_object_rest_in_pat(pat) {
-                    return;
-                }
-
                 let ref_ident = private_ident!("_ref");
 
                 if let Some(stmt_ptr) = self.stmt_ptr {
