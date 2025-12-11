@@ -23,8 +23,6 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
     })
 }
 
-/// [swc_ecma_parser::EsSyntax::no_paren] is another straightforward way to get
-/// the AST without [swc_ecma_ast::ParenExpr]
 pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
     visit_mut_pass(Fixer {
         comments,

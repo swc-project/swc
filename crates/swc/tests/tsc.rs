@@ -389,7 +389,6 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                                 tsx: is_jsx,
                                 decorators,
                                 dts: false,
-                                no_paren: false,
                                 no_early_errors: false,
                                 disallow_ambiguous_jsx_like: false,
                             })),
