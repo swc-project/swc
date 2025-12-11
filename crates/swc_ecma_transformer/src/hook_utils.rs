@@ -99,8 +99,8 @@ where
     {
         HookBuilder {
             hook: CompositeHook {
-                first: self.hook,
-                second: hook,
+                first: hook,
+                second: self.hook,
             },
         }
     }
