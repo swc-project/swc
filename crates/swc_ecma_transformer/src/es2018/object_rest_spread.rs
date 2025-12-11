@@ -1312,7 +1312,7 @@ impl<'a> ParamCollector<'a> {
 
                 if needs_lowering {
                     // Pattern needs lowering - create temp
-                    let temp = private_ident!(format!("_ref{}", i + 1));
+                    let temp = private_ident!("_ref");
 
                     // Create the element pattern, preserving default value if present
                     let elem_pat = if let Pat::Assign(ref assign_pat) = pat {
