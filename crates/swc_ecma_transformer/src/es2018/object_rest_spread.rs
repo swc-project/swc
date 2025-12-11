@@ -157,11 +157,11 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         let (ref_ident, aliased) = alias_if_required(right, "_ref");
 
         // Build sequence expression
-        let mut out = ExprOutput::new();
+        let mut out = ExprOutput::new(self.stmt_ptr, ctx);
 
         if aliased {
             if let Some(stmt_ptr) = self.stmt_ptr {
-                ctx.statement_injector.insert_after(
+                out.ctx.statement_injector.insert_after(
                     stmt_ptr,
                     VarDecl {
                         decls: vec![VarDeclarator {
@@ -182,8 +182,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     init: None,
                     definite: false,
                 });
-            }
-            // _ref = source
+            } // _ref = source
             out.exprs.push(
                 AssignExpr {
                     span: DUMMY_SP,
@@ -208,7 +207,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     // Object Rest: Transform variable declarations
-    fn exit_var_decl(&mut self, decl: &mut VarDecl, _ctx: &mut TraverseCtx) {
+    fn exit_var_decl(&mut self, decl: &mut VarDecl, ctx: &mut TraverseCtx) {
         let mut new_decls = Vec::with_capacity(decl.decls.len());
 
         for declarator in decl.decls.take() {
@@ -243,7 +242,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             };
 
             // Use unified lowering
-            let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
+            let mut lowerer = RestLowerer::new(self.config, DeclOutput::new(self.stmt_ptr, ctx));
             lowerer.visit(declarator.name, source_init);
             new_decls.extend(lowerer.out.into_decls());
         }
@@ -252,13 +251,13 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     // Object Rest: Transform functions
-    fn exit_function(&mut self, func: &mut Function, _ctx: &mut TraverseCtx) {
+    fn exit_function(&mut self, func: &mut Function, ctx: &mut TraverseCtx) {
         let Some(body) = &mut func.body else {
             return;
         };
 
         if should_work::<RestVisitor, _>(&func.params) {
-            let mut collector = ParamCollector::new(self.config);
+            let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in func
                 .params
@@ -277,9 +276,9 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     // Object Rest: Transform arrow functions
-    fn exit_arrow_expr(&mut self, arrow: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
+    fn exit_arrow_expr(&mut self, arrow: &mut ArrowExpr, ctx: &mut TraverseCtx) {
         if should_work::<RestVisitor, _>(&arrow.params) {
-            let mut collector = ParamCollector::new(self.config);
+            let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in arrow
                 .params
@@ -321,13 +320,13 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     // Object Rest: Transform constructor
-    fn exit_constructor(&mut self, cons: &mut Constructor, _ctx: &mut TraverseCtx) {
+    fn exit_constructor(&mut self, cons: &mut Constructor, ctx: &mut TraverseCtx) {
         let Some(body) = &mut cons.body else {
             return;
         };
 
         if should_work::<RestVisitor, _>(&cons.params) {
-            let mut collector = ParamCollector::new(self.config);
+            let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in cons.params.iter_mut().enumerate().skip_while(
                 |(_, param)| matches!(param, ParamOrTsParamProp::Param(p) if p.pat.is_ident()),
@@ -345,7 +344,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     // Object Rest: Transform class (manually handle methods)
-    fn exit_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
+    fn exit_class(&mut self, class: &mut Class, ctx: &mut TraverseCtx) {
         for member in &mut class.body {
             match member {
                 ClassMember::Method(method) => {
@@ -354,7 +353,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     };
 
                     if should_work::<RestVisitor, _>(&method.function.params) {
-                        let mut collector = ParamCollector::new(self.config);
+                        let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
                         for (index, param) in method
                             .function
@@ -378,7 +377,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                     };
 
                     if should_work::<RestVisitor, _>(&method.function.params) {
-                        let mut collector = ParamCollector::new(self.config);
+                        let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
                         for (index, param) in method
                             .function
@@ -402,7 +401,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     // Object Rest: Transform catch clause
-    fn exit_catch_clause(&mut self, clause: &mut CatchClause, _ctx: &mut TraverseCtx) {
+    fn exit_catch_clause(&mut self, clause: &mut CatchClause, ctx: &mut TraverseCtx) {
         let Some(ref mut param) = clause.param else {
             return;
         };
@@ -415,7 +414,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         let pat = clause.param.take().unwrap();
         clause.param = Some(ref_ident.clone().into());
 
-        let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
+        let mut lowerer = RestLowerer::new(self.config, DeclOutput::new(self.stmt_ptr, ctx));
         lowerer.visit(pat, Box::new(ref_ident.into()));
 
         let stmt: Stmt = VarDecl {
@@ -575,7 +574,8 @@ impl ObjectRestSpreadPass {
                 let pat = var_decl.decls[0].name.take();
                 var_decl.decls[0].name = ref_ident.clone().into();
 
-                let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
+                let mut lowerer =
+                    RestLowerer::new(self.config, DeclOutput::new(self.stmt_ptr, ctx));
                 lowerer.visit(pat, Box::new(ref_ident.into()));
 
                 let stmt: Stmt = VarDecl {
@@ -630,7 +630,8 @@ impl ObjectRestSpreadPass {
 
                 let old_pat = mem::replace(&mut **pat, ref_ident.clone().into());
 
-                let mut lowerer = RestLowerer::new(self.config, ExprOutput::new());
+                let mut lowerer =
+                    RestLowerer::new(self.config, ExprOutput::new(self.stmt_ptr, ctx));
                 lowerer.visit(old_pat, Box::new(ref_ident.clone().into()));
                 lowerer.out.exprs.push(ref_ident.into());
 
@@ -960,13 +961,19 @@ impl<O: RestOutput> RestLowerer<O> {
 // ========================================
 
 /// Declaration context output.
-struct DeclOutput {
+struct DeclOutput<'a> {
+    stmt_ptr: Option<*const Stmt>,
+    ctx: &'a mut TraverseCtx,
     decls: Vec<VarDeclarator>,
 }
 
-impl DeclOutput {
-    fn new() -> Self {
-        Self { decls: Vec::new() }
+impl<'a> DeclOutput<'a> {
+    fn new(stmt_ptr: Option<*const Stmt>, ctx: &'a mut TraverseCtx) -> Self {
+        Self {
+            stmt_ptr,
+            ctx,
+            decls: Vec::new(),
+        }
     }
 
     fn into_decls(self) -> Vec<VarDeclarator> {
@@ -974,7 +981,7 @@ impl DeclOutput {
     }
 }
 
-impl RestOutput for DeclOutput {
+impl<'a> RestOutput for DeclOutput<'a> {
     fn assign(&mut self, pat: Pat, init: Box<Expr>) {
         self.decls.push(VarDeclarator {
             span: DUMMY_SP,
@@ -1006,16 +1013,20 @@ impl RestOutput for DeclOutput {
 }
 
 /// Expression context output.
-struct ExprOutput {
+struct ExprOutput<'a> {
     exprs: Vec<Expr>,
     vars: Vec<VarDeclarator>,
+    stmt_ptr: Option<*const Stmt>,
+    ctx: &'a mut TraverseCtx,
 }
 
-impl ExprOutput {
-    fn new() -> Self {
+impl<'a> ExprOutput<'a> {
+    fn new(stmt_ptr: Option<*const Stmt>, ctx: &'a mut TraverseCtx) -> Self {
         Self {
             exprs: Vec::new(),
             vars: Vec::new(),
+            stmt_ptr,
+            ctx,
         }
     }
 
@@ -1024,7 +1035,7 @@ impl ExprOutput {
     }
 }
 
-impl RestOutput for ExprOutput {
+impl<'a> RestOutput for ExprOutput<'a> {
     fn assign(&mut self, pat: Pat, init: Box<Expr>) {
         if let Ok(target) = pat.try_into() {
             self.exprs.push(
@@ -1041,12 +1052,29 @@ impl RestOutput for ExprOutput {
 
     fn declare_temp(&mut self, name: &str) -> Ident {
         let temp = private_ident!(name);
-        self.vars.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: temp.clone().into(),
-            init: None,
-            definite: false,
-        });
+
+        if let Some(stmt_ptr) = self.stmt_ptr {
+            self.ctx.statement_injector.insert_after(
+                stmt_ptr,
+                VarDecl {
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: temp.clone().into(),
+                        init: None,
+                        definite: false,
+                    }],
+                    ..Default::default()
+                }
+                .into(),
+            );
+        } else {
+            self.vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: temp.clone().into(),
+                init: None,
+                definite: false,
+            });
+        }
         temp
     }
 
@@ -1150,18 +1178,23 @@ fn make_rest_call(config: Config, source: Ident, excluded: Vec<PropName>) -> Exp
 }
 
 /// Collector for function parameters that need to be destructured in body.
-struct ParamCollector {
+struct ParamCollector<'a> {
     collected_pats: Vec<Pat>,
     temp_exprs: Vec<ExprOrSpread>,
     config: Config,
+
+    stmt_ptr: Option<*const Stmt>,
+    ctx: &'a mut TraverseCtx,
 }
 
-impl ParamCollector {
-    fn new(config: Config) -> Self {
+impl<'a> ParamCollector<'a> {
+    fn new(config: Config, stmt_ptr: Option<*const Stmt>, ctx: &'a mut TraverseCtx) -> Self {
         Self {
             collected_pats: Vec::new(),
             temp_exprs: Vec::new(),
             config,
+            stmt_ptr,
+            ctx,
         }
     }
 
@@ -1205,7 +1238,8 @@ impl ParamCollector {
             if !matches!(pat, Pat::Assign(_)) {
                 // Check if has rest and needs lowering
                 if should_work::<PatternRestVisitor, _>(&pat) {
-                    let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
+                    let mut lowerer =
+                        RestLowerer::new(self.config, DeclOutput::new(self.stmt_ptr, self.ctx));
                     lowerer.visit(pat, init_arg.expr);
                     let decl = VarDecl {
                         kind: VarDeclKind::Let,
@@ -1340,7 +1374,8 @@ impl ParamCollector {
                         pat
                     };
 
-                    let mut lowerer = RestLowerer::new(self.config, DeclOutput::new());
+                    let mut lowerer =
+                        RestLowerer::new(self.config, DeclOutput::new(self.stmt_ptr, self.ctx));
                     lowerer.visit(inner_pat, Box::new(temp.into()));
                     decls.extend(lowerer.out.into_decls());
                 } else {
