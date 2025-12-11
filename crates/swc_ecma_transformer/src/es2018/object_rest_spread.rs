@@ -4,13 +4,8 @@ use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_transforms_base::{
-    assumptions::Assumptions,
-    helper, helper_expr,
-    perf::{should_work, Check},
-};
+use swc_ecma_transforms_base::{assumptions::Assumptions, helper, helper_expr};
 use swc_ecma_utils::{alias_if_required, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::TraverseCtx;
 
@@ -41,7 +36,8 @@ struct ObjectRestSpreadPass {
     stmt_ptr_stack: Vec<*const Stmt>,
     /// Pending variable declarations to insert after statement.
     vars: Vec<VarDeclarator>,
-    /// Map from VarDecl address to original identifiers to export (before transformation)
+    /// Map from VarDecl address to original identifiers to export (before
+    /// transformation)
     export_idents: FxHashMap<*const VarDecl, Vec<Ident>>,
 }
 
@@ -57,7 +53,8 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     fn enter_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
-        // Collect original identifiers from export var declarations before transformation
+        // Collect original identifiers from export var declarations before
+        // transformation
         for item in items.iter() {
             if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::Var(var_decl),
@@ -68,7 +65,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                 let needs_transform = var_decl
                     .decls
                     .iter()
-                    .any(|decl| should_work::<PatternRestVisitor, _>(&decl.name));
+                    .any(|decl| has_object_rest_in_pat(&decl.name));
 
                 if needs_transform {
                     let var_decl_ptr = &**var_decl as *const VarDecl;
@@ -178,7 +175,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         let inner_pat: Pat = pat.take().into();
 
         // Check if has rest
-        if !should_work::<PatternRestVisitor, _>(&inner_pat) {
+        if !has_object_rest_in_pat(&inner_pat) {
             *pat = pat_to_assign_target_pat(inner_pat);
             return;
         }
@@ -248,7 +245,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             };
 
             // Check if pattern contains object rest
-            if !should_work::<PatternRestVisitor, _>(&declarator.name) {
+            if !has_object_rest_in_pat(&declarator.name) {
                 new_decls.push(VarDeclarator {
                     init: Some(init),
                     ..declarator
@@ -286,7 +283,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         };
 
-        if should_work::<RestVisitor, _>(&func.params) {
+        if params_have_rest(&func.params) {
             let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in func
@@ -307,7 +304,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 
     // Object Rest: Transform arrow functions
     fn exit_arrow_expr(&mut self, arrow: &mut ArrowExpr, ctx: &mut TraverseCtx) {
-        if should_work::<RestVisitor, _>(&arrow.params) {
+        if params_have_rest(&arrow.params) {
             let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in arrow
@@ -355,7 +352,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         };
 
-        if should_work::<RestVisitor, _>(&cons.params) {
+        if constructor_params_have_rest(&cons.params) {
             let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
             for (index, param) in cons.params.iter_mut().enumerate().skip_while(
@@ -382,7 +379,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         continue;
                     };
 
-                    if should_work::<RestVisitor, _>(&method.function.params) {
+                    if params_have_rest(&method.function.params) {
                         let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
                         for (index, param) in method
@@ -406,7 +403,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         continue;
                     };
 
-                    if should_work::<RestVisitor, _>(&method.function.params) {
+                    if params_have_rest(&method.function.params) {
                         let mut collector = ParamCollector::new(self.config, self.stmt_ptr, ctx);
 
                         for (index, param) in method
@@ -436,7 +433,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         };
 
-        if !should_work::<PatternRestVisitor, _>(param) {
+        if !has_object_rest_in_pat(param) {
             return;
         }
 
@@ -597,7 +594,7 @@ impl ObjectRestSpreadPass {
     ) {
         match left {
             ForHead::VarDecl(var_decl) => {
-                if !should_work::<PatternRestVisitor, _>(&var_decl.decls[0].name) {
+                if !has_object_rest_in_pat(&var_decl.decls[0].name) {
                     return;
                 }
 
@@ -630,7 +627,7 @@ impl ObjectRestSpreadPass {
                 }
             }
             ForHead::Pat(pat) => {
-                if !should_work::<PatternRestVisitor, _>(&**pat) {
+                if !has_object_rest_in_pat(&**pat) {
                     return;
                 }
 
@@ -695,55 +692,62 @@ impl ObjectRestSpreadPass {
 }
 
 // ========================================
-// Fast-path visitors
+// Fast-path checks
 // ========================================
 
-/// Fast-path visitor to check if a node contains object rest patterns.
-#[derive(Default)]
-struct RestVisitor {
-    found: bool,
-}
-
-impl Visit for RestVisitor {
-    noop_visit_type!(fail);
-
-    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
-        match prop {
-            ObjectPatProp::Rest(..) => self.found = true,
-            _ => prop.visit_children_with(self),
-        }
+/// Check if a pattern contains object rest (doesn't traverse into expressions).
+fn has_object_rest_in_pat(pat: &Pat) -> bool {
+    match pat {
+        Pat::Object(obj) => has_object_rest(obj),
+        Pat::Array(arr) => arr
+            .elems
+            .iter()
+            .any(|elem| elem.as_ref().is_some_and(has_object_rest_in_pat)),
+        Pat::Rest(rest) => has_object_rest_in_pat(&rest.arg),
+        Pat::Assign(assign) => has_object_rest_in_pat(&assign.left),
+        _ => false,
     }
 }
 
-impl Check for RestVisitor {
-    fn should_handle(&self) -> bool {
-        self.found
+/// Check if an object pattern has rest or nested rest.
+fn has_object_rest(obj: &ObjectPat) -> bool {
+    obj.props.iter().any(|prop| match prop {
+        ObjectPatProp::Rest(_) => true,
+        ObjectPatProp::KeyValue(kv) => has_object_rest_in_pat(&kv.value),
+        _ => false,
+    })
+}
+
+/// Check if params contain object rest patterns.
+fn params_have_rest<T>(params: &[T]) -> bool
+where
+    T: HasPat,
+{
+    params.iter().any(|p| has_object_rest_in_pat(p.pat()))
+}
+
+trait HasPat {
+    fn pat(&self) -> &Pat;
+}
+
+impl HasPat for Param {
+    fn pat(&self) -> &Pat {
+        &self.pat
     }
 }
 
-/// Pattern-only rest visitor - doesn't traverse into expressions.
-#[derive(Default)]
-struct PatternRestVisitor {
-    found: bool,
+impl HasPat for Pat {
+    fn pat(&self) -> &Pat {
+        self
+    }
 }
 
-impl Visit for PatternRestVisitor {
-    noop_visit_type!(fail);
-
-    fn visit_object_pat_prop(&mut self, prop: &ObjectPatProp) {
-        match prop {
-            ObjectPatProp::Rest(..) => self.found = true,
-            _ => prop.visit_children_with(self),
-        }
-    }
-
-    fn visit_expr(&mut self, _: &Expr) {}
-}
-
-impl Check for PatternRestVisitor {
-    fn should_handle(&self) -> bool {
-        self.found
-    }
+/// Check if constructor params contain object rest patterns.
+fn constructor_params_have_rest(params: &[ParamOrTsParamProp]) -> bool {
+    params.iter().any(|p| match p {
+        ParamOrTsParamProp::Param(param) => has_object_rest_in_pat(&param.pat),
+        _ => false,
+    })
 }
 
 // ========================================
@@ -811,7 +815,7 @@ impl<O: RestOutput> RestLowerer<O> {
                     if has_rest {
                         captured_keys.push(kv.key.clone());
                     }
-                    if should_work::<PatternRestVisitor, _>(&kv.value) {
+                    if has_object_rest_in_pat(&kv.value) {
                         self.split_object_pattern(obj, i, init, captured_keys);
                         return;
                     }
@@ -925,7 +929,7 @@ impl<O: RestOutput> RestLowerer<O> {
             let Some(elem) = &arr.elems[i] else {
                 continue;
             };
-            if should_work::<PatternRestVisitor, _>(elem) {
+            if has_object_rest_in_pat(elem) {
                 self.split_array_pattern(arr, i, init);
                 return;
             }
@@ -1268,7 +1272,7 @@ impl<'a> ParamCollector<'a> {
 
             if !matches!(pat, Pat::Assign(_)) {
                 // Check if has rest and needs lowering
-                if should_work::<PatternRestVisitor, _>(&pat) {
+                if has_object_rest_in_pat(&pat) {
                     let mut lowerer =
                         RestLowerer::new(self.config, DeclOutput::new(self.stmt_ptr, self.ctx));
                     lowerer.visit(pat, init_arg.expr);
@@ -1301,10 +1305,7 @@ impl<'a> ParamCollector<'a> {
         }
 
         // Multiple patterns - check if any need lowering
-        let has_rest = self
-            .collected_pats
-            .iter()
-            .any(should_work::<PatternRestVisitor, _>);
+        let has_rest = self.collected_pats.iter().any(has_object_rest_in_pat);
 
         if has_rest {
             // Need special handling: create array variable first, then destructure
@@ -1339,7 +1340,7 @@ impl<'a> ParamCollector<'a> {
                 } else {
                     &pat
                 };
-                let needs_lowering = should_work::<PatternRestVisitor, _>(inner_pat);
+                let needs_lowering = has_object_rest_in_pat(inner_pat);
 
                 if needs_lowering {
                     // Pattern needs lowering - create temp
