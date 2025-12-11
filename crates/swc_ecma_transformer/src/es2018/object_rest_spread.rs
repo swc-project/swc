@@ -1,5 +1,6 @@
 use std::mem;
 
+use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
@@ -30,6 +31,7 @@ pub fn hook(assumptions: Assumptions) -> impl VisitMutHook<TraverseCtx> {
         stmt_ptr: None,
         stmt_ptr_stack: Vec::new(),
         vars: Vec::new(),
+        export_idents: FxHashMap::default(),
     }
 }
 
@@ -39,6 +41,8 @@ struct ObjectRestSpreadPass {
     stmt_ptr_stack: Vec<*const Stmt>,
     /// Pending variable declarations to insert after statement.
     vars: Vec<VarDeclarator>,
+    /// Map from VarDecl address to original identifiers to export (before transformation)
+    export_idents: FxHashMap<*const VarDecl, Vec<Ident>>,
 }
 
 impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
@@ -50,6 +54,32 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         self.stmt_ptr_stack.pop();
         self.stmt_ptr = self.stmt_ptr_stack.last().copied();
+    }
+
+    fn enter_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
+        // Collect original identifiers from export var declarations before transformation
+        for item in items.iter() {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(var_decl),
+                ..
+            })) = item
+            {
+                // Only collect if the var declaration needs transformation
+                let needs_transform = var_decl
+                    .decls
+                    .iter()
+                    .any(|decl| should_work::<PatternRestVisitor, _>(&decl.name));
+
+                if needs_transform {
+                    let var_decl_ptr = &**var_decl as *const VarDecl;
+                    let mut idents = Vec::new();
+                    for decl in &var_decl.decls {
+                        collect_idents_from_pat(&decl.name, &mut idents);
+                    }
+                    self.export_idents.insert(var_decl_ptr, idents);
+                }
+            }
+        }
     }
 
     // Object Spread and Rest: Transform { ...x } and ({ ...x } = y)
@@ -484,9 +514,13 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                 unreachable!()
             };
 
+            // Get the original identifiers collected before transformation
+            let var_decl_ptr = &*var_decl as *const VarDecl;
+            let exported_names = self.export_idents.remove(&var_decl_ptr);
+
             // Note: The var_decl has already been transformed by exit_var_decl
-            // Check if transformation happened: if decls.len() > 1, transformation occurred
-            let transformation_occurred = var_decl.decls.len() > 1 || !self.vars.is_empty();
+            // Check if transformation happened
+            let transformation_occurred = exported_names.is_some();
 
             if !transformation_occurred {
                 // No transformation, restore the export declaration
@@ -501,11 +535,8 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                 continue;
             }
 
-            // Collect names from all declarators
-            let mut exported_names = Vec::new();
-            for decl in &var_decl.decls {
-                collect_idents_from_pat(&decl.name, &mut exported_names);
-            }
+            // Use the original identifiers collected before transformation
+            let exported_names = exported_names.unwrap();
 
             // Insert var declaration as a statement
             let var_stmt: Stmt = (*var_decl).into();
