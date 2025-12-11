@@ -8,7 +8,7 @@ class Sub extends Super {
         let _ref = [
             _1,
             _2
-        ], [y = z, _ref1] = _ref, {} = _ref1, w = _extends({}, _ref1);
+        ], [y = z, ..._rest] = _ref, [_ref1] = _rest, {} = _ref1, w = _extends({}, _ref1);
         super.foo();
     }
 }

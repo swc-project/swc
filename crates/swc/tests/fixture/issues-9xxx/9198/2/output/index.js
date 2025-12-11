@@ -31,9 +31,9 @@ function x1(a, _1 = void 0, _2, ..._3) {
         _1,
         _2,
         _3
-    ], [b = a, _ref1, ..._rest] = _ref, { c } = _ref1, d = _object_without_properties(_ref1, [
+    ], [b = a, ..._rest] = _ref, [_ref1, ..._rest1] = _rest, { c } = _ref1, d = _object_without_properties(_ref1, [
         "c"
-    ]), [{ e }] = _rest;
+    ]), [{ e }] = _rest1;
     console.log(a, b, c, d, e);
 }
 x1(1, 2, {});
