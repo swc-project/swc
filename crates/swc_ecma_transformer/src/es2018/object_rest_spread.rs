@@ -27,19 +27,33 @@ pub fn hook(assumptions: Assumptions) -> impl VisitMutHook<TraverseCtx> {
             set_property: assumptions.set_spread_properties,
             pure_getters: assumptions.pure_getters,
         },
+        stmt_ptr: None,
+        stmt_ptr_stack: Vec::new(),
         vars: Vec::new(),
     }
 }
 
 struct ObjectRestSpreadPass {
     config: Config,
+    stmt_ptr: Option<*const Stmt>,
+    stmt_ptr_stack: Vec<*const Stmt>,
     /// Pending variable declarations to insert after statement.
     vars: Vec<VarDeclarator>,
 }
 
 impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
+    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        self.stmt_ptr_stack.push(stmt as *const Stmt);
+        self.stmt_ptr = Some(stmt as *const Stmt);
+    }
+
+    fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        self.stmt_ptr_stack.pop();
+        self.stmt_ptr = self.stmt_ptr_stack.last().copied();
+    }
+
     // Object Spread and Rest: Transform { ...x } and ({ ...x } = y)
-    fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
+    fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         // Handle object spread
         if let Expr::Object(ObjectLit { span, props }) = expr {
             let has_spread = props.iter().any(|p| matches!(p, PropOrSpread::Spread(..)));
@@ -146,13 +160,29 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         let mut out = ExprOutput::new();
 
         if aliased {
-            // Declare the temp var
-            out.vars.push(VarDeclarator {
-                span: DUMMY_SP,
-                name: ref_ident.clone().into(),
-                init: None,
-                definite: false,
-            });
+            if let Some(stmt_ptr) = self.stmt_ptr {
+                ctx.statement_injector.insert_after(
+                    stmt_ptr,
+                    VarDecl {
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ref_ident.clone().into(),
+                            init: None,
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            } else {
+                // Declare the temp var
+                out.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: ref_ident.clone().into(),
+                    init: None,
+                    definite: false,
+                });
+            }
             // _ref = source
             out.exprs.push(
                 AssignExpr {
