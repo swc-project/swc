@@ -899,6 +899,18 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
         Stmt::Block(block) => {
             replace_this_in_stmts(&mut block.stmts, this_var);
         }
+        Stmt::With(with) => {
+            replace_this_in_expr(&mut with.obj, this_var);
+            replace_this_in_stmt(&mut with.body, this_var);
+        }
+        Stmt::Return(ret) => {
+            if let Some(arg) = &mut ret.arg {
+                replace_this_in_expr(arg, this_var);
+            }
+        }
+        Stmt::Labeled(labeled) => {
+            replace_this_in_stmt(&mut labeled.body, this_var);
+        }
         Stmt::If(if_stmt) => {
             replace_this_in_expr(&mut if_stmt.test, this_var);
             replace_this_in_stmt(&mut if_stmt.cons, this_var);
@@ -906,21 +918,127 @@ fn replace_this_in_stmt(stmt: &mut Stmt, this_var: &Ident) {
                 replace_this_in_stmt(alt, this_var);
             }
         }
-        Stmt::Return(ret) => {
-            if let Some(arg) = &mut ret.arg {
-                replace_this_in_expr(arg, this_var);
+        Stmt::Switch(switch) => {
+            replace_this_in_expr(&mut switch.discriminant, this_var);
+            for case in &mut switch.cases {
+                if let Some(test) = &mut case.test {
+                    replace_this_in_expr(test, this_var);
+                }
+                replace_this_in_stmts(&mut case.cons, this_var);
             }
+        }
+        Stmt::Throw(throw) => {
+            replace_this_in_expr(&mut throw.arg, this_var);
+        }
+        Stmt::Try(try_stmt) => {
+            replace_this_in_stmts(&mut try_stmt.block.stmts, this_var);
+            if let Some(handler) = &mut try_stmt.handler {
+                replace_this_in_stmts(&mut handler.body.stmts, this_var);
+            }
+            if let Some(finalizer) = &mut try_stmt.finalizer {
+                replace_this_in_stmts(&mut finalizer.stmts, this_var);
+            }
+        }
+        Stmt::While(while_stmt) => {
+            replace_this_in_expr(&mut while_stmt.test, this_var);
+            replace_this_in_stmt(&mut while_stmt.body, this_var);
+        }
+        Stmt::DoWhile(do_while) => {
+            replace_this_in_stmt(&mut do_while.body, this_var);
+            replace_this_in_expr(&mut do_while.test, this_var);
+        }
+        Stmt::For(for_stmt) => {
+            if let Some(init) = &mut for_stmt.init {
+                match init {
+                    VarDeclOrExpr::VarDecl(var_decl) => {
+                        for decl in &mut var_decl.decls {
+                            if let Some(init) = &mut decl.init {
+                                replace_this_in_expr(init, this_var);
+                            }
+                        }
+                    }
+                    VarDeclOrExpr::Expr(expr) => {
+                        replace_this_in_expr(expr, this_var);
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
+                }
+            }
+            if let Some(test) = &mut for_stmt.test {
+                replace_this_in_expr(test, this_var);
+            }
+            if let Some(update) = &mut for_stmt.update {
+                replace_this_in_expr(update, this_var);
+            }
+            replace_this_in_stmt(&mut for_stmt.body, this_var);
+        }
+        Stmt::ForIn(for_in) => {
+            match &mut for_in.left {
+                ForHead::VarDecl(var_decl) => {
+                    for decl in &mut var_decl.decls {
+                        if let Some(init) = &mut decl.init {
+                            replace_this_in_expr(init, this_var);
+                        }
+                    }
+                }
+                ForHead::Pat(_pat) => {
+                    // Patterns in for-in don't need traversal as they're
+                    // binding patterns
+                }
+                ForHead::UsingDecl(_) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => {}
+            }
+            replace_this_in_expr(&mut for_in.right, this_var);
+            replace_this_in_stmt(&mut for_in.body, this_var);
+        }
+        Stmt::ForOf(for_of) => {
+            match &mut for_of.left {
+                ForHead::VarDecl(var_decl) => {
+                    for decl in &mut var_decl.decls {
+                        if let Some(init) = &mut decl.init {
+                            replace_this_in_expr(init, this_var);
+                        }
+                    }
+                }
+                ForHead::Pat(_pat) => {
+                    // Patterns in for-of don't need traversal as they're
+                    // binding patterns
+                }
+                ForHead::UsingDecl(_) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => {}
+            }
+            replace_this_in_expr(&mut for_of.right, this_var);
+            replace_this_in_stmt(&mut for_of.body, this_var);
         }
         Stmt::Expr(expr_stmt) => {
             replace_this_in_expr(&mut expr_stmt.expr, this_var);
         }
-        Stmt::Decl(Decl::Var(var_decl)) => {
-            for decl in &mut var_decl.decls {
-                if let Some(init) = &mut decl.init {
-                    replace_this_in_expr(init, this_var);
+        Stmt::Decl(decl) => match decl {
+            Decl::Class(_)
+            | Decl::Fn(_)
+            | Decl::Using(_)
+            | Decl::TsInterface(_)
+            | Decl::TsTypeAlias(_)
+            | Decl::TsEnum(_)
+            | Decl::TsModule(_) => {
+                // Don't traverse into nested function/class declarations
+            }
+            Decl::Var(var_decl) => {
+                for decl in &mut var_decl.decls {
+                    if let Some(init) = &mut decl.init {
+                        replace_this_in_expr(init, this_var);
+                    }
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        },
+        Stmt::Empty(_) | Stmt::Debugger(_) | Stmt::Break(_) | Stmt::Continue(_) => {
+            // These statements don't contain expressions
         }
+        #[cfg(swc_ast_unknown)]
         _ => {}
     }
 }
@@ -930,8 +1048,49 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
         Expr::This(_) => {
             *expr = Expr::Ident(this_var.clone());
         }
+        Expr::Array(array) => {
+            for elem in array.elems.iter_mut().flatten() {
+                replace_this_in_expr(&mut elem.expr, this_var);
+            }
+        }
+        Expr::Object(obj) => {
+            for prop in &mut obj.props {
+                match prop {
+                    PropOrSpread::Spread(spread) => {
+                        replace_this_in_expr(&mut spread.expr, this_var);
+                    }
+                    PropOrSpread::Prop(prop) => match &mut **prop {
+                        Prop::Shorthand(_) => {}
+                        Prop::KeyValue(kv) => {
+                            if let PropName::Computed(computed) = &mut kv.key {
+                                replace_this_in_expr(&mut computed.expr, this_var);
+                            }
+                            replace_this_in_expr(&mut kv.value, this_var);
+                        }
+                        Prop::Assign(assign) => {
+                            replace_this_in_expr(&mut assign.value, this_var);
+                        }
+                        Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => {
+                            // Don't traverse into nested functions
+                        }
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
+                    },
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
+                }
+            }
+        }
         Expr::Member(member) => {
             replace_this_in_expr(&mut member.obj, this_var);
+            if let MemberProp::Computed(computed) = &mut member.prop {
+                replace_this_in_expr(&mut computed.expr, this_var);
+            }
+        }
+        Expr::SuperProp(super_prop) => {
+            if let SuperProp::Computed(computed) = &mut super_prop.prop {
+                replace_this_in_expr(&mut computed.expr, this_var);
+            }
         }
         Expr::Call(call) => {
             if let Callee::Expr(expr) = &mut call.callee {
@@ -941,12 +1100,28 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
                 replace_this_in_expr(&mut arg.expr, this_var);
             }
         }
+        Expr::New(new) => {
+            replace_this_in_expr(&mut new.callee, this_var);
+            if let Some(args) = &mut new.args {
+                for arg in args {
+                    replace_this_in_expr(&mut arg.expr, this_var);
+                }
+            }
+        }
         Expr::Bin(bin) => {
             replace_this_in_expr(&mut bin.left, this_var);
             replace_this_in_expr(&mut bin.right, this_var);
         }
         Expr::Unary(unary) => {
             replace_this_in_expr(&mut unary.arg, this_var);
+        }
+        Expr::Update(update) => {
+            replace_this_in_expr(&mut update.arg, this_var);
+        }
+        Expr::Cond(cond) => {
+            replace_this_in_expr(&mut cond.test, this_var);
+            replace_this_in_expr(&mut cond.cons, this_var);
+            replace_this_in_expr(&mut cond.alt, this_var);
         }
         Expr::Await(await_expr) => {
             replace_this_in_expr(&mut await_expr.arg, this_var);
@@ -956,9 +1131,58 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
                 replace_this_in_expr(arg, this_var);
             }
         }
+        Expr::Tpl(tpl) => {
+            for expr in &mut tpl.exprs {
+                replace_this_in_expr(expr, this_var);
+            }
+        }
+        Expr::TaggedTpl(tagged) => {
+            replace_this_in_expr(&mut tagged.tag, this_var);
+            for expr in &mut tagged.tpl.exprs {
+                replace_this_in_expr(expr, this_var);
+            }
+        }
         Expr::Assign(assign) => {
-            if let AssignTarget::Simple(SimpleAssignTarget::Member(member)) = &mut assign.left {
-                replace_this_in_member_expr(member, this_var);
+            match &mut assign.left {
+                AssignTarget::Simple(simple) => match simple {
+                    SimpleAssignTarget::Member(member) => {
+                        replace_this_in_member_expr(member, this_var);
+                    }
+                    SimpleAssignTarget::SuperProp(super_prop) => {
+                        if let SuperProp::Computed(computed) = &mut super_prop.prop {
+                            replace_this_in_expr(&mut computed.expr, this_var);
+                        }
+                    }
+                    SimpleAssignTarget::Paren(paren) => {
+                        replace_this_in_expr(&mut paren.expr, this_var);
+                    }
+                    SimpleAssignTarget::OptChain(opt) => {
+                        replace_this_in_opt_chain_base(&mut opt.base, this_var);
+                    }
+                    SimpleAssignTarget::TsAs(ts_as) => {
+                        replace_this_in_expr(&mut ts_as.expr, this_var);
+                    }
+                    SimpleAssignTarget::TsSatisfies(ts_satisfies) => {
+                        replace_this_in_expr(&mut ts_satisfies.expr, this_var);
+                    }
+                    SimpleAssignTarget::TsNonNull(ts_non_null) => {
+                        replace_this_in_expr(&mut ts_non_null.expr, this_var);
+                    }
+                    SimpleAssignTarget::TsTypeAssertion(ts_type_assertion) => {
+                        replace_this_in_expr(&mut ts_type_assertion.expr, this_var);
+                    }
+                    SimpleAssignTarget::TsInstantiation(ts_instantiation) => {
+                        replace_this_in_expr(&mut ts_instantiation.expr, this_var);
+                    }
+                    SimpleAssignTarget::Ident(_) | SimpleAssignTarget::Invalid(_) => {}
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
+                },
+                AssignTarget::Pat(pat) => {
+                    replace_this_in_pat(pat, this_var);
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => {}
             }
             replace_this_in_expr(&mut assign.right, this_var);
         }
@@ -970,14 +1194,134 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
                 replace_this_in_expr(expr, this_var);
             }
         }
+        Expr::OptChain(opt) => {
+            replace_this_in_opt_chain_base(&mut opt.base, this_var);
+        }
+        // Don't traverse into nested functions/classes/arrows as they have their own `this`
+        // context
+        Expr::Fn(_) | Expr::Arrow(_) | Expr::Class(_) => {}
+        // These don't contain expressions that could have `this`
+        Expr::Ident(_)
+        | Expr::Lit(_)
+        | Expr::PrivateName(_)
+        | Expr::JSXMember(_)
+        | Expr::JSXNamespacedName(_)
+        | Expr::JSXEmpty(_)
+        | Expr::JSXElement(_)
+        | Expr::JSXFragment(_)
+        | Expr::TsTypeAssertion(_)
+        | Expr::TsConstAssertion(_)
+        | Expr::TsNonNull(_)
+        | Expr::TsAs(_)
+        | Expr::TsInstantiation(_)
+        | Expr::TsSatisfies(_)
+        | Expr::MetaProp(_)
+        | Expr::Invalid(_) => {}
+        #[cfg(swc_ast_unknown)]
         _ => {}
     }
 }
 
 fn replace_this_in_member_expr(member: &mut MemberExpr, this_var: &Ident) {
     replace_this_in_expr(&mut member.obj, this_var);
+    if let MemberProp::Computed(computed) = &mut member.prop {
+        replace_this_in_expr(&mut computed.expr, this_var);
+    }
 }
 
-fn replace_this_in_expr_or_spread(expr: &mut ExprOrSpread, this_var: &Ident) {
-    replace_this_in_expr(&mut expr.expr, this_var);
+fn replace_this_in_opt_chain_base(base: &mut OptChainBase, this_var: &Ident) {
+    match base {
+        OptChainBase::Member(member) => {
+            replace_this_in_expr(&mut member.obj, this_var);
+            if let MemberProp::Computed(computed) = &mut member.prop {
+                replace_this_in_expr(&mut computed.expr, this_var);
+            }
+        }
+        OptChainBase::Call(call) => {
+            replace_this_in_expr(&mut call.callee, this_var);
+            for arg in &mut call.args {
+                replace_this_in_expr(&mut arg.expr, this_var);
+            }
+        }
+        #[cfg(swc_ast_unknown)]
+        _ => {}
+    }
+}
+
+fn replace_this_in_pat(pat: &mut AssignTargetPat, this_var: &Ident) {
+    match pat {
+        AssignTargetPat::Array(array) => {
+            for elem in array.elems.iter_mut().flatten() {
+                replace_this_in_pat_inner(elem, this_var);
+            }
+        }
+        AssignTargetPat::Object(obj) => {
+            for prop in &mut obj.props {
+                match prop {
+                    ObjectPatProp::KeyValue(kv) => {
+                        if let PropName::Computed(computed) = &mut kv.key {
+                            replace_this_in_expr(&mut computed.expr, this_var);
+                        }
+                        replace_this_in_pat_inner(&mut kv.value, this_var);
+                    }
+                    ObjectPatProp::Assign(assign) => {
+                        if let Some(value) = &mut assign.value {
+                            replace_this_in_expr(value, this_var);
+                        }
+                    }
+                    ObjectPatProp::Rest(rest) => {
+                        replace_this_in_pat_inner(&mut rest.arg, this_var);
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
+                }
+            }
+        }
+        AssignTargetPat::Invalid(_) => {}
+        #[cfg(swc_ast_unknown)]
+        _ => {}
+    }
+}
+
+fn replace_this_in_pat_inner(pat: &mut Pat, this_var: &Ident) {
+    match pat {
+        Pat::Array(array) => {
+            for elem in array.elems.iter_mut().flatten() {
+                replace_this_in_pat_inner(elem, this_var);
+            }
+        }
+        Pat::Object(obj) => {
+            for prop in &mut obj.props {
+                match prop {
+                    ObjectPatProp::KeyValue(kv) => {
+                        if let PropName::Computed(computed) = &mut kv.key {
+                            replace_this_in_expr(&mut computed.expr, this_var);
+                        }
+                        replace_this_in_pat_inner(&mut kv.value, this_var);
+                    }
+                    ObjectPatProp::Assign(assign) => {
+                        if let Some(value) = &mut assign.value {
+                            replace_this_in_expr(value, this_var);
+                        }
+                    }
+                    ObjectPatProp::Rest(rest) => {
+                        replace_this_in_pat_inner(&mut rest.arg, this_var);
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
+                }
+            }
+        }
+        Pat::Assign(assign) => {
+            replace_this_in_pat_inner(&mut assign.left, this_var);
+            replace_this_in_expr(&mut assign.right, this_var);
+        }
+        Pat::Rest(rest) => {
+            replace_this_in_pat_inner(&mut rest.arg, this_var);
+        }
+        // Don't need to traverse these as they're just identifiers or invalid
+        Pat::Ident(_) | Pat::Invalid(_) | Pat::Expr(_) => {}
+        #[cfg(swc_ast_unknown)]
+        _ => {}
+    }
 }
