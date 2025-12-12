@@ -45,7 +45,7 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain(crate::es2026::hook(options.env.es2026));
     let hook = hook.chain(crate::es2022::hook(options.env.es2022));
     let hook = hook.chain(crate::es2021::hook(options.env.es2021));
-    let hook = hook.chain(crate::es2020::hook(options.env.es2020));
+    let hook = hook.chain(crate::es2020::hook(options.env.es2020, options.assumptions));
     let hook = hook.chain(crate::es2019::hook(options.env.es2019));
     let hook = hook.chain(crate::es2018::hook(options.env.es2018, options.assumptions));
     let hook = hook.chain(crate::es2017::hook(
