@@ -48,13 +48,15 @@ use crate::TraverseCtx;
 pub fn hook(no_document_all: bool) -> impl VisitMutHook<TraverseCtx> {
     NullishCoalescingPass {
         no_document_all,
-        cur_stmt_address: None,
+        stmt_ptr: None,
+        stmt_ptr_stack: vec![],
     }
 }
 
 struct NullishCoalescingPass {
     no_document_all: bool,
-    cur_stmt_address: Option<*const Stmt>,
+    stmt_ptr: Option<*const Stmt>,
+    stmt_ptr_stack: Vec<*const Stmt>,
 }
 
 impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
@@ -73,11 +75,13 @@ impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
     }
 
     fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.cur_stmt_address = Some(stmt as *const Stmt);
+        self.stmt_ptr = Some(stmt as *const Stmt);
+        self.stmt_ptr_stack.push(stmt as *const Stmt);
     }
 
     fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.cur_stmt_address = None;
+        self.stmt_ptr = None;
+        self.stmt_ptr = self.stmt_ptr_stack.pop();
     }
 }
 
@@ -102,7 +106,7 @@ impl NullishCoalescingPass {
         if needs_temp {
             // Inject variable declaration for temporary variable
             ctx.statement_injector.insert_before(
-                self.cur_stmt_address.unwrap(),
+                self.stmt_ptr.unwrap(),
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -193,7 +197,7 @@ impl NullishCoalescingPass {
 
                 // Inject variable declaration
                 ctx.statement_injector.insert_before(
-                    self.cur_stmt_address.unwrap(),
+                    self.stmt_ptr.unwrap(),
                     Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
