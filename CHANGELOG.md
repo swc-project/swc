@@ -44,6 +44,9 @@
 
 
 
+- **(es/minifier)** Optimize `typeof x == "undefined"` to `typeof x > "u"` ([#11367](https://github.com/swc-project/swc/issues/11367)) ([a5e144b](https://github.com/swc-project/swc/commit/a5e144bc6329431fcb4beb63b441627e7afce1fa))
+
+
 - **(es/parser)** Support `no_paren` parser option ([#11359](https://github.com/swc-project/swc/issues/11359)) ([5b9d77c](https://github.com/swc-project/swc/commit/5b9d77c1c89ade5772c6feee429386faf3b93a39))
 
 
@@ -1974,14 +1977,8 @@
 
 - **(errors)** Disable wrapping of text lines ([#10314](https://github.com/swc-project/swc/issues/10314)) ([f6840ea](https://github.com/swc-project/swc/commit/f6840ea41411adcc46cfb7570ad800d479f2014d))
 
-
-- **(es/codegen)** Ensure proper Unicode escape handling for ES5 and below #10028 ([#10309](https://github.com/swc-project/swc/issues/10309)) ([7f76fa3](https://github.com/swc-project/swc/commit/7f76fa37050cfa46503333243cf2d9bd6e9dfd47))
-
 ### Features
 
-
-
-- **(es/minifier)** Remove useless to number ([#10308](https://github.com/swc-project/swc/issues/10308)) ([898f170](https://github.com/swc-project/swc/commit/898f17057af46dbc9a10d9e94c638db764733278))
 
 
 - **(ts/isolated-dts)** Distinguish js value and ts type ([#10316](https://github.com/swc-project/swc/issues/10316)) ([c480604](https://github.com/swc-project/swc/commit/c480604da533f0c2738160efe31d914355f53601))
