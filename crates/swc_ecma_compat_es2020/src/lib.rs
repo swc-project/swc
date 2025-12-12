@@ -1,8 +1,6 @@
 use serde::Deserialize;
-use swc_common::Mark;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::Pass;
-use swc_ecma_compiler::{Compiler, Features};
-use swc_ecma_transforms_base::assumptions::Assumptions;
 
 pub use self::{
     export_namespace_from::export_namespace_from, nullish_coalescing::nullish_coalescing,
@@ -14,16 +12,15 @@ pub mod nullish_coalescing;
 pub mod optional_chaining;
 
 pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Pass {
-    let mut assumptions = Assumptions::default();
-    assumptions.no_document_all = config.nullish_coalescing.no_document_all;
+    let mut options = swc_ecma_transformer::Options::default();
+    options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+    options.assumptions.no_document_all = config.nullish_coalescing.no_document_all;
+    options.env.es2020.nullish_coalescing = true;
+    options.env.es2020.export_namespace_from = true;
 
     (
         optional_chaining(config.optional_chaining, unresolved_mark),
-        Compiler::new(swc_ecma_compiler::Config {
-            includes: Features::EXPORT_NAMESPACE_FROM | Features::NULLISH_COALESCING,
-            assumptions,
-            ..Default::default()
-        }),
+        options.into_pass(),
     )
 }
 
