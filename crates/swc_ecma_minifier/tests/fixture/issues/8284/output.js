@@ -8,6 +8,6 @@ global1 = this, factory = function(exports1) {
     isGlobalObj(globalThis) || "object" == typeof self && isGlobalObj(self) || "object" == typeof global && isGlobalObj(global) || function() {
         return this;
     }() || {}));
-}, "object" == typeof exports && "undefined" != typeof module ? factory(exports) : "function" == typeof define && define.amd ? define([
+}, "object" == typeof exports && "u" > typeof module ? factory(exports) : "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : factory((global1 = "undefined" != typeof globalThis ? globalThis : global1 || self).Sentry = {});
+], factory) : factory((global1 = "u" > typeof globalThis ? globalThis : global1 || self).Sentry = {});

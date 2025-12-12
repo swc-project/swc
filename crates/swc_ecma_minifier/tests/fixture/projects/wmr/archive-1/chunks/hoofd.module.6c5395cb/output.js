@@ -1,5 +1,5 @@
 import { D, F, y, b as s } from "../index.f66dda46.js";
-var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, currentTitleIndex, currentTitleTemplateIndex, currentMetaIndex, timeout, processQueue, isServerSide = "undefined" == typeof document, applyTitleTemplate = function(title, template) {
+var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, currentTitleIndex, currentTitleTemplateIndex, currentMetaIndex, timeout, processQueue, isServerSide = "u" < typeof document, applyTitleTemplate = function(title, template) {
     return template ? template.replace(/%s/g, title || "") : title;
 }, changeOrCreateMetaTag = function(meta) {
     var result = document.head.querySelectorAll(meta.charset ? "meta[" + meta.keyword + "]" : "meta[" + meta.keyword + '="' + meta[meta.keyword] + '"]');

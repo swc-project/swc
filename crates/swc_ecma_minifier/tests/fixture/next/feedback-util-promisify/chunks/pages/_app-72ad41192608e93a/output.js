@@ -119,7 +119,7 @@
                         }(e, u, u + 16383 > a ? a : u + 16383));
                         return 1 === n ? i.push(t[(r = e[f - 1]) >> 2] + t[r << 4 & 63] + "==") : 2 === n && i.push(t[(r = (e[f - 2] << 8) + e[f - 1]) >> 10] + t[r >> 4 & 63] + t[r << 2 & 63] + "="), i.join("");
                     };
-                    for(var t = [], f = [], n = "undefined" != typeof Uint8Array ? Uint8Array : Array, i = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", o = 0, u = i.length; o < u; ++o)t[o] = i[o], f[i.charCodeAt(o)] = o;
+                    for(var t = [], f = [], n = "u" > typeof Uint8Array ? Uint8Array : Array, i = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", o = 0, u = i.length; o < u; ++o)t[o] = i[o], f[i.charCodeAt(o)] = o;
                     function getLens(e) {
                         var r = e.length;
                         if (r % 4 > 0) throw Error("Invalid string. Length must be a multiple of 4");
@@ -162,7 +162,7 @@
                         }
                         if (ArrayBuffer.isView(e)) return fromArrayLike(e);
                         if (null == e) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
-                        if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) {
+                        if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "u" > typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) {
                             if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
                             if (e.byteLength < r + (t || 0)) throw RangeError('"length" is outside of buffer bounds');
                             return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
@@ -178,7 +178,7 @@
                             return void 0 !== e.length ? "number" != typeof e.length || (e1 = e.length) != e1 ? createBuffer(0) : fromArrayLike(e) : "Buffer" === e.type && Array.isArray(e.data) ? fromArrayLike(e.data) : void 0;
                         }(e);
                         if (n1) return n1;
-                        if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof e[Symbol.toPrimitive]) return Buffer.from(e[Symbol.toPrimitive]("string"), r, t);
+                        if ("u" > typeof Symbol && null != Symbol.toPrimitive && "function" == typeof e[Symbol.toPrimitive]) return Buffer.from(e[Symbol.toPrimitive]("string"), r, t);
                         throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
                     }
                     function assertSize(e) {
@@ -367,7 +367,7 @@
                         } catch (e) {
                             return !1;
                         }
-                    }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+                    }(), !Buffer.TYPED_ARRAY_SUPPORT && "u" > typeof console && "function" == typeof console.error && console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                         enumerable: !0,
                         get: function() {
                             if (Buffer.isBuffer(this)) return this.buffer;
@@ -923,20 +923,20 @@
                         }
                     }() : throwTypeError, f = e(449)(), u = Object.getPrototypeOf || function(r) {
                         return r.__proto__;
-                    }, s = getEvalledConstructor("async function* () {}"), c = s ? s.prototype : o, l = c ? c.prototype : o, d = "undefined" == typeof Uint8Array ? o : u(Uint8Array), g = {
-                        "%AggregateError%": "undefined" == typeof AggregateError ? o : AggregateError,
+                    }, s = getEvalledConstructor("async function* () {}"), c = s ? s.prototype : o, l = c ? c.prototype : o, d = "u" < typeof Uint8Array ? o : u(Uint8Array), g = {
+                        "%AggregateError%": "u" < typeof AggregateError ? o : AggregateError,
                         "%Array%": Array,
-                        "%ArrayBuffer%": "undefined" == typeof ArrayBuffer ? o : ArrayBuffer,
+                        "%ArrayBuffer%": "u" < typeof ArrayBuffer ? o : ArrayBuffer,
                         "%ArrayIteratorPrototype%": f ? u([][Symbol.iterator]()) : o,
                         "%AsyncFromSyncIteratorPrototype%": o,
                         "%AsyncFunction%": getEvalledConstructor("async function () {}"),
                         "%AsyncGenerator%": c,
                         "%AsyncGeneratorFunction%": s,
                         "%AsyncIteratorPrototype%": l ? u(l) : o,
-                        "%Atomics%": "undefined" == typeof Atomics ? o : Atomics,
-                        "%BigInt%": "undefined" == typeof BigInt ? o : BigInt,
+                        "%Atomics%": "u" < typeof Atomics ? o : Atomics,
+                        "%BigInt%": "u" < typeof BigInt ? o : BigInt,
                         "%Boolean%": Boolean,
-                        "%DataView%": "undefined" == typeof DataView ? o : DataView,
+                        "%DataView%": "u" < typeof DataView ? o : DataView,
                         "%Date%": Date,
                         "%decodeURI%": decodeURI,
                         "%decodeURIComponent%": decodeURIComponent,
@@ -945,34 +945,34 @@
                         "%Error%": Error,
                         "%eval%": eval,
                         "%EvalError%": EvalError,
-                        "%Float32Array%": "undefined" == typeof Float32Array ? o : Float32Array,
-                        "%Float64Array%": "undefined" == typeof Float64Array ? o : Float64Array,
-                        "%FinalizationRegistry%": "undefined" == typeof FinalizationRegistry ? o : FinalizationRegistry,
+                        "%Float32Array%": "u" < typeof Float32Array ? o : Float32Array,
+                        "%Float64Array%": "u" < typeof Float64Array ? o : Float64Array,
+                        "%FinalizationRegistry%": "u" < typeof FinalizationRegistry ? o : FinalizationRegistry,
                         "%Function%": i,
                         "%GeneratorFunction%": getEvalledConstructor("function* () {}"),
-                        "%Int8Array%": "undefined" == typeof Int8Array ? o : Int8Array,
-                        "%Int16Array%": "undefined" == typeof Int16Array ? o : Int16Array,
-                        "%Int32Array%": "undefined" == typeof Int32Array ? o : Int32Array,
+                        "%Int8Array%": "u" < typeof Int8Array ? o : Int8Array,
+                        "%Int16Array%": "u" < typeof Int16Array ? o : Int16Array,
+                        "%Int32Array%": "u" < typeof Int32Array ? o : Int32Array,
                         "%isFinite%": isFinite,
                         "%isNaN%": isNaN,
                         "%IteratorPrototype%": f ? u(u([][Symbol.iterator]())) : o,
                         "%JSON%": "object" == typeof JSON ? JSON : o,
-                        "%Map%": "undefined" == typeof Map ? o : Map,
-                        "%MapIteratorPrototype%": "undefined" != typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
+                        "%Map%": "u" < typeof Map ? o : Map,
+                        "%MapIteratorPrototype%": "u" > typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
                         "%Math%": Math,
                         "%Number%": Number,
                         "%Object%": Object,
                         "%parseFloat%": parseFloat,
                         "%parseInt%": parseInt,
-                        "%Promise%": "undefined" == typeof Promise ? o : Promise,
-                        "%Proxy%": "undefined" == typeof Proxy ? o : Proxy,
+                        "%Promise%": "u" < typeof Promise ? o : Promise,
+                        "%Proxy%": "u" < typeof Proxy ? o : Proxy,
                         "%RangeError%": RangeError,
                         "%ReferenceError%": ReferenceError,
-                        "%Reflect%": "undefined" == typeof Reflect ? o : Reflect,
+                        "%Reflect%": "u" < typeof Reflect ? o : Reflect,
                         "%RegExp%": RegExp,
-                        "%Set%": "undefined" == typeof Set ? o : Set,
-                        "%SetIteratorPrototype%": "undefined" != typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
-                        "%SharedArrayBuffer%": "undefined" == typeof SharedArrayBuffer ? o : SharedArrayBuffer,
+                        "%Set%": "u" < typeof Set ? o : Set,
+                        "%SetIteratorPrototype%": "u" > typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
+                        "%SharedArrayBuffer%": "u" < typeof SharedArrayBuffer ? o : SharedArrayBuffer,
                         "%String%": String,
                         "%StringIteratorPrototype%": f ? u(""[Symbol.iterator]()) : o,
                         "%Symbol%": f ? Symbol : o,
@@ -980,14 +980,14 @@
                         "%ThrowTypeError%": p,
                         "%TypedArray%": d,
                         "%TypeError%": a,
-                        "%Uint8Array%": "undefined" == typeof Uint8Array ? o : Uint8Array,
-                        "%Uint8ClampedArray%": "undefined" == typeof Uint8ClampedArray ? o : Uint8ClampedArray,
-                        "%Uint16Array%": "undefined" == typeof Uint16Array ? o : Uint16Array,
-                        "%Uint32Array%": "undefined" == typeof Uint32Array ? o : Uint32Array,
+                        "%Uint8Array%": "u" < typeof Uint8Array ? o : Uint8Array,
+                        "%Uint8ClampedArray%": "u" < typeof Uint8ClampedArray ? o : Uint8ClampedArray,
+                        "%Uint16Array%": "u" < typeof Uint16Array ? o : Uint16Array,
+                        "%Uint32Array%": "u" < typeof Uint32Array ? o : Uint32Array,
                         "%URIError%": URIError,
-                        "%WeakMap%": "undefined" == typeof WeakMap ? o : WeakMap,
-                        "%WeakRef%": "undefined" == typeof WeakRef ? o : WeakRef,
-                        "%WeakSet%": "undefined" == typeof WeakSet ? o : WeakSet
+                        "%WeakMap%": "u" < typeof WeakMap ? o : WeakMap,
+                        "%WeakRef%": "u" < typeof WeakRef ? o : WeakRef,
+                        "%WeakSet%": "u" < typeof WeakSet ? o : WeakSet
                     }, A = {
                         "%ArrayBufferPrototype%": [
                             "ArrayBuffer",
@@ -1308,20 +1308,20 @@
                         }
                     }() : throwTypeError, f = e(449)(), u = Object.getPrototypeOf || function(r) {
                         return r.__proto__;
-                    }, s = {}, c = "undefined" == typeof Uint8Array ? o : u(Uint8Array), l = {
-                        "%AggregateError%": "undefined" == typeof AggregateError ? o : AggregateError,
+                    }, s = {}, c = "u" < typeof Uint8Array ? o : u(Uint8Array), l = {
+                        "%AggregateError%": "u" < typeof AggregateError ? o : AggregateError,
                         "%Array%": Array,
-                        "%ArrayBuffer%": "undefined" == typeof ArrayBuffer ? o : ArrayBuffer,
+                        "%ArrayBuffer%": "u" < typeof ArrayBuffer ? o : ArrayBuffer,
                         "%ArrayIteratorPrototype%": f ? u([][Symbol.iterator]()) : o,
                         "%AsyncFromSyncIteratorPrototype%": o,
                         "%AsyncFunction%": s,
                         "%AsyncGenerator%": s,
                         "%AsyncGeneratorFunction%": s,
                         "%AsyncIteratorPrototype%": s,
-                        "%Atomics%": "undefined" == typeof Atomics ? o : Atomics,
-                        "%BigInt%": "undefined" == typeof BigInt ? o : BigInt,
+                        "%Atomics%": "u" < typeof Atomics ? o : Atomics,
+                        "%BigInt%": "u" < typeof BigInt ? o : BigInt,
                         "%Boolean%": Boolean,
-                        "%DataView%": "undefined" == typeof DataView ? o : DataView,
+                        "%DataView%": "u" < typeof DataView ? o : DataView,
                         "%Date%": Date,
                         "%decodeURI%": decodeURI,
                         "%decodeURIComponent%": decodeURIComponent,
@@ -1330,34 +1330,34 @@
                         "%Error%": Error,
                         "%eval%": eval,
                         "%EvalError%": EvalError,
-                        "%Float32Array%": "undefined" == typeof Float32Array ? o : Float32Array,
-                        "%Float64Array%": "undefined" == typeof Float64Array ? o : Float64Array,
-                        "%FinalizationRegistry%": "undefined" == typeof FinalizationRegistry ? o : FinalizationRegistry,
+                        "%Float32Array%": "u" < typeof Float32Array ? o : Float32Array,
+                        "%Float64Array%": "u" < typeof Float64Array ? o : Float64Array,
+                        "%FinalizationRegistry%": "u" < typeof FinalizationRegistry ? o : FinalizationRegistry,
                         "%Function%": i,
                         "%GeneratorFunction%": s,
-                        "%Int8Array%": "undefined" == typeof Int8Array ? o : Int8Array,
-                        "%Int16Array%": "undefined" == typeof Int16Array ? o : Int16Array,
-                        "%Int32Array%": "undefined" == typeof Int32Array ? o : Int32Array,
+                        "%Int8Array%": "u" < typeof Int8Array ? o : Int8Array,
+                        "%Int16Array%": "u" < typeof Int16Array ? o : Int16Array,
+                        "%Int32Array%": "u" < typeof Int32Array ? o : Int32Array,
                         "%isFinite%": isFinite,
                         "%isNaN%": isNaN,
                         "%IteratorPrototype%": f ? u(u([][Symbol.iterator]())) : o,
                         "%JSON%": "object" == typeof JSON ? JSON : o,
-                        "%Map%": "undefined" == typeof Map ? o : Map,
-                        "%MapIteratorPrototype%": "undefined" != typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
+                        "%Map%": "u" < typeof Map ? o : Map,
+                        "%MapIteratorPrototype%": "u" > typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
                         "%Math%": Math,
                         "%Number%": Number,
                         "%Object%": Object,
                         "%parseFloat%": parseFloat,
                         "%parseInt%": parseInt,
-                        "%Promise%": "undefined" == typeof Promise ? o : Promise,
-                        "%Proxy%": "undefined" == typeof Proxy ? o : Proxy,
+                        "%Promise%": "u" < typeof Promise ? o : Promise,
+                        "%Proxy%": "u" < typeof Proxy ? o : Proxy,
                         "%RangeError%": RangeError,
                         "%ReferenceError%": ReferenceError,
-                        "%Reflect%": "undefined" == typeof Reflect ? o : Reflect,
+                        "%Reflect%": "u" < typeof Reflect ? o : Reflect,
                         "%RegExp%": RegExp,
-                        "%Set%": "undefined" == typeof Set ? o : Set,
-                        "%SetIteratorPrototype%": "undefined" != typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
-                        "%SharedArrayBuffer%": "undefined" == typeof SharedArrayBuffer ? o : SharedArrayBuffer,
+                        "%Set%": "u" < typeof Set ? o : Set,
+                        "%SetIteratorPrototype%": "u" > typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
+                        "%SharedArrayBuffer%": "u" < typeof SharedArrayBuffer ? o : SharedArrayBuffer,
                         "%String%": String,
                         "%StringIteratorPrototype%": f ? u(""[Symbol.iterator]()) : o,
                         "%Symbol%": f ? Symbol : o,
@@ -1365,14 +1365,14 @@
                         "%ThrowTypeError%": p,
                         "%TypedArray%": c,
                         "%TypeError%": a,
-                        "%Uint8Array%": "undefined" == typeof Uint8Array ? o : Uint8Array,
-                        "%Uint8ClampedArray%": "undefined" == typeof Uint8ClampedArray ? o : Uint8ClampedArray,
-                        "%Uint16Array%": "undefined" == typeof Uint16Array ? o : Uint16Array,
-                        "%Uint32Array%": "undefined" == typeof Uint32Array ? o : Uint32Array,
+                        "%Uint8Array%": "u" < typeof Uint8Array ? o : Uint8Array,
+                        "%Uint8ClampedArray%": "u" < typeof Uint8ClampedArray ? o : Uint8ClampedArray,
+                        "%Uint16Array%": "u" < typeof Uint16Array ? o : Uint16Array,
+                        "%Uint32Array%": "u" < typeof Uint32Array ? o : Uint32Array,
                         "%URIError%": URIError,
-                        "%WeakMap%": "undefined" == typeof WeakMap ? o : WeakMap,
-                        "%WeakRef%": "undefined" == typeof WeakRef ? o : WeakRef,
-                        "%WeakSet%": "undefined" == typeof WeakSet ? o : WeakSet
+                        "%WeakMap%": "u" < typeof WeakMap ? o : WeakMap,
+                        "%WeakRef%": "u" < typeof WeakRef ? o : WeakRef,
+                        "%WeakSet%": "u" < typeof WeakSet ? o : WeakSet
                     }, d = function doEval(r) {
                         var t;
                         if ("%AsyncFunction%" === r) t = getEvalledConstructor("async function () {}");
@@ -1763,7 +1763,7 @@
                     function uncurryThis(r) {
                         return r.call.bind(r);
                     }
-                    var y = "undefined" != typeof BigInt, p = "undefined" != typeof Symbol, f = uncurryThis(Object.prototype.toString), u = uncurryThis(Number.prototype.valueOf), s = uncurryThis(String.prototype.valueOf), c = uncurryThis(Boolean.prototype.valueOf);
+                    var y = "u" > typeof BigInt, p = "u" > typeof Symbol, f = uncurryThis(Object.prototype.toString), u = uncurryThis(Number.prototype.valueOf), s = uncurryThis(String.prototype.valueOf), c = uncurryThis(Boolean.prototype.valueOf);
                     if (y) var l = uncurryThis(BigInt.prototype.valueOf);
                     if (p) var d = uncurryThis(Symbol.prototype.valueOf);
                     function checkBoxedPrimitive(r, t) {
@@ -1790,18 +1790,18 @@
                         return "[object ArrayBuffer]" === f(r);
                     }
                     function isArrayBuffer(r) {
-                        return "undefined" != typeof ArrayBuffer && (isArrayBufferToString.working ? isArrayBufferToString(r) : r instanceof ArrayBuffer);
+                        return !("u" < typeof ArrayBuffer) && (isArrayBufferToString.working ? isArrayBufferToString(r) : r instanceof ArrayBuffer);
                     }
                     function isDataViewToString(r) {
                         return "[object DataView]" === f(r);
                     }
                     function isDataView(r) {
-                        return "undefined" != typeof DataView && (isDataViewToString.working ? isDataViewToString(r) : r instanceof DataView);
+                        return !("u" < typeof DataView) && (isDataViewToString.working ? isDataViewToString(r) : r instanceof DataView);
                     }
                     t.isArgumentsObject = o, t.isGeneratorFunction = n, t.isTypedArray = a, t.isPromise = function(r) {
-                        return "undefined" != typeof Promise && r instanceof Promise || null !== r && "object" == typeof r && "function" == typeof r.then && "function" == typeof r.catch;
+                        return "u" > typeof Promise && r instanceof Promise || null !== r && "object" == typeof r && "function" == typeof r.then && "function" == typeof r.catch;
                     }, t.isArrayBufferView = function(r) {
-                        return "undefined" != typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(r) : a(r) || isDataView(r);
+                        return "u" > typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(r) : a(r) || isDataView(r);
                     }, t.isUint8Array = function(r) {
                         return "Uint8Array" === i(r);
                     }, t.isUint8ClampedArray = function(r) {
@@ -1824,16 +1824,16 @@
                         return "BigInt64Array" === i(r);
                     }, t.isBigUint64Array = function(r) {
                         return "BigUint64Array" === i(r);
-                    }, isMapToString.working = "undefined" != typeof Map && isMapToString(new Map()), t.isMap = function(r) {
-                        return "undefined" != typeof Map && (isMapToString.working ? isMapToString(r) : r instanceof Map);
-                    }, isSetToString.working = "undefined" != typeof Set && isSetToString(new Set()), t.isSet = function(r) {
-                        return "undefined" != typeof Set && (isSetToString.working ? isSetToString(r) : r instanceof Set);
-                    }, isWeakMapToString.working = "undefined" != typeof WeakMap && isWeakMapToString(new WeakMap()), t.isWeakMap = function(r) {
-                        return "undefined" != typeof WeakMap && (isWeakMapToString.working ? isWeakMapToString(r) : r instanceof WeakMap);
-                    }, isWeakSetToString.working = "undefined" != typeof WeakSet && isWeakSetToString(new WeakSet()), t.isWeakSet = function(r) {
+                    }, isMapToString.working = "u" > typeof Map && isMapToString(new Map()), t.isMap = function(r) {
+                        return !("u" < typeof Map) && (isMapToString.working ? isMapToString(r) : r instanceof Map);
+                    }, isSetToString.working = "u" > typeof Set && isSetToString(new Set()), t.isSet = function(r) {
+                        return !("u" < typeof Set) && (isSetToString.working ? isSetToString(r) : r instanceof Set);
+                    }, isWeakMapToString.working = "u" > typeof WeakMap && isWeakMapToString(new WeakMap()), t.isWeakMap = function(r) {
+                        return !("u" < typeof WeakMap) && (isWeakMapToString.working ? isWeakMapToString(r) : r instanceof WeakMap);
+                    }, isWeakSetToString.working = "u" > typeof WeakSet && isWeakSetToString(new WeakSet()), t.isWeakSet = function(r) {
                         return isWeakSetToString(r);
-                    }, isArrayBufferToString.working = "undefined" != typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), t.isArrayBuffer = isArrayBuffer, isDataViewToString.working = "undefined" != typeof ArrayBuffer && "undefined" != typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), t.isDataView = isDataView;
-                    var g = "undefined" != typeof SharedArrayBuffer ? SharedArrayBuffer : void 0;
+                    }, isArrayBufferToString.working = "u" > typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), t.isArrayBuffer = isArrayBuffer, isDataViewToString.working = "u" > typeof ArrayBuffer && "u" > typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), t.isDataView = isDataView;
+                    var g = "u" > typeof SharedArrayBuffer ? SharedArrayBuffer : void 0;
                     function isSharedArrayBufferToString(r) {
                         return "[object SharedArrayBuffer]" === f(r);
                     }
@@ -1868,7 +1868,7 @@
                     }, t.isNumberObject = isNumberObject, t.isStringObject = isStringObject, t.isBooleanObject = isBooleanObject, t.isBigIntObject = isBigIntObject, t.isSymbolObject = isSymbolObject, t.isBoxedPrimitive = function(r) {
                         return isNumberObject(r) || isStringObject(r) || isBooleanObject(r) || isBigIntObject(r) || isSymbolObject(r);
                     }, t.isAnyArrayBuffer = function(r) {
-                        return "undefined" != typeof Uint8Array && (isArrayBuffer(r) || isSharedArrayBuffer(r));
+                        return "u" > typeof Uint8Array && (isArrayBuffer(r) || isSharedArrayBuffer(r));
                     }, [
                         "isProxy",
                         "isExternal",
@@ -2159,7 +2159,7 @@
                         for(var e = Object.keys(t), o = e.length; o--;)r[e[o]] = t[e[o]];
                         return r;
                     };
-                    var f = "undefined" != typeof Symbol ? Symbol("util.promisify.custom") : void 0;
+                    var f = "u" > typeof Symbol ? Symbol("util.promisify.custom") : void 0;
                     function callbackifyOnRejected(r, t) {
                         if (!r) {
                             var e = Error("Promise was rejected with a falsy value");
@@ -2267,20 +2267,20 @@
                         }
                     }() : throwTypeError, f = e(449)(), u = Object.getPrototypeOf || function(r) {
                         return r.__proto__;
-                    }, s = getEvalledConstructor("async function* () {}"), c = s ? s.prototype : o, l = c ? c.prototype : o, d = "undefined" == typeof Uint8Array ? o : u(Uint8Array), g = {
-                        "%AggregateError%": "undefined" == typeof AggregateError ? o : AggregateError,
+                    }, s = getEvalledConstructor("async function* () {}"), c = s ? s.prototype : o, l = c ? c.prototype : o, d = "u" < typeof Uint8Array ? o : u(Uint8Array), g = {
+                        "%AggregateError%": "u" < typeof AggregateError ? o : AggregateError,
                         "%Array%": Array,
-                        "%ArrayBuffer%": "undefined" == typeof ArrayBuffer ? o : ArrayBuffer,
+                        "%ArrayBuffer%": "u" < typeof ArrayBuffer ? o : ArrayBuffer,
                         "%ArrayIteratorPrototype%": f ? u([][Symbol.iterator]()) : o,
                         "%AsyncFromSyncIteratorPrototype%": o,
                         "%AsyncFunction%": getEvalledConstructor("async function () {}"),
                         "%AsyncGenerator%": c,
                         "%AsyncGeneratorFunction%": s,
                         "%AsyncIteratorPrototype%": l ? u(l) : o,
-                        "%Atomics%": "undefined" == typeof Atomics ? o : Atomics,
-                        "%BigInt%": "undefined" == typeof BigInt ? o : BigInt,
+                        "%Atomics%": "u" < typeof Atomics ? o : Atomics,
+                        "%BigInt%": "u" < typeof BigInt ? o : BigInt,
                         "%Boolean%": Boolean,
-                        "%DataView%": "undefined" == typeof DataView ? o : DataView,
+                        "%DataView%": "u" < typeof DataView ? o : DataView,
                         "%Date%": Date,
                         "%decodeURI%": decodeURI,
                         "%decodeURIComponent%": decodeURIComponent,
@@ -2289,34 +2289,34 @@
                         "%Error%": Error,
                         "%eval%": eval,
                         "%EvalError%": EvalError,
-                        "%Float32Array%": "undefined" == typeof Float32Array ? o : Float32Array,
-                        "%Float64Array%": "undefined" == typeof Float64Array ? o : Float64Array,
-                        "%FinalizationRegistry%": "undefined" == typeof FinalizationRegistry ? o : FinalizationRegistry,
+                        "%Float32Array%": "u" < typeof Float32Array ? o : Float32Array,
+                        "%Float64Array%": "u" < typeof Float64Array ? o : Float64Array,
+                        "%FinalizationRegistry%": "u" < typeof FinalizationRegistry ? o : FinalizationRegistry,
                         "%Function%": i,
                         "%GeneratorFunction%": getEvalledConstructor("function* () {}"),
-                        "%Int8Array%": "undefined" == typeof Int8Array ? o : Int8Array,
-                        "%Int16Array%": "undefined" == typeof Int16Array ? o : Int16Array,
-                        "%Int32Array%": "undefined" == typeof Int32Array ? o : Int32Array,
+                        "%Int8Array%": "u" < typeof Int8Array ? o : Int8Array,
+                        "%Int16Array%": "u" < typeof Int16Array ? o : Int16Array,
+                        "%Int32Array%": "u" < typeof Int32Array ? o : Int32Array,
                         "%isFinite%": isFinite,
                         "%isNaN%": isNaN,
                         "%IteratorPrototype%": f ? u(u([][Symbol.iterator]())) : o,
                         "%JSON%": "object" == typeof JSON ? JSON : o,
-                        "%Map%": "undefined" == typeof Map ? o : Map,
-                        "%MapIteratorPrototype%": "undefined" != typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
+                        "%Map%": "u" < typeof Map ? o : Map,
+                        "%MapIteratorPrototype%": "u" > typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
                         "%Math%": Math,
                         "%Number%": Number,
                         "%Object%": Object,
                         "%parseFloat%": parseFloat,
                         "%parseInt%": parseInt,
-                        "%Promise%": "undefined" == typeof Promise ? o : Promise,
-                        "%Proxy%": "undefined" == typeof Proxy ? o : Proxy,
+                        "%Promise%": "u" < typeof Promise ? o : Promise,
+                        "%Proxy%": "u" < typeof Proxy ? o : Proxy,
                         "%RangeError%": RangeError,
                         "%ReferenceError%": ReferenceError,
-                        "%Reflect%": "undefined" == typeof Reflect ? o : Reflect,
+                        "%Reflect%": "u" < typeof Reflect ? o : Reflect,
                         "%RegExp%": RegExp,
-                        "%Set%": "undefined" == typeof Set ? o : Set,
-                        "%SetIteratorPrototype%": "undefined" != typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
-                        "%SharedArrayBuffer%": "undefined" == typeof SharedArrayBuffer ? o : SharedArrayBuffer,
+                        "%Set%": "u" < typeof Set ? o : Set,
+                        "%SetIteratorPrototype%": "u" > typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
+                        "%SharedArrayBuffer%": "u" < typeof SharedArrayBuffer ? o : SharedArrayBuffer,
                         "%String%": String,
                         "%StringIteratorPrototype%": f ? u(""[Symbol.iterator]()) : o,
                         "%Symbol%": f ? Symbol : o,
@@ -2324,14 +2324,14 @@
                         "%ThrowTypeError%": p,
                         "%TypedArray%": d,
                         "%TypeError%": a,
-                        "%Uint8Array%": "undefined" == typeof Uint8Array ? o : Uint8Array,
-                        "%Uint8ClampedArray%": "undefined" == typeof Uint8ClampedArray ? o : Uint8ClampedArray,
-                        "%Uint16Array%": "undefined" == typeof Uint16Array ? o : Uint16Array,
-                        "%Uint32Array%": "undefined" == typeof Uint32Array ? o : Uint32Array,
+                        "%Uint8Array%": "u" < typeof Uint8Array ? o : Uint8Array,
+                        "%Uint8ClampedArray%": "u" < typeof Uint8ClampedArray ? o : Uint8ClampedArray,
+                        "%Uint16Array%": "u" < typeof Uint16Array ? o : Uint16Array,
+                        "%Uint32Array%": "u" < typeof Uint32Array ? o : Uint32Array,
                         "%URIError%": URIError,
-                        "%WeakMap%": "undefined" == typeof WeakMap ? o : WeakMap,
-                        "%WeakRef%": "undefined" == typeof WeakRef ? o : WeakRef,
-                        "%WeakSet%": "undefined" == typeof WeakSet ? o : WeakSet
+                        "%WeakMap%": "u" < typeof WeakMap ? o : WeakMap,
+                        "%WeakRef%": "u" < typeof WeakRef ? o : WeakRef,
+                        "%WeakSet%": "u" < typeof WeakSet ? o : WeakSet
                     }, A = {
                         "%ArrayBufferPrototype%": [
                             "ArrayBuffer",

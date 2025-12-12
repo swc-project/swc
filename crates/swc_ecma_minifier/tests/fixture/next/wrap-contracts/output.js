@@ -151,7 +151,7 @@
                 }
                 'object' == typeof module ? module.exports = BN : exports.BN = BN, BN.BN = BN, BN.wordSize = 26;
                 try {
-                    Buffer = 'undefined' != typeof window && void 0 !== window.Buffer ? window.Buffer : __webpack_require__(136).Buffer;
+                    Buffer = "u" > typeof window && void 0 !== window.Buffer ? window.Buffer : __webpack_require__(136).Buffer;
                 } catch (e) {}
                 function parseHex4Bits(string, index) {
                     var c = string.charCodeAt(index);
@@ -251,7 +251,7 @@
                     return this._normSign();
                 }, BN.prototype._normSign = function() {
                     return 1 === this.length && 0 === this.words[0] && (this.negative = 0), this;
-                }, 'undefined' != typeof Symbol && 'function' == typeof Symbol.for) try {
+                }, "u" > typeof Symbol && 'function' == typeof Symbol.for) try {
                     BN.prototype[Symbol.for('nodejs.util.inspect.custom')] = inspect;
                 } catch (e) {
                     BN.prototype.inspect = inspect;
@@ -1564,7 +1564,7 @@
                     this[kCount] += entries.length, this[kReturnMany](cb, null, entries);
                 }
                 end(callback) {
-                    return warnedEnd || 'undefined' == typeof console || (warnedEnd = !0, console.warn(new ModuleError('The iterator.end() method was renamed to close() and end() is an alias that will be removed in a future version', {
+                    return !warnedEnd && "u" > typeof console && (warnedEnd = !0, console.warn(new ModuleError('The iterator.end() method was renamed to close() and end() is an alias that will be removed in a future version', {
                         code: 'LEVEL_LEGACY'
                     }))), this.close(callback);
                 }
@@ -3648,7 +3648,7 @@
             let B64js = __importStar(__webpack_require__(9742));
             function stringToBuffer(string) {
                 return(// TextEncoder will be available in browsers, but not in node
-                "undefined" == typeof TextEncoder ? new (__webpack_require__(9539)).TextEncoder().encode(string) : new TextEncoder().encode(string));
+                "u" < typeof TextEncoder ? new (__webpack_require__(9539)).TextEncoder().encode(string) : new TextEncoder().encode(string));
             }
             function b64UrlToBuffer(b64UrlString) {
                 return new Uint8Array(B64js.toByteArray(b64UrlDecode(b64UrlString)));
@@ -3676,14 +3676,14 @@
             }, exports.b64UrlToString = function(b64UrlString) {
                 let buffer = b64UrlToBuffer(b64UrlString);
                 return(// TextEncoder will be available in browsers, but not in node
-                "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                "u" < typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer));
             }, exports.bufferToString = function(buffer) {
                 return(// TextEncoder will be available in browsers, but not in node
-                "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                "u" < typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
@@ -3957,7 +3957,8 @@
                     return options && options.decode && !options.string ? data : options && options.decode && options.string ? ArweaveUtils.bufferToString(data) : ArweaveUtils.bufferTob64Url(data);
                 }
                 async sign(transaction, jwk, options) {
-                    if (jwk || "undefined" != typeof window && window.arweaveWallet) if (jwk && "use_wallet" !== jwk) {
+                    if (!jwk && ("u" < typeof window || !window.arweaveWallet)) throw Error("A new Arweave transaction must provide the jwk parameter.");
+                    if (jwk && "use_wallet" !== jwk) {
                         transaction.setOwner(jwk.n);
                         let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
                         transaction.setSignature({
@@ -3982,7 +3983,6 @@
                             signature: signedTransaction.signature
                         });
                     }
-                    else throw Error("A new Arweave transaction must provide the jwk parameter.");
                 }
                 async verify(transaction) {
                     let signaturePayload = await transaction.getSignatureData(), rawSignature = transaction.get("signature", {
@@ -4543,7 +4543,7 @@
                     ]);
                 }
                 detectWebCrypto() {
-                    if ("undefined" == typeof crypto) return !1;
+                    if ("u" < typeof crypto) return !1;
                     let subtle = null == crypto ? void 0 : crypto.subtle;
                     return void 0 !== subtle && [
                         "generateKey",
@@ -5158,7 +5158,7 @@
             let B64js = __webpack_require__(9742);
             function stringToBuffer(string) {
                 return(// TextEncoder will be available in browsers, but not in node
-                "undefined" == typeof TextEncoder ? new (__webpack_require__(9539)).TextEncoder().encode(string) : new TextEncoder().encode(string));
+                "u" < typeof TextEncoder ? new (__webpack_require__(9539)).TextEncoder().encode(string) : new TextEncoder().encode(string));
             }
             function b64UrlToBuffer(b64UrlString) {
                 return new Uint8Array(B64js.toByteArray(b64UrlDecode(b64UrlString)));
@@ -5186,14 +5186,14 @@
             }, exports.b64UrlToString = function(b64UrlString) {
                 let buffer = b64UrlToBuffer(b64UrlString);
                 return(// TextEncoder will be available in browsers, but not in node
-                "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                "u" < typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer));
             }, exports.bufferToString = function(buffer) {
                 return(// TextEncoder will be available in browsers, but not in node
-                "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                "u" < typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
@@ -5416,7 +5416,8 @@
                     return options && options.decode && !options.string ? data : options && options.decode && options.string ? ArweaveUtils.bufferToString(data) : ArweaveUtils.bufferTob64Url(data);
                 }
                 async sign(transaction, jwk, options) {
-                    if (jwk || "undefined" != typeof window && window.arweaveWallet) if (jwk && "use_wallet" !== jwk) {
+                    if (!jwk && ("u" < typeof window || !window.arweaveWallet)) throw Error("A new Arweave transaction must provide the jwk parameter.");
+                    if (jwk && "use_wallet" !== jwk) {
                         transaction.setOwner(jwk.n);
                         let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
                         transaction.setSignature({
@@ -5441,7 +5442,6 @@
                             signature: signedTransaction.signature
                         });
                     }
-                    else throw Error("A new Arweave transaction must provide the jwk parameter.");
                 }
                 async verify(transaction) {
                     let signaturePayload = await transaction.getSignatureData(), rawSignature = transaction.get("signature", {
@@ -7007,7 +7007,7 @@
                 transitional: transitionalDefaults,
                 adapter: function() {
                     var adapter;
-                    return 'undefined' != typeof XMLHttpRequest ? // For browsers use XHR adapter
+                    return "u" > typeof XMLHttpRequest ? // For browsers use XHR adapter
                     adapter = __webpack_require__(5448) : void 0 !== process && '[object process]' === Object.prototype.toString.call(process) && // For node use HTTP adapter
                     (adapter = __webpack_require__(5448)), adapter;
                 }(),
@@ -7472,7 +7472,7 @@
  * @param {Object} val The value to test
  * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
  */ function isArrayBufferView(val) {
-                return 'undefined' != typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(val) : val && val.buffer && isArrayBuffer(val.buffer);
+                return "u" > typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(val) : val && val.buffer && isArrayBuffer(val.buffer);
             }
             /**
  * Determine if a value is a String
@@ -7554,7 +7554,7 @@
  * nativescript
  *  navigator.product -> 'NativeScript' or 'NS'
  */ function isStandardBrowserEnv() {
-                return ('undefined' == typeof navigator || 'ReactNative' !== navigator.product && 'NativeScript' !== navigator.product && 'NS' !== navigator.product) && 'undefined' != typeof window && 'undefined' != typeof document;
+                return (!("u" > typeof navigator) || 'ReactNative' !== navigator.product && 'NativeScript' !== navigator.product && 'NS' !== navigator.product) && "u" > typeof window && "u" > typeof document;
             }
             /**
  * Iterate over an Array or an Object invoking a function for each item.
@@ -7708,14 +7708,14 @@
                     return function(thing) {
                         return TypedArray && thing instanceof TypedArray;
                     };
-                }('undefined' != typeof Uint8Array && Object.getPrototypeOf(Uint8Array)),
+                }("u" > typeof Uint8Array && Object.getPrototypeOf(Uint8Array)),
                 isFileList: isFileList
             };
         /***/ },
         /***/ 9742: /***/ function(__unused_webpack_module, exports) {
             "use strict";
             exports.byteLength = byteLength, exports.toByteArray = toByteArray, exports.fromByteArray = fromByteArray;
-            for(var lookup = [], revLookup = [], Arr = 'undefined' != typeof Uint8Array ? Uint8Array : Array, code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/', i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
+            for(var lookup = [], revLookup = [], Arr = "u" > typeof Uint8Array ? Uint8Array : Array, code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/', i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
             function getLens(b64) {
                 var len = b64.length;
                 if (len % 4 > 0) throw Error('Invalid string. Length must be a multiple of 4');
@@ -8156,7 +8156,7 @@
                             // CRYPTO {boolean} true or false.
                             // '[BigNumber Error] CRYPTO not true or false: {v}'
                             // '[BigNumber Error] crypto unavailable'
-                            if (obj.hasOwnProperty(p = 'CRYPTO')) if (!!(v = obj[p]) === v) if (v) if ('undefined' != typeof crypto && crypto && (crypto.getRandomValues || crypto.randomBytes)) CRYPTO = v;
+                            if (obj.hasOwnProperty(p = 'CRYPTO')) if (!!(v = obj[p]) === v) if (v) if ("u" > typeof crypto && crypto && (crypto.getRandomValues || crypto.randomBytes)) CRYPTO = v;
                             else throw CRYPTO = !v, Error(bignumberError + 'crypto unavailable');
                             else CRYPTO = v;
                             else throw Error(bignumberError + p + ' not true or false: ' + v);
@@ -9114,7 +9114,7 @@
                 }
                 'object' == typeof module ? module.exports = BN : exports.BN = BN, BN.BN = BN, BN.wordSize = 26;
                 try {
-                    Buffer = 'undefined' != typeof window && void 0 !== window.Buffer ? window.Buffer : __webpack_require__(6601).Buffer;
+                    Buffer = "u" > typeof window && void 0 !== window.Buffer ? window.Buffer : __webpack_require__(6601).Buffer;
                 } catch (e) {}
                 function parseHex4Bits(string, index) {
                     var c = string.charCodeAt(index);
@@ -10698,13 +10698,13 @@
                 if ('string' == typeof value) return fromString(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayView(value);
                 if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || 'undefined' != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "u" > typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
                 if ('number' == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 let valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
                 let b = fromObject(value);
                 if (b) return b;
-                if ('undefined' != typeof Symbol && null != Symbol.toPrimitive && 'function' == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]('string'), encodingOrOffset, length);
+                if ("u" > typeof Symbol && null != Symbol.toPrimitive && 'function' == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]('string'), encodingOrOffset, length);
                 throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
@@ -10948,7 +10948,7 @@
  * using __proto__. Firefox 4-29 lacks support for adding new properties to `Uint8Array`
  * (See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438). IE 10 lacks support
  * for __proto__ and has a buggy typed array implementation.
- */ Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport(), Buffer.TYPED_ARRAY_SUPPORT || 'undefined' == typeof console || 'function' != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, 'parent', {
+ */ Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport(), !Buffer.TYPED_ARRAY_SUPPORT && "u" > typeof console && 'function' == typeof console.error && console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, 'parent', {
                 enumerable: !0,
                 get: function() {
                     if (Buffer.isBuffer(this)) return this.buffer;
@@ -11538,7 +11538,7 @@
             }();
             // Return not function with Error if BigInt not supported
             function defineBigIntMethod(fn) {
-                return 'undefined' == typeof BigInt ? BufferBigIntNotDefined : fn;
+                return "u" < typeof BigInt ? BufferBigIntNotDefined : fn;
             }
             function BufferBigIntNotDefined() {
                 throw Error('BigInt not supported');
@@ -14026,7 +14026,7 @@
                     var flags = '';
                     return regExp.global && (flags += 'g'), regExp.ignoreCase && (flags += 'i'), regExp.multiline && (flags += 'm'), regExp.unicode && (flags += 'u'), regExp.sticky && (flags += 'y'), flags;
                 }, isArray = Array.isArray, getPrototypeOf = Object.getPrototypeOf, GLOBAL_THIS = function() {
-                    return 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof self ? self : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : (console && console.error && console.error('Unable to locate global object, returning "this".'), this);
+                    return "u" > typeof globalThis ? globalThis : "u" > typeof self ? self : "u" > typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : (console && console.error && console.error('Unable to locate global object, returning "this".'), this);
                 }();
                 /**
      * @function copy
@@ -14633,20 +14633,20 @@
                 }
             }() : throwTypeError, hasSymbols = __webpack_require__(1405)(), getProto = Object.getPrototypeOf || function(x) {
                 return x.__proto__;
-            }, needsEval = {}, TypedArray = 'undefined' == typeof Uint8Array ? undefined : getProto(Uint8Array), INTRINSICS = {
-                '%AggregateError%': 'undefined' == typeof AggregateError ? undefined : AggregateError,
+            }, needsEval = {}, TypedArray = "u" < typeof Uint8Array ? undefined : getProto(Uint8Array), INTRINSICS = {
+                '%AggregateError%': "u" < typeof AggregateError ? undefined : AggregateError,
                 '%Array%': Array,
-                '%ArrayBuffer%': 'undefined' == typeof ArrayBuffer ? undefined : ArrayBuffer,
+                '%ArrayBuffer%': "u" < typeof ArrayBuffer ? undefined : ArrayBuffer,
                 '%ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : undefined,
                 '%AsyncFromSyncIteratorPrototype%': undefined,
                 '%AsyncFunction%': needsEval,
                 '%AsyncGenerator%': needsEval,
                 '%AsyncGeneratorFunction%': needsEval,
                 '%AsyncIteratorPrototype%': needsEval,
-                '%Atomics%': 'undefined' == typeof Atomics ? undefined : Atomics,
-                '%BigInt%': 'undefined' == typeof BigInt ? undefined : BigInt,
+                '%Atomics%': "u" < typeof Atomics ? undefined : Atomics,
+                '%BigInt%': "u" < typeof BigInt ? undefined : BigInt,
                 '%Boolean%': Boolean,
-                '%DataView%': 'undefined' == typeof DataView ? undefined : DataView,
+                '%DataView%': "u" < typeof DataView ? undefined : DataView,
                 '%Date%': Date,
                 '%decodeURI%': decodeURI,
                 '%decodeURIComponent%': decodeURIComponent,
@@ -14655,34 +14655,34 @@
                 '%Error%': Error,
                 '%eval%': eval,
                 '%EvalError%': EvalError,
-                '%Float32Array%': 'undefined' == typeof Float32Array ? undefined : Float32Array,
-                '%Float64Array%': 'undefined' == typeof Float64Array ? undefined : Float64Array,
-                '%FinalizationRegistry%': 'undefined' == typeof FinalizationRegistry ? undefined : FinalizationRegistry,
+                '%Float32Array%': "u" < typeof Float32Array ? undefined : Float32Array,
+                '%Float64Array%': "u" < typeof Float64Array ? undefined : Float64Array,
+                '%FinalizationRegistry%': "u" < typeof FinalizationRegistry ? undefined : FinalizationRegistry,
                 '%Function%': $Function,
                 '%GeneratorFunction%': needsEval,
-                '%Int8Array%': 'undefined' == typeof Int8Array ? undefined : Int8Array,
-                '%Int16Array%': 'undefined' == typeof Int16Array ? undefined : Int16Array,
-                '%Int32Array%': 'undefined' == typeof Int32Array ? undefined : Int32Array,
+                '%Int8Array%': "u" < typeof Int8Array ? undefined : Int8Array,
+                '%Int16Array%': "u" < typeof Int16Array ? undefined : Int16Array,
+                '%Int32Array%': "u" < typeof Int32Array ? undefined : Int32Array,
                 '%isFinite%': isFinite,
                 '%isNaN%': isNaN,
                 '%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
                 '%JSON%': 'object' == typeof JSON ? JSON : undefined,
-                '%Map%': 'undefined' == typeof Map ? undefined : Map,
-                '%MapIteratorPrototype%': 'undefined' != typeof Map && hasSymbols ? getProto(new Map()[Symbol.iterator]()) : undefined,
+                '%Map%': "u" < typeof Map ? undefined : Map,
+                '%MapIteratorPrototype%': "u" > typeof Map && hasSymbols ? getProto(new Map()[Symbol.iterator]()) : undefined,
                 '%Math%': Math,
                 '%Number%': Number,
                 '%Object%': Object,
                 '%parseFloat%': parseFloat,
                 '%parseInt%': parseInt,
-                '%Promise%': 'undefined' == typeof Promise ? undefined : Promise,
-                '%Proxy%': 'undefined' == typeof Proxy ? undefined : Proxy,
+                '%Promise%': "u" < typeof Promise ? undefined : Promise,
+                '%Proxy%': "u" < typeof Proxy ? undefined : Proxy,
                 '%RangeError%': RangeError,
                 '%ReferenceError%': ReferenceError,
-                '%Reflect%': 'undefined' == typeof Reflect ? undefined : Reflect,
+                '%Reflect%': "u" < typeof Reflect ? undefined : Reflect,
                 '%RegExp%': RegExp,
-                '%Set%': 'undefined' == typeof Set ? undefined : Set,
-                '%SetIteratorPrototype%': 'undefined' != typeof Set && hasSymbols ? getProto(new Set()[Symbol.iterator]()) : undefined,
-                '%SharedArrayBuffer%': 'undefined' == typeof SharedArrayBuffer ? undefined : SharedArrayBuffer,
+                '%Set%': "u" < typeof Set ? undefined : Set,
+                '%SetIteratorPrototype%': "u" > typeof Set && hasSymbols ? getProto(new Set()[Symbol.iterator]()) : undefined,
+                '%SharedArrayBuffer%': "u" < typeof SharedArrayBuffer ? undefined : SharedArrayBuffer,
                 '%String%': String,
                 '%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
                 '%Symbol%': hasSymbols ? Symbol : undefined,
@@ -14690,14 +14690,14 @@
                 '%ThrowTypeError%': ThrowTypeError,
                 '%TypedArray%': TypedArray,
                 '%TypeError%': $TypeError,
-                '%Uint8Array%': 'undefined' == typeof Uint8Array ? undefined : Uint8Array,
-                '%Uint8ClampedArray%': 'undefined' == typeof Uint8ClampedArray ? undefined : Uint8ClampedArray,
-                '%Uint16Array%': 'undefined' == typeof Uint16Array ? undefined : Uint16Array,
-                '%Uint32Array%': 'undefined' == typeof Uint32Array ? undefined : Uint32Array,
+                '%Uint8Array%': "u" < typeof Uint8Array ? undefined : Uint8Array,
+                '%Uint8ClampedArray%': "u" < typeof Uint8ClampedArray ? undefined : Uint8ClampedArray,
+                '%Uint16Array%': "u" < typeof Uint16Array ? undefined : Uint16Array,
+                '%Uint32Array%': "u" < typeof Uint32Array ? undefined : Uint32Array,
                 '%URIError%': URIError,
-                '%WeakMap%': 'undefined' == typeof WeakMap ? undefined : WeakMap,
-                '%WeakRef%': 'undefined' == typeof WeakRef ? undefined : WeakRef,
-                '%WeakSet%': 'undefined' == typeof WeakSet ? undefined : WeakSet
+                '%WeakMap%': "u" < typeof WeakMap ? undefined : WeakMap,
+                '%WeakRef%': "u" < typeof WeakRef ? undefined : WeakRef,
+                '%WeakSet%': "u" < typeof WeakSet ? undefined : WeakSet
             }, doEval = function doEval(name) {
                 var value;
                 if ('%AsyncFunction%' === name) value = getEvalledConstructor('async function () {}');
@@ -14983,7 +14983,7 @@
         /***/ },
         /***/ 1405: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var origSymbol = 'undefined' != typeof Symbol && Symbol, hasSymbolSham = __webpack_require__(5419);
+            var origSymbol = "u" > typeof Symbol && Symbol, hasSymbolSham = __webpack_require__(5419);
             module.exports = function() {
                 return 'function' == typeof origSymbol && 'function' == typeof Symbol && 'symbol' == typeof origSymbol('foo') && 'symbol' == typeof Symbol('bar') && hasSymbolSham();
             };
@@ -16134,7 +16134,7 @@
         /***/ },
         /***/ 5692: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var forEach = __webpack_require__(4029), availableTypedArrays = __webpack_require__(3083), callBound = __webpack_require__(1924), $toString = callBound('Object.prototype.toString'), hasToStringTag = __webpack_require__(6410)(), g = 'undefined' == typeof globalThis ? __webpack_require__.g : globalThis, typedArrays = availableTypedArrays(), $indexOf = callBound('Array.prototype.indexOf', !0) || function(array, value) {
+            var forEach = __webpack_require__(4029), availableTypedArrays = __webpack_require__(3083), callBound = __webpack_require__(1924), $toString = callBound('Object.prototype.toString'), hasToStringTag = __webpack_require__(6410)(), g = "u" < typeof globalThis ? __webpack_require__.g : globalThis, typedArrays = availableTypedArrays(), $indexOf = callBound('Array.prototype.indexOf', !0) || function(array, value) {
                 for(var i = 0; i < array.length; i += 1)if (array[i] === value) return i;
                 return -1;
             }, $slice = callBound('String.prototype.slice'), toStrTags = {}, gOPD = __webpack_require__(882), getPrototypeOf = Object.getPrototypeOf;
@@ -16165,7 +16165,7 @@
                 root.JS_SHA256_NO_WINDOW && (WINDOW = !1);
                 var WEB_WORKER = !WINDOW && 'object' == typeof self, NODE_JS = !root.JS_SHA256_NO_NODE_JS && 'object' == typeof process && process.versions && process.versions.node;
                 NODE_JS ? root = __webpack_require__.g : WEB_WORKER && (root = self);
-                var COMMON_JS = !root.JS_SHA256_NO_COMMON_JS && module.exports, AMD = __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA256_NO_ARRAY_BUFFER && 'undefined' != typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
+                var COMMON_JS = !root.JS_SHA256_NO_COMMON_JS && module.exports, AMD = __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA256_NO_ARRAY_BUFFER && "u" > typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
                     -2147483648,
                     8388608,
                     32768,
@@ -16423,7 +16423,7 @@
                 root.JS_SHA512_NO_WINDOW && (WINDOW = !1);
                 var WEB_WORKER = !WINDOW && 'object' == typeof self;
                 !root.JS_SHA512_NO_NODE_JS && 'object' == typeof process && process.versions && process.versions.node ? root = __webpack_require__.g : WEB_WORKER && (root = self);
-                var COMMON_JS = !root.JS_SHA512_NO_COMMON_JS && module.exports, AMD = __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA512_NO_ARRAY_BUFFER && 'undefined' != typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
+                var COMMON_JS = !root.JS_SHA512_NO_COMMON_JS && module.exports, AMD = __webpack_require__.amdO, ARRAY_BUFFER = !root.JS_SHA512_NO_ARRAY_BUFFER && "u" > typeof ArrayBuffer, HEX_CHARS = '0123456789abcdef'.split(''), EXTRA = [
                     -2147483648,
                     8388608,
                     32768,
@@ -20783,14 +20783,14 @@
                         };
                     }
                 };
-                "undefined" != typeof __nccwpck_require__ && (__nccwpck_require__.ab = __dirname + "/");
+                "u" > typeof __nccwpck_require__ && (__nccwpck_require__.ab = __dirname + "/");
                 var __webpack_exports__ = {};
                 __webpack_modules__[965](0, __webpack_exports__), module.exports = __webpack_exports__;
             }();
         /***/ },
         /***/ 4375: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             /*! queue-microtask. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */ let promise;
-            module.exports = 'function' == typeof queueMicrotask ? queueMicrotask.bind('undefined' != typeof window ? window : __webpack_require__.g) : (cb)=>(promise || (promise = Promise.resolve())).then(cb).catch((err)=>setTimeout(()=>{
+            module.exports = 'function' == typeof queueMicrotask ? queueMicrotask.bind("u" > typeof window ? window : __webpack_require__.g) : (cb)=>(promise || (promise = Promise.resolve())).then(cb).catch((err)=>setTimeout(()=>{
                         throw err;
                     }, 0));
         /***/ },
@@ -22656,10 +22656,10 @@
                 return new Uint8Array(await readBlobAsArrayBuffer(blob));
             }
             function isBlob(v) {
-                return 'undefined' != typeof Blob && v instanceof Blob;
+                return "u" > typeof Blob && v instanceof Blob;
             }
             function isSharedArrayBuffer(b) {
-                return 'undefined' != typeof SharedArrayBuffer && b instanceof SharedArrayBuffer;
+                return "u" > typeof SharedArrayBuffer && b instanceof SharedArrayBuffer;
             }
             let isNode = void 0 !== process && process.versions && void 0 !== process.versions.node && void 0 === process.versions.electron;
             function isTypedArraySameAsArrayBuffer(typedArray) {
@@ -23575,7 +23575,7 @@ class Zip {
             }
             async function unzipRaw(source) {
                 let reader;
-                if ('undefined' != typeof Blob && source instanceof Blob) reader = new BlobReader(source);
+                if ("u" > typeof Blob && source instanceof Blob) reader = new BlobReader(source);
                 else if (source instanceof ArrayBuffer || source && source.buffer && source.buffer instanceof ArrayBuffer) reader = new ArrayBufferReader(source);
                 else if (isSharedArrayBuffer(source) || isSharedArrayBuffer(source.buffer)) reader = new ArrayBufferReader(source);
                 else if ('string' == typeof source) {
@@ -23616,7 +23616,7 @@ class Zip {
             function uncurryThis(f) {
                 return f.call.bind(f);
             }
-            var BigIntSupported = 'undefined' != typeof BigInt, SymbolSupported = 'undefined' != typeof Symbol, ObjectToString = uncurryThis(Object.prototype.toString), numberValue = uncurryThis(Number.prototype.valueOf), stringValue = uncurryThis(String.prototype.valueOf), booleanValue = uncurryThis(Boolean.prototype.valueOf);
+            var BigIntSupported = "u" > typeof BigInt, SymbolSupported = "u" > typeof Symbol, ObjectToString = uncurryThis(Object.prototype.toString), numberValue = uncurryThis(Number.prototype.valueOf), stringValue = uncurryThis(String.prototype.valueOf), booleanValue = uncurryThis(Boolean.prototype.valueOf);
             if (BigIntSupported) var bigIntValue = uncurryThis(BigInt.prototype.valueOf);
             if (SymbolSupported) var symbolValue = uncurryThis(Symbol.prototype.valueOf);
             function checkBoxedPrimitive(value, prototypeValueOf) {
@@ -23643,20 +23643,20 @@ class Zip {
                 return '[object ArrayBuffer]' === ObjectToString(value);
             }
             function isArrayBuffer(value) {
-                return 'undefined' != typeof ArrayBuffer && (isArrayBufferToString.working ? isArrayBufferToString(value) : value instanceof ArrayBuffer);
+                return !("u" < typeof ArrayBuffer) && (isArrayBufferToString.working ? isArrayBufferToString(value) : value instanceof ArrayBuffer);
             }
             function isDataViewToString(value) {
                 return '[object DataView]' === ObjectToString(value);
             }
             function isDataView(value) {
-                return 'undefined' != typeof DataView && (isDataViewToString.working ? isDataViewToString(value) : value instanceof DataView);
+                return !("u" < typeof DataView) && (isDataViewToString.working ? isDataViewToString(value) : value instanceof DataView);
             }
             exports.isArgumentsObject = isArgumentsObject, exports.isGeneratorFunction = isGeneratorFunction, exports.isTypedArray = isTypedArray, exports.isPromise = // Taken from here and modified for better browser support
             // https://github.com/sindresorhus/p-is-promise/blob/cda35a513bda03f977ad5cde3a079d237e82d7ef/index.js
             function(input) {
-                return 'undefined' != typeof Promise && input instanceof Promise || null !== input && 'object' == typeof input && 'function' == typeof input.then && 'function' == typeof input.catch;
+                return "u" > typeof Promise && input instanceof Promise || null !== input && 'object' == typeof input && 'function' == typeof input.then && 'function' == typeof input.catch;
             }, exports.isArrayBufferView = function(value) {
-                return 'undefined' != typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(value) : isTypedArray(value) || isDataView(value);
+                return "u" > typeof ArrayBuffer && ArrayBuffer.isView ? ArrayBuffer.isView(value) : isTypedArray(value) || isDataView(value);
             }, exports.isUint8Array = function(value) {
                 return 'Uint8Array' === whichTypedArray(value);
             }, exports.isUint8ClampedArray = function(value) {
@@ -23679,17 +23679,17 @@ class Zip {
                 return 'BigInt64Array' === whichTypedArray(value);
             }, exports.isBigUint64Array = function(value) {
                 return 'BigUint64Array' === whichTypedArray(value);
-            }, isMapToString.working = 'undefined' != typeof Map && isMapToString(new Map()), exports.isMap = function(value) {
-                return 'undefined' != typeof Map && (isMapToString.working ? isMapToString(value) : value instanceof Map);
-            }, isSetToString.working = 'undefined' != typeof Set && isSetToString(new Set()), exports.isSet = function(value) {
-                return 'undefined' != typeof Set && (isSetToString.working ? isSetToString(value) : value instanceof Set);
-            }, isWeakMapToString.working = 'undefined' != typeof WeakMap && isWeakMapToString(new WeakMap()), exports.isWeakMap = function(value) {
-                return 'undefined' != typeof WeakMap && (isWeakMapToString.working ? isWeakMapToString(value) : value instanceof WeakMap);
-            }, isWeakSetToString.working = 'undefined' != typeof WeakSet && isWeakSetToString(new WeakSet()), exports.isWeakSet = function(value) {
+            }, isMapToString.working = "u" > typeof Map && isMapToString(new Map()), exports.isMap = function(value) {
+                return !("u" < typeof Map) && (isMapToString.working ? isMapToString(value) : value instanceof Map);
+            }, isSetToString.working = "u" > typeof Set && isSetToString(new Set()), exports.isSet = function(value) {
+                return !("u" < typeof Set) && (isSetToString.working ? isSetToString(value) : value instanceof Set);
+            }, isWeakMapToString.working = "u" > typeof WeakMap && isWeakMapToString(new WeakMap()), exports.isWeakMap = function(value) {
+                return !("u" < typeof WeakMap) && (isWeakMapToString.working ? isWeakMapToString(value) : value instanceof WeakMap);
+            }, isWeakSetToString.working = "u" > typeof WeakSet && isWeakSetToString(new WeakSet()), exports.isWeakSet = function(value) {
                 return isWeakSetToString(value);
-            }, isArrayBufferToString.working = 'undefined' != typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), exports.isArrayBuffer = isArrayBuffer, isDataViewToString.working = 'undefined' != typeof ArrayBuffer && 'undefined' != typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), exports.isDataView = isDataView;
+            }, isArrayBufferToString.working = "u" > typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), exports.isArrayBuffer = isArrayBuffer, isDataViewToString.working = "u" > typeof ArrayBuffer && "u" > typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), exports.isDataView = isDataView;
             // Store a copy of SharedArrayBuffer in case it's deleted elsewhere
-            var SharedArrayBufferCopy = 'undefined' != typeof SharedArrayBuffer ? SharedArrayBuffer : void 0;
+            var SharedArrayBufferCopy = "u" > typeof SharedArrayBuffer ? SharedArrayBuffer : void 0;
             function isSharedArrayBufferToString(value) {
                 return '[object SharedArrayBuffer]' === ObjectToString(value);
             }
@@ -23724,7 +23724,7 @@ class Zip {
             }, exports.isNumberObject = isNumberObject, exports.isStringObject = isStringObject, exports.isBooleanObject = isBooleanObject, exports.isBigIntObject = isBigIntObject, exports.isSymbolObject = isSymbolObject, exports.isBoxedPrimitive = function(value) {
                 return isNumberObject(value) || isStringObject(value) || isBooleanObject(value) || isBigIntObject(value) || isSymbolObject(value);
             }, exports.isAnyArrayBuffer = function(value) {
-                return 'undefined' != typeof Uint8Array && (isArrayBuffer(value) || isSharedArrayBuffer(value));
+                return "u" > typeof Uint8Array && (isArrayBuffer(value) || isSharedArrayBuffer(value));
             }, [
                 'isProxy',
                 'isExternal',
@@ -24071,7 +24071,7 @@ class Zip {
                 for(var keys = Object.keys(add), i = keys.length; i--;)origin[keys[i]] = add[keys[i]];
                 return origin;
             };
-            var kCustomPromisifiedSymbol = 'undefined' != typeof Symbol ? Symbol('util.promisify.custom') : void 0;
+            var kCustomPromisifiedSymbol = "u" > typeof Symbol ? Symbol('util.promisify.custom') : void 0;
             function callbackifyOnRejected(reason, cb) {
                 // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
                 // Because `null` is a special error value in callbacks which means "no error
@@ -26607,7 +26607,7 @@ class Zip {
                 (globalJsModule = global).redstone = {
                     go: {}
                 };
-            }).call(this, void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : 'undefined' != typeof window ? window : {});
+            }).call(this, void 0 !== __webpack_require__.g ? __webpack_require__.g : "u" > typeof self ? self : "u" > typeof window ? window : {});
             class Go {
                 constructor(swGlobal){
                     this._callbackTimeouts = new Map(), this._nextCallbackTimeoutID = 1;
@@ -27996,7 +27996,7 @@ class Zip {
         /***/ },
         /***/ 6430: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var forEach = __webpack_require__(4029), availableTypedArrays = __webpack_require__(3083), callBound = __webpack_require__(1924), $toString = callBound('Object.prototype.toString'), hasToStringTag = __webpack_require__(6410)(), g = 'undefined' == typeof globalThis ? __webpack_require__.g : globalThis, typedArrays = availableTypedArrays(), $slice = callBound('String.prototype.slice'), toStrTags = {}, gOPD = __webpack_require__(882), getPrototypeOf = Object.getPrototypeOf;
+            var forEach = __webpack_require__(4029), availableTypedArrays = __webpack_require__(3083), callBound = __webpack_require__(1924), $toString = callBound('Object.prototype.toString'), hasToStringTag = __webpack_require__(6410)(), g = "u" < typeof globalThis ? __webpack_require__.g : globalThis, typedArrays = availableTypedArrays(), $slice = callBound('String.prototype.slice'), toStrTags = {}, gOPD = __webpack_require__(882), getPrototypeOf = Object.getPrototypeOf;
             hasToStringTag && gOPD && getPrototypeOf && forEach(typedArrays, function(typedArray) {
                 if ('function' == typeof g[typedArray]) {
                     var arr = new g[typedArray]();
@@ -28028,7 +28028,7 @@ class Zip {
                 // Runtime header offsets
                 let ID_OFFSET = -8, SIZE_OFFSET = -4, ARRAYBUFFER_ID = 0, STRING_ID = 1, ARRAYBUFFERVIEW = 1, ARRAY = 2, STATICARRAY = 4, VAL_ALIGN_OFFSET = 6, VAL_SIGNED = 2048, VAL_FLOAT = 4096, VAL_MANAGED = 16384, ARRAYBUFFERVIEW_BUFFER_OFFSET = 0, ARRAYBUFFERVIEW_DATASTART_OFFSET = 4, ARRAYBUFFERVIEW_BYTELENGTH_OFFSET = 8, ARRAYBUFFERVIEW_SIZE = 12, ARRAY_LENGTH_OFFSET = 12, ARRAY_SIZE = 16, E_NO_EXPORT_TABLE = "Operation requires compiling with --exportTable", E_NO_EXPORT_RUNTIME = "Operation requires compiling with --exportRuntime", F_NO_EXPORT_RUNTIME = ()=>{
                     throw Error(E_NO_EXPORT_RUNTIME);
-                }, BIGINT = "undefined" != typeof BigUint64Array, THIS = Symbol(), STRING_SMALLSIZE = 192, STRING_CHUNKSIZE = 1024, utf16 = new TextDecoder("utf-16le", {
+                }, BIGINT = "u" > typeof BigUint64Array, THIS = Symbol(), STRING_SMALLSIZE = 192, STRING_CHUNKSIZE = 1024, utf16 = new TextDecoder("utf-16le", {
                     fatal: !0
                 });
                 /** Gets a string from memory. */ function getStringImpl(buffer, ptr) {
@@ -28181,7 +28181,7 @@ class Zip {
                     }, extendedExports.memory = extendedExports.memory || memory, extendedExports.table = extendedExports.table || table, demangle(exports, extendedExports);
                 }
                 function isResponse(src) {
-                    return "undefined" != typeof Response && src instanceof Response;
+                    return "u" > typeof Response && src instanceof Response;
                 }
                 function isModule(src) {
                     return src instanceof WebAssembly.Module;
@@ -28297,7 +28297,7 @@ class Zip {
                 'Uint32Array',
                 'Uint8Array',
                 'Uint8ClampedArray'
-            ], g = 'undefined' == typeof globalThis ? __webpack_require__.g : globalThis;
+            ], g = "u" < typeof globalThis ? __webpack_require__.g : globalThis;
             module.exports = function() {
                 for(var out = [], i = 0; i < possibleNames.length; i++)'function' == typeof g[possibleNames[i]] && (out[out.length] = possibleNames[i]);
                 return out;

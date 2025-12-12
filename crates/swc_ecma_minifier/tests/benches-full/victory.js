@@ -11244,7 +11244,7 @@
             }
             printWarning = function(text) {
                 var message = 'Warning: ' + text;
-                'undefined' != typeof console && console.error(message);
+                "u" > typeof console && console.error(message);
                 try {
                     // --- Welcome to debugging React ---
                     // This error was thrown as a convenience so that you can use this stack
@@ -11274,7 +11274,7 @@
             }
             printWarning = function(text) {
                 var message = 'Warning: ' + text;
-                'undefined' != typeof console && console.error(message);
+                "u" > typeof console && console.error(message);
                 try {
                     // --- Welcome to debugging React ---
                     // This error was thrown as a convenience so that you can use this stack
@@ -11460,7 +11460,7 @@
                                 // New behavior only for users of `prop-types` package
                                 var err = Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");
                                 throw err.name = 'Invariant Violation', err;
-                            } else if ('undefined' != typeof console) {
+                            } else if ("u" > typeof console) {
                                 // Old behavior for people using React.PropTypes
                                 var cacheKey = componentName + ':' + propName;
                                 !manualPropTypeCallCache[cacheKey] && // Avoid spamming the console because they are often not actionable except for lib authors
@@ -11515,7 +11515,7 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-fast-compare/index.js ***!
   \************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
-            var isArray = Array.isArray, keyList = Object.keys, hasProp = Object.prototype.hasOwnProperty, hasElementType = 'undefined' != typeof Element;
+            var isArray = Array.isArray, keyList = Object.keys, hasProp = Object.prototype.hasOwnProperty, hasElementType = "u" > typeof Element;
             // end fast-deep-equal
             module1.exports = function(a, b) {
                 try {
@@ -34719,7 +34719,7 @@
         });
     /******/ }, /******/ /******/ // define __esModule on exports
     /******/ __webpack_require__.r = function(exports1) {
-        'undefined' != typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
+        "u" > typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
             value: 'Module'
         }), /******/ Object.defineProperty(exports1, '__esModule', {
             value: !0

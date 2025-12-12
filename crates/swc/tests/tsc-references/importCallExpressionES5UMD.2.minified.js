@@ -14,7 +14,7 @@ global = this, factory = function(exports1) {
     });
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
+], factory) : (global = "u" > typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
 //// [1.ts]
 var global, factory;
 global = this, factory = function(exports1, _class_call_check, _interop_require_wildcard) {
@@ -48,4 +48,4 @@ global = this, factory = function(exports1, _class_call_check, _interop_require_
     "exports",
     "@swc/helpers/_/_class_call_check",
     "@swc/helpers/_/_interop_require_wildcard"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.classCallCheck, global.interopRequireWildcard);
+], factory) : (global = "u" > typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.classCallCheck, global.interopRequireWildcard);

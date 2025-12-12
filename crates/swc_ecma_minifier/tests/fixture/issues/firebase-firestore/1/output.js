@@ -486,7 +486,7 @@
                  */ function(t) {
                             // Polyfills for IE and WebWorker by using `self` and `msCrypto` when `crypto` is not available.
                             let e = // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
+                            "u" > typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
                             if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
                             else for(let e = 0; e < 40; e++)n[e] = Math.floor(256 * Math.random());
                             return n;
@@ -5475,7 +5475,7 @@
                 // TODO(chenbrian): Consider passing in window either into this component or
                 // here for testing via FakeWindow.
                 /** Checks that all used attributes of window are available. */ static bt() {
-                    return "undefined" != typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
+                    return "u" > typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
                 }
             }
             /**
@@ -5757,7 +5757,7 @@
             /** The Platform's 'document' implementation or null if not available. */ function Jr() {
                 // `document` is not always available, e.g. in ReactNative and WebWorkers.
                 // eslint-disable-next-line no-restricted-globals
-                return "undefined" != typeof document ? document : null;
+                return "u" > typeof document ? document : null;
             }
             /**
                  * An instance of the Platform's 'TextEncoder' implementation.

@@ -685,7 +685,7 @@
             // and we could have a special build just for that
             // but this is much easier and the native packages
             // might use a different theme context in the future anyway
-            "undefined" != typeof HTMLElement ? /* #__PURE__ */ function(options) {
+            "u" > typeof HTMLElement ? /* #__PURE__ */ function(options) {
                 var collection, length, callback, container, currentSheet, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])"); // get SSRed styles out of the way of React's hydration
@@ -1169,7 +1169,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "u" > typeof IntersectionObserver, observers = new Map();
         /***/ },
         /***/ 9008: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(5443);

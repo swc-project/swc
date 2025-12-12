@@ -6,7 +6,7 @@
 // You can find some technical background for some of the code below
 // at http://marijnhaverbeke.nl/blog/#cm-internals .
 function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define(factory) : (global = global || self).CodeMirror = factory();
+    "object" == typeof exports && "u" > typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define(factory) : (global = global || self).CodeMirror = factory();
 }(this, function() {
     "use strict";
     // Kludges for bugs and behavior differences that can't be feature

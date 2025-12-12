@@ -31,6 +31,6 @@ _ts_decorate._([
     decorator,
     _ts_metadata._("design:type", Function),
     _ts_metadata._("design:paramtypes", [
-        "undefined" == typeof Service ? Object : Service
+        "u" < typeof Service ? Object : Service
     ])
 ], MyComponent);

@@ -1,8 +1,8 @@
 !function(global1, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? factory(exports, require('@jridgewell/source-map')) : 'function' == typeof define && define.amd ? define([
+    'object' == typeof exports && "u" > typeof module ? factory(exports, require('@jridgewell/source-map')) : 'function' == typeof define && define.amd ? define([
         'exports',
         '@jridgewell/source-map'
-    ], factory) : factory((global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self).Terser = {}, global1.sourceMap);
+    ], factory) : factory((global1 = "u" > typeof globalThis ? globalThis : global1 || self).Terser = {}, global1.sourceMap);
 }(this, function(exports1, sourceMap) {
     'use strict';
     let mangle_options, unary_bool, binary_bool, unary, numeric_ops;
@@ -19618,7 +19618,7 @@
     // to/from base64 functions
     // Prefer built-in Buffer, if available, then use hack
     // https://developer.mozilla.org/en-US/docs/Glossary/Base64#The_Unicode_Problem
-    var to_ascii = "undefined" != typeof Buffer ? (b64)=>Buffer.from(b64, "base64").toString() : (b64)=>decodeURIComponent(escape(atob(b64))), to_base64 = "undefined" != typeof Buffer ? (str)=>Buffer.from(str).toString("base64") : (str)=>btoa(unescape(encodeURIComponent(str)));
+    var to_ascii = "u" > typeof Buffer ? (b64)=>Buffer.from(b64, "base64").toString() : (b64)=>decodeURIComponent(escape(atob(b64))), to_base64 = "u" > typeof Buffer ? (str)=>Buffer.from(str).toString("base64") : (str)=>btoa(unescape(encodeURIComponent(str)));
     function set_shorthand(name, options, keys) {
         options[name] && keys.forEach(function(key) {
             options[key] && ("object" != typeof options[key] && (options[key] = {}), name in options[key] || (options[key][name] = options[name]));

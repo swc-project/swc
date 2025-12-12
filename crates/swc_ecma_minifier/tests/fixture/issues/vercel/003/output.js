@@ -1,5 +1,5 @@
 import { a, b } from "./utils";
-"undefined" != typeof window && require("intersection-observer");
+"u" > typeof window && require("intersection-observer");
 let manager = function() {
     let c = new Map();
     function j(k) {

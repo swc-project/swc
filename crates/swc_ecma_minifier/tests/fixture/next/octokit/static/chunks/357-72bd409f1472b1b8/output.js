@@ -1,7 +1,7 @@
 export default function(module, __unused_webpack_exports, __webpack_require__) {
     module.exports = function() {
         'use strict';
-        var commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser_load = function(received, defaults, onto = {}) {
+        var commonjsGlobal = "u" > typeof globalThis ? globalThis : "u" > typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "u" > typeof self ? self : {}, parser_load = function(received, defaults, onto = {}) {
             var k, ref, v;
             for(k in defaults)v = defaults[k], onto[k] = null != (ref = received[k]) ? ref : v;
             return onto;
