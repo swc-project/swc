@@ -16,6 +16,7 @@
 //! ```
 
 use rustc_hash::FxHashMap;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
@@ -81,6 +82,35 @@ impl StmtInjectorStore {
 }
 
 impl VisitMutHook<TraverseCtx> for StmtInjector {
+    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, _: &mut TraverseCtx) {
+        // We convert the arrow body to a block statement with a return statement
+        // because we cannot inject statements after the arrow body.
+        if let BlockStmtOrExpr::Expr(expr) = &mut *node.body {
+            *node.body = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(expr.take()),
+                })],
+                ..Default::default()
+            });
+        }
+    }
+
+    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr, _: &mut TraverseCtx) {
+        if let BlockStmtOrExpr::BlockStmt(block_stmt) = &mut *node.body {
+            // If the block statement is something we inserted, we need to
+            // convert it back to an expression.
+            if block_stmt.span == DUMMY_SP && block_stmt.stmts.len() == 1 {
+                if let Stmt::Return(return_stmt) = &mut block_stmt.stmts[0] {
+                    if return_stmt.span == DUMMY_SP {
+                        *node.body = BlockStmtOrExpr::Expr(return_stmt.arg.take().unwrap());
+                    }
+                }
+            }
+        }
+    }
+
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
         // First pass: collect all (index, adjacent_stmts) pairs while addresses are
         // valid
