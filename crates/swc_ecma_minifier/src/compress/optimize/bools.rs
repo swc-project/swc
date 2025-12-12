@@ -7,52 +7,78 @@ use crate::program_data::VarUsageInfoFlags;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
+    /// Optimizes `typeof` comparisons with `"undefined"`:
     ///
-    /// - `"undefined" == typeof value;` => `void 0 === value`
+    /// - `typeof x == "undefined"` => `void 0 === x` (when x is declared)
+    /// - `typeof x == "undefined"` => `typeof x > "u"` (when x is undeclared)
+    /// - `typeof x != "undefined"` => `typeof x < "u"` (when x is undeclared)
+    ///
+    /// The `> "u"` optimization works because `"undefined"` is the only typeof
+    /// result that is greater than `"u"` in lexicographic order.
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
-        fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
-            match (&mut *l, &mut *r) {
-                (
-                    Expr::Lit(Lit::Str(Str { value: l_v, .. })),
-                    Expr::Unary(UnaryExpr {
-                        op: op!("typeof"),
-                        arg,
-                        ..
-                    }),
-                ) if &**l_v == "undefined" => {
-                    // TODO?
-                    if let Expr::Ident(arg) = &**arg {
-                        if let Some(usage) = o.data.vars.get(&arg.to_id()) {
-                            if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
-                                return false;
-                            }
-                        }
-                    }
-
-                    *l = *Expr::undefined(l.span());
-                    *r = *arg.take();
-                    true
-                }
-                _ => false,
-            }
-        }
-
-        match e.op {
-            op!("==") | op!("!=") | op!("===") | op!("!==") => {}
+        let is_eq = match e.op {
+            op!("==") | op!("===") => true,
+            op!("!=") | op!("!==") => false,
             _ => return,
+        };
+
+        let (arg, undefined_expr, reverse) = match (&mut *e.left, &mut *e.right) {
+            (
+                Expr::Unary(UnaryExpr {
+                    op: op!("typeof"),
+                    arg,
+                    ..
+                }),
+                Expr::Lit(Lit::Str(lit_str)),
+            ) if lit_str.value == "undefined" => (arg, &mut e.right, false),
+            (
+                Expr::Lit(Lit::Str(lit_str)),
+                Expr::Unary(UnaryExpr {
+                    op: op!("typeof"),
+                    arg,
+                    ..
+                }),
+            ) if lit_str.value == "undefined" => (arg, &mut e.left, true),
+            _ => {
+                return;
+            }
+        };
+
+        self.changed = true;
+        if self.is_undeclared_ident(arg) {
+            // typeof x == "undefined"  => typeof x > "u"
+            // typeof x != "undefined"  => typeof x < "u"
+            // "undefined" == typeof x  => "u" < typeof x
+            // "undefined" != typeof x  => "u" > typeof x
+            e.op = if is_eq ^ reverse { op!(">") } else { op!("<") };
+            let span = undefined_expr.span();
+            *undefined_expr = "u".into();
+            undefined_expr.set_span(span);
+
+            report_change!("bools: Optimizing `typeof x == \"undefined\"` into `typeof x > \"u\"`");
+            return;
         }
 
-        if opt(self, &mut e.left, &mut e.right) || opt(self, &mut e.right, &mut e.left) {
-            e.op = match e.op {
-                op!("==") => {
-                    op!("===")
-                }
-                op!("!=") => {
-                    op!("!==")
-                }
-                _ => e.op,
-            };
-        }
+        // "undefined" -> void 0
+        *undefined_expr = Expr::undefined(undefined_expr.span());
+        let arg = arg.take();
+        let typeof_expr = if reverse { &mut e.right } else { &mut e.left };
+
+        // typeof x -> x
+        *typeof_expr = arg;
+        e.op = if is_eq { op!("===") } else { op!("!==") };
+
+        report_change!("bools: Optimizing `typeof x == \"undefined\"` into `x === void 0`");
+    }
+
+    fn is_undeclared_ident(&self, arg: &Expr) -> bool {
+        arg.as_ident().is_some_and(|ident| {
+            self.data
+                .vars
+                .get(&ident.to_id())
+                .map(|u| !u.flags.contains(VarUsageInfoFlags::DECLARED))
+                .unwrap_or(false)
+        })
     }
 
     ///

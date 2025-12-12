@@ -59,7 +59,7 @@ exports.modules = {
                 return function(e) {
                     if (Array.isArray(e)) return e;
                 }(e) || function(e, t) {
-                    var n = null == e ? null : "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"];
+                    var n = null == e ? null : "u" > typeof Symbol && e[Symbol.iterator] || e["@@iterator"];
                     if (null == n) return;
                     var i, b, w = [], R = !0, T = !1;
                     try {
@@ -82,7 +82,7 @@ exports.modules = {
                 return function(e) {
                     if (Array.isArray(e)) return d(e);
                 }(e) || function(e) {
-                    if ("undefined" != typeof Symbol && null != e[Symbol.iterator] || null != e["@@iterator"]) return Array.from(e);
+                    if ("u" > typeof Symbol && null != e[Symbol.iterator] || null != e["@@iterator"]) return Array.from(e);
                 }(e) || p(e) || function() {
                     throw TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
                 }();
@@ -1022,7 +1022,7 @@ exports.modules = {
                     return "function" == typeof es ? es : me;
                 }, [
                     es
-                ]), eF = t.useRef(null), ej = t.useRef(null), ek = s(t.useReducer(ve, ec), 2), eE = ek[0], eP = ek[1], eC = eE.isFocused, eS = eE.isFileDialogActive, ez = t.useRef("undefined" != typeof window && window.isSecureContext && ep && Z()), ie = function() {
+                ]), eF = t.useRef(null), ej = t.useRef(null), ek = s(t.useReducer(ve, ec), 2), eE = ek[0], eP = ek[1], eC = eE.isFocused, eS = eE.isFileDialogActive, ez = t.useRef("u" > typeof window && window.isSecureContext && ep && Z()), ie = function() {
                     !ez.current && eS && setTimeout(function() {
                         ej.current && (ej.current.files.length || (eP({
                             type: "closeDialog"

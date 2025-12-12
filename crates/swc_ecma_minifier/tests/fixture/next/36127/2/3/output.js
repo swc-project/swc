@@ -307,7 +307,7 @@ class h {
         return !1;
     }
 }
-"undefined" != typeof Symbol && (Text.prototype[Symbol.iterator] = function() {
+"u" > typeof Symbol && (Text.prototype[Symbol.iterator] = function() {
     return this.iter();
 }, i.prototype[Symbol.iterator] = s.prototype[Symbol.iterator] = h.prototype[Symbol.iterator] = function() {
     return this;

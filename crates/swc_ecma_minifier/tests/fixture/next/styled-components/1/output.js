@@ -3632,7 +3632,7 @@
                 // It is important to wrap all references to global window and document in
                 // these checks to support server-side rendering use cases
                 // @see https://github.com/WICG/focus-visible/issues/199
-                if ("undefined" != typeof window && "undefined" != typeof document) {
+                if ("u" > typeof window && "u" > typeof document) {
                     var event;
                     // Make the polyfill helper globally available. This can be used as a signal
                     // to interested libraries that wish to coordinate with the polyfill for e.g.,
@@ -3646,7 +3646,7 @@
                     }
                     window.dispatchEvent(event);
                 }
-                "undefined" != typeof document && // Apply the polyfill to the global document, so that no JavaScript
+                "u" > typeof document && // Apply the polyfill to the global document, so that no JavaScript
                 // coordination is required to use the polyfill in the top-level document:
                 applyFocusVisiblePolyfill(document);
             }();
@@ -4547,7 +4547,7 @@
             function N(e) {
                 return e && "string" == typeof e.styledComponentId;
             }
-            var A = void 0 !== process && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || "data-styled", I = "undefined" != typeof window && "HTMLElement" in window, P = !!("boolean" == typeof SC_DISABLE_SPEEDY ? SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.REACT_APP_SC_DISABLE_SPEEDY && "" !== process.env.REACT_APP_SC_DISABLE_SPEEDY ? "false" !== process.env.REACT_APP_SC_DISABLE_SPEEDY && process.env.REACT_APP_SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.SC_DISABLE_SPEEDY && "" !== process.env.SC_DISABLE_SPEEDY && "false" !== process.env.SC_DISABLE_SPEEDY && process.env.SC_DISABLE_SPEEDY), O = {};
+            var A = void 0 !== process && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || "data-styled", I = "u" > typeof window && "HTMLElement" in window, P = !!("boolean" == typeof SC_DISABLE_SPEEDY ? SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.REACT_APP_SC_DISABLE_SPEEDY && "" !== process.env.REACT_APP_SC_DISABLE_SPEEDY ? "false" !== process.env.REACT_APP_SC_DISABLE_SPEEDY && process.env.REACT_APP_SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.SC_DISABLE_SPEEDY && "" !== process.env.SC_DISABLE_SPEEDY && "false" !== process.env.SC_DISABLE_SPEEDY && process.env.SC_DISABLE_SPEEDY), O = {};
             function j(e) {
                 for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
                 throw Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
@@ -4600,7 +4600,7 @@
                     }
                 }
             }, q = function() {
-                return "undefined" != typeof window && void 0 !== window.__webpack_nonce__ ? window.__webpack_nonce__ : null;
+                return "u" > typeof window && void 0 !== window.__webpack_nonce__ ? window.__webpack_nonce__ : null;
             }, H = function(e) {
                 var t = document.head, n = e || t, r = document.createElement("style"), o = function(e) {
                     for(var t = e.childNodes, n = t.length; n >= 0; n--){
@@ -6118,7 +6118,7 @@
             function getSystemColorMode() {
                 var _window$matchMedia2, _window2, _window$matchMedia2$c;
                 return(// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                "undefined" != typeof window && null != (_window$matchMedia2 = (_window2 = window).matchMedia) && null != (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) && _window$matchMedia2$c.matches ? "night" : "day");
+                "u" > typeof window && null != (_window$matchMedia2 = (_window2 = window).matchMedia) && null != (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) && _window$matchMedia2$c.matches ? "night" : "day");
             }
             function resolveColorMode(colorMode, systemColorMode) {
                 return "auto" === colorMode ? systemColorMode : colorMode;
@@ -6515,7 +6515,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            "undefined" != typeof window && window.document && window.document.createElement;
+            "u" > typeof window && window.document && window.document.createElement;
             let GlobalStyle = function(e) {
                 for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), o = 1; o < t; o++)n[o - 1] = arguments[o];
                 var i = Ce.apply(void 0, [

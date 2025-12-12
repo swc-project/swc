@@ -16,9 +16,9 @@
 * specific language governing permissions and limitations
 * under the License.
 */ function(global1, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
+    'object' == typeof exports && "u" > typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
         'exports'
-    ], factory) : factory((global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self).echarts = {});
+    ], factory) : factory((global1 = "u" > typeof globalThis ? globalThis : global1 || self).echarts = {});
 }(this, function(exports1) {
     'use strict';
     /*! *****************************************************************************
@@ -65,7 +65,7 @@
     }, env = new function() {
         this.browser = new Browser(), this.node = !1, this.wxa = !1, this.worker = !1, this.canvasSupported = !1, this.svgSupported = !1, this.touchEventsSupported = !1, this.pointerEventsSupported = !1, this.domSupported = !1, this.transformSupported = !1, this.transform3dSupported = !1;
     }();
-    'object' == typeof wx && 'function' == typeof wx.getSystemInfoSync ? (env.wxa = !0, env.canvasSupported = !0, env.touchEventsSupported = !0) : 'undefined' == typeof document && 'undefined' != typeof self ? (env.worker = !0, env.canvasSupported = !0) : 'undefined' == typeof navigator ? (env.node = !0, env.canvasSupported = !0, env.svgSupported = !0) : (ua = navigator.userAgent, browser = env.browser, firefox = ua.match(/Firefox\/([\d.]+)/), ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/), edge = ua.match(/Edge?\/([\d.]+)/), weChat = /micromessenger/i.test(ua), firefox && (browser.firefox = !0, browser.version = firefox[1]), ie && (browser.ie = !0, browser.version = ie[1]), edge && (browser.edge = !0, browser.version = edge[1], browser.newEdge = +edge[1].split('.')[0] > 18), weChat && (browser.weChat = !0), env.canvasSupported = !!document.createElement('canvas').getContext, env.svgSupported = 'undefined' != typeof SVGRect, env.touchEventsSupported = 'ontouchstart' in window && !browser.ie && !browser.edge, env.pointerEventsSupported = 'onpointerdown' in window && (browser.edge || browser.ie && +browser.version >= 11), env.domSupported = 'undefined' != typeof document, style = document.documentElement.style, env.transform3dSupported = (browser.ie && 'transition' in style || browser.edge || 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix() || 'MozPerspective' in style) && !('OTransition' in style), env.transformSupported = env.transform3dSupported || browser.ie && +browser.version >= 9);
+    'object' == typeof wx && 'function' == typeof wx.getSystemInfoSync ? (env.wxa = !0, env.canvasSupported = !0, env.touchEventsSupported = !0) : "u" < typeof document && "u" > typeof self ? (env.worker = !0, env.canvasSupported = !0) : "u" < typeof navigator ? (env.node = !0, env.canvasSupported = !0, env.svgSupported = !0) : (ua = navigator.userAgent, browser = env.browser, firefox = ua.match(/Firefox\/([\d.]+)/), ie = ua.match(/MSIE\s([\d.]+)/) || ua.match(/Trident\/.+?rv:(([\d.]+))/), edge = ua.match(/Edge?\/([\d.]+)/), weChat = /micromessenger/i.test(ua), firefox && (browser.firefox = !0, browser.version = firefox[1]), ie && (browser.ie = !0, browser.version = ie[1]), edge && (browser.edge = !0, browser.version = edge[1], browser.newEdge = +edge[1].split('.')[0] > 18), weChat && (browser.weChat = !0), env.canvasSupported = !!document.createElement('canvas').getContext, env.svgSupported = "u" > typeof SVGRect, env.touchEventsSupported = 'ontouchstart' in window && !browser.ie && !browser.edge, env.pointerEventsSupported = 'onpointerdown' in window && (browser.edge || browser.ie && +browser.version >= 11), env.domSupported = "u" > typeof document, style = document.documentElement.style, env.transform3dSupported = (browser.ie && 'transition' in style || browser.edge || 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix() || 'MozPerspective' in style) && !('OTransition' in style), env.transformSupported = env.transform3dSupported || browser.ie && +browser.version >= 9);
     var BUILTIN_OBJECT = {
         '[object Function]': !0,
         '[object RegExp]': !0,
@@ -95,7 +95,7 @@
     }
     function logError() {
         for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-        'undefined' != typeof console && console.error.apply(console, args);
+        "u" > typeof console && console.error.apply(console, args);
     }
     function clone(source) {
         if (null == source || 'object' != typeof source) return source;
@@ -744,7 +744,7 @@
     function isCanvasEl(el) {
         return 'CANVAS' === el.nodeName.toUpperCase();
     }
-    var isDomLevel2 = 'undefined' != typeof window && !!window.addEventListener, MOUSE_EVENT_REG = /^(?:mouse|pointer|contextmenu|drag|drop)|click/, _calcOut$1 = [];
+    var isDomLevel2 = "u" > typeof window && !!window.addEventListener, MOUSE_EVENT_REG = /^(?:mouse|pointer|contextmenu|drag|drop)|click/, _calcOut$1 = [];
     function clientToLocal(el, e, out, calculate) {
         return out = out || {}, calculate || !env.canvasSupported ? calculateZrXY(el, e, out) : env.browser.firefox && null != e.layerX && e.layerX !== e.offsetX ? (out.zrX = e.layerX, out.zrY = e.layerY) : null != e.offsetX ? (out.zrX = e.offsetX, out.zrY = e.offsetY) : calculateZrXY(el, e, out), out;
     }
@@ -2836,7 +2836,7 @@
         return (out = out || {}).x = x, out.y = y, out.align = textAlign, out.verticalAlign = textVerticalAlign, out;
     }
     var dpr = 1;
-    'undefined' != typeof window && (dpr = Math.max(window.devicePixelRatio || window.screen && window.screen.deviceXDPI / window.screen.logicalXDPI || 1, 1));
+    "u" > typeof window && (dpr = Math.max(window.devicePixelRatio || window.screen && window.screen.deviceXDPI / window.screen.logicalXDPI || 1, 1));
     var devicePixelRatio = dpr, DARK_LABEL_COLOR = '#333', LIGHT_LABEL_COLOR = '#ccc', PRESERVED_NORMAL_STATE = '__zr_normal__', PRIMARY_STATES_KEYS = [
         'x',
         'y',
@@ -3515,7 +3515,7 @@
             this._displayList = null, this._roots = null;
         }, Storage;
     }();
-    requestAnimationFrame = 'undefined' != typeof window && (window.requestAnimationFrame && window.requestAnimationFrame.bind(window) || window.msRequestAnimationFrame && window.msRequestAnimationFrame.bind(window) || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame) || function(func) {
+    requestAnimationFrame = "u" > typeof window && (window.requestAnimationFrame && window.requestAnimationFrame.bind(window) || window.msRequestAnimationFrame && window.msRequestAnimationFrame.bind(window) || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame) || function(func) {
         return setTimeout(func, 16);
     };
     var Animation = function(_super) {
@@ -4221,8 +4221,8 @@
             return 0 === b ? a : getGreatestCommonDividor(b, a % b);
         }(a, b);
     }
-    var ECHARTS_PREFIX = '[ECharts] ', storedLogs = {}, hasConsole = 'undefined' // eslint-disable-next-line
-     != typeof console && console.warn && console.log;
+    var ECHARTS_PREFIX = '[ECharts] ', storedLogs = {}, hasConsole = "u" // eslint-disable-next-line
+     > typeof console && console.warn && console.log;
     function warn(str) {
         hasConsole && console.warn(ECHARTS_PREFIX + str);
     }
@@ -4253,7 +4253,7 @@
             return arg;
             var printableStr = makePrintableStringIfPossible_1(arg);
             if (null != printableStr) return printableStr;
-            if ('undefined' == typeof JSON || !JSON.stringify) return '?';
+            if (!("u" > typeof JSON) || !JSON.stringify) return '?';
             try {
                 return JSON.stringify(arg, function(n, val) {
                     var printableStr = makePrintableStringIfPossible_1(val);
@@ -5210,7 +5210,7 @@
         A: 5,
         Z: 6,
         R: 7
-    }, tmpOutX = [], tmpOutY = [], min$1 = [], max$1 = [], min2 = [], max2 = [], mathMin$2 = Math.min, mathMax$2 = Math.max, mathCos$1 = Math.cos, mathSin$1 = Math.sin, mathSqrt$1 = Math.sqrt, mathAbs = Math.abs, PI = Math.PI, PI2$1 = 2 * PI, hasTypedArray = 'undefined' != typeof Float32Array, tmpAngles = [];
+    }, tmpOutX = [], tmpOutY = [], min$1 = [], max$1 = [], min2 = [], max2 = [], mathMin$2 = Math.min, mathMax$2 = Math.max, mathCos$1 = Math.cos, mathSin$1 = Math.sin, mathSqrt$1 = Math.sqrt, mathAbs = Math.abs, PI = Math.PI, PI2$1 = 2 * PI, hasTypedArray = "u" > typeof Float32Array, tmpAngles = [];
     function modPI2(radian) {
         return Math.round(radian / PI * 1e8) / 1e8 % 2 * PI;
     }
@@ -9061,7 +9061,7 @@
     * specific language governing permissions and limitations
     * under the License.
     */ var platform = ''; // Navigator not exists in node
-    'undefined' != typeof navigator && /* global navigator */ (platform = navigator.platform || '');
+    "u" > typeof navigator && /* global navigator */ (platform = navigator.platform || '');
     var decalColor = 'rgba(0, 0, 0, 0.2)', globalDefault = {
         darkMode: 'auto',
         // backgroundColor: 'rgba(0,0,0,0)',
@@ -11141,7 +11141,7 @@
                     }));
                     return transOption.print && !function() {
                         for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-                        'undefined' != typeof console && console.log && console.log.apply(console, args);
+                        "u" > typeof console && console.log && console.log.apply(console, args);
                     }(map(resultList, function(extSource) {
                         return [
                             '=== dataset index: ' + infoForPrint.datasetIndex + (null != pipeIndex ? ' === pipe index: ' + pipeIndex : '') + ' ===',
@@ -14878,7 +14878,7 @@
         ]
     ], GeoJSONResource = /** @class */ function() {
         function GeoJSONResource(mapName, geoJSON, specialAreas) {
-            this.type = 'geoJSON', this._parsedMap = createHashMap(), this._mapName = mapName, this._specialAreas = specialAreas, this._geoJSON = isString(geoJSON) ? 'undefined' != typeof JSON && JSON.parse ? JSON.parse(geoJSON) : Function('return (' + geoJSON + ');')() : geoJSON;
+            this.type = 'geoJSON', this._parsedMap = createHashMap(), this._mapName = mapName, this._specialAreas = specialAreas, this._geoJSON = isString(geoJSON) ? "u" > typeof JSON && JSON.parse ? JSON.parse(geoJSON) : Function('return (' + geoJSON + ');')() : geoJSON;
         }
         return(/**
              * @param nameMap can be null/undefined
@@ -14983,7 +14983,7 @@
     }, geoSourceManager_load = function(mapName, nameMap, nameProperty) {
         var resource = storage.get(mapName);
         return resource ? resource.load(nameMap, nameProperty) : void console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
-    }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, PRIORITY = {
+    }, isObject$2 = isObject, hasWindow = "u" > typeof window, PRIORITY = {
         PROCESSOR: {
             FILTER: 1000,
             SERIES_FILTER: 800,
@@ -17923,7 +17923,7 @@
         }, IntervalScale.type = 'interval', IntervalScale;
     }(Scale);
     Scale.registerClass(IntervalScale);
-    var STACK_PREFIX = '__ec_stack_', LargeArr = 'undefined' != typeof Float32Array ? Float32Array : Array;
+    var STACK_PREFIX = '__ec_stack_', LargeArr = "u" > typeof Float32Array ? Float32Array : Array;
     function getSeriesStackId(seriesModel) {
         return seriesModel.get('stack') || STACK_PREFIX + seriesModel.seriesIndex;
     }
@@ -20679,7 +20679,7 @@
         var baseDataOffset = dataCoordInfo.baseDataOffset, stackedData = [];
         return stackedData[baseDataOffset] = data.get(dataCoordInfo.baseDim, idx), stackedData[1 - baseDataOffset] = value, coordSys.dataToPoint(stackedData);
     }
-    /* global Float32Array */ var supportFloat32Array = 'undefined' != typeof Float32Array, Float32ArrayCtor = supportFloat32Array ? Float32Array : Array;
+    /* global Float32Array */ var supportFloat32Array = "u" > typeof Float32Array, Float32ArrayCtor = supportFloat32Array ? Float32Array : Array;
     function createFloat32Array(arg) {
         return isArray(arg) ? supportFloat32Array ? new Float32Array(arg) : arg : new Float32ArrayCtor(arg) // Else is number
         ;
@@ -33192,7 +33192,7 @@
                 }
             };
         }
-    }, LargeArr$1 = 'undefined' != typeof Float32Array ? Float32Array : Array, candlestickLayout = {
+    }, LargeArr$1 = "u" > typeof Float32Array ? Float32Array : Array, candlestickLayout = {
         seriesType: 'candlestick',
         plan: createRenderPlanner(),
         reset: function(seriesModel) {
@@ -33762,7 +33762,7 @@
         }, LinesView.prototype.remove = function(ecModel, api) {
             this._lineDraw && this._lineDraw.remove(), this._lineDraw = null, this._clearLayer(api);
         }, LinesView.type = 'lines', LinesView;
-    }(ChartView), Uint32Arr = 'undefined' == typeof Uint32Array ? Array : Uint32Array, Float64Arr = 'undefined' == typeof Float64Array ? Array : Float64Array;
+    }(ChartView), Uint32Arr = "u" < typeof Uint32Array ? Array : Uint32Array, Float64Arr = "u" < typeof Float64Array ? Array : Float64Array;
     function compatEc2(seriesOpt) {
         var data = seriesOpt.data;
         data && data[0] && data[0][0] && data[0][0].coord && (console.warn("Lines data configuration has been changed to { coords:[[1,2],[2,3]] }"), seriesOpt.data = map(data, function(itemOpt) {

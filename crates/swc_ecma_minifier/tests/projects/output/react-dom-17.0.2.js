@@ -6,7 +6,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */ function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? factory(exports, require("react")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof exports && "u" > typeof module ? factory(exports, require("react")) : "function" == typeof define && define.amd ? define([
         "exports",
         "react"
     ], factory) : factory((global = global || self).ReactDOM = {}, global.React);
@@ -46,7 +46,7 @@
         registrationNameDependencies[registrationName] && error("EventRegistry: More than one plugin attempted to publish the same registration name, `%s`.", registrationName), registrationNameDependencies[registrationName] = dependencies, possibleRegistrationNames[registrationName.toLowerCase()] = registrationName, "onDoubleClick" === registrationName && (possibleRegistrationNames.ondblclick = registrationName);
         for(var i = 0; i < dependencies.length; i++)allNativeEvents.add(dependencies[i]);
     }
-    var canUseDOM = "undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement, ATTRIBUTE_NAME_START_CHAR = ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040", ROOT_ATTRIBUTE_NAME = "data-reactroot", VALID_ATTRIBUTE_NAME_REGEX = RegExp("^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {}, validatedAttributeNameCache = {};
+    var canUseDOM = "u" > typeof window && void 0 !== window.document && void 0 !== window.document.createElement, ATTRIBUTE_NAME_START_CHAR = ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040", ROOT_ATTRIBUTE_NAME = "data-reactroot", VALID_ATTRIBUTE_NAME_REGEX = RegExp("^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {}, validatedAttributeNameCache = {};
     function isAttributeNameSafe(attributeName) {
         return !!hasOwnProperty.call(validatedAttributeNameCache, attributeName) || !hasOwnProperty.call(illegalAttributeNameCache, attributeName) && (VALID_ATTRIBUTE_NAME_REGEX.test(attributeName) ? (validatedAttributeNameCache[attributeName] = !0, !0) : (illegalAttributeNameCache[attributeName] = !0, error("Invalid attribute name: `%s`", attributeName), !1));
     }
@@ -711,7 +711,7 @@
         return nextValue !== lastValue && (tracker.setValue(nextValue), !0);
     }
     function getActiveElement(doc) {
-        if (void 0 === (doc = doc || ("undefined" != typeof document ? document : void 0))) return null;
+        if (void 0 === (doc = doc || ("u" > typeof document ? document : void 0))) return null;
         try {
             return doc.activeElement || doc.body;
         } catch (e) {
@@ -982,7 +982,7 @@
             return;
         }
         node.innerHTML = html;
-    }, "undefined" != typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
+    }, "u" > typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
         MSApp.execUnsafeLocalFunction(function() {
             return func(arg0, arg1, arg2, arg3);
         });
@@ -2145,14 +2145,14 @@
     // try-catch. Neat!
     // Check that the browser supports the APIs we need to implement our special
     // DEV version of invokeGuardedCallback
-    if ("undefined" != typeof window && "function" == typeof window.dispatchEvent && "undefined" != typeof document && "function" == typeof document.createEvent) {
+    if ("u" > typeof window && "function" == typeof window.dispatchEvent && "u" > typeof document && "function" == typeof document.createEvent) {
         var fakeNode = document.createElement("react");
         invokeGuardedCallbackImpl = function(name, func, context, a, b, c, d, e, f) {
             // If document doesn't exist we know for sure we will crash in this method
             // when we call document.createEvent(). However this can cause confusing
             // errors: https://github.com/facebookincubator/create-react-app/issues/3482
             // So we preemptively throw with a better message instead.
-            if ("undefined" == typeof document) throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
+            if ("u" < typeof document) throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
             var error, evt = document.createEvent("Event"), didCall = !1, didError = !0, windowEvent = window.event, windowEventDescriptor = Object.getOwnPropertyDescriptor(window, "event");
             function restoreAfterDispatch() {
                 // We immediately remove the callback from event listeners so that
@@ -5053,7 +5053,7 @@
             pop(didPerformWorkStackCursor, workInProgress), pop(contextStackCursor, workInProgress), push(contextStackCursor, mergedContext, workInProgress), push(didPerformWorkStackCursor, didChange, workInProgress);
         } else pop(didPerformWorkStackCursor, workInProgress), push(didPerformWorkStackCursor, didChange, workInProgress);
     }
-    var rendererID = null, injectedHook = null, hasLoggedError = !1, isDevToolsPresent = "undefined" != typeof __REACT_DEVTOOLS_GLOBAL_HOOK__;
+    var rendererID = null, injectedHook = null, hasLoggedError = !1, isDevToolsPresent = "u" > typeof __REACT_DEVTOOLS_GLOBAL_HOOK__;
     // Provide explicit error message when production+profiling bundle of e.g.
     // react-dom is used with production (non-profiling) bundle of
     // scheduler/tracing
@@ -6693,10 +6693,10 @@
         currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, destroy, nextDeps);
     }
     function mountEffect(create, deps) {
-        return "undefined" != typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), mountEffectImpl(516, /*   */ 4, create, deps);
+        return "u" > typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), mountEffectImpl(516, /*   */ 4, create, deps);
     }
     function updateEffect(create, deps) {
-        return "undefined" != typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), updateEffectImpl(516, 4, create, deps);
+        return "u" > typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), updateEffectImpl(516, 4, create, deps);
     }
     function mountLayoutEffect(create, deps) {
         return mountEffectImpl(4, /*    */ 2, create, deps);
@@ -6903,7 +6903,7 @@
                     }
                 }
             }
-            "undefined" != typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
+            "u" > typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
         }
     }
     var ContextOnlyDispatcher = {
@@ -11304,7 +11304,7 @@
         }
         var current$1 = container.current, eventTime = requestEventTime();
         // $FlowExpectedError - jest isn't a global, and isn't recognized outside of tests
-        "undefined" != typeof jest && (!1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & current$1.mode || 4 & current$1.mode) && (didWarnAboutUnmockedScheduler = !0, error("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: \njest.mock('scheduler', () => require('scheduler/unstable_mock'));\n\nFor more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
+        "u" > typeof jest && (!1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & current$1.mode || 4 & current$1.mode) && (didWarnAboutUnmockedScheduler = !0, error("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: \njest.mock('scheduler', () => require('scheduler/unstable_mock'));\n\nFor more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
         var lane = requestUpdateLane(current$1), context = function(parentComponent) {
             if (!parentComponent) return emptyContextObject;
             var fiber = get(parentComponent), parentContext = function(fiber) {
@@ -11676,7 +11676,7 @@
             // Enables DevTools to append owner stacks to error messages in DEV mode.
             getCurrentFiber: getCurrentFiberForDevTools
         };
-        if ("undefined" == typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) // No DevTools
+        if ("u" < typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) // No DevTools
         return !1;
         var hook = __REACT_DEVTOOLS_GLOBAL_HOOK__;
         if (hook.isDisabled) // This isn't a real property on the hook, but it can be set to opt out

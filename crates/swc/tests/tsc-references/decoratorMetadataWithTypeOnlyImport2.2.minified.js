@@ -14,5 +14,5 @@ export var Main = function Main() {
 };
 _ts_decorate([
     decorator(),
-    _ts_metadata("design:type", "undefined" == typeof Services || void 0 === Services.Service ? Object : Services.Service)
+    _ts_metadata("design:type", "u" < typeof Services || void 0 === Services.Service ? Object : Services.Service)
 ], Main.prototype, "field", void 0);

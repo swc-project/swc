@@ -214,4 +214,4 @@
     function hasOwnProperty(obj, prop) {
         return Object.prototype.hasOwnProperty.call(obj, prop);
     }
-}("undefined" != typeof global ? global : "undefined" != typeof window ? window : this);
+}("u" > typeof global ? global : "u" > typeof window ? window : this);

@@ -54,7 +54,7 @@ available.
 **/ /*global YUI*/ /*global YUI_config*/ var YUI = function() {
     var i = 0, Y = this, args = arguments, l = args.length, instanceOf = function(o, type) {
         return o && o.hasOwnProperty && o instanceof type;
-    }, gconf = "undefined" != typeof YUI_config && YUI_config;
+    }, gconf = "u" > typeof YUI_config && YUI_config;
     if (instanceOf(Y, YUI) ? (// set up the core environment
     Y._init(), YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig), gconf && Y.applyConfig(gconf), l || Y._setup()) : Y = new YUI(), l) {
         // Each instance can accept one or more configuration objects.
@@ -75,7 +75,7 @@ available.
         "io.xdrReady": 1,
         "io.xdrResponse": 1,
         "SWF.eventHandler": 1
-    }, hasWin = "undefined" != typeof window, win = hasWin ? window : null, doc = hasWin ? win.document : null, docEl = doc && doc.documentElement, docClass = docEl && docEl.className, instances = {}, time = new Date().getTime(), add = function(el, type, fn, capture) {
+    }, hasWin = "u" > typeof window, win = hasWin ? window : null, doc = hasWin ? win.document : null, docEl = doc && doc.documentElement, docClass = docEl && docEl.className, instances = {}, time = new Date().getTime(), add = function(el, type, fn, capture) {
         el && el.addEventListener ? el.addEventListener(type, fn, capture) : el && el.attachEvent && el.attachEvent("on" + type, fn);
     }, remove = function(el, type, fn, capture) {
         if (el && el.removeEventListener) // this can throw an uncaught exception in FF
@@ -2098,7 +2098,7 @@ properties are not copied). The following copying modes are available:
            * @property winjs
            * @type Boolean
            * @static
-           */ winjs: !!("undefined" != typeof Windows && Windows.System),
+           */ winjs: !!("u" > typeof Windows && Windows.System),
             /**
            * Are touch/msPointer events available on this device
            * @property touchEnabled
