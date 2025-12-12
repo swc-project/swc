@@ -3,7 +3,6 @@
 
 use serde::Deserialize;
 use swc_ecma_ast::Pass;
-use swc_ecma_compat_common::regexp::{self, regexp};
 
 pub use self::object_rest_spread::object_rest_spread;
 
