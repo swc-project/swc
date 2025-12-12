@@ -165,13 +165,9 @@ where
     }
 
     // ES2020
-    let pass = add!(
-        pass,
-        NullishCoalescing,
-        es2020::nullish_coalescing(es2020::nullish_coalescing::Config {
-            no_document_all: loose || assumptions.no_document_all
-        })
-    );
+    if !caniuse(Feature::NullishCoalescing) {
+        options.env.es2020.nullish_coalescing = true;
+    }
 
     let pass = add!(
         pass,
