@@ -659,6 +659,8 @@ impl Options {
                 rewrite_relative_import_extensions.into_bool(),
             );
 
+            // swc_import_rewriter should be in front of typescript_import_rewriter
+            // because typescript_import_rewriter only works without path alias
             (swc_import_rewriter, typescript_import_rewriter)
         };
 
@@ -674,6 +676,8 @@ impl Options {
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer,
             ),
+            // Rewrite import pass should be before inject_helpers pass because typescript import
+            // rewriter may require ts_rewrite_relative_import_extension helper
             rewrite_import_pass,
             Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
             ModuleConfig::build(
