@@ -58,8 +58,9 @@ impl VisitMutHook<TraverseCtx> for LogicalAssignmentOperatorsPass {
         self.stmt_ptr_stack.push(node as *const Stmt);
     }
 
-    fn exit_stmt(&mut self, _: &mut Stmt, _: &mut TraverseCtx) {
-        self.stmt_ptr = self.stmt_ptr_stack.pop();
+    fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        self.stmt_ptr_stack.pop();
+        self.stmt_ptr = self.stmt_ptr_stack.last().copied();
     }
 
     fn enter_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
