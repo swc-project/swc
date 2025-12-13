@@ -643,6 +643,25 @@ impl Options {
             .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
+        let rewrite_import_pass = {
+            let swc_import_rewriter = match resolver.clone() {
+                Some((base, resolver)) => match cfg.module {
+                    None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => {
+                        Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
+                    }
+                    _ => Box::new(noop_pass()),
+                },
+                None => Box::new(noop_pass()),
+            };
+
+            let typescript_import_rewriter = Optional::new(
+                rewriter::typescript_import_rewriter(),
+                rewrite_relative_import_extensions.into_bool(),
+            );
+
+            (swc_import_rewriter, typescript_import_rewriter)
+        };
+
         let built_pass = (
             pass,
             Optional::new(
@@ -655,10 +674,7 @@ impl Options {
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer,
             ),
-            Optional::new(
-                rewriter::typescript_import_rewriter(),
-                rewrite_relative_import_extensions.into_bool(),
-            ),
+            rewrite_import_pass,
             Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
             ModuleConfig::build(
                 cm.clone(),
@@ -1479,13 +1495,6 @@ impl ModuleConfig {
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
         let transform_pass = match config {
-            None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
-            {
-                Resolver::Default => Box::new(noop_pass()) as Box<dyn Pass>,
-                Resolver::Real { base, resolver } => {
-                    Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
-                }
-            },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,
                 unresolved_mark,
@@ -1494,7 +1503,7 @@ impl ModuleConfig {
                     support_block_scoping,
                     support_arrow,
                 },
-            )),
+            )) as Box<dyn Pass>,
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(
                 cm,
                 resolver,
@@ -1519,6 +1528,7 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
             )),
+            _ => Box::new(noop_pass()),
         };
 
         Box::new(transform_pass)
