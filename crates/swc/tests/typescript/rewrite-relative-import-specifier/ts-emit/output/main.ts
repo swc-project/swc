@@ -1,3 +1,4 @@
+import { _ as _ts_rewrite_relative_import_extension } from "@swc/helpers/_/_ts_rewrite_relative_import_extension";
 import { createRequire as _createRequire } from "module";
 const __require = _createRequire(import.meta.url);
 import "./foo.js";

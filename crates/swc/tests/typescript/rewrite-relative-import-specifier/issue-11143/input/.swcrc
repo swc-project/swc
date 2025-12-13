@@ -1,0 +1,19 @@
+{
+    "$schema": "https://swc.rs/schema.json",
+    "jsc": {
+        "rewriteRelativeImportExtensions": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["./*"]
+        },
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "esnext"
+    },
+    "module": {
+        "type": "es6",
+        "resolveFully": true,
+        "outFileExtension": "mjs"
+    }
+}
