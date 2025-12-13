@@ -43,70 +43,23 @@ use swc_ecma_utils::alias_ident_for;
 use crate::TraverseCtx;
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
-    LogicalAssignmentOperatorsPass {
-        vars: vec![],
-        vars_stack: vec![],
-    }
+    LogicalAssignmentOperatorsPass::default()
 }
 
+#[derive(Default)]
 struct LogicalAssignmentOperatorsPass {
-    vars: Vec<VarDeclarator>,
-    vars_stack: Vec<Vec<VarDeclarator>>,
+    stmt_ptr: Option<*const Stmt>,
+    stmt_ptr_stack: Vec<*const Stmt>,
 }
 
 impl VisitMutHook<TraverseCtx> for LogicalAssignmentOperatorsPass {
-    fn enter_stmts(&mut self, _stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
-        // Push current vars to stack and start fresh for this scope
-        let old_vars = std::mem::take(&mut self.vars);
-        self.vars_stack.push(old_vars);
+    fn enter_stmt(&mut self, node: &mut Stmt, _: &mut TraverseCtx) {
+        self.stmt_ptr = Some(node as *const Stmt);
+        self.stmt_ptr_stack.push(node as *const Stmt);
     }
 
-    fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
-        // Get vars collected in this scope
-        let vars = std::mem::take(&mut self.vars);
-
-        // Restore parent scope's vars
-        self.vars = self.vars_stack.pop().unwrap_or_default();
-
-        // If we collected any vars, prepend them as a single var declaration
-        if !vars.is_empty() {
-            stmts.insert(
-                0,
-                Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: vars,
-                    ..Default::default()
-                }))),
-            );
-        }
-    }
-
-    fn enter_module_items(&mut self, _items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
-        // Push current vars to stack and start fresh for this scope
-        let old_vars = std::mem::take(&mut self.vars);
-        self.vars_stack.push(old_vars);
-    }
-
-    fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
-        // Get vars collected in this scope
-        let vars = std::mem::take(&mut self.vars);
-
-        // Restore parent scope's vars
-        self.vars = self.vars_stack.pop().unwrap_or_default();
-
-        // If we collected any vars, prepend them as a single var declaration
-        if !vars.is_empty() {
-            items.insert(
-                0,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: vars,
-                    ..Default::default()
-                })))),
-            );
-        }
+    fn exit_stmt(&mut self, _: &mut Stmt, _: &mut TraverseCtx) {
+        self.stmt_ptr = self.stmt_ptr_stack.pop();
     }
 
     fn enter_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
@@ -305,8 +258,8 @@ impl LogicalAssignmentOperatorsPass {
         (left_expr, assign_target)
     }
 
-    fn inject_var_decl(&mut self, ident: &Ident, _ctx: &mut TraverseCtx) {
-        self.vars.push(VarDeclarator {
+    fn inject_var_decl(&mut self, ident: &Ident, ctx: &mut TraverseCtx) {
+        let decl = VarDeclarator {
             span: DUMMY_SP,
             name: Pat::Ident(BindingIdent {
                 id: ident.clone(),
@@ -314,6 +267,16 @@ impl LogicalAssignmentOperatorsPass {
             }),
             init: None,
             definite: false,
-        });
+        };
+
+        ctx.statement_injector.insert_before(
+            self.stmt_ptr.unwrap(),
+            VarDecl {
+                kind: VarDeclKind::Var,
+                decls: vec![decl],
+                ..Default::default()
+            }
+            .into(),
+        );
     }
 }
