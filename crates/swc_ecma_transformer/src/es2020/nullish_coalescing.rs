@@ -66,10 +66,8 @@ impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
             Expr::Bin(bin_expr) if bin_expr.op == BinaryOp::NullishCoalescing => {
                 self.transform_nullish_coalescing(expr, ctx);
             }
-            // Transform `left ??= right`
-            Expr::Assign(assign_expr) if assign_expr.op == AssignOp::NullishAssign => {
-                self.transform_nullish_coalescing_assign(expr, ctx);
-            }
+            // Note: `left ??= right` is transformed by es2021/logical_assignment_operators
+            // to `left ?? (left = right)`, which we then transform as a binary expression above
             _ => {}
         }
     }

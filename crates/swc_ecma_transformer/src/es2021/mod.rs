@@ -2,7 +2,10 @@ mod logical_assignment_operators;
 
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::TraverseCtx;
+use crate::{
+    hook_utils::{HookBuilder, NoopHook, OptionalHook},
+    TraverseCtx,
+};
 
 #[derive(Debug, Default)]
 #[non_exhaustive]
@@ -11,11 +14,13 @@ pub struct Es2021Options {
 }
 
 pub fn hook(options: Es2021Options) -> impl VisitMutHook<TraverseCtx> {
-    Es2021Pass { options }
-}
+    let hook = HookBuilder::new(NoopHook);
 
-struct Es2021Pass {
-    options: Es2021Options,
-}
+    let hook = hook.chain(OptionalHook(if options.logical_assignment_operators {
+        Some(self::logical_assignment_operators::hook())
+    } else {
+        None
+    }));
 
-impl VisitMutHook<TraverseCtx> for Es2021Pass {}
+    hook.build()
+}
