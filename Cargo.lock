@@ -5982,7 +5982,7 @@ name = "swc_ecma_compat_es2021"
 version = "32.0.0"
 dependencies = [
  "swc_ecma_ast",
- "swc_ecma_compiler",
+ "swc_ecma_transformer",
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "tracing",

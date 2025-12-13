@@ -158,8 +158,12 @@ where
     let pass = add_compiler!(
         pass,
         /* ES2022 */ | PrivatePropertyInObject
-        /* ES2021 */ | LogicalAssignmentOperators
     );
+
+    if !caniuse(Feature::LogicalAssignmentOperators) {
+        options.env.es2021.logical_assignment_operators = true;
+    }
+
     if !caniuse(Feature::ExportNamespaceFrom) {
         options.env.es2020.export_namespace_from = true;
     }
