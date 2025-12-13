@@ -660,7 +660,7 @@ impl Options {
             );
 
             // swc_import_rewriter should be in front of typescript_import_rewriter
-            // because typescript_import_rewriter only works without path alias
+            // because path aliases should be resolved before rewriting relative import extensions
             (swc_import_rewriter, typescript_import_rewriter)
         };
 
