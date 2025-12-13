@@ -54,10 +54,10 @@ b || (b = function b() {
     "use strict";
     _class_call_check(this, b);
 });
-c ?? (c = function c() {
+c !== null && c !== void 0 ? c : c = function c() {
     "use strict";
     _class_call_check(this, c);
-});
+};
 function foo() {
     var bar = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function bar() {
         "use strict";
