@@ -162,6 +162,7 @@ where
 
     if !caniuse(Feature::LogicalAssignmentOperators) {
         options.env.es2021.logical_assignment_operators = true;
+        options.env.es2020.nullish_coalescing = true;
     }
 
     if !caniuse(Feature::ExportNamespaceFrom) {
