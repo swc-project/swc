@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_hooks::{CompositeHook, VisitMutHook};
+use swc_ecma_hooks::VisitMutHook;
 
 use crate::TraverseCtx;
 
