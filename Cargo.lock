@@ -5554,7 +5554,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "50.2.1"
+version = "50.2.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6318,7 +6318,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "3.2.0"
+version = "3.2.1"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",

@@ -40,6 +40,9 @@
 
 - **(es/transformer)** Complete `replace_this_in_expr` implementation ([#11361](https://github.com/swc-project/swc/issues/11361)) ([58c4067](https://github.com/swc-project/swc/commit/58c406723e78fbe87011450dd87edbf52508c08e))
 
+
+- **(es/transformer)** Fix pass order ([#11370](https://github.com/swc-project/swc/issues/11370)) ([373048a](https://github.com/swc-project/swc/commit/373048ae3e6ad0b344bc8aa298765a207289a861))
+
 ### Features
 
 
@@ -69,6 +72,9 @@
 
 
 - **(es/transformer)** Merge `nullish_coalescing` ([#11365](https://github.com/swc-project/swc/issues/11365)) ([5fb686a](https://github.com/swc-project/swc/commit/5fb686a2c2fca583707406b7d2fec1a60bf9d4c9))
+
+
+- **(es/transformer)** Merge `logical_assignment_operators` ([#11369](https://github.com/swc-project/swc/issues/11369)) ([94946fa](https://github.com/swc-project/swc/commit/94946fa40b972f86c8aa006b29a49307127bceeb))
 
 ### Performance
 
@@ -1970,12 +1976,6 @@
 - **(es)** Unignore tests and update node to `20` in exec tests ([#10348](https://github.com/swc-project/swc/issues/10348)) ([eee73ce](https://github.com/swc-project/swc/commit/eee73cec761d1c28f6d1b87be9082fdf2af6e226))
 
 ## [1.11.18] - 2025-04-07
-
-### Bug Fixes
-
-
-
-- **(errors)** Disable wrapping of text lines ([#10314](https://github.com/swc-project/swc/issues/10314)) ([f6840ea](https://github.com/swc-project/swc/commit/f6840ea41411adcc46cfb7570ad800d479f2014d))
 
 ### Features
 
