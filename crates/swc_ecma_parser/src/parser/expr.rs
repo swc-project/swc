@@ -897,11 +897,15 @@ impl<I: Tokens> Parser<I> {
                 raw: Some(raw),
             })
         } else if cur == Token::BigInt {
-            let (value, raw) = self.input_mut().expect_bigint_token_and_bump();
+            let span = self.span(start);
+            let value = self.input_mut().expect_bigint_token_value();
+            self.bump();
+
+            let raw = self.input.iter.read_string(span);
             Lit::BigInt(swc_ecma_ast::BigInt {
-                span: self.span(start),
+                span,
                 value,
-                raw: Some(raw),
+                raw: Some(Atom::new(raw)),
             })
         } else if cur == Token::Error {
             let err = self.input_mut().expect_error_token_and_bump();

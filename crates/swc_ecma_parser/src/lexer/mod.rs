@@ -1002,7 +1002,7 @@ impl<'a> Lexer<'a> {
     /// Reads an integer, octal integer, or floating-point number
     fn read_number<const START_WITH_DOT: bool, const START_WITH_ZERO: bool>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+    ) -> LexResult<Either<(f64, Atom), Box<BigIntValue>>> {
         debug_assert!(!(START_WITH_DOT && START_WITH_ZERO));
         debug_assert!(self.cur().is_some());
 
@@ -1036,12 +1036,8 @@ impl<'a> Lexer<'a> {
             if (!START_WITH_ZERO || lazy_integer.end - lazy_integer.start == BytePos(1))
                 && self.eat(b'n')
             {
-                let raw = unsafe {
-                    // Safety: We got both start and end position from `self.input`
-                    self.input_slice_str(start, self.cur_pos())
-                };
                 let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
-                return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
+                return Ok(Either::Right(Box::new(bigint_value)));
             }
 
             if START_WITH_ZERO {
@@ -1183,7 +1179,7 @@ impl<'a> Lexer<'a> {
     /// Returns `Left(value)` or `Right(BigInt)`
     fn read_radix_number<const RADIX: u8>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+    ) -> LexResult<Either<(f64, Atom), Box<BigIntValue>>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {RADIX}"
@@ -1206,13 +1202,8 @@ impl<'a> Lexer<'a> {
             self.input_slice_str(lazy_integer.start, self.cur_pos())
         };
         if self.eat(b'n') {
-            let raw = unsafe {
-                // Safety: We got both start and end position from `self.input`
-                self.input_slice_str(start, self.cur_pos())
-            };
-
             let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), RADIX as _).unwrap();
-            return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
+            return Ok(Either::Right(Box::new(bigint_value)));
         }
         let s = remove_underscore(s, has_underscore);
         let val = parse_integer::<RADIX>(&s);
@@ -2041,14 +2032,14 @@ impl<'a> Lexer<'a> {
             _ => {
                 return self.read_number::<false, true>().map(|v| match v {
                     Left((value, raw)) => Token::num(value, raw, self),
-                    Right((value, raw)) => Token::bigint(value, raw, self),
+                    Right(value) => Token::bigint(value, self),
                 });
             }
         };
 
         bigint.map(|v| match v {
             Left((value, raw)) => Token::num(value, raw, self),
-            Right((value, raw)) => Token::bigint(value, raw, self),
+            Right(value) => Token::bigint(value, self),
         })
     }
 

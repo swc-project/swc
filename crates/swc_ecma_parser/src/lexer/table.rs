@@ -285,10 +285,8 @@ const DIG: ByteHandler = |lexer| {
             lexer.state.set_token_value(TokenValue::Num { value, raw });
             Token::Num
         }
-        Either::Right((value, raw)) => {
-            lexer
-                .state
-                .set_token_value(TokenValue::BigInt { value, raw });
+        Either::Right(value) => {
+            lexer.state.set_token_value(TokenValue::BigInt(value));
             Token::BigInt
         }
     })

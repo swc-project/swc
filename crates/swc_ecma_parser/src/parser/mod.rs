@@ -576,11 +576,15 @@ impl<I: Tokens> Parser<I> {
                     raw: Some(raw),
                 })
             } else if cur == Token::BigInt {
-                let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
+                let span = p.span(start);
+                let value = p.input_mut().expect_bigint_token_value();
+                p.bump();
+
+                let raw = p.input.iter.read_string(span);
                 PropName::BigInt(BigInt {
-                    span: p.span(start),
+                    span,
                     value,
-                    raw: Some(raw),
+                    raw: Some(Atom::new(raw)),
                 })
             } else if cur.is_word() {
                 let w = p.input_mut().expect_word_token_and_bump();

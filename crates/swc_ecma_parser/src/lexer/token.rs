@@ -1,4 +1,3 @@
-use num_bigint::BigInt;
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Span;
 use swc_ecma_ast::AssignOp;
@@ -32,10 +31,7 @@ pub enum TokenValue {
         value: f64,
         raw: Atom,
     },
-    BigInt {
-        value: Box<num_bigint::BigInt>,
-        raw: Atom,
-    },
+    BigInt(Box<num_bigint::BigInt>),
     Error(crate::error::Error),
 }
 
@@ -372,8 +368,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn bigint(value: Box<num_bigint::BigInt>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::BigInt { value, raw }));
+    pub fn bigint(value: Box<num_bigint::BigInt>, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::BigInt(value)));
         Self::BigInt
     }
 
@@ -406,11 +402,6 @@ impl<'a> Token {
     #[inline(always)]
     pub fn take_num<I: Tokens>(self, buffer: &mut Buffer<I>) -> (f64, Atom) {
         buffer.expect_number_token_value()
-    }
-
-    #[inline(always)]
-    pub fn take_bigint<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Box<BigInt>, Atom) {
-        buffer.expect_bigint_token_value()
     }
 
     #[inline]
@@ -646,10 +637,10 @@ impl Token {
                 return format!("numeric literal ({value}, {raw})");
             }
             Token::BigInt => {
-                let Some(TokenValue::BigInt { value, raw, .. }) = value else {
+                let Some(TokenValue::BigInt(value)) = value else {
                     unreachable!("{:#?}", value)
                 };
-                return format!("bigint literal ({value}, {raw})");
+                return format!("bigint literal ({value})");
             }
             Token::Regex => {
                 let Some(TokenValue::Regex { value, flags, .. }) = value else {

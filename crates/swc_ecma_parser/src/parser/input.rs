@@ -114,12 +114,11 @@ impl<I: Tokens> Buffer<I> {
         (value, raw)
     }
 
-    pub fn expect_bigint_token_value(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
-        let Some(crate::lexer::TokenValue::BigInt { value, raw }) = self.iter.take_token_value()
-        else {
+    pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
+        let Some(crate::lexer::TokenValue::BigInt(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (value, raw)
+        value
     }
 
     pub fn expect_regex_token_value(&mut self) -> (Atom, Atom) {
@@ -337,13 +336,6 @@ impl<I: Tokens> Buffer<I> {
     pub fn expect_string_token_and_bump(&mut self) -> (Wtf8Atom, Atom) {
         let cur = self.cur();
         let ret = cur.take_str(self);
-        self.bump();
-        ret
-    }
-
-    pub fn expect_bigint_token_and_bump(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_bigint(self);
         self.bump();
         ret
     }
