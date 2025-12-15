@@ -1,6 +1,6 @@
 {
   "name": "@swc/html-win32-x64-msvc",
-  "version": "1.15.5-nightly-20251215.1",
+  "version": "1.15.5",
   "os": [
     "win32"
   ],
