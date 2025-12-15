@@ -31,7 +31,7 @@ swc_ecma_codegen = { version = "21.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_minifier = { version = "38.0.1", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "29.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "29.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "32.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters" }

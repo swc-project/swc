@@ -39,5 +39,5 @@ swc_trace_macro             = { version = "2.0.2", path = "../swc_trace_macro" }
 tracing                     = { workspace = true }
 
 [dev-dependencies]
-swc_ecma_parser             = { version = "29.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "29.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "35.0.0", path = "../swc_ecma_transforms_testing" }

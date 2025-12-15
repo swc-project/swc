@@ -5292,7 +5292,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "48.0.0"
+version = "48.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5554,7 +5554,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "50.2.2"
+version = "50.2.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6171,7 +6171,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "29.0.1"
+version = "29.0.2"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
