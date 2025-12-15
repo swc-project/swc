@@ -2080,7 +2080,7 @@ impl<'a> Lexer<'a> {
 
         // '||', '&&'
         if self.input().cur() == Some(C) {
-            self.bump(1); // first `|` or `&`
+            self.bump(1); // second `|` or `&`
 
             if self.input().cur() == Some(b'=') {
                 self.bump(1); // `=`
