@@ -254,7 +254,7 @@ impl crate::input::Tokens for Lexer<'_> {
         while let Some(ch) = self.input().cur() {
             if ch == b'-' {
                 v.push(ch as char);
-                self.bump(1);
+                self.bump(1); // `-`
             } else {
                 let old_pos = self.cur_pos();
                 v.push_str(&self.scan_identifier_parts());
