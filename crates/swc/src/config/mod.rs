@@ -50,7 +50,7 @@ use swc_ecma_transforms::{
     modules::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::{import_rewriter, typescript_import_rewriter},
+        rewriter::{self, import_rewriter},
         util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
@@ -643,6 +643,28 @@ impl Options {
             .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
+        let rewrite_import_pass = {
+            let swc_import_rewriter = match resolver.clone() {
+                Some((base, resolver)) => match cfg.module {
+                    None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => {
+                        Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
+                    }
+                    _ => Box::new(noop_pass()),
+                },
+                None => Box::new(noop_pass()),
+            };
+
+            let typescript_import_rewriter = Optional::new(
+                rewriter::typescript_import_rewriter(),
+                rewrite_relative_import_extensions.into_bool(),
+            );
+
+            // swc_import_rewriter should be in front of typescript_import_rewriter
+            // because path aliases should be resolved before rewriting relative import
+            // extensions
+            (swc_import_rewriter, typescript_import_rewriter)
+        };
+
         let built_pass = (
             pass,
             Optional::new(
@@ -655,6 +677,9 @@ impl Options {
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer,
             ),
+            // Rewrite import pass should be before inject_helpers pass because typescript import
+            // rewriter may require ts_rewrite_relative_import_extension helper
+            rewrite_import_pass,
             Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
             ModuleConfig::build(
                 cm.clone(),
@@ -662,7 +687,6 @@ impl Options {
                 cfg.module,
                 unresolved_mark,
                 resolver.clone(),
-                rewrite_relative_import_extensions.into_bool(),
                 |f| {
                     feature_config
                         .as_ref()
@@ -1464,7 +1488,6 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
         unresolved_mark: Mark,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
-        rewrite_relative_import_extensions: bool,
         caniuse: impl Fn(Feature) -> bool,
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
@@ -1476,16 +1499,7 @@ impl ModuleConfig {
         let support_block_scoping = caniuse(Feature::BlockScoping);
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
-        let rewrite_relative_import_pass =
-            rewrite_relative_import_extensions.then(|| Box::new(typescript_import_rewriter()));
         let transform_pass = match config {
-            None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
-            {
-                Resolver::Default => Box::new(noop_pass()) as Box<dyn Pass>,
-                Resolver::Real { base, resolver } => {
-                    Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
-                }
-            },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,
                 unresolved_mark,
@@ -1494,7 +1508,7 @@ impl ModuleConfig {
                     support_block_scoping,
                     support_arrow,
                 },
-            )),
+            )) as Box<dyn Pass>,
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(
                 cm,
                 resolver,
@@ -1519,9 +1533,10 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
             )),
+            _ => Box::new(noop_pass()),
         };
 
-        Box::new((rewrite_relative_import_pass, transform_pass))
+        Box::new(transform_pass)
     }
 
     pub fn get_resolver(
