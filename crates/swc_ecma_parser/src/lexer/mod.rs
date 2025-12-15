@@ -244,11 +244,11 @@ impl<'a> Lexer<'a> {
     fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
 
-        self.bump(1);
+        self.bump(1); // first `+` or `-`
 
         // '++', '--'
         Ok(if self.input.cur() == Some(C) {
-            self.bump(1);
+            self.bump(1); // second `+` or `-`
 
             // Handle -->
             if self.state.had_line_break && C == b'-' && self.eat(b'>') {
@@ -280,7 +280,7 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
-        self.bump(1);
+        self.bump(1); // first `!` or `=`
 
         Ok(if self.input.eat_byte(b'=') {
             // "=="
@@ -321,7 +321,7 @@ impl Lexer<'_> {
     fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
-        self.bump(1);
+        self.bump(1); // first `<` or `>`
 
         if self.syntax.typescript()
             && self.ctx.contains(Context::InType)
@@ -351,7 +351,7 @@ impl Lexer<'_> {
 
         // '<<', '>>'
         if self.cur() == Some(C) {
-            self.bump(1);
+            self.bump(1); // second `<` or `>`
             op = if C == b'<' {
                 Token::LShift
             } else {
@@ -360,7 +360,7 @@ impl Lexer<'_> {
 
             //'>>>'
             if C == b'>' && self.cur() == Some(C) {
-                self.bump(1);
+                self.bump(1); // third `>`
                 op = Token::ZeroFillRShift;
             }
         }
@@ -438,7 +438,7 @@ impl Lexer<'_> {
                 consume_cooked!();
                 let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
                 let raw = raw_atom(self);
-                self.bump(1);
+                self.bump(1); // `\``
                 return Ok(if started_with_backtick {
                     self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::NoSubstitutionTemplateLiteral
@@ -942,7 +942,7 @@ impl<'a> Lexer<'a> {
                 return Ok(total);
             };
 
-            self.bump(1);
+            self.bump(1); // `c` is u8
 
             let (t, cont) = op(total, RADIX, val)?;
 
@@ -1093,7 +1093,7 @@ impl<'a> Lexer<'a> {
         //
         // `.1.a`, `.1e-4.a` are valid,
         if has_dot {
-            self.bump(1);
+            self.bump(1); // `.`
 
             // equal: if START_WITH_DOT { debug_assert!(xxxx) }
             debug_assert!(!START_WITH_DOT || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
@@ -1191,12 +1191,12 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
 
         debug_assert_eq!(self.cur(), Some(b'0'));
-        self.bump(1);
+        self.bump(1); // `0`
 
         debug_assert!(self
             .cur()
             .is_some_and(|c| matches!(c, b'b' | b'B' | b'o' | b'O' | b'x' | b'X')));
-        self.bump(1);
+        self.bump(1); // `cur` matches one of the bytes above
 
         let lazy_integer = self.read_number_no_dot_as_str::<RADIX>()?;
         let has_underscore = lazy_integer.has_underscore;
@@ -1287,7 +1287,7 @@ impl<'a> Lexer<'a> {
         let mut s = SmartString::<LazyCompact>::default();
 
         debug_assert!(self.input().cur().is_some_and(|c| c == b'&'));
-        self.bump(1);
+        self.bump(1); // `&`
 
         let start_pos = self.input().cur_pos();
 
@@ -1296,7 +1296,7 @@ impl<'a> Lexer<'a> {
                 Some(c) => c,
                 None => break,
             };
-            self.bump(1);
+            self.bump(1); // `c` is u8
 
             if c == b';' {
                 if let Some(stripped) = s.strip_prefix('#') {
@@ -1367,7 +1367,7 @@ impl<'a> Lexer<'a> {
                 out.push_str(value);
                 out.push('\\');
 
-                self.bump(1);
+                self.bump(1); // ch == '\\'
 
                 chunk_start = self.input().cur_pos();
 
@@ -1657,7 +1657,7 @@ impl<'a> Lexer<'a> {
 
             // octal escape sequences
             '0'..='7' => {
-                self.bump(1);
+                self.bump(1); // c is between `0` and `7`
 
                 let first_c = if c == '0' {
                     match self.cur() {
@@ -1711,7 +1711,7 @@ impl<'a> Lexer<'a> {
             _ => c,
         };
 
-        self.bump(1);
+        self.bump(c.len_utf8());
 
         Ok(CodePoint::from_u32(c as u32))
     }
@@ -1759,7 +1759,7 @@ impl<'a> Lexer<'a> {
                 escaped = c == b'\\';
             }
 
-            self.bump(1);
+            self.bump(1); // c is u8
         }
 
         let content = {
@@ -1807,7 +1807,7 @@ impl<'a> Lexer<'a> {
         if let Some(c) = self.input().cur_as_ascii() {
             if Ident::is_valid_ascii_start(c) {
                 // Advance past first byte
-                self.bump(1);
+                self.bump(1); // c is a valid ascii
 
                 // Use byte_search to quickly scan to end of ASCII identifier
                 let next_byte = byte_search! {
@@ -1862,10 +1862,10 @@ impl<'a> Lexer<'a> {
         loop {
             if let Some(c) = self.input().cur_as_ascii() {
                 if Ident::is_valid_ascii_continue(c) {
-                    self.bump(1);
+                    self.bump(1); // c is a valid ascii
                     continue;
                 } else if first && Ident::is_valid_ascii_start(c) {
-                    self.bump(1);
+                    self.bump(1); // c is a valid ascii
                     first = false;
                     continue;
                 }
@@ -1875,7 +1875,7 @@ impl<'a> Lexer<'a> {
                     first = false;
                     has_escape = true;
                     let start = self.cur_pos();
-                    self.bump(1);
+                    self.bump(1); // `\`
 
                     if !self.is(b'u') {
                         self.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
@@ -2006,7 +2006,7 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_question_mark(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == b'?'));
-        self.bump(1);
+        self.bump(1); // first `?`
         if self.input_mut().eat_byte(b'?') {
             if self.input_mut().eat_byte(b'=') {
                 Ok(Token::NullishEq)
@@ -2061,7 +2061,7 @@ impl<'a> Lexer<'a> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
-        self.bump(1);
+        self.bump(1); // first `|` or `&`
         let token = if is_bit_and {
             Token::Ampersand
         } else {
@@ -2080,10 +2080,10 @@ impl<'a> Lexer<'a> {
 
         // '||', '&&'
         if self.input().cur() == Some(C) {
-            self.bump(1);
+            self.bump(1); // second `|` or `&`
 
             if self.input().cur() == Some(b'=') {
-                self.bump(1);
+                self.bump(1); // `=`
 
                 return Ok(if is_bit_and {
                     Token::LogicalAndEq
@@ -2119,7 +2119,7 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_mul_mod<const IS_MUL: bool>(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == b'*' || c == b'%'));
-        self.bump(1);
+        self.bump(1); // `*` or `%`
         let token = if IS_MUL {
             if self.input_mut().eat_byte(b'*') {
                 // `**`
@@ -2285,7 +2285,7 @@ impl<'a> Lexer<'a> {
                         self,
                     ));
                 }
-                _ => self.bump(1),
+                _ => self.bump(1), // fast_path_result is u8
             }
         }
     }

@@ -48,7 +48,7 @@ const ERR: ByteHandler = |lexer| {
     };
 
     let start = lexer.cur_pos();
-    lexer.bump(1);
+    lexer.bump(c.len_utf8());
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 };
 
@@ -312,7 +312,7 @@ const UNI: ByteHandler = |lexer| {
     }
 
     let start = lexer.cur_pos();
-    lexer.bump(1);
+    lexer.bump(c.len_utf8());
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 };
 
