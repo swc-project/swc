@@ -1,6 +1,6 @@
 use either::Either;
 use swc_atoms::atom;
-use swc_common::{ast_node, source_map::SmallPos, util::take::Take, BytePos, Span, Spanned};
+use swc_common::{ast_node, util::take::Take, BytePos, Span, Spanned};
 
 use super::*;
 use crate::{
@@ -625,9 +625,12 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Tpl> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
+        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
-        let raw = Atom::new(self.input.cur_string());
+        // exclude the leading and the trailing `\``
+        let span = Span::new_with_checked(token_span.lo + BytePos(1), token_span.hi - BytePos(1));
+        let raw = Atom::new(self.input.iter.read_string(span));
         let cooked = self.input.expect_template_token_value();
         let cooked = match cooked {
             Ok(cooked) => Some(cooked),
@@ -640,24 +643,12 @@ impl<I: Tokens> Parser<I> {
             }
         };
         self.bump();
-        let pos = self.input.prev_span().hi;
-        debug_assert!(start <= pos);
-        let span = Span::new_with_checked(start, pos);
 
         Ok(Tpl {
-            span,
+            span: self.span(start),
             exprs: vec![],
             quasis: vec![TplElement {
-                span: {
-                    debug_assert!(start.0 <= pos.0 - 2);
-                    // `____`
-                    // `start.0 + 1` means skip the first backtick
-                    // `pos.0 - 1` means skip the last backtick
-                    Span::new_with_checked(
-                        BytePos::from_u32(start.0 + 1),
-                        BytePos::from_u32(pos.0 - 1),
-                    )
-                },
+                span,
                 tail: true,
                 raw,
                 cooked,
@@ -666,11 +657,13 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_template_head(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
-        let start = self.cur_pos();
-        let cur = self.input().cur();
+        let cur = self.input.cur();
+        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::TemplateHead));
 
-        let raw = Atom::new(self.input.cur_string());
+        // exclude the leading `\`` and the trailing `${`
+        let span = Span::new_with_checked(token_span.lo + BytePos(1), token_span.hi - BytePos(2));
+        let raw = Atom::new(self.input.iter.read_string(span));
         let cooked = self.input.expect_template_token_value();
         let cooked = match cooked {
             Ok(cooked) => Some(cooked),
@@ -684,14 +677,6 @@ impl<I: Tokens> Parser<I> {
         };
 
         self.bump();
-
-        let pos = self.input.prev_span().hi;
-        // `__${
-        // `start.0 + 1` means skip the first backtick
-        // `pos.0 - 2` means skip "${"
-        debug_assert!(start.0 <= pos.0 - 3);
-        let span =
-            Span::new_with_checked(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 2));
 
         Ok(TplElement {
             span,
@@ -720,23 +705,21 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().is(Token::RBrace) {
             self.input_mut().rescan_template_token(false);
         }
-        let start = self.cur_pos();
         let cur = self.input_mut().cur();
-        let raw = Atom::new(self.input.cur_string());
-        let (cooked, tail, span) = match cur {
+        let token_span = self.input.cur_span();
+
+        let (cooked, raw, tail, span) = match cur {
             Token::TemplateMiddle => {
+                let span = Span::new_with_checked(token_span.lo, token_span.hi - BytePos(2));
+                let raw = Atom::new(self.input.iter.read_string(span));
                 let cooked = self.input.expect_template_token_value();
                 self.bump();
-                let pos = self.input.prev_span().hi;
-                debug_assert!(start.0 <= pos.0 - 2);
-                // case: ___${
-                // `pos.0 - 2` means skip '${'
-                let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 2));
+
                 match cooked {
-                    Ok(cooked) => (Some(cooked), false, span),
+                    Ok(cooked) => (Some(cooked), raw, false, span),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (None, false, span)
+                            (None, raw, false, span)
                         } else {
                             return Err(err);
                         }
@@ -744,18 +727,16 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::TemplateTail => {
+                let span = Span::new_with_checked(token_span.lo, token_span.hi - BytePos(1));
+                let raw = Atom::new(self.input.iter.read_string(span));
                 let cooked = self.input.expect_template_token_value();
                 self.bump();
-                let pos = self.input.prev_span().hi;
-                debug_assert!(start.0 < pos.0);
-                // case: ____`
-                // `pos.0 - 1` means skip '`'
-                let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 1));
+
                 match cooked {
-                    Ok(cooked) => (Some(cooked), true, span),
+                    Ok(cooked) => (Some(cooked), raw, true, span),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (None, true, span)
+                            (None, raw, true, span)
                         } else {
                             return Err(err);
                         }
@@ -800,29 +781,20 @@ impl<I: Tokens> Parser<I> {
     fn parse_no_substitution_template_ty(&mut self) -> PResult<TsTplLitType> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
+        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
-        let raw = Atom::new(self.input.cur_string());
+        // exclude the leading and the trailing `\``
+        let span = Span::new_with_checked(token_span.lo + BytePos(1), token_span.hi - BytePos(1));
+        let raw = Atom::new(self.input.iter.read_string(span));
         let cooked = self.input.expect_template_token_value().ok();
         self.bump();
-        let pos = self.input.prev_span().hi;
-        debug_assert!(start.0 <= pos.0);
-        let span = Span::new_with_checked(start, pos);
 
         Ok(TsTplLitType {
-            span,
+            span: self.span(start),
             types: vec![],
             quasis: vec![TplElement {
-                span: {
-                    debug_assert!(start.0 <= pos.0 - 2);
-                    // `____`
-                    // `start.0 + 1` means skip the first backtick
-                    // `pos.0 - 1` means skip the last backtick
-                    Span::new_with_checked(
-                        BytePos::from_u32(start.0 + 1),
-                        BytePos::from_u32(pos.0 - 1),
-                    )
-                },
+                span,
                 tail: true,
                 raw,
                 cooked,
