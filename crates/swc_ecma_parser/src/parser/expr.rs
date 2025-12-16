@@ -625,14 +625,15 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Tpl> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
+        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
-        let (cooked, raw) = cur.take_template(self.input_mut());
-        let (raw, cooked) = match cooked {
-            Ok(cooked) => (raw, Some(cooked)),
+        let cooked = self.input.expect_template_token_value();
+        let cooked = match cooked {
+            Ok(cooked) => Some(cooked),
             Err(err) => {
                 if is_tagged_tpl {
-                    (raw, None)
+                    None
                 } else {
                     return Err(err);
                 }
@@ -642,6 +643,8 @@ impl<I: Tokens> Parser<I> {
         let pos = self.input.prev_span().hi;
         debug_assert!(start <= pos);
         let span = Span::new_with_checked(start, pos);
+
+        let raw = self.input.iter.read_string(token_span);
         Ok(Tpl {
             span,
             exprs: vec![],
@@ -657,7 +660,7 @@ impl<I: Tokens> Parser<I> {
                     )
                 },
                 tail: true,
-                raw,
+                raw: Atom::new(raw),
                 cooked,
             }],
         })
@@ -666,14 +669,15 @@ impl<I: Tokens> Parser<I> {
     fn parse_template_head(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
         let cur = self.input().cur();
+        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::TemplateHead));
 
-        let (cooked, raw) = cur.take_template(self.input_mut());
-        let (raw, cooked) = match cooked {
-            Ok(cooked) => (raw, Some(cooked)),
+        let cooked = self.input.expect_template_token_value();
+        let cooked = match cooked {
+            Ok(cooked) => Some(cooked),
             Err(err) => {
                 if is_tagged_tpl {
-                    (raw, None)
+                    None
                 } else {
                     return Err(err);
                 }
@@ -689,9 +693,11 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(start.0 <= pos.0 - 3);
         let span =
             Span::new_with_checked(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 2));
+
+        let raw = self.input.iter.read_string(token_span);
         Ok(TplElement {
             span,
-            raw,
+            raw: Atom::new(raw),
             tail: false,
             cooked,
         })
@@ -718,9 +724,10 @@ impl<I: Tokens> Parser<I> {
         }
         let start = self.cur_pos();
         let cur = self.input_mut().cur();
-        let (raw, cooked, tail, span) = match cur {
+        let token_span = self.input.cur_span();
+        let (cooked, tail, span) = match cur {
             Token::TemplateMiddle => {
-                let (cooked, raw) = cur.take_template(self.input_mut());
+                let cooked = self.input.expect_template_token_value();
                 self.bump();
                 let pos = self.input.prev_span().hi;
                 debug_assert!(start.0 <= pos.0 - 2);
@@ -728,10 +735,10 @@ impl<I: Tokens> Parser<I> {
                 // `pos.0 - 2` means skip '${'
                 let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 2));
                 match cooked {
-                    Ok(cooked) => (raw, Some(cooked), false, span),
+                    Ok(cooked) => (Some(cooked), false, span),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (raw, None, false, span)
+                            (None, false, span)
                         } else {
                             return Err(err);
                         }
@@ -739,7 +746,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::TemplateTail => {
-                let (cooked, raw) = cur.take_template(self.input_mut());
+                let cooked = self.input.expect_template_token_value();
                 self.bump();
                 let pos = self.input.prev_span().hi;
                 debug_assert!(start.0 < pos.0);
@@ -747,10 +754,10 @@ impl<I: Tokens> Parser<I> {
                 // `pos.0 - 1` means skip '`'
                 let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 1));
                 match cooked {
-                    Ok(cooked) => (raw, Some(cooked), true, span),
+                    Ok(cooked) => (Some(cooked), true, span),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (raw, None, true, span)
+                            (None, true, span)
                         } else {
                             return Err(err);
                         }
@@ -767,6 +774,7 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
+        let raw = Atom::new(self.input.iter.read_string(token_span));
         Ok(TplElement {
             span,
             raw,
@@ -795,17 +803,16 @@ impl<I: Tokens> Parser<I> {
     fn parse_no_substitution_template_ty(&mut self) -> PResult<TsTplLitType> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
+        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
-        let (cooked, raw) = cur.take_template(self.input_mut());
-        let (raw, cooked) = match cooked {
-            Ok(cooked) => (raw, Some(cooked)),
-            Err(_) => (raw, None),
-        };
+        let cooked = self.input.expect_template_token_value().ok();
         self.bump();
         let pos = self.input.prev_span().hi;
         debug_assert!(start.0 <= pos.0);
         let span = Span::new_with_checked(start, pos);
+
+        let raw = Atom::new(self.input.iter.read_string(token_span));
         Ok(TsTplLitType {
             span,
             types: vec![],

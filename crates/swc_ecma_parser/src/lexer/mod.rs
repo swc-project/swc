@@ -414,12 +414,6 @@ impl Lexer<'_> {
         let mut cooked = Ok(Wtf8Buf::with_capacity(8));
         self.bump(1); // `}` or `\``
         let mut cooked_slice_start = self.cur_pos();
-        let raw_slice_start = cooked_slice_start;
-        let raw_atom = |this: &mut Self| {
-            let last_pos = this.cur_pos();
-            let s = unsafe { this.input.slice(raw_slice_start, last_pos) };
-            this.atoms.atom(s)
-        };
         macro_rules! consume_cooked {
             () => {{
                 if let Ok(cooked) = &mut cooked {
@@ -437,27 +431,25 @@ impl Lexer<'_> {
             if c == b'`' {
                 consume_cooked!();
                 let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
-                let raw = raw_atom(self);
                 self.bump(1); // `\``
                 return Ok(if started_with_backtick {
-                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    self.set_token_value(Some(TokenValue::Template(cooked)));
                     Token::NoSubstitutionTemplateLiteral
                 } else {
-                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    self.set_token_value(Some(TokenValue::Template(cooked)));
                     Token::TemplateTail
                 });
             } else if c == b'$' && self.input.peek() == Some(b'{') {
                 consume_cooked!();
                 let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
-                let raw = raw_atom(self);
                 unsafe {
                     self.input.bump_bytes(2);
                 }
                 return Ok(if started_with_backtick {
-                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    self.set_token_value(Some(TokenValue::Template(cooked)));
                     Token::TemplateHead
                 } else {
-                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    self.set_token_value(Some(TokenValue::Template(cooked)));
                     Token::TemplateMiddle
                 });
             } else if c == b'\\' {

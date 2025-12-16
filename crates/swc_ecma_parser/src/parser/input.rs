@@ -127,12 +127,11 @@ impl<I: Tokens> Buffer<I> {
         (value, flags)
     }
 
-    pub fn expect_template_token_value(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
-        let Some(crate::lexer::TokenValue::Template { cooked, raw }) = self.iter.take_token_value()
-        else {
+    pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
+        let Some(crate::lexer::TokenValue::Template(cooked)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (cooked, raw)
+        cooked
     }
 
     pub fn expect_error_token_value(&mut self) -> Error {
@@ -325,13 +324,6 @@ impl<I: Tokens> Buffer<I> {
     pub fn expect_regex_token_and_bump(&mut self) -> (Atom, Atom) {
         let cur = self.cur();
         let ret = cur.take_regexp(self);
-        self.bump();
-        ret
-    }
-
-    pub fn expect_template_token_and_bump(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_template(self);
         self.bump();
         ret
     }
