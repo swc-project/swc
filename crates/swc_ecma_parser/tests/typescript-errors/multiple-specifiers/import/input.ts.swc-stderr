@@ -1,4 +1,4 @@
-  x Expected ',', got 'b'
+  x Expected ',', got 'ident'
    ,-[$DIR/tests/typescript-errors/multiple-specifiers/import/input.ts:1:1]
  1 | import { a b c } from 'mod'
    :            ^

@@ -1,4 +1,4 @@
-  x Expected ',', got 'v'
+  x Expected ',', got 'ident'
    ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:3:1]
  2 |   constructor(override public v: string)
  3 |   constructor(readonly override v: boolean)

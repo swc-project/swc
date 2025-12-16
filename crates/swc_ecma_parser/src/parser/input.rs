@@ -98,44 +98,39 @@ impl<I: Tokens> Buffer<I> {
         word
     }
 
-    pub fn expect_number_token_value(&mut self) -> (f64, Atom) {
-        let Some(crate::lexer::TokenValue::Num { value, raw }) = self.iter.take_token_value()
-        else {
+    pub fn expect_number_token_value(&mut self) -> f64 {
+        let Some(crate::lexer::TokenValue::Num(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (value, raw)
+        value
     }
 
-    pub fn expect_string_token_value(&mut self) -> (Wtf8Atom, Atom) {
-        let Some(crate::lexer::TokenValue::Str { value, raw }) = self.iter.take_token_value()
-        else {
+    pub fn expect_string_token_value(&mut self) -> Wtf8Atom {
+        let Some(crate::lexer::TokenValue::Str(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (value, raw)
+        value
     }
 
-    pub fn expect_bigint_token_value(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
-        let Some(crate::lexer::TokenValue::BigInt { value, raw }) = self.iter.take_token_value()
-        else {
+    pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
+        let Some(crate::lexer::TokenValue::BigInt(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (value, raw)
+        value
     }
 
-    pub fn expect_regex_token_value(&mut self) -> (Atom, Atom) {
-        let Some(crate::lexer::TokenValue::Regex { value, flags }) = self.iter.take_token_value()
-        else {
+    pub fn expect_regex_token_value(&mut self) -> BytePos {
+        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (value, flags)
+        exp_end
     }
 
-    pub fn expect_template_token_value(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
-        let Some(crate::lexer::TokenValue::Template { cooked, raw }) = self.iter.take_token_value()
-        else {
+    pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
+        let Some(crate::lexer::TokenValue::Template(cooked)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (cooked, raw)
+        cooked
     }
 
     pub fn expect_error_token_value(&mut self) -> Error {
@@ -320,46 +315,9 @@ impl<I: Tokens> Buffer<I> {
         word
     }
 
-    pub fn expect_jsx_text_token_and_bump(&mut self) -> (Atom, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_jsx_text(self);
-        self.bump();
-        ret
-    }
-
-    pub fn expect_number_token_and_bump(&mut self) -> (f64, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_num(self);
-        self.bump();
-        ret
-    }
-
-    pub fn expect_string_token_and_bump(&mut self) -> (Wtf8Atom, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_str(self);
-        self.bump();
-        ret
-    }
-
-    pub fn expect_bigint_token_and_bump(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_bigint(self);
-        self.bump();
-        ret
-    }
-
-    pub fn expect_regex_token_and_bump(&mut self) -> (Atom, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_regexp(self);
-        self.bump();
-        ret
-    }
-
-    pub fn expect_template_token_and_bump(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_template(self);
-        self.bump();
-        ret
+    pub fn expect_jsx_text_token(&mut self) -> Atom {
+        let ret = self.expect_string_token_value();
+        ret.as_atom().cloned().unwrap()
     }
 
     pub fn expect_error_token_and_bump(&mut self) -> Error {
@@ -373,7 +331,7 @@ impl<I: Tokens> Buffer<I> {
     #[inline(never)]
     pub fn dump_cur(&self) -> String {
         let cur = self.cur();
-        cur.to_string(self.get_token_value())
+        cur.to_string()
     }
 }
 
@@ -485,6 +443,12 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub fn cur_span(&self) -> Span {
         self.get_cur().span
+    }
+
+    #[inline]
+    pub fn cur_string(&self) -> &str {
+        let token_span = self.cur_span();
+        self.iter.read_string(token_span)
     }
 
     /// Returns last byte position of previous token.

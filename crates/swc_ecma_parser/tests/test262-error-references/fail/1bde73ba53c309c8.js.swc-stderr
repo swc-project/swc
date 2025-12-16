@@ -1,4 +1,4 @@
-  x Expected ']', got 'iter'
+  x Expected ']', got 'ident'
    ,-[$DIR/tests/test262-parser/fail/1bde73ba53c309c8.js:1:1]
  1 | ({ *[yield iter]() {} })
    :            ^^^^

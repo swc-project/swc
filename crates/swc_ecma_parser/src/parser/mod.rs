@@ -1,7 +1,6 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
@@ -569,18 +568,26 @@ impl<I: Tokens> Parser<I> {
             let v = if cur == Token::Str {
                 PropName::Str(p.parse_str_lit())
             } else if cur == Token::Num {
-                let (value, raw) = p.input_mut().expect_number_token_and_bump();
+                let token_span = p.input.cur_span();
+                let value = p.input_mut().expect_number_token_value();
+                p.bump();
+
+                let raw = p.input.iter.read_string(token_span);
                 PropName::Num(Number {
                     span: p.span(start),
                     value,
-                    raw: Some(raw),
+                    raw: Some(Atom::new(raw)),
                 })
             } else if cur == Token::BigInt {
-                let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
+                let token_span = p.input.cur_span();
+                let value = p.input_mut().expect_bigint_token_value();
+                p.bump();
+
+                let raw = p.input.iter.read_string(token_span);
                 PropName::BigInt(BigInt {
                     span: p.span(start),
                     value,
-                    raw: Some(raw),
+                    raw: Some(Atom::new(raw)),
                 })
             } else if cur.is_word() {
                 let w = p.input_mut().expect_word_token_and_bump();

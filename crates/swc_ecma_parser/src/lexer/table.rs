@@ -281,14 +281,12 @@ const ZER: ByteHandler = |lexer| lexer.read_token_zero();
 const DIG: ByteHandler = |lexer| {
     debug_assert!(lexer.cur().is_some_and(|cur| cur != b'0'));
     lexer.read_number::<false, false>().map(|v| match v {
-        Either::Left((value, raw)) => {
-            lexer.state.set_token_value(TokenValue::Num { value, raw });
+        Either::Left(value) => {
+            lexer.state.set_token_value(TokenValue::Num(value));
             Token::Num
         }
-        Either::Right((value, raw)) => {
-            lexer
-                .state
-                .set_token_value(TokenValue::BigInt { value, raw });
+        Either::Right(value) => {
+            lexer.state.set_token_value(TokenValue::BigInt(value));
             Token::BigInt
         }
     })

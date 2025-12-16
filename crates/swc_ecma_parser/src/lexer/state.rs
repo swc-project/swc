@@ -265,15 +265,15 @@ impl crate::input::Tokens for Lexer<'_> {
         }
         let v = if !v.is_empty() {
             let v = if token.is_known_ident() || token.is_keyword() {
-                format!("{}{}", token.to_string(None), v)
+                format!("{token}{v}")
             } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
                 format!("{value}{v}")
             } else {
-                format!("{}{}", token.to_string(None), v)
+                format!("{token}{v}")
             };
             self.atom(v)
         } else if token.is_known_ident() || token.is_keyword() {
-            self.atom(token.to_string(None))
+            self.atom(token.to_string())
         } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
             value
         } else {
@@ -495,12 +495,7 @@ impl Lexer<'_> {
             self.atom(value)
         };
 
-        let raw: swc_atoms::Atom = self.atom(raw);
-
-        self.state.set_token_value(TokenValue::Str {
-            raw,
-            value: value.into(),
-        });
+        self.state.set_token_value(TokenValue::Str(value.into()));
 
         Ok(Token::JSXText)
     }

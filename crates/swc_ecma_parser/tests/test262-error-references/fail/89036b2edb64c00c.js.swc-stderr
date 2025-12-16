@@ -1,4 +1,4 @@
-  x Expected ',', got 'string literal (")", '))'
+  x Expected ',', got 'string literal'
    ,-[$DIR/tests/test262-parser/fail/89036b2edb64c00c.js:2:1]
  1 | ('
  2 | ')
