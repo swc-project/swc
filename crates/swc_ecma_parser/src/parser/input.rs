@@ -119,12 +119,11 @@ impl<I: Tokens> Buffer<I> {
         value
     }
 
-    pub fn expect_regex_token_value(&mut self) -> (Atom, Atom) {
-        let Some(crate::lexer::TokenValue::Regex { value, flags }) = self.iter.take_token_value()
-        else {
+    pub fn expect_regex_token_value(&mut self) -> BytePos {
+        let Some(crate::lexer::TokenValue::Regex(exp_end)) = self.iter.take_token_value() else {
             unreachable!()
         };
-        (value, flags)
+        exp_end
     }
 
     pub fn expect_template_token_value(&mut self) -> LexResult<Wtf8Atom> {
@@ -319,13 +318,6 @@ impl<I: Tokens> Buffer<I> {
     pub fn expect_jsx_text_token(&mut self) -> Atom {
         let ret = self.expect_string_token_value();
         ret.as_atom().cloned().unwrap()
-    }
-
-    pub fn expect_regex_token_and_bump(&mut self) -> (Atom, Atom) {
-        let cur = self.cur();
-        let ret = cur.take_regexp(self);
-        self.bump();
-        ret
     }
 
     pub fn expect_error_token_and_bump(&mut self) -> Error {

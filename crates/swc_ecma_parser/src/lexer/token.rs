@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::AssignOp;
 
 use super::LexResult;
@@ -19,10 +19,7 @@ pub enum TokenValue {
     // string, jsx text
     Str(Wtf8Atom),
     // regexp
-    Regex {
-        value: Atom,
-        flags: Atom,
-    },
+    Regex(BytePos),
     Num(f64),
     BigInt(Box<num_bigint::BigInt>),
     Error(crate::error::Error),
@@ -346,11 +343,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn regexp(content: Atom, flags: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Regex {
-            value: content,
-            flags,
-        }));
+    pub fn regexp(exp_end: BytePos, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Regex(exp_end)));
         Token::Regex
     }
 
@@ -408,11 +402,6 @@ impl<'a> Token {
     pub fn jsx_text(value: Wtf8Atom, lexer: &mut Lexer) -> Self {
         lexer.set_token_value(Some(TokenValue::Str(value)));
         Token::JSXText
-    }
-
-    #[inline(always)]
-    pub fn take_regexp<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
-        buffer.expect_regex_token_value()
     }
 
     #[inline(always)]

@@ -1,7 +1,6 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;

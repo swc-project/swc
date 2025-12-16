@@ -3,6 +3,7 @@
 use std::{borrow::Cow, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{self, Left, Right};
+use rustc_hash::FxHashMap;
 use smartstring::{LazyCompact, SmartString};
 use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
@@ -1680,8 +1681,6 @@ impl<'a> Lexer<'a> {
 
         self.bump(1); // bump '/'
 
-        let slice_start = self.cur_pos();
-
         let (mut escaped, mut in_class) = (false, false);
 
         while let Some(c) = self.cur() {
@@ -1713,15 +1712,11 @@ impl<'a> Lexer<'a> {
             self.bump(1); // c is u8
         }
 
-        let content = {
-            let s = unsafe { self.input_slice_str(slice_start, self.cur_pos()) };
-            self.atom(s)
-        };
+        let exp_end = self.cur_pos();
 
         // input is terminated without following `/`
         if !self.is(b'/') {
             let span = self.span(start);
-
             return Err(crate::error::Error::new(
                 span,
                 SyntaxError::UnterminatedRegExp,
@@ -1743,10 +1738,34 @@ impl<'a> Lexer<'a> {
                     .map(|(s, _)| Some(self.atom(s))),
                 _ => Ok(None),
             }
-        }?
-        .unwrap_or_default();
+        }?;
 
-        Ok(Token::regexp(content, flags, self))
+        if let Some(flags) = flags {
+            let mut flags_count =
+                flags
+                    .chars()
+                    .fold(FxHashMap::<char, usize>::default(), |mut map, flag| {
+                        let key = match flag {
+                            // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
+                            'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y' => flag,
+                            _ => '\u{0000}', // special marker for unknown flags
+                        };
+                        map.entry(key).and_modify(|count| *count += 1).or_insert(1);
+                        map
+                    });
+
+            if flags_count.remove(&'\u{0000}').is_some() {
+                let span = self.span(start);
+                self.add_error(Error::new(span, SyntaxError::UnknownRegExpFlags));
+            }
+
+            if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
+                let span = self.span(start);
+                self.add_error(Error::new(span, SyntaxError::DuplicatedRegExpFlags(*flag)));
+            }
+        }
+
+        Ok(Token::regexp(exp_end, self))
     }
 
     /// This method is optimized for texts without escape sequences.
