@@ -1319,7 +1319,7 @@ impl<I: Tokens> Parser<I> {
 
         let mut stmts = Vec::with_capacity(8);
 
-        let has_strict_directive = allow_directives && {
+        let has_strict_directive = allow_directives && self.input.cur() == Token::Str && {
             let token_span = self.input.cur_span();
             if token_span.hi.0 - token_span.lo.0 == 12 {
                 let cur_str = self.input.iter.read_string(token_span);

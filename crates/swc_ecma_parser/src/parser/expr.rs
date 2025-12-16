@@ -2596,7 +2596,7 @@ impl<I: Tokens> Parser<I> {
                     .read_string(Span::new_with_checked(exp_start, exp_end)),
             );
             let flags_start = exp_end + BytePos(1); // +1 to exclude right `/`
-            let flags = if flags_start <= self.input.end_pos() {
+            let flags = if flags_start <= token_span.hi {
                 Atom::new(
                     self.input
                         .iter
