@@ -1756,12 +1756,12 @@ impl<'a> Lexer<'a> {
 
             if flags_count.remove(&'\u{0000}').is_some() {
                 let span = self.span(start);
-                self.add_error(Error::new(span, SyntaxError::UnknownRegExpFlags));
+                self.emit_error_span(span, SyntaxError::UnknownRegExpFlags);
             }
 
             if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
                 let span = self.span(start);
-                self.add_error(Error::new(span, SyntaxError::DuplicatedRegExpFlags(*flag)));
+                self.emit_error_span(span, SyntaxError::DuplicatedRegExpFlags(*flag));
             }
         }
 
