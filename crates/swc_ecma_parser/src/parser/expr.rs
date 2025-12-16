@@ -625,9 +625,9 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Tpl> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
-        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
+        let raw = Atom::new(self.input.cur_string());
         let cooked = self.input.expect_template_token_value();
         let cooked = match cooked {
             Ok(cooked) => Some(cooked),
@@ -644,7 +644,6 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(start <= pos);
         let span = Span::new_with_checked(start, pos);
 
-        let raw = self.input.iter.read_string(token_span);
         Ok(Tpl {
             span,
             exprs: vec![],
@@ -660,7 +659,7 @@ impl<I: Tokens> Parser<I> {
                     )
                 },
                 tail: true,
-                raw: Atom::new(raw),
+                raw,
                 cooked,
             }],
         })
@@ -669,9 +668,9 @@ impl<I: Tokens> Parser<I> {
     fn parse_template_head(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
         let cur = self.input().cur();
-        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::TemplateHead));
 
+        let raw = Atom::new(self.input.cur_string());
         let cooked = self.input.expect_template_token_value();
         let cooked = match cooked {
             Ok(cooked) => Some(cooked),
@@ -694,10 +693,9 @@ impl<I: Tokens> Parser<I> {
         let span =
             Span::new_with_checked(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 2));
 
-        let raw = self.input.iter.read_string(token_span);
         Ok(TplElement {
             span,
-            raw: Atom::new(raw),
+            raw,
             tail: false,
             cooked,
         })
@@ -724,7 +722,7 @@ impl<I: Tokens> Parser<I> {
         }
         let start = self.cur_pos();
         let cur = self.input_mut().cur();
-        let token_span = self.input.cur_span();
+        let raw = Atom::new(self.input.cur_string());
         let (cooked, tail, span) = match cur {
             Token::TemplateMiddle => {
                 let cooked = self.input.expect_template_token_value();
@@ -774,7 +772,6 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        let raw = Atom::new(self.input.iter.read_string(token_span));
         Ok(TplElement {
             span,
             raw,
@@ -803,16 +800,15 @@ impl<I: Tokens> Parser<I> {
     fn parse_no_substitution_template_ty(&mut self) -> PResult<TsTplLitType> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
-        let token_span = self.input.cur_span();
         debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
+        let raw = Atom::new(self.input.cur_string());
         let cooked = self.input.expect_template_token_value().ok();
         self.bump();
         let pos = self.input.prev_span().hi;
         debug_assert!(start.0 <= pos.0);
         let span = Span::new_with_checked(start, pos);
 
-        let raw = Atom::new(self.input.iter.read_string(token_span));
         Ok(TsTplLitType {
             span,
             types: vec![],
@@ -871,16 +867,15 @@ impl<I: Tokens> Parser<I> {
 
     pub(crate) fn parse_str_lit(&mut self) -> swc_ecma_ast::Str {
         debug_assert!(self.input().cur() == Token::Str);
-        let token_span = self.input().get_cur().span;
-        let start = token_span.lo;
+        let start = self.input().get_cur().span.lo;
+        let raw = Atom::new(self.input.cur_string());
         let value = self.input.expect_string_token_value();
         self.bump();
 
-        let raw = self.input.iter.read_string(token_span);
         swc_ecma_ast::Str {
             span: self.span(start),
             value,
-            raw: Some(Atom::new(raw)),
+            raw: Some(raw),
         }
     }
 
@@ -900,26 +895,24 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Str {
             Lit::Str(self.parse_str_lit())
         } else if cur == Token::Num {
-            let token_span = self.input.cur_span();
+            let raw = Atom::new(self.input.cur_string());
             let value = self.input_mut().expect_number_token_value();
             self.bump();
 
-            let raw = self.input.iter.read_string(token_span);
             Lit::Num(swc_ecma_ast::Number {
                 span: self.span(start),
                 value,
-                raw: Some(Atom::new(raw)),
+                raw: Some(raw),
             })
         } else if cur == Token::BigInt {
-            let token_span = self.input.cur_span();
+            let raw = Atom::new(self.input.cur_string());
             let value = self.input_mut().expect_bigint_token_value();
             self.bump();
 
-            let raw = self.input.iter.read_string(token_span);
             Lit::BigInt(swc_ecma_ast::BigInt {
                 span: self.span(start),
                 value,
-                raw: Some(Atom::new(raw)),
+                raw: Some(raw),
             })
         } else if cur == Token::Error {
             let err = self.input_mut().expect_error_token_and_bump();

@@ -453,6 +453,12 @@ impl<I: Tokens> Buffer<I> {
         self.get_cur().span
     }
 
+    #[inline]
+    pub fn cur_string(&self) -> &str {
+        let token_span = self.cur_span();
+        self.iter.read_string(token_span)
+    }
+
     /// Returns last byte position of previous token.
     #[inline]
     pub fn last_pos(&self) -> BytePos {

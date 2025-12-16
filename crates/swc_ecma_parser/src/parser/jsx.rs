@@ -58,7 +58,6 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_text(&mut self) -> JSXText {
         debug_assert!(self.input().syntax().jsx());
         let cur = self.input.cur();
-        let token_span = self.input.cur_span();
         debug_assert!(cur == Token::JSXText);
 
         let value = self
@@ -67,7 +66,7 @@ impl<I: Tokens> Parser<I> {
             .as_atom()
             .cloned()
             .unwrap();
-        let raw = Atom::new(self.input.iter.read_string(token_span));
+        let raw = Atom::new(self.input.cur_string());
 
         self.input.scan_jsx_token(true);
         let span = self.input().prev_span();
