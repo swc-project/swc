@@ -1319,15 +1319,9 @@ impl<I: Tokens> Parser<I> {
 
         let mut stmts = Vec::with_capacity(8);
 
-        let has_strict_directive = allow_directives
-            && (self
-                .input()
-                .cur()
-                .is_str_raw_content("\"use strict\"", self.input())
-                || self
-                    .input()
-                    .cur()
-                    .is_str_raw_content("'use strict'", self.input()));
+        let cur_str = self.input.iter.read_string(self.input.cur_span());
+        let has_strict_directive =
+            allow_directives && (cur_str == "\"use strict\"" || cur_str == "'use strict'");
 
         let parse_stmts = |p: &mut Self, stmts: &mut Vec<Type>| -> PResult<()> {
             let is_stmt_start = |p: &mut Self| {

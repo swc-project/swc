@@ -18,10 +18,7 @@ pub enum TokenValue {
         cooked: LexResult<Wtf8Atom>,
     },
     // string, jsx text
-    Str {
-        value: Wtf8Atom,
-        raw: Atom,
-    },
+    Str(Wtf8Atom),
     // regexp
     Regex {
         value: Atom,
@@ -338,8 +335,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn str(value: Wtf8Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Str { value, raw }));
+    pub fn str(value: Wtf8Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Str(value)));
         Token::Str
     }
 
@@ -381,21 +378,6 @@ impl<'a> Token {
         buffer.expect_error_token_value()
     }
 
-    #[inline(always)]
-    pub fn is_str_raw_content<I: Tokens>(self, content: &str, buffer: &Buffer<I>) -> bool {
-        self == Token::Str
-            && if let Some(TokenValue::Str { raw, .. }) = buffer.get_token_value() {
-                raw == content
-            } else {
-                unreachable!()
-            }
-    }
-
-    #[inline(always)]
-    pub fn take_str<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Wtf8Atom, Atom) {
-        buffer.expect_string_token_value()
-    }
-
     #[inline]
     pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
         if self == Token::Ident {
@@ -429,16 +411,9 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn jsx_text(value: Wtf8Atom, raw: Atom, lexer: &mut Lexer) -> Self {
-        lexer.set_token_value(Some(TokenValue::Str { value, raw }));
+    pub fn jsx_text(value: Wtf8Atom, lexer: &mut Lexer) -> Self {
+        lexer.set_token_value(Some(TokenValue::Str(value)));
         Token::JSXText
-    }
-
-    #[inline(always)]
-    pub fn take_jsx_text<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
-        let (value, raw) = buffer.expect_string_token_value();
-        // SAFETY: We set value as Atom in `jsx_text` method.
-        (value.as_atom().cloned().unwrap(), raw)
     }
 
     #[inline(always)]
@@ -611,16 +586,16 @@ impl Token {
             Token::JSXTagStart => "jsx tag start",
             Token::JSXTagEnd => "jsx tag end",
             Token::JSXText => {
-                let Some(TokenValue::Str { raw, .. }) = value else {
+                let Some(TokenValue::Str(_)) = value else {
                     unreachable!("{:#?}", value)
                 };
-                return format!("jsx text ({raw})");
+                return "jsx text".to_string();
             }
             Token::Str => {
-                let Some(TokenValue::Str { value, raw, .. }) = value else {
+                let Some(TokenValue::Str(value)) = value else {
                     unreachable!("{:#?}", value)
                 };
-                return format!("string literal ({value:?}, {raw})");
+                return format!("string literal ({value:?})");
             }
             Token::Num => {
                 let Some(TokenValue::Num(value)) = value else {

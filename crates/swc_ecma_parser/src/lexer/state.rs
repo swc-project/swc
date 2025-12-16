@@ -495,12 +495,7 @@ impl Lexer<'_> {
             self.atom(value)
         };
 
-        let raw: swc_atoms::Atom = self.atom(raw);
-
-        self.state.set_token_value(TokenValue::Str {
-            raw,
-            value: value.into(),
-        });
+        self.state.set_token_value(TokenValue::Str(value.into()));
 
         Ok(Token::JSXText)
     }

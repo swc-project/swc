@@ -864,13 +864,16 @@ impl<I: Tokens> Parser<I> {
 
     pub(crate) fn parse_str_lit(&mut self) -> swc_ecma_ast::Str {
         debug_assert!(self.input().cur() == Token::Str);
-        let token_and_span = self.input().get_cur();
-        let start = token_and_span.span.lo;
-        let (value, raw) = self.input_mut().expect_string_token_and_bump();
+        let token_span = self.input().get_cur().span;
+        let start = token_span.lo;
+        let value = self.input.expect_string_token_value();
+        self.bump();
+
+        let raw = self.input.iter.read_string(token_span);
         swc_ecma_ast::Str {
             span: self.span(start),
             value,
-            raw: Some(raw),
+            raw: Some(Atom::new(raw)),
         }
     }
 
