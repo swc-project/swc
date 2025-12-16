@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Span;
 use swc_ecma_ast::AssignOp;
@@ -448,7 +450,7 @@ impl std::fmt::Debug for Token {
             Token::JSXText => "<jsx text>",
             Token::Ident => "<identifier>",
             Token::Error => "<error>",
-            _ => &self.to_string(None),
+            _ => &self.to_string(),
         };
         f.write_str(s)
     }
@@ -517,227 +519,6 @@ impl Token {
 
             _ => false,
         }
-    }
-
-    #[cold]
-    pub fn to_string(self, value: Option<&TokenValue>) -> String {
-        match self {
-            Token::LParen => "(",
-            Token::RParen => ")",
-            Token::LBrace => "{",
-            Token::RBrace => "}",
-            Token::LBracket => "[",
-            Token::RBracket => "]",
-            Token::Semi => ";",
-            Token::Comma => ",",
-            Token::Dot => ".",
-            Token::Colon => ":",
-            Token::QuestionMark => "?",
-            Token::Bang => "!",
-            Token::Tilde => "~",
-            Token::Plus => "+",
-            Token::Minus => "-",
-            Token::Asterisk => "*",
-            Token::Slash => "/",
-            Token::Percent => "%",
-            Token::Lt => "<",
-            Token::Gt => ">",
-            Token::Pipe => "|",
-            Token::Caret => "^",
-            Token::Ampersand => "&",
-            Token::Eq => "=",
-            Token::At => "@",
-            Token::Hash => "#",
-            Token::BackQuote => "`",
-            Token::Arrow => "=>",
-            Token::DotDotDot => "...",
-            Token::PlusPlus => "++",
-            Token::MinusMinus => "--",
-            Token::PlusEq => "+",
-            Token::MinusEq => "-",
-            Token::MulEq => "*",
-            Token::DivEq => "/=",
-            Token::ModEq => "%=",
-            Token::LShiftEq => "<<=",
-            Token::RShiftEq => ">>=",
-            Token::ZeroFillRShiftEq => ">>>=",
-            Token::BitOrEq => "|=",
-            Token::BitXorEq => "^=",
-            Token::BitAndEq => "&=",
-            Token::ExpEq => "**=",
-            Token::LogicalOrEq => "||=",
-            Token::LogicalAndEq => "&&=",
-            Token::NullishEq => "??=",
-            Token::OptionalChain => "?.",
-            Token::EqEq => "==",
-            Token::NotEq => "!=",
-            Token::EqEqEq => "===",
-            Token::NotEqEq => "!==",
-            Token::LtEq => "<=",
-            Token::GtEq => ">=",
-            Token::LShift => "<<",
-            Token::RShift => ">>",
-            Token::ZeroFillRShift => ">>>",
-            Token::Exp => "**",
-            Token::LogicalOr => "||",
-            Token::LogicalAnd => "&&",
-            Token::NullishCoalescing => "??",
-            Token::DollarLBrace => "${",
-            Token::JSXTagStart => "jsx tag start",
-            Token::JSXTagEnd => "jsx tag end",
-            Token::JSXText => {
-                let Some(TokenValue::Str(_)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return "jsx text".to_string();
-            }
-            Token::Str => {
-                let Some(TokenValue::Str(value)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("string literal ({value:?})");
-            }
-            Token::Num => {
-                let Some(TokenValue::Num(value)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("numeric literal ({value})");
-            }
-            Token::BigInt => {
-                let Some(TokenValue::BigInt(value)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("bigint literal ({value})");
-            }
-            Token::Regex => {
-                let Some(TokenValue::Regex { value, flags, .. }) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("regexp literal ({value}, {flags})");
-            }
-            Token::Template => {
-                let Some(TokenValue::Template { raw, .. }) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("template token ({raw})");
-            }
-            Token::JSXName => {
-                let Some(TokenValue::Word(w)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("jsx name ({w})");
-            }
-            Token::Error => {
-                let Some(TokenValue::Error(e)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                return format!("<lexing error: {e:?}>");
-            }
-            Token::Ident => {
-                let Some(TokenValue::Word(w)) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                w.as_ref()
-            }
-            Token::NoSubstitutionTemplateLiteral
-            | Token::TemplateHead
-            | Token::TemplateMiddle
-            | Token::TemplateTail => {
-                let Some(TokenValue::Template { raw, .. }) = value else {
-                    unreachable!("{:#?}", value)
-                };
-                raw
-            }
-            Token::Await => "await",
-            Token::Break => "break",
-            Token::Case => "case",
-            Token::Catch => "catch",
-            Token::Class => "class",
-            Token::Const => "const",
-            Token::Continue => "continue",
-            Token::Debugger => "debugger",
-            Token::Default => "default",
-            Token::Delete => "delete",
-            Token::Do => "do",
-            Token::Else => "else",
-            Token::Export => "export",
-            Token::Extends => "extends",
-            Token::False => "false",
-            Token::Finally => "finally",
-            Token::For => "for",
-            Token::Function => "function",
-            Token::If => "if",
-            Token::Import => "import",
-            Token::In => "in",
-            Token::InstanceOf => "instanceOf",
-            Token::Let => "let",
-            Token::New => "new",
-            Token::Null => "null",
-            Token::Return => "return",
-            Token::Super => "super",
-            Token::Switch => "switch",
-            Token::This => "this",
-            Token::Throw => "throw",
-            Token::True => "true",
-            Token::Try => "try",
-            Token::TypeOf => "typeOf",
-            Token::Var => "var",
-            Token::Void => "void",
-            Token::While => "while",
-            Token::With => "with",
-            Token::Yield => "yield",
-            Token::Module => "module",
-            Token::Abstract => "abstract",
-            Token::Any => "any",
-            Token::As => "as",
-            Token::Asserts => "asserts",
-            Token::Assert => "assert",
-            Token::Async => "async",
-            Token::Bigint => "bigint",
-            Token::Boolean => "boolean",
-            Token::Constructor => "constructor",
-            Token::Declare => "declare",
-            Token::Enum => "enum",
-            Token::From => "from",
-            Token::Get => "get",
-            Token::Global => "global",
-            Token::Implements => "implements",
-            Token::Interface => "interface",
-            Token::Intrinsic => "intrinsic",
-            Token::Is => "is",
-            Token::Keyof => "keyof",
-            Token::Namespace => "namespace",
-            Token::Never => "never",
-            Token::Number => "number",
-            Token::Object => "object",
-            Token::Of => "of",
-            Token::Out => "out",
-            Token::Override => "override",
-            Token::Package => "package",
-            Token::Private => "private",
-            Token::Protected => "protected",
-            Token::Public => "public",
-            Token::Readonly => "readonly",
-            Token::Require => "require",
-            Token::Set => "set",
-            Token::Static => "static",
-            Token::String => "string",
-            Token::Symbol => "symbol",
-            Token::Type => "type",
-            Token::Undefined => "undefined",
-            Token::Unique => "unique",
-            Token::Unknown => "unknown",
-            Token::Using => "using",
-            Token::Accessor => "accessor",
-            Token::Infer => "infer",
-            Token::Satisfies => "satisfies",
-            Token::Meta => "meta",
-            Token::Target => "target",
-            Token::Shebang => "#!",
-            Token::LessSlash => "</",
-            Token::Eof => "<eof>",
-        }
-        .to_string()
     }
 
     #[inline(always)]
@@ -929,6 +710,179 @@ impl Token {
                 | Token::ZeroFillRShift
                 | Token::ZeroFillRShiftEq
         )
+    }
+}
+
+impl Display for Token {
+    #[cold]
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            Token::LParen => "(",
+            Token::RParen => ")",
+            Token::LBrace => "{",
+            Token::RBrace => "}",
+            Token::LBracket => "[",
+            Token::RBracket => "]",
+            Token::Semi => ";",
+            Token::Comma => ",",
+            Token::Dot => ".",
+            Token::Colon => ":",
+            Token::QuestionMark => "?",
+            Token::Bang => "!",
+            Token::Tilde => "~",
+            Token::Plus => "+",
+            Token::Minus => "-",
+            Token::Asterisk => "*",
+            Token::Slash => "/",
+            Token::Percent => "%",
+            Token::Lt => "<",
+            Token::Gt => ">",
+            Token::Pipe => "|",
+            Token::Caret => "^",
+            Token::Ampersand => "&",
+            Token::Eq => "=",
+            Token::At => "@",
+            Token::Hash => "#",
+            Token::BackQuote => "`",
+            Token::Arrow => "=>",
+            Token::DotDotDot => "...",
+            Token::PlusPlus => "++",
+            Token::MinusMinus => "--",
+            Token::PlusEq => "+",
+            Token::MinusEq => "-",
+            Token::MulEq => "*",
+            Token::DivEq => "/=",
+            Token::ModEq => "%=",
+            Token::LShiftEq => "<<=",
+            Token::RShiftEq => ">>=",
+            Token::ZeroFillRShiftEq => ">>>=",
+            Token::BitOrEq => "|=",
+            Token::BitXorEq => "^=",
+            Token::BitAndEq => "&=",
+            Token::ExpEq => "**=",
+            Token::LogicalOrEq => "||=",
+            Token::LogicalAndEq => "&&=",
+            Token::NullishEq => "??=",
+            Token::OptionalChain => "?.",
+            Token::EqEq => "==",
+            Token::NotEq => "!=",
+            Token::EqEqEq => "===",
+            Token::NotEqEq => "!==",
+            Token::LtEq => "<=",
+            Token::GtEq => ">=",
+            Token::LShift => "<<",
+            Token::RShift => ">>",
+            Token::ZeroFillRShift => ">>>",
+            Token::Exp => "**",
+            Token::LogicalOr => "||",
+            Token::LogicalAnd => "&&",
+            Token::NullishCoalescing => "??",
+            Token::DollarLBrace => "${",
+            Token::JSXTagStart => "jsx tag start",
+            Token::JSXTagEnd => "jsx tag end",
+            Token::JSXText => "jsx text",
+            Token::Str => "string literal",
+            Token::Num => "numeric literal",
+            Token::BigInt => "bigint literal",
+            Token::Regex => "regexp literal",
+            Token::Template => "template token",
+            Token::JSXName => "jsx name",
+            Token::Error => "<lexing error>",
+            Token::Ident => "ident",
+            Token::NoSubstitutionTemplateLiteral => "no substitution template literal",
+            Token::TemplateHead => "template head",
+            Token::TemplateMiddle => "template middle",
+            Token::TemplateTail => "template tail",
+            Token::Await => "await",
+            Token::Break => "break",
+            Token::Case => "case",
+            Token::Catch => "catch",
+            Token::Class => "class",
+            Token::Const => "const",
+            Token::Continue => "continue",
+            Token::Debugger => "debugger",
+            Token::Default => "default",
+            Token::Delete => "delete",
+            Token::Do => "do",
+            Token::Else => "else",
+            Token::Export => "export",
+            Token::Extends => "extends",
+            Token::False => "false",
+            Token::Finally => "finally",
+            Token::For => "for",
+            Token::Function => "function",
+            Token::If => "if",
+            Token::Import => "import",
+            Token::In => "in",
+            Token::InstanceOf => "instanceOf",
+            Token::Let => "let",
+            Token::New => "new",
+            Token::Null => "null",
+            Token::Return => "return",
+            Token::Super => "super",
+            Token::Switch => "switch",
+            Token::This => "this",
+            Token::Throw => "throw",
+            Token::True => "true",
+            Token::Try => "try",
+            Token::TypeOf => "typeOf",
+            Token::Var => "var",
+            Token::Void => "void",
+            Token::While => "while",
+            Token::With => "with",
+            Token::Yield => "yield",
+            Token::Module => "module",
+            Token::Abstract => "abstract",
+            Token::Any => "any",
+            Token::As => "as",
+            Token::Asserts => "asserts",
+            Token::Assert => "assert",
+            Token::Async => "async",
+            Token::Bigint => "bigint",
+            Token::Boolean => "boolean",
+            Token::Constructor => "constructor",
+            Token::Declare => "declare",
+            Token::Enum => "enum",
+            Token::From => "from",
+            Token::Get => "get",
+            Token::Global => "global",
+            Token::Implements => "implements",
+            Token::Interface => "interface",
+            Token::Intrinsic => "intrinsic",
+            Token::Is => "is",
+            Token::Keyof => "keyof",
+            Token::Namespace => "namespace",
+            Token::Never => "never",
+            Token::Number => "number",
+            Token::Object => "object",
+            Token::Of => "of",
+            Token::Out => "out",
+            Token::Override => "override",
+            Token::Package => "package",
+            Token::Private => "private",
+            Token::Protected => "protected",
+            Token::Public => "public",
+            Token::Readonly => "readonly",
+            Token::Require => "require",
+            Token::Set => "set",
+            Token::Static => "static",
+            Token::String => "string",
+            Token::Symbol => "symbol",
+            Token::Type => "type",
+            Token::Undefined => "undefined",
+            Token::Unique => "unique",
+            Token::Unknown => "unknown",
+            Token::Using => "using",
+            Token::Accessor => "accessor",
+            Token::Infer => "infer",
+            Token::Satisfies => "satisfies",
+            Token::Meta => "meta",
+            Token::Target => "target",
+            Token::Shebang => "#!",
+            Token::LessSlash => "</",
+            Token::Eof => "<eof>",
+        };
+        f.write_str(s)
     }
 }
 

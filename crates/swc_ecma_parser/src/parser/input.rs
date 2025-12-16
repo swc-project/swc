@@ -347,7 +347,7 @@ impl<I: Tokens> Buffer<I> {
     #[inline(never)]
     pub fn dump_cur(&self) -> String {
         let cur = self.cur();
-        cur.to_string(self.get_token_value())
+        cur.to_string()
     }
 }
 

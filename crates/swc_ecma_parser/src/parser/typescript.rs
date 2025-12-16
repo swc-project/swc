@@ -124,7 +124,7 @@ impl<I: Tokens> Parser<I> {
             if kind == ParsingContext::EnumMembers {
                 let expect = Token::Comma;
                 let cur = self.input().cur();
-                let cur = cur.to_string(self.input().get_token_value());
+                let cur = cur.to_string();
                 self.emit_err(
                     self.input().cur_span(),
                     SyntaxError::Expected(format!("{expect:?}"), cur),
