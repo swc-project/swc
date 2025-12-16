@@ -890,11 +890,15 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Str {
             Lit::Str(self.parse_str_lit())
         } else if cur == Token::Num {
-            let (value, raw) = self.input_mut().expect_number_token_and_bump();
+            let span = self.span(start);
+            let value = self.input_mut().expect_number_token_value();
+            self.bump();
+
+            let raw = self.input.iter.read_string(span);
             Lit::Num(swc_ecma_ast::Number {
-                span: self.span(start),
+                span,
                 value,
-                raw: Some(raw),
+                raw: Some(Atom::new(raw)),
             })
         } else if cur == Token::BigInt {
             let span = self.span(start);

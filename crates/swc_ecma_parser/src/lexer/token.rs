@@ -27,10 +27,7 @@ pub enum TokenValue {
         value: Atom,
         flags: Atom,
     },
-    Num {
-        value: f64,
-        raw: Atom,
-    },
+    Num(f64),
     BigInt(Box<num_bigint::BigInt>),
     Error(crate::error::Error),
 }
@@ -362,8 +359,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Num { value, raw }));
+    pub fn num(value: f64, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Num(value)));
         Self::Num
     }
 
@@ -397,11 +394,6 @@ impl<'a> Token {
     #[inline(always)]
     pub fn take_str<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Wtf8Atom, Atom) {
         buffer.expect_string_token_value()
-    }
-
-    #[inline(always)]
-    pub fn take_num<I: Tokens>(self, buffer: &mut Buffer<I>) -> (f64, Atom) {
-        buffer.expect_number_token_value()
     }
 
     #[inline]
@@ -631,10 +623,10 @@ impl Token {
                 return format!("string literal ({value:?}, {raw})");
             }
             Token::Num => {
-                let Some(TokenValue::Num { value, raw, .. }) = value else {
+                let Some(TokenValue::Num(value)) = value else {
                     unreachable!("{:#?}", value)
                 };
-                return format!("numeric literal ({value}, {raw})");
+                return format!("numeric literal ({value})");
             }
             Token::BigInt => {
                 let Some(TokenValue::BigInt(value)) = value else {

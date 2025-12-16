@@ -1002,7 +1002,7 @@ impl<'a> Lexer<'a> {
     /// Reads an integer, octal integer, or floating-point number
     fn read_number<const START_WITH_DOT: bool, const START_WITH_ZERO: bool>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), Box<BigIntValue>>> {
+    ) -> LexResult<Either<f64, Box<BigIntValue>>> {
         debug_assert!(!(START_WITH_DOT && START_WITH_ZERO));
         debug_assert!(self.cur().is_some());
 
@@ -1051,14 +1051,7 @@ impl<'a> Lexer<'a> {
                     //
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
-                        let raw = unsafe {
-                            // Safety: We got both start and end position from `self.input`
-                            self.input_slice_str(start, self.cur_pos())
-                        };
-                        let raw = self.atom(raw);
-                        return self
-                            .make_legacy_octal(start, 0f64)
-                            .map(|value| Either::Left((value, raw)));
+                        return self.make_legacy_octal(start, 0f64).map(Either::Left);
                     }
                 } else if lazy_integer.not_octal {
                     // if it contains '8' or '9', it's decimal.
@@ -1067,14 +1060,7 @@ impl<'a> Lexer<'a> {
                     // It's Legacy octal, and we should reinterpret value.
                     let s = remove_underscore(s, lazy_integer.has_underscore);
                     let val = parse_integer::<8>(&s);
-                    let raw = unsafe {
-                        // Safety: We got both start and end position from `self.input`
-                        self.input_slice_str(start, self.cur_pos())
-                    };
-                    let raw = self.atom(raw);
-                    return self
-                        .make_legacy_octal(start, val)
-                        .map(|value| Either::Left((value, raw)));
+                    return self.make_legacy_octal(start, val).map(Either::Left);
                 }
             }
 
@@ -1140,11 +1126,7 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        let raw_str = unsafe {
-            // Safety: We got both start and end position from `self.input`
-            self.input_slice_str(start, self.cur_pos())
-        };
-        Ok(Either::Left((val, raw_str.into())))
+        Ok(Either::Left(val))
     }
 
     fn read_int_u32<const RADIX: u8>(&mut self, len: u8) -> LexResult<Option<u32>> {
@@ -1177,15 +1159,11 @@ impl<'a> Lexer<'a> {
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
-    fn read_radix_number<const RADIX: u8>(
-        &mut self,
-    ) -> LexResult<Either<(f64, Atom), Box<BigIntValue>>> {
+    fn read_radix_number<const RADIX: u8>(&mut self) -> LexResult<Either<f64, Box<BigIntValue>>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {RADIX}"
         );
-        let start = self.cur_pos();
-
         debug_assert_eq!(self.cur(), Some(b'0'));
         self.bump(1); // `0`
 
@@ -1210,12 +1188,7 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        let raw = unsafe {
-            // Safety: We got both start and end position from `self.input`
-            self.input_slice_str(start, self.cur_pos())
-        };
-
-        Ok(Either::Left((val, self.atom(raw))))
+        Ok(Either::Left(val))
     }
 
     /// Consume pending comments.
@@ -1977,7 +1950,7 @@ impl<'a> Lexer<'a> {
         };
         if next.is_ascii_digit() {
             return self.read_number::<true, false>().map(|v| match v {
-                Left((value, raw)) => Token::num(value, raw, self),
+                Left(value) => Token::num(value, self),
                 Right(_) => unreachable!("read_number should not return bigint for leading dot"),
             });
         }
@@ -2031,14 +2004,14 @@ impl<'a> Lexer<'a> {
             Some(b'b') | Some(b'B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number::<false, true>().map(|v| match v {
-                    Left((value, raw)) => Token::num(value, raw, self),
+                    Left(value) => Token::num(value, self),
                     Right(value) => Token::bigint(value, self),
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Token::num(value, raw, self),
+            Left(value) => Token::num(value, self),
             Right(value) => Token::bigint(value, self),
         })
     }

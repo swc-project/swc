@@ -962,14 +962,15 @@ impl<I: Tokens> Parser<I> {
         let id = if cur == Token::Str {
             TsEnumMemberId::Str(self.parse_str_lit())
         } else if cur == Token::Num {
-            let (value, raw) = self.input_mut().expect_number_token_and_bump();
-            let mut new_raw = String::new();
-
-            new_raw.push('"');
-            new_raw.push_str(raw.as_str());
-            new_raw.push('"');
-
             let span = self.span(start);
+            let value = self.input_mut().expect_number_token_value();
+
+            let raw = self.input.iter.read_string(span);
+            let mut new_raw = String::with_capacity(raw.len() + 2);
+
+            new_raw.push('"');
+            new_raw.push_str(raw);
+            new_raw.push('"');
 
             // Recover from error
             self.emit_err(span, SyntaxError::TS2452);
