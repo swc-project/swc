@@ -1,2 +1,9 @@
 //// [file.tsx]
-var x = /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("span", null, /*#__PURE__*/ React.createElement("div", null))));
+//!   x Unknown regular expression flags.
+//!    ,-[6:1]
+//!  3 |     interface IntrinsicElements { div; span; }
+//!  4 | }
+//!  5 | 
+//!  6 | var x = <div><div><span><div></div></span></div></div>;
+//!    :                               ^^^^^^^^^^^
+//!    `----

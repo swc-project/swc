@@ -1,20 +1,30 @@
 //// [file.tsx]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Button = /*#__PURE__*/ function() {
-    "use strict";
-    function Button() {
-        _class_call_check(this, Button);
-    }
-    var _proto = Button.prototype;
-    _proto.render = function render() {
-        return /*#__PURE__*/ React.createElement("div", null, "My Button");
-    };
-    return Button;
-}();
-// OK
-var k1 = /*#__PURE__*/ React.createElement("div", null, " ", /*#__PURE__*/ React.createElement("h2", null, " Hello "), " ", /*#__PURE__*/ React.createElement("h1", null, " world "));
-var k2 = /*#__PURE__*/ React.createElement("div", null, " ", /*#__PURE__*/ React.createElement("h2", null, " Hello "), " ", function(user) {
-    return /*#__PURE__*/ React.createElement("h2", null, user.name);
-});
-var k3 = /*#__PURE__*/ React.createElement("div", null, " ", 1, " ", "That is a number", " ");
-var k4 = /*#__PURE__*/ React.createElement(Button, null, " ", /*#__PURE__*/ React.createElement("h2", null, " Hello "), " ");
+//!   x Unknown regular expression flags.
+//!     ,-[19:1]
+//!  16 | }
+//!  17 | 
+//!  18 | // OK
+//!  19 | let k1 = <div> <h2> Hello </h2> <h1> world </h1></div>;
+//!     :                            ^^^^^^^^^^^^^^^^^^^^
+//!  20 | let k2 = <div> <h2> Hello </h2> {(user: any) => <h2>{user.name}</h2>}</div>;
+//!  21 | let k3 = <div> {1} {"That is a number"} </div>;
+//!  22 | let k4 = <Button> <h2> Hello </h2> </Button>;
+//!     `----
+//!   x Unknown regular expression flags.
+//!     ,-[20:1]
+//!  17 | 
+//!  18 | // OK
+//!  19 | let k1 = <div> <h2> Hello </h2> <h1> world </h1></div>;
+//!  20 | let k2 = <div> <h2> Hello </h2> {(user: any) => <h2>{user.name}</h2>}</div>;
+//!     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!  21 | let k3 = <div> {1} {"That is a number"} </div>;
+//!  22 | let k4 = <Button> <h2> Hello </h2> </Button>;
+//!     `----
+//!   x Unknown regular expression flags.
+//!     ,-[22:1]
+//!  19 | let k1 = <div> <h2> Hello </h2> <h1> world </h1></div>;
+//!  20 | let k2 = <div> <h2> Hello </h2> {(user: any) => <h2>{user.name}</h2>}</div>;
+//!  21 | let k3 = <div> {1} {"That is a number"} </div>;
+//!  22 | let k4 = <Button> <h2> Hello </h2> </Button>;
+//!     :                               ^^^^^^^^^^^^^
+//!     `----
