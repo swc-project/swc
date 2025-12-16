@@ -1,4 +1,4 @@
-  x Expected '(', got 'x'
+  x Expected '(', got 'ident'
    ,-[$DIR/tests/typescript-errors/class/get-set-asi-issue-2/input.ts:3:1]
  2 |   get
  3 |   static x() { return 0 }

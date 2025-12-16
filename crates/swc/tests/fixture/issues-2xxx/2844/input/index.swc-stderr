@@ -3,7 +3,7 @@
  1 | class X { st\u0061tic y() { } }
    :           ^^^^^^^^^^^
    `----
-  x Unexpected token `<lexing error: Error { error: (11..22, EscapeInReservedWord { word: "static" }) }>`. Expected identifier, string literal, numeric literal or [ for the computed key
+  x Unexpected token `<lexing error>`. Expected identifier, string literal, numeric literal or [ for the computed key
    ,-[$DIR/tests/fixture/issues-2xxx/2844/input/index.js:1:1]
  1 | class X { st\u0061tic y() { } }
    :           ^^^^^^^^^^^
