@@ -1,4 +1,4 @@
-  x Expected 'as', got 'As'
+  x Expected 'as', got 'ident'
    ,-[$DIR/tests/test262-parser/fail/943297e7b6314bd8.module.js:1:1]
  1 | import * As a from 'a'
    :          ^^
