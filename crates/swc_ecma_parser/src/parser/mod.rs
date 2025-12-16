@@ -569,24 +569,24 @@ impl<I: Tokens> Parser<I> {
             let v = if cur == Token::Str {
                 PropName::Str(p.parse_str_lit())
             } else if cur == Token::Num {
-                let span = p.span(start);
+                let token_span = p.input.cur_span();
                 let value = p.input_mut().expect_number_token_value();
                 p.bump();
 
-                let raw = p.input.iter.read_string(span);
+                let raw = p.input.iter.read_string(token_span);
                 PropName::Num(Number {
-                    span,
+                    span: p.span(start),
                     value,
                     raw: Some(Atom::new(raw)),
                 })
             } else if cur == Token::BigInt {
-                let span = p.span(start);
+                let token_span = p.input.cur_span();
                 let value = p.input_mut().expect_bigint_token_value();
                 p.bump();
 
-                let raw = p.input.iter.read_string(span);
+                let raw = p.input.iter.read_string(token_span);
                 PropName::BigInt(BigInt {
-                    span,
+                    span: p.span(start),
                     value,
                     raw: Some(Atom::new(raw)),
                 })

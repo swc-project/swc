@@ -890,24 +890,24 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Str {
             Lit::Str(self.parse_str_lit())
         } else if cur == Token::Num {
-            let span = self.span(start);
+            let token_span = self.input.cur_span();
             let value = self.input_mut().expect_number_token_value();
             self.bump();
 
-            let raw = self.input.iter.read_string(span);
+            let raw = self.input.iter.read_string(token_span);
             Lit::Num(swc_ecma_ast::Number {
-                span,
+                span: self.span(start),
                 value,
                 raw: Some(Atom::new(raw)),
             })
         } else if cur == Token::BigInt {
-            let span = self.span(start);
+            let token_span = self.input.cur_span();
             let value = self.input_mut().expect_bigint_token_value();
             self.bump();
 
-            let raw = self.input.iter.read_string(span);
+            let raw = self.input.iter.read_string(token_span);
             Lit::BigInt(swc_ecma_ast::BigInt {
-                span,
+                span: self.span(start),
                 value,
                 raw: Some(Atom::new(raw)),
             })
