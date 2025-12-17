@@ -384,8 +384,7 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL)
         {
@@ -3000,8 +2999,7 @@ impl VisitMut for Optimizer<'_> {
 
         let uses_eval = self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL);
 

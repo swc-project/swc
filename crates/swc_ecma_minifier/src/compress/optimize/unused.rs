@@ -91,7 +91,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -127,7 +127,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 log_abort!(
                     "unused: Preserving `{}` because of usages",
@@ -489,7 +489,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -724,14 +724,8 @@ impl Optimizer<'_> {
 
         let used_arguments = self
             .data
-            .scopes
-            .get(&self.ctx.scope)
-            .unwrap_or_else(|| {
-                unreachable!(
-                    "scope should exist\nScopes: {:?};\nCtxt: {:?}",
-                    self.data.scopes, self.ctx.scope
-                )
-            })
+            .get_scope(self.ctx.scope)
+            .unwrap_or_else(|| unreachable!("scope should exist\nCtxt: {:?}", self.ctx.scope))
             .contains(ScopeData::USED_ARGUMENTS);
 
         trace_op!(

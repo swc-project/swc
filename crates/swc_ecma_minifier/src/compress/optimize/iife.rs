@@ -1355,8 +1355,8 @@ impl Optimizer<'_> {
 
 fn find_scope<'a>(data: &'a ProgramData, callee: &Expr) -> Option<&'a ScopeData> {
     match callee {
-        Expr::Arrow(callee) => data.scopes.get(&callee.ctxt),
-        Expr::Fn(callee) => data.scopes.get(&callee.function.ctxt),
+        Expr::Arrow(callee) => data.get_scope(callee.ctxt),
+        Expr::Fn(callee) => data.get_scope(callee.function.ctxt),
         _ => None,
     }
 }

@@ -24,18 +24,26 @@ where
 {
     let data = if collect_property_atoms {
         ProgramData {
+            vars: FxHashMap::default(),
+            initialized_vars: IndexSet::default(),
+            top: ScopeData::default(),
+            scopes: Vec::new(),
             property_atoms: Some(Vec::with_capacity(128)),
-            ..Default::default()
         }
     } else {
-        ProgramData::default()
+        ProgramData {
+            vars: FxHashMap::default(),
+            initialized_vars: IndexSet::default(),
+            top: ScopeData::default(),
+            scopes: Vec::new(),
+            property_atoms: None,
+        }
     };
 
     analyze_with_custom_storage(data, n, marks)
 }
 
 /// Analyzed info of a whole program we are working on.
-#[derive(Debug, Default)]
 pub(crate) struct ProgramData {
     pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
 
@@ -43,7 +51,7 @@ pub(crate) struct ProgramData {
 
     pub(crate) top: ScopeData,
 
-    pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
+    scopes: Vec<ScopeData>,
 
     pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
 }
@@ -193,16 +201,22 @@ impl Storage for ProgramData {
         Self {
             scopes,
             property_atoms,
-            ..Default::default()
+            vars: FxHashMap::default(),
+            initialized_vars: IndexSet::default(),
+            top: ScopeData::default(),
         }
     }
 
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
-        self.scopes.entry(ctxt).or_default()
+        let ctxt = ctxt.as_u32() as usize;
+        if self.scopes.len() <= ctxt {
+            self.scopes.resize(ctxt + 1, ScopeData::default());
+        }
+        &mut self.scopes[ctxt]
     }
 
-    fn scopes(&self) -> impl Iterator<Item = &ScopeData> {
-        self.scopes.values()
+    fn scopes(&self) -> &[ScopeData] {
+        &self.scopes
     }
 
     fn top_scope(&mut self) -> &mut Self::ScopeData {
@@ -654,6 +668,11 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
+    pub(crate) fn get_scope(&self, ctxt: SyntaxContext) -> Option<&ScopeData> {
+        let ctxt = ctxt.as_u32() as usize;
+        self.scopes.get(ctxt)
+    }
+
     /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {

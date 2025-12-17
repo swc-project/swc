@@ -19,18 +19,6 @@ use crate::{
 mod ctx;
 pub mod storage;
 
-/// TODO: Track assignments to variables via `arguments`.
-/// TODO: Scope-local. (Including block)
-///
-/// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
-where
-    S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
-{
-    analyze_with_custom_storage(Default::default(), n, marks)
-}
-
 pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
 where
     S: Storage,

@@ -6,7 +6,7 @@ use swc_ecma_utils::{Type, Value};
 use super::{ctx::Ctx, ScopeKind};
 use crate::alias::Access;
 
-pub trait Storage: Sized + Default {
+pub trait Storage: Sized {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
@@ -16,7 +16,7 @@ pub trait Storage: Sized + Default {
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 
-    fn scopes(&self) -> impl Iterator<Item = &Self::ScopeData>;
+    fn scopes(&self) -> &[Self::ScopeData];
 
     fn top_scope(&mut self) -> &mut Self::ScopeData;
 
