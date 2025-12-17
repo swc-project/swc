@@ -10,13 +10,13 @@ pub trait Storage: Sized + Default {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
-    fn new(collect_prop_atom: bool) -> Self;
-
-    fn need_collect_prop_atom(&self) -> bool;
+    fn new_child(&mut self) -> Self;
 
     fn add_property_atom(&mut self, atom: Wtf8Atom);
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
+
+    fn scopes(&self) -> impl Iterator<Item = &Self::ScopeData>;
 
     fn top_scope(&mut self) -> &mut Self::ScopeData;
 

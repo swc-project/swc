@@ -30,6 +30,7 @@ where
     } else {
         ProgramData::default()
     };
+
     analyze_with_custom_storage(data, n, marks)
 }
 
@@ -38,11 +39,11 @@ where
 pub(crate) struct ProgramData {
     pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
 
+    initialized_vars: IndexSet<Id, FxBuildHasher>,
+
     pub(crate) top: ScopeData,
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
-
-    initialized_vars: IndexSet<Id, FxBuildHasher>,
 
     pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
 }
@@ -186,24 +187,22 @@ impl Storage for ProgramData {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
 
-    fn new(collect_prop_atom: bool) -> Self {
-        if collect_prop_atom {
-            ProgramData {
-                property_atoms: Some(Vec::with_capacity(128)),
-                ..Default::default()
-            }
-        } else {
-            ProgramData::default()
+    fn new_child(&mut self) -> Self {
+        let scopes = std::mem::take(&mut self.scopes);
+        let property_atoms = std::mem::take(&mut self.property_atoms);
+        Self {
+            scopes,
+            property_atoms,
+            ..Default::default()
         }
-    }
-
-    #[inline(always)]
-    fn need_collect_prop_atom(&self) -> bool {
-        self.property_atoms.is_some()
     }
 
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
         self.scopes.entry(ctxt).or_default()
+    }
+
+    fn scopes(&self) -> impl Iterator<Item = &ScopeData> {
+        self.scopes.values()
     }
 
     fn top_scope(&mut self) -> &mut Self::ScopeData {
@@ -215,17 +214,12 @@ impl Storage for ProgramData {
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {
-        self.scopes.reserve(child.scopes.len());
-
-        for (ctxt, scope) in child.scopes {
-            let to = self.scopes.entry(ctxt).or_default();
-            self.top.merge(scope, true);
-
-            to.merge(scope, false);
-        }
+        // Take the data back
+        // Corresponding to [Self::new_child]
+        self.scopes = child.scopes;
+        self.property_atoms = child.property_atoms;
 
         self.vars.reserve(child.vars.len());
-
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
@@ -351,10 +345,6 @@ impl Storage for ProgramData {
                     e.insert(var_info);
                 }
             }
-        }
-
-        if let Some(property_atoms) = self.property_atoms.as_mut() {
-            property_atoms.extend(child.property_atoms.unwrap());
         }
     }
 
