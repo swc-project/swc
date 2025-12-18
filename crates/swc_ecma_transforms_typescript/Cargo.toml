@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_typescript"
 repository    = { workspace = true }
-version       = "35.0.0"
+version       = "36.0.0"
 
 [lib]
 bench = false
@@ -26,8 +26,8 @@ serde      = { workspace = true, features = ["derive"] }
 swc_atoms                 = { version = "9.0.0", path = "../swc_atoms" }
 swc_common                = { version = "18.0.1", path = "../swc_common" }
 swc_ecma_ast              = { version = "19.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transforms_base  = { version = "32.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_react = { version = "35.0.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_base  = { version = "33.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_react = { version = "36.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_utils            = { version = "25.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit            = { version = "19.0.0", path = "../swc_ecma_visit" }
 
@@ -35,10 +35,10 @@ swc_ecma_visit            = { version = "19.0.0", path = "../swc_ecma_visit" }
 codspeed-criterion-compat = { workspace = true }
 
 swc_ecma_codegen             = { version = "21.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser              = { version = "29.0.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms_compat   = { version = "37.0.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_proposal = { version = "32.0.0", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_testing  = { version = "35.0.0", path = "../swc_ecma_transforms_testing" }
+swc_ecma_parser              = { version = "30.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_compat   = { version = "38.0.0", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_proposal = { version = "33.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_testing  = { version = "36.0.0", path = "../swc_ecma_transforms_testing" }
 testing                      = { version = "19.0.0", path = "../testing" }
 
 [[bench]]
