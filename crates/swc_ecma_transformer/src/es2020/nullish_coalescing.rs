@@ -50,6 +50,7 @@ pub fn hook(no_document_all: bool) -> impl VisitMutHook<TraverseCtx> {
         no_document_all,
         stmt_ptr: None,
         stmt_ptr_stack: vec![],
+        function_scope_stack: vec![],
     }
 }
 
@@ -57,6 +58,9 @@ struct NullishCoalescingPass {
     no_document_all: bool,
     stmt_ptr: Option<*const Stmt>,
     stmt_ptr_stack: Vec<*const Stmt>,
+    /// Stack of indices marking the start of each function scope.
+    /// Used to prevent hoisting variables out of function boundaries.
+    function_scope_stack: Vec<usize>,
 }
 
 impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
@@ -83,6 +87,26 @@ impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
         self.stmt_ptr_stack.pop();
         self.stmt_ptr = self.stmt_ptr_stack.last().copied();
     }
+
+    fn enter_arrow_expr(&mut self, _node: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
+        // Mark the start of a new function scope
+        self.function_scope_stack.push(self.stmt_ptr_stack.len());
+    }
+
+    fn exit_arrow_expr(&mut self, _node: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
+        // Exit the function scope
+        self.function_scope_stack.pop();
+    }
+
+    fn enter_function(&mut self, _node: &mut Function, _ctx: &mut TraverseCtx) {
+        // Mark the start of a new function scope
+        self.function_scope_stack.push(self.stmt_ptr_stack.len());
+    }
+
+    fn exit_function(&mut self, _node: &mut Function, _ctx: &mut TraverseCtx) {
+        // Exit the function scope
+        self.function_scope_stack.pop();
+    }
 }
 
 impl NullishCoalescingPass {
@@ -104,9 +128,24 @@ impl NullishCoalescingPass {
         let (alias_ident, needs_temp) = alias_if_required(&left, "ref");
 
         if needs_temp {
+            // Get the statement to insert before, respecting function scope boundaries.
+            // Use the first statement in the current function scope, which ensures:
+            // 1. We insert before a statement in a Vec<Stmt>, not a single-statement
+            //    position (fixes #11379)
+            // 2. We don't hoist variables out of function boundaries (fixes #7977)
+            let scope_base = self.function_scope_stack.last().copied().unwrap_or(0);
+
+            // Make sure we have a valid statement to insert before
+            // If scope_base is beyond the current stack, use the current statement
+            let insert_before = if scope_base < self.stmt_ptr_stack.len() {
+                self.stmt_ptr_stack[scope_base]
+            } else {
+                self.stmt_ptr.unwrap()
+            };
+
             // Inject variable declaration for temporary variable
             ctx.statement_injector.insert_before(
-                self.stmt_ptr.unwrap(),
+                insert_before,
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -195,9 +234,19 @@ impl NullishCoalescingPass {
             AssignTarget::Simple(left) => {
                 let alias = alias_ident_for_simple_assign_tatget(left, "refs");
 
+                // Get the statement to insert before, respecting function scope boundaries.
+                let scope_base = self.function_scope_stack.last().copied().unwrap_or(0);
+
+                // Make sure we have a valid statement to insert before
+                let insert_before = if scope_base < self.stmt_ptr_stack.len() {
+                    self.stmt_ptr_stack[scope_base]
+                } else {
+                    self.stmt_ptr.unwrap()
+                };
+
                 // Inject variable declaration
                 ctx.statement_injector.insert_before(
-                    self.stmt_ptr.unwrap(),
+                    insert_before,
                     Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,

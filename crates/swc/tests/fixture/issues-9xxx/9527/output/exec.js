@@ -68,13 +68,13 @@ expect(function() {
     }(Base));
 }).toThrow();
 expect(function() {
+    var _ref;
     return new (/*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(_class, Base);
         function _class() {
             _class_call_check(this, _class);
             var _this;
-            var _ref;
             (_ref = {}) !== null && _ref !== void 0 ? _ref : _this = _call_super(this, _class);
             return _assert_this_initialized(_this);
         }
