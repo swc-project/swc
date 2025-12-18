@@ -154,11 +154,9 @@ where
         )
     );
 
-    #[rustfmt::skip]
-    let pass = add_compiler!(
-        pass,
-        /* ES2022 */ | PrivatePropertyInObject
-    );
+    if !caniuse(Feature::PrivatePropertyInObject) {
+        options.env.es2022.private_property_in_object = true;
+    }
 
     if !caniuse(Feature::LogicalAssignmentOperators) {
         options.env.es2021.logical_assignment_operators = true;
