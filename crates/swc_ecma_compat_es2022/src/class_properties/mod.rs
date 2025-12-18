@@ -14,7 +14,7 @@ use swc_ecma_utils::{
     replace_ident, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -43,12 +43,18 @@ mod used_name;
 ///
 /// We use custom helper to handle export default class
 pub fn class_properties(config: Config, unresolved_mark: Mark) -> impl Pass {
-    visit_mut_pass(ClassProperties {
-        c: config,
-        private: PrivateRecord::new(),
-        extra: ClassExtra::default(),
-        unresolved_mark,
-    })
+    let mut options = swc_ecma_transformer::Options::default();
+
+    options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+
+    options.assumptions.private_fields_as_properties = config.private_as_properties;
+    options.assumptions.set_public_class_fields = config.set_public_fields;
+    options.assumptions.constant_super = config.constant_super;
+    options.assumptions.no_document_all = config.no_document_all;
+    options.assumptions.pure_getters = config.pure_getter;
+
+    options.env.es2022.class_properties = true;
+    options.into_pass()
 }
 
 #[derive(Debug, Default, Clone, Copy)]
