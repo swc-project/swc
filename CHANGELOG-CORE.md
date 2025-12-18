@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v51.0.0] - 2025-12-18
 
 ### Bug Fixes
 
@@ -2581,17 +2581,6 @@
 
 
 - **(es/parser)** Allow abstract method named `accessor` ([#10327](https://github.com/swc-project/swc/issues/10327)) ([3f71776](https://github.com/swc-project/swc/commit/3f7177665cda8497961bdaf8d8cff5a41e09df00))
-
-
-- **(es/preset-env)** Consider `browserslist` config if `env.target` is not configured ([#8921](https://github.com/swc-project/swc/issues/8921)) ([a2dc372](https://github.com/swc-project/swc/commit/a2dc372f9ce8f89c2446ee5df3e205223616d229))
-
-
--  fix(es/compat): Remove one promise tick in yield* (tc39/ecma262#2819) ([#10317](https://github.com/swc-project/swc/issues/10317))
-
-**Related issue:**
-
-- babel/babel#14877
-- tc39/ecma262#2819 ([3fb1950](https://github.com/swc-project/swc/commit/3fb19505b58039eb3d2b1e7790321567c4b3b124))
 
 ### Features
 
