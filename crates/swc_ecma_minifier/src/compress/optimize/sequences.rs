@@ -1913,7 +1913,7 @@ impl Optimizer<'_> {
             }
 
             Expr::Call(CallExpr {
-                callee: Callee::Super(_),
+                callee: Callee::Super(_) | Callee::Import(_),
                 args: b_args,
                 ..
             }) => {
