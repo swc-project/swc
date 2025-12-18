@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_usage_analyzer"
 repository    = { workspace = true }
-version       = "26.0.0"
+version       = "27.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
