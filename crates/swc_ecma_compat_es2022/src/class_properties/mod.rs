@@ -1,3 +1,7 @@
+// This module contains the legacy implementation for reference only.
+// The actual transformation is now handled by swc_ecma_transformer.
+#![allow(dead_code)]
+
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
 use swc_common::{
