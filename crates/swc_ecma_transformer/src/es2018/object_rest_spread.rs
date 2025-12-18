@@ -171,12 +171,14 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
 
         if aliased {
             // Declare the temp var
-            ctx.var_declarations.insert_var_declarator(VarDeclarator {
-                span: DUMMY_SP,
-                name: ref_ident.clone().into(),
-                init: None,
-                definite: false,
-            });
+            out.ctx
+                .var_declarations
+                .insert_var_declarator(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: ref_ident.clone().into(),
+                    init: None,
+                    definite: false,
+                });
             // _ref = source
             out.exprs.push(
                 AssignExpr {
