@@ -46,17 +46,11 @@ use crate::TraverseCtx;
 /// - `true`: `a ?? b` -> `a != null ? a : b`
 /// - `false`: `a ?? b` -> `a !== null && a !== void 0 ? a : b`
 pub fn hook(no_document_all: bool) -> impl VisitMutHook<TraverseCtx> {
-    NullishCoalescingPass {
-        no_document_all,
-        stmt_ptr: None,
-        stmt_ptr_stack: vec![],
-    }
+    NullishCoalescingPass { no_document_all }
 }
 
 struct NullishCoalescingPass {
     no_document_all: bool,
-    stmt_ptr: Option<*const Stmt>,
-    stmt_ptr_stack: Vec<*const Stmt>,
 }
 
 impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
@@ -72,16 +66,6 @@ impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
             }
             _ => {}
         }
-    }
-
-    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.stmt_ptr = Some(stmt as *const Stmt);
-        self.stmt_ptr_stack.push(stmt as *const Stmt);
-    }
-
-    fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.stmt_ptr_stack.pop();
-        self.stmt_ptr = self.stmt_ptr_stack.last().copied();
     }
 }
 
@@ -105,20 +89,8 @@ impl NullishCoalescingPass {
 
         if needs_temp {
             // Inject variable declaration for temporary variable
-            ctx.statement_injector.insert_before(
-                self.stmt_ptr.unwrap(),
-                Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(alias_ident.clone().into()),
-                        init: None,
-                        definite: false,
-                    }],
-                    ..Default::default()
-                }))),
-            );
+            ctx.var_declarations
+                .insert_var(alias_ident.clone().into(), None);
         }
 
         // Create the test expression and consequent
@@ -196,20 +168,7 @@ impl NullishCoalescingPass {
                 let alias = alias_ident_for_simple_assign_tatget(left, "refs");
 
                 // Inject variable declaration
-                ctx.statement_injector.insert_before(
-                    self.stmt_ptr.unwrap(),
-                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(alias.clone().into()),
-                            init: None,
-                            definite: false,
-                        }],
-                        ..Default::default()
-                    }))),
-                );
+                ctx.var_declarations.insert_var(alias.clone().into(), None);
 
                 let right = assign_expr.right.take();
                 let left_clone = left.clone();
