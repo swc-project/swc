@@ -22,6 +22,12 @@ pub struct Es2022Options {
 pub fn hook(options: Es2022Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 
+    let hook = hook.chain(OptionalHook(if options.class_properties {
+        Some(self::class_properties::hook())
+    } else {
+        None
+    }));
+
     let hook = hook.chain(OptionalHook(if options.private_property_in_object {
         Some(self::private_property_in_object::hook())
     } else {
