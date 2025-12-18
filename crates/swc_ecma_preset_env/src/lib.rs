@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2020, es2022, es3,
+        es2020, es3,
     },
     Assumptions,
 };
@@ -139,20 +139,10 @@ where
     // because it transforms into private static property
 
     let pass = add_compiler!(pass, ClassStaticBlock);
-    let pass = add!(
-        pass,
-        ClassProperties,
-        es2022::class_properties(
-            es2022::class_properties::Config {
-                private_as_properties: loose || assumptions.private_fields_as_properties,
-                set_public_fields: loose || assumptions.set_public_class_fields,
-                constant_super: loose || assumptions.constant_super,
-                no_document_all: loose || assumptions.no_document_all,
-                pure_getter: loose || assumptions.pure_getters,
-            },
-            unresolved_mark
-        )
-    );
+
+    if !caniuse(Feature::ClassProperties) {
+        options.env.es2022.class_properties = true;
+    }
 
     if !caniuse(Feature::PrivatePropertyInObject) {
         options.env.es2022.private_property_in_object = true;
