@@ -50,8 +50,7 @@ impl Optimizer<'_> {
             if let Some(lhs) = assign.left.as_ident() {
                 let used_arguments = self
                     .data
-                    .scopes
-                    .get(&self.ctx.scope)
+                    .get_scope(self.ctx.scope)
                     .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
                     .unwrap_or(false);
 
@@ -89,8 +88,7 @@ impl Optimizer<'_> {
                 if let Some(lhs) = assign.left.as_ident() {
                     let used_arguments = self
                         .data
-                        .scopes
-                        .get(&self.ctx.scope)
+                        .get_scope(self.ctx.scope)
                         .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
                         .unwrap_or(false);
 

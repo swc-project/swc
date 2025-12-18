@@ -533,8 +533,7 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL)
         {
@@ -667,8 +666,7 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL)
         {

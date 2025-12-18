@@ -19,18 +19,6 @@ use crate::{
 mod ctx;
 pub mod storage;
 
-/// TODO: Track assignments to variables via `arguments`.
-/// TODO: Scope-local. (Including block)
-///
-/// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
-where
-    S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
-{
-    analyze_with_custom_storage(Default::default(), n, marks)
-}
-
 pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
 where
     S: Storage,
@@ -53,9 +41,13 @@ where
         used_recursively: FxHashMap::default(),
     };
     n.visit_with(&mut v);
-    let top_scope = v.scope;
-    v.data.top_scope().merge(top_scope.clone(), false);
 
+    let mut top_scope = v.scope;
+    for scope in v.data.scopes() {
+        top_scope.merge(scope.clone(), true);
+    }
+
+    v.data.top_scope().merge(top_scope.clone(), false);
     v.data.scope(SyntaxContext::empty()).merge(top_scope, false);
 
     v.data
@@ -97,8 +89,9 @@ where
     {
         let used_recursively = std::mem::take(&mut self.used_recursively);
 
+        let child_data = self.data.new_child();
         let mut child = UsageAnalyzer {
-            data: S::new(S::need_collect_prop_atom(&self.data)),
+            data: child_data,
             marks: self.marks,
             ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,
@@ -109,7 +102,6 @@ where
         let ret = op(&mut child);
         {
             let child_scope = child.data.scope(child_ctxt);
-
             child_scope.merge(child.scope.clone(), false);
         }
 
