@@ -8,13 +8,13 @@ import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_
     "x",
     "y"
 ]);
-var _ref, _ref4, _ref5, _rest1, _ref6, { a: _ref1 } = overEmit, [_ref2, ..._rest] = _ref1, {} = _ref2, [...y] = (_extends({}, _ref2), _rest), { b: _ref3 } = overEmit, { z } = _ref3;
-_object_without_properties(_ref3, [
+var _ref, _ref1, _ref2, _rest, _ref3, { a: _ref4 } = overEmit, [_ref5, ..._rest1] = _ref4, {} = _ref5, [...y] = (_extends({}, _ref5), _rest1), { b: _ref6 } = overEmit, { z } = _ref6;
+_object_without_properties(_ref6, [
     "z"
 ]), _object_without_properties(overEmit, [
     "a",
     "b"
-]), ({ a: _ref4 } = overEmit), [_ref5, ..._rest1] = _ref4, _extends({}, _ref5), [...y] = _rest1, ({ b: _ref6 } = overEmit), ({ z } = _ref6), _object_without_properties(_ref6, [
+]), ({ a: _ref1 } = overEmit), [_ref2, ..._rest] = _ref1, _extends({}, _ref2), [...y] = _rest, ({ b: _ref3 } = overEmit), ({ z } = _ref3), _object_without_properties(_ref3, [
     "z"
 ]), _object_without_properties(overEmit, [
     "a",

@@ -1,4 +1,5 @@
 //// [nullishCoalescingOperator1.ts]
+var _ref;
 var aa1 = a1 !== null && a1 !== void 0 ? a1 : 'whatever';
 var aa2 = a2 !== null && a2 !== void 0 ? a2 : 'whatever';
 var aa3 = a3 !== null && a3 !== void 0 ? a3 : 'whatever';
@@ -32,7 +33,6 @@ if (maybeBool !== null && maybeBool !== void 0 ? maybeBool : true) {
 } else {
     foo();
 }
-var _ref;
 if ((_ref = false) !== null && _ref !== void 0 ? _ref : true) {
     foo();
 } else {

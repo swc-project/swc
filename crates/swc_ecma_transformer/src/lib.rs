@@ -29,6 +29,7 @@ mod utils;
 #[derive(Default)]
 pub struct TraverseCtx {
     pub(crate) statement_injector: common::StmtInjectorStore,
+    pub(crate) var_declarations: common::VarDeclarationsStore,
 }
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
@@ -53,6 +54,10 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain(crate::es2015::hook(options.env.es2015));
     let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
     let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
+
+    // VarDeclarations must run after all other transforms to collect all variable
+    // declarations
+    let hook = hook.chain(common::VarDeclarations);
 
     // Statement injector must be the last to process all injected statements
     // because exit_stmts must be called after all statements are injected

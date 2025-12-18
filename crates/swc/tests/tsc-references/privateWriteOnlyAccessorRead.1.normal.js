@@ -7,6 +7,7 @@ import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_pri
 var _value = /*#__PURE__*/ new WeakMap(), _valueRest = /*#__PURE__*/ new WeakMap(), _valueOne = /*#__PURE__*/ new WeakMap(), _valueCompound = /*#__PURE__*/ new WeakMap();
 class Test {
     m() {
+        var _ref, _ref1, _ref2;
         const foo = {
             bar: 1
         };
@@ -26,15 +27,12 @@ class Test {
         _ref = {
             foo
         }, ({} = _ref), _class_private_field_destructure(this, _value).value = _extends({}, _ref), _ref; //ok
-        var _ref;
         ({ foo: (this, _write_only_error("#value")).foo } = {
             foo
         }); //error
         _ref1 = {
             foo
         }, ({ foo: _ref2 } = _ref1), ({} = _ref2), (this, _write_only_error("#value")).foo = _extends({}, _ref2), _ref1; //error
-        var _ref1;
-        var _ref2;
         let r = {
             o: (this, _write_only_error("#value"))
         }; //error

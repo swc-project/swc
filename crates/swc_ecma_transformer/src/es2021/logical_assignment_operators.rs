@@ -43,26 +43,12 @@ use swc_ecma_utils::alias_ident_for;
 use crate::TraverseCtx;
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
-    LogicalAssignmentOperatorsPass::default()
+    LogicalAssignmentOperatorsPass
 }
 
-#[derive(Default)]
-struct LogicalAssignmentOperatorsPass {
-    stmt_ptr: Option<*const Stmt>,
-    stmt_ptr_stack: Vec<*const Stmt>,
-}
+struct LogicalAssignmentOperatorsPass;
 
 impl VisitMutHook<TraverseCtx> for LogicalAssignmentOperatorsPass {
-    fn enter_stmt(&mut self, node: &mut Stmt, _: &mut TraverseCtx) {
-        self.stmt_ptr = Some(node as *const Stmt);
-        self.stmt_ptr_stack.push(node as *const Stmt);
-    }
-
-    fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.stmt_ptr_stack.pop();
-        self.stmt_ptr = self.stmt_ptr_stack.last().copied();
-    }
-
     fn enter_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         let Expr::Assign(assign_expr) = expr else {
             return;
@@ -260,24 +246,12 @@ impl LogicalAssignmentOperatorsPass {
     }
 
     fn inject_var_decl(&mut self, ident: &Ident, ctx: &mut TraverseCtx) {
-        let decl = VarDeclarator {
-            span: DUMMY_SP,
-            name: Pat::Ident(BindingIdent {
+        ctx.var_declarations.insert_var(
+            BindingIdent {
                 id: ident.clone(),
                 type_ann: None,
-            }),
-            init: None,
-            definite: false,
-        };
-
-        ctx.statement_injector.insert_before(
-            self.stmt_ptr.unwrap(),
-            VarDecl {
-                kind: VarDeclKind::Var,
-                decls: vec![decl],
-                ..Default::default()
-            }
-            .into(),
+            },
+            None,
         );
     }
 }

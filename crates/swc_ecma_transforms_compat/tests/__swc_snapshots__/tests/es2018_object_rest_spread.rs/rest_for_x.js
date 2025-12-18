@@ -1,22 +1,22 @@
+var _ref;
 // ForXStatement
-for (var _ref of []){
-    let { a } = _ref, b = _object_without_properties(_ref, [
+for (var _ref1 of []){
+    let { a } = _ref1, b = _object_without_properties(_ref1, [
         "a"
     ]);
 }
-for (_ref1 of []){
-    ({ a } = _ref1), b = _object_without_properties(_ref1, [
+for (_ref of []){
+    ({ a } = _ref), b = _object_without_properties(_ref, [
         "a"
-    ]), _ref1;
+    ]), _ref;
 }
-var _ref1;
 async function a() {
+    var _ref;
     for await (_ref of []){
         ({ a } = _ref), b = _object_without_properties(_ref, [
             "a"
         ]), _ref;
     }
-    var _ref;
 }
 // skip
 for({ a } in {}){}

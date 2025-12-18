@@ -38,13 +38,10 @@ use swc_ecma_hooks::VisitMutHook;
 use crate::{utils, TraverseCtx};
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
-    ExponentiationOperatorPass::default()
+    ExponentiationOperatorPass
 }
 
-#[derive(Default)]
-struct ExponentiationOperatorPass {
-    cur_stmt_address: Option<*const Stmt>,
-}
+struct ExponentiationOperatorPass;
 
 impl VisitMutHook<TraverseCtx> for ExponentiationOperatorPass {
     fn enter_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
@@ -71,14 +68,6 @@ impl VisitMutHook<TraverseCtx> for ExponentiationOperatorPass {
             }
             _ => {}
         }
-    }
-
-    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.cur_stmt_address = Some(stmt as *const Stmt);
-    }
-
-    fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.cur_stmt_address = None;
     }
 }
 
@@ -151,20 +140,8 @@ impl ExponentiationOperatorPass {
             let temp_ident = utils::create_private_ident(&temp_name);
 
             // Add variable declaration
-            ctx.statement_injector.insert_before(
-                self.cur_stmt_address.unwrap(),
-                Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(temp_ident.clone().into()),
-                        init: None,
-                        definite: false,
-                    }],
-                    ..Default::default()
-                }))),
-            );
+            ctx.var_declarations
+                .insert_var(temp_ident.clone().into(), None);
 
             // Add assignment to sequence: _obj = obj
             sequence_exprs.push(Expr::Assign(AssignExpr {
@@ -231,20 +208,9 @@ impl ExponentiationOperatorPass {
                     };
                     let temp_ident = utils::create_private_ident(&temp_name);
 
-                    ctx.statement_injector.insert_before(
-                        self.cur_stmt_address.unwrap(),
-                        Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: vec![VarDeclarator {
-                                span: DUMMY_SP,
-                                name: Pat::Ident(temp_ident.clone().into()),
-                                init: None,
-                                definite: false,
-                            }],
-                            ..Default::default()
-                        }))),
-                    );
+                    // Add variable declaration
+                    ctx.var_declarations
+                        .insert_var(temp_ident.clone().into(), None);
 
                     // Add assignment to sequence: _prop = prop
                     sequence_exprs.push(Expr::Assign(AssignExpr {
