@@ -72,6 +72,14 @@ where
     optional_method!(enter_for_in_stmt, exit_for_in_stmt, ForInStmt);
 
     optional_method!(enter_for_of_stmt, exit_for_of_stmt, ForOfStmt);
+
+    optional_method!(enter_class_decl, exit_class_decl, ClassDecl);
+
+    optional_method!(enter_class_expr, exit_class_expr, ClassExpr);
+
+    optional_method!(enter_assign_pat, exit_assign_pat, AssignPat);
+
+    optional_method!(enter_private_prop, exit_private_prop, PrivateProp);
 }
 
 macro_rules! chained_method {
@@ -142,6 +150,14 @@ where
     chained_method!(enter_for_in_stmt, exit_for_in_stmt, ForInStmt);
 
     chained_method!(enter_for_of_stmt, exit_for_of_stmt, ForOfStmt);
+
+    chained_method!(enter_class_decl, exit_class_decl, ClassDecl);
+
+    chained_method!(enter_class_expr, exit_class_expr, ClassExpr);
+
+    chained_method!(enter_assign_pat, exit_assign_pat, AssignPat);
+
+    chained_method!(enter_private_prop, exit_private_prop, PrivateProp);
 }
 
 pub(crate) struct NoopHook;
