@@ -57,7 +57,7 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
 
     // VarDeclarations must run after all other transforms to collect all variable
     // declarations
-    let hook = hook.chain(common::VarDeclarations::default());
+    let hook = hook.chain(common::VarDeclarations);
 
     // Statement injector must be the last to process all injected statements
     // because exit_stmts must be called after all statements are injected

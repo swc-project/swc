@@ -454,7 +454,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         self.transform_for_loop(&mut stmt.left, &mut stmt.body, ctx);
     }
 
-    fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
+    fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _: &mut TraverseCtx) {
         // Only process export var declarations that need transformation
         let mut i = 0;
         while i < items.len() {

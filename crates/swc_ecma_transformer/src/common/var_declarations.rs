@@ -28,7 +28,7 @@ use crate::TraverseCtx;
 /// requested that.
 ///
 /// Must run after all other transforms.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct VarDeclarations;
 
 impl VisitMutHook<TraverseCtx> for VarDeclarations {
@@ -56,19 +56,10 @@ pub struct VarDeclarationsStore {
 }
 
 /// Declarators to be inserted in a statement block.
-#[derive(Debug)]
+#[derive(Debug, Default)]
 struct Declarators {
     var_declarators: Vec<VarDeclarator>,
     let_declarators: Vec<VarDeclarator>,
-}
-
-impl Default for Declarators {
-    fn default() -> Self {
-        Self {
-            var_declarators: Vec::new(),
-            let_declarators: Vec::new(),
-        }
-    }
 }
 
 // Public methods

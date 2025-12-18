@@ -38,10 +38,9 @@ use swc_ecma_hooks::VisitMutHook;
 use crate::{utils, TraverseCtx};
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
-    ExponentiationOperatorPass::default()
+    ExponentiationOperatorPass
 }
 
-#[derive(Default)]
 struct ExponentiationOperatorPass;
 
 impl VisitMutHook<TraverseCtx> for ExponentiationOperatorPass {

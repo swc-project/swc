@@ -43,10 +43,9 @@ use swc_ecma_utils::alias_ident_for;
 use crate::TraverseCtx;
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
-    LogicalAssignmentOperatorsPass::default()
+    LogicalAssignmentOperatorsPass
 }
 
-#[derive(Default)]
 struct LogicalAssignmentOperatorsPass;
 
 impl VisitMutHook<TraverseCtx> for LogicalAssignmentOperatorsPass {
