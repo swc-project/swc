@@ -2,6 +2,7 @@
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+var _ref;
 let array;
 for (let _ref of array){
     let { x } = _ref, restOf = _object_without_properties(_ref, [
@@ -23,7 +24,6 @@ for (_ref of array){
         rrestOff
     ];
 }
-var _ref;
 for (const norest of array.map((a)=>_object_spread_props(_object_spread({}, a), {
         x: 'a string'
     }))){

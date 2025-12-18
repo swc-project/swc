@@ -4,6 +4,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _update } from "@swc/helpers/_/_update";
+var _ref;
 class C extends B {
     constructor(...args){
         super(...args), // these should be unaffected
@@ -43,7 +44,6 @@ C.z12 = { x: _update(_get_prototype_of(C), "a", C, true)._ = 0 } = {
 C.z13 = (_ref = {
     x: 0
 }, {} = _ref, _update(_get_prototype_of(C), "a", C, true)._ = _extends({}, _ref), _ref);
-var _ref;
 C.z14 = ++_update(_get_prototype_of(C), "a", C, true)._;
 C.z15 = --_update(_get_prototype_of(C), "a", C, true)._;
 C.z16 = ++_update(_get_prototype_of(C), "a", C, true)._;

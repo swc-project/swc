@@ -1,25 +1,11 @@
 //// [logicalAssignment2.ts]
-var _a;
+var _a, _b, _c, _baz, _a_foo, _baz1, _b_foo, _baz2, _c_foo, _baz3, _, _a_foo_bar, _b_foo_bar, _c_foo_bar, _baz4;
 (_a = a).baz && (_a.baz = result.baz);
-var _b;
 (_b = b).baz || (_b.baz = result.baz);
-var _c;
-var _baz;
 (_baz = (_c = c).baz) !== null && _baz !== void 0 ? _baz : _c.baz = result.baz;
-var _a_foo;
-var _baz1;
 (_a_foo = a.foo)[_baz1 = "baz"] && (_a_foo[_baz1] = result.foo.baz);
-var _b_foo;
-var _baz2;
 (_b_foo = b.foo)[_baz2 = "baz"] || (_b_foo[_baz2] = result.foo.baz);
-var _c_foo;
-var _baz3;
-var _;
 (_ = (_c_foo = c.foo)[_baz3 = "baz"]) !== null && _ !== void 0 ? _ : _c_foo[_baz3] = result.foo.baz;
-var _a_foo_bar;
 (_a_foo_bar = a.foo.bar()).baz && (_a_foo_bar.baz = result.foo.bar().baz);
-var _b_foo_bar;
 (_b_foo_bar = b.foo.bar()).baz || (_b_foo_bar.baz = result.foo.bar().baz);
-var _c_foo_bar;
-var _baz4;
 (_baz4 = (_c_foo_bar = c.foo.bar()).baz) !== null && _baz4 !== void 0 ? _baz4 : _c_foo_bar.baz = result.foo.bar().baz;

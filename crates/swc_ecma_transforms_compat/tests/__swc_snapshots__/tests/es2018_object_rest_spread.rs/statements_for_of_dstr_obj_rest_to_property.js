@@ -1,3 +1,4 @@
+var _ref;
 var src = {};
 var counter = 0;
 for (_ref of [
@@ -11,5 +12,4 @@ for (_ref of [
     expect(src.y.y).toEqual(2);
     counter += 1;
 }
-var _ref;
 expect(counter).toEqual(1);
