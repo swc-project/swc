@@ -80,8 +80,8 @@ impl VisitMutHook<TraverseCtx> for NullishCoalescingPass {
     }
 
     fn exit_stmt(&mut self, _stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        self.stmt_ptr = None;
-        self.stmt_ptr = self.stmt_ptr_stack.pop();
+        self.stmt_ptr_stack.pop();
+        self.stmt_ptr = self.stmt_ptr_stack.last().copied();
     }
 }
 
