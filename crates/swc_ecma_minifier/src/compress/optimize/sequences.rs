@@ -1912,6 +1912,30 @@ impl Optimizer<'_> {
                 return Ok(false);
             }
 
+            Expr::Call(CallExpr {
+                callee: Callee::Super(_),
+                args: b_args,
+                ..
+            }) => {
+                trace_op!("seq: Try args of super call");
+
+                // For super() calls, we need to be careful with arguments
+                // because they are evaluated before the super constructor is called.
+                // Similar to normal function calls, we check if arguments are skippable.
+                for arg in b_args {
+                    trace_op!("seq: Try arg of super");
+                    if self.merge_sequential_expr(a, &mut arg.expr)? {
+                        return Ok(true);
+                    }
+
+                    if !self.is_skippable_for_seq(Some(a), &arg.expr) {
+                        return Ok(false);
+                    }
+                }
+
+                return Ok(false);
+            }
+
             Expr::New(NewExpr {
                 callee: b_callee,
                 args: b_args,
