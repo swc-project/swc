@@ -24,26 +24,18 @@ where
 {
     let data = if collect_property_atoms {
         ProgramData {
-            vars: FxHashMap::default(),
-            initialized_vars: IndexSet::default(),
-            top: ScopeData::default(),
-            scopes: Vec::new(),
             property_atoms: Some(Vec::with_capacity(128)),
+            ..Default::default()
         }
     } else {
-        ProgramData {
-            vars: FxHashMap::default(),
-            initialized_vars: IndexSet::default(),
-            top: ScopeData::default(),
-            scopes: Vec::new(),
-            property_atoms: None,
-        }
+        ProgramData::default()
     };
 
     analyze_with_custom_storage(data, n, marks)
 }
 
 /// Analyzed info of a whole program we are working on.
+#[derive(Debug, Default)]
 pub(crate) struct ProgramData {
     pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
 
@@ -201,9 +193,7 @@ impl Storage for ProgramData {
         Self {
             scopes,
             property_atoms,
-            vars: FxHashMap::default(),
-            initialized_vars: IndexSet::default(),
-            top: ScopeData::default(),
+            ..Default::default()
         }
     }
 
