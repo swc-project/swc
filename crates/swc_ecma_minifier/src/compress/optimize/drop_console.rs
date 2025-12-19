@@ -1,9 +1,9 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
-use super::Pure;
+use super::Optimizer;
 
-impl Pure<'_> {
+impl Optimizer<'_> {
     pub(super) fn drop_console(&mut self, e: &mut Expr) -> bool {
         if !self.options.drop_console {
             return false;

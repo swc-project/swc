@@ -1,9 +1,9 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
-use super::Pure;
+use super::Optimizer;
 
-impl Pure<'_> {
+impl Optimizer<'_> {
     /// Drop arguments of `Symbol()` call.
     pub(super) fn drop_arguments_of_symbol_call(&mut self, e: &mut CallExpr) {
         if !self.options.unsafe_symbols {
@@ -21,6 +21,6 @@ impl Pure<'_> {
         }
 
         e.args
-            .retain(|arg| arg.expr.may_have_side_effects(self.expr_ctx));
+            .retain(|arg| arg.expr.may_have_side_effects(self.ctx.expr_ctx));
     }
 }

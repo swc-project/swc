@@ -20,7 +20,6 @@ mod bools;
 mod conds;
 mod ctx;
 mod dead_code;
-mod drop_console;
 mod evaluate;
 mod if_return;
 mod loops;
@@ -31,7 +30,6 @@ mod properties;
 mod sequences;
 mod strings;
 mod switches;
-mod unsafes;
 mod vars;
 
 #[derive(Debug, Clone, Copy)]
@@ -280,8 +278,6 @@ impl VisitMut for Pure<'_> {
         });
 
         self.eval_spread_array_in_args(&mut e.args);
-
-        self.drop_arguments_of_symbol_call(e);
     }
 
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
@@ -440,12 +436,6 @@ impl VisitMut for Pure<'_> {
         self.eval_str_addition(e);
 
         if self.changed {
-            self.remove_invalid(e);
-        }
-
-        let changed = self.drop_console(e);
-
-        if changed {
             self.remove_invalid(e);
         }
 

@@ -40,6 +40,7 @@ mod arguments;
 mod bools;
 mod conditionals;
 mod dead_code;
+mod drop_console;
 mod evaluate;
 mod if_return;
 mod iife;
@@ -50,6 +51,7 @@ mod props;
 mod rest_params;
 mod sequences;
 mod strings;
+mod unsafes;
 mod unused;
 mod util;
 
@@ -1692,6 +1694,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
+        self.drop_arguments_of_symbol_call(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -1933,6 +1936,12 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.compress_typeofs(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.drop_console(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
