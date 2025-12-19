@@ -1941,11 +1941,7 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        let changed = self.drop_console(e);
-
-        if changed {
-            self.remove_invalid(e);
-        }
+        self.drop_console(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
