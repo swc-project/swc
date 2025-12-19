@@ -59,6 +59,10 @@ pub fn hook() -> impl VisitMutHook<TraverseCtx> {
 struct ClassPropertiesPass {
     cls: ClassData,
     cls_stack: Vec<ClassData>,
+
+    /// Stack of statement pointers for class declarations
+    /// Used to inject static initializers after the class statement
+    pending_class_stmt_stack: Vec<Option<*const Stmt>>,
 }
 
 #[derive(Default)]
@@ -695,41 +699,146 @@ impl ClassPropertiesPass {
         Some(c)
     }
 
-    fn emit_static_initializers(&mut self, _class_ident: &Ident, _ctx: &mut TraverseCtx) {
-        // Get the class declaration statement address for injection
-        // We'll inject statements after the class declaration
+    fn emit_static_initializers(&mut self, class_ident: &Ident, ctx: &mut TraverseCtx) {
+        let stmt_addr = self.pending_class_stmt_stack.last().and_then(|o| *o);
+
+        let mut stmts_to_inject = Vec::new();
 
         // Private method declarations
-        for _decl in take(&mut self.cls.private_method_decls) {
-            // We need to inject these as statements in the current block
-            // For now, we'll use the var_declarations mechanism
-            // TODO: Use statement_injector when we have the class decl address
-        }
+        stmts_to_inject.extend(take(&mut self.cls.private_method_decls));
 
         // Static property initializers
-        for _init in take(&mut self.cls.static_props) {
+        for init in take(&mut self.cls.static_props) {
             // Create assignment statement: ClassName.prop = value
-            // TODO: Use statement_injector to inject after class
+            let assign_stmt = Stmt::Expr(ExprStmt {
+                span: init.span,
+                expr: Box::new(
+                    AssignExpr {
+                        span: init.span,
+                        op: op!("="),
+                        left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                            span: init.span,
+                            obj: Box::new(class_ident.clone().into()),
+                            prop: match init.name {
+                                PropName::Ident(id) => MemberProp::Ident(id),
+                                PropName::Str(s) => MemberProp::Computed(ComputedPropName {
+                                    span: s.span,
+                                    expr: Box::new(s.into()),
+                                }),
+                                PropName::Num(n) => MemberProp::Computed(ComputedPropName {
+                                    span: n.span,
+                                    expr: Box::new(n.into()),
+                                }),
+                                PropName::Computed(c) => MemberProp::Computed(c),
+                                PropName::BigInt(b) => MemberProp::Computed(ComputedPropName {
+                                    span: b.span,
+                                    expr: Box::new(b.into()),
+                                }),
+                            },
+                        })),
+                        right: init.value,
+                    }
+                    .into(),
+                ),
+            });
+            stmts_to_inject.push(assign_stmt);
         }
 
         // Private static property initializers
-        for _init in take(&mut self.cls.private_static_props) {
+        for init in take(&mut self.cls.private_static_props) {
             // Create WeakMap.set(ClassName, value)
-            // TODO: Use statement_injector to inject after class
+            let weak_map_ident = init.name.clone();
+            let set_stmt = Stmt::Expr(ExprStmt {
+                span: init.span,
+                expr: Box::new(
+                    CallExpr {
+                        span: init.span,
+                        callee: weak_map_ident
+                            .clone()
+                            .make_member(quote_ident!("set"))
+                            .as_callee(),
+                        args: vec![
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(class_ident.clone().into()),
+                            },
+                            ExprOrSpread {
+                                spread: None,
+                                expr: init.value,
+                            },
+                        ],
+                        type_args: Default::default(),
+                        ctxt: Default::default(),
+                    }
+                    .into(),
+                ),
+            });
+            stmts_to_inject.push(set_stmt);
         }
 
         // Private static accessor initializers
-        for _init in take(&mut self.cls.private_static_accessors) {
+        for init in take(&mut self.cls.private_static_accessors) {
             // Create WeakMap.set(ClassName, descriptor)
-            // TODO: Use statement_injector to inject after class
+            let weak_map_ident = init.name.clone();
+            let descriptor = create_accessor_desc(init.getter, init.setter);
+
+            let set_stmt = Stmt::Expr(ExprStmt {
+                span: init.span,
+                expr: Box::new(
+                    CallExpr {
+                        span: init.span,
+                        callee: weak_map_ident
+                            .clone()
+                            .make_member(quote_ident!("set"))
+                            .as_callee(),
+                        args: vec![
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(class_ident.clone().into()),
+                            },
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(descriptor.into()),
+                            },
+                        ],
+                        type_args: Default::default(),
+                        ctxt: Default::default(),
+                    }
+                    .into(),
+                ),
+            });
+            stmts_to_inject.push(set_stmt);
+        }
+
+        // Inject all statements after the class declaration
+        if let Some(addr) = stmt_addr {
+            if !stmts_to_inject.is_empty() {
+                ctx.statement_injector
+                    .insert_many_after(addr, stmts_to_inject);
+            }
         }
     }
 }
 
 impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
+    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        // Store the statement address if it's a class declaration
+        // This allows us to inject statements after the class
+        if matches!(stmt, Stmt::Decl(Decl::Class(_))) {
+            self.pending_class_stmt_stack
+                .push(Some(stmt as *const Stmt));
+        }
+    }
+
     fn enter_class_decl(&mut self, n: &mut ClassDecl, _ctx: &mut TraverseCtx) {
         let old_cls = take(&mut self.cls);
         self.cls_stack.push(old_cls);
+
+        // If we're entering a nested class without a statement address (e.g., in an
+        // expression), push None to keep the stacks aligned
+        if self.cls_stack.len() > 1 && self.pending_class_stmt_stack.len() < self.cls_stack.len() {
+            self.pending_class_stmt_stack.push(None);
+        }
 
         self.cls.mark = Mark::fresh(Mark::root());
         self.cls.ident = Some(n.ident.clone());
@@ -744,12 +853,20 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
 
         self.emit_static_initializers(&class_ident, ctx);
 
+        // Pop the statement address if it was pushed
+        if !self.pending_class_stmt_stack.is_empty() {
+            self.pending_class_stmt_stack.pop();
+        }
+
         self.cls = self.cls_stack.pop().unwrap();
     }
 
     fn enter_class_expr(&mut self, n: &mut ClassExpr, _ctx: &mut TraverseCtx) {
         let old_cls = take(&mut self.cls);
         self.cls_stack.push(old_cls);
+
+        // ClassExpr is not a statement, so push None to keep stacks aligned
+        self.pending_class_stmt_stack.push(None);
 
         self.cls.mark = Mark::fresh(Mark::root());
         self.cls.ident.clone_from(&n.ident);
@@ -763,6 +880,11 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         n.class.body = new_members;
 
         self.emit_static_initializers(&class_ident, ctx);
+
+        // Pop the None we pushed in enter_class_expr
+        if !self.pending_class_stmt_stack.is_empty() {
+            self.pending_class_stmt_stack.pop();
+        }
 
         self.cls = self.cls_stack.pop().unwrap();
     }
