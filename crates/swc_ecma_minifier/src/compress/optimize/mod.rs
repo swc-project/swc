@@ -23,7 +23,10 @@ use self::{
     unused::PropertyAccessOpts,
     util::{extract_class_side_effect, Finalizer, NormalMultiReplacer, SynthesizedStmts},
 };
-use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
+use super::{
+    pure::PureOptimizerConfig,
+    util::{drop_invalid_stmts, is_fine_for_if_cons},
+};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
@@ -48,6 +51,21 @@ mod inline;
 mod loops;
 mod ops;
 mod props;
+mod pure_arrows;
+mod pure_bools;
+mod pure_conds;
+mod pure_dead_code;
+mod pure_evaluate;
+mod pure_if_return;
+mod pure_loops;
+mod pure_member_expr;
+pub(super) mod pure_misc;
+mod pure_numbers;
+mod pure_properties;
+mod pure_sequences;
+pub(super) mod pure_strings;
+mod pure_switches;
+mod pure_vars;
 mod rest_params;
 mod sequences;
 mod strings;
@@ -62,6 +80,7 @@ pub(super) fn optimizer<'a>(
     mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
+    config: PureOptimizerConfig,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -93,6 +112,7 @@ pub(super) fn optimizer<'a>(
         ctx,
         mode,
         functions: Default::default(),
+        config,
     }
 }
 
@@ -242,6 +262,8 @@ struct Optimizer<'a> {
     mode: &'a dyn Mode,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
+
+    config: PureOptimizerConfig,
 }
 
 #[derive(Default)]

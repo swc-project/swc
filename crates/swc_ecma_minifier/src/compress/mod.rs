@@ -185,6 +185,10 @@ impl Compressor<'_> {
                 self.mangle_options,
                 &mut data,
                 self.mode,
+                PureOptimizerConfig {
+                    enable_join_vars: self.pass > 1,
+                    force_str_for_tpl: self.mode.force_str_for_tpl(),
+                },
             );
             n.visit_mut_with(&mut visitor);
 
