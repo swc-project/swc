@@ -60,12 +60,7 @@ impl<I: Tokens> Parser<I> {
         let cur = self.input.cur();
         debug_assert!(cur == Token::JSXText);
 
-        let value = self
-            .input
-            .expect_string_token_value()
-            .as_atom()
-            .cloned()
-            .unwrap();
+        let value = self.input.expect_jsx_text_token_value();
         let raw = Atom::new(self.input.cur_string());
 
         self.input.scan_jsx_token(true);

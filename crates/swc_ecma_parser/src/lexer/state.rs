@@ -495,8 +495,7 @@ impl Lexer<'_> {
             self.atom(value)
         };
 
-        self.state.set_token_value(TokenValue::Str(value.into()));
-
+        self.state.set_token_value(TokenValue::JsxText(value));
         Ok(Token::JSXText)
     }
 

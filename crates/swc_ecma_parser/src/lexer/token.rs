@@ -16,8 +16,10 @@ pub enum TokenValue {
     /// unknown ident, jsx name and shebang
     Word(Atom),
     Template(LexResult<Wtf8Atom>),
-    // string, jsx text
+    // string
     Str(Wtf8Atom),
+    // jsx text
+    JsxText(Atom),
     // regexp
     Regex(BytePos),
     Num(f64),
@@ -396,12 +398,6 @@ impl<'a> Token {
     #[inline(always)]
     pub fn take_unknown_ident_ref<'b, I: Tokens>(&'b self, buffer: &'b Buffer<I>) -> &'b Atom {
         buffer.expect_word_token_value_ref()
-    }
-
-    #[inline(always)]
-    pub fn jsx_text(value: Wtf8Atom, lexer: &mut Lexer) -> Self {
-        lexer.set_token_value(Some(TokenValue::Str(value)));
-        Token::JSXText
     }
 
     #[inline(always)]
