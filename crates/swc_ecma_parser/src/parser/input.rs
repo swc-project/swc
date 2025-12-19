@@ -112,6 +112,13 @@ impl<I: Tokens> Buffer<I> {
         value
     }
 
+    pub fn expect_jsx_text_token_value(&mut self) -> Atom {
+        let Some(crate::lexer::TokenValue::JsxText(value)) = self.iter.take_token_value() else {
+            unreachable!()
+        };
+        value
+    }
+
     pub fn expect_bigint_token_value(&mut self) -> Box<num_bigint::BigInt> {
         let Some(crate::lexer::TokenValue::BigInt(value)) = self.iter.take_token_value() else {
             unreachable!()
@@ -313,11 +320,6 @@ impl<I: Tokens> Buffer<I> {
         let word = cur.take_jsx_name(self);
         self.bump();
         word
-    }
-
-    pub fn expect_jsx_text_token(&mut self) -> Atom {
-        let ret = self.expect_string_token_value();
-        ret.as_atom().cloned().unwrap()
     }
 
     pub fn expect_error_token_and_bump(&mut self) -> Error {
