@@ -16,7 +16,6 @@ struct EdgeDefaultParam {
     in_arrow: bool,
 }
 
-#[swc_trace]
 impl VisitMut for EdgeDefaultParam {
     noop_visit_mut_type!(fail);
 

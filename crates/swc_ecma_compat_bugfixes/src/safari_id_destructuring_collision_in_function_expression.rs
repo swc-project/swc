@@ -30,7 +30,6 @@ impl SafariIdDestructuringCollisionInFunctionExpression {
     }
 }
 
-#[swc_trace]
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!(fail);
 

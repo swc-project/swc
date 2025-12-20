@@ -36,7 +36,6 @@ struct ParentScope<'a> {
     vars: &'a IndexMap<Id, VarDeclKind, FxBuildHasher>,
 }
 
-#[swc_trace]
 impl BlockScopedVars {
     fn add_usage(&mut self, id: Id) {
         if !self.scope.usages.contains(&id) {
@@ -103,7 +102,6 @@ impl BlockScopedVars {
     }
 }
 
-#[swc_trace]
 impl Scope {
     fn rename(&mut self, parent: ParentScope, rename_map: &mut FxHashMap<Id, Id>, fn_only: bool) {
         for s in self.children.iter_mut() {
@@ -234,7 +232,6 @@ impl ParentScope<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for BlockScopedVars {
     noop_visit_mut_type!(fail);
 

@@ -41,7 +41,6 @@ impl Parallel for TemplateLiteral {
     }
 }
 
-#[swc_trace]
 impl VisitMut for TemplateLiteral {
     noop_visit_mut_type!(fail);
 

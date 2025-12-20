@@ -6,7 +6,6 @@ pub(super) struct ThisInStaticFolder {
     pub ident: Ident,
 }
 
-#[swc_trace]
 impl VisitMut for ThisInStaticFolder {
     noop_visit_mut_type!(fail);
 
@@ -26,7 +25,6 @@ impl VisitMut for ThisInStaticFolder {
 
 pub(super) struct NewTargetInProp;
 
-#[swc_trace]
 impl VisitMut for NewTargetInProp {
     noop_visit_mut_type!(fail);
 
