@@ -89,6 +89,7 @@ fn simple() {
     );
     assert_eq!(eval("const high = '\\uD83D';", "high").unwrap(), "\\uD83D");
     assert_eq!(eval("const low = '\\uDCA9';", "low").unwrap(), "\\uDCA9");
+    assert_eq!(eval("", "'1' + '2'").unwrap(), "12");
 }
 
 #[test]

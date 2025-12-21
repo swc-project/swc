@@ -100,6 +100,19 @@ impl Evaluator {
         }
     }
 
+    pub fn store(&self, id: Id, value: &Expr) {
+        self.data.store(id, value);
+    }
+
+    pub fn resolve_identifier(&mut self, ident: &Ident) -> Option<Box<Expr>> {
+        self.run();
+
+        let lock = self.data.store.lock();
+        let val = lock.cache.get(&ident.to_id())?;
+
+        Some(val.clone())
+    }
+
     pub fn eval(&mut self, e: &Expr) -> Option<EvalResult> {
         match e {
             Expr::Seq(s) => return self.eval(s.exprs.last()?),
@@ -185,16 +198,45 @@ impl Evaluator {
         Some(EvalResult::Lit(self.eval_as_expr(e)?.lit()?))
     }
 
-    fn eval_as_expr(&mut self, e: &Expr) -> Option<Box<Expr>> {
+    pub fn eval_as_expr(&mut self, e: &Expr) -> Option<Box<Expr>> {
         match e {
-            Expr::Ident(i) => {
-                self.run();
+            Expr::Bin(BinExpr {
+                span,
+                op,
+                left,
+                right,
+            }) => {
+                let l = if left.is_lit() {
+                    left.clone()
+                } else {
+                    self.eval_as_expr(left)?
+                };
+                let r = if right.is_lit() {
+                    right.clone()
+                } else {
+                    self.eval_as_expr(right)?
+                };
 
-                let lock = self.data.store.lock();
-                let val = lock.cache.get(&i.to_id())?;
+                let mut e: Expr = BinExpr {
+                    span: *span,
+                    op: *op,
+                    left: l,
+                    right: r,
+                }
+                .into();
 
-                return Some(val.clone());
+                e.visit_mut_with(&mut pure_optimizer(
+                    &Default::default(),
+                    self.marks,
+                    PureOptimizerConfig {
+                        enable_join_vars: true,
+                        force_str_for_tpl: self.data.force_str_for_tpl(),
+                    },
+                ));
+                return Some(Box::new(e));
             }
+
+            Expr::Ident(i) => return self.resolve_identifier(i),
 
             Expr::Member(MemberExpr {
                 span, obj, prop, ..
