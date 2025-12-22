@@ -61,6 +61,7 @@ pub fn hook(assumptions: Assumptions) -> impl VisitMutHook<TraverseCtx> {
     }
 }
 
+#[derive(Default)]
 struct ClassPropertiesPass {
     cls: ClassData,
     cls_stack: Vec<ClassData>,
@@ -75,18 +76,6 @@ struct ClassPropertiesPass {
     /// Pending class expression transformation
     /// (class_ident, static_initializers, private_method_decls)
     pending_class_expr: Option<(Ident, Vec<Box<Expr>>, Vec<Stmt>)>,
-}
-
-impl Default for ClassPropertiesPass {
-    fn default() -> Self {
-        Self {
-            cls: Default::default(),
-            cls_stack: Default::default(),
-            assumptions: Default::default(),
-            pending_class_injection: None,
-            pending_class_expr: None,
-        }
-    }
 }
 
 #[derive(Default)]
@@ -665,7 +654,7 @@ impl ClassPropertiesPass {
         mut constructor: Option<Constructor>,
         has_super: bool,
         class_span: Span,
-        ctx: &mut TraverseCtx,
+        _: &mut TraverseCtx,
     ) -> Option<Constructor> {
         let has_initializers = !self.cls.instance_props.is_empty()
             || !self.cls.private_instance_props.is_empty()
