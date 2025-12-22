@@ -727,10 +727,10 @@ impl ClassPropertiesPass {
     fn emit_static_initializers(&mut self, class_ident: &Ident, ctx: &mut TraverseCtx) {
         let stmt_addr = self.pending_class_stmt_stack.last().and_then(|o| *o);
 
-        let mut stmts_to_inject = Vec::new();
-
-        // Private method declarations
-        stmts_to_inject.extend(take(&mut self.cls.private_method_decls));
+        // Separate private method declarations (go before class) from static
+        // initializers (go after class)
+        let private_method_decls = take(&mut self.cls.private_method_decls);
+        let mut static_initializers = Vec::new();
 
         // Static property initializers
         for init in take(&mut self.cls.static_props) {
@@ -766,7 +766,7 @@ impl ClassPropertiesPass {
                     .into(),
                 ),
             });
-            stmts_to_inject.push(assign_stmt);
+            static_initializers.push(assign_stmt);
         }
 
         // Private static property initializers
@@ -798,7 +798,7 @@ impl ClassPropertiesPass {
                     .into(),
                 ),
             });
-            stmts_to_inject.push(set_stmt);
+            static_initializers.push(set_stmt);
         }
 
         // Private static accessor initializers
@@ -832,14 +832,22 @@ impl ClassPropertiesPass {
                     .into(),
                 ),
             });
-            stmts_to_inject.push(set_stmt);
+            static_initializers.push(set_stmt);
         }
 
-        // Inject all statements after the class declaration
+        // Inject statements at the appropriate positions
         if let Some(addr) = stmt_addr {
-            if !stmts_to_inject.is_empty() {
+            // Private method declarations must be injected BEFORE the class
+            // because they are referenced in the constructor
+            if !private_method_decls.is_empty() {
                 ctx.statement_injector
-                    .insert_many_after(addr, stmts_to_inject);
+                    .insert_many_before(addr, private_method_decls);
+            }
+
+            // Static initializers are injected AFTER the class
+            if !static_initializers.is_empty() {
+                ctx.statement_injector
+                    .insert_many_after(addr, static_initializers);
             }
         }
     }
