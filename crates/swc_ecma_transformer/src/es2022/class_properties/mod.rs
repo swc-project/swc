@@ -47,7 +47,9 @@ use swc_ecma_utils::{
     alias_ident_for, alias_if_required, default_constructor_with_span, is_literal, private_ident,
     quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use crate::TraverseCtx;
 
@@ -235,6 +237,14 @@ impl ClassPropertiesPass {
                             **expr = ident.into();
                         }
                     }
+
+                    // Transform private field accesses in method body
+                    if let Some(body) = &mut method.function.body {
+                        let mut visitor =
+                            PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
+                        body.visit_mut_with(&mut visitor);
+                    }
+
                     new_members.push(ClassMember::Method(method));
                 }
                 ClassMember::ClassProp(prop) => {
@@ -374,7 +384,7 @@ impl ClassPropertiesPass {
         }
     }
 
-    fn process_private_method(&mut self, method: PrivateMethod, ctx: &mut TraverseCtx) {
+    fn process_private_method(&mut self, mut method: PrivateMethod, ctx: &mut TraverseCtx) {
         let is_static = method.is_static;
         let prop_span = method.span;
 
@@ -401,6 +411,12 @@ impl ClassPropertiesPass {
             method.key.span,
             SyntaxContext::empty().apply_mark(self.cls.mark),
         );
+
+        // Transform private field accesses in method body
+        if let Some(body) = &mut method.function.body {
+            let mut visitor = PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
+            body.visit_mut_with(&mut visitor);
+        }
 
         // Collect used names
         method.function.visit_with(&mut UsedNameCollector {
@@ -538,7 +554,7 @@ impl ClassPropertiesPass {
 
     fn process_constructor(
         &mut self,
-        constructor: Option<Constructor>,
+        mut constructor: Option<Constructor>,
         has_super: bool,
         class_span: Span,
     ) -> Option<Constructor> {
@@ -549,6 +565,15 @@ impl ClassPropertiesPass {
 
         if !has_initializers && constructor.is_none() {
             return None;
+        }
+
+        // Transform private field accesses in constructor body before adding
+        // initializers
+        if let Some(ref mut c) = constructor {
+            if let Some(ref mut body) = c.body {
+                let mut visitor = PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
+                body.visit_mut_with(&mut visitor);
+            }
         }
 
         let mut c =
@@ -995,4 +1020,403 @@ impl Visit for UsedNameCollector<'_> {
             _ => expr.visit_children_with(self),
         }
     }
+}
+
+/// Visitor that transforms private field accesses.
+///
+/// This visitor transforms private field and method accesses within class
+/// methods and constructors to use WeakMap/WeakSet operations:
+///
+/// - Private field reads: `this.#field` → `_field.get(this)`
+/// - Private field writes: `this.#field = value` → `_field.set(this, value)`
+/// - Private field updates: `this.#field++` → `_field.set(this,
+///   _field.get(this) + 1)`
+/// - Private method calls: `this.#method()` → `method.call(this, ...args)`
+/// - Private accessor reads: `this.#accessor` → `_accessor.get(this).get`
+struct PrivateAccessVisitor<'a> {
+    /// Map of private names to their kinds (field/method/accessor,
+    /// static/instance)
+    privates: &'a FxHashMap<Atom, PrivateKind>,
+    /// Mark used for hygiene
+    mark: Mark,
+    /// Current access type (unused for now, but could be used for optimization)
+    access_type: PrivateAccessType,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum PrivateAccessType {
+    Get,
+    Set,
+    Update,
+}
+
+impl Default for PrivateAccessType {
+    fn default() -> Self {
+        Self::Get
+    }
+}
+
+impl<'a> PrivateAccessVisitor<'a> {
+    fn new(privates: &'a FxHashMap<Atom, PrivateKind>, mark: Mark) -> Self {
+        Self {
+            privates,
+            mark,
+            access_type: PrivateAccessType::Get,
+        }
+    }
+
+    /// Transform a private member expression to a WeakMap get/set call
+    fn transform_private_access(&mut self, member: &mut MemberExpr) -> Option<Expr> {
+        let private_name = match &member.prop {
+            MemberProp::PrivateName(n) => n,
+            _ => return None,
+        };
+
+        // Check if this private name belongs to the current class
+        let kind = self.privates.get(&private_name.name)?;
+
+        let weak_coll_ident = Ident::new(
+            format!("_{}", private_name.name).into(),
+            private_name.span,
+            SyntaxContext::empty().apply_mark(self.mark),
+        );
+
+        let obj = member.obj.take();
+
+        match self.access_type {
+            PrivateAccessType::Get => {
+                if kind.is_method {
+                    // For methods, we need to check the WeakSet and return the method function
+                    if kind.has_getter || kind.has_setter {
+                        // Accessor: WeakMap.get(obj).get
+                        Some(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: weak_coll_ident
+                                    .make_member(quote_ident!("get"))
+                                    .as_callee(),
+                                args: vec![ExprOrSpread {
+                                    spread: None,
+                                    expr: obj,
+                                }],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            }
+                            .make_member(if kind.has_getter {
+                                quote_ident!("get")
+                            } else {
+                                quote_ident!("set")
+                            })
+                            .into(),
+                        )
+                    } else {
+                        // Regular method: just need to verify it's in the WeakSet
+                        // For now, we'll assume the brand check is done elsewhere
+                        // and just return a reference to the method
+                        let method_name = Ident::new(
+                            if private_name.name.is_reserved_in_any() {
+                                format!("__{}", private_name.name).into()
+                            } else {
+                                private_name.name.clone()
+                            },
+                            private_name.span,
+                            SyntaxContext::empty().apply_mark(self.mark),
+                        );
+                        Some(method_name.into())
+                    }
+                } else {
+                    // Field: WeakMap.get(obj)
+                    Some(
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: weak_coll_ident.make_member(quote_ident!("get")).as_callee(),
+                            args: vec![ExprOrSpread {
+                                spread: None,
+                                expr: obj,
+                            }],
+                            type_args: Default::default(),
+                            ctxt: Default::default(),
+                        }
+                        .into(),
+                    )
+                }
+            }
+            PrivateAccessType::Set => {
+                // This will be handled in the assignment expression visitor
+                None
+            }
+            PrivateAccessType::Update => {
+                // This will be handled in the update expression visitor
+                None
+            }
+        }
+    }
+}
+
+impl VisitMut for PrivateAccessVisitor<'_> {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        match expr {
+            Expr::Assign(assign) => {
+                // Handle assignment to private field
+                if let AssignTarget::Simple(SimpleAssignTarget::Member(member)) = &mut assign.left {
+                    if let MemberProp::PrivateName(private_name) = &member.prop {
+                        // Check if this is a private field of the current class
+                        if let Some(_kind) = self.privates.get(&private_name.name) {
+                            let weak_coll_ident = Ident::new(
+                                format!("_{}", private_name.name).into(),
+                                private_name.span,
+                                SyntaxContext::empty().apply_mark(self.mark),
+                            );
+
+                            assign.right.visit_mut_with(self);
+
+                            let obj = member.obj.take();
+                            let value = assign.right.take();
+
+                            if assign.op == op!("=") {
+                                // Simple assignment: WeakMap.set(obj, value)
+                                *expr = CallExpr {
+                                    span: assign.span,
+                                    callee: weak_coll_ident
+                                        .make_member(quote_ident!("set"))
+                                        .as_callee(),
+                                    args: vec![
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: obj,
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: value,
+                                        },
+                                    ],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
+                                .into();
+                            } else {
+                                // Compound assignment: WeakMap.set(obj, WeakMap.get(obj) op value)
+                                let obj_alias = alias_ident_for(&obj, "_obj");
+
+                                let get_call = CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: weak_coll_ident
+                                        .clone()
+                                        .make_member(quote_ident!("get"))
+                                        .as_callee(),
+                                    args: vec![ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(obj_alias.clone().into()),
+                                    }],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                };
+
+                                let bin_expr = BinExpr {
+                                    span: DUMMY_SP,
+                                    op: assign.op.to_update().unwrap(),
+                                    left: Box::new(get_call.into()),
+                                    right: value,
+                                };
+
+                                *expr = SeqExpr {
+                                    span: assign.span,
+                                    exprs: vec![
+                                        Box::new(
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: obj_alias.clone().into(),
+                                                right: obj,
+                                            }
+                                            .into(),
+                                        ),
+                                        Box::new(
+                                            CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: weak_coll_ident
+                                                    .make_member(quote_ident!("set"))
+                                                    .as_callee(),
+                                                args: vec![
+                                                    ExprOrSpread {
+                                                        spread: None,
+                                                        expr: Box::new(obj_alias.into()),
+                                                    },
+                                                    ExprOrSpread {
+                                                        spread: None,
+                                                        expr: Box::new(bin_expr.into()),
+                                                    },
+                                                ],
+                                                type_args: Default::default(),
+                                                ctxt: Default::default(),
+                                            }
+                                            .into(),
+                                        ),
+                                    ],
+                                }
+                                .into();
+                            }
+                            return;
+                        }
+                    }
+                }
+
+                // Not a private field assignment, continue visiting
+                expr.visit_mut_children_with(self);
+            }
+            Expr::Update(update) => {
+                // Handle ++/-- on private field
+                if let Expr::Member(member) = &mut *update.arg {
+                    if let MemberProp::PrivateName(private_name) = &member.prop {
+                        if let Some(_kind) = self.privates.get(&private_name.name) {
+                            let weak_coll_ident = Ident::new(
+                                format!("_{}", private_name.name).into(),
+                                private_name.span,
+                                SyntaxContext::empty().apply_mark(self.mark),
+                            );
+
+                            let obj = member.obj.take();
+                            let obj_alias = alias_ident_for(&obj, "_obj");
+
+                            let get_call = CallExpr {
+                                span: DUMMY_SP,
+                                callee: weak_coll_ident
+                                    .clone()
+                                    .make_member(quote_ident!("get"))
+                                    .as_callee(),
+                                args: vec![ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(obj_alias.clone().into()),
+                                }],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            };
+
+                            let update_expr = UpdateExpr {
+                                span: update.span,
+                                op: update.op,
+                                prefix: update.prefix,
+                                arg: Box::new(get_call.into()),
+                            };
+
+                            let set_call = CallExpr {
+                                span: DUMMY_SP,
+                                callee: weak_coll_ident
+                                    .make_member(quote_ident!("set"))
+                                    .as_callee(),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(obj_alias.clone().into()),
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(update_expr.into()),
+                                    },
+                                ],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            };
+
+                            *expr = SeqExpr {
+                                span: update.span,
+                                exprs: vec![
+                                    Box::new(
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("="),
+                                            left: obj_alias.into(),
+                                            right: obj,
+                                        }
+                                        .into(),
+                                    ),
+                                    Box::new(set_call.into()),
+                                ],
+                            }
+                            .into();
+                            return;
+                        }
+                    }
+                }
+
+                expr.visit_mut_children_with(self);
+            }
+            Expr::Call(call) => {
+                // Handle private method calls
+                if let Callee::Expr(callee_expr) = &mut call.callee {
+                    if let Expr::Member(member) = &mut **callee_expr {
+                        if let MemberProp::PrivateName(private_name) = &member.prop {
+                            if let Some(kind) = self.privates.get(&private_name.name) {
+                                if kind.is_method && !kind.has_getter && !kind.has_setter {
+                                    // Regular private method call
+                                    let method_name = Ident::new(
+                                        if private_name.name.is_reserved_in_any() {
+                                            format!("__{}", private_name.name).into()
+                                        } else {
+                                            private_name.name.clone()
+                                        },
+                                        private_name.span,
+                                        SyntaxContext::empty().apply_mark(self.mark),
+                                    );
+
+                                    let obj = member.obj.take();
+
+                                    // Transform to: method.call(obj, ...args)
+                                    call.args.visit_mut_with(self);
+                                    *expr = CallExpr {
+                                        span: call.span,
+                                        callee: method_name
+                                            .make_member(quote_ident!("call"))
+                                            .as_callee(),
+                                        args: std::iter::once(ExprOrSpread {
+                                            spread: None,
+                                            expr: obj,
+                                        })
+                                        .chain(call.args.take())
+                                        .collect(),
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                    .into();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                expr.visit_mut_children_with(self);
+            }
+            Expr::Member(member) => {
+                // Handle private field read
+                member.obj.visit_mut_with(self);
+
+                if let Some(transformed) = self.transform_private_access(member) {
+                    *expr = transformed;
+                } else {
+                    // If not transformed, it's not a private field of the current class
+                    member.visit_mut_children_with(self);
+                }
+            }
+            _ => {
+                expr.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    // Don't visit into nested functions/classes - they have their own scope
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        // Visit constructor body to transform private field accesses
+        if let Some(body) = &mut n.body {
+            body.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_class(&mut self, _: &mut Class) {}
 }
