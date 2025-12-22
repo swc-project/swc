@@ -36,8 +36,13 @@ yanked = "warn"
 # output a note when they are encountered.
 ignore = [
   #"RUSTSEC-0000-0000",
-  "RUSTSEC-2020-0071",
-  "RUSTSEC-2020-0159",
+  "RUSTSEC-2021-0139", # ansi_term is unmaintained
+  "RUSTSEC-2021-0145", # atty potential unaligned read
+  "RUSTSEC-2020-0095", # difference is unmaintained
+  "RUSTSEC-2023-0055", # lexical soundness issues
+  "RUSTSEC-2023-0086", # lexical-core soundness issues
+  "RUSTSEC-2025-0067", # libyml is unsound and unmaintained
+  "RUSTSEC-2025-0068", # serde_yml is unsound and unmaintained
 ]
 # Threshold for security vulnerabilities, any vulnerability with a CVSS score
 # lower than the range specified will be ignored. Note that ignored advisories
@@ -62,14 +67,12 @@ allow = [
   "Apache-2.0",
   "Apache-2.0 WITH LLVM-exception",
   "BSD-2-Clause",
-  "BSD-2-Clause-Patent",
   "BSD-3-Clause",
   "CC0-1.0",
   "ISC",
   "Zlib",
   "MPL-2.0",
   "0BSD",
-  "LicenseRef-ring",                #ring
   "Unicode-DFS-2016",               #unicode-ident
   "BSL-1.0",                        #xxhash-rust
   "Unicode-3.0",
@@ -81,7 +84,7 @@ allow = [
 confidence-threshold = 0.8
 # Allow 1 or more licenses on a per-crate basis, so that particular licenses
 # aren't accepted for every possible crate as with the normal allow list
-exceptions = [{ allow = ["BUSL-1.1"], name = "webc" }]
+exceptions = []
 
 [[licenses.clarify]]
 # The name of the crate the clarification applies to
@@ -96,11 +99,6 @@ expression = "Apache-2.0 AND BSD-3-Clause"
 # and the crate will be checked normally, which may produce warnings or errors
 # depending on the rest of your configuration
 license-files = [{ path = "COPYRIGHT", hash = 972598577 }]
-
-[[licenses.clarify]]
-expression    = "LicenseRef-ring"
-license-files = [{ path = "LICENSE", hash = 0xbd0eed23 }]
-name          = "ring"
 
 # Some crates don't have (easily) machine readable licensing information,
 # adding a clarification entry for it allows you to manually specify the
