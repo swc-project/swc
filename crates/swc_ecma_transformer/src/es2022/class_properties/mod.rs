@@ -243,6 +243,21 @@ impl ClassPropertiesPass {
                         let mut visitor =
                             PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
                         body.visit_mut_with(&mut visitor);
+
+                        // Prepend variable declarations if any were created
+                        if !visitor.vars.is_empty() {
+                            body.stmts.insert(
+                                0,
+                                VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    decls: visitor.vars,
+                                    ctxt: Default::default(),
+                                    declare: false,
+                                }
+                                .into(),
+                            );
+                        }
                     }
 
                     new_members.push(ClassMember::Method(method));
@@ -307,9 +322,9 @@ impl ClassPropertiesPass {
             }
         }
 
-        let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
+        let mut value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
-        // Collect used names
+        // Collect used names and transform this in static properties
         if !prop.is_static {
             if let PropName::Ident(ref id) = prop.key {
                 self.cls.used_key_names.push(id.sym.clone());
@@ -317,6 +332,13 @@ impl ClassPropertiesPass {
             value.visit_with(&mut UsedNameCollector {
                 used_names: &mut self.cls.used_names,
             });
+        } else {
+            // For static properties, replace `this` with class name
+            if let Some(class_ident) = &self.cls.ident {
+                value.visit_mut_with(&mut ThisInStaticFolder {
+                    ident: class_ident.clone(),
+                });
+            }
         }
 
         let init = PropInit {
@@ -341,7 +363,7 @@ impl ClassPropertiesPass {
             SyntaxContext::empty().apply_mark(self.cls.mark),
         );
 
-        let value = prop
+        let mut value = prop
             .value
             .take()
             .unwrap_or_else(|| Expr::undefined(prop_span));
@@ -351,6 +373,13 @@ impl ClassPropertiesPass {
             value.visit_with(&mut UsedNameCollector {
                 used_names: &mut self.cls.used_names,
             });
+        } else {
+            // For static properties, replace `this` with class name
+            if let Some(class_ident) = &self.cls.ident {
+                value.visit_mut_with(&mut ThisInStaticFolder {
+                    ident: class_ident.clone(),
+                });
+            }
         }
 
         // Create WeakMap variable for private field
@@ -416,6 +445,21 @@ impl ClassPropertiesPass {
         if let Some(body) = &mut method.function.body {
             let mut visitor = PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
             body.visit_mut_with(&mut visitor);
+
+            // Prepend variable declarations if any were created
+            if !visitor.vars.is_empty() {
+                body.stmts.insert(
+                    0,
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: visitor.vars,
+                        ctxt: Default::default(),
+                        declare: false,
+                    }
+                    .into(),
+                );
+            }
         }
 
         // Collect used names
@@ -584,12 +628,16 @@ impl ClassPropertiesPass {
             return None;
         }
 
+        // Store visitor vars to prepend later
+        let mut constructor_vars = Vec::new();
+
         // Transform private field accesses in constructor body before adding
         // initializers
         if let Some(ref mut c) = constructor {
             if let Some(ref mut body) = c.body {
                 let mut visitor = PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
                 body.visit_mut_with(&mut visitor);
+                constructor_vars = visitor.vars;
             }
         }
 
@@ -735,6 +783,21 @@ impl ClassPropertiesPass {
             // Insert initializers
             for (i, stmt) in initializers.into_iter().enumerate() {
                 body.stmts.insert(insert_pos + i, stmt);
+            }
+
+            // Insert variable declarations at the same position as initializers
+            if !constructor_vars.is_empty() {
+                body.stmts.insert(
+                    insert_pos,
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: constructor_vars,
+                        ctxt: Default::default(),
+                        declare: false,
+                    }
+                    .into(),
+                );
             }
         }
 
@@ -939,6 +1002,71 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
             }
         }
     }
+
+    fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
+        // Check if we have pending injections from a class declaration
+        if let Some((before_stmts, after_stmts)) = self.pending_class_injection.take() {
+            // Find the class declaration in the module item list
+            let mut class_idx = None;
+            for (i, item) in items.iter().enumerate() {
+                if matches!(
+                    item,
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Class(_)))
+                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            decl: Decl::Class(_),
+                            ..
+                        }))
+                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
+                            ExportDefaultDecl {
+                                decl: DefaultDecl::Class(_),
+                                ..
+                            }
+                        ))
+                ) {
+                    class_idx = Some(i);
+                    break;
+                }
+            }
+
+            if let Some(idx) = class_idx {
+                // Insert after statements first (to maintain correct indices)
+                for (offset, stmt) in after_stmts.into_iter().enumerate() {
+                    items.insert(idx + 1 + offset, ModuleItem::Stmt(stmt));
+                }
+
+                // Then insert before statements
+                for (offset, stmt) in before_stmts.into_iter().enumerate() {
+                    items.insert(idx + offset, ModuleItem::Stmt(stmt));
+                }
+            }
+        }
+    }
+}
+
+// Helper visitor to replace `this` with class name in static property
+// initializers
+struct ThisInStaticFolder {
+    ident: Ident,
+}
+
+impl VisitMut for ThisInStaticFolder {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {
+        // Don't visit constructors
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::This(..) = e {
+            *e = self.ident.clone().into();
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {
+        // Don't visit nested functions
+    }
 }
 
 // Helper functions
@@ -1068,11 +1196,17 @@ struct PrivateAccessVisitor<'a> {
     privates: &'a FxHashMap<Atom, PrivateKind>,
     /// Mark used for hygiene
     mark: Mark,
+    /// Variables that need to be declared in the enclosing function scope
+    vars: Vec<VarDeclarator>,
 }
 
 impl<'a> PrivateAccessVisitor<'a> {
     fn new(privates: &'a FxHashMap<Atom, PrivateKind>, mark: Mark) -> Self {
-        Self { privates, mark }
+        Self {
+            privates,
+            mark,
+            vars: Vec::new(),
+        }
     }
 }
 
@@ -1103,6 +1237,14 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                 if kind.is_method && kind.has_setter {
                                     // Accessor setter: _accessor.get(obj).set.call(obj, value)
                                     let obj_alias = alias_ident_for(&obj, "_obj");
+
+                                    // Declare the variable
+                                    self.vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: obj_alias.clone().into(),
+                                        init: None,
+                                        definite: false,
+                                    });
 
                                     *expr = SeqExpr {
                                         span: assign.span,
@@ -1179,6 +1321,14 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                             } else {
                                 // Compound assignment: get old value, compute new, set
                                 let obj_alias = alias_ident_for(&obj, "_obj");
+
+                                // Declare the variable
+                                self.vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: obj_alias.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
 
                                 let get_call = if kind.is_method && kind.has_getter {
                                     // Accessor getter: _accessor.get(obj).get.call(obj)
@@ -1324,6 +1474,14 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                             let obj = member.obj.take();
                             let obj_alias = alias_ident_for(&obj, "_obj");
 
+                            // Declare the variable
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: obj_alias.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
+
                             let get_call = if kind.is_method && kind.has_getter {
                                 // Accessor getter: _accessor.get(obj).get.call(obj)
                                 CallExpr {
@@ -1368,83 +1526,236 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                 }
                             };
 
-                            let update_expr = UpdateExpr {
-                                span: update.span,
-                                op: update.op,
-                                prefix: update.prefix,
-                                arg: Box::new(get_call.into()),
+                            // For update expressions, we need to:
+                            // 1. Get the old value
+                            // 2. Compute the new value (old + 1 or old - 1)
+                            // 3. Set the new value
+                            // 4. Return old (for postfix) or new (for prefix)
+                            //
+                            // For postfix `this.#a++`:
+                            //   var _this, _old;
+                            //   _this = this, _old = _a.get(_this), _a.set(_this, _old + 1), _old
+                            //
+                            // For prefix `++this.#a`:
+                            //   var _this, _new;
+                            //   _this = this, _new = _a.get(_this) + 1, _a.set(_this, _new), _new
+
+                            let bin_op = if update.op == op!("++") {
+                                op!(bin, "+")
+                            } else {
+                                op!(bin, "-")
                             };
 
-                            let set_call = if kind.is_method && kind.has_setter {
-                                // Accessor setter: _accessor.get(obj).set.call(obj, value)
-                                CallExpr {
+                            if update.prefix {
+                                // Prefix: compute new value, set it, return it
+                                let new_value_ident = alias_ident_for(&obj, "_new");
+                                self.vars.push(VarDeclarator {
                                     span: DUMMY_SP,
-                                    callee: CallExpr {
+                                    name: new_value_ident.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+
+                                let new_value_expr = BinExpr {
+                                    span: DUMMY_SP,
+                                    op: bin_op,
+                                    left: Box::new(get_call.into()),
+                                    right: Box::new(
+                                        Lit::Num(Number {
+                                            span: DUMMY_SP,
+                                            value: 1.0,
+                                            raw: None,
+                                        })
+                                        .into(),
+                                    ),
+                                };
+
+                                let set_call = if kind.is_method && kind.has_setter {
+                                    // Accessor setter
+                                    CallExpr {
                                         span: DUMMY_SP,
-                                        callee: weak_coll_ident
-                                            .make_member(quote_ident!("get"))
-                                            .as_callee(),
-                                        args: vec![ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(obj_alias.clone().into()),
-                                        }],
+                                        callee: CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: weak_coll_ident
+                                                .make_member(quote_ident!("get"))
+                                                .as_callee(),
+                                            args: vec![ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            }],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                        .make_member(quote_ident!("set"))
+                                        .make_member(quote_ident!("call"))
+                                        .as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(new_value_ident.clone().into()),
+                                            },
+                                        ],
                                         type_args: Default::default(),
                                         ctxt: Default::default(),
                                     }
-                                    .make_member(quote_ident!("set"))
-                                    .make_member(quote_ident!("call"))
-                                    .as_callee(),
-                                    args: vec![
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(obj_alias.clone().into()),
-                                        },
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(update_expr.into()),
-                                        },
-                                    ],
-                                    type_args: Default::default(),
-                                    ctxt: Default::default(),
-                                }
-                            } else {
-                                // Field: WeakMap.set(obj, value)
-                                CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: weak_coll_ident
-                                        .make_member(quote_ident!("set"))
-                                        .as_callee(),
-                                    args: vec![
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(obj_alias.clone().into()),
-                                        },
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(update_expr.into()),
-                                        },
-                                    ],
-                                    type_args: Default::default(),
-                                    ctxt: Default::default(),
-                                }
-                            };
+                                } else {
+                                    // Field: WeakMap.set
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: weak_coll_ident
+                                            .make_member(quote_ident!("set"))
+                                            .as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(new_value_ident.clone().into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                };
 
-                            *expr = SeqExpr {
-                                span: update.span,
-                                exprs: vec![
-                                    Box::new(
-                                        AssignExpr {
+                                *expr = SeqExpr {
+                                    span: update.span,
+                                    exprs: vec![
+                                        Box::new(
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: obj_alias.clone().into(),
+                                                right: obj,
+                                            }
+                                            .into(),
+                                        ),
+                                        Box::new(
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: new_value_ident.clone().into(),
+                                                right: Box::new(new_value_expr.into()),
+                                            }
+                                            .into(),
+                                        ),
+                                        Box::new(set_call.into()),
+                                        Box::new(new_value_ident.into()),
+                                    ],
+                                }
+                                .into();
+                            } else {
+                                // Postfix: get old value, compute and set new value, return old
+                                // value
+                                let old_value_ident = alias_ident_for(&obj, "_old");
+                                self.vars.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: old_value_ident.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+
+                                let new_value_expr = BinExpr {
+                                    span: DUMMY_SP,
+                                    op: bin_op,
+                                    left: Box::new(old_value_ident.clone().into()),
+                                    right: Box::new(
+                                        Lit::Num(Number {
                                             span: DUMMY_SP,
-                                            op: op!("="),
-                                            left: obj_alias.into(),
-                                            right: obj,
-                                        }
+                                            value: 1.0,
+                                            raw: None,
+                                        })
                                         .into(),
                                     ),
-                                    Box::new(set_call.into()),
-                                ],
+                                };
+
+                                let set_call = if kind.is_method && kind.has_setter {
+                                    // Accessor setter
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: weak_coll_ident
+                                                .make_member(quote_ident!("get"))
+                                                .as_callee(),
+                                            args: vec![ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            }],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                        .make_member(quote_ident!("set"))
+                                        .make_member(quote_ident!("call"))
+                                        .as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(new_value_expr.into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                } else {
+                                    // Field: WeakMap.set
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: weak_coll_ident
+                                            .make_member(quote_ident!("set"))
+                                            .as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(new_value_expr.into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                };
+
+                                *expr = SeqExpr {
+                                    span: update.span,
+                                    exprs: vec![
+                                        Box::new(
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: obj_alias.clone().into(),
+                                                right: obj,
+                                            }
+                                            .into(),
+                                        ),
+                                        Box::new(
+                                            AssignExpr {
+                                                span: DUMMY_SP,
+                                                op: op!("="),
+                                                left: old_value_ident.clone().into(),
+                                                right: Box::new(get_call.into()),
+                                            }
+                                            .into(),
+                                        ),
+                                        Box::new(set_call.into()),
+                                        Box::new(old_value_ident.into()),
+                                    ],
+                                }
+                                .into();
                             }
-                            .into();
                             return;
                         }
                     }
@@ -1501,6 +1812,14 @@ impl VisitMut for PrivateAccessVisitor<'_> {
 
                                     let obj = member.obj.take();
                                     let obj_alias = alias_ident_for(&obj, "_obj");
+
+                                    // Declare the variable
+                                    self.vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: obj_alias.clone().into(),
+                                        init: None,
+                                        definite: false,
+                                    });
 
                                     call.args.visit_mut_with(self);
 
@@ -1576,6 +1895,14 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                         if kind.is_method && kind.has_getter {
                             // Accessor getter: _accessor.get(obj).get.call(obj)
                             let obj_alias = alias_ident_for(&obj, "_obj");
+
+                            // Declare the variable
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: obj_alias.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
 
                             *expr = SeqExpr {
                                 span: member.span,
