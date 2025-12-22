@@ -277,8 +277,11 @@ impl ClassPropertiesPass {
 
                     // Transform private field accesses in method body
                     if let Some(body) = &mut method.function.body {
-                        let mut visitor =
-                            PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
+                        let mut visitor = PrivateAccessVisitor::new(
+                            &self.cls.privates,
+                            self.cls.mark,
+                            self.assumptions,
+                        );
                         body.visit_mut_with(&mut visitor);
 
                         // Prepend variable declarations if any were created
@@ -486,7 +489,8 @@ impl ClassPropertiesPass {
 
         // Transform private field accesses in method body
         if let Some(body) = &mut method.function.body {
-            let mut visitor = PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
+            let mut visitor =
+                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
             body.visit_mut_with(&mut visitor);
 
             // Prepend variable declarations if any were created
@@ -679,7 +683,8 @@ impl ClassPropertiesPass {
         // initializers
         if let Some(ref mut c) = constructor {
             if let Some(ref mut body) = c.body {
-                let mut visitor = PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark);
+                let mut visitor =
+                    PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
                 body.visit_mut_with(&mut visitor);
                 constructor_vars = visitor.vars;
             }
@@ -768,15 +773,17 @@ impl ClassPropertiesPass {
                 );
             }
 
-            // Private property initializers (WeakMap.set)
+            // Private property initializers
             for init in take(&mut self.cls.private_instance_props) {
+                use swc_ecma_transforms_base::helper;
+
                 initializers.push(
                     ExprStmt {
                         span: init.span,
                         expr: Box::new(
                             CallExpr {
                                 span: DUMMY_SP,
-                                callee: init.name.make_member(quote_ident!("set")).as_callee(),
+                                callee: helper!(class_private_field_init),
                                 args: vec![
                                     ExprOrSpread {
                                         spread: None,
@@ -784,7 +791,40 @@ impl ClassPropertiesPass {
                                     },
                                     ExprOrSpread {
                                         spread: None,
-                                        expr: init.value,
+                                        expr: Box::new(init.name.into()),
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(
+                                            ObjectLit {
+                                                span: DUMMY_SP,
+                                                props: vec![
+                                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                        KeyValueProp {
+                                                            key: PropName::Ident(quote_ident!(
+                                                                "writable"
+                                                            )),
+                                                            value: Box::new(
+                                                                Lit::Bool(Bool {
+                                                                    span: DUMMY_SP,
+                                                                    value: true,
+                                                                })
+                                                                .into(),
+                                                            ),
+                                                        },
+                                                    ))),
+                                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                        KeyValueProp {
+                                                            key: PropName::Ident(quote_ident!(
+                                                                "value"
+                                                            )),
+                                                            value: init.value,
+                                                        },
+                                                    ))),
+                                                ],
+                                            }
+                                            .into(),
+                                        ),
                                     },
                                 ],
                                 type_args: Default::default(),
@@ -1544,17 +1584,61 @@ struct PrivateAccessVisitor<'a> {
     privates: &'a FxHashMap<Atom, PrivateKind>,
     /// Mark used for hygiene
     mark: Mark,
+    /// Assumptions for optional chaining
+    assumptions: Assumptions,
     /// Variables that need to be declared in the enclosing function scope
     vars: Vec<VarDeclarator>,
 }
 
 impl<'a> PrivateAccessVisitor<'a> {
-    fn new(privates: &'a FxHashMap<Atom, PrivateKind>, mark: Mark) -> Self {
+    fn new(
+        privates: &'a FxHashMap<Atom, PrivateKind>,
+        mark: Mark,
+        assumptions: Assumptions,
+    ) -> Self {
         Self {
             privates,
             mark,
+            assumptions,
             vars: Vec::new(),
         }
+    }
+
+    /// Check if an OptChainExpr contains any private field accesses that belong
+    /// to the current class
+    fn has_private_access_in_opt_chain(&self, opt: &OptChainExpr) -> bool {
+        struct PrivateAccessChecker<'a> {
+            privates: &'a FxHashMap<Atom, PrivateKind>,
+            found: bool,
+        }
+
+        impl Visit for PrivateAccessChecker<'_> {
+            noop_visit_type!(fail);
+
+            fn visit_member_expr(&mut self, m: &MemberExpr) {
+                if let MemberProp::PrivateName(private_name) = &m.prop {
+                    if self.privates.contains_key(&private_name.name) {
+                        self.found = true;
+                        return;
+                    }
+                }
+                m.visit_children_with(self);
+            }
+
+            // Don't visit into nested functions/classes
+            fn visit_function(&mut self, _: &Function) {}
+
+            fn visit_class(&mut self, _: &Class) {}
+
+            fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+        }
+
+        let mut checker = PrivateAccessChecker {
+            privates: self.privates,
+            found: false,
+        };
+        opt.visit_with(&mut checker);
+        checker.found
     }
 }
 
@@ -1645,16 +1729,21 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     }
                                     .into();
                                 } else {
-                                    // Simple field assignment: WeakMap.set(obj, value)
+                                    // Simple field assignment: _class_private_field_set(obj,
+                                    // _field, value)
+                                    use swc_ecma_transforms_base::helper;
+
                                     *expr = CallExpr {
                                         span: assign.span,
-                                        callee: weak_coll_ident
-                                            .make_member(quote_ident!("set"))
-                                            .as_callee(),
+                                        callee: helper!(class_private_field_set),
                                         args: vec![
                                             ExprOrSpread {
                                                 spread: None,
                                                 expr: obj,
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.into()),
                                             },
                                             ExprOrSpread {
                                                 spread: None,
@@ -1706,17 +1795,22 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         ctxt: Default::default(),
                                     }
                                 } else {
-                                    // Field: WeakMap.get(obj)
+                                    // Field: _class_private_field_get(obj, _field)
+                                    use swc_ecma_transforms_base::helper;
+
                                     CallExpr {
                                         span: DUMMY_SP,
-                                        callee: weak_coll_ident
-                                            .clone()
-                                            .make_member(quote_ident!("get"))
-                                            .as_callee(),
-                                        args: vec![ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(obj_alias.clone().into()),
-                                        }],
+                                        callee: helper!(class_private_field_get),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.clone().into()),
+                                            },
+                                        ],
                                         type_args: Default::default(),
                                         ctxt: Default::default(),
                                     }
@@ -1762,16 +1856,20 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         ctxt: Default::default(),
                                     }
                                 } else {
-                                    // Field: WeakMap.set(obj, value)
+                                    // Field: _class_private_field_set(obj, _field, value)
+                                    use swc_ecma_transforms_base::helper;
+
                                     CallExpr {
                                         span: DUMMY_SP,
-                                        callee: weak_coll_ident
-                                            .make_member(quote_ident!("set"))
-                                            .as_callee(),
+                                        callee: helper!(class_private_field_set),
                                         args: vec![
                                             ExprOrSpread {
                                                 spread: None,
                                                 expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.into()),
                                             },
                                             ExprOrSpread {
                                                 spread: None,
@@ -2399,16 +2497,22 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                             );
                             *expr = method_name.into();
                         } else {
-                            // Field: WeakMap.get(obj)
+                            // Field: _class_private_field_get(obj, _field)
+                            use swc_ecma_transforms_base::helper;
+
                             *expr = CallExpr {
                                 span: DUMMY_SP,
-                                callee: weak_coll_ident
-                                    .make_member(quote_ident!("get"))
-                                    .as_callee(),
-                                args: vec![ExprOrSpread {
-                                    spread: None,
-                                    expr: obj,
-                                }],
+                                callee: helper!(class_private_field_get),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: obj,
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(weak_coll_ident.into()),
+                                    },
+                                ],
                                 type_args: Default::default(),
                                 ctxt: Default::default(),
                             }
@@ -2421,10 +2525,40 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 // If not transformed, it's not a private field of the current class
                 member.visit_mut_children_with(self);
             }
+            Expr::OptChain(opt_chain) => {
+                // Check if this optional chain contains private field accesses
+                let has_private_access = self.has_private_access_in_opt_chain(opt_chain);
+
+                if has_private_access {
+                    // Transform the optional chain inline, then continue transforming
+                    // the result
+                    use crate::es2020::optional_chaining_impl::optional_chaining_impl;
+
+                    let mut v = optional_chaining_impl(
+                        crate::es2020::optional_chaining_impl::Config {
+                            no_document_all: self.assumptions.no_document_all,
+                            pure_getter: self.assumptions.pure_getters,
+                        },
+                        Mark::new(),
+                    );
+                    expr.visit_mut_with(&mut v);
+                    self.vars.extend(v.take_vars());
+
+                    // Now continue visiting the transformed expression
+                    expr.visit_mut_with(self);
+                } else {
+                    opt_chain.visit_mut_children_with(self);
+                }
+            }
             _ => {
                 expr.visit_mut_children_with(self);
             }
         }
+    }
+
+    fn visit_mut_opt_chain_base(&mut self, base: &mut OptChainBase) {
+        // Visit children of OptChainBase to transform private field accesses
+        base.visit_mut_children_with(self);
     }
 
     // Don't visit into nested functions/classes - they have their own scope
