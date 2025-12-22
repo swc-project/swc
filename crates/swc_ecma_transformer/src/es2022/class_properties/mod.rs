@@ -43,6 +43,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, default_constructor_with_span, is_literal, private_ident,
     quote_ident, ExprFactory,
@@ -53,18 +54,39 @@ use swc_ecma_visit::{
 
 use crate::TraverseCtx;
 
-pub fn hook() -> impl VisitMutHook<TraverseCtx> {
-    ClassPropertiesPass::default()
+pub fn hook(assumptions: Assumptions) -> impl VisitMutHook<TraverseCtx> {
+    ClassPropertiesPass {
+        assumptions,
+        ..Default::default()
+    }
 }
 
-#[derive(Default)]
 struct ClassPropertiesPass {
     cls: ClassData,
     cls_stack: Vec<ClassData>,
 
+    /// Assumptions for transformation behavior
+    assumptions: Assumptions,
+
     /// Statements to inject before/after the current class declaration
-    /// (before_stmts, after_stmts)
-    pending_class_injection: Option<(Vec<Stmt>, Vec<Stmt>)>,
+    /// (class_ident, before_stmts, after_stmts)
+    pending_class_injection: Option<(Ident, Vec<Stmt>, Vec<Stmt>)>,
+
+    /// Pending class expression transformation
+    /// (class_ident, static_initializers, private_method_decls)
+    pending_class_expr: Option<(Ident, Vec<Box<Expr>>, Vec<Stmt>)>,
+}
+
+impl Default for ClassPropertiesPass {
+    fn default() -> Self {
+        Self {
+            cls: Default::default(),
+            cls_stack: Default::default(),
+            assumptions: Default::default(),
+            pending_class_injection: None,
+            pending_class_expr: None,
+        }
+    }
 }
 
 #[derive(Default)]
@@ -172,18 +194,33 @@ impl ClassPropertiesPass {
         for m in &class.body {
             match m {
                 ClassMember::PrivateMethod(m) => {
-                    self.cls.privates.insert(
-                        m.key.name.clone(),
+                    // Merge getter/setter information for accessors
+                    let existing = self.cls.privates.get(&m.key.name).copied();
+                    let kind = if let Some(mut existing_kind) = existing {
+                        // Merge with existing entry (for accessor pairs)
+                        if m.kind == MethodKind::Getter {
+                            existing_kind.has_getter = true;
+                        } else if m.kind == MethodKind::Setter {
+                            existing_kind.has_setter = true;
+                        }
+                        existing_kind
+                    } else {
+                        // New entry
                         PrivateKind {
                             is_method: true,
                             is_static: m.is_static,
                             has_getter: m.kind == MethodKind::Getter,
                             has_setter: m.kind == MethodKind::Setter,
-                        },
-                    );
-                    self.cls.methods.push(m.key.name.clone());
+                        }
+                    };
 
-                    if m.is_static {
+                    self.cls.privates.insert(m.key.name.clone(), kind);
+
+                    if !self.cls.methods.contains(&m.key.name) {
+                        self.cls.methods.push(m.key.name.clone());
+                    }
+
+                    if m.is_static && !self.cls.statics.contains(&m.key.name) {
                         self.cls.statics.push(m.key.name.clone());
                     }
                 }
@@ -285,7 +322,7 @@ impl ClassPropertiesPass {
         }
 
         // Process constructor
-        let constructor = self.process_constructor(constructor, has_super, class.span);
+        let constructor = self.process_constructor(constructor, has_super, class.span, ctx);
         if let Some(c) = constructor {
             new_members.push(ClassMember::Constructor(c));
         }
@@ -323,6 +360,9 @@ impl ClassPropertiesPass {
         }
 
         let mut value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
+
+        // Transform new.target in property initializers to void 0
+        value.visit_mut_with(&mut NewTargetInProp);
 
         // Collect used names and transform this in static properties
         if !prop.is_static {
@@ -367,6 +407,9 @@ impl ClassPropertiesPass {
             .value
             .take()
             .unwrap_or_else(|| Expr::undefined(prop_span));
+
+        // Transform new.target in property initializers to void 0
+        value.visit_mut_with(&mut NewTargetInProp);
 
         // Collect used names
         if !prop.is_static {
@@ -618,6 +661,7 @@ impl ClassPropertiesPass {
         mut constructor: Option<Constructor>,
         has_super: bool,
         class_span: Span,
+        ctx: &mut TraverseCtx,
     ) -> Option<Constructor> {
         let has_initializers = !self.cls.instance_props.is_empty()
             || !self.cls.private_instance_props.is_empty()
@@ -755,29 +799,82 @@ impl ClassPropertiesPass {
 
             // Public property initializers
             for init in take(&mut self.cls.instance_props) {
-                initializers.push(
-                    ExprStmt {
-                        span: init.span,
-                        expr: Box::new(
-                            AssignExpr {
-                                span: init.span,
-                                op: op!("="),
-                                left: match init.name {
-                                    PropName::Ident(id) => {
-                                        ThisExpr { span: DUMMY_SP }.make_member(id).into()
-                                    }
-                                    _ => {
-                                        let key = prop_name_to_expr(init.name);
-                                        ThisExpr { span: DUMMY_SP }.computed_member(key).into()
-                                    }
-                                },
-                                right: init.value,
-                            }
+                let use_define_property = !self.assumptions.set_public_class_fields;
+
+                if use_define_property {
+                    // Use _define_property for [[Define]] semantics (strict mode)
+                    use swc_ecma_transforms_base::helper;
+
+                    let prop_key = match init.name {
+                        PropName::Ident(id) => Box::new(
+                            Lit::Str(Str {
+                                span: id.span,
+                                raw: None,
+                                value: id.sym.into(),
+                            })
                             .into(),
                         ),
-                    }
-                    .into(),
-                );
+                        PropName::Str(s) => Box::new(s.into()),
+                        PropName::Num(n) => Box::new(n.into()),
+                        PropName::Computed(c) => c.expr,
+                        PropName::BigInt(b) => Box::new(b.into()),
+                    };
+
+                    initializers.push(
+                        ExprStmt {
+                            span: init.span,
+                            expr: Box::new(
+                                CallExpr {
+                                    span: init.span,
+                                    callee: helper!(define_property),
+                                    args: vec![
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: prop_key,
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: init.value,
+                                        },
+                                    ],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
+                                .into(),
+                            ),
+                        }
+                        .into(),
+                    );
+                } else {
+                    // Use assignment for loose mode
+                    initializers.push(
+                        ExprStmt {
+                            span: init.span,
+                            expr: Box::new(
+                                AssignExpr {
+                                    span: init.span,
+                                    op: op!("="),
+                                    left: match init.name {
+                                        PropName::Ident(id) => {
+                                            ThisExpr { span: DUMMY_SP }.make_member(id).into()
+                                        }
+                                        _ => {
+                                            let key = prop_name_to_expr(init.name);
+                                            ThisExpr { span: DUMMY_SP }.computed_member(key).into()
+                                        }
+                                    },
+                                    right: init.value,
+                                }
+                                .into(),
+                            ),
+                        }
+                        .into(),
+                    );
+                }
             }
 
             // Insert initializers
@@ -804,6 +901,138 @@ impl ClassPropertiesPass {
         Some(c)
     }
 
+    /// Build static initializers as expressions for use in sequence expressions
+    /// (used for class expressions)
+    fn build_static_initializer_exprs(
+        &mut self,
+        class_ident: &Ident,
+        _ctx: &mut TraverseCtx,
+    ) -> Vec<Box<Expr>> {
+        use swc_ecma_transforms_base::helper;
+
+        let mut exprs = Vec::new();
+
+        // Static property initializers
+        let use_define_property = !self.assumptions.set_public_class_fields;
+
+        for init in take(&mut self.cls.static_props) {
+            if use_define_property {
+                // Use _define_property for [[Define]] semantics (strict mode)
+                let prop_key = match init.name {
+                    PropName::Ident(id) => Box::new(
+                        Lit::Str(Str {
+                            span: id.span,
+                            raw: None,
+                            value: id.sym.into(),
+                        })
+                        .into(),
+                    ),
+                    PropName::Str(s) => Box::new(s.into()),
+                    PropName::Num(n) => Box::new(n.into()),
+                    PropName::Computed(c) => c.expr,
+                    PropName::BigInt(b) => Box::new(b.into()),
+                };
+
+                let define_call = Box::new(
+                    CallExpr {
+                        span: init.span,
+                        callee: helper!(define_property),
+                        args: vec![
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(class_ident.clone().into()),
+                            },
+                            ExprOrSpread {
+                                spread: None,
+                                expr: prop_key,
+                            },
+                            ExprOrSpread {
+                                spread: None,
+                                expr: init.value,
+                            },
+                        ],
+                        type_args: Default::default(),
+                        ctxt: Default::default(),
+                    }
+                    .into(),
+                );
+                exprs.push(define_call);
+            } else {
+                // Use assignment for loose mode
+                let assign_expr = Box::new(
+                    AssignExpr {
+                        span: init.span,
+                        op: op!("="),
+                        left: match init.name {
+                            PropName::Ident(id) => class_ident.clone().make_member(id).into(),
+                            _ => {
+                                let key = prop_name_to_expr(init.name);
+                                class_ident.clone().computed_member(key).into()
+                            }
+                        },
+                        right: init.value,
+                    }
+                    .into(),
+                );
+                exprs.push(assign_expr);
+            }
+        }
+
+        // Private static property initializers
+        for init in take(&mut self.cls.private_static_props) {
+            let weak_map_ident = init.name.clone();
+            let set_call = Box::new(
+                CallExpr {
+                    span: init.span,
+                    callee: weak_map_ident.make_member(quote_ident!("set")).as_callee(),
+                    args: vec![
+                        ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(class_ident.clone().into()),
+                        },
+                        ExprOrSpread {
+                            spread: None,
+                            expr: init.value,
+                        },
+                    ],
+                    type_args: Default::default(),
+                    ctxt: Default::default(),
+                }
+                .into(),
+            );
+            exprs.push(set_call);
+        }
+
+        // Private static accessor initializers
+        for init in take(&mut self.cls.private_static_accessors) {
+            let weak_map_ident = init.name.clone();
+            let descriptor = create_accessor_desc(init.getter, init.setter);
+
+            let set_call = Box::new(
+                CallExpr {
+                    span: init.span,
+                    callee: weak_map_ident.make_member(quote_ident!("set")).as_callee(),
+                    args: vec![
+                        ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(class_ident.clone().into()),
+                        },
+                        ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(descriptor.into()),
+                        },
+                    ],
+                    type_args: Default::default(),
+                    ctxt: Default::default(),
+                }
+                .into(),
+            );
+            exprs.push(set_call);
+        }
+
+        exprs
+    }
+
     fn emit_static_initializers(
         &mut self,
         class_ident: &Ident,
@@ -817,39 +1046,52 @@ impl ClassPropertiesPass {
 
         // Static property initializers
         for init in take(&mut self.cls.static_props) {
-            // Create assignment statement: ClassName.prop = value
-            let assign_stmt = Stmt::Expr(ExprStmt {
+            // Use _define_property helper for [[Define]] semantics (ES2022 spec-compliant)
+            // This ensures static fields override inherited accessors
+            use swc_ecma_transforms_base::helper;
+
+            let prop_key = match init.name {
+                PropName::Ident(id) => Box::new(
+                    Lit::Str(Str {
+                        span: id.span,
+                        raw: None,
+                        value: id.sym.into(),
+                    })
+                    .into(),
+                ),
+                PropName::Str(s) => Box::new(s.into()),
+                PropName::Num(n) => Box::new(n.into()),
+                PropName::Computed(c) => c.expr,
+                PropName::BigInt(b) => Box::new(b.into()),
+            };
+
+            let define_stmt = Stmt::Expr(ExprStmt {
                 span: init.span,
                 expr: Box::new(
-                    AssignExpr {
+                    CallExpr {
                         span: init.span,
-                        op: op!("="),
-                        left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                            span: init.span,
-                            obj: Box::new(class_ident.clone().into()),
-                            prop: match init.name {
-                                PropName::Ident(id) => MemberProp::Ident(id),
-                                PropName::Str(s) => MemberProp::Computed(ComputedPropName {
-                                    span: s.span,
-                                    expr: Box::new(s.into()),
-                                }),
-                                PropName::Num(n) => MemberProp::Computed(ComputedPropName {
-                                    span: n.span,
-                                    expr: Box::new(n.into()),
-                                }),
-                                PropName::Computed(c) => MemberProp::Computed(c),
-                                PropName::BigInt(b) => MemberProp::Computed(ComputedPropName {
-                                    span: b.span,
-                                    expr: Box::new(b.into()),
-                                }),
+                        callee: helper!(define_property),
+                        args: vec![
+                            ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(class_ident.clone().into()),
                             },
-                        })),
-                        right: init.value,
+                            ExprOrSpread {
+                                spread: None,
+                                expr: prop_key,
+                            },
+                            ExprOrSpread {
+                                spread: None,
+                                expr: init.value,
+                            },
+                        ],
+                        type_args: Default::default(),
+                        ctxt: Default::default(),
                     }
                     .into(),
                 ),
             });
-            static_initializers.push(assign_stmt);
+            static_initializers.push(define_stmt);
         }
 
         // Private static property initializers
@@ -927,7 +1169,7 @@ impl ClassPropertiesPass {
             let mut all_after_stmts = private_method_decls;
             all_after_stmts.extend(static_initializers);
 
-            self.pending_class_injection = Some((vec![], all_after_stmts));
+            self.pending_class_injection = Some((class_ident.clone(), vec![], all_after_stmts));
         }
     }
 }
@@ -970,22 +1212,35 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         let new_members = self.process_class_body(&mut n.class, ctx);
         n.class.body = new_members;
 
-        // Class expressions can't have statements injected before/after them
-        // So we just process them without storing injections
-        self.emit_static_initializers(&class_ident, None, ctx);
+        // For class expressions with static properties, we need to wrap them in a
+        // sequence expression Build the static initializers as expressions
+        let static_initializers = self.build_static_initializer_exprs(&class_ident, ctx);
+
+        // Take private method declarations
+        let private_method_decls = take(&mut self.cls.private_method_decls);
+
+        // If there are static initializers or private method decls, store them for
+        // wrapping
+        if !static_initializers.is_empty() || !private_method_decls.is_empty() {
+            self.pending_class_expr =
+                Some((class_ident, static_initializers, private_method_decls));
+        }
 
         self.cls = self.cls_stack.pop().unwrap();
     }
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
         // Check if we have pending injections from a class declaration
-        if let Some((before_stmts, after_stmts)) = self.pending_class_injection.take() {
-            // Find the class declaration in the statement list
+        if let Some((class_ident, before_stmts, after_stmts)) = self.pending_class_injection.take()
+        {
+            // Find the class declaration in the statement list by matching the identifier
             let mut class_idx = None;
             for (i, stmt) in stmts.iter().enumerate() {
-                if matches!(stmt, Stmt::Decl(Decl::Class(_))) {
-                    class_idx = Some(i);
-                    break;
+                if let Stmt::Decl(Decl::Class(ClassDecl { ident, .. })) = stmt {
+                    if ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt {
+                        class_idx = Some(i);
+                        break;
+                    }
                 }
             }
 
@@ -1003,26 +1258,89 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         }
     }
 
+    fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
+        // Check if we have a pending class expression transformation
+        if let Some((class_ident, static_initializers, private_method_decls)) =
+            self.pending_class_expr.take()
+        {
+            // We need to wrap the class expression in a sequence expression
+            // Pattern: (_class = class { ... }, _class.prop = value, ..., _class)
+            if let Expr::Class(class_expr) = expr {
+                let mut exprs = Vec::new();
+
+                // Declare the class variable
+                ctx.var_declarations.insert_var(
+                    BindingIdent {
+                        id: class_ident.clone(),
+                        type_ann: None,
+                    },
+                    None,
+                );
+
+                // First expression: assign class to _class
+                exprs.push(Box::new(
+                    AssignExpr {
+                        span: class_expr.class.span,
+                        op: op!("="),
+                        left: class_ident.clone().into(),
+                        right: Box::new(take(expr)),
+                    }
+                    .into(),
+                ));
+
+                // Add static initializers
+                exprs.extend(static_initializers);
+
+                // Handle private method declarations by storing them in a separate context
+                // For now, we'll need to inject them differently
+                if !private_method_decls.is_empty() {
+                    // Private method declarations can't be inlined in
+                    // expressions This is a limitation
+                    // we'll need to handle separately
+                    // For now, we'll skip them in expressions
+                    // TODO: Handle private methods in class expressions
+                    // properly
+                }
+
+                // Final expression: return the class identifier
+                exprs.push(Box::new(class_ident.into()));
+
+                // Replace the class expression with a sequence expression
+                *expr = SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                }
+                .into();
+            }
+        }
+    }
+
     fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
         // Check if we have pending injections from a class declaration
-        if let Some((before_stmts, after_stmts)) = self.pending_class_injection.take() {
-            // Find the class declaration in the module item list
+        if let Some((class_ident, before_stmts, after_stmts)) = self.pending_class_injection.take()
+        {
+            // Find the class declaration in the module item list by matching the identifier
             let mut class_idx = None;
             for (i, item) in items.iter().enumerate() {
-                if matches!(
-                    item,
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Class(_)))
-                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            decl: Decl::Class(_),
-                            ..
-                        }))
-                        | ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
-                            ExportDefaultDecl {
-                                decl: DefaultDecl::Class(_),
-                                ..
-                            }
-                        ))
-                ) {
+                let matches_class = match item {
+                    ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { ident, .. }))) => {
+                        ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt
+                    }
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: Decl::Class(ClassDecl { ident, .. }),
+                        ..
+                    })) => ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt,
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                        decl:
+                            DefaultDecl::Class(ClassExpr {
+                                ident: Some(ident), ..
+                            }),
+                        ..
+                    })) => ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt,
+                    _ => false,
+                };
+
+                if matches_class {
                     class_idx = Some(i);
                     break;
                 }
@@ -1115,6 +1433,36 @@ where
     let mut visitor = SuperVisitor { found: false };
     node.visit_with(&mut visitor);
     visitor.found
+}
+
+/// Visitor that transforms `new.target` to `void 0` in property initializers.
+///
+/// This is necessary because property initializers are not evaluated in a
+/// constructor context, so `new.target` should always be `undefined`.
+struct NewTargetInProp;
+
+impl VisitMut for NewTargetInProp {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {
+        // Don't visit constructors
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Expr::MetaProp(MetaPropExpr {
+            span,
+            kind: MetaPropKind::NewTarget,
+        }) = e
+        {
+            *e = *Expr::undefined(*span);
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {
+        // Don't visit nested functions
+    }
 }
 
 struct SuperVisitor {
@@ -1484,24 +1832,26 @@ impl VisitMut for PrivateAccessVisitor<'_> {
 
                             let get_call = if kind.is_method && kind.has_getter {
                                 // Accessor getter: _accessor.get(obj).get.call(obj)
+                                let descriptor_get = CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: weak_coll_ident
+                                        .clone()
+                                        .make_member(quote_ident!("get"))
+                                        .as_callee(),
+                                    args: vec![ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(obj_alias.clone().into()),
+                                    }],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                };
+
                                 CallExpr {
                                     span: DUMMY_SP,
-                                    callee: CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: weak_coll_ident
-                                            .clone()
-                                            .make_member(quote_ident!("get"))
-                                            .as_callee(),
-                                        args: vec![ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(obj_alias.clone().into()),
-                                        }],
-                                        type_args: Default::default(),
-                                        ctxt: Default::default(),
-                                    }
-                                    .make_member(quote_ident!("get"))
-                                    .make_member(quote_ident!("call"))
-                                    .as_callee(),
+                                    callee: Expr::from(descriptor_get)
+                                        .make_member(quote_ident!("get"))
+                                        .make_member(quote_ident!("call"))
+                                        .as_callee(),
                                     args: vec![ExprOrSpread {
                                         spread: None,
                                         expr: Box::new(obj_alias.clone().into()),
@@ -1556,11 +1906,49 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     definite: false,
                                 });
 
-                                let new_value_expr = BinExpr {
+                                // For BigInt support: use (typeof val === 'bigint' ? 1n : 1)
+                                let temp_value_ident = alias_ident_for(&obj, "_val");
+                                self.vars.push(VarDeclarator {
                                     span: DUMMY_SP,
-                                    op: bin_op,
-                                    left: Box::new(get_call.into()),
-                                    right: Box::new(
+                                    name: temp_value_ident.clone().into(),
+                                    init: None,
+                                    definite: false,
+                                });
+
+                                let one_expr = CondExpr {
+                                    span: DUMMY_SP,
+                                    test: Box::new(
+                                        BinExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("==="),
+                                            left: Box::new(
+                                                UnaryExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("typeof"),
+                                                    arg: Box::new(temp_value_ident.clone().into()),
+                                                }
+                                                .into(),
+                                            ),
+                                            right: Box::new(
+                                                Lit::Str(Str {
+                                                    span: DUMMY_SP,
+                                                    raw: None,
+                                                    value: "bigint".into(),
+                                                })
+                                                .into(),
+                                            ),
+                                        }
+                                        .into(),
+                                    ),
+                                    cons: Box::new(
+                                        Lit::BigInt(BigInt {
+                                            span: DUMMY_SP,
+                                            raw: None,
+                                            value: Box::new(1.into()),
+                                        })
+                                        .into(),
+                                    ),
+                                    alt: Box::new(
                                         Lit::Num(Number {
                                             span: DUMMY_SP,
                                             value: 1.0,
@@ -1568,6 +1956,21 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         })
                                         .into(),
                                     ),
+                                };
+
+                                let new_value_expr = BinExpr {
+                                    span: DUMMY_SP,
+                                    op: bin_op,
+                                    left: Box::new(
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("="),
+                                            left: temp_value_ident.clone().into(),
+                                            right: Box::new(get_call.into()),
+                                        }
+                                        .into(),
+                                    ),
+                                    right: Box::new(one_expr.into()),
                                 };
 
                                 let set_call = if kind.is_method && kind.has_setter {
@@ -1661,11 +2064,41 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     definite: false,
                                 });
 
-                                let new_value_expr = BinExpr {
+                                // For BigInt support: use (typeof val === 'bigint' ? 1n : 1)
+                                let one_expr = CondExpr {
                                     span: DUMMY_SP,
-                                    op: bin_op,
-                                    left: Box::new(old_value_ident.clone().into()),
-                                    right: Box::new(
+                                    test: Box::new(
+                                        BinExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("==="),
+                                            left: Box::new(
+                                                UnaryExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("typeof"),
+                                                    arg: Box::new(old_value_ident.clone().into()),
+                                                }
+                                                .into(),
+                                            ),
+                                            right: Box::new(
+                                                Lit::Str(Str {
+                                                    span: DUMMY_SP,
+                                                    raw: None,
+                                                    value: "bigint".into(),
+                                                })
+                                                .into(),
+                                            ),
+                                        }
+                                        .into(),
+                                    ),
+                                    cons: Box::new(
+                                        Lit::BigInt(BigInt {
+                                            span: DUMMY_SP,
+                                            raw: None,
+                                            value: Box::new(1.into()),
+                                        })
+                                        .into(),
+                                    ),
+                                    alt: Box::new(
                                         Lit::Num(Number {
                                             span: DUMMY_SP,
                                             value: 1.0,
@@ -1673,6 +2106,13 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         })
                                         .into(),
                                     ),
+                                };
+
+                                let new_value_expr = BinExpr {
+                                    span: DUMMY_SP,
+                                    op: bin_op,
+                                    left: Box::new(old_value_ident.clone().into()),
+                                    right: Box::new(one_expr.into()),
                                 };
 
                                 let set_call = if kind.is_method && kind.has_setter {

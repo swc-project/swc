@@ -1,4 +1,5 @@
 use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_transforms_base::assumptions::Assumptions;
 
 use crate::{
     hook_utils::{HookBuilder, NoopHook, OptionalHook},
@@ -19,11 +20,11 @@ pub struct Es2022Options {
     pub private_property_in_object: bool,
 }
 
-pub fn hook(options: Es2022Options) -> impl VisitMutHook<TraverseCtx> {
+pub fn hook(options: Es2022Options, assumptions: Assumptions) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 
     let hook = hook.chain(OptionalHook(if options.class_properties {
-        Some(self::class_properties::hook())
+        Some(self::class_properties::hook(assumptions))
     } else {
         None
     }));
