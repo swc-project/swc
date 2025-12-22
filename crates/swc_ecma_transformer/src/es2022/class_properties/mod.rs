@@ -62,9 +62,9 @@ struct ClassPropertiesPass {
     cls: ClassData,
     cls_stack: Vec<ClassData>,
 
-    /// Stack of statement pointers for class declarations
-    /// Used to inject static initializers after the class statement
-    pending_class_stmt_stack: Vec<Option<*const Stmt>>,
+    /// Statements to inject before/after the current class declaration
+    /// (before_stmts, after_stmts)
+    pending_class_injection: Option<(Vec<Stmt>, Vec<Stmt>)>,
 }
 
 #[derive(Default)]
@@ -494,6 +494,23 @@ impl ClassPropertiesPass {
                 }
 
                 if !found {
+                    ctx.var_declarations.insert_var(
+                        BindingIdent {
+                            id: weak_coll_var.clone(),
+                            type_ann: None,
+                        },
+                        Some(Box::new(
+                            NewExpr {
+                                span: DUMMY_SP,
+                                callee: Box::new(quote_ident!("WeakMap").into()),
+                                args: Some(Default::default()),
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            }
+                            .into(),
+                        )),
+                    );
+
                     self.cls.private_static_accessors.push(PrivAccessorInit {
                         span: prop_span,
                         name: weak_coll_var,
@@ -724,11 +741,14 @@ impl ClassPropertiesPass {
         Some(c)
     }
 
-    fn emit_static_initializers(&mut self, class_ident: &Ident, ctx: &mut TraverseCtx) {
-        let stmt_addr = self.pending_class_stmt_stack.last().and_then(|o| *o);
-
-        // Separate private method declarations (go before class) from static
-        // initializers (go after class)
+    fn emit_static_initializers(
+        &mut self,
+        class_ident: &Ident,
+        _stmt_addr: Option<*const Stmt>,
+        _ctx: &mut TraverseCtx,
+    ) {
+        // Separate private method declarations (go AFTER class in loose mode) from
+        // static initializers (go after class)
         let private_method_decls = take(&mut self.cls.private_method_decls);
         let mut static_initializers = Vec::new();
 
@@ -835,43 +855,24 @@ impl ClassPropertiesPass {
             static_initializers.push(set_stmt);
         }
 
-        // Inject statements at the appropriate positions
-        if let Some(addr) = stmt_addr {
-            // Private method declarations must be injected BEFORE the class
-            // because they are referenced in the constructor
-            if !private_method_decls.is_empty() {
-                ctx.statement_injector
-                    .insert_many_before(addr, private_method_decls);
-            }
+        // Store statements for injection in exit_stmts
+        // Note: In loose mode, private method declarations go AFTER the class
+        // In WeakSet mode, they would go BEFORE, but we're not implementing that mode
+        // yet
+        if !private_method_decls.is_empty() || !static_initializers.is_empty() {
+            // Combine all "after" statements: private method decls + static initializers
+            let mut all_after_stmts = private_method_decls;
+            all_after_stmts.extend(static_initializers);
 
-            // Static initializers are injected AFTER the class
-            if !static_initializers.is_empty() {
-                ctx.statement_injector
-                    .insert_many_after(addr, static_initializers);
-            }
+            self.pending_class_injection = Some((vec![], all_after_stmts));
         }
     }
 }
 
 impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
-    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        // Store the statement address if it's a class declaration
-        // This allows us to inject statements after the class
-        if matches!(stmt, Stmt::Decl(Decl::Class(_))) {
-            self.pending_class_stmt_stack
-                .push(Some(stmt as *const Stmt));
-        }
-    }
-
     fn enter_class_decl(&mut self, n: &mut ClassDecl, _ctx: &mut TraverseCtx) {
         let old_cls = take(&mut self.cls);
         self.cls_stack.push(old_cls);
-
-        // If we're entering a nested class without a statement address (e.g., in an
-        // expression), push None to keep the stacks aligned
-        if self.cls_stack.len() > 1 && self.pending_class_stmt_stack.len() < self.cls_stack.len() {
-            self.pending_class_stmt_stack.push(None);
-        }
 
         self.cls.mark = Mark::fresh(Mark::root());
         self.cls.ident = Some(n.ident.clone());
@@ -884,12 +885,9 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         let new_members = self.process_class_body(&mut n.class, ctx);
         n.class.body = new_members;
 
-        self.emit_static_initializers(&class_ident, ctx);
-
-        // Pop the statement address if it was pushed
-        if !self.pending_class_stmt_stack.is_empty() {
-            self.pending_class_stmt_stack.pop();
-        }
+        // Prepare statements for injection in exit_stmts
+        // Pass a dummy address to indicate this is a class declaration
+        self.emit_static_initializers(&class_ident, Some(std::ptr::null()), ctx);
 
         self.cls = self.cls_stack.pop().unwrap();
     }
@@ -897,9 +895,6 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
     fn enter_class_expr(&mut self, n: &mut ClassExpr, _ctx: &mut TraverseCtx) {
         let old_cls = take(&mut self.cls);
         self.cls_stack.push(old_cls);
-
-        // ClassExpr is not a statement, so push None to keep stacks aligned
-        self.pending_class_stmt_stack.push(None);
 
         self.cls.mark = Mark::fresh(Mark::root());
         self.cls.ident.clone_from(&n.ident);
@@ -912,14 +907,37 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         let new_members = self.process_class_body(&mut n.class, ctx);
         n.class.body = new_members;
 
-        self.emit_static_initializers(&class_ident, ctx);
-
-        // Pop the None we pushed in enter_class_expr
-        if !self.pending_class_stmt_stack.is_empty() {
-            self.pending_class_stmt_stack.pop();
-        }
+        // Class expressions can't have statements injected before/after them
+        // So we just process them without storing injections
+        self.emit_static_initializers(&class_ident, None, ctx);
 
         self.cls = self.cls_stack.pop().unwrap();
+    }
+
+    fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
+        // Check if we have pending injections from a class declaration
+        if let Some((before_stmts, after_stmts)) = self.pending_class_injection.take() {
+            // Find the class declaration in the statement list
+            let mut class_idx = None;
+            for (i, stmt) in stmts.iter().enumerate() {
+                if matches!(stmt, Stmt::Decl(Decl::Class(_))) {
+                    class_idx = Some(i);
+                    break;
+                }
+            }
+
+            if let Some(idx) = class_idx {
+                // Insert after statements first (to maintain correct indices)
+                for (offset, stmt) in after_stmts.into_iter().enumerate() {
+                    stmts.insert(idx + 1 + offset, stmt);
+                }
+
+                // Then insert before statements
+                for (offset, stmt) in before_stmts.into_iter().enumerate() {
+                    stmts.insert(idx + offset, stmt);
+                }
+            }
+        }
     }
 }
 
@@ -1040,124 +1058,21 @@ impl Visit for UsedNameCollector<'_> {
 /// - Private field updates: `this.#field++` → `_field.set(this,
 ///   _field.get(this) + 1)`
 /// - Private method calls: `this.#method()` → `method.call(this, ...args)`
-/// - Private accessor reads: `this.#accessor` → `_accessor.get(this).get`
+/// - Private accessor reads: `this.#accessor` →
+///   `_accessor.get(this).get.call(this)`
+/// - Private accessor writes: `this.#accessor = value` →
+///   `_accessor.get(this).set.call(this, value)`
 struct PrivateAccessVisitor<'a> {
     /// Map of private names to their kinds (field/method/accessor,
     /// static/instance)
     privates: &'a FxHashMap<Atom, PrivateKind>,
     /// Mark used for hygiene
     mark: Mark,
-    /// Current access type (unused for now, but could be used for optimization)
-    access_type: PrivateAccessType,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum PrivateAccessType {
-    Get,
-    Set,
-    Update,
-}
-
-impl Default for PrivateAccessType {
-    fn default() -> Self {
-        Self::Get
-    }
 }
 
 impl<'a> PrivateAccessVisitor<'a> {
     fn new(privates: &'a FxHashMap<Atom, PrivateKind>, mark: Mark) -> Self {
-        Self {
-            privates,
-            mark,
-            access_type: PrivateAccessType::Get,
-        }
-    }
-
-    /// Transform a private member expression to a WeakMap get/set call
-    fn transform_private_access(&mut self, member: &mut MemberExpr) -> Option<Expr> {
-        let private_name = match &member.prop {
-            MemberProp::PrivateName(n) => n,
-            _ => return None,
-        };
-
-        // Check if this private name belongs to the current class
-        let kind = self.privates.get(&private_name.name)?;
-
-        let weak_coll_ident = Ident::new(
-            format!("_{}", private_name.name).into(),
-            private_name.span,
-            SyntaxContext::empty().apply_mark(self.mark),
-        );
-
-        let obj = member.obj.take();
-
-        match self.access_type {
-            PrivateAccessType::Get => {
-                if kind.is_method {
-                    // For methods, we need to check the WeakSet and return the method function
-                    if kind.has_getter || kind.has_setter {
-                        // Accessor: WeakMap.get(obj).get
-                        Some(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: weak_coll_ident
-                                    .make_member(quote_ident!("get"))
-                                    .as_callee(),
-                                args: vec![ExprOrSpread {
-                                    spread: None,
-                                    expr: obj,
-                                }],
-                                type_args: Default::default(),
-                                ctxt: Default::default(),
-                            }
-                            .make_member(if kind.has_getter {
-                                quote_ident!("get")
-                            } else {
-                                quote_ident!("set")
-                            })
-                            .into(),
-                        )
-                    } else {
-                        // Regular method: just need to verify it's in the WeakSet
-                        // For now, we'll assume the brand check is done elsewhere
-                        // and just return a reference to the method
-                        let method_name = Ident::new(
-                            if private_name.name.is_reserved_in_any() {
-                                format!("__{}", private_name.name).into()
-                            } else {
-                                private_name.name.clone()
-                            },
-                            private_name.span,
-                            SyntaxContext::empty().apply_mark(self.mark),
-                        );
-                        Some(method_name.into())
-                    }
-                } else {
-                    // Field: WeakMap.get(obj)
-                    Some(
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: weak_coll_ident.make_member(quote_ident!("get")).as_callee(),
-                            args: vec![ExprOrSpread {
-                                spread: None,
-                                expr: obj,
-                            }],
-                            type_args: Default::default(),
-                            ctxt: Default::default(),
-                        }
-                        .into(),
-                    )
-                }
-            }
-            PrivateAccessType::Set => {
-                // This will be handled in the assignment expression visitor
-                None
-            }
-            PrivateAccessType::Update => {
-                // This will be handled in the update expression visitor
-                None
-            }
-        }
+        Self { privates, mark }
     }
 }
 
@@ -1167,11 +1082,11 @@ impl VisitMut for PrivateAccessVisitor<'_> {
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Assign(assign) => {
-                // Handle assignment to private field
+                // Handle assignment to private field/accessor
                 if let AssignTarget::Simple(SimpleAssignTarget::Member(member)) = &mut assign.left {
                     if let MemberProp::PrivateName(private_name) = &member.prop {
-                        // Check if this is a private field of the current class
-                        if let Some(_kind) = self.privates.get(&private_name.name) {
+                        // Check if this is a private member of the current class
+                        if let Some(kind) = self.privates.get(&private_name.name) {
                             let weak_coll_ident = Ident::new(
                                 format!("_{}", private_name.name).into(),
                                 private_name.span,
@@ -1184,42 +1099,129 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                             let value = assign.right.take();
 
                             if assign.op == op!("=") {
-                                // Simple assignment: WeakMap.set(obj, value)
-                                *expr = CallExpr {
-                                    span: assign.span,
-                                    callee: weak_coll_ident
-                                        .make_member(quote_ident!("set"))
-                                        .as_callee(),
-                                    args: vec![
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: obj,
-                                        },
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: value,
-                                        },
-                                    ],
-                                    type_args: Default::default(),
-                                    ctxt: Default::default(),
+                                // Check if this is an accessor
+                                if kind.is_method && kind.has_setter {
+                                    // Accessor setter: _accessor.get(obj).set.call(obj, value)
+                                    let obj_alias = alias_ident_for(&obj, "_obj");
+
+                                    *expr = SeqExpr {
+                                        span: assign.span,
+                                        exprs: vec![
+                                            Box::new(
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("="),
+                                                    left: obj_alias.clone().into(),
+                                                    right: obj,
+                                                }
+                                                .into(),
+                                            ),
+                                            Box::new(
+                                                CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: CallExpr {
+                                                        span: DUMMY_SP,
+                                                        callee: weak_coll_ident
+                                                            .make_member(quote_ident!("get"))
+                                                            .as_callee(),
+                                                        args: vec![ExprOrSpread {
+                                                            spread: None,
+                                                            expr: Box::new(
+                                                                obj_alias.clone().into(),
+                                                            ),
+                                                        }],
+                                                        type_args: Default::default(),
+                                                        ctxt: Default::default(),
+                                                    }
+                                                    .make_member(quote_ident!("set"))
+                                                    .make_member(quote_ident!("call"))
+                                                    .as_callee(),
+                                                    args: vec![
+                                                        ExprOrSpread {
+                                                            spread: None,
+                                                            expr: Box::new(obj_alias.into()),
+                                                        },
+                                                        ExprOrSpread {
+                                                            spread: None,
+                                                            expr: value,
+                                                        },
+                                                    ],
+                                                    type_args: Default::default(),
+                                                    ctxt: Default::default(),
+                                                }
+                                                .into(),
+                                            ),
+                                        ],
+                                    }
+                                    .into();
+                                } else {
+                                    // Simple field assignment: WeakMap.set(obj, value)
+                                    *expr = CallExpr {
+                                        span: assign.span,
+                                        callee: weak_coll_ident
+                                            .make_member(quote_ident!("set"))
+                                            .as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: obj,
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: value,
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                    .into();
                                 }
-                                .into();
                             } else {
-                                // Compound assignment: WeakMap.set(obj, WeakMap.get(obj) op value)
+                                // Compound assignment: get old value, compute new, set
                                 let obj_alias = alias_ident_for(&obj, "_obj");
 
-                                let get_call = CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: weak_coll_ident
-                                        .clone()
+                                let get_call = if kind.is_method && kind.has_getter {
+                                    // Accessor getter: _accessor.get(obj).get.call(obj)
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: weak_coll_ident
+                                                .clone()
+                                                .make_member(quote_ident!("get"))
+                                                .as_callee(),
+                                            args: vec![ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            }],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
                                         .make_member(quote_ident!("get"))
+                                        .make_member(quote_ident!("call"))
                                         .as_callee(),
-                                    args: vec![ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(obj_alias.clone().into()),
-                                    }],
-                                    type_args: Default::default(),
-                                    ctxt: Default::default(),
+                                        args: vec![ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        }],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                } else {
+                                    // Field: WeakMap.get(obj)
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: weak_coll_ident
+                                            .clone()
+                                            .make_member(quote_ident!("get"))
+                                            .as_callee(),
+                                        args: vec![ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        }],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
                                 };
 
                                 let bin_expr = BinExpr {
@@ -1229,6 +1231,60 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     right: value,
                                 };
 
+                                let set_call = if kind.is_method && kind.has_setter {
+                                    // Accessor setter: _accessor.get(obj).set.call(obj, value)
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: weak_coll_ident
+                                                .make_member(quote_ident!("get"))
+                                                .as_callee(),
+                                            args: vec![ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            }],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                        .make_member(quote_ident!("set"))
+                                        .make_member(quote_ident!("call"))
+                                        .as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(bin_expr.into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                } else {
+                                    // Field: WeakMap.set(obj, value)
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: weak_coll_ident
+                                            .make_member(quote_ident!("set"))
+                                            .as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(bin_expr.into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                };
+
                                 *expr = SeqExpr {
                                     span: assign.span,
                                     exprs: vec![
@@ -1236,32 +1292,12 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                             AssignExpr {
                                                 span: DUMMY_SP,
                                                 op: op!("="),
-                                                left: obj_alias.clone().into(),
+                                                left: obj_alias.into(),
                                                 right: obj,
                                             }
                                             .into(),
                                         ),
-                                        Box::new(
-                                            CallExpr {
-                                                span: DUMMY_SP,
-                                                callee: weak_coll_ident
-                                                    .make_member(quote_ident!("set"))
-                                                    .as_callee(),
-                                                args: vec![
-                                                    ExprOrSpread {
-                                                        spread: None,
-                                                        expr: Box::new(obj_alias.into()),
-                                                    },
-                                                    ExprOrSpread {
-                                                        spread: None,
-                                                        expr: Box::new(bin_expr.into()),
-                                                    },
-                                                ],
-                                                type_args: Default::default(),
-                                                ctxt: Default::default(),
-                                            }
-                                            .into(),
-                                        ),
+                                        Box::new(set_call.into()),
                                     ],
                                 }
                                 .into();
@@ -1275,10 +1311,10 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 expr.visit_mut_children_with(self);
             }
             Expr::Update(update) => {
-                // Handle ++/-- on private field
+                // Handle ++/-- on private field/accessor
                 if let Expr::Member(member) = &mut *update.arg {
                     if let MemberProp::PrivateName(private_name) = &member.prop {
-                        if let Some(_kind) = self.privates.get(&private_name.name) {
+                        if let Some(kind) = self.privates.get(&private_name.name) {
                             let weak_coll_ident = Ident::new(
                                 format!("_{}", private_name.name).into(),
                                 private_name.span,
@@ -1288,18 +1324,48 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                             let obj = member.obj.take();
                             let obj_alias = alias_ident_for(&obj, "_obj");
 
-                            let get_call = CallExpr {
-                                span: DUMMY_SP,
-                                callee: weak_coll_ident
-                                    .clone()
+                            let get_call = if kind.is_method && kind.has_getter {
+                                // Accessor getter: _accessor.get(obj).get.call(obj)
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: weak_coll_ident
+                                            .clone()
+                                            .make_member(quote_ident!("get"))
+                                            .as_callee(),
+                                        args: vec![ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        }],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
                                     .make_member(quote_ident!("get"))
+                                    .make_member(quote_ident!("call"))
                                     .as_callee(),
-                                args: vec![ExprOrSpread {
-                                    spread: None,
-                                    expr: Box::new(obj_alias.clone().into()),
-                                }],
-                                type_args: Default::default(),
-                                ctxt: Default::default(),
+                                    args: vec![ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(obj_alias.clone().into()),
+                                    }],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
+                            } else {
+                                // Field: WeakMap.get(obj)
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: weak_coll_ident
+                                        .clone()
+                                        .make_member(quote_ident!("get"))
+                                        .as_callee(),
+                                    args: vec![ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(obj_alias.clone().into()),
+                                    }],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
                             };
 
                             let update_expr = UpdateExpr {
@@ -1309,23 +1375,58 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                 arg: Box::new(get_call.into()),
                             };
 
-                            let set_call = CallExpr {
-                                span: DUMMY_SP,
-                                callee: weak_coll_ident
+                            let set_call = if kind.is_method && kind.has_setter {
+                                // Accessor setter: _accessor.get(obj).set.call(obj, value)
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: weak_coll_ident
+                                            .make_member(quote_ident!("get"))
+                                            .as_callee(),
+                                        args: vec![ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        }],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
                                     .make_member(quote_ident!("set"))
+                                    .make_member(quote_ident!("call"))
                                     .as_callee(),
-                                args: vec![
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(obj_alias.clone().into()),
-                                    },
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(update_expr.into()),
-                                    },
-                                ],
-                                type_args: Default::default(),
-                                ctxt: Default::default(),
+                                    args: vec![
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(update_expr.into()),
+                                        },
+                                    ],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
+                            } else {
+                                // Field: WeakMap.set(obj, value)
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: weak_coll_ident
+                                        .make_member(quote_ident!("set"))
+                                        .as_callee(),
+                                    args: vec![
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(update_expr.into()),
+                                        },
+                                    ],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
                             };
 
                             *expr = SeqExpr {
@@ -1352,13 +1453,13 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 expr.visit_mut_children_with(self);
             }
             Expr::Call(call) => {
-                // Handle private method calls
+                // Handle private method/accessor calls
                 if let Callee::Expr(callee_expr) = &mut call.callee {
                     if let Expr::Member(member) = &mut **callee_expr {
                         if let MemberProp::PrivateName(private_name) = &member.prop {
                             if let Some(kind) = self.privates.get(&private_name.name) {
                                 if kind.is_method && !kind.has_getter && !kind.has_setter {
-                                    // Regular private method call
+                                    // Regular private method call: method.call(obj, ...args)
                                     let method_name = Ident::new(
                                         if private_name.name.is_reserved_in_any() {
                                             format!("__{}", private_name.name).into()
@@ -1389,6 +1490,67 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     }
                                     .into();
                                     return;
+                                } else if kind.is_method && kind.has_getter {
+                                    // Accessor getter call: _accessor.get(obj).get.call(obj,
+                                    // ...args)
+                                    let weak_coll_ident = Ident::new(
+                                        format!("_{}", private_name.name).into(),
+                                        private_name.span,
+                                        SyntaxContext::empty().apply_mark(self.mark),
+                                    );
+
+                                    let obj = member.obj.take();
+                                    let obj_alias = alias_ident_for(&obj, "_obj");
+
+                                    call.args.visit_mut_with(self);
+
+                                    *expr = SeqExpr {
+                                        span: call.span,
+                                        exprs: vec![
+                                            Box::new(
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("="),
+                                                    left: obj_alias.clone().into(),
+                                                    right: obj,
+                                                }
+                                                .into(),
+                                            ),
+                                            Box::new(
+                                                CallExpr {
+                                                    span: call.span,
+                                                    callee: CallExpr {
+                                                        span: DUMMY_SP,
+                                                        callee: weak_coll_ident
+                                                            .make_member(quote_ident!("get"))
+                                                            .as_callee(),
+                                                        args: vec![ExprOrSpread {
+                                                            spread: None,
+                                                            expr: Box::new(
+                                                                obj_alias.clone().into(),
+                                                            ),
+                                                        }],
+                                                        type_args: Default::default(),
+                                                        ctxt: Default::default(),
+                                                    }
+                                                    .make_member(quote_ident!("get"))
+                                                    .make_member(quote_ident!("call"))
+                                                    .as_callee(),
+                                                    args: std::iter::once(ExprOrSpread {
+                                                        spread: None,
+                                                        expr: Box::new(obj_alias.into()),
+                                                    })
+                                                    .chain(call.args.take())
+                                                    .collect(),
+                                                    type_args: Default::default(),
+                                                    ctxt: Default::default(),
+                                                }
+                                                .into(),
+                                            ),
+                                        ],
+                                    }
+                                    .into();
+                                    return;
                                 }
                             }
                         }
@@ -1398,15 +1560,99 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 expr.visit_mut_children_with(self);
             }
             Expr::Member(member) => {
-                // Handle private field read
+                // Handle private field/accessor read
                 member.obj.visit_mut_with(self);
 
-                if let Some(transformed) = self.transform_private_access(member) {
-                    *expr = transformed;
-                } else {
-                    // If not transformed, it's not a private field of the current class
-                    member.visit_mut_children_with(self);
+                if let MemberProp::PrivateName(private_name) = &member.prop {
+                    if let Some(kind) = self.privates.get(&private_name.name) {
+                        let weak_coll_ident = Ident::new(
+                            format!("_{}", private_name.name).into(),
+                            private_name.span,
+                            SyntaxContext::empty().apply_mark(self.mark),
+                        );
+
+                        let obj = member.obj.take();
+
+                        if kind.is_method && kind.has_getter {
+                            // Accessor getter: _accessor.get(obj).get.call(obj)
+                            let obj_alias = alias_ident_for(&obj, "_obj");
+
+                            *expr = SeqExpr {
+                                span: member.span,
+                                exprs: vec![
+                                    Box::new(
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("="),
+                                            left: obj_alias.clone().into(),
+                                            right: obj,
+                                        }
+                                        .into(),
+                                    ),
+                                    Box::new(
+                                        CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: CallExpr {
+                                                span: DUMMY_SP,
+                                                callee: weak_coll_ident
+                                                    .make_member(quote_ident!("get"))
+                                                    .as_callee(),
+                                                args: vec![ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(obj_alias.clone().into()),
+                                                }],
+                                                type_args: Default::default(),
+                                                ctxt: Default::default(),
+                                            }
+                                            .make_member(quote_ident!("get"))
+                                            .make_member(quote_ident!("call"))
+                                            .as_callee(),
+                                            args: vec![ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.into()),
+                                            }],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                        .into(),
+                                    ),
+                                ],
+                            }
+                            .into();
+                        } else if kind.is_method && !kind.has_getter && !kind.has_setter {
+                            // Regular private method (not being called): just reference the method
+                            let method_name = Ident::new(
+                                if private_name.name.is_reserved_in_any() {
+                                    format!("__{}", private_name.name).into()
+                                } else {
+                                    private_name.name.clone()
+                                },
+                                private_name.span,
+                                SyntaxContext::empty().apply_mark(self.mark),
+                            );
+                            *expr = method_name.into();
+                        } else {
+                            // Field: WeakMap.get(obj)
+                            *expr = CallExpr {
+                                span: DUMMY_SP,
+                                callee: weak_coll_ident
+                                    .make_member(quote_ident!("get"))
+                                    .as_callee(),
+                                args: vec![ExprOrSpread {
+                                    spread: None,
+                                    expr: obj,
+                                }],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            }
+                            .into();
+                        }
+                        return;
+                    }
                 }
+
+                // If not transformed, it's not a private field of the current class
+                member.visit_mut_children_with(self);
             }
             _ => {
                 expr.visit_mut_children_with(self);
