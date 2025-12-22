@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![allow(clippy::vec_box)]
 
 use swc_ecma_ast::*;
 use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
