@@ -172,6 +172,33 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.token_value.take()
     }
 
+    fn next(&mut self) -> TokenAndSpan {
+        let mut start = self.cur_pos();
+
+        let token = match self.next_token(&mut start) {
+            Ok(res) => res,
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Token::Error
+            }
+        };
+
+        let span = self.span(start);
+        if token == Token::Eof {
+            self.consume_pending_comments();
+        } else if let Some(comments) = self.comments_buffer.as_mut() {
+            comments.pending_to_comment(BufferedCommentKind::Leading, start);
+        }
+
+        self.state.set_token_type(token);
+        self.state.prev_hi = self.last_pos();
+        TokenAndSpan {
+            token,
+            had_line_break: self.had_line_break_before_last(),
+            span,
+        }
+    }
+
     fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool, reset: BytePos) -> TokenAndSpan {
         unsafe {
             self.input.reset_to(reset);
@@ -325,11 +352,7 @@ impl crate::input::Tokens for Lexer<'_> {
                     span: self.span(start),
                 }
             }
-            _ => self.next().unwrap_or_else(|| TokenAndSpan {
-                token: Token::Eof,
-                had_line_break: self.had_line_break_before_last(),
-                span: self.span(start),
-            }),
+            _ => self.next(),
         }
     }
 
@@ -548,37 +571,6 @@ impl Lexer<'_> {
             }
         }
         v
-    }
-}
-
-impl Iterator for Lexer<'_> {
-    type Item = TokenAndSpan;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let mut start = self.cur_pos();
-
-        let token = match self.next_token(&mut start) {
-            Ok(res) => res,
-            Err(error) => {
-                self.state.set_token_value(TokenValue::Error(error));
-                Token::Error
-            }
-        };
-
-        let span = self.span(start);
-        if token == Token::Eof {
-            self.consume_pending_comments();
-        } else if let Some(comments) = self.comments_buffer.as_mut() {
-            comments.pending_to_comment(BufferedCommentKind::Leading, start);
-        }
-
-        self.state.set_token_type(token);
-        self.state.prev_hi = self.last_pos();
-        Some(TokenAndSpan {
-            token,
-            had_line_break: self.had_line_break_before_last(),
-            span,
-        })
     }
 }
 

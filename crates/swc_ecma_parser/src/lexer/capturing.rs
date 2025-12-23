@@ -5,7 +5,7 @@ use swc_common::Span;
 use crate::{
     error::Error,
     input::Tokens,
-    lexer::{token::TokenAndSpan, TokenFlags},
+    lexer::{token::TokenAndSpan, Token, TokenFlags},
     syntax::SyntaxFlags,
     Context,
 };
@@ -60,22 +60,6 @@ impl<I> Capturing<I> {
         }
 
         v.push(ts);
-    }
-}
-
-impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
-    type Item = TokenAndSpan;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let next = self.inner.next();
-
-        match next {
-            Some(ts) => {
-                self.capture(ts);
-                Some(ts)
-            }
-            None => None,
-        }
     }
 }
 
@@ -164,6 +148,14 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn get_token_value(&self) -> Option<&super::TokenValue> {
         self.inner.get_token_value()
+    }
+
+    fn next(&mut self) -> TokenAndSpan {
+        let next = self.inner.next();
+        if next.token != Token::Eof {
+            self.capture(next);
+        }
+        next
     }
 
     fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
