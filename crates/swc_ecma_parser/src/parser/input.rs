@@ -62,6 +62,11 @@ pub trait Tokens: Clone {
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
+    /// Returns the next token from the input stream.
+    ///
+    /// This method always returns a `TokenAndSpan`. When the end of input is
+    /// reached, it returns `Token::Eof`, and subsequent calls will continue
+    /// returning `Token::Eof`.
     fn next(&mut self) -> TokenAndSpan;
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan;
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
