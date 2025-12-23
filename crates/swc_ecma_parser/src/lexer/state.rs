@@ -172,10 +172,10 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.token_value.take()
     }
 
-    fn next(&mut self) -> TokenAndSpan {
+    fn next_token(&mut self) -> TokenAndSpan {
+        // Start token
         let mut start = self.cur_pos();
-
-        let token = match self.next_token(&mut start) {
+        let token = match self.read_next_token(&mut start) {
             Ok(res) => res,
             Err(error) => {
                 self.state.set_token_value(TokenValue::Error(error));
@@ -183,6 +183,7 @@ impl crate::input::Tokens for Lexer<'_> {
             }
         };
 
+        // Finish token
         let span = self.span(start);
         if token == Token::Eof {
             self.consume_pending_comments();
@@ -352,7 +353,7 @@ impl crate::input::Tokens for Lexer<'_> {
                     span: self.span(start),
                 }
             }
-            _ => self.next(),
+            _ => self.next_token(),
         }
     }
 
@@ -395,7 +396,7 @@ impl crate::input::Tokens for Lexer<'_> {
 }
 
 impl Lexer<'_> {
-    fn next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
+    fn read_next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
         if let Some(next_regexp) = self.state.next_regexp {
             *start = next_regexp;
             return self.read_regexp(next_regexp);
@@ -571,6 +572,20 @@ impl Lexer<'_> {
             }
         }
         v
+    }
+}
+
+/// Impl Iterator for Lexer for compatibility
+impl Iterator for Lexer<'_> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let next_token = self.next_token();
+        if next_token.token == Token::Eof {
+            None
+        } else {
+            Some(next_token)
+        }
     }
 }
 

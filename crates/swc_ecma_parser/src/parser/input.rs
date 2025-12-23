@@ -67,7 +67,7 @@ pub trait Tokens: Clone {
     /// This method always returns a `TokenAndSpan`. When the end of input is
     /// reached, it returns `Token::Eof`, and subsequent calls will continue
     /// returning `Token::Eof`.
-    fn next(&mut self) -> TokenAndSpan;
+    fn next_token(&mut self) -> TokenAndSpan;
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan;
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
@@ -273,7 +273,7 @@ impl<I: Tokens> Buffer<I> {
 
         if self.next.is_none() {
             let old = self.iter.take_token_value();
-            let next_token = self.iter.next();
+            let next_token = self.iter.next_token();
             self.next = Some(NextTokenAndSpan {
                 token_and_span: next_token,
                 value: self.iter.take_token_value(),
@@ -298,7 +298,7 @@ impl<I: Tokens> Buffer<I> {
                 self.iter.set_token_value(next.value);
                 next.token_and_span
             }
-            None => self.iter.next(),
+            None => self.iter.next_token(),
         };
         self.prev_span = self.cur.span;
         self.set_cur(next);
