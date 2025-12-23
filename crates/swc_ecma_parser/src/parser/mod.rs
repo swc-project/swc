@@ -328,32 +328,25 @@ impl<I: Tokens> Parser<I> {
         f: impl FnOnce(&mut Self) -> T,
     ) -> T {
         let ctx = self.ctx();
-        let inserted = ctx.complement().intersection(context);
-        if inserted.is_empty() {
-            f(self)
-        } else {
-            self.input_mut().update_ctx(|ctx| ctx.insert(inserted));
-            let result = f(self);
-            self.input_mut().update_ctx(|ctx| ctx.remove(inserted));
-            result
-        }
+        let new_ctx = ctx.union(context);
+        self.set_ctx(new_ctx);
+        let result = f(self);
+        self.set_ctx(ctx);
+        result
     }
 
+    #[inline]
     pub fn do_outside_of_context<T>(
         &mut self,
         context: Context,
         f: impl FnOnce(&mut Self) -> T,
     ) -> T {
         let ctx = self.ctx();
-        let removed = ctx.intersection(context);
-        if !removed.is_empty() {
-            self.input_mut().update_ctx(|ctx| ctx.remove(removed));
-            let result = f(self);
-            self.input_mut().update_ctx(|ctx| ctx.insert(removed));
-            result
-        } else {
-            f(self)
-        }
+        let new_ctx = ctx.difference(context);
+        self.set_ctx(new_ctx);
+        let result = f(self);
+        self.set_ctx(ctx);
+        result
     }
 
     #[inline(always)]

@@ -80,9 +80,6 @@ impl crate::input::Tokens for Lexer<'_> {
 
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
-        if ctx.contains(Context::Module) && !self.module_errors.is_empty() {
-            self.errors.append(&mut self.module_errors);
-        }
         self.ctx = ctx
     }
 
@@ -133,7 +130,11 @@ impl crate::input::Tokens for Lexer<'_> {
 
     #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors)
+        let mut errors = take(&mut self.errors);
+        if self.ctx.contains(Context::Module) && !self.module_errors.is_empty() {
+            errors.append(&mut self.module_errors);
+        }
+        errors
     }
 
     #[inline]
