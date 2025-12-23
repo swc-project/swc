@@ -391,12 +391,6 @@ impl Lexer<'_> {
         self.skip_space();
         *start = self.input.cur_pos();
 
-        if self.input.last_pos() == self.input.end_pos() {
-            // End of input.
-            self.consume_pending_comments();
-            return Ok(Token::Eof);
-        }
-
         self.read_token()
     }
 
@@ -500,9 +494,7 @@ impl Lexer<'_> {
     }
 
     fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Token> {
-        if self.input_mut().as_str().is_empty() {
-            Ok(Token::Eof)
-        } else if self.input.eat_byte(b'>') {
+        if self.input.eat_byte(b'>') {
             Ok(Token::Gt)
         } else if self.input.eat_byte(b'/') {
             Ok(Token::Slash)
@@ -574,22 +566,19 @@ impl Iterator for Lexer<'_> {
         };
 
         let span = self.span(start);
-        if token != Token::Eof {
-            if let Some(comments) = self.comments_buffer.as_mut() {
-                comments.pending_to_comment(BufferedCommentKind::Leading, start);
-            }
-
-            self.state.set_token_type(token);
-            self.state.prev_hi = self.last_pos();
-            // Attach span to token.
-            Some(TokenAndSpan {
-                token,
-                had_line_break: self.had_line_break_before_last(),
-                span,
-            })
-        } else {
-            None
+        if token == Token::Eof {
+            self.consume_pending_comments();
+        } else if let Some(comments) = self.comments_buffer.as_mut() {
+            comments.pending_to_comment(BufferedCommentKind::Leading, start);
         }
+
+        self.state.set_token_type(token);
+        self.state.prev_hi = self.last_pos();
+        Some(TokenAndSpan {
+            token,
+            had_line_break: self.had_line_break_before_last(),
+            span,
+        })
     }
 }
 
