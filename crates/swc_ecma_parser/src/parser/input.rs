@@ -210,8 +210,8 @@ impl<I: Tokens> Buffer<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn new(lexer: I) -> Self {
-        let end_pos = lexer.end_pos();
-        let prev_span = Span::new_with_checked(end_pos, end_pos);
+        let start_pos = lexer.start_pos();
+        let prev_span = Span::new_with_checked(start_pos, start_pos);
         Buffer {
             iter: lexer,
             cur: TokenAndSpan::new(Token::Eof, prev_span, false),
