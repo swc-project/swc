@@ -150,6 +150,14 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.get_token_value()
     }
 
+    fn first_token(&mut self) -> TokenAndSpan {
+        let next = self.inner.first_token();
+        if next.token != Token::Eof {
+            self.capture(next);
+        }
+        next
+    }
+
     fn next_token(&mut self) -> TokenAndSpan {
         let next = self.inner.next_token();
         if next.token != Token::Eof {

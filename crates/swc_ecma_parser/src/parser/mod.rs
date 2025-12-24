@@ -126,8 +126,9 @@ impl<I: Tokens> Parser<I> {
         };
 
         // consume EOF
-        p.input.bump();
-        // This is a workaround to make comments work
+        p.input.first_bump();
+        // This is a workaround to make comments work when there are only comments in a
+        // source file.
         if p.input.cur.token == Token::Eof {
             p.input.cur.span = Span::new_with_checked(start_pos, start_pos);
         }

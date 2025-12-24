@@ -158,11 +158,6 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
-    fn state_mut(&mut self) -> &mut State {
-        &mut self.state
-    }
-
-    #[inline(always)]
     fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments> {
         self.comments
     }
@@ -277,7 +272,7 @@ impl<'a> Lexer<'a> {
 
     fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
-        let had_line_break_before_last = self.had_line_break_before_last();
+        let had_line_break_before_last = self.state.had_line_break;
 
         self.bump(1); // first `!` or `=`
 
@@ -318,7 +313,7 @@ impl<'a> Lexer<'a> {
 
 impl Lexer<'_> {
     fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Token> {
-        let had_line_break_before_last = self.had_line_break_before_last();
+        let had_line_break_before_last = self.state.had_line_break;
         let start = self.cur_pos();
         self.bump(1); // first `<` or `>`
 
@@ -507,12 +502,6 @@ impl Lexer<'_> {
 
 impl<'a> Lexer<'a> {
     #[inline(always)]
-    #[allow(clippy::misnamed_getters)]
-    fn had_line_break_before_last(&self) -> bool {
-        self.state().had_line_break()
-    }
-
-    #[inline(always)]
     fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
@@ -650,7 +639,7 @@ impl<'a> Lexer<'a> {
         // bar
         //
         let is_for_next =
-            self.state().had_line_break() || !self.state().can_have_trailing_line_comment();
+            self.state.had_line_break || !self.state().can_have_trailing_line_comment();
 
         // Fast search for line-terminator
         byte_search! {
@@ -696,7 +685,7 @@ impl<'a> Lexer<'a> {
                     if is_for_next {
                         self.comments_buffer_mut().unwrap().push_pending(cmt);
                     } else {
-                        let pos = self.state().prev_hi();
+                        let pos = self.state.prev_hi;
                         self.comments_buffer_mut().unwrap().push_comment(BufferedComment {
                             kind: BufferedCommentKind::Trailing,
                             pos,
@@ -727,7 +716,7 @@ impl<'a> Lexer<'a> {
             if is_for_next {
                 self.comments_buffer_mut().unwrap().push_pending(cmt);
             } else {
-                let pos = self.state().prev_hi();
+                let pos = self.state.prev_hi;
                 self.comments_buffer_mut()
                     .unwrap()
                     .push_comment(BufferedComment {
@@ -759,7 +748,7 @@ impl<'a> Lexer<'a> {
         // jsdoc
         let slice_start = self.cur_pos();
 
-        let had_line_break_before_last = self.had_line_break_before_last();
+        let had_line_break_before_last = self.state.had_line_break;
 
         byte_search! {
             lexer: self,
@@ -774,7 +763,7 @@ impl<'a> Lexer<'a> {
                             let bytes = current_slice.as_bytes();
                             let next2 = [bytes[byte_pos + 1], bytes[byte_pos + 2]];
                             if next2 == LS_BYTES_2_AND_3 || next2 == PS_BYTES_2_AND_3 {
-                                self.state_mut().mark_had_line_break();
+                                self.state.had_line_break = true;
                                 pos_offset += 2;
                             }
                         }
@@ -813,7 +802,7 @@ impl<'a> Lexer<'a> {
                                 if is_for_next {
                                     self.comments_buffer_mut().unwrap().push_pending(cmt);
                                 } else {
-                                    let pos = self.state().prev_hi();
+                                    let pos = self.state.prev_hi;
                                     self.comments_buffer_mut()
                                         .unwrap()
                                         .push_comment(BufferedComment {
@@ -830,7 +819,7 @@ impl<'a> Lexer<'a> {
                         }
                     }
                     _ => {
-                        self.state_mut().mark_had_line_break();
+                        self.state.had_line_break = true;
                         true
                     },
                 }
@@ -1189,7 +1178,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     fn consume_pending_comments(&mut self) {
         if let Some(comments) = self.comments() {
-            let last = self.state().prev_hi();
+            let last = self.state.prev_hi;
             let start_pos = self.start_pos();
             let comments_buffer = self.comments_buffer_mut().unwrap();
 
@@ -2026,7 +2015,7 @@ impl<'a> Lexer<'a> {
     fn read_token_logical<const C: u8>(&mut self) -> LexResult<Token> {
         debug_assert!(C == b'|' || C == b'&');
         let is_bit_and = C == b'&';
-        let had_line_break_before_last = self.had_line_break_before_last();
+        let had_line_break_before_last = self.state.had_line_break;
         let start = self.cur_pos();
 
         self.bump(1); // first `|` or `&`
