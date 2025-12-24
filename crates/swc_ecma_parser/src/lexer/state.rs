@@ -377,7 +377,7 @@ impl Lexer<'_> {
         self.read_token()
     }
 
-    #[inline]
+    #[inline(always)]
     fn finish_next_token(&mut self, span: Span, token: Token) -> TokenAndSpan {
         if token == Token::Eof {
             self.consume_pending_comments();
