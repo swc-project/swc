@@ -1,4 +1,33 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/minifier)** Support BinaryExpression for Evaluator ([#11390](https://github.com/swc-project/swc/issues/11390)) ([6c76f0a](https://github.com/swc-project/swc/commit/6c76f0adc39cbc72cbf3b81fdc2f521a5d0b6f7b))
+
+### Performance
+
+
+
+- **(es/parser)** Remove `Iterator` implementation for `Lexer` ([#11393](https://github.com/swc-project/swc/issues/11393)) ([5941018](https://github.com/swc-project/swc/commit/59410188a2037ab88b516cddf4401149cc739ee8))
+
+
+- **(es/parser)** Optimize `do_outside_of_context` and `do_inside_of_context` ([#11394](https://github.com/swc-project/swc/issues/11394)) ([4210cf1](https://github.com/swc-project/swc/commit/4210cf1ca1ec37a624cbeb36d8821855c3f56d41))
+
+
+- **(es/parser)** Remove `is_first` in lexer state ([#11395](https://github.com/swc-project/swc/issues/11395)) ([97d903b](https://github.com/swc-project/swc/commit/97d903b4e580e99d0a02463c0a38e780f76bd274))
+
+### Refactor
+
+
+
+- **(es/minifier)** Move drop_console and unsafes from Pure to Optimizer ([#11388](https://github.com/swc-project/swc/issues/11388)) ([ee40804](https://github.com/swc-project/swc/commit/ee408042547f0c3fe4d3a5dd2599a7846b619852))
+
+
+- **(es/parser)** Distinguish JsxText from Str ([#11387](https://github.com/swc-project/swc/issues/11387)) ([63c4c44](https://github.com/swc-project/swc/commit/63c4c440a135be06179b4fdc03a2b7a5e9606c1c))
+
 ## [1.15.7] - 2025-12-18
 
 ### Bug Fixes
@@ -1968,22 +1997,10 @@
 
 
 
-- **(es/minifier)** Preserve block with block scoped declaration ([#10335](https://github.com/swc-project/swc/issues/10335)) ([a4ac3b7](https://github.com/swc-project/swc/commit/a4ac3b7188c595aa76d0f28c75d302da7fe25ccc))
-
-
 - **(es/resolver)** Handle using declarations ([#10354](https://github.com/swc-project/swc/issues/10354)) ([dad815c](https://github.com/swc-project/swc/commit/dad815cee63f89fbdb393bdf8c02751ea4c4e929))
-
-### Features
-
-
-
-- **(es/codegen)** Support `sourceMap.url` option of `terser` ([#10346](https://github.com/swc-project/swc/issues/10346)) ([566bc7c](https://github.com/swc-project/swc/commit/566bc7c06e66805c2c03f8284016711029539111))
 
 ### Performance
 
-
-
-- **(es/parser)** Remove redundant `is_ascii` calls ([#10334](https://github.com/swc-project/swc/issues/10334)) ([e66b4d6](https://github.com/swc-project/swc/commit/e66b4d660c36a491f06e8d79f6d49a815dadebdc))
 
 
 - **(es/parser)** Remove ascii check for no-ascii ([#10350](https://github.com/swc-project/swc/issues/10350)) ([4279b96](https://github.com/swc-project/swc/commit/4279b96d12f259bd3205a71b3402402fe4880d5b))

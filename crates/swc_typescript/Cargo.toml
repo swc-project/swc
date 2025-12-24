@@ -25,6 +25,6 @@ swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_ecma_codegen         = { version = "21.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser          = { version = "30.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "33.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_parser          = { version = "31.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "34.0.0", path = "../swc_ecma_transforms_base" }
 testing                  = { version = "19.0.0", path = "../testing" }
