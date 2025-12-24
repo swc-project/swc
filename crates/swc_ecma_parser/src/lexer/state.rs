@@ -208,7 +208,7 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.prev_hi = self.last_pos();
         TokenAndSpan {
             token,
-            had_line_break: self.had_line_break_before_last(),
+            had_line_break: self.state.had_line_break,
             span,
         }
     }
@@ -236,7 +236,7 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.prev_hi = self.last_pos();
         TokenAndSpan {
             token,
-            had_line_break: self.had_line_break_before_last(),
+            had_line_break: self.state.had_line_break,
             span,
         }
     }
@@ -280,7 +280,7 @@ impl crate::input::Tokens for Lexer<'_> {
         // Attach span to token.
         TokenAndSpan {
             token,
-            had_line_break: self.had_line_break_before_last(),
+            had_line_break: self.state.had_line_break,
             span,
         }
     }
@@ -311,7 +311,7 @@ impl crate::input::Tokens for Lexer<'_> {
         // Attach span to token.
         TokenAndSpan {
             token,
-            had_line_break: self.had_line_break_before_last(),
+            had_line_break: self.state.had_line_break,
             span,
         }
     }
@@ -354,7 +354,7 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.set_token_value(TokenValue::Word(v));
         TokenAndSpan {
             token: Token::JSXName,
-            had_line_break: self.had_line_break_before_last(),
+            had_line_break: self.state.had_line_break,
             span: self.span(start),
         }
     }
@@ -364,7 +364,7 @@ impl crate::input::Tokens for Lexer<'_> {
             let start = self.cur_pos();
             return TokenAndSpan {
                 token: Token::Eof,
-                had_line_break: self.had_line_break_before_last(),
+                had_line_break: self.state.had_line_break,
                 span: self.span(start),
             };
         };
@@ -379,7 +379,7 @@ impl crate::input::Tokens for Lexer<'_> {
                         self.state.set_token_value(TokenValue::Error(e));
                         return TokenAndSpan {
                             token: Token::Error,
-                            had_line_break: self.had_line_break_before_last(),
+                            had_line_break: self.state.had_line_break,
                             span: self.span(start),
                         };
                     }
@@ -390,7 +390,7 @@ impl crate::input::Tokens for Lexer<'_> {
                 debug_assert!(token == Token::Str);
                 TokenAndSpan {
                     token,
-                    had_line_break: self.had_line_break_before_last(),
+                    had_line_break: self.state.had_line_break,
                     span: self.span(start),
                 }
             }
@@ -430,7 +430,7 @@ impl crate::input::Tokens for Lexer<'_> {
         // Attach span to token.
         TokenAndSpan {
             token,
-            had_line_break: self.had_line_break_before_last(),
+            had_line_break: self.state.had_line_break,
             span,
         }
     }
@@ -638,16 +638,6 @@ impl State {
 }
 
 impl State {
-    #[inline(always)]
-    pub fn had_line_break(&self) -> bool {
-        self.had_line_break
-    }
-
-    #[inline(always)]
-    pub fn mark_had_line_break(&mut self) {
-        self.had_line_break = true;
-    }
-
     #[inline(always)]
     pub fn set_token_type(&mut self, token_type: Token) {
         self.token_type = Some(token_type);
