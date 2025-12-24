@@ -468,12 +468,6 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn update_ctx(&mut self, f: impl FnOnce(&mut Context)) {
-        let ctx = self.iter_mut().ctx_mut();
-        f(ctx)
-    }
-
-    #[inline]
     pub fn set_ctx(&mut self, ctx: Context) {
         self.iter_mut().set_ctx(ctx);
     }
