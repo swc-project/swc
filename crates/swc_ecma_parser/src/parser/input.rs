@@ -62,6 +62,11 @@ pub trait Tokens: Clone {
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
+    /// Returns the first token in the file.
+    ///
+    /// This function should only be called at the first time of bump.
+    /// It's mainly used for shebang.
+    fn first_token(&mut self) -> TokenAndSpan;
     /// Returns the next token from the input stream.
     ///
     /// This method always returns a `TokenAndSpan`. When the end of input is
@@ -290,6 +295,12 @@ impl<I: Tokens> Buffer<I> {
         let span = self.prev_span();
         let token = TokenAndSpan::new(token, span, false);
         self.set_cur(token);
+    }
+
+    pub fn first_bump(&mut self) {
+        let first_token = self.iter.first_token();
+        self.prev_span = self.cur.span;
+        self.set_cur(first_token);
     }
 
     pub fn bump(&mut self) {

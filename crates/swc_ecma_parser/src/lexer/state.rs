@@ -31,8 +31,6 @@ bitflags::bitflags! {
 pub struct State {
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
-    /// TODO: Remove this field.
-    is_first: bool,
     pub next_regexp: Option<BytePos>,
     pub prev_hi: BytePos,
 
@@ -171,6 +169,48 @@ impl crate::input::Tokens for Lexer<'_> {
 
     fn take_token_value(&mut self) -> Option<TokenValue> {
         self.state.token_value.take()
+    }
+
+    fn first_token(&mut self) -> TokenAndSpan {
+        let mut start = self.cur_pos();
+        let token = match self.read_shebang() {
+            Ok(Some(shebang)) => {
+                self.state.set_token_value(TokenValue::Word(shebang));
+                Ok(Token::Shebang)
+            }
+            // Fallback to other tokens
+            Ok(None) => {
+                self.state.had_line_break = true;
+                self.skip_space();
+                start = self.input.cur_pos();
+                self.read_token()
+            }
+            Err(error) => Err(error),
+        };
+
+        let token = match token {
+            Ok(token) => token,
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Token::Error
+            }
+        };
+
+        // Finish token
+        let span = self.span(start);
+        if token == Token::Eof {
+            self.consume_pending_comments();
+        } else if let Some(comments) = self.comments_buffer.as_mut() {
+            comments.pending_to_comment(BufferedCommentKind::Leading, start);
+        }
+
+        self.state.set_token_type(token);
+        self.state.prev_hi = self.last_pos();
+        TokenAndSpan {
+            token,
+            had_line_break: self.had_line_break_before_last(),
+            span,
+        }
     }
 
     fn next_token(&mut self) -> TokenAndSpan {
@@ -403,16 +443,7 @@ impl Lexer<'_> {
             return self.read_regexp(next_regexp);
         }
 
-        if self.state.is_first {
-            if let Some(shebang) = self.read_shebang()? {
-                self.state.set_token_value(TokenValue::Word(shebang));
-                return Ok(Token::Shebang);
-            }
-        }
-
-        self.state.had_line_break = self.state.is_first;
-        self.state.is_first = false;
-
+        self.state.had_line_break = false;
         self.skip_space();
         *start = self.input.cur_pos();
 
@@ -594,7 +625,6 @@ impl State {
     pub fn new(start_pos: BytePos) -> Self {
         State {
             had_line_break: false,
-            is_first: true,
             next_regexp: None,
             prev_hi: start_pos,
             token_value: None,
