@@ -11,7 +11,7 @@ use crate::{
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
-pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
+pub trait Tokens: Clone {
     type Checkpoint;
 
     fn set_ctx(&mut self, ctx: Context);
@@ -62,6 +62,12 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
+    /// Returns the next token from the input stream.
+    ///
+    /// This method always returns a `TokenAndSpan`. When the end of input is
+    /// reached, it returns `Token::Eof`, and subsequent calls will continue
+    /// returning `Token::Eof`.
+    fn next_token(&mut self) -> TokenAndSpan;
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan;
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
@@ -267,9 +273,9 @@ impl<I: Tokens> Buffer<I> {
 
         if self.next.is_none() {
             let old = self.iter.take_token_value();
-            let next_token = self.iter.next();
-            self.next = next_token.map(|t| NextTokenAndSpan {
-                token_and_span: t,
+            let next_token = self.iter.next_token();
+            self.next = Some(NextTokenAndSpan {
+                token_and_span: next_token,
                 value: self.iter.take_token_value(),
             });
             self.iter.set_token_value(old);
@@ -287,15 +293,12 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn bump(&mut self) {
-        let next = if let Some(next) = self.next.take() {
-            self.iter.set_token_value(next.value);
-            next.token_and_span
-        } else if let Some(next) = self.iter.next() {
-            next
-        } else {
-            let eof_pos = self.cur.span.hi;
-            let eof_span = Span::new_with_checked(eof_pos, eof_pos);
-            TokenAndSpan::new(Token::Eof, eof_span, true)
+        let next = match self.next.take() {
+            Some(next) => {
+                self.iter.set_token_value(next.value);
+                next.token_and_span
+            }
+            None => self.iter.next_token(),
         };
         self.prev_span = self.cur.span;
         self.set_cur(next);

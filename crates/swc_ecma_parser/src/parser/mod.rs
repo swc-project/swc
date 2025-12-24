@@ -118,12 +118,20 @@ impl<I: Tokens> Parser<I> {
         ctx.set(Context::InDeclare, in_declare);
         input.set_ctx(ctx);
 
+        let start_pos = input.start_pos();
         let mut p = Parser {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
         };
-        p.input.bump(); // consume EOF
+
+        // consume EOF
+        p.input.bump();
+        // This is a workaround to make comments work
+        if p.input.cur.token == Token::Eof {
+            p.input.cur.span = Span::new_with_checked(start_pos, start_pos);
+        }
+
         p
     }
 

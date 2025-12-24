@@ -1,6 +1,6 @@
 //! ECMAScript lexer.
 
-use std::{borrow::Cow, char, iter::FusedIterator, rc::Rc};
+use std::{borrow::Cow, char, rc::Rc};
 
 use either::Either::{self, Left, Right};
 use rustc_hash::FxHashMap;
@@ -135,8 +135,6 @@ pub struct Lexer<'a> {
 
     atoms: Rc<AtomStoreCell>,
 }
-
-impl FusedIterator for Lexer<'_> {}
 
 impl<'a> Lexer<'a> {
     #[inline(always)]
