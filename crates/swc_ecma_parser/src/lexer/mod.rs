@@ -696,7 +696,7 @@ impl<'a> Lexer<'a> {
                     if is_for_next {
                         self.comments_buffer_mut().unwrap().push_pending(cmt);
                     } else {
-                        let pos = self.state().prev_hi();
+                        let pos = self.state.prev_hi;
                         self.comments_buffer_mut().unwrap().push_comment(BufferedComment {
                             kind: BufferedCommentKind::Trailing,
                             pos,
@@ -727,7 +727,7 @@ impl<'a> Lexer<'a> {
             if is_for_next {
                 self.comments_buffer_mut().unwrap().push_pending(cmt);
             } else {
-                let pos = self.state().prev_hi();
+                let pos = self.state.prev_hi;
                 self.comments_buffer_mut()
                     .unwrap()
                     .push_comment(BufferedComment {
@@ -813,7 +813,7 @@ impl<'a> Lexer<'a> {
                                 if is_for_next {
                                     self.comments_buffer_mut().unwrap().push_pending(cmt);
                                 } else {
-                                    let pos = self.state().prev_hi();
+                                    let pos = self.state.prev_hi;
                                     self.comments_buffer_mut()
                                         .unwrap()
                                         .push_comment(BufferedComment {
@@ -1189,7 +1189,7 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     fn consume_pending_comments(&mut self) {
         if let Some(comments) = self.comments() {
-            let last = self.state().prev_hi();
+            let last = self.state.prev_hi;
             let start_pos = self.start_pos();
             let comments_buffer = self.comments_buffer_mut().unwrap();
 

@@ -658,11 +658,6 @@ impl State {
         self.token_type
     }
 
-    #[inline(always)]
-    pub fn prev_hi(&self) -> BytePos {
-        self.prev_hi
-    }
-
     pub fn can_have_trailing_line_comment(&self) -> bool {
         let Some(t) = self.token_type() else {
             return true;
