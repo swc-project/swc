@@ -146,11 +146,6 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     #[inline]
-    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
-        f(&mut self.token_flags)
-    }
-
-    #[inline]
     fn token_flags(&self) -> TokenFlags {
         self.token_flags
     }

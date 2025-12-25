@@ -2219,7 +2219,9 @@ impl<'a> Lexer<'a> {
         let word = Token::unknown_ident(atom, self);
 
         if has_escape {
-            self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
+            cold_branch(|| {
+                self.token_flags |= TokenFlags::UNICODE;
+            });
         }
 
         Ok(word)
@@ -2302,4 +2304,9 @@ fn pos_span(p: BytePos) -> Span {
 
 fn fixed_len_span(p: BytePos, len: u32) -> Span {
     Span::new_with_checked(p, p + BytePos(len))
+}
+
+#[cold]
+fn cold_branch<T, F: FnOnce() -> T>(f: F) -> T {
+    f()
 }

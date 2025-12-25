@@ -130,10 +130,6 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.take_script_module_errors()
     }
 
-    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
-        self.inner.update_token_flags(f);
-    }
-
     fn token_flags(&self) -> TokenFlags {
         self.inner.token_flags()
     }
