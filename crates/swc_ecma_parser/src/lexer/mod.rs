@@ -1720,9 +1720,9 @@ impl<'a> Lexer<'a> {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with()
-                    .map(|(s, _)| Some(self.atom(s))),
+                Some(c) if c.is_ident_start() => {
+                    self.read_word_as_str_with().map(|s| Some(self.atom(s)))
+                }
                 _ => Ok(None),
             }
         }?;
@@ -1756,7 +1756,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// This method is optimized for texts without escape sequences.
-    fn read_word_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
+    fn read_word_as_str_with(&mut self) -> LexResult<Cow<'a, str>> {
         debug_assert!(self.cur().is_some());
         let slice_start = self.cur_pos();
 
@@ -1778,7 +1778,7 @@ impl<'a> Lexer<'a> {
                             self.input_slice_str(slice_start, self.cur_pos())
                         };
 
-                        return Ok((Cow::Borrowed(s), false));
+                        return Ok(Cow::Borrowed(s));
                     },
                 };
 
@@ -1797,7 +1797,7 @@ impl<'a> Lexer<'a> {
                         self.input_slice_str(slice_start, self.cur_pos())
                     };
 
-                    return Ok((Cow::Borrowed(s), false));
+                    return Ok(Cow::Borrowed(s));
                 }
             }
         }
@@ -1811,7 +1811,7 @@ impl<'a> Lexer<'a> {
     fn read_word_as_str_with_slow_path(
         &mut self,
         mut slice_start: BytePos,
-    ) -> LexResult<(Cow<'a, str>, bool)> {
+    ) -> LexResult<Cow<'a, str>> {
         let mut first = true;
         let mut has_escape = false;
 
@@ -1910,7 +1910,7 @@ impl<'a> Lexer<'a> {
             Cow::Owned(buf)
         };
 
-        Ok((value, has_escape))
+        Ok(value)
     }
 
     /// `#`
@@ -2112,22 +2112,6 @@ impl<'a> Lexer<'a> {
         })
     }
 
-    /// This can be used if there's no keyword starting with the first
-    /// character.
-    fn read_ident_unknown(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur().is_some());
-
-        let (s, has_escape) = self.read_word_as_str_with()?;
-        let atom = self.atom(s);
-        let word = Token::unknown_ident(atom, self);
-
-        if has_escape {
-            self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
-        }
-
-        Ok(word)
-    }
-
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     // TODO: merge `read_str_lit` and `read_jsx_str`
     fn read_str_lit(&mut self) -> LexResult<Token> {
@@ -2224,24 +2208,43 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    /// This can be used if there's no keyword starting with the first
+    /// character.
+    fn read_ident_unknown(&mut self) -> LexResult<Token> {
+        debug_assert!(self.cur().is_some());
+
+        let s = self.read_word_as_str_with()?;
+        let has_escape = matches!(s, Cow::Owned(_));
+        let atom = self.atom(s);
+        let word = Token::unknown_ident(atom, self);
+
+        if has_escape {
+            self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
+        }
+
+        Ok(word)
+    }
+
+    /// This is used if there could be keyword starting with the first
+    /// character.
     fn read_keyword_with(&mut self, convert: &dyn Fn(&str) -> Option<Token>) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let (s, has_escape) = self.read_keyword_as_str_with()?;
+        let s = self.read_keyword_as_str_with()?;
+        let has_escape = matches!(s, Cow::Owned(_));
         if let Some(word) = convert(s.as_ref()) {
             // Note: ctx is store in lexer because of this error.
             // 'await' and 'yield' may have semantic of reserved word, which means lexer
             // should know context or parser should handle this error. Our approach to this
             // problem is former one.
             if has_escape && word.is_reserved(self.ctx()) {
-                self.error(
+                return self.error(
                     start,
                     SyntaxError::EscapeInReservedWord { word: Atom::new(s) },
-                )
-            } else {
-                Ok(word)
+                );
             }
+            Ok(word)
         } else {
             let atom = self.atom(s);
             Ok(Token::unknown_ident(atom, self))
@@ -2251,7 +2254,7 @@ impl<'a> Lexer<'a> {
     /// This is a performant version of [Lexer::read_word_as_str_with] for
     /// reading keywords. We should make sure the first byte is a valid
     /// ASCII.
-    fn read_keyword_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
+    fn read_keyword_as_str_with(&mut self) -> LexResult<Cow<'a, str>> {
         let slice_start = self.cur_pos();
 
         // Fast path: try to scan ASCII identifier using byte_search
@@ -2271,7 +2274,7 @@ impl<'a> Lexer<'a> {
                     self.input_slice_str(slice_start, self.cur_pos())
                 };
 
-                return Ok((Cow::Borrowed(s), false));
+                return Ok(Cow::Borrowed(s));
             },
         };
 
@@ -2288,7 +2291,7 @@ impl<'a> Lexer<'a> {
                 self.input_slice_str(slice_start, self.cur_pos())
             };
 
-            Ok((Cow::Borrowed(s), false))
+            Ok(Cow::Borrowed(s))
         }
     }
 }
