@@ -190,13 +190,6 @@ impl VisitMut for InfoMarker<'_> {
     }
 }
 
-fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
-    match &p.pat {
-        Pat::Ident(i) => allowed.contains(&&*i.id.sym),
-        _ => false,
-    }
-}
-
 const NO_SIDE_EFFECTS_FLAG: &str = "NO_SIDE_EFFECTS";
 
 struct InfoCollector<'a> {
