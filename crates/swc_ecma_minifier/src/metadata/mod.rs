@@ -20,7 +20,6 @@ pub(crate) fn info_marker<'a>(
     options: Option<&'a CompressOptions>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
-    // unresolved_mark: Mark,
 ) -> impl 'a + VisitMut {
     let pure_funcs = options.map(|options| {
         options
@@ -34,7 +33,6 @@ pub(crate) fn info_marker<'a>(
         comments,
         marks,
         pure_funcs,
-        // unresolved_mark,
         state: Default::default(),
         pure_callee: Default::default(),
     }
@@ -53,7 +51,6 @@ struct InfoMarker<'a> {
 
     comments: Option<&'a dyn Comments>,
     marks: Marks,
-    // unresolved_mark: Mark,
     state: State,
 }
 
@@ -142,31 +139,6 @@ impl VisitMut for InfoMarker<'_> {
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
         n.visit_mut_children_with(self);
-
-        if !self.state.is_in_export
-            && n.function
-                .params
-                .iter()
-                .any(|p| is_param_one_of(p, &["module", "__unused_webpack_module"]))
-            && n.function.params.iter().any(|p| {
-                is_param_one_of(
-                    p,
-                    &[
-                        "exports",
-                        "__webpack_require__",
-                        "__webpack_exports__",
-                        "__unused_webpack_exports",
-                    ],
-                )
-            })
-        {
-            // if is_standalone(&mut n.function, self.unresolved_mark) {
-            //     // self.state.is_bundle = true;
-
-            //     // n.function.span =
-            //     // n.function.span.apply_mark(self.marks.standalone);
-            // }
-        }
     }
 
     fn visit_mut_ident(&mut self, _: &mut Ident) {}
