@@ -4686,7 +4686,7 @@ __metadata:
     jest: "npm:^29.7.0"
     typescript: "npm:^5.3.3"
   peerDependencies:
-    "@swc/helpers": ">=0.5.18"
+    "@swc/helpers": ">=0.5.17"
   peerDependenciesMeta:
     "@swc/helpers":
       optional: true
