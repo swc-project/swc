@@ -1,3 +1,3 @@
 class Foo {
 }
-_define_property(Foo, "bar", void 0);
+Foo.bar = void 0;

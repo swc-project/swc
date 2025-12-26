@@ -1,4 +1,4 @@
-var _x = new WeakMap(), _y = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap(), _y = /*#__PURE__*/ new WeakMap();
 var Point = /*#__PURE__*/ function() {
     "use strict";
     function Point(x = 0, y = 0) {

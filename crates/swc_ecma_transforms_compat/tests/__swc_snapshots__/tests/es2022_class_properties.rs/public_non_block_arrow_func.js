@@ -1,6 +1,5 @@
 export default ((param)=>{
-    var App;
-    return App = /*#__PURE__*/ function() {
+    var App = /*#__PURE__*/ function() {
         "use strict";
         function App() {
             _class_call_check(this, App);
@@ -14,8 +13,10 @@ export default ((param)=>{
             }
         ]);
         return App;
-    }(), _define_property(App, "props", {
+    }();
+    _define_property(App, "props", {
         prop1: 'prop1',
         prop2: 'prop2'
-    }), App;
+    });
+    return App;
 });

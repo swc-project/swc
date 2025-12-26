@@ -1,4 +1,4 @@
-var _ws = new WeakMap(), _serialization = new WeakMap(), _seq = new WeakMap();
+var _ws = /*#__PURE__*/ new WeakMap(), _serialization = /*#__PURE__*/ new WeakMap(), _seq = /*#__PURE__*/ new WeakMap();
 class Test {
     _packet(raw) {
         /** @type {DiscordPacket} */ let pak;

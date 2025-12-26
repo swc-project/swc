@@ -1,7 +1,7 @@
-var _privateField = new WeakMap(), _privateFieldValue = new WeakMap();
+var _privateField = /*#__PURE__*/ new WeakMap(), _privateFieldValue = /*#__PURE__*/ new WeakMap();
 class Cl {
     constructor(){
-        _privateFieldValue.set(this, {
+        _class_private_field_init(this, _privateFieldValue, {
             get: void 0,
             set: set_privateFieldValue
         });
@@ -9,7 +9,7 @@ class Cl {
             writable: true,
             value: 0
         });
-        this.publicField = _class_private_field_get(this, _privateFieldValue);
+        this.publicField = (this, _write_only_error("#privateFieldValue"));
     }
 }
 function set_privateFieldValue(newValue) {

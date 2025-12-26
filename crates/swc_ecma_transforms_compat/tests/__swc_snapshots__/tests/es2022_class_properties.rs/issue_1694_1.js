@@ -1,8 +1,8 @@
-var _get = new WeakSet();
+var _get = /*#__PURE__*/ new WeakSet();
 class MyClass {
     constructor(){
-        _get.add(this);
-        get.call(this, foo);
+        _class_private_method_init(this, _get);
+        _class_private_method_get(this, _get, get).call(this, foo);
     }
 }
 function get() {

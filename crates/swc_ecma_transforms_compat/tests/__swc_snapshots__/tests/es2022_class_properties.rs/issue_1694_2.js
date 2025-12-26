@@ -1,6 +1,6 @@
 class MyClass {
     constructor(){
-        get.call(MyClass, foo);
+        _class_static_private_method_get(MyClass, MyClass, get).call(MyClass, foo);
     }
 }
 function get() {

@@ -1,4 +1,4 @@
-var _prop = new WeakMap(), _prop1 = new WeakMap();
+var _prop = /*#__PURE__*/ new WeakMap();
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
@@ -7,6 +7,7 @@ var Foo = function Foo() {
         value: "foo"
     });
 };
+var _prop1 = /*#__PURE__*/ new WeakMap();
 var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";
     _inherits(Bar, Foo);

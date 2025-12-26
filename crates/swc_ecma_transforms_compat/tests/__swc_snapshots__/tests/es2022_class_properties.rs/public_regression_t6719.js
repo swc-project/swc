@@ -1,6 +1,6 @@
 function withContext(ComposedComponent) {
-    var WithContext;
-    return WithContext = /*#__PURE__*/ function(Component1) {
+    var _WithContext;
+    return _WithContext = /*#__PURE__*/ function(Component1) {
         "use strict";
         _inherits(WithContext, Component1);
         function WithContext() {
@@ -8,11 +8,11 @@ function withContext(ComposedComponent) {
             return _call_super(this, WithContext, arguments);
         }
         return WithContext;
-    }(Component), _define_property(WithContext, "propTypes", {
+    }(Component), _define_property(_WithContext, "propTypes", {
         context: PropTypes.shape({
             addCss: PropTypes.func,
             setTitle: PropTypes.func,
             setMeta: PropTypes.func
         })
-    }), WithContext;
+    }), _WithContext;
 }

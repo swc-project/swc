@@ -1,7 +1,6 @@
-var _x = new WeakMap();
 class x {
 }
-_x.set(x, {
+var _x = {
     writable: true,
-    value: Object.getPrototypeOf(x).x = 0
-});
+    value: _set(_get_prototype_of(x), "x", 0, x, true)
+};

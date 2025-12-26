@@ -1,19 +1,17 @@
-var _privateField = new WeakMap(), _privateFieldValue = new WeakMap();
+var _privateField = /*#__PURE__*/ _class_private_field_loose_key("_privateField"), _privateFieldValue = /*#__PURE__*/ _class_private_field_loose_key("_privateFieldValue");
 class Cl {
     publicGetPrivateField() {
-        var _this;
-        return _this = this, _privateFieldValue.get(_this).get.call(_this);
+        return _class_private_field_loose_base(this, _privateFieldValue)[_privateFieldValue];
     }
     publicSetPrivateField(newValue) {
-        var _this;
-        _this = this, _privateFieldValue.get(_this).set.call(_this, newValue);
+        _class_private_field_loose_base(this, _privateFieldValue)[_privateFieldValue] = newValue;
     }
     constructor(){
-        _privateFieldValue.set(this, {
+        Object.defineProperty(this, _privateFieldValue, {
             get: get_privateFieldValue,
             set: set_privateFieldValue
         });
-        _class_private_field_init(this, _privateField, {
+        Object.defineProperty(this, _privateField, {
             writable: true,
             value: "top secret string"
         });
@@ -21,8 +19,8 @@ class Cl {
     }
 }
 function get_privateFieldValue() {
-    return _class_private_field_get(this, _privateField);
+    return _class_private_field_loose_base(this, _privateField)[_privateField];
 }
 function set_privateFieldValue(newValue) {
-    _class_private_field_set(this, _privateField, newValue);
+    _class_private_field_loose_base(this, _privateField)[_privateField] = newValue;
 }

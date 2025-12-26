@@ -1,9 +1,9 @@
-var TestClass;
+var _TestClass;
 var _class;
-let TestClass1 = _class = someClassDecorator((_class = (TestClass = class TestClass {
-}, _define_property(TestClass, "Something", 'hello'), _define_property(TestClass, "SomeProperties", {
-    firstProp: TestClass.Something
-}), TestClass)) || _class) || _class;
+let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
+}, _define_property(_TestClass, "Something", 'hello'), _define_property(_TestClass, "SomeProperties", {
+    firstProp: _TestClass.Something
+}), _TestClass)) || _class) || _class;
 function someClassDecorator(c) {
     return c;
 }

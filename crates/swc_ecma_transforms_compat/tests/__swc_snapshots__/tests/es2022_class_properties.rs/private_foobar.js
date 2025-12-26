@@ -1,4 +1,4 @@
-var _scopedFunctionWithThis = new WeakMap();
+var _scopedFunctionWithThis = /*#__PURE__*/ new WeakMap();
 var Child = /*#__PURE__*/ function(Parent1) {
     "use strict";
     _inherits(Child, Parent1);

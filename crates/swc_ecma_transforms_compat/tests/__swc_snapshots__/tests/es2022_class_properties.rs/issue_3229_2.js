@@ -1,8 +1,8 @@
-var _b = new WeakMap();
+var _b = /*#__PURE__*/ new WeakMap();
 class A {
     foo() {
         var _A;
-        _A = A, _class_private_field_set(_A, _b, _class_private_field_get(_A, _b) + 123);
+        _class_private_field_set(_A = A, _b, _class_private_field_get(_A, _b) + 123);
         class B {
             foo() {}
         }

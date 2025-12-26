@@ -1,4 +1,4 @@
-var _two = new WeakMap(), _private = new WeakMap(), _four = new WeakMap();
+var _two = /*#__PURE__*/ new WeakMap(), _private = /*#__PURE__*/ new WeakMap(), _four = /*#__PURE__*/ new WeakMap();
 var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);

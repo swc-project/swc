@@ -12,17 +12,18 @@
     });
 });
 (function() {
-    var Bar;
-    return Bar = class Bar {
+    class Bar {
         constructor(){
             var _this = this;
             _define_property(this, "fn", function() {
                 return console.log(_this);
             });
         }
-    }, _define_property(Bar, "fn", function() {
+    }
+    _define_property(Bar, "fn", function() {
         return console.log(Bar);
-    }), Bar;
+    });
+    return Bar;
 });
 (function() {
     class Baz {

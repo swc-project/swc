@@ -6,4 +6,4 @@ class Foo {
         var baz1 = "baz";
     }
 }
-_define_property(Foo, "bar", baz);
+Foo.bar = baz;

@@ -1,12 +1,12 @@
-var _switch = new WeakSet(), _bar = new WeakSet();
+var _switch = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet();
 class TestCls {
     foo() {
-        bar.call(this);
-        __switch.call(this);
+        _class_private_method_get(this, _bar, bar).call(this);
+        _class_private_method_get(this, _switch, __switch).call(this);
     }
     constructor(){
-        _switch.add(this);
-        _bar.add(this);
+        _class_private_method_init(this, _switch);
+        _class_private_method_init(this, _bar);
     }
 }
 function __switch() {

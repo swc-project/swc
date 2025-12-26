@@ -1,4 +1,4 @@
-var _a = new WeakMap();
+var _a = /*#__PURE__*/ new WeakMap();
 class A {
     foo() {
         [_class_private_field_destructure(a(), _a).value] = [];

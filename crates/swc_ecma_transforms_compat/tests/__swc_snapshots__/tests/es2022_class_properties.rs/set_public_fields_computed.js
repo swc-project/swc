@@ -21,7 +21,7 @@ class MyClass {
         this[_ref5] = "template-with-expression";
     }
 }
-_define_property(MyClass, _one, "test");
-_define_property(MyClass, _ref, "247");
-_define_property(MyClass, _ref1, "247");
-_define_property(MyClass, _ref2, "247");
+MyClass[_one] = "test";
+MyClass[_ref] = "247";
+MyClass[_ref1] = "247";
+MyClass[_ref2] = "247";

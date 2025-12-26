@@ -1,4 +1,4 @@
-var _serialization = new WeakMap();
+var _serialization = /*#__PURE__*/ new WeakMap();
 class Test {
     _packet(raw) {
         pak = _class_private_field_get(this, _serialization).decode(raw);

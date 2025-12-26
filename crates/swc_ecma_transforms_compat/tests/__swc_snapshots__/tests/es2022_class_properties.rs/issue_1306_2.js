@@ -1,4 +1,4 @@
-var _name = new WeakMap();
+var _name = /*#__PURE__*/ new WeakMap();
 class Animal {
     noise() {
         return _class_private_field_get(this, _name).toUpperCase();

@@ -1,12 +1,16 @@
-var _switch = new WeakSet(), _bar = new WeakSet();
+var _switch = /*#__PURE__*/ _class_private_field_loose_key("_switch"), _bar = /*#__PURE__*/ _class_private_field_loose_key("_bar");
 class TestCls {
     foo() {
-        bar.call(this);
-        __switch.call(this);
+        _class_private_field_loose_base(this, _bar)[_bar]();
+        _class_private_field_loose_base(this, _switch)[_switch]();
     }
     constructor(){
-        _switch.add(this);
-        _bar.add(this);
+        Object.defineProperty(this, _switch, {
+            value: __switch
+        });
+        Object.defineProperty(this, _bar, {
+            value: bar
+        });
     }
 }
 function __switch() {

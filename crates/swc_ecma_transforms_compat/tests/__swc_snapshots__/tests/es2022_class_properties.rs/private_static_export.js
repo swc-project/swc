@@ -1,9 +1,13 @@
-var _property = new WeakMap(), _property1 = new WeakMap();
 export class MyClass {
 }
-_property.set(MyClass, {
+var _property = {
     writable: true,
     value: value
-});
-export default class MyClass2 {
+};
+class MyClass2 {
 }
+var _property1 = {
+    writable: true,
+    value: value
+};
+export { MyClass2 as default };
