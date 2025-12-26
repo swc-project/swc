@@ -402,6 +402,7 @@ impl Lexer<'_> {
 
     fn scan_jsx_token(&mut self) -> Result<Token, Error> {
         debug_assert!(self.syntax.jsx());
+        let start = self.input.cur_pos();
         match self.input.cur() {
             Some(b'<') => {
                 self.bump(1);
@@ -419,15 +420,15 @@ impl Lexer<'_> {
             }
             Some(_) => {
                 // Fast path: we assume there's no `&` in the jsx child
-                let start = self.input.cur_pos();
                 byte_search! {
                     lexer: self,
                     table: JSX_CHILD_TABLE,
                     continue_if: (matched_byte, pos_offset) {
                         match matched_byte {
                             b'>' => {
-                                self.emit_error(
-                                    self.input().cur_pos() + BytePos(pos_offset as u32),
+                                let pos = start + BytePos(pos_offset as u32);
+                                self.emit_error_span(
+                                    Span::new_with_checked(pos, pos),
                                     SyntaxError::UnexpectedTokenWithSuggestions {
                                         candidate_list: vec!["`{'>'}`", "`&gt;`"],
                                     },
@@ -435,8 +436,9 @@ impl Lexer<'_> {
                                 true
                             },
                             b'}' => {
-                                self.emit_error(
-                                    self.input().cur_pos() + BytePos(pos_offset as u32),
+                                let pos = start + BytePos(pos_offset as u32);
+                                self.emit_error_span(
+                                    Span::new_with_checked(pos, pos),
                                     SyntaxError::UnexpectedTokenWithSuggestions {
                                         candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                                     },
