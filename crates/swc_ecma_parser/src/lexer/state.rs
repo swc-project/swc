@@ -479,7 +479,7 @@ impl Lexer<'_> {
 
     #[cold]
     /// Slow path: we encountered `&` in the jsx child, so we need to scan and
-    /// resolve the jsx entity, which requires a dedicate string allocation.
+    /// resolve the jsx entity, which requires a dedicated string allocation.
     fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
         let mut value = String::new();
         let mut chunk_start = self.input.cur_pos();
