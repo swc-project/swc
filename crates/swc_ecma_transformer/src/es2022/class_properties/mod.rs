@@ -40,7 +40,9 @@ use std::mem::take;
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::assumptions::Assumptions;
@@ -514,7 +516,7 @@ impl ClassPropertiesPass {
             },
             Some(Box::new(
                 NewExpr {
-                    span: DUMMY_SP,
+                    span: PURE_SP,
                     callee: Box::new(quote_ident!("WeakMap").into()),
                     args: Some(Default::default()),
                     type_args: Default::default(),
@@ -627,7 +629,7 @@ impl ClassPropertiesPass {
                         },
                         Some(Box::new(
                             NewExpr {
-                                span: DUMMY_SP,
+                                span: PURE_SP,
                                 callee: Box::new(quote_ident!("WeakMap").into()),
                                 args: Some(Default::default()),
                                 type_args: Default::default(),
@@ -686,7 +688,7 @@ impl ClassPropertiesPass {
                         },
                         Some(Box::new(
                             NewExpr {
-                                span: DUMMY_SP,
+                                span: PURE_SP,
                                 callee: Box::new(quote_ident!("WeakMap").into()),
                                 args: Some(Default::default()),
                                 type_args: Default::default(),
@@ -720,7 +722,7 @@ impl ClassPropertiesPass {
                     },
                     Some(Box::new(
                         NewExpr {
-                            span: DUMMY_SP,
+                            span: PURE_SP,
                             callee: Box::new(quote_ident!("WeakSet").into()),
                             args: Some(Default::default()),
                             type_args: Default::default(),
