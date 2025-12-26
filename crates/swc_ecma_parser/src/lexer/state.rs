@@ -210,11 +210,11 @@ impl crate::input::Tokens for Lexer<'_> {
         self.finish_next_token(self.span(start), token)
     }
 
-    fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool, reset: BytePos) -> TokenAndSpan {
+    fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan {
         unsafe {
             self.input.reset_to(reset);
         }
-        Tokens::scan_jsx_token(self, allow_multiline_jsx_text)
+        Tokens::scan_jsx_token(self)
     }
 
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan {
@@ -224,9 +224,9 @@ impl crate::input::Tokens for Lexer<'_> {
         Tokens::scan_jsx_open_el_terminal_token(self)
     }
 
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan {
+    fn scan_jsx_token(&mut self) -> TokenAndSpan {
         let start = self.cur_pos();
-        let res = match self.scan_jsx_token(allow_multiline_jsx_text) {
+        let res = match self.scan_jsx_token() {
             Ok(res) => Ok(res),
             Err(error) => {
                 self.state.set_token_value(TokenValue::Error(error));
@@ -394,7 +394,7 @@ impl Lexer<'_> {
         }
     }
 
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Token, Error> {
+    fn scan_jsx_token(&mut self) -> Result<Token, Error> {
         debug_assert!(self.syntax.jsx());
 
         if self.input_mut().as_str().is_empty() {
@@ -412,7 +412,6 @@ impl Lexer<'_> {
         }
 
         let start = self.input.cur_pos();
-        let mut first_non_whitespace = 0;
         let mut chunk_start = start;
         let mut value = String::new();
 
@@ -438,17 +437,6 @@ impl Lexer<'_> {
                         candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                     },
                 );
-            }
-
-            if first_non_whitespace == 0 && ch.is_line_terminator() {
-                first_non_whitespace = -1;
-            } else if !allow_multiline_jsx_text
-                && ch.is_line_terminator()
-                && first_non_whitespace > 0
-            {
-                break;
-            } else if ch <= 0x7f && (ch as char).is_whitespace() {
-                first_non_whitespace = self.cur_pos().0 as i32;
             }
 
             if ch == b'&' {
