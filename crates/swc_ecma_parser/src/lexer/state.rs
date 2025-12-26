@@ -484,8 +484,8 @@ impl Lexer<'_> {
         let mut value = String::new();
         let mut chunk_start = self.input.cur_pos();
 
-        while let Some(byte) = self.input.cur_as_char() {
-            match byte {
+        while let Some(ch) = self.input.cur_as_char() {
+            match ch {
                 '>' => {
                     let error_pos = self.input().cur_pos();
                     self.bump(1);
