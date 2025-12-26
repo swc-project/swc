@@ -1,7 +1,7 @@
 //// [privateNameConstructorSignature.ts]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 class C {
     static test() {
         _class_private_field_set(new C(), _x, 10);

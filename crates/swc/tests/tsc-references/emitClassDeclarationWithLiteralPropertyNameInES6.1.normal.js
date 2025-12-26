@@ -1,5 +1,4 @@
 //// [emitClassDeclarationWithLiteralPropertyNameInES6.ts]
-var __ = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap();
 class B {
     "foo"() {}
     0b1110() {}
@@ -12,19 +11,7 @@ class B {
         this[20] = "twenty";
     }
 }
-__.set(B, {
-    writable: true,
-    value: B["hi"] = 10000
-});
-__2.set(B, {
-    writable: true,
-    value: B[22] = "twenty-two"
-});
-__3.set(B, {
-    writable: true,
-    value: B[0b101] = "binary"
-});
-__4.set(B, {
-    writable: true,
-    value: B[0o3235] = "octal"
-});
+B["hi"] = 10000;
+B[22] = "twenty-two";
+B[0b101] = "binary";
+B[0o3235] = "octal";

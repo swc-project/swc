@@ -1,13 +1,14 @@
 //// [privateNameSetterExprReturnValue.ts]
-var _foo = new WeakMap();
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+var _foo = /*#__PURE__*/ new WeakMap();
 class C {
     bar() {
-        var _this;
-        let x = (_this = this, _foo.get(_this).set.call(_this, 42 * 2));
+        let x = _class_private_field_set(this, _foo, 42 * 2);
         console.log(x); // 84
     }
     constructor(){
-        _foo.set(this, {
+        _class_private_field_init(this, _foo, {
             get: void 0,
             set: set_foo
         });

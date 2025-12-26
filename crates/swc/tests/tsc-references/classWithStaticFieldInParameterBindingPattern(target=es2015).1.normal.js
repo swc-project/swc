@@ -1,8 +1,5 @@
 //// [classWithStaticFieldInParameterBindingPattern.ts]
-var __ = new WeakMap(), _class;
+var _class;
 // https://github.com/microsoft/TypeScript/issues/36295
 (({ [(_class = class {
-}, __.set(_class, {
-    writable: true,
-    value: this.x = 1
-}), _class).x]: b = "" })=>{})();
+}, _class.x = 1, _class).x]: b = "" })=>{})();

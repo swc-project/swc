@@ -3,7 +3,7 @@ System.register([
     "@swc/helpers/_/_ts_decorate"
 ], function(_export, _context) {
     "use strict";
-    var _ts_decorate, Testing123, __;
+    var _ts_decorate, Testing123;
     _export("Testing123", void 0);
     return {
         setters: [
@@ -12,9 +12,9 @@ System.register([
             }
         ],
         execute: function() {
-            __ = new WeakMap();
             _export("Testing123", Testing123 = class Testing123 {
             });
+            Testing123.prop1 = Testing123.prop0;
             _export("Testing123", Testing123 = _ts_decorate([
                 Something({
                     v: ()=>Testing123

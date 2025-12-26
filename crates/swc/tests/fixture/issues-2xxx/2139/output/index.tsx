@@ -1,5 +1,5 @@
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
-export default class ReusablePayments extends PureComponent {
+class ReusablePayments extends PureComponent {
     componentDidMount() {
         this.setDefaultReusablePayment();
     }
@@ -81,11 +81,9 @@ export default class ReusablePayments extends PureComponent {
             })));
     }
     constructor(...args){
-        super(...args);
-        _define_property(this, "handleSelectPayment", (selected)=>{
+        super(...args), _define_property(this, "handleSelectPayment", (selected)=>{
             return this.props.onChange(selected);
-        });
-        _define_property(this, "handleDeletePaymentSource", (id, deletePaymentSource)=>{
+        }), _define_property(this, "handleDeletePaymentSource", (id, deletePaymentSource)=>{
             var _this_props = this.props, selectedReusablePayment = _this_props.selectedReusablePayment, onChange = _this_props.onChange;
             if (onChange && selectedReusablePayment && selectedReusablePayment.id === id) {
                 this.setDefaultReusablePayment(selectedReusablePayment);
@@ -98,3 +96,4 @@ export default class ReusablePayments extends PureComponent {
         });
     }
 }
+export { ReusablePayments as default };

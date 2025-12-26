@@ -2,7 +2,6 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var __ = new WeakMap(), __1 = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), __6 = new WeakMap(), __7 = new WeakMap(), __8 = new WeakMap(), __9 = new WeakMap(), __10 = new WeakMap(), __11 = new WeakMap(), __12 = new WeakMap(), __13 = new WeakMap(), __14 = new WeakMap(), __15 = new WeakMap(), __16 = new WeakMap(), __17 = new WeakMap(), __18 = new WeakMap(), __19 = new WeakMap(), __20 = new WeakMap(), __21 = new WeakMap(), __22 = new WeakMap(), __23 = new WeakMap(), __24 = new WeakMap(), __25 = new WeakMap(), __26 = new WeakMap(), __27 = new WeakMap(), __28 = new WeakMap(), __29 = new WeakMap(), __30 = new WeakMap(), __31 = new WeakMap(), __32 = new WeakMap(), __33 = new WeakMap(), __34 = new WeakMap(), __35 = new WeakMap();
 var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
@@ -438,145 +437,343 @@ var x49 = function x49() {
     "use strict";
     _class_call_check(this, x49);
 };
+x49.member = function() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x50 = function x50() {
     "use strict";
     _class_call_check(this, x50);
+};
+x50.member = function() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x51 = function x51() {
     "use strict";
     _class_call_check(this, x51);
 };
+x51.member = function named() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x52 = function x52() {
     "use strict";
     _class_call_check(this, x52);
+};
+x52.member = function() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x53 = function x53() {
     "use strict";
     _class_call_check(this, x53);
 };
+x53.member = function() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x54 = function x54() {
     "use strict";
     _class_call_check(this, x54);
+};
+x54.member = function named() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x55 = function x55() {
     "use strict";
     _class_call_check(this, x55);
 };
+x55.member = [
+    d1,
+    d2
+];
 var x56 = function x56() {
     "use strict";
     _class_call_check(this, x56);
 };
+x56.member = [
+    d1,
+    d2
+];
 var x57 = function x57() {
     "use strict";
     _class_call_check(this, x57);
 };
+x57.member = [
+    d1,
+    d2
+];
 var x58 = function x58() {
     "use strict";
     _class_call_check(this, x58);
+};
+x58.member = {
+    n: [
+        d1,
+        d2
+    ]
 };
 var x59 = function x59() {
     "use strict";
     _class_call_check(this, x59);
 };
+x59.member = function(n) {
+    var n;
+    return null;
+};
 var x60 = function x60() {
     "use strict";
     _class_call_check(this, x60);
+};
+x60.member = {
+    func: function(n) {
+        return [
+            d1,
+            d2
+        ];
+    }
 };
 var x61 = function x61() {
     "use strict";
     _class_call_check(this, x61);
 };
+x61.member = function() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x62 = function x62() {
     "use strict";
     _class_call_check(this, x62);
+};
+x62.member = function() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x63 = function x63() {
     "use strict";
     _class_call_check(this, x63);
 };
+x63.member = function named() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x64 = function x64() {
     "use strict";
     _class_call_check(this, x64);
+};
+x64.member = function() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x65 = function x65() {
     "use strict";
     _class_call_check(this, x65);
 };
+x65.member = function() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x66 = function x66() {
     "use strict";
     _class_call_check(this, x66);
+};
+x66.member = function named() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x67 = function x67() {
     "use strict";
     _class_call_check(this, x67);
 };
+x67.member = [
+    d1,
+    d2
+];
 var x68 = function x68() {
     "use strict";
     _class_call_check(this, x68);
 };
+x68.member = [
+    d1,
+    d2
+];
 var x69 = function x69() {
     "use strict";
     _class_call_check(this, x69);
 };
+x69.member = [
+    d1,
+    d2
+];
 var x70 = function x70() {
     "use strict";
     _class_call_check(this, x70);
+};
+x70.member = {
+    n: [
+        d1,
+        d2
+    ]
 };
 var x71 = function x71() {
     "use strict";
     _class_call_check(this, x71);
 };
+x71.member = function(n) {
+    var n;
+    return null;
+};
 var x72 = function x72() {
     "use strict";
     _class_call_check(this, x72);
+};
+x72.member = {
+    func: function(n) {
+        return [
+            d1,
+            d2
+        ];
+    }
 };
 var x73 = function x73() {
     "use strict";
     _class_call_check(this, x73);
 };
+x73.member = function() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x74 = function x74() {
     "use strict";
     _class_call_check(this, x74);
+};
+x74.member = function() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x75 = function x75() {
     "use strict";
     _class_call_check(this, x75);
 };
+x75.member = function named() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x76 = function x76() {
     "use strict";
     _class_call_check(this, x76);
+};
+x76.member = function() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x77 = function x77() {
     "use strict";
     _class_call_check(this, x77);
 };
+x77.member = function() {
+    return [
+        d1,
+        d2
+    ];
+};
 var x78 = function x78() {
     "use strict";
     _class_call_check(this, x78);
+};
+x78.member = function named() {
+    return [
+        d1,
+        d2
+    ];
 };
 var x79 = function x79() {
     "use strict";
     _class_call_check(this, x79);
 };
+x79.member = [
+    d1,
+    d2
+];
 var x80 = function x80() {
     "use strict";
     _class_call_check(this, x80);
 };
+x80.member = [
+    d1,
+    d2
+];
 var x81 = function x81() {
     "use strict";
     _class_call_check(this, x81);
 };
+x81.member = [
+    d1,
+    d2
+];
 var x82 = function x82() {
     "use strict";
     _class_call_check(this, x82);
+};
+x82.member = {
+    n: [
+        d1,
+        d2
+    ]
 };
 var x83 = function x83() {
     "use strict";
     _class_call_check(this, x83);
 };
+x83.member = function(n) {
+    var n;
+    return null;
+};
 var x84 = function x84() {
     "use strict";
     _class_call_check(this, x84);
+};
+x84.member = {
+    func: function(n) {
+        return [
+            d1,
+            d2
+        ];
+    }
 };
 var x85 = function x85() {
     "use strict";

@@ -1,7 +1,7 @@
 //// [inferringClassMembersFromAssignments.ts]
 //// [a.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var __ = new WeakMap(), C = /*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     function C() {
         var _this = this;
         _class_call_check(this, C), this.prop = function() {
@@ -23,12 +23,9 @@ var __ = new WeakMap(), C = /*#__PURE__*/ function() {
         Math.random() ? this.inStaticSetter = 0 : this.inStaticSetter = "string";
     }, C;
 }();
-__.set(C, {
-    writable: !0,
-    value: C.prop = function() {
-        Math.random() ? C.inStaticPropertyDeclaration = 0 : C.inStaticPropertyDeclaration = "string";
-    }
-});
+C.prop = function() {
+    Math.random() ? C.inStaticPropertyDeclaration = 0 : C.inStaticPropertyDeclaration = "string";
+};
 //// [b.ts]
 var c = new C();
 c.inConstructor, c.inMethod, c.inGetter, c.inSetter, c.inPropertyDeclaration, c.inNestedArrowFunction, c.inMultiple, c.inMultipleMethods, c.inMethodNullable, C.inStaticMethod, C.inStaticGetter, C.inStaticSetter, C.inStaticPropertyDeclaration, C.inStaticNestedArrowFunction;

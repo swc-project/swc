@@ -1,11 +1,12 @@
 //// [privateNameReadonly.ts]
-import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _bar = new WeakSet();
-console.log(new class {
+var _bar;
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
+import { _ as _read_only_error } from "@swc/helpers/_/_read_only_error";
+console.log(new (_bar = /*#__PURE__*/ new WeakSet(), class {
     foo() {
-        _class_private_field_set(this, _bar, console.log("should log this then throw"));
+        console.log("should log this then throw"), _read_only_error("#bar");
     }
     constructor(){
-        _bar.add(this);
+        _class_private_method_init(this, _bar);
     }
-}().foo());
+})().foo());

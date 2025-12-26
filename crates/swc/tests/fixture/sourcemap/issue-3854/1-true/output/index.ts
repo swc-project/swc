@@ -46,7 +46,6 @@ const _AbstractBuilders = require("./AbstractBuilders");
 const _Builderutils = require("./Builder.utils");
 const _ElementBuilder = require("./ElementBuilder");
 const _BodyNodesBuilder = /*#__PURE__*/ _interop_require_wildcard._(_export_star._(require("./BodyNodesBuilder"), exports));
-var _stages = new WeakMap(), _trustBox = new WeakMap(), _disclaimer = new WeakMap(), _articleSources = new WeakMap(), _nodes = new WeakMap(), _hidden = new WeakMap(), _element = new WeakMap(), _nodes1 = new WeakMap(), _header = new WeakMap(), _companions = new WeakMap(), _commercialsEndOfStage = new WeakMap(), _seqBuilder = new WeakMap(), _variant = new WeakMap(), _opener = new WeakMap(), _nodes2 = new WeakMap(), _seqBuilder1 = new WeakMap(), _nodes3 = new WeakMap(), _hidden1 = new WeakMap();
 const create = ()=>new BodyBuilder();
 const trustBox = ()=>new TrustBoxBuilder();
 const opener = ()=>new OpenerBuilder();
@@ -58,6 +57,7 @@ const seq = {
     stage: ()=>new BodyStageSeqBuilder(),
     source: ()=>new ArticleSourceSeqBuilder()
 };
+var _stages = /*#__PURE__*/ new WeakMap(), _trustBox = /*#__PURE__*/ new WeakMap(), _disclaimer = /*#__PURE__*/ new WeakMap(), _articleSources = /*#__PURE__*/ new WeakMap();
 class BodyBuilder extends _AbstractBuilders.AbstractBuilder {
     stages(...stages) {
         _class_private_field_set._(this, _stages, stages.map(_Builderutils.mapBuildArg));
@@ -84,25 +84,22 @@ class BodyBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _stages, {
+        super(...args), _class_private_field_init._(this, _stages, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _trustBox, {
+        }), _class_private_field_init._(this, _trustBox, {
             writable: true,
             value: undefined
-        });
-        _class_private_field_init._(this, _disclaimer, {
+        }), _class_private_field_init._(this, _disclaimer, {
             writable: true,
             value: undefined
-        });
-        _class_private_field_init._(this, _articleSources, {
+        }), _class_private_field_init._(this, _articleSources, {
             writable: true,
             value: undefined
         });
     }
 }
+var _nodes = /*#__PURE__*/ new WeakMap(), _hidden = /*#__PURE__*/ new WeakMap();
 class TrustBoxBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(nodes) {
         _class_private_field_set._(this, _nodes, nodes.map(_Builderutils.mapBuildArg));
@@ -119,17 +116,16 @@ class TrustBoxBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes, {
+        super(...args), _class_private_field_init._(this, _nodes, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _hidden, {
+        }), _class_private_field_init._(this, _hidden, {
             writable: true,
             value: []
         });
     }
 }
+var _element = /*#__PURE__*/ new WeakMap();
 class OpenerBuilder extends _AbstractBuilders.AbstractBuilder {
     element(element) {
         _class_private_field_set._(this, _element, (0, _Builderutils.mapBuildArg)(element));
@@ -141,13 +137,13 @@ class OpenerBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _element, {
+        super(...args), _class_private_field_init._(this, _element, {
             writable: true,
             value: (0, _ElementBuilder.image)().build()
         });
     }
 }
+var _nodes1 = /*#__PURE__*/ new WeakMap(), _header = /*#__PURE__*/ new WeakMap(), _companions = /*#__PURE__*/ new WeakMap(), _commercialsEndOfStage = /*#__PURE__*/ new WeakMap();
 class BodyStageSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
         _class_private_field_set._(this, _nodes1, nodes.map(_Builderutils.mapBuildArgs));
@@ -175,25 +171,22 @@ class BodyStageSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes1, {
+        super(...args), _class_private_field_init._(this, _nodes1, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _header, {
+        }), _class_private_field_init._(this, _header, {
             writable: true,
             value: undefined
-        });
-        _class_private_field_init._(this, _companions, {
+        }), _class_private_field_init._(this, _companions, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _commercialsEndOfStage, {
+        }), _class_private_field_init._(this, _commercialsEndOfStage, {
             writable: true,
             value: []
         });
     }
 }
+var _seqBuilder = /*#__PURE__*/ new WeakMap();
 class BodyStageBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(nodes) {
         _class_private_field_get._(this, _seqBuilder).nodes([
@@ -225,13 +218,13 @@ class BodyStageBuilder extends _AbstractBuilders.AbstractBuilder {
         return _class_private_field_get._(this, _seqBuilder).build();
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _seqBuilder, {
+        super(...args), _class_private_field_init._(this, _seqBuilder, {
             writable: true,
             value: new BodyStageSeqBuilder()
         });
     }
 }
+var _variant = /*#__PURE__*/ new WeakMap(), _opener = /*#__PURE__*/ new WeakMap();
 class BodyHeaderBuilder extends _AbstractBuilders.AbstractBuilder {
     variant(variant) {
         _class_private_field_set._(this, _variant, variant);
@@ -248,17 +241,16 @@ class BodyHeaderBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _variant, {
+        super(...args), _class_private_field_init._(this, _variant, {
             writable: true,
             value: "full"
-        });
-        _class_private_field_init._(this, _opener, {
+        }), _class_private_field_init._(this, _opener, {
             writable: true,
             value: undefined
         });
     }
 }
+var _nodes2 = /*#__PURE__*/ new WeakMap();
 class ArticleSourceSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
     nodes(nodes) {
         _class_private_field_set._(this, _nodes2, nodes.map(_Builderutils.mapBuildArgs));
@@ -272,13 +264,13 @@ class ArticleSourceSeqBuilder extends _AbstractBuilders.AbstractSeqBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes2, {
+        super(...args), _class_private_field_init._(this, _nodes2, {
             writable: true,
             value: []
         });
     }
 }
+var _seqBuilder1 = /*#__PURE__*/ new WeakMap();
 class ArticleSourceBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(...nodes) {
         _class_private_field_get._(this, _seqBuilder1).nodes([
@@ -290,14 +282,14 @@ class ArticleSourceBuilder extends _AbstractBuilders.AbstractBuilder {
         return _class_private_field_get._(this, _seqBuilder1).build();
     }
     constructor(...nodes){
-        super();
-        _class_private_field_init._(this, _seqBuilder1, {
+        super(), _class_private_field_init._(this, _seqBuilder1, {
             writable: true,
             value: new ArticleSourceSeqBuilder()
         });
         this.nodes(...nodes);
     }
 }
+var _nodes3 = /*#__PURE__*/ new WeakMap(), _hidden1 = /*#__PURE__*/ new WeakMap();
 class ArticleSourcesBuilder extends _AbstractBuilders.AbstractBuilder {
     nodes(...nodes) {
         _class_private_field_set._(this, _nodes3, nodes.map(_Builderutils.mapBuildArg));
@@ -314,12 +306,10 @@ class ArticleSourcesBuilder extends _AbstractBuilders.AbstractBuilder {
         };
     }
     constructor(...args){
-        super(...args);
-        _class_private_field_init._(this, _nodes3, {
+        super(...args), _class_private_field_init._(this, _nodes3, {
             writable: true,
             value: []
-        });
-        _class_private_field_init._(this, _hidden1, {
+        }), _class_private_field_init._(this, _hidden1, {
             writable: true,
             value: []
         });

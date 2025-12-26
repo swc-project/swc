@@ -1,17 +1,17 @@
 //// [privateStaticNameShadowing.ts]
-var _f = new WeakMap();
+import { _ as _class_static_private_method_get } from "@swc/helpers/_/_class_static_private_method_get";
 class X {
     constructor(){
-        m.call(X);
+        _class_static_private_method_get(X, X, m).call(X);
     }
 }
+var _f = {
+    writable: true,
+    value: _class_static_private_method_get(X, X, m).call(X)
+};
 function m() {
-    const X = {}; // shadow the class
+    const X1 = {}; // shadow the class
     const _a = {}; // shadow the first generated var
-    m.call(X); // Should check with X as the receiver with _b as the class constructor 
+    _class_static_private_method_get(X1, X, m).call(X); // Should check with X as the receiver with _b as the class constructor 
     return 1;
 }
-_f.set(X, {
-    writable: true,
-    value: m.call(X)
-});

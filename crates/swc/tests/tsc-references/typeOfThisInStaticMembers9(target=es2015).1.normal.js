@@ -1,40 +1,30 @@
 //// [typeOfThisInStaticMembers9.ts]
-var __ = new WeakMap(), __1 = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C {
 }
+C.f = 1;
 class D extends C {
 }
-__1.set(D, {
-    writable: true,
-    value: D.arrowFunctionBoundary = ()=>super.f + 1
-});
-__2.set(D, {
-    writable: true,
-    value: D.functionExprBoundary = function() {
-        return super.f + 2;
+D.arrowFunctionBoundary = ()=>_get(_get_prototype_of(D), "f", D) + 1;
+D.functionExprBoundary = function() {
+    return _get(_get_prototype_of(D), "f", this) + 2;
+};
+D.classExprBoundary = class {
+    constructor(){
+        this.a = super.f + 3;
     }
-});
-__3.set(D, {
-    writable: true,
-    value: D.classExprBoundary = class {
+};
+D.functionAndClassDeclBoundary = (()=>{
+    function foo() {
+        return _get(_get_prototype_of(D), "f", this) + 4;
+    }
+    class C {
+        method() {
+            return super.f + 6;
+        }
         constructor(){
-            this.a = super.f + 3;
+            this.a = super.f + 5;
         }
     }
-});
-__4.set(D, {
-    writable: true,
-    value: D.functionAndClassDeclBoundary = (()=>{
-        function foo() {
-            return super.f + 4;
-        }
-        class C {
-            method() {
-                return super.f + 6;
-            }
-            constructor(){
-                this.a = super.f + 5;
-            }
-        }
-    })()
-});
+})();

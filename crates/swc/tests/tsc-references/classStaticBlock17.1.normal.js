@@ -2,8 +2,8 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _x = new WeakMap(), __ = new WeakMap();
 let friendA;
+var _x = /*#__PURE__*/ new WeakMap();
 class A {
     getX() {
         return _class_private_field_get(this, _x);
@@ -16,6 +16,14 @@ class A {
         _class_private_field_set(this, _x, v);
     }
 }
+friendA = {
+    getX (obj) {
+        return _class_private_field_get(obj, _x);
+    },
+    setX (obj, value) {
+        _class_private_field_set(obj, _x, value);
+    }
+};
 class B {
     constructor(a){
         const x = friendA.getX(a); // ok

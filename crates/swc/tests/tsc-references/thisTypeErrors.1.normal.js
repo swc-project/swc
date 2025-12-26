@@ -1,6 +1,5 @@
 //// [thisTypeErrors.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var __ = new WeakMap();
 var x1;
 var x2;
 var x3;
@@ -22,6 +21,7 @@ var C2 = /*#__PURE__*/ function() {
     };
     return C2;
 }();
+C2.y = undefined;
 (function(N1) {
     N1.y = this;
 })(N1 || (N1 = {}));

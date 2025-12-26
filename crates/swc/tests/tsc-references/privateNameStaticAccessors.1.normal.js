@@ -1,15 +1,22 @@
 //// [privateNameStaticAccessors.ts]
-import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _prop = new WeakMap(), _roProp = new WeakMap();
+import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
+import { _ as _class_static_private_field_spec_set } from "@swc/helpers/_/_class_static_private_field_spec_set";
 class A1 {
     constructor(name){
-        var _A1, _A11, _A12;
-        _A1 = A1, _prop.get(_A1).set.call(_A1, "");
-        _class_private_field_set(A1, _roProp, ""); // Error
-        console.log((_A11 = A1, _prop.get(_A11).get.call(_A11)));
-        console.log((_A12 = A1, _roProp.get(_A12).get.call(_A12)));
+        _class_static_private_field_spec_set(A1, A1, _prop, "");
+        _class_static_private_field_spec_set(A1, A1, _roProp, ""); // Error
+        console.log(_class_static_private_field_spec_get(A1, A1, _prop));
+        console.log(_class_static_private_field_spec_get(A1, A1, _roProp));
     }
 }
+var _prop = {
+    get: get_prop,
+    set: set_prop
+};
+var _roProp = {
+    get: get_roProp,
+    set: void 0
+};
 function get_prop() {
     return "";
 }
@@ -17,11 +24,3 @@ function set_prop(param) {}
 function get_roProp() {
     return "";
 }
-_prop.set(A1, {
-    get: get_prop,
-    set: set_prop
-});
-_roProp.set(A1, {
-    get: get_roProp,
-    set: void 0
-});

@@ -1,18 +1,17 @@
 //// [classStaticBlock15.ts]
-var __1 = new WeakMap(), __3 = new WeakMap(), __5 = new WeakMap();
 var _C__1;
 class C {
 }
-__1.set(C, {
+var __1 = {
     writable: true,
     value: 1
-});
-__3.set(C, {
+};
+var __3 = {
     writable: true,
     value: 3
-});
-__5.set(C, {
+};
+var __5 = {
     writable: true,
     value: 5
-});
+};
 console.log(_C__1);

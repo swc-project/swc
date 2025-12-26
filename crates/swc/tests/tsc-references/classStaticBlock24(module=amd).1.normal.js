@@ -14,13 +14,9 @@ define([
             return C;
         }
     });
-    var __ = new WeakMap();
     var C = function C() {
         "use strict";
         _class_call_check._(this, C);
     };
-    __.set(C, {
-        writable: true,
-        value: C.x = 1
-    });
+    C.x = 1;
 });

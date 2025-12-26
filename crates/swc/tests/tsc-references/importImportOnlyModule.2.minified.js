@@ -12,13 +12,10 @@ define([
             return C1;
         }
     });
-    var __ = new WeakMap(), C1 = function C1() {
+    var C1 = function C1() {
         _class_call_check._(this, C1), this.m1 = 42;
     };
-    __.set(C1, {
-        writable: !0,
-        value: C1.s1 = !0
-    });
+    C1.s1 = !0;
 });
 //// [foo_1.ts]
 define([

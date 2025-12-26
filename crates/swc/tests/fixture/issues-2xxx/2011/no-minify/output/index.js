@@ -1,8 +1,8 @@
-var __ = new WeakMap(), ClassB;
+var _ClassB;
 var ClassA = function ClassA() {
     "use strict";
 };
-module.exports = (ClassB = /*#__PURE__*/ function() {
+module.exports = (_ClassB = /*#__PURE__*/ function() {
     "use strict";
     function ClassB() {}
     var _proto = ClassB.prototype;
@@ -10,7 +10,4 @@ module.exports = (ClassB = /*#__PURE__*/ function() {
         this.bb = new ClassB.MyA();
     };
     return ClassB;
-}(), __.set(ClassB, {
-    writable: true,
-    value: ClassB.MyA = ClassA
-}), ClassB);
+}(), _ClassB.MyA = ClassA, _ClassB);

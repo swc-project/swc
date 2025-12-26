@@ -1,7 +1,7 @@
 //// [a.ts]
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 export class Foo {
     copy(other) {
         _class_private_field_get(other, _x);
@@ -15,7 +15,7 @@ export class Foo {
 }
 //// [b.ts]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
-var _x = new WeakMap();
+var _x = /*#__PURE__*/ new WeakMap();
 export class Foo {
     constructor(){
         _class_private_field_init(this, _x, {

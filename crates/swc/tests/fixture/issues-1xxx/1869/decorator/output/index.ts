@@ -5,6 +5,10 @@ var TestClass = function TestClass() {
     "use strict";
     _class_call_check(this, TestClass);
 };
+_define_property(TestClass, "Something", "hello");
+_define_property(TestClass, "SomeProperties", {
+    firstProp: TestClass.Something
+});
 TestClass = _ts_decorate([
     someClassDecorator
 ], TestClass);

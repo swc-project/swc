@@ -2,10 +2,11 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _foo = new WeakMap(), _bar = new WeakMap(), _foo1 = new WeakMap(), _bar1 = new WeakMap();
+import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
+var _foo = /*#__PURE__*/ new WeakMap();
 class Parent {
     accessChildProps() {
-        _class_private_field_get(new Child(), _foo), _class_private_field_get(Child, _bar);
+        _class_private_field_get(new Child(), _foo), _class_static_private_field_spec_get(Child, Parent, _bar);
     }
     constructor(){
         _class_private_field_init(this, _foo, {
@@ -14,14 +15,18 @@ class Parent {
         }), _class_private_field_set(this, _foo, 3);
     }
 }
+var _bar = {
+    writable: !0,
+    value: 5
+}, _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakMap();
 class Child extends Parent {
     constructor(...args){
-        _class_private_field_init(this, _foo1, {
+        super(...args), _class_private_field_init(this, _foo1, {
             writable: !0,
             value: void 0
         }), _class_private_field_init(this, _bar1, {
             writable: !0,
             value: void 0
-        }), super(...args), _class_private_field_set(this, _foo1, "foo"), _class_private_field_set(this, _bar1, "bar");
+        }), _class_private_field_set(this, _foo1, "foo"), _class_private_field_set(this, _bar1, "bar");
     }
 }

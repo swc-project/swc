@@ -5,8 +5,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var __ = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), __6 = new WeakMap(), __7 = new WeakMap(), __8 = new WeakMap();
-var _this, _this1;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -19,35 +17,11 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return C;
 }(B);
-__.set(C, {
-    writable: true,
-    value: C.x = undefined
-});
-__2.set(C, {
-    writable: true,
-    value: C.y1 = C.x
-});
-__3.set(C, {
-    writable: true,
-    value: C.y2 = C.x()
-});
-__4.set(C, {
-    writable: true,
-    value: C.y3 = (_this = C) === null || _this === void 0 ? void 0 : _this.x()
-});
-__5.set(C, {
-    writable: true,
-    value: C.y4 = C["x"]()
-});
-__6.set(C, {
-    writable: true,
-    value: C.y5 = (_this1 = C) === null || _this1 === void 0 ? void 0 : _this1["x"]()
-});
-__7.set(C, {
-    writable: true,
-    value: C.z3 = super.f()
-});
-__8.set(C, {
-    writable: true,
-    value: C.z4 = super["f"]()
-});
+C.x = undefined;
+C.y1 = C.x;
+C.y2 = C.x();
+C.y3 = C === null || C === void 0 ? void 0 : C.x();
+C.y4 = C["x"]();
+C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
+C.z3 = _get(_get_prototype_of(C), "f", C).call(C);
+C.z4 = _get(_get_prototype_of(C), "f", C).call(C);

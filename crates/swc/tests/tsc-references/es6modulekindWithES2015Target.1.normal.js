@@ -1,7 +1,8 @@
 //// [es6modulekindWithES2015Target.ts]
-export default class A {
+class A {
     B() {
         return 42;
     }
     constructor(){}
 }
+export { A as default };

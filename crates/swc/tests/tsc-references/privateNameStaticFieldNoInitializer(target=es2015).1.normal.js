@@ -1,13 +1,13 @@
 //// [privateNameStaticFieldNoInitializer.ts]
-var _x = new WeakMap(), _class, _x1 = new WeakMap();
+var _class, _x;
 const C = (_class = class {
-}, _x.set(_class, {
+}, _x = {
     writable: true,
     value: void 0
-}), _class);
+}, _class);
 class C2 {
 }
-_x1.set(C2, {
+var _x1 = {
     writable: true,
     value: void 0
-});
+};

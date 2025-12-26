@@ -1,7 +1,10 @@
 //// [privateWriteOnlyAccessorRead.ts]
-import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 import { _ as _extends } from "@swc/helpers/_/_extends";
-var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
+import { _ as _write_only_error } from "@swc/helpers/_/_write_only_error";
+import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
+var _value = /*#__PURE__*/ new WeakMap(), _valueRest = /*#__PURE__*/ new WeakMap(), _valueOne = /*#__PURE__*/ new WeakMap(), _valueCompound = /*#__PURE__*/ new WeakMap();
 function set_value(v) {}
 function set_valueRest(v) {}
 function set_valueOne(v) {}
@@ -12,40 +15,40 @@ new class {
         let foo = {
             bar: 1
         };
-        console.log(_class_private_field_get(this, _value)), _value.get(this).set.call(this, {
+        console.log(_write_only_error("#value")), _class_private_field_set(this, _value, {
             foo
-        }), _value.get(this).set.call(this, {
+        }), _class_private_field_set(this, _value, {
             foo
-        }), _class_private_field_get(this, _value).foo = foo, ({ o: _class_private_field_get(this, _value) } = {
+        }), _write_only_error("#value").foo = foo, ({ o: _class_private_field_destructure(this, _value).value } = {
             o: {
                 foo
             }
-        }), _value.get(this).set.call(this, _extends({}, {
+        }), _class_private_field_destructure(this, _value).value = _extends({}, {
             foo
-        })), ({ foo: _class_private_field_get(this, _value).foo } = {
+        }), ({ foo: _write_only_error("#value").foo } = {
             foo
         }), ({ foo: _ref2 } = {
             foo
-        }), _class_private_field_get(this, _value).foo = _extends({}, _ref2), _class_private_field_get(this, _value), [_class_private_field_get(this, _valueOne), ..._class_private_field_get(this, _valueRest)] = [
+        }), _write_only_error("#value").foo = _extends({}, _ref2), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
             1,
             2,
             3
         ], [
-            _class_private_field_get(this, _valueOne),
-            ..._class_private_field_get(this, _valueRest)
-        ], _valueCompound.get(this).set.call(this, _class_private_field_get(this, _valueCompound) + 3);
+            _write_only_error("#valueOne"),
+            ..._write_only_error("#valueRest")
+        ], _class_private_field_set(this, _valueCompound, _write_only_error("#valueCompound") + 3);
     }
     constructor(){
-        _value.set(this, {
+        _class_private_field_init(this, _value, {
             get: void 0,
             set: set_value
-        }), _valueRest.set(this, {
+        }), _class_private_field_init(this, _valueRest, {
             get: void 0,
             set: set_valueRest
-        }), _valueOne.set(this, {
+        }), _class_private_field_init(this, _valueOne, {
             get: void 0,
             set: set_valueOne
-        }), _valueCompound.set(this, {
+        }), _class_private_field_init(this, _valueCompound, {
             get: void 0,
             set: set_valueCompound
         });

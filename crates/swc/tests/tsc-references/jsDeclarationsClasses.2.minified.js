@@ -4,15 +4,18 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-new WeakMap(), new WeakMap(), new WeakMap();
 export var A = function A() {
     _class_call_check(this, A);
 };
 export var B = function B() {
     _class_call_check(this, B);
 };
+B.cat = "cat";
 export var C = function C() {
     _class_call_check(this, C);
+};
+C.Cls = function _class() {
+    _class_call_check(this, _class);
 };
 export var D = function D(a, b) {
     _class_call_check(this, D);
@@ -59,6 +62,7 @@ export var E = /*#__PURE__*/ function() {
         }
     ]), E;
 }();
+E.staticInitializedField = 12;
 export var F = /*#__PURE__*/ function() {
     function F(a, b) {
         _class_call_check(this, F);

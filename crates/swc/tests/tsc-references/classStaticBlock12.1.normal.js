@@ -1,13 +1,9 @@
 //// [classStaticBlock12.ts]
-import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
-var _x = new WeakMap(), __ = new WeakMap();
+import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
 class C {
 }
-_x.set(C, {
+var _x = {
     writable: true,
     value: 1
-});
-__.set(C, {
-    writable: true,
-    value: _class_private_field_get(C, _x)
-});
+};
+_class_static_private_field_spec_get(C, C, _x);

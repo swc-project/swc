@@ -2,12 +2,13 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _field = new WeakMap(), _method = new WeakSet(), _sField = new WeakMap(), _acc = new WeakMap(), _sAcc = new WeakMap();
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
+var _field = /*#__PURE__*/ new WeakMap(), _method = /*#__PURE__*/ new WeakSet(), _acc = /*#__PURE__*/ new WeakMap();
 var A = function A() {
     "use strict";
     _class_call_check(this, A);
-    _method.add(this);
-    _acc.set(this, {
+    _class_private_method_init(this, _method);
+    _class_private_field_init(this, _acc, {
         get: get_acc,
         set: set_acc
     });
@@ -16,6 +17,14 @@ var A = function A() {
         value: void 0
     });
     _class_private_field_set(this, _field, 123);
+};
+var _sAcc = {
+    get: get_sAcc,
+    set: set_sAcc
+};
+var _sField = {
+    writable: true,
+    value: "hello world"
 };
 function method() {}
 function sMethod() {}
@@ -27,11 +36,3 @@ function get_sAcc() {
     return 0;
 }
 function set_sAcc(x) {}
-_sAcc.set(A, {
-    get: get_sAcc,
-    set: set_sAcc
-});
-_sField.set(A, {
-    writable: true,
-    value: "hello world"
-});

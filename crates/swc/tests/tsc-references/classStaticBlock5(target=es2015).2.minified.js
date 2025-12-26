@@ -1,17 +1,9 @@
 //// [classStaticBlock5.ts]
-new WeakMap(), new WeakMap();
-var __1 = new WeakMap(), __21 = new WeakMap(), __3 = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class B {
 }
+B.a = 1, B.b = 2;
 class C extends B {
 }
-__1.set(C, {
-    writable: !0,
-    value: C.b = 3
-}), __21.set(C, {
-    writable: !0,
-    value: C.c = super.a
-}), __3.set(C, {
-    writable: !0,
-    value: void (C.b, super.b, super.a)
-});
+C.b = 3, C.c = _get(_get_prototype_of(C), "a", C), C.b, _get(_get_prototype_of(C), "b", C), _get(_get_prototype_of(C), "a", C);

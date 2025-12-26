@@ -1,32 +1,29 @@
 //// [privateNameStaticMethodCallExpression.ts]
-var __ = new WeakMap();
+import { _ as _class_static_private_method_get } from "@swc/helpers/_/_class_static_private_method_get";
 class AA {
     test() {
-        method.call(AA);
-        const func = method;
+        _class_static_private_method_get(AA, AA, method).call(AA);
+        const func = _class_static_private_method_get(AA, AA, method);
         func();
-        new method();
+        new (_class_static_private_method_get(AA, AA, method))();
         const arr = [
             1,
             2
         ];
-        method2.call(AA, 0, ...arr, 3);
-        const b = new method2(0, ...arr, 3); //Error 
-        const str = method2`head${1}middle${2}tail`;
-        method2`test${1}and${2}`;
-        method2.call(AA.getClass(), 0, ...arr, 3);
-        const b2 = new method2(0, ...arr, 3); //Error 
-        const str2 = method2`head${1}middle${2}tail`;
+        _class_static_private_method_get(AA, AA, method2).call(AA, 0, ...arr, 3);
+        const b = new (_class_static_private_method_get(AA, AA, method2))(0, ...arr, 3); //Error 
+        const str = _class_static_private_method_get(AA, AA, method2).bind(AA)`head${1}middle${2}tail`;
+        _class_static_private_method_get(AA.getClass(), AA, method2).bind(AA)`test${1}and${2}`;
+        _class_static_private_method_get(AA.getClass(), AA, method2).call(AA, 0, ...arr, 3);
+        const b2 = new (_class_static_private_method_get(AA.getClass(), AA, method2))(0, ...arr, 3); //Error 
+        const str2 = _class_static_private_method_get(AA.getClass(), AA, method2).bind(AA)`head${1}middle${2}tail`;
     }
     static getClass() {
         return AA;
     }
 }
+AA.x = 1;
 function method() {
     this.x = 10;
 }
 function method2(a, ...b) {}
-__.set(AA, {
-    writable: true,
-    value: AA.x = 1
-});

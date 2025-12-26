@@ -1,6 +1,7 @@
 //// [esnextmodulekindWithES2015Target.ts]
-export default class A {
+class A {
     B() {
         return 42;
     }
 }
+export { A as default };

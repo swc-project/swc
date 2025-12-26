@@ -1,7 +1,7 @@
 //// [privateNameDeclaration.ts]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _foo = new WeakMap(), _bar = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 class A {
     quux() {}
     constructor(){

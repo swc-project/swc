@@ -2,60 +2,60 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _test = new WeakMap();
+import { _ as _class_private_field_update } from "@swc/helpers/_/_class_private_field_update";
+var _test = /*#__PURE__*/ new WeakMap();
 class C {
     test() {
-        var _this_getInstance, _this_getInstance1, _this_getInstance2, _this_getInstance3, _this_getInstance4, _this_getInstance5, _this_getInstance6, _this_getInstance7, _this_getInstance8, _this_getInstance9, _this_getInstance10, _this_getInstance11, _this_getInstance12, _this_getInstance13, _this_getInstance14, _this_getInstance15, _this_getInstance16, _this_getInstance17, _this_getInstance18, _this_getInstance19, _this_getInstance20, _this_getInstance21, _this_getInstance22, _this_getInstance23, _this_getInstance24, _this_getInstance25, _this_getInstance26, _this_getInstance27, _this_getInstance28, _this_getInstance29, _this_getInstance30, _this_getInstance31, _this_getInstance32, _this_getInstance33, _this_getInstance34, _this_getInstance35, _this_getInstance36, _this_getInstance37, _this_getInstance38, _this_getInstance39, _this_getInstance40, _this_getInstance41, _this_getInstance42, _this_getInstance43, _this_getInstance44, _this_getInstance45, _this_getInstance46, _this_getInstance47, _this_getInstance48, _this_getInstance49;
-        _this_getInstance = this.getInstance(), _this_getInstance1 = _class_private_field_get(_this_getInstance, _test), _class_private_field_set(_this_getInstance, _test, _this_getInstance1 + (typeof _this_getInstance1 === "bigint" ? 1n : 1)), _this_getInstance1;
-        _this_getInstance2 = this.getInstance(), _this_getInstance3 = _class_private_field_get(_this_getInstance2, _test), _class_private_field_set(_this_getInstance2, _test, _this_getInstance3 - (typeof _this_getInstance3 === "bigint" ? 1n : 1)), _this_getInstance3;
-        _this_getInstance4 = this.getInstance(), _this_getInstance5 = (_this_getInstance6 = _class_private_field_get(_this_getInstance4, _test)) + (typeof _this_getInstance6 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance4, _test, _this_getInstance5), _this_getInstance5;
-        _this_getInstance7 = this.getInstance(), _this_getInstance8 = (_this_getInstance9 = _class_private_field_get(_this_getInstance7, _test)) - (typeof _this_getInstance9 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance7, _test, _this_getInstance8), _this_getInstance8;
-        const a = (_this_getInstance10 = this.getInstance(), _this_getInstance11 = _class_private_field_get(_this_getInstance10, _test), _class_private_field_set(_this_getInstance10, _test, _this_getInstance11 + (typeof _this_getInstance11 === "bigint" ? 1n : 1)), _this_getInstance11);
-        const b = (_this_getInstance12 = this.getInstance(), _this_getInstance13 = _class_private_field_get(_this_getInstance12, _test), _class_private_field_set(_this_getInstance12, _test, _this_getInstance13 - (typeof _this_getInstance13 === "bigint" ? 1n : 1)), _this_getInstance13);
-        const c = (_this_getInstance14 = this.getInstance(), _this_getInstance15 = (_this_getInstance16 = _class_private_field_get(_this_getInstance14, _test)) + (typeof _this_getInstance16 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance14, _test, _this_getInstance15), _this_getInstance15);
-        const d = (_this_getInstance17 = this.getInstance(), _this_getInstance18 = (_this_getInstance19 = _class_private_field_get(_this_getInstance17, _test)) - (typeof _this_getInstance19 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance17, _test, _this_getInstance18), _this_getInstance18);
-        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(this.getInstance(), _test) < 10; _this_getInstance20 = this.getInstance(), _this_getInstance21 = (_this_getInstance22 = _class_private_field_get(_this_getInstance20, _test)) + (typeof _this_getInstance22 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance20, _test, _this_getInstance21), _this_getInstance21){}
-        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(this.getInstance(), _test) < 10; _this_getInstance23 = this.getInstance(), _this_getInstance24 = _class_private_field_get(_this_getInstance23, _test), _class_private_field_set(_this_getInstance23, _test, _this_getInstance24 + (typeof _this_getInstance24 === "bigint" ? 1n : 1)), _this_getInstance24){}
-        _this_getInstance25 = this.getInstance(), _this_getInstance26 = _class_private_field_get(_this_getInstance25, _test), _class_private_field_set(_this_getInstance25, _test, _this_getInstance26 + (typeof _this_getInstance26 === "bigint" ? 1n : 1)), _this_getInstance26;
-        _this_getInstance27 = this.getInstance(), _this_getInstance28 = _class_private_field_get(_this_getInstance27, _test), _class_private_field_set(_this_getInstance27, _test, _this_getInstance28 - (typeof _this_getInstance28 === "bigint" ? 1n : 1)), _this_getInstance28;
-        _this_getInstance29 = this.getInstance(), _this_getInstance30 = (_this_getInstance31 = _class_private_field_get(_this_getInstance29, _test)) + (typeof _this_getInstance31 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance29, _test, _this_getInstance30), _this_getInstance30;
-        _this_getInstance32 = this.getInstance(), _this_getInstance33 = (_this_getInstance34 = _class_private_field_get(_this_getInstance32, _test)) - (typeof _this_getInstance34 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance32, _test, _this_getInstance33), _this_getInstance33;
-        const e = (_this_getInstance35 = this.getInstance(), _this_getInstance36 = _class_private_field_get(_this_getInstance35, _test), _class_private_field_set(_this_getInstance35, _test, _this_getInstance36 + (typeof _this_getInstance36 === "bigint" ? 1n : 1)), _this_getInstance36);
-        const f = (_this_getInstance37 = this.getInstance(), _this_getInstance38 = _class_private_field_get(_this_getInstance37, _test), _class_private_field_set(_this_getInstance37, _test, _this_getInstance38 - (typeof _this_getInstance38 === "bigint" ? 1n : 1)), _this_getInstance38);
-        const g = (_this_getInstance39 = this.getInstance(), _this_getInstance40 = (_this_getInstance41 = _class_private_field_get(_this_getInstance39, _test)) + (typeof _this_getInstance41 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance39, _test, _this_getInstance40), _this_getInstance40);
-        const h = (_this_getInstance42 = this.getInstance(), _this_getInstance43 = (_this_getInstance44 = _class_private_field_get(_this_getInstance42, _test)) - (typeof _this_getInstance44 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance42, _test, _this_getInstance43), _this_getInstance43);
-        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(this.getInstance(), _test) < 10; _this_getInstance45 = this.getInstance(), _this_getInstance46 = (_this_getInstance47 = _class_private_field_get(_this_getInstance45, _test)) + (typeof _this_getInstance47 === "bigint" ? 1n : 1), _class_private_field_set(_this_getInstance45, _test, _this_getInstance46), _this_getInstance46){}
-        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(this.getInstance(), _test) < 10; _this_getInstance48 = this.getInstance(), _this_getInstance49 = _class_private_field_get(_this_getInstance48, _test), _class_private_field_set(_this_getInstance48, _test, _this_getInstance49 + (typeof _this_getInstance49 === "bigint" ? 1n : 1)), _this_getInstance49){}
+        var _this_getInstance, _this_getInstance1, _this_getInstance2, _this_getInstance3;
+        _class_private_field_update(this.getInstance(), _test).value++;
+        _class_private_field_update(this.getInstance(), _test).value--;
+        ++_class_private_field_update(this.getInstance(), _test).value;
+        --_class_private_field_update(this.getInstance(), _test).value;
+        const a = _class_private_field_update(this.getInstance(), _test).value++;
+        const b = _class_private_field_update(this.getInstance(), _test).value--;
+        const c = ++_class_private_field_update(this.getInstance(), _test).value;
+        const d = --_class_private_field_update(this.getInstance(), _test).value;
+        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(_this_getInstance = this.getInstance(), _test) < 10; ++_class_private_field_update(this.getInstance(), _test).value){}
+        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(_this_getInstance1 = this.getInstance(), _test) < 10; _class_private_field_update(this.getInstance(), _test).value++){}
+        _class_private_field_update(this.getInstance(), _test).value++;
+        _class_private_field_update(this.getInstance(), _test).value--;
+        ++_class_private_field_update(this.getInstance(), _test).value;
+        --_class_private_field_update(this.getInstance(), _test).value;
+        const e = _class_private_field_update(this.getInstance(), _test).value++;
+        const f = _class_private_field_update(this.getInstance(), _test).value--;
+        const g = ++_class_private_field_update(this.getInstance(), _test).value;
+        const h = --_class_private_field_update(this.getInstance(), _test).value;
+        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(_this_getInstance2 = this.getInstance(), _test) < 10; ++_class_private_field_update(this.getInstance(), _test).value){}
+        for(_class_private_field_set(this.getInstance(), _test, 0); _class_private_field_get(_this_getInstance3 = this.getInstance(), _test) < 10; _class_private_field_update(this.getInstance(), _test).value++){}
     }
     getInstance() {
         return new C();
     }
     constructor(){
-        var _this, _this1, _this2, _this3, _this4, _this5, _this6, _this7, _this8, _this9, _this10, _this11, _this12, _this13, _this14, _this15, _this16, _this17, _this18, _this19, _this20, _this21, _this22, _this23, _this24, _this25, _this26, _this27, _this28, _this29, _this30, _this31, _this32, _this33, _this34, _this35, _this36, _this37, _this38, _this39, _this40, _this41, _this42, _this43, _this44, _this45, _this46, _this47, _this48, _this49;
         _class_private_field_init(this, _test, {
             writable: true,
             value: void 0
         });
         _class_private_field_set(this, _test, 24);
-        _this = this, _this1 = _class_private_field_get(_this, _test), _class_private_field_set(_this, _test, _this1 + (typeof _this1 === "bigint" ? 1n : 1)), _this1;
-        _this2 = this, _this3 = _class_private_field_get(_this2, _test), _class_private_field_set(_this2, _test, _this3 - (typeof _this3 === "bigint" ? 1n : 1)), _this3;
-        _this4 = this, _this5 = (_this6 = _class_private_field_get(_this4, _test)) + (typeof _this6 === "bigint" ? 1n : 1), _class_private_field_set(_this4, _test, _this5), _this5;
-        _this7 = this, _this8 = (_this9 = _class_private_field_get(_this7, _test)) - (typeof _this9 === "bigint" ? 1n : 1), _class_private_field_set(_this7, _test, _this8), _this8;
-        const a = (_this10 = this, _this11 = _class_private_field_get(_this10, _test), _class_private_field_set(_this10, _test, _this11 + (typeof _this11 === "bigint" ? 1n : 1)), _this11);
-        const b = (_this12 = this, _this13 = _class_private_field_get(_this12, _test), _class_private_field_set(_this12, _test, _this13 - (typeof _this13 === "bigint" ? 1n : 1)), _this13);
-        const c = (_this14 = this, _this15 = (_this16 = _class_private_field_get(_this14, _test)) + (typeof _this16 === "bigint" ? 1n : 1), _class_private_field_set(_this14, _test, _this15), _this15);
-        const d = (_this17 = this, _this18 = (_this19 = _class_private_field_get(_this17, _test)) - (typeof _this19 === "bigint" ? 1n : 1), _class_private_field_set(_this17, _test, _this18), _this18);
-        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; _this20 = this, _this21 = (_this22 = _class_private_field_get(_this20, _test)) + (typeof _this22 === "bigint" ? 1n : 1), _class_private_field_set(_this20, _test, _this21), _this21){}
-        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; _this23 = this, _this24 = _class_private_field_get(_this23, _test), _class_private_field_set(_this23, _test, _this24 + (typeof _this24 === "bigint" ? 1n : 1)), _this24){}
-        _this25 = this, _this26 = _class_private_field_get(_this25, _test), _class_private_field_set(_this25, _test, _this26 + (typeof _this26 === "bigint" ? 1n : 1)), _this26;
-        _this27 = this, _this28 = _class_private_field_get(_this27, _test), _class_private_field_set(_this27, _test, _this28 - (typeof _this28 === "bigint" ? 1n : 1)), _this28;
-        _this29 = this, _this30 = (_this31 = _class_private_field_get(_this29, _test)) + (typeof _this31 === "bigint" ? 1n : 1), _class_private_field_set(_this29, _test, _this30), _this30;
-        _this32 = this, _this33 = (_this34 = _class_private_field_get(_this32, _test)) - (typeof _this34 === "bigint" ? 1n : 1), _class_private_field_set(_this32, _test, _this33), _this33;
-        const e = (_this35 = this, _this36 = _class_private_field_get(_this35, _test), _class_private_field_set(_this35, _test, _this36 + (typeof _this36 === "bigint" ? 1n : 1)), _this36);
-        const f = (_this37 = this, _this38 = _class_private_field_get(_this37, _test), _class_private_field_set(_this37, _test, _this38 - (typeof _this38 === "bigint" ? 1n : 1)), _this38);
-        const g = (_this39 = this, _this40 = (_this41 = _class_private_field_get(_this39, _test)) + (typeof _this41 === "bigint" ? 1n : 1), _class_private_field_set(_this39, _test, _this40), _this40);
-        const h = (_this42 = this, _this43 = (_this44 = _class_private_field_get(_this42, _test)) - (typeof _this44 === "bigint" ? 1n : 1), _class_private_field_set(_this42, _test, _this43), _this43);
-        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; _this45 = this, _this46 = (_this47 = _class_private_field_get(_this45, _test)) + (typeof _this47 === "bigint" ? 1n : 1), _class_private_field_set(_this45, _test, _this46), _this46){}
-        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; _this48 = this, _this49 = _class_private_field_get(_this48, _test), _class_private_field_set(_this48, _test, _this49 + (typeof _this49 === "bigint" ? 1n : 1)), _this49){}
+        _class_private_field_update(this, _test).value++;
+        _class_private_field_update(this, _test).value--;
+        ++_class_private_field_update(this, _test).value;
+        --_class_private_field_update(this, _test).value;
+        const a = _class_private_field_update(this, _test).value++;
+        const b = _class_private_field_update(this, _test).value--;
+        const c = ++_class_private_field_update(this, _test).value;
+        const d = --_class_private_field_update(this, _test).value;
+        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; ++_class_private_field_update(this, _test).value){}
+        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; _class_private_field_update(this, _test).value++){}
+        _class_private_field_update(this, _test).value++;
+        _class_private_field_update(this, _test).value--;
+        ++_class_private_field_update(this, _test).value;
+        --_class_private_field_update(this, _test).value;
+        const e = _class_private_field_update(this, _test).value++;
+        const f = _class_private_field_update(this, _test).value--;
+        const g = ++_class_private_field_update(this, _test).value;
+        const h = --_class_private_field_update(this, _test).value;
+        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; ++_class_private_field_update(this, _test).value){}
+        for(_class_private_field_set(this, _test, 0); _class_private_field_get(this, _test) < 10; _class_private_field_update(this, _test).value++){}
     }
 }

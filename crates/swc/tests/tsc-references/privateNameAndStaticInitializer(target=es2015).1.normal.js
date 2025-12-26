@@ -1,7 +1,7 @@
 //// [privateNameAndStaticInitializer.ts]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _foo = new WeakMap(), __ = new WeakMap(), _prop = new WeakMap();
+var _foo = /*#__PURE__*/ new WeakMap(), _prop = /*#__PURE__*/ new WeakMap();
 class A {
     constructor(){
         _class_private_field_init(this, _foo, {
@@ -16,7 +16,4 @@ class A {
         _class_private_field_set(this, _prop, 2);
     }
 }
-__.set(A, {
-    writable: true,
-    value: A.inst = new A()
-});
+A.inst = new A();

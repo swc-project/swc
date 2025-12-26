@@ -9,13 +9,10 @@ global = this, factory = function(exports1, _class_call_check) {
             return C;
         }
     });
-    var __ = new WeakMap(), C = function C() {
+    var C = function C() {
         _class_call_check._(this, C);
     };
-    __.set(C, {
-        writable: !0,
-        value: C.x = 1
-    });
+    C.x = 1;
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_class_call_check")) : "function" == typeof define && define.amd ? define([
     "exports",
     "@swc/helpers/_/_class_call_check"

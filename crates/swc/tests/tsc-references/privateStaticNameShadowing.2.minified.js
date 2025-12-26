@@ -1,14 +1,11 @@
 //// [privateStaticNameShadowing.ts]
-var _f = new WeakMap();
+import { _ as _class_static_private_method_get } from "@swc/helpers/_/_class_static_private_method_get";
 class X {
     constructor(){
-        m.call(X);
+        _class_static_private_method_get(X, X, m).call(X);
     }
 }
 function m() {
-    return m.call({}), 1;
+    return _class_static_private_method_get({}, X, m).call(X), 1;
 }
-_f.set(X, {
-    writable: !0,
-    value: m.call(X)
-});
+_class_static_private_method_get(X, X, m).call(X);

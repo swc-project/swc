@@ -1,12 +1,11 @@
 //// [privateNameStaticAndStaticInitializer.ts]
-var _foo = new WeakMap(), _prop = new WeakMap();
 class A {
 }
-_foo.set(A, {
+var _foo = {
     writable: true,
     value: 1
-});
-_prop.set(A, {
+};
+var _prop = {
     writable: true,
     value: 2
-});
+};

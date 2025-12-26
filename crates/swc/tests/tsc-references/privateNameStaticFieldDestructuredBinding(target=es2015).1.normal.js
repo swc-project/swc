@@ -1,6 +1,5 @@
 //// [privateNameStaticFieldDestructuredBinding.ts]
-import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
-var _field = new WeakMap();
+import { _ as _class_static_private_field_destructure } from "@swc/helpers/_/_class_static_private_field_destructure";
 class A {
     testObject() {
         return {
@@ -15,35 +14,35 @@ class A {
         ];
     }
     static test(_a) {
-        [_class_private_field_get(_a, _field)] = [
+        [_class_static_private_field_destructure(_a, A, _field).value] = [
             2
         ];
     }
     constructor(){
         this.otherClass = A;
         let y;
-        ({ x: _class_private_field_get(A, _field), y } = this.testObject());
-        [_class_private_field_get(A, _field), y] = this.testArray();
-        ({ a: _class_private_field_get(A, _field), b: [_class_private_field_get(A, _field)] } = {
+        ({ x: _class_static_private_field_destructure(A, A, _field).value, y } = this.testObject());
+        [_class_static_private_field_destructure(A, A, _field).value, y] = this.testArray();
+        ({ a: _class_static_private_field_destructure(A, A, _field).value, b: [_class_static_private_field_destructure(A, A, _field).value] } = {
             a: 1,
             b: [
                 2
             ]
         });
-        [_class_private_field_get(A, _field), [_class_private_field_get(A, _field)]] = [
+        [_class_static_private_field_destructure(A, A, _field).value, [_class_static_private_field_destructure(A, A, _field).value]] = [
             1,
             [
                 2
             ]
         ];
-        ({ a: _class_private_field_get(A, _field) = 1, b: [_class_private_field_get(A, _field) = 1] } = {
+        ({ a: _class_static_private_field_destructure(A, A, _field).value = 1, b: [_class_static_private_field_destructure(A, A, _field).value = 1] } = {
             b: []
         });
-        [_class_private_field_get(A, _field) = 2] = [];
-        [_class_private_field_get(this.otherClass, _field) = 2] = [];
+        [_class_static_private_field_destructure(A, A, _field).value = 2] = [];
+        [_class_static_private_field_destructure(this.otherClass, A, _field).value = 2] = [];
     }
 }
-_field.set(A, {
+var _field = {
     writable: true,
     value: 1
-});
+};

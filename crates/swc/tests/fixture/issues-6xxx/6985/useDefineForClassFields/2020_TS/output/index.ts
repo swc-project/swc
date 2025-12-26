@@ -1,7 +1,7 @@
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
-var _b = new WeakMap(), _d = new WeakMap();
+var _b = /*#__PURE__*/ new WeakMap();
 class Foo {
     constructor(foo){
         _define_property(this, "foo", void 0);
@@ -16,7 +16,7 @@ class Foo {
     }
 }
 _define_property(Foo, "c", 3);
-_d.set(Foo, {
+var _d = {
     writable: true,
     value: 4
-});
+};

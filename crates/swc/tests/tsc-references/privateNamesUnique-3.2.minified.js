@@ -1,14 +1,12 @@
 //// [privateNamesUnique-3.ts]
-import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
-import "@swc/helpers/_/_class_private_field_init";
-import "@swc/helpers/_/_class_private_field_set";
-new WeakMap(), new WeakMap();
-var _foo1 = new WeakMap();
-_foo1.set(class {
-    test(x) {
-        _class_private_field_get(x, _foo1);
-    }
-}, {
-    writable: !0,
-    value: !0
-});
+//!   x duplicate private name #foo.
+//!    ,-[4:1]
+//!  1 | 
+//!  2 | class A {
+//!  3 |     #foo = 1;
+//!  4 |     static #foo = true; // error (duplicate)
+//!    :            ^^^^
+//!  5 |                         // because static and instance private names
+//!  6 |                         // share the same lexical scope
+//!  7 |                         // https://tc39.es/proposal-class-fields/#prod-ClassBody
+//!    `----

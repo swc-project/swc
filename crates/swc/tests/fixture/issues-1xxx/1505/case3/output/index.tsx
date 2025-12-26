@@ -11,8 +11,7 @@ var ComponentType = function ComponentType() {
     _class_call_check(this, ComponentType);
 };
 var withTeamsForUser = function(_WrappedComponent) {
-    var _class;
-    return _class = /*#__PURE__*/ function(Component) {
+    var _class = /*#__PURE__*/ function(Component) {
         "use strict";
         _inherits(_class, Component);
         function _class() {
@@ -20,5 +19,7 @@ var withTeamsForUser = function(_WrappedComponent) {
             return _call_super(this, _class, arguments);
         }
         return _class;
-    }(Component), _define_property(_class, "displayName", "x"), _class;
+    }(Component);
+    _define_property(_class, "displayName", "x");
+    return _class;
 };

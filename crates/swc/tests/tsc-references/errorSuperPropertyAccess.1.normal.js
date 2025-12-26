@@ -7,7 +7,6 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _set } from "@swc/helpers/_/_set";
-var __ = new WeakMap(), __2 = new WeakMap();
 //super property access in constructor of class with no base type
 //super property access in instance member function of class with no base type
 //super property access in instance member accessor(get and set) of class with no base type
@@ -58,6 +57,8 @@ var SomeBase = /*#__PURE__*/ function() {
     SomeBase.publicStaticFunc = function publicStaticFunc() {};
     return SomeBase;
 }();
+SomeBase.privateStaticMember = 0;
+SomeBase.publicStaticMember = 0;
 //super.publicInstanceMemberNotFunction in constructor of derived class
 //super.publicInstanceMemberNotFunction in instance member function of derived class
 //super.publicInstanceMemberNotFunction in instance member accessor(get and set) of derived class

@@ -9,8 +9,8 @@ var Lion = /*#__PURE__*/ function(Animal1) {
     function Lion() {
         _class_call_check(this, Lion);
         var _this;
-        _this = _call_super(this, Lion, arguments);
-        _define_property(_this, "sound", 'RAWR!'); // error here
+        _this = _call_super(this, Lion, arguments), _define_property(_this, "sound", 'RAWR!' // error here
+        );
         return _this;
     }
     return Lion;

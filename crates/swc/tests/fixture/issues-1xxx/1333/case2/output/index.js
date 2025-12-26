@@ -21,32 +21,32 @@ const _utils = require("../../utils");
 const _connection = require("./connection");
 const _serialization = require("./serialization");
 const _compression = require("./compression");
+const connectionStates = Object.keys(_ws.default);
 var /**
      * The serialization handler.
      * @type {Serialization}
-     */ _serialization1 = new WeakMap(), /**
+     */ _serialization1 = /*#__PURE__*/ new WeakMap(), /**
      * The compression handler.
      * @type {Compression}
-     */ _compression1 = new WeakMap(), /**
+     */ _compression1 = /*#__PURE__*/ new WeakMap(), /**
      * The current sequence.
      * @type {number}
-     */ _seq = new WeakMap(), /**
+     */ _seq = /*#__PURE__*/ new WeakMap(), /**
      * The shard sequence when the websocket last closed.
      * @type {number}
-     */ _closingSeq = new WeakMap(), /**
+     */ _closingSeq = /*#__PURE__*/ new WeakMap(), /**
      * The rate-limit bucket.
      * @type {Bucket}
-     */ _bucket = new WeakMap(), /**
+     */ _bucket = /*#__PURE__*/ new WeakMap(), /**
      * The rate-limit bucket for presence updates.
      * @type {Bucket}
-     */ _presenceBucket = new WeakMap(), /**
+     */ _presenceBucket = /*#__PURE__*/ new WeakMap(), /**
      * The current connection.
      * @type {WebSocket}
-     */ _ws1 = new WeakMap(), /**
+     */ _ws1 = /*#__PURE__*/ new WeakMap(), /**
      * Packets that are waiting to be sent.
      * @type {DiscordPacket[]}
-     */ _queue = new WeakMap();
-const connectionStates = Object.keys(_ws.default);
+     */ _queue = /*#__PURE__*/ new WeakMap();
 class Shard extends _utils.Emitter {
     /**
      * The current sequence
@@ -83,8 +83,8 @@ class Shard extends _utils.Emitter {
                 if (++_i < _w) {
                     return;
                 }
-                const encoded = this.#serialization.encode(data);
-                this.#ws.send(encoded);
+                const encoded = _class_private_field_get._(this, _serialization1).encode(data);
+                _class_private_field_get._(this, _ws1).send(encoded);
             };
             if (data.op === _utils.GatewayOp.PRESENCE_UPDATE) {
                 ++_w;
@@ -275,9 +275,9 @@ class Shard extends _utils.Emitter {
      * Called whenever the websocket opens.
      * @private
      */ _open() {
-        var _this;
+        var _class_private_field_get1;
         this.status = _utils.Status.HANDSHAKING;
-        this._debug(`Connected. ${(_this = _class_private_field_get._(this, _ws1)) === null || _this === void 0 ? void 0 : _this.url} in ${Date.now() - this.connectedAt}`);
+        this._debug(`Connected. ${(_class_private_field_get1 = _class_private_field_get._(this, _ws1)) === null || _class_private_field_get1 === void 0 ? void 0 : _class_private_field_get1.url} in ${Date.now() - this.connectedAt}`);
         if (_class_private_field_get._(this, _queue).length) {
             this._debug(`${_class_private_field_get._(this, _queue).length} packets waiting... sending all now.`);
             while(_class_private_field_get._(this, _queue).length){
@@ -347,36 +347,28 @@ class Shard extends _utils.Emitter {
      * @param {ShardManager} manager The shard manager.
      * @param {number} id The ID of this shard.
      */ constructor(manager, id){
-        super();
-        _class_private_field_init._(this, _serialization1, {
+        super(), _class_private_field_init._(this, _serialization1, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _compression1, {
+        }), _class_private_field_init._(this, _compression1, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _seq, {
+        }), _class_private_field_init._(this, _seq, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _closingSeq, {
+        }), _class_private_field_init._(this, _closingSeq, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _bucket, {
+        }), _class_private_field_init._(this, _bucket, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _presenceBucket, {
+        }), _class_private_field_init._(this, _presenceBucket, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _ws1, {
+        }), _class_private_field_init._(this, _ws1, {
             writable: true,
             value: void 0
-        });
-        _class_private_field_init._(this, _queue, {
+        }), _class_private_field_init._(this, _queue, {
             writable: true,
             value: void 0
         });

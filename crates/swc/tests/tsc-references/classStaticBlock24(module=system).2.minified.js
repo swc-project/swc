@@ -2,7 +2,7 @@
 System.register([
     "@swc/helpers/_/_class_call_check"
 ], function(_export, _context) {
-    var _class_call_check, __, C;
+    var _class_call_check, C;
     return {
         setters: [
             function(_class_call_check1) {
@@ -10,12 +10,9 @@ System.register([
             }
         ],
         execute: function() {
-            __ = new WeakMap(), _export("C", C = function C() {
+            _export("C", C = function C() {
                 _class_call_check(this, C);
-            }), __.set(C, {
-                writable: !0,
-                value: C.x = 1
-            });
+            }), C.x = 1;
         }
     };
 });

@@ -5,608 +5,475 @@ export class Reflect {
 export default class {
 }
 //// [locals.ts]
-var __ = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), __6 = new WeakMap(), __7 = new WeakMap(), __8 = new WeakMap(), __9 = new WeakMap(), __10 = new WeakMap(), __11 = new WeakMap(), __12 = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = [
-        (()=>{
-            var Reflect; // collision (es2015-es2021 only)
-            super.w();
-        })(),
-        (()=>{
-            var { Reflect } = {
-                Reflect: null
-            }; // collision (es2015-es2021 only)
-            super.w();
-        })(),
-        (()=>{
-            var [Reflect] = [
-                null
-            ]; // collision (es2015-es2021 only)
-            super.w();
-        })(),
-        (()=>{
-            class Reflect {
-            } // collision (es2015-es2021 only)
-            super.w();
-        })(),
-        (()=>{
-            function Reflect() {} // collision (es2015-es2021 only)
-            super.w();
-        })(),
-        (()=>{
-            let Reflect = /*#__PURE__*/ function(Reflect) {
-                return Reflect;
-            }({})// collision (es2015-es2021 only)
-            ;
-            super.w();
-        })(),
-        (()=>{
-            super.w();
-        })(),
-        (()=>{
-            super.w();
-        })(),
-        (()=>{
-            ; // no collision
-            super.w();
-        })(),
-        (()=>{
-            (class Reflect {
-            }); // no collision
-            super.w();
-        })(),
-        (()=>{
-            (function Reflect() {}); // no collision
-            super.w();
-        })()
-    ]
-});
-__2.set(C, {
-    writable: true,
-    value: (()=>{
+C._ = [
+    (()=>{
+        var Reflect; // collision (es2015-es2021 only)
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
         var { Reflect } = {
             Reflect: null
         }; // collision (es2015-es2021 only)
-        super.w();
-    })()
-});
-__3.set(C, {
-    writable: true,
-    value: (()=>{
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
         var [Reflect] = [
             null
         ]; // collision (es2015-es2021 only)
-        super.w();
-    })()
-});
-__4.set(C, {
-    writable: true,
-    value: (()=>{
-        var Reflect; // collision (es2015-es2021 only)
-        super.w();
-    })()
-});
-__5.set(C, {
-    writable: true,
-    value: (()=>{
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
         class Reflect {
         } // collision (es2015-es2021 only)
-        super.w();
-    })()
-});
-__6.set(C, {
-    writable: true,
-    value: (()=>{
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
         function Reflect() {} // collision (es2015-es2021 only)
-        super.w();
-    })()
-});
-__7.set(C, {
-    writable: true,
-    value: (()=>{
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
         let Reflect = /*#__PURE__*/ function(Reflect) {
             return Reflect;
         }({})// collision (es2015-es2021 only)
         ;
-        super.w();
-    })()
-});
-__8.set(C, {
-    writable: true,
-    value: super.w()
-});
-__9.set(C, {
-    writable: true,
-    value: super.w()
-});
-__10.set(C, {
-    writable: true,
-    value: super.w()
-});
-__11.set(C, {
-    writable: true,
-    value: (()=>{
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
+        ; // no collision
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
         (class Reflect {
-        } // no collision
-        );
-        super.w();
+        }); // no collision
+        _get(_get_prototype_of(C), "w", C).call(C);
+    })(),
+    (()=>{
+        (function Reflect() {}); // no collision
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
-});
-__12.set(C, {
-    writable: true,
-    value: (()=>{
-        (function Reflect() {} // no collision
-        );
-        super.w();
-    })()
-});
+];
+(()=>{
+    var { Reflect } = {
+        Reflect: null
+    }; // collision (es2015-es2021 only)
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
+(()=>{
+    var [Reflect] = [
+        null
+    ]; // collision (es2015-es2021 only)
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
+(()=>{
+    var Reflect; // collision (es2015-es2021 only)
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
+(()=>{
+    class Reflect {
+    } // collision (es2015-es2021 only)
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
+(()=>{
+    function Reflect() {} // collision (es2015-es2021 only)
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
+(()=>{
+    let Reflect = /*#__PURE__*/ function(Reflect) {
+        return Reflect;
+    }({})// collision (es2015-es2021 only)
+    ;
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
+_get(_get_prototype_of(C), "w", C).call(C);
+_get(_get_prototype_of(C), "w", C).call(C);
+_get(_get_prototype_of(C), "w", C).call(C);
+(()=>{
+    (class Reflect {
+    } // no collision
+    );
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
+(()=>{
+    (function Reflect() {} // no collision
+    );
+    _get(_get_prototype_of(C), "w", C).call(C);
+})();
 export { };
 //// [varInContainingScopeStaticField1.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect = null; // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [varInContainingScopeStaticField2.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var { Reflect } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [varInContainingScopeStaticField3.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var [Reflect] = [
     null
 ]; // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [varInContainingScopeStaticBlock1.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect = null; // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [varInContainingScopeStaticBlock2.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var { Reflect } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [varInContainingScopeStaticBlock3.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var [Reflect] = [
     null
 ]; // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classDeclInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class Reflect {
 } // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classDeclInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class Reflect {
 } // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [funcDeclInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 function Reflect() {} // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [funcDeclInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 function Reflect() {} // collision (es2015-es2021 only)
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [valueNamespaceInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [enumInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect = /*#__PURE__*/ function(Reflect) {
     return Reflect;
 }(Reflect || {})// collision (es2015-es2021 only)
 ;
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 var Reflect = /*#__PURE__*/ function(Reflect) {
     return Reflect;
 }(Reflect || {})// collision (es2015-es2021 only)
 ;
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [namespaceImportInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [namedImportInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [namedImportInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // no collision
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // no collision
 //// [defaultImportInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [defaultImportInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // collision (es2015-es2021 only)
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { }; // no collision
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { }; // no collision
 //// [typeInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [typeInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [interfaceInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classExprInContainingScopeStaticField.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (class Reflect {
 }); // no collision
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classExprInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (class Reflect {
 }); // no collision
 class C extends B {
 }
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
+_get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [inContainingClassExprStaticField.ts]
-var __ = new WeakMap(), Reflect;
-Reflect = class Reflect {
-}, __.set(Reflect, {
-    writable: true,
-    value: (()=>{
-        var __ = new WeakMap();
-        class C extends B {
-        }
-        __.set(C, {
-            writable: true,
-            value: C._ = super.w()
-        });
-    })()
-}), Reflect;
-export { };
-//// [inContainingClassExprStaticBlock.ts]
-var __ = new WeakMap(), Reflect;
-Reflect = class Reflect {
-}, __.set(Reflect, {
-    writable: true,
-    value: (()=>{
-        var __ = new WeakMap();
-        class C extends B {
-        }
-        __.set(C, {
-            writable: true,
-            value: super.w()
-        });
-    })()
-}), Reflect;
-export { };
-//// [funcExprInContainingScopeStaticField.ts]
-var __ = new WeakMap();
-(function Reflect() {}); // no collision
-class C extends B {
-}
-__.set(C, {
-    writable: true,
-    value: C._ = super.w()
-});
-export { };
-//// [funcExprInContainingScopeStaticBlock.ts]
-var __ = new WeakMap();
-(function Reflect() {}); // no collision
-class C extends B {
-}
-__.set(C, {
-    writable: true,
-    value: super.w()
-});
-export { };
-//// [inContainingFuncExprStaticField.ts]
-(function Reflect() {
-    var __ = new WeakMap();
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var _Reflect;
+_Reflect = class Reflect {
+}, (()=>{
     class C extends B {
     }
-    __.set(C, {
-        writable: true,
-        value: C._ = super.w()
-    });
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
+})(), _Reflect;
+export { };
+//// [inContainingClassExprStaticBlock.ts]
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var _Reflect;
+_Reflect = class Reflect {
+}, (()=>{
+    class C extends B {
+    }
+    _get(_get_prototype_of(C), "w", C).call(C);
+})(), _Reflect;
+export { };
+//// [funcExprInContainingScopeStaticField.ts]
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+(function Reflect() {}); // no collision
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+export { };
+//// [funcExprInContainingScopeStaticBlock.ts]
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+(function Reflect() {}); // no collision
+class C extends B {
+}
+_get(_get_prototype_of(C), "w", C).call(C);
+export { };
+//// [inContainingFuncExprStaticField.ts]
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+(function Reflect() {
+    class C extends B {
+    }
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
 });
 export { };
 //// [inContainingFuncExprStaticBlock.ts]
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 (function Reflect() {
-    var __ = new WeakMap();
     class C extends B {
     }
-    __.set(C, {
-        writable: true,
-        value: super.w()
-    });
+    _get(_get_prototype_of(C), "w", C).call(C);
 });
 export { };

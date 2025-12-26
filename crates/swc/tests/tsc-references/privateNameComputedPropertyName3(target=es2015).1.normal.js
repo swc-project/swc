@@ -2,14 +2,14 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _name = new WeakMap();
+var _name = /*#__PURE__*/ new WeakMap();
 class Foo {
     getValue(x) {
-        var _y = new WeakMap();
-        let _tmp = _class_private_field_get(obj, _name);
         const obj = this;
+        var _y = /*#__PURE__*/ new WeakMap();
+        let _class_private_field_get1 = _class_private_field_get(obj, _name);
         class Bar {
-            [_tmp]() {
+            [_class_private_field_get1]() {
                 return x + _class_private_field_get(this, _y);
             }
             constructor(){

@@ -1,7 +1,7 @@
 //// [privateNameFieldInitializer.ts]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _field = new WeakMap(), _uninitialized = new WeakMap();
+var _field = /*#__PURE__*/ new WeakMap(), _uninitialized = /*#__PURE__*/ new WeakMap();
 class A {
     constructor(){
         _class_private_field_init(this, _field, {

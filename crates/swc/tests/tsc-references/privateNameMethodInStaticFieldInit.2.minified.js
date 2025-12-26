@@ -1,13 +1,12 @@
 //// [privateNameMethodInStaticFieldInit.ts]
-var __ = new WeakMap(), _method = new WeakSet();
+import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
+import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
+var _ref, _method = /*#__PURE__*/ new WeakSet();
 class C {
     constructor(){
-        _method.add(this);
+        _class_private_method_init(this, _method);
     }
 }
-__.set(C, {
-    writable: !0,
-    value: C.s = (function() {
-        return 42;
-    }).call(new C())
-}), console.log(C.s);
+C.s = _class_private_method_get(_ref = new C(), _method, function() {
+    return 42;
+}).call(_ref), console.log(C.s);

@@ -3,7 +3,6 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-var __ = new WeakMap();
 var A = function A() {
     "use strict";
     var _this = this;
@@ -15,6 +14,9 @@ var A = function A() {
     var b = function() {
         return _instanceof(_this, A) ? _this.constructor : void 0;
     };
+};
+A.c = function _target() {
+    return _instanceof(this, _target) ? this.constructor : void 0;
 };
 var B = /*#__PURE__*/ function _target(A) {
     "use strict";

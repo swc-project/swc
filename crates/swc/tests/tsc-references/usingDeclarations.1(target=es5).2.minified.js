@@ -1,14 +1,14 @@
 //// [usingDeclarations.1.ts]
 import "@swc/helpers/_/_assert_this_initialized";
-import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
+import "@swc/helpers/_/_async_to_generator";
+import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_call_super";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _create_class } from "@swc/helpers/_/_create_class";
+import "@swc/helpers/_/_class_call_check";
+import "@swc/helpers/_/_create_class";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import "@swc/helpers/_/_inherits";
-import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
-import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+import "@swc/helpers/_/_wrap_async_generator";
+import "@swc/helpers/_/_ts_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 var env = {
@@ -17,232 +17,25 @@ var env = {
     hasError: !1
 };
 try {
-    var N, C1, __ = new WeakMap();
-    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-    var C1 = (C1 = /*#__PURE__*/ function() {
-        function C1() {
-            _class_call_check(this, C1), this.a = function() {
-                var env = {
-                    stack: [],
-                    error: void 0,
-                    hasError: !1
-                };
-                try {
-                    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-                } catch (e) {
-                    env.error = e, env.hasError = !0;
-                } finally{
-                    _ts_dispose_resources(env);
-                }
-            };
-            var env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
+    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), function() {
+        var env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
         }
-        var _proto = C1.prototype;
-        return _proto.m = function() {
-            var env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }, _proto.am = function() {
-            return _async_to_generator(function() {
-                var env, e;
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            env = {
-                                stack: [],
-                                error: void 0,
-                                hasError: !1
-                            }, _state.label = 1;
-                        case 1:
-                            return _state.trys.push([
-                                1,
-                                3,
-                                4,
-                                5
-                            ]), _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), [
-                                4,
-                                null
-                            ];
-                        case 2:
-                            return _state.sent(), [
-                                3,
-                                5
-                            ];
-                        case 3:
-                            return e = _state.sent(), env.error = e, env.hasError = !0, [
-                                3,
-                                5
-                            ];
-                        case 4:
-                            return _ts_dispose_resources(env), [
-                                7
-                            ];
-                        case 5:
-                            return [
-                                2
-                            ];
-                    }
-                });
-            })();
-        }, _proto.g = function() {
-            var env, e;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        env = {
-                            stack: [],
-                            error: void 0,
-                            hasError: !1
-                        }, _state.label = 1;
-                    case 1:
-                        return _state.trys.push([
-                            1,
-                            3,
-                            4,
-                            5
-                        ]), _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), [
-                            4
-                        ];
-                    case 2:
-                        return _state.sent(), [
-                            3,
-                            5
-                        ];
-                    case 3:
-                        return e = _state.sent(), env.error = e, env.hasError = !0, [
-                            3,
-                            5
-                        ];
-                    case 4:
-                        return _ts_dispose_resources(env), [
-                            7
-                        ];
-                    case 5:
-                        return [
-                            2
-                        ];
-                }
-            });
-        }, _proto.ag = function() {
-            return _wrap_async_generator(function() {
-                var env, e;
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            env = {
-                                stack: [],
-                                error: void 0,
-                                hasError: !1
-                            }, _state.label = 1;
-                        case 1:
-                            return _state.trys.push([
-                                1,
-                                4,
-                                5,
-                                6
-                            ]), _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), [
-                                4
-                            ];
-                        case 2:
-                            return _state.sent(), [
-                                4,
-                                _await_async_generator(null)
-                            ];
-                        case 3:
-                            return _state.sent(), [
-                                3,
-                                6
-                            ];
-                        case 4:
-                            return e = _state.sent(), env.error = e, env.hasError = !0, [
-                                3,
-                                6
-                            ];
-                        case 5:
-                            return _ts_dispose_resources(env), [
-                                7
-                            ];
-                        case 6:
-                            return [
-                                2
-                            ];
-                    }
-                });
-            })();
-        }, _create_class(C1, [
-            {
-                key: "x",
-                get: function() {
-                    var env = {
-                        stack: [],
-                        error: void 0,
-                        hasError: !1
-                    };
-                    try {
-                        return _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), 0;
-                    } catch (e) {
-                        env.error = e, env.hasError = !0;
-                    } finally{
-                        _ts_dispose_resources(env);
-                    }
-                },
-                set: function(v) {
-                    var env = {
-                        stack: [],
-                        error: void 0,
-                        hasError: !1
-                    };
-                    try {
-                        _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-                    } catch (e) {
-                        env.error = e, env.hasError = !0;
-                    } finally{
-                        _ts_dispose_resources(env);
-                    }
-                }
-            }
-        ]), C1;
-    }(), __.set(C1, {
-        writable: !0,
-        value: function() {
-            var env = {
-                stack: [],
-                error: void 0,
-                hasError: !1
-            };
-            try {
-                _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-            } catch (e) {
-                env.error = e, env.hasError = !0;
-            } finally{
-                _ts_dispose_resources(env);
-            }
-        }()
-    }), C1), env1 = (N || (N = {}), {
+    }(), N || (N = {});
+    var N, env1 = {
         stack: [],
         error: void 0,
         hasError: !1
-    });
+    };
     try {
         _ts_add_disposable_resource(env1, _define_property({}, Symbol.dispose, function() {}), !1);
     } catch (e) {
