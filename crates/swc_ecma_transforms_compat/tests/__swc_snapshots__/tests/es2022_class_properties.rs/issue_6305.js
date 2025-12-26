@@ -3,5 +3,5 @@ class x {
 }
 _x.set(x, {
     writable: true,
-    value: super.x = 0
+    value: Object.getPrototypeOf(x).x = 0
 });

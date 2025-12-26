@@ -45,8 +45,8 @@ use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, default_constructor_with_span, is_literal, private_ident,
-    quote_ident, ExprFactory,
+    alias_ident_for, alias_if_required, constructor::inject_after_super,
+    default_constructor_with_span, is_literal, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -387,11 +387,23 @@ impl ClassPropertiesPass {
                 });
             }
 
-            // For static properties, replace `super.x` with `_super.x`
+            // For static properties, replace `super.x` with transformed access
+            // - If we have a superclass alias (_super): use `_super.x`
+            // - Otherwise: use `Object.getPrototypeOf(ClassName).x`
             if let Some(super_ident) = &self.cls.super_ident {
-                value.visit_mut_with(&mut SuperInStaticFolder {
-                    super_ident: super_ident.clone(),
-                });
+                value.visit_mut_with(&mut SuperInStaticFolder::with_super_ident(
+                    super_ident.clone(),
+                ));
+            } else if let Some(class_ident) = &self.cls.ident {
+                // For non-derived classes, we still need to transform super accesses
+                // that end up outside the class body
+                let mut visitor = SuperVisitor { found: false };
+                value.visit_with(&mut visitor);
+                if visitor.found {
+                    value.visit_mut_with(&mut SuperInStaticFolder::with_class_ident(
+                        class_ident.clone(),
+                    ));
+                }
             }
         }
 
@@ -454,6 +466,25 @@ impl ClassPropertiesPass {
                 value.visit_mut_with(&mut ThisInStaticFolder {
                     ident: class_ident.clone(),
                 });
+            }
+
+            // For static private properties, replace `super.x` with transformed access
+            // - If we have a superclass alias (_super): use `_super.x`
+            // - Otherwise: use `Object.getPrototypeOf(ClassName).x`
+            if let Some(super_ident) = &self.cls.super_ident {
+                value.visit_mut_with(&mut SuperInStaticFolder::with_super_ident(
+                    super_ident.clone(),
+                ));
+            } else if let Some(class_ident) = &self.cls.ident {
+                // For non-derived classes, we still need to transform super accesses
+                // that end up outside the class body
+                let mut visitor = SuperVisitor { found: false };
+                value.visit_with(&mut visitor);
+                if visitor.found {
+                    value.visit_mut_with(&mut SuperInStaticFolder::with_class_ident(
+                        class_ident.clone(),
+                    ));
+                }
             }
         }
 
@@ -753,257 +784,212 @@ impl ClassPropertiesPass {
         let mut c =
             constructor.unwrap_or_else(|| default_constructor_with_span(has_super, class_span));
 
-        if let Some(ref mut body) = c.body {
-            // Find insertion point (after super() call or at the start)
-            let insert_pos = if has_super {
-                // Find super() call
-                body.stmts
-                    .iter()
-                    .position(|stmt| {
-                        if let Stmt::Expr(ExprStmt { expr, .. }) = stmt {
-                            matches!(
-                                **expr,
-                                Expr::Call(CallExpr {
-                                    callee: Callee::Super(_),
-                                    ..
-                                })
-                            )
-                        } else {
-                            false
+        // Build initializer expressions (not statements)
+        // Methods/accessors first, then fields in declaration order
+        let mut method_accessor_exprs: Vec<Box<Expr>> = Vec::new();
+        let mut field_exprs: Vec<Box<Expr>> = Vec::new();
+
+        for init in take(&mut self.cls.instance_inits) {
+            match init {
+                MemberInit::PrivMethod { name, .. } => {
+                    // WeakSet.add(this)
+                    method_accessor_exprs.push(Box::new(
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: name.make_member(quote_ident!("add")).as_callee(),
+                            args: vec![ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                            }],
+                            type_args: Default::default(),
+                            ctxt: Default::default(),
                         }
-                    })
-                    .map(|pos| pos + 1)
-                    .unwrap_or(0)
-            } else {
-                0
-            };
+                        .into(),
+                    ));
+                }
+                MemberInit::PrivAccessor {
+                    name,
+                    getter,
+                    setter,
+                    ..
+                } => {
+                    // WeakMap.set(this, { get, set })
+                    let desc = create_accessor_desc(getter, setter);
+                    method_accessor_exprs.push(Box::new(
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: name.make_member(quote_ident!("set")).as_callee(),
+                            args: vec![
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                },
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(desc.into()),
+                                },
+                            ],
+                            type_args: Default::default(),
+                            ctxt: Default::default(),
+                        }
+                        .into(),
+                    ));
+                }
+                MemberInit::PrivProp { name, value, .. } => {
+                    // _class_private_field_init(this, _field, { writable: true, value })
+                    use swc_ecma_transforms_base::helper;
 
-            // Separate methods/accessors from fields while preserving declaration order
-            // Methods and accessors need to be initialized first (they're available before
-            // field values) Fields are initialized in declaration order after
-            // methods/accessors
-            let mut method_accessor_inits = Vec::new();
-            let mut field_inits = Vec::new();
+                    field_exprs.push(Box::new(
+                        CallExpr {
+                            span: DUMMY_SP,
+                            callee: helper!(class_private_field_init),
+                            args: vec![
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                },
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(name.into()),
+                                },
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(
+                                        ObjectLit {
+                                            span: DUMMY_SP,
+                                            props: vec![
+                                                PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                    KeyValueProp {
+                                                        key: PropName::Ident(quote_ident!(
+                                                            "writable"
+                                                        )),
+                                                        value: Box::new(
+                                                            Lit::Bool(Bool {
+                                                                span: DUMMY_SP,
+                                                                value: true,
+                                                            })
+                                                            .into(),
+                                                        ),
+                                                    },
+                                                ))),
+                                                PropOrSpread::Prop(Box::new(Prop::KeyValue(
+                                                    KeyValueProp {
+                                                        key: PropName::Ident(quote_ident!("value")),
+                                                        value,
+                                                    },
+                                                ))),
+                                            ],
+                                        }
+                                        .into(),
+                                    ),
+                                },
+                            ],
+                            type_args: Default::default(),
+                            ctxt: Default::default(),
+                        }
+                        .into(),
+                    ));
+                }
+                MemberInit::PubProp { span, name, value } => {
+                    let use_define_property = !self.assumptions.set_public_class_fields;
 
-            for init in take(&mut self.cls.instance_inits) {
-                match init {
-                    MemberInit::PrivMethod { span, name, .. } => {
-                        // WeakSet.add(this)
-                        method_accessor_inits.push(
-                            ExprStmt {
-                                span,
-                                expr: Box::new(
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: name.make_member(quote_ident!("add")).as_callee(),
-                                        args: vec![ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                        }],
-                                        type_args: Default::default(),
-                                        ctxt: Default::default(),
-                                    }
-                                    .into(),
-                                ),
-                            }
-                            .into(),
-                        );
-                    }
-                    MemberInit::PrivAccessor {
-                        span,
-                        name,
-                        getter,
-                        setter,
-                    } => {
-                        // WeakMap.set(this, { get, set })
-                        let desc = create_accessor_desc(getter, setter);
-                        method_accessor_inits.push(
-                            ExprStmt {
-                                span,
-                                expr: Box::new(
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: name.make_member(quote_ident!("set")).as_callee(),
-                                        args: vec![
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                            },
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(desc.into()),
-                                            },
-                                        ],
-                                        type_args: Default::default(),
-                                        ctxt: Default::default(),
-                                    }
-                                    .into(),
-                                ),
-                            }
-                            .into(),
-                        );
-                    }
-                    MemberInit::PrivProp { span, name, value } => {
-                        // _class_private_field_init(this, _field, { writable: true, value })
+                    if use_define_property {
+                        // Use _define_property for [[Define]] semantics (strict mode)
                         use swc_ecma_transforms_base::helper;
 
-                        field_inits.push(
-                            ExprStmt {
+                        let prop_key = match name {
+                            PropName::Ident(id) => Box::new(
+                                Lit::Str(Str {
+                                    span: id.span,
+                                    raw: None,
+                                    value: id.sym.into(),
+                                })
+                                .into(),
+                            ),
+                            PropName::Str(s) => Box::new(s.into()),
+                            PropName::Num(n) => Box::new(n.into()),
+                            PropName::Computed(c) => c.expr,
+                            PropName::BigInt(b) => Box::new(b.into()),
+                        };
+
+                        field_exprs.push(Box::new(
+                            CallExpr {
                                 span,
-                                expr: Box::new(
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: helper!(class_private_field_init),
-                                        args: vec![
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                            },
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(name.into()),
-                                            },
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(
-                                                    ObjectLit {
-                                                        span: DUMMY_SP,
-                                                        props: vec![
-                                                            PropOrSpread::Prop(Box::new(
-                                                                Prop::KeyValue(KeyValueProp {
-                                                                    key: PropName::Ident(
-                                                                        quote_ident!("writable"),
-                                                                    ),
-                                                                    value: Box::new(
-                                                                        Lit::Bool(Bool {
-                                                                            span: DUMMY_SP,
-                                                                            value: true,
-                                                                        })
-                                                                        .into(),
-                                                                    ),
-                                                                }),
-                                                            )),
-                                                            PropOrSpread::Prop(Box::new(
-                                                                Prop::KeyValue(KeyValueProp {
-                                                                    key: PropName::Ident(
-                                                                        quote_ident!("value"),
-                                                                    ),
-                                                                    value,
-                                                                }),
-                                                            )),
-                                                        ],
-                                                    }
-                                                    .into(),
-                                                ),
-                                            },
-                                        ],
-                                        type_args: Default::default(),
-                                        ctxt: Default::default(),
-                                    }
-                                    .into(),
-                                ),
+                                callee: helper!(define_property),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: prop_key,
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: value,
+                                    },
+                                ],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
                             }
                             .into(),
-                        );
-                    }
-                    MemberInit::PubProp { span, name, value } => {
-                        let use_define_property = !self.assumptions.set_public_class_fields;
-
-                        if use_define_property {
-                            // Use _define_property for [[Define]] semantics (strict mode)
-                            use swc_ecma_transforms_base::helper;
-
-                            let prop_key = match name {
-                                PropName::Ident(id) => Box::new(
-                                    Lit::Str(Str {
-                                        span: id.span,
-                                        raw: None,
-                                        value: id.sym.into(),
-                                    })
-                                    .into(),
-                                ),
-                                PropName::Str(s) => Box::new(s.into()),
-                                PropName::Num(n) => Box::new(n.into()),
-                                PropName::Computed(c) => c.expr,
-                                PropName::BigInt(b) => Box::new(b.into()),
-                            };
-
-                            field_inits.push(
-                                ExprStmt {
-                                    span,
-                                    expr: Box::new(
-                                        CallExpr {
-                                            span,
-                                            callee: helper!(define_property),
-                                            args: vec![
-                                                ExprOrSpread {
-                                                    spread: None,
-                                                    expr: Box::new(
-                                                        ThisExpr { span: DUMMY_SP }.into(),
-                                                    ),
-                                                },
-                                                ExprOrSpread {
-                                                    spread: None,
-                                                    expr: prop_key,
-                                                },
-                                                ExprOrSpread {
-                                                    spread: None,
-                                                    expr: value,
-                                                },
-                                            ],
-                                            type_args: Default::default(),
-                                            ctxt: Default::default(),
-                                        }
-                                        .into(),
-                                    ),
-                                }
-                                .into(),
-                            );
-                        } else {
-                            // Use assignment for loose mode
-                            field_inits.push(
-                                ExprStmt {
-                                    span,
-                                    expr: Box::new(
-                                        AssignExpr {
-                                            span,
-                                            op: op!("="),
-                                            left: match name {
-                                                PropName::Ident(id) => ThisExpr { span: DUMMY_SP }
-                                                    .make_member(id)
-                                                    .into(),
-                                                _ => {
-                                                    let key = prop_name_to_expr(name);
-                                                    ThisExpr { span: DUMMY_SP }
-                                                        .computed_member(key)
-                                                        .into()
-                                                }
-                                            },
-                                            right: value,
-                                        }
-                                        .into(),
-                                    ),
-                                }
-                                .into(),
-                            );
-                        }
+                        ));
+                    } else {
+                        // Use assignment for loose mode
+                        field_exprs.push(Box::new(
+                            AssignExpr {
+                                span,
+                                op: op!("="),
+                                left: match name {
+                                    PropName::Ident(id) => {
+                                        ThisExpr { span: DUMMY_SP }.make_member(id).into()
+                                    }
+                                    _ => {
+                                        let key = prop_name_to_expr(name);
+                                        ThisExpr { span: DUMMY_SP }.computed_member(key).into()
+                                    }
+                                },
+                                right: value,
+                            }
+                            .into(),
+                        ));
                     }
                 }
             }
+        }
 
-            // Combine: methods/accessors first, then fields in declaration order
-            let mut initializers = method_accessor_inits;
-            initializers.extend(field_inits);
+        // Combine: methods/accessors first, then fields in declaration order
+        let mut initializer_exprs = method_accessor_exprs;
+        initializer_exprs.extend(field_exprs);
 
-            // Insert initializers
-            for (i, stmt) in initializers.into_iter().enumerate() {
-                body.stmts.insert(insert_pos + i, stmt);
+        // Use inject_after_super for derived classes - it handles super() in complex
+        // expressions (like `class B extends (super(), Obj) { ... }`)
+        // For non-derived classes, inject_after_super will prepend at position 0
+        if has_super && !initializer_exprs.is_empty() {
+            inject_after_super(&mut c, initializer_exprs);
+        } else if !initializer_exprs.is_empty() {
+            // For non-derived classes, prepend as statements at position 0
+            if let Some(ref mut body) = c.body {
+                let stmts: Vec<Stmt> = initializer_exprs
+                    .into_iter()
+                    .map(|e| {
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: e,
+                        }
+                        .into()
+                    })
+                    .collect();
+                body.stmts.splice(0..0, stmts);
             }
+        }
 
-            // Insert variable declarations at the same position as initializers
+        // Insert variable declarations at the start
+        if let Some(ref mut body) = c.body {
             if !constructor_vars.is_empty() {
                 body.stmts.insert(
-                    insert_pos,
+                    0,
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -1547,10 +1533,12 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
                 let mut exprs = Vec::new();
 
                 // Add computed key assignment expressions first
+                // Use `let` for block scoping - this is important for class expressions
+                // inside loops so each iteration captures its own computed key value
                 for decl in computed_key_decls {
                     if let Pat::Ident(ident) = decl.name {
-                        // Declare the variable
-                        ctx.var_declarations.insert_var(
+                        // Declare the variable using `let` for block scoping
+                        ctx.var_declarations.insert_let(
                             BindingIdent {
                                 id: ident.id.clone(),
                                 type_ann: None,
@@ -1713,10 +1701,60 @@ impl VisitMut for ThisInStaticFolder {
     }
 }
 
-// Helper visitor to replace `super.x` with `_super.x` in static property
-// initializers
+// Helper visitor to replace `super.x` in static property initializers
+// For derived classes: transforms to `_super.x` (where _super is aliased
+// superclass) For non-derived classes: transforms to
+// `Object.getPrototypeOf(ClassName).x`
 struct SuperInStaticFolder {
-    super_ident: Ident,
+    /// For derived classes: the aliased super class ident (_super)
+    super_ident: Option<Ident>,
+    /// For non-derived classes: the class ident to use with
+    /// Object.getPrototypeOf
+    class_ident: Option<Ident>,
+}
+
+impl SuperInStaticFolder {
+    fn with_super_ident(super_ident: Ident) -> Self {
+        Self {
+            super_ident: Some(super_ident),
+            class_ident: None,
+        }
+    }
+
+    fn with_class_ident(class_ident: Ident) -> Self {
+        Self {
+            super_ident: None,
+            class_ident: Some(class_ident),
+        }
+    }
+
+    fn make_super_obj(&self, span: Span) -> Box<Expr> {
+        if let Some(super_ident) = &self.super_ident {
+            // For derived classes: _super
+            Box::new(super_ident.clone().into())
+        } else if let Some(class_ident) = &self.class_ident {
+            // For non-derived classes: Object.getPrototypeOf(ClassName)
+            Box::new(
+                CallExpr {
+                    span,
+                    callee: MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(quote_ident!("Object").into()),
+                        prop: MemberProp::Ident(IdentName::new("getPrototypeOf".into(), DUMMY_SP)),
+                    }
+                    .as_callee(),
+                    args: vec![ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(class_ident.clone().into()),
+                    }],
+                    ..Default::default()
+                }
+                .into(),
+            )
+        } else {
+            unreachable!("SuperInStaticFolder must have either super_ident or class_ident")
+        }
+    }
 }
 
 impl VisitMut for SuperInStaticFolder {
@@ -1729,13 +1767,14 @@ impl VisitMut for SuperInStaticFolder {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        // Transform super.prop to _super.prop
+        // Transform super.prop
         if let Expr::SuperProp(super_prop) = e {
+            let obj = self.make_super_obj(super_prop.span);
             match &super_prop.prop {
                 SuperProp::Ident(prop) => {
                     *e = MemberExpr {
                         span: super_prop.span,
-                        obj: Box::new(self.super_ident.clone().into()),
+                        obj,
                         prop: MemberProp::Ident(prop.clone()),
                     }
                     .into();
@@ -1743,7 +1782,7 @@ impl VisitMut for SuperInStaticFolder {
                 SuperProp::Computed(computed) => {
                     *e = MemberExpr {
                         span: super_prop.span,
-                        obj: Box::new(self.super_ident.clone().into()),
+                        obj,
                         prop: MemberProp::Computed(computed.clone()),
                     }
                     .into();

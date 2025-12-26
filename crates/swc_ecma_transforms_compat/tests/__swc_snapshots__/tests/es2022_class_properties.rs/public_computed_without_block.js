@@ -1,5 +1,6 @@
 var createClass = (k)=>{
-    var _k, _class;
+    var _class;
+    var _k;
     return _k = k(), _class = function _class() {
         "use strict";
         _class_call_check(this, _class);

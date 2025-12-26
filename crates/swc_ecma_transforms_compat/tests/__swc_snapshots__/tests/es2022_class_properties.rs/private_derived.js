@@ -13,8 +13,7 @@ var Bar = /*#__PURE__*/ function(Foo) {
     function Bar() {
         _class_call_check(this, Bar);
         var _this;
-        _this = _call_super(this, Bar, arguments);
-        _class_private_field_init(_this, _prop1, {
+        _this = _call_super(this, Bar, arguments), _class_private_field_init(_this, _prop1, {
             writable: true,
             value: "bar"
         });

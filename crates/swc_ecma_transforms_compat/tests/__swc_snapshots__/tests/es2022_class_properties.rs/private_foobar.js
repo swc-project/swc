@@ -5,8 +5,7 @@ var Child = /*#__PURE__*/ function(Parent1) {
     function Child() {
         _class_call_check(this, Child);
         var _this;
-        _this = _call_super(this, Child);
-        _class_private_field_init(_this, _scopedFunctionWithThis, {
+        _this = _call_super(this, Child), _class_private_field_init(_this, _scopedFunctionWithThis, {
             writable: true,
             value: ()=>{
                 _this.name = {};
