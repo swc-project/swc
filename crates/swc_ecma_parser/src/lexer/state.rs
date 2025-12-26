@@ -402,7 +402,6 @@ impl Lexer<'_> {
 
     fn scan_jsx_token(&mut self) -> Result<Token, Error> {
         debug_assert!(self.syntax.jsx());
-
         match self.input.cur() {
             Some(b'<') => {
                 self.bump(1);
@@ -419,7 +418,7 @@ impl Lexer<'_> {
                 Ok(Token::LBrace)
             }
             Some(_) => {
-                // Fast path
+                // Fast path: we assume there's no `&` in the jsx child
                 let start = self.input.cur_pos();
                 byte_search! {
                     lexer: self,
@@ -444,6 +443,7 @@ impl Lexer<'_> {
                                 );
                                 true
                             },
+                            // Encountered `&`, go to the slow path
                             b'&' => return self.scan_jsx_token_with_jsx_entity(),
                             _ => false,
                         }
@@ -466,6 +466,8 @@ impl Lexer<'_> {
     }
 
     #[cold]
+    /// Slow path: we encountered `&` in the jsx child, so we need to scan and
+    /// resolve the jsx entity, which requires a dedicate string allocation.
     fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
         let mut value = String::new();
         let mut chunk_start = self.input.cur_pos();
@@ -491,12 +493,14 @@ impl Lexer<'_> {
                     );
                 }
                 '&' => {
+                    // Push the string before the `&` to the result
                     let s = unsafe {
                         // Safety: We already checked for the range
                         self.input_slice_str(chunk_start, self.cur_pos())
                     };
                     value.push_str(s);
 
+                    // Read the jsx entity and update the start of chunk
                     if let Ok(jsx_entity) = self.read_jsx_entity() {
                         value.push(jsx_entity.0);
                         chunk_start = self.input.cur_pos();
