@@ -1,5 +1,6 @@
 //// [classWithPublicProperty.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var __ = new WeakMap();
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -19,9 +20,12 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-C.g = function() {
-    return '';
-};
+__.set(C, {
+    writable: true,
+    value: C.g = function() {
+        return '';
+    }
+});
 // all of these are valid
 var c = new C();
 var r1 = c.x;

@@ -1,9 +1,17 @@
 //// [typeOfThisInStaticMembers7.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+new WeakMap(), new WeakMap();
+var __1 = new WeakMap(), __21 = new WeakMap(), __3 = new WeakMap();
 class C {
 }
-C.a = 1, C.b = C.a + 1;
 class D extends C {
 }
-D.c = 2, D.d = D.c + 1, D.e = 1 + _get(_get_prototype_of(D), "a", D) + (D.c + 1) + 1;
+__1.set(D, {
+    writable: !0,
+    value: D.c = 2
+}), __21.set(D, {
+    writable: !0,
+    value: D.d = D.c + 1
+}), __3.set(D, {
+    writable: !0,
+    value: D.e = 1 + super.a + (D.c + 1) + 1
+});

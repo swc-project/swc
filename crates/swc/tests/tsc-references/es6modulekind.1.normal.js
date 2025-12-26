@@ -1,8 +1,7 @@
 //// [es6modulekind.ts]
-class A {
+export default class A {
     B() {
         return 42;
     }
     constructor(){}
 }
-export { A as default };

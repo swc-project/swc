@@ -1,5 +1,6 @@
 //// [witness.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var __ = new WeakMap();
 // Initializers
 var varInit = varInit; // any
 var pInit;
@@ -127,7 +128,10 @@ var C3 = function C3() {
     "use strict";
     _class_call_check(this, C3);
 };
-C3.q = C3.q;
+__.set(C3, {
+    writable: true,
+    value: C3.q = C3.q
+});
 var qq = C3.q;
 var qq; // Parentheses - tested a bunch above
 var M2;

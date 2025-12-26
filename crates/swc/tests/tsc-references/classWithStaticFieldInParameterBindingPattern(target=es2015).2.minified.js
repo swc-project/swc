@@ -1,1 +1,2 @@
 //// [classWithStaticFieldInParameterBindingPattern.ts]
+new WeakMap();

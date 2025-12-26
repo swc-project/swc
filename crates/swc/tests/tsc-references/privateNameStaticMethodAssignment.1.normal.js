@@ -1,18 +1,17 @@
 //// [privateNameStaticMethodAssignment.ts]
-import { _ as _class_static_private_field_spec_set } from "@swc/helpers/_/_class_static_private_field_spec_set";
-import { _ as _class_static_private_field_update } from "@swc/helpers/_/_class_static_private_field_update";
-import { _ as _class_static_private_field_destructure } from "@swc/helpers/_/_class_static_private_field_destructure";
-import { _ as _class_static_private_method_get } from "@swc/helpers/_/_class_static_private_method_get";
+import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 class A3 {
     constructor(a, b){
-        _class_static_private_field_spec_set(A3, A3, _method, ()=>{}); // Error, not writable 
-        _class_static_private_field_spec_set(a, A3, _method, ()=>{}); // Error, not writable 
-        _class_static_private_field_spec_set(b, A3, _method, ()=>{}); //Error, not writable 
-        ({ x: _class_static_private_field_destructure(A3, A3, _method).value } = {
+        var _b, _b1;
+        _class_private_field_set(A3, _method, ()=>{}); // Error, not writable 
+        _class_private_field_set(a, _method, ()=>{}); // Error, not writable 
+        _class_private_field_set(b, _method, ()=>{}); //Error, not writable 
+        ({ x: method } = {
             x: ()=>{}
         }); //Error, not writable 
-        let x = _class_static_private_method_get(A3, A3, method);
-        _class_static_private_field_update(b, A3, _method).value++; //Error, not writable 
+        let x = method;
+        _b = b, _b1 = _class_private_field_get(_b, _method), _class_private_field_set(_b, _method, _b1 + (typeof _b1 === "bigint" ? 1n : 1)), _b1; //Error, not writable 
     }
 }
 function method() {}

@@ -1,12 +1,11 @@
 //// [privateNamesAndkeyof.ts]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-var _fooField = /*#__PURE__*/ new WeakMap(), _fooMethod = /*#__PURE__*/ new WeakSet(), _fooProp = /*#__PURE__*/ new WeakMap();
+var _fooField = new WeakMap(), _fooMethod = new WeakSet(), _fooProp = new WeakMap();
 class A {
     constructor(){
-        _class_private_method_init(this, _fooMethod);
-        _class_private_field_init(this, _fooProp, {
+        _fooMethod.add(this);
+        _fooProp.set(this, {
             get: get_fooProp,
             set: set_fooProp
         });

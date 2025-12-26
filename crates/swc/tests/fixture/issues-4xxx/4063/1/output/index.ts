@@ -20,7 +20,8 @@ define([
     class _class extends Controller {
         onChange() {}
         constructor(...args){
-            super(...args), _define_property._(this, "isTest", false);
+            super(...args);
+            _define_property._(this, "isTest", false);
         }
     }
     _ts_decorate._([

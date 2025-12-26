@@ -3,7 +3,7 @@ import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_fie
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
-var _name = /*#__PURE__*/ new WeakMap();
+var _name = new WeakMap();
 var Animal = /*#__PURE__*/ function() {
     "use strict";
     function Animal(name) {

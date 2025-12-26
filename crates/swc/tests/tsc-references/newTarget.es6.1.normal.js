@@ -1,4 +1,5 @@
 //// [newTarget.es6.ts]
+var __ = new WeakMap();
 class A {
     constructor(){
         this.d = function() {
@@ -8,9 +9,6 @@ class A {
         const b = ()=>new.target;
     }
 }
-A.c = function() {
-    return new.target;
-};
 class B extends A {
     constructor(){
         super();

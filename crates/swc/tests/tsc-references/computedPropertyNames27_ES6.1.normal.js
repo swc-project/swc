@@ -1,7 +1,7 @@
 //// [computedPropertyNames27_ES6.ts]
+let _tmp = (super(), "prop");
 class Base {
 }
-let _tmp = (super(), "prop");
 class C extends Base {
     [_tmp]() {}
 }

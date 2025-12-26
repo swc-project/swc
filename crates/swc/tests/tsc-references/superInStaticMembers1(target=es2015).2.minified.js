@@ -5,322 +5,496 @@ export class Reflect {
 export default class {
 }
 //// [locals.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), __6 = new WeakMap(), __7 = new WeakMap(), __8 = new WeakMap(), __9 = new WeakMap(), __10 = new WeakMap(), __11 = new WeakMap(), __12 = new WeakMap();
 class C extends B {
 }
-C._ = [
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    (()=>{
+__.set(C, {
+    writable: !0,
+    value: C._ = [
+        void super.w(),
+        (()=>{
+            var { Reflect } = {
+                Reflect: null
+            };
+            super.w();
+        })(),
+        (()=>{
+            var [Reflect] = [
+                null
+            ];
+            super.w();
+        })(),
+        void super.w(),
+        void super.w(),
+        void super.w(),
+        void super.w(),
+        void super.w(),
+        void super.w(),
+        void super.w(),
+        void super.w()
+    ]
+}), __2.set(C, {
+    writable: !0,
+    value: (()=>{
         var { Reflect } = {
             Reflect: null
         };
-        _get(_get_prototype_of(C), "w", C).call(C);
-    })(),
-    (()=>{
+        super.w();
+    })()
+}), __3.set(C, {
+    writable: !0,
+    value: (()=>{
         var [Reflect] = [
             null
         ];
-        _get(_get_prototype_of(C), "w", C).call(C);
-    })(),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C)
-], (()=>{
-    var { Reflect } = {
-        Reflect: null
-    };
-    _get(_get_prototype_of(C), "w", C).call(C);
-})(), (()=>{
-    var [Reflect] = [
-        null
-    ];
-    _get(_get_prototype_of(C), "w", C).call(C);
-})(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
+        super.w();
+    })()
+}), __4.set(C, {
+    writable: !0,
+    value: void super.w()
+}), __5.set(C, {
+    writable: !0,
+    value: void super.w()
+}), __6.set(C, {
+    writable: !0,
+    value: void super.w()
+}), __7.set(C, {
+    writable: !0,
+    value: void super.w()
+}), __8.set(C, {
+    writable: !0,
+    value: super.w()
+}), __9.set(C, {
+    writable: !0,
+    value: super.w()
+}), __10.set(C, {
+    writable: !0,
+    value: super.w()
+}), __11.set(C, {
+    writable: !0,
+    value: void super.w()
+}), __12.set(C, {
+    writable: !0,
+    value: void super.w()
+});
+export { };
 //// [varInContainingScopeStaticField1.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [varInContainingScopeStaticField2.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var { Reflect } = {
+var __ = new WeakMap(), { Reflect } = {
     Reflect: null
 };
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [varInContainingScopeStaticField3.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var [Reflect] = [
+var __ = new WeakMap(), [Reflect] = [
     null
 ];
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [varInContainingScopeStaticBlock1.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [varInContainingScopeStaticBlock2.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var { Reflect } = {
+var __ = new WeakMap(), { Reflect } = {
     Reflect: null
 };
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [varInContainingScopeStaticBlock3.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var [Reflect] = [
+var __ = new WeakMap(), [Reflect] = [
     null
 ];
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [classDeclInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [classDeclInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [funcDeclInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [funcDeclInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [valueNamespaceInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [enumInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [enumInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [constEnumInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [namedImportInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [defaultImportInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [typeInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [typeInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [interfaceInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [classExprInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [classExprInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [inContainingClassExprStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+new WeakMap().set(class {
+}, {
+    writable: !0,
+    value: (()=>{
+        var __ = new WeakMap();
+        class C extends B {
+        }
+        __.set(C, {
+            writable: !0,
+            value: C._ = super.w()
+        });
+    })()
+});
+export { };
 //// [inContainingClassExprStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-class C extends B {
-}
-_get(_get_prototype_of(C), "w", C).call(C);
+new WeakMap().set(class {
+}, {
+    writable: !0,
+    value: (()=>{
+        var __ = new WeakMap();
+        class C extends B {
+        }
+        __.set(C, {
+            writable: !0,
+            value: super.w()
+        });
+    })()
+});
+export { };
 //// [funcExprInContainingScopeStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: C._ = super.w()
+});
+export { };
 //// [funcExprInContainingScopeStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var __ = new WeakMap();
 class C extends B {
 }
-_get(_get_prototype_of(C), "w", C).call(C);
+__.set(C, {
+    writable: !0,
+    value: super.w()
+});
+export { };
 //// [inContainingFuncExprStaticField.ts]
-import "@swc/helpers/_/_get";
-import "@swc/helpers/_/_get_prototype_of";
+export { };
 //// [inContainingFuncExprStaticBlock.ts]
-import "@swc/helpers/_/_get";
-import "@swc/helpers/_/_get_prototype_of";
+export { };

@@ -15,6 +15,10 @@ const _nodefetch = /*#__PURE__*/ _interop_require_default._(require("node-fetch"
 const _AbortSignal = require("./misc/AbortSignal");
 const _errors = require("../../errors");
 const _utils = require("../../utils");
+var /**
+     * Used for sequential requests.
+     * @type {AsyncQueue}
+     */ _queue = new WeakMap();
 const headers = [
     "x-ratelimit-limit",
     "x-ratelimit-remaining",
@@ -22,10 +26,6 @@ const headers = [
     "x-ratelimit-reset",
     "via"
 ];
-var /**
-     * Used for sequential requests.
-     * @type {AsyncQueue}
-     */ _queue = /*#__PURE__*/ new WeakMap();
 class RequestHandler {
     /**
      * Whether this handler is inactive or not.

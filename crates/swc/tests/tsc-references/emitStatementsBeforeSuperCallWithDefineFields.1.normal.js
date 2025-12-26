@@ -5,15 +5,19 @@ class Base {
 class Sub extends Base {
     // @ts-ignore
     constructor(p){
+        _define_property(this, "p", void 0);
+        _define_property(this, "field", void 0);
         console.log('hi');
-        super(), _define_property(this, "p", void 0), _define_property(this, "field", void 0), this.p = p, this.field = 0;
+        super(), this.p = p, this.field = 0;
     }
 }
 class Test extends Base {
     // @ts-ignore
     constructor(p){
+        _define_property(this, "p", void 0);
+        _define_property(this, "prop", void 0);
         1;
-        super(), _define_property(this, "p", void 0), _define_property(this, "prop", void 0), this.p = p;
+        super(), this.p = p;
         this.prop = 1;
     }
 }

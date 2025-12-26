@@ -3,6 +3,7 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
+var _this = this;
 var Base = function Base(x, y) {
     "use strict";
     _class_call_check(this, Base);
@@ -24,7 +25,8 @@ var Derived = /*#__PURE__*/ function(Base) {
     return Derived;
 }(Base);
 var Printable = function(superClass) {
-    var _class = /*#__PURE__*/ function(superClass) {
+    var __ = new WeakMap(), _class;
+    return _class = /*#__PURE__*/ function(superClass) {
         "use strict";
         _inherits(_class, superClass);
         function _class() {
@@ -36,9 +38,10 @@ var Printable = function(superClass) {
             var output = this.x + "," + this.y;
         };
         return _class;
-    }(superClass);
-    _class.message = "hello";
-    return _class;
+    }(superClass), __.set(_class, {
+        writable: true,
+        value: _this.message = "hello"
+    }), _class;
 };
 function Tagged(superClass) {
     var C = /*#__PURE__*/ function(superClass) {

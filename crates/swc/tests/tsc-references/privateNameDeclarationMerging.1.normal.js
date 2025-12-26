@@ -1,9 +1,9 @@
 //// [privateNameDeclarationMerging.ts]
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+var _x = new WeakMap();
 class D {
 }
-var _x = /*#__PURE__*/ new WeakMap();
 class C {
     foo() {
         const c = new C();

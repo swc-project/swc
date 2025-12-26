@@ -10,8 +10,8 @@ System.register([
             }
         ],
         execute: function() {
-            _export("Testing123", Testing123 = class {
-            }), Testing123.prop1 = Testing123.prop0, _export("Testing123", Testing123 = _ts_decorate([
+            new WeakMap(), _export("Testing123", Testing123 = class {
+            }), _export("Testing123", Testing123 = _ts_decorate([
                 Something({
                     v: ()=>Testing123
                 })

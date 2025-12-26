@@ -16,7 +16,8 @@ var ItemsList = /*#__PURE__*/ function(Component) {
     function ItemsList() {
         _class_call_check(this, ItemsList);
         var _this;
-        _this = _call_super(this, ItemsList, arguments), _define_property(_this, "storeHighlightedItemReference", function(highlightedItem) {
+        _this = _call_super(this, ItemsList, arguments);
+        _define_property(_this, "storeHighlightedItemReference", function(highlightedItem) {
             _this.props.onHighlightedItemChange(highlightedItem === null ? null : highlightedItem.item);
         });
         return _this;
@@ -71,22 +72,4 @@ var ItemsList = /*#__PURE__*/ function(Component) {
     ]);
     return ItemsList;
 }(Component);
-_define_property(ItemsList, "propTypes", {
-    items: PropTypes.array.isRequired,
-    itemProps: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.func
-    ]),
-    renderItem: PropTypes.func.isRequired,
-    renderItemData: PropTypes.object.isRequired,
-    sectionIndex: PropTypes.number,
-    highlightedItemIndex: PropTypes.number,
-    onHighlightedItemChange: PropTypes.func.isRequired,
-    getItemId: PropTypes.func.isRequired,
-    theme: PropTypes.func.isRequired,
-    keyPrefix: PropTypes.string.isRequired
-});
-_define_property(ItemsList, "defaultProps", {
-    sectionIndex: null
-});
 export { ItemsList as default };

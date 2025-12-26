@@ -1,4 +1,23 @@
 //// [privateNameStaticFieldUnaryMutation.ts]
-import "@swc/helpers/_/_class_static_private_field_spec_get";
-import "@swc/helpers/_/_class_static_private_field_spec_set";
-import "@swc/helpers/_/_class_static_private_field_update";
+import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+var _test = new WeakMap();
+class C {
+    test() {
+        var _this_getClass, _this_getClass1, _this_getClass2, _this_getClass3, _this_getClass4, _this_getClass5, _this_getClass6, _this_getClass7, _this_getClass8, _this_getClass9, _this_getClass10, _this_getClass11, _this_getClass12, _this_getClass13, _this_getClass14, _this_getClass15, _this_getClass16, _this_getClass17, _this_getClass18, _this_getClass19, _this_getClass20, _this_getClass21, _this_getClass22, _this_getClass23, _this_getClass24;
+        for(_this_getClass1 = _class_private_field_get(_this_getClass = this.getClass(), _test), _class_private_field_set(_this_getClass, _test, _this_getClass1 + ("bigint" == typeof _this_getClass1 ? 1n : 1)), _this_getClass3 = _class_private_field_get(_this_getClass2 = this.getClass(), _test), _class_private_field_set(_this_getClass2, _test, _this_getClass3 - ("bigint" == typeof _this_getClass3 ? 1n : 1)), _this_getClass5 = (_this_getClass6 = _class_private_field_get(_this_getClass4 = this.getClass(), _test)) + ("bigint" == typeof _this_getClass6 ? 1n : 1), _class_private_field_set(_this_getClass4, _test, _this_getClass5), _this_getClass8 = (_this_getClass9 = _class_private_field_get(_this_getClass7 = this.getClass(), _test)) - ("bigint" == typeof _this_getClass9 ? 1n : 1), _class_private_field_set(_this_getClass7, _test, _this_getClass8), _this_getClass11 = _class_private_field_get(_this_getClass10 = this.getClass(), _test), _class_private_field_set(_this_getClass10, _test, _this_getClass11 + ("bigint" == typeof _this_getClass11 ? 1n : 1)), _this_getClass13 = _class_private_field_get(_this_getClass12 = this.getClass(), _test), _class_private_field_set(_this_getClass12, _test, _this_getClass13 - ("bigint" == typeof _this_getClass13 ? 1n : 1)), _this_getClass15 = (_this_getClass16 = _class_private_field_get(_this_getClass14 = this.getClass(), _test)) + ("bigint" == typeof _this_getClass16 ? 1n : 1), _class_private_field_set(_this_getClass14, _test, _this_getClass15), _this_getClass18 = (_this_getClass19 = _class_private_field_get(_this_getClass17 = this.getClass(), _test)) - ("bigint" == typeof _this_getClass19 ? 1n : 1), _class_private_field_set(_this_getClass17, _test, _this_getClass18), _class_private_field_set(this.getClass(), _test, 0); 10 > _class_private_field_get(this.getClass(), _test); _this_getClass21 = (_this_getClass22 = _class_private_field_get(_this_getClass20 = this.getClass(), _test)) + ("bigint" == typeof _this_getClass22 ? 1n : 1), _class_private_field_set(_this_getClass20, _test, _this_getClass21));
+        for(_class_private_field_set(this.getClass(), _test, 0); 10 > _class_private_field_get(this.getClass(), _test); _this_getClass24 = _class_private_field_get(_this_getClass23 = this.getClass(), _test), _class_private_field_set(_this_getClass23, _test, _this_getClass24 + ("bigint" == typeof _this_getClass24 ? 1n : 1)));
+    }
+    getClass() {
+        return C;
+    }
+    constructor(){
+        var _C1, _C3, _C5, _C6, _C8, _C9, _C11, _C13, _C15, _C16, _C18, _C19, _C21, _C22, _C24;
+        for(_C1 = _class_private_field_get(C, _test), _class_private_field_set(C, _test, _C1 + ("bigint" == typeof _C1 ? 1n : 1)), _C3 = _class_private_field_get(C, _test), _class_private_field_set(C, _test, _C3 - ("bigint" == typeof _C3 ? 1n : 1)), _C5 = (_C6 = _class_private_field_get(C, _test)) + ("bigint" == typeof _C6 ? 1n : 1), _class_private_field_set(C, _test, _C5), _C8 = (_C9 = _class_private_field_get(C, _test)) - ("bigint" == typeof _C9 ? 1n : 1), _class_private_field_set(C, _test, _C8), _C11 = _class_private_field_get(C, _test), _class_private_field_set(C, _test, _C11 + ("bigint" == typeof _C11 ? 1n : 1)), _C13 = _class_private_field_get(C, _test), _class_private_field_set(C, _test, _C13 - ("bigint" == typeof _C13 ? 1n : 1)), _C15 = (_C16 = _class_private_field_get(C, _test)) + ("bigint" == typeof _C16 ? 1n : 1), _class_private_field_set(C, _test, _C15), _C18 = (_C19 = _class_private_field_get(C, _test)) - ("bigint" == typeof _C19 ? 1n : 1), _class_private_field_set(C, _test, _C18), _class_private_field_set(C, _test, 0); 10 > _class_private_field_get(C, _test); _C21 = (_C22 = _class_private_field_get(C, _test)) + ("bigint" == typeof _C22 ? 1n : 1), _class_private_field_set(C, _test, _C21));
+        for(_class_private_field_set(C, _test, 0); 10 > _class_private_field_get(C, _test); _C24 = _class_private_field_get(C, _test), _class_private_field_set(C, _test, _C24 + ("bigint" == typeof _C24 ? 1n : 1)));
+    }
+}
+_test.set(C, {
+    writable: !0,
+    value: 24
+});

@@ -1,5 +1,6 @@
 //// [classWithPrivateProperty.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var __ = new WeakMap();
 // accessing any private outside the class is an error
 var C = /*#__PURE__*/ function() {
     "use strict";
@@ -20,9 +21,12 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-C.g = function() {
-    return '';
-};
+__.set(C, {
+    writable: true,
+    value: C.g = function() {
+        return '';
+    }
+});
 var c = new C();
 var r1 = c.x;
 var r2 = c.a;

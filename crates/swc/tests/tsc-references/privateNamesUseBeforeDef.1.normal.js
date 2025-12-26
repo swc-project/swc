@@ -2,9 +2,7 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
-import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
+var _foo = new WeakMap(), _bar = new WeakMap(), _foo1 = new WeakMap(), _bar1 = new WeakSet(), _foo2 = new WeakMap(), _bar2 = new WeakMap(), _foo3 = new WeakMap(), _bar3 = new WeakMap();
 class A {
     constructor(){
         _class_private_field_init(this, _foo, {
@@ -19,24 +17,20 @@ class A {
         _class_private_field_set(this, _bar, 3);
     }
 }
-var _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakSet();
 class A2 {
     constructor(){
-        _class_private_method_init(this, _bar1);
+        _bar1.add(this);
         _class_private_field_init(this, _foo1, {
             writable: true,
             value: void 0
         }); // No Error
-        _class_private_field_set(this, _foo1, _class_private_method_get(this, _bar1, bar).call(this));
+        _class_private_field_set(this, _foo1, bar.call(this));
     }
 }
-function bar() {
-    return 3;
-}
-var _foo2 = /*#__PURE__*/ new WeakMap(), _bar2 = /*#__PURE__*/ new WeakMap();
 class A3 {
     constructor(){
-        _class_private_field_init(this, _bar2, {
+        var _this;
+        _bar2.set(this, {
             get: get_bar,
             set: void 0
         });
@@ -44,13 +38,9 @@ class A3 {
             writable: true,
             value: void 0
         }); // No Error
-        _class_private_field_set(this, _foo2, _class_private_field_get(this, _bar2));
+        _class_private_field_set(this, _foo2, (_this = this, _bar2.get(_this).get.call(_this)));
     }
 }
-function get_bar() {
-    return 3;
-}
-var _foo3 = /*#__PURE__*/ new WeakMap(), _bar3 = /*#__PURE__*/ new WeakMap();
 class B {
     constructor(){
         _class_private_field_init(this, _foo3, {

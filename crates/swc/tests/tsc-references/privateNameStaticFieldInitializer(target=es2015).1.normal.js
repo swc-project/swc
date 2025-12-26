@@ -1,11 +1,12 @@
 //// [privateNameStaticFieldInitializer.ts]
+var _field = new WeakMap(), _uninitialized = new WeakMap();
 class A {
 }
-var _field = {
+_field.set(A, {
     writable: true,
     value: 10
-};
-var _uninitialized = {
+});
+_uninitialized.set(A, {
     writable: true,
     value: void 0
-};
+});

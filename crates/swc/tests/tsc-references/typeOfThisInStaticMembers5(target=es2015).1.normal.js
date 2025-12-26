@@ -1,7 +1,11 @@
 //// [typeOfThisInStaticMembers5.ts]
+var __ = new WeakMap();
 class C {
     constructor(foo){
         this.foo = foo;
     }
 }
-C.create = ()=>new C("yep");
+__.set(C, {
+    writable: true,
+    value: C.create = ()=>new C("yep")
+});

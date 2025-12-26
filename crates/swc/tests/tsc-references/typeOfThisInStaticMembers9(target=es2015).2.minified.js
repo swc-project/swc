@@ -1,15 +1,26 @@
 //// [typeOfThisInStaticMembers9.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+new WeakMap();
+var __1 = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap();
 class C {
 }
-C.f = 1;
 class D extends C {
 }
-D.arrowFunctionBoundary = ()=>_get(_get_prototype_of(D), "f", D) + 1, D.functionExprBoundary = function() {
-    return _get(_get_prototype_of(D), "f", this) + 2;
-}, D.classExprBoundary = class {
-    constructor(){
-        this.a = super.f + 3;
+__1.set(D, {
+    writable: !0,
+    value: D.arrowFunctionBoundary = ()=>super.f + 1
+}), __2.set(D, {
+    writable: !0,
+    value: D.functionExprBoundary = function() {
+        return super.f + 2;
     }
-}, D.functionAndClassDeclBoundary = void 0;
+}), __3.set(D, {
+    writable: !0,
+    value: D.classExprBoundary = class {
+        constructor(){
+            this.a = super.f + 3;
+        }
+    }
+}), __4.set(D, {
+    writable: !0,
+    value: D.functionAndClassDeclBoundary = void 0
+});

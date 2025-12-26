@@ -1,12 +1,27 @@
 //// [typeOfThisInStaticMembers8.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var C = function C() {
+var __ = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), C = function C() {
     _class_call_check(this, C);
 };
-C.f = 1, C.arrowFunctionBoundary = function() {
-    return C.f + 1;
-}, C.functionExprBoundary = function() {
-    return this.f + 2;
-}, C.classExprBoundary = function _class() {
-    _class_call_check(this, _class), this.a = this.f + 3;
-}, C.functionAndClassDeclBoundary = void 0;
+__.set(C, {
+    writable: !0,
+    value: C.f = 1
+}), __2.set(C, {
+    writable: !0,
+    value: C.arrowFunctionBoundary = function() {
+        return C.f + 1;
+    }
+}), __3.set(C, {
+    writable: !0,
+    value: C.functionExprBoundary = function() {
+        return this.f + 2;
+    }
+}), __4.set(C, {
+    writable: !0,
+    value: C.classExprBoundary = function _class() {
+        _class_call_check(this, _class), this.a = this.f + 3;
+    }
+}), __5.set(C, {
+    writable: !0,
+    value: C.functionAndClassDeclBoundary = void 0
+});

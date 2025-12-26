@@ -1,28 +1,27 @@
 //// [privateNamesIncompatibleModifiersJs.js]
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
 var /**
      * @public
-     */ _a = /*#__PURE__*/ new WeakMap(), /**
+     */ _a = new WeakMap(), /**
      * @private
-     */ _b = /*#__PURE__*/ new WeakMap(), /**
+     */ _b = new WeakMap(), /**
      * @protected
-     */ _c = /*#__PURE__*/ new WeakMap(), /**
+     */ _c = new WeakMap(), /**
      * @public
-     */ _aMethod = /*#__PURE__*/ new WeakSet(), /**
+     */ _aMethod = new WeakSet(), /**
      * @private
-     */ _bMethod = /*#__PURE__*/ new WeakSet(), /**
+     */ _bMethod = new WeakSet(), /**
      * @protected
-     */ _cMethod = /*#__PURE__*/ new WeakSet(), _aProp = /*#__PURE__*/ new WeakMap(), _bProp = /*#__PURE__*/ new WeakMap(), _cProp = /*#__PURE__*/ new WeakMap();
+     */ _cMethod = new WeakSet(), _aProp = new WeakMap(), _bProp = new WeakMap(), _cProp = new WeakMap();
 class A {
     constructor(){
-        _class_private_method_init(this, _aMethod);
-        _class_private_method_init(this, _bMethod);
-        _class_private_method_init(this, _cMethod);
+        _aMethod.add(this);
+        _bMethod.add(this);
+        _cMethod.add(this);
         /**
      * @public
-     */ _class_private_field_init(this, _aProp, {
+     */ _aProp.set(this, {
             get: get_aProp,
             set: /**
      * @public
@@ -30,7 +29,7 @@ class A {
         });
         /**
      * @private
-     */ _class_private_field_init(this, _bProp, {
+     */ _bProp.set(this, {
             get: get_bProp,
             set: /**
      * @private
@@ -38,7 +37,7 @@ class A {
         });
         /**
     * @protected
-    */ _class_private_field_init(this, _cProp, {
+    */ _cProp.set(this, {
             get: get_cProp,
             set: /**
      * @protected

@@ -7,7 +7,7 @@ const env = {
     hasError: false
 };
 try {
-    var _C1;
+    var __ = new WeakMap(), C1;
     var d1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, false);
@@ -28,7 +28,7 @@ try {
             _ts_dispose_resources(env);
         }
     };
-    var C1 = (_C1 = class C1 {
+    var C1 = (C1 = class C1 {
         m() {
             const env = {
                 stack: [],
@@ -170,23 +170,26 @@ try {
                 _ts_dispose_resources(env);
             }
         }
-    }, (()=>{
-        const env = {
-            stack: [],
-            error: void 0,
-            hasError: false
-        };
-        try {
-            const d9 = _ts_add_disposable_resource(env, {
-                [Symbol.dispose] () {}
-            }, false);
-        } catch (e) {
-            env.error = e;
-            env.hasError = true;
-        } finally{
-            _ts_dispose_resources(env);
-        }
-    })(), _C1);
+    }, __.set(C1, {
+        writable: true,
+        value: (()=>{
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
+            try {
+                const d9 = _ts_add_disposable_resource(env, {
+                    [Symbol.dispose] () {}
+                }, false);
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
+            } finally{
+                _ts_dispose_resources(env);
+            }
+        })()
+    }), C1);
     var C2 = class C2 extends C1 {
         constructor(){
             const env = {

@@ -1,1 +1,2 @@
 //// [classWithStaticFieldInParameterInitializer.ts]
+new WeakMap();

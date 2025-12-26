@@ -14,6 +14,7 @@ module.exports = (_obj = {}, _define_property(_obj, TopLevelSym, function() {
 })), _obj);
 //// [index2.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var __ = new WeakMap();
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
 export var MyClass = function MyClass() {
@@ -22,4 +23,7 @@ export var MyClass = function MyClass() {
     _class_call_check(this, MyClass);
     this[InnerSym] = "ok";
 };
-MyClass[TopLevelSym] = 12;
+__.set(MyClass, {
+    writable: true,
+    value: MyClass[TopLevelSym] = 12
+});

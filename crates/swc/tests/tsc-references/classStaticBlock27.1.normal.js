@@ -1,17 +1,29 @@
 //// [classStaticBlock27.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var _Foo;
+var __ = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), Foo;
 // https://github.com/microsoft/TypeScript/issues/44872
-void (_Foo = function Foo() {
+void (Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
-}, _Foo.prop = 1, function() {
-    console.log(_Foo.prop);
-    _Foo.prop++;
-}(), function() {
-    console.log(_Foo.prop);
-    _Foo.prop++;
-}(), function() {
-    console.log(_Foo.prop);
-    _Foo.prop++;
-}(), _Foo);
+}, __.set(Foo, {
+    writable: true,
+    value: Foo.prop = 1
+}), __2.set(Foo, {
+    writable: true,
+    value: function() {
+        console.log(Foo.prop);
+        Foo.prop++;
+    }()
+}), __3.set(Foo, {
+    writable: true,
+    value: function() {
+        console.log(Foo.prop);
+        Foo.prop++;
+    }()
+}), __4.set(Foo, {
+    writable: true,
+    value: function() {
+        console.log(Foo.prop);
+        Foo.prop++;
+    }()
+}), Foo);

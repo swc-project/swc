@@ -8,9 +8,10 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 let _ts_decorate = require("@swc/helpers/_/_ts_decorate");
+new WeakMap();
 class Testing123 {
 }
-Testing123.prop1 = Testing123.prop0, Testing123 = _ts_decorate._([
+Testing123 = _ts_decorate._([
     Something({
         v: ()=>Testing123
     })

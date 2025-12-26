@@ -92,26 +92,11 @@ struct ClassData {
     /// Name of private statics
     statics: Vec<Atom>,
 
-    /// Public instance properties to initialize in constructor
-    instance_props: Vec<PropInit>,
+    /// Instance member initializations (in declaration order)
+    instance_inits: Vec<MemberInit>,
 
-    /// Private instance properties to initialize in constructor
-    private_instance_props: Vec<PrivPropInit>,
-
-    /// Private instance methods to register in constructor
-    private_instance_methods: Vec<PrivMethodInit>,
-
-    /// Private instance accessors to register in constructor
-    private_instance_accessors: Vec<PrivAccessorInit>,
-
-    /// Static properties to initialize after class
-    static_props: Vec<PropInit>,
-
-    /// Private static properties to initialize after class
-    private_static_props: Vec<PrivPropInit>,
-
-    /// Private static accessors to register after class
-    private_static_accessors: Vec<PrivAccessorInit>,
+    /// Static member initializations (in declaration order)
+    static_inits: Vec<MemberInit>,
 
     /// Private method function declarations
     private_method_decls: Vec<Stmt>,
@@ -129,29 +114,33 @@ struct ClassData {
     should_extract_computed_keys: bool,
 }
 
-struct PropInit {
-    span: Span,
-    name: PropName,
-    value: Box<Expr>,
-}
-
-struct PrivPropInit {
-    span: Span,
-    name: Ident,
-    value: Box<Expr>,
-}
-
-struct PrivMethodInit {
-    span: Span,
-    name: Ident,
-    fn_name: Ident,
-}
-
-struct PrivAccessorInit {
-    span: Span,
-    name: Ident,
-    getter: Option<Ident>,
-    setter: Option<Ident>,
+/// Unified member initialization - preserves declaration order
+enum MemberInit {
+    /// Public property: `foo = value`
+    PubProp {
+        span: Span,
+        name: PropName,
+        value: Box<Expr>,
+    },
+    /// Private property: `#foo = value`
+    PrivProp {
+        span: Span,
+        name: Ident,
+        value: Box<Expr>,
+    },
+    /// Private method: `#method() {}`
+    PrivMethod {
+        span: Span,
+        name: Ident,
+        fn_name: Ident,
+    },
+    /// Private accessor: `get #prop()` / `set #prop()`
+    PrivAccessor {
+        span: Span,
+        name: Ident,
+        getter: Option<Ident>,
+        setter: Option<Ident>,
+    },
 }
 
 #[derive(Copy, Clone, PartialEq, Default, Eq)]
@@ -373,16 +362,34 @@ impl ClassPropertiesPass {
             }
         }
 
-        let init = PropInit {
+        // Transform private field accesses in the value expression
+        // (e.g., `y = this.#x` -> `y = _class_private_field_get(this, _x)`)
+        {
+            let mut visitor =
+                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
+            value.visit_mut_with(&mut visitor);
+
+            // Add variable declarations from the visitor
+            for decl in visitor.vars {
+                if let Pat::Ident(ident) = decl.name {
+                    ctx.var_declarations.insert_var(ident, decl.init);
+                } else {
+                    ctx.var_declarations
+                        .insert_var_pattern(decl.name, decl.init);
+                }
+            }
+        }
+
+        let init = MemberInit::PubProp {
             span: prop_span,
             name: prop.key,
             value,
         };
 
         if prop.is_static {
-            self.cls.static_props.push(init);
+            self.cls.static_inits.push(init);
         } else {
-            self.cls.instance_props.push(init);
+            self.cls.instance_inits.push(init);
         }
     }
 
@@ -417,6 +424,24 @@ impl ClassPropertiesPass {
             }
         }
 
+        // Transform private field accesses in the value expression
+        // (e.g., `#y = this.#x + 1` -> `#y = _class_private_field_get(this, _x) + 1`)
+        {
+            let mut visitor =
+                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
+            value.visit_mut_with(&mut visitor);
+
+            // Add variable declarations from the visitor
+            for decl in visitor.vars {
+                if let Pat::Ident(ident) = decl.name {
+                    ctx.var_declarations.insert_var(ident, decl.init);
+                } else {
+                    ctx.var_declarations
+                        .insert_var_pattern(decl.name, decl.init);
+                }
+            }
+        }
+
         // Create WeakMap variable for private field
         ctx.var_declarations.insert_var(
             BindingIdent {
@@ -435,16 +460,16 @@ impl ClassPropertiesPass {
             )),
         );
 
-        let init = PrivPropInit {
+        let init = MemberInit::PrivProp {
             span: prop_span,
             name: ident,
             value,
         };
 
         if prop.is_static {
-            self.cls.private_static_props.push(init);
+            self.cls.static_inits.push(init);
         } else {
-            self.cls.private_instance_props.push(init);
+            self.cls.instance_inits.push(init);
         }
     }
 
@@ -508,17 +533,25 @@ impl ClassPropertiesPass {
             (MethodKind::Getter | MethodKind::Setter, false) => {
                 let is_getter = method.kind == MethodKind::Getter;
 
-                // Check if accessor already exists
+                // Check if accessor already exists in instance_inits
                 let mut found = false;
-                for accessor in &mut self.cls.private_instance_accessors {
-                    if accessor.name.sym == weak_coll_var.sym {
-                        if is_getter {
-                            accessor.getter = Some(fn_name.clone());
-                        } else {
-                            accessor.setter = Some(fn_name.clone());
+                for init in &mut self.cls.instance_inits {
+                    if let MemberInit::PrivAccessor {
+                        name,
+                        getter,
+                        setter,
+                        ..
+                    } = init
+                    {
+                        if name.sym == weak_coll_var.sym {
+                            if is_getter {
+                                *getter = Some(fn_name.clone());
+                            } else {
+                                *setter = Some(fn_name.clone());
+                            }
+                            found = true;
+                            break;
                         }
-                        found = true;
-                        break;
                     }
                 }
 
@@ -540,7 +573,7 @@ impl ClassPropertiesPass {
                         )),
                     );
 
-                    self.cls.private_instance_accessors.push(PrivAccessorInit {
+                    self.cls.instance_inits.push(MemberInit::PrivAccessor {
                         span: prop_span,
                         name: weak_coll_var,
                         getter: if is_getter {
@@ -559,17 +592,25 @@ impl ClassPropertiesPass {
             (MethodKind::Getter | MethodKind::Setter, true) => {
                 let is_getter = method.kind == MethodKind::Getter;
 
-                // Check if accessor already exists
+                // Check if accessor already exists in static_inits
                 let mut found = false;
-                for accessor in &mut self.cls.private_static_accessors {
-                    if accessor.name.sym == weak_coll_var.sym {
-                        if is_getter {
-                            accessor.getter = Some(fn_name.clone());
-                        } else {
-                            accessor.setter = Some(fn_name.clone());
+                for init in &mut self.cls.static_inits {
+                    if let MemberInit::PrivAccessor {
+                        name,
+                        getter,
+                        setter,
+                        ..
+                    } = init
+                    {
+                        if name.sym == weak_coll_var.sym {
+                            if is_getter {
+                                *getter = Some(fn_name.clone());
+                            } else {
+                                *setter = Some(fn_name.clone());
+                            }
+                            found = true;
+                            break;
                         }
-                        found = true;
-                        break;
                     }
                 }
 
@@ -591,7 +632,7 @@ impl ClassPropertiesPass {
                         )),
                     );
 
-                    self.cls.private_static_accessors.push(PrivAccessorInit {
+                    self.cls.static_inits.push(MemberInit::PrivAccessor {
                         span: prop_span,
                         name: weak_coll_var,
                         getter: if is_getter {
@@ -625,7 +666,7 @@ impl ClassPropertiesPass {
                     )),
                 );
 
-                self.cls.private_instance_methods.push(PrivMethodInit {
+                self.cls.instance_inits.push(MemberInit::PrivMethod {
                     span: prop_span,
                     name: weak_coll_var,
                     fn_name: fn_name.clone(),
@@ -656,10 +697,7 @@ impl ClassPropertiesPass {
         class_span: Span,
         _: &mut TraverseCtx,
     ) -> Option<Constructor> {
-        let has_initializers = !self.cls.instance_props.is_empty()
-            || !self.cls.private_instance_props.is_empty()
-            || !self.cls.private_instance_methods.is_empty()
-            || !self.cls.private_instance_accessors.is_empty();
+        let has_initializers = !self.cls.instance_inits.is_empty();
 
         if !has_initializers && constructor.is_none() {
             return None;
@@ -707,204 +745,222 @@ impl ClassPropertiesPass {
                 0
             };
 
-            let mut initializers = Vec::new();
+            // Separate methods/accessors from fields while preserving declaration order
+            // Methods and accessors need to be initialized first (they're available before
+            // field values) Fields are initialized in declaration order after
+            // methods/accessors
+            let mut method_accessor_inits = Vec::new();
+            let mut field_inits = Vec::new();
 
-            // Private method initializers (WeakSet.add)
-            for init in take(&mut self.cls.private_instance_methods) {
-                initializers.push(
-                    ExprStmt {
-                        span: init.span,
-                        expr: Box::new(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: init.name.make_member(quote_ident!("add")).as_callee(),
-                                args: vec![ExprOrSpread {
-                                    spread: None,
-                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                }],
-                                type_args: Default::default(),
-                                ctxt: Default::default(),
-                            }
-                            .into(),
-                        ),
-                    }
-                    .into(),
-                );
-            }
-
-            // Private accessor initializers (WeakMap.set with descriptor)
-            for init in take(&mut self.cls.private_instance_accessors) {
-                let desc = create_accessor_desc(init.getter, init.setter);
-                initializers.push(
-                    ExprStmt {
-                        span: init.span,
-                        expr: Box::new(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: init.name.make_member(quote_ident!("set")).as_callee(),
-                                args: vec![
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                    },
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(desc.into()),
-                                    },
-                                ],
-                                type_args: Default::default(),
-                                ctxt: Default::default(),
-                            }
-                            .into(),
-                        ),
-                    }
-                    .into(),
-                );
-            }
-
-            // Private property initializers
-            for init in take(&mut self.cls.private_instance_props) {
-                use swc_ecma_transforms_base::helper;
-
-                initializers.push(
-                    ExprStmt {
-                        span: init.span,
-                        expr: Box::new(
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: helper!(class_private_field_init),
-                                args: vec![
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                    },
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(init.name.into()),
-                                    },
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(
-                                            ObjectLit {
-                                                span: DUMMY_SP,
-                                                props: vec![
-                                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                                        KeyValueProp {
-                                                            key: PropName::Ident(quote_ident!(
-                                                                "writable"
-                                                            )),
-                                                            value: Box::new(
-                                                                Lit::Bool(Bool {
-                                                                    span: DUMMY_SP,
-                                                                    value: true,
-                                                                })
-                                                                .into(),
-                                                            ),
-                                                        },
-                                                    ))),
-                                                    PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                                        KeyValueProp {
-                                                            key: PropName::Ident(quote_ident!(
-                                                                "value"
-                                                            )),
-                                                            value: init.value,
-                                                        },
-                                                    ))),
-                                                ],
-                                            }
-                                            .into(),
-                                        ),
-                                    },
-                                ],
-                                type_args: Default::default(),
-                                ctxt: Default::default(),
-                            }
-                            .into(),
-                        ),
-                    }
-                    .into(),
-                );
-            }
-
-            // Public property initializers
-            for init in take(&mut self.cls.instance_props) {
-                let use_define_property = !self.assumptions.set_public_class_fields;
-
-                if use_define_property {
-                    // Use _define_property for [[Define]] semantics (strict mode)
-                    use swc_ecma_transforms_base::helper;
-
-                    let prop_key = match init.name {
-                        PropName::Ident(id) => Box::new(
-                            Lit::Str(Str {
-                                span: id.span,
-                                raw: None,
-                                value: id.sym.into(),
-                            })
-                            .into(),
-                        ),
-                        PropName::Str(s) => Box::new(s.into()),
-                        PropName::Num(n) => Box::new(n.into()),
-                        PropName::Computed(c) => c.expr,
-                        PropName::BigInt(b) => Box::new(b.into()),
-                    };
-
-                    initializers.push(
-                        ExprStmt {
-                            span: init.span,
-                            expr: Box::new(
-                                CallExpr {
-                                    span: init.span,
-                                    callee: helper!(define_property),
-                                    args: vec![
-                                        ExprOrSpread {
+            for init in take(&mut self.cls.instance_inits) {
+                match init {
+                    MemberInit::PrivMethod { span, name, .. } => {
+                        // WeakSet.add(this)
+                        method_accessor_inits.push(
+                            ExprStmt {
+                                span,
+                                expr: Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: name.make_member(quote_ident!("add")).as_callee(),
+                                        args: vec![ExprOrSpread {
                                             spread: None,
                                             expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                        },
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: prop_key,
-                                        },
-                                        ExprOrSpread {
-                                            spread: None,
-                                            expr: init.value,
-                                        },
-                                    ],
-                                    type_args: Default::default(),
-                                    ctxt: Default::default(),
+                                        }],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                    .into(),
+                                ),
+                            }
+                            .into(),
+                        );
+                    }
+                    MemberInit::PrivAccessor {
+                        span,
+                        name,
+                        getter,
+                        setter,
+                    } => {
+                        // WeakMap.set(this, { get, set })
+                        let desc = create_accessor_desc(getter, setter);
+                        method_accessor_inits.push(
+                            ExprStmt {
+                                span,
+                                expr: Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: name.make_member(quote_ident!("set")).as_callee(),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(desc.into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                    .into(),
+                                ),
+                            }
+                            .into(),
+                        );
+                    }
+                    MemberInit::PrivProp { span, name, value } => {
+                        // _class_private_field_init(this, _field, { writable: true, value })
+                        use swc_ecma_transforms_base::helper;
+
+                        field_inits.push(
+                            ExprStmt {
+                                span,
+                                expr: Box::new(
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(class_private_field_init),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(name.into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(
+                                                    ObjectLit {
+                                                        span: DUMMY_SP,
+                                                        props: vec![
+                                                            PropOrSpread::Prop(Box::new(
+                                                                Prop::KeyValue(KeyValueProp {
+                                                                    key: PropName::Ident(
+                                                                        quote_ident!("writable"),
+                                                                    ),
+                                                                    value: Box::new(
+                                                                        Lit::Bool(Bool {
+                                                                            span: DUMMY_SP,
+                                                                            value: true,
+                                                                        })
+                                                                        .into(),
+                                                                    ),
+                                                                }),
+                                                            )),
+                                                            PropOrSpread::Prop(Box::new(
+                                                                Prop::KeyValue(KeyValueProp {
+                                                                    key: PropName::Ident(
+                                                                        quote_ident!("value"),
+                                                                    ),
+                                                                    value,
+                                                                }),
+                                                            )),
+                                                        ],
+                                                    }
+                                                    .into(),
+                                                ),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                    .into(),
+                                ),
+                            }
+                            .into(),
+                        );
+                    }
+                    MemberInit::PubProp { span, name, value } => {
+                        let use_define_property = !self.assumptions.set_public_class_fields;
+
+                        if use_define_property {
+                            // Use _define_property for [[Define]] semantics (strict mode)
+                            use swc_ecma_transforms_base::helper;
+
+                            let prop_key = match name {
+                                PropName::Ident(id) => Box::new(
+                                    Lit::Str(Str {
+                                        span: id.span,
+                                        raw: None,
+                                        value: id.sym.into(),
+                                    })
+                                    .into(),
+                                ),
+                                PropName::Str(s) => Box::new(s.into()),
+                                PropName::Num(n) => Box::new(n.into()),
+                                PropName::Computed(c) => c.expr,
+                                PropName::BigInt(b) => Box::new(b.into()),
+                            };
+
+                            field_inits.push(
+                                ExprStmt {
+                                    span,
+                                    expr: Box::new(
+                                        CallExpr {
+                                            span,
+                                            callee: helper!(define_property),
+                                            args: vec![
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(
+                                                        ThisExpr { span: DUMMY_SP }.into(),
+                                                    ),
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: prop_key,
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: value,
+                                                },
+                                            ],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                        .into(),
+                                    ),
                                 }
                                 .into(),
-                            ),
-                        }
-                        .into(),
-                    );
-                } else {
-                    // Use assignment for loose mode
-                    initializers.push(
-                        ExprStmt {
-                            span: init.span,
-                            expr: Box::new(
-                                AssignExpr {
-                                    span: init.span,
-                                    op: op!("="),
-                                    left: match init.name {
-                                        PropName::Ident(id) => {
-                                            ThisExpr { span: DUMMY_SP }.make_member(id).into()
+                            );
+                        } else {
+                            // Use assignment for loose mode
+                            field_inits.push(
+                                ExprStmt {
+                                    span,
+                                    expr: Box::new(
+                                        AssignExpr {
+                                            span,
+                                            op: op!("="),
+                                            left: match name {
+                                                PropName::Ident(id) => ThisExpr { span: DUMMY_SP }
+                                                    .make_member(id)
+                                                    .into(),
+                                                _ => {
+                                                    let key = prop_name_to_expr(name);
+                                                    ThisExpr { span: DUMMY_SP }
+                                                        .computed_member(key)
+                                                        .into()
+                                                }
+                                            },
+                                            right: value,
                                         }
-                                        _ => {
-                                            let key = prop_name_to_expr(init.name);
-                                            ThisExpr { span: DUMMY_SP }.computed_member(key).into()
-                                        }
-                                    },
-                                    right: init.value,
+                                        .into(),
+                                    ),
                                 }
                                 .into(),
-                            ),
+                            );
                         }
-                        .into(),
-                    );
+                    }
                 }
             }
+
+            // Combine: methods/accessors first, then fields in declaration order
+            let mut initializers = method_accessor_inits;
+            initializers.extend(field_inits);
 
             // Insert initializers
             for (i, stmt) in initializers.into_iter().enumerate() {
@@ -939,126 +995,156 @@ impl ClassPropertiesPass {
     ) -> Vec<Box<Expr>> {
         use swc_ecma_transforms_base::helper;
 
-        let mut exprs = Vec::new();
+        // Separate accessors from fields while preserving declaration order
+        let mut accessor_exprs = Vec::new();
+        let mut field_exprs = Vec::new();
 
-        // Static property initializers
         let use_define_property = !self.assumptions.set_public_class_fields;
 
-        for init in take(&mut self.cls.static_props) {
-            if use_define_property {
-                // Use _define_property for [[Define]] semantics (strict mode)
-                let prop_key = match init.name {
-                    PropName::Ident(id) => Box::new(
-                        Lit::Str(Str {
-                            span: id.span,
-                            raw: None,
-                            value: id.sym.into(),
-                        })
+        for init in take(&mut self.cls.static_inits) {
+            match init {
+                MemberInit::PrivAccessor {
+                    span,
+                    name,
+                    getter,
+                    setter,
+                } => {
+                    // WeakMap.set(ClassName, { get, set })
+                    let descriptor = create_accessor_desc(getter, setter);
+                    let set_call = Box::new(
+                        CallExpr {
+                            span,
+                            callee: name.make_member(quote_ident!("set")).as_callee(),
+                            args: vec![
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(class_ident.clone().into()),
+                                },
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(descriptor.into()),
+                                },
+                            ],
+                            type_args: Default::default(),
+                            ctxt: Default::default(),
+                        }
                         .into(),
-                    ),
-                    PropName::Str(s) => Box::new(s.into()),
-                    PropName::Num(n) => Box::new(n.into()),
-                    PropName::Computed(c) => c.expr,
-                    PropName::BigInt(b) => Box::new(b.into()),
-                };
-
-                let define_call = Box::new(
-                    CallExpr {
-                        span: init.span,
-                        callee: helper!(define_property),
-                        args: vec![
-                            ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(class_ident.clone().into()),
-                            },
-                            ExprOrSpread {
-                                spread: None,
-                                expr: prop_key,
-                            },
-                            ExprOrSpread {
-                                spread: None,
-                                expr: init.value,
-                            },
+                    );
+                    accessor_exprs.push(set_call);
+                }
+                MemberInit::PrivProp { span, name, value } => {
+                    // WeakMap.set(ClassName, { writable: true, value })
+                    let descriptor = ObjectLit {
+                        span: DUMMY_SP,
+                        props: vec![
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(IdentName::new("writable".into(), DUMMY_SP)),
+                                value: Box::new(
+                                    Lit::Bool(Bool {
+                                        span: DUMMY_SP,
+                                        value: true,
+                                    })
+                                    .into(),
+                                ),
+                            }))),
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(IdentName::new("value".into(), DUMMY_SP)),
+                                value,
+                            }))),
                         ],
-                        type_args: Default::default(),
-                        ctxt: Default::default(),
-                    }
-                    .into(),
-                );
-                exprs.push(define_call);
-            } else {
-                // Use assignment for loose mode
-                let assign_expr = Box::new(
-                    AssignExpr {
-                        span: init.span,
-                        op: op!("="),
-                        left: match init.name {
-                            PropName::Ident(id) => class_ident.clone().make_member(id).into(),
-                            _ => {
-                                let key = prop_name_to_expr(init.name);
-                                class_ident.clone().computed_member(key).into()
+                    };
+                    let set_call = Box::new(
+                        CallExpr {
+                            span,
+                            callee: name.make_member(quote_ident!("set")).as_callee(),
+                            args: vec![
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(class_ident.clone().into()),
+                                },
+                                ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(descriptor.into()),
+                                },
+                            ],
+                            type_args: Default::default(),
+                            ctxt: Default::default(),
+                        }
+                        .into(),
+                    );
+                    field_exprs.push(set_call);
+                }
+                MemberInit::PubProp { span, name, value } => {
+                    if use_define_property {
+                        let prop_key = match name {
+                            PropName::Ident(id) => Box::new(
+                                Lit::Str(Str {
+                                    span: id.span,
+                                    raw: None,
+                                    value: id.sym.into(),
+                                })
+                                .into(),
+                            ),
+                            PropName::Str(s) => Box::new(s.into()),
+                            PropName::Num(n) => Box::new(n.into()),
+                            PropName::Computed(c) => c.expr,
+                            PropName::BigInt(b) => Box::new(b.into()),
+                        };
+
+                        let define_call = Box::new(
+                            CallExpr {
+                                span,
+                                callee: helper!(define_property),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(class_ident.clone().into()),
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: prop_key,
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: value,
+                                    },
+                                ],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
                             }
-                        },
-                        right: init.value,
+                            .into(),
+                        );
+                        field_exprs.push(define_call);
+                    } else {
+                        let assign_expr = Box::new(
+                            AssignExpr {
+                                span,
+                                op: op!("="),
+                                left: match name {
+                                    PropName::Ident(id) => {
+                                        class_ident.clone().make_member(id).into()
+                                    }
+                                    _ => {
+                                        let key = prop_name_to_expr(name);
+                                        class_ident.clone().computed_member(key).into()
+                                    }
+                                },
+                                right: value,
+                            }
+                            .into(),
+                        );
+                        field_exprs.push(assign_expr);
                     }
-                    .into(),
-                );
-                exprs.push(assign_expr);
+                }
+                MemberInit::PrivMethod { .. } => {
+                    // Static private methods don't need runtime initialization
+                }
             }
         }
 
-        // Private static property initializers
-        for init in take(&mut self.cls.private_static_props) {
-            let weak_map_ident = init.name.clone();
-            let set_call = Box::new(
-                CallExpr {
-                    span: init.span,
-                    callee: weak_map_ident.make_member(quote_ident!("set")).as_callee(),
-                    args: vec![
-                        ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(class_ident.clone().into()),
-                        },
-                        ExprOrSpread {
-                            spread: None,
-                            expr: init.value,
-                        },
-                    ],
-                    type_args: Default::default(),
-                    ctxt: Default::default(),
-                }
-                .into(),
-            );
-            exprs.push(set_call);
-        }
-
-        // Private static accessor initializers
-        for init in take(&mut self.cls.private_static_accessors) {
-            let weak_map_ident = init.name.clone();
-            let descriptor = create_accessor_desc(init.getter, init.setter);
-
-            let set_call = Box::new(
-                CallExpr {
-                    span: init.span,
-                    callee: weak_map_ident.make_member(quote_ident!("set")).as_callee(),
-                    args: vec![
-                        ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(class_ident.clone().into()),
-                        },
-                        ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(descriptor.into()),
-                        },
-                    ],
-                    type_args: Default::default(),
-                    ctxt: Default::default(),
-                }
-                .into(),
-            );
-            exprs.push(set_call);
-        }
-
+        // Accessors first, then fields in declaration order
+        let mut exprs = accessor_exprs;
+        exprs.extend(field_exprs);
         exprs
     }
 
@@ -1068,126 +1154,149 @@ impl ClassPropertiesPass {
         _stmt_addr: Option<*const Stmt>,
         _ctx: &mut TraverseCtx,
     ) {
+        use swc_ecma_transforms_base::helper;
+
         // Separate private method declarations (go AFTER class in loose mode) from
         // static initializers (go after class)
         let private_method_decls = take(&mut self.cls.private_method_decls);
-        let mut static_initializers = Vec::new();
 
-        // Static property initializers
-        for init in take(&mut self.cls.static_props) {
-            // Use _define_property helper for [[Define]] semantics (ES2022 spec-compliant)
-            // This ensures static fields override inherited accessors
-            use swc_ecma_transforms_base::helper;
+        // Separate accessors from fields while preserving declaration order
+        let mut accessor_stmts = Vec::new();
+        let mut field_stmts = Vec::new();
 
-            let prop_key = match init.name {
-                PropName::Ident(id) => Box::new(
-                    Lit::Str(Str {
-                        span: id.span,
-                        raw: None,
-                        value: id.sym.into(),
-                    })
-                    .into(),
-                ),
-                PropName::Str(s) => Box::new(s.into()),
-                PropName::Num(n) => Box::new(n.into()),
-                PropName::Computed(c) => c.expr,
-                PropName::BigInt(b) => Box::new(b.into()),
-            };
-
-            let define_stmt = Stmt::Expr(ExprStmt {
-                span: init.span,
-                expr: Box::new(
-                    CallExpr {
-                        span: init.span,
-                        callee: helper!(define_property),
-                        args: vec![
-                            ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(class_ident.clone().into()),
-                            },
-                            ExprOrSpread {
-                                spread: None,
-                                expr: prop_key,
-                            },
-                            ExprOrSpread {
-                                spread: None,
-                                expr: init.value,
-                            },
+        for init in take(&mut self.cls.static_inits) {
+            match init {
+                MemberInit::PrivAccessor {
+                    span,
+                    name,
+                    getter,
+                    setter,
+                } => {
+                    // WeakMap.set(ClassName, { get, set })
+                    let descriptor = create_accessor_desc(getter, setter);
+                    let set_stmt = Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(
+                            CallExpr {
+                                span,
+                                callee: name.make_member(quote_ident!("set")).as_callee(),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(class_ident.clone().into()),
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(descriptor.into()),
+                                    },
+                                ],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            }
+                            .into(),
+                        ),
+                    });
+                    accessor_stmts.push(set_stmt);
+                }
+                MemberInit::PrivProp { span, name, value } => {
+                    // WeakMap.set(ClassName, { writable: true, value })
+                    let descriptor = ObjectLit {
+                        span: DUMMY_SP,
+                        props: vec![
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(IdentName::new("writable".into(), DUMMY_SP)),
+                                value: Box::new(
+                                    Lit::Bool(Bool {
+                                        span: DUMMY_SP,
+                                        value: true,
+                                    })
+                                    .into(),
+                                ),
+                            }))),
+                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                key: PropName::Ident(IdentName::new("value".into(), DUMMY_SP)),
+                                value,
+                            }))),
                         ],
-                        type_args: Default::default(),
-                        ctxt: Default::default(),
-                    }
-                    .into(),
-                ),
-            });
-            static_initializers.push(define_stmt);
+                    };
+                    let set_stmt = Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(
+                            CallExpr {
+                                span,
+                                callee: name.make_member(quote_ident!("set")).as_callee(),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(class_ident.clone().into()),
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(descriptor.into()),
+                                    },
+                                ],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            }
+                            .into(),
+                        ),
+                    });
+                    field_stmts.push(set_stmt);
+                }
+                MemberInit::PubProp { span, name, value } => {
+                    // Use _define_property helper for [[Define]] semantics
+                    let prop_key = match name {
+                        PropName::Ident(id) => Box::new(
+                            Lit::Str(Str {
+                                span: id.span,
+                                raw: None,
+                                value: id.sym.into(),
+                            })
+                            .into(),
+                        ),
+                        PropName::Str(s) => Box::new(s.into()),
+                        PropName::Num(n) => Box::new(n.into()),
+                        PropName::Computed(c) => c.expr,
+                        PropName::BigInt(b) => Box::new(b.into()),
+                    };
+
+                    let define_stmt = Stmt::Expr(ExprStmt {
+                        span,
+                        expr: Box::new(
+                            CallExpr {
+                                span,
+                                callee: helper!(define_property),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(class_ident.clone().into()),
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: prop_key,
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: value,
+                                    },
+                                ],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            }
+                            .into(),
+                        ),
+                    });
+                    field_stmts.push(define_stmt);
+                }
+                MemberInit::PrivMethod { .. } => {
+                    // Static private methods don't need runtime initialization
+                }
+            }
         }
 
-        // Private static property initializers
-        for init in take(&mut self.cls.private_static_props) {
-            // Create WeakMap.set(ClassName, value)
-            let weak_map_ident = init.name.clone();
-            let set_stmt = Stmt::Expr(ExprStmt {
-                span: init.span,
-                expr: Box::new(
-                    CallExpr {
-                        span: init.span,
-                        callee: weak_map_ident
-                            .clone()
-                            .make_member(quote_ident!("set"))
-                            .as_callee(),
-                        args: vec![
-                            ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(class_ident.clone().into()),
-                            },
-                            ExprOrSpread {
-                                spread: None,
-                                expr: init.value,
-                            },
-                        ],
-                        type_args: Default::default(),
-                        ctxt: Default::default(),
-                    }
-                    .into(),
-                ),
-            });
-            static_initializers.push(set_stmt);
-        }
-
-        // Private static accessor initializers
-        for init in take(&mut self.cls.private_static_accessors) {
-            // Create WeakMap.set(ClassName, descriptor)
-            let weak_map_ident = init.name.clone();
-            let descriptor = create_accessor_desc(init.getter, init.setter);
-
-            let set_stmt = Stmt::Expr(ExprStmt {
-                span: init.span,
-                expr: Box::new(
-                    CallExpr {
-                        span: init.span,
-                        callee: weak_map_ident
-                            .clone()
-                            .make_member(quote_ident!("set"))
-                            .as_callee(),
-                        args: vec![
-                            ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(class_ident.clone().into()),
-                            },
-                            ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(descriptor.into()),
-                            },
-                        ],
-                        type_args: Default::default(),
-                        ctxt: Default::default(),
-                    }
-                    .into(),
-                ),
-            });
-            static_initializers.push(set_stmt);
-        }
+        // Accessors first, then fields in declaration order
+        let mut static_initializers = accessor_stmts;
+        static_initializers.extend(field_stmts);
 
         // Store statements for injection in exit_stmts
         // Note: In loose mode, private method declarations go AFTER the class
@@ -1263,10 +1372,12 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         if let Some((class_ident, before_stmts, after_stmts)) = self.pending_class_injection.take()
         {
             // Find the class declaration in the statement list by matching the identifier
+            // Match by symbol name only since syntax context may have been modified by
+            // resolver
             let mut class_idx = None;
             for (i, stmt) in stmts.iter().enumerate() {
                 if let Stmt::Decl(Decl::Class(ClassDecl { ident, .. })) = stmt {
-                    if ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt {
+                    if ident.sym == class_ident.sym {
                         class_idx = Some(i);
                         break;
                     }
@@ -1947,17 +2058,22 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     ctxt: Default::default(),
                                 }
                             } else {
-                                // Field: WeakMap.get(obj)
+                                // Field: _class_private_field_get(obj, _field)
+                                use swc_ecma_transforms_base::helper;
+
                                 CallExpr {
                                     span: DUMMY_SP,
-                                    callee: weak_coll_ident
-                                        .clone()
-                                        .make_member(quote_ident!("get"))
-                                        .as_callee(),
-                                    args: vec![ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(obj_alias.clone().into()),
-                                    }],
+                                    callee: helper!(class_private_field_get),
+                                    args: vec![
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(weak_coll_ident.clone().into()),
+                                        },
+                                    ],
                                     type_args: Default::default(),
                                     ctxt: Default::default(),
                                 }
@@ -2093,16 +2209,20 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         ctxt: Default::default(),
                                     }
                                 } else {
-                                    // Field: WeakMap.set
+                                    // Field: _class_private_field_set(obj, _field, value)
+                                    use swc_ecma_transforms_base::helper;
+
                                     CallExpr {
                                         span: DUMMY_SP,
-                                        callee: weak_coll_ident
-                                            .make_member(quote_ident!("set"))
-                                            .as_callee(),
+                                        callee: helper!(class_private_field_set),
                                         args: vec![
                                             ExprOrSpread {
                                                 spread: None,
                                                 expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.into()),
                                             },
                                             ExprOrSpread {
                                                 spread: None,
@@ -2235,16 +2355,20 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         ctxt: Default::default(),
                                     }
                                 } else {
-                                    // Field: WeakMap.set
+                                    // Field: _class_private_field_set(obj, _field, value)
+                                    use swc_ecma_transforms_base::helper;
+
                                     CallExpr {
                                         span: DUMMY_SP,
-                                        callee: weak_coll_ident
-                                            .make_member(quote_ident!("set"))
-                                            .as_callee(),
+                                        callee: helper!(class_private_field_set),
                                         args: vec![
                                             ExprOrSpread {
                                                 spread: None,
                                                 expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.into()),
                                             },
                                             ExprOrSpread {
                                                 spread: None,
@@ -2380,6 +2504,86 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                                         ctxt: Default::default(),
                                                     }
                                                     .make_member(quote_ident!("get"))
+                                                    .make_member(quote_ident!("call"))
+                                                    .as_callee(),
+                                                    args: std::iter::once(ExprOrSpread {
+                                                        spread: None,
+                                                        expr: Box::new(obj_alias.into()),
+                                                    })
+                                                    .chain(call.args.take())
+                                                    .collect(),
+                                                    type_args: Default::default(),
+                                                    ctxt: Default::default(),
+                                                }
+                                                .into(),
+                                            ),
+                                        ],
+                                    }
+                                    .into();
+                                    return;
+                                } else if !kind.is_method {
+                                    // Private field call: _class_private_field_get(obj,
+                                    // _field).call(obj, ...args)
+                                    // This preserves the receiver when calling a function stored in
+                                    // a private field
+                                    use swc_ecma_transforms_base::helper;
+
+                                    let weak_coll_ident = Ident::new(
+                                        format!("_{}", private_name.name).into(),
+                                        private_name.span,
+                                        SyntaxContext::empty().apply_mark(self.mark),
+                                    );
+
+                                    let obj = member.obj.take();
+                                    let obj_alias = alias_ident_for(&obj, "_obj");
+
+                                    // Declare the variable
+                                    self.vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: obj_alias.clone().into(),
+                                        init: None,
+                                        definite: false,
+                                    });
+
+                                    call.args.visit_mut_with(self);
+
+                                    // Transform to: (_obj = obj, _class_private_field_get(_obj,
+                                    // _field).call(_obj, ...args))
+                                    *expr = SeqExpr {
+                                        span: call.span,
+                                        exprs: vec![
+                                            Box::new(
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("="),
+                                                    left: obj_alias.clone().into(),
+                                                    right: obj,
+                                                }
+                                                .into(),
+                                            ),
+                                            Box::new(
+                                                CallExpr {
+                                                    span: call.span,
+                                                    callee: CallExpr {
+                                                        span: DUMMY_SP,
+                                                        callee: helper!(class_private_field_get),
+                                                        args: vec![
+                                                            ExprOrSpread {
+                                                                spread: None,
+                                                                expr: Box::new(
+                                                                    obj_alias.clone().into(),
+                                                                ),
+                                                            },
+                                                            ExprOrSpread {
+                                                                spread: None,
+                                                                expr: Box::new(
+                                                                    weak_coll_ident.into(),
+                                                                ),
+                                                            },
+                                                        ],
+                                                        type_args: Default::default(),
+                                                        ctxt: Default::default(),
+                                                    }
                                                     .make_member(quote_ident!("call"))
                                                     .as_callee(),
                                                     args: std::iter::once(ExprOrSpread {
@@ -2563,4 +2767,56 @@ impl VisitMut for PrivateAccessVisitor<'_> {
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
     fn visit_mut_class(&mut self, _: &mut Class) {}
+
+    fn visit_mut_pat(&mut self, p: &mut Pat) {
+        // Handle private field in destructuring pattern (e.g., `[this.#x] = arr`)
+        // Transform: `this.#field` -> `class_private_field_destructure(this,
+        // _field).value`
+        if let Pat::Expr(expr) = p {
+            if let Expr::Member(member) = &mut **expr {
+                if let MemberProp::PrivateName(private_name) = &member.prop {
+                    // Check if this is a private member of the current class
+                    if let Some(kind) = self.privates.get(&private_name.name) {
+                        // Only handle instance fields for now (not static, not methods/accessors)
+                        if !kind.is_static && !kind.is_method {
+                            use swc_ecma_transforms_base::helper;
+
+                            let weak_coll_ident = Ident::new(
+                                format!("_{}", private_name.name).into(),
+                                private_name.span,
+                                SyntaxContext::empty().apply_mark(self.mark),
+                            );
+
+                            let obj = member.obj.take();
+
+                            // class_private_field_destructure(obj, _field).value
+                            let destructure_call = CallExpr {
+                                span: DUMMY_SP,
+                                callee: helper!(class_private_field_destructure),
+                                args: vec![
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: obj,
+                                    },
+                                    ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(weak_coll_ident.into()),
+                                    },
+                                ],
+                                type_args: Default::default(),
+                                ctxt: Default::default(),
+                            };
+
+                            // .value
+                            **expr = destructure_call.make_member(quote_ident!("value")).into();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Continue visiting children for other patterns
+        p.visit_mut_children_with(self);
+    }
 }

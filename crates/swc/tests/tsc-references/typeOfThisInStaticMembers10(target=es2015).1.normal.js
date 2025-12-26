@@ -1,11 +1,8 @@
 //// [typeOfThisInStaticMembers10.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
+var __ = new WeakMap(), __2 = new WeakMap(), __1 = new WeakMap(), __21 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), __6 = new WeakMap(), __22 = new WeakMap(), __7 = new WeakMap(), __23 = new WeakMap(), __31 = new WeakMap(), __41 = new WeakMap(), __51 = new WeakMap();
 class C {
 }
-C.a = 1;
-C.b = C.a + 1;
 C = _ts_decorate([
     foo
 ], C);
@@ -20,20 +17,11 @@ class D extends C {
         this.c = v + 1;
     }
 }
-D.c = 2;
-D.d = D.c + 1;
-D.e = _get(_get_prototype_of(D), "a", D) + D.c + 1;
-D.f = ()=>D.c + 1;
-D.ff = function() {
-    this.c + 1;
-};
 D = _ts_decorate([
     foo
 ], D);
 class CC {
 }
-CC.a = 1;
-CC.b = CC.a + 1;
 class DD extends CC {
     static foo() {
         return this.c + 1;
@@ -45,10 +33,25 @@ class DD extends CC {
         this.c = v + 1;
     }
 }
-DD.c = 2;
-DD.d = DD.c + 1;
-DD.e = _get(_get_prototype_of(DD), "a", DD) + DD.c + 1;
-DD.f = ()=>DD.c + 1;
-DD.ff = function() {
-    this.c + 1;
-};
+__7.set(DD, {
+    writable: true,
+    value: DD.c = 2
+});
+__23.set(DD, {
+    writable: true,
+    value: DD.d = DD.c + 1
+});
+__31.set(DD, {
+    writable: true,
+    value: DD.e = super.a + DD.c + 1
+});
+__41.set(DD, {
+    writable: true,
+    value: DD.f = ()=>DD.c + 1
+});
+__51.set(DD, {
+    writable: true,
+    value: DD.ff = function() {
+        this.c + 1;
+    }
+});

@@ -1,8 +1,20 @@
 //// [privateNameStaticEmitHelpers.ts]
 //// [main.ts]
-import "@swc/helpers/_/_class_static_private_field_spec_set";
-import "@swc/helpers/_/_class_static_private_method_get";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+var _a = new WeakMap(), _c = new WeakMap();
 export class S {
 }
+function b() {
+    _class_private_field_set(this, _a, 42);
+}
+_c.set(S, {
+    get: function() {
+        return b.call(S);
+    },
+    set: void 0
+}), _a.set(S, {
+    writable: !0,
+    value: 1
+});
 //// [tslib.d.ts]
 export { };

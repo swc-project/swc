@@ -1,32 +1,30 @@
 //// [privateNameAccessorsCallExpression.ts]
-import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
-import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
-var _fieldFunc = /*#__PURE__*/ new WeakMap(), _fieldFunc2 = /*#__PURE__*/ new WeakMap();
+var _fieldFunc = new WeakMap(), _fieldFunc2 = new WeakMap();
 class A {
     test() {
-        var _this_getInstance;
-        _class_private_field_get(this, _fieldFunc).call(this);
-        const func = _class_private_field_get(this, _fieldFunc);
+        var _this, _this1, _this2, _this3, _this4, _this5, _this_getInstance;
+        _this = this, _fieldFunc.get(_this).get.call(_this);
+        const func = (_this1 = this, _fieldFunc.get(_this1).get.call(_this1));
         func();
-        new (_class_private_field_get(this, _fieldFunc))();
+        new (_this2 = this, _fieldFunc.get(_this2).get.call(_this2))();
         const arr = [
             1,
             2
         ];
-        _class_private_field_get(this, _fieldFunc2).call(this, 0, ...arr, 3);
-        const b = new (_class_private_field_get(this, _fieldFunc2))(0, ...arr, 3);
-        const str = _class_private_field_get(this, _fieldFunc2).bind(this)`head${1}middle${2}tail`;
-        _class_private_field_get(_this_getInstance = this.getInstance(), _fieldFunc2).bind(_this_getInstance)`test${1}and${2}`;
+        _this3 = this, _fieldFunc2.get(_this3).get.call(_this3, 0, ...arr, 3);
+        const b = new (_this4 = this, _fieldFunc2.get(_this4).get.call(_this4))(0, ...arr, 3);
+        const str = (_this5 = this, _fieldFunc2.get(_this5).get.call(_this5))`head${1}middle${2}tail`;
+        (_this_getInstance = this.getInstance(), _fieldFunc2.get(_this_getInstance).get.call(_this_getInstance))`test${1}and${2}`;
     }
     getInstance() {
         return new A();
     }
     constructor(){
-        _class_private_field_init(this, _fieldFunc, {
+        _fieldFunc.set(this, {
             get: get_fieldFunc,
             set: void 0
         });
-        _class_private_field_init(this, _fieldFunc2, {
+        _fieldFunc2.set(this, {
             get: get_fieldFunc2,
             set: void 0
         });

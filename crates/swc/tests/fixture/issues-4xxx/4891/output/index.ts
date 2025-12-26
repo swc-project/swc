@@ -1,18 +1,18 @@
-import { _ as _class_private_field_loose_base } from "@swc/helpers/_/_class_private_field_loose_base";
-import { _ as _class_private_field_loose_key } from "@swc/helpers/_/_class_private_field_loose_key";
-var _channelName = /*#__PURE__*/ _class_private_field_loose_key("_channelName"), _listeners = /*#__PURE__*/ _class_private_field_loose_key("_listeners");
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+var _channelName = new WeakMap(), _listeners = new WeakMap();
 export class LocalStorageChannel {
     constructor(channelName){
-        Object.defineProperty(this, _channelName, {
+        _class_private_field_init(this, _channelName, {
             writable: true,
             value: void 0
         });
-        Object.defineProperty(this, _listeners, {
+        _class_private_field_init(this, _listeners, {
             writable: true,
             value: void 0
         });
-        _class_private_field_loose_base(this, _channelName)[_channelName] = channelName;
-        _class_private_field_loose_base(this, _listeners)[_listeners] = [];
+        _class_private_field_set(this, _channelName, channelName);
+        _class_private_field_set(this, _listeners, []);
         window.addEventListener("storage", (event)=>this.onStorageEvent(event));
     }
 }

@@ -1,25 +1,93 @@
 //// [thisAndSuperInStaticMembers2.ts]
-var _ref;
 import { _ as _extends } from "@swc/helpers/_/_extends";
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-import { _ as _set } from "@swc/helpers/_/_set";
-import { _ as _update } from "@swc/helpers/_/_update";
+var _ref, __ = new WeakMap(), __2 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), __6 = new WeakMap(), __7 = new WeakMap(), __8 = new WeakMap(), __9 = new WeakMap(), __10 = new WeakMap(), __11 = new WeakMap(), __12 = new WeakMap(), __13 = new WeakMap(), __14 = new WeakMap(), __15 = new WeakMap(), __16 = new WeakMap(), __17 = new WeakMap(), __18 = new WeakMap(), __19 = new WeakMap(), __20 = new WeakMap(), __21 = new WeakMap(), __22 = new WeakMap(), __23 = new WeakMap(), __24 = new WeakMap();
 class C extends B {
     constructor(...args){
         super(...args), this.x = 1, this.y = this.x, this.z = super.f();
     }
 }
-C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 = C.x(), C.y5 = null == C ? void 0 : C.x(), C.z1 = _get(_get_prototype_of(C), "a", C), C.z2 = _get(_get_prototype_of(C), "a", C), C.z3 = _get(_get_prototype_of(C), "f", C).call(C), C.z4 = _get(_get_prototype_of(C), "f", C).call(C), C.z5 = _set(_get_prototype_of(C), "a", 0, C, !0), C.z6 = _update(_get_prototype_of(C), "a", C, !0)._ += 1, C.z7 = void _set(_get_prototype_of(C), "a", 0, C, !0), C.z8 = [_update(_get_prototype_of(C), "a", C, !0)._] = [
-    0
-], C.z9 = [_update(_get_prototype_of(C), "a", C, !0)._ = 0] = [
-    0
-], C.z10 = [..._update(_get_prototype_of(C), "a", C, !0)._] = [
-    0
-], C.z11 = { x: _update(_get_prototype_of(C), "a", C, !0)._ } = {
-    x: 0
-}, C.z12 = { x: _update(_get_prototype_of(C), "a", C, !0)._ = 0 } = {
-    x: 0
-}, _ref = {
-    x: 0
-}, _update(_get_prototype_of(C), "a", C, !0)._ = _extends({}, _ref), C.z13 = _ref, C.z14 = ++_update(_get_prototype_of(C), "a", C, !0)._, C.z15 = --_update(_get_prototype_of(C), "a", C, !0)._, C.z16 = ++_update(_get_prototype_of(C), "a", C, !0)._, C.z17 = _update(_get_prototype_of(C), "a", C, !0)._++, C.z18 = _get(_get_prototype_of(C), "a", C)``;
+__.set(C, {
+    writable: !0,
+    value: C.x = void 0
+}), __2.set(C, {
+    writable: !0,
+    value: C.y1 = C.x
+}), __3.set(C, {
+    writable: !0,
+    value: C.y2 = C.x()
+}), __4.set(C, {
+    writable: !0,
+    value: C.y3 = null == C ? void 0 : C.x()
+}), __5.set(C, {
+    writable: !0,
+    value: C.y4 = C.x()
+}), __6.set(C, {
+    writable: !0,
+    value: C.y5 = null == C ? void 0 : C.x()
+}), __7.set(C, {
+    writable: !0,
+    value: C.z1 = super.a
+}), __8.set(C, {
+    writable: !0,
+    value: C.z2 = super.a
+}), __9.set(C, {
+    writable: !0,
+    value: C.z3 = super.f()
+}), __10.set(C, {
+    writable: !0,
+    value: C.z4 = super.f()
+}), __11.set(C, {
+    writable: !0,
+    value: C.z5 = super.a = 0
+}), __12.set(C, {
+    writable: !0,
+    value: C.z6 = super.a += 1
+}), __13.set(C, {
+    writable: !0,
+    value: C.z7 = void (super.a = 0)
+}), __14.set(C, {
+    writable: !0,
+    value: C.z8 = [super.a] = [
+        0
+    ]
+}), __15.set(C, {
+    writable: !0,
+    value: C.z9 = [super.a = 0] = [
+        0
+    ]
+}), __16.set(C, {
+    writable: !0,
+    value: C.z10 = [...super.a] = [
+        0
+    ]
+}), __17.set(C, {
+    writable: !0,
+    value: C.z11 = { x: super.a } = {
+        x: 0
+    }
+}), __18.set(C, {
+    writable: !0,
+    value: C.z12 = { x: super.a = 0 } = {
+        x: 0
+    }
+}), __19.set(C, {
+    writable: !0,
+    value: (_ref = {
+        x: 0
+    }, super.a = _extends({}, _ref), C.z13 = _ref)
+}), __20.set(C, {
+    writable: !0,
+    value: C.z14 = ++super.a
+}), __21.set(C, {
+    writable: !0,
+    value: C.z15 = --super.a
+}), __22.set(C, {
+    writable: !0,
+    value: C.z16 = ++super.a
+}), __23.set(C, {
+    writable: !0,
+    value: C.z17 = super.a++
+}), __24.set(C, {
+    writable: !0,
+    value: C.z18 = super.a``
+});

@@ -7,7 +7,10 @@ Object.defineProperty(exports, "__esModule", {
         return C;
     }
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), C = function C() {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), __ = new WeakMap(), C = function C() {
     _class_call_check._(this, C);
 };
-C.x = 1;
+__.set(C, {
+    writable: !0,
+    value: C.x = 1
+});

@@ -1,25 +1,22 @@
-import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
-import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var _privateMethod = new WeakSet();
 class Base {
     superMethod() {
         return 'good';
     }
 }
-var _privateMethod = /*#__PURE__*/ new WeakSet();
 class Sub extends Base {
     superMethod() {
         return 'bad';
     }
     publicMethod() {
-        return _class_private_method_get(this, _privateMethod, privateMethod).call(this);
+        return privateMethod.call(this);
     }
     constructor(...args){
-        super(...args), _class_private_method_init(this, _privateMethod);
+        super(...args);
+        _privateMethod.add(this);
     }
 }
 function privateMethod() {
-    return _get(_get_prototype_of(Sub.prototype), "superMethod", this).call(this);
+    return super.superMethod();
 }
 new Sub().publicMethod().toEqual('good');

@@ -1,14 +1,15 @@
 //// [privateNameMethodInStaticFieldInit.ts]
-import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
-import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-var _ref, _method = /*#__PURE__*/ new WeakSet();
+var __ = new WeakMap(), _method = new WeakSet();
 class C {
     constructor(){
-        _class_private_method_init(this, _method);
+        _method.add(this);
     }
 }
-C.s = _class_private_method_get(_ref = new C(), _method, method).call(_ref);
 function method() {
     return 42;
 }
+__.set(C, {
+    writable: true,
+    value: C.s = method.call(new C())
+});
 console.log(C.s);

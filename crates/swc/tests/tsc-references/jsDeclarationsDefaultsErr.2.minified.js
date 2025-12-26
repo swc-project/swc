@@ -1,9 +1,12 @@
 //// [index1.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Cls = function Cls() {
+var __ = new WeakMap(), Cls = function Cls() {
     _class_call_check(this, Cls), this.x = 12;
 };
-Cls.y = "ok";
+__.set(Cls, {
+    writable: !0,
+    value: Cls.y = "ok"
+});
 export default Cls;
 //// [index2.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";

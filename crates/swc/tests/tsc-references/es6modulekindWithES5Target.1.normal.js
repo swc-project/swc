@@ -1,6 +1,7 @@
 //// [es6modulekindWithES5Target.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
+var __ = new WeakMap(), __1 = new WeakMap();
 export var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -11,7 +12,6 @@ export var C = /*#__PURE__*/ function() {
     _proto.method = function method() {};
     return C;
 }();
-C.s = 0;
 export { C as C2 };
 export var D = /*#__PURE__*/ function() {
     "use strict";
@@ -23,7 +23,10 @@ export var D = /*#__PURE__*/ function() {
     _proto.method = function method() {};
     return D;
 }();
-D.s = 0;
+__1.set(D, {
+    writable: true,
+    value: D.s = 0
+});
 D = _ts_decorate([
     foo
 ], D);

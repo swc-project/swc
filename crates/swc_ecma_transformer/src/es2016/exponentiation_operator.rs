@@ -104,6 +104,11 @@ impl ExponentiationOperatorPass {
             }
             // Member expression: needs special handling to avoid side effects
             AssignTarget::Simple(SimpleAssignTarget::Member(member_expr)) => {
+                // Skip private fields - they will be handled by class_properties transform
+                if matches!(member_expr.prop, MemberProp::PrivateName(_)) {
+                    return;
+                }
+
                 // Clone the data we need before borrowing mutably
                 let obj = member_expr.obj.take();
                 let prop = member_expr.prop.take();

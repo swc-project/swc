@@ -16,24 +16,36 @@ function getFoo1() {
     }();
 }
 function getFoo2() {
-    var _class;
+    var __ = new WeakMap(), __2 = new WeakMap(), _class;
     return _class = function _class() {
         "use strict";
         _class_call_check(this, _class);
-    }, _class.method1 = function(arg) {
-        arg.numProp = 10;
-    }, _class.method2 = function(arg) {
-        arg.strProp = "hello";
-    }, _class;
+    }, __.set(_class, {
+        writable: true,
+        value: this.method1 = function(arg) {
+            arg.numProp = 10;
+        }
+    }), __2.set(_class, {
+        writable: true,
+        value: this.method2 = function(arg) {
+            arg.strProp = "hello";
+        }
+    }), _class;
 }
 function getFoo3() {
-    var _class;
+    var __ = new WeakMap(), __2 = new WeakMap(), _class;
     return _class = function _class() {
         "use strict";
         _class_call_check(this, _class);
-    }, _class.method1 = function(arg) {
-        arg.numProp = 10;
-    }, _class.method2 = function(arg) {
-        arg.strProp = "hello";
-    }, _class;
+    }, __.set(_class, {
+        writable: true,
+        value: this.method1 = function(arg) {
+            arg.numProp = 10;
+        }
+    }), __2.set(_class, {
+        writable: true,
+        value: this.method2 = function(arg) {
+            arg.strProp = "hello";
+        }
+    }), _class;
 }

@@ -13,4 +13,4 @@ var C = /*#__PURE__*/ function(B1) {
     }
     return _inherits(C, B1), C;
 }(B);
-_define_property(C, "x", void 0), _define_property(C, "y1", C.x), _define_property(C, "y2", C.x()), _define_property(C, "y3", null == C ? void 0 : C.x()), _define_property(C, "y4", C.x()), _define_property(C, "y5", null == C ? void 0 : C.x()), _define_property(C, "z3", _get(_get_prototype_of(C), "f", C).call(C)), _define_property(C, "z4", _get(_get_prototype_of(C), "f", C).call(C));
+_define_property(C, "x", void 0), _define_property(C, "y1", C.x), _define_property(C, "y2", C.x()), _define_property(C, "y3", null == C ? void 0 : C.x()), _define_property(C, "y4", C.x()), _define_property(C, "y5", null == C ? void 0 : C.x()), _define_property(C, "z3", super.f()), _define_property(C, "z4", super.f());

@@ -1,6 +1,7 @@
 //// [inferringClassMembersFromAssignments.ts]
 //// [a.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var __ = new WeakMap();
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -87,13 +88,16 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-C.prop = function() {
-    if (Math.random()) {
-        C.inStaticPropertyDeclaration = 0;
-    } else {
-        C.inStaticPropertyDeclaration = "string";
+__.set(C, {
+    writable: true,
+    value: C.prop = function() {
+        if (Math.random()) {
+            C.inStaticPropertyDeclaration = 0;
+        } else {
+            C.inStaticPropertyDeclaration = "string";
+        }
     }
-};
+});
 //// [b.ts]
 var c = new C();
 var stringOrNumber;

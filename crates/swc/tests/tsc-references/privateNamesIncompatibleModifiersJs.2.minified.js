@@ -1,4 +1,4 @@
 //// [privateNamesIncompatibleModifiersJs.js]
 import "@swc/helpers/_/_class_private_field_init";
 import "@swc/helpers/_/_class_private_field_set";
-import "@swc/helpers/_/_class_private_method_init";
+new WeakMap(), new WeakMap(), new WeakMap(), new WeakSet(), new WeakSet(), new WeakSet(), new WeakMap(), new WeakMap(), new WeakMap();

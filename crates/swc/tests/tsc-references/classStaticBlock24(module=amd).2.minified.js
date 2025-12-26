@@ -12,8 +12,11 @@ define([
             return C;
         }
     });
-    var C = function C() {
+    var __ = new WeakMap(), C = function C() {
         _class_call_check._(this, C);
     };
-    C.x = 1;
+    __.set(C, {
+        writable: !0,
+        value: C.x = 1
+    });
 });

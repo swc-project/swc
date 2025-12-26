@@ -1,5 +1,4 @@
 //// [exportDefaultClassWithStaticPropertyAssignmentsInES6.ts]
-class _class {
+new WeakMap();
+export default class {
 }
-_class.z = "Foo";
-export { _class as default };

@@ -2,9 +2,7 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
-import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-var _used = /*#__PURE__*/ new WeakMap(), _unused = /*#__PURE__*/ new WeakMap();
+var _used = new WeakMap(), _unused = new WeakMap(), _used1 = new WeakSet(), _unused1 = new WeakSet(), _used2 = new WeakMap(), _unused2 = new WeakMap();
 export class A {
     constructor(){
         _class_private_field_init(this, _used, {
@@ -20,28 +18,25 @@ export class A {
         console.log(_class_private_field_get(this, _used));
     }
 }
-var _used1 = /*#__PURE__*/ new WeakSet(), _unused1 = /*#__PURE__*/ new WeakSet();
 export class A2 {
     constructor(){
-        _class_private_method_init(this, _used1);
-        _class_private_method_init(this, _unused1);
-        console.log(_class_private_method_get(this, _used1, used).call(this));
+        _used1.add(this);
+        _unused1.add(this);
+        console.log(used.call(this));
     }
 }
-function used() {}
-function unused() {}
-var _used2 = /*#__PURE__*/ new WeakMap(), _unused2 = /*#__PURE__*/ new WeakMap();
 export class A3 {
     constructor(){
-        _class_private_field_init(this, _used2, {
+        var _this;
+        _used2.set(this, {
             get: get_used,
             set: set_used
         });
-        _class_private_field_init(this, _unused2, {
+        _unused2.set(this, {
             get: get_unused,
             set: set_unused
         });
-        console.log(_class_private_field_get(this, _used2));
+        console.log((_this = this, _used2.get(_this).get.call(_this)));
     }
 }
 function get_used() {

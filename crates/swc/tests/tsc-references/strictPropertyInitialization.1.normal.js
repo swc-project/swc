@@ -2,7 +2,7 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _f = /*#__PURE__*/ new WeakMap(), _g = /*#__PURE__*/ new WeakMap(), _h = /*#__PURE__*/ new WeakMap(), _i = /*#__PURE__*/ new WeakMap();
+var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap(), _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap(), _b = new WeakMap(), _b1 = new WeakMap(), _b2 = new WeakMap(), _d1 = new WeakMap(), _b3 = new WeakMap();
 // Properties with non-undefined types require initialization
 class C1 {
     constructor(){
@@ -27,7 +27,6 @@ class C1 {
 // No strict initialization checks for static members
 class C3 {
 }
-var _d = /*#__PURE__*/ new WeakMap(), _e = /*#__PURE__*/ new WeakMap(), _f1 = /*#__PURE__*/ new WeakMap();
 // Initializer satisfies strict initialization check
 class C4 {
     constructor(){
@@ -51,7 +50,6 @@ class C4 {
         _class_private_field_set(this, _f1, "abc");
     }
 }
-var _b = /*#__PURE__*/ new WeakMap();
 // Assignment in constructor satisfies strict initialization check
 class C5 {
     constructor(){
@@ -63,7 +61,6 @@ class C5 {
         _class_private_field_set(this, _b, 0);
     }
 }
-var _b1 = /*#__PURE__*/ new WeakMap();
 // All code paths must contain assignment
 class C6 {
     constructor(cond){
@@ -78,7 +75,6 @@ class C6 {
         _class_private_field_set(this, _b1, 0);
     }
 }
-var _b2 = /*#__PURE__*/ new WeakMap();
 class C7 {
     constructor(cond){
         _class_private_field_init(this, _b2, {
@@ -100,7 +96,6 @@ class C8 {
 // No strict initialization checks for abstract members
 class C9 {
 }
-var _d1 = /*#__PURE__*/ new WeakMap();
 // Properties with non-undefined types must be assigned before they can be accessed
 // within their constructor
 class C10 {
@@ -117,7 +112,6 @@ class C10 {
         let y = this.c;
     }
 }
-var _b3 = /*#__PURE__*/ new WeakMap();
 class C11 {
     constructor(){
         _class_private_field_init(this, _b3, {

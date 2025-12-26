@@ -1,12 +1,16 @@
 //// [index1.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var __ = new WeakMap();
 // merge type alias and alias (should error, see #32367)
 var Cls = function Cls() {
     "use strict";
     _class_call_check(this, Cls);
     this.x = 12;
 };
-Cls.y = "ok";
+__.set(Cls, {
+    writable: true,
+    value: Cls.y = "ok"
+});
 export default Cls; /**
  * @typedef {string | number} default
  */ 

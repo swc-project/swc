@@ -10,11 +10,6 @@ var Foo = function Foo(v) {
     _class_call_check(this, Foo);
     this.value = v;
 };
-_define_property(Foo, "klass", function _class(v) {
-    "use strict";
-    _class_call_check(this, _class);
-    this.value = v;
-});
 (function() {
     return _async_to_generator(function() {
         var Bar;

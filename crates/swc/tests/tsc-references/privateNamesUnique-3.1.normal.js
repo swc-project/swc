@@ -1,12 +1,23 @@
 //// [privateNamesUnique-3.ts]
-//!   x duplicate private name #foo.
-//!    ,-[4:1]
-//!  1 | 
-//!  2 | class A {
-//!  3 |     #foo = 1;
-//!  4 |     static #foo = true; // error (duplicate)
-//!    :            ^^^^
-//!  5 |                         // because static and instance private names
-//!  6 |                         // share the same lexical scope
-//!  7 |                         // https://tc39.es/proposal-class-fields/#prod-ClassBody
-//!    `----
+import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
+import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
+var _foo = new WeakMap(), _foo = new WeakMap(), _foo1 = new WeakMap();
+class A {
+    constructor(){
+        _class_private_field_init(this, _foo, {
+            writable: true,
+            value: void 0
+        });
+        _class_private_field_set(this, _foo, 1);
+    }
+}
+class B {
+    test(x) {
+        _class_private_field_get(x, _foo1); // error (#foo is a static property on B, not an instance property)
+    }
+}
+_foo1.set(B, {
+    writable: true,
+    value: true
+});

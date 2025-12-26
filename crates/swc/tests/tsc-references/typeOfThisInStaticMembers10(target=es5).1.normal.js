@@ -2,16 +2,13 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
+var __ = new WeakMap(), __2 = new WeakMap(), __1 = new WeakMap(), __21 = new WeakMap(), __3 = new WeakMap(), __4 = new WeakMap(), __5 = new WeakMap(), __6 = new WeakMap(), __22 = new WeakMap(), __7 = new WeakMap(), __23 = new WeakMap(), __31 = new WeakMap(), __41 = new WeakMap(), __51 = new WeakMap();
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-C.a = 1;
-C.b = C.a + 1;
 C = _ts_decorate([
     foo
 ], C);
@@ -38,15 +35,6 @@ var D = /*#__PURE__*/ function(C) {
     ]);
     return D;
 }(C);
-D.c = 2;
-D.d = D.c + 1;
-D.e = _get(_get_prototype_of(D), "a", D) + D.c + 1;
-D.f = function() {
-    return D.c + 1;
-};
-D.ff = function() {
-    this.c + 1;
-};
 D = _ts_decorate([
     foo
 ], D);
@@ -54,8 +42,6 @@ var CC = function CC() {
     "use strict";
     _class_call_check(this, CC);
 };
-CC.a = 1;
-CC.b = CC.a + 1;
 var DD = /*#__PURE__*/ function(CC) {
     "use strict";
     _inherits(DD, CC);
@@ -79,12 +65,27 @@ var DD = /*#__PURE__*/ function(CC) {
     ]);
     return DD;
 }(CC);
-DD.c = 2;
-DD.d = DD.c + 1;
-DD.e = _get(_get_prototype_of(DD), "a", DD) + DD.c + 1;
-DD.f = function() {
-    return DD.c + 1;
-};
-DD.ff = function() {
-    this.c + 1;
-};
+__7.set(DD, {
+    writable: true,
+    value: DD.c = 2
+});
+__23.set(DD, {
+    writable: true,
+    value: DD.d = DD.c + 1
+});
+__31.set(DD, {
+    writable: true,
+    value: DD.e = super.a + DD.c + 1
+});
+__41.set(DD, {
+    writable: true,
+    value: DD.f = function() {
+        return DD.c + 1;
+    }
+});
+__51.set(DD, {
+    writable: true,
+    value: DD.ff = function() {
+        this.c + 1;
+    }
+});

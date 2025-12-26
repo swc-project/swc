@@ -3,6 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Module
 (function(Shapes) {
+    var __ = new WeakMap();
     var Point = /*#__PURE__*/ function() {
         "use strict";
         function Point(x, y) {
@@ -17,8 +18,11 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         };
         return Point;
     }();
-    // Static member
-    Point.origin = new Point(0, 0);
+    __.set(Point, {
+        writable: true,
+        value: // Static member
+        Point.origin = new Point(0, 0)
+    });
     // Class
     Shapes.Point = Point;
 })(Shapes || (Shapes = {}));

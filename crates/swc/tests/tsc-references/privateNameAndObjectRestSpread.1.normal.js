@@ -2,10 +2,9 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
-var _prop = /*#__PURE__*/ new WeakMap();
+var _prop = new WeakMap(), _propStatic = new WeakMap();
 class C {
     method(other) {
         const obj = _object_spread({}, other);
@@ -13,9 +12,9 @@ class C {
         const {} = other, rest = _extends({}, other);
         _class_private_field_get(rest, _prop);
         const statics = _object_spread({}, C);
-        _class_static_private_field_spec_get(statics, C, _propStatic);
+        _class_private_field_get(statics, _propStatic);
         const {} = C, sRest = _extends({}, C);
-        _class_static_private_field_spec_get(sRest, C, _propStatic);
+        _class_private_field_get(sRest, _propStatic);
     }
     constructor(){
         _class_private_field_init(this, _prop, {
@@ -25,7 +24,7 @@ class C {
         _class_private_field_set(this, _prop, 1);
     }
 }
-var _propStatic = {
+_propStatic.set(C, {
     writable: true,
     value: 1
-};
+});

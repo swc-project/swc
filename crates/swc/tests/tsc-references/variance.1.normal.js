@@ -2,6 +2,7 @@
 // Test cases for parameter variances affected by conditional types.
 // Repro from #30047
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var __ = new WeakMap();
 var foo = {
     prop: true
 };
@@ -21,4 +22,7 @@ var Bar = /*#__PURE__*/ function() {
     };
     return Bar;
 }();
-Bar.instance = [];
+__.set(Bar, {
+    writable: true,
+    value: Bar.instance = []
+});

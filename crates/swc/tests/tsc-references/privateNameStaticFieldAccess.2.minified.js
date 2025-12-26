@@ -1,2 +1,12 @@
 //// [privateNameStaticFieldAccess.ts]
-import "@swc/helpers/_/_class_static_private_field_spec_get";
+import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
+var _myField = new WeakMap();
+class A {
+    constructor(){
+        console.log(_class_private_field_get(A, _myField)), console.log(_class_private_field_get(this, _myField));
+    }
+}
+_myField.set(A, {
+    writable: !0,
+    value: "hello world"
+});
