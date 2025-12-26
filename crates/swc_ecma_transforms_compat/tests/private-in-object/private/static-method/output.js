@@ -7,7 +7,7 @@ let Foo = /*#__PURE__*/ function() {
         {
             key: "test",
             value: function test(other) {
-                return _brand_check_foo.has(other);
+                return other === Foo;
             }
         }
     ]);

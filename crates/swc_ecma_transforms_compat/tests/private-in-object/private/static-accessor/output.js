@@ -1,4 +1,3 @@
-var _foo = new WeakMap();
 let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
@@ -8,14 +7,14 @@ let Foo = /*#__PURE__*/ function() {
         {
             key: "test",
             value: function test(other) {
-                return _brand_check_foo.has(other);
+                return other === Foo;
             }
         }
     ]);
     return Foo;
 }();
-function get_foo() {}
-_foo.set(Foo, {
+var _foo = {
     get: get_foo,
     set: void 0
-});
+};
+function get_foo() {}

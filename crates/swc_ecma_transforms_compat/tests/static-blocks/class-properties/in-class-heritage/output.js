@@ -1,15 +1,6 @@
-var __ = new WeakMap(), Base, __1 = new WeakMap(), _class, __2 = new WeakMap();
-class Foo extends (_class = class extends (Base = class Base {
-}, __.set(Base, {
-    writable: true,
-    value: Base.qux = 21
-}), Base) {
-}, __1.set(_class, {
-    writable: true,
-    value: this.bar = 21
-}), _class) {
+var _Base, _class;
+class Foo extends (_class = class extends (_Base = class Base {
+}, _Base.qux = 21, _Base) {
+}, _class.bar = 21, _class) {
 }
-__2.set(Foo, {
-    writable: true,
-    value: Foo.foo = Foo.bar + Foo.qux
-});
+Foo.foo = Foo.bar + Foo.qux;

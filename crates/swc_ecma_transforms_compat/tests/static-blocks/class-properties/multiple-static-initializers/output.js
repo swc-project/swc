@@ -1,19 +1,12 @@
-var _bar = new WeakMap(), __ = new WeakMap(), __2 = new WeakMap();
 class Foo {
 }
-_bar.set(Foo, {
+var _bar = {
     writable: true,
     value: 21
-});
-__.set(Foo, {
-    writable: true,
-    value: (()=>{
-        Foo.foo = _class_private_field_get(Foo, _bar);
-        Foo.qux1 = Foo.qux;
-    })()
-});
+};
+(()=>{
+    Foo.foo = _class_static_private_field_spec_get(Foo, Foo, _bar);
+    Foo.qux1 = Foo.qux;
+})();
 _define_property(Foo, "qux", 21);
-__2.set(Foo, {
-    writable: true,
-    value: Foo.qux2 = Foo.qux
-});
+Foo.qux2 = Foo.qux;
