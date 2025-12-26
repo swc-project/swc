@@ -95,7 +95,7 @@ swc_ecma_loader = { version = "18.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "41.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "41.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "31.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
