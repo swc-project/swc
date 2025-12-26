@@ -487,18 +487,20 @@ impl Lexer<'_> {
         while let Some(byte) = self.input.cur_as_char() {
             match byte {
                 '>' => {
+                    let error_pos = self.input().cur_pos();
                     self.bump(1);
                     self.emit_error(
-                        self.input().cur_pos(),
+                        error_pos,
                         SyntaxError::UnexpectedTokenWithSuggestions {
                             candidate_list: vec!["`{'>'}`", "`&gt;`"],
                         },
                     );
                 }
                 '}' => {
+                    let error_pos = self.input().cur_pos();
                     self.bump(1);
                     self.emit_error(
-                        self.input().cur_pos(),
+                        error_pos,
                         SyntaxError::UnexpectedTokenWithSuggestions {
                             candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                         },
