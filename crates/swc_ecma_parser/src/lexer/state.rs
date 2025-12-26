@@ -6,14 +6,17 @@ use swc_ecma_ast::EsVersion;
 
 use super::{Context, Input, Lexer};
 use crate::{
+    byte_search,
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::{
         char_ext::CharExt,
         comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
+        search::SafeByteMatchTable,
         token::{Token, TokenAndSpan, TokenValue},
         LexResult,
     },
+    safe_byte_match_table,
     syntax::SyntaxFlags,
 };
 
@@ -397,88 +400,85 @@ impl Lexer<'_> {
     fn scan_jsx_token(&mut self) -> Result<Token, Error> {
         debug_assert!(self.syntax.jsx());
 
-        if self.input_mut().as_str().is_empty() {
-            return Ok(Token::Eof);
-        };
-
-        if self.input.eat_byte(b'<') {
-            return Ok(if self.input.eat_byte(b'/') {
-                Token::LessSlash
-            } else {
-                Token::Lt
-            });
-        } else if self.input.eat_byte(b'{') {
-            return Ok(Token::LBrace);
-        }
-
-        let start = self.input.cur_pos();
-        let mut chunk_start = start;
-        let mut value = String::new();
-
-        while let Some(ch) = self.input_mut().cur() {
-            if ch == b'{' {
-                break;
-            } else if ch == b'<' {
-                // TODO: check git conflict mark
-                break;
-            }
-
-            if ch == b'>' {
-                self.emit_error(
-                    self.input().cur_pos(),
-                    SyntaxError::UnexpectedTokenWithSuggestions {
-                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
-                    },
-                );
-            } else if ch == b'}' {
-                self.emit_error(
-                    self.input().cur_pos(),
-                    SyntaxError::UnexpectedTokenWithSuggestions {
-                        candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
-                    },
-                );
-            }
-
-            if ch == b'&' {
-                let s = unsafe {
-                    // Safety: We already checked for the range
-                    self.input_slice_str(chunk_start, self.cur_pos())
-                };
-                value.push_str(s);
-
-                if let Ok(jsx_entity) = self.read_jsx_entity() {
-                    value.push(jsx_entity.0);
-
-                    chunk_start = self.input.cur_pos();
+        match self.input.cur() {
+            Some(b'<') => {
+                self.bump(1);
+                match self.input.cur() {
+                    Some(b'/') => {
+                        self.bump(1);
+                        Ok(Token::LessSlash)
+                    }
+                    _ => Ok(Token::Lt),
                 }
-            } else {
-                let len = if ch < 0x80 {
-                    1 // ASCII
-                } else {
-                    // For multi-byte UTF-8, get the full character
-                    self.input().cur_as_char().unwrap().len_utf8()
-                };
-                self.bump(len);
             }
+            Some(b'{') => {
+                self.bump(1);
+                Ok(Token::LBrace)
+            }
+            Some(_) => {
+                static JSX_CHILD_TABLE: SafeByteMatchTable =
+                    safe_byte_match_table!(|b| matches!(b, b'{' | b'}' | b'<' | b'>' | b'&'));
+
+                // Fast path
+                let start = self.input.cur_pos();
+                byte_search! {
+                    lexer: self,
+                    table: JSX_CHILD_TABLE,
+                    continue_if: (matched_byte, pos_offset) {
+                        match matched_byte {
+                            b'>' => {
+                                self.emit_error(
+                                    self.input().cur_pos(),
+                                    SyntaxError::UnexpectedTokenWithSuggestions {
+                                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                                    },
+                                );
+                                true
+                            },
+                            b'}' => {
+                                self.emit_error(
+                                    self.input().cur_pos(),
+                                    SyntaxError::UnexpectedTokenWithSuggestions {
+                                        candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+                                    },
+                                );
+                                true
+                            },
+                            b'&' => return self.scan_jsx_token_with_jsx_entity(),
+                            _ => false,
+                        }
+                    },
+                    handle_eof: {
+                        // Reached EOF, entire remainder is identifier
+                        let s = unsafe {
+                            // Safety: start and end are valid position because we got them from
+                            // `self.input`
+                            self.input_slice_str(start, self.cur_pos())
+                        };
+
+                        let value = self.atom(s);
+                        self.state.set_token_value(TokenValue::JsxText(value));
+                        return Ok(Token::JSXText);
+                    },
+                };
+
+                let s = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice_str(start, self.cur_pos())
+                };
+
+                let value = self.atom(s);
+                self.state.set_token_value(TokenValue::JsxText(value));
+                Ok(Token::JSXText)
+            }
+            None => Ok(Token::Eof),
         }
+    }
 
-        let raw = unsafe {
-            // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input_slice_str(start, self.cur_pos())
-        };
-        let value = if value.is_empty() {
-            self.atom(raw)
-        } else {
-            let s = unsafe {
-                // Safety: We already checked for the range
-                self.input_slice_str(chunk_start, self.cur_pos())
-            };
-            value.push_str(s);
-            self.atom(value)
-        };
-
-        self.state.set_token_value(TokenValue::JsxText(value));
-        Ok(Token::JSXText)
+    #[cold]
+    fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
+        todo!()
     }
 
     fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Token> {
