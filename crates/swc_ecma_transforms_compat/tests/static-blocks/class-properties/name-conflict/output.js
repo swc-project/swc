@@ -1,7 +1,11 @@
+var __ = new WeakMap(), __2 = new WeakMap();
 class Foo {
 }
-var __ = {
+__.set(Foo, {
     writable: true,
     value: 42
-};
-Foo.foo = _class_static_private_field_spec_get(Foo, Foo, __);
+});
+__2.set(Foo, {
+    writable: true,
+    value: Foo.foo = _class_private_field_get(Foo, __)
+});

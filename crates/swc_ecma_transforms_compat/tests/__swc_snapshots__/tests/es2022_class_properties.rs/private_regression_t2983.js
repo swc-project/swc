@@ -1,13 +1,8 @@
-var _class, _test;
+var _test = new WeakMap(), _class, _test1 = new WeakMap();
 call((_class = class {
-}, _test = {
+}, _test.set(_class, {
     writable: true,
     value: true
-}, _class));
-class _class1 {
+}), _class));
+export default class {
 }
-var _test1 = {
-    writable: true,
-    value: true
-};
-export { _class1 as default };

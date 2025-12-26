@@ -1,20 +1,21 @@
-var _privateField = /*#__PURE__*/ _class_private_field_loose_key("_privateField"), _privateFieldValue = /*#__PURE__*/ _class_private_field_loose_key("_privateFieldValue");
+var _privateField = new WeakMap(), _privateFieldValue = new WeakMap();
 class Cl {
     constructor(){
-        Object.defineProperty(this, _privateFieldValue, {
+        var _this;
+        _privateFieldValue.set(this, {
             get: get_privateFieldValue,
             set: void 0
         });
-        Object.defineProperty(this, _privateField, {
+        _class_private_field_init(this, _privateField, {
             writable: true,
             value: 0
         });
-        _class_private_field_loose_base(this, _privateFieldValue)[_privateFieldValue] = 1;
-        [_class_private_field_loose_base(this, _privateFieldValue)[_privateFieldValue]] = [
+        _class_private_field_set(this, _privateFieldValue, 1);
+        [_this = this, _privateFieldValue.get(_this).get.call(_this)] = [
             1
         ];
     }
 }
 function get_privateFieldValue() {
-    return _class_private_field_loose_base(this, _privateField)[_privateField];
+    return _class_private_field_get(this, _privateField);
 }

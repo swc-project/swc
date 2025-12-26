@@ -1,7 +1,7 @@
-var _bar = /*#__PURE__*/ new WeakMap();
+var _foo = new WeakMap(), _bar = new WeakMap();
 class Foo {
     static test() {
-        return _class_static_private_field_spec_get(Foo, Foo, _foo);
+        return _class_private_field_get(Foo, _foo);
     }
     test() {
         return _class_private_field_get(this, _bar);
@@ -13,7 +13,7 @@ class Foo {
         });
     }
 }
-var _foo = {
+_foo.set(Foo, {
     writable: true,
     value: "foo"
-};
+});

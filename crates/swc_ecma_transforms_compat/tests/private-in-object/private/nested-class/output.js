@@ -1,4 +1,4 @@
-var _foo = /*#__PURE__*/ new WeakMap();
+var _foo = new WeakMap();
 let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
@@ -20,13 +20,13 @@ let Foo = /*#__PURE__*/ function() {
                         {
                             key: "test",
                             value: function test() {
-                                _foo.has(this);
+                                _brand_check_foo.has(this);
                             }
                         }
                     ]);
                     return Nested;
                 }();
-                _foo.has(this);
+                _brand_check_foo.has(this);
             }
         }
     ]);

@@ -1,7 +1,7 @@
 function withContext(ComposedComponent) {
-    var _WithContext, _propTypes;
-    return _WithContext = class WithContext extends Component {
-    }, _propTypes = {
+    var _propTypes = new WeakMap(), WithContext;
+    return WithContext = class WithContext extends Component {
+    }, _propTypes.set(WithContext, {
         writable: true,
         value: {
             context: PropTypes.shape({
@@ -10,5 +10,5 @@ function withContext(ComposedComponent) {
                 setMeta: PropTypes.func
             })
         }
-    }, _WithContext;
+    }), WithContext;
 }

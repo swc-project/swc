@@ -1,3 +1,4 @@
+var _x = new WeakMap();
 var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
@@ -7,14 +8,15 @@ var Foo = /*#__PURE__*/ function() {
         {
             key: "test",
             value: function test() {
-                _class_static_private_field_update(Foo, Foo, _x).value++;
-                ++_class_static_private_field_update(Foo, Foo, _x).value;
+                var _Foo, _Foo1, _Foo2, _Foo3, _Foo4;
+                _Foo = Foo, _Foo1 = _class_private_field_get(_Foo, _x), _class_private_field_set(_Foo, _x, _Foo1 + (typeof _Foo1 === "bigint" ? 1n : 1)), _Foo1;
+                _Foo2 = Foo, _Foo3 = (_Foo4 = _class_private_field_get(_Foo2, _x)) + (typeof _Foo4 === "bigint" ? 1n : 1), _class_private_field_set(_Foo2, _x, _Foo3), _Foo3;
             }
         }
     ]);
     return Foo;
 }();
-var _x = {
+_x.set(Foo, {
     writable: true,
     value: 0
-};
+});

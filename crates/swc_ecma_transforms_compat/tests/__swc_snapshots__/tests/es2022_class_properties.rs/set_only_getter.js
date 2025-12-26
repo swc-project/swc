@@ -1,11 +1,12 @@
-var _privateField = /*#__PURE__*/ new WeakMap(), _privateFieldValue = /*#__PURE__*/ new WeakMap();
+var _privateField = new WeakMap(), _privateFieldValue = new WeakMap();
 class Cl {
     get self() {
         this.counter++;
         return this;
     }
     constructor(){
-        _class_private_field_init(this, _privateFieldValue, {
+        var _this_self;
+        _privateFieldValue.set(this, {
             get: get_privateFieldValue,
             set: void 0
         });
@@ -14,8 +15,8 @@ class Cl {
             value: 0
         });
         _define_property(this, "counter", 0);
-        this.self, _read_only_error("#privateFieldValue");
-        [_class_private_field_destructure(this.self, _privateFieldValue).value] = [
+        _class_private_field_set(this.self, _privateFieldValue, 1);
+        [_this_self = this.self, _privateFieldValue.get(_this_self).get.call(_this_self)] = [
             1
         ];
     }

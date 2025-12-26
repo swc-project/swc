@@ -3,9 +3,8 @@ call((_class = function _class() {
     "use strict";
     _class_call_check(this, _class);
 }, _define_property(_class, "test", true), _class));
-var _class1 = function _class() {
+var _default = function _default() {
     "use strict";
-    _class_call_check(this, _class);
+    _class_call_check(this, _default);
 };
-_define_property(_class1, "test", true);
-export { _class1 as default };
+export { _default as default };

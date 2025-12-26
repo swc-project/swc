@@ -69,13 +69,16 @@ struct ClassPropertiesPass {
     /// Assumptions for transformation behavior
     assumptions: Assumptions,
 
-    /// Statements to inject before/after the current class declaration
-    /// (class_ident, before_stmts, after_stmts)
-    pending_class_injection: Option<(Ident, Vec<Stmt>, Vec<Stmt>)>,
+    /// Statements to inject before/after class declarations
+    /// Vector of (class_ident, before_stmts, after_stmts)
+    /// Multiple injections can be pending when multiple classes exist at same
+    /// level
+    pending_class_injections: Vec<(Ident, Vec<Stmt>, Vec<Stmt>)>,
 
     /// Pending class expression transformation
-    /// (class_ident, static_initializers, private_method_decls)
-    pending_class_expr: Option<(Ident, Vec<Box<Expr>>, Vec<Stmt>)>,
+    /// (class_ident, computed_key_decls, static_initializers,
+    /// private_method_decls)
+    pending_class_expr: Option<(Ident, Vec<VarDeclarator>, Vec<Box<Expr>>, Vec<Stmt>)>,
 }
 
 #[derive(Default)]
@@ -112,6 +115,10 @@ struct ClassData {
 
     /// Whether computed keys should be extracted to variables
     should_extract_computed_keys: bool,
+
+    /// Computed key variable declarations to inject before the class
+    /// These are evaluated right before the class definition
+    computed_key_decls: Vec<VarDeclarator>,
 }
 
 /// Unified member initialization - preserves declaration order
@@ -242,13 +249,14 @@ impl ClassPropertiesPass {
                         if self.cls.should_extract_computed_keys && !is_literal(expr) {
                             let ident = alias_ident_for(expr, "tmp");
                             let expr_value = expr.take();
-                            ctx.var_declarations.insert_let(
-                                BindingIdent {
-                                    id: ident.clone(),
-                                    type_ann: None,
-                                },
-                                Some(expr_value),
-                            );
+                            // Store computed key declarations to be injected right before the
+                            // class
+                            self.cls.computed_key_decls.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: ident.clone().into(),
+                                init: Some(expr_value),
+                                definite: false,
+                            });
                             **expr = ident.into();
                         }
                     }
@@ -315,26 +323,44 @@ impl ClassPropertiesPass {
         let prop_span = prop.span();
 
         // Extract computed keys if needed
+        // For instance properties, always extract the key so it's captured at class
+        // definition time For static properties, only extract if there's a
+        // collision or complex expression
         if let PropName::Computed(key) = &mut prop.key {
             if !is_literal(&key.expr) {
+                // For instance properties, always extract computed keys
+                // For static properties, only extract if needed
+                let should_extract = if prop.is_static {
+                    // Only extract if it's a complex expression or there's a name collision
+                    if let Expr::Ident(i) = &*key.expr {
+                        self.cls.used_key_names.contains(&i.sym)
+                    } else {
+                        true
+                    }
+                } else {
+                    // Always extract for instance properties
+                    true
+                };
+
                 let (ident, aliased) = if let Expr::Ident(i) = &*key.expr {
-                    if self.cls.used_key_names.contains(&i.sym) {
+                    if should_extract {
                         (alias_ident_for(&key.expr, "_ref"), true)
                     } else {
-                        alias_if_required(&key.expr, "_ref")
+                        (i.clone(), false)
                     }
                 } else {
                     alias_if_required(&key.expr, "_ref")
                 };
 
                 if aliased {
-                    ctx.var_declarations.insert_let(
-                        BindingIdent {
-                            id: ident.clone(),
-                            type_ann: None,
-                        },
-                        Some(key.expr.take()),
-                    );
+                    // Store computed key declarations to be injected right before the class
+                    // This ensures they're evaluated at class definition time, not at scope start
+                    self.cls.computed_key_decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ident.clone().into(),
+                        init: Some(key.expr.take()),
+                        definite: false,
+                    });
                 }
                 *key.expr = ident.into();
             }
@@ -358,6 +384,13 @@ impl ClassPropertiesPass {
             if let Some(class_ident) = &self.cls.ident {
                 value.visit_mut_with(&mut ThisInStaticFolder {
                     ident: class_ident.clone(),
+                });
+            }
+
+            // For static properties, replace `super.x` with `_super.x`
+            if let Some(super_ident) = &self.cls.super_ident {
+                value.visit_mut_with(&mut SuperInStaticFolder {
+                    super_ident: super_ident.clone(),
                 });
             }
         }
@@ -1298,22 +1331,44 @@ impl ClassPropertiesPass {
         let mut static_initializers = accessor_stmts;
         static_initializers.extend(field_stmts);
 
+        // Build "before" statements from computed key declarations
+        let computed_key_decls = take(&mut self.cls.computed_key_decls);
+        let before_stmts = if computed_key_decls.is_empty() {
+            vec![]
+        } else {
+            vec![VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Let,
+                decls: computed_key_decls,
+                ctxt: Default::default(),
+                declare: false,
+            }
+            .into()]
+        };
+
         // Store statements for injection in exit_stmts
         // Note: In loose mode, private method declarations go AFTER the class
         // In WeakSet mode, they would go BEFORE, but we're not implementing that mode
         // yet
-        if !private_method_decls.is_empty() || !static_initializers.is_empty() {
+        if !private_method_decls.is_empty()
+            || !static_initializers.is_empty()
+            || !before_stmts.is_empty()
+        {
             // Combine all "after" statements: private method decls + static initializers
             let mut all_after_stmts = private_method_decls;
             all_after_stmts.extend(static_initializers);
 
-            self.pending_class_injection = Some((class_ident.clone(), vec![], all_after_stmts));
+            self.pending_class_injections.push((
+                class_ident.clone(),
+                before_stmts,
+                all_after_stmts,
+            ));
         }
     }
 }
 
 impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
-    fn enter_class_decl(&mut self, n: &mut ClassDecl, _ctx: &mut TraverseCtx) {
+    fn enter_class_decl(&mut self, n: &mut ClassDecl, ctx: &mut TraverseCtx) {
         let old_cls = take(&mut self.cls);
         self.cls_stack.push(old_cls);
 
@@ -1321,6 +1376,60 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         self.cls.ident = Some(n.ident.clone());
 
         self.analyze_class(&n.class);
+
+        // If there's a super class and any static property uses `super`, we need to
+        // create an alias for the super class
+        // Note: We must transform super in static properties regardless of
+        // constant_super because super cannot be used outside a class context
+        if let Some(super_class) = &mut n.class.super_class {
+            // Check if any static property uses super
+            let has_super_in_static = n.class.body.iter().any(|member| {
+                if let ClassMember::ClassProp(prop) = member {
+                    if prop.is_static {
+                        let mut visitor = SuperVisitor { found: false };
+                        if let Some(value) = &prop.value {
+                            value.visit_with(&mut visitor);
+                        }
+                        return visitor.found;
+                    }
+                }
+                false
+            });
+
+            if has_super_in_static {
+                // Create an alias for the super class
+                let super_ident = alias_ident_for(super_class, "_super");
+
+                // Declare the super alias variable
+                ctx.var_declarations.insert_var(
+                    BindingIdent {
+                        id: super_ident.clone(),
+                        type_ann: None,
+                    },
+                    None,
+                );
+
+                // Wrap the super class expression with an assignment: (_super = OriginalSuper)
+                let original_super = super_class.take();
+                *super_class = Box::new(
+                    ParenExpr {
+                        span: DUMMY_SP,
+                        expr: Box::new(
+                            AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: super_ident.clone().into(),
+                                right: original_super,
+                            }
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                );
+
+                self.cls.super_ident = Some(super_ident);
+            }
+        }
     }
 
     fn exit_class_decl(&mut self, n: &mut ClassDecl, ctx: &mut TraverseCtx) {
@@ -1354,59 +1463,115 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         // sequence expression Build the static initializers as expressions
         let static_initializers = self.build_static_initializer_exprs(&class_ident, ctx);
 
-        // Take private method declarations
+        // Take private method declarations and computed key declarations
         let private_method_decls = take(&mut self.cls.private_method_decls);
+        let computed_key_decls = take(&mut self.cls.computed_key_decls);
 
-        // If there are static initializers or private method decls, store them for
-        // wrapping
-        if !static_initializers.is_empty() || !private_method_decls.is_empty() {
-            self.pending_class_expr =
-                Some((class_ident, static_initializers, private_method_decls));
+        // If there are static initializers, private method decls, or computed keys,
+        // store them for wrapping
+        if !static_initializers.is_empty()
+            || !private_method_decls.is_empty()
+            || !computed_key_decls.is_empty()
+        {
+            self.pending_class_expr = Some((
+                class_ident,
+                computed_key_decls,
+                static_initializers,
+                private_method_decls,
+            ));
         }
 
         self.cls = self.cls_stack.pop().unwrap();
     }
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
-        // Check if we have pending injections from a class declaration
-        if let Some((class_ident, before_stmts, after_stmts)) = self.pending_class_injection.take()
-        {
-            // Find the class declaration in the statement list by matching the identifier
-            // Match by symbol name only since syntax context may have been modified by
-            // resolver
-            let mut class_idx = None;
-            for (i, stmt) in stmts.iter().enumerate() {
-                if let Stmt::Decl(Decl::Class(ClassDecl { ident, .. })) = stmt {
-                    if ident.sym == class_ident.sym {
-                        class_idx = Some(i);
-                        break;
-                    }
-                }
+        // Check if we have pending injections from class declarations
+        if self.pending_class_injections.is_empty() {
+            return;
+        }
+
+        // Build a map of class indices in this statement list
+        let mut class_indices: FxHashMap<Atom, usize> = FxHashMap::default();
+        for (i, stmt) in stmts.iter().enumerate() {
+            if let Stmt::Decl(Decl::Class(ClassDecl { ident, .. })) = stmt {
+                class_indices.insert(ident.sym.clone(), i);
+            }
+        }
+
+        if class_indices.is_empty() {
+            return;
+        }
+
+        // Collect injections that match classes in this statement list
+        // We need to process them in reverse order of class indices to maintain
+        // correct positions after insertions
+        let mut injections_to_process: Vec<(usize, Vec<Stmt>, Vec<Stmt>)> = vec![];
+        let mut remaining_injections = vec![];
+
+        for (class_ident, before_stmts, after_stmts) in take(&mut self.pending_class_injections) {
+            if let Some(&idx) = class_indices.get(&class_ident.sym) {
+                injections_to_process.push((idx, before_stmts, after_stmts));
+            } else {
+                // Keep injections that don't match any class in this statement list
+                remaining_injections.push((class_ident, before_stmts, after_stmts));
+            }
+        }
+
+        self.pending_class_injections = remaining_injections;
+
+        // Sort injections by index in reverse order (process from end to start)
+        // This ensures earlier insertions don't affect later indices
+        injections_to_process.sort_by(|a, b| b.0.cmp(&a.0));
+
+        for (idx, before_stmts, after_stmts) in injections_to_process {
+            // Insert after statements first (to maintain correct indices)
+            for (offset, stmt) in after_stmts.into_iter().enumerate() {
+                stmts.insert(idx + 1 + offset, stmt);
             }
 
-            if let Some(idx) = class_idx {
-                // Insert after statements first (to maintain correct indices)
-                for (offset, stmt) in after_stmts.into_iter().enumerate() {
-                    stmts.insert(idx + 1 + offset, stmt);
-                }
-
-                // Then insert before statements
-                for (offset, stmt) in before_stmts.into_iter().enumerate() {
-                    stmts.insert(idx + offset, stmt);
-                }
+            // Then insert before statements
+            for (offset, stmt) in before_stmts.into_iter().enumerate() {
+                stmts.insert(idx + offset, stmt);
             }
         }
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, ctx: &mut TraverseCtx) {
         // Check if we have a pending class expression transformation
-        if let Some((class_ident, static_initializers, private_method_decls)) =
+        if let Some((class_ident, computed_key_decls, static_initializers, private_method_decls)) =
             self.pending_class_expr.take()
         {
             // We need to wrap the class expression in a sequence expression
-            // Pattern: (_class = class { ... }, _class.prop = value, ..., _class)
+            // Pattern: (_k = k(), _class = class { ... }, _class.prop = value, ..., _class)
             if let Expr::Class(class_expr) = expr {
                 let mut exprs = Vec::new();
+
+                // Add computed key assignment expressions first
+                for decl in computed_key_decls {
+                    if let Pat::Ident(ident) = decl.name {
+                        // Declare the variable
+                        ctx.var_declarations.insert_var(
+                            BindingIdent {
+                                id: ident.id.clone(),
+                                type_ann: None,
+                            },
+                            None,
+                        );
+
+                        // Add assignment expression if there's an initializer
+                        if let Some(init) = decl.init {
+                            exprs.push(Box::new(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: ident.id.into(),
+                                    right: init,
+                                }
+                                .into(),
+                            ));
+                        }
+                    }
+                }
 
                 // Declare the class variable
                 ctx.var_declarations.insert_var(
@@ -1417,7 +1582,7 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
                     None,
                 );
 
-                // First expression: assign class to _class
+                // Add class assignment expression: _class = class { ... }
                 exprs.push(Box::new(
                     AssignExpr {
                         span: class_expr.class.span,
@@ -1456,46 +1621,67 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
     }
 
     fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
-        // Check if we have pending injections from a class declaration
-        if let Some((class_ident, before_stmts, after_stmts)) = self.pending_class_injection.take()
-        {
-            // Find the class declaration in the module item list by matching the identifier
-            let mut class_idx = None;
-            for (i, item) in items.iter().enumerate() {
-                let matches_class = match item {
-                    ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { ident, .. }))) => {
-                        ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt
-                    }
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        decl: Decl::Class(ClassDecl { ident, .. }),
-                        ..
-                    })) => ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt,
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                        decl:
-                            DefaultDecl::Class(ClassExpr {
-                                ident: Some(ident), ..
-                            }),
-                        ..
-                    })) => ident.sym == class_ident.sym && ident.ctxt == class_ident.ctxt,
-                    _ => false,
-                };
+        // Check if we have pending injections from class declarations
+        if self.pending_class_injections.is_empty() {
+            return;
+        }
 
-                if matches_class {
-                    class_idx = Some(i);
-                    break;
+        // Build a map of class indices in this module item list
+        let mut class_indices: FxHashMap<Atom, usize> = FxHashMap::default();
+        for (i, item) in items.iter().enumerate() {
+            let class_name = match item {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl { ident, .. }))) => {
+                    Some(ident.sym.clone())
                 }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Class(ClassDecl { ident, .. }),
+                    ..
+                })) => Some(ident.sym.clone()),
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl:
+                        DefaultDecl::Class(ClassExpr {
+                            ident: Some(ident), ..
+                        }),
+                    ..
+                })) => Some(ident.sym.clone()),
+                _ => None,
+            };
+
+            if let Some(name) = class_name {
+                class_indices.insert(name, i);
+            }
+        }
+
+        if class_indices.is_empty() {
+            return;
+        }
+
+        // Collect injections that match classes in this module item list
+        let mut injections_to_process: Vec<(usize, Vec<Stmt>, Vec<Stmt>)> = vec![];
+        let mut remaining_injections = vec![];
+
+        for (class_ident, before_stmts, after_stmts) in take(&mut self.pending_class_injections) {
+            if let Some(&idx) = class_indices.get(&class_ident.sym) {
+                injections_to_process.push((idx, before_stmts, after_stmts));
+            } else {
+                remaining_injections.push((class_ident, before_stmts, after_stmts));
+            }
+        }
+
+        self.pending_class_injections = remaining_injections;
+
+        // Sort injections by index in reverse order
+        injections_to_process.sort_by(|a, b| b.0.cmp(&a.0));
+
+        for (idx, before_stmts, after_stmts) in injections_to_process {
+            // Insert after statements first (to maintain correct indices)
+            for (offset, stmt) in after_stmts.into_iter().enumerate() {
+                items.insert(idx + 1 + offset, ModuleItem::Stmt(stmt));
             }
 
-            if let Some(idx) = class_idx {
-                // Insert after statements first (to maintain correct indices)
-                for (offset, stmt) in after_stmts.into_iter().enumerate() {
-                    items.insert(idx + 1 + offset, ModuleItem::Stmt(stmt));
-                }
-
-                // Then insert before statements
-                for (offset, stmt) in before_stmts.into_iter().enumerate() {
-                    items.insert(idx + offset, ModuleItem::Stmt(stmt));
-                }
+            // Then insert before statements
+            for (offset, stmt) in before_stmts.into_iter().enumerate() {
+                items.insert(idx + offset, ModuleItem::Stmt(stmt));
             }
         }
     }
@@ -1524,6 +1710,50 @@ impl VisitMut for ThisInStaticFolder {
 
     fn visit_mut_function(&mut self, _: &mut Function) {
         // Don't visit nested functions
+    }
+}
+
+// Helper visitor to replace `super.x` with `_super.x` in static property
+// initializers
+struct SuperInStaticFolder {
+    super_ident: Ident,
+}
+
+impl VisitMut for SuperInStaticFolder {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {
+        // Don't visit constructors
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        // Transform super.prop to _super.prop
+        if let Expr::SuperProp(super_prop) = e {
+            match &super_prop.prop {
+                SuperProp::Ident(prop) => {
+                    *e = MemberExpr {
+                        span: super_prop.span,
+                        obj: Box::new(self.super_ident.clone().into()),
+                        prop: MemberProp::Ident(prop.clone()),
+                    }
+                    .into();
+                }
+                SuperProp::Computed(computed) => {
+                    *e = MemberExpr {
+                        span: super_prop.span,
+                        obj: Box::new(self.super_ident.clone().into()),
+                        prop: MemberProp::Computed(computed.clone()),
+                    }
+                    .into();
+                }
+            }
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {
+        // Don't visit nested functions - they have their own this/super binding
     }
 }
 
@@ -2609,6 +2839,124 @@ impl VisitMut for PrivateAccessVisitor<'_> {
 
                 expr.visit_mut_children_with(self);
             }
+            Expr::TaggedTpl(tagged) => {
+                // Handle private method/field as tagged template tag
+                // e.g., this.#tag`template`
+                if let Expr::Member(member) = &mut *tagged.tag {
+                    if let MemberProp::PrivateName(private_name) = &member.prop {
+                        if let Some(kind) = self.privates.get(&private_name.name) {
+                            let obj = member.obj.take();
+                            let obj_alias = alias_ident_for(&obj, "_obj");
+
+                            // Declare the variable
+                            self.vars.push(VarDeclarator {
+                                span: DUMMY_SP,
+                                name: obj_alias.clone().into(),
+                                init: None,
+                                definite: false,
+                            });
+
+                            tagged.tpl.visit_mut_with(self);
+
+                            let bound_fn = if kind.is_method && !kind.has_getter && !kind.has_setter
+                            {
+                                // Regular private method: _tag.bind(obj)
+                                let method_name = Ident::new(
+                                    if private_name.name.is_reserved_in_any() {
+                                        format!("__{}", private_name.name).into()
+                                    } else {
+                                        private_name.name.clone()
+                                    },
+                                    private_name.span,
+                                    SyntaxContext::empty().apply_mark(self.mark),
+                                );
+
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: method_name
+                                        .make_member(quote_ident!("bind"))
+                                        .as_callee(),
+                                    args: vec![ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(obj_alias.clone().into()),
+                                    }],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
+                                .into()
+                            } else {
+                                // Private field: _class_private_field_get(obj, _field).bind(obj)
+                                use swc_ecma_transforms_base::helper;
+
+                                let weak_coll_ident = Ident::new(
+                                    format!("_{}", private_name.name).into(),
+                                    private_name.span,
+                                    SyntaxContext::empty().apply_mark(self.mark),
+                                );
+
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(class_private_field_get),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    })
+                                    .make_member(quote_ident!("bind"))
+                                    .as_callee(),
+                                    args: vec![ExprOrSpread {
+                                        spread: None,
+                                        expr: Box::new(obj_alias.clone().into()),
+                                    }],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
+                                .into()
+                            };
+
+                            // Transform to: (_obj = obj, _tag.bind(_obj)`template`)
+                            *expr = SeqExpr {
+                                span: tagged.span,
+                                exprs: vec![
+                                    Box::new(
+                                        AssignExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("="),
+                                            left: obj_alias.clone().into(),
+                                            right: obj,
+                                        }
+                                        .into(),
+                                    ),
+                                    Box::new(
+                                        TaggedTpl {
+                                            span: tagged.span,
+                                            ctxt: tagged.ctxt,
+                                            tag: Box::new(bound_fn),
+                                            type_params: tagged.type_params.take(),
+                                            tpl: tagged.tpl.take(),
+                                        }
+                                        .into(),
+                                    ),
+                                ],
+                            }
+                            .into();
+                            return;
+                        }
+                    }
+                }
+
+                expr.visit_mut_children_with(self);
+            }
             Expr::Member(member) => {
                 // Handle private field/accessor read
                 member.obj.visit_mut_with(self);
@@ -2754,7 +3102,8 @@ impl VisitMut for PrivateAccessVisitor<'_> {
         base.visit_mut_children_with(self);
     }
 
-    // Don't visit into nested functions/classes - they have their own scope
+    // Don't visit into regular functions - they have their own `this` binding
+    // (though they can still access private fields via explicit object reference)
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
@@ -2764,21 +3113,36 @@ impl VisitMut for PrivateAccessVisitor<'_> {
         }
     }
 
-    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        // Arrow functions inherit `this` from enclosing scope,
+        // so we should transform private field accesses inside them
+        // Visit parameters (may contain patterns with private field access)
+        n.params.visit_mut_with(self);
+        // Visit the body
+        match n.body.as_mut() {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                block.visit_mut_with(self);
+            }
+            BlockStmtOrExpr::Expr(expr) => {
+                expr.visit_mut_with(self);
+            }
+        }
+    }
 
+    // Don't visit into nested classes - they have their own private scope
     fn visit_mut_class(&mut self, _: &mut Class) {}
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
-        // Handle private field in destructuring pattern (e.g., `[this.#x] = arr`)
-        // Transform: `this.#field` -> `class_private_field_destructure(this,
-        // _field).value`
+        // Handle private field in destructuring pattern (e.g., `[this.#x] = arr` or
+        // `[Foo.#x] = arr`) Transform: `obj.#field` ->
+        // `class_private_field_destructure(obj, _field).value`
         if let Pat::Expr(expr) = p {
             if let Expr::Member(member) = &mut **expr {
                 if let MemberProp::PrivateName(private_name) = &member.prop {
                     // Check if this is a private member of the current class
                     if let Some(kind) = self.privates.get(&private_name.name) {
-                        // Only handle instance fields for now (not static, not methods/accessors)
-                        if !kind.is_static && !kind.is_method {
+                        // Handle both instance and static fields (not methods/accessors)
+                        if !kind.is_method {
                             use swc_ecma_transforms_base::helper;
 
                             let weak_coll_ident = Ident::new(

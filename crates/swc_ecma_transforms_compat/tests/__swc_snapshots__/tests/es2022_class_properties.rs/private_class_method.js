@@ -1,7 +1,7 @@
-var _foo = /*#__PURE__*/ new WeakSet();
+var _foo = new WeakSet();
 class Foo {
     constructor(){
-        _class_private_method_init(this, _foo);
+        _foo.add(this);
     }
 }
 function foo() {}

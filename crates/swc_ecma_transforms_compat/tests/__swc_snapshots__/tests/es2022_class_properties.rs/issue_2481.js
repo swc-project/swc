@@ -1,12 +1,13 @@
+var _prop1 = new WeakMap(), _prop2 = new WeakMap();
 class Foo {
 }
-var _prop1 = {
+_prop1.set(Foo, {
     writable: true,
     value: 42
-};
-var _prop2 = {
+});
+_prop2.set(Foo, {
     writable: true,
     value: (()=>{
-        console.log(_class_static_private_field_spec_get(Foo, Foo, _prop1));
+        console.log(_class_private_field_get(Foo, _prop1));
     })()
-};
+});

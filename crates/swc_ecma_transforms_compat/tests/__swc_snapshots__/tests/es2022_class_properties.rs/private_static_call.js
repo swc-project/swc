@@ -1,3 +1,4 @@
+var _foo = new WeakMap();
 var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
@@ -7,15 +8,16 @@ var Foo = /*#__PURE__*/ function() {
         {
             key: "test",
             value: function test(x) {
-                return _class_static_private_field_spec_get(Foo, Foo, _foo).call(Foo, x);
+                var _Foo;
+                return _Foo = Foo, _class_private_field_get(_Foo, _foo).call(_Foo, x);
             }
         }
     ]);
     return Foo;
 }();
-var _foo = {
+_foo.set(Foo, {
     writable: true,
     value: function(x) {
         return x;
     }
-};
+});

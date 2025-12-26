@@ -1,11 +1,11 @@
-var _value = /*#__PURE__*/ new WeakSet();
+var _value = new WeakSet();
 class Foo {
     // #value = 1;
     get(target) {
-        return _class_private_method_get(target, _value, value);
+        return value;
     }
     constructor(){
-        _class_private_method_init(this, _value);
+        _value.add(this);
     }
 }
 function value() {

@@ -1,10 +1,10 @@
-var _bar = /*#__PURE__*/ new WeakMap();
+var _foo = new WeakMap(), _bar = new WeakMap();
 class Foo {
     static test() {
-        return Foo === Foo;
+        return _brand_check_foo.has(Foo);
     }
     test() {
-        return _bar.has(this);
+        return _brand_check_bar.has(this);
     }
     constructor(){
         _class_private_field_init(this, _bar, {
@@ -13,7 +13,7 @@ class Foo {
         });
     }
 }
-var _foo = {
+_foo.set(Foo, {
     writable: true,
     value: "foo"
-};
+});

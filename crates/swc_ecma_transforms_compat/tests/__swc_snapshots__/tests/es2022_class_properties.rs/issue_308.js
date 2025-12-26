@@ -1,9 +1,10 @@
 function bar(props) {}
 class Foo {
     constructor(){
-        super(), _define_property(this, "onBar", ()=>{
+        _define_property(this, "onBar", ()=>{
             bar();
         });
+        super();
         bar();
     }
 }

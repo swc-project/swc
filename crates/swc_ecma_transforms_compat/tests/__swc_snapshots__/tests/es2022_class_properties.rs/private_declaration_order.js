@@ -1,4 +1,4 @@
-var _x = /*#__PURE__*/ new WeakMap();
+var _x = new WeakMap();
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

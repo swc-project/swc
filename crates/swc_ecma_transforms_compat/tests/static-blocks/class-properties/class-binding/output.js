@@ -1,4 +1,8 @@
+var __ = new WeakMap();
 class Foo {
 }
 _define_property(Foo, "bar", 42);
-Foo.foo = Foo.bar;
+__.set(Foo, {
+    writable: true,
+    value: Foo.foo = Foo.bar
+});

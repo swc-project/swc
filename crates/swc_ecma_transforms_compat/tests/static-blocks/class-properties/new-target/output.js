@@ -1,7 +1,10 @@
 class Base {
     constructor(){
-        var _class;
+        var __ = new WeakMap(), _class;
         this.Foo = (_class = class {
-        }, _class.foo = void 0, _class);
+        }, __.set(_class, {
+            writable: true,
+            value: this.foo = void 0
+        }), _class);
     }
 }

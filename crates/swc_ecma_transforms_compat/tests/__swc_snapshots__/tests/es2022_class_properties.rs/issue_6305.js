@@ -1,6 +1,7 @@
+var _x = new WeakMap();
 class x {
 }
-var _x = {
+_x.set(x, {
     writable: true,
-    value: _set(_get_prototype_of(x), "x", 0, x, true)
-};
+    value: super.x = 0
+});

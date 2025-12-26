@@ -1,29 +1,30 @@
+var _foo = new WeakMap(), _foo1 = new WeakMap();
 class Base {
     static getThis() {
-        return _class_static_private_field_spec_get(this, Base, _foo);
+        return _class_private_field_get(this, _foo);
     }
     static updateThis(val) {
-        return _class_static_private_field_spec_set(this, Base, _foo, val);
+        return _class_private_field_set(this, _foo, val);
     }
     static getClass() {
-        return _class_static_private_field_spec_get(Base, Base, _foo);
+        return _class_private_field_get(Base, _foo);
     }
     static updateClass(val) {
-        return _class_static_private_field_spec_set(Base, Base, _foo, val);
+        return _class_private_field_set(Base, _foo, val);
     }
 }
-var _foo = {
+_foo.set(Base, {
     writable: true,
     value: 1
-};
+});
 class Sub1 extends Base {
     static update(val) {
-        return _class_static_private_field_spec_set(this, Sub1, _foo1, val);
+        return _class_private_field_set(this, _foo1, val);
     }
 }
-var _foo1 = {
+_foo1.set(Sub1, {
     writable: true,
     value: 2
-};
+});
 class Sub2 extends Base {
 }

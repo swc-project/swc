@@ -1,4 +1,4 @@
-var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
+var _foo = new WeakMap(), _bar = new WeakMap();
 let Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
@@ -16,11 +16,11 @@ let Foo = /*#__PURE__*/ function() {
         {
             key: "test",
             value: function test() {
-                var _bar1 = /*#__PURE__*/ new WeakMap();
+                var _bar = new WeakMap();
                 let Nested = /*#__PURE__*/ function() {
                     function Nested() {
                         _class_call_check(this, Nested);
-                        _class_private_field_init(this, _bar1, {
+                        _class_private_field_init(this, _bar, {
                             writable: true,
                             value: 2
                         });
@@ -29,15 +29,15 @@ let Foo = /*#__PURE__*/ function() {
                         {
                             key: "test",
                             value: function test() {
-                                _foo.has(this);
-                                _bar1.has(this);
+                                _brand_check_foo.has(this);
+                                _brand_check_bar.has(this);
                             }
                         }
                     ]);
                     return Nested;
                 }();
-                _foo.has(this);
-                _bar.has(this);
+                _brand_check_foo.has(this);
+                _brand_check_bar.has(this);
             }
         }
     ]);

@@ -1,17 +1,17 @@
-var _a = /*#__PURE__*/ new WeakMap();
+var _a = new WeakMap(), _b = new WeakMap();
 class MyClass {
     constructor(){
-        _class_private_field_init(this, _a, {
+        _a.set(this, {
             get: get_a,
             set: set_a
         });
     }
 }
-var _b = {
-    get: get_b,
-    set: set_b
-};
 function get_a() {}
 function set_a(x) {}
 function get_b() {}
 function set_b(x) {}
+_b.set(MyClass, {
+    get: get_b,
+    set: set_b
+});

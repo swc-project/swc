@@ -1,5 +1,4 @@
-const a = ()=>{
-    class _class {
+const a = ()=>class {
         foo() {
             return class B {
                 constructor(){
@@ -10,6 +9,4 @@ const a = ()=>{
         constructor(){
             _define_property(this, "a", 123);
         }
-    }
-    return _class;
-};
+    };

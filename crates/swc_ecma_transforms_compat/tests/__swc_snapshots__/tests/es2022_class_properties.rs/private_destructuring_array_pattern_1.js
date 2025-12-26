@@ -1,4 +1,4 @@
-var _client = /*#__PURE__*/ new WeakMap();
+var _client = new WeakMap();
 var Foo = function Foo(props) {
     "use strict";
     _class_call_check(this, Foo);

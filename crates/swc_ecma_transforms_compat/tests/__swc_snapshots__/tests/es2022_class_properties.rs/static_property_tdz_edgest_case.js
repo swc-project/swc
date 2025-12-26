@@ -1,5 +1,5 @@
 let _x = {
-    x: (_class_name_tdz_error("A"), A) || 0
+    x: A || 0
 }.x;
 let A = function A() {
     "use strict";
