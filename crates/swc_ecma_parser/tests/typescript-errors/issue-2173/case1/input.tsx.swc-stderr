@@ -1,10 +1,14 @@
   x Expected '</', got '<eof>'
-   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:5:9]
- 5 |     });
+   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:3:1]
+ 2 |         setCurrentAction({
+ 3 | ,->         ...(<HeaderAction>getCurrentAction()),
+ 4 | |           ...fields,
+ 5 | `->     });
    `----
   x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
-   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:5:1]
+   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:3:1]
+ 2 |     setCurrentAction({
+ 3 |         ...(<HeaderAction>getCurrentAction()),
+   :                           ^
  4 |         ...fields,
- 5 |     });
-   :     ^
    `----

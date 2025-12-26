@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_atoms::wtf8::CodePoint;
+use swc_atoms::{wtf8::CodePoint, Atom};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
@@ -26,6 +26,9 @@ bitflags::bitflags! {
         const UNICODE = 1 << 0;
     }
 }
+
+static JSX_CHILD_TABLE: SafeByteMatchTable =
+    safe_byte_match_table!(|b| matches!(b, b'{' | b'}' | b'<' | b'>' | b'&'));
 
 /// State of lexer.
 ///
@@ -416,9 +419,6 @@ impl Lexer<'_> {
                 Ok(Token::LBrace)
             }
             Some(_) => {
-                static JSX_CHILD_TABLE: SafeByteMatchTable =
-                    safe_byte_match_table!(|b| matches!(b, b'{' | b'}' | b'<' | b'>' | b'&'));
-
                 // Fast path
                 let start = self.input.cur_pos();
                 byte_search! {
@@ -448,18 +448,7 @@ impl Lexer<'_> {
                             _ => false,
                         }
                     },
-                    handle_eof: {
-                        // Reached EOF, entire remainder is identifier
-                        let s = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            self.input_slice_str(start, self.cur_pos())
-                        };
-
-                        let value = self.atom(s);
-                        self.state.set_token_value(TokenValue::JsxText(value));
-                        return Ok(Token::JSXText);
-                    },
+                    handle_eof: return Ok(Token::Eof),
                 };
 
                 let s = unsafe {
@@ -478,7 +467,58 @@ impl Lexer<'_> {
 
     #[cold]
     fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
-        todo!()
+        let mut value = String::new();
+        let mut chunk_start = self.input.cur_pos();
+
+        while let Some(byte) = self.input.cur_as_char() {
+            match byte {
+                '>' => {
+                    self.bump(1);
+                    self.emit_error(
+                        self.input().cur_pos(),
+                        SyntaxError::UnexpectedTokenWithSuggestions {
+                            candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                        },
+                    );
+                }
+                '}' => {
+                    self.bump(1);
+                    self.emit_error(
+                        self.input().cur_pos(),
+                        SyntaxError::UnexpectedTokenWithSuggestions {
+                            candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+                        },
+                    );
+                }
+                '&' => {
+                    let s = unsafe {
+                        // Safety: We already checked for the range
+                        self.input_slice_str(chunk_start, self.cur_pos())
+                    };
+                    value.push_str(s);
+
+                    if let Ok(jsx_entity) = self.read_jsx_entity() {
+                        value.push(jsx_entity.0);
+                        chunk_start = self.input.cur_pos();
+                    }
+                }
+                '<' | '{' => break,
+                c => {
+                    self.bump(c.len_utf8());
+                }
+            }
+        }
+
+        let s = unsafe {
+            // Safety: start and end are valid position because we got them from
+            // `self.input`
+            self.input_slice_str(chunk_start, self.cur_pos())
+        };
+
+        value.push_str(s);
+        let value = Atom::new(value);
+        self.state.set_token_value(TokenValue::JsxText(value));
+        Ok(Token::JSXText)
     }
 
     fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Token> {
