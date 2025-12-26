@@ -427,7 +427,7 @@ impl Lexer<'_> {
                         match matched_byte {
                             b'>' => {
                                 self.emit_error(
-                                    self.input().cur_pos(),
+                                    self.input().cur_pos() + BytePos(pos_offset as u32),
                                     SyntaxError::UnexpectedTokenWithSuggestions {
                                         candidate_list: vec!["`{'>'}`", "`&gt;`"],
                                     },
@@ -436,7 +436,7 @@ impl Lexer<'_> {
                             },
                             b'}' => {
                                 self.emit_error(
-                                    self.input().cur_pos(),
+                                    self.input().cur_pos() + BytePos(pos_offset as u32),
                                     SyntaxError::UnexpectedTokenWithSuggestions {
                                         candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                                     },
@@ -448,7 +448,17 @@ impl Lexer<'_> {
                             _ => false,
                         }
                     },
-                    handle_eof: return Ok(Token::Eof),
+                    handle_eof: {
+                        let s = unsafe {
+                            // Safety: start and end are valid position because we got them from
+                            // `self.input`
+                            self.input_slice_str(start, self.cur_pos())
+                        };
+
+                        let value = self.atom(s);
+                        self.state.set_token_value(TokenValue::JsxText(value));
+                        return Ok(Token::JSXText);
+                    },
                 };
 
                 let s = unsafe {
