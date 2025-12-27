@@ -475,8 +475,49 @@ impl VisitMut for PrivateAccessVisitor<'_> {
             }
 
             Expr::Member(member_expr) => {
-                member_expr.visit_mut_children_with(self);
-                *e = self.visit_mut_private_get(member_expr, None).0;
+                // Check if we're accessing a private field on an optional chain
+                let is_private_on_opt_chain =
+                    matches!(&member_expr.prop, MemberProp::PrivateName(..))
+                        && matches!(&*member_expr.obj, Expr::OptChain(..));
+
+                if is_private_on_opt_chain {
+                    // Transform the optional chain first
+                    let mut v = optional_chaining_impl(
+                        crate::optional_chaining_impl::Config {
+                            no_document_all: self.c.no_document_all,
+                            pure_getter: self.c.pure_getter,
+                        },
+                        self.unresolved_mark,
+                    );
+                    member_expr.obj.visit_mut_with(&mut v);
+                    assert!(
+                        !member_expr.obj.is_opt_chain(),
+                        "optional chaining should be removed"
+                    );
+                    self.vars.extend(v.take_vars());
+
+                    // Now the obj is a CondExpr, we need to transform the alt branch to access the
+                    // private field
+                    if let Expr::Cond(cond) = &mut *member_expr.obj {
+                        // Create a new member expression for the alt branch
+                        let alt_obj = cond.alt.take();
+                        let prop = member_expr.prop.take();
+                        let mut alt_member = MemberExpr {
+                            span: member_expr.span,
+                            obj: alt_obj,
+                            prop,
+                        };
+                        let (transformed, _) = self.visit_mut_private_get(&mut alt_member, None);
+                        cond.alt = Box::new(transformed);
+                        *e = *member_expr.obj.take();
+                    } else {
+                        // Fallback: just transform normally
+                        *e = self.visit_mut_private_get(member_expr, None).0;
+                    }
+                } else {
+                    member_expr.visit_mut_children_with(self);
+                    *e = self.visit_mut_private_get(member_expr, None).0;
+                }
             }
 
             _ => e.visit_mut_children_with(self),
