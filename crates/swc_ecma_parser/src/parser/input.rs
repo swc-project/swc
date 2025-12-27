@@ -73,10 +73,10 @@ pub trait Tokens: Clone {
     /// reached, it returns `Token::Eof`, and subsequent calls will continue
     /// returning `Token::Eof`.
     fn next_token(&mut self) -> TokenAndSpan;
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan;
+    fn scan_jsx_token(&mut self) -> TokenAndSpan;
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
-    fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool, reset: BytePos) -> TokenAndSpan;
+    fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan;
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan;
     fn rescan_template_token(&mut self, start: BytePos, start_with_back_tick: bool)
@@ -162,9 +162,9 @@ impl<I: Tokens> Buffer<I> {
         self.iter.get_token_value()
     }
 
-    pub fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+    pub fn scan_jsx_token(&mut self) {
         let prev = self.cur;
-        let t = self.iter.scan_jsx_token(allow_multiline_jsx_text);
+        let t = self.iter.scan_jsx_token();
         self.prev_span = prev.span;
         self.set_cur(t);
     }
@@ -187,9 +187,9 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(t);
     }
 
-    pub fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+    pub fn rescan_jsx_token(&mut self) {
         let start = self.cur.span.lo;
-        let t = self.iter.rescan_jsx_token(allow_multiline_jsx_text, start);
+        let t = self.iter.rescan_jsx_token(start);
         self.set_cur(t);
     }
 
