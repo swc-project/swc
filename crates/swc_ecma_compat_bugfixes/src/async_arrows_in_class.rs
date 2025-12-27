@@ -26,7 +26,6 @@ struct AsyncArrowsInClass {
 }
 
 /// TODO: VisitMut
-#[swc_trace]
 impl Fold for AsyncArrowsInClass {
     standard_only_fold!();
 

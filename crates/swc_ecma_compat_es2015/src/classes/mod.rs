@@ -98,7 +98,6 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
-#[swc_trace]
 impl Classes {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -201,7 +200,6 @@ impl Classes {
     }
 }
 
-#[swc_trace]
 #[fast_path(ClassFinder)]
 impl VisitMut for Classes {
     noop_visit_mut_type!(fail);
@@ -331,7 +329,6 @@ impl VisitMut for Classes {
     }
 }
 
-#[swc_trace]
 impl Classes {
     fn add_pure_comments(&mut self, start: &mut BytePos) {
         *start = BytePos::PURE;

@@ -231,7 +231,6 @@ struct ConstructorFolder {
     this_ref_count: usize,
 }
 
-#[swc_trace]
 impl VisitMut for ConstructorFolder {
     noop_visit_mut_type!(fail);
 
@@ -420,7 +419,6 @@ impl VisitMut for ConstructorFolder {
     }
 }
 
-#[swc_trace]
 impl ConstructorFolder {
     fn get_this(&mut self) -> &Ident {
         self.this_ref_count += 1;

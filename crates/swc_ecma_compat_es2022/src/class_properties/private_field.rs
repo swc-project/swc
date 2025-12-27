@@ -20,7 +20,6 @@ pub(super) struct Private {
 
 pub(super) struct PrivateRecord(Vec<Private>);
 
-#[swc_trace]
 impl PrivateRecord {
     pub fn new() -> Self {
         PrivateRecord(Vec::new())
@@ -82,7 +81,6 @@ pub(super) struct BrandCheckHandler<'a> {
     pub private: &'a PrivateRecord,
 }
 
-#[swc_trace]
 impl VisitMut for BrandCheckHandler<'_> {
     noop_visit_mut_type!(fail);
 
@@ -201,7 +199,6 @@ macro_rules! take_vars {
 }
 
 // super.#sdsa is invalid
-#[swc_trace]
 impl VisitMut for PrivateAccessVisitor<'_> {
     noop_visit_mut_type!(fail);
 
@@ -584,7 +581,6 @@ pub(super) fn visit_private_in_expr(
     priv_visitor.vars
 }
 
-#[swc_trace]
 impl PrivateAccessVisitor<'_> {
     /// Returns `(expr, thisObject)`
     ///

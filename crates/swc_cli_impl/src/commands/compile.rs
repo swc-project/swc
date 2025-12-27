@@ -286,7 +286,6 @@ struct InputContext {
     file_extension: PathBuf,
 }
 
-#[swc_trace]
 impl CompileOptions {
     fn build_transform_options(&self, file_path: &Option<&Path>) -> anyhow::Result<Options> {
         let config_file = self.config_file.as_ref().map(|config_file_path| {
@@ -552,7 +551,6 @@ impl CompileOptions {
     }
 }
 
-#[swc_trace]
 impl super::CommandRunner for CompileOptions {
     fn execute(&self) -> anyhow::Result<()> {
         let guard = if self.experimental_trace {

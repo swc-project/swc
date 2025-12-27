@@ -63,7 +63,6 @@ pub struct PluginSourceMapProxy {
     feature = "__plugin_mode",
     target_arch = "wasm32"
 ))]
-#[swc_trace]
 impl PluginSourceMapProxy {
     pub fn span_to_source<F, Ret>(
         &self,

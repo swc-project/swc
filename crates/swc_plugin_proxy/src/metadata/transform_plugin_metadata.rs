@@ -40,7 +40,6 @@ extern "C" {
 }
 
 #[cfg(feature = "__plugin_mode")]
-#[swc_trace]
 impl TransformPluginProgramMetadata {
     /// Returns current plugin's configuration as a JSON string.
     /// Plugin may need to deserialize this string manually.

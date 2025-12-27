@@ -66,7 +66,6 @@ struct CompilerImpl<'a> {
     es2020_nullish_coalescing_vars: Vec<VarDeclarator>,
 }
 
-#[swc_trace]
 impl<'a> CompilerImpl<'a> {
     fn new(config: &'a Config) -> Self {
         Self {
@@ -384,7 +383,6 @@ impl<'a> CompilerImpl<'a> {
     }
 }
 
-#[swc_trace]
 impl<'a> VisitMut for CompilerImpl<'a> {
     noop_visit_mut_type!(fail);
 

@@ -53,7 +53,6 @@ impl Parallel for Shorthand {
     fn merge(&mut self, _: Self) {}
 }
 
-#[swc_trace]
 impl VisitMut for Shorthand {
     noop_visit_mut_type!(fail);
 

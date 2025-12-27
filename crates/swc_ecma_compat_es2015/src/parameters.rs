@@ -70,7 +70,6 @@ pub struct Config {
 //     }
 // }
 
-#[swc_trace]
 impl Params {
     fn visit_mut_fn_like(&mut self, ps: &mut Vec<Param>, body: &mut BlockStmt, is_setter: bool) {
         let mut params = Vec::new();
@@ -465,7 +464,6 @@ impl Params {
     }
 }
 
-#[swc_trace]
 impl VisitMut for Params {
     noop_visit_mut_type!(fail);
 

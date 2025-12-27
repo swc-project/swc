@@ -429,7 +429,6 @@ impl BlockScoping {
     }
 }
 
-#[swc_trace]
 impl VisitMut for BlockScoping {
     noop_visit_mut_type!(fail);
 
@@ -679,7 +678,6 @@ impl FlowHelper<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for FlowHelper<'_> {
     noop_visit_mut_type!(fail);
 
@@ -912,7 +910,6 @@ impl MutationHandler<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for MutationHandler<'_> {
     noop_visit_mut_type!(fail);
 

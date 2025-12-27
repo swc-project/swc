@@ -19,7 +19,6 @@ pub fn object_super() -> impl Pass {
     })
 }
 
-#[swc_trace]
 impl VisitMut for ObjectSuper {
     noop_visit_mut_type!(fail);
 
@@ -132,7 +131,6 @@ struct SuperReplacer {
     vars: Vec<Ident>,
 }
 
-#[swc_trace]
 impl VisitMut for SuperReplacer {
     noop_visit_mut_type!(fail);
 
@@ -166,7 +164,6 @@ impl VisitMut for SuperReplacer {
     }
 }
 
-#[swc_trace]
 impl SuperReplacer {
     fn get_obj_ref(&mut self) -> Ident {
         if let Some(obj) = &self.obj {

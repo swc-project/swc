@@ -26,7 +26,6 @@ pub fn member_expression_literals() -> impl Pass {
 #[derive(Default, Clone, Copy)]
 struct MemberExprLit;
 
-#[swc_trace]
 impl Fold for MemberExprLit {
     standard_only_fold!();
 
