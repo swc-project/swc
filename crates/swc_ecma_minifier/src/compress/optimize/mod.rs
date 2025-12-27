@@ -2474,6 +2474,8 @@ impl VisitMut for Optimizer<'_> {
             }
         };
 
+        self.expand_if_stmt_from_cond(s);
+
         let ctx = self
             .ctx
             .clone()
