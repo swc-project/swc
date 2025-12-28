@@ -10,7 +10,7 @@ use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
+    program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
 
@@ -453,11 +453,6 @@ impl Optimizer<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
-        if self.ctx.bit_ctx.contains(BitCtx::DontInvokeIife) {
-            log_abort!("iife: Inline is prevented");
-            return false;
-        }
-
         for arg in &call.args {
             if arg.spread.is_some() {
                 log_abort!("iife: Found spread argument");
@@ -580,8 +575,7 @@ impl Optimizer<'_> {
 
                 match &mut *f.body {
                     BlockStmtOrExpr::BlockStmt(body) => {
-                        let new =
-                            self.inline_fn_like(param_ids, f.params.len(), body, &mut call.args);
+                        let new = self.inline_fn_like(param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
                             report_change!("inline: Inlining a function call (arrow)");
@@ -590,7 +584,7 @@ impl Optimizer<'_> {
                         }
                     }
                     BlockStmtOrExpr::Expr(body) => {
-                        if !self.can_extract_param(param_ids.clone()) {
+                        if !self.can_extract_param(param_ids.clone(), &call.args) {
                             return;
                         }
 
@@ -605,12 +599,7 @@ impl Optimizer<'_> {
 
                         let mut exprs = vec![Box::new(make_number(DUMMY_SP, 0.0))];
 
-                        let vars = self.inline_fn_param(
-                            param_ids,
-                            f.params.len(),
-                            &mut call.args,
-                            &mut exprs,
-                        );
+                        let vars = self.inline_fn_param(param_ids, &mut call.args, &mut exprs);
 
                         if !vars.is_empty() {
                             self.prepend_stmts.push(
@@ -663,8 +652,7 @@ impl Optimizer<'_> {
                 #[cfg(feature = "debug")]
                 let param_ids_for_debug = param_ids.clone();
 
-                let new =
-                    self.inline_fn_like(param_ids, f.function.params.len(), body, &mut call.args);
+                let new = self.inline_fn_like(param_ids, body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
                     report_change!(
@@ -718,7 +706,6 @@ impl Optimizer<'_> {
                         let param_ids = f.params.iter().map(|p| &p.as_ident().unwrap().id);
                         self.inline_fn_like_stmt(
                             param_ids,
-                            f.params.len(),
                             block_stmt,
                             &mut call.args,
                             is_return,
@@ -736,14 +723,7 @@ impl Optimizer<'_> {
                     .params
                     .iter()
                     .map(|p| &p.pat.as_ident().unwrap().id);
-                self.inline_fn_like_stmt(
-                    param_ids,
-                    f.function.params.len(),
-                    body,
-                    &mut call.args,
-                    is_return,
-                    call.span,
-                )
+                self.inline_fn_like_stmt(param_ids, body, &mut call.args, is_return, call.span)
             }
             _ => None,
         }
@@ -770,14 +750,39 @@ impl Optimizer<'_> {
         }
     }
 
-    fn can_extract_param<'a>(&self, param_ids: impl Iterator<Item = &'a Ident> + Clone) -> bool {
+    fn can_inline_fn_arg(usage: &VarUsageInfo, arg: &Expr) -> bool {
+        if usage.ref_count > 1
+            || usage.assign_count > 0
+            || usage.property_mutation_count > 0
+            || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+            || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
+        {
+            return false;
+        }
+
+        match arg {
+            Expr::Lit(
+                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::BigInt(..),
+            ) => true,
+            Expr::Fn(..) | Expr::Arrow(..) if usage.can_inline_fn_once() => true,
+            _ => false,
+        }
+    }
+
+    fn can_extract_param<'a>(
+        &self,
+        param_ids: impl ExactSizeIterator<Item = &'a Ident> + Clone,
+        args: &[ExprOrSpread],
+    ) -> bool {
         // Don't create top-level variables.
         if !self.may_add_ident() {
-            for pid in param_ids.clone() {
+            for (idx, pid) in param_ids.clone().enumerate() {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
-                    if usage.ref_count > 1
-                        || usage.assign_count > 0
-                        || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
+                    let arg = args.get(idx).map(|a| &*a.expr);
+
+                    if !arg
+                        .map(|a| Self::can_inline_fn_arg(usage, a))
+                        .unwrap_or(false)
                     {
                         log_abort!("iife: [x] Cannot inline because of usage of `{}`", pid);
                         return false;
@@ -875,8 +880,8 @@ impl Optimizer<'_> {
 
     fn can_inline_fn_like<'a>(
         &self,
-        param_ids: impl Iterator<Item = &'a Ident> + Clone,
-        params_len: usize,
+        param_ids: impl ExactSizeIterator<Item = &'a Ident> + Clone,
+        args: &[ExprOrSpread],
         body: &BlockStmt,
         for_stmt: bool,
     ) -> bool {
@@ -890,7 +895,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if !self.can_extract_param(param_ids.clone()) {
+        if !self.can_extract_param(param_ids.clone(), args) {
             return false;
         }
 
@@ -919,7 +924,7 @@ impl Optimizer<'_> {
         }
 
         if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
-            if params_len != 0 {
+            if param_ids.len() != 0 {
                 let captured = idents_captured_by(body);
 
                 for param in param_ids {
@@ -953,12 +958,11 @@ impl Optimizer<'_> {
 
     fn inline_fn_param<'a>(
         &mut self,
-        params: impl Iterator<Item = &'a Ident>,
-        params_len: usize,
+        params: impl ExactSizeIterator<Item = &'a Ident>,
         args: &mut [ExprOrSpread],
         exprs: &mut Vec<Box<Expr>>,
     ) -> Vec<VarDeclarator> {
-        let mut vars = Vec::with_capacity(params_len);
+        let mut vars = Vec::with_capacity(params.len());
 
         for (idx, param) in params.enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
@@ -1013,27 +1017,17 @@ impl Optimizer<'_> {
 
     fn inline_fn_param_stmt<'a>(
         &mut self,
-        params: impl Iterator<Item = &'a Ident>,
-        params_len: usize,
+        params: impl ExactSizeIterator<Item = &'a Ident>,
         args: &mut [ExprOrSpread],
     ) -> Vec<VarDeclarator> {
-        let mut vars = Vec::with_capacity(params_len);
+        let mut vars = Vec::with_capacity(params.len());
 
         for (idx, param) in params.enumerate() {
             let mut arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
             if let Some(arg) = &mut arg {
                 if let Some(usage) = self.data.vars.get_mut(&param.to_id()) {
-                    if usage.ref_count == 1
-                        && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                        && usage.property_mutation_count == 0
-                        && matches!(
-                            &**arg,
-                            Expr::Lit(
-                                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
-                            )
-                        )
-                    {
+                    if Self::can_inline_fn_arg(usage, arg) {
                         // We don't need to create a variable in this case
                         self.vars
                             .vars_for_inlining
@@ -1125,12 +1119,11 @@ impl Optimizer<'_> {
 
     fn inline_fn_like<'a>(
         &mut self,
-        params: impl Iterator<Item = &'a Ident> + Clone,
-        params_len: usize,
+        params: impl ExactSizeIterator<Item = &'a Ident> + Clone,
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(params.clone(), params_len, &*body, false) {
+        if !self.can_inline_fn_like(params.clone(), args, &*body, false) {
             return None;
         }
 
@@ -1138,8 +1131,9 @@ impl Optimizer<'_> {
             self.changed = true;
         }
 
+        let params_len = params.len();
         let mut exprs = Vec::new();
-        let vars = self.inline_fn_param(params, params_len, args, &mut exprs);
+        let vars = self.inline_fn_param(params, args, &mut exprs);
 
         if args.len() > params_len {
             for arg in &mut args[params_len..] {
@@ -1190,14 +1184,13 @@ impl Optimizer<'_> {
 
     fn inline_fn_like_stmt<'a>(
         &mut self,
-        params: impl Iterator<Item = &'a Ident> + Clone + std::fmt::Debug,
-        params_len: usize,
+        params: impl ExactSizeIterator<Item = &'a Ident> + Clone + std::fmt::Debug,
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
         is_return: bool,
         span: Span,
     ) -> Option<BlockStmt> {
-        if !self.can_inline_fn_like(params.clone(), params_len, body, true) {
+        if !self.can_inline_fn_like(params.clone(), args, body, true) {
             return None;
         }
 
@@ -1210,7 +1203,7 @@ impl Optimizer<'_> {
         }
 
         if decl.count
-            + (params_len.saturating_sub(
+            + (params.len().saturating_sub(
                 args.iter()
                     .filter(|a| {
                         a.expr.is_ident() || a.expr.as_lit().map(|l| !l.is_regex()).unwrap_or(false)
@@ -1237,7 +1230,8 @@ impl Optimizer<'_> {
 
         let mut stmts = Vec::with_capacity(body.stmts.len() + 2);
 
-        let param_decl = self.inline_fn_param_stmt(params, params_len, args);
+        let params_len = params.len();
+        let param_decl = self.inline_fn_param_stmt(params, args);
 
         if !param_decl.is_empty() {
             let param_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
