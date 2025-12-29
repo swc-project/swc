@@ -172,6 +172,9 @@ strip = "symbols"
 # Reduce binary size
 codegen-units = 1
 
+# Abort on panic to remove unwinding code
+panic = "abort"
+
 [profile.bench]
 debug = true
 lto   = true
@@ -254,6 +257,34 @@ opt-level = 3
     opt-level = "s"
 
     [profile.release.package.swc_cli_impl]
+    opt-level = "s"
+
+    # ICU and internationalization crates (not performance critical)
+    [profile.release.package.zerovec]
+    opt-level = "s"
+
+    [profile.release.package.icu_locid]
+    opt-level = "s"
+
+    [profile.release.package.icu_properties]
+    opt-level = "s"
+
+    [profile.release.package.icu_normalizer]
+    opt-level = "s"
+
+    [profile.release.package.icu_provider]
+    opt-level = "s"
+
+    [profile.release.package.icu_collections]
+    opt-level = "s"
+
+    [profile.release.package.icu_locid_transform]
+    opt-level = "s"
+
+    [profile.release.package.swc_ecma_visit]
+    opt-level = "s"
+
+    [profile.release.package.swc_sourcemap]
     opt-level = "s"
 
     [profile.release.package.wasmer-config]
