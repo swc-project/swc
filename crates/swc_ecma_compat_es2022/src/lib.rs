@@ -3,7 +3,10 @@
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
 
-pub use self::{class_properties::class_properties, private_in_object::private_in_object};
+pub use self::{
+    class_properties::class_properties, private_in_object::private_in_object,
+    static_blocks::static_blocks,
+};
 
 pub mod class_properties;
 pub mod optional_chaining_impl;
