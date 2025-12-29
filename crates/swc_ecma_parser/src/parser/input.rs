@@ -225,47 +225,47 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn set_cur(&mut self, token: TokenAndSpan) {
         self.cur = token
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn next(&self) -> Option<&NextTokenAndSpan> {
         self.next.as_ref()
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn set_next(&mut self, token: Option<NextTokenAndSpan>) {
         self.next = token;
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn next_mut(&mut self) -> &mut Option<NextTokenAndSpan> {
         &mut self.next
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn cur(&self) -> Token {
         self.cur.token
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn get_cur(&self) -> &TokenAndSpan {
         &self.cur
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn prev_span(&self) -> Span {
         self.prev_span
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn iter(&self) -> &I {
         &self.iter
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn iter_mut(&mut self) -> &mut I {
         &mut self.iter
     }
@@ -303,6 +303,7 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(first_token);
     }
 
+    #[inline]
     pub fn bump(&mut self) {
         let next = match self.next.take() {
             Some(next) => {
@@ -312,7 +313,7 @@ impl<I: Tokens> Buffer<I> {
             None => self.iter.next_token(),
         };
         self.prev_span = self.cur.span;
-        self.set_cur(next);
+        self.cur = next;
     }
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
@@ -436,18 +437,19 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(token);
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn is(&self, expected: Token) -> bool {
-        self.cur() == expected
+        self.cur.token == expected
     }
 
-    #[inline(always)]
+    #[inline]
     pub fn eat(&mut self, expected: Token) -> bool {
-        let v = self.is(expected);
-        if v {
+        if self.cur.token == expected {
             self.bump();
+            true
+        } else {
+            false
         }
-        v
     }
 
     /// Returns start of current token.

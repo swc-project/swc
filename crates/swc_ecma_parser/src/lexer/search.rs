@@ -38,8 +38,9 @@ impl SafeByteMatchTable {
     pub const fn use_table(&self) {}
 
     #[inline]
-    pub const fn matches(&self, b: u8) -> bool {
-        self.0[b as usize]
+    pub fn matches(&self, b: u8) -> bool {
+        // SAFETY: b is u8, so b as usize is always < 256
+        unsafe { *self.0.get_unchecked(b as usize) }
     }
 }
 
@@ -97,8 +98,8 @@ macro_rules! byte_search {
 
         let $byte = 'outer: loop {
             let batch_end = $pos + $crate::lexer::search::SEARCH_BATCH_SIZE;
-            let $byte = if batch_end < len {
-                // Safety: `batch_end < len`
+            let $byte = if batch_end <= len {
+                // Safety: `batch_end <= len`
                 let batch = unsafe {
                     std::slice::from_raw_parts(
                         bytes.add($pos),
@@ -106,12 +107,16 @@ macro_rules! byte_search {
                     )
                 };
                 'inner: loop {
-                    for (i, &byte) in batch.iter().enumerate() {
+                    // Manual loop unrolling for better performance
+                    let mut i = 0;
+                    while i < $crate::lexer::search::SEARCH_BATCH_SIZE {
+                        // SAFETY: i < SEARCH_BATCH_SIZE, which is batch.len()
+                        let byte = unsafe { *batch.get_unchecked(i) };
                         if $table.matches(byte) {
-                            // We find a matched byte, jump out to check with continue_if
                             $pos += i;
                             break 'inner byte;
                         }
+                        i += 1;
                     }
 
                     // We don't find a matched byte in this batch,
@@ -124,12 +129,16 @@ macro_rules! byte_search {
                     // The remaining is shorter than batch size.
                     let remaining =
                         unsafe { std::slice::from_raw_parts(bytes.add($pos), len - $pos) };
-                    for (i, &byte) in remaining.iter().enumerate() {
+                    let mut i = 0;
+                    let remaining_len = remaining.len();
+                    while i < remaining_len {
+                        // SAFETY: i < remaining_len
+                        let byte = unsafe { *remaining.get_unchecked(i) };
                         if $table.matches(byte) {
-                            // We find a matched byte, jump out to check with continue_if
                             $pos += i;
                             break 'inner byte;
                         }
+                        i += 1;
                     }
 
                     // We don't find a matched byte in the remaining,
