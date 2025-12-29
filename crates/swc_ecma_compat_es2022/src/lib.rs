@@ -2,13 +2,8 @@
 
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
-use swc_ecma_compat_common::regexp::{self, regexp};
-use swc_ecma_compiler::{Compiler, Features};
 
-pub use self::{
-    class_properties::class_properties, private_in_object::private_in_object,
-    static_blocks::static_blocks,
-};
+pub use self::{class_properties::class_properties, private_in_object::private_in_object};
 
 pub mod class_properties;
 pub mod optional_chaining_impl;
@@ -28,7 +23,7 @@ pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
     }
 
     options.env.es2022.class_static_block = true;
-    options.env.es2022.private_in_object = true;
+    options.env.es2022.private_property_in_object = true;
 
     (
         options.into_pass(),
