@@ -2249,8 +2249,32 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                 definite: false,
                             });
 
-                            let get_call = if kind.is_method && kind.has_getter {
-                                // Accessor getter: _accessor.get(obj).get.call(obj)
+                            let get_call = if kind.is_static {
+                                // Static field/accessor: _class_static_private_field_spec_get(obj, ClassName, _field)
+                                use swc_ecma_transforms_base::helper;
+                                let class_name: Ident = self.class_name.cloned().unwrap_or_else(|| quote_ident!("_class").into());
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: helper!(class_static_private_field_spec_get),
+                                    args: vec![
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(obj_alias.clone().into()),
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(class_name.into()),
+                                        },
+                                        ExprOrSpread {
+                                            spread: None,
+                                            expr: Box::new(weak_coll_ident.clone().into()),
+                                        },
+                                    ],
+                                    type_args: Default::default(),
+                                    ctxt: Default::default(),
+                                }
+                            } else if kind.is_method && kind.has_getter {
+                                // Instance accessor getter: _accessor.get(obj).get.call(obj)
                                 let descriptor_get = CallExpr {
                                     span: DUMMY_SP,
                                     callee: weak_coll_ident
@@ -2279,9 +2303,8 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     ctxt: Default::default(),
                                 }
                             } else {
-                                // Field: _class_private_field_get(obj, _field)
+                                // Instance field: _class_private_field_get(obj, _field)
                                 use swc_ecma_transforms_base::helper;
-
                                 CallExpr {
                                     span: DUMMY_SP,
                                     callee: helper!(class_private_field_get),
