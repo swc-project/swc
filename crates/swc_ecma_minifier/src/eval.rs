@@ -206,12 +206,12 @@ impl Evaluator {
                 left,
                 right,
             }) => {
-                let l = if left.is_lit() {
+                let l = if left.is_lit() || left.is_tpl() {
                     left.clone()
                 } else {
                     self.eval_as_expr(left)?
                 };
-                let r = if right.is_lit() {
+                let r = if right.is_lit() || right.is_tpl() {
                     right.clone()
                 } else {
                     self.eval_as_expr(right)?
