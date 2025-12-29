@@ -64,6 +64,17 @@ impl StmtInjectorStore {
         });
     }
 
+    /// Insert multiple statements before the statement at the given address
+    pub fn insert_many_before(&mut self, address: *const Stmt, stmts: Vec<Stmt>) {
+        let entry = self.stmts.entry(address).or_default();
+        for stmt in stmts {
+            entry.push(AdjacentStmt {
+                stmt,
+                direction: Direction::Before,
+            });
+        }
+    }
+
     /// Insert multiple statements after the statement at the given address
     pub fn insert_many_after(&mut self, address: *const Stmt, stmts: Vec<Stmt>) {
         let entry = self.stmts.entry(address).or_default();

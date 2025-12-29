@@ -9,6 +9,7 @@ use crate::{
 mod export_namespace_from;
 mod nullish_coalescing;
 mod optional_chaining;
+pub(crate) mod optional_chaining_impl;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]
