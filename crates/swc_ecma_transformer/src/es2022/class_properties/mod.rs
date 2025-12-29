@@ -270,6 +270,7 @@ impl ClassPropertiesPass {
                             &self.cls.privates,
                             self.cls.mark,
                             self.assumptions,
+                            self.cls.ident.as_ref(),
                         );
                         body.visit_mut_with(&mut visitor);
 
@@ -411,7 +412,7 @@ impl ClassPropertiesPass {
         // (e.g., `y = this.#x` -> `y = _class_private_field_get(this, _x)`)
         {
             let mut visitor =
-                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
+                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions, self.cls.ident.as_ref());
             value.visit_mut_with(&mut visitor);
 
             // Add variable declarations from the visitor
@@ -489,7 +490,7 @@ impl ClassPropertiesPass {
         // (e.g., `#y = this.#x + 1` -> `#y = _class_private_field_get(this, _x) + 1`)
         {
             let mut visitor =
-                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
+                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions, self.cls.ident.as_ref());
             value.visit_mut_with(&mut visitor);
 
             // Add variable declarations from the visitor
@@ -503,33 +504,34 @@ impl ClassPropertiesPass {
             }
         }
 
-        // Create WeakMap variable for private field
-        ctx.var_declarations.insert_var(
-            BindingIdent {
-                id: ident.clone(),
-                type_ann: None,
-            },
-            Some(Box::new(
-                NewExpr {
-                    span: PURE_SP,
-                    callee: Box::new(quote_ident!("WeakMap").into()),
-                    args: Some(Default::default()),
-                    type_args: Default::default(),
-                    ctxt: Default::default(),
-                }
-                .into(),
-            )),
-        );
-
         let init = MemberInit::PrivProp {
             span: prop_span,
-            name: ident,
+            name: ident.clone(),
             value,
         };
 
         if prop.is_static {
+            // Static private fields use plain objects, not WeakMaps
+            // The var declaration will be created when generating static init
             self.cls.static_inits.push(init);
         } else {
+            // Instance private fields use WeakMaps
+            ctx.var_declarations.insert_var(
+                BindingIdent {
+                    id: ident,
+                    type_ann: None,
+                },
+                Some(Box::new(
+                    NewExpr {
+                        span: PURE_SP,
+                        callee: Box::new(quote_ident!("WeakMap").into()),
+                        args: Some(Default::default()),
+                        type_args: Default::default(),
+                        ctxt: Default::default(),
+                    }
+                    .into(),
+                )),
+            );
             self.cls.instance_inits.push(init);
         }
     }
@@ -565,7 +567,7 @@ impl ClassPropertiesPass {
         // Transform private field accesses in method body
         if let Some(body) = &mut method.function.body {
             let mut visitor =
-                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
+                PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions, self.cls.ident.as_ref());
             body.visit_mut_with(&mut visitor);
 
             // Prepend variable declarations if any were created
@@ -772,7 +774,7 @@ impl ClassPropertiesPass {
         if let Some(ref mut c) = constructor {
             if let Some(ref mut body) = c.body {
                 let mut visitor =
-                    PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions);
+                    PrivateAccessVisitor::new(&self.cls.privates, self.cls.mark, self.assumptions, self.cls.ident.as_ref());
                 body.visit_mut_with(&mut visitor);
                 constructor_vars = visitor.vars;
             }
@@ -1049,7 +1051,7 @@ impl ClassPropertiesPass {
                     accessor_exprs.push(set_call);
                 }
                 MemberInit::PrivProp { span, name, value } => {
-                    // WeakMap.set(ClassName, { writable: true, value })
+                    // Static private field: var _field = { writable: true, value }
                     let descriptor = ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
@@ -1069,26 +1071,23 @@ impl ClassPropertiesPass {
                             }))),
                         ],
                     };
-                    let set_call = Box::new(
-                        CallExpr {
+                    // Create var declaration for static private field
+                    // This will be added to private_method_decls for class expressions
+                    self.cls.private_method_decls.push(
+                        VarDecl {
                             span,
-                            callee: name.make_member(quote_ident!("set")).as_callee(),
-                            args: vec![
-                                ExprOrSpread {
-                                    spread: None,
-                                    expr: Box::new(class_ident.clone().into()),
-                                },
-                                ExprOrSpread {
-                                    spread: None,
-                                    expr: Box::new(descriptor.into()),
-                                },
-                            ],
-                            type_args: Default::default(),
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: name.into(),
+                                init: Some(Box::new(descriptor.into())),
+                                definite: false,
+                            }],
                             ctxt: Default::default(),
+                            declare: false,
                         }
                         .into(),
                     );
-                    field_exprs.push(set_call);
                 }
                 MemberInit::PubProp { span, name, value } => {
                     if use_define_property {
@@ -1174,7 +1173,7 @@ impl ClassPropertiesPass {
 
         // Separate private method declarations (go AFTER class in loose mode) from
         // static initializers (go after class)
-        let private_method_decls = take(&mut self.cls.private_method_decls);
+        let mut private_method_decls = take(&mut self.cls.private_method_decls);
 
         // Separate accessors from fields while preserving declaration order
         let mut accessor_stmts = Vec::new();
@@ -1215,7 +1214,7 @@ impl ClassPropertiesPass {
                     accessor_stmts.push(set_stmt);
                 }
                 MemberInit::PrivProp { span, name, value } => {
-                    // WeakMap.set(ClassName, { writable: true, value })
+                    // Static private field: var _field = { writable: true, value }
                     let descriptor = ObjectLit {
                         span: DUMMY_SP,
                         props: vec![
@@ -1235,29 +1234,22 @@ impl ClassPropertiesPass {
                             }))),
                         ],
                     };
-                    let set_stmt = Stmt::Expr(ExprStmt {
-                        span,
-                        expr: Box::new(
-                            CallExpr {
-                                span,
-                                callee: name.make_member(quote_ident!("set")).as_callee(),
-                                args: vec![
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(class_ident.clone().into()),
-                                    },
-                                    ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(descriptor.into()),
-                                    },
-                                ],
-                                type_args: Default::default(),
-                                ctxt: Default::default(),
-                            }
-                            .into(),
-                        ),
-                    });
-                    field_stmts.push(set_stmt);
+                    // Create var declaration for static private field
+                    private_method_decls.push(
+                        VarDecl {
+                            span,
+                            kind: VarDeclKind::Var,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: name.into(),
+                                init: Some(Box::new(descriptor.into())),
+                                definite: false,
+                            }],
+                            ctxt: Default::default(),
+                            declare: false,
+                        }
+                        .into(),
+                    );
                 }
                 MemberInit::PubProp { span, name, value } => {
                     // Use _define_property helper for [[Define]] semantics
@@ -1447,7 +1439,7 @@ impl VisitMutHook<TraverseCtx> for ClassPropertiesPass {
         let static_initializers = self.build_static_initializer_exprs(&class_ident, ctx);
 
         // Take private method declarations and computed key declarations
-        let private_method_decls = take(&mut self.cls.private_method_decls);
+        let mut private_method_decls = take(&mut self.cls.private_method_decls);
         let computed_key_decls = take(&mut self.cls.computed_key_decls);
 
         // If there are static initializers, private method decls, or computed keys,
@@ -1859,6 +1851,8 @@ struct PrivateAccessVisitor<'a> {
     assumptions: Assumptions,
     /// Variables that need to be declared in the enclosing function scope
     vars: Vec<VarDeclarator>,
+    /// Class name for static private field access
+    class_name: Option<&'a Ident>,
 }
 
 impl<'a> PrivateAccessVisitor<'a> {
@@ -1866,12 +1860,14 @@ impl<'a> PrivateAccessVisitor<'a> {
         privates: &'a FxHashMap<Atom, PrivateKind>,
         mark: Mark,
         assumptions: Assumptions,
+        class_name: Option<&'a Ident>,
     ) -> Self {
         Self {
             privates,
             mark,
             assumptions,
             vars: Vec::new(),
+            class_name,
         }
     }
 
@@ -2000,31 +1996,61 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     }
                                     .into();
                                 } else {
-                                    // Simple field assignment: _class_private_field_set(obj,
-                                    // _field, value)
+                                    // Simple field assignment
                                     use swc_ecma_transforms_base::helper;
 
-                                    *expr = CallExpr {
-                                        span: assign.span,
-                                        callee: helper!(class_private_field_set),
-                                        args: vec![
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: obj,
-                                            },
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(weak_coll_ident.into()),
-                                            },
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: value,
-                                            },
-                                        ],
-                                        type_args: Default::default(),
-                                        ctxt: Default::default(),
+                                    if kind.is_static {
+                                        // Static field: _class_static_private_field_spec_set(obj, ClassName, _field, value)
+                                        let class_name: Ident = self.class_name.cloned().unwrap_or_else(|| quote_ident!("_class").into());
+                                        *expr = CallExpr {
+                                            span: assign.span,
+                                            callee: helper!(class_static_private_field_spec_set),
+                                            args: vec![
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: obj,
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(class_name.into()),
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(weak_coll_ident.into()),
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: value,
+                                                },
+                                            ],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                        .into();
+                                    } else {
+                                        // Instance field: _class_private_field_set(obj, _field, value)
+                                        *expr = CallExpr {
+                                            span: assign.span,
+                                            callee: helper!(class_private_field_set),
+                                            args: vec![
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: obj,
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(weak_coll_ident.into()),
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: value,
+                                                },
+                                            ],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                        .into();
                                     }
-                                    .into();
                                 }
                             } else {
                                 // Compound assignment: get old value, compute new, set
@@ -2066,24 +2092,50 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         ctxt: Default::default(),
                                     }
                                 } else {
-                                    // Field: _class_private_field_get(obj, _field)
+                                    // Field get
                                     use swc_ecma_transforms_base::helper;
 
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: helper!(class_private_field_get),
-                                        args: vec![
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(obj_alias.clone().into()),
-                                            },
-                                            ExprOrSpread {
-                                                spread: None,
-                                                expr: Box::new(weak_coll_ident.clone().into()),
-                                            },
-                                        ],
-                                        type_args: Default::default(),
-                                        ctxt: Default::default(),
+                                    if kind.is_static {
+                                        // Static field: _class_static_private_field_spec_get(obj, ClassName, _field)
+                                        let class_name: Ident = self.class_name.cloned().unwrap_or_else(|| quote_ident!("_class").into());
+                                        CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: helper!(class_static_private_field_spec_get),
+                                            args: vec![
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(obj_alias.clone().into()),
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(class_name.into()),
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(weak_coll_ident.clone().into()),
+                                                },
+                                            ],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
+                                    } else {
+                                        // Instance field: _class_private_field_get(obj, _field)
+                                        CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: helper!(class_private_field_get),
+                                            args: vec![
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(obj_alias.clone().into()),
+                                                },
+                                                ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(weak_coll_ident.clone().into()),
+                                                },
+                                            ],
+                                            type_args: Default::default(),
+                                            ctxt: Default::default(),
+                                        }
                                     }
                                 };
 
