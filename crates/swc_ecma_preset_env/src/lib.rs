@@ -138,7 +138,7 @@ where
     // static block needs to be placed before class property
     // because it transforms into private static property
 
-    let pass = add_compiler!(pass, ClassStaticBlock);
+    let pass = add!(pass, ClassStaticBlock, es2022::static_blocks());
     let pass = add!(
         pass,
         ClassProperties,
