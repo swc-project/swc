@@ -96,7 +96,7 @@ impl ClassStaticBlock {
         existing_names: &mut FxHashSet<Atom>,
     ) -> ClassMember {
         let span = block.span;
-        let stmts = block.body.stmts;
+        let mut stmts = block.body.stmts;
 
         // Generate a unique private name
         let private_name = self.generate_unique_name(existing_names);
@@ -104,14 +104,15 @@ impl ClassStaticBlock {
 
         let value = if stmts.len() == 1 {
             // For single statement, try to extract the expression directly
-            match &stmts[0] {
+            let stmt = stmts.pop().unwrap();
+            match stmt {
                 Stmt::Expr(ExprStmt { expr, .. }) => {
-                    // Single expression statement - use the expression directly
-                    Some(expr.clone())
+                    // Single expression statement - use the expression directly (no clone)
+                    Some(expr)
                 }
-                _ => {
+                other => {
                     // Other single statement - wrap in IIFE
-                    Some(Box::new(self.wrap_in_iife(stmts)))
+                    Some(Box::new(self.wrap_in_iife(vec![other])))
                 }
             }
         } else if stmts.is_empty() {
@@ -172,17 +173,22 @@ impl ClassStaticBlock {
 }
 
 impl VisitMutHook<TraverseCtx> for ClassStaticBlock {
-    fn enter_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
-        // Collect existing private names before processing
-        let existing_names = self.collect_existing_private_names(class);
-        self.existing_names_stack.push(existing_names);
+    fn enter_class(&mut self, _class: &mut Class, _ctx: &mut TraverseCtx) {
+        // Push an empty set for this class level
+        // We'll collect names in exit_class after nested classes are transformed
+        self.existing_names_stack.push(FxHashSet::default());
     }
 
     fn exit_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
-        let mut existing_names = self
-            .existing_names_stack
-            .pop()
-            .expect("existing_names_stack should not be empty");
+        // Pop the parent set (not used currently but maintained for stack integrity)
+        let _parent_names = self.existing_names_stack.pop().expect(
+            "existing_names_stack underflow: exit_class called without matching enter_class",
+        );
+
+        // Collect existing private names after nested classes have been transformed
+        // This ensures we see all private names including those generated from
+        // static blocks in nested classes
+        let mut existing_names = self.collect_existing_private_names(class);
 
         // Transform all static blocks in the class body
         let mut new_body = Vec::with_capacity(class.body.len());
