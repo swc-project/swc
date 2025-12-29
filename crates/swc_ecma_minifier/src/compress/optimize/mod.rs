@@ -181,14 +181,12 @@ bitflags! {
 
         const IsNestedIfReturnMerging = 1 << 24;
 
-        const DontInvokeIife = 1 << 25;
+        const InWithStmt = 1 << 25;
 
-        const InWithStmt = 1 << 26;
-
-        const InParam = 1 << 27;
+        const InParam = 1 << 26;
 
         /// `true` while we are inside a class body.
-        const InClass = 1 << 28;
+        const InClass = 1 << 27;
     }
 }
 
@@ -1702,11 +1700,7 @@ impl VisitMut for Optimizer<'_> {
         n.decorators.visit_mut_with(self);
 
         {
-            let ctx = self
-                .ctx
-                .clone()
-                .with(BitCtx::DontInvokeIife, true)
-                .with(BitCtx::IsUpdateArg, false);
+            let ctx = self.ctx.clone().with(BitCtx::IsUpdateArg, false);
             n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
