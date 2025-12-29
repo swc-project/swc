@@ -2420,8 +2420,36 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     right: Box::new(one_expr.into()),
                                 };
 
-                                let set_call = if kind.is_method && kind.has_setter {
-                                    // Accessor setter
+                                let set_call = if kind.is_static {
+                                    // Static field: _class_static_private_field_spec_set
+                                    use swc_ecma_transforms_base::helper;
+                                    let class_name: Ident = self.class_name.cloned().unwrap_or_else(|| quote_ident!("_class").into());
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(class_static_private_field_spec_set),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(class_name.into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(new_value_ident.clone().into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                } else if kind.is_method && kind.has_setter {
+                                    // Instance accessor setter
                                     CallExpr {
                                         span: DUMMY_SP,
                                         callee: CallExpr {
@@ -2453,9 +2481,8 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         ctxt: Default::default(),
                                     }
                                 } else {
-                                    // Field: _class_private_field_set(obj, _field, value)
+                                    // Instance field: _class_private_field_set(obj, _field, value)
                                     use swc_ecma_transforms_base::helper;
-
                                     CallExpr {
                                         span: DUMMY_SP,
                                         callee: helper!(class_private_field_set),
@@ -2566,8 +2593,36 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                     right: Box::new(one_expr.into()),
                                 };
 
-                                let set_call = if kind.is_method && kind.has_setter {
-                                    // Accessor setter
+                                let set_call = if kind.is_static {
+                                    // Static field: _class_static_private_field_spec_set
+                                    use swc_ecma_transforms_base::helper;
+                                    let class_name: Ident = self.class_name.cloned().unwrap_or_else(|| quote_ident!("_class").into());
+                                    CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(class_static_private_field_spec_set),
+                                        args: vec![
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(obj_alias.clone().into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(class_name.into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(weak_coll_ident.into()),
+                                            },
+                                            ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(new_value_expr.into()),
+                                            },
+                                        ],
+                                        type_args: Default::default(),
+                                        ctxt: Default::default(),
+                                    }
+                                } else if kind.is_method && kind.has_setter {
+                                    // Instance accessor setter
                                     CallExpr {
                                         span: DUMMY_SP,
                                         callee: CallExpr {
@@ -2599,9 +2654,8 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                                         ctxt: Default::default(),
                                     }
                                 } else {
-                                    // Field: _class_private_field_set(obj, _field, value)
+                                    // Instance field: _class_private_field_set(obj, _field, value)
                                     use swc_ecma_transforms_base::helper;
-
                                     CallExpr {
                                         span: DUMMY_SP,
                                         callee: helper!(class_private_field_set),
