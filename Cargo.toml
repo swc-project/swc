@@ -236,10 +236,19 @@ opt-level = 3
     opt-level = 3
 
     [profile.release.package.swc_ecma_ast]
-    opt-level = 3
+    opt-level = "s"
 
     [profile.release.package.swc_ecma_transforms_base]
     opt-level = 3
+
+    [profile.release.package.swc_ecma_preset_env]
+    opt-level = "s"
+
+    [profile.release.package.swc_config]
+    opt-level = "z"
+
+    [profile.release.package.preset_env_base]
+    opt-level = "s"
 
     [profile.release.package.webc]
     opt-level = "s"
@@ -248,7 +257,7 @@ opt-level = 3
     opt-level = "s"
 
     [profile.release.package.regex-automata]
-    opt-level = "s"
+    opt-level = "z"
 
     [profile.release.package.swc_ecma_transforms_typescript]
     opt-level = 3
@@ -288,7 +297,7 @@ opt-level = 3
     opt-level = "s"
 
     [profile.release.package.swc_sourcemap]
-    opt-level = "s"
+    opt-level = "z"
 
     [profile.release.package.wasmer-config]
     opt-level = "s"
