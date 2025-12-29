@@ -209,7 +209,7 @@ opt-level = 3
     opt-level = 3
 
     [profile.release.package.swc]
-    opt-level = 3
+    opt-level = "s"
 
     [profile.release.package.swc_ecma_compat_es2015]
     opt-level = "s"
@@ -254,9 +254,12 @@ opt-level = 3
     opt-level = 3
 
     [profile.release.package.clap]
-    opt-level = "s"
+    opt-level = "z"
 
     [profile.release.package.swc_cli_impl]
+    opt-level = "z"
+
+    [profile.release.package.swc_compiler_base]
     opt-level = "s"
 
     # ICU and internationalization crates (not performance critical)
