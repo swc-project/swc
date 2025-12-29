@@ -46,6 +46,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::assumptions::Assumptions;
+use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super,
     default_constructor_with_span, is_literal, private_ident, quote_ident, ExprFactory,
@@ -390,22 +391,19 @@ impl ClassPropertiesPass {
             }
 
             // For static properties, replace `super.x` with transformed access
-            // - If we have a superclass alias (_super): use `_super.x`
-            // - Otherwise: use `Object.getPrototypeOf(ClassName).x`
-            if let Some(super_ident) = &self.cls.super_ident {
-                value.visit_mut_with(&mut SuperInStaticFolder::with_super_ident(
-                    super_ident.clone(),
-                ));
-            } else if let Some(class_ident) = &self.cls.ident {
-                // For non-derived classes, we still need to transform super accesses
-                // that end up outside the class body
-                let mut visitor = SuperVisitor { found: false };
-                value.visit_with(&mut visitor);
-                if visitor.found {
-                    value.visit_mut_with(&mut SuperInStaticFolder::with_class_ident(
-                        class_ident.clone(),
-                    ));
-                }
+            if let Some(class_ident) = &self.cls.ident {
+                value.visit_mut_with(&mut SuperFieldAccessFolder {
+                    class_name: class_ident,
+                    constructor_this_mark: None,
+                    is_static: true,
+                    folding_constructor: false,
+                    in_injected_define_property_call: false,
+                    in_nested_scope: false,
+                    this_alias_mark: None,
+                    constant_super: self.assumptions.constant_super,
+                    super_class: &self.cls.super_ident,
+                    in_pat: false,
+                });
             }
         }
 
@@ -471,22 +469,19 @@ impl ClassPropertiesPass {
             }
 
             // For static private properties, replace `super.x` with transformed access
-            // - If we have a superclass alias (_super): use `_super.x`
-            // - Otherwise: use `Object.getPrototypeOf(ClassName).x`
-            if let Some(super_ident) = &self.cls.super_ident {
-                value.visit_mut_with(&mut SuperInStaticFolder::with_super_ident(
-                    super_ident.clone(),
-                ));
-            } else if let Some(class_ident) = &self.cls.ident {
-                // For non-derived classes, we still need to transform super accesses
-                // that end up outside the class body
-                let mut visitor = SuperVisitor { found: false };
-                value.visit_with(&mut visitor);
-                if visitor.found {
-                    value.visit_mut_with(&mut SuperInStaticFolder::with_class_ident(
-                        class_ident.clone(),
-                    ));
-                }
+            if let Some(class_ident) = &self.cls.ident {
+                value.visit_mut_with(&mut SuperFieldAccessFolder {
+                    class_name: class_ident,
+                    constructor_this_mark: None,
+                    is_static: true,
+                    folding_constructor: false,
+                    in_injected_define_property_call: false,
+                    in_nested_scope: false,
+                    this_alias_mark: None,
+                    constant_super: self.assumptions.constant_super,
+                    super_class: &self.cls.super_ident,
+                    in_pat: false,
+                });
             }
         }
 
@@ -1700,101 +1695,6 @@ impl VisitMut for ThisInStaticFolder {
 
     fn visit_mut_function(&mut self, _: &mut Function) {
         // Don't visit nested functions
-    }
-}
-
-// Helper visitor to replace `super.x` in static property initializers
-// For derived classes: transforms to `_super.x` (where _super is aliased
-// superclass) For non-derived classes: transforms to
-// `Object.getPrototypeOf(ClassName).x`
-struct SuperInStaticFolder {
-    /// For derived classes: the aliased super class ident (_super)
-    super_ident: Option<Ident>,
-    /// For non-derived classes: the class ident to use with
-    /// Object.getPrototypeOf
-    class_ident: Option<Ident>,
-}
-
-impl SuperInStaticFolder {
-    fn with_super_ident(super_ident: Ident) -> Self {
-        Self {
-            super_ident: Some(super_ident),
-            class_ident: None,
-        }
-    }
-
-    fn with_class_ident(class_ident: Ident) -> Self {
-        Self {
-            super_ident: None,
-            class_ident: Some(class_ident),
-        }
-    }
-
-    fn make_super_obj(&self, span: Span) -> Box<Expr> {
-        if let Some(super_ident) = &self.super_ident {
-            // For derived classes: _super
-            Box::new(super_ident.clone().into())
-        } else if let Some(class_ident) = &self.class_ident {
-            // For non-derived classes: Object.getPrototypeOf(ClassName)
-            Box::new(
-                CallExpr {
-                    span,
-                    callee: MemberExpr {
-                        span: DUMMY_SP,
-                        obj: Box::new(quote_ident!("Object").into()),
-                        prop: MemberProp::Ident(IdentName::new("getPrototypeOf".into(), DUMMY_SP)),
-                    }
-                    .as_callee(),
-                    args: vec![ExprOrSpread {
-                        spread: None,
-                        expr: Box::new(class_ident.clone().into()),
-                    }],
-                    ..Default::default()
-                }
-                .into(),
-            )
-        } else {
-            unreachable!("SuperInStaticFolder must have either super_ident or class_ident")
-        }
-    }
-}
-
-impl VisitMut for SuperInStaticFolder {
-    noop_visit_mut_type!(fail);
-
-    fn visit_mut_constructor(&mut self, _: &mut Constructor) {
-        // Don't visit constructors
-    }
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        // Transform super.prop
-        if let Expr::SuperProp(super_prop) = e {
-            let obj = self.make_super_obj(super_prop.span);
-            match &super_prop.prop {
-                SuperProp::Ident(prop) => {
-                    *e = MemberExpr {
-                        span: super_prop.span,
-                        obj,
-                        prop: MemberProp::Ident(prop.clone()),
-                    }
-                    .into();
-                }
-                SuperProp::Computed(computed) => {
-                    *e = MemberExpr {
-                        span: super_prop.span,
-                        obj,
-                        prop: MemberProp::Computed(computed.clone()),
-                    }
-                    .into();
-                }
-            }
-        }
-    }
-
-    fn visit_mut_function(&mut self, _: &mut Function) {
-        // Don't visit nested functions - they have their own this/super binding
     }
 }
 

@@ -354,15 +354,7 @@ impl SuperFieldAccessFolder<'_> {
     ) -> Expr {
         debug_assert_eq!(op, op!("="));
 
-        let this_expr = Box::new(match self.constructor_this_mark {
-            Some(mark) => quote_ident!(
-                SyntaxContext::empty().apply_mark(mark),
-                super_token,
-                "_this"
-            )
-            .into(),
-            None => ThisExpr { span: super_token }.into(),
-        });
+        let this_expr = Box::new(self.this_arg(super_token));
 
         if self.constant_super {
             let left = MemberExpr {
@@ -477,7 +469,14 @@ impl SuperFieldAccessFolder<'_> {
                 "_this"
             )
             .into(),
-            None => ThisExpr { span: super_token }.into(),
+            None => {
+                // For static properties, use class name as receiver instead of `this`
+                if self.is_static {
+                    self.class_name.clone().into()
+                } else {
+                    ThisExpr { span: super_token }.into()
+                }
+            }
         }
     }
 }
