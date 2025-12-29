@@ -91,54 +91,29 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
     fn cur(&self) -> Option<u8> {
-        let bytes = self.remaining.as_bytes();
-        if !bytes.is_empty() {
-            // SAFETY: We just checked that bytes is not empty
-            Some(unsafe { *bytes.get_unchecked(0) })
-        } else {
-            None
-        }
+        self.remaining.as_bytes().first().copied()
     }
 
     #[inline]
     fn peek(&self) -> Option<u8> {
-        let bytes = self.remaining.as_bytes();
-        if bytes.len() > 1 {
-            // SAFETY: We just checked that len > 1
-            Some(unsafe { *bytes.get_unchecked(1) })
-        } else {
-            None
-        }
+        self.remaining.as_bytes().get(1).copied()
     }
 
     #[inline]
     fn peek_ahead(&self) -> Option<u8> {
-        let bytes = self.remaining.as_bytes();
-        if bytes.len() > 2 {
-            // SAFETY: We just checked that len > 2
-            Some(unsafe { *bytes.get_unchecked(2) })
-        } else {
-            None
-        }
+        self.remaining.as_bytes().get(2).copied()
     }
 
     #[inline]
     unsafe fn bump_bytes(&mut self, n: usize) {
         debug_assert!(n <= self.remaining.len());
-        // SAFETY: Caller must ensure n is within bounds
         self.remaining = unsafe { self.remaining.get_unchecked(n..) };
-        // Direct field access is faster than method call
-        self.last_pos = BytePos(self.last_pos.0 + n as u32);
+        self.last_pos.0 += n as u32;
     }
 
     #[inline]
     fn cur_as_ascii(&self) -> Option<u8> {
-        let bytes = self.remaining.as_bytes();
-        if bytes.is_empty() {
-            return None;
-        }
-        // SAFETY: We just checked that bytes is not empty
-        let first_byte = unsafe { *bytes.get_unchecked(0) };
+        let first_byte = *self.remaining.as_bytes().first()?;
         if first_byte <= 0x7f {
             Some(first_byte)
         } else {
