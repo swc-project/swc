@@ -172,6 +172,9 @@ strip = "symbols"
 # Reduce binary size
 codegen-units = 1
 
+# Abort on panic to remove unwinding code
+panic = "abort"
+
 [profile.bench]
 debug = true
 lto   = true
