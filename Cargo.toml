@@ -224,7 +224,10 @@ opt-level = 3
     opt-level = "s"
 
     [profile.release.package.browserslist-rs]
-    opt-level = "s"
+    opt-level = "z"
+
+    [profile.release.package.regress]
+    opt-level = "z"
 
     [profile.release.package.swc_ecma_transforms_module]
     opt-level = "s"
@@ -333,7 +336,7 @@ opt-level = 3
     opt-level = "s"
 
     [profile.release.package.miette]
-    opt-level = "s"
+    opt-level = "z"
 
     [profile.release.package.swc_bundler]
     opt-level = "s"
