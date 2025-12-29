@@ -16,21 +16,22 @@ pub mod private_in_object;
 pub mod static_blocks;
 
 pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
+    let mut options = swc_ecma_transformer::Options::default();
+
+    {
+        let t = &mut options.env.regexp;
+        t.dot_all_regex = true;
+        t.has_indices = true;
+        t.lookbehind_assertion = true;
+        t.named_capturing_groups_regex = true;
+        t.unicode_property_regex = true;
+    }
+
+    options.env.es2022.class_static_block = true;
+    options.env.es2022.private_in_object = true;
+
     (
-        regexp(regexp::Config {
-            dot_all_regex: true,
-            has_indices: true,
-            lookbehind_assertion: true,
-            named_capturing_groups_regex: true,
-            sticky_regex: false,
-            unicode_property_regex: true,
-            unicode_regex: false,
-            unicode_sets_regex: false,
-        }),
-        Compiler::new(swc_ecma_compiler::Config {
-            includes: Features::STATIC_BLOCKS | Features::PRIVATE_IN_OBJECT,
-            ..Default::default()
-        }),
+        options.into_pass(),
         class_properties(config.class_properties, unresolved_mark),
     )
 }
