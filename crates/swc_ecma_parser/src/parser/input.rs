@@ -303,6 +303,7 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(first_token);
     }
 
+    #[inline(always)]
     pub fn bump(&mut self) {
         let next = match self.next.take() {
             Some(next) => {

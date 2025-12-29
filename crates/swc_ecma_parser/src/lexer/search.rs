@@ -37,7 +37,7 @@ impl SafeByteMatchTable {
     #[inline]
     pub const fn use_table(&self) {}
 
-    #[inline]
+    #[inline(always)]
     pub const fn matches(&self, b: u8) -> bool {
         self.0[b as usize]
     }
