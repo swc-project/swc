@@ -1,9 +1,7 @@
 use swc_ecma_ast::*;
-use swc_ecma_compiler::{Compiler, Features};
 
 pub fn static_blocks() -> impl Pass {
-    Compiler::new(swc_ecma_compiler::Config {
-        includes: Features::STATIC_BLOCKS,
-        ..Default::default()
-    })
+    let mut options = swc_ecma_transformer::Options::default();
+    options.env.es2022.class_static_block = true;
+    options.into_pass()
 }

@@ -71,44 +71,6 @@ where
         }};
     }
 
-    macro_rules! add_compiler {
-        ($($feature:ident)|*) => {{
-            let mut feature = swc_ecma_compiler::Features::empty();
-            $(
-                {
-                    let f = transform_data::Feature::$feature;
-                    let enable = !caniuse(f);
-
-                    if debug {
-                        println!("{}: {:?}", f.as_str(), enable);
-                    }
-
-                    if enable {
-                        feature |= swc_ecma_compiler::Features::from(f);
-                    }
-                }
-            )*
-            feature
-        }};
-        (| $($feature:ident)|*) => {{
-            add_compiler!($($feature)|*)
-        }};
-        ($prev:expr, $($feature:ident)|*) => {{
-            let feature = add_compiler!($($feature)|*);
-            (
-                $prev,
-                swc_ecma_compiler::Compiler::new(swc_ecma_compiler::Config {
-                    includes: feature,
-                    assumptions,
-                    ..Default::default()
-                }),
-            )
-        }};
-        ($prev:expr, | $($feature:ident)|*) => {{
-            add_compiler!($prev, $($feature)|*)
-        }};
-    }
-
     let pass = (
         pass,
         Optional::new(
@@ -138,7 +100,7 @@ where
     // static block needs to be placed before class property
     // because it transforms into private static property
 
-    let pass = add_compiler!(pass, ClassStaticBlock);
+    let pass = add!(pass, ClassStaticBlock, es2022::static_blocks());
     let pass = add!(
         pass,
         ClassProperties,
