@@ -35,7 +35,6 @@ impl NewTarget {
     }
 }
 
-#[swc_trace]
 impl VisitMut for NewTarget {
     noop_visit_mut_type!(fail);
 

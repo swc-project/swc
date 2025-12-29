@@ -11,7 +11,6 @@ pub fn block_scoped_functions() -> impl Pass {
 #[derive(Clone, Copy)]
 struct BlockScopedFns;
 
-#[swc_trace]
 impl VisitMut for BlockScopedFns {
     noop_visit_mut_type!(fail);
 

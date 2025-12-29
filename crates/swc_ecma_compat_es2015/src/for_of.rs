@@ -74,7 +74,6 @@ struct ForOf {
     top_level_vars: Vec<VarDeclarator>,
 }
 
-#[swc_trace]
 impl ForOf {
     fn fold_for_stmt(
         &mut self,
@@ -656,7 +655,6 @@ impl Parallel for ForOf {
     }
 }
 
-#[swc_trace]
 impl ParExplode for ForOf {
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
         // Add variable declaration
@@ -693,7 +691,6 @@ impl ParExplode for ForOf {
     }
 }
 
-#[swc_trace]
 #[parallel(explode)]
 impl VisitMut for ForOf {
     noop_visit_mut_type!(fail);

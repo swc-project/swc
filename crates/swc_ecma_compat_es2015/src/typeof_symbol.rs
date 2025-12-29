@@ -23,7 +23,6 @@ pub struct Config {
 #[derive(Clone, Copy)]
 struct TypeOfSymbol;
 
-#[swc_trace]
 impl Parallel for TypeOfSymbol {
     fn merge(&mut self, _: Self) {}
 
@@ -32,7 +31,6 @@ impl Parallel for TypeOfSymbol {
     }
 }
 
-#[swc_trace]
 impl VisitMut for TypeOfSymbol {
     noop_visit_mut_type!(fail);
 

@@ -57,7 +57,6 @@ impl TemplateLiteralCaching {
 }
 
 /// TODO: VisitMut
-#[swc_trace]
 impl Fold for TemplateLiteralCaching {
     standard_only_fold!();
 

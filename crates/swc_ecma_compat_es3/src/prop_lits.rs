@@ -36,7 +36,6 @@ pub fn property_literals() -> impl Pass {
 
 struct PropertyLiteral;
 
-#[swc_trace]
 impl Fold for PropertyLiteral {
     standard_only_fold!();
 

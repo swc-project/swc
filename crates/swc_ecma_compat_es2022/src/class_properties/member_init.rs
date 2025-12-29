@@ -45,7 +45,6 @@ pub(super) struct MemberInitRecord {
     pub record: Vec<MemberInit>,
 }
 
-#[swc_trace]
 impl MemberInitRecord {
     pub fn new(c: Config) -> Self {
         Self {

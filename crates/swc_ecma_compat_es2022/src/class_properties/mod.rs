@@ -74,7 +74,6 @@ struct ClassExtra {
     stmts: Vec<Stmt>,
 }
 
-#[swc_trace]
 impl ClassExtra {
     fn prepend_with<T: StmtLike>(self, stmts: &mut Vec<T>) {
         if !self.vars.is_empty() {
@@ -138,7 +137,6 @@ impl Take for ClassExtra {
     }
 }
 
-#[swc_trace]
 #[fast_path(ShouldWork)]
 impl VisitMut for ClassProperties {
     noop_visit_mut_type!(fail);
@@ -310,7 +308,6 @@ impl VisitMut for ClassProperties {
     }
 }
 
-#[swc_trace]
 impl ClassProperties {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -419,7 +416,6 @@ impl ClassProperties {
     }
 }
 
-#[swc_trace]
 impl ClassProperties {
     fn visit_mut_class_as_decl(
         &mut self,
@@ -1068,7 +1064,6 @@ struct ShouldWork {
     found: bool,
 }
 
-#[swc_trace]
 impl Visit for ShouldWork {
     noop_visit_type!(fail);
 

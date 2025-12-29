@@ -9,7 +9,6 @@ pub(super) struct ClassNameTdzFolder<'a> {
     pub class_name: &'a Ident,
 }
 
-#[swc_trace]
 impl VisitMut for ClassNameTdzFolder<'_> {
     noop_visit_mut_type!(fail);
 

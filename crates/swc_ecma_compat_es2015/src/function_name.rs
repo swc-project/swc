@@ -50,7 +50,6 @@ fn prepare(i: Ident) -> Ident {
     private_ident!(i.span, i.sym)
 }
 
-#[swc_trace]
 impl VisitMut for FnName {
     noop_visit_mut_type!(fail);
 

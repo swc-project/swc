@@ -14,7 +14,6 @@ macro_rules! noop {
     };
 }
 
-#[swc_trace]
 impl Visit for UsedNameCollector<'_> {
     noop_visit_type!(fail);
 

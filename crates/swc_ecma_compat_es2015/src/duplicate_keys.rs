@@ -21,7 +21,6 @@ impl Parallel for DuplicateKeys {
     }
 }
 
-#[swc_trace]
 impl VisitMut for DuplicateKeys {
     noop_visit_mut_type!(fail);
 
@@ -49,7 +48,6 @@ fn atom_from_wtf8(value: &Wtf8Atom) -> Atom {
         .unwrap_or_else(|| Atom::from(value.to_string_lossy()))
 }
 
-#[swc_trace]
 impl VisitMut for PropFolder {
     noop_visit_mut_type!(fail);
 
@@ -97,7 +95,6 @@ struct PropNameFolder<'a> {
     props: &'a mut FxHashSet<Atom>,
 }
 
-#[swc_trace]
 impl VisitMut for PropNameFolder<'_> {
     noop_visit_mut_type!(fail);
 

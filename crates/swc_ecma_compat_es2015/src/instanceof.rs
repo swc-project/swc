@@ -43,7 +43,6 @@ impl Parallel for InstanceOf {
     }
 }
 
-#[swc_trace]
 impl VisitMut for InstanceOf {
     noop_visit_mut_type!(fail);
 
