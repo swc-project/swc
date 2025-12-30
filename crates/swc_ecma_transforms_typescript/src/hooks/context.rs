@@ -60,6 +60,7 @@ pub struct TransformState {
 
     pub ref_rewriter: Option<RefRewriter<ExportQuery>>,
     pub ref_rewriter_temp: Option<RefRewriter<ExportQuery>>,
+    pub ref_rewriter_saved_for_var_decl: Option<RefRewriter<ExportQuery>>,
     pub in_export_decl: bool,
 
     pub decl_id_record: FxHashSet<Id>,

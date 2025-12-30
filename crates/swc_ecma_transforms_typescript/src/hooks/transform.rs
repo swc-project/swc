@@ -28,7 +28,8 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         // Collection phase - visit to collect enum values and exports
         node.visit_with(&mut Collector { ctx });
 
-        // Initialize ref_rewriter if we have exported bindings
+        // Initialize ref_rewriter with all exported bindings
+        // This will be temporarily removed when entering namespaces
         if !ctx.transform.exported_binding.is_empty() {
             ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
                 query: ExportQuery {
@@ -82,10 +83,40 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     fn enter_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
         // Save current namespace_id and set to this namespace's id
         let id = n.id.to_id();
+        let was_in_namespace = ctx.transform.namespace_id.is_some();
         ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(id));
+
+        // If this is a nested namespace, remove parent RefRewriter
+        // (parent's RefRewriter should not apply to nested namespace's exports)
+        if was_in_namespace {
+            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+        }
     }
 
-    fn exit_ts_namespace_decl(&mut self, _n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
+    fn exit_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
+        // For nested namespaces, ref_rewriter_temp already contains parent RefRewriter
+        // (from enter) For top-level namespaces, we need to save current
+        // RefRewriter
+        if ctx.transform.ref_rewriter_temp.is_none() {
+            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+        }
+
+        // Create namespace-specific RefRewriter for transformation
+        let id = n.id.to_id();
+        let export_name: rustc_hash::FxHashMap<_, _> = ctx
+            .transform
+            .exported_binding
+            .iter()
+            .filter(|(_, ns_id)| ns_id.as_ref() == Some(&id))
+            .map(|(k, v)| (k.clone(), v.clone()))
+            .collect();
+
+        if !export_name.is_empty() {
+            ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
+                query: ExportQuery { export_name },
+            });
+        }
+
         // Restore saved namespace_id
         ctx.transform.namespace_id = ctx.transform.saved_namespace_id.take().flatten();
     }
@@ -97,13 +128,42 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         };
 
         // Save current namespace_id and set to this module's id
+        let was_in_namespace = ctx.transform.namespace_id.is_some();
         ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(ident.to_id()));
+
+        // If this is a nested namespace, remove parent RefRewriter
+        if was_in_namespace {
+            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+        }
     }
 
     fn exit_ts_module_decl(&mut self, n: &mut TsModuleDecl, ctx: &mut TypeScriptCtx) {
         // Skip ambient modules (quoted names)
         if n.id.is_str() {
             return;
+        }
+
+        // For nested namespaces, ref_rewriter_temp already contains parent RefRewriter
+        // (from enter) For top-level namespaces, we need to save current
+        // RefRewriter
+        if ctx.transform.ref_rewriter_temp.is_none() {
+            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+        }
+
+        // Create namespace-specific RefRewriter for transformation
+        let id = n.id.as_ident().unwrap().to_id();
+        let export_name: rustc_hash::FxHashMap<_, _> = ctx
+            .transform
+            .exported_binding
+            .iter()
+            .filter(|(_, ns_id)| ns_id.as_ref() == Some(&id))
+            .map(|(k, v)| (k.clone(), v.clone()))
+            .collect();
+
+        if !export_name.is_empty() {
+            ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
+                query: ExportQuery { export_name },
+            });
         }
 
         // Restore saved namespace_id
@@ -345,22 +405,14 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
             }
         } else {
             // Otherwise, temporarily remove ref_rewriter to prevent it from being applied
-            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+            ctx.transform.ref_rewriter_saved_for_var_decl = ctx.transform.ref_rewriter.take();
         }
     }
 
-    fn exit_var_declarator(&mut self, n: &mut VarDeclarator, ctx: &mut TypeScriptCtx) {
+    fn exit_var_declarator(&mut self, _n: &mut VarDeclarator, ctx: &mut TypeScriptCtx) {
         // Restore ref_rewriter after name has been processed (if we removed it)
         if !ctx.transform.in_export_decl {
-            if let Some(ref_rewriter) = ctx.transform.ref_rewriter_temp.take() {
-                ctx.transform.ref_rewriter = Some(ref_rewriter);
-            } else if !ctx.transform.exported_binding.is_empty() {
-                ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
-                    query: ExportQuery {
-                        export_name: ctx.transform.exported_binding.clone(),
-                    },
-                });
-            }
+            ctx.transform.ref_rewriter = ctx.transform.ref_rewriter_saved_for_var_decl.take();
         }
     }
 
@@ -600,7 +652,15 @@ fn fold_decl(node: Decl, is_export: bool, ctx: &mut TypeScriptCtx) -> FoldedDecl
                 }
             }
 
-            transform_ts_module(*ts_module, is_export, ctx)
+            let result = transform_ts_module(*ts_module, is_export, ctx);
+
+            // After namespace transformation, restore parent RefRewriter
+            // (which was saved in enter_ts_namespace_decl/enter_ts_module_decl)
+            if let Some(parent_rewriter) = ctx.transform.ref_rewriter_temp.take() {
+                ctx.transform.ref_rewriter = Some(parent_rewriter);
+            }
+
+            result
         }
         Decl::TsEnum(ts_enum) => {
             let id = ts_enum.id.to_id();
