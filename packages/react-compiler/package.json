@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler",
-  "version": "1.15.8-nightly-20251230.1",
+  "version": "1.15.8",
   "description": "SWC support for React Compiler",
   "homepage": "https://swc.rs",
   "main": "./index.js",
