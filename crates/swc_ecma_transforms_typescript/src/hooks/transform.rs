@@ -188,11 +188,12 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
                         TsParamPropParam::Ident(binding_ident) => {
                             let id = binding_ident.to_id();
                             let prop_name = PropName::Ident(IdentName::from(&*binding_ident));
-                            let value = Ident::from(&*binding_ident).into();
+                            let mut value_ident = Ident::from(&*binding_ident);
+                            value_ident.optional = false; // Remove optional flag for the value expression
 
                             (
                                 binding_ident.clone().into(),
-                                assign_value_to_this_prop(prop_name, value),
+                                assign_value_to_this_prop(prop_name, value_ident.into()),
                                 id,
                             )
                         }
@@ -205,11 +206,12 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
 
                             let id = binding_ident.id.to_id();
                             let prop_name = PropName::Ident(binding_ident.id.clone().into());
-                            let value = binding_ident.id.clone().into();
+                            let mut value_ident = binding_ident.id.clone();
+                            value_ident.optional = false; // Remove optional flag for the value expression
 
                             (
                                 assign_pat.clone().into(),
-                                assign_value_to_this_prop(prop_name, value),
+                                assign_value_to_this_prop(prop_name, value_ident.into()),
                                 id,
                             )
                         }
