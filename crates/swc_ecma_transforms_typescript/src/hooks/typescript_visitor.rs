@@ -60,6 +60,12 @@ where
             .exit_opt_ts_type_param_instantiation(node, &mut self.context);
     }
 
+    fn visit_mut_opt_accessibility(&mut self, node: &mut Option<Accessibility>) {
+        // Skip visiting Accessibility - it's a TypeScript-only enum
+        // The StripType hook will remove it in exit_* methods
+        *node = None;
+    }
+
     // Standard pattern for all other nodes: enter -> children -> exit
     fn visit_mut_program(&mut self, node: &mut Program) {
         self.hook.enter_program(node, &mut self.context);
