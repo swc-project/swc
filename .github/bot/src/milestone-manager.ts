@@ -91,31 +91,12 @@ async function main() {
     for (const issue of issues) {
       const isPR = !!issue.pull_request;
 
-      // For issues: only move closed ones
-      if (!isPR && issue.state === "open") {
+      // For both issues and PRs: only move closed ones
+      // (For PRs, "closed" includes both merged and manually closed PRs)
+      if (issue.state === "open") {
+        const itemType = isPR ? "PR" : "issue";
+        console.log(`⊘ Skipping ${itemType} #${issue.number} (still open)`);
         continue;
-      }
-
-      // For PRs: check if merged
-      if (isPR) {
-        try {
-          const { data: pr } = await octokit.pulls.get({
-            owner,
-            repo,
-            pull_number: issue.number,
-          });
-
-          // Only move merged PRs
-          if (!pr.merged) {
-            console.log(`⊘ Skipping PR #${issue.number} (not merged)`);
-            continue;
-          }
-        } catch (error: any) {
-          console.error(
-            `✗ Failed to check PR #${issue.number}: ${error.message}`
-          );
-          continue;
-        }
       }
 
       try {
