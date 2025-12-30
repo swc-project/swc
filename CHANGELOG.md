@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.15.8] - 2025-12-30
 
 ### Bug Fixes
 
@@ -1981,12 +1981,6 @@
 
 
 - **(es/helpers)** Sync tslib `_ts_generator` implementation ([#10366](https://github.com/swc-project/swc/issues/10366)) ([d3fb992](https://github.com/swc-project/swc/commit/d3fb992a2f16882837cef4b6932be5d5415e7268))
-
-
-- **(es/proposal)** Fix scope of declarations for `explicit-resource-management` ([#10362](https://github.com/swc-project/swc/issues/10362)) ([eb7f7e9](https://github.com/swc-project/swc/commit/eb7f7e9ff99ad639cc65e5ea702194c75a013f02))
-
-
-- **(ts/fast-strip)** Increase Wasm stack size ([#10359](https://github.com/swc-project/swc/issues/10359)) ([6d444a5](https://github.com/swc-project/swc/commit/6d444a55921a6836db80661254b855bcb01376bc))
 
 ### Performance
 
