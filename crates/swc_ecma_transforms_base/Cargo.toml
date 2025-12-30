@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_base"
 repository    = { workspace = true }
-version       = "34.0.0"
+version       = "35.0.0"
 
 [lib]
 bench = false
@@ -35,7 +35,7 @@ tracing           = { workspace = true }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
 swc_common = { version = "18.0.1", path = "../swc_common" }
 swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "31.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "32.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_utils = { version = "25.0.0", path = "../swc_ecma_utils" }
