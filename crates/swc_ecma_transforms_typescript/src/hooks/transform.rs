@@ -584,12 +584,11 @@ fn fold_decl(node: Decl, is_export: bool, ctx: &mut TypeScriptCtx) -> FoldedDecl
     match node {
         Decl::TsModule(ts_module) => {
             let id = module_id_to_id(&ts_module.id);
-            let is_first = ctx.transform.decl_id_record.insert(id.clone());
 
-            let result = transform_ts_module(*ts_module, is_export, ctx);
-
-            // Only add to var_list if the module is not empty
-            if is_first && !matches!(result, FoldedDecl::Empty) {
+            // Add to var_list if this is the first occurrence
+            // Do this before transformation to ensure var is declared even if first
+            // namespace is empty
+            if ctx.transform.decl_id_record.insert(id.clone()) {
                 if is_export {
                     if ctx.transform.namespace_id.is_none() {
                         ctx.transform.export_var_list.push(id);
@@ -599,7 +598,7 @@ fn fold_decl(node: Decl, is_export: bool, ctx: &mut TypeScriptCtx) -> FoldedDecl
                 }
             }
 
-            result
+            transform_ts_module(*ts_module, is_export, ctx)
         }
         Decl::TsEnum(ts_enum) => {
             let id = ts_enum.id.to_id();
