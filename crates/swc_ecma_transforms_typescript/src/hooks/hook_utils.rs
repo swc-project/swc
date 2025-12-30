@@ -124,6 +124,86 @@ where
     optional_method!(enter_jsx_object, exit_jsx_object, JSXObject);
 
     optional_method!(enter_object_pat_prop, exit_object_pat_prop, ObjectPatProp);
+
+    optional_method!(enter_auto_accessor, exit_auto_accessor, AutoAccessor);
+
+    optional_method!(enter_getter_prop, exit_getter_prop, GetterProp);
+
+    optional_method!(enter_setter_prop, exit_setter_prop, SetterProp);
+
+    optional_method!(enter_method_prop, exit_method_prop, MethodProp);
+
+    optional_method!(enter_private_prop, exit_private_prop, PrivateProp);
+
+    optional_method!(enter_class_prop, exit_class_prop, ClassProp);
+
+    optional_method!(enter_class_method, exit_class_method, ClassMethod);
+
+    optional_method!(enter_private_method, exit_private_method, PrivateMethod);
+
+    optional_method!(enter_binding_ident, exit_binding_ident, BindingIdent);
+
+    optional_method!(enter_array_pat, exit_array_pat, ArrayPat);
+
+    optional_method!(enter_object_pat, exit_object_pat, ObjectPat);
+
+    optional_method!(enter_rest_pat, exit_rest_pat, RestPat);
+
+    optional_method!(enter_function, exit_function, Function);
+
+    optional_method!(enter_arrow_expr, exit_arrow_expr, ArrowExpr);
+
+    optional_method!(enter_fn_decl, exit_fn_decl, FnDecl);
+
+    optional_method!(enter_class_decl, exit_class_decl, ClassDecl);
+
+    optional_method!(enter_var_decl, exit_var_decl, VarDecl);
+
+    optional_method!(enter_param, exit_param, Param);
+
+    optional_method!(enter_params, exit_params, Vec<Param>);
+
+    optional_method!(enter_ident, exit_ident, Ident);
+
+    optional_method!(
+        enter_key_value_pat_prop,
+        exit_key_value_pat_prop,
+        KeyValuePatProp
+    );
+
+    optional_method!(enter_ts_param_prop, exit_ts_param_prop, TsParamProp);
+
+    optional_method!(
+        enter_export_specifiers,
+        exit_export_specifiers,
+        Vec<ExportSpecifier>
+    );
+
+    optional_method!(
+        enter_import_specifiers,
+        exit_import_specifiers,
+        Vec<ImportSpecifier>
+    );
+
+    optional_method!(enter_opt_ts_type, exit_opt_ts_type, Option<Box<TsType>>);
+
+    optional_method!(
+        enter_opt_ts_type_ann,
+        exit_opt_ts_type_ann,
+        Option<Box<TsTypeAnn>>
+    );
+
+    optional_method!(
+        enter_opt_ts_type_param_decl,
+        exit_opt_ts_type_param_decl,
+        Option<Box<TsTypeParamDecl>>
+    );
+
+    optional_method!(
+        enter_opt_ts_type_param_instantiation,
+        exit_opt_ts_type_param_instantiation,
+        Option<Box<TsTypeParamInstantiation>>
+    );
 }
 
 /// Ordered chain of two hooks - executes A then B for both enter and exit
@@ -242,6 +322,86 @@ where
     chained_method!(enter_jsx_object, exit_jsx_object, JSXObject);
 
     chained_method!(enter_object_pat_prop, exit_object_pat_prop, ObjectPatProp);
+
+    chained_method!(enter_auto_accessor, exit_auto_accessor, AutoAccessor);
+
+    chained_method!(enter_getter_prop, exit_getter_prop, GetterProp);
+
+    chained_method!(enter_setter_prop, exit_setter_prop, SetterProp);
+
+    chained_method!(enter_method_prop, exit_method_prop, MethodProp);
+
+    chained_method!(enter_private_prop, exit_private_prop, PrivateProp);
+
+    chained_method!(enter_class_prop, exit_class_prop, ClassProp);
+
+    chained_method!(enter_class_method, exit_class_method, ClassMethod);
+
+    chained_method!(enter_private_method, exit_private_method, PrivateMethod);
+
+    chained_method!(enter_binding_ident, exit_binding_ident, BindingIdent);
+
+    chained_method!(enter_array_pat, exit_array_pat, ArrayPat);
+
+    chained_method!(enter_object_pat, exit_object_pat, ObjectPat);
+
+    chained_method!(enter_rest_pat, exit_rest_pat, RestPat);
+
+    chained_method!(enter_function, exit_function, Function);
+
+    chained_method!(enter_arrow_expr, exit_arrow_expr, ArrowExpr);
+
+    chained_method!(enter_fn_decl, exit_fn_decl, FnDecl);
+
+    chained_method!(enter_class_decl, exit_class_decl, ClassDecl);
+
+    chained_method!(enter_var_decl, exit_var_decl, VarDecl);
+
+    chained_method!(enter_param, exit_param, Param);
+
+    chained_method!(enter_params, exit_params, Vec<Param>);
+
+    chained_method!(enter_ident, exit_ident, Ident);
+
+    chained_method!(
+        enter_key_value_pat_prop,
+        exit_key_value_pat_prop,
+        KeyValuePatProp
+    );
+
+    chained_method!(enter_ts_param_prop, exit_ts_param_prop, TsParamProp);
+
+    chained_method!(
+        enter_export_specifiers,
+        exit_export_specifiers,
+        Vec<ExportSpecifier>
+    );
+
+    chained_method!(
+        enter_import_specifiers,
+        exit_import_specifiers,
+        Vec<ImportSpecifier>
+    );
+
+    chained_method!(enter_opt_ts_type, exit_opt_ts_type, Option<Box<TsType>>);
+
+    chained_method!(
+        enter_opt_ts_type_ann,
+        exit_opt_ts_type_ann,
+        Option<Box<TsTypeAnn>>
+    );
+
+    chained_method!(
+        enter_opt_ts_type_param_decl,
+        exit_opt_ts_type_param_decl,
+        Option<Box<TsTypeParamDecl>>
+    );
+
+    chained_method!(
+        enter_opt_ts_type_param_instantiation,
+        exit_opt_ts_type_param_instantiation,
+        Option<Box<TsTypeParamInstantiation>>
+    );
 }
 
 /// Builder for composing multiple hooks

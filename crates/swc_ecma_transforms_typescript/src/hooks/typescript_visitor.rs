@@ -262,45 +262,54 @@ where
         node.type_params = None;
         node.return_type = None;
         node.visit_mut_children_with(self);
+        self.hook.exit_function(node, &mut self.context);
     }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         node.type_params = None;
         node.return_type = None;
         node.visit_mut_children_with(self);
+        self.hook.exit_arrow_expr(node, &mut self.context);
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
         node.visit_mut_children_with(self);
+        self.hook.exit_class_method(node, &mut self.context);
     }
 
     fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
         node.visit_mut_children_with(self);
+        self.hook.exit_private_method(node, &mut self.context);
     }
 
     fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor) {
         node.type_ann = None;
         node.visit_mut_children_with(self);
+        self.hook.exit_auto_accessor(node, &mut self.context);
     }
 
     fn visit_mut_getter_prop(&mut self, node: &mut GetterProp) {
         node.type_ann = None;
         node.visit_mut_children_with(self);
+        self.hook.exit_getter_prop(node, &mut self.context);
     }
 
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
         node.type_ann = None;
         node.visit_mut_children_with(self);
+        self.hook.exit_array_pat(node, &mut self.context);
     }
 
     fn visit_mut_object_pat(&mut self, node: &mut ObjectPat) {
         node.type_ann = None;
         node.visit_mut_children_with(self);
+        self.hook.exit_object_pat(node, &mut self.context);
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
         node.type_ann = None;
         node.visit_mut_children_with(self);
+        self.hook.exit_rest_pat(node, &mut self.context);
     }
 
     fn visit_mut_params(&mut self, node: &mut Vec<Param>) {

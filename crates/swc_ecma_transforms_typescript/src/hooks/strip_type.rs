@@ -63,7 +63,9 @@ impl VisitMutHook<TypeScriptCtx> for StripTypeHook {
         n.accessibility = None;
         n.definite = false;
         n.is_override = false;
-        n.is_abstract = false;
+        // Note: is_abstract is NOT set to false here because exit_class_members
+        // needs it for filtering It will be set to false in
+        // exit_class_members after filtering
     }
 
     fn exit_class(&mut self, n: &mut Class, _: &mut TypeScriptCtx) {
@@ -101,6 +103,25 @@ impl VisitMutHook<TypeScriptCtx> for StripTypeHook {
 
             _ => true,
         });
+
+        // After filtering, clean up is_abstract flag on remaining members
+        for member in n.iter_mut() {
+            match member {
+                ClassMember::AutoAccessor(accessor) => {
+                    accessor.is_abstract = false;
+                }
+                ClassMember::ClassProp(prop) => {
+                    // is_abstract is already handled in exit_class_prop
+                }
+                ClassMember::Method(method) => {
+                    // is_abstract is already handled in exit_class_method
+                }
+                ClassMember::PrivateMethod(method) => {
+                    // is_abstract is already handled in exit_private_method
+                }
+                _ => {}
+            }
+        }
     }
 
     fn exit_class_method(&mut self, n: &mut ClassMethod, _: &mut TypeScriptCtx) {
