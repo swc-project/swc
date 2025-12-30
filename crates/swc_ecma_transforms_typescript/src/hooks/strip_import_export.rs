@@ -12,6 +12,14 @@ pub fn hook() -> impl VisitMutHook<TypeScriptCtx> {
 struct StripImportExportHook;
 
 impl VisitMutHook<TypeScriptCtx> for StripImportExportHook {
+    fn enter_ts_module_block(&mut self, _n: &mut TsModuleBlock, ctx: &mut TypeScriptCtx) {
+        ctx.strip_import_export.in_namespace = true;
+    }
+
+    fn exit_ts_module_block(&mut self, _n: &mut TsModuleBlock, ctx: &mut TypeScriptCtx) {
+        ctx.strip_import_export.in_namespace = false;
+    }
+
     fn enter_module(&mut self, n: &mut Module, ctx: &mut TypeScriptCtx) {
         // Collect usage information
         n.visit_with(&mut ctx.strip_import_export.usage_info);
@@ -119,6 +127,12 @@ impl VisitMutHook<TypeScriptCtx> for StripImportExportHook {
                     return false;
                 }
 
+                // In namespaces, TsImportEquals will be transformed by Transform hook
+                // Don't filter them here
+                if ctx.strip_import_export.in_namespace {
+                    return true;
+                }
+
                 if ts_import_equals_decl.is_export {
                     return true;
                 }
@@ -130,7 +144,12 @@ impl VisitMutHook<TypeScriptCtx> for StripImportExportHook {
             ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
                 if ts_module.body.is_some() =>
             {
-                module_item.visit_mut_with(&mut strip_ts_import_equals);
+                // Don't apply StripTsImportEquals inside namespaces
+                // Transform hook will handle TsImportEquals transformation
+                // Only apply if we're not already in a namespace
+                if !ctx.strip_import_export.in_namespace {
+                    module_item.visit_mut_with(&mut strip_ts_import_equals);
+                }
 
                 true
             }

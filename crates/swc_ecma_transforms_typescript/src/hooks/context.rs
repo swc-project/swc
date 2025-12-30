@@ -87,6 +87,7 @@ pub struct StripImportExportState {
     pub import_not_used_as_values: ImportsNotUsedAsValues,
     pub usage_info: UsageCollect,
     pub declare_info: DeclareCollect,
+    pub in_namespace: bool,
 }
 
 /// State for StripType hook
