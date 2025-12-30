@@ -137,14 +137,15 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     }
 
     fn enter_module_items(&mut self, _node: &mut Vec<ModuleItem>, ctx: &mut TypeScriptCtx) {
-        // Save current var_list and start fresh for this scope
-        // This ensures each Vec<ModuleItem> gets its own scope's var declarations
-        ctx.transform.saved_var_list = Some(mem::take(&mut ctx.transform.var_list));
+        // Save current var_list on stack and start fresh for this scope
+        // Using a stack ensures nested Vec<ModuleItem> don't interfere
+        ctx.transform
+            .saved_var_list
+            .push(mem::take(&mut ctx.transform.var_list));
     }
 
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TypeScriptCtx) {
-        // Filter out empty statements (but not before visiting, to match original
-        // behavior)
+        // Filter out empty statements
         node.retain(|item| match item.as_stmt() {
             Some(stmt) => !stmt.is_empty(),
             None => true,
@@ -153,9 +154,10 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         // Take var_list accumulated during children visit (this scope's declarations)
         let new_var_list = mem::take(&mut ctx.transform.var_list);
 
-        // Restore parent's var_list
-        let old_var_list = ctx.transform.saved_var_list.take().unwrap_or_default();
-        ctx.transform.var_list = old_var_list;
+        // Restore parent's var_list from stack
+        if let Some(old_var_list) = ctx.transform.saved_var_list.pop() {
+            ctx.transform.var_list = old_var_list;
+        }
 
         // Add this scope's var declarations to the current module_items
         if !new_var_list.is_empty() {
