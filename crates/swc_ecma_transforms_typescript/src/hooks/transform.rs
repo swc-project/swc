@@ -80,16 +80,14 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     }
 
     fn enter_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
-        // Namespaces can be nested, so we need to save and restore
-        // For now, just set it (nested namespaces will be handled by
-        // transform_ts_namespace_body)
+        // Save current namespace_id and set to this namespace's id
         let id = n.id.to_id();
-        ctx.transform.namespace_id = Some(id);
+        ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(id));
     }
 
-    fn exit_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
-        // Restore namespace_id
-        ctx.transform.namespace_id = None;
+    fn exit_ts_namespace_decl(&mut self, _n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
+        // Restore saved namespace_id
+        ctx.transform.namespace_id = ctx.transform.saved_namespace_id.take().flatten();
     }
 
     fn enter_ts_module_decl(&mut self, n: &mut TsModuleDecl, ctx: &mut TypeScriptCtx) {
@@ -98,7 +96,8 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
             return;
         };
 
-        ctx.transform.namespace_id = Some(ident.to_id());
+        // Save current namespace_id and set to this module's id
+        ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(ident.to_id()));
     }
 
     fn exit_ts_module_decl(&mut self, n: &mut TsModuleDecl, ctx: &mut TypeScriptCtx) {
@@ -107,8 +106,8 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
             return;
         }
 
-        // Restore namespace_id
-        ctx.transform.namespace_id = None;
+        // Restore saved namespace_id
+        ctx.transform.namespace_id = ctx.transform.saved_namespace_id.take().flatten();
     }
 
     fn exit_module(&mut self, node: &mut Module, ctx: &mut TypeScriptCtx) {
@@ -144,7 +143,8 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     }
 
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TypeScriptCtx) {
-        // Filter out empty statements (but not before visiting, to match original behavior)
+        // Filter out empty statements (but not before visiting, to match original
+        // behavior)
         node.retain(|item| match item.as_stmt() {
             Some(stmt) => !stmt.is_empty(),
             None => true,
@@ -446,9 +446,15 @@ struct Collector<'a> {
 impl<'a> Visit for Collector<'a> {
     fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
         let id = n.id.to_id();
-        let old_namespace_id = self.ctx.transform.namespace_id.replace(id);
+        self.ctx.transform.collector_saved_namespace_id =
+            Some(self.ctx.transform.namespace_id.replace(id));
         n.visit_children_with(self);
-        self.ctx.transform.namespace_id = old_namespace_id;
+        self.ctx.transform.namespace_id = self
+            .ctx
+            .transform
+            .collector_saved_namespace_id
+            .take()
+            .flatten();
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
@@ -458,9 +464,15 @@ impl<'a> Visit for Collector<'a> {
         };
 
         let id = ident.to_id();
-        let old_namespace_id = self.ctx.transform.namespace_id.replace(id);
+        self.ctx.transform.collector_saved_namespace_id =
+            Some(self.ctx.transform.namespace_id.replace(id));
         n.visit_children_with(self);
-        self.ctx.transform.namespace_id = old_namespace_id;
+        self.ctx.transform.namespace_id = self
+            .ctx
+            .transform
+            .collector_saved_namespace_id
+            .take()
+            .flatten();
     }
 
     fn visit_export_decl(&mut self, node: &ExportDecl) {
@@ -1065,27 +1077,18 @@ fn transform_ts_module(
         unreachable!();
     };
 
-    // Note: namespace_id has already been set to module_ident by enter_ts_module_decl
-    // But we need the parent namespace_id for InitArg, so we clear it temporarily
-    let parent_namespace_id = ctx.transform.namespace_id.take();
-
     let body = transform_ts_namespace_body(module_ident.to_id(), body, ctx);
 
     // If namespace body is empty, don't create it
     if body.stmts.is_empty() {
-        // Restore parent namespace_id before returning
-        ctx.transform.namespace_id = parent_namespace_id;
         return FoldedDecl::Empty;
     }
 
     let init_arg = InitArg {
         id: &module_ident,
-        namespace_id: parent_namespace_id.as_ref().filter(|_| is_export),
+        namespace_id: ctx.transform.namespace_id.as_ref().filter(|_| is_export),
     }
     .or_assign_empty();
-
-    // Restore parent namespace_id for subsequent processing
-    ctx.transform.namespace_id = parent_namespace_id;
 
     let expr = Factory::function(vec![module_ident.clone().into()], body)
         .as_call(DUMMY_SP, vec![init_arg])
