@@ -59,6 +59,8 @@ pub struct TransformState {
     pub is_lhs: bool,
 
     pub ref_rewriter: Option<RefRewriter<ExportQuery>>,
+    pub ref_rewriter_temp: Option<RefRewriter<ExportQuery>>,
+    pub in_export_decl: bool,
 
     pub decl_id_record: FxHashSet<Id>,
     pub namespace_id: Option<Id>,

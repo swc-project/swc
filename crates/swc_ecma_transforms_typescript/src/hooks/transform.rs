@@ -298,9 +298,14 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         }
     }
 
-    fn exit_export_decl(&mut self, node: &mut ExportDecl, _ctx: &mut TypeScriptCtx) {
-        // Note: visit_mut_with is handled automatically by VisitMutWithHook
-        // The ref_rewriter logic is handled in exit_var_declarator
+    fn enter_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut TypeScriptCtx) {
+        // Mark that we're in an export declaration so var_declarator knows to keep
+        // ref_rewriter
+        ctx.transform.in_export_decl = true;
+    }
+
+    fn exit_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut TypeScriptCtx) {
+        ctx.transform.in_export_decl = false;
     }
 
     fn exit_prop(&mut self, node: &mut Prop, ctx: &mut TypeScriptCtx) {
@@ -309,20 +314,31 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         }
     }
 
-    fn enter_var_declarator(&mut self, _n: &mut VarDeclarator, ctx: &mut TypeScriptCtx) {
-        // Temporarily remove ref_rewriter to prevent it from being applied to the name
-        ctx.transform.ref_rewriter.take();
+    fn enter_var_declarator(&mut self, n: &mut VarDeclarator, ctx: &mut TypeScriptCtx) {
+        // In export declarations, manually apply RefRewriter to the pattern
+        // This rewrites exported identifiers in destructuring patterns
+        if ctx.transform.in_export_decl {
+            if let Some(ref_rewriter) = ctx.transform.ref_rewriter.as_mut() {
+                n.name.visit_mut_with(ref_rewriter);
+            }
+        } else {
+            // Otherwise, temporarily remove ref_rewriter to prevent it from being applied
+            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+        }
     }
 
     fn exit_var_declarator(&mut self, n: &mut VarDeclarator, ctx: &mut TypeScriptCtx) {
-        // Restore ref_rewriter after name has been processed
-        // This ensures ref_rewriter is only applied to the init, not the name
-        if !ctx.transform.exported_binding.is_empty() && ctx.transform.ref_rewriter.is_none() {
-            ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
-                query: ExportQuery {
-                    export_name: ctx.transform.exported_binding.clone(),
-                },
-            });
+        // Restore ref_rewriter after name has been processed (if we removed it)
+        if !ctx.transform.in_export_decl {
+            if let Some(ref_rewriter) = ctx.transform.ref_rewriter_temp.take() {
+                ctx.transform.ref_rewriter = Some(ref_rewriter);
+            } else if !ctx.transform.exported_binding.is_empty() {
+                ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
+                    query: ExportQuery {
+                        export_name: ctx.transform.exported_binding.clone(),
+                    },
+                });
+            }
         }
     }
 
@@ -408,6 +424,20 @@ struct Collector<'a> {
 }
 
 impl<'a> Visit for Collector<'a> {
+    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
+        let id = n.id.to_id();
+        let old_namespace_id = self.ctx.transform.namespace_id.replace(id);
+        n.visit_children_with(self);
+        self.ctx.transform.namespace_id = old_namespace_id;
+    }
+
+    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
+        let id = module_id_to_id(&n.id);
+        let old_namespace_id = self.ctx.transform.namespace_id.replace(id);
+        n.visit_children_with(self);
+        self.ctx.transform.namespace_id = old_namespace_id;
+    }
+
     fn visit_export_decl(&mut self, node: &ExportDecl) {
         node.visit_children_with(self);
 
@@ -991,7 +1021,7 @@ fn transform_ts_enum(
 fn transform_ts_module(
     ts_module: TsModuleDecl,
     is_export: bool,
-    ctx: &TypeScriptCtx,
+    ctx: &mut TypeScriptCtx,
 ) -> FoldedDecl {
     debug_assert!(!ts_module.declare);
     debug_assert!(!ts_module.global);
@@ -1006,7 +1036,7 @@ fn transform_ts_module(
         unreachable!();
     };
 
-    let body = transform_ts_namespace_body(module_ident.to_id(), body);
+    let body = transform_ts_namespace_body(module_ident.to_id(), body, ctx);
 
     let init_arg = InitArg {
         id: &module_ident,
@@ -1021,7 +1051,11 @@ fn transform_ts_module(
     FoldedDecl::Expr(ExprStmt { span, expr }.into())
 }
 
-fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
+fn transform_ts_namespace_body(
+    id: Id,
+    body: TsNamespaceBody,
+    ctx: &mut TypeScriptCtx,
+) -> BlockStmt {
     let TsNamespaceDecl {
         span,
         declare,
@@ -1030,7 +1064,7 @@ fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
         body,
     } = match body {
         TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-            return transform_ts_module_block(id, ts_module_block);
+            return transform_ts_module_block(id, ts_module_block, ctx);
         }
         TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
         #[cfg(swc_ast_unknown)]
@@ -1040,7 +1074,7 @@ fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
     debug_assert!(!declare);
     debug_assert!(!global);
 
-    let body = transform_ts_namespace_body(local_name.to_id(), *body);
+    let body = transform_ts_namespace_body(local_name.to_id(), *body, ctx);
 
     let init_arg = InitArg {
         id: &local_name,
@@ -1057,7 +1091,11 @@ fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
     }
 }
 
-fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock) -> BlockStmt {
+fn transform_ts_module_block(
+    id: Id,
+    TsModuleBlock { span, body }: TsModuleBlock,
+    ctx: &mut TypeScriptCtx,
+) -> BlockStmt {
     let mut stmts = Vec::new();
 
     for module_item in body {
@@ -1077,9 +1115,22 @@ fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock
                             .into_iter()
                             .flat_map(
                                 |VarDeclarator {
-                                     span, name, init, ..
+                                     span,
+                                     mut name,
+                                     init,
+                                     ..
                                  }| {
                                     let right = init?;
+
+                                    // Apply RefRewriter to rewrite exported identifiers with
+                                    // namespace prefix
+                                    // e.g., [a, b] becomes [util.a, util.b]
+                                    // This must be done BEFORE converting to AssignTarget
+                                    if let Some(ref_rewriter) = ctx.transform.ref_rewriter.as_mut()
+                                    {
+                                        name.visit_mut_with(ref_rewriter);
+                                    }
+
                                     let left = name.try_into().unwrap();
 
                                     Some(

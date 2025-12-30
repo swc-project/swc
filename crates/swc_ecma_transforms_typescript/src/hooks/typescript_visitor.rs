@@ -93,7 +93,19 @@ where
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
         self.hook.enter_expr(node, &mut self.context);
-        node.visit_mut_children_with(self);
+
+        // Handle TypeScript-specific expression variants specially
+        // TsInstantiation has a non-optional type_args field that we can't visit
+        match node {
+            Expr::TsInstantiation(ts_inst) => {
+                // Only visit the expr, not type_args
+                ts_inst.expr.visit_mut_with(self);
+            }
+            _ => {
+                node.visit_mut_children_with(self);
+            }
+        }
+
         self.hook.exit_expr(node, &mut self.context);
     }
 
@@ -295,5 +307,31 @@ where
         self.hook.enter_ident(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_ident(node, &mut self.context);
+    }
+
+    // Strip TypeScript type arguments/params from expression nodes
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
+        node.type_args = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
+        node.type_args = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_tagged_tpl(&mut self, node: &mut TaggedTpl) {
+        node.type_params = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_jsx_opening_element(&mut self, node: &mut JSXOpeningElement) {
+        node.type_args = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
+        node.type_args = None;
+        node.visit_mut_children_with(self);
     }
 }
