@@ -90,7 +90,7 @@ export function ast_grep() {
                     );
                 });
         } else {
-            report_noexport(tree.filename(tree.filename()));
+            report_noexport(tree.filename());
         }
 
         // rewrite import
