@@ -130,17 +130,27 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         }
     }
 
+    fn enter_module_items(&mut self, _node: &mut Vec<ModuleItem>, ctx: &mut TypeScriptCtx) {
+        // Save current var_list and start fresh for this scope
+        ctx.transform.saved_var_list = Some(mem::take(&mut ctx.transform.var_list));
+    }
+
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TypeScriptCtx) {
         // Filter out empty statements
-        node.retain_mut(|item| {
-            let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
-            // Remove those folded into Empty
-            is_empty || !item.as_stmt().map(Stmt::is_empty).unwrap_or(false)
+        node.retain(|item| match item.as_stmt() {
+            Some(stmt) => !stmt.is_empty(),
+            None => true,
         });
 
-        // Take collected var declarations
+        // Take var_list accumulated during children visit (this scope only)
         let var_list = mem::take(&mut ctx.transform.var_list);
 
+        // Restore parent's var_list
+        if let Some(old_var_list) = ctx.transform.saved_var_list.take() {
+            ctx.transform.var_list = old_var_list;
+        }
+
+        // Add this scope's var declarations
         if !var_list.is_empty() {
             let decls = var_list.into_iter().map(id_to_var_declarator).collect();
 
@@ -550,8 +560,12 @@ fn fold_decl(node: Decl, is_export: bool, ctx: &mut TypeScriptCtx) -> FoldedDecl
     match node {
         Decl::TsModule(ts_module) => {
             let id = module_id_to_id(&ts_module.id);
+            let is_first = ctx.transform.decl_id_record.insert(id.clone());
 
-            if ctx.transform.decl_id_record.insert(id.clone()) {
+            let result = transform_ts_module(*ts_module, is_export, ctx);
+
+            // Only add to var_list if the module is not empty
+            if is_first && !matches!(result, FoldedDecl::Empty) {
                 if is_export {
                     if ctx.transform.namespace_id.is_none() {
                         ctx.transform.export_var_list.push(id);
@@ -561,7 +575,7 @@ fn fold_decl(node: Decl, is_export: bool, ctx: &mut TypeScriptCtx) -> FoldedDecl
                 }
             }
 
-            transform_ts_module(*ts_module, is_export, ctx)
+            result
         }
         Decl::TsEnum(ts_enum) => {
             let id = ts_enum.id.to_id();
@@ -1041,6 +1055,11 @@ fn transform_ts_module(
 
     let body = transform_ts_namespace_body(module_ident.to_id(), body, ctx);
 
+    // If namespace body is empty, don't create it
+    if body.stmts.is_empty() {
+        return FoldedDecl::Empty;
+    }
+
     let init_arg = InitArg {
         id: &module_ident,
         namespace_id: ctx.transform.namespace_id.as_ref().filter(|_| is_export),
@@ -1078,6 +1097,15 @@ fn transform_ts_namespace_body(
     debug_assert!(!global);
 
     let body = transform_ts_namespace_body(local_name.to_id(), *body, ctx);
+
+    // If body is empty, return empty block
+    if body.stmts.is_empty() {
+        return BlockStmt {
+            span,
+            stmts: vec![],
+            ..Default::default()
+        };
+    }
 
     let init_arg = InitArg {
         id: &local_name,

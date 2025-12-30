@@ -71,6 +71,7 @@ pub struct TransformState {
 
     pub var_list: Vec<Id>,
     pub export_var_list: Vec<Id>,
+    pub saved_var_list: Option<Vec<Id>>,
 
     pub in_class_prop: Vec<Id>,
     pub in_class_prop_init: Vec<Box<Expr>>,
