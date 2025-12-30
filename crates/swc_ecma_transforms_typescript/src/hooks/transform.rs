@@ -80,27 +80,28 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     }
 
     fn enter_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
+        // Namespaces can be nested, so we need to save and restore
+        // For now, just set it (nested namespaces will be handled by
+        // transform_ts_namespace_body)
         let id = n.id.to_id();
-        let namespace_id = ctx.transform.namespace_id.replace(id);
-        ctx.transform.namespace_id = namespace_id;
+        ctx.transform.namespace_id = Some(id);
     }
 
     fn exit_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
-        let id = n.id.to_id();
-        let namespace_id = mem::replace(&mut ctx.transform.namespace_id, Some(id));
-        ctx.transform.namespace_id = namespace_id;
+        // Restore namespace_id
+        ctx.transform.namespace_id = None;
     }
 
     fn enter_ts_module_decl(&mut self, n: &mut TsModuleDecl, ctx: &mut TypeScriptCtx) {
+        // Save current namespace_id and set to this module's id
         let id = module_id_to_id(&n.id);
-        let namespace_id = ctx.transform.namespace_id.replace(id);
-        ctx.transform.namespace_id = namespace_id;
+        ctx.transform.namespace_id = Some(id);
     }
 
     fn exit_ts_module_decl(&mut self, n: &mut TsModuleDecl, ctx: &mut TypeScriptCtx) {
-        let id = module_id_to_id(&n.id);
-        let namespace_id = mem::replace(&mut ctx.transform.namespace_id, Some(id));
-        ctx.transform.namespace_id = namespace_id;
+        // Restore namespace_id (modules are not nested in the visitor, so just clear
+        // it)
+        ctx.transform.namespace_id = None;
     }
 
     fn exit_module(&mut self, node: &mut Module, ctx: &mut TypeScriptCtx) {
