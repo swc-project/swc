@@ -1223,7 +1223,7 @@ fn transform_ts_module_block(
                             .into(),
                         );
                     }
-                    decl => unreachable!("{decl:?}"),
+                    decl => unreachable!("Unexpected decl in namespace export: {decl:?}"),
                 }
             }
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) => {
