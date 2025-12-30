@@ -346,7 +346,7 @@ fn is_declare(decl: &Decl) -> bool {
         // NOTE: TsInterface/TsTypeAlias is not relevant
         Decl::TsInterface(_) | Decl::TsTypeAlias(_) => true,
         Decl::TsEnum(ts_enum) => ts_enum.declare,
-        Decl::TsModule(ts_module) => ts_module.declare || ts_module.global,
+        Decl::TsModule(ts_module) => ts_module.declare || ts_module.global || ts_module.id.is_str(),
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }

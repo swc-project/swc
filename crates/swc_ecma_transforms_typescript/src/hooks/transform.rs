@@ -93,14 +93,21 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     }
 
     fn enter_ts_module_decl(&mut self, n: &mut TsModuleDecl, ctx: &mut TypeScriptCtx) {
-        // Save current namespace_id and set to this module's id
-        let id = module_id_to_id(&n.id);
-        ctx.transform.namespace_id = Some(id);
+        // Skip ambient modules (quoted names)
+        let Some(ident) = n.id.as_ident() else {
+            return;
+        };
+
+        ctx.transform.namespace_id = Some(ident.to_id());
     }
 
     fn exit_ts_module_decl(&mut self, n: &mut TsModuleDecl, ctx: &mut TypeScriptCtx) {
-        // Restore namespace_id (modules are not nested in the visitor, so just clear
-        // it)
+        // Skip ambient modules (quoted names)
+        if n.id.is_str() {
+            return;
+        }
+
+        // Restore namespace_id
         ctx.transform.namespace_id = None;
     }
 
@@ -445,7 +452,12 @@ impl<'a> Visit for Collector<'a> {
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        let id = module_id_to_id(&n.id);
+        // Skip ambient modules (quoted names)
+        let Some(ident) = n.id.as_ident() else {
+            return;
+        };
+
+        let id = ident.to_id();
         let old_namespace_id = self.ctx.transform.namespace_id.replace(id);
         n.visit_children_with(self);
         self.ctx.transform.namespace_id = old_namespace_id;
