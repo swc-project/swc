@@ -7,7 +7,7 @@ use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
 
 #[derive(Debug, Default)]
 pub(crate) struct UsageCollect {
-    id_usage: FxHashSet<Id>,
+    pub(crate) id_usage: FxHashSet<Id>,
     import_chain: FxHashMap<Id, Id>,
 }
 
@@ -108,11 +108,11 @@ impl Visit for UsageCollect {
 }
 
 impl UsageCollect {
-    fn has_usage(&self, id: &Id) -> bool {
+    pub(crate) fn has_usage(&self, id: &Id) -> bool {
         self.id_usage.contains(id)
     }
 
-    fn analyze_import_chain(&mut self) {
+    pub(crate) fn analyze_import_chain(&mut self) {
         if self.import_chain.is_empty() {
             return;
         }
@@ -265,11 +265,11 @@ impl Visit for DeclareCollect {
 }
 
 impl DeclareCollect {
-    fn has_pure_type(&self, id: &Id) -> bool {
+    pub(crate) fn has_pure_type(&self, id: &Id) -> bool {
         self.id_type.contains(id) && !self.id_value.contains(id)
     }
 
-    fn has_value(&self, id: &Id) -> bool {
+    pub(crate) fn has_value(&self, id: &Id) -> bool {
         self.id_value.contains(id)
     }
 }
