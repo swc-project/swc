@@ -89,8 +89,33 @@ async function main() {
     // 4. Move each issue/PR to the new milestone
     let movedCount = 0;
     for (const issue of issues) {
-      if (issue.state === "open") {
+      const isPR = !!issue.pull_request;
+
+      // For issues: only move closed ones
+      if (!isPR && issue.state === "open") {
         continue;
+      }
+
+      // For PRs: check if merged
+      if (isPR) {
+        try {
+          const { data: pr } = await octokit.pulls.get({
+            owner,
+            repo,
+            pull_number: issue.number,
+          });
+
+          // Only move merged PRs
+          if (!pr.merged) {
+            console.log(`⊘ Skipping PR #${issue.number} (not merged)`);
+            continue;
+          }
+        } catch (error: any) {
+          console.error(
+            `✗ Failed to check PR #${issue.number}: ${error.message}`
+          );
+          continue;
+        }
       }
 
       try {
@@ -101,7 +126,7 @@ async function main() {
           milestone: newMilestone.number,
         });
 
-        const itemType = issue.pull_request ? "PR" : "issue";
+        const itemType = isPR ? "PR" : "issue";
         console.log(`✓ Moved ${itemType} #${issue.number}: ${issue.title}`);
         movedCount++;
       } catch (error: any) {
