@@ -29,9 +29,8 @@
     "homepage": "https://swc.rs",
     "type": "module",
     "devDependencies": {
-        "@ast-grep/napi": "^0.3.1",
+        "@ast-grep/napi": "^0.40.3",
         "dprint": "^0.35.3",
-        "magic-string": "^0.30.0",
         "zx": "^7.2.1"
     },
     "dependencies": {
