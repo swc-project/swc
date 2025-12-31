@@ -129,11 +129,36 @@ impl Pure<'_> {
         let mut q_iter = tpl.quasis.take().into_iter();
         let e_iter = tpl.exprs.take().into_iter();
 
+        macro_rules! push_str {
+            ($e:expr) => {
+                if let Some(cooked) = $e.cooked {
+                    cur_cooked_str.push_wtf8(&cooked);
+                } else {
+                    cur_cooked_str.push_str(Str::from_tpl_raw(&$e.raw).as_ref());
+                }
+                cur_raw_str.push_str(&$e.raw);
+            };
+        }
+
+        macro_rules! end_str {
+            () => {
+                let cooked = Wtf8Atom::from(&*cur_cooked_str);
+                let raw = Atom::from(&*cur_raw_str);
+                cur_cooked_str.clear();
+                cur_raw_str.clear();
+                new_tpl.quasis.push(TplElement {
+                    span: DUMMY_SP,
+                    tail: false,
+                    cooked: Some(cooked),
+                    raw,
+                });
+            };
+        }
+
         // Consume a quasis first to make sure it align with exprs
         // quasis.len() == exprs.len() + 1
         if let Some(q) = q_iter.next() {
-            cur_cooked_str.push_wtf8(&q.cooked.unwrap());
-            cur_raw_str.push_str(&q.raw);
+            push_str!(q);
         }
 
         for (q, mut e) in zip(q_iter, e_iter) {
@@ -148,27 +173,16 @@ impl Pure<'_> {
 
                     // Store the first quasis for later concat
                     let first = quasis_taken[0].take();
-                    cur_cooked_str.push_wtf8(&first.cooked.unwrap());
-                    cur_raw_str.push_str(&first.raw);
+                    push_str!(first);
 
                     if l > 1 {
                         // If there are more than one quasis
                         // Concat first with outside quasis
-                        let cooked = Wtf8Atom::from(&*cur_cooked_str);
-                        let raw = Atom::from(&*cur_raw_str);
-                        cur_cooked_str.clear();
-                        cur_raw_str.clear();
-                        new_tpl.quasis.push(TplElement {
-                            span: DUMMY_SP,
-                            tail: false,
-                            cooked: Some(cooked),
-                            raw,
-                        });
+                        end_str!();
 
                         // Store the last quasis for later concat
                         let last = quasis_taken.pop().unwrap();
-                        cur_cooked_str.push_wtf8(&last.cooked.unwrap());
-                        cur_raw_str.push_str(&last.raw);
+                        push_str!(last);
 
                         // Append the rest of quasis and exprs to new_tpl
                         new_tpl.quasis.extend(quasis_taken.into_iter().skip(1));
@@ -176,33 +190,15 @@ impl Pure<'_> {
                     }
                 }
                 _ => {
-                    let cooked = Wtf8Atom::from(&*cur_cooked_str);
-                    let raw = Atom::from(&*cur_raw_str);
-                    cur_cooked_str.clear();
-                    cur_raw_str.clear();
-
-                    new_tpl.quasis.push(TplElement {
-                        span: DUMMY_SP,
-                        tail: false,
-                        cooked: Some(cooked),
-                        raw,
-                    });
+                    end_str!();
 
                     new_tpl.exprs.push(e);
                 }
             }
-            cur_cooked_str.push_wtf8(&q.cooked.unwrap());
-            cur_raw_str.push_str(&q.raw);
+            push_str!(q);
         }
 
-        let cooked = Wtf8Atom::from(&*cur_cooked_str);
-        let raw = Atom::from(&*cur_raw_str);
-        new_tpl.quasis.push(TplElement {
-            span: DUMMY_SP,
-            tail: false,
-            cooked: Some(cooked),
-            raw,
-        });
+        end_str!();
 
         *e = new_tpl.into();
     }
