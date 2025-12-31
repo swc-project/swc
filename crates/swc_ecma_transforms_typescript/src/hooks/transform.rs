@@ -547,6 +547,10 @@ impl<'a> Visit for Collector<'a> {
                 );
             }
             Decl::TsModule(ts_module_decl) => {
+                // Skip ambient modules (quoted names, declare, global)
+                if ts_module_decl.declare || ts_module_decl.global || ts_module_decl.id.is_str() {
+                    return;
+                }
                 self.ctx.transform.exported_binding.insert(
                     module_id_to_id(&ts_module_decl.id),
                     self.ctx.transform.namespace_id.clone(),
@@ -637,6 +641,12 @@ enum FoldedDecl {
 fn fold_decl(node: Decl, is_export: bool, ctx: &mut TypeScriptCtx) -> FoldedDecl {
     match node {
         Decl::TsModule(ts_module) => {
+            // Skip ambient modules (quoted names, declare, global)
+            // They will be removed by StripType hook
+            if ts_module.declare || ts_module.global || ts_module.id.is_str() {
+                return FoldedDecl::Decl(Decl::TsModule(ts_module));
+            }
+
             let id = module_id_to_id(&ts_module.id);
 
             // Add to var_list if this is the first occurrence
@@ -663,13 +673,34 @@ fn fold_decl(node: Decl, is_export: bool, ctx: &mut TypeScriptCtx) -> FoldedDecl
             result
         }
         Decl::TsEnum(ts_enum) => {
+            // Skip declare enums - they will be removed by StripType hook
+            if ts_enum.declare {
+                return FoldedDecl::Decl(Decl::TsEnum(ts_enum));
+            }
+
             let id = ts_enum.id.to_id();
 
             let is_first = ctx.transform.decl_id_record.insert(id);
 
             transform_ts_enum(*ts_enum, is_first, is_export, ctx)
         }
-        Decl::Fn(FnDecl { ref ident, .. }) | Decl::Class(ClassDecl { ref ident, .. }) => {
+        Decl::Fn(FnDecl {
+            ref ident, declare, ..
+        }) => {
+            // Skip declare functions - they will be removed by StripType hook
+            if declare {
+                return FoldedDecl::Decl(node);
+            }
+            ctx.transform.decl_id_record.insert(ident.to_id());
+            FoldedDecl::Decl(node)
+        }
+        Decl::Class(ClassDecl {
+            ref ident, declare, ..
+        }) => {
+            // Skip declare classes - they will be removed by StripType hook
+            if declare {
+                return FoldedDecl::Decl(node);
+            }
             ctx.transform.decl_id_record.insert(ident.to_id());
             FoldedDecl::Decl(node)
         }
@@ -1218,6 +1249,23 @@ fn transform_ts_module_block(
         match module_item {
             ModuleItem::Stmt(stmt) => stmts.push(stmt),
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, span, .. })) => {
+                // Check if this is a declare export that should be skipped
+                let should_skip = match &decl {
+                    Decl::Class(ClassDecl { declare: true, .. })
+                    | Decl::Fn(FnDecl { declare: true, .. }) => true,
+                    Decl::Var(var_decl) if var_decl.declare => true,
+                    Decl::TsEnum(ts_enum) if ts_enum.declare => true,
+                    Decl::TsModule(ts_module) => {
+                        ts_module.declare || ts_module.global || ts_module.id.is_str()
+                    }
+                    _ => false,
+                };
+
+                if should_skip {
+                    // Skip declare/global/ambient exports - they will be removed by StripType hook
+                    continue;
+                }
+
                 match decl {
                     Decl::Class(ClassDecl { ref ident, .. })
                     | Decl::Fn(FnDecl { ref ident, .. }) => {
@@ -1284,7 +1332,27 @@ fn transform_ts_module_block(
                             .into(),
                         );
                     }
-                    decl => unreachable!("Unexpected decl in namespace export: {decl:?}"),
+                    Decl::TsEnum(ts_enum) => {
+                        // Handle enum export using fold_decl
+                        match fold_decl(Decl::TsEnum(ts_enum), true, ctx) {
+                            FoldedDecl::Expr(stmt) => stmts.push(stmt),
+                            FoldedDecl::Decl(decl) => stmts.push(decl.into()),
+                            FoldedDecl::Empty => {}
+                        }
+                    }
+                    Decl::TsModule(ts_module) => {
+                        // Handle namespace export using fold_decl
+                        match fold_decl(Decl::TsModule(ts_module), true, ctx) {
+                            FoldedDecl::Expr(stmt) => stmts.push(stmt),
+                            FoldedDecl::Decl(decl) => stmts.push(decl.into()),
+                            FoldedDecl::Empty => {}
+                        }
+                    }
+                    _ => {
+                        // Other decl types like TsInterface, TsTypeAlias will be removed by
+                        // StripType
+                        continue;
+                    }
                 }
             }
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) => {
