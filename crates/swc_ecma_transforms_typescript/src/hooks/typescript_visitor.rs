@@ -294,6 +294,12 @@ where
         self.hook.exit_getter_prop(node, &mut self.context);
     }
 
+    fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
+        node.this_param = None;
+        node.visit_mut_children_with(self);
+        self.hook.exit_setter_prop(node, &mut self.context);
+    }
+
     fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
         node.type_ann = None;
         node.visit_mut_children_with(self);
