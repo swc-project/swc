@@ -200,8 +200,20 @@ where
     }
 
     fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
-        self.hook.enter_assign_expr(node, &mut self.context);
-        node.visit_mut_children_with(self);
+        // Save current is_lhs value
+        let old_is_lhs = self.context.transform.is_lhs;
+
+        // Visit left side with is_lhs = true
+        self.context.transform.is_lhs = true;
+        node.left.visit_mut_with(self);
+
+        // Visit right side with is_lhs = false
+        self.context.transform.is_lhs = false;
+        node.right.visit_mut_with(self);
+
+        // Restore old is_lhs value
+        self.context.transform.is_lhs = old_is_lhs;
+
         self.hook.exit_assign_expr(node, &mut self.context);
     }
 

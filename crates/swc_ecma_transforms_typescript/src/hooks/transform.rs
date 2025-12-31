@@ -529,6 +529,37 @@ impl<'a> Visit for Collector<'a> {
             .flatten();
     }
 
+    fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
+        // Collect enum values in the first pass to support forward references
+        if node.is_const {
+            self.ctx.transform.const_enum.insert(node.id.to_id());
+        }
+
+        let mut default_init = 0.0.into();
+
+        for m in &node.members {
+            let value = transform_ts_enum_member(
+                m.clone(),
+                &node.id.to_id(),
+                &default_init,
+                &self.ctx.transform.enum_record,
+                self.ctx.unresolved_ctxt,
+            );
+
+            default_init = value.inc();
+
+            let member_name = enum_member_id_atom(&m.id);
+            let key = TsEnumRecordKey {
+                enum_id: node.id.to_id(),
+                member_name: member_name.clone(),
+            };
+
+            self.ctx.transform.enum_record.insert(key, value);
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_export_decl(&mut self, node: &ExportDecl) {
         node.visit_children_with(self);
 
