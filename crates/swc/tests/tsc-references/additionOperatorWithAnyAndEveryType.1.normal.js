@@ -15,7 +15,6 @@ var E = /*#__PURE__*/ function(E) {
     E[E["c"] = 2] = "c";
     return E;
 }(E || {});
-(function(M) {})(M || (M = {}));
 var a;
 var b;
 var c;
@@ -39,7 +38,7 @@ var r12 = a + C;
 var r13 = a + new C();
 var r14 = a + E;
 var r15 = a + 0;
-var r16 = a + M;
+var r16 = a + _$M;
 var r17 = a + '';
 var r18 = a + 123;
 var r19 = a + {
@@ -47,5 +46,5 @@ var r19 = a + {
 };
 var r20 = a + function(a) {
     return a;
+    var _$M;
 };
-var M;

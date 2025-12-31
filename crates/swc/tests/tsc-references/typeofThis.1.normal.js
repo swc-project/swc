@@ -40,18 +40,19 @@ var Test5 = function Test5() {
         var x = 1;
     };
 };
-(function(Test6) {
-    Test6.f = function() {
+(function(_$Test6) {
+    _$Test6.f = function() {
         var x = 1;
     };
-})(Test6 || (Test6 = {}));
-(function(Test7) {
-    Test7.f = function() {
+})(_$Test6 || (_$Test6 = {}));
+(function(_$Test7) {
+    _$Test7.f = function() {
         var x = 1;
     };
-})(Test7 || (Test7 = {}));
+})(_$Test7 || (_$Test7 = {}));
 var Test8 = function() {
     var x = 1;
+    var _$Test6, _$Test7;
 };
 var Test9 = /*#__PURE__*/ function() {
     "use strict";
@@ -152,4 +153,3 @@ var Tests12 = /*#__PURE__*/ function() {
     };
     return Tests12;
 }();
-var Test6, Test7;

@@ -21,12 +21,12 @@ x = b;
 x = {
     f: function f() {}
 };
-(function(M) {
-    M.x = 1;
-})(M || (M = {}));
-x = M;
+(function(_$M) {
+    _$M.x = 1;
+})(_$M || (_$M = {}));
+x = _$M;
 function f(a) {
     x = a;
+    var _$M;
 }
 x = f;
-var M;

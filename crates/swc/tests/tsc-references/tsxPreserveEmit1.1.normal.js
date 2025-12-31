@@ -24,7 +24,6 @@ define([
     });
     var Route = _reactrouter.Route;
     var routes1 = /*#__PURE__*/ _react.createElement(Route, null);
-    (function(M) {})(M || (M = {}));
     (function(M) {
         // Should emit 'M.X' in both opening and closing tags
         var y = /*#__PURE__*/ _react.createElement(X, null);

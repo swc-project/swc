@@ -16,11 +16,12 @@ C = x;
 var g;
 g = x;
 I = x;
-(function(M) {
-    M.x = 1;
-})(M || (M = {}));
-M = x;
-function i(a) {}
+(function(_$M) {
+    _$M.x = 1;
+})(_$M || (_$M = {}));
+_$M = x;
+function i(a) {
+    var _$M;
+}
 // BUG 767030
 i = x;
-var M;

@@ -9,14 +9,14 @@ export var r4b;
 export var i;
 export var r5;
 export var r5;
-(M = M1 || (M1 = {})).foo = '', M.C = function C() {
+(_$M1 = _$M || (_$M = {})).foo = '', _$M1.C = function C() {
     _class_call_check(this, C);
 };
 export var r6;
 export var r7;
 export var r8;
 export var r9;
-var foo, M, E, M1, E1 = ((E = E1 || {})[E.A = 0] = "A", E);
+var _$M1, E, foo, E1 = ((E = E1 || {})[E.A = 0] = "A", E);
 export var r10;
 export var r11;
 export var r12;

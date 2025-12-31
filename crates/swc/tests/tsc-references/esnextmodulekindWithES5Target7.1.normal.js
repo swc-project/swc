@@ -2,4 +2,4 @@
 (function(N) {
     var x = 0;
 })(N || (N = {}));
-export var N;
+export var N, N2;

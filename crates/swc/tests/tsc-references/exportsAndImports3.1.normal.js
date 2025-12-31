@@ -36,6 +36,9 @@ _export(exports, {
     get M1 () {
         return M;
     },
+    get N () {
+        return N;
+    },
     get a () {
         return a;
     },
@@ -74,9 +77,8 @@ var D = /*#__PURE__*/ function(D) {
     D[D["C"] = 2] = "C";
     return D;
 }({});
-(function(M) {})(M || (M = {}));
 var a = M.x;
-var M;
+var M, N;
 //// [t2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

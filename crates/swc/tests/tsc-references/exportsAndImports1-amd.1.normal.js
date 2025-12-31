@@ -61,7 +61,6 @@ define([
         D[D["C"] = 2] = "C";
         return D;
     }(D || {});
-    (function(M) {})(M || (M = {}));
     var a = M.x;
     var M;
 });

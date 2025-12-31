@@ -1,9 +1,9 @@
 //// [moduleWithStatementsOfEveryKind.ts]
-var A, Y, Module, Y1, A1, AA, Color;
+var A, Y, Y1, A1, AA, Color;
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-A || (A = {}), Module || (Module = {}), (Y1 = Y || (Y = {})).A = A1 = function A() {
+A || (A = {}), _$Module || (_$Module = {}), (Y1 = Y || (Y = {})).A = A1 = function A() {
     _class_call_check(this, A);
 }, Y1.AA = AA = function AA() {
     _class_call_check(this, AA);

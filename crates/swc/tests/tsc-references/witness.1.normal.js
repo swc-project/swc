@@ -68,8 +68,8 @@ function fnCall() {
 var fnCallResult = fnCall();
 var fnCallResult;
 // Call argument
-function fnArg1(x, y) {
-    var x;
+function fnArg1(x1, y) {
+    var x1;
     fnArg1(fnArg1, 0);
 }
 function overload1() {
@@ -111,7 +111,7 @@ var propAcc1;
 // Property access of module member
 (function(M2) {
     M2.x = M2.x;
-    var y = M2.x;
+    var y = x;
     var y;
 })(M2 || (M2 = {}));
 // Property access of class instance type

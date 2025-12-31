@@ -13,12 +13,13 @@ var e = x;
 var f = x;
 var g = 1;
 var g2 = 1;
-(function(M) {
-    M.x = 1;
-})(M || (M = {}));
-M = x;
+(function(_$M) {
+    _$M.x = 1;
+})(_$M || (_$M = {}));
+_$M = x;
 function i(a) {
     a = x;
+    var _$M;
 }
 i = x;
 var E = /*#__PURE__*/ function(E) {
@@ -30,4 +31,3 @@ x = 0;
 x = {
     f: function f() {}
 };
-var M;

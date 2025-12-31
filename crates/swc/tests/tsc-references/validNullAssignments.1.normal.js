@@ -21,13 +21,13 @@ C = null; // error
 var g;
 g = null; // ok
 I = null; // error
-(function(M) {
-    M.x = 1;
-})(M || (M = {}));
-M = null; // error
+(function(_$M) {
+    _$M.x = 1;
+})(_$M || (_$M = {}));
+_$M = null; // error
 var h = null;
 function i(a) {
     a = null;
+    var _$M;
 }
 i = null; // error
-var M;

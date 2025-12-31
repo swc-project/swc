@@ -259,7 +259,9 @@ try {
         };
         try {
             const d19 = _ts_add_disposable_resource(env, {
-                [Symbol.dispose] () {}
+                [Symbol.dispose] () {
+                    var N;
+                }
             }, false);
         } catch (e) {
             env.error = e;
@@ -493,7 +495,6 @@ try {
             _ts_dispose_resources(env);
         }
     }
-    var N;
 } catch (e) {
     env.error = e;
     env.hasError = true;

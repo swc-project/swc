@@ -3,6 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+Object.defineProperty(exports, "M2", {
+    enumerable: true,
+    get: function() {
+        return M2;
+    }
+});
+var M2;
 //// [foo_1.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

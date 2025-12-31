@@ -16,7 +16,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-(function(M) {})(M || (M = {}));
 var objA = new A();
 // boolean type var
 var ResultIsString1 = typeof BOOLEAN === "undefined" ? "undefined" : _type_of(BOOLEAN);

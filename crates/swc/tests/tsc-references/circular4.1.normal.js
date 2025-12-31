@@ -1,5 +1,5 @@
 //// [circular4.ts]
 //// [/a.ts]
-export { };
+export var ns1;
 //// [/b.ts]
-export { };
+export var ns2;

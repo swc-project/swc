@@ -19,7 +19,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-(function(M) {})(M || (M = {}));
 var objA = new A();
 // string type var
 var ResultIsAny1 = void STRING;
@@ -34,11 +33,12 @@ var ResultIsAny5 = void {
     x: "",
     y: function(s) {
         return s;
+        var _$M;
     }
 };
 // string type expressions
 var ResultIsAny6 = void objA.a;
-var ResultIsAny7 = void M.n;
+var ResultIsAny7 = void _$M.n;
 var ResultIsAny8 = void STRING1[0];
 var ResultIsAny9 = void foo();
 var ResultIsAny10 = void A.foo();
@@ -52,5 +52,4 @@ void "";
 void STRING;
 void STRING1;
 void foo();
-objA.a, M.n;
-var M;
+objA.a, _$M.n;

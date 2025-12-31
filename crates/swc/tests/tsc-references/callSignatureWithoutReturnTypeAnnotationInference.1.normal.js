@@ -60,16 +60,17 @@ function foo10(x) {
     return c;
 }
 var r10 = foo10(1);
-(function(M) {
-    M.x = 1;
+(function(_$M) {
+    _$M.x = 1;
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };
-    M.C = C;
-})(M || (M = {}));
+    _$M.C = C;
+})(_$M || (_$M = {}));
 function foo11() {
-    return M;
+    return _$M;
+    var _$M;
 }
 var r11 = foo11();
 function foo12() {
@@ -109,4 +110,3 @@ function foo15() {
     return e1;
 }
 var r15 = foo15();
-var M;

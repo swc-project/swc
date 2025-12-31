@@ -22,7 +22,9 @@ function F(x) {
     }
     M.F2 = F2;
 })(M || (M = {}));
-for(var aNumber = 9.9;;){}
+for(var aNumber = 9.9;;){
+    var M;
+}
 for(var aString = 'this is a string';;){}
 for(var aDate = new Date(12);;){}
 for(var anObject = new Object();;){}
@@ -46,4 +48,3 @@ for(var aClassInModule = new M.A();;){}
 for(var aFunctionInModule = function(x) {
     return 'this is a string';
 };;){}
-var M;

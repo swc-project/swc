@@ -10,9 +10,10 @@
             }
             Utils.mirror = mirror;
         })(A.Utils || (A.Utils = {}));
-    })(Root.A || (Root.A = {}));
+    })(A || (A = {}));
 })(Root || (Root = {}));
 var Root;
+export var A;
 //// [part2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(otherRoot) {
@@ -30,6 +31,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             };
             Utils.Plane = Plane;
         })(A.Utils || (A.Utils = {}));
-    })(otherRoot.A || (otherRoot.A = {}));
+    })(A || (A = {}));
 })(otherRoot || (otherRoot = {}));
 var otherRoot;
+export var A;

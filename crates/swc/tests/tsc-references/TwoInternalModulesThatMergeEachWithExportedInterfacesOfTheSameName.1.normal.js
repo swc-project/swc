@@ -5,3 +5,4 @@ var p;
 // ensure merges as expected
 var l;
 var l;
+export var Y;

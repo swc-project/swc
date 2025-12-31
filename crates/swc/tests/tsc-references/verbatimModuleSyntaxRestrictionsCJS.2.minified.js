@@ -14,7 +14,10 @@ let _default = esmy;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var Values, target = exports, all = {
+var JustTypes, Values, target = exports, all = {
+    get JustTypes () {
+        return JustTypes;
+    },
     get Values () {
         return Values;
     },

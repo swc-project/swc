@@ -13,17 +13,17 @@ var D = function D() {
 function F(x) {
     return 42;
 }
-(function(M) {
+(function(_$M) {
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
-    M.A = A;
+    _$M.A = A;
     function F2(x) {
         return x.toString();
     }
-    M.F2 = F2;
-})(M || (M = {}));
+    _$M.F2 = F2;
+})(_$M || (_$M = {}));
 var aNumber = 9.9;
 throw aNumber;
 var aString = 'this is a string';
@@ -54,12 +54,12 @@ var aLambda = function(x) {
 };
 throw aLambda;
 throw aLambda(1);
-var aModule = M;
+var aModule = _$M;
 throw aModule;
-throw typeof M === "undefined" ? "undefined" : _type_of(M);
-var aClassInModule = new M.A();
+throw typeof _$M === "undefined" ? "undefined" : _type_of(_$M);
+var aClassInModule = new _$M.A();
 throw aClassInModule;
-var aFunctionInModule = M.F2;
+var aFunctionInModule = _$M.F2;
 throw aFunctionInModule;
 // no initializer or annotation, so this is an 'any'
 var x;
@@ -72,6 +72,7 @@ throw undefined;
 throw 'a string';
 throw function() {
     return 'a string';
+    var _$M;
 };
 throw function(x) {
     return 42;
@@ -92,4 +93,3 @@ throw new Date();
 throw new C();
 throw new Object();
 throw new D();
-var M;

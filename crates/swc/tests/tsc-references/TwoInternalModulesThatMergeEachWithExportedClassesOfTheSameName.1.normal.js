@@ -36,6 +36,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             // expected error
             Z.Line = Line;
         })(Y.Z || (Y.Z = {}));
-    })(X.Y || (X.Y = {}));
+    })(Y || (Y = {}));
 })(X || (X = {}));
 var A, X;
+export var Y;

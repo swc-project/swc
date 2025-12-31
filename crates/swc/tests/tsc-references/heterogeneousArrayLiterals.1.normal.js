@@ -216,7 +216,7 @@ var derived2;
         ]
     ]; // {}[]
 })(Derived || (Derived = {}));
-(function(WithContextualType) {
+(function(_$WithContextualType) {
     // no errors
     var a = [
         derived,
@@ -234,7 +234,7 @@ var derived2;
             return derived2;
         }
     ];
-})(WithContextualType || (WithContextualType = {}));
+})(_$WithContextualType || (_$WithContextualType = {}));
 function foo(t, u) {
     var a = [
         t,
@@ -271,6 +271,7 @@ function foo(t, u) {
             return null;
         }
     ]; // { (): any }[]
+    var _$WithContextualType;
 }
 function foo2(t, u) {
     var a = [
@@ -459,4 +460,3 @@ function foo4(t, u) {
  //    var j = [u, derived]; // Derived[]
  //    var k: Base[] = [t, u];
  //}
-var WithContextualType;

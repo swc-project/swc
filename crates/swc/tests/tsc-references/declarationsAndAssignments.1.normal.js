@@ -200,9 +200,9 @@ f14([
         }
     ]
 ]); // Error, no x
-(function(M) {
-    M.a = 1, M.b = 2;
-})(M || (M = {}));
+(function(_$M) {
+    _$M.a = 1, _$M.b = 2;
+})(_$M || (_$M = {}));
 function f15() {
     var a = "hello";
     var b = 1;
@@ -212,6 +212,7 @@ function f15() {
         b: b,
         c: c
     };
+    var _$M;
 }
 function f16() {
     var _f15 = f15(), a = _f15.a, b = _f15.b, c = _f15.c;
@@ -323,4 +324,3 @@ function f21(v) {
     var ref3;
     ref3 = _to_array(v), x = ref3[0], y = ref3[1], z = ref3[2], a3 = ref3.slice(3), ref3;
 }
-var M;

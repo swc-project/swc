@@ -28,7 +28,6 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-(function(M) {})(M || (M = {}));
 var objA = new A();
 // any type var
 var ResultIsString1 = typeof ANY1 === "undefined" ? "undefined" : _type_of(ANY1);

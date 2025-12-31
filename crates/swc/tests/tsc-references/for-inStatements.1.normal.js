@@ -81,7 +81,9 @@ for(var x in i[42]){}
     };
     M.X = X;
 })(M || (M = {}));
-for(var x in M){}
+for(var x in M){
+    var M;
+}
 for(var x in M.X){}
 var Color = /*#__PURE__*/ function(Color) {
     Color[Color["Red"] = 0] = "Red";
@@ -90,4 +92,3 @@ var Color = /*#__PURE__*/ function(Color) {
 }(Color || {});
 for(var x in Color){}
 for(var x in 1){}
-var M;

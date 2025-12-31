@@ -15,6 +15,9 @@ _export(exports, {
     },
     get E1 () {
         return E1;
+    },
+    get M1 () {
+        return M1;
     }
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
@@ -30,6 +33,7 @@ var E1 = /*#__PURE__*/ function(E1) {
     E1[E1["C"] = 2] = "C";
     return E1;
 }({});
+var M1;
 //// [foo_1.ts]
 "use strict";
 var i;

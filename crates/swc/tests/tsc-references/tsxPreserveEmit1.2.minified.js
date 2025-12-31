@@ -16,5 +16,5 @@ define([
     var M;
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _reactrouter.Route, M || (M = {}), M || (M = {}), X;
+    }), _reactrouter.Route, M || (M = {}), X;
 });

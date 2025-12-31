@@ -214,7 +214,7 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-(function(M) {
+(function(_$M) {
     function f1() {
         return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
@@ -224,10 +224,11 @@ var C = /*#__PURE__*/ function() {
             });
         })();
     }
-    M.f1 = f1;
-})(M || (M = {}));
+    _$M.f1 = f1;
+})(_$M || (_$M = {}));
 function f14() {
     return _async_to_generator(function() {
+        var _$M;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -249,4 +250,3 @@ function f14() {
         });
     })();
 }
-var M;

@@ -12,6 +12,7 @@ import { _ as _type_of } from "@swc/helpers/_/_type_of";
 var x;
 switch(x){
     case '':
+        var M;
     case 12:
     case true:
     case null:
@@ -96,4 +97,3 @@ switch(function(x) {
     return '';
 }(1)){
 }
-var M;

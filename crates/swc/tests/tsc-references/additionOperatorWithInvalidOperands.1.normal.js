@@ -15,7 +15,6 @@ var E = /*#__PURE__*/ function(E) {
     E[E["c"] = 2] = "c";
     return E;
 }(E || {});
-(function(M) {})(M || (M = {}));
 var a;
 var b;
 var c;
