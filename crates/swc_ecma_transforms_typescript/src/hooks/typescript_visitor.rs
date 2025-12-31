@@ -367,4 +367,16 @@ where
         node.type_args = None;
         node.visit_mut_children_with(self);
     }
+
+    fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
+        self.hook.enter_export_specifiers(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_export_specifiers(node, &mut self.context);
+    }
+
+    fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
+        self.hook.enter_import_specifiers(node, &mut self.context);
+        node.visit_mut_children_with(self);
+        self.hook.exit_import_specifiers(node, &mut self.context);
+    }
 }

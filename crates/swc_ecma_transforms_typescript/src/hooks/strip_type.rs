@@ -159,11 +159,19 @@ impl VisitMutHook<TypeScriptCtx> for StripTypeHook {
         n.accessibility = None;
     }
 
-    fn exit_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>, _: &mut TypeScriptCtx) {
-        n.retain(|s| match s {
-            ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
-            _ => true,
-        })
+    fn exit_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>, ctx: &mut TypeScriptCtx) {
+        if ctx.config.verbatim_module_syntax {
+            // With verbatimModuleSyntax, type-only specifiers should be preserved
+            // but the is_type_only flag must be cleared for the minifier
+            for s in n.iter_mut() {
+                if let ExportSpecifier::Named(named) = s {
+                    named.is_type_only = false;
+                }
+            }
+        }
+        // Note: When !verbatim_module_syntax, strip_import_export hook is
+        // active and will handle filtering export specifiers, so we
+        // don't filter here
     }
 
     fn exit_expr(&mut self, n: &mut Expr, _: &mut TypeScriptCtx) {
@@ -187,8 +195,19 @@ impl VisitMutHook<TypeScriptCtx> for StripTypeHook {
         n.optional = false;
     }
 
-    fn exit_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>, _: &mut TypeScriptCtx) {
-        n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
+    fn exit_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>, ctx: &mut TypeScriptCtx) {
+        if ctx.config.verbatim_module_syntax {
+            // With verbatimModuleSyntax, type-only specifiers should be preserved
+            // but the is_type_only flag must be cleared for the minifier
+            for s in n.iter_mut() {
+                if let ImportSpecifier::Named(named) = s {
+                    named.is_type_only = false;
+                }
+            }
+        }
+        // Note: When !verbatim_module_syntax, strip_import_export hook is
+        // active and will handle filtering import specifiers, so we
+        // don't filter here
     }
 
     fn exit_object_pat(&mut self, pat: &mut ObjectPat, _: &mut TypeScriptCtx) {

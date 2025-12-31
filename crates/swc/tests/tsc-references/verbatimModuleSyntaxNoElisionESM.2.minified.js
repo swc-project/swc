@@ -7,7 +7,7 @@ export var AClass = function AClass() {
 };
 //// [/b.ts]
 import { A } from "./a";
-export { A as A2 } from "./a";
+export { A as A2, A as A4 } from "./a";
 export { A };
 //// [/c.ts]
 import "./b";
