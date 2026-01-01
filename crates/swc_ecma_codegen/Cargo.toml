@@ -28,9 +28,7 @@ num-bigint      = { workspace = true, features = ["serde"] }
 once_cell       = { workspace = true }
 regex           = { workspace = true }
 rustc-hash      = { workspace = true }
-ryu-js          = { workspace = true }
 serde           = { workspace = true }
-swc_sourcemap   = { workspace = true }
 tracing         = { workspace = true }
 
 swc_allocator = { version = "4.0.1", path = "../swc_allocator", default-features = false, features = [
@@ -54,6 +52,7 @@ swc_ecma_parser = { version = "30.0.0", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "19.0.0", path = "../testing" }
+swc_sourcemap = { workspace = true }
 
 [[bench]]
 harness = false

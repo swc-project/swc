@@ -29,7 +29,6 @@ num_cpus       = { workspace = true }
 once_cell      = { workspace = true }
 par-core       = { workspace = true }
 rustc-hash     = { workspace = true }
-ryu-js         = { workspace = true }
 tracing        = { workspace = true }
 
 swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
