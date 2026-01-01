@@ -155,7 +155,7 @@ impl Pure<'_> {
             };
         }
 
-        // Consume a quasis first to make sure it align with exprs
+        // Consume quasis first to make sure it align with exprs
         // quasis.len() == exprs.len() + 1
         if let Some(q) = q_iter.next() {
             push_str!(q);
@@ -166,21 +166,21 @@ impl Pure<'_> {
             match *e {
                 Expr::Tpl(mut tpl) => {
                     // For evaluated template only the first
-                    // and the last quasis could be concat with
+                    // and the last quasi could be concat with
                     // outside quasis.
                     let mut quasis_taken = tpl.quasis.take();
                     let l = quasis_taken.len();
 
-                    // Store the first quasis for later concat
+                    // Store the first quasi for later concat
                     let first = quasis_taken[0].take();
                     push_str!(first);
 
                     if l > 1 {
-                        // If there are more than one quasis
+                        // If there are more than one quasi
                         // Concat first with outside quasis
                         end_str!();
 
-                        // Store the last quasis for later concat
+                        // Store the last quasi for later concat
                         let last = quasis_taken.pop().unwrap();
                         push_str!(last);
 
