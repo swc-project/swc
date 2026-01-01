@@ -23,13 +23,14 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 concurrent = ["swc_common/concurrent", "par-core/parallel"]
 
 [dependencies]
-indexmap   = { workspace = true }
-num_cpus   = { workspace = true }
-once_cell  = { workspace = true }
-par-core   = { workspace = true }
-rustc-hash = { workspace = true }
-ryu-js     = { workspace = true }
-tracing    = { workspace = true }
+dragonbox_ecma = { workspace = true }
+indexmap       = { workspace = true }
+num_cpus       = { workspace = true }
+once_cell      = { workspace = true }
+par-core       = { workspace = true }
+rustc-hash     = { workspace = true }
+ryu-js         = { workspace = true }
+tracing        = { workspace = true }
 
 swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
 swc_common     = { version = "18.0.1", path = "../swc_common" }

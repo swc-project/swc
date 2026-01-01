@@ -20,17 +20,18 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 bench = false
 
 [dependencies]
-ascii         = { workspace = true }
-compact_str   = { workspace = true }
-memchr        = { workspace = true }
-num-bigint    = { workspace = true, features = ["serde"] }
-once_cell     = { workspace = true }
-regex         = { workspace = true }
-rustc-hash    = { workspace = true }
-ryu-js        = { workspace = true }
-serde         = { workspace = true }
-swc_sourcemap = { workspace = true }
-tracing       = { workspace = true }
+ascii           = { workspace = true }
+compact_str     = { workspace = true }
+dragonbox_ecma  = { workspace = true }
+memchr          = { workspace = true }
+num-bigint      = { workspace = true, features = ["serde"] }
+once_cell       = { workspace = true }
+regex           = { workspace = true }
+rustc-hash      = { workspace = true }
+ryu-js          = { workspace = true }
+serde           = { workspace = true }
+swc_sourcemap   = { workspace = true }
+tracing         = { workspace = true }
 
 swc_allocator = { version = "4.0.1", path = "../swc_allocator", default-features = false, features = [
   "hashbrown",

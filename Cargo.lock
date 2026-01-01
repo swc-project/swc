@@ -1947,6 +1947,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dragonbox_ecma"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6a5577f010d4e1bb3f3c4d6081e05718eb6992cf20119cab4d3abadff198b5ae"
+
+[[package]]
 name = "dtoa"
 version = "1.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5836,6 +5842,7 @@ dependencies = [
  "base64 0.22.1",
  "codspeed-criterion-compat",
  "compact_str",
+ "dragonbox_ecma",
  "memchr",
  "num-bigint",
  "once_cell",
@@ -6613,6 +6620,7 @@ dependencies = [
 name = "swc_ecma_utils"
 version = "25.0.0"
 dependencies = [
+ "dragonbox_ecma",
  "indexmap 2.12.0",
  "num_cpus",
  "once_cell",
