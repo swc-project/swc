@@ -294,6 +294,14 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
             });
     }
 
+    fn enter_stmts(&mut self, _node: &mut Vec<Stmt>, ctx: &mut TypeScriptCtx) {
+        // Save current var_list on stack and start fresh for this scope
+        // Using a stack ensures nested Vec<Stmt> don't interfere
+        ctx.transform
+            .saved_var_list
+            .push(mem::take(&mut ctx.transform.var_list));
+    }
+
     fn exit_stmts(&mut self, node: &mut Vec<Stmt>, ctx: &mut TypeScriptCtx) {
         // Filter out empty statements
         node.retain_mut(|stmt| {
@@ -302,10 +310,17 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
             is_empty || !stmt.is_empty()
         });
 
-        // Take collected var declarations
-        let var_list = mem::take(&mut ctx.transform.var_list);
-        if !var_list.is_empty() {
-            let decls = var_list.into_iter().map(id_to_var_declarator).collect();
+        // Take var_list accumulated during children visit (this scope's declarations)
+        let new_var_list = mem::take(&mut ctx.transform.var_list);
+
+        // Restore parent's var_list from stack
+        if let Some(old_var_list) = ctx.transform.saved_var_list.pop() {
+            ctx.transform.var_list = old_var_list;
+        }
+
+        // Add this scope's var declarations to the current stmts
+        if !new_var_list.is_empty() {
+            let decls = new_var_list.into_iter().map(id_to_var_declarator).collect();
             node.push(
                 VarDecl {
                     decls,
