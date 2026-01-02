@@ -19,6 +19,7 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
+(function(M) {})(M || (M = {}));
 var objA = new A();
 // number type var
 var ResultIsAny1 = void NUMBER;
@@ -33,12 +34,11 @@ var ResultIsAny5 = void {
     x: 1,
     y: function(n) {
         return n;
-        var _$M;
     }
 };
 // number type expressions
 var ResultIsAny6 = void objA.a;
-var ResultIsAny7 = void _$M.n;
+var ResultIsAny7 = void M.n;
 var ResultIsAny8 = void NUMBER1[0];
 var ResultIsAny9 = void foo();
 var ResultIsAny10 = void A.foo();
@@ -52,5 +52,6 @@ void NUMBER;
 void NUMBER1;
 void foo();
 void objA.a;
-void _$M.n;
-objA.a, _$M.n;
+void M.n;
+objA.a, M.n;
+var M;

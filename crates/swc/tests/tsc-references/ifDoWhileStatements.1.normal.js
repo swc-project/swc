@@ -48,9 +48,7 @@ function F2(x) {
     N.F2 = F2;
 })(N || (N = {}));
 // literals
-if (true) {
-    var M, N;
-}
+if (true) {}
 while(true){}
 do {}while (true);
 if (null) {}
@@ -176,3 +174,4 @@ do {}while (fn());
 if (fn) {}
 while(fn){}
 do {}while (fn);
+var M, N;

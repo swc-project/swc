@@ -27,6 +27,7 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
+(function(M) {})(M || (M = {}));
 var objA = new A();
 // any type var
 var ResultIsBoolean1 = !ANY1;

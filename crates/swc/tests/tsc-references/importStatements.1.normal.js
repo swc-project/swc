@@ -11,12 +11,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     A.Origin = new Point(0, 0);
 })(A || (A = {}));
 // no code gen expected
-(function(B) {
-    var a = A; //Error generates 'var <Alias> = <EntityName>;'
-})(B || (B = {}));
-// no code gen expected
 (function(C) {
-    var a = A; //Error generates 'var <Alias> = <EntityName>;'
     var m;
     var p;
     var p = {
@@ -36,4 +31,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }
     E.xDist = xDist;
 })(E || (E = {}));
-var A, B, C, D, E;
+var A, C, D, E;

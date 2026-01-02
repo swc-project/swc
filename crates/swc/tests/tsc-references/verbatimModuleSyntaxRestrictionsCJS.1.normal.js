@@ -26,9 +26,6 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    get JustTypes () {
-        return JustTypes;
-    },
     get Values () {
         return Values;
     },
@@ -43,7 +40,7 @@ const x = 1; // error
 (function(Values) {
     Values.x = 1;
 })(Values || (Values = {}));
-var JustTypes, Values;
+var Values;
  // sketchy, but ok
 //// [/main2.ts]
 "use strict";

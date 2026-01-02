@@ -29,4 +29,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         X.Point = Point;
     })(M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));
+(function(M2) {
+    (function(X) {})(M2.X || (M2.X = {}));
+})(M2 || (M2 = {}));
 var A, M2;

@@ -50,6 +50,7 @@ var D = /*#__PURE__*/ function(D) {
     D[D["C"] = 2] = "C";
     return D;
 }(D || {});
+(function(M) {})(M || (M = {}));
 const a = M.x;
 var M;
 //// [t2.ts]

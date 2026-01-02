@@ -9,7 +9,7 @@
 })(ns3 || (ns3 = {}));
 (function(ns4) {
     (function(ns5) {
-        ns5.b = a;
+        ns5.b = ns4.a;
     })(ns4.ns5 || (ns4.ns5 = {}));
 })(ns4 || (ns4 = {}));
 export var ns, ns2, ns3, ns4;

@@ -7,5 +7,7 @@ var M, A = /*#__PURE__*/ function() {
     return A.foo = function() {
         return !1;
     }, A;
-}(), objA = new A();
+}();
+M || (M = {});
+var objA = new A();
 objA.a, M.n, A.foo(), objA.a, M.n;

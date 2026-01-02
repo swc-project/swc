@@ -5,5 +5,7 @@ var M, A = /*#__PURE__*/ function() {
         _class_call_check(this, A);
     }
     return A.foo = function() {}, A;
-}(), objA = new A();
+}();
+M || (M = {});
+var objA = new A();
 objA.a, M.n, A.foo(), objA.a, M.n;

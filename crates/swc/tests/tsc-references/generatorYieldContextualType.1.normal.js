@@ -26,7 +26,6 @@ var Directive = /*#__PURE__*/ function(Directive) {
 })(StepResult || (StepResult = {}));
 function canPickStepContinue(_step, _state, _selection) {
     return false;
-    var StepResult;
 }
 function createPickStep(step) {
     return step;
@@ -39,3 +38,4 @@ function* showStep(state, _context) {
     const selection = yield step;
     return canPickStepContinue(step, state, selection) ? selection[0] : StepResult.Break;
 }
+var StepResult;

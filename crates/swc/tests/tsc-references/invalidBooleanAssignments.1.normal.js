@@ -18,12 +18,12 @@ var f = x;
 var g = x;
 var h = x;
 var h2 = x; // no error
-(function(_$M) {
-    _$M.a = 1;
-})(_$M || (_$M = {}));
-_$M = x;
+(function(M) {
+    M.a = 1;
+})(M || (M = {}));
+M = x;
 function i(a) {
     a = x;
-    var _$M;
 }
 i = x;
+var M;

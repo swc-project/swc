@@ -15,6 +15,7 @@ var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
+(function(M) {})(M || (M = {}));
 var objA = new A();
 // any type var
 var ResultIsNumber1 = ++ANY;

@@ -1,14 +1,14 @@
 //// [importAliasIdentifiers.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(function(_$moduleA) {
+(function(moduleA) {
     var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
         this.x = x;
         this.y = y;
     };
-    _$moduleA.Point = Point;
-})(_$moduleA || (_$moduleA = {}));
+    moduleA.Point = Point;
+})(moduleA || (moduleA = {}));
 var p;
 var p;
 var p;
@@ -30,7 +30,6 @@ function fundule() {
         x: 0,
         y: 0
     };
-    var _$moduleA;
 }
 (function(fundule) {
     var Point = {
@@ -41,3 +40,4 @@ function fundule() {
 var p;
 var p;
 var p;
+var moduleA;

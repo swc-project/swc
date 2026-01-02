@@ -8,7 +8,7 @@ class ReusablePayments extends PureComponent {
             this.setDefaultReusablePayment();
         }
     }
-    setDefaultReusablePayment(skipPaymentSource?) {
+    setDefaultReusablePayment(skipPaymentSource) {
         var _this_props = this.props, reusablePaymentSources = _this_props.reusablePaymentSources, selectedReusablePayment = _this_props.selectedReusablePayment, onChange = _this_props.onChange;
         var validReusablePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource" && ps !== skipPaymentSource);
         if (selectedReusablePayment === null) {

@@ -36,14 +36,14 @@ class ServerRouter {
     basePath;
     events;
     isFallback;
-    locale?;
+    locale;
     isReady;
-    locales?;
-    defaultLocale?;
-    domainLocales?;
+    locales;
+    defaultLocale;
+    domainLocales;
     isPreview;
     isLocaleDomain;
-    constructor(pathname, query, as, { isFallback }, isReady, basePath, locale?, locales?, defaultLocale?, domainLocales?, isPreview?, isLocaleDomain?){
+    constructor(pathname, query, as, { isFallback }, isReady, basePath, locale, locales, defaultLocale, domainLocales, isPreview, isLocaleDomain){
         this.route = pathname.replace(/\/$/, "") || "/";
         this.pathname = pathname;
         this.query = query;

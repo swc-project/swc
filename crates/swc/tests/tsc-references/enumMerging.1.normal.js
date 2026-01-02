@@ -45,12 +45,12 @@
         EComp2[EComp2["F"] = 'foo'.length] = "F";
     })(M2.EComp2);
     var x = [
-        EComp2.A,
-        EComp2.B,
-        EComp2.C,
-        EComp2.D,
-        EComp2.E,
-        EComp2.F
+        M2.EComp2.A,
+        M2.EComp2.B,
+        M2.EComp2.C,
+        M2.EComp2.D,
+        M2.EComp2.E,
+        M2.EComp2.F
     ];
 })(M2 || (M2 = {}));
 // Enum with initializer in only one of two declarations with constant members with the same root module
@@ -96,7 +96,7 @@
             Color[Color["Yellow"] = 1] = "Yellow";
         })(A.Color || (A.Color = {}));
     })(M6.A || (M6.A = {}));
-    var t = A.Color.Yellow;
+    var t = M6.A.Color.Yellow;
     t = M6.A.Color.Red;
 })(M6 || (M6 = {}));
 var M1, M2, M3, M4, M5, M6;

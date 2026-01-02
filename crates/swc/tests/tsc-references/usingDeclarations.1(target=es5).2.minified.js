@@ -30,8 +30,8 @@ try {
         } finally{
             _ts_dispose_resources(env);
         }
-    }(), _$N || (_$N = {});
-    var env1 = {
+    }(), N || (N = {});
+    var N, env1 = {
         stack: [],
         error: void 0,
         hasError: !1

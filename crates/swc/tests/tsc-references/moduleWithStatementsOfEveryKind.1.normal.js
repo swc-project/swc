@@ -29,12 +29,12 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         }
         return BB;
     }(A1);
-    (function(_$Module) {
+    (function(Module) {
         var A = function A() {
             "use strict";
             _class_call_check(this, A);
         };
-    })(_$Module || (_$Module = {}));
+    })(Module || (Module = {}));
     var Color = /*#__PURE__*/ function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
@@ -43,7 +43,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
     var x = 12;
     function F(s) {
         return 2;
-        var _$Module;
     }
     var array = null;
     var fn = function(s) {
@@ -54,6 +53,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         id: 2,
         isvalid: true
     };
+    var Module;
 })(A || (A = {}));
 (function(Y) {
     var A = function A() {

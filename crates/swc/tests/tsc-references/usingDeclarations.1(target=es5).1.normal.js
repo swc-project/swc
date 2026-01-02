@@ -338,7 +338,7 @@ try {
         }
         return C3;
     }(C1);
-    (function(_$N) {
+    (function(N) {
         var env = {
             stack: [],
             error: void 0,
@@ -352,7 +352,7 @@ try {
         } finally{
             _ts_dispose_resources(env);
         }
-    })(_$N || (_$N = {}));
+    })(N || (N = {}));
     {
         var env1 = {
             stack: [],
@@ -360,9 +360,7 @@ try {
             hasError: false
         };
         try {
-            var d19 = _ts_add_disposable_resource(env1, _define_property({}, Symbol.dispose, function() {
-                var _$N;
-            }), false);
+            var d19 = _ts_add_disposable_resource(env1, _define_property({}, Symbol.dispose, function() {}), false);
         } catch (e) {
             env1.error = e;
             env1.hasError = true;
@@ -570,6 +568,7 @@ try {
             _ts_dispose_resources(env14);
         }
     }
+    var N;
 } catch (e) {
     env.error = e;
     env.hasError = true;

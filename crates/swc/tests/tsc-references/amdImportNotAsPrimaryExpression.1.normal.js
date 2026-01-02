@@ -20,9 +20,6 @@ define([
         },
         get E1 () {
             return E1;
-        },
-        get M1 () {
-            return M1;
         }
     });
     var C1 = function C1() {
@@ -37,7 +34,6 @@ define([
         E1[E1["C"] = 2] = "C";
         return E1;
     }({});
-    var M1;
 });
 //// [foo_1.ts]
 define([

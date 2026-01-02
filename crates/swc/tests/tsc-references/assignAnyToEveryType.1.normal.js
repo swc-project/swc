@@ -25,11 +25,11 @@ var h = x;
 var i = x;
 var j = x;
 var j2 = x;
-(function(_$M) {
-    _$M.foo = 1;
-})(_$M || (_$M = {}));
-_$M = x;
+(function(M) {
+    M.foo = 1;
+})(M || (M = {}));
+M = x;
 function k(a) {
     a = x;
-    var _$M;
 }
+var M;

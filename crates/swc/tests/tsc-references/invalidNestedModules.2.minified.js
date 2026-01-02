@@ -1,5 +1,5 @@
 //// [invalidNestedModules.ts]
-var A, M2, A1, B, A2, M21;
+var A, M2, A1, B, A2, M21, M22;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ((B = (A1 = A || (A = {})).B || (A1.B = {})).C || (B.C = {})).Point = function Point() {
     _class_call_check(this, Point);
@@ -7,4 +7,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     _class_call_check(this, C);
 }, ((M21 = M2 || (M2 = {})).X || (M21.X = {})).Point = function Point() {
     _class_call_check(this, Point);
-};
+}, (M22 = M2 || (M2 = {})).X || (M22.X = {});

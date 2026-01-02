@@ -33,6 +33,6 @@ async function f14() {
     block: {
         await 1;
         break block;
-        var M;
     }
 }
+var M;

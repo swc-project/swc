@@ -7,6 +7,7 @@ let env = {
     hasError: !1
 };
 try {
+    var N;
     _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, !1);

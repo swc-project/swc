@@ -9,19 +9,19 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         CompilerDiagnostics.diagnosticWriter = null;
         CompilerDiagnostics.analysisPass = 0;
         function Alert(output) {
-            if (diagnosticWriter) {
-                diagnosticWriter.Alert(output);
+            if (CompilerDiagnostics.diagnosticWriter) {
+                CompilerDiagnostics.diagnosticWriter.Alert(output);
             }
         }
         CompilerDiagnostics.Alert = Alert;
         function debugPrint(s) {
-            if (debug) {
+            if (CompilerDiagnostics.debug) {
                 Alert(s);
             }
         }
         CompilerDiagnostics.debugPrint = debugPrint;
         function assert(condition, s) {
-            if (debug) {
+            if (CompilerDiagnostics.debug) {
                 if (!condition) {
                     Alert(s);
                 }
@@ -38,7 +38,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         _proto.information = function information() {
             return false;
         };
-        _proto.debug = function debug1() {
+        _proto.debug = function debug() {
             return false;
         };
         _proto.warning = function warning() {
@@ -69,7 +69,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         _proto.information = function information() {
             return this._information;
         };
-        _proto.debug = function debug1() {
+        _proto.debug = function debug() {
             return this._debug;
         };
         _proto.warning = function warning() {
@@ -97,7 +97,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         _proto.information = function information() {
             return false;
         };
-        _proto.debug = function debug1() {
+        _proto.debug = function debug() {
             return false;
         };
         _proto.warning = function warning() {

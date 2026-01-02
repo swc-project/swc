@@ -19,6 +19,7 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
+(function(M) {})(M || (M = {}));
 var objA = new A();
 // number type var
 var ResultIsBoolean1 = !NUMBER;
@@ -33,12 +34,11 @@ var ResultIsBoolean5 = !{
     x: 1,
     y: function(n) {
         return n;
-        var _$M;
     }
 };
 // number type expressions
 var ResultIsBoolean6 = !objA.a;
-var ResultIsBoolean7 = !_$M.n;
+var ResultIsBoolean7 = !M.n;
 var ResultIsBoolean8 = !NUMBER1[0];
 var ResultIsBoolean9 = !foo();
 var ResultIsBoolean10 = !A.foo();
@@ -52,5 +52,6 @@ var ResultIsBoolean13 = !!!(NUMBER + NUMBER);
 !NUMBER1;
 !foo();
 !objA.a;
-!_$M.n;
-!objA.a, _$M.n;
+!M.n;
+!objA.a, M.n;
+var M;

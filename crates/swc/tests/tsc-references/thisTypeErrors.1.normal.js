@@ -22,9 +22,9 @@ var C2 = /*#__PURE__*/ function() {
     return C2;
 }();
 C2.y = undefined;
-(function(_$N1) {
-    _$N1.y = this;
-})(_$N1 || (_$N1 = {}));
+(function(N1) {
+    N1.y = this;
+})(N1 || (N1 = {}));
 var C3 = /*#__PURE__*/ function() {
     "use strict";
     function C3() {
@@ -32,7 +32,6 @@ var C3 = /*#__PURE__*/ function() {
         this.x1 = {
             g: function g(x) {
                 return undefined;
-                var _$N1;
             }
         };
     }
@@ -49,3 +48,4 @@ var C3 = /*#__PURE__*/ function() {
     };
     return C3;
 }();
+var N1;

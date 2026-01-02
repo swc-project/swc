@@ -16,14 +16,12 @@ x = C;
 x = b;
 var c;
 x = c;
-(function(_$M) {
-    _$M.x = 1;
-})(_$M || (_$M = {}));
-x = _$M;
+(function(M) {
+    M.x = 1;
+})(M || (M = {}));
+x = M;
 x = {
-    f: function f() {
-        var _$M;
-    }
+    f: function f() {}
 };
 function f(a) {
     x = a;
@@ -35,3 +33,4 @@ var E = /*#__PURE__*/ function(E) {
 }(E || {});
 x = E;
 x = 0;
+var M;

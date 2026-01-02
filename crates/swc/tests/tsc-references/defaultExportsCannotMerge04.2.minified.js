@@ -7,4 +7,4 @@ Object.defineProperty(exports, "__esModule", {
     get: function() {
         return Foo;
     }
-});
+}), Foo || (Foo = {});

@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _object_spread = require("@swc/helpers/_/_object_spread");
 var _object_spread_props = require("@swc/helpers/_/_object_spread_props");
+(function(M) {})(M || (M = {}));
 (function(M) {
     // Should emit M.React.createElement
     //  and M.React.__spread

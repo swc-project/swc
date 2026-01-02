@@ -34,9 +34,7 @@ function F(x) {
     M.F2 = F2;
 })(M || (M = {}));
 // all of these are errors
-for(var a;;){
-    var M;
-}
+for(var a;;){}
 for(var a = 1;;){}
 for(var a = 'a string';;){}
 for(var a = new C();;){}
@@ -67,3 +65,4 @@ for(var arr2 = [
 for(var arr2 = new Array();;){}
 for(var m;;){}
 for(var m = M.A;;){}
+var M;

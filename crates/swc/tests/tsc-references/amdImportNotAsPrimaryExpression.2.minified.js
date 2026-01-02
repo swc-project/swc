@@ -13,16 +13,13 @@ define([
         },
         get E1 () {
             return E11;
-        },
-        get M1 () {
-            return M1;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
         get: Object.getOwnPropertyDescriptor(all, name).get
     });
-    var M1, C1 = function C1() {
+    var C1 = function C1() {
         _class_call_check._(this, C1), this.m1 = 42;
     };
     C1.s1 = !0;

@@ -19,14 +19,14 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 })(B || (B = {}));
 (function(X) {
     var X1 = 13;
-    (function(Y1) {
-        var Y = 13;
+    (function(Y) {
+        var _$Y = 13;
         (function(Z) {
             var X = 12;
-            var Y = 12;
+            var _$Y = 12;
             var Z1 = 12;
-        })(Y1.Z || (Y1.Z = {}));
-    })(Y1 || (Y1 = {}));
+        })(Y.Z || (Y.Z = {}));
+    })(X.Y || (X.Y = {}));
 })(X || (X = {}));
 (function(Y) {
     (function(Y) {
@@ -42,5 +42,3 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     D.E = 'hello';
 })(D || (D = {}));
 var A, B, X, Y, D;
-var Y1;
-export { Y1 as Y };

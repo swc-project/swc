@@ -19,7 +19,7 @@ function Test3(param) {
     var foo = param.foo;
     return /*#__PURE__*/ React.createElement("div", null, (foo === null || foo === void 0 ? void 0 : foo.bar) === false && "foo", foo.bar ? "true" : "false");
 }
-function test4(options?) {
+function test4(options) {
     if ((options === null || options === void 0 ? void 0 : options.a) === false || options.b) {
         options;
     }

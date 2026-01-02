@@ -11,7 +11,9 @@ var BOOLEAN, M, A = /*#__PURE__*/ function() {
     return A.foo = function() {
         return !1;
     }, A;
-}(), objA = new A();
+}();
+M || (M = {});
+var objA = new A();
 void 0 === BOOLEAN || _type_of(BOOLEAN), _type_of(!0), _type_of({
     x: !0,
     y: !1

@@ -75,7 +75,7 @@ function f14() {
         block: {
             yield 1;
             break block;
-            var M;
         }
     })();
 }
+var M;

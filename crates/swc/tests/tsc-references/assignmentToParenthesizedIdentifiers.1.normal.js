@@ -5,44 +5,44 @@ x = 3; // OK
 x = 3; // OK
 x = ''; // Error
 x = ''; // Error
-_$M.y = 3; // OK
-_$M.y = 3; // OK
-_$M.y = 3; // OK
-_$M.y = ''; // Error
-_$M.y = ''; // Error
-_$M.y = ''; // Error
-_$M = {
+(function(M) {})(M || (M = {}));
+M.y = 3; // OK
+M.y = 3; // OK
+M.y = 3; // OK
+M.y = ''; // Error
+M.y = ''; // Error
+M.y = ''; // Error
+M = {
     y: 3
 }; // Error
-_$M = {
+M = {
     y: 3
 }; // Error
-(function(_$M2) {
-    _$M2.M3 = {
+(function(M2) {
+    (function(M3) {})(M2.M3 || (M2.M3 = {}));
+    M2.M3 = {
         x: 3
     }; // Error
-})(_$M2 || (_$M2 = {}));
-_$M2.M3 = {
+})(M2 || (M2 = {}));
+M2.M3 = {
     x: 3
 }; // OK
-_$M2.M3 = {
+M2.M3 = {
     x: 3
 }; // OK
-_$M2.M3 = {
+M2.M3 = {
     x: 3
 }; // OK
-_$M2.M3 = {
+M2.M3 = {
     x: ''
 }; // Error
-_$M2.M3 = {
+M2.M3 = {
     x: ''
 }; // Error
-_$M2.M3 = {
+M2.M3 = {
     x: ''
 }; // Error
-function fn() {
-    var _$M, _$M2;
-}
+function fn() {}
 fn = function() {
     return 3;
 }; // Bug 823548: Should be error (fn is not a reference)
@@ -77,3 +77,4 @@ var C = function C() {
 };
 C = undefined; // Error
 C = undefined; // Error
+var M, M2;
