@@ -1,4 +1,4 @@
-use std::{borrow::Cow, mem::take};
+use std::{borrow::Cow, iter::zip, mem::take};
 
 use swc_atoms::{
     wtf8::{Wtf8, Wtf8Buf},
@@ -126,74 +126,79 @@ impl Pure<'_> {
         };
         let mut cur_cooked_str = Wtf8Buf::new();
         let mut cur_raw_str = String::new();
+        let mut q_iter = tpl.quasis.take().into_iter();
+        let e_iter = tpl.exprs.take().into_iter();
 
-        for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
-            if idx % 2 == 0 {
-                let q = tpl.quasis[idx / 2].take();
-
-                cur_cooked_str.push_str(&Str::from_tpl_raw(&q.raw));
-                cur_raw_str.push_str(&q.raw);
-            } else {
-                let mut e = tpl.exprs[idx / 2].take();
-                self.eval_nested_tpl(&mut e);
-
-                match *e {
-                    Expr::Tpl(mut e) => {
-                        // We loop again
-                        //
-                        // I think we can merge this code...
-                        for idx in 0..(e.quasis.len() + e.exprs.len()) {
-                            if idx % 2 == 0 {
-                                let q = e.quasis[idx / 2].take();
-
-                                cur_cooked_str.push_str(Str::from_tpl_raw(&q.raw).as_ref());
-                                cur_raw_str.push_str(&q.raw);
-                            } else {
-                                let cooked = Wtf8Atom::from(&*cur_cooked_str);
-                                let raw = Atom::from(&*cur_raw_str);
-                                cur_cooked_str.clear();
-                                cur_raw_str.clear();
-
-                                new_tpl.quasis.push(TplElement {
-                                    span: DUMMY_SP,
-                                    tail: false,
-                                    cooked: Some(cooked),
-                                    raw,
-                                });
-
-                                let e = e.exprs[idx / 2].take();
-
-                                new_tpl.exprs.push(e);
-                            }
-                        }
-                    }
-                    _ => {
-                        let cooked = Wtf8Atom::from(&*cur_cooked_str);
-                        let raw = Atom::from(&*cur_raw_str);
-                        cur_cooked_str.clear();
-                        cur_raw_str.clear();
-
-                        new_tpl.quasis.push(TplElement {
-                            span: DUMMY_SP,
-                            tail: false,
-                            cooked: Some(cooked),
-                            raw,
-                        });
-
-                        new_tpl.exprs.push(e);
-                    }
+        macro_rules! push_str {
+            ($e:expr) => {
+                if let Some(cooked) = $e.cooked {
+                    cur_cooked_str.push_wtf8(&cooked);
+                } else {
+                    cur_cooked_str.push_str(Str::from_tpl_raw(&$e.raw).as_ref());
                 }
-            }
+                cur_raw_str.push_str(&$e.raw);
+            };
         }
 
-        let cooked = Wtf8Atom::from(&*cur_cooked_str);
-        let raw = Atom::from(&*cur_raw_str);
-        new_tpl.quasis.push(TplElement {
-            span: DUMMY_SP,
-            tail: false,
-            cooked: Some(cooked),
-            raw,
-        });
+        macro_rules! end_str {
+            () => {
+                let cooked = Wtf8Atom::from(&*cur_cooked_str);
+                let raw = Atom::from(&*cur_raw_str);
+                cur_cooked_str.clear();
+                cur_raw_str.clear();
+                new_tpl.quasis.push(TplElement {
+                    span: DUMMY_SP,
+                    tail: false,
+                    cooked: Some(cooked),
+                    raw,
+                });
+            };
+        }
+
+        // Consume quasis first to make sure it align with exprs
+        // quasis.len() == exprs.len() + 1
+        if let Some(q) = q_iter.next() {
+            push_str!(q);
+        }
+
+        for (q, mut e) in zip(q_iter, e_iter) {
+            self.eval_nested_tpl(&mut e);
+            match *e {
+                Expr::Tpl(mut tpl) => {
+                    // For evaluated template only the first
+                    // and the last quasi could be concat with
+                    // outside quasis.
+                    let mut quasis_taken = tpl.quasis.take();
+                    let l = quasis_taken.len();
+
+                    // Store the first quasi for later concat
+                    let first = quasis_taken[0].take();
+                    push_str!(first);
+
+                    if l > 1 {
+                        // If there are more than one quasi
+                        // Concat first with outside quasis
+                        end_str!();
+
+                        // Store the last quasi for later concat
+                        let last = quasis_taken.pop().unwrap();
+                        push_str!(last);
+
+                        // Append the rest of quasis and exprs to new_tpl
+                        new_tpl.quasis.extend(quasis_taken.into_iter().skip(1));
+                        new_tpl.exprs.extend(tpl.exprs.into_iter());
+                    }
+                }
+                _ => {
+                    end_str!();
+
+                    new_tpl.exprs.push(e);
+                }
+            }
+            push_str!(q);
+        }
+
+        end_str!();
 
         *e = new_tpl.into();
     }
