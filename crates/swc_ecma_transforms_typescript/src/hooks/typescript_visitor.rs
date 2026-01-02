@@ -98,21 +98,25 @@ where
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        self.hook.enter_expr(node, &mut self.context);
+        use swc_ecma_utils::stack_size::maybe_grow_default;
 
-        // Handle TypeScript-specific expression variants specially
-        // TsInstantiation has a non-optional type_args field that we can't visit
-        match node {
-            Expr::TsInstantiation(ts_inst) => {
-                // Only visit the expr, not type_args
-                ts_inst.expr.visit_mut_with(self);
-            }
-            _ => {
-                node.visit_mut_children_with(self);
-            }
-        }
+        maybe_grow_default(|| {
+            self.hook.enter_expr(node, &mut self.context);
 
-        self.hook.exit_expr(node, &mut self.context);
+            // Handle TypeScript-specific expression variants specially
+            // TsInstantiation has a non-optional type_args field that we can't visit
+            match node {
+                Expr::TsInstantiation(ts_inst) => {
+                    // Only visit the expr, not type_args
+                    ts_inst.expr.visit_mut_with(self);
+                }
+                _ => {
+                    node.visit_mut_children_with(self);
+                }
+            }
+
+            self.hook.exit_expr(node, &mut self.context);
+        });
     }
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
