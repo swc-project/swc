@@ -134,7 +134,7 @@ impl Pure<'_> {
                 if let Some(cooked) = $e.cooked {
                     cur_cooked_str.push_wtf8(&cooked);
                 } else {
-                    cur_cooked_str.push_str(Str::from_tpl_raw(&$e.raw).as_ref());
+                    cur_cooked_str.push_wtf8(&Str::from_tpl_raw(&$e.raw));
                 }
                 cur_raw_str.push_str(&$e.raw);
             };
@@ -207,40 +207,30 @@ impl Pure<'_> {
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
-                if let Some(value) = &t.quasis[0].cooked {
-                    if let Some(value) = value.as_str() {
+                if let Some(cooked) = &t.quasis[0].cooked {
+                    if let Some(value) = cooked.as_str() {
                         if value.chars().all(|c| match c {
-                            '\\' => false,
-                            '\u{0020}'..='\u{007e}' => true,
                             '\n' | '\r' => self.config.force_str_for_tpl,
-                            _ => false,
+                            _ => true,
                         }) {
                             report_change!("converting a template literal to a string literal");
 
                             *e = Lit::Str(Str {
                                 span: t.span,
                                 raw: None,
-                                value: t.quasis[0].cooked.clone().unwrap(),
+                                value: cooked.clone(),
                             })
                             .into();
-                            return;
                         }
+                        return;
                     }
                 }
 
                 let c = &t.quasis[0].raw;
-
                 if c.chars().all(|c| match c {
-                    '\u{0020}'..='\u{007e}' => true,
                     '\n' | '\r' => self.config.force_str_for_tpl,
-                    _ => false,
-                }) && (self.config.force_str_for_tpl
-                    || c.contains("\\`")
-                    || (!c.contains("\\n") && !c.contains("\\r")))
-                    && !c.contains("\\0")
-                    && !c.contains("\\x")
-                    && !c.contains("\\u")
-                {
+                    _ => true,
+                }) {
                     let value = Str::from_tpl_raw(c);
 
                     report_change!("converting a template literal to a string literal");
@@ -248,7 +238,7 @@ impl Pure<'_> {
                     *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
-                        value: value.into(),
+                        value,
                     })
                     .into();
                 }
@@ -587,36 +577,10 @@ pub(super) fn convert_str_value_to_tpl_cooked(value: &Wtf8) -> Cow<Wtf8> {
     let mut result = Wtf8Buf::default();
     let mut need_replace = false;
 
-    let mut iter = value.code_points().peekable();
-    while let Some(code_point) = iter.next() {
+    let iter = value.code_points().peekable();
+    for code_point in iter {
         if let Some(ch) = code_point.to_char() {
-            match ch {
-                '\\' => {
-                    if let Some(next) = iter.peek().and_then(|c| c.to_char()) {
-                        match next {
-                            '\\' => {
-                                need_replace = true;
-                                result.push_char('\\');
-                                iter.next();
-                            }
-                            '`' => {
-                                need_replace = true;
-                                result.push_char('`');
-                                iter.next();
-                            }
-                            '$' => {
-                                need_replace = true;
-                                result.push_char('$');
-                                iter.next();
-                            }
-                            _ => result.push_char(ch),
-                        }
-                    } else {
-                        result.push_char(ch);
-                    }
-                }
-                _ => result.push_char(ch),
-            }
+            result.push_char(ch);
         } else {
             need_replace = true;
             result.push_str(&format!("\\u{:04X}", code_point.to_u32()));

@@ -6,7 +6,10 @@ use std::{
 
 use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{Atom, Wtf8Atom};
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8Buf},
+    Atom, Wtf8Atom,
+};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
@@ -259,47 +262,148 @@ impl Str {
         self.value.is_empty()
     }
 
-    pub fn from_tpl_raw(tpl_raw: &str) -> Atom {
-        let mut buf = String::with_capacity(tpl_raw.len());
-
+    pub fn from_tpl_raw(tpl_raw: &str) -> Wtf8Atom {
+        let mut buf: Wtf8Buf = Wtf8Buf::with_capacity(tpl_raw.len());
         let mut iter = tpl_raw.chars();
-
+        // prev_result can only less than 0x4ff
+        // so init with 0x4ff as no prev result
+        const NO_PREV_RESULT: u32 = 0x4ff;
+        let mut prev_result: u32 = NO_PREV_RESULT;
         while let Some(c) = iter.next() {
             match c {
                 '\\' => {
-                    if let Some(next) = iter.next() {
-                        match next {
+                    if let Some(c) = iter.next() {
+                        match c {
                             '`' | '$' | '\\' => {
-                                buf.push(next);
+                                buf.push_char(c);
                             }
                             'b' => {
-                                buf.push('\u{0008}');
+                                buf.push_char('\u{0008}');
                             }
                             'f' => {
-                                buf.push('\u{000C}');
+                                buf.push_char('\u{000C}');
                             }
                             'n' => {
-                                buf.push('\n');
+                                buf.push_char('\n');
                             }
                             'r' => {
-                                buf.push('\r');
+                                buf.push_char('\r');
                             }
                             't' => {
-                                buf.push('\t');
+                                buf.push_char('\t');
                             }
                             'v' => {
-                                buf.push('\u{000B}');
+                                buf.push_char('\u{000B}');
+                            }
+                            '\r' => {
+                                let mut next_iter = iter.clone();
+                                if let Some('\n') = next_iter.next() {
+                                    iter = next_iter;
+                                }
+                            }
+                            '\n' | '\u{2028}' | '\u{2029}' => {}
+                            'u' | 'x' => {
+                                let mut count: u8 = 0;
+                                // result is a 4 digit hex value
+                                let mut result: u32 = 0;
+                                let mut max_len = if c == 'u' { 4 } else { 2 };
+                                for c in &mut iter {
+                                    if count > max_len {
+                                        panic!("invalid syntax");
+                                    }
+                                    match c {
+                                        '{' if max_len == 4 && count == 0 => {
+                                            max_len = 6;
+                                            continue;
+                                        }
+                                        '}' if max_len == 6 => {
+                                            break;
+                                        }
+                                        '0'..='9' => {
+                                            result = (result << 4) | (c as u32 - '0' as u32);
+                                            count += 1;
+                                        }
+                                        'a'..='f' => {
+                                            result = (result << 4) | (c as u32 - 'a' as u32 + 10);
+                                            count += 1;
+                                        }
+                                        'A'..='F' => {
+                                            result = (result << 4) | (c as u32 - 'A' as u32 + 10);
+                                            count += 1;
+                                        }
+                                        _ => panic!("invalid syntax"),
+                                    }
+                                }
+                                if max_len == 2 && max_len != count {
+                                    panic!("invalid syntax");
+                                }
+                                if (0xd800..=0xdfff).contains(&result) {
+                                    // UTF-16 surrogate pair
+
+                                    if result & 0x400 == 0 {
+                                        // High surrogate pair
+                                        let mut iter = iter.clone();
+                                        if let Some('\\') = iter.next() {
+                                            if let Some('u') = iter.next() {
+                                                prev_result = result & 0x3ff;
+                                                continue;
+                                            }
+                                        }
+                                    } else {
+                                        // Low surrogate pair
+                                        if prev_result != NO_PREV_RESULT {
+                                            // Syntax error: we do not have a
+                                            // high surrogate pair.
+                                            panic!("invalid syntax");
+                                        }
+                                        let cp = (result & 0x3ff) | (prev_result << 10);
+                                        prev_result = NO_PREV_RESULT;
+                                        if cp <= 0x10ffff {
+                                            // We can be sure result is a valid code point here
+                                            buf.push(unsafe { CodePoint::from_u32_unchecked(cp) });
+                                            continue;
+                                        }
+                                    }
+                                    // Output raw value for syntax issue
+                                    buf.push_str(format!("\\u{result:x}").as_str());
+                                } else if result <= 0x10ffff {
+                                    // We can be sure result is a valid code point here
+                                    buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                                } else {
+                                    panic!("invalid syntax");
+                                }
+                            }
+                            '0'..='7' => {
+                                let next = iter.clone().next();
+                                if c == '0' {
+                                    match next {
+                                        Some(next) => {
+                                            if next.is_digit(8) {
+                                                panic!("invalid syntax");
+                                            } else {
+                                                buf.push_char('\u{0000}');
+                                                continue;
+                                            }
+                                        }
+                                        // \0 is not an octal literal nor decimal literal.
+                                        _ => {
+                                            buf.push_char('\u{0000}');
+                                            continue;
+                                        }
+                                    }
+                                }
+                                panic!("invalid syntax");
                             }
                             _ => {
-                                buf.push('\\');
-                                buf.push(next);
+                                // output raw value when this is not supported
+                                buf.push_char(c);
                             }
                         }
                     }
                 }
 
                 c => {
-                    buf.push(c);
+                    buf.push_char(c);
                 }
             }
         }
