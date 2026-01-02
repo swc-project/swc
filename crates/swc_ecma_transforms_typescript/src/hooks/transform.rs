@@ -52,31 +52,10 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     }
 
     fn enter_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ctx: &mut TypeScriptCtx) {
-        // Collect enum values
+        // Enum values are already collected by the Collector visitor in enter_program.
+        // We only need to mark const enums here for inlining.
         if node.is_const {
             ctx.transform.const_enum.insert(node.id.to_id());
-        }
-
-        let mut default_init = 0.0.into();
-
-        for m in &node.members {
-            let value = transform_ts_enum_member(
-                m.clone(),
-                &node.id.to_id(),
-                &default_init,
-                &ctx.transform.enum_record,
-                ctx.unresolved_ctxt,
-            );
-
-            default_init = value.inc();
-
-            let member_name = enum_member_id_atom(&m.id);
-            let key = TsEnumRecordKey {
-                enum_id: node.id.to_id(),
-                member_name: member_name.clone(),
-            };
-
-            ctx.transform.enum_record.insert(key, value);
         }
     }
 
