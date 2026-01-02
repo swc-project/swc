@@ -131,6 +131,51 @@ where
         self.hook.exit_module_items(node, &mut self.context);
     }
 
+    fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
+        use std::mem;
+
+        // Note: Do NOT call enter_assign_expr hook here
+        // This is intentional to match the old behavior
+
+        // Visit left with is_lhs=true, right with is_lhs=false
+        let old_is_lhs = mem::replace(&mut self.context.transform.is_lhs, true);
+        node.left.visit_mut_with(self);
+        self.context.transform.is_lhs = false;
+        node.right.visit_mut_with(self);
+        self.context.transform.is_lhs = old_is_lhs;
+
+        self.hook.exit_assign_expr(node, &mut self.context);
+    }
+
+    fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
+        use std::mem;
+
+        // Note: Do NOT call enter_assign_pat hook here
+        // This is intentional to match the old behavior
+
+        // Visit left with is_lhs=true, right with is_lhs=false
+        let old_is_lhs = mem::replace(&mut self.context.transform.is_lhs, true);
+        node.left.visit_mut_with(self);
+        self.context.transform.is_lhs = false;
+        node.right.visit_mut_with(self);
+        self.context.transform.is_lhs = old_is_lhs;
+
+        self.hook.exit_assign_pat(node, &mut self.context);
+    }
+
+    fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
+        use std::mem;
+
+        node.key.visit_mut_with(self);
+        let old_is_lhs = mem::replace(&mut self.context.transform.is_lhs, false);
+        if let Some(value) = &mut node.value {
+            value.visit_mut_with(self);
+        }
+        self.context.transform.is_lhs = old_is_lhs;
+
+        // Note: No hooks called for assign_pat_prop in old code
+    }
+
     fn visit_mut_class(&mut self, node: &mut Class) {
         self.hook.enter_class(node, &mut self.context);
         node.visit_mut_children_with(self);
@@ -201,24 +246,6 @@ where
         self.hook.enter_var_declarator(node, &mut self.context);
         node.visit_mut_children_with(self);
         self.hook.exit_var_declarator(node, &mut self.context);
-    }
-
-    fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
-        // Save current is_lhs value
-        let old_is_lhs = self.context.transform.is_lhs;
-
-        // Visit left side with is_lhs = true
-        self.context.transform.is_lhs = true;
-        node.left.visit_mut_with(self);
-
-        // Visit right side with is_lhs = false
-        self.context.transform.is_lhs = false;
-        node.right.visit_mut_with(self);
-
-        // Restore old is_lhs value
-        self.context.transform.is_lhs = old_is_lhs;
-
-        self.hook.exit_assign_expr(node, &mut self.context);
     }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {

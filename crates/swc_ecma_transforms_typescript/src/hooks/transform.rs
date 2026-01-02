@@ -62,39 +62,47 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
     fn enter_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
         // Save current namespace_id and set to this namespace's id
         let id = n.id.to_id();
-        let was_in_namespace = ctx.transform.namespace_id.is_some();
-        ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(id));
+        ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(id.clone()));
 
-        // If this is a nested namespace, remove parent RefRewriter
-        // (parent's RefRewriter should not apply to nested namespace's exports)
-        if was_in_namespace {
-            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
-        }
-    }
+        // Save parent RefRewriter to restore later
+        ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
 
-    fn exit_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
-        // For nested namespaces, ref_rewriter_temp already contains parent RefRewriter
-        // (from enter) For top-level namespaces, we need to save current
-        // RefRewriter
-        if ctx.transform.ref_rewriter_temp.is_none() {
-            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
-        }
+        // Create namespace-specific RefRewriter BEFORE visiting children
+        // Merge parent exports with this namespace's exports, excluding self-reference
+        let mut export_name: rustc_hash::FxHashMap<_, _> =
+            if let Some(parent_rewriter) = &ctx.transform.ref_rewriter_temp {
+                // Clone parent exports but exclude the current namespace itself
+                parent_rewriter
+                    .query
+                    .export_name
+                    .iter()
+                    .filter(|(binding_id, _)| *binding_id != &id)
+                    .map(|(k, v)| (k.clone(), v.clone()))
+                    .collect()
+            } else {
+                Default::default()
+            };
 
-        // Create namespace-specific RefRewriter for transformation
-        let id = n.id.to_id();
-        let export_name: rustc_hash::FxHashMap<_, _> = ctx
-            .transform
-            .exported_binding
-            .iter()
-            .filter(|(_, ns_id)| ns_id.as_ref() == Some(&id))
-            .map(|(k, v)| (k.clone(), v.clone()))
-            .collect();
+        // Add this namespace's exports
+        export_name.extend(
+            ctx.transform
+                .exported_binding
+                .iter()
+                .filter(|(_, ns_id)| ns_id.as_ref() == Some(&id))
+                .map(|(k, v)| (k.clone(), v.clone())),
+        );
 
         if !export_name.is_empty() {
             ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
                 query: ExportQuery { export_name },
             });
         }
+    }
+
+    fn exit_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
+        // Note: Do NOT restore ref_rewriter here!
+        // The ref_rewriter needs to stay active until transform_ts_module completes
+        // It will be restored in fold_decl after transformation
 
         // Restore saved namespace_id
         ctx.transform.namespace_id = ctx.transform.saved_namespace_id.take().flatten();
@@ -107,12 +115,41 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         };
 
         // Save current namespace_id and set to this module's id
-        let was_in_namespace = ctx.transform.namespace_id.is_some();
-        ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(ident.to_id()));
+        let id = ident.to_id();
+        ctx.transform.saved_namespace_id = Some(ctx.transform.namespace_id.replace(id.clone()));
 
-        // If this is a nested namespace, remove parent RefRewriter
-        if was_in_namespace {
-            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+        // Save parent RefRewriter to restore later
+        ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
+
+        // Create namespace-specific RefRewriter BEFORE visiting children
+        // Merge parent exports with this namespace's exports, excluding self-reference
+        let mut export_name: rustc_hash::FxHashMap<_, _> =
+            if let Some(parent_rewriter) = &ctx.transform.ref_rewriter_temp {
+                // Clone parent exports but exclude the current namespace itself
+                parent_rewriter
+                    .query
+                    .export_name
+                    .iter()
+                    .filter(|(binding_id, _)| *binding_id != &id)
+                    .map(|(k, v)| (k.clone(), v.clone()))
+                    .collect()
+            } else {
+                Default::default()
+            };
+
+        // Add this namespace's exports
+        export_name.extend(
+            ctx.transform
+                .exported_binding
+                .iter()
+                .filter(|(_, ns_id)| ns_id.as_ref() == Some(&id))
+                .map(|(k, v)| (k.clone(), v.clone())),
+        );
+
+        if !export_name.is_empty() {
+            ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
+                query: ExportQuery { export_name },
+            });
         }
     }
 
@@ -122,28 +159,9 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
             return;
         }
 
-        // For nested namespaces, ref_rewriter_temp already contains parent RefRewriter
-        // (from enter) For top-level namespaces, we need to save current
-        // RefRewriter
-        if ctx.transform.ref_rewriter_temp.is_none() {
-            ctx.transform.ref_rewriter_temp = ctx.transform.ref_rewriter.take();
-        }
-
-        // Create namespace-specific RefRewriter for transformation
-        let id = n.id.as_ident().unwrap().to_id();
-        let export_name: rustc_hash::FxHashMap<_, _> = ctx
-            .transform
-            .exported_binding
-            .iter()
-            .filter(|(_, ns_id)| ns_id.as_ref() == Some(&id))
-            .map(|(k, v)| (k.clone(), v.clone()))
-            .collect();
-
-        if !export_name.is_empty() {
-            ctx.transform.ref_rewriter = Some(swc_ecma_utils::RefRewriter {
-                query: ExportQuery { export_name },
-            });
-        }
+        // Note: Do NOT restore ref_rewriter here!
+        // The ref_rewriter needs to stay active until transform_ts_module completes
+        // It will be restored in fold_decl after transformation
 
         // Restore saved namespace_id
         ctx.transform.namespace_id = ctx.transform.saved_namespace_id.take().flatten();
