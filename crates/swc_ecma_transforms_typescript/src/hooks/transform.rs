@@ -99,7 +99,7 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         }
     }
 
-    fn exit_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
+    fn exit_ts_namespace_decl(&mut self, _n: &mut TsNamespaceDecl, ctx: &mut TypeScriptCtx) {
         // Note: Do NOT restore ref_rewriter here!
         // The ref_rewriter needs to stay active until transform_ts_module completes
         // It will be restored in fold_decl after transformation
@@ -415,20 +415,21 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
             if let Some(ref_rewriter) = ctx.transform.ref_rewriter.as_mut() {
                 n.name.visit_mut_with(ref_rewriter);
             }
-        } else {
-            // Otherwise, temporarily remove ref_rewriter to prevent it from being applied
-            ctx.transform.ref_rewriter_saved_for_var_decl = ctx.transform.ref_rewriter.take();
         }
     }
 
     fn exit_var_declarator(&mut self, _n: &mut VarDeclarator, ctx: &mut TypeScriptCtx) {
-        // Restore ref_rewriter after name has been processed (if we removed it)
-        if !ctx.transform.in_export_decl {
-            ctx.transform.ref_rewriter = ctx.transform.ref_rewriter_saved_for_var_decl.take();
-        }
+        // No-op now, pattern rewriting is handled in exit_pat
     }
 
     fn exit_pat(&mut self, node: &mut Pat, ctx: &mut TypeScriptCtx) {
+        // Only apply ref_rewriter to patterns in export declarations
+        // In non-export declarations, patterns are local variables that shouldn't be
+        // prefixed
+        if !ctx.transform.in_export_decl {
+            return;
+        }
+
         if let Some(ref_rewriter) = ctx.transform.ref_rewriter.as_mut() {
             ref_rewriter.exit_pat(node);
         }
@@ -1245,7 +1246,7 @@ fn transform_ts_namespace_body(
         body,
     } = match body {
         TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-            return transform_ts_module_block(id, ts_module_block, ctx);
+            return transform_ts_module_block(Some(id), ts_module_block, ctx);
         }
         TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
         #[cfg(swc_ast_unknown)]
@@ -1282,7 +1283,7 @@ fn transform_ts_namespace_body(
 }
 
 fn transform_ts_module_block(
-    id: Id,
+    parent_namespace_id: Option<Id>,
     TsModuleBlock { span, body }: TsModuleBlock,
     ctx: &mut TypeScriptCtx,
 ) -> BlockStmt {
@@ -1312,7 +1313,8 @@ fn transform_ts_module_block(
                 match decl {
                     Decl::Class(ClassDecl { ref ident, .. })
                     | Decl::Fn(FnDecl { ref ident, .. }) => {
-                        let assign_stmt = assign_prop(&id, ident, span);
+                        let assign_stmt =
+                            assign_prop(parent_namespace_id.as_ref().unwrap(), ident, span);
                         stmts.push(decl.into());
                         stmts.push(assign_stmt);
                     }
@@ -1376,16 +1378,34 @@ fn transform_ts_module_block(
                         );
                     }
                     Decl::TsEnum(ts_enum) => {
+                        // Temporarily set namespace_id for proper scoping
+                        let saved = ctx
+                            .transform
+                            .namespace_id
+                            .replace(parent_namespace_id.clone().unwrap());
                         // Handle enum export using fold_decl
-                        match fold_decl(Decl::TsEnum(ts_enum), true, ctx) {
+                        let result = fold_decl(Decl::TsEnum(ts_enum), true, ctx);
+                        // Restore namespace_id
+                        ctx.transform.namespace_id = saved;
+
+                        match result {
                             FoldedDecl::Expr(stmt) => stmts.push(stmt),
                             FoldedDecl::Decl(decl) => stmts.push(decl.into()),
                             FoldedDecl::Empty => {}
                         }
                     }
                     Decl::TsModule(ts_module) => {
+                        // Temporarily set namespace_id for proper scoping
+                        let saved = ctx
+                            .transform
+                            .namespace_id
+                            .replace(parent_namespace_id.clone().unwrap());
                         // Handle namespace export using fold_decl
-                        match fold_decl(Decl::TsModule(ts_module), true, ctx) {
+                        let result = fold_decl(Decl::TsModule(ts_module), true, ctx);
+                        // Restore namespace_id
+                        ctx.transform.namespace_id = saved;
+
+                        match result {
                             FoldedDecl::Expr(stmt) => stmts.push(stmt),
                             FoldedDecl::Decl(decl) => stmts.push(decl.into()),
                             FoldedDecl::Empty => {}
@@ -1406,7 +1426,10 @@ fn transform_ts_module_block(
                         // export impot foo = bar.baz
                         let stmt = if decl.is_export {
                             // Foo.foo = bar.baz
-                            let left = id.clone().make_member(decl.id.clone().into());
+                            let left = parent_namespace_id
+                                .clone()
+                                .unwrap()
+                                .make_member(decl.id.clone().into());
                             let expr = init.make_assign_to(op!("="), left.into());
 
                             ExprStmt {
