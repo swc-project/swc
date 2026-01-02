@@ -1,4 +1,3 @@
-use rustc_hash::FxHashSet;
 use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap, Spanned};
 use swc_ecma_ast::*;
@@ -18,7 +17,7 @@ macro_rules! static_str {
 pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     debug_assert_ne!(unresolved_mark, top_level_mark);
 
-    let ctx = TypeScriptCtx::new(config.clone(), unresolved_mark, top_level_mark);
+    let ctx = TypeScriptCtx::new(config, unresolved_mark, top_level_mark);
     let hook = typescript_hook(config);
 
     visit_mut_pass(TypeScriptVisitMutWithHook::new(hook, ctx))
@@ -41,11 +40,11 @@ pub fn tsx<C>(
 where
     C: Comments,
 {
-    let mut ctx = TypeScriptCtx::new(config.clone(), unresolved_mark, top_level_mark);
+    let ctx = TypeScriptCtx::new(config, unresolved_mark, top_level_mark);
 
     // Create a wrapper that collects JSX pragma usage before running main hooks
     let hook = TypeScriptReactHook {
-        config: config.clone(),
+        config,
         tsx_config,
         comments,
         cm,

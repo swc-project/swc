@@ -380,13 +380,13 @@ impl VisitMutHook<TypeScriptCtx> for TransformHook {
         }
     }
 
-    fn enter_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut TypeScriptCtx) {
+    fn enter_export_decl(&mut self, _node: &mut ExportDecl, ctx: &mut TypeScriptCtx) {
         // Mark that we're in an export declaration so var_declarator knows to keep
         // ref_rewriter
         ctx.transform.in_export_decl = true;
     }
 
-    fn exit_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut TypeScriptCtx) {
+    fn exit_export_decl(&mut self, _node: &mut ExportDecl, ctx: &mut TypeScriptCtx) {
         ctx.transform.in_export_decl = false;
     }
 
@@ -910,7 +910,7 @@ fn reorder_class_prop_decls(
     class_member_list: &mut Vec<ClassMember>,
     prop_list: Vec<Id>,
     init_list: Vec<Box<Expr>>,
-    _var_list: &mut Vec<Id>,
+    _var_list: &mut [Id],
 ) {
     if let Some(constructor) = class_member_list
         .iter_mut()
@@ -1700,7 +1700,7 @@ fn get_last_module_span(n: &Module, no_empty_export: bool) -> Option<Span> {
 }
 
 fn restore_esm_ctx(n: &mut Module, span: Span) {
-    if n.body.iter().any(|item| is_es_module_decl(item)) {
+    if n.body.iter().any(is_es_module_decl) {
         return;
     }
 

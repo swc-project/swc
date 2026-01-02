@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{VisitMutWith, VisitWith};
 
 use super::context::TypeScriptCtx;
 use crate::strip_import_export::UsageCollect;
