@@ -34,8 +34,7 @@
 #![deny(missing_docs)]
 #![allow(clippy::derivable_impls)]
 
-// TODO: Add types back
-// pub use crate::types::*;
+pub use crate::types::*;
 
 pub mod allocators;
 pub mod api;
