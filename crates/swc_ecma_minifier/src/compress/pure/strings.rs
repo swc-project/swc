@@ -328,7 +328,7 @@ impl Pure<'_> {
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
                         if let Some(cur_cooked) = &mut cur_cooked {
-                            cur_cooked.push_wtf8(&convert_str_value_to_tpl_cooked(&s.value));
+                            cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                         }
 
                         if let Some(raw) = &s.raw {
@@ -392,7 +392,7 @@ impl Pure<'_> {
 
                     if let Some(cooked) = &mut l_last.cooked {
                         let mut c = Wtf8Buf::from(&*cooked);
-                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&rs.value));
+                        c.push_wtf8(&Cow::Borrowed(&rs.value));
                         *cooked = c.into();
                     }
 
@@ -428,7 +428,7 @@ impl Pure<'_> {
 
                     if let Some(cooked) = &mut r_first.cooked {
                         let mut c = Wtf8Buf::new();
-                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&ls.value));
+                        c.push_wtf8(&Cow::Borrowed(&ls.value));
                         c.push_wtf8(&*cooked);
                         *cooked = c.into();
                     }
@@ -570,27 +570,6 @@ impl Pure<'_> {
                 }
             }
         }
-    }
-}
-
-pub(super) fn convert_str_value_to_tpl_cooked(value: &Wtf8) -> Cow<Wtf8> {
-    let mut result = Wtf8Buf::default();
-    let mut need_replace = false;
-
-    let iter = value.code_points().peekable();
-    for code_point in iter {
-        if let Some(ch) = code_point.to_char() {
-            result.push_char(ch);
-        } else {
-            need_replace = true;
-            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
-        }
-    }
-
-    if need_replace {
-        result.into()
-    } else {
-        Cow::Borrowed(value)
     }
 }
 
