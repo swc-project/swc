@@ -574,24 +574,7 @@ impl Pure<'_> {
 }
 
 pub(super) fn convert_str_value_to_tpl_cooked(value: &Wtf8) -> Cow<Wtf8> {
-    let mut result = Wtf8Buf::default();
-    let mut need_replace = false;
-
-    let iter = value.code_points().peekable();
-    for code_point in iter {
-        if let Some(ch) = code_point.to_char() {
-            result.push_char(ch);
-        } else {
-            need_replace = true;
-            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
-        }
-    }
-
-    if need_replace {
-        result.into()
-    } else {
-        Cow::Borrowed(value)
-    }
+    Cow::Borrowed(value)
 }
 
 pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<str> {
