@@ -2,7 +2,7 @@ import { defineConfig } from "@rstest/core";
 
 export default defineConfig({
     projects: [
-        /* Noram unit tests node-swc runs */
+        /* Normal unit tests node-swc runs */
         {
             name: "unit tests",
             globals: true,
