@@ -380,10 +380,9 @@ impl Str {
                                         }
                                     } else if prev_result != NO_PREV_RESULT {
                                         // Low surrogate pair
-                                        // result is less than 0x10ffff here
-                                        result = 0x100000
-                                            + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
-
+                                        // result is less than 0x1ffff here
+                                        result = 0x10000
+                                            | ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
                                         // We can be sure result is a valid code point here
                                         buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                                         prev_result = NO_PREV_RESULT;

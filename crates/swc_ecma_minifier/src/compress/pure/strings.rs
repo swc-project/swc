@@ -233,7 +233,9 @@ impl Pure<'_> {
                 }) {
                     let value = Str::from_tpl_raw(&t.quasis[0]);
 
-                    report_change!("converting a template literal to a string literal");
+                    report_change!(
+                        "converting a template literal to a string literal by Str::from_tpl_raw"
+                    );
 
                     *e = Lit::Str(Str {
                         span: t.span,
