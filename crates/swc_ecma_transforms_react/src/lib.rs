@@ -6,7 +6,7 @@
 
 use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::Pass;
-use swc_ecma_hooks::{CompositeHook, VisitMutHook, VisitMutWithHook};
+use swc_ecma_hooks::{CompositeHook, VisitMutWithHook};
 use swc_ecma_visit::visit_mut_pass;
 
 pub use self::{jsx::*, refresh::options::RefreshOptions};

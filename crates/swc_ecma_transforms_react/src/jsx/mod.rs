@@ -1248,8 +1248,6 @@ where
     /// For JSXElements, we need to ensure jsx_src and jsx_self run first
     /// (via the VisitMut impl) before we transform the JSX syntax.
     fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut ()) {
-        let top_level_node = self.top_level_node;
-
         // First, visit children to apply jsx_src and jsx_self hooks.
         // This is done via our VisitMut impl which allows other hooks in the
         // CompositeHook chain to add their attributes before we transform JSX to JS.
