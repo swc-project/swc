@@ -10,9 +10,9 @@ use swc_atoms::{
     wtf8::{CodePoint, Wtf8Buf},
     Atom, Wtf8Atom,
 };
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{ast_node, errors::HANDLER, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
-use crate::jsx::JSXText;
+use crate::{jsx::JSXText, TplElement};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
@@ -256,13 +256,21 @@ impl<'a> arbitrary::Arbitrary<'a> for Str {
     }
 }
 
+fn emit_span_error(span: Span, msg: &str) {
+    HANDLER.with(|handler| {
+        handler.struct_span_err(span, msg).emit();
+    });
+}
+
 impl Str {
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.value.is_empty()
     }
 
-    pub fn from_tpl_raw(tpl_raw: &str) -> Wtf8Atom {
+    pub fn from_tpl_raw(tpl: &TplElement) -> Wtf8Atom {
+        let tpl_raw = &tpl.raw;
+        let span = tpl.span;
         let mut buf: Wtf8Buf = Wtf8Buf::with_capacity(tpl_raw.len());
         let mut iter = tpl_raw.chars();
         // prev_result can only less than 0xdc00
@@ -328,18 +336,28 @@ impl Str {
                                             result = (result << 4) | (c as u32 - 'A' as u32 + 10);
                                             count += 1;
                                         }
-                                        _ => panic!("invalid syntax"),
+                                        _ => emit_span_error(
+                                            span,
+                                            "Uncaught SyntaxError: Invalid Unicode escape sequence",
+                                        ),
                                     }
                                     if count >= max_len {
                                         if result > 0x10ffff {
-                                            panic!("invalid syntax");
+                                            emit_span_error(
+                                                span,
+                                                "Uncaught SyntaxError: Undefined Unicode \
+                                                 code-point",
+                                            )
                                         } else {
                                             break;
                                         }
                                     }
                                 }
                                 if max_len == 2 && max_len != count {
-                                    panic!("invalid syntax");
+                                    emit_span_error(
+                                        span,
+                                        "Uncaught SyntaxError: Invalid hexadecimal escape sequence",
+                                    );
                                 }
                                 if (0xd800..=0xdfff).contains(&result) {
                                     // Handle UTF-16 surrogate pair
@@ -382,7 +400,10 @@ impl Str {
                                     // We can be sure result is a valid code point here
                                     buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                                 } else {
-                                    panic!("syntax error")
+                                    emit_span_error(
+                                        span,
+                                        "Uncaught SyntaxError: Undefined Unicode code-point",
+                                    );
                                 }
                             }
                             '0'..='7' => {
@@ -390,9 +411,7 @@ impl Str {
                                 if c == '0' {
                                     match next {
                                         Some(next) => {
-                                            if next.is_digit(8) {
-                                                panic!("invalid syntax");
-                                            } else {
+                                            if !next.is_digit(8) {
                                                 buf.push_char('\u{0000}');
                                                 continue;
                                             }
@@ -404,7 +423,11 @@ impl Str {
                                         }
                                     }
                                 }
-                                panic!("invalid syntax");
+                                emit_span_error(
+                                    span,
+                                    "Uncaught SyntaxError: Octal escape sequences are not allowed \
+                                     in template strings.",
+                                );
                             }
                             _ => {
                                 // output raw value when this is not supported

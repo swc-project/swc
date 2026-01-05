@@ -134,7 +134,7 @@ impl Pure<'_> {
                 if let Some(cooked) = $e.cooked {
                     cur_cooked_str.push_wtf8(&cooked);
                 } else {
-                    cur_cooked_str.push_wtf8(&Str::from_tpl_raw(&$e.raw));
+                    cur_cooked_str.push_wtf8(&Str::from_tpl_raw(&$e));
                 }
                 cur_raw_str.push_str(&$e.raw);
             };
@@ -231,7 +231,7 @@ impl Pure<'_> {
                     '\n' | '\r' => self.config.force_str_for_tpl,
                     _ => true,
                 }) {
-                    let value = Str::from_tpl_raw(c);
+                    let value = Str::from_tpl_raw(&t.quasis[0]);
 
                     report_change!("converting a template literal to a string literal");
 
