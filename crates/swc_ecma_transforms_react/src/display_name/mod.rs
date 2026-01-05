@@ -3,7 +3,8 @@ use std::ops::DerefMut;
 use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -11,18 +12,26 @@ mod tests;
 /// `@babel/plugin-transform-react-display-name`
 ///
 /// Add displayName to React.createClass calls
-pub fn display_name() -> impl Pass {
-    visit_mut_pass(DisplayName)
+pub fn hook() -> impl VisitMutHook<()> {
+    DisplayName
 }
 
 struct DisplayName;
 
-impl VisitMut for DisplayName {
-    noop_visit_mut_type!();
+// For tests
+#[cfg(test)]
+fn display_name() -> impl Pass {
+    use swc_ecma_hooks::VisitMutWithHook;
+    use swc_ecma_visit::visit_mut_pass;
 
-    fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
-        expr.visit_mut_children_with(self);
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(),
+        context: (),
+    })
+}
 
+impl VisitMutHook<()> for DisplayName {
+    fn enter_assign_expr(&mut self, expr: &mut AssignExpr, _ctx: &mut ()) {
         if expr.op != op!("=") {
             return;
         }
@@ -64,9 +73,7 @@ impl VisitMut for DisplayName {
         }
     }
 
-    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
-        decl.visit_mut_children_with(self);
-
+    fn exit_module_decl(&mut self, decl: &mut ModuleDecl, _ctx: &mut ()) {
         if let ModuleDecl::ExportDefaultExpr(e) = decl {
             e.visit_mut_with(&mut Folder {
                 name: Some(
@@ -81,9 +88,7 @@ impl VisitMut for DisplayName {
         }
     }
 
-    fn visit_mut_prop(&mut self, prop: &mut Prop) {
-        prop.visit_mut_children_with(self);
-
+    fn exit_prop(&mut self, prop: &mut Prop, _ctx: &mut ()) {
         if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
             let name = match key {
                 PropName::Ident(ref i) => Lit::Str(Str {
@@ -104,7 +109,7 @@ impl VisitMut for DisplayName {
         }
     }
 
-    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
+    fn enter_var_declarator(&mut self, decl: &mut VarDeclarator, _ctx: &mut ()) {
         if let Pat::Ident(ref ident) = decl.name {
             decl.init.visit_mut_with(&mut Folder {
                 name: Some(

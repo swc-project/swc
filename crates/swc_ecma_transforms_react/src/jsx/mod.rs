@@ -24,12 +24,13 @@ use swc_common::{
 };
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_utils::{
     drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
     StmtLike,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
@@ -208,17 +209,17 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 /// ```js
 /// import React from 'react';
 /// ```
-pub fn jsx<C>(
+pub fn hook<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
     options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
-) -> impl Pass + VisitMut
+) -> impl VisitMutHook<()>
 where
     C: Comments,
 {
-    visit_mut_pass(Jsx {
+    Jsx {
         cm: cm.clone(),
         top_level_mark,
         unresolved_mark,
@@ -247,6 +248,26 @@ where
             .throw_if_namespace
             .unwrap_or_else(default_throw_if_namespace),
         top_level_node: true,
+    }
+}
+
+// Re-export for compatibility
+pub fn jsx<C>(
+    cm: Lrc<SourceMap>,
+    comments: Option<C>,
+    options: Options,
+    top_level_mark: Mark,
+    unresolved_mark: Mark,
+) -> impl Pass + VisitMut
+where
+    C: Comments,
+{
+    use swc_ecma_visit::visit_mut_pass;
+    use swc_ecma_hooks::VisitMutWithHook;
+
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(cm, comments, options, top_level_mark, unresolved_mark),
+        context: (),
     })
 }
 
@@ -1109,13 +1130,11 @@ where
     }
 }
 
-impl<C> VisitMut for Jsx<C>
+impl<C> VisitMutHook<()> for Jsx<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut ()) {
         let top_level_node = self.top_level_node;
         let mut did_work = false;
 
@@ -1145,12 +1164,10 @@ where
             self.top_level_node = false;
         }
 
-        expr.visit_mut_children_with(self);
-
         self.top_level_node = top_level_node;
     }
 
-    fn visit_mut_module(&mut self, module: &mut Module) {
+    fn enter_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         self.parse_directives(module.span);
 
         for item in &module.body {
@@ -1159,9 +1176,9 @@ where
                 break;
             }
         }
+    }
 
-        module.visit_mut_children_with(self);
-
+    fn exit_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         if self.runtime == Runtime::Automatic {
             self.inject_runtime(&mut module.body, |imports, src, stmts| {
                 let specifiers = imports
@@ -1197,7 +1214,7 @@ where
         }
     }
 
-    fn visit_mut_script(&mut self, script: &mut Script) {
+    fn enter_script(&mut self, script: &mut Script, _ctx: &mut ()) {
         self.parse_directives(script.span);
 
         for item in &script.body {
@@ -1206,9 +1223,9 @@ where
                 break;
             }
         }
+    }
 
-        script.visit_mut_children_with(self);
-
+    fn exit_script(&mut self, script: &mut Script, _ctx: &mut ()) {
         if self.runtime == Runtime::Automatic {
             let mark = self.unresolved_mark;
             self.inject_runtime(&mut script.body, |imports, src, stmts| {
