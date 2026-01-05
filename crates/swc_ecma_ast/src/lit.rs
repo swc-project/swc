@@ -273,7 +273,7 @@ impl Str {
         let span = tpl.span;
         let mut buf: Wtf8Buf = Wtf8Buf::with_capacity(tpl_raw.len());
         let mut iter = tpl_raw.chars();
-        // prev_result can only less than 0xdc00
+        // prev_result can only be less than 0xdc00
         // so init with 0xdc00 as no prev result
         const NO_PREV_RESULT: u32 = 0xdc00;
         let mut prev_result: u32 = NO_PREV_RESULT;
@@ -391,7 +391,7 @@ impl Str {
                                     }
                                 }
                                 if prev_result != NO_PREV_RESULT {
-                                    // Cannot not found a valid low surrogate pair
+                                    // Could not find a valid low surrogate pair
                                     // We can be sure `prev_result` is less than 0xdc00
                                     buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
                                     prev_result = NO_PREV_RESULT;
