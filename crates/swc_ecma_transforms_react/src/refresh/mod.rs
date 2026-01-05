@@ -7,7 +7,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{Visit, VisitMut, VisitMutWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 use self::{
     hook::HookRegister,
@@ -252,41 +252,13 @@ impl<C: Comments> Refresh<C> {
 }
 
 impl<C: Comments> VisitMutHook<()> for Refresh<C> {
-    fn enter_span(&mut self, n: &mut Span, _ctx: &mut ()) {
-        if self.should_reset {
-            return;
-        }
-
-        let mut should_refresh = self.should_reset;
-        if let Some(comments) = &self.comments {
-            if !n.hi.is_dummy() {
-                comments.with_leading(n.hi - BytePos(1), |comments| {
-                    if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                        should_refresh = true
-                    }
-                });
-            }
-
-            comments.with_leading(n.lo, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-
-            comments.with_trailing(n.lo, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-        }
-
-        self.should_reset = should_refresh;
-    }
-
     fn enter_module_items(&mut self, module_items: &mut Vec<ModuleItem>, _ctx: &mut ()) {
         if !self.enable {
             return;
         }
+
+        // First, visit all items to collect @refresh reset comments
+        self.visit_module(module_items);
 
         self.visit_mut_module_items(module_items);
     }
@@ -297,6 +269,50 @@ impl<C: Comments> VisitMutHook<()> for Refresh<C> {
 }
 
 impl<C: Comments> Refresh<C> {
+    fn visit_module(&mut self, module_items: &[ModuleItem]) {
+        struct SpanVisitor<'a, C: Comments> {
+            refresh: &'a mut Refresh<C>,
+        }
+
+        impl<C: Comments> Visit for SpanVisitor<'_, C> {
+            fn visit_span(&mut self, n: &Span) {
+                if self.refresh.should_reset {
+                    return;
+                }
+
+                let mut should_refresh = self.refresh.should_reset;
+                if let Some(comments) = &self.refresh.comments {
+                    if !n.hi.is_dummy() {
+                        comments.with_leading(n.hi - BytePos(1), |comments| {
+                            if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                                should_refresh = true
+                            }
+                        });
+                    }
+
+                    comments.with_leading(n.lo, |comments| {
+                        if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                            should_refresh = true
+                        }
+                    });
+
+                    comments.with_trailing(n.lo, |comments| {
+                        if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                            should_refresh = true
+                        }
+                    });
+                }
+
+                self.refresh.should_reset = should_refresh;
+            }
+        }
+
+        let mut visitor = SpanVisitor { refresh: self };
+        for item in module_items {
+            item.visit_with(&mut visitor);
+        }
+    }
+
     fn visit_mut_module_items(&mut self, module_items: &mut Vec<ModuleItem>) {
         let used_in_jsx = collect_ident_in_jsx(module_items);
 
