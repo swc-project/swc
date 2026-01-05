@@ -35,7 +35,6 @@ fn test_from_tpl_raw(raw: &str, expected: &str) {
 
 #[test]
 fn basic_escape_sequences() {
-    test_from_tpl_raw("test", "test");
     test_from_tpl_raw("hello world", "hello world");
 }
 
@@ -77,6 +76,7 @@ fn single_high_surrogate() {
 
 #[test]
 fn common_escape_sequences() {
+    test_from_tpl_raw("\\0", "\u{0000}");
     test_from_tpl_raw("\\b", "\u{0008}");
     test_from_tpl_raw("\\f", "\u{000C}");
     test_from_tpl_raw("\\n", "\n");
@@ -97,4 +97,14 @@ fn escaped_template_chars() {
 fn combined_escapes() {
     test_from_tpl_raw("hello\\nworld", "hello\nworld");
     test_from_tpl_raw("\\t\\tindented", "\t\tindented");
+}
+
+// Tests for octal escape sequences that should be rejected.
+// These will panic because octal escapes are not allowed in template strings.
+#[test]
+#[should_panic]
+fn should_panic() {
+    test_from_tpl_raw("\\01", "");
+    test_from_tpl_raw("\\2", "");
+    test_from_tpl_raw("\\7", "");
 }
