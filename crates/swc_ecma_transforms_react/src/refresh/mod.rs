@@ -7,7 +7,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 
 use self::{
     hook::HookRegister,

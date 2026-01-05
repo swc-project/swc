@@ -31,21 +31,6 @@ where
     comments: Option<C>,
 }
 
-// For tests
-#[cfg(test)]
-fn pure_annotations<C>(comments: Option<C>) -> impl Pass
-where
-    C: Comments,
-{
-    use swc_ecma_hooks::VisitMutWithHook;
-    use swc_ecma_visit::visit_mut_pass;
-
-    visit_mut_pass(VisitMutWithHook {
-        hook: hook(comments),
-        context: (),
-    })
-}
-
 impl<C> VisitMutHook<()> for PureAnnotations<C>
 where
     C: Comments,
