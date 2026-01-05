@@ -492,6 +492,48 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    /// Process JSX attribute value, handling JSXElements and JSXFragments
+    fn process_attr_value(&mut self, value: Option<JSXAttrValue>) -> Box<Expr> {
+        match value {
+            Some(JSXAttrValue::JSXElement(mut el)) => {
+                self.add_dev_attrs_to_element(&mut el);
+                Box::new(self.jsx_elem_to_expr(*el))
+            }
+            Some(JSXAttrValue::JSXFragment(frag)) => Box::new(self.jsx_frag_to_expr(frag)),
+            Some(JSXAttrValue::JSXExprContainer(container)) => match container.expr {
+                JSXExpr::Expr(mut e) => {
+                    // In development mode, fix __self argument for JSXElements in containers
+                    if self.development {
+                        if let Expr::Call(ref mut call) = *e {
+                            // For jsxDEV, the last argument should be 'this' instead of 'void 0'
+                            if call.args.len() >= 6 {
+                                if let Some(last_arg) = call.args.last_mut() {
+                                    match &*last_arg.expr {
+                                        Expr::Ident(id) if id.sym == "undefined" => {
+                                            last_arg.expr =
+                                                Box::new(ThisExpr { span: DUMMY_SP }.into());
+                                        }
+                                        Expr::Unary(unary) if unary.op == UnaryOp::Void => {
+                                            last_arg.expr =
+                                                Box::new(ThisExpr { span: DUMMY_SP }.into());
+                                        }
+                                        _ => {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    e
+                }
+                JSXExpr::JSXEmptyExpr(_) => panic!("empty expression container"),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            },
+            Some(v) => jsx_attr_value_to_expr(v).expect("empty expression container?"),
+            None => true.into(),
+        }
+    }
+
     /// Add __source and __self to JSXElement attributes in development mode
     fn add_dev_attrs_to_element(&self, el: &mut JSXElement) {
         if !self.development || el.opening.span == DUMMY_SP {
@@ -808,57 +850,7 @@ where
                                         continue;
                                     }
 
-                                    let value = match attr.value {
-                                        Some(JSXAttrValue::JSXElement(mut el)) => {
-                                            self.add_dev_attrs_to_element(&mut el);
-                                            Box::new(self.jsx_elem_to_expr(*el))
-                                        }
-                                        Some(JSXAttrValue::JSXFragment(frag)) => {
-                                            Box::new(self.jsx_frag_to_expr(frag))
-                                        }
-                                        Some(JSXAttrValue::JSXExprContainer(container)) => {
-                                            match container.expr {
-                                                JSXExpr::Expr(mut e) => {
-                                                    // Handle {<div />} case - already converted to
-                                                    // CallExpr
-                                                    if self.development {
-                                                        if let Expr::Call(ref mut call) = *e {
-                                                            // For jsxDEV, the last argument should
-                                                            // be 'this' instead of 'void 0'
-                                                            if call.args.len() >= 6 {
-                                                                // Replace void 0 with 'this'
-                                                                if let Some(last_arg) =
-                                                                    call.args.last_mut()
-                                                                {
-                                                                    match &*last_arg.expr {
-                                                                        Expr::Ident(id) if id.sym == "undefined" => {
-                                                                            last_arg.expr = Box::new(ThisExpr { span: DUMMY_SP }.into());
-                                                                        }
-                                                                        Expr::Unary(unary) if unary.op == UnaryOp::Void => {
-                                                                            last_arg.expr = Box::new(ThisExpr { span: DUMMY_SP }.into());
-                                                                        }
-                                                                        Expr::This(_) => {
-                                                                            // Already correct
-                                                                        }
-                                                                        _ => {}
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    e
-                                                }
-                                                JSXExpr::JSXEmptyExpr(_) => {
-                                                    panic!("empty expression container")
-                                                }
-                                                #[cfg(swc_ast_unknown)]
-                                                _ => panic!("unable to access unknown nodes"),
-                                            }
-                                        }
-                                        Some(v) => jsx_attr_value_to_expr(v)
-                                            .expect("empty expression container?"),
-                                        None => true.into(),
-                                    };
+                                    let value = self.process_attr_value(attr.value);
 
                                     // TODO: Check if `i` is a valid identifier.
                                     let key = if i.sym.contains('-') {
@@ -893,58 +885,7 @@ where
                                         });
                                     }
 
-                                    let value = match attr.value {
-                                        Some(JSXAttrValue::JSXElement(mut el)) => {
-                                            eprintln!("Processing JSXAttrValue::JSXElement");
-                                            self.add_dev_attrs_to_element(&mut el);
-                                            Box::new(self.jsx_elem_to_expr(*el))
-                                        }
-                                        Some(JSXAttrValue::JSXFragment(frag)) => {
-                                            Box::new(self.jsx_frag_to_expr(frag))
-                                        }
-                                        Some(JSXAttrValue::JSXExprContainer(container)) => {
-                                            eprintln!(
-                                                "Processing JSXAttrValue::JSXExprContainer, expr \
-                                                 discriminant: {:?}",
-                                                std::mem::discriminant(&container.expr)
-                                            );
-                                            match container.expr {
-                                                JSXExpr::Expr(mut e) => {
-                                                    eprintln!(
-                                                        "JSXExpr::Expr, expr discriminant: {:?}",
-                                                        std::mem::discriminant(&*e)
-                                                    );
-                                                    // Handle {<div />} case
-                                                    if let Expr::JSXElement(ref mut el) = *e {
-                                                        eprintln!(
-                                                            "Found Expr::JSXElement in container!"
-                                                        );
-                                                        self.add_dev_attrs_to_element(el);
-                                                        *e = self.jsx_elem_to_expr(*el.take());
-                                                    } else if let Expr::JSXFragment(ref mut frag) =
-                                                        *e
-                                                    {
-                                                        *e = self.jsx_frag_to_expr(frag.take());
-                                                    }
-                                                    e
-                                                }
-                                                JSXExpr::JSXEmptyExpr(_) => {
-                                                    panic!("empty expression container")
-                                                }
-                                                #[cfg(swc_ast_unknown)]
-                                                _ => panic!("unable to access unknown nodes"),
-                                            }
-                                        }
-                                        Some(v) => {
-                                            eprintln!(
-                                                "Processing other JSXAttrValue: {:?}",
-                                                std::mem::discriminant(&v)
-                                            );
-                                            jsx_attr_value_to_expr(v)
-                                                .expect("empty expression container?")
-                                        }
-                                        None => true.into(),
-                                    };
+                                    let value = self.process_attr_value(attr.value);
 
                                     let str_value = format!("{}:{}", ns.sym, name.sym);
                                     let key = Str {
@@ -1279,7 +1220,13 @@ where
     }
 }
 
-// Jsx also implements VisitMut for recursive attribute processing
+// Jsx also implements VisitMut for recursive attribute processing.
+//
+// This is necessary because when we call `el.opening.visit_mut_with(self)` in
+// enter_expr, we need VisitMut to be implemented so that jsx_src and jsx_self
+// (which are earlier in the CompositeHook chain) can add their __source and
+// __self attributes via the generated VisitMutWithHook visitor before we
+// transform the JSX to JavaScript.
 impl<C> VisitMut for Jsx<C>
 where
     C: Comments,
@@ -1296,10 +1243,16 @@ impl<C> VisitMutHook<()> for Jsx<C>
 where
     C: Comments,
 {
+    /// Called before visiting children of an expression.
+    ///
+    /// For JSXElements, we need to ensure jsx_src and jsx_self run first
+    /// (via the VisitMut impl) before we transform the JSX syntax.
     fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut ()) {
         let top_level_node = self.top_level_node;
 
-        // First, visit children to apply jsx_src and jsx_self
+        // First, visit children to apply jsx_src and jsx_self hooks.
+        // This is done via our VisitMut impl which allows other hooks in the
+        // CompositeHook chain to add their attributes before we transform JSX to JS.
         if matches!(expr, Expr::JSXElement(_) | Expr::JSXFragment(_))
             || matches!(expr, Expr::Paren(ParenExpr { expr: inner, .. }) if matches!(&**inner, Expr::JSXElement(_) | Expr::JSXFragment(_)))
         {
@@ -1318,6 +1271,12 @@ where
         }
     }
 
+    /// Called after visiting children of an expression.
+    ///
+    /// This is where we transform JSX syntax to JavaScript function calls.
+    /// By doing this in exit_expr (after children are visited), we ensure that
+    /// jsx_src and jsx_self have already added their __source and __self
+    /// attributes.
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut ()) {
         let top_level_node = self.top_level_node;
         let mut did_work = false;

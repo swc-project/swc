@@ -30,7 +30,10 @@ struct JsxSelf {
 
 impl JsxSelf {
     fn current_ctx(&self) -> Context {
-        *self.ctx_stack.last().unwrap()
+        *self
+            .ctx_stack
+            .last()
+            .expect("context stack should never be empty")
     }
 
     fn push_ctx(&mut self, ctx: Context) {
