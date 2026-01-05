@@ -69,8 +69,8 @@ async function main() {
 
     console.log(`✓ Found "Planned" milestone (#${plannedMilestone.number})`);
 
-    // 3. Get all issues and PRs from the "Planned" milestone
-    console.log(`Fetching issues and PRs from "Planned" milestone...`);
+    // 3. Get all issues from the "Planned" milestone
+    console.log(`Fetching issues from "Planned" milestone...`);
     const { data: issues } = await octokit.issues.listForRepo({
       owner,
       repo,
@@ -79,17 +79,37 @@ async function main() {
       per_page: 100,
     });
 
-    if (issues.length === 0) {
+    // Filter out PRs from issues list
+    const onlyIssues = issues.filter((issue) => !issue.pull_request);
+    console.log(`✓ Found ${onlyIssues.length} issues in "Planned" milestone`);
+
+    // 4. Get all PRs from the "Planned" milestone separately
+    console.log(`Fetching PRs from "Planned" milestone...`);
+    const { data: allPRs } = await octokit.pulls.list({
+      owner,
+      repo,
+      state: "all",
+      per_page: 100,
+    });
+
+    // Filter PRs that belong to the "Planned" milestone
+    const prs = allPRs.filter(
+      (pr) => pr.milestone?.number === plannedMilestone.number
+    );
+    console.log(`✓ Found ${prs.length} PRs in "Planned" milestone`);
+
+    if (onlyIssues.length === 0 && prs.length === 0) {
       console.log(`⚠ No issues or PRs found in "Planned" milestone`);
       return;
     }
 
-    console.log(`✓ Found ${issues.length} items in "Planned" milestone`);
-
-    // 4. Move each issue/PR to the new milestone
     let movedCount = 0;
-    for (const issue of issues) {
+
+    // 5. Move closed issues to the new milestone
+    console.log(`\nProcessing issues...`);
+    for (const issue of onlyIssues) {
       if (issue.state === "open") {
+        console.log(`⊘ Skipping issue #${issue.number} (still open)`);
         continue;
       }
 
@@ -101,16 +121,38 @@ async function main() {
           milestone: newMilestone.number,
         });
 
-        const itemType = issue.pull_request ? "PR" : "issue";
-        console.log(`✓ Moved ${itemType} #${issue.number}: ${issue.title}`);
+        console.log(`✓ Moved issue #${issue.number}: ${issue.title}`);
         movedCount++;
       } catch (error: any) {
-        console.error(`✗ Failed to move #${issue.number}: ${error.message}`);
+        console.error(`✗ Failed to move issue #${issue.number}: ${error.message}`);
+      }
+    }
+
+    // 6. Move closed PRs to the new milestone
+    console.log(`\nProcessing PRs...`);
+    for (const pr of prs) {
+      if (pr.state === "open") {
+        console.log(`⊘ Skipping PR #${pr.number} (still open)`);
+        continue;
+      }
+
+      try {
+        await octokit.issues.update({
+          owner,
+          repo,
+          issue_number: pr.number,
+          milestone: newMilestone.number,
+        });
+
+        console.log(`✓ Moved PR #${pr.number}: ${pr.title}`);
+        movedCount++;
+      } catch (error: any) {
+        console.error(`✗ Failed to move PR #${pr.number}: ${error.message}`);
       }
     }
 
     console.log(
-      `\n🎉 Successfully moved ${movedCount}/${issues.length} items from "Planned" to "${version}" milestone`
+      `\n🎉 Successfully moved ${movedCount}/${onlyIssues.length + prs.length} items from "Planned" to "${version}" milestone`
     );
   } catch (error: any) {
     console.error(`❌ Error managing milestone: ${error.message}`);

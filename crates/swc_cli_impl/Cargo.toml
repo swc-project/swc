@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_cli_impl"
 repository  = { workspace = true }
-version     = "53.0.0"
+version     = "54.0.0"
 
 [[bin]]
 name = "swc"
@@ -38,7 +38,7 @@ tracing-chrome     = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 walkdir            = { workspace = true }
 
-swc_core = { version = "53.0.1", features = [
+swc_core = { version = "54.0.0", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",

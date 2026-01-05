@@ -1,5 +1,4 @@
 import { parseFiles } from "@ast-grep/napi";
-import MagicString from "magic-string";
 import { chalk, fs, path } from "zx";
 import { errors } from "./errors.js";
 import { root } from "./utils.js";
@@ -7,6 +6,21 @@ import { root } from "./utils.js";
 /**
  * @typedef {import("@ast-grep/napi").SgNode} SgNode
  */
+
+/**
+ * Prepend text to a node
+ * @param {SgNode} node
+ * @param {string} text
+ * @returns {import("@ast-grep/napi").Edit}
+ */
+function prepend(node, text) {
+    const index = node.range().start.index;
+    return {
+        startPos: index,
+        endPos: index,
+        insertedText: text,
+    };
+}
 
 export function ast_grep() {
     const task_queue = [];
@@ -17,24 +31,21 @@ export function ast_grep() {
             return;
         }
 
-        const source = new MagicString(tree.root().text());
-        source.prepend(`"use strict";\n\n`);
+        const root_node = tree.root();
+        const edits = [];
+
+        edits.push(prepend(root_node, `"use strict";\n\n`));
 
         // We have forked _ts_generator from tslib
         if (filename.startsWith("_ts") && filename !== "_ts_generator") {
-            const match = tree.root().find(`export { $NAME as _ } from "tslib"`);
+            const match = root_node.find(`export { $NAME as _ } from "tslib"`);
             if (match) {
                 const name = match.getMatch("NAME").text();
-
-                const range = match.range();
-
-                source.update(
-                    range.start.index,
-                    range.end.index,
-                    `exports._ = require("tslib").${name};`,
+                edits.push(
+                    match.replace(`exports._ = require("tslib").${name};`),
                 );
                 task_queue.push(
-                    fs.writeFile(root("cjs", `${filename}.cjs`), source.toString(), {
+                    fs.writeFile(root("cjs", `${filename}.cjs`), root_node.commitEdits(edits), {
                         encoding: "utf-8",
                     }),
                 );
@@ -45,7 +56,7 @@ export function ast_grep() {
         }
 
         // rewrite export named function
-        const match = tree.root().find({
+        const match = root_node.find({
             rule: {
                 kind: "export_statement",
                 pattern: "export { $FUNC as _ }",
@@ -59,17 +70,13 @@ export function ast_grep() {
                 report_export_mismatch(tree.filename(), match);
             }
 
-            const range = match.range();
-            source.update(
-                range.start.index,
-                range.end.index,
-                `exports._ = ${func_name};`,
+            edits.push(
+                match.replace(`exports._ = ${func_name};`),
             );
 
             // since we match the { export x as _ } pattern,
             // we need to find the assignment expression from the root
-            tree
-                .root()
+            root_node
                 .findAll({
                     rule: {
                         pattern: func_name,
@@ -77,18 +84,17 @@ export function ast_grep() {
                         inside: { kind: "assignment_expression", field: "left" },
                     },
                 })
-                .forEach((match) => {
-                    const range = match.range();
-
-                    source.prependLeft(range.start.index, `exports._ = `);
+                .forEach((node) => {
+                    edits.push(
+                        prepend(node, `exports._ = `),
+                    );
                 });
         } else {
-            report_noexport(tree.filename(tree.filename()));
+            report_noexport(tree.filename());
         }
 
         // rewrite import
-        tree
-            .root()
+        root_node
             .findAll({ rule: { pattern: `import { _ as $BINDING } from "$SOURCE"` } })
             .forEach((match) => {
                 const import_binding = match.getMatch("BINDING").text();
@@ -100,16 +106,11 @@ export function ast_grep() {
                     report_import_mismatch(tree.filename(), match);
                 }
 
-                const range = match.range();
-
-                source.update(
-                    range.start.index,
-                    range.end.index,
-                    `var ${import_binding} = require("./${import_binding}.cjs");`,
+                edits.push(
+                    match.replace(`var ${import_binding} = require("./${import_binding}.cjs");`),
                 );
 
-                tree
-                    .root()
+                root_node
                     .findAll({
                         rule: {
                             pattern: import_binding,
@@ -121,20 +122,15 @@ export function ast_grep() {
                             },
                         },
                     })
-                    .forEach((match) => {
-                        const range = match.range();
-                        const ref_name = match.text();
-
-                        source.update(
-                            range.start.index,
-                            range.end.index,
-                            `${ref_name}._`,
+                    .forEach((node) => {
+                        edits.push(
+                            node.replace(`${node.text()}._`),
                         );
                     });
             });
 
         task_queue.push(
-            fs.writeFile(root("cjs", `${filename}.cjs`), source.toString(), {
+            fs.writeFile(root("cjs", `${filename}.cjs`), root_node.commitEdits(edits), {
                 encoding: "utf-8",
             }),
         );
@@ -176,11 +172,7 @@ function report_export_mismatch(filename, match) {
             "",
             ...text,
             "",
-            `${
-                chalk.bold(
-                    "note:",
-                )
-            } The exported name should be the same as the filename.`,
+            `${chalk.bold("note:")} The exported name should be the same as the filename.`,
             "",
         ]
             .join("\n"),
@@ -209,11 +201,7 @@ function report_import_mismatch(filename, match) {
                 chalk.blue("-".repeat(source_range.end.column - source_range.start.column)),
             ]
                 .join(""),
-            `${
-                chalk.bold(
-                    "note:",
-                )
-            } The imported binding name should be the same as the import source basename.`,
+            `${chalk.bold("note:")} The imported binding name should be the same as the import source basename.`,
             "",
         ]
             .join("\n"),
