@@ -265,9 +265,9 @@ impl Str {
     pub fn from_tpl_raw(tpl_raw: &str) -> Wtf8Atom {
         let mut buf: Wtf8Buf = Wtf8Buf::with_capacity(tpl_raw.len());
         let mut iter = tpl_raw.chars();
-        // prev_result can only less than 0x4ff
-        // so init with 0x4ff as no prev result
-        const NO_PREV_RESULT: u32 = 0x4ff;
+        // prev_result can only less than 0xdc00
+        // so init with 0xdc00 as no prev result
+        const NO_PREV_RESULT: u32 = 0xdc00;
         let mut prev_result: u32 = NO_PREV_RESULT;
         while let Some(c) = iter.next() {
             match c {
@@ -308,9 +308,6 @@ impl Str {
                                 let mut result: u32 = 0;
                                 let mut max_len = if c == 'u' { 4 } else { 2 };
                                 for c in &mut iter {
-                                    if count > max_len {
-                                        panic!("invalid syntax");
-                                    }
                                     match c {
                                         '{' if max_len == 4 && count == 0 => {
                                             max_len = 6;
@@ -333,44 +330,59 @@ impl Str {
                                         }
                                         _ => panic!("invalid syntax"),
                                     }
+                                    if count >= max_len {
+                                        if result > 0x10ffff {
+                                            panic!("invalid syntax");
+                                        } else {
+                                            break;
+                                        }
+                                    }
                                 }
                                 if max_len == 2 && max_len != count {
                                     panic!("invalid syntax");
                                 }
                                 if (0xd800..=0xdfff).contains(&result) {
-                                    // UTF-16 surrogate pair
-
-                                    if result & 0x400 == 0 {
+                                    // Handle UTF-16 surrogate pair
+                                    if result < 0xdc00 {
                                         // High surrogate pair
+                                        if prev_result != NO_PREV_RESULT {
+                                            // If the previous result is a high surrogate
+                                            // We can be sure `prev_result` is less than 0xdc00
+                                            buf.push(unsafe {
+                                                CodePoint::from_u32_unchecked(prev_result)
+                                            });
+                                        }
                                         let mut iter = iter.clone();
                                         if let Some('\\') = iter.next() {
                                             if let Some('u') = iter.next() {
-                                                prev_result = result & 0x3ff;
+                                                // less than 0xdc00
+                                                prev_result = result;
                                                 continue;
                                             }
                                         }
-                                    } else {
+                                    } else if prev_result != NO_PREV_RESULT {
                                         // Low surrogate pair
-                                        if prev_result != NO_PREV_RESULT {
-                                            // Syntax error: we do not have a
-                                            // high surrogate pair.
-                                            panic!("invalid syntax");
-                                        }
-                                        let cp = (result & 0x3ff) | (prev_result << 10);
+                                        // result is less than 0x10ffff here
+                                        result = 0x100000
+                                            + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
+
+                                        // We can be sure result is a valid code point here
+                                        buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                                         prev_result = NO_PREV_RESULT;
-                                        if cp <= 0x10ffff {
-                                            // We can be sure result is a valid code point here
-                                            buf.push(unsafe { CodePoint::from_u32_unchecked(cp) });
-                                            continue;
-                                        }
+                                        continue;
                                     }
-                                    // Output raw value for syntax issue
-                                    buf.push_str(format!("\\u{result:x}").as_str());
-                                } else if result <= 0x10ffff {
+                                }
+                                if prev_result != NO_PREV_RESULT {
+                                    // Cannot not found a valid low surrogate pair
+                                    // We can be sure `prev_result` is less than 0xdc00
+                                    buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
+                                    prev_result = NO_PREV_RESULT;
+                                }
+                                if result <= 0x10ffff {
                                     // We can be sure result is a valid code point here
                                     buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
                                 } else {
-                                    panic!("invalid syntax");
+                                    panic!("syntax error")
                                 }
                             }
                             '0'..='7' => {

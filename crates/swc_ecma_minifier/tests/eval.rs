@@ -108,8 +108,8 @@ fn eval_lit() {
     assert_eq!(eval("", "`\\uD83E\\uDD80`").unwrap(), "🦀");
     assert_eq!(eval("", "`\\u{D83E}\\u{DD80}`").unwrap(), "🦀");
     assert_eq!(eval("", "`\\u{1F980}`").unwrap(), "🦀");
-    assert_eq!(eval("", "`\\u{d800}`").unwrap(), "\\ud800");
-    assert_eq!(eval("", "`\\u{dFFF}`").unwrap(), "\\udfff");
+    assert_eq!(eval("", "`\\u{d800}`").unwrap(), "\\uD800");
+    assert_eq!(eval("", "`\\u{dFFF}`").unwrap(), "\\uDFFF");
 }
 
 struct PartialInliner {
