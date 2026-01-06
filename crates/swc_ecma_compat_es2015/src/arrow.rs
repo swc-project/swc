@@ -135,9 +135,14 @@ impl VisitMut for Arrow {
                     })
                     .collect();
 
-                body.visit_mut_with(self);
-
+                // First, replace `this` with `_this` in the entire body
+                // This must happen before converting nested arrow functions
+                // because once they become regular functions, the hoister
+                // won't recurse into them
                 body.visit_mut_with(&mut self.hoister);
+
+                // Then, convert nested arrow functions
+                body.visit_mut_with(self);
 
                 let fn_expr = Function {
                     decorators: Vec::new(),
