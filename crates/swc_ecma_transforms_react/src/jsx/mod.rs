@@ -498,30 +498,7 @@ where
             Some(JSXAttrValue::JSXElement(el)) => Box::new(self.jsx_elem_to_expr(*el)),
             Some(JSXAttrValue::JSXFragment(frag)) => Box::new(self.jsx_frag_to_expr(frag)),
             Some(JSXAttrValue::JSXExprContainer(container)) => match container.expr {
-                JSXExpr::Expr(mut e) => {
-                    // In development mode, fix __self argument for JSXElements in containers
-                    if self.development {
-                        if let Expr::Call(ref mut call) = *e {
-                            // For jsxDEV, the last argument should be 'this' instead of 'void 0'
-                            if call.args.len() >= 6 {
-                                if let Some(last_arg) = call.args.last_mut() {
-                                    match &*last_arg.expr {
-                                        Expr::Ident(id) if id.sym == "undefined" => {
-                                            last_arg.expr =
-                                                Box::new(ThisExpr { span: DUMMY_SP }.into());
-                                        }
-                                        Expr::Unary(unary) if unary.op == UnaryOp::Void => {
-                                            last_arg.expr =
-                                                Box::new(ThisExpr { span: DUMMY_SP }.into());
-                                        }
-                                        _ => {}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    e
-                }
+                JSXExpr::Expr(e) => e,
                 JSXExpr::JSXEmptyExpr(_) => panic!("empty expression container"),
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
