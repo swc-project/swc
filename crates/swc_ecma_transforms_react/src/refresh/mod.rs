@@ -260,7 +260,7 @@ impl<C: Comments> VisitMutHook<()> for Refresh<C> {
         // First, visit all items to collect @refresh reset comments
         self.visit_module(module_items);
 
-        self.mutate_module_items(module_items);
+        self.handle_module_items(module_items);
     }
 
     fn enter_ts_module_decl(&mut self, _: &mut TsModuleDecl, _ctx: &mut ()) {
@@ -313,7 +313,7 @@ impl<C: Comments> Refresh<C> {
         }
     }
 
-    fn mutate_module_items(&mut self, module_items: &mut Vec<ModuleItem>) {
+    fn handle_module_items(&mut self, module_items: &mut Vec<ModuleItem>) {
         let used_in_jsx = collect_ident_in_jsx(module_items);
 
         let mut items = Vec::with_capacity(module_items.len());
