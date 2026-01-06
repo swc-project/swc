@@ -208,22 +208,20 @@ impl Pure<'_> {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
                 if let Some(cooked) = &t.quasis[0].cooked {
-                    if let Some(value) = cooked.as_str() {
-                        if value.chars().all(|c| match c {
-                            '\n' | '\r' => self.config.force_str_for_tpl,
-                            _ => true,
-                        }) {
-                            report_change!("converting a template literal to a string literal");
+                    if cooked.code_points().all(|code_point| match code_point {
+                        c if c.eq(&'\n') || c.eq(&'\r') => self.config.force_str_for_tpl,
+                        _ => true,
+                    }) {
+                        report_change!("converting a template literal to a string literal");
 
-                            *e = Lit::Str(Str {
-                                span: t.span,
-                                raw: None,
-                                value: cooked.clone(),
-                            })
-                            .into();
-                        }
-                        return;
+                        *e = Lit::Str(Str {
+                            span: t.span,
+                            raw: None,
+                            value: cooked.clone(),
+                        })
+                        .into();
                     }
+                    return;
                 }
 
                 let c = &t.quasis[0].raw;
