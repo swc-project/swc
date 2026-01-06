@@ -30,7 +30,7 @@ use swc_ecma_utils::{
     drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
     StmtLike,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::VisitMut;
 
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
@@ -1138,55 +1138,10 @@ where
     }
 }
 
-// Jsx also implements VisitMut for recursive attribute processing.
-//
-// This is necessary because when we call `el.opening.visit_mut_with(self)` in
-// enter_expr, we need VisitMut to be implemented so that jsx_src and jsx_self
-// (which are earlier in the CompositeHook chain) can add their __source and
-// __self attributes via the generated VisitMutWithHook visitor before we
-// transform the JSX to JavaScript.
-impl<C> VisitMut for Jsx<C>
-where
-    C: Comments,
-{
-    noop_visit_mut_type!();
-
-    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
-        // Just visit children - jsx_src and jsx_self will add their attributes
-        n.visit_mut_children_with(self);
-    }
-}
-
 impl<C> VisitMutHook<()> for Jsx<C>
 where
     C: Comments,
 {
-    /// Called before visiting children of an expression.
-    ///
-    /// For JSXElements, we need to ensure jsx_src and jsx_self run first
-    /// (via the VisitMut impl) before we transform the JSX syntax.
-    fn enter_expr(&mut self, expr: &mut Expr, _ctx: &mut ()) {
-        // First, visit children to apply jsx_src and jsx_self hooks.
-        // This is done via our VisitMut impl which allows other hooks in the
-        // CompositeHook chain to add their attributes before we transform JSX to JS.
-        if matches!(expr, Expr::JSXElement(_) | Expr::JSXFragment(_))
-            || matches!(expr, Expr::Paren(ParenExpr { expr: inner, .. }) if matches!(&**inner, Expr::JSXElement(_) | Expr::JSXFragment(_)))
-        {
-            match expr {
-                Expr::JSXElement(el) => {
-                    el.opening.visit_mut_with(self);
-                }
-                Expr::JSXFragment(_) => {}
-                Expr::Paren(ParenExpr { expr: inner, .. }) => {
-                    if let Expr::JSXElement(el) = &mut **inner {
-                        el.opening.visit_mut_with(self);
-                    }
-                }
-                _ => {}
-            }
-        }
-    }
-
     /// Called after visiting children of an expression.
     ///
     /// This is where we transform JSX syntax to JavaScript function calls.
