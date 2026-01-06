@@ -23,6 +23,8 @@ env:
   RUST_MIN_STACK: 4194304
   # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
   SKIP_YARN_COREPACK_CHECK: 1
+  CARGO_PROFILE_RELEASE_LTO: false
+  CARGO_PROFILE_BENCH_LTO: false
 
 jobs:
   list-crates:
