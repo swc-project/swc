@@ -41,7 +41,9 @@ impl JsxSelf {
     }
 
     fn pop_ctx(&mut self) {
-        self.ctx_stack.pop();
+        if self.ctx_stack.len() > 1 {
+            self.ctx_stack.pop();
+        }
     }
 }
 
