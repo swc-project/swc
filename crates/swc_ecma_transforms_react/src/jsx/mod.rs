@@ -495,10 +495,7 @@ where
     /// Process JSX attribute value, handling JSXElements and JSXFragments
     fn process_attr_value(&mut self, value: Option<JSXAttrValue>) -> Box<Expr> {
         match value {
-            Some(JSXAttrValue::JSXElement(mut el)) => {
-                self.add_dev_attrs_to_element(&mut el);
-                Box::new(self.jsx_elem_to_expr(*el))
-            }
+            Some(JSXAttrValue::JSXElement(el)) => Box::new(self.jsx_elem_to_expr(*el)),
             Some(JSXAttrValue::JSXFragment(frag)) => Box::new(self.jsx_frag_to_expr(frag)),
             Some(JSXAttrValue::JSXExprContainer(container)) => match container.expr {
                 JSXExpr::Expr(mut e) => {
@@ -532,59 +529,6 @@ where
             Some(v) => jsx_attr_value_to_expr(v).expect("empty expression container?"),
             None => true.into(),
         }
-    }
-
-    /// Add __source and __self to JSXElement attributes in development mode
-    fn add_dev_attrs_to_element(&self, el: &mut JSXElement) {
-        if !self.development || el.opening.span == DUMMY_SP {
-            return;
-        }
-
-        let loc = self.cm.lookup_char_pos(el.opening.span.lo);
-        let file_name = loc.file.name.to_string();
-
-        // Add __source
-        el.opening.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
-            span: DUMMY_SP,
-            name: JSXAttrName::Ident(quote_ident!("__source")),
-            value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                span: DUMMY_SP,
-                expr: JSXExpr::Expr(Box::new(
-                    ObjectLit {
-                        span: DUMMY_SP,
-                        props: vec![
-                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("fileName")),
-                                value: Box::new(Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    raw: None,
-                                    value: file_name.into(),
-                                }))),
-                            }))),
-                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("lineNumber")),
-                                value: loc.line.into(),
-                            }))),
-                            PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("columnNumber")),
-                                value: (loc.col.0 + 1).into(),
-                            }))),
-                        ],
-                    }
-                    .into(),
-                )),
-            })),
-        }));
-
-        // Add __self
-        el.opening.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
-            span: DUMMY_SP,
-            name: JSXAttrName::Ident(quote_ident!("__self")),
-            value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                span: DUMMY_SP,
-                expr: JSXExpr::Expr(Box::new(ThisExpr { span: DUMMY_SP }.into())),
-            })),
-        }));
     }
 
     fn inject_runtime<T, F>(&mut self, body: &mut Vec<T>, inject: F)
@@ -1128,10 +1072,7 @@ where
                     expr: JSXExpr::Expr(e),
                     ..
                 }) => e,
-                JSXAttrValue::JSXElement(mut element) => {
-                    self.add_dev_attrs_to_element(&mut element);
-                    Box::new(self.jsx_elem_to_expr(*element))
-                }
+                JSXAttrValue::JSXElement(element) => Box::new(self.jsx_elem_to_expr(*element)),
                 JSXAttrValue::JSXFragment(fragment) => Box::new(self.jsx_frag_to_expr(fragment)),
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     span: _,
