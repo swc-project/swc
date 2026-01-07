@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`transform in strip-only mode should not emit 'Caused by: failed to parse' 1`] = `
+exports[`transform > in strip-only mode > should not emit 'Caused by: failed to parse' 1`] = `
 {
   "code": "InvalidSyntax",
   "endColumn": 22,
@@ -15,14 +15,14 @@ exports[`transform in strip-only mode should not emit 'Caused by: failed to pars
 }
 `;
 
-exports[`transform in strip-only mode should remove declare enum 1`] = `
+exports[`transform > in strip-only mode > should remove declare enum 1`] = `
 {
   "code": "                   ",
   "map": undefined,
 }
 `;
 
-exports[`transform in strip-only mode should remove declare enum 2`] = `
+exports[`transform > in strip-only mode > should remove declare enum 2`] = `
 {
   "code": "                  
                      
@@ -31,7 +31,7 @@ exports[`transform in strip-only mode should remove declare enum 2`] = `
 }
 `;
 
-exports[`transform in strip-only mode should remove declare enum 3`] = `
+exports[`transform > in strip-only mode > should remove declare enum 3`] = `
 {
   "code": "                  
                           
@@ -41,7 +41,7 @@ exports[`transform in strip-only mode should remove declare enum 3`] = `
 }
 `;
 
-exports[`transform in strip-only mode should report correct error for syntax error 1`] = `
+exports[`transform > in strip-only mode > should report correct error for syntax error 1`] = `
 {
   "code": "InvalidSyntax",
   "endColumn": 31,
@@ -56,7 +56,7 @@ exports[`transform in strip-only mode should report correct error for syntax err
 }
 `;
 
-exports[`transform in strip-only mode should report correct error for unsupported syntax 1`] = `
+exports[`transform > in strip-only mode > should report correct error for unsupported syntax 1`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 21,
@@ -72,7 +72,7 @@ exports[`transform in strip-only mode should report correct error for unsupporte
 }
 `;
 
-exports[`transform in strip-only mode should strip complex expressions 1`] = `
+exports[`transform > in strip-only mode > should strip complex expressions 1`] = `
 {
   "code": "const foo = {
                         foo: 1          ,
@@ -83,7 +83,7 @@ exports[`transform in strip-only mode should strip complex expressions 1`] = `
 }
 `;
 
-exports[`transform in strip-only mode should strip nonnull assertions 1`] = `
+exports[`transform > in strip-only mode > should strip nonnull assertions 1`] = `
 {
   "code": "const foo = 1 ;
                     const bar = "bar";",
@@ -91,7 +91,7 @@ exports[`transform in strip-only mode should strip nonnull assertions 1`] = `
 }
 `;
 
-exports[`transform in strip-only mode should strip satisfies 1`] = `
+exports[`transform > in strip-only mode > should strip satisfies 1`] = `
 {
   "code": "const foo = 1                 ;
                     const bar = "bar";",
@@ -99,7 +99,7 @@ exports[`transform in strip-only mode should strip satisfies 1`] = `
 }
 `;
 
-exports[`transform in strip-only mode should strip type annotations 1`] = `
+exports[`transform > in strip-only mode > should strip type annotations 1`] = `
 {
   "code": "const foo = 1;
                     const bar      = "bar";",
@@ -107,7 +107,7 @@ exports[`transform in strip-only mode should strip type annotations 1`] = `
 }
 `;
 
-exports[`transform in strip-only mode should strip type assertions 1`] = `
+exports[`transform > in strip-only mode > should strip type assertions 1`] = `
 {
   "code": "const foo = 1          ;
                     const bar = "bar";",
@@ -115,7 +115,7 @@ exports[`transform in strip-only mode should strip type assertions 1`] = `
 }
 `;
 
-exports[`transform in strip-only mode should strip type declarations 1`] = `
+exports[`transform > in strip-only mode > should strip type declarations 1`] = `
 {
   "code": "const foo = 1;
                                       
@@ -125,7 +125,7 @@ exports[`transform in strip-only mode should strip type declarations 1`] = `
 }
 `;
 
-exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
+exports[`transform > in strip-only mode > should throw an error when it encounters a module 1`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 10,
@@ -140,7 +140,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 }
 `;
 
-exports[`transform in strip-only mode should throw an error when it encounters a module 2`] = `
+exports[`transform > in strip-only mode > should throw an error when it encounters a module 2`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 18,
@@ -155,7 +155,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 }
 `;
 
-exports[`transform in strip-only mode should throw an error when it encounters a namespace 1`] = `
+exports[`transform > in strip-only mode > should throw an error when it encounters a namespace 1`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 37,
@@ -170,7 +170,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 }
 `;
 
-exports[`transform in strip-only mode should throw an error when it encounters an enum 1`] = `
+exports[`transform > in strip-only mode > should throw an error when it encounters an enum 1`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 11,
@@ -185,7 +185,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 }
 `;
 
-exports[`transform in transform mode shoud throw an object even with deprecatedTsModuleAsError = true 1`] = `
+exports[`transform > in transform mode > shoud throw an object even with deprecatedTsModuleAsError = true 1`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 8,
@@ -200,7 +200,7 @@ exports[`transform in transform mode shoud throw an object even with deprecatedT
 }
 `;
 
-exports[`transform in transform mode should throw an error when it encounters a declared module 1`] = `
+exports[`transform > in transform mode > should throw an error when it encounters a declared module 1`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 18,
@@ -215,7 +215,7 @@ exports[`transform in transform mode should throw an error when it encounters a 
 }
 `;
 
-exports[`transform in transform mode should throw an error when it encounters a module 1`] = `
+exports[`transform > in transform mode > should throw an error when it encounters a module 1`] = `
 {
   "code": "UnsupportedSyntax",
   "endColumn": 10,
@@ -230,7 +230,7 @@ exports[`transform in transform mode should throw an error when it encounters a 
 }
 `;
 
-exports[`transform should strip types 1`] = `
+exports[`transform > should strip types 1`] = `
 {
   "code": "
         export const foo         = 1;

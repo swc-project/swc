@@ -1,5 +1,5 @@
 {
     "devDependencies": {
-        "jest": "^29.7.0"
+        "@rstest/core": "^0.7.8"
     }
 }
