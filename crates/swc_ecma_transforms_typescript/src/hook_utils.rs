@@ -3,6 +3,7 @@ use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::*;
 
+/// Fork of [VisitMutWithHook] that has [maybe_grow_default] applied to it.
 pub(crate) struct VisitMutImpl<H, C> {
     pub hook: H,
     pub context: C,

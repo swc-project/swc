@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_hooks::{CompositeHook, VisitMutWithHook};
+use swc_ecma_hooks::CompositeHook;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
