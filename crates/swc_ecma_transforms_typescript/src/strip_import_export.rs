@@ -14,7 +14,7 @@ pub fn hook(import_not_used_as_values: ImportsNotUsedAsValues) -> StripImportExp
 
 /// Context for StripImportExport hook
 #[derive(Default)]
-pub struct StripImportExportContext {
+pub(crate) struct StripImportExportContext {
     pub usage_info: UsageCollect,
     pub declare_info: DeclareCollect,
 }
@@ -134,7 +134,9 @@ impl VisitMutHook<TypeScriptContext> for StripImportExport {
                     return true;
                 }
 
-                ctx.strip_import_export.usage_info.has_usage(&ts_import_equals_decl.id.to_id())
+                ctx.strip_import_export
+                    .usage_info
+                    .has_usage(&ts_import_equals_decl.id.to_id())
             }
             ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
                 if ts_module.body.is_some() =>

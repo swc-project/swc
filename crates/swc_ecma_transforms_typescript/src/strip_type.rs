@@ -10,7 +10,7 @@ pub fn hook() -> StripType {
 
 /// Context for StripType hook
 #[derive(Default)]
-pub struct StripTypeContext {
+pub(crate) struct StripTypeContext {
     pub in_namespace: bool,
 }
 
