@@ -198,11 +198,6 @@ impl VisitMut for Arrow {
         if let Some(body) = &mut f.body {
             let old_rep = self.hoister.take();
 
-            // First, replace `this` with `_this` in the body
-            // This must happen before converting nested arrow functions
-            body.visit_mut_with(&mut self.hoister);
-
-            // Then, convert nested arrow functions
             body.visit_mut_with(self);
 
             let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
@@ -240,11 +235,6 @@ impl VisitMut for Arrow {
         if let Some(body) = &mut f.body {
             let old_rep = self.hoister.take();
 
-            // First, replace `this` with `_this` in the body
-            // This must happen before converting nested arrow functions
-            body.visit_mut_with(&mut self.hoister);
-
-            // Then, convert nested arrow functions
             body.visit_mut_with(self);
 
             let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
