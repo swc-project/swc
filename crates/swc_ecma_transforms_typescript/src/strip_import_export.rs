@@ -2,7 +2,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
 
@@ -291,6 +291,7 @@ pub(crate) struct StripImportExport {
     pub import_not_used_as_values: ImportsNotUsedAsValues,
     pub usage_info: UsageCollect,
     pub declare_info: DeclareCollect,
+    namespace_depth: usize,
 }
 
 pub(crate) fn hook(
@@ -303,6 +304,7 @@ pub(crate) fn hook(
         import_not_used_as_values,
         usage_info,
         declare_info: Default::default(),
+        namespace_depth: 0,
     }
 }
 
@@ -318,9 +320,38 @@ impl VisitMutHook<()> for StripImportExport {
         self.usage_info.analyze_import_chain();
     }
 
+    // Process module items BEFORE children are visited
+    // This allows transform phase to see remaining TsImportEquals
     fn enter_module_items(&mut self, n: &mut Vec<ModuleItem>, _ctx: &mut ()) {
         if self.verbatim_module_syntax {
             return;
+        }
+
+        // Only process top-level
+        // Nested namespaces are handled by process_all_nested_modules
+        if self.namespace_depth == 0 {
+            self.process_top_level_module_items(n);
+        }
+    }
+
+    fn enter_ts_module_block(&mut self, _node: &mut TsModuleBlock, _ctx: &mut ()) {
+        self.namespace_depth += 1;
+    }
+
+    fn exit_ts_module_block(&mut self, _node: &mut TsModuleBlock, _ctx: &mut ()) {
+        self.namespace_depth -= 1;
+    }
+}
+
+impl StripImportExport {
+    fn process_top_level_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        // Process nested TsModules first
+        for module_item in n.iter_mut() {
+            if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) = module_item {
+                if let Some(TsNamespaceBody::TsModuleBlock(ref mut block)) = ts_module.body {
+                    self.process_all_nested_modules(&mut block.body);
+                }
+            }
         }
 
         n.retain_mut(|module_item| match module_item {
@@ -424,33 +455,12 @@ impl VisitMutHook<()> for StripImportExport {
 
                 self.usage_info.has_usage(&ts_import_equals_decl.id.to_id())
             }
-            ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
-                if ts_module.body.is_some() =>
-            {
-                let mut strip_ts_import_equals = StripTsImportEquals;
-                module_item.visit_mut_with(&mut strip_ts_import_equals);
-
-                true
-            }
             _ => true,
         });
     }
 
-    fn enter_script(&mut self, n: &mut Script, _ctx: &mut ()) {
-        let mut visitor = StripTsImportEquals;
-        for stmt in n.body.iter_mut() {
-            if let Stmt::Decl(Decl::TsModule(..)) = stmt {
-                stmt.visit_mut_with(&mut visitor);
-            }
-        }
-    }
-}
-
-#[derive(Debug, Default)]
-struct StripTsImportEquals;
-
-impl VisitMut for StripTsImportEquals {
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+    fn process_nested_module_items(&self, n: &mut Vec<ModuleItem>) {
+        // For nested namespaces, compute local usage
         let has_ts_import_equals = n.iter().any(|module_item| {
             matches!(
                 module_item,
@@ -458,18 +468,8 @@ impl VisitMut for StripTsImportEquals {
             )
         });
 
-        // TS1235: A namespace declaration is only allowed at the top level of a
-        // namespace or module.
-        let has_ts_module = n.iter().any(|module_item| {
-            matches!(
-                module_item,
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
-            )
-        });
-
         if has_ts_import_equals {
             let mut usage_info = UsageCollect::default();
-
             n.visit_with(&mut usage_info);
 
             n.retain(|module_item| match module_item {
@@ -487,17 +487,19 @@ impl VisitMut for StripTsImportEquals {
                 _ => true,
             })
         }
-
-        if has_ts_module {
-            n.visit_mut_children_with(self);
-        }
     }
 
-    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
-        if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module))) = n {
-            if ts_module.body.is_some() {
-                n.visit_mut_children_with(self)
+    fn process_all_nested_modules(&self, n: &mut Vec<ModuleItem>) {
+        // Recursively process deeper nested namespaces first
+        for module_item in n.iter_mut() {
+            if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) = module_item {
+                if let Some(TsNamespaceBody::TsModuleBlock(ref mut block)) = ts_module.body {
+                    self.process_all_nested_modules(&mut block.body);
+                }
             }
         }
+
+        // Then process TsImportEquals at this level
+        self.process_nested_module_items(n);
     }
 }
