@@ -156,6 +156,7 @@ pub fn generate_hooks(
         .extend(generate_visit_mut_hook_trait(&all_types));
     output.items.extend(generate_composite_hook(&all_types));
     output.items.extend(generate_either_hook(&all_types));
+    output.items.extend(generate_option_hook(&all_types));
     output
         .items
         .extend(generate_visit_mut_with_hook(&all_types));
@@ -1937,6 +1938,59 @@ fn generate_either_hook(all_types: &[FieldType]) -> Vec<Item> {
         where
             L: VisitMutHook<C>,
             R: VisitMutHook<C>,
+        {
+            #(#impl_methods)*
+        }
+    });
+
+    items
+}
+
+/// Generates VisitMutHook implementation for Option<H>
+#[cfg(test)]
+fn generate_option_hook(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut impl_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        // For Option, only call the hook if Some
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #enter_method_name(&mut self, node: &mut #type_name, ctx: &mut C) {
+                if let Some(hook) = self {
+                    hook.#enter_method_name(node, ctx);
+                }
+            }
+        ));
+
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #exit_method_name(&mut self, node: &mut #type_name, ctx: &mut C) {
+                if let Some(hook) = self {
+                    hook.#exit_method_name(node, ctx);
+                }
+            }
+        ));
+    }
+
+    // Add the VisitMutHook implementation for Option
+    items.push(parse_quote! {
+        impl<H, C> VisitMutHook<C> for Option<H>
+        where
+            H: VisitMutHook<C>,
         {
             #(#impl_methods)*
         }
