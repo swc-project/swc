@@ -14,13 +14,13 @@ pub fn hook(import_not_used_as_values: ImportsNotUsedAsValues) -> StripImportExp
 
 /// Context for StripImportExport hook
 #[derive(Default)]
-pub(crate) struct StripImportExportContext {
-    usage_info: UsageCollect,
-    declare_info: DeclareCollect,
+pub struct StripImportExportContext {
+    pub usage_info: UsageCollect,
+    pub declare_info: DeclareCollect,
 }
 
 /// Hook to strip unused imports and exports
-pub(crate) struct StripImportExport {
+pub struct StripImportExport {
     import_not_used_as_values: ImportsNotUsedAsValues,
 }
 
@@ -255,9 +255,9 @@ impl VisitMutWithHookExt for Stmt {
 }
 
 #[derive(Debug, Default)]
-pub(crate) struct UsageCollect {
-    id_usage: FxHashSet<Id>,
-    import_chain: FxHashMap<Id, Id>,
+pub struct UsageCollect {
+    pub id_usage: FxHashSet<Id>,
+    pub import_chain: FxHashMap<Id, Id>,
 }
 
 impl From<FxHashSet<Id>> for UsageCollect {
@@ -394,9 +394,9 @@ fn get_module_ident(ts_entity_name: &TsEntityName) -> &Ident {
 }
 
 #[derive(Debug, Default)]
-pub(crate) struct DeclareCollect {
-    id_type: FxHashSet<Id>,
-    id_value: FxHashSet<Id>,
+pub struct DeclareCollect {
+    pub id_type: FxHashSet<Id>,
+    pub id_value: FxHashSet<Id>,
 }
 
 /// Only scan the top level of the module.

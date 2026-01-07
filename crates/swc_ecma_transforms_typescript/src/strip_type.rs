@@ -8,15 +8,15 @@ pub fn hook() -> StripType {
 
 /// Context for StripType hook
 #[derive(Default)]
-pub(crate) struct StripTypeContext {
-    in_namespace: bool,
+pub struct StripTypeContext {
+    pub in_namespace: bool,
 }
 
 /// This Module will strip all types/generics/interface/declares
 /// and type import/export.
 ///
 /// `export declare var` in a namespace will be retained.
-pub(crate) struct StripType;
+pub struct StripType;
 
 impl VisitMutHook<StripTypeContext> for StripType {
     fn enter_array_pat(&mut self, n: &mut ArrayPat, _ctx: &mut StripTypeContext) {
