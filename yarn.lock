@@ -4427,12 +4427,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/binding_core_wasm@workspace:bindings/binding_core_wasm/pkg":
-  version: 0.0.0-use.local
-  resolution: "@swc/binding_core_wasm@workspace:bindings/binding_core_wasm/pkg"
-  languageName: unknown
-  linkType: soft
-
 "@swc/core-darwin-arm64@workspace:packages/core/scripts/npm/darwin-arm64":
   version: 0.0.0-use.local
   resolution: "@swc/core-darwin-arm64@workspace:packages/core/scripts/npm/darwin-arm64"
