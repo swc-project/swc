@@ -36,8 +36,6 @@ mod vars;
 pub(crate) struct PureOptimizerConfig {
     /// pass > 1
     pub enable_join_vars: bool,
-
-    pub force_str_for_tpl: bool,
 }
 
 #[allow(clippy::needless_lifetimes)]

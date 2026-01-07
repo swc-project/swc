@@ -51,7 +51,7 @@ pub use crate::pass::global_defs::globals_defs;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     metadata::info_marker,
-    mode::{Minification, Mode},
+    mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},
     pass::{
         global_defs, mangle_names::idents_to_preserve, mangle_props::mangle_properties,
@@ -179,7 +179,6 @@ pub fn optimize(
             c,
             marks,
             PureOptimizerConfig {
-                force_str_for_tpl: Minification.force_str_for_tpl(),
                 enable_join_vars: true,
             },
         ));

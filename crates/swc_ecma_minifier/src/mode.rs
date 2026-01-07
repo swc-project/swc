@@ -6,10 +6,6 @@ pub(crate) trait Mode: Send + Sync {
     fn preserve_vars(&self) -> bool;
 
     fn should_be_very_correct(&self) -> bool;
-
-    /// If this returns true, template literals with `\n` or `\r` will be
-    /// converted to [Lit::Str].
-    fn force_str_for_tpl(&self) -> bool;
 }
 
 pub struct Minification;
@@ -23,9 +19,5 @@ impl Mode for Minification {
 
     fn should_be_very_correct(&self) -> bool {
         true
-    }
-
-    fn force_str_for_tpl(&self) -> bool {
-        false
     }
 }

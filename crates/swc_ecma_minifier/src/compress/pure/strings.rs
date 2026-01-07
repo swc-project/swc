@@ -208,40 +208,29 @@ impl Pure<'_> {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
                 if let Some(cooked) = &t.quasis[0].cooked {
-                    if cooked.code_points().all(|code_point| match code_point {
-                        c if c.eq(&'\n') || c.eq(&'\r') => self.config.force_str_for_tpl,
-                        _ => true,
-                    }) {
-                        report_change!("converting a template literal to a string literal");
-
-                        *e = Lit::Str(Str {
-                            span: t.span,
-                            raw: None,
-                            value: cooked.clone(),
-                        })
-                        .into();
-                    }
-                    return;
-                }
-
-                let c = &t.quasis[0].raw;
-                if c.chars().all(|c| match c {
-                    '\n' | '\r' => self.config.force_str_for_tpl,
-                    _ => true,
-                }) {
-                    let value = Str::from_tpl_raw(&t.quasis[0]);
-
-                    report_change!(
-                        "converting a template literal to a string literal by Str::from_tpl_raw"
-                    );
+                    report_change!("converting a template literal to a string literal");
 
                     *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
-                        value,
+                        value: cooked.clone(),
                     })
                     .into();
+                    return;
                 }
+
+                let value = Str::from_tpl_raw(&t.quasis[0]);
+
+                report_change!(
+                    "converting a template literal to a string literal by Str::from_tpl_raw"
+                );
+
+                *e = Lit::Str(Str {
+                    span: t.span,
+                    raw: None,
+                    value,
+                })
+                .into();
             }
             _ => {}
         }
