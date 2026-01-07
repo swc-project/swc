@@ -116,8 +116,18 @@ fn combined_escapes() {
 // These will panic because octal escapes are not allowed in template strings.
 #[test]
 #[should_panic]
-fn should_panic() {
+fn should_panic_octal_01() {
     test_from_tpl_raw("\\01", "");
+}
+
+#[test]
+#[should_panic]
+fn should_panic_octal_2() {
     test_from_tpl_raw("\\2", "");
+}
+
+#[test]
+#[should_panic]
+fn should_panic_octal_7() {
     test_from_tpl_raw("\\7", "");
 }
