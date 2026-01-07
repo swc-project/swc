@@ -1,9 +1,258 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
+
+pub fn hook(import_not_used_as_values: ImportsNotUsedAsValues) -> StripImportExport {
+    StripImportExport {
+        import_not_used_as_values,
+    }
+}
+
+/// Context for StripImportExport hook
+#[derive(Default)]
+pub(crate) struct StripImportExportContext {
+    usage_info: UsageCollect,
+    declare_info: DeclareCollect,
+}
+
+/// Hook to strip unused imports and exports
+pub(crate) struct StripImportExport {
+    import_not_used_as_values: ImportsNotUsedAsValues,
+}
+
+impl VisitMutHook<StripImportExportContext> for StripImportExport {
+    fn enter_module(&mut self, n: &mut Module, ctx: &mut StripImportExportContext) {
+        // Collect usage information
+        n.visit_with(&mut ctx.usage_info);
+        n.visit_with(&mut ctx.declare_info);
+        ctx.usage_info.analyze_import_chain();
+    }
+
+    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, ctx: &mut StripImportExportContext) {
+        let mut strip_ts_import_equals = StripTsImportEquals;
+
+        n.retain_mut(|module_item| match module_item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                specifiers,
+                type_only: false,
+                ..
+            })) if !specifiers.is_empty() => {
+                // Note: If import specifiers is originally empty, then we leave it alone.
+                // This is weird but it matches TS.
+
+                specifiers.retain(|import_specifier| match import_specifier {
+                    ImportSpecifier::Named(named) => {
+                        if named.is_type_only {
+                            return false;
+                        }
+
+                        let id = named.local.to_id();
+
+                        if ctx.declare_info.has_value(&id) {
+                            return false;
+                        }
+
+                        ctx.usage_info.has_usage(&id)
+                    }
+                    ImportSpecifier::Default(default) => {
+                        let id = default.local.to_id();
+
+                        if ctx.declare_info.has_value(&id) {
+                            return false;
+                        }
+
+                        ctx.usage_info.has_usage(&id)
+                    }
+                    ImportSpecifier::Namespace(namespace) => {
+                        let id = namespace.local.to_id();
+
+                        if ctx.declare_info.has_value(&id) {
+                            return false;
+                        }
+
+                        ctx.usage_info.has_usage(&id)
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                });
+
+                self.import_not_used_as_values == ImportsNotUsedAsValues::Preserve
+                    || !specifiers.is_empty()
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                specifiers,
+                src,
+                type_only: false,
+                ..
+            })) => {
+                specifiers.retain(|export_specifier| match export_specifier {
+                    ExportSpecifier::Namespace(..) => true,
+                    ExportSpecifier::Default(..) => true,
+
+                    ExportSpecifier::Named(ExportNamedSpecifier {
+                        orig: ModuleExportName::Ident(ident),
+                        is_type_only: false,
+                        ..
+                    }) if src.is_none() => {
+                        let id = ident.to_id();
+
+                        !ctx.declare_info.has_pure_type(&id)
+                    }
+                    ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
+                        !is_type_only
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                });
+
+                !specifiers.is_empty()
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                ref type_only, ..
+            })) => !type_only,
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                ref expr,
+                ..
+            })) => expr
+                .as_ident()
+                .map(|ident| {
+                    let id = ident.to_id();
+
+                    !ctx.declare_info.has_pure_type(&id)
+                })
+                .unwrap_or(true),
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
+                if ts_import_equals_decl.is_type_only {
+                    return false;
+                }
+
+                if ts_import_equals_decl.is_export {
+                    return true;
+                }
+
+                ctx.usage_info.has_usage(&ts_import_equals_decl.id.to_id())
+            }
+            ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
+                if ts_module.body.is_some() =>
+            {
+                module_item.visit_mut_with_hook(&mut strip_ts_import_equals, &mut ());
+
+                true
+            }
+            _ => true,
+        });
+    }
+
+    fn enter_script(&mut self, n: &mut Script, _ctx: &mut StripImportExportContext) {
+        let mut visitor = StripTsImportEquals;
+        for stmt in n.body.iter_mut() {
+            if let Stmt::Decl(Decl::TsModule(..)) = stmt {
+                stmt.visit_mut_with_hook(&mut visitor, &mut ());
+            }
+        }
+    }
+}
+
+#[derive(Debug, Default)]
+struct StripTsImportEquals;
+
+impl VisitMutHook<()> for StripTsImportEquals {
+    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, _ctx: &mut ()) {
+        let has_ts_import_equals = n.iter().any(|module_item| {
+            matches!(
+                module_item,
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..))
+            )
+        });
+
+        // TS1235: A namespace declaration is only allowed at the top level of a
+        // namespace or module.
+        let has_ts_module = n.iter().any(|module_item| {
+            matches!(
+                module_item,
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
+            )
+        });
+
+        if has_ts_import_equals {
+            let mut usage_info = UsageCollect::default();
+
+            n.visit_with(&mut usage_info);
+
+            n.retain(|module_item| match module_item {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
+                    if ts_import_equals_decl.is_type_only {
+                        return false;
+                    }
+
+                    if ts_import_equals_decl.is_export {
+                        return true;
+                    }
+
+                    usage_info.has_usage(&ts_import_equals_decl.id.to_id())
+                }
+                _ => true,
+            })
+        }
+
+        if has_ts_module {
+            // Recursively process nested modules
+            for item in n.iter_mut() {
+                if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module))) = item {
+                    if ts_module.body.is_some() {
+                        item.visit_mut_with_hook(self, &mut ());
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Helper trait to bridge VisitMutHook into the visitor pattern
+trait VisitMutWithHookExt {
+    fn visit_mut_with_hook<H, C>(&mut self, hook: &mut H, ctx: &mut C)
+    where
+        H: VisitMutHook<C>;
+}
+
+impl VisitMutWithHookExt for ModuleItem {
+    fn visit_mut_with_hook<H, C>(&mut self, hook: &mut H, ctx: &mut C)
+    where
+        H: VisitMutHook<C>,
+    {
+        match self {
+            ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) if ts_module.body.is_some() => {
+                if let Some(TsNamespaceBody::TsModuleBlock(ref mut block)) = ts_module.body {
+                    hook.enter_module_items(&mut block.body, ctx);
+                    // Visit children is handled by the generated code
+                    hook.exit_module_items(&mut block.body, ctx);
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
+impl VisitMutWithHookExt for Stmt {
+    fn visit_mut_with_hook<H, C>(&mut self, hook: &mut H, ctx: &mut C)
+    where
+        H: VisitMutHook<C>,
+    {
+        match self {
+            Stmt::Decl(Decl::TsModule(ts_module)) if ts_module.body.is_some() => {
+                if let Some(TsNamespaceBody::TsModuleBlock(ref mut block)) = ts_module.body {
+                    hook.enter_module_items(&mut block.body, ctx);
+                    hook.exit_module_items(&mut block.body, ctx);
+                }
+            }
+            _ => {}
+        }
+    }
+}
 
 #[derive(Debug, Default)]
 pub(crate) struct UsageCollect {
@@ -271,213 +520,5 @@ impl DeclareCollect {
 
     fn has_value(&self, id: &Id) -> bool {
         self.id_value.contains(id)
-    }
-}
-
-/// https://www.typescriptlang.org/tsconfig#importsNotUsedAsValues
-///
-/// These steps match tsc behavior:
-/// 1. Remove all import bindings that are not used.
-/// 2. Remove all export bindings that are defined as types.
-/// 3. If a local value declaration shares a name with an imported binding,
-///    treat the imported binding as a type import.
-/// 4. If a local type declaration shares a name with an imported binding and
-///    it's used in a value position, treat the imported binding as a value
-///    import.
-#[derive(Default)]
-pub(crate) struct StripImportExport {
-    pub import_not_used_as_values: ImportsNotUsedAsValues,
-    pub usage_info: UsageCollect,
-    pub declare_info: DeclareCollect,
-}
-
-impl VisitMut for StripImportExport {
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        n.visit_with(&mut self.usage_info);
-        n.visit_with(&mut self.declare_info);
-
-        self.usage_info.analyze_import_chain();
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let mut strip_ts_import_equals = StripTsImportEquals;
-
-        n.retain_mut(|module_item| match module_item {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                specifiers,
-                type_only: false,
-                ..
-            })) if !specifiers.is_empty() => {
-                // Note: If import specifiers is originally empty, then we leave it alone.
-                // This is weird but it matches TS.
-
-                specifiers.retain(|import_specifier| match import_specifier {
-                    ImportSpecifier::Named(named) => {
-                        if named.is_type_only {
-                            return false;
-                        }
-
-                        let id = named.local.to_id();
-
-                        if self.declare_info.has_value(&id) {
-                            return false;
-                        }
-
-                        self.usage_info.has_usage(&id)
-                    }
-                    ImportSpecifier::Default(default) => {
-                        let id = default.local.to_id();
-
-                        if self.declare_info.has_value(&id) {
-                            return false;
-                        }
-
-                        self.usage_info.has_usage(&id)
-                    }
-                    ImportSpecifier::Namespace(namespace) => {
-                        let id = namespace.local.to_id();
-
-                        if self.declare_info.has_value(&id) {
-                            return false;
-                        }
-
-                        self.usage_info.has_usage(&id)
-                    }
-                    #[cfg(swc_ast_unknown)]
-                    _ => panic!("unable to access unknown nodes"),
-                });
-
-                self.import_not_used_as_values == ImportsNotUsedAsValues::Preserve
-                    || !specifiers.is_empty()
-            }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                specifiers,
-                src,
-                type_only: false,
-                ..
-            })) => {
-                specifiers.retain(|export_specifier| match export_specifier {
-                    ExportSpecifier::Namespace(..) => true,
-                    ExportSpecifier::Default(..) => true,
-
-                    ExportSpecifier::Named(ExportNamedSpecifier {
-                        orig: ModuleExportName::Ident(ident),
-                        is_type_only: false,
-                        ..
-                    }) if src.is_none() => {
-                        let id = ident.to_id();
-
-                        !self.declare_info.has_pure_type(&id)
-                    }
-                    ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
-                        !is_type_only
-                    }
-                    #[cfg(swc_ast_unknown)]
-                    _ => panic!("unable to access unknown nodes"),
-                });
-
-                !specifiers.is_empty()
-            }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                ref type_only, ..
-            })) => !type_only,
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                ref expr,
-                ..
-            })) => expr
-                .as_ident()
-                .map(|ident| {
-                    let id = ident.to_id();
-
-                    !self.declare_info.has_pure_type(&id)
-                })
-                .unwrap_or(true),
-            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
-                if ts_import_equals_decl.is_type_only {
-                    return false;
-                }
-
-                if ts_import_equals_decl.is_export {
-                    return true;
-                }
-
-                self.usage_info.has_usage(&ts_import_equals_decl.id.to_id())
-            }
-            ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
-                if ts_module.body.is_some() =>
-            {
-                module_item.visit_mut_with(&mut strip_ts_import_equals);
-
-                true
-            }
-            _ => true,
-        });
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        let mut visitor = StripTsImportEquals;
-        for stmt in n.body.iter_mut() {
-            if let Stmt::Decl(Decl::TsModule(..)) = stmt {
-                stmt.visit_mut_with(&mut visitor);
-            }
-        }
-    }
-}
-
-#[derive(Debug, Default)]
-struct StripTsImportEquals;
-
-impl VisitMut for StripTsImportEquals {
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let has_ts_import_equals = n.iter().any(|module_item| {
-            matches!(
-                module_item,
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..))
-            )
-        });
-
-        // TS1235: A namespace declaration is only allowed at the top level of a
-        // namespace or module.
-        let has_ts_module = n.iter().any(|module_item| {
-            matches!(
-                module_item,
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
-            )
-        });
-
-        if has_ts_import_equals {
-            let mut usage_info = UsageCollect::default();
-
-            n.visit_with(&mut usage_info);
-
-            n.retain(|module_item| match module_item {
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
-                    if ts_import_equals_decl.is_type_only {
-                        return false;
-                    }
-
-                    if ts_import_equals_decl.is_export {
-                        return true;
-                    }
-
-                    usage_info.has_usage(&ts_import_equals_decl.id.to_id())
-                }
-                _ => true,
-            })
-        }
-
-        if has_ts_module {
-            n.visit_mut_children_with(self);
-        }
-    }
-
-    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
-        if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module))) = n {
-            if ts_module.body.is_some() {
-                n.visit_mut_children_with(self)
-            }
-        }
     }
 }
