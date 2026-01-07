@@ -581,24 +581,23 @@ where
 
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
-                    props: Vec::new(),
+                    props: Vec::with_capacity(1 + el.children.len().min(1)),
                 };
 
                 let children = el
                     .children
                     .into_iter()
                     .filter_map(|child| self.jsx_elem_child_to_expr(child))
-                    .map(Some)
                     .collect::<Vec<_>>();
 
                 let use_jsxs = match children.len() {
                     0 => false,
-                    1 if matches!(children.first(), Some(Some(child)) if child.spread.is_none()) => {
+                    1 if matches!(children.first(), Some(child) if child.spread.is_none()) => {
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("children")),
-                                value: children.into_iter().next().flatten().unwrap().expr,
+                                value: children.into_iter().next().unwrap().expr,
                             }))));
 
                         false
@@ -610,7 +609,7 @@ where
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: ArrayLit {
                                     span: DUMMY_SP,
-                                    elems: children,
+                                    elems: children.into_iter().map(Some).collect(),
                                 }
                                 .into(),
                             }))));
@@ -847,40 +846,35 @@ where
                     .children
                     .into_iter()
                     .filter_map(|child| self.jsx_elem_child_to_expr(child))
-                    .map(Some)
                     .collect::<Vec<_>>();
 
                 let use_jsxs = match children.len() {
                     0 => false,
-                    1 if matches!(children.first(), Some(Some(child)) if child.spread.is_none()) => {
+                    1 if matches!(children.first(), Some(child) if child.spread.is_none()) => {
                         if !use_create_element {
                             props_obj
                                 .props
                                 .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                     key: PropName::Ident(quote_ident!("children")),
-                                    value: children
-                                        .take()
-                                        .into_iter()
-                                        .next()
-                                        .flatten()
-                                        .unwrap()
-                                        .expr,
+                                    value: children.pop().unwrap().expr,
                                 }))));
                         }
 
                         false
                     }
                     _ => {
-                        props_obj
-                            .props
-                            .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                                key: PropName::Ident(quote_ident!("children")),
-                                value: ArrayLit {
-                                    span: DUMMY_SP,
-                                    elems: children.take(),
-                                }
-                                .into(),
-                            }))));
+                        if !use_create_element {
+                            props_obj
+                                .props
+                                .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Ident(quote_ident!("children")),
+                                    value: ArrayLit {
+                                        span: DUMMY_SP,
+                                        elems: children.iter().cloned().map(Some).collect(),
+                                    }
+                                    .into(),
+                                }))));
+                        }
                         true
                     }
                 };
@@ -907,7 +901,7 @@ where
                     let mut args = Vec::with_capacity(2 + children.len());
                     args.push(name.as_arg());
                     args.push(props_obj.as_arg());
-                    args.extend(children.into_iter().flatten());
+                    args.extend(children);
                     args
                 } else if self.development {
                     let mut args = Vec::with_capacity(6);

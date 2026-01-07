@@ -1,7 +1,6 @@
-use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
+use std::{mem, ops::RangeFull};
 
-use indexmap::IndexMap;
-use rustc_hash::FxHasher;
+use smallvec::SmallVec;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -37,11 +36,11 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
 struct Fixer<'a> {
     comments: Option<&'a dyn Comments>,
     ctx: Context,
-    /// A hash map to preserve original span.
+    /// A map to preserve original span.
     ///
     /// Key is span of inner expression, and value is span of the paren
     /// expression.
-    span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
+    span_map: SmallVec<[(Span, Span); 16]>,
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
@@ -1047,8 +1046,8 @@ impl Fixer<'_> {
 
         let mut span = e.span();
 
-        if let Some(new_span) = self.span_map.shift_remove(&span) {
-            span = new_span;
+        if let Some(idx) = self.span_map.iter().position(|(k, _)| *k == span) {
+            span = self.span_map.swap_remove(idx).1;
         }
 
         if span.is_pure() {
@@ -1076,7 +1075,7 @@ impl Fixer<'_> {
                     let paren_span = *paren_span;
                     *e = *expr.take();
 
-                    self.span_map.insert(expr_span, paren_span);
+                    self.span_map.push((expr_span, paren_span));
                 }
 
                 _ => return,

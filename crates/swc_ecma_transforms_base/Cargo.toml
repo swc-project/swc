@@ -30,6 +30,7 @@ par-iter          = { workspace = true, optional = true }
 phf               = { workspace = true, features = ["macros"] }
 rustc-hash        = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
+smallvec          = { workspace = true }
 tracing           = { workspace = true }
 
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
