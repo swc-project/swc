@@ -1,7 +1,7 @@
 use swc_ecma_hooks::VisitMutHook;
 
 use crate::{
-    hook_utils::{HookBuilder, NoopHook, OptionalHook},
+    hook_utils::{HookBuilder, NoopHook},
     TraverseCtx,
 };
 
@@ -22,17 +22,17 @@ pub struct Es2022Options {
 pub fn hook(options: Es2022Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 
-    let hook = hook.chain(OptionalHook(if options.class_static_block {
+    let hook = hook.chain(if options.class_static_block {
         Some(self::class_static_block::hook())
     } else {
         None
-    }));
+    });
 
-    let hook = hook.chain(OptionalHook(if options.private_property_in_object {
+    let hook = hook.chain(if options.private_property_in_object {
         Some(self::private_property_in_object::hook())
     } else {
         None
-    }));
+    });
 
     hook.build()
 }
