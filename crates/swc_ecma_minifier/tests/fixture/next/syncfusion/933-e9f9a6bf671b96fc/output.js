@@ -19684,14 +19684,14 @@
  * @param {createElementParams} makeElement - specifies the element
  * @returns {void}
  */ // eslint-disable-next-line
-                                    function(innerContainer, uniqueID, makeElement) {
+                                    function(innerContainer, uniqueID) {
                                         var svgBoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                                         svgBoot.setAttribute('id', uniqueID), svgBoot.setAttribute('class', 'e-spin-bootstrap'), svgBoot.setAttribute('viewBox', "0 0 64 64"), innerContainer.insertBefore(svgBoot, innerContainer.firstChild);
                                         for(var item = 0; item <= 7; item++){
                                             var bootCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                                             bootCircle.setAttribute('class', CLS_SPINCIRCLE + '_' + item), bootCircle.setAttribute('r', "2"), bootCircle.setAttribute('transform', "translate(32,32)"), svgBoot.appendChild(bootCircle);
                                         }
-                                    }(innerContainer, uniqueID, 0), /**
+                                    }(innerContainer, uniqueID), /**
  *
  * @param {HTMLElement} innerContainer - specifies the element
  * @param {number} radius - specifies the radius
@@ -19916,14 +19916,14 @@
      * @param {number} series - specifies the series
      * @param {string} id - specifies the id
      * @returns {void}
-     */ function(circle, start, end, series, id) {
+     */ function(circle, start, series, id) {
                                         var count = 0;
                                         !// eslint-disable-next-line
                                         function boot_animate(radius) {
                                             globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), // eslint-disable-next-line
                                             globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
-                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, 0, /**
+                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, /**
  *
  * @param {number} begin - specifies the number
  * @param {number} stop  - specifirs the number

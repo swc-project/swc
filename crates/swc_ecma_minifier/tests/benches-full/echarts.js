@@ -5396,23 +5396,23 @@
                         break;
                     case CMD.C:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++], x3 = data[i++], y3 = data[i++];
-                        l = function(x0, y0, x1, y1, x2, y2, x3, y3, iteration) {
+                        l = function(x0, y0, x1, y1, x2, y2, x3, y3) {
                             for(var px = x0, py = y0, d = 0, i = 1; i <= 10; i++){
                                 var t = 0.1 * i, x = cubicAt(x0, x1, x2, x3, t), y = cubicAt(y0, y1, y2, y3, t), dx = x - px, dy = y - py;
                                 d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
                             }
                             return d;
-                        }(xi, yi, x1, y1, x2, y2, x3, y3, 0), xi = x3, yi = y3;
+                        }(xi, yi, x1, y1, x2, y2, x3, y3), xi = x3, yi = y3;
                         break;
                     case CMD.Q:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++];
-                        l = function(x0, y0, x1, y1, x2, y2, iteration) {
+                        l = function(x0, y0, x1, y1, x2, y2) {
                             for(var px = x0, py = y0, d = 0, i = 1; i <= 10; i++){
                                 var t = 0.1 * i, x = quadraticAt(x0, x1, x2, t), y = quadraticAt(y0, y1, y2, t), dx = x - px, dy = y - py;
                                 d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
                             }
                             return d;
-                        }(xi, yi, x1, y1, x2, y2, 0), xi = x2, yi = y2;
+                        }(xi, yi, x1, y1, x2, y2), xi = x2, yi = y2;
                         break;
                     case CMD.A:
                         var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], startAngle = data[i++], delta = data[i++], endAngle = delta + startAngle;
@@ -6314,7 +6314,7 @@
     function elementStateProxy(stateName, targetStates) {
         var state, hasBlur, currentOpacity, fromState, blurStyle, state1 = this.states[stateName];
         if (this.style) {
-            if ('emphasis' === stateName) return function(el, stateName, targetStates, state) {
+            if ('emphasis' === stateName) return function(el, targetStates, state) {
                 var hasSelect = targetStates && indexOf(targetStates, 'select') >= 0, cloned = !1;
                 if (el instanceof Path) {
                     var store = getSavedStates(el), fromFill = hasSelect && store.selectFill || store.normalFill, fromStroke = hasSelect && store.selectStroke || store.normalStroke;
@@ -6329,7 +6329,7 @@
                     state.z2 = el.z2 + (null != z2EmphasisLift ? z2EmphasisLift : 10);
                 }
                 return state;
-            }(this, 0, targetStates, state1);
+            }(this, targetStates, state1);
             else if ('blur' === stateName) return state = state1, hasBlur = indexOf(this.currentStates, stateName) >= 0, currentOpacity = this.style.opacity, fromState = hasBlur ? null : function(el, props, toStateName, defaultValue) {
                 for(var style = el.style, fromState = {}, i = 0; i < props.length; i++){
                     var propName = props[i], val = style[propName];
@@ -10180,7 +10180,7 @@
                         for(var pathArr = path.split(','), obj = opt, i = 0; i < pathArr.length && null != (obj = obj && obj[pathArr[i]]); i++);
                         return obj;
                     }(seriesOpt, 'pointer.color');
-                    null != pointerColor && function(opt, path, val, overwrite) {
+                    null != pointerColor && function(opt, path, val) {
                         for(var key, pathArr = path.split(','), obj = opt, i = 0; i < pathArr.length - 1; i++)null == obj[key = pathArr[i]] && (obj[key] = {}), obj = obj[key];
                         null == obj[pathArr[i]] && (obj[pathArr[i]] = val);
                     }(seriesOpt, 'itemStyle.color', pointerColor);
@@ -12634,7 +12634,7 @@
                 var minDist = 1 / 0, anchorPoint = labelGuideConfig.anchor, targetTransform = target.getComputedTransform(), targetInversedTransform = targetTransform && invert([], targetTransform), len = labelLineModel.get('length2') || 0;
                 anchorPoint && pt2.copy(anchorPoint);
                 for(var i = 0; i < searchSpace.length; i++){
-                    !function(pos, distance, rect, outPt, outDir) {
+                    !function(pos, rect, outPt, outDir) {
                         var width = rect.width, height = rect.height;
                         switch(pos){
                             case 'top':
@@ -12649,7 +12649,7 @@
                             case 'right':
                                 outPt.set(rect.x + width + 0, rect.y + height / 2), outDir.set(1, 0);
                         }
-                    }(searchSpace[i], 0, labelRect, pt0, dir), Point.scaleAndAdd(pt1, pt0, dir, len), pt1.transform(targetInversedTransform);
+                    }(searchSpace[i], labelRect, pt0, dir), Point.scaleAndAdd(pt1, pt0, dir, len), pt1.transform(targetInversedTransform);
                     var boundingRect = target.getBoundingRect(), dist = anchorPoint ? anchorPoint.distance(pt1) : target instanceof Path ? /**
      * Calculate min distance corresponding point.
      * This method won't evaluate if point is in the path.
@@ -18319,7 +18319,7 @@
                                         case 'millisecond':
                                             interval = nice(approxInterval, !0), getterName = millisecondsGetterName(isUTC), setterName = millisecondsSetterName(isUTC);
                                     }
-                                    !function(interval, minTimestamp, maxTimestamp, getMethodName, setMethodName, isDate, out) {
+                                    !function(interval, minTimestamp, maxTimestamp, getMethodName, setMethodName, out) {
                                         //     d -= 1; // Starts with 0;   PENDING
                                         // }
                                         for(var date = new Date(minTimestamp), dateTime = minTimestamp, d = date[getMethodName](); dateTime < maxTimestamp && dateTime <= extent[1];)out.push({
@@ -18330,7 +18330,7 @@
                                             value: dateTime,
                                             notAdd: !0
                                         });
-                                    }(interval, startTick, endTick, getterName, setterName, 0, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && // Add nearest years to the left extent.
+                                    }(interval, startTick, endTick, getterName, setterName, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && // Add nearest years to the left extent.
                                     levelTicks.unshift({
                                         value: levelTicks[0].value - interval
                                     });
@@ -27183,7 +27183,7 @@
                 totalWidth > availableSize.width && (totalWidth -= itemWidth - emptyItemWidth, itemWidth = emptyItemWidth, text = null);
                 var el = new Polygon({
                     shape: {
-                        points: function(x, y, itemWidth, itemHeight, head, tail) {
+                        points: function(x, itemWidth, itemHeight, head, tail) {
                             var points = [
                                 [
                                     head ? x : x - 5,
@@ -27210,7 +27210,7 @@
                                 0 + itemHeight / 2
                             ]), points;
                         } // Package custom mouse event.
-                        (lastX, 0, itemWidth, height, i === renderList.length - 1, 0 === i)
+                        (lastX, itemWidth, height, i === renderList.length - 1, 0 === i)
                     },
                     style: defaults(normalStyleModel.getItemStyle(), {
                         lineJoin: 'bevel'
@@ -28077,7 +28077,7 @@
                      != (thisNodeColor = calculateColor(visuals1)) ? modifyHSL(thisNodeColor, null, null, borderColorSaturation) : null), existsStyle.stroke = borderColor;
                     var viewChildren = node.viewChildren;
                     if (viewChildren && viewChildren.length) {
-                        var mapping_1 = function(node, nodeModel, nodeLayout, nodeItemStyleModel, visuals, viewChildren) {
+                        var mapping_1 = function(nodeModel, nodeLayout, visuals, viewChildren) {
                             if (viewChildren && viewChildren.length) {
                                 var rangeVisual = getRangeVisual(nodeModel, 'color') || null != visuals.color && 'none' !== visuals.color && (getRangeVisual(nodeModel, 'colorAlpha') || getRangeVisual(nodeModel, 'colorSaturation'));
                                 if (rangeVisual) {
@@ -28094,7 +28094,7 @@
                                 }
                             }
                         } // Notice: If we dont have the attribute 'colorRange', but only use
-                        (0, nodeModel, nodeLayout, 0, visuals1, viewChildren); // Designate visual to children.
+                        (nodeModel, nodeLayout, visuals1, viewChildren); // Designate visual to children.
                         each(viewChildren, function(child, index) {
                             // If higher than viewRoot, only ancestors of viewRoot is needed to visit.
                             if (child.depth >= viewRootAncestors.length || child === viewRootAncestors[child.depth]) {
@@ -32356,7 +32356,7 @@
                 }
                 for(var i = 0; i < remainEdges.length; i++)if (1 === remainEdges[i]) throw Error('Sankey is a DAG, the original data has cycle!');
                 var maxDepth = maxNodeDepth > x - 1 ? maxNodeDepth : x - 1;
-                nodeAlign && 'left' !== nodeAlign && function(nodes, nodeAlign, orient, maxDepth) {
+                nodeAlign && 'left' !== nodeAlign && function(nodes, nodeAlign, maxDepth) {
                     if ('right' === nodeAlign) {
                         for(var nextSourceNode = [], remainNodes = nodes, nodeHeight = 0; remainNodes.length;){
                             for(var i = 0; i < remainNodes.length; i++){
@@ -32381,7 +32381,7 @@
                             depth: maxDepth
                         }, !0);
                     });
-                }(nodes, nodeAlign, 0, maxDepth), kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, each(nodes, function(node) {
+                }(nodes, nodeAlign, maxDepth), kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, each(nodes, function(node) {
                     var nodeDepth = node.getLayout().depth * kx;
                     'vertical' === orient ? node.setLayout({
                         y: nodeDepth
@@ -34343,7 +34343,7 @@
         return isArray(symbolOffset) && (symbolOffset = [
             parsePercent$1(symbolOffset[0], symbolSize1[0]),
             parsePercent$1(symbolOffset[1], symbolSize1[1])
-        ]), function(itemModel, symbolSize, layout, symbolRepeat, symbolClip, symbolOffset, symbolPosition, valueLineWidth, boundingLength, repeatCutLength, opt, outputSymbolMeta) {
+        ]), function(itemModel, symbolSize, layout, symbolRepeat, symbolOffset, symbolPosition, valueLineWidth, boundingLength, repeatCutLength, opt, outputSymbolMeta) {
             var categoryDim = opt.categoryDim, valueDim = opt.valueDim, pxSign = outputSymbolMeta.pxSign, unitLength = Math.max(symbolSize[valueDim.index] + valueLineWidth, 0), pathLen = unitLength;
             // want symbols to rotate on its center, which should not be translated
             // when rotating.
@@ -34361,7 +34361,7 @@
             barRectShape[valueDim.wh] = pxSign * Math.max(Math.abs(layout[valueDim.wh]), Math.abs(pathPosition[valueDim.index] + sizeFix)), barRectShape[categoryDim.wh] = layout[categoryDim.wh];
             var clipShape = outputSymbolMeta.clipShape = {}; // Consider that symbol may be overflow layout rect.
             clipShape[categoryDim.xy] = -layout[categoryDim.xy], clipShape[categoryDim.wh] = opt.ecSize[categoryDim.wh], clipShape[valueDim.xy] = 0, clipShape[valueDim.wh] = layout[valueDim.wh];
-        }(itemModel, symbolSize1, layout, symbolRepeat, 0, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
+        }(itemModel, symbolSize1, layout, symbolRepeat, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
     } // bar length can be negative.
     function convertToCoordOnAxis(axis, value) {
         return axis.toGlobalCoord(axis.dataToCoord(axis.scale.parse(value)));
@@ -35485,7 +35485,7 @@
                 newArray2
             ];
         }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
-        morphingData = function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
+        morphingData = function(fromArr, toArr, searchAngleRange) {
             for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
                 var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
                 null == fromNeedsReverse && (fromNeedsReverse = fromCp[2] < 0 != toCp[2] < 0);
@@ -35529,7 +35529,7 @@
                 });
             }
             return result;
-        }(_a[0], _a[1], 0, Math.PI), isIndividualMorphingPath(toPath) || (toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath), function(morphingPath, morphingData, morphT) {
+        }(_a[0], _a[1], Math.PI), isIndividualMorphingPath(toPath) || (toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath), function(morphingPath, morphingData, morphT) {
             morphingPath.__morphingData = morphingData, morphingPath.__morphT = morphT;
         }(toPath, morphingData, 0);
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
@@ -36576,19 +36576,19 @@
                 updateElOnState(stateName, el, otherStateOpt, otherStyleOpt, attachedTxInfoTmp);
             }
         }
-        return !function(el, elOption, seriesModel, attachedTxInfo) {
-            // Group not support textContent and not support z yet.
-            if (!el.isGroup) {
-                var currentZ = seriesModel.currentZ, currentZLevel = seriesModel.currentZLevel;
-                el.z = currentZ, el.zlevel = currentZLevel;
-                var optZ2 = elOption.z2;
-                null != optZ2 && (el.z2 = optZ2 || 0);
-                for(var i = 0; i < STATES.length; i++)!function(elDisplayable, elOption, state) {
-                    var isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
-                    null != optZ2 && ((isNormal ? elDisplayable : elDisplayable.ensureState(state)).z2 = optZ2 || 0);
-                }(el, elOption, STATES[i]);
-            }
-        }(el, elOption, seriesModel), 'group' === elOption.type && // (1) By default, `elOption.$mergeChildren` is `'byIndex'`, which indicates that
+        var el1 = el;
+        // Group not support textContent and not support z yet.
+        if (!el1.isGroup) {
+            var currentZ = seriesModel.currentZ, currentZLevel = seriesModel.currentZLevel;
+            el1.z = currentZ, el1.zlevel = currentZLevel;
+            var optZ2 = elOption.z2;
+            null != optZ2 && (el1.z2 = optZ2 || 0);
+            for(var i1 = 0; i1 < STATES.length; i1++)!function(elDisplayable, elOption, state) {
+                var isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
+                null != optZ2 && ((isNormal ? elDisplayable : elDisplayable.ensureState(state)).z2 = optZ2 || 0);
+            }(el1, elOption, STATES[i1]);
+        }
+        return 'group' === elOption.type && // (1) By default, `elOption.$mergeChildren` is `'byIndex'`, which indicates that
         //     the existing children will not be removed, and enables the feature that
         //     update some of the props of some of the children simply by construct
         //     the returned children of `renderItem` like:
@@ -37796,7 +37796,7 @@
                 var elStyle = buildElStyle(axisPointerModel), pointerOption = pointerShapeBuilder$1[axisPointerType](axis, polar, coordValue, otherExtent);
                 pointerOption.style = elStyle, elOption.graphicKey = pointerOption.type, elOption.pointer = pointerOption;
             }
-            var labelPos = function(value, axisModel, axisPointerModel, polar, labelMargin) {
+            var labelPos = function(value, axisModel, polar, labelMargin) {
                 var position, align, verticalAlign, axis = axisModel.axis, coord = axis.dataToCoord(value), axisAngle = polar.getAngleAxis().getExtent()[0];
                 axisAngle = axisAngle / 180 * Math.PI;
                 var radiusExtent = polar.getRadiusAxis().getExtent();
@@ -37826,7 +37826,7 @@
                     align: align,
                     verticalAlign: verticalAlign
                 };
-            }(value, axisModel, 0, polar, axisPointerModel.get([
+            }(value, axisModel, polar, axisPointerModel.get([
                 'label',
                 'margin'
             ]));
@@ -42537,7 +42537,7 @@
      * @param scope Scope for getValueState
      * @param dimension Concrete dimension, if used.
      */ // ???! handle brush?
-                function(stateList, visualMappings, data, getValueState, scope, dimension) {
+                function(stateList, visualMappings, data, getValueState) {
                     var dataIndex, visualTypesMap = {};
                     function getVisual(key) {
                         return getItemVisualFromData(data, dataIndex, key);
