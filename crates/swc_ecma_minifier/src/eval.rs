@@ -290,7 +290,17 @@ impl Evaluator {
             ));
         }
 
-        Some(EvalResult::Lit(e.lit()?))
+        match *e {
+            Expr::Lit(l) => Some(EvalResult::Lit(l)),
+            Expr::Tpl(t) if t.exprs.is_empty() && t.quasis[0].cooked.is_some() => {
+                Some(EvalResult::Lit(Lit::Str(Str {
+                    span: t.span,
+                    value: t.quasis[0].cooked.clone().unwrap(),
+                    raw: None,
+                })))
+            }
+            _ => None,
+        }
     }
 }
 

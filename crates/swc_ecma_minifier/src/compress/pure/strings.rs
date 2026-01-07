@@ -207,6 +207,43 @@ impl Pure<'_> {
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
+                let c = &t.quasis[0].raw;
+                let mut template_longer_count = 0;
+                let mut iter = c.chars().peekable();
+                while let Some(ch) = iter.next() {
+                    match ch {
+                        '\\' => {
+                            if let Some(next_ch) = iter.next() {
+                                match next_ch {
+                                    c @ '\n' | c @ '\r' => {
+                                        if c == '\r' && iter.peek() == Some(&'\n') {
+                                            iter.next();
+                                        }
+                                    }
+                                    'n' | 'r' => {
+                                        template_longer_count -= 1;
+                                    }
+                                    '`' => {
+                                        template_longer_count += 1;
+                                    }
+                                    _ => {}
+                                }
+                            }
+                        }
+                        c @ '\n' | c @ '\r' => {
+                            template_longer_count -= 1;
+                            if c == '\r' && iter.peek() == Some(&'\n') {
+                                iter.next();
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+
+                if template_longer_count < 0 {
+                    return;
+                }
+
                 if let Some(cooked) = &t.quasis[0].cooked {
                     report_change!("converting a template literal to a string literal");
 
