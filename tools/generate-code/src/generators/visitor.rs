@@ -150,6 +150,15 @@ pub fn generate_hooks(
         use swc_ecma_visit::*;
     ));
 
+    // Generate VisitHook trait and related types (immutable version)
+    output.items.extend(generate_visit_hook_trait(&all_types));
+    output
+        .items
+        .extend(generate_visit_composite_hook(&all_types));
+    output.items.extend(generate_visit_either_hook(&all_types));
+    output.items.extend(generate_visit_option_hook(&all_types));
+    output.items.extend(generate_visit_with_hook(&all_types));
+
     // Generate VisitMutHook trait and related types
     output
         .items
@@ -1761,6 +1770,345 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
             pub use self::fields::{AstParentKind, AstParentNodeRef};
         ));
     }
+
+    items
+}
+
+/// Generates the VisitHook trait with enter_xxx and exit_xxx methods for
+/// each AST type (immutable version)
+#[cfg(test)]
+fn generate_visit_hook_trait(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut trait_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types as they're handled by their inner types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        // For Visit, Vec<T> becomes [T]
+        let node_type = match ty {
+            FieldType::Generic(name, inner) if name == "Vec" => {
+                let inner_ty = quote!(#inner);
+                quote!([#inner_ty])
+            }
+            _ => quote!(#type_name),
+        };
+
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        let enter_doc = doc(&format!(
+            "Called when entering a node of type `{type_name}` before visiting its children."
+        ));
+        let exit_doc = doc(&format!(
+            "Called when exiting a node of type `{type_name}` after visiting its children."
+        ));
+
+        // Add enter_xxx method (immutable reference)
+        trait_methods.push(parse_quote!(
+            #enter_doc
+            #[inline]
+            #[allow(unused_variables)]
+            fn #enter_method_name(&mut self, node: &#node_type, ctx: &mut C) {}
+        ));
+
+        // Add exit_xxx method (immutable reference)
+        trait_methods.push(parse_quote!(
+            #exit_doc
+            #[inline]
+            #[allow(unused_variables)]
+            fn #exit_method_name(&mut self, node: &#node_type, ctx: &mut C) {}
+        ));
+    }
+
+    items.push(parse_quote! {
+        /// A hook trait for composable AST visitors (immutable version).
+        ///
+        /// This trait provides `enter_xxx` and `exit_xxx` methods for each AST node type.
+        /// The enter method is called before visiting children, and the exit method is called after.
+        /// The generic parameter `C` represents a context type that is passed through all hook methods.
+        pub trait VisitHook<C> {
+            #(#trait_methods)*
+        }
+    });
+
+    items
+}
+
+/// Generates the CompositeVisitHook<A, B> struct and its VisitHook
+/// implementation
+#[cfg(test)]
+fn generate_visit_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut impl_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        // For Visit, Vec<T> becomes [T]
+        let node_type = match ty {
+            FieldType::Generic(name, inner) if name == "Vec" => {
+                let inner_ty = quote!(#inner);
+                quote!([#inner_ty])
+            }
+            _ => quote!(#type_name),
+        };
+
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        // Nested execution: first.enter -> second.enter -> ... -> second.exit ->
+        // first.exit
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #enter_method_name(&mut self, node: &#node_type, ctx: &mut C) {
+                self.first.#enter_method_name(node, ctx);
+                self.second.#enter_method_name(node, ctx);
+            }
+        ));
+
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #exit_method_name(&mut self, node: &#node_type, ctx: &mut C) {
+                self.second.#exit_method_name(node, ctx);
+                self.first.#exit_method_name(node, ctx);
+            }
+        ));
+    }
+
+    // Add the CompositeVisitHook struct
+    items.push(parse_quote! {
+        /// A composable hook that combines two hooks (immutable version).
+        ///
+        /// Executes hooks in nested order:
+        /// - Enter: first.enter -> second.enter
+        /// - Exit: second.exit -> first.exit
+        pub struct CompositeVisitHook<A, B> {
+            pub first: A,
+            pub second: B,
+        }
+    });
+
+    // Add the VisitHook implementation for CompositeVisitHook
+    items.push(parse_quote! {
+        impl<A, B, C> VisitHook<C> for CompositeVisitHook<A, B>
+        where
+            A: VisitHook<C>,
+            B: VisitHook<C>,
+        {
+            #(#impl_methods)*
+        }
+    });
+
+    items
+}
+
+/// Generates VisitHook implementation for swc_common::pass::Either<L, R>
+#[cfg(test)]
+fn generate_visit_either_hook(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut impl_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        // For Visit, Vec<T> becomes [T]
+        let node_type = match ty {
+            FieldType::Generic(name, inner) if name == "Vec" => {
+                let inner_ty = quote!(#inner);
+                quote!([#inner_ty])
+            }
+            _ => quote!(#type_name),
+        };
+
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        // For Either, delegate to the contained hook
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #enter_method_name(&mut self, node: &#node_type, ctx: &mut C) {
+                match self {
+                    Self::Left(hook) => hook.#enter_method_name(node, ctx),
+                    Self::Right(hook) => hook.#enter_method_name(node, ctx),
+                }
+            }
+        ));
+
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #exit_method_name(&mut self, node: &#node_type, ctx: &mut C) {
+                match self {
+                    Self::Left(hook) => hook.#exit_method_name(node, ctx),
+                    Self::Right(hook) => hook.#exit_method_name(node, ctx),
+                }
+            }
+        ));
+    }
+
+    // Add the VisitHook implementation for Either
+    items.push(parse_quote! {
+        impl<L, R, C> VisitHook<C> for swc_common::pass::Either<L, R>
+        where
+            L: VisitHook<C>,
+            R: VisitHook<C>,
+        {
+            #(#impl_methods)*
+        }
+    });
+
+    items
+}
+
+/// Generates VisitHook implementation for Option<H>
+#[cfg(test)]
+fn generate_visit_option_hook(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut impl_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        // For Visit, Vec<T> becomes [T]
+        let node_type = match ty {
+            FieldType::Generic(name, inner) if name == "Vec" => {
+                let inner_ty = quote!(#inner);
+                quote!([#inner_ty])
+            }
+            _ => quote!(#type_name),
+        };
+
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        // For Option, only call the hook if Some
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #enter_method_name(&mut self, node: &#node_type, ctx: &mut C) {
+                if let Some(hook) = self {
+                    hook.#enter_method_name(node, ctx);
+                }
+            }
+        ));
+
+        impl_methods.push(parse_quote!(
+            #[inline]
+            fn #exit_method_name(&mut self, node: &#node_type, ctx: &mut C) {
+                if let Some(hook) = self {
+                    hook.#exit_method_name(node, ctx);
+                }
+            }
+        ));
+    }
+
+    // Add the VisitHook implementation for Option
+    items.push(parse_quote! {
+        impl<H, C> VisitHook<C> for Option<H>
+        where
+            H: VisitHook<C>,
+        {
+            #(#impl_methods)*
+        }
+    });
+
+    items
+}
+
+/// Generates the VisitWithHook<H> adapter that implements Visit
+#[cfg(test)]
+fn generate_visit_with_hook(all_types: &[FieldType]) -> Vec<Item> {
+    let mut items = Vec::<Item>::new();
+    let mut impl_methods = Vec::<TraitItem>::new();
+
+    for ty in all_types {
+        // Skip Box types
+        if let FieldType::Generic(name, ..) = &ty {
+            if name == "Box" {
+                continue;
+            }
+        }
+
+        let type_name = quote!(#ty);
+        let method_name_base = ty.method_name();
+
+        let visit_method_name = Ident::new(&format!("visit_{method_name_base}"), Span::call_site());
+        let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
+        let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
+
+        // For Visit, Vec<T> becomes [T]
+        let node_type = match ty {
+            FieldType::Generic(name, inner) if name == "Vec" => {
+                let inner_ty = quote!(#inner);
+                quote!([#inner_ty])
+            }
+            _ => quote!(#type_name),
+        };
+
+        let doc_comment = doc(&format!(
+            "Visits a node of type `{type_name}` using the hook's enter and exit methods."
+        ));
+
+        impl_methods.push(parse_quote!(
+            #doc_comment
+            #[inline]
+            fn #visit_method_name(&mut self, node: &#node_type) {
+                self.hook.#enter_method_name(node, &mut self.context);
+                node.visit_children_with(self);
+                self.hook.#exit_method_name(node, &mut self.context);
+            }
+        ));
+    }
+
+    // Add the VisitWithHook struct
+    items.push(parse_quote! {
+        /// An adapter that implements Visit using a VisitHook.
+        ///
+        /// This allows any hook to be used as a visitor by calling:
+        /// - hook.enter_xxx before visiting children
+        /// - hook.exit_xxx after visiting children
+        pub struct VisitWithHook<H, C> {
+            pub hook: H,
+            pub context: C,
+        }
+    });
+
+    // Add the Visit implementation for VisitWithHook
+    items.push(parse_quote! {
+        impl<H: VisitHook<C>, C> Visit for VisitWithHook<H, C> {
+            #(#impl_methods)*
+        }
+    });
 
     items
 }

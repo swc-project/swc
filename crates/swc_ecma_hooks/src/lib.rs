@@ -19,4 +19,6 @@ pub fn noop_hook() -> NoopHook {
 
 pub struct NoopHook;
 
+impl<C> VisitHook<C> for NoopHook {}
+
 impl<C> VisitMutHook<C> for NoopHook {}
