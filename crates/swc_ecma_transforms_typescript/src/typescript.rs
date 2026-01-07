@@ -2,9 +2,11 @@ use std::mem;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::atom;
-use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
+use swc_common::{
+    comments::Comments, pass::Either, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned,
+};
 use swc_ecma_ast::*;
-use swc_ecma_hooks::VisitMutWithHook;
+use swc_ecma_hooks::{noop_hook, CompositeHook, VisitMutWithHook};
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -17,7 +19,7 @@ use crate::{
 
 /// Combined context for TypeScript transforms
 #[derive(Default)]
-pub struct TypeScriptContext {
+pub(crate) struct TypeScriptContext {
     pub strip_import_export: StripImportExportContext,
     pub strip_type: StripTypeContext,
 }
@@ -55,24 +57,30 @@ impl VisitMut for TypeScript {
     fn visit_mut_program(&mut self, n: &mut Program) {
         let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
 
-        if !self.config.verbatim_module_syntax {
-            let ctx = TypeScriptContext {
+        {
+            let context = TypeScriptContext {
                 strip_import_export: StripImportExportContext {
                     usage_info: mem::take(&mut self.id_usage).into(),
                     declare_info: Default::default(),
                 },
-                strip_type: StripTypeContext::default(),
+                ..Default::default()
             };
-            n.visit_mut_with(&mut VisitMutWithHook {
-                hook: strip_import_export_hook(self.config.import_not_used_as_values),
-                context: ctx,
-            });
-        }
 
-        n.visit_mut_with(&mut VisitMutWithHook {
-            hook: strip_type_hook(),
-            context: TypeScriptContext::default(),
-        });
+            let hook = if !self.config.verbatim_module_syntax {
+                Either::Left(strip_import_export_hook(
+                    self.config.import_not_used_as_values,
+                ))
+            } else {
+                Either::Right(noop_hook())
+            };
+
+            let hook = CompositeHook {
+                first: hook,
+                second: strip_type_hook(),
+            };
+
+            n.visit_mut_with(&mut VisitMutWithHook { hook, context });
+        }
 
         n.mutate(transform(
             self.unresolved_mark,
