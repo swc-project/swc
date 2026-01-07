@@ -6163,6 +6163,4787 @@ where
         self.first.exit_yield_expr(node, ctx);
     }
 }
+impl<L, R, C> VisitMutHook<C> for swc_common::pass::Either<L, R>
+where
+    L: VisitMutHook<C>,
+    R: VisitMutHook<C>,
+{
+    #[inline]
+    fn enter_accessibility(&mut self, node: &mut Accessibility, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_accessibility(node, ctx),
+            Self::Right(hook) => hook.enter_accessibility(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_accessibility(&mut self, node: &mut Accessibility, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_accessibility(node, ctx),
+            Self::Right(hook) => hook.exit_accessibility(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_array_lit(&mut self, node: &mut ArrayLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_array_lit(node, ctx),
+            Self::Right(hook) => hook.enter_array_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_array_lit(&mut self, node: &mut ArrayLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_array_lit(node, ctx),
+            Self::Right(hook) => hook.exit_array_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_array_pat(&mut self, node: &mut ArrayPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_array_pat(node, ctx),
+            Self::Right(hook) => hook.enter_array_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_array_pat(&mut self, node: &mut ArrayPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_array_pat(node, ctx),
+            Self::Right(hook) => hook.exit_array_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_arrow_expr(node, ctx),
+            Self::Right(hook) => hook.enter_arrow_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_arrow_expr(&mut self, node: &mut ArrowExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_arrow_expr(node, ctx),
+            Self::Right(hook) => hook.exit_arrow_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_assign_expr(&mut self, node: &mut AssignExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_assign_expr(node, ctx),
+            Self::Right(hook) => hook.enter_assign_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_assign_expr(&mut self, node: &mut AssignExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_assign_expr(node, ctx),
+            Self::Right(hook) => hook.exit_assign_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_assign_op(&mut self, node: &mut AssignOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_assign_op(node, ctx),
+            Self::Right(hook) => hook.enter_assign_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_assign_op(&mut self, node: &mut AssignOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_assign_op(node, ctx),
+            Self::Right(hook) => hook.exit_assign_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_assign_pat(&mut self, node: &mut AssignPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_assign_pat(node, ctx),
+            Self::Right(hook) => hook.enter_assign_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_assign_pat(&mut self, node: &mut AssignPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_assign_pat(node, ctx),
+            Self::Right(hook) => hook.exit_assign_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_assign_pat_prop(&mut self, node: &mut AssignPatProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_assign_pat_prop(node, ctx),
+            Self::Right(hook) => hook.enter_assign_pat_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_assign_pat_prop(&mut self, node: &mut AssignPatProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_assign_pat_prop(node, ctx),
+            Self::Right(hook) => hook.exit_assign_pat_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_assign_prop(&mut self, node: &mut AssignProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_assign_prop(node, ctx),
+            Self::Right(hook) => hook.enter_assign_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_assign_prop(&mut self, node: &mut AssignProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_assign_prop(node, ctx),
+            Self::Right(hook) => hook.exit_assign_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_assign_target(&mut self, node: &mut AssignTarget, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_assign_target(node, ctx),
+            Self::Right(hook) => hook.enter_assign_target(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_assign_target(&mut self, node: &mut AssignTarget, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_assign_target(node, ctx),
+            Self::Right(hook) => hook.exit_assign_target(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_assign_target_pat(&mut self, node: &mut AssignTargetPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_assign_target_pat(node, ctx),
+            Self::Right(hook) => hook.enter_assign_target_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_assign_target_pat(&mut self, node: &mut AssignTargetPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_assign_target_pat(node, ctx),
+            Self::Right(hook) => hook.exit_assign_target_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_atom(&mut self, node: &mut swc_atoms::Atom, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_atom(node, ctx),
+            Self::Right(hook) => hook.enter_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_atom(&mut self, node: &mut swc_atoms::Atom, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_atom(node, ctx),
+            Self::Right(hook) => hook.exit_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_auto_accessor(node, ctx),
+            Self::Right(hook) => hook.enter_auto_accessor(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_auto_accessor(&mut self, node: &mut AutoAccessor, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_auto_accessor(node, ctx),
+            Self::Right(hook) => hook.exit_auto_accessor(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_await_expr(&mut self, node: &mut AwaitExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_await_expr(node, ctx),
+            Self::Right(hook) => hook.enter_await_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_await_expr(&mut self, node: &mut AwaitExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_await_expr(node, ctx),
+            Self::Right(hook) => hook.exit_await_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_big_int(&mut self, node: &mut BigInt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_big_int(node, ctx),
+            Self::Right(hook) => hook.enter_big_int(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_big_int(&mut self, node: &mut BigInt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_big_int(node, ctx),
+            Self::Right(hook) => hook.exit_big_int(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_big_int_value(&mut self, node: &mut BigIntValue, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_big_int_value(node, ctx),
+            Self::Right(hook) => hook.enter_big_int_value(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_big_int_value(&mut self, node: &mut BigIntValue, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_big_int_value(node, ctx),
+            Self::Right(hook) => hook.exit_big_int_value(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_bin_expr(&mut self, node: &mut BinExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_bin_expr(node, ctx),
+            Self::Right(hook) => hook.enter_bin_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_bin_expr(&mut self, node: &mut BinExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_bin_expr(node, ctx),
+            Self::Right(hook) => hook.exit_bin_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_binary_op(node, ctx),
+            Self::Right(hook) => hook.enter_binary_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_binary_op(&mut self, node: &mut BinaryOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_binary_op(node, ctx),
+            Self::Right(hook) => hook.exit_binary_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_binding_ident(&mut self, node: &mut BindingIdent, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_binding_ident(node, ctx),
+            Self::Right(hook) => hook.enter_binding_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_binding_ident(&mut self, node: &mut BindingIdent, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_binding_ident(node, ctx),
+            Self::Right(hook) => hook.exit_binding_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_block_stmt(&mut self, node: &mut BlockStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_block_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_block_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_block_stmt(&mut self, node: &mut BlockStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_block_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_block_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_block_stmt_or_expr(node, ctx),
+            Self::Right(hook) => hook.enter_block_stmt_or_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_block_stmt_or_expr(&mut self, node: &mut BlockStmtOrExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_block_stmt_or_expr(node, ctx),
+            Self::Right(hook) => hook.exit_block_stmt_or_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_bool(&mut self, node: &mut Bool, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_bool(node, ctx),
+            Self::Right(hook) => hook.enter_bool(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_bool(&mut self, node: &mut Bool, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_bool(node, ctx),
+            Self::Right(hook) => hook.exit_bool(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_break_stmt(&mut self, node: &mut BreakStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_break_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_break_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_break_stmt(&mut self, node: &mut BreakStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_break_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_break_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_call_expr(&mut self, node: &mut CallExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_call_expr(node, ctx),
+            Self::Right(hook) => hook.enter_call_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_call_expr(&mut self, node: &mut CallExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_call_expr(node, ctx),
+            Self::Right(hook) => hook.exit_call_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_callee(&mut self, node: &mut Callee, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_callee(node, ctx),
+            Self::Right(hook) => hook.enter_callee(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_callee(&mut self, node: &mut Callee, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_callee(node, ctx),
+            Self::Right(hook) => hook.exit_callee(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_catch_clause(&mut self, node: &mut CatchClause, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_catch_clause(node, ctx),
+            Self::Right(hook) => hook.enter_catch_clause(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_catch_clause(&mut self, node: &mut CatchClause, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_catch_clause(node, ctx),
+            Self::Right(hook) => hook.exit_catch_clause(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_class(&mut self, node: &mut Class, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_class(node, ctx),
+            Self::Right(hook) => hook.enter_class(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_class(&mut self, node: &mut Class, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_class(node, ctx),
+            Self::Right(hook) => hook.exit_class(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_class_decl(&mut self, node: &mut ClassDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_class_decl(node, ctx),
+            Self::Right(hook) => hook.enter_class_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_class_decl(&mut self, node: &mut ClassDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_class_decl(node, ctx),
+            Self::Right(hook) => hook.exit_class_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_class_expr(&mut self, node: &mut ClassExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_class_expr(node, ctx),
+            Self::Right(hook) => hook.enter_class_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_class_expr(&mut self, node: &mut ClassExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_class_expr(node, ctx),
+            Self::Right(hook) => hook.exit_class_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_class_member(&mut self, node: &mut ClassMember, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_class_member(node, ctx),
+            Self::Right(hook) => hook.enter_class_member(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_class_member(&mut self, node: &mut ClassMember, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_class_member(node, ctx),
+            Self::Right(hook) => hook.exit_class_member(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_class_members(&mut self, node: &mut Vec<ClassMember>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_class_members(node, ctx),
+            Self::Right(hook) => hook.enter_class_members(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_class_members(&mut self, node: &mut Vec<ClassMember>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_class_members(node, ctx),
+            Self::Right(hook) => hook.exit_class_members(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_class_method(&mut self, node: &mut ClassMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_class_method(node, ctx),
+            Self::Right(hook) => hook.enter_class_method(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_class_method(&mut self, node: &mut ClassMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_class_method(node, ctx),
+            Self::Right(hook) => hook.exit_class_method(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_class_prop(&mut self, node: &mut ClassProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_class_prop(node, ctx),
+            Self::Right(hook) => hook.enter_class_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_class_prop(&mut self, node: &mut ClassProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_class_prop(node, ctx),
+            Self::Right(hook) => hook.exit_class_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_computed_prop_name(&mut self, node: &mut ComputedPropName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_computed_prop_name(node, ctx),
+            Self::Right(hook) => hook.enter_computed_prop_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_computed_prop_name(&mut self, node: &mut ComputedPropName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_computed_prop_name(node, ctx),
+            Self::Right(hook) => hook.exit_computed_prop_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_cond_expr(&mut self, node: &mut CondExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_cond_expr(node, ctx),
+            Self::Right(hook) => hook.enter_cond_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_cond_expr(&mut self, node: &mut CondExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_cond_expr(node, ctx),
+            Self::Right(hook) => hook.exit_cond_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_constructor(&mut self, node: &mut Constructor, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_constructor(node, ctx),
+            Self::Right(hook) => hook.enter_constructor(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_constructor(&mut self, node: &mut Constructor, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_constructor(node, ctx),
+            Self::Right(hook) => hook.exit_constructor(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_continue_stmt(&mut self, node: &mut ContinueStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_continue_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_continue_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_continue_stmt(&mut self, node: &mut ContinueStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_continue_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_continue_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_debugger_stmt(&mut self, node: &mut DebuggerStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_debugger_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_debugger_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_debugger_stmt(&mut self, node: &mut DebuggerStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_debugger_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_debugger_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_decl(&mut self, node: &mut Decl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_decl(node, ctx),
+            Self::Right(hook) => hook.enter_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_decl(&mut self, node: &mut Decl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_decl(node, ctx),
+            Self::Right(hook) => hook.exit_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_decorator(&mut self, node: &mut Decorator, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_decorator(node, ctx),
+            Self::Right(hook) => hook.enter_decorator(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_decorator(&mut self, node: &mut Decorator, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_decorator(node, ctx),
+            Self::Right(hook) => hook.exit_decorator(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_decorators(&mut self, node: &mut Vec<Decorator>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_decorators(node, ctx),
+            Self::Right(hook) => hook.enter_decorators(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_decorators(&mut self, node: &mut Vec<Decorator>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_decorators(node, ctx),
+            Self::Right(hook) => hook.exit_decorators(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_default_decl(node, ctx),
+            Self::Right(hook) => hook.enter_default_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_default_decl(&mut self, node: &mut DefaultDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_default_decl(node, ctx),
+            Self::Right(hook) => hook.exit_default_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_do_while_stmt(&mut self, node: &mut DoWhileStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_do_while_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_do_while_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_do_while_stmt(&mut self, node: &mut DoWhileStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_do_while_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_do_while_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_empty_stmt(&mut self, node: &mut EmptyStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_empty_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_empty_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_empty_stmt(&mut self, node: &mut EmptyStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_empty_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_empty_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_all(&mut self, node: &mut ExportAll, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_all(node, ctx),
+            Self::Right(hook) => hook.enter_export_all(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_all(&mut self, node: &mut ExportAll, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_all(node, ctx),
+            Self::Right(hook) => hook.exit_export_all(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_decl(node, ctx),
+            Self::Right(hook) => hook.enter_export_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_decl(&mut self, node: &mut ExportDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_decl(node, ctx),
+            Self::Right(hook) => hook.exit_export_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_default_decl(&mut self, node: &mut ExportDefaultDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_default_decl(node, ctx),
+            Self::Right(hook) => hook.enter_export_default_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_default_decl(&mut self, node: &mut ExportDefaultDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_default_decl(node, ctx),
+            Self::Right(hook) => hook.exit_export_default_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_default_expr(&mut self, node: &mut ExportDefaultExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_default_expr(node, ctx),
+            Self::Right(hook) => hook.enter_export_default_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_default_expr(&mut self, node: &mut ExportDefaultExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_default_expr(node, ctx),
+            Self::Right(hook) => hook.exit_export_default_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_default_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_export_default_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_default_specifier(&mut self, node: &mut ExportDefaultSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_default_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_export_default_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_named_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_export_named_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_named_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_export_named_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_namespace_specifier(
+        &mut self,
+        node: &mut ExportNamespaceSpecifier,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.enter_export_namespace_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_export_namespace_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_namespace_specifier(
+        &mut self,
+        node: &mut ExportNamespaceSpecifier,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.exit_export_namespace_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_export_namespace_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_specifier(&mut self, node: &mut ExportSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_export_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_specifier(&mut self, node: &mut ExportSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_export_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_export_specifiers(node, ctx),
+            Self::Right(hook) => hook.enter_export_specifiers(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_export_specifiers(node, ctx),
+            Self::Right(hook) => hook.exit_export_specifiers(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_expr(&mut self, node: &mut Expr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_expr(node, ctx),
+            Self::Right(hook) => hook.enter_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_expr(&mut self, node: &mut Expr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_expr(node, ctx),
+            Self::Right(hook) => hook.exit_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_expr_or_spread(&mut self, node: &mut ExprOrSpread, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_expr_or_spread(node, ctx),
+            Self::Right(hook) => hook.enter_expr_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_expr_or_spread(&mut self, node: &mut ExprOrSpread, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_expr_or_spread(node, ctx),
+            Self::Right(hook) => hook.exit_expr_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_expr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.enter_expr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_expr_or_spreads(&mut self, node: &mut Vec<ExprOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_expr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.exit_expr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_expr_stmt(&mut self, node: &mut ExprStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_expr_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_expr_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_expr_stmt(&mut self, node: &mut ExprStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_expr_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_expr_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_exprs(&mut self, node: &mut Vec<Box<Expr>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_exprs(node, ctx),
+            Self::Right(hook) => hook.enter_exprs(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_exprs(&mut self, node: &mut Vec<Box<Expr>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_exprs(node, ctx),
+            Self::Right(hook) => hook.exit_exprs(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_fn_decl(node, ctx),
+            Self::Right(hook) => hook.enter_fn_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_fn_decl(node, ctx),
+            Self::Right(hook) => hook.exit_fn_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_fn_expr(&mut self, node: &mut FnExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_fn_expr(node, ctx),
+            Self::Right(hook) => hook.enter_fn_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_fn_expr(&mut self, node: &mut FnExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_fn_expr(node, ctx),
+            Self::Right(hook) => hook.exit_fn_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_for_head(&mut self, node: &mut ForHead, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_for_head(node, ctx),
+            Self::Right(hook) => hook.enter_for_head(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_for_head(&mut self, node: &mut ForHead, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_for_head(node, ctx),
+            Self::Right(hook) => hook.exit_for_head(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_for_in_stmt(&mut self, node: &mut ForInStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_for_in_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_for_in_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_for_in_stmt(&mut self, node: &mut ForInStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_for_in_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_for_in_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_for_of_stmt(&mut self, node: &mut ForOfStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_for_of_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_for_of_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_for_of_stmt(&mut self, node: &mut ForOfStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_for_of_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_for_of_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_for_stmt(&mut self, node: &mut ForStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_for_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_for_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_for_stmt(&mut self, node: &mut ForStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_for_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_for_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_function(&mut self, node: &mut Function, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_function(node, ctx),
+            Self::Right(hook) => hook.enter_function(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_function(&mut self, node: &mut Function, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_function(node, ctx),
+            Self::Right(hook) => hook.exit_function(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_getter_prop(&mut self, node: &mut GetterProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_getter_prop(node, ctx),
+            Self::Right(hook) => hook.enter_getter_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_getter_prop(&mut self, node: &mut GetterProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_getter_prop(node, ctx),
+            Self::Right(hook) => hook.exit_getter_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ident(&mut self, node: &mut Ident, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ident(node, ctx),
+            Self::Right(hook) => hook.enter_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ident(&mut self, node: &mut Ident, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ident(node, ctx),
+            Self::Right(hook) => hook.exit_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ident_name(&mut self, node: &mut IdentName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ident_name(node, ctx),
+            Self::Right(hook) => hook.enter_ident_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ident_name(&mut self, node: &mut IdentName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ident_name(node, ctx),
+            Self::Right(hook) => hook.exit_ident_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_if_stmt(&mut self, node: &mut IfStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_if_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_if_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_if_stmt(&mut self, node: &mut IfStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_if_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_if_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import(&mut self, node: &mut Import, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import(node, ctx),
+            Self::Right(hook) => hook.enter_import(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import(&mut self, node: &mut Import, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import(node, ctx),
+            Self::Right(hook) => hook.exit_import(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_decl(&mut self, node: &mut ImportDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_decl(node, ctx),
+            Self::Right(hook) => hook.enter_import_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_decl(&mut self, node: &mut ImportDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_decl(node, ctx),
+            Self::Right(hook) => hook.exit_import_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_default_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_import_default_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_default_specifier(&mut self, node: &mut ImportDefaultSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_default_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_import_default_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_named_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_import_named_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_named_specifier(&mut self, node: &mut ImportNamedSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_named_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_import_named_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_phase(&mut self, node: &mut ImportPhase, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_phase(node, ctx),
+            Self::Right(hook) => hook.enter_import_phase(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_phase(&mut self, node: &mut ImportPhase, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_phase(node, ctx),
+            Self::Right(hook) => hook.exit_import_phase(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_specifier(&mut self, node: &mut ImportSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_import_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_specifier(&mut self, node: &mut ImportSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_import_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_specifiers(node, ctx),
+            Self::Right(hook) => hook.enter_import_specifiers(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_specifiers(node, ctx),
+            Self::Right(hook) => hook.exit_import_specifiers(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_star_as_specifier(node, ctx),
+            Self::Right(hook) => hook.enter_import_star_as_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_star_as_specifier(&mut self, node: &mut ImportStarAsSpecifier, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_star_as_specifier(node, ctx),
+            Self::Right(hook) => hook.exit_import_star_as_specifier(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_with(&mut self, node: &mut ImportWith, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_with(node, ctx),
+            Self::Right(hook) => hook.enter_import_with(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_with(&mut self, node: &mut ImportWith, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_with(node, ctx),
+            Self::Right(hook) => hook.exit_import_with(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_with_item(&mut self, node: &mut ImportWithItem, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_with_item(node, ctx),
+            Self::Right(hook) => hook.enter_import_with_item(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_with_item(&mut self, node: &mut ImportWithItem, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_with_item(node, ctx),
+            Self::Right(hook) => hook.exit_import_with_item(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_import_with_items(&mut self, node: &mut Vec<ImportWithItem>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_import_with_items(node, ctx),
+            Self::Right(hook) => hook.enter_import_with_items(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_import_with_items(&mut self, node: &mut Vec<ImportWithItem>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_import_with_items(node, ctx),
+            Self::Right(hook) => hook.exit_import_with_items(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_invalid(&mut self, node: &mut Invalid, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_invalid(node, ctx),
+            Self::Right(hook) => hook.enter_invalid(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_invalid(&mut self, node: &mut Invalid, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_invalid(node, ctx),
+            Self::Right(hook) => hook.exit_invalid(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_attr(&mut self, node: &mut JSXAttr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_attr(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_attr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_attr(&mut self, node: &mut JSXAttr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_attr(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_attr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_attr_name(&mut self, node: &mut JSXAttrName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_attr_name(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_attr_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_attr_name(&mut self, node: &mut JSXAttrName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_attr_name(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_attr_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_attr_or_spread(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_attr_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_attr_or_spread(&mut self, node: &mut JSXAttrOrSpread, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_attr_or_spread(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_attr_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_attr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_attr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_attr_or_spreads(&mut self, node: &mut Vec<JSXAttrOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_attr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_attr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_attr_value(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_attr_value(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_attr_value(&mut self, node: &mut JSXAttrValue, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_attr_value(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_attr_value(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_closing_element(&mut self, node: &mut JSXClosingElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_closing_element(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_closing_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_closing_element(&mut self, node: &mut JSXClosingElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_closing_element(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_closing_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_closing_fragment(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_closing_fragment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_closing_fragment(&mut self, node: &mut JSXClosingFragment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_closing_fragment(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_closing_fragment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_element(&mut self, node: &mut JSXElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_element(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_element(&mut self, node: &mut JSXElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_element(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_element_child(&mut self, node: &mut JSXElementChild, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_element_child(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_element_child(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_element_child(&mut self, node: &mut JSXElementChild, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_element_child(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_element_child(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_element_childs(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_element_childs(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_element_childs(&mut self, node: &mut Vec<JSXElementChild>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_element_childs(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_element_childs(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_element_name(&mut self, node: &mut JSXElementName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_element_name(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_element_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_element_name(&mut self, node: &mut JSXElementName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_element_name(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_element_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_empty_expr(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_empty_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_empty_expr(&mut self, node: &mut JSXEmptyExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_empty_expr(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_empty_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_expr(&mut self, node: &mut JSXExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_expr(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_expr(&mut self, node: &mut JSXExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_expr(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_expr_container(&mut self, node: &mut JSXExprContainer, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_expr_container(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_expr_container(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_expr_container(&mut self, node: &mut JSXExprContainer, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_expr_container(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_expr_container(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_fragment(&mut self, node: &mut JSXFragment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_fragment(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_fragment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_fragment(&mut self, node: &mut JSXFragment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_fragment(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_fragment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_member_expr(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_member_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_member_expr(&mut self, node: &mut JSXMemberExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_member_expr(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_member_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_namespaced_name(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_namespaced_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_namespaced_name(&mut self, node: &mut JSXNamespacedName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_namespaced_name(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_namespaced_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_object(&mut self, node: &mut JSXObject, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_object(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_object(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_object(&mut self, node: &mut JSXObject, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_object(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_object(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_opening_element(&mut self, node: &mut JSXOpeningElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_opening_element(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_opening_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_opening_element(&mut self, node: &mut JSXOpeningElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_opening_element(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_opening_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_opening_fragment(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_opening_fragment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_opening_fragment(&mut self, node: &mut JSXOpeningFragment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_opening_fragment(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_opening_fragment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_spread_child(&mut self, node: &mut JSXSpreadChild, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_spread_child(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_spread_child(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_spread_child(&mut self, node: &mut JSXSpreadChild, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_spread_child(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_spread_child(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_jsx_text(&mut self, node: &mut JSXText, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_jsx_text(node, ctx),
+            Self::Right(hook) => hook.enter_jsx_text(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_jsx_text(&mut self, node: &mut JSXText, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_jsx_text(node, ctx),
+            Self::Right(hook) => hook.exit_jsx_text(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_key(&mut self, node: &mut Key, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_key(node, ctx),
+            Self::Right(hook) => hook.enter_key(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_key(&mut self, node: &mut Key, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_key(node, ctx),
+            Self::Right(hook) => hook.exit_key(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_key_value_pat_prop(node, ctx),
+            Self::Right(hook) => hook.enter_key_value_pat_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_key_value_pat_prop(&mut self, node: &mut KeyValuePatProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_key_value_pat_prop(node, ctx),
+            Self::Right(hook) => hook.exit_key_value_pat_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_key_value_prop(&mut self, node: &mut KeyValueProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_key_value_prop(node, ctx),
+            Self::Right(hook) => hook.enter_key_value_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_key_value_prop(&mut self, node: &mut KeyValueProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_key_value_prop(node, ctx),
+            Self::Right(hook) => hook.exit_key_value_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_labeled_stmt(&mut self, node: &mut LabeledStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_labeled_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_labeled_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_labeled_stmt(&mut self, node: &mut LabeledStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_labeled_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_labeled_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_lit(&mut self, node: &mut Lit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_lit(node, ctx),
+            Self::Right(hook) => hook.enter_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_lit(&mut self, node: &mut Lit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_lit(node, ctx),
+            Self::Right(hook) => hook.exit_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_member_expr(&mut self, node: &mut MemberExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_member_expr(node, ctx),
+            Self::Right(hook) => hook.enter_member_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_member_expr(&mut self, node: &mut MemberExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_member_expr(node, ctx),
+            Self::Right(hook) => hook.exit_member_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_member_prop(&mut self, node: &mut MemberProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_member_prop(node, ctx),
+            Self::Right(hook) => hook.enter_member_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_member_prop(&mut self, node: &mut MemberProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_member_prop(node, ctx),
+            Self::Right(hook) => hook.exit_member_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_meta_prop_expr(node, ctx),
+            Self::Right(hook) => hook.enter_meta_prop_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_meta_prop_expr(&mut self, node: &mut MetaPropExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_meta_prop_expr(node, ctx),
+            Self::Right(hook) => hook.exit_meta_prop_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_meta_prop_kind(&mut self, node: &mut MetaPropKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_meta_prop_kind(node, ctx),
+            Self::Right(hook) => hook.enter_meta_prop_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_meta_prop_kind(&mut self, node: &mut MetaPropKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_meta_prop_kind(node, ctx),
+            Self::Right(hook) => hook.exit_meta_prop_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_method_kind(&mut self, node: &mut MethodKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_method_kind(node, ctx),
+            Self::Right(hook) => hook.enter_method_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_method_kind(&mut self, node: &mut MethodKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_method_kind(node, ctx),
+            Self::Right(hook) => hook.exit_method_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_method_prop(&mut self, node: &mut MethodProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_method_prop(node, ctx),
+            Self::Right(hook) => hook.enter_method_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_method_prop(&mut self, node: &mut MethodProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_method_prop(node, ctx),
+            Self::Right(hook) => hook.exit_method_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_module(&mut self, node: &mut Module, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_module(node, ctx),
+            Self::Right(hook) => hook.enter_module(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_module(&mut self, node: &mut Module, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_module(node, ctx),
+            Self::Right(hook) => hook.exit_module(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_module_decl(&mut self, node: &mut ModuleDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_module_decl(node, ctx),
+            Self::Right(hook) => hook.enter_module_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_module_decl(&mut self, node: &mut ModuleDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_module_decl(node, ctx),
+            Self::Right(hook) => hook.exit_module_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_module_export_name(&mut self, node: &mut ModuleExportName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_module_export_name(node, ctx),
+            Self::Right(hook) => hook.enter_module_export_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_module_export_name(&mut self, node: &mut ModuleExportName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_module_export_name(node, ctx),
+            Self::Right(hook) => hook.exit_module_export_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_module_item(&mut self, node: &mut ModuleItem, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_module_item(node, ctx),
+            Self::Right(hook) => hook.enter_module_item(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_module_item(&mut self, node: &mut ModuleItem, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_module_item(node, ctx),
+            Self::Right(hook) => hook.exit_module_item(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_module_items(node, ctx),
+            Self::Right(hook) => hook.enter_module_items(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_module_items(node, ctx),
+            Self::Right(hook) => hook.exit_module_items(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_named_export(&mut self, node: &mut NamedExport, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_named_export(node, ctx),
+            Self::Right(hook) => hook.enter_named_export(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_named_export(&mut self, node: &mut NamedExport, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_named_export(node, ctx),
+            Self::Right(hook) => hook.exit_named_export(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_new_expr(node, ctx),
+            Self::Right(hook) => hook.enter_new_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_new_expr(&mut self, node: &mut NewExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_new_expr(node, ctx),
+            Self::Right(hook) => hook.exit_new_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_null(&mut self, node: &mut Null, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_null(node, ctx),
+            Self::Right(hook) => hook.enter_null(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_null(&mut self, node: &mut Null, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_null(node, ctx),
+            Self::Right(hook) => hook.exit_null(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_number(&mut self, node: &mut Number, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_number(node, ctx),
+            Self::Right(hook) => hook.enter_number(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_number(&mut self, node: &mut Number, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_number(node, ctx),
+            Self::Right(hook) => hook.exit_number(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_object_lit(&mut self, node: &mut ObjectLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_object_lit(node, ctx),
+            Self::Right(hook) => hook.enter_object_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_object_lit(&mut self, node: &mut ObjectLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_object_lit(node, ctx),
+            Self::Right(hook) => hook.exit_object_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_object_pat(&mut self, node: &mut ObjectPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_object_pat(node, ctx),
+            Self::Right(hook) => hook.enter_object_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_object_pat(&mut self, node: &mut ObjectPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_object_pat(node, ctx),
+            Self::Right(hook) => hook.exit_object_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_object_pat_prop(&mut self, node: &mut ObjectPatProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_object_pat_prop(node, ctx),
+            Self::Right(hook) => hook.enter_object_pat_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_object_pat_prop(&mut self, node: &mut ObjectPatProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_object_pat_prop(node, ctx),
+            Self::Right(hook) => hook.exit_object_pat_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_object_pat_props(node, ctx),
+            Self::Right(hook) => hook.enter_object_pat_props(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_object_pat_props(&mut self, node: &mut Vec<ObjectPatProp>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_object_pat_props(node, ctx),
+            Self::Right(hook) => hook.exit_object_pat_props(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_accessibility(&mut self, node: &mut Option<Accessibility>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_accessibility(node, ctx),
+            Self::Right(hook) => hook.enter_opt_accessibility(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_accessibility(&mut self, node: &mut Option<Accessibility>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_accessibility(node, ctx),
+            Self::Right(hook) => hook.exit_opt_accessibility(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_atom(node, ctx),
+            Self::Right(hook) => hook.enter_opt_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_atom(&mut self, node: &mut Option<swc_atoms::Atom>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_atom(node, ctx),
+            Self::Right(hook) => hook.exit_opt_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_block_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_opt_block_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_block_stmt(&mut self, node: &mut Option<BlockStmt>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_block_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_opt_block_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_call(&mut self, node: &mut OptCall, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_call(node, ctx),
+            Self::Right(hook) => hook.enter_opt_call(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_call(&mut self, node: &mut OptCall, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_call(node, ctx),
+            Self::Right(hook) => hook.exit_opt_call(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_catch_clause(&mut self, node: &mut Option<CatchClause>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_catch_clause(node, ctx),
+            Self::Right(hook) => hook.enter_opt_catch_clause(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_catch_clause(&mut self, node: &mut Option<CatchClause>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_catch_clause(node, ctx),
+            Self::Right(hook) => hook.exit_opt_catch_clause(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_chain_base(&mut self, node: &mut OptChainBase, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_chain_base(node, ctx),
+            Self::Right(hook) => hook.enter_opt_chain_base(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_chain_base(&mut self, node: &mut OptChainBase, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_chain_base(node, ctx),
+            Self::Right(hook) => hook.exit_opt_chain_base(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_chain_expr(&mut self, node: &mut OptChainExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_chain_expr(node, ctx),
+            Self::Right(hook) => hook.enter_opt_chain_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_chain_expr(&mut self, node: &mut OptChainExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_chain_expr(node, ctx),
+            Self::Right(hook) => hook.exit_opt_chain_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_expr(node, ctx),
+            Self::Right(hook) => hook.enter_opt_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_expr(&mut self, node: &mut Option<Box<Expr>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_expr(node, ctx),
+            Self::Right(hook) => hook.exit_opt_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_expr_or_spread(node, ctx),
+            Self::Right(hook) => hook.enter_opt_expr_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_expr_or_spread(&mut self, node: &mut Option<ExprOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_expr_or_spread(node, ctx),
+            Self::Right(hook) => hook.exit_opt_expr_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_expr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.enter_opt_expr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_expr_or_spreads(&mut self, node: &mut Option<Vec<ExprOrSpread>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_expr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.exit_opt_expr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ident(&mut self, node: &mut Option<Ident>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ident(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ident(&mut self, node: &mut Option<Ident>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ident(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_jsx_attr_value(node, ctx),
+            Self::Right(hook) => hook.enter_opt_jsx_attr_value(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_jsx_attr_value(&mut self, node: &mut Option<JSXAttrValue>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_jsx_attr_value(node, ctx),
+            Self::Right(hook) => hook.exit_opt_jsx_attr_value(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_jsx_closing_element(node, ctx),
+            Self::Right(hook) => hook.enter_opt_jsx_closing_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_jsx_closing_element(&mut self, node: &mut Option<JSXClosingElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_jsx_closing_element(node, ctx),
+            Self::Right(hook) => hook.exit_opt_jsx_closing_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_module_export_name(node, ctx),
+            Self::Right(hook) => hook.enter_opt_module_export_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_module_export_name(&mut self, node: &mut Option<ModuleExportName>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_module_export_name(node, ctx),
+            Self::Right(hook) => hook.exit_opt_module_export_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_object_lit(node, ctx),
+            Self::Right(hook) => hook.enter_opt_object_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_object_lit(&mut self, node: &mut Option<Box<ObjectLit>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_object_lit(node, ctx),
+            Self::Right(hook) => hook.exit_opt_object_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_pat(&mut self, node: &mut Option<Pat>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_pat(node, ctx),
+            Self::Right(hook) => hook.enter_opt_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_pat(&mut self, node: &mut Option<Pat>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_pat(node, ctx),
+            Self::Right(hook) => hook.exit_opt_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_span(&mut self, node: &mut Option<swc_common::Span>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_span(node, ctx),
+            Self::Right(hook) => hook.enter_opt_span(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_span(&mut self, node: &mut Option<swc_common::Span>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_span(node, ctx),
+            Self::Right(hook) => hook.exit_opt_span(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_opt_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_stmt(&mut self, node: &mut Option<Box<Stmt>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_opt_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_str(&mut self, node: &mut Option<Box<Str>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_str(node, ctx),
+            Self::Right(hook) => hook.enter_opt_str(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_str(&mut self, node: &mut Option<Box<Str>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_str(node, ctx),
+            Self::Right(hook) => hook.exit_opt_str(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_true_plus_minus(node, ctx),
+            Self::Right(hook) => hook.enter_opt_true_plus_minus(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_true_plus_minus(&mut self, node: &mut Option<TruePlusMinus>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_true_plus_minus(node, ctx),
+            Self::Right(hook) => hook.exit_opt_true_plus_minus(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_entity_name(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_entity_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_entity_name(&mut self, node: &mut Option<TsEntityName>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_entity_name(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_entity_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ts_import_call_options(
+        &mut self,
+        node: &mut Option<TsImportCallOptions>,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_import_call_options(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_import_call_options(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_import_call_options(
+        &mut self,
+        node: &mut Option<TsImportCallOptions>,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_import_call_options(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_import_call_options(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_namespace_body(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_namespace_body(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_namespace_body(&mut self, node: &mut Option<TsNamespaceBody>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_namespace_body(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_namespace_body(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_type(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_type(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_type_ann(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_type_ann(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_type_ann(&mut self, node: &mut Option<Box<TsTypeAnn>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_type_ann(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_type_ann(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ts_type_param_decl(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamDecl>>,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_type_param_decl(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_type_param_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_type_param_decl(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamDecl>>,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_type_param_decl(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_type_param_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_ts_type_param_instantiation(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamInstantiation>>,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_ts_type_param_instantiation(node, ctx),
+            Self::Right(hook) => hook.enter_opt_ts_type_param_instantiation(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_ts_type_param_instantiation(
+        &mut self,
+        node: &mut Option<Box<TsTypeParamInstantiation>>,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_ts_type_param_instantiation(node, ctx),
+            Self::Right(hook) => hook.exit_opt_ts_type_param_instantiation(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_var_decl_or_expr(node, ctx),
+            Self::Right(hook) => hook.enter_opt_var_decl_or_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_var_decl_or_expr(&mut self, node: &mut Option<VarDeclOrExpr>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_var_decl_or_expr(node, ctx),
+            Self::Right(hook) => hook.exit_opt_var_decl_or_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_vec_expr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.enter_opt_vec_expr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_vec_expr_or_spreads(&mut self, node: &mut Vec<Option<ExprOrSpread>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_vec_expr_or_spreads(node, ctx),
+            Self::Right(hook) => hook.exit_opt_vec_expr_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_vec_pats(node, ctx),
+            Self::Right(hook) => hook.enter_opt_vec_pats(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_vec_pats(&mut self, node: &mut Vec<Option<Pat>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_vec_pats(node, ctx),
+            Self::Right(hook) => hook.exit_opt_vec_pats(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_opt_wtf_8_atom(node, ctx),
+            Self::Right(hook) => hook.enter_opt_wtf_8_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_opt_wtf_8_atom(&mut self, node: &mut Option<swc_atoms::Wtf8Atom>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_opt_wtf_8_atom(node, ctx),
+            Self::Right(hook) => hook.exit_opt_wtf_8_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_param(&mut self, node: &mut Param, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_param(node, ctx),
+            Self::Right(hook) => hook.enter_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_param(&mut self, node: &mut Param, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_param(node, ctx),
+            Self::Right(hook) => hook.exit_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_param_or_ts_param_prop(node, ctx),
+            Self::Right(hook) => hook.enter_param_or_ts_param_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_param_or_ts_param_prop(&mut self, node: &mut ParamOrTsParamProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_param_or_ts_param_prop(node, ctx),
+            Self::Right(hook) => hook.exit_param_or_ts_param_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_param_or_ts_param_props(node, ctx),
+            Self::Right(hook) => hook.enter_param_or_ts_param_props(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_param_or_ts_param_props(&mut self, node: &mut Vec<ParamOrTsParamProp>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_param_or_ts_param_props(node, ctx),
+            Self::Right(hook) => hook.exit_param_or_ts_param_props(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_params(&mut self, node: &mut Vec<Param>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_params(node, ctx),
+            Self::Right(hook) => hook.enter_params(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_params(&mut self, node: &mut Vec<Param>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_params(node, ctx),
+            Self::Right(hook) => hook.exit_params(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_paren_expr(&mut self, node: &mut ParenExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_paren_expr(node, ctx),
+            Self::Right(hook) => hook.enter_paren_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_paren_expr(&mut self, node: &mut ParenExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_paren_expr(node, ctx),
+            Self::Right(hook) => hook.exit_paren_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_pat(&mut self, node: &mut Pat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_pat(node, ctx),
+            Self::Right(hook) => hook.enter_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_pat(&mut self, node: &mut Pat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_pat(node, ctx),
+            Self::Right(hook) => hook.exit_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_pats(&mut self, node: &mut Vec<Pat>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_pats(node, ctx),
+            Self::Right(hook) => hook.enter_pats(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_pats(&mut self, node: &mut Vec<Pat>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_pats(node, ctx),
+            Self::Right(hook) => hook.exit_pats(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_private_method(&mut self, node: &mut PrivateMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_private_method(node, ctx),
+            Self::Right(hook) => hook.enter_private_method(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_private_method(&mut self, node: &mut PrivateMethod, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_private_method(node, ctx),
+            Self::Right(hook) => hook.exit_private_method(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_private_name(&mut self, node: &mut PrivateName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_private_name(node, ctx),
+            Self::Right(hook) => hook.enter_private_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_private_name(&mut self, node: &mut PrivateName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_private_name(node, ctx),
+            Self::Right(hook) => hook.exit_private_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_private_prop(&mut self, node: &mut PrivateProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_private_prop(node, ctx),
+            Self::Right(hook) => hook.enter_private_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_private_prop(&mut self, node: &mut PrivateProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_private_prop(node, ctx),
+            Self::Right(hook) => hook.exit_private_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_program(&mut self, node: &mut Program, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_program(node, ctx),
+            Self::Right(hook) => hook.enter_program(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_program(&mut self, node: &mut Program, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_program(node, ctx),
+            Self::Right(hook) => hook.exit_program(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_prop(&mut self, node: &mut Prop, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_prop(node, ctx),
+            Self::Right(hook) => hook.enter_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_prop(&mut self, node: &mut Prop, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_prop(node, ctx),
+            Self::Right(hook) => hook.exit_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_prop_name(&mut self, node: &mut PropName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_prop_name(node, ctx),
+            Self::Right(hook) => hook.enter_prop_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_prop_name(&mut self, node: &mut PropName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_prop_name(node, ctx),
+            Self::Right(hook) => hook.exit_prop_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_prop_or_spread(&mut self, node: &mut PropOrSpread, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_prop_or_spread(node, ctx),
+            Self::Right(hook) => hook.enter_prop_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_prop_or_spread(&mut self, node: &mut PropOrSpread, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_prop_or_spread(node, ctx),
+            Self::Right(hook) => hook.exit_prop_or_spread(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_prop_or_spreads(node, ctx),
+            Self::Right(hook) => hook.enter_prop_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_prop_or_spreads(&mut self, node: &mut Vec<PropOrSpread>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_prop_or_spreads(node, ctx),
+            Self::Right(hook) => hook.exit_prop_or_spreads(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_regex(&mut self, node: &mut Regex, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_regex(node, ctx),
+            Self::Right(hook) => hook.enter_regex(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_regex(&mut self, node: &mut Regex, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_regex(node, ctx),
+            Self::Right(hook) => hook.exit_regex(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_rest_pat(&mut self, node: &mut RestPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_rest_pat(node, ctx),
+            Self::Right(hook) => hook.enter_rest_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_rest_pat(&mut self, node: &mut RestPat, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_rest_pat(node, ctx),
+            Self::Right(hook) => hook.exit_rest_pat(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_return_stmt(&mut self, node: &mut ReturnStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_return_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_return_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_return_stmt(&mut self, node: &mut ReturnStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_return_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_return_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_script(&mut self, node: &mut Script, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_script(node, ctx),
+            Self::Right(hook) => hook.enter_script(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_script(&mut self, node: &mut Script, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_script(node, ctx),
+            Self::Right(hook) => hook.exit_script(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_seq_expr(&mut self, node: &mut SeqExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_seq_expr(node, ctx),
+            Self::Right(hook) => hook.enter_seq_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_seq_expr(&mut self, node: &mut SeqExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_seq_expr(node, ctx),
+            Self::Right(hook) => hook.exit_seq_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_setter_prop(&mut self, node: &mut SetterProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_setter_prop(node, ctx),
+            Self::Right(hook) => hook.enter_setter_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_setter_prop(&mut self, node: &mut SetterProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_setter_prop(node, ctx),
+            Self::Right(hook) => hook.exit_setter_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_simple_assign_target(&mut self, node: &mut SimpleAssignTarget, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_simple_assign_target(node, ctx),
+            Self::Right(hook) => hook.enter_simple_assign_target(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_simple_assign_target(&mut self, node: &mut SimpleAssignTarget, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_simple_assign_target(node, ctx),
+            Self::Right(hook) => hook.exit_simple_assign_target(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_span(&mut self, node: &mut swc_common::Span, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_span(node, ctx),
+            Self::Right(hook) => hook.enter_span(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_span(&mut self, node: &mut swc_common::Span, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_span(node, ctx),
+            Self::Right(hook) => hook.exit_span(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_spread_element(&mut self, node: &mut SpreadElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_spread_element(node, ctx),
+            Self::Right(hook) => hook.enter_spread_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_spread_element(&mut self, node: &mut SpreadElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_spread_element(node, ctx),
+            Self::Right(hook) => hook.exit_spread_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_static_block(&mut self, node: &mut StaticBlock, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_static_block(node, ctx),
+            Self::Right(hook) => hook.enter_static_block(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_static_block(&mut self, node: &mut StaticBlock, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_static_block(node, ctx),
+            Self::Right(hook) => hook.exit_static_block(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_stmt(&mut self, node: &mut Stmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_stmt(&mut self, node: &mut Stmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_stmts(&mut self, node: &mut Vec<Stmt>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_stmts(node, ctx),
+            Self::Right(hook) => hook.enter_stmts(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_stmts(&mut self, node: &mut Vec<Stmt>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_stmts(node, ctx),
+            Self::Right(hook) => hook.exit_stmts(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_str(&mut self, node: &mut Str, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_str(node, ctx),
+            Self::Right(hook) => hook.enter_str(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_str(&mut self, node: &mut Str, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_str(node, ctx),
+            Self::Right(hook) => hook.exit_str(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_super(&mut self, node: &mut Super, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_super(node, ctx),
+            Self::Right(hook) => hook.enter_super(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_super(&mut self, node: &mut Super, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_super(node, ctx),
+            Self::Right(hook) => hook.exit_super(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_super_prop(&mut self, node: &mut SuperProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_super_prop(node, ctx),
+            Self::Right(hook) => hook.enter_super_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_super_prop(&mut self, node: &mut SuperProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_super_prop(node, ctx),
+            Self::Right(hook) => hook.exit_super_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_super_prop_expr(&mut self, node: &mut SuperPropExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_super_prop_expr(node, ctx),
+            Self::Right(hook) => hook.enter_super_prop_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_super_prop_expr(&mut self, node: &mut SuperPropExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_super_prop_expr(node, ctx),
+            Self::Right(hook) => hook.exit_super_prop_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_switch_case(&mut self, node: &mut SwitchCase, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_switch_case(node, ctx),
+            Self::Right(hook) => hook.enter_switch_case(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_switch_case(&mut self, node: &mut SwitchCase, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_switch_case(node, ctx),
+            Self::Right(hook) => hook.exit_switch_case(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_switch_cases(node, ctx),
+            Self::Right(hook) => hook.enter_switch_cases(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_switch_cases(&mut self, node: &mut Vec<SwitchCase>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_switch_cases(node, ctx),
+            Self::Right(hook) => hook.exit_switch_cases(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_switch_stmt(&mut self, node: &mut SwitchStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_switch_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_switch_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_switch_stmt(&mut self, node: &mut SwitchStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_switch_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_switch_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_syntax_context(&mut self, node: &mut swc_common::SyntaxContext, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_syntax_context(node, ctx),
+            Self::Right(hook) => hook.enter_syntax_context(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_syntax_context(&mut self, node: &mut swc_common::SyntaxContext, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_syntax_context(node, ctx),
+            Self::Right(hook) => hook.exit_syntax_context(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_tagged_tpl(&mut self, node: &mut TaggedTpl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_tagged_tpl(node, ctx),
+            Self::Right(hook) => hook.enter_tagged_tpl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_tagged_tpl(&mut self, node: &mut TaggedTpl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_tagged_tpl(node, ctx),
+            Self::Right(hook) => hook.exit_tagged_tpl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_this_expr(&mut self, node: &mut ThisExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_this_expr(node, ctx),
+            Self::Right(hook) => hook.enter_this_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_this_expr(&mut self, node: &mut ThisExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_this_expr(node, ctx),
+            Self::Right(hook) => hook.exit_this_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_throw_stmt(&mut self, node: &mut ThrowStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_throw_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_throw_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_throw_stmt(&mut self, node: &mut ThrowStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_throw_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_throw_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_tpl(&mut self, node: &mut Tpl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_tpl(node, ctx),
+            Self::Right(hook) => hook.enter_tpl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_tpl(&mut self, node: &mut Tpl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_tpl(node, ctx),
+            Self::Right(hook) => hook.exit_tpl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_tpl_element(&mut self, node: &mut TplElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_tpl_element(node, ctx),
+            Self::Right(hook) => hook.enter_tpl_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_tpl_element(&mut self, node: &mut TplElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_tpl_element(node, ctx),
+            Self::Right(hook) => hook.exit_tpl_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_tpl_elements(&mut self, node: &mut Vec<TplElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_tpl_elements(node, ctx),
+            Self::Right(hook) => hook.enter_tpl_elements(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_tpl_elements(&mut self, node: &mut Vec<TplElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_tpl_elements(node, ctx),
+            Self::Right(hook) => hook.exit_tpl_elements(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_true_plus_minus(&mut self, node: &mut TruePlusMinus, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_true_plus_minus(node, ctx),
+            Self::Right(hook) => hook.enter_true_plus_minus(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_true_plus_minus(&mut self, node: &mut TruePlusMinus, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_true_plus_minus(node, ctx),
+            Self::Right(hook) => hook.exit_true_plus_minus(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_try_stmt(&mut self, node: &mut TryStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_try_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_try_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_try_stmt(&mut self, node: &mut TryStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_try_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_try_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_array_type(&mut self, node: &mut TsArrayType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_array_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_array_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_array_type(&mut self, node: &mut TsArrayType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_array_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_array_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_as_expr(&mut self, node: &mut TsAsExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_as_expr(node, ctx),
+            Self::Right(hook) => hook.enter_ts_as_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_as_expr(&mut self, node: &mut TsAsExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_as_expr(node, ctx),
+            Self::Right(hook) => hook.exit_ts_as_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_call_signature_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_call_signature_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_call_signature_decl(&mut self, node: &mut TsCallSignatureDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_call_signature_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_call_signature_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_conditional_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_conditional_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_conditional_type(&mut self, node: &mut TsConditionalType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_conditional_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_conditional_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_const_assertion(&mut self, node: &mut TsConstAssertion, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_const_assertion(node, ctx),
+            Self::Right(hook) => hook.enter_ts_const_assertion(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_const_assertion(&mut self, node: &mut TsConstAssertion, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_const_assertion(node, ctx),
+            Self::Right(hook) => hook.exit_ts_const_assertion(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_construct_signature_decl(
+        &mut self,
+        node: &mut TsConstructSignatureDecl,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_construct_signature_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_construct_signature_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_construct_signature_decl(
+        &mut self,
+        node: &mut TsConstructSignatureDecl,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_construct_signature_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_construct_signature_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_constructor_type(&mut self, node: &mut TsConstructorType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_constructor_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_constructor_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_constructor_type(&mut self, node: &mut TsConstructorType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_constructor_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_constructor_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_entity_name(&mut self, node: &mut TsEntityName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_entity_name(node, ctx),
+            Self::Right(hook) => hook.enter_ts_entity_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_entity_name(&mut self, node: &mut TsEntityName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_entity_name(node, ctx),
+            Self::Right(hook) => hook.exit_ts_entity_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_enum_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_enum_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_enum_decl(&mut self, node: &mut TsEnumDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_enum_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_enum_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_enum_member(&mut self, node: &mut TsEnumMember, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_enum_member(node, ctx),
+            Self::Right(hook) => hook.enter_ts_enum_member(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_enum_member(&mut self, node: &mut TsEnumMember, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_enum_member(node, ctx),
+            Self::Right(hook) => hook.exit_ts_enum_member(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_enum_member_id(node, ctx),
+            Self::Right(hook) => hook.enter_ts_enum_member_id(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_enum_member_id(&mut self, node: &mut TsEnumMemberId, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_enum_member_id(node, ctx),
+            Self::Right(hook) => hook.exit_ts_enum_member_id(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_enum_members(node, ctx),
+            Self::Right(hook) => hook.enter_ts_enum_members(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_enum_members(&mut self, node: &mut Vec<TsEnumMember>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_enum_members(node, ctx),
+            Self::Right(hook) => hook.exit_ts_enum_members(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_export_assignment(&mut self, node: &mut TsExportAssignment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_export_assignment(node, ctx),
+            Self::Right(hook) => hook.enter_ts_export_assignment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_export_assignment(&mut self, node: &mut TsExportAssignment, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_export_assignment(node, ctx),
+            Self::Right(hook) => hook.exit_ts_export_assignment(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_expr_with_type_args(node, ctx),
+            Self::Right(hook) => hook.enter_ts_expr_with_type_args(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_expr_with_type_args(&mut self, node: &mut TsExprWithTypeArgs, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_expr_with_type_args(node, ctx),
+            Self::Right(hook) => hook.exit_ts_expr_with_type_args(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_expr_with_type_argss(node, ctx),
+            Self::Right(hook) => hook.enter_ts_expr_with_type_argss(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_expr_with_type_argss(&mut self, node: &mut Vec<TsExprWithTypeArgs>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_expr_with_type_argss(node, ctx),
+            Self::Right(hook) => hook.exit_ts_expr_with_type_argss(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_external_module_ref(node, ctx),
+            Self::Right(hook) => hook.enter_ts_external_module_ref(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_external_module_ref(&mut self, node: &mut TsExternalModuleRef, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_external_module_ref(node, ctx),
+            Self::Right(hook) => hook.exit_ts_external_module_ref(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_fn_or_constructor_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_fn_or_constructor_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_or_constructor_type(&mut self, node: &mut TsFnOrConstructorType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_fn_or_constructor_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_fn_or_constructor_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_fn_param(&mut self, node: &mut TsFnParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_fn_param(node, ctx),
+            Self::Right(hook) => hook.enter_ts_fn_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_param(&mut self, node: &mut TsFnParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_fn_param(node, ctx),
+            Self::Right(hook) => hook.exit_ts_fn_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_fn_params(node, ctx),
+            Self::Right(hook) => hook.enter_ts_fn_params(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_params(&mut self, node: &mut Vec<TsFnParam>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_fn_params(node, ctx),
+            Self::Right(hook) => hook.exit_ts_fn_params(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_fn_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_fn_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_fn_type(&mut self, node: &mut TsFnType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_fn_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_fn_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_getter_signature(&mut self, node: &mut TsGetterSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_getter_signature(node, ctx),
+            Self::Right(hook) => hook.enter_ts_getter_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_getter_signature(&mut self, node: &mut TsGetterSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_getter_signature(node, ctx),
+            Self::Right(hook) => hook.exit_ts_getter_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_import_call_options(&mut self, node: &mut TsImportCallOptions, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_import_call_options(node, ctx),
+            Self::Right(hook) => hook.enter_ts_import_call_options(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_import_call_options(&mut self, node: &mut TsImportCallOptions, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_import_call_options(node, ctx),
+            Self::Right(hook) => hook.exit_ts_import_call_options(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_import_equals_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_import_equals_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_import_equals_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_import_equals_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_import_type(&mut self, node: &mut TsImportType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_import_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_import_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_import_type(&mut self, node: &mut TsImportType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_import_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_import_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_index_signature(&mut self, node: &mut TsIndexSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_index_signature(node, ctx),
+            Self::Right(hook) => hook.enter_ts_index_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_index_signature(&mut self, node: &mut TsIndexSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_index_signature(node, ctx),
+            Self::Right(hook) => hook.exit_ts_index_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_indexed_access_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_indexed_access_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_indexed_access_type(&mut self, node: &mut TsIndexedAccessType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_indexed_access_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_indexed_access_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_infer_type(&mut self, node: &mut TsInferType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_infer_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_infer_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_infer_type(&mut self, node: &mut TsInferType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_infer_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_infer_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_instantiation(&mut self, node: &mut TsInstantiation, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_instantiation(node, ctx),
+            Self::Right(hook) => hook.enter_ts_instantiation(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_instantiation(&mut self, node: &mut TsInstantiation, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_instantiation(node, ctx),
+            Self::Right(hook) => hook.exit_ts_instantiation(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_interface_body(&mut self, node: &mut TsInterfaceBody, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_interface_body(node, ctx),
+            Self::Right(hook) => hook.enter_ts_interface_body(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_interface_body(&mut self, node: &mut TsInterfaceBody, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_interface_body(node, ctx),
+            Self::Right(hook) => hook.exit_ts_interface_body(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_interface_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_interface_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_interface_decl(&mut self, node: &mut TsInterfaceDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_interface_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_interface_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_intersection_type(&mut self, node: &mut TsIntersectionType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_intersection_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_intersection_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_intersection_type(&mut self, node: &mut TsIntersectionType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_intersection_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_intersection_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_keyword_type(&mut self, node: &mut TsKeywordType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_keyword_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_keyword_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_keyword_type(&mut self, node: &mut TsKeywordType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_keyword_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_keyword_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_keyword_type_kind(node, ctx),
+            Self::Right(hook) => hook.enter_ts_keyword_type_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_keyword_type_kind(&mut self, node: &mut TsKeywordTypeKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_keyword_type_kind(node, ctx),
+            Self::Right(hook) => hook.exit_ts_keyword_type_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_lit(&mut self, node: &mut TsLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_lit(node, ctx),
+            Self::Right(hook) => hook.enter_ts_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_lit(&mut self, node: &mut TsLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_lit(node, ctx),
+            Self::Right(hook) => hook.exit_ts_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_lit_type(&mut self, node: &mut TsLitType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_lit_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_lit_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_lit_type(&mut self, node: &mut TsLitType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_lit_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_lit_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_mapped_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_mapped_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_mapped_type(&mut self, node: &mut TsMappedType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_mapped_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_mapped_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_method_signature(&mut self, node: &mut TsMethodSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_method_signature(node, ctx),
+            Self::Right(hook) => hook.enter_ts_method_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_method_signature(&mut self, node: &mut TsMethodSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_method_signature(node, ctx),
+            Self::Right(hook) => hook.exit_ts_method_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_module_block(&mut self, node: &mut TsModuleBlock, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_module_block(node, ctx),
+            Self::Right(hook) => hook.enter_ts_module_block(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_module_block(&mut self, node: &mut TsModuleBlock, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_module_block(node, ctx),
+            Self::Right(hook) => hook.exit_ts_module_block(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_module_decl(&mut self, node: &mut TsModuleDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_module_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_module_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_module_decl(&mut self, node: &mut TsModuleDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_module_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_module_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_module_name(&mut self, node: &mut TsModuleName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_module_name(node, ctx),
+            Self::Right(hook) => hook.enter_ts_module_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_module_name(&mut self, node: &mut TsModuleName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_module_name(node, ctx),
+            Self::Right(hook) => hook.exit_ts_module_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_module_ref(&mut self, node: &mut TsModuleRef, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_module_ref(node, ctx),
+            Self::Right(hook) => hook.enter_ts_module_ref(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_module_ref(&mut self, node: &mut TsModuleRef, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_module_ref(node, ctx),
+            Self::Right(hook) => hook.exit_ts_module_ref(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_namespace_body(&mut self, node: &mut TsNamespaceBody, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_namespace_body(node, ctx),
+            Self::Right(hook) => hook.enter_ts_namespace_body(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_namespace_body(&mut self, node: &mut TsNamespaceBody, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_namespace_body(node, ctx),
+            Self::Right(hook) => hook.exit_ts_namespace_body(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_namespace_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_namespace_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_namespace_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_namespace_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_namespace_export_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_namespace_export_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_namespace_export_decl(&mut self, node: &mut TsNamespaceExportDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_namespace_export_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_namespace_export_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_non_null_expr(node, ctx),
+            Self::Right(hook) => hook.enter_ts_non_null_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_non_null_expr(&mut self, node: &mut TsNonNullExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_non_null_expr(node, ctx),
+            Self::Right(hook) => hook.exit_ts_non_null_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_optional_type(&mut self, node: &mut TsOptionalType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_optional_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_optional_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_optional_type(&mut self, node: &mut TsOptionalType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_optional_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_optional_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_param_prop(&mut self, node: &mut TsParamProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_param_prop(node, ctx),
+            Self::Right(hook) => hook.enter_ts_param_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_param_prop(&mut self, node: &mut TsParamProp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_param_prop(node, ctx),
+            Self::Right(hook) => hook.exit_ts_param_prop(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_param_prop_param(&mut self, node: &mut TsParamPropParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_param_prop_param(node, ctx),
+            Self::Right(hook) => hook.enter_ts_param_prop_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_param_prop_param(&mut self, node: &mut TsParamPropParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_param_prop_param(node, ctx),
+            Self::Right(hook) => hook.exit_ts_param_prop_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_parenthesized_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_parenthesized_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_parenthesized_type(&mut self, node: &mut TsParenthesizedType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_parenthesized_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_parenthesized_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_property_signature(&mut self, node: &mut TsPropertySignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_property_signature(node, ctx),
+            Self::Right(hook) => hook.enter_ts_property_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_property_signature(&mut self, node: &mut TsPropertySignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_property_signature(node, ctx),
+            Self::Right(hook) => hook.exit_ts_property_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_qualified_name(&mut self, node: &mut TsQualifiedName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_qualified_name(node, ctx),
+            Self::Right(hook) => hook.enter_ts_qualified_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_qualified_name(&mut self, node: &mut TsQualifiedName, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_qualified_name(node, ctx),
+            Self::Right(hook) => hook.exit_ts_qualified_name(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_rest_type(&mut self, node: &mut TsRestType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_rest_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_rest_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_rest_type(&mut self, node: &mut TsRestType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_rest_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_rest_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_satisfies_expr(node, ctx),
+            Self::Right(hook) => hook.enter_ts_satisfies_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_satisfies_expr(&mut self, node: &mut TsSatisfiesExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_satisfies_expr(node, ctx),
+            Self::Right(hook) => hook.exit_ts_satisfies_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_setter_signature(node, ctx),
+            Self::Right(hook) => hook.enter_ts_setter_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_setter_signature(&mut self, node: &mut TsSetterSignature, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_setter_signature(node, ctx),
+            Self::Right(hook) => hook.exit_ts_setter_signature(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_this_type(&mut self, node: &mut TsThisType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_this_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_this_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_this_type(&mut self, node: &mut TsThisType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_this_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_this_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_this_type_or_ident(node, ctx),
+            Self::Right(hook) => hook.enter_ts_this_type_or_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_this_type_or_ident(&mut self, node: &mut TsThisTypeOrIdent, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_this_type_or_ident(node, ctx),
+            Self::Right(hook) => hook.exit_ts_this_type_or_ident(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_tpl_lit_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_tpl_lit_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_tpl_lit_type(&mut self, node: &mut TsTplLitType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_tpl_lit_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_tpl_lit_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_tuple_element(&mut self, node: &mut TsTupleElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_tuple_element(node, ctx),
+            Self::Right(hook) => hook.enter_ts_tuple_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_tuple_element(&mut self, node: &mut TsTupleElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_tuple_element(node, ctx),
+            Self::Right(hook) => hook.exit_ts_tuple_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_tuple_elements(node, ctx),
+            Self::Right(hook) => hook.enter_ts_tuple_elements(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_tuple_elements(&mut self, node: &mut Vec<TsTupleElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_tuple_elements(node, ctx),
+            Self::Right(hook) => hook.exit_ts_tuple_elements(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_tuple_type(&mut self, node: &mut TsTupleType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_tuple_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_tuple_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_tuple_type(&mut self, node: &mut TsTupleType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_tuple_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_tuple_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type(&mut self, node: &mut TsType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type(&mut self, node: &mut TsType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_alias_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_alias_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_alias_decl(&mut self, node: &mut TsTypeAliasDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_alias_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_alias_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_ann(&mut self, node: &mut TsTypeAnn, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_ann(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_ann(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_ann(&mut self, node: &mut TsTypeAnn, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_ann(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_ann(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_assertion(&mut self, node: &mut TsTypeAssertion, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_assertion(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_assertion(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_assertion(&mut self, node: &mut TsTypeAssertion, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_assertion(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_assertion(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_element(&mut self, node: &mut TsTypeElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_element(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_element(&mut self, node: &mut TsTypeElement, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_element(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_element(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_elements(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_elements(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_elements(&mut self, node: &mut Vec<TsTypeElement>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_elements(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_elements(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_lit(&mut self, node: &mut TsTypeLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_lit(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_lit(&mut self, node: &mut TsTypeLit, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_lit(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_lit(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_operator(&mut self, node: &mut TsTypeOperator, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_operator(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_operator(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_operator(&mut self, node: &mut TsTypeOperator, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_operator(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_operator(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_operator_op(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_operator_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_operator_op(&mut self, node: &mut TsTypeOperatorOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_operator_op(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_operator_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_param(&mut self, node: &mut TsTypeParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_param(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_param(&mut self, node: &mut TsTypeParam, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_param(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_param(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_param_decl(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_param_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_param_decl(&mut self, node: &mut TsTypeParamDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_param_decl(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_param_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_param_instantiation(
+        &mut self,
+        node: &mut TsTypeParamInstantiation,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_param_instantiation(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_param_instantiation(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_param_instantiation(
+        &mut self,
+        node: &mut TsTypeParamInstantiation,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_param_instantiation(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_param_instantiation(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_params(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_params(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_params(&mut self, node: &mut Vec<TsTypeParam>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_params(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_params(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_predicate(&mut self, node: &mut TsTypePredicate, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_predicate(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_predicate(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_predicate(&mut self, node: &mut TsTypePredicate, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_predicate(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_predicate(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_query(&mut self, node: &mut TsTypeQuery, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_query(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_query(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_query(&mut self, node: &mut TsTypeQuery, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_query(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_query(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_query_expr(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_query_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_query_expr(&mut self, node: &mut TsTypeQueryExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_query_expr(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_query_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_type_ref(&mut self, node: &mut TsTypeRef, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_type_ref(node, ctx),
+            Self::Right(hook) => hook.enter_ts_type_ref(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_type_ref(&mut self, node: &mut TsTypeRef, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_type_ref(node, ctx),
+            Self::Right(hook) => hook.exit_ts_type_ref(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_types(node, ctx),
+            Self::Right(hook) => hook.enter_ts_types(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_types(&mut self, node: &mut Vec<Box<TsType>>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_types(node, ctx),
+            Self::Right(hook) => hook.exit_ts_types(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_union_or_intersection_type(
+        &mut self,
+        node: &mut TsUnionOrIntersectionType,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_union_or_intersection_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_union_or_intersection_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_union_or_intersection_type(
+        &mut self,
+        node: &mut TsUnionOrIntersectionType,
+        ctx: &mut C,
+    ) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_union_or_intersection_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_union_or_intersection_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_ts_union_type(&mut self, node: &mut TsUnionType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_ts_union_type(node, ctx),
+            Self::Right(hook) => hook.enter_ts_union_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_ts_union_type(&mut self, node: &mut TsUnionType, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_ts_union_type(node, ctx),
+            Self::Right(hook) => hook.exit_ts_union_type(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_unary_expr(&mut self, node: &mut UnaryExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_unary_expr(node, ctx),
+            Self::Right(hook) => hook.enter_unary_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_unary_expr(&mut self, node: &mut UnaryExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_unary_expr(node, ctx),
+            Self::Right(hook) => hook.exit_unary_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_unary_op(&mut self, node: &mut UnaryOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_unary_op(node, ctx),
+            Self::Right(hook) => hook.enter_unary_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_unary_op(&mut self, node: &mut UnaryOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_unary_op(node, ctx),
+            Self::Right(hook) => hook.exit_unary_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_update_expr(&mut self, node: &mut UpdateExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_update_expr(node, ctx),
+            Self::Right(hook) => hook.enter_update_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_update_expr(&mut self, node: &mut UpdateExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_update_expr(node, ctx),
+            Self::Right(hook) => hook.exit_update_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_update_op(&mut self, node: &mut UpdateOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_update_op(node, ctx),
+            Self::Right(hook) => hook.enter_update_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_update_op(&mut self, node: &mut UpdateOp, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_update_op(node, ctx),
+            Self::Right(hook) => hook.exit_update_op(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_using_decl(&mut self, node: &mut UsingDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_using_decl(node, ctx),
+            Self::Right(hook) => hook.enter_using_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_using_decl(&mut self, node: &mut UsingDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_using_decl(node, ctx),
+            Self::Right(hook) => hook.exit_using_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_var_decl(&mut self, node: &mut VarDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_var_decl(node, ctx),
+            Self::Right(hook) => hook.enter_var_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_var_decl(&mut self, node: &mut VarDecl, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_var_decl(node, ctx),
+            Self::Right(hook) => hook.exit_var_decl(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_var_decl_kind(&mut self, node: &mut VarDeclKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_var_decl_kind(node, ctx),
+            Self::Right(hook) => hook.enter_var_decl_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_var_decl_kind(&mut self, node: &mut VarDeclKind, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_var_decl_kind(node, ctx),
+            Self::Right(hook) => hook.exit_var_decl_kind(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_var_decl_or_expr(node, ctx),
+            Self::Right(hook) => hook.enter_var_decl_or_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_var_decl_or_expr(&mut self, node: &mut VarDeclOrExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_var_decl_or_expr(node, ctx),
+            Self::Right(hook) => hook.exit_var_decl_or_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_var_declarator(&mut self, node: &mut VarDeclarator, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_var_declarator(node, ctx),
+            Self::Right(hook) => hook.enter_var_declarator(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_var_declarator(&mut self, node: &mut VarDeclarator, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_var_declarator(node, ctx),
+            Self::Right(hook) => hook.exit_var_declarator(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_var_declarators(&mut self, node: &mut Vec<VarDeclarator>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_var_declarators(node, ctx),
+            Self::Right(hook) => hook.enter_var_declarators(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_var_declarators(&mut self, node: &mut Vec<VarDeclarator>, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_var_declarators(node, ctx),
+            Self::Right(hook) => hook.exit_var_declarators(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_while_stmt(&mut self, node: &mut WhileStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_while_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_while_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_while_stmt(&mut self, node: &mut WhileStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_while_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_while_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_with_stmt(&mut self, node: &mut WithStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_with_stmt(node, ctx),
+            Self::Right(hook) => hook.enter_with_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_with_stmt(&mut self, node: &mut WithStmt, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_with_stmt(node, ctx),
+            Self::Right(hook) => hook.exit_with_stmt(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_wtf_8_atom(node, ctx),
+            Self::Right(hook) => hook.enter_wtf_8_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_wtf_8_atom(&mut self, node: &mut swc_atoms::Wtf8Atom, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_wtf_8_atom(node, ctx),
+            Self::Right(hook) => hook.exit_wtf_8_atom(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn enter_yield_expr(&mut self, node: &mut YieldExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.enter_yield_expr(node, ctx),
+            Self::Right(hook) => hook.enter_yield_expr(node, ctx),
+        }
+    }
+
+    #[inline]
+    fn exit_yield_expr(&mut self, node: &mut YieldExpr, ctx: &mut C) {
+        match self {
+            Self::Left(hook) => hook.exit_yield_expr(node, ctx),
+            Self::Right(hook) => hook.exit_yield_expr(node, ctx),
+        }
+    }
+}
 #[doc = r" An adapter that implements VisitMut using a VisitMutHook."]
 #[doc = r""]
 #[doc = r" This allows any hook to be used as a visitor by calling:"]
