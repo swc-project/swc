@@ -1,9 +1,6 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{
-    iter::{self, once},
-    sync::RwLock,
-};
+use std::sync::RwLock;
 
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
