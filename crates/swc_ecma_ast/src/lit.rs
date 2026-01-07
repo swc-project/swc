@@ -380,7 +380,8 @@ impl Str {
                                         }
                                     } else if prev_result != NO_PREV_RESULT {
                                         // Low surrogate pair
-                                        // result is less than 0x10ffff here
+                                        // Decode to supplementary plane code point
+                                        // (0x10000-0x10FFFF)
                                         result = 0x10000
                                             + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
                                         // We can be sure result is a valid code point here
