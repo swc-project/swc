@@ -4,6 +4,7 @@
 
 pub use self::typescript::*;
 mod config;
+mod hook_utils;
 mod macros;
 mod strip_import_export;
 mod strip_type;

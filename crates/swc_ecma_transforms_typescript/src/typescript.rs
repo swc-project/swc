@@ -9,7 +9,7 @@ use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
-use crate::{strip_import_export, strip_type, transform::transform};
+use crate::{hook_utils::VisitMutImpl, strip_import_export, strip_type, transform::transform};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -53,7 +53,7 @@ impl VisitMut for TypeScript {
             second: strip_type::hook(),
         };
 
-        n.visit_mut_with(&mut VisitMutWithHook { hook, context: () });
+        n.visit_mut_with(&mut VisitMutImpl { hook, context: () });
 
         n.mutate(transform(
             self.unresolved_mark,
