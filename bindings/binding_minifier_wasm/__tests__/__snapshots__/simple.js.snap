@@ -1,8 +1,8 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Rstest Snapshot v1
 
-exports[`minify should work 1`] = `
-Object {
+exports[`minify > should work 1`] = `
+{
   "code": "console.log(1);",
-  "diagnostics": Array [],
+  "diagnostics": [],
 }
 `;
