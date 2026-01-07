@@ -291,7 +291,7 @@ pub(crate) struct StripImportExport {
     pub import_not_used_as_values: ImportsNotUsedAsValues,
     pub usage_info: UsageCollect,
     pub declare_info: DeclareCollect,
-    namespace_depth: usize,
+    ts_module_depth: usize,
 }
 
 pub(crate) fn hook(
@@ -304,7 +304,7 @@ pub(crate) fn hook(
         import_not_used_as_values,
         usage_info,
         declare_info: Default::default(),
-        namespace_depth: 0,
+        ts_module_depth: 0,
     }
 }
 
@@ -329,17 +329,17 @@ impl VisitMutHook<()> for StripImportExport {
 
         // Only process top-level
         // Nested namespaces are handled by process_all_nested_modules
-        if self.namespace_depth == 0 {
+        if self.ts_module_depth == 0 {
             self.process_top_level_module_items(n);
         }
     }
 
     fn enter_ts_module_block(&mut self, _node: &mut TsModuleBlock, _ctx: &mut ()) {
-        self.namespace_depth += 1;
+        self.ts_module_depth += 1;
     }
 
     fn exit_ts_module_block(&mut self, _node: &mut TsModuleBlock, _ctx: &mut ()) {
-        self.namespace_depth -= 1;
+        self.ts_module_depth -= 1;
     }
 }
 
