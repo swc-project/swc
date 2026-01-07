@@ -837,60 +837,58 @@ impl Options {
                         explicit_resource_management(),
                         syntax.explicit_resource_management(),
                     ),
-                ),
-                // The transform strips import assertions, so it's only enabled if
-                // keep_import_assertions is false.
-                (
+                    // The transform strips import assertions, so it's only enabled if
+                    // keep_import_assertions is false.
                     Optional::new(import_attributes(), !keep_import_attributes),
-                    {
-                        let native_class_properties = !assumptions.set_public_class_fields
-                            && feature_config.as_ref().map_or_else(
-                                || target.caniuse(Feature::ClassProperties),
-                                |env| env.caniuse(Feature::ClassProperties),
-                            );
-
-                        let ts_config = typescript::Config {
-                            import_export_assign_config,
-                            verbatim_module_syntax,
-                            native_class_properties,
-                            ts_enum_is_mutable,
-                            ..Default::default()
-                        };
-
-                        (
-                            Optional::new(
-                                typescript::typescript(ts_config, unresolved_mark, top_level_mark),
-                                syntax.typescript() && !jsx_enabled,
-                            ),
-                            Optional::new(
-                                typescript::tsx::<Option<&dyn Comments>>(
-                                    cm.clone(),
-                                    ts_config,
-                                    typescript::TsxConfig {
-                                        pragma: Some(
-                                            transform
-                                                .react
-                                                .pragma
-                                                .clone()
-                                                .unwrap_or_else(default_pragma),
-                                        ),
-                                        pragma_frag: Some(
-                                            transform
-                                                .react
-                                                .pragma_frag
-                                                .clone()
-                                                .unwrap_or_else(default_pragma_frag),
-                                        ),
-                                    },
-                                    comments.map(|v| v as _),
-                                    unresolved_mark,
-                                    top_level_mark,
-                                ),
-                                syntax.typescript() && jsx_enabled,
-                            ),
-                        )
-                    },
                 ),
+                ({
+                    let native_class_properties = !assumptions.set_public_class_fields
+                        && feature_config.as_ref().map_or_else(
+                            || target.caniuse(Feature::ClassProperties),
+                            |env| env.caniuse(Feature::ClassProperties),
+                        );
+
+                    let ts_config = typescript::Config {
+                        import_export_assign_config,
+                        verbatim_module_syntax,
+                        native_class_properties,
+                        ts_enum_is_mutable,
+                        ..Default::default()
+                    };
+
+                    (
+                        Optional::new(
+                            typescript::typescript(ts_config, unresolved_mark, top_level_mark),
+                            syntax.typescript() && !jsx_enabled,
+                        ),
+                        Optional::new(
+                            typescript::tsx::<Option<&dyn Comments>>(
+                                cm.clone(),
+                                ts_config,
+                                typescript::TsxConfig {
+                                    pragma: Some(
+                                        transform
+                                            .react
+                                            .pragma
+                                            .clone()
+                                            .unwrap_or_else(default_pragma),
+                                    ),
+                                    pragma_frag: Some(
+                                        transform
+                                            .react
+                                            .pragma_frag
+                                            .clone()
+                                            .unwrap_or_else(default_pragma_frag),
+                                    ),
+                                },
+                                comments.map(|v| v as _),
+                                unresolved_mark,
+                                top_level_mark,
+                            ),
+                            syntax.typescript() && jsx_enabled,
+                        ),
+                    )
+                }),
                 (
                     plugin_transforms.take(),
                     custom_before_pass(&program),
