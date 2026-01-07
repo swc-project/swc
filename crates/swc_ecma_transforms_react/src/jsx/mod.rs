@@ -1,9 +1,6 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{
-    iter::{self, once},
-    sync::RwLock,
-};
+use std::sync::RwLock;
 
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
@@ -632,14 +629,16 @@ where
                         .clone()
                 };
 
-                let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
-
+                // Build args Vec directly
                 let args = if self.development {
-                    args.chain(once(Expr::undefined(DUMMY_SP).as_arg()))
-                        .chain(once(use_jsxs.as_arg()))
-                        .collect()
+                    vec![
+                        fragment.as_arg(),
+                        props_obj.as_arg(),
+                        Expr::undefined(DUMMY_SP).as_arg(),
+                        use_jsxs.as_arg(),
+                    ]
                 } else {
-                    args.collect()
+                    vec![fragment.as_arg(), props_obj.as_arg()]
                 };
 
                 CallExpr {
@@ -651,19 +650,24 @@ where
                 .into()
             }
             Runtime::Classic => {
+                // Build args Vec directly for better performance
+                let children_capacity = el.children.len();
+                let mut args = Vec::with_capacity(2 + children_capacity);
+
+                args.push((*self.pragma_frag).clone().as_arg());
+                args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+
+                // Add children
+                for child in el.children {
+                    if let Some(expr) = self.jsx_elem_child_to_expr(child) {
+                        args.push(expr);
+                    }
+                }
+
                 CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
-                    args: iter::once((*self.pragma_frag).clone().as_arg())
-                        // attribute: null
-                        .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
-                        .chain({
-                            // Children
-                            el.children
-                                .into_iter()
-                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
-                        })
-                        .collect(),
+                    args,
                     ..Default::default()
                 }
                 .into()
@@ -699,9 +703,11 @@ where
             Runtime::Automatic => {
                 // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
 
+                // Pre-allocate with estimated capacity
+                let estimated_props_capacity = el.opening.attrs.len() + 1; // attrs + potential children
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
-                    props: Vec::new(),
+                    props: Vec::with_capacity(estimated_props_capacity),
                 };
 
                 let mut key = None;
@@ -896,34 +902,43 @@ where
 
                 self.top_level_node = top_level_node;
 
-                let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
+                // Build args Vec directly instead of using iterator chains
                 let args = if use_create_element {
-                    args.chain(children.into_iter().flatten()).collect()
+                    let mut args = Vec::with_capacity(2 + children.len());
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+                    args.extend(children.into_iter().flatten());
+                    args
                 } else if self.development {
+                    let mut args = Vec::with_capacity(6);
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+
                     // set undefined literal to key if key is None
-                    let key = match key {
-                        Some(key) => key,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
+                    let key = key.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(key);
+
+                    args.push(use_jsxs.as_arg());
 
                     // set undefined literal to __source if __source is None
-                    let source_props = match source_props {
-                        Some(source_props) => source_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
+                    let source_props =
+                        source_props.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(source_props);
 
                     // set undefined literal to __self if __self is None
-                    let self_props = match self_props {
-                        Some(self_props) => self_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
-                    args.chain(once(key))
-                        .chain(once(use_jsxs.as_arg()))
-                        .chain(once(source_props))
-                        .chain(once(self_props))
-                        .collect()
+                    let self_props =
+                        self_props.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(self_props);
+
+                    args
                 } else {
-                    args.chain(key).collect()
+                    let mut args = Vec::with_capacity(if key.is_some() { 3 } else { 2 });
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+                    if let Some(key) = key {
+                        args.push(key);
+                    }
+                    args
                 };
                 CallExpr {
                     span,
@@ -934,21 +949,24 @@ where
                 .into()
             }
             Runtime::Classic => {
+                // Build args Vec directly for better performance
+                let children_capacity = el.children.len();
+                let mut args = Vec::with_capacity(2 + children_capacity);
+
+                args.push(name.as_arg());
+                args.push(self.fold_attrs_for_classic(el.opening.attrs).as_arg());
+
+                // Add children
+                for child in el.children {
+                    if let Some(expr) = self.jsx_elem_child_to_expr(child) {
+                        args.push(expr);
+                    }
+                }
+
                 CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
-                    args: iter::once(name.as_arg())
-                        .chain(iter::once({
-                            // Attributes
-                            self.fold_attrs_for_classic(el.opening.attrs).as_arg()
-                        }))
-                        .chain({
-                            // Children
-                            el.children
-                                .into_iter()
-                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
-                        })
-                        .collect(),
+                    args,
                     ..Default::default()
                 }
                 .into()
@@ -1532,6 +1550,15 @@ fn add_line_of_jsx_text_wtf8(
 /// Internal implementation that works with &str
 #[inline]
 fn jsx_text_to_str_impl(t: &str) -> Atom {
+    // Fast path: if no line terminators and no leading/trailing whitespace
+    if !t.is_empty()
+        && !t.chars().any(is_line_terminator)
+        && !t.starts_with(is_white_space_single_line)
+        && !t.ends_with(is_white_space_single_line)
+    {
+        return t.into();
+    }
+
     let mut acc: Option<String> = None;
     let mut only_line: Option<&str> = None;
     let mut first_non_whitespace: Option<usize> = Some(0);
@@ -1642,6 +1669,22 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
 }
 
 fn transform_jsx_attr_str(v: &Wtf8) -> Wtf8Buf {
+    // Fast path: check if transformation is needed
+    let needs_transform = v.code_points().any(|cp| {
+        if let Some(c) = cp.to_char() {
+            matches!(
+                c,
+                '\u{0008}' | '\u{000c}' | '\n' | '\r' | '\t' | '\u{000b}' | '\0'
+            )
+        } else {
+            false
+        }
+    });
+
+    if !needs_transform {
+        return v.to_owned();
+    }
+
     let single_quote = false;
     let mut buf = Wtf8Buf::with_capacity(v.len());
     let mut iter = v.code_points().peekable();
