@@ -1578,7 +1578,7 @@
    * Copyright 2012 jQuery Foundation and other contributors
    * Released under the MIT license
    * http://sizzlejs.com/
-   */ function(window1, undefined) {
+   */ function(window1) {
         var i, cachedruns, Expr, getText, isXML, compile, hasDuplicate, outermostContext, // Local document vars
         setDocument, document, docElem, documentIsXML, rbuggyQSA, rbuggyMatches, matches, contains, sortOrder, // Instance-specific data
         expando = "sizzle" + -new Date(), preferredDoc = window1.document, support = {}, dirruns = 0, done = 0, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), // General-purpose constants

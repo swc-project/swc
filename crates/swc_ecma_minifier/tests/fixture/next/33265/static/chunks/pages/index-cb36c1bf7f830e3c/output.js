@@ -5590,7 +5590,7 @@
                 // Move a StyleBox to its specified, or next best, position. The containerBox
                 // is the box that contains the StyleBox, such as a div. boxPositions are
                 // a list of other boxes that the styleBox can't overlap with.
-                function(window1, styleBox, containerBox, boxPositions) {
+                function(styleBox, containerBox, boxPositions) {
                     var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
                         if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                         if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
@@ -5676,7 +5676,7 @@
                         return bestPosition || specifiedPosition;
                     }(boxPosition, axis);
                     styleBox.move(bestPosition.toCSSCompatValues(containerBox));
-                }(0, styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
+                }(styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
                 // if we don't have too.
                 cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
             }, WebVTT1.Parser = function(window1, vttjs, decoder) {
