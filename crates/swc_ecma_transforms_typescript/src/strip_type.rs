@@ -2,7 +2,7 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-pub fn hook() -> StripType {
+pub(crate) fn hook() -> StripType {
     StripType::default()
 }
 
