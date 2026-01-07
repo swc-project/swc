@@ -2,6 +2,8 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
+use crate::typescript::TypeScriptContext;
+
 pub fn hook() -> StripType {
     StripType
 }
@@ -18,12 +20,12 @@ pub struct StripTypeContext {
 /// `export declare var` in a namespace will be retained.
 pub struct StripType;
 
-impl VisitMutHook<StripTypeContext> for StripType {
-    fn enter_array_pat(&mut self, n: &mut ArrayPat, _ctx: &mut StripTypeContext) {
+impl VisitMutHook<TypeScriptContext> for StripType {
+    fn enter_array_pat(&mut self, n: &mut ArrayPat, _ctx: &mut TypeScriptContext) {
         n.optional = false;
     }
 
-    fn enter_auto_accessor(&mut self, n: &mut AutoAccessor, _ctx: &mut StripTypeContext) {
+    fn enter_auto_accessor(&mut self, n: &mut AutoAccessor, _ctx: &mut TypeScriptContext) {
         n.type_ann = None;
         n.accessibility = None;
         n.definite = false;
@@ -31,12 +33,12 @@ impl VisitMutHook<StripTypeContext> for StripType {
         n.is_abstract = false;
     }
 
-    fn enter_class(&mut self, n: &mut Class, _ctx: &mut StripTypeContext) {
+    fn enter_class(&mut self, n: &mut Class, _ctx: &mut TypeScriptContext) {
         n.is_abstract = false;
         n.implements.clear();
     }
 
-    fn exit_class_members(&mut self, n: &mut Vec<ClassMember>, _ctx: &mut StripTypeContext) {
+    fn exit_class_members(&mut self, n: &mut Vec<ClassMember>, _ctx: &mut TypeScriptContext) {
         n.retain(|member| match member {
             ClassMember::TsIndexSignature(..) => false,
             ClassMember::Constructor(Constructor { body: None, .. }) => false,
@@ -66,14 +68,14 @@ impl VisitMutHook<StripTypeContext> for StripType {
         });
     }
 
-    fn enter_class_method(&mut self, n: &mut ClassMethod, _ctx: &mut StripTypeContext) {
+    fn enter_class_method(&mut self, n: &mut ClassMethod, _ctx: &mut TypeScriptContext) {
         n.accessibility = None;
         n.is_override = false;
         n.is_abstract = false;
         n.is_optional = false;
     }
 
-    fn enter_class_prop(&mut self, prop: &mut ClassProp, _ctx: &mut StripTypeContext) {
+    fn enter_class_prop(&mut self, prop: &mut ClassProp, _ctx: &mut TypeScriptContext) {
         prop.declare = false;
         prop.readonly = false;
         prop.is_override = false;
@@ -83,21 +85,21 @@ impl VisitMutHook<StripTypeContext> for StripType {
         prop.accessibility = None;
     }
 
-    fn enter_private_method(&mut self, n: &mut PrivateMethod, _ctx: &mut StripTypeContext) {
+    fn enter_private_method(&mut self, n: &mut PrivateMethod, _ctx: &mut TypeScriptContext) {
         n.accessibility = None;
         n.is_abstract = false;
         n.is_optional = false;
         n.is_override = false;
     }
 
-    fn enter_constructor(&mut self, n: &mut Constructor, _ctx: &mut StripTypeContext) {
+    fn enter_constructor(&mut self, n: &mut Constructor, _ctx: &mut TypeScriptContext) {
         n.accessibility = None;
     }
 
     fn exit_export_specifiers(
         &mut self,
         n: &mut Vec<ExportSpecifier>,
-        _ctx: &mut StripTypeContext,
+        _ctx: &mut TypeScriptContext,
     ) {
         n.retain(|s| match s {
             ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
@@ -105,7 +107,7 @@ impl VisitMutHook<StripTypeContext> for StripType {
         })
     }
 
-    fn enter_expr(&mut self, n: &mut Expr, _ctx: &mut StripTypeContext) {
+    fn enter_expr(&mut self, n: &mut Expr, _ctx: &mut TypeScriptContext) {
         // https://github.com/tc39/proposal-type-annotations#type-assertions
         // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
         while let Expr::TsAs(TsAsExpr { expr, .. })
@@ -120,36 +122,36 @@ impl VisitMutHook<StripTypeContext> for StripType {
     }
 
     // https://github.com/tc39/proposal-type-annotations#parameter-optionality
-    fn enter_ident(&mut self, n: &mut Ident, _ctx: &mut StripTypeContext) {
+    fn enter_ident(&mut self, n: &mut Ident, _ctx: &mut TypeScriptContext) {
         n.optional = false;
     }
 
     fn exit_import_specifiers(
         &mut self,
         n: &mut Vec<ImportSpecifier>,
-        _ctx: &mut StripTypeContext,
+        _ctx: &mut TypeScriptContext,
     ) {
         n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
     }
 
-    fn enter_ts_module_block(&mut self, _node: &mut TsModuleBlock, ctx: &mut StripTypeContext) {
-        ctx.in_namespace = true;
+    fn enter_ts_module_block(&mut self, _node: &mut TsModuleBlock, ctx: &mut TypeScriptContext) {
+        ctx.strip_type.in_namespace = true;
     }
 
-    fn exit_ts_module_block(&mut self, _node: &mut TsModuleBlock, ctx: &mut StripTypeContext) {
-        ctx.in_namespace = false;
+    fn exit_ts_module_block(&mut self, _node: &mut TsModuleBlock, ctx: &mut TypeScriptContext) {
+        ctx.strip_type.in_namespace = false;
     }
 
-    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, ctx: &mut StripTypeContext) {
-        n.retain(|item| should_retain_module_item(item, ctx.in_namespace));
+    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, ctx: &mut TypeScriptContext) {
+        n.retain(|item| should_retain_module_item(item, ctx.strip_type.in_namespace));
     }
 
-    fn enter_object_pat(&mut self, pat: &mut ObjectPat, _ctx: &mut StripTypeContext) {
+    fn enter_object_pat(&mut self, pat: &mut ObjectPat, _ctx: &mut TypeScriptContext) {
         pat.optional = false;
     }
 
     // https://github.com/tc39/proposal-type-annotations#this-parameters
-    fn enter_params(&mut self, n: &mut Vec<Param>, _ctx: &mut StripTypeContext) {
+    fn enter_params(&mut self, n: &mut Vec<Param>, _ctx: &mut TypeScriptContext) {
         if n.first()
             .filter(|param| {
                 matches!(
@@ -166,7 +168,7 @@ impl VisitMutHook<StripTypeContext> for StripType {
         }
     }
 
-    fn enter_private_prop(&mut self, prop: &mut PrivateProp, _ctx: &mut StripTypeContext) {
+    fn enter_private_prop(&mut self, prop: &mut PrivateProp, _ctx: &mut TypeScriptContext) {
         prop.readonly = false;
         prop.is_override = false;
         prop.is_optional = false;
@@ -174,14 +176,14 @@ impl VisitMutHook<StripTypeContext> for StripType {
         prop.accessibility = None;
     }
 
-    fn enter_setter_prop(&mut self, n: &mut SetterProp, _ctx: &mut StripTypeContext) {
+    fn enter_setter_prop(&mut self, n: &mut SetterProp, _ctx: &mut TypeScriptContext) {
         n.this_param = None;
     }
 
     fn enter_simple_assign_target(
         &mut self,
         n: &mut SimpleAssignTarget,
-        _ctx: &mut StripTypeContext,
+        _ctx: &mut TypeScriptContext,
     ) {
         // https://github.com/tc39/proposal-type-annotations#type-assertions
         // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
@@ -195,24 +197,24 @@ impl VisitMutHook<StripTypeContext> for StripType {
         }
     }
 
-    fn exit_stmts(&mut self, n: &mut Vec<Stmt>, _ctx: &mut StripTypeContext) {
+    fn exit_stmts(&mut self, n: &mut Vec<Stmt>, _ctx: &mut TypeScriptContext) {
         n.retain(|s| !matches!(s, Stmt::Empty(e) if e.span.is_dummy()));
     }
 
-    fn enter_stmt(&mut self, n: &mut Stmt, _ctx: &mut StripTypeContext) {
+    fn enter_stmt(&mut self, n: &mut Stmt, _ctx: &mut TypeScriptContext) {
         if !should_retain_stmt(n) && !n.is_empty() {
             n.take();
         }
     }
 
-    fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, _ctx: &mut StripTypeContext) {
+    fn enter_opt_ts_type(&mut self, node: &mut Option<Box<TsType>>, _ctx: &mut TypeScriptContext) {
         *node = None;
     }
 
     fn enter_opt_ts_type_ann(
         &mut self,
         node: &mut Option<Box<TsTypeAnn>>,
-        _ctx: &mut StripTypeContext,
+        _ctx: &mut TypeScriptContext,
     ) {
         *node = None;
     }
@@ -220,7 +222,7 @@ impl VisitMutHook<StripTypeContext> for StripType {
     fn enter_opt_ts_type_param_decl(
         &mut self,
         node: &mut Option<Box<TsTypeParamDecl>>,
-        _ctx: &mut StripTypeContext,
+        _ctx: &mut TypeScriptContext,
     ) {
         *node = None;
     }
@@ -228,7 +230,7 @@ impl VisitMutHook<StripTypeContext> for StripType {
     fn enter_opt_ts_type_param_instantiation(
         &mut self,
         node: &mut Option<Box<TsTypeParamInstantiation>>,
-        _ctx: &mut StripTypeContext,
+        _ctx: &mut TypeScriptContext,
     ) {
         *node = None;
     }

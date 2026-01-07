@@ -4,7 +4,7 @@ use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
+use crate::{strip_type::IsConcrete, typescript::TypeScriptContext, ImportsNotUsedAsValues};
 
 pub fn hook(import_not_used_as_values: ImportsNotUsedAsValues) -> StripImportExport {
     StripImportExport {
@@ -24,15 +24,15 @@ pub struct StripImportExport {
     import_not_used_as_values: ImportsNotUsedAsValues,
 }
 
-impl VisitMutHook<StripImportExportContext> for StripImportExport {
-    fn enter_module(&mut self, n: &mut Module, ctx: &mut StripImportExportContext) {
+impl VisitMutHook<TypeScriptContext> for StripImportExport {
+    fn enter_module(&mut self, n: &mut Module, ctx: &mut TypeScriptContext) {
         // Collect usage information
-        n.visit_with(&mut ctx.usage_info);
-        n.visit_with(&mut ctx.declare_info);
-        ctx.usage_info.analyze_import_chain();
+        n.visit_with(&mut ctx.strip_import_export.usage_info);
+        n.visit_with(&mut ctx.strip_import_export.declare_info);
+        ctx.strip_import_export.usage_info.analyze_import_chain();
     }
 
-    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, ctx: &mut StripImportExportContext) {
+    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, ctx: &mut TypeScriptContext) {
         let mut strip_ts_import_equals = StripTsImportEquals;
 
         n.retain_mut(|module_item| match module_item {
@@ -52,29 +52,29 @@ impl VisitMutHook<StripImportExportContext> for StripImportExport {
 
                         let id = named.local.to_id();
 
-                        if ctx.declare_info.has_value(&id) {
+                        if ctx.strip_import_export.declare_info.has_value(&id) {
                             return false;
                         }
 
-                        ctx.usage_info.has_usage(&id)
+                        ctx.strip_import_export.usage_info.has_usage(&id)
                     }
                     ImportSpecifier::Default(default) => {
                         let id = default.local.to_id();
 
-                        if ctx.declare_info.has_value(&id) {
+                        if ctx.strip_import_export.declare_info.has_value(&id) {
                             return false;
                         }
 
-                        ctx.usage_info.has_usage(&id)
+                        ctx.strip_import_export.usage_info.has_usage(&id)
                     }
                     ImportSpecifier::Namespace(namespace) => {
                         let id = namespace.local.to_id();
 
-                        if ctx.declare_info.has_value(&id) {
+                        if ctx.strip_import_export.declare_info.has_value(&id) {
                             return false;
                         }
 
-                        ctx.usage_info.has_usage(&id)
+                        ctx.strip_import_export.usage_info.has_usage(&id)
                     }
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
@@ -100,7 +100,7 @@ impl VisitMutHook<StripImportExportContext> for StripImportExport {
                     }) if src.is_none() => {
                         let id = ident.to_id();
 
-                        !ctx.declare_info.has_pure_type(&id)
+                        !ctx.strip_import_export.declare_info.has_pure_type(&id)
                     }
                     ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
                         !is_type_only
@@ -122,7 +122,7 @@ impl VisitMutHook<StripImportExportContext> for StripImportExport {
                 .map(|ident| {
                     let id = ident.to_id();
 
-                    !ctx.declare_info.has_pure_type(&id)
+                    !ctx.strip_import_export.declare_info.has_pure_type(&id)
                 })
                 .unwrap_or(true),
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
@@ -134,7 +134,7 @@ impl VisitMutHook<StripImportExportContext> for StripImportExport {
                     return true;
                 }
 
-                ctx.usage_info.has_usage(&ts_import_equals_decl.id.to_id())
+                ctx.strip_import_export.usage_info.has_usage(&ts_import_equals_decl.id.to_id())
             }
             ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
                 if ts_module.body.is_some() =>
@@ -147,7 +147,7 @@ impl VisitMutHook<StripImportExportContext> for StripImportExport {
         });
     }
 
-    fn enter_script(&mut self, n: &mut Script, _ctx: &mut StripImportExportContext) {
+    fn enter_script(&mut self, n: &mut Script, _ctx: &mut TypeScriptContext) {
         let mut visitor = StripTsImportEquals;
         for stmt in n.body.iter_mut() {
             if let Stmt::Decl(Decl::TsModule(..)) = stmt {

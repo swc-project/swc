@@ -55,20 +55,23 @@ impl VisitMut for TypeScript {
     fn visit_mut_program(&mut self, n: &mut Program) {
         let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
 
-        let hook = if !self.config.verbatim_module_syntax {
-            let mut ctx = StripImportExportContext {
-                usage_info: mem::take(&mut self.id_usage).into(),
-                declare_info: Default::default(),
+        if !self.config.verbatim_module_syntax {
+            let ctx = TypeScriptContext {
+                strip_import_export: StripImportExportContext {
+                    usage_info: mem::take(&mut self.id_usage).into(),
+                    declare_info: Default::default(),
+                },
+                strip_type: StripTypeContext::default(),
             };
             n.visit_mut_with(&mut VisitMutWithHook {
                 hook: strip_import_export_hook(self.config.import_not_used_as_values),
                 context: ctx,
             });
-        };
+        }
 
         n.visit_mut_with(&mut VisitMutWithHook {
             hook: strip_type_hook(),
-            context: StripTypeContext::default(),
+            context: TypeScriptContext::default(),
         });
 
         n.mutate(transform(
