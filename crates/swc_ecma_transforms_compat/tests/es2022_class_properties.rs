@@ -4653,3 +4653,37 @@ const test = new Test()
 const render = test.renderOverlay
 "#
 );
+
+test!(
+    syntax(),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(Default::default(), unresolved_mark),
+            arrow(unresolved_mark),
+            classes(Default::default()),
+            block_scoping(unresolved_mark),
+        )
+    },
+    issue_11422_a,
+    r#"
+class Sub {}
+
+class Test extends Sub {
+  isWaitContentRender = false;
+  renderOverlay = async () => {
+    (() => {
+      console.log(this, "__123___");
+    })();
+  };
+}
+
+const test = new Test();
+const render = test.renderOverlay;
+
+render();
+"#
+);
