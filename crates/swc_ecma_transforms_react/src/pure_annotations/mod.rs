@@ -2,7 +2,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{comments::Comments, Span};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_hooks::VisitMutHook;
 
 #[cfg(test)]
 mod tests;
@@ -13,14 +13,14 @@ mod tests;
 /// React methods, so that terser and other minifiers can safely remove them
 /// during dead code elimination.
 /// See https://reactjs.org/docs/react-api.html
-pub fn pure_annotations<C>(comments: Option<C>) -> impl Pass
+pub fn hook<C>(comments: Option<C>) -> impl VisitMutHook<()>
 where
     C: Comments,
 {
-    visit_mut_pass(PureAnnotations {
+    PureAnnotations {
         imports: Default::default(),
         comments,
-    })
+    }
 }
 
 struct PureAnnotations<C>
@@ -31,13 +31,11 @@ where
     comments: Option<C>,
 }
 
-impl<C> VisitMut for PureAnnotations<C>
+impl<C> VisitMutHook<()> for PureAnnotations<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module(&mut self, module: &mut Module) {
+    fn enter_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         // Pass 1: collect imports
         for item in &module.body {
             if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
@@ -76,16 +74,13 @@ where
                 }
             }
         }
+    }
 
+    fn enter_call_expr(&mut self, call: &mut CallExpr, _ctx: &mut ()) {
         if self.imports.is_empty() {
             return;
         }
 
-        // Pass 2: add pure annotations.
-        module.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         let is_react_call = match &call.callee {
             Callee::Expr(expr) => match &**expr {
                 Expr::Ident(ident) => {
@@ -126,8 +121,6 @@ where
                 comments.add_pure_comment(call.span.lo);
             }
         }
-
-        call.visit_mut_children_with(self);
     }
 }
 
