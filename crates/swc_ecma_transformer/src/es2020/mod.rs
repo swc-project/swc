@@ -2,7 +2,7 @@ use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
 use crate::{
-    hook_utils::{HookBuilder, NoopHook, OptionalHook},
+    hook_utils::{HookBuilder, NoopHook},
     TraverseCtx,
 };
 
@@ -26,17 +26,17 @@ pub(crate) fn hook(
 ) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 
-    let hook = hook.chain(OptionalHook(if options.export_namespace_from {
+    let hook = hook.chain(if options.export_namespace_from {
         Some(self::export_namespace_from::hook())
     } else {
         None
-    }));
+    });
 
-    let hook = hook.chain(OptionalHook(if options.nullish_coalescing {
+    let hook = hook.chain(if options.nullish_coalescing {
         Some(self::nullish_coalescing::hook(assumptions.no_document_all))
     } else {
         None
-    }));
+    });
 
     hook.build()
 }

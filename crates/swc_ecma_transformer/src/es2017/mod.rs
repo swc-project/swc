@@ -3,7 +3,7 @@ mod async_to_generator;
 use swc_common::SyntaxContext;
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::{hook_utils::OptionalHook, TraverseCtx};
+use crate::TraverseCtx;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]
@@ -17,11 +17,11 @@ pub fn hook(
     ignore_function_length: bool,
 ) -> impl VisitMutHook<TraverseCtx> {
     if options.async_to_generator {
-        OptionalHook(Some(async_to_generator::hook(
+        Some(async_to_generator::hook(
             unresolved_ctxt,
             ignore_function_length,
-        )))
+        ))
     } else {
-        OptionalHook(None)
+        None
     }
 }
