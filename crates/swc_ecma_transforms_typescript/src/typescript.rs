@@ -19,12 +19,12 @@ macro_rules! static_str {
 pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     debug_assert_ne!(unresolved_mark, top_level_mark);
 
-    visit_mut_pass(TypeScript {
+    TypeScript {
         config,
         unresolved_mark,
         top_level_mark,
         id_usage: Default::default(),
-    })
+    }
 }
 
 pub fn strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
@@ -39,8 +39,8 @@ pub(crate) struct TypeScript {
     id_usage: FxHashSet<Id>,
 }
 
-impl VisitMut for TypeScript {
-    fn visit_mut_program(&mut self, n: &mut Program) {
+impl Pass for TypeScript {
+    fn process(&mut self, n: &mut Program) {
         let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
 
         if !self.config.verbatim_module_syntax {
@@ -66,20 +66,6 @@ impl VisitMut for TypeScript {
             let module = n.as_mut_module().unwrap();
             Self::restore_esm_ctx(module, span);
         }
-    }
-
-    fn visit_mut_script(&mut self, _: &mut Script) {
-        #[cfg(debug_assertions)]
-        unreachable!("Use Program as entry");
-        #[cfg(not(debug_assertions))]
-        unreachable!();
-    }
-
-    fn visit_mut_module(&mut self, _: &mut Module) {
-        #[cfg(debug_assertions)]
-        unreachable!("Use Program as entry");
-        #[cfg(not(debug_assertions))]
-        unreachable!();
     }
 }
 
@@ -264,7 +250,7 @@ where
     fn visit_mut_program(&mut self, n: &mut Program) {
         n.visit_mut_children_with(self);
 
-        n.visit_mut_with(&mut TypeScript {
+        n.mutate(&mut TypeScript {
             config: mem::take(&mut self.config),
             unresolved_mark: self.unresolved_mark,
             top_level_mark: self.top_level_mark,
