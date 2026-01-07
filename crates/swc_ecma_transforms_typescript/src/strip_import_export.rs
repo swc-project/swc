@@ -1,5 +1,6 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -286,23 +287,41 @@ impl DeclareCollect {
 ///    import.
 #[derive(Default)]
 pub(crate) struct StripImportExport {
+    pub verbatim_module_syntax: bool,
     pub import_not_used_as_values: ImportsNotUsedAsValues,
     pub usage_info: UsageCollect,
     pub declare_info: DeclareCollect,
 }
 
-impl VisitMut for StripImportExport {
-    fn visit_mut_module(&mut self, n: &mut Module) {
+pub(crate) fn hook(
+    verbatim_module_syntax: bool,
+    import_not_used_as_values: ImportsNotUsedAsValues,
+    usage_info: UsageCollect,
+) -> StripImportExport {
+    StripImportExport {
+        verbatim_module_syntax,
+        import_not_used_as_values,
+        usage_info,
+        declare_info: Default::default(),
+    }
+}
+
+impl VisitMutHook<()> for StripImportExport {
+    fn enter_module(&mut self, n: &mut Module, _ctx: &mut ()) {
+        if self.verbatim_module_syntax {
+            return;
+        }
+
         n.visit_with(&mut self.usage_info);
         n.visit_with(&mut self.declare_info);
 
         self.usage_info.analyze_import_chain();
-
-        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let mut strip_ts_import_equals = StripTsImportEquals;
+    fn enter_module_items(&mut self, n: &mut Vec<ModuleItem>, _ctx: &mut ()) {
+        if self.verbatim_module_syntax {
+            return;
+        }
 
         n.retain_mut(|module_item| match module_item {
             ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -408,6 +427,7 @@ impl VisitMut for StripImportExport {
             ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
                 if ts_module.body.is_some() =>
             {
+                let mut strip_ts_import_equals = StripTsImportEquals;
                 module_item.visit_mut_with(&mut strip_ts_import_equals);
 
                 true
@@ -416,7 +436,7 @@ impl VisitMut for StripImportExport {
         });
     }
 
-    fn visit_mut_script(&mut self, n: &mut Script) {
+    fn enter_script(&mut self, n: &mut Script, _ctx: &mut ()) {
         let mut visitor = StripTsImportEquals;
         for stmt in n.body.iter_mut() {
             if let Stmt::Decl(Decl::TsModule(..)) = stmt {

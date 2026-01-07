@@ -4,11 +4,12 @@ use rustc_hash::FxHashSet;
 use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_hooks::{CompositeHook, VisitMutWithHook};
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
-use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
+use crate::{strip_import_export, strip_type, transform::transform};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -43,15 +44,16 @@ impl VisitMut for TypeScript {
     fn visit_mut_program(&mut self, n: &mut Program) {
         let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
 
-        if !self.config.verbatim_module_syntax {
-            n.visit_mut_with(&mut StripImportExport {
-                import_not_used_as_values: self.config.import_not_used_as_values,
-                usage_info: mem::take(&mut self.id_usage).into(),
-                ..Default::default()
-            });
-        }
+        let hook = CompositeHook {
+            first: strip_import_export::hook(
+                self.config.verbatim_module_syntax,
+                self.config.import_not_used_as_values,
+                mem::take(&mut self.id_usage).into(),
+            ),
+            second: strip_type::hook(),
+        };
 
-        n.visit_mut_with(&mut StripType::default());
+        n.visit_mut_with(&mut VisitMutWithHook { hook, context: () });
 
         n.mutate(transform(
             self.unresolved_mark,
