@@ -1,7 +1,21 @@
-const swc = require("../../"),
-    validate = require("sourcemap-validator"),
-    sourceMap = require("source-map");
+const swc = require("../../");
+const { explore } = require("source-map-explorer");
 const path = require("path");
+
+function validate(code, map) {
+    return explore([
+        {
+            code: Buffer.from(code),
+            map: Buffer.from(map),
+        }
+    ])
+        .catch(({ errors }) => {
+            if (errors.length) {
+                const { code, message } = errors[0];
+                throw new Error(`${code} Error: ${message}`);
+            }
+        });
+}
 
 it("should handle sourcemap correctly", async () => {
     const raw = `
@@ -15,7 +29,7 @@ console.log('foo')
     });
 
     expect(out.map).toBeTruthy();
-    validate(out.code, out.map, { "input.js": raw });
+    await validate(out.code, out.map);
 
     // await sourceMap.SourceMapConsumer.with(JSON.parse(out.map), null, async (consumer) => {
     //     consumer.eachMapping((mapping) => {
@@ -45,7 +59,7 @@ console.log('foo')
 
     expect(out1.map).toBeTruthy();
     expect(JSON.parse(out1.map).sources).toEqual(["input.js"]);
-    validate(out1.code, out1.map, { "input.js": raw });
+    await validate(out1.code, out1.map);
 
     const out2 = swc.transformSync(raw, {
         sourceMaps: true,
@@ -55,7 +69,7 @@ console.log('foo')
 
     expect(out2.map).toBeTruthy();
     expect(JSON.parse(out2.map).sources).toEqual(["<anon>"]);
-    validate(out2.code, out2.map, { "input.js": raw });
+    await validate(out2.code, out2.map);
 });
 
 it("should handle input sourcemap correctly", async () => {
@@ -74,7 +88,7 @@ it("should handle input sourcemap correctly", async () => {
     });
 
     expect(out1.map).toBeTruthy();
-    validate(out1.code, out1.map, { "input.js": raw });
+    await validate(out1.code, out1.map);
     console.log(out1.code);
 
     const out2 = swc.transformSync(out1.code, {
@@ -92,8 +106,7 @@ it("should handle input sourcemap correctly", async () => {
 
     console.log(out2.code);
     expect(out2.map).toBeTruthy();
-    validate(out2.code, out2.map, { "input2.js": out1.code });
-    validate(out2.code, out2.map, { "input.js": raw });
+    await validate(out2.code, out2.map);
 
     // await sourceMap.SourceMapConsumer.with(JSON.parse(out1.map), null, async (consumer1) => {
     //     await sourceMap.SourceMapConsumer.with(JSON.parse(out2.map), null, async (consumer2) => {

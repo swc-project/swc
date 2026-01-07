@@ -2,6 +2,7 @@ use std::{
     env::current_dir,
     fs::create_dir_all,
     path::{Path, PathBuf},
+    process::Command,
 };
 
 use anyhow::Context;
@@ -846,11 +847,30 @@ fn tests(input_dir: PathBuf) {
                         serde_json::to_string_pretty(&json).unwrap()
                     });
 
-                    NormalizedOutput::from(map.unwrap_or_default())
-                        .compare_to_file(
-                            output_dir.join(rel_path.with_extension("map").file_name().unwrap()),
-                        )
-                        .unwrap();
+                    if let Some(map) = map {
+                        let js_path = output_dir.join(rel_path);
+                        let map_path =
+                            output_dir.join(rel_path.with_extension("map").file_name().unwrap());
+
+                        NormalizedOutput::from(map)
+                            .compare_to_file(map_path.clone())
+                            .unwrap();
+                        let output = Command::new("node")
+                            .arg("-e")
+                            .arg(include_str!("source_map.js"))
+                            .arg(js_path.clone())
+                            .arg(map_path.clone())
+                            .output()
+                            .unwrap();
+
+                        if !output.status.success() {
+                            panic!(
+                                "Validation failed: \n{}\n{}",
+                                String::from_utf8_lossy(&output.stdout),
+                                String::from_utf8_lossy(&output.stderr)
+                            );
+                        }
+                    }
 
                     if let Some(extra) = v.output {
                         let mut value: serde_json::Map<_, serde_json::Value> =
