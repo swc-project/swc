@@ -54,6 +54,19 @@ fn unicode_escape_sequences() {
     test_from_tpl_raw("\\uD83E\\uDD80", "🦀");
     test_from_tpl_raw("\\u{D83E}\\u{DD80}", "🦀");
     test_from_tpl_raw("\\u{1F980}", "🦀");
+    test_from_tpl_raw("\\uD800\\uDC00", "𐀀");
+}
+#[test]
+fn surrogate_pair_boundary_cases() {
+    // First supplementary plane character
+    test_from_tpl_raw("\\uD800\\uDC00", "\u{10000}");
+
+    // Last valid character
+    test_from_tpl_raw("\\uDBFF\\uDFFF", "\u{10FFFF}");
+
+    // Various combinations to ensure formula is correct
+    test_from_tpl_raw("\\uD801\\uDC37", "\u{10437}"); // 𐐷
+    test_from_tpl_raw("\\uD852\\uDF62", "\u{24B62}"); // 𤭢
 }
 
 #[test]
