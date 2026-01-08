@@ -44,7 +44,7 @@ function func1() {
                     case 1:
                         resource = _state.sent();
                         _resource = _to_array(resource), firstName = _resource[0], tmp = _resource[1], middleName = tmp === void 0 ? "N/A" : tmp, age = _resource[2], rest = _resource.slice(3);
-                        result = function() {
+                        result = (function() {
                             if (firstName) {
                                 return {
                                     firstName: firstName,
@@ -58,7 +58,7 @@ function func1() {
                                     error: "Failed to fetch resource"
                                 };
                             }
-                        }();
+                        })();
                         resolve(result);
                         return [
                             2

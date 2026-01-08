@@ -1,7 +1,7 @@
 //// [staticIndexSignature6.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function foo() {
-    return /*#__PURE__*/ function() {
+    return /*#__PURE__*/ (function() {
         "use strict";
         function _class() {
             _class_call_check(this, _class);
@@ -11,7 +11,7 @@ function foo() {
             return v;
         };
         return _class;
-    }();
+    })();
 }
 var C = foo();
 C.a;

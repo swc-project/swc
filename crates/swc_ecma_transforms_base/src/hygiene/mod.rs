@@ -1,8 +1,8 @@
 use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+use swc_ecma_visit::{visit_mut_pass, VisitMut};
 
 pub use crate::rename::rename;
 use crate::rename::{renamer, Renamer};
@@ -58,8 +58,17 @@ pub fn hygiene() -> impl Pass + VisitMut {
 pub fn hygiene_with_config(config: Config) -> impl 'static + Pass + VisitMut {
     (
         renamer(config, HygieneRenamer),
-        visit_mut_pass(HygieneRemover),
+        visit_mut_pass(VisitMutWithHook {
+            hook: HygieneRemoverHook,
+            context: (),
+        }),
     )
+}
+
+/// Returns a hook for hygiene remover that can be composed with other hooks.
+/// This hook resets all identifier contexts to default (empty).
+pub fn hygiene_remover_hook() -> HygieneRemoverHook {
+    HygieneRemoverHook
 }
 
 struct HygieneRenamer;
@@ -81,16 +90,12 @@ impl Renamer for HygieneRenamer {
     }
 }
 
-struct HygieneRemover;
+/// Hook that removes syntax context from identifiers.
+/// This is the final step of hygiene pass.
+pub struct HygieneRemoverHook;
 
-impl VisitMut for HygieneRemover {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        maybe_grow_default(|| n.visit_mut_children_with(self));
-    }
-
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
+impl VisitMutHook<()> for HygieneRemoverHook {
+    fn exit_ident(&mut self, i: &mut Ident, _ctx: &mut ()) {
         i.ctxt = Default::default();
     }
 }

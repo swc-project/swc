@@ -8,12 +8,12 @@ var _this = this, B = /*#__PURE__*/ function() {
     }
     return B.prototype.foo = function() {}, B;
 }();
-/*#__PURE__*/ (function(B) {
+/*#__PURE__*/ function(B) {
     function C() {
         return _class_call_check(this, C), _call_super(this, C, arguments);
     }
     return _inherits(C, B), C;
-})(B).prototype.foo = function() {}, /*#__PURE__*/ function(B) {
+}(B).prototype.foo = function() {}, /*#__PURE__*/ function(B) {
     function D() {
         return _class_call_check(this, D), _call_super(this, D, arguments);
     }

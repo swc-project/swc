@@ -32,7 +32,7 @@ System.register([
                 return zero.foo();
             });
             _export("p2", p2 = _context.import("./0"));
-            C = /*#__PURE__*/ function() {
+            C = /*#__PURE__*/ (function() {
                 "use strict";
                 function C() {
                     _class_call_check(this, C);
@@ -42,7 +42,7 @@ System.register([
                     var loadAsync = _context.import("./0");
                 };
                 return C;
-            }();
+            })();
             _export("D", D = /*#__PURE__*/ function() {
                 "use strict";
                 function D() {

@@ -6,7 +6,7 @@ First.Item = function I() {
     "use strict";
     _class_call_check(this, I);
 };
-Common.Object = /*#__PURE__*/ function(_First_Item) {
+Common.Object = /*#__PURE__*/ (function(_First_Item) {
     "use strict";
     _inherits(_class, _First_Item);
     function _class() {
@@ -14,8 +14,8 @@ Common.Object = /*#__PURE__*/ function(_First_Item) {
         return _call_super(this, _class, arguments);
     }
     return _class;
-}(First.Item);
-Workspace.Object = /*#__PURE__*/ function(_Common_Object) {
+})(First.Item);
+Workspace.Object = /*#__PURE__*/ (function(_Common_Object) {
     "use strict";
     _inherits(_class, _Common_Object);
     function _class() {
@@ -23,7 +23,7 @@ Workspace.Object = /*#__PURE__*/ function(_Common_Object) {
         return _call_super(this, _class, arguments);
     }
     return _class;
-}(Common.Object);
+})(Common.Object);
 /** @type {Workspace.Object} */ var am;
 //// [roots.js]
 var First = {};

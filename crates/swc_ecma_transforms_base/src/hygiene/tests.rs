@@ -3,7 +3,7 @@ use swc_atoms::{atom, Atom};
 use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
 use super::*;

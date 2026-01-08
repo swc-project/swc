@@ -23,7 +23,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
                             }
                         };
                     });
-                    res = function() {
+                    res = (function() {
                         return _async_to_generator._(function() {
                             var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value, err;
                             return _ts_generator._(this, function(_state) {
@@ -118,7 +118,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
                                 }
                             });
                         })();
-                    }();
+                    })();
                     _i = 0, _iter = [
                         0,
                         1

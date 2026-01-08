@@ -6,7 +6,7 @@ var strOrNum, var1, obj1 = {
     },
     get prop () {
         var var2;
-        return "string" == typeof var1 && var1.length, "string" == typeof var2 && var2.length, strOrNum;
+        return ("string" == typeof var1 && var1.length, "string" == typeof var2 && var2.length, strOrNum);
     },
     set prop (param){
         var var21;

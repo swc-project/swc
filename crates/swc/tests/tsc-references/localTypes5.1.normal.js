@@ -8,12 +8,12 @@ function foo() {
         }
         var _proto = X.prototype;
         _proto.m = function m() {
-            return function() {
+            return (function() {
                 var Y = function Y() {
                     _class_call_check(this, Y);
                 };
                 return new Y();
-            }();
+            })();
         };
         return X;
     }();

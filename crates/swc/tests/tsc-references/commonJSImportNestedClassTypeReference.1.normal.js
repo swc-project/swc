@@ -7,7 +7,7 @@ var K = require("./mod1").K;
 //// [mod1.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var NS = {};
-NS.K = /*#__PURE__*/ function() {
+NS.K = /*#__PURE__*/ (function() {
     "use strict";
     function _class() {
         _class_call_check(this, _class);
@@ -17,5 +17,5 @@ NS.K = /*#__PURE__*/ function() {
         return new NS.K();
     };
     return _class;
-}();
+})();
 exports.K = NS.K;

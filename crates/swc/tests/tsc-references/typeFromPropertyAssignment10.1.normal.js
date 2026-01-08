@@ -2,12 +2,12 @@
 var Outer = Outer || {};
 Outer.app = Outer.app || {};
 //// [someview.js]
-Outer.app.SomeView = function() {
+Outer.app.SomeView = (function() {
     var SomeView = function() {
         var me = this;
     };
     return SomeView;
-}();
+})();
 Outer.app.Inner = class {
     constructor(){
         /** @type {number} */ this.y = 12;
@@ -19,7 +19,7 @@ example.y;
     return Math.pow(k, k);
 };
 //// [application.js]
-Outer.app.Application = function() {
+Outer.app.Application = (function() {
     /**
      * Application main class.
      * Will be instantiated & initialized by HTML page
@@ -28,7 +28,7 @@ Outer.app.Application = function() {
         me.view = new Outer.app.SomeView();
     };
     return Application;
-}();
+})();
 //// [main.js]
 var app = new Outer.app.Application();
 var inner = new Outer.app.Inner();

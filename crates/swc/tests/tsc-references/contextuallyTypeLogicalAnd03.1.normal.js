@@ -1,8 +1,8 @@
 //// [contextuallyTypeLogicalAnd03.ts]
 var x;
 var y = true;
-x = function(a) {
+x = (function(a) {
     return a;
-} && function(b) {
+}) && function(b) {
     return b;
 };

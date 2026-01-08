@@ -1,7 +1,7 @@
 //// [contextuallyTypedClassExpressionMethodDeclaration02.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function getFoo1() {
-    return /*#__PURE__*/ function() {
+    return /*#__PURE__*/ (function() {
         "use strict";
         function _class() {
             _class_call_check(this, _class);
@@ -14,7 +14,7 @@ function getFoo1() {
             arg.strProp = "hello";
         };
         return _class;
-    }();
+    })();
 }
 function getFoo2() {
     return function _class() {

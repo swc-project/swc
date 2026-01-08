@@ -9,7 +9,7 @@ var Outer = /*#__PURE__*/ function() {
     _proto.m = function m(x, y) {};
     return O;
 }();
-Outer.Inner = /*#__PURE__*/ function() {
+Outer.Inner = /*#__PURE__*/ (function() {
     "use strict";
     function I() {
         _class_call_check(this, I);
@@ -17,7 +17,7 @@ Outer.Inner = /*#__PURE__*/ function() {
     var _proto = I.prototype;
     _proto.n = function n(a, b) {};
     return I;
-}();
+})();
 /** @type {Outer} */ var si;
 si.m;
 /** @type {Outer.Inner} */ var oi;

@@ -29,7 +29,7 @@ D.classExprBoundary = function _class() {
     _class_call_check(this, _class);
     this.a = _get(_get_prototype_of(_class.prototype), "f", this) + 3;
 };
-D.functionAndClassDeclBoundary = function() {
+D.functionAndClassDeclBoundary = (function() {
     var foo = function foo() {
         return _get(_get_prototype_of(D), "f", this) + 4;
     };
@@ -45,4 +45,4 @@ D.functionAndClassDeclBoundary = function() {
         };
         return C;
     }();
-}();
+})();

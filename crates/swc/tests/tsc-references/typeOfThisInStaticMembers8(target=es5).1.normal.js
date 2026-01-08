@@ -16,7 +16,7 @@ C.classExprBoundary = function _class() {
     _class_call_check(this, _class);
     this.a = this.f + 3;
 };
-C.functionAndClassDeclBoundary = function() {
+C.functionAndClassDeclBoundary = (function() {
     var foo = function foo() {
         return this.f + 4;
     };
@@ -32,4 +32,4 @@ C.functionAndClassDeclBoundary = function() {
         };
         return CC;
     }();
-}();
+})();

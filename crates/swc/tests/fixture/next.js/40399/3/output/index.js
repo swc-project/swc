@@ -21,7 +21,7 @@ _define_property(Foo, "klass", function _class(v) {
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    Bar = /*#__PURE__*/ function(Foo1) {
+                    Bar = /*#__PURE__*/ (function(Foo1) {
                         "use strict";
                         _inherits(Bar, Foo1);
                         function Bar() {
@@ -69,7 +69,7 @@ _define_property(Foo, "klass", function _class(v) {
                             }
                         ]);
                         return Bar;
-                    }(Foo);
+                    })(Foo);
                     return [
                         4,
                         new Bar().bar()

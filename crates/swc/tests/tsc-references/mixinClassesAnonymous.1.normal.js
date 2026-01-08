@@ -94,7 +94,7 @@ var Thing3 = /*#__PURE__*/ function(Thing2) {
 }(Thing2);
 // Repro from #13805
 var Timestamped = function(Base) {
-    return /*#__PURE__*/ function(Base) {
+    return /*#__PURE__*/ (function(Base) {
         "use strict";
         _inherits(_class, Base);
         function _class() {
@@ -104,5 +104,5 @@ var Timestamped = function(Base) {
             return _this;
         }
         return _class;
-    }(Base);
+    })(Base);
 };

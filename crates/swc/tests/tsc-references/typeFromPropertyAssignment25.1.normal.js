@@ -8,7 +8,7 @@ Common.I = function _class() {
     _class_call_check(this, _class);
     this.i = 1;
 };
-Common.O = /*#__PURE__*/ function(_Common_I) {
+Common.O = /*#__PURE__*/ (function(_Common_I) {
     "use strict";
     _inherits(_class, _Common_I);
     function _class() {
@@ -19,7 +19,7 @@ Common.O = /*#__PURE__*/ function(_Common_I) {
         return _this;
     }
     return _class;
-}(Common.I);
+})(Common.I);
 var o = new Common.O();
 var i = new Common.I();
 o.i;

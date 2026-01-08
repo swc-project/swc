@@ -8,7 +8,7 @@ var A = function A() {
 };
 function B1() {
     // class expression can use T
-    return /*#__PURE__*/ function(A) {
+    return /*#__PURE__*/ (function(A) {
         "use strict";
         _inherits(_class, A);
         function _class() {
@@ -16,22 +16,22 @@ function B1() {
             return _call_super(this, _class, arguments);
         }
         return _class;
-    }(A);
+    })(A);
 }
 var B2 = function B2() {
     "use strict";
     _class_call_check(this, B2);
-    this.anon = /*#__PURE__*/ function(A) {
+    this.anon = /*#__PURE__*/ (function(A) {
         _inherits(_class, A);
         function _class() {
             _class_call_check(this, _class);
             return _call_super(this, _class, arguments);
         }
         return _class;
-    }(A);
+    })(A);
 };
 function B3() {
-    return /*#__PURE__*/ function(A) {
+    return /*#__PURE__*/ (function(A) {
         "use strict";
         _inherits(Inner, A);
         function Inner() {
@@ -39,7 +39,7 @@ function B3() {
             return _call_super(this, Inner, arguments);
         }
         return Inner;
-    }(A);
+    })(A);
 }
 // extends can call B
 var K = /*#__PURE__*/ function(_B1) {

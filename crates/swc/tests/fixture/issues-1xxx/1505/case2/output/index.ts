@@ -6,7 +6,7 @@ var MyClass = function MyClass() {
     _class_call_check(this, MyClass);
 };
 export var fn = function() {
-    return /*#__PURE__*/ function(MyClass) {
+    return /*#__PURE__*/ (function(MyClass) {
         "use strict";
         _inherits(_class, MyClass);
         function _class() {
@@ -14,5 +14,5 @@ export var fn = function() {
             return _call_super(this, _class, arguments);
         }
         return _class;
-    }(MyClass);
+    })(MyClass);
 };
