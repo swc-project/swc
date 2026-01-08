@@ -2,7 +2,9 @@
 #![allow(clippy::mutable_key_type)]
 #![cfg_attr(not(test), allow(unused))]
 
-pub use self::resolver::resolver;
+pub use self::resolver::{
+    default_context, hook as resolver_hook, resolver, ResolverContext, ResolverHook,
+};
 
 #[doc(hidden)]
 pub mod ext;

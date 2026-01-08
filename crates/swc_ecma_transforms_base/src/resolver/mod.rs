@@ -2,6 +2,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
@@ -155,6 +156,1462 @@ pub fn resolver(
             top_level_mark,
         },
     })
+}
+
+/// Returns a hook for the resolver pass that can be composed with other hooks.
+///
+/// This creates a `ResolverHook` that implements
+/// `VisitMutHook<ResolverContext>`. To use it, create a `VisitMutWithHook` with
+/// the hook and a default context.
+///
+/// # Example
+/// ```ignore
+/// use swc_ecma_hooks::VisitMutWithHook;
+/// use swc_ecma_transforms_base::resolver::{hook, default_context};
+///
+/// let hook = hook(unresolved_mark, top_level_mark, true);
+/// let ctx = default_context(top_level_mark);
+/// let visitor = VisitMutWithHook { hook, context: ctx };
+/// ```
+pub fn hook(unresolved_mark: Mark, top_level_mark: Mark, typescript: bool) -> ResolverHook {
+    assert_ne!(
+        unresolved_mark,
+        Mark::root(),
+        "Marker provided to resolver should not be the root mark"
+    );
+
+    let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
+    let _ = SyntaxContext::empty().apply_mark(top_level_mark);
+
+    ResolverHook {
+        config: InnerConfig {
+            handle_types: typescript,
+            unresolved_mark,
+            top_level_mark,
+        },
+    }
+}
+
+/// Creates a default context for the resolver hook.
+pub fn default_context(top_level_mark: Mark) -> ResolverContext {
+    ResolverContext {
+        scope_stack: vec![OwnedScope::new(ScopeKind::Fn, top_level_mark)],
+        ident_type_stack: vec![IdentType::Ref],
+        in_type_stack: vec![false],
+        is_module: false,
+        in_ts_module: false,
+        decl_kind_stack: vec![DeclKind::Lexical],
+        strict_mode_stack: vec![false],
+    }
+}
+
+/// A hook-based resolver that implements `VisitMutHook<ResolverContext>`.
+pub struct ResolverHook {
+    config: InnerConfig,
+}
+
+/// Context for the resolver hook, containing scope and state stacks.
+pub struct ResolverContext {
+    /// Stack of scopes, with the current scope at the top.
+    scope_stack: Vec<OwnedScope>,
+    /// Stack of identifier types.
+    ident_type_stack: Vec<IdentType>,
+    /// Stack of in_type flags.
+    in_type_stack: Vec<bool>,
+    /// Whether we're in a module.
+    is_module: bool,
+    /// Whether we're in a TypeScript module.
+    in_ts_module: bool,
+    /// Stack of declaration kinds.
+    decl_kind_stack: Vec<DeclKind>,
+    /// Stack of strict mode flags.
+    strict_mode_stack: Vec<bool>,
+}
+
+/// An owned scope without lifetime dependencies (for stack-based management).
+#[derive(Debug, Clone)]
+struct OwnedScope {
+    kind: ScopeKind,
+    mark: Mark,
+    declared_symbols: FxHashMap<Atom, DeclKind>,
+    declared_types: FxHashSet<Atom>,
+}
+
+impl OwnedScope {
+    fn new(kind: ScopeKind, mark: Mark) -> Self {
+        OwnedScope {
+            kind,
+            mark,
+            declared_symbols: Default::default(),
+            declared_types: Default::default(),
+        }
+    }
+}
+
+impl ResolverContext {
+    fn current_scope(&self) -> &OwnedScope {
+        self.scope_stack.last().expect("scope stack is empty")
+    }
+
+    fn current_scope_mut(&mut self) -> &mut OwnedScope {
+        self.scope_stack.last_mut().expect("scope stack is empty")
+    }
+
+    fn push_scope(&mut self, kind: ScopeKind, top_level_mark: Mark) {
+        let mark = Mark::fresh(top_level_mark);
+        self.scope_stack.push(OwnedScope::new(kind, mark));
+    }
+
+    fn pop_scope(&mut self) {
+        self.scope_stack.pop();
+    }
+
+    fn ident_type(&self) -> IdentType {
+        self.ident_type_stack
+            .last()
+            .copied()
+            .unwrap_or(IdentType::Ref)
+    }
+
+    fn push_ident_type(&mut self, ty: IdentType) {
+        self.ident_type_stack.push(ty);
+    }
+
+    fn pop_ident_type(&mut self) {
+        self.ident_type_stack.pop();
+    }
+
+    fn in_type(&self) -> bool {
+        self.in_type_stack.last().copied().unwrap_or(false)
+    }
+
+    fn push_in_type(&mut self, v: bool) {
+        self.in_type_stack.push(v);
+    }
+
+    fn pop_in_type(&mut self) {
+        self.in_type_stack.pop();
+    }
+
+    fn decl_kind(&self) -> DeclKind {
+        self.decl_kind_stack
+            .last()
+            .copied()
+            .unwrap_or(DeclKind::Lexical)
+    }
+
+    fn push_decl_kind(&mut self, kind: DeclKind) {
+        self.decl_kind_stack.push(kind);
+    }
+
+    fn pop_decl_kind(&mut self) {
+        self.decl_kind_stack.pop();
+    }
+
+    fn strict_mode(&self) -> bool {
+        self.strict_mode_stack.last().copied().unwrap_or(false)
+    }
+
+    fn push_strict_mode(&mut self, v: bool) {
+        self.strict_mode_stack.push(v);
+    }
+
+    fn pop_strict_mode(&mut self) {
+        self.strict_mode_stack.pop();
+    }
+
+    /// Look up a symbol in the scope stack and return its mark.
+    fn mark_for_ref(&self, sym: &Atom, config: &InnerConfig) -> Option<Mark> {
+        self.mark_for_ref_inner(sym, false, config)
+    }
+
+    fn mark_for_ref_inner(
+        &self,
+        sym: &Atom,
+        stop_at_fn_scope: bool,
+        config: &InnerConfig,
+    ) -> Option<Mark> {
+        // Type lookup
+        if config.handle_types && self.in_type() {
+            for (i, scope) in self.scope_stack.iter().enumerate().rev() {
+                if scope.declared_types.contains(sym) {
+                    if scope.mark == Mark::root() {
+                        break;
+                    }
+                    return Some(scope.mark);
+                }
+
+                if scope.kind == ScopeKind::Fn && stop_at_fn_scope {
+                    return None;
+                }
+            }
+        }
+
+        // Value lookup
+        for scope in self.scope_stack.iter().rev() {
+            if scope.declared_symbols.contains_key(sym) {
+                if scope.mark == Mark::root() {
+                    return None;
+                }
+
+                return match &**sym {
+                    "undefined" | "NaN" | "Infinity"
+                        if scope.mark == config.top_level_mark && !self.is_module =>
+                    {
+                        Some(config.unresolved_mark)
+                    }
+                    _ => Some(scope.mark),
+                };
+            }
+
+            if scope.kind == ScopeKind::Fn && stop_at_fn_scope {
+                return None;
+            }
+        }
+
+        None
+    }
+
+    /// Check if a symbol is declared in any scope.
+    fn is_declared(&self, symbol: &Atom) -> Option<DeclKind> {
+        for scope in self.scope_stack.iter().rev() {
+            if let Some(kind) = scope.declared_symbols.get(symbol) {
+                return Some(*kind);
+            }
+        }
+        None
+    }
+}
+
+impl ResolverHook {
+    /// Modifies a binding identifier.
+    fn modify(&self, id: &mut Ident, kind: DeclKind, ctx: &mut ResolverContext) {
+        if cfg!(debug_assertions) && LOG {
+            debug!(
+                "Binding (type = {}) {}{:?} {:?}",
+                ctx.in_type(),
+                id.sym,
+                id.ctxt,
+                kind
+            );
+        }
+
+        if id.ctxt != SyntaxContext::empty() {
+            return;
+        }
+
+        let in_type = ctx.in_type();
+        let scope = ctx.current_scope_mut();
+        if in_type {
+            scope.declared_types.insert(id.sym.clone());
+        } else {
+            scope.declared_symbols.insert(id.sym.clone(), kind);
+        }
+
+        let mark = scope.mark;
+
+        if mark != Mark::root() {
+            id.ctxt = id.ctxt.apply_mark(mark);
+        }
+    }
+
+    fn mark_block(&self, ctxt: &mut SyntaxContext, ctx: &ResolverContext) {
+        if *ctxt != SyntaxContext::empty() {
+            return;
+        }
+
+        let mark = ctx.current_scope().mark;
+
+        if mark != Mark::root() {
+            *ctxt = ctxt.apply_mark(mark)
+        }
+    }
+
+    fn try_resolving_as_type(&self, i: &mut Ident, ctx: &mut ResolverContext) {
+        if i.ctxt.outer() == self.config.unresolved_mark {
+            i.ctxt = SyntaxContext::empty()
+        }
+
+        ctx.push_in_type(true);
+        self.visit_ident(i, ctx);
+        ctx.pop_in_type();
+    }
+
+    fn visit_ident(&self, i: &mut Ident, ctx: &mut ResolverContext) {
+        if i.ctxt != SyntaxContext::empty() {
+            return;
+        }
+
+        match ctx.ident_type() {
+            IdentType::Binding => self.modify(i, ctx.decl_kind(), ctx),
+            IdentType::Ref => {
+                let Ident { sym, ctxt, .. } = i;
+
+                if cfg!(debug_assertions) && LOG {
+                    debug!("IdentRef (type = {}) {}{:?}", ctx.in_type(), sym, ctxt);
+                }
+
+                if *ctxt != SyntaxContext::empty() {
+                    return;
+                }
+
+                if let Some(mark) = ctx.mark_for_ref(sym, &self.config) {
+                    let new_ctxt = ctxt.apply_mark(mark);
+
+                    if cfg!(debug_assertions) && LOG {
+                        debug!("\t -> {:?}", new_ctxt);
+                    }
+                    i.ctxt = new_ctxt;
+                } else {
+                    if cfg!(debug_assertions) && LOG {
+                        debug!("\t -> Unresolved");
+                    }
+
+                    let new_ctxt = ctxt.apply_mark(self.config.unresolved_mark);
+
+                    if cfg!(debug_assertions) && LOG {
+                        debug!("\t -> {:?}", new_ctxt);
+                    }
+
+                    i.ctxt = new_ctxt;
+                    // Support hoisting
+                    self.modify(i, ctx.decl_kind(), ctx)
+                }
+            }
+            // We currently do not touch labels
+            IdentType::Label => {}
+        }
+    }
+
+    /// Run hoisting for statements (called from enter_stmts)
+    fn hoist_stmts(&self, stmts: &mut Vec<Stmt>, ctx: &mut ResolverContext) {
+        let mut hoister = HookHoister {
+            hook: self,
+            ctx,
+            in_block: false,
+            in_catch_body: false,
+            catch_param_decls: Default::default(),
+            excluded_from_catch: Default::default(),
+        };
+        stmts.visit_mut_with(&mut hoister);
+    }
+
+    /// Run hoisting for module items (called from enter_module_items)
+    fn hoist_module_items(&self, items: &mut Vec<ModuleItem>, ctx: &mut ResolverContext) {
+        let mut hoister = HookHoister {
+            hook: self,
+            ctx,
+            in_block: false,
+            in_catch_body: false,
+            catch_param_decls: Default::default(),
+            excluded_from_catch: Default::default(),
+        };
+        items.visit_mut_with(&mut hoister);
+    }
+}
+
+impl VisitMutHook<ResolverContext> for ResolverHook {
+    fn enter_module(&mut self, _module: &mut Module, ctx: &mut ResolverContext) {
+        ctx.push_strict_mode(true);
+        ctx.is_module = true;
+    }
+
+    fn exit_module(&mut self, _module: &mut Module, ctx: &mut ResolverContext) {
+        ctx.pop_strict_mode();
+    }
+
+    fn enter_script(&mut self, script: &mut Script, ctx: &mut ResolverContext) {
+        let is_strict = script
+            .body
+            .first()
+            .map(|stmt| stmt.is_use_strict())
+            .unwrap_or(false);
+        ctx.push_strict_mode(is_strict);
+    }
+
+    fn exit_script(&mut self, _script: &mut Script, ctx: &mut ResolverContext) {
+        ctx.pop_strict_mode();
+    }
+
+    fn enter_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut ResolverContext) {
+        // Phase 1: Handle hoisting
+        self.hoist_stmts(stmts, ctx);
+    }
+
+    fn enter_module_items(&mut self, items: &mut Vec<ModuleItem>, ctx: &mut ResolverContext) {
+        if !ctx.in_ts_module && ctx.current_scope().kind != ScopeKind::Fn {
+            return;
+        }
+        // Phase 1: Handle hoisting
+        self.hoist_module_items(items, ctx);
+    }
+
+    fn enter_block_stmt(&mut self, block: &mut BlockStmt, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+        self.mark_block(&mut block.ctxt, ctx);
+    }
+
+    fn exit_block_stmt(&mut self, _block: &mut BlockStmt, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_arrow_expr(&mut self, e: &mut ArrowExpr, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+
+        // Pre-register params as declared symbols
+        let params = e
+            .params
+            .iter()
+            .filter(|p| !p.is_rest())
+            .flat_map(find_pat_ids::<_, Id>);
+
+        for id in params {
+            ctx.current_scope_mut()
+                .declared_symbols
+                .insert(id.0, DeclKind::Param);
+        }
+
+        // Set ident_type for params
+        ctx.push_ident_type(IdentType::Binding);
+    }
+
+    fn exit_arrow_expr(&mut self, _e: &mut ArrowExpr, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+        ctx.pop_scope();
+    }
+
+    fn enter_function(&mut self, f: &mut Function, ctx: &mut ResolverContext) {
+        self.mark_block(&mut f.ctxt, ctx);
+
+        // Pre-register params as declared symbols
+        let params = f
+            .params
+            .iter()
+            .filter(|p| !p.pat.is_rest())
+            .flat_map(find_pat_ids::<_, Id>);
+
+        for id in params {
+            ctx.current_scope_mut()
+                .declared_symbols
+                .insert(id.0, DeclKind::Param);
+        }
+
+        ctx.push_ident_type(IdentType::Binding);
+    }
+
+    fn exit_function(&mut self, _f: &mut Function, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut ResolverContext) {
+        if node.declare && !self.config.handle_types {
+            return;
+        }
+        // Don't modify ident here - hoister handles this
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+    }
+
+    fn exit_fn_decl(&mut self, node: &mut FnDecl, ctx: &mut ResolverContext) {
+        if node.declare && !self.config.handle_types {
+            return;
+        }
+        ctx.pop_scope();
+    }
+
+    fn enter_fn_expr(&mut self, e: &mut FnExpr, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+        if let Some(ident) = &mut e.ident {
+            self.modify(ident, DeclKind::Function, ctx);
+        }
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+    }
+
+    fn exit_fn_expr(&mut self, _e: &mut FnExpr, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+        ctx.pop_scope();
+    }
+
+    fn enter_class_decl(&mut self, n: &mut ClassDecl, ctx: &mut ResolverContext) {
+        if n.declare && !self.config.handle_types {
+            return;
+        }
+        self.modify(&mut n.ident, DeclKind::Lexical, ctx);
+        ctx.push_strict_mode(true);
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+    }
+
+    fn exit_class_decl(&mut self, n: &mut ClassDecl, ctx: &mut ResolverContext) {
+        if n.declare && !self.config.handle_types {
+            return;
+        }
+        ctx.pop_scope();
+        ctx.pop_strict_mode();
+    }
+
+    fn enter_class_expr(&mut self, n: &mut ClassExpr, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+        if let Some(ident) = &mut n.ident {
+            ctx.push_ident_type(IdentType::Binding);
+            self.modify(ident, DeclKind::Lexical, ctx);
+            ctx.pop_ident_type();
+        }
+    }
+
+    fn exit_class_expr(&mut self, _n: &mut ClassExpr, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_class(&mut self, _c: &mut Class, ctx: &mut ResolverContext) {
+        ctx.push_strict_mode(true);
+        ctx.push_ident_type(IdentType::Ref);
+    }
+
+    fn exit_class(&mut self, _c: &mut Class, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+        ctx.pop_strict_mode();
+    }
+
+    fn enter_catch_clause(&mut self, c: &mut CatchClause, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+        ctx.push_ident_type(IdentType::Binding);
+        self.mark_block(&mut c.body.ctxt, ctx);
+    }
+
+    fn exit_catch_clause(&mut self, _c: &mut CatchClause, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+        ctx.pop_scope();
+    }
+
+    fn enter_for_stmt(&mut self, _n: &mut ForStmt, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+        ctx.push_ident_type(IdentType::Binding);
+    }
+
+    fn exit_for_stmt(&mut self, _n: &mut ForStmt, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+        ctx.pop_scope();
+    }
+
+    fn enter_for_in_stmt(&mut self, _n: &mut ForInStmt, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+    }
+
+    fn exit_for_in_stmt(&mut self, _n: &mut ForInStmt, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_for_of_stmt(&mut self, _n: &mut ForOfStmt, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+    }
+
+    fn exit_for_of_stmt(&mut self, _n: &mut ForOfStmt, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_switch_stmt(&mut self, _s: &mut SwitchStmt, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+    }
+
+    fn exit_switch_stmt(&mut self, _s: &mut SwitchStmt, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_object_lit(&mut self, _o: &mut ObjectLit, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+    }
+
+    fn exit_object_lit(&mut self, _o: &mut ObjectLit, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_constructor(&mut self, c: &mut Constructor, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+        ctx.push_ident_type(IdentType::Binding);
+
+        // Pre-register params as declared symbols
+        let params = c
+            .params
+            .iter()
+            .filter(|p| match p {
+                ParamOrTsParamProp::TsParamProp(_) => false,
+                ParamOrTsParamProp::Param(p) => !p.pat.is_rest(),
+                #[cfg(swc_ast_unknown)]
+                _ => false,
+            })
+            .flat_map(find_pat_ids::<_, Id>);
+
+        for id in params {
+            ctx.current_scope_mut()
+                .declared_symbols
+                .insert(id.0, DeclKind::Param);
+        }
+    }
+
+    fn exit_constructor(&mut self, _c: &mut Constructor, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+        ctx.pop_scope();
+    }
+
+    fn enter_class_method(&mut self, _m: &mut ClassMethod, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+    }
+
+    fn exit_class_method(&mut self, _m: &mut ClassMethod, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_private_method(&mut self, _m: &mut PrivateMethod, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+    }
+
+    fn exit_private_method(&mut self, _m: &mut PrivateMethod, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_method_prop(&mut self, _m: &mut MethodProp, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+    }
+
+    fn exit_method_prop(&mut self, _m: &mut MethodProp, ctx: &mut ResolverContext) {
+        ctx.pop_scope();
+    }
+
+    fn enter_getter_prop(&mut self, _f: &mut GetterProp, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Ref);
+    }
+
+    fn exit_getter_prop(&mut self, _f: &mut GetterProp, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_setter_prop(&mut self, _n: &mut SetterProp, ctx: &mut ResolverContext) {
+        ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+        ctx.push_ident_type(IdentType::Binding);
+    }
+
+    fn exit_setter_prop(&mut self, _n: &mut SetterProp, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+        ctx.pop_scope();
+    }
+
+    fn enter_expr(&mut self, _expr: &mut Expr, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Ref);
+    }
+
+    fn exit_expr(&mut self, _expr: &mut Expr, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_var_decl(&mut self, decl: &mut VarDecl, ctx: &mut ResolverContext) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
+        ctx.push_decl_kind(decl.kind.into());
+    }
+
+    fn exit_var_decl(&mut self, decl: &mut VarDecl, ctx: &mut ResolverContext) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
+        ctx.pop_decl_kind();
+    }
+
+    fn enter_using_decl(&mut self, _decl: &mut UsingDecl, ctx: &mut ResolverContext) {
+        ctx.push_decl_kind(DeclKind::Lexical);
+    }
+
+    fn exit_using_decl(&mut self, _decl: &mut UsingDecl, ctx: &mut ResolverContext) {
+        ctx.pop_decl_kind();
+    }
+
+    fn enter_var_declarator(&mut self, _decl: &mut VarDeclarator, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Binding);
+    }
+
+    fn exit_var_declarator(&mut self, _decl: &mut VarDeclarator, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_param(&mut self, _param: &mut Param, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Binding);
+    }
+
+    fn exit_param(&mut self, _param: &mut Param, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_import_decl(&mut self, n: &mut ImportDecl, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Binding);
+        ctx.push_in_type(n.type_only);
+    }
+
+    fn exit_import_decl(&mut self, _n: &mut ImportDecl, ctx: &mut ResolverContext) {
+        ctx.pop_in_type();
+        ctx.pop_ident_type();
+    }
+
+    fn enter_import_named_specifier(
+        &mut self,
+        s: &mut ImportNamedSpecifier,
+        ctx: &mut ResolverContext,
+    ) {
+        ctx.push_ident_type(IdentType::Binding);
+        self.modify(&mut s.local, DeclKind::Lexical, ctx);
+        if self.config.handle_types {
+            ctx.current_scope_mut()
+                .declared_types
+                .insert(s.local.sym.clone());
+        }
+    }
+
+    fn exit_import_named_specifier(
+        &mut self,
+        _s: &mut ImportNamedSpecifier,
+        ctx: &mut ResolverContext,
+    ) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_export_specifier(&mut self, _s: &mut ExportSpecifier, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Ref);
+    }
+
+    fn exit_export_specifier(&mut self, _s: &mut ExportSpecifier, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_break_stmt(&mut self, _s: &mut BreakStmt, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Label);
+    }
+
+    fn exit_break_stmt(&mut self, _s: &mut BreakStmt, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_continue_stmt(&mut self, _s: &mut ContinueStmt, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Label);
+    }
+
+    fn exit_continue_stmt(&mut self, _s: &mut ContinueStmt, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_labeled_stmt(&mut self, _s: &mut LabeledStmt, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Label);
+    }
+
+    fn exit_labeled_stmt(&mut self, _s: &mut LabeledStmt, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_ident(&mut self, i: &mut Ident, ctx: &mut ResolverContext) {
+        self.visit_ident(i, ctx);
+    }
+
+    fn enter_binding_ident(&mut self, i: &mut BindingIdent, ctx: &mut ResolverContext) {
+        // Type annotation should be visited as Ref
+        ctx.push_ident_type(IdentType::Ref);
+    }
+
+    fn exit_binding_ident(&mut self, _i: &mut BindingIdent, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    // TypeScript type handling
+    fn enter_ts_type_ann(&mut self, _n: &mut TsTypeAnn, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.push_in_type(true);
+            ctx.push_ident_type(IdentType::Ref);
+        }
+    }
+
+    fn exit_ts_type_ann(&mut self, _n: &mut TsTypeAnn, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_ident_type();
+            ctx.pop_in_type();
+        }
+    }
+
+    fn enter_ts_type(&mut self, _n: &mut TsType, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.push_in_type(true);
+            ctx.push_ident_type(IdentType::Ref);
+        }
+    }
+
+    fn exit_ts_type(&mut self, _n: &mut TsType, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_ident_type();
+            ctx.pop_in_type();
+        }
+    }
+
+    fn enter_ts_type_param_decl(&mut self, _n: &mut TsTypeParamDecl, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.push_in_type(true);
+            ctx.push_ident_type(IdentType::Binding);
+        }
+    }
+
+    fn exit_ts_type_param_decl(&mut self, _n: &mut TsTypeParamDecl, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_ident_type();
+            ctx.pop_in_type();
+        }
+    }
+
+    fn enter_ts_type_param_instantiation(
+        &mut self,
+        _n: &mut TsTypeParamInstantiation,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.push_in_type(true);
+            ctx.push_ident_type(IdentType::Ref);
+        }
+    }
+
+    fn exit_ts_type_param_instantiation(
+        &mut self,
+        _n: &mut TsTypeParamInstantiation,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.pop_ident_type();
+            ctx.pop_in_type();
+        }
+    }
+
+    fn enter_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl, ctx: &mut ResolverContext) {
+        ctx.push_in_type(true);
+        ctx.push_ident_type(IdentType::Ref);
+        self.modify(&mut n.id, DeclKind::Type, ctx);
+
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+        }
+    }
+
+    fn exit_ts_interface_decl(&mut self, _n: &mut TsInterfaceDecl, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_scope();
+        }
+        ctx.pop_ident_type();
+        ctx.pop_in_type();
+    }
+
+    fn enter_ts_type_alias_decl(&mut self, n: &mut TsTypeAliasDecl, ctx: &mut ResolverContext) {
+        ctx.push_in_type(true);
+        self.modify(&mut n.id, DeclKind::Type, ctx);
+
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+        }
+    }
+
+    fn exit_ts_type_alias_decl(&mut self, _n: &mut TsTypeAliasDecl, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_scope();
+        }
+        ctx.pop_in_type();
+    }
+
+    fn enter_ts_enum_decl(&mut self, decl: &mut TsEnumDecl, ctx: &mut ResolverContext) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
+        self.modify(&mut decl.id, DeclKind::Lexical, ctx);
+
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+
+        // Add enum member names as declared symbols
+        let member_names = decl.members.iter().filter_map(|m| match &m.id {
+            TsEnumMemberId::Ident(id) => Some((id.sym.clone(), DeclKind::Lexical)),
+            TsEnumMemberId::Str(_) => None,
+            #[cfg(swc_ast_unknown)]
+            _ => None,
+        });
+        ctx.current_scope_mut()
+            .declared_symbols
+            .extend(member_names);
+    }
+
+    fn exit_ts_enum_decl(&mut self, decl: &mut TsEnumDecl, ctx: &mut ResolverContext) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
+        ctx.pop_scope();
+    }
+
+    fn enter_ts_module_decl(&mut self, decl: &mut TsModuleDecl, ctx: &mut ResolverContext) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
+
+        match &mut decl.id {
+            TsModuleName::Ident(i) => {
+                self.modify(i, DeclKind::Lexical, ctx);
+            }
+            TsModuleName::Str(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        }
+
+        ctx.push_scope(ScopeKind::Block, self.config.top_level_mark);
+        ctx.in_ts_module = true;
+    }
+
+    fn exit_ts_module_decl(&mut self, decl: &mut TsModuleDecl, ctx: &mut ResolverContext) {
+        if decl.declare && !self.config.handle_types {
+            return;
+        }
+        ctx.in_ts_module = false;
+        ctx.pop_scope();
+    }
+
+    fn enter_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl, ctx: &mut ResolverContext) {
+        if n.declare && !self.config.handle_types {
+            return;
+        }
+        self.modify(&mut n.id, DeclKind::Lexical, ctx);
+    }
+
+    fn enter_ts_fn_type(&mut self, _ty: &mut TsFnType, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+            ctx.push_in_type(true);
+        }
+    }
+
+    fn exit_ts_fn_type(&mut self, _ty: &mut TsFnType, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_in_type();
+            ctx.pop_scope();
+        }
+    }
+
+    fn enter_ts_constructor_type(
+        &mut self,
+        _ty: &mut TsConstructorType,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+            ctx.push_in_type(true);
+        }
+    }
+
+    fn exit_ts_constructor_type(&mut self, _ty: &mut TsConstructorType, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_in_type();
+            ctx.pop_scope();
+        }
+    }
+
+    fn enter_ts_call_signature_decl(
+        &mut self,
+        _n: &mut TsCallSignatureDecl,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+            ctx.push_in_type(true);
+        }
+    }
+
+    fn exit_ts_call_signature_decl(
+        &mut self,
+        _n: &mut TsCallSignatureDecl,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.pop_in_type();
+            ctx.pop_scope();
+        }
+    }
+
+    fn enter_ts_construct_signature_decl(
+        &mut self,
+        _decl: &mut TsConstructSignatureDecl,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+            ctx.push_in_type(true);
+        }
+    }
+
+    fn exit_ts_construct_signature_decl(
+        &mut self,
+        _decl: &mut TsConstructSignatureDecl,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.pop_in_type();
+            ctx.pop_scope();
+        }
+    }
+
+    fn enter_ts_method_signature(&mut self, _n: &mut TsMethodSignature, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+            ctx.push_in_type(true);
+        }
+    }
+
+    fn exit_ts_method_signature(&mut self, _n: &mut TsMethodSignature, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_in_type();
+            ctx.pop_scope();
+        }
+    }
+
+    fn enter_ts_property_signature(
+        &mut self,
+        _n: &mut TsPropertySignature,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.push_scope(ScopeKind::Fn, self.config.top_level_mark);
+            ctx.push_in_type(true);
+        }
+    }
+
+    fn exit_ts_property_signature(
+        &mut self,
+        _n: &mut TsPropertySignature,
+        ctx: &mut ResolverContext,
+    ) {
+        if self.config.handle_types {
+            ctx.pop_in_type();
+            ctx.pop_scope();
+        }
+    }
+
+    fn enter_ts_import_equals_decl(
+        &mut self,
+        n: &mut TsImportEqualsDecl,
+        ctx: &mut ResolverContext,
+    ) {
+        self.modify(&mut n.id, DeclKind::Lexical, ctx);
+    }
+
+    fn enter_ts_mapped_type(&mut self, _n: &mut TsMappedType, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.push_ident_type(IdentType::Binding);
+        }
+    }
+
+    fn exit_ts_mapped_type(&mut self, _n: &mut TsMappedType, ctx: &mut ResolverContext) {
+        if self.config.handle_types {
+            ctx.pop_ident_type();
+        }
+    }
+
+    fn enter_ts_qualified_name(&mut self, _n: &mut TsQualifiedName, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Ref);
+    }
+
+    fn exit_ts_qualified_name(&mut self, _n: &mut TsQualifiedName, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+
+    fn enter_ts_param_prop_param(&mut self, _n: &mut TsParamPropParam, ctx: &mut ResolverContext) {
+        ctx.push_ident_type(IdentType::Binding);
+    }
+
+    fn exit_ts_param_prop_param(&mut self, _n: &mut TsParamPropParam, ctx: &mut ResolverContext) {
+        ctx.pop_ident_type();
+    }
+}
+
+/// A hoister for the hook-based resolver.
+struct HookHoister<'a, 'b> {
+    hook: &'a ResolverHook,
+    ctx: &'b mut ResolverContext,
+    in_block: bool,
+    in_catch_body: bool,
+    excluded_from_catch: FxHashSet<Atom>,
+    catch_param_decls: FxHashSet<Atom>,
+}
+
+impl HookHoister<'_, '_> {
+    fn add_pat_id(&mut self, id: &mut BindingIdent) {
+        if self.in_catch_body {
+            if self
+                .ctx
+                .mark_for_ref_inner(&id.sym, true, &self.hook.config)
+                .is_some()
+                && self.catch_param_decls.contains(&id.sym)
+            {
+                return;
+            }
+
+            self.excluded_from_catch.insert(id.sym.clone());
+        } else {
+            if self.catch_param_decls.contains(&id.sym)
+                && !self.excluded_from_catch.contains(&id.sym)
+            {
+                return;
+            }
+        }
+
+        self.hook.modify(&mut id.id, self.ctx.decl_kind(), self.ctx)
+    }
+}
+
+impl VisitMut for HookHoister<'_, '_> {
+    noop_visit_mut_type!();
+
+    #[inline]
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
+        node.visit_mut_children_with(self);
+        self.add_pat_id(&mut node.key);
+    }
+
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        let old_in_block = self.in_block;
+        self.in_block = true;
+        n.visit_mut_children_with(self);
+        self.in_block = old_in_block;
+    }
+
+    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        let old_exclude = self.excluded_from_catch.clone();
+        self.excluded_from_catch = Default::default();
+
+        let old_in_catch_body = self.in_catch_body;
+
+        let params: Vec<Id> = find_pat_ids(&c.param);
+
+        let orig = self.catch_param_decls.clone();
+
+        self.catch_param_decls
+            .extend(params.into_iter().map(|v| v.0));
+
+        self.in_catch_body = true;
+        c.body.visit_mut_with(self);
+
+        self.in_catch_body = false;
+        c.param.visit_mut_with(self);
+
+        self.catch_param_decls = orig;
+
+        self.in_catch_body = old_in_catch_body;
+        self.excluded_from_catch = old_exclude;
+    }
+
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if node.declare && !self.hook.config.handle_types {
+            return;
+        }
+        if self.in_block {
+            return;
+        }
+        self.hook
+            .modify(&mut node.ident, DeclKind::Lexical, self.ctx);
+
+        if self.hook.config.handle_types {
+            self.ctx
+                .current_scope_mut()
+                .declared_types
+                .insert(node.ident.sym.clone());
+        }
+    }
+
+    #[inline]
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_decl(&mut self, decl: &mut Decl) {
+        decl.visit_mut_children_with(self);
+
+        if self.hook.config.handle_types {
+            match decl {
+                Decl::TsInterface(i) => {
+                    if self.in_block {
+                        return;
+                    }
+
+                    self.ctx.push_in_type(true);
+                    self.hook.modify(&mut i.id, DeclKind::Type, self.ctx);
+                    self.ctx.pop_in_type();
+                }
+
+                Decl::TsTypeAlias(a) => {
+                    self.ctx.push_in_type(true);
+                    self.hook.modify(&mut a.id, DeclKind::Type, self.ctx);
+                    self.ctx.pop_in_type();
+                }
+
+                Decl::TsEnum(e) => {
+                    if !self.in_block {
+                        self.ctx.push_in_type(false);
+                        self.hook.modify(&mut e.id, DeclKind::Lexical, self.ctx);
+                        self.ctx.pop_in_type();
+                    }
+                }
+
+                Decl::TsModule(v)
+                    if matches!(
+                        &**v,
+                        TsModuleDecl {
+                            global: false,
+                            id: TsModuleName::Ident(_),
+                            ..
+                        },
+                    ) =>
+                {
+                    if !self.in_block {
+                        self.ctx.push_in_type(false);
+                        let id = v.id.as_mut_ident().unwrap();
+                        self.hook.modify(id, DeclKind::Lexical, self.ctx);
+                        self.ctx.pop_in_type();
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn visit_mut_export_default_decl(&mut self, node: &mut ExportDefaultDecl) {
+        match &mut node.decl {
+            DefaultDecl::Fn(f) => {
+                if let Some(id) = &mut f.ident {
+                    self.hook.modify(id, DeclKind::Var, self.ctx);
+                }
+                f.visit_mut_with(self)
+            }
+            DefaultDecl::Class(c) => {
+                if let Some(id) = &mut c.ident {
+                    self.hook.modify(id, DeclKind::Lexical, self.ctx);
+                }
+                c.visit_mut_with(self)
+            }
+            _ => {
+                node.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
+    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        if node.declare && !self.hook.config.handle_types {
+            return;
+        }
+
+        if self.catch_param_decls.contains(&node.ident.sym) {
+            return;
+        }
+
+        if self.in_block {
+            if self.ctx.strict_mode() {
+                return;
+            }
+            if let Some(DeclKind::Lexical | DeclKind::Param) = self.ctx.is_declared(&node.ident.sym)
+            {
+                return;
+            }
+        }
+
+        self.hook
+            .modify(&mut node.ident, DeclKind::Function, self.ctx);
+    }
+
+    #[inline]
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    fn visit_mut_import_default_specifier(&mut self, n: &mut ImportDefaultSpecifier) {
+        n.visit_mut_children_with(self);
+
+        self.hook.modify(&mut n.local, DeclKind::Lexical, self.ctx);
+
+        if self.hook.config.handle_types {
+            self.ctx
+                .current_scope_mut()
+                .declared_types
+                .insert(n.local.sym.clone());
+        }
+    }
+
+    fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
+        n.visit_mut_children_with(self);
+
+        self.hook.modify(&mut n.local, DeclKind::Lexical, self.ctx);
+
+        if self.hook.config.handle_types {
+            self.ctx
+                .current_scope_mut()
+                .declared_types
+                .insert(n.local.sym.clone());
+        }
+    }
+
+    fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
+        n.visit_mut_children_with(self);
+
+        self.hook.modify(&mut n.local, DeclKind::Lexical, self.ctx);
+
+        if self.hook.config.handle_types {
+            self.ctx
+                .current_scope_mut()
+                .declared_types
+                .insert(n.local.sym.clone());
+        }
+    }
+
+    #[inline]
+    fn visit_mut_param(&mut self, _: &mut Param) {}
+
+    fn visit_mut_pat(&mut self, node: &mut Pat) {
+        match node {
+            Pat::Ident(i) => {
+                self.add_pat_id(i);
+            }
+            _ => node.visit_mut_children_with(self),
+        }
+    }
+
+    #[inline]
+    fn visit_mut_assign_target(&mut self, _: &mut AssignTarget) {}
+
+    #[inline]
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
+
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.discriminant.visit_mut_with(self);
+
+        let old_in_block = self.in_block;
+        self.in_block = true;
+        s.cases.visit_mut_with(self);
+        self.in_block = old_in_block;
+    }
+
+    #[inline]
+    fn visit_mut_tagged_tpl(&mut self, _: &mut TaggedTpl) {}
+
+    #[inline]
+    fn visit_mut_tpl(&mut self, _: &mut Tpl) {}
+
+    #[inline]
+    fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
+
+    fn visit_mut_using_decl(&mut self, node: &mut UsingDecl) {
+        if self.in_block {
+            return;
+        }
+
+        self.ctx.push_decl_kind(DeclKind::Lexical);
+        node.visit_mut_children_with(self);
+        self.ctx.pop_decl_kind();
+    }
+
+    fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
+        if node.declare && !self.hook.config.handle_types {
+            return;
+        }
+
+        if self.in_block {
+            match node.kind {
+                VarDeclKind::Const | VarDeclKind::Let => return,
+                _ => {}
+            }
+        }
+
+        self.ctx.push_decl_kind(node.kind.into());
+        node.visit_mut_children_with(self);
+        self.ctx.pop_decl_kind();
+    }
+
+    fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
+        match n {
+            VarDeclOrExpr::VarDecl(v)
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) => {}
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    fn visit_mut_for_head(&mut self, n: &mut ForHead) {
+        match n {
+            ForHead::VarDecl(v)
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) => {}
+            ForHead::Pat(..) => {}
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
+
+    #[inline]
+    fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
+        node.name.visit_mut_with(self);
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        items.iter_mut().for_each(|item| match item {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(v),
+                ..
+            })) if matches!(
+                &**v,
+                VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                }
+            ) =>
+            {
+                item.visit_mut_with(self);
+            }
+
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Fn(..),
+                ..
+            })) => {
+                item.visit_mut_with(self);
+            }
+            _ => item.visit_mut_with(self),
+        });
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let others = stmts
+            .iter_mut()
+            .filter_map(|item| match item {
+                Stmt::Decl(Decl::Var(..)) => {
+                    item.visit_mut_with(self);
+                    None
+                }
+                Stmt::Decl(Decl::Fn(..)) => {
+                    item.visit_mut_with(self);
+                    None
+                }
+                _ => Some(item),
+            })
+            .collect::<Vec<_>>();
+
+        for other_stmt in others {
+            other_stmt.visit_mut_with(self);
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
