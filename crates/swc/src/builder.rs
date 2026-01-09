@@ -32,6 +32,10 @@ impl Pass for MinifierPass<'_> {
                             v.toplevel = Some(TerserTopLevelOptions::Bool(true));
                         }
 
+                        if n.is_script() {
+                            v.module = false;
+                        }
+
                         v.into_config(self.cm.clone())
                     }),
                 mangle: options
