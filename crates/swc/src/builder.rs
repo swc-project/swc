@@ -28,8 +28,8 @@ impl Pass for MinifierPass<'_> {
                         if v.const_to_let.is_none() {
                             v.const_to_let = Some(true);
                         }
-                        if v.toplevel.is_none() {
-                            v.toplevel = Some(TerserTopLevelOptions::Bool(n.is_module()));
+                        if v.toplevel.is_none() && n.is_module() {
+                            v.toplevel = Some(TerserTopLevelOptions::Bool(true));
                         }
 
                         v.into_config(self.cm.clone())
