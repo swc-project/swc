@@ -70,7 +70,7 @@ use swc_ecma_transforms_optimization::{
     GlobalExprMap,
 };
 use swc_ecma_utils::NodeIgnoringSpan;
-use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 use swc_visit::Optional;
 
 pub use crate::plugin::PluginConfig;
@@ -693,12 +693,12 @@ impl Options {
                         .map_or_else(|| target.caniuse(f), |env| env.caniuse(f))
                 },
             ),
-            visit_mut_pass(MinifierPass {
+            MinifierPass {
                 options: js_minify,
                 cm: cm.clone(),
                 comments: comments.map(|v| v as &dyn Comments),
                 top_level_mark,
-            }),
+            },
             Optional::new(
                 hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
                     top_level_mark,
