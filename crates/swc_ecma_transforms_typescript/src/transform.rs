@@ -9,9 +9,9 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, Mark, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::{constructor::inject_after_super, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::{
@@ -32,6 +32,7 @@ pub fn typescript(
         unresolved_mark,
         top_level_mark,
         tsx_config: None,
+        jsx_pragma_ids: Default::default(),
     })
 }
 
@@ -40,19 +41,134 @@ pub fn tsx<C>(
     _cm: swc_common::sync::Lrc<swc_common::SourceMap>,
     config: Config,
     tsx_config: TsxConfig,
-    _comments: C,
+    comments: C,
     unresolved_mark: Mark,
     top_level_mark: Mark,
 ) -> impl Pass + VisitMut
 where
-    C: swc_common::comments::Comments,
+    C: Comments,
 {
-    visit_mut_pass(TypeScript {
-        config,
-        unresolved_mark,
-        top_level_mark,
-        tsx_config: Some(tsx_config),
+    visit_mut_pass(TypeScriptTsx {
+        inner: TypeScript {
+            config,
+            unresolved_mark,
+            top_level_mark,
+            tsx_config: Some(tsx_config),
+            jsx_pragma_ids: Default::default(),
+        },
+        comments,
     })
+}
+
+/// TypeScript transform with TSX support and comments.
+struct TypeScriptTsx<C>
+where
+    C: Comments,
+{
+    inner: TypeScript,
+    comments: C,
+}
+
+impl<C> TypeScriptTsx<C>
+where
+    C: Comments,
+{
+    /// Parse JSX pragma from comments and extract the first identifier.
+    fn parse_jsx_pragma_ids(
+        &self,
+        module_span: swc_common::Span,
+        first_item_span: Option<swc_common::Span>,
+    ) -> FxHashSet<Atom> {
+        let mut pragma_ids = FxHashSet::default();
+
+        // Try to get from TsxConfig first
+        if let Some(tsx_config) = &self.inner.tsx_config {
+            if let Some(pragma) = &tsx_config.pragma {
+                if let Some(first_id) = pragma.split('.').next() {
+                    pragma_ids.insert(Atom::new(first_id));
+                }
+            }
+            if let Some(pragma_frag) = &tsx_config.pragma_frag {
+                if let Some(first_id) = pragma_frag.split('.').next() {
+                    pragma_ids.insert(Atom::new(first_id));
+                }
+            }
+        }
+
+        // Parse from leading comments (at module start and first item)
+        let spans_to_check = [Some(module_span.lo), first_item_span.map(|s| s.lo)];
+        for span_lo in spans_to_check.into_iter().flatten() {
+            if let Some(comments) = self.comments.get_leading(span_lo) {
+                for comment in &comments {
+                    self.parse_pragma_from_comment(&comment.text, &mut pragma_ids);
+                }
+            }
+        }
+
+        pragma_ids
+    }
+
+    /// Parse pragma identifiers from a comment text.
+    fn parse_pragma_from_comment(&self, text: &str, pragma_ids: &mut FxHashSet<Atom>) {
+        for line in text.lines() {
+            let line = line.trim();
+            // Handle JSDoc-style comments where lines start with *
+            let line = if line.starts_with('*') {
+                line[1..].trim()
+            } else {
+                line
+            };
+
+            if line.starts_with("@jsx ") {
+                let pragma = line[5..].trim();
+                if let Some(first_id) = pragma.split('.').next() {
+                    let first_id = first_id.trim();
+                    if !first_id.is_empty()
+                        && first_id
+                            .chars()
+                            .next()
+                            .map_or(false, |c| c.is_ascii_alphabetic() || c == '_' || c == '$')
+                    {
+                        pragma_ids.insert(Atom::new(first_id));
+                    }
+                }
+            } else if line.starts_with("@jsxFrag ") {
+                let pragma_frag = line[9..].trim();
+                if let Some(first_id) = pragma_frag.split('.').next() {
+                    let first_id = first_id.trim();
+                    if !first_id.is_empty()
+                        && first_id
+                            .chars()
+                            .next()
+                            .map_or(false, |c| c.is_ascii_alphabetic() || c == '_' || c == '$')
+                    {
+                        pragma_ids.insert(Atom::new(first_id));
+                    }
+                }
+            }
+        }
+    }
+}
+
+impl<C> VisitMut for TypeScriptTsx<C>
+where
+    C: Comments,
+{
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        // Parse JSX pragma identifiers from comments
+        let first_item_span = n.body.first().map(|item| item.span());
+        self.inner.jsx_pragma_ids = self.parse_jsx_pragma_ids(n.span, first_item_span);
+        // Delegate to inner TypeScript transform
+        self.inner.visit_mut_module(n);
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        // Parse JSX pragma identifiers from comments
+        let first_item_span = n.body.first().map(|item| item.span());
+        self.inner.jsx_pragma_ids = self.parse_jsx_pragma_ids(n.span, first_item_span);
+        // Delegate to inner TypeScript transform
+        self.inner.visit_mut_script(n);
+    }
 }
 
 /// The main TypeScript transform.
@@ -61,6 +177,8 @@ pub struct TypeScript {
     pub unresolved_mark: Mark,
     pub top_level_mark: Mark,
     pub tsx_config: Option<TsxConfig>,
+    /// JSX pragma identifiers to keep in imports.
+    jsx_pragma_ids: FxHashSet<Atom>,
 }
 
 /// State for collecting import information.
@@ -258,6 +376,7 @@ impl VisitMut for TypeScript {
                 &mut ns_var_decls,
                 &mut seen_ns_ids,
                 &mut seen_enum_ids,
+                &enum_values,
             );
         }
         // Merge namespace var declarations into a single var statement
@@ -512,6 +631,8 @@ impl TypeScript {
     }
 
     /// Collects enum member values, resolving references to other enums.
+    /// This function collects PARTIAL values - if some members can be computed,
+    /// they are collected even if later members cannot be computed.
     fn collect_enum_values_with_existing(
         &self,
         e: &TsEnumDecl,
@@ -527,31 +648,45 @@ impl TypeScript {
             };
 
             let value = if let Some(init) = &member.init {
-                let computed = crate::enums::compute_const_expr(init, &values, existing_values)?;
-                if let TsLit::Number(n) = &computed {
-                    current_value = Some(n.value);
+                if let Some(computed) =
+                    crate::enums::compute_const_expr(init, &values, existing_values)
+                {
+                    if let TsLit::Number(n) = &computed {
+                        current_value = Some(n.value);
+                    } else {
+                        current_value = None;
+                    }
+                    Some(computed)
                 } else {
+                    // Value couldn't be computed - stop incrementing current_value
+                    // but continue processing remaining members
                     current_value = None;
+                    None
                 }
-                computed
             } else if let Some(val) = current_value {
-                TsLit::Number(Number {
+                Some(TsLit::Number(Number {
                     span: DUMMY_SP,
                     value: val,
                     raw: None,
-                })
+                }))
             } else {
-                return None;
+                None
             };
 
-            values.insert(member_name, value);
+            if let Some(v) = value {
+                values.insert(member_name, v);
+            }
 
             if let Some(val) = current_value {
                 current_value = Some(val + 1.0);
             }
         }
 
-        Some(values)
+        if values.is_empty() {
+            None
+        } else {
+            Some(values)
+        }
     }
 
     /// Collects enum member values for scripts, resolving references to other
@@ -586,6 +721,7 @@ impl TypeScript {
                     &mut ns_var_decls,
                     &mut seen_ns_ids,
                     &mut state.seen_enum_ids,
+                    &state.enum_values,
                 );
                 out.extend(stmts.into_iter().map(ModuleItem::Stmt));
                 // Defer namespace var declarations to state for later emission
@@ -662,6 +798,11 @@ impl TypeScript {
                 let id = s.local().to_id();
                 if state.local_decls.contains(&id) {
                     return false;
+                }
+
+                // Keep JSX pragma identifiers (e.g., `h` from `@jsx h`)
+                if self.jsx_pragma_ids.contains(&id.0) {
+                    return true;
                 }
 
                 // Always check for value usage, regardless of mode
@@ -958,6 +1099,7 @@ impl TypeScript {
         ns_var_decls: &mut Vec<Stmt>,
         seen_ns_ids: &mut FxHashSet<Id>,
         seen_enum_ids: &mut FxHashSet<Id>,
+        enum_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     ) {
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -974,16 +1116,18 @@ impl TypeScript {
                     let enum_id = e.id.to_id();
                     if seen_enum_ids.contains(&enum_id) {
                         // Merging: emit just the IIFE statement
-                        let stmt = crate::enums::transform_enum_merging(&e, &FxHashMap::default());
+                        let stmt = crate::enums::transform_enum_merging(&e, enum_values);
                         out.push(stmt);
                     } else {
                         // First declaration: emit var with IIFE
-                        seen_enum_ids.insert(enum_id);
-                        let state = TransformState::default();
+                        seen_enum_ids.insert(enum_id.clone());
+                        // Also mark as seen namespace ID to prevent extra var decl
+                        // when namespace merges with this enum
+                        seen_ns_ids.insert(enum_id);
                         let (var, _) = transform_enum(
                             &e,
                             self.config.ts_enum_is_mutable,
-                            &state.enum_values,
+                            enum_values,
                             false, // not an export
                         );
                         out.push(Stmt::Decl(Decl::Var(Box::new(var))));
@@ -995,13 +1139,14 @@ impl TypeScript {
                     if ns.declare || ns.body.is_none() {
                         return;
                     }
-                    let state = TransformState::default();
-                    let stmts = transform_namespace(&ns, false, &state.enum_values);
+                    let stmts = transform_namespace(&ns, false, enum_values);
                     // Only emit if there are statements (namespace wasn't empty)
                     if !stmts.is_empty() {
                         out.extend(stmts);
                         // Collect var declaration for the namespace identifier (to emit at the end)
                         // Dedupe by only adding if we haven't seen this namespace name yet
+                        // This also prevents emitting var decl when namespace merges with
+                        // class/function/enum
                         if let TsModuleName::Ident(id) = &ns.id {
                             let ns_id = id.to_id();
                             if !seen_ns_ids.contains(&ns_id) {
@@ -1025,8 +1170,25 @@ impl TypeScript {
 
                 // Skip declare statements (they have no runtime behavior)
                 Decl::Var(v) if v.declare => {}
-                Decl::Class(c) if c.declare => {}
-                Decl::Fn(f) if f.declare => {}
+                Decl::Class(c) if c.declare => {
+                    // Still track the ID for namespace merging
+                    seen_ns_ids.insert(c.ident.to_id());
+                }
+                Decl::Fn(f) if f.declare => {
+                    // Still track the ID for namespace merging
+                    seen_ns_ids.insert(f.ident.to_id());
+                }
+
+                Decl::Class(c) => {
+                    // Track class ID for namespace merging
+                    seen_ns_ids.insert(c.ident.to_id());
+                    out.push(Stmt::Decl(Decl::Class(c)));
+                }
+                Decl::Fn(f) => {
+                    // Track function ID for namespace merging
+                    seen_ns_ids.insert(f.ident.to_id());
+                    out.push(Stmt::Decl(Decl::Fn(f)));
+                }
 
                 decl => {
                     out.push(Stmt::Decl(decl));
@@ -1045,12 +1207,14 @@ impl TypeScript {
         let mut ns_var_decls = Vec::new();
         let mut seen_ns_ids = FxHashSet::default();
         let mut seen_enum_ids = FxHashSet::default();
+        let empty_enum_values = FxHashMap::default();
         self.transform_stmt_with_ns_decls(
             stmt,
             out,
             &mut ns_var_decls,
             &mut seen_ns_ids,
             &mut seen_enum_ids,
+            &empty_enum_values,
         );
         // In transform_stmt, we add ns_var_decls inline (used for modules)
         out.append(&mut ns_var_decls);
@@ -1480,7 +1644,11 @@ impl ValueUsageCollector<'_> {
                     }
                 }
             }
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {}
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) => {}
+            Decl::TsModule(ns) => {
+                // Collect usages from namespace contents (e.g., export import A = I.A)
+                self.collect_ts_module_body(&ns.body);
+            }
         }
     }
 
@@ -1766,6 +1934,39 @@ impl ValueUsageCollector<'_> {
         }
     }
 
+    /// Collects usages from namespace body.
+    fn collect_ts_module_body(&mut self, body: &Option<TsNamespaceBody>) {
+        let Some(body) = body else { return };
+        match body {
+            TsNamespaceBody::TsModuleBlock(block) => {
+                for item in &block.body {
+                    match item {
+                        ModuleItem::ModuleDecl(decl) => {
+                            match decl {
+                                ModuleDecl::ExportDecl(export) => self.collect_decl(&export.decl),
+                                ModuleDecl::TsImportEquals(import) => {
+                                    // For `export import A = I.A`, collect I as a value usage
+                                    if !import.is_type_only {
+                                        if let TsModuleRef::TsEntityName(entity) =
+                                            &import.module_ref
+                                        {
+                                            self.collect_ts_entity_name(entity);
+                                        }
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
+                        ModuleItem::Stmt(stmt) => self.collect_stmt(stmt),
+                    }
+                }
+            }
+            TsNamespaceBody::TsNamespaceDecl(ns) => {
+                self.collect_ts_module_body(&Some((*ns.body).clone()));
+            }
+        }
+    }
+
     /// Collects usages from TsEntityName (used in import equals)
     fn collect_ts_entity_name(&mut self, entity: &TsEntityName) {
         match entity {
@@ -1893,6 +2094,39 @@ impl VisitMut for TypeStripper<'_> {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        // Handle const enum declarations in single-statement positions
+        // (e.g., `if (cond) const enum E { ... }`)
+        // These need to be replaced with empty statements
+        if let Stmt::Decl(Decl::TsEnum(e)) = n {
+            if e.is_const {
+                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+        }
+        // Handle declare namespace/module in single-statement positions
+        if let Stmt::Decl(Decl::TsModule(ns)) = n {
+            if ns.declare || ns.body.is_none() {
+                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+        }
+        // Handle type declarations in single-statement positions
+        if matches!(n, Stmt::Decl(Decl::TsInterface(_) | Decl::TsTypeAlias(_))) {
+            *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+            return;
+        }
+        // Handle function declaration overloads in single-statement positions
+        if let Stmt::Decl(Decl::Fn(f)) = n {
+            if f.function.body.is_none() {
+                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         // Remove function declaration overloads (signatures without bodies)
         // and remove type declarations
@@ -1969,11 +2203,19 @@ impl VisitMut for TypeStripper<'_> {
         n.body
             .retain(|m| !matches!(m, ClassMember::TsIndexSignature(_)));
 
-        // Handle parameter properties in constructor
+        // Handle parameter properties in constructor and collect field declarations
+        let mut param_prop_fields: Vec<ClassMember> = vec![];
         for member in &mut n.body {
             if let ClassMember::Constructor(c) = member {
-                self.transform_constructor(c);
+                param_prop_fields = self.transform_constructor(c);
             }
+        }
+
+        // Insert parameter property field declarations at the beginning of the class
+        // body (before existing class fields)
+        if !param_prop_fields.is_empty() {
+            param_prop_fields.append(&mut n.body);
+            n.body = param_prop_fields;
         }
 
         n.visit_mut_children_with(self);
@@ -2164,6 +2406,21 @@ impl VisitMut for TypeStripper<'_> {
             }
             // Inline enum member accesses (const enums always, regular enums when not mutable)
             Expr::Member(m) => {
+                // Don't inline if the object is itself a member expression that resolves
+                // to an enum value (e.g., `Baz.a.toString()` - don't inline `Baz.a` to `0`)
+                // This avoids ugly output like `0..toString()` and matches TypeScript output
+                if let Expr::Member(inner_m) = &*m.obj {
+                    if let Expr::Ident(inner_obj) = &*inner_m.obj {
+                        if self.enum_values.contains_key(&inner_obj.to_id()) {
+                            // The inner member expression is an enum access like `Baz.a`
+                            // Don't inline it - just visit the property (toString, etc.)
+                            // and leave the enum access as-is
+                            m.prop.visit_mut_with(self);
+                            return;
+                        }
+                    }
+                }
+
                 // Check if this is an enum access before visiting children
                 let replacement = if let Expr::Ident(obj) = &*m.obj {
                     let obj_id = obj.to_id();
@@ -2247,9 +2504,13 @@ impl VisitMut for TypeStripper<'_> {
 }
 
 impl TypeStripper<'_> {
-    fn transform_constructor(&mut self, c: &mut Constructor) {
+    /// Transform constructor - handles parameter properties.
+    /// Returns a list of field declarations for parameter properties that
+    /// should be inserted into the class body.
+    fn transform_constructor(&mut self, c: &mut Constructor) -> Vec<ClassMember> {
         // Collect parameter properties
         let mut prop_stmts: Vec<Stmt> = vec![];
+        let mut field_decls: Vec<ClassMember> = vec![];
 
         for param in &mut c.params {
             if let ParamOrTsParamProp::TsParamProp(prop) = param {
@@ -2269,6 +2530,23 @@ impl TypeStripper<'_> {
                         _ => continue,
                     },
                 };
+
+                // Generate field declaration for parameter property
+                field_decls.push(ClassMember::ClassProp(ClassProp {
+                    span: DUMMY_SP,
+                    key: name.clone(),
+                    value: None,
+                    type_ann: None,
+                    is_static: false,
+                    decorators: vec![],
+                    accessibility: None,
+                    is_abstract: false,
+                    is_optional: false,
+                    is_override: false,
+                    readonly: false,
+                    declare: false,
+                    definite: false,
+                }));
 
                 let stmt = crate::utils::assign_value_to_this_prop(name, init).into_stmt();
                 prop_stmts.push(stmt);
@@ -2298,43 +2576,27 @@ impl TypeStripper<'_> {
 
         // Insert property initializations at the beginning of constructor body (after
         // super call if present)
+        // We use inject_after_super to handle both cases consistently with how
+        // class_properties does it - this ensures correct ordering when both
+        // parameter properties and class fields are present.
         if !prop_stmts.is_empty() {
-            if let Some(body) = &mut c.body {
-                // Find super call position
-                let super_pos = body.stmts.iter().position(|s| {
-                    if let Stmt::Expr(e) = s {
-                        if let Expr::Call(c) = &*e.expr {
-                            return matches!(c.callee, Callee::Super(_));
-                        }
+            // Convert statements to expressions
+            let prop_exprs: Vec<Box<Expr>> = prop_stmts
+                .into_iter()
+                .filter_map(|stmt| {
+                    if let Stmt::Expr(e) = stmt {
+                        Some(e.expr)
+                    } else {
+                        None
                     }
-                    false
-                });
+                })
+                .collect();
 
-                if let Some(super_idx) = super_pos {
-                    // Combine super call with property initializations as sequence expr
-                    // super(message), this.message = message;
-                    let super_stmt = body.stmts.remove(super_idx);
-                    if let Stmt::Expr(e) = super_stmt {
-                        let mut exprs: Vec<Box<Expr>> = vec![e.expr];
-                        for stmt in prop_stmts {
-                            if let Stmt::Expr(e) = stmt {
-                                exprs.push(e.expr);
-                            }
-                        }
-
-                        let seq = Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        });
-                        body.stmts.insert(super_idx, seq.into_stmt());
-                    }
-                } else {
-                    // No super call, insert at beginning
-                    for (i, stmt) in prop_stmts.into_iter().enumerate() {
-                        body.stmts.insert(i, stmt);
-                    }
-                }
+            if !prop_exprs.is_empty() {
+                inject_after_super(c, prop_exprs);
             }
         }
+
+        field_decls
     }
 }

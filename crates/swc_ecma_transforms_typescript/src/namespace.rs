@@ -45,6 +45,9 @@ pub fn transform_namespace(
     // Track seen enum IDs for merging
     let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
 
+    // Collect all exported IDs first for reference rewriting
+    let exported_ids = collect_exported_ids(body);
+
     for item in &body.body {
         match item {
             ModuleItem::Stmt(stmt) => {
@@ -72,6 +75,7 @@ pub fn transform_namespace(
                     &mut exports,
                     &mut enum_values,
                     &mut seen_enum_ids,
+                    &exported_ids,
                 );
             }
         }
@@ -237,6 +241,9 @@ fn transform_child_namespace(
             let mut local_enum_values = enum_values.clone();
             let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
 
+            // Collect exported IDs for reference rewriting
+            let exported_ids = collect_exported_ids(block);
+
             for item in &block.body {
                 match item {
                     ModuleItem::Stmt(stmt) => {
@@ -256,6 +263,7 @@ fn transform_child_namespace(
                             &mut exports,
                             &mut local_enum_values,
                             &mut seen_enum_ids,
+                            &exported_ids,
                         );
                     }
                 }
@@ -412,19 +420,26 @@ fn process_module_decl(
     _exports: &mut Vec<Ident>,
     enum_values: &mut FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     seen_enum_ids: &mut FxHashSet<Id>,
+    exported_ids: &FxHashSet<Id>,
 ) {
     match decl {
         ModuleDecl::ExportDecl(export) => match export.decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::Class(c) => {
                 let ident = c.ident.clone();
-                out.push(Stmt::Decl(Decl::Class(c)));
+                // Rewrite references to exported members in class body
+                let mut class_decl = c;
+                rewrite_export_references_in_class(&mut class_decl.class, exported_ids, ns_id);
+                out.push(Stmt::Decl(Decl::Class(class_decl)));
                 // Emit export assignment immediately after declaration
                 emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Fn(f) => {
                 let ident = f.ident.clone();
-                out.push(Stmt::Decl(Decl::Fn(f)));
+                // Rewrite references to exported members in function body
+                let mut fn_decl = f;
+                rewrite_export_references_in_fn(&mut fn_decl.function, exported_ids, ns_id);
+                out.push(Stmt::Decl(Decl::Fn(fn_decl)));
                 // Emit export assignment immediately after declaration
                 emit_export_assignment(ns_id, &ident, out);
             }
@@ -435,11 +450,14 @@ fn process_module_decl(
                 for decl in &v.decls {
                     let left = transform_pat_to_assign_target(&decl.name, ns_id);
                     if let Some(init) = &decl.init {
+                        // Rewrite references to other exported members in the init expr
+                        let mut init_expr = init.clone();
+                        rewrite_export_references(&mut init_expr, exported_ids, ns_id);
                         let assign = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
                             left,
-                            right: init.clone(),
+                            right: init_expr,
                         });
                         out.push(assign.into_stmt());
                     }
@@ -651,6 +669,179 @@ fn rewrite_exported_import_usages(stmt: &mut Stmt, exported_import_equals: &FxHa
     stmt.visit_mut_with(&mut rewriter);
 }
 
+/// Collects exported identifiers from a namespace block.
+/// Returns IDs that should be rewritten as namespace member access.
+/// Function and class declarations create local bindings (NOT rewritten),
+/// while var declarations create direct namespace assignments (rewritten).
+fn collect_exported_ids(block: &TsModuleBlock) -> FxHashSet<Id> {
+    let mut exported_ids = FxHashSet::default();
+
+    for item in &block.body {
+        if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) = item {
+            match &export.decl {
+                // Var declarations go directly to namespace object, need rewriting
+                Decl::Var(v) => {
+                    for decl in &v.decls {
+                        collect_binding_ids(&decl.name, &mut exported_ids);
+                    }
+                }
+                // Function declarations create local bindings, don't rewrite
+                // (they're exported separately with: Test.abc = abc;)
+                Decl::Fn(_) => {}
+                // Class declarations create local bindings, don't rewrite
+                Decl::Class(_) => {}
+                // Enums create local bindings, don't rewrite
+                Decl::TsEnum(_) => {}
+                // Nested namespaces create local bindings, don't rewrite
+                Decl::TsModule(_) => {}
+                _ => {}
+            }
+        }
+    }
+
+    exported_ids
+}
+
+/// Collects binding IDs from a pattern.
+fn collect_binding_ids(pat: &Pat, ids: &mut FxHashSet<Id>) {
+    match pat {
+        Pat::Ident(i) => {
+            ids.insert(i.to_id());
+        }
+        Pat::Array(a) => {
+            for elem in a.elems.iter().flatten() {
+                collect_binding_ids(elem, ids);
+            }
+        }
+        Pat::Object(o) => {
+            for prop in &o.props {
+                match prop {
+                    ObjectPatProp::KeyValue(kv) => {
+                        collect_binding_ids(&kv.value, ids);
+                    }
+                    ObjectPatProp::Assign(a) => {
+                        ids.insert(a.key.to_id());
+                    }
+                    ObjectPatProp::Rest(r) => {
+                        collect_binding_ids(&r.arg, ids);
+                    }
+                }
+            }
+        }
+        Pat::Rest(r) => {
+            collect_binding_ids(&r.arg, ids);
+        }
+        Pat::Assign(a) => {
+            collect_binding_ids(&a.left, ids);
+        }
+        Pat::Expr(_) | Pat::Invalid(_) => {}
+    }
+}
+
+/// Rewrites references to exported members in an expression.
+fn rewrite_export_references(expr: &mut Expr, exported_ids: &FxHashSet<Id>, ns_id: &Ident) {
+    struct Rewriter<'a> {
+        exported_ids: &'a FxHashSet<Id>,
+        ns_id: &'a Ident,
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_expr(&mut self, n: &mut Expr) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite standalone identifier usages to member access
+            if let Expr::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    // Replace `a` with `NS.a`
+                    *n = Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
+    }
+
+    let mut rewriter = Rewriter {
+        exported_ids,
+        ns_id,
+    };
+    expr.visit_mut_with(&mut rewriter);
+}
+
+/// Rewrites references to exported members in a function body.
+fn rewrite_export_references_in_fn(
+    func: &mut Function,
+    exported_ids: &FxHashSet<Id>,
+    ns_id: &Ident,
+) {
+    struct Rewriter<'a> {
+        exported_ids: &'a FxHashSet<Id>,
+        ns_id: &'a Ident,
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_expr(&mut self, n: &mut Expr) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite standalone identifier usages to member access
+            if let Expr::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    // Replace `a` with `NS.a`
+                    *n = Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
+    }
+
+    let mut rewriter = Rewriter {
+        exported_ids,
+        ns_id,
+    };
+    func.visit_mut_with(&mut rewriter);
+}
+
+/// Rewrites references to exported members in a class body.
+fn rewrite_export_references_in_class(
+    class: &mut Class,
+    exported_ids: &FxHashSet<Id>,
+    ns_id: &Ident,
+) {
+    struct Rewriter<'a> {
+        exported_ids: &'a FxHashSet<Id>,
+        ns_id: &'a Ident,
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_expr(&mut self, n: &mut Expr) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite standalone identifier usages to member access
+            if let Expr::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    // Replace `a` with `NS.a`
+                    *n = Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
+    }
+
+    let mut rewriter = Rewriter {
+        exported_ids,
+        ns_id,
+    };
+    class.visit_mut_with(&mut rewriter);
+}
+
 /// Converts a TsEntityName to an expression.
 fn ts_entity_to_expr(entity: TsEntityName) -> Box<Expr> {
     match entity {
@@ -698,12 +889,13 @@ fn transform_pat_to_assign_target(pat: &Pat, ns_id: &Ident) -> AssignTarget {
         }
         Pat::Array(a) => {
             // Transform `[a, b]` into `[ns.a, ns.b]`
+            // Transform `[c = 3]` into `[ns.c = 3]`
             let elems: Vec<Option<Pat>> = a
                 .elems
                 .iter()
                 .map(|elem| {
                     elem.as_ref()
-                        .map(|p| assign_target_to_pat(&transform_pat_to_assign_target(p, ns_id)))
+                        .map(|p| transform_pat_preserving_default(p, ns_id))
                 })
                 .collect();
             AssignTarget::Pat(AssignTargetPat::Array(ArrayPat {
@@ -727,16 +919,25 @@ fn transform_pat_to_assign_target(pat: &Pat, ns_id: &Ident) -> AssignTarget {
                     }),
                     ObjectPatProp::Assign(a) => {
                         // Transform shorthand `{ a }` into `{ a: ns.a }`
+                        // Transform `{ a = 1 }` into `{ a: ns.a = 1 }`
+                        let member_expr = Expr::Member(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: Box::new(Expr::Ident(ns_id.clone())),
+                            prop: MemberProp::Ident(IdentName::new(a.key.sym.clone(), DUMMY_SP)),
+                        });
+                        let value_pat: Pat = if let Some(default_value) = &a.value {
+                            // Include the default value: `ns.a = 1`
+                            Pat::Assign(AssignPat {
+                                span: DUMMY_SP,
+                                left: Box::new(Pat::Expr(Box::new(member_expr))),
+                                right: default_value.clone(),
+                            })
+                        } else {
+                            Pat::Expr(Box::new(member_expr))
+                        };
                         ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(IdentName::new(a.key.sym.clone(), DUMMY_SP)),
-                            value: Box::new(Pat::Expr(Box::new(Expr::Member(MemberExpr {
-                                span: DUMMY_SP,
-                                obj: Box::new(Expr::Ident(ns_id.clone())),
-                                prop: MemberProp::Ident(IdentName::new(
-                                    a.key.sym.clone(),
-                                    DUMMY_SP,
-                                )),
-                            })))),
+                            value: Box::new(value_pat),
                         })
                     }
                     ObjectPatProp::Rest(r) => ObjectPatProp::Rest(RestPat {
@@ -758,7 +959,8 @@ fn transform_pat_to_assign_target(pat: &Pat, ns_id: &Ident) -> AssignTarget {
         }
         Pat::Rest(r) => transform_pat_to_assign_target(&r.arg, ns_id),
         Pat::Assign(a) => {
-            // Default values - just transform the left side
+            // This should not be reached as Pat::Assign is handled specially
+            // in transform_pat_to_pat_preserving_default
             transform_pat_to_assign_target(&a.left, ns_id)
         }
         Pat::Expr(e) => AssignTarget::Simple(SimpleAssignTarget::Paren(ParenExpr {
@@ -805,5 +1007,27 @@ fn assign_target_pat_to_pat(target: AssignTargetPat) -> Pat {
         AssignTargetPat::Array(a) => Pat::Array(a),
         AssignTargetPat::Object(o) => Pat::Object(o),
         AssignTargetPat::Invalid(i) => Pat::Invalid(i),
+    }
+}
+
+/// Transforms a pattern while preserving default values.
+/// For `c = 3`, returns `ns.c = 3`.
+/// For `{ d = 4 } = {}`, returns `{ d: ns.d = 4 } = {}`.
+fn transform_pat_preserving_default(pat: &Pat, ns_id: &Ident) -> Pat {
+    match pat {
+        Pat::Assign(a) => {
+            // Transform `c = 3` to `ns.c = 3`
+            // Transform `{ d = 4 } = {}` to `{ d: ns.d = 4 } = {}`
+            let left_transformed = transform_pat_preserving_default(&a.left, ns_id);
+            Pat::Assign(AssignPat {
+                span: DUMMY_SP,
+                left: Box::new(left_transformed),
+                right: a.right.clone(),
+            })
+        }
+        _ => {
+            // For non-Assign patterns, use the standard transformation
+            assign_target_to_pat(&transform_pat_to_assign_target(pat, ns_id))
+        }
     }
 }

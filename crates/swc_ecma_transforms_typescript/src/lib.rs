@@ -3,10 +3,12 @@
 #![allow(clippy::mutable_key_type)]
 
 pub use self::{
+    analyzer::{Analyzer, ProgramInfo},
     config::*,
     transform::{tsx, typescript, TypeScript},
 };
 
+mod analyzer;
 mod config;
 mod enums;
 mod imports;

@@ -2,11 +2,12 @@
 //!
 //! Transforms TypeScript enums into JavaScript IIFE patterns.
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{source_map::PURE_SP, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 /// Transforms a TypeScript enum declaration into JavaScript.
 ///
@@ -47,6 +48,8 @@ fn transform_enum_with_options(
     let mut stmts = Vec::with_capacity(e.members.len());
     let mut current_value: Option<f64> = Some(0.0);
     let mut member_values: FxHashMap<Atom, TsLit> = FxHashMap::default();
+    // Track seen member names for rewriting references
+    let mut seen_member_names: FxHashSet<Atom> = FxHashSet::default();
 
     for member in &e.members {
         let member_name: Atom = match &member.id {
@@ -77,8 +80,12 @@ fn transform_enum_with_options(
                     }
                 }
             } else {
+                // Value couldn't be computed - rewrite refs to earlier members
+                // Substitute known values and rewrite unknown references
                 current_value = None;
-                init.clone()
+                let mut expr = init.clone();
+                rewrite_enum_member_refs(&mut expr, &id, &member_values, &seen_member_names);
+                expr
             };
             (expr, computed)
         } else if let Some(val) = current_value {
@@ -107,6 +114,9 @@ fn transform_enum_with_options(
         // Use string key: Foo["a"] instead of Foo.a
         let stmt = create_enum_member_stmt(&id, &member_name, value_expr, &member.id);
         stmts.push(stmt);
+
+        // Track this member name for rewriting references in later members
+        seen_member_names.insert(member_name);
     }
 
     // Add return statement
@@ -797,4 +807,77 @@ pub fn collect_enum_values(e: &TsEnumDecl) -> Option<FxHashMap<Atom, TsLit>> {
     }
 
     Some(values)
+}
+
+/// Rewrites simple identifier references to earlier enum members as member
+/// access. For example, in `enum Foo { a = 0, b = a, c = b + x }`:
+/// - `b = a` is computed inline (this function isn't called)
+/// - `c = b + x` cannot be computed, so `b` is rewritten as `Foo.b`
+///
+/// Note: This function does NOT inline known values. Simple identifier
+/// references are always rewritten as `Foo.member` to match TypeScript's
+/// behavior.
+fn rewrite_enum_member_refs(
+    expr: &mut Expr,
+    enum_id: &Ident,
+    member_values: &FxHashMap<Atom, TsLit>,
+    seen_member_names: &FxHashSet<Atom>,
+) {
+    struct Rewriter<'a> {
+        enum_id: &'a Ident,
+        member_values: &'a FxHashMap<Atom, TsLit>,
+        seen_member_names: &'a FxHashSet<Atom>,
+    }
+
+    impl Rewriter<'_> {
+        fn is_enum_member(&self, sym: &Atom) -> bool {
+            self.seen_member_names.contains(sym) || self.member_values.contains_key(sym)
+        }
+
+        fn rewrite_as_enum_access(&self, sym: &Atom) -> Expr {
+            Expr::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: Box::new(Expr::Ident(self.enum_id.clone())),
+                prop: MemberProp::Ident(IdentName::new(sym.clone(), DUMMY_SP)),
+            })
+        }
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_expr(&mut self, n: &mut Expr) {
+            // Handle member expressions specially - if the object is an enum member,
+            // rewrite as Enum.member
+            // e.g., `a.toString()` should become `Enum.a.toString()`
+            if let Expr::Member(m) = n {
+                if let Expr::Ident(id) = &*m.obj {
+                    if self.is_enum_member(&id.sym) {
+                        m.obj = Box::new(self.rewrite_as_enum_access(&id.sym));
+                    } else {
+                        m.obj.visit_mut_with(self);
+                    }
+                } else {
+                    m.obj.visit_mut_with(self);
+                }
+                m.prop.visit_mut_with(self);
+                return;
+            }
+
+            n.visit_mut_children_with(self);
+
+            // Rewrite simple identifier references to earlier enum members as member access
+            // Always rewrite as `Foo.member`, don't inline values
+            if let Expr::Ident(id) = n {
+                if self.is_enum_member(&id.sym) {
+                    *n = self.rewrite_as_enum_access(&id.sym);
+                }
+            }
+        }
+    }
+
+    let mut rewriter = Rewriter {
+        enum_id,
+        member_values,
+        seen_member_names,
+    };
+    expr.visit_mut_with(&mut rewriter);
 }
