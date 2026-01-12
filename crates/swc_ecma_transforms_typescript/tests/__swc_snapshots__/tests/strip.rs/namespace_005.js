@@ -4,9 +4,8 @@
     A.Test = Test;
 })(A || (A = {}));
 (function(B) {
-    B.a = A;
-    console.log(B.a.Test);
-    const b = A;
+    var a = A;
+    console.log(a.Test);
+    var b = A;
     console.log(b.Test);
 })(B || (B = {}));
-var A, B;

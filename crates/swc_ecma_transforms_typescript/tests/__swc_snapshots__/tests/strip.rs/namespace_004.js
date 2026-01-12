@@ -1,25 +1,32 @@
 (function(MyNamespace) {
-    (function(MyEnum) {
+    var MyEnum = /*#__PURE__*/ function(MyEnum) {
         MyEnum[MyEnum["A"] = 1] = "A";
-    })(MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
+        return MyEnum;
+    }(MyEnum || {});
+    MyNamespace.MyEnum = MyEnum;
     (function(MyInnerNamespace) {
-        (function(MyEnum) {
+        var MyEnum = /*#__PURE__*/ function(MyEnum) {
             MyEnum[MyEnum["A"] = 1] = "A";
-        })(MyInnerNamespace.MyEnum || (MyInnerNamespace.MyEnum = {}));
-    })(MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
+            return MyEnum;
+        }(MyEnum || {});
+        MyInnerNamespace.MyEnum = MyEnum;
+    })(MyInnerNamespace || (MyInnerNamespace = {}));
+    MyNamespace.MyInnerNamespace = MyInnerNamespace;
 })(MyNamespace || (MyNamespace = {}));
 (function(MyNamespace) {
-    (function(MyEnum) {
+    var MyEnum = /*#__PURE__*/ function(MyEnum) {
         MyEnum[MyEnum["B"] = 1] = "B";
-    })(MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
+        return MyEnum;
+    }(MyEnum || {});
+    MyNamespace.MyEnum = MyEnum;
     (function(MyInnerNamespace) {
         MyInnerNamespace.Dec2 = 2;
-    })(MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
+    })(MyInnerNamespace || (MyInnerNamespace = {}));
+    MyNamespace.MyInnerNamespace = MyInnerNamespace;
 })(MyNamespace || (MyNamespace = {}));
 (function(MyNamespace) {
-    let MyEnum = /*#__PURE__*/ function(MyEnum) {
+    var MyEnum = /*#__PURE__*/ function(MyEnum) {
         MyEnum[MyEnum["A"] = 2] = "A";
         return MyEnum;
-    }({});
+    }(MyEnum || {});
 })(MyNamespace || (MyNamespace = {}));
-var MyNamespace;

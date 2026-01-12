@@ -1,3 +1,5 @@
 export class A {
 }
-(function(A) {})(A);
+export var A = /*#__PURE__*/ function(A) {
+    return A;
+}({});

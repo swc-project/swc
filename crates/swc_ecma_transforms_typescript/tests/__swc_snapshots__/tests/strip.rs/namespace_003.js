@@ -1,6 +1,8 @@
 (function(Test) {
     (function(Inner) {
         Inner.c = 3;
-    })(Test.Inner || (Test.Inner = {}));
+    })(Inner || (Inner = {}));
 })(Test || (Test = {}));
-var Test;
+(function(Test) {
+    (function(Other) {})(Other || (Other = {}));
+})(Test || (Test = {}));
