@@ -1,2 +1,2 @@
-import { Test } from 'test';
 console.log(Test);
+import { Test } from 'test';

@@ -1,5 +1,3 @@
-export function addProp(obj, prop, value);
-export function addProp(prop, value);
 export function addProp(arg1, arg2, arg3) {
     if (arguments.length === 2) {
         return (object)=>_addProp(object, arg1, arg2);

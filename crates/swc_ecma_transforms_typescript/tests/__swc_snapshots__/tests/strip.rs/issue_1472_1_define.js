@@ -1,6 +1,7 @@
 class A extends Object {
-    a = 1;
+    b;
+    a;
     constructor(b = 2){
-        super(), this.b = b;
+        super(), this.b = b, this.a = 1;
     }
 }

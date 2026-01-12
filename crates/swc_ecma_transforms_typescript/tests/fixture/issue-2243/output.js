@@ -22,11 +22,11 @@ export function Colors(member) {
         2.0
     ];
     function ValueFor(member) {
-        return ValueMap[member]?.value;
+        return Colors.ValueMap[member]?.value;
     }
     Colors.ValueFor = ValueFor;
     async function LabelFor(member) {
-        return ValueMap[member]?.label;
+        return Colors.ValueMap[member]?.label;
     }
     Colors.LabelFor = LabelFor;
 })(Colors || (Colors = {}));

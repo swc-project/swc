@@ -1,2 +1,2 @@
-export var foo = require("foo");
+const foo = exports.foo = require("foo");
 foo();

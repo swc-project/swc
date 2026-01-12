@@ -1,2 +1,2 @@
-var F = require('yaml');
+const F = require('yaml');
 console.log(F);

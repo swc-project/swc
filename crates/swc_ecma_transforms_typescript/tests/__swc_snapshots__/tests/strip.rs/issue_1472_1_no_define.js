@@ -1,5 +1,5 @@
 class A extends Object {
     constructor(b = 2){
-        super(), this.a = 1, this.b = b;
+        super(), this.b = b, this.a = 1;
     }
 }

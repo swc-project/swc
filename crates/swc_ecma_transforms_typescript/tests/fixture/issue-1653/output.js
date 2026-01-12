@@ -1,12 +1,11 @@
 (function(X) {
     (function(Z) {
         Z.foo = 0;
-    })(Z || (Z = {}));
-    X.Z = Z;
+    })(X.Z || (X.Z = {}));
 })(X || (X = {}));
 (function(Y) {
     (function(Z) {
         Z.bar = 1;
-    })(Z || (Z = {}));
-    Y.Z = Z;
+    })(Y.Z || (Y.Z = {}));
 })(Y || (Y = {}));
+var X, Y;

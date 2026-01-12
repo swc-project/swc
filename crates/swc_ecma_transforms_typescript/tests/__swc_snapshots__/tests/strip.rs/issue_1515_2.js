@@ -3,7 +3,5 @@
     }
     A.B = B;
 })(A || (A = {}));
+(function(A) {})(A);
 export var A;
-export var A = /*#__PURE__*/ function(A) {
-    return A;
-}({});

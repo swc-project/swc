@@ -4,7 +4,8 @@
         return 20;
     };
     function xyz() {
-        return foo() * bar;
+        return Foo.foo() * Foo.bar;
     }
     Foo.xyz = xyz;
 })(Foo || (Foo = {}));
+var Foo;

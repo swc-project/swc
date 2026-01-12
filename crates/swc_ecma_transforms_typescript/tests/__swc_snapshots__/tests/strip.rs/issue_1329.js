@@ -1,9 +1,8 @@
 (function(Test) {
-    var DummyValues = /*#__PURE__*/ function(DummyValues) {
+    (function(DummyValues) {
         DummyValues["A"] = "A";
         DummyValues["B"] = "B";
-        return DummyValues;
-    }(DummyValues || {});
-    Test.DummyValues = DummyValues;
+    })(Test.DummyValues || (Test.DummyValues = {}));
 })(Test || (Test = {}));
 console(Test.DummyValues.A);
+var Test;

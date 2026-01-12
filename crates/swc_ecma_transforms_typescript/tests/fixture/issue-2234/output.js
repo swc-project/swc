@@ -6,8 +6,8 @@
         class Square {
         }
         Polygons.Square = Square;
-    })(Polygons || (Polygons = {}));
-    Shapes.Polygons = Polygons;
+    })(Shapes.Polygons || (Shapes.Polygons = {}));
 })(Shapes || (Shapes = {}));
 const polygons = Shapes.Polygons;
 let sq = new polygons.Square();
+var Shapes;
