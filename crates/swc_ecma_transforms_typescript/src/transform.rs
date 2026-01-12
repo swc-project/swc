@@ -1317,6 +1317,12 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        // Strip TypeScript-only fields
+        n.accessibility = None;
+        n.is_abstract = false;
+        n.is_optional = false;
+        n.is_override = false;
+        n.readonly = false;
         n.type_ann = None;
         n.declare = false;
         n.definite = false;
@@ -1324,12 +1330,31 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        // Strip TypeScript-only fields
+        n.accessibility = None;
+        n.is_optional = false;
+        n.is_override = false;
+        n.readonly = false;
         n.type_ann = None;
         n.definite = false;
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
+        // Strip TypeScript-only fields
+        n.accessibility = None;
+        n.is_abstract = false;
+        n.is_optional = false;
+        n.is_override = false;
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        // Strip TypeScript-only fields
+        n.accessibility = None;
+        n.is_abstract = false;
+        n.is_optional = false;
+        n.is_override = false;
         n.visit_mut_children_with(self);
     }
 
