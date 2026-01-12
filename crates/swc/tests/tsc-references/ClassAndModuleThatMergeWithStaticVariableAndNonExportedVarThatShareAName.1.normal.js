@@ -29,4 +29,4 @@ Point.Origin = {
         var Origin = ""; // not an error since not exported
     })(A.Point || (A.Point = {}));
 })(A || (A = {}));
-var A;
+var Point, A;

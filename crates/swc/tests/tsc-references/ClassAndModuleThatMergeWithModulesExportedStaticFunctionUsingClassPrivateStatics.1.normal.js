@@ -14,6 +14,6 @@ var clodule = /*#__PURE__*/ function() {
     function fn(x, y) {
         return clodule.sfn('a');
     }
-    // error: duplicate identifier expected
     clodule.fn = fn;
 })(clodule || (clodule = {}));
+var clodule;

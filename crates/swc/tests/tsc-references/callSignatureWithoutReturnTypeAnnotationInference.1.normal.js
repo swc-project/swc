@@ -109,4 +109,4 @@ function foo15() {
     return e1;
 }
 var r15 = foo15();
-var M;
+var M, m1, c1, e1;

@@ -1,9 +1,9 @@
 //// [enum.ts]
-var Enum;
-var Enum1 = ((Enum = {})[Enum.One = 1] = "One", Enum);
-export { Enum1 as Enum,  };
+export { };
 //// [merge.ts]
-import "./enum";
+var Enum;
+Enum || (Enum = {});
+export { Enum };
 //// [index.ts]
 import { Enum } from "./merge";
 Enum.One;

@@ -1,18 +1,12 @@
 //// [foo.ts]
-//!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[6:1]
-//!  3 |     y: number;
-//!  4 |     data: T;
-//!  5 | }
-//!  6 | export = Point;
-//!    : ^^^^^^^^^^^^^^^
-//!  7 | 
-//!    `----
+export { };
 //// [foo2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+Bar || (Bar = {}), Baz || (Baz = {});
 var Bar = function Bar(input) {
     _class_call_check(this, Bar);
 };
+export var Baz;
 export { Bar };
 //// [usage.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";

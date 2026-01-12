@@ -7,9 +7,14 @@ define([
 });
 //// [foo_1.ts]
 define([
-    "require"
-], function(require) {
+    "require",
+    "exports",
+    "./foo_0"
+], function(require, exports, _foo_0) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
     var x;
     x("test");
     x(42);

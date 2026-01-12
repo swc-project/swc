@@ -1,4 +1,5 @@
 //// [stringEnumLiteralTypes1.ts]
+;
 function f1() {
     var a;
     var a;

@@ -9,6 +9,7 @@ var env = {
     hasError: false
 };
 try {
+    declare var dec;
     var before = _ts_add_disposable_resource(env, null, false);
     var C = function C() {
         "use strict";

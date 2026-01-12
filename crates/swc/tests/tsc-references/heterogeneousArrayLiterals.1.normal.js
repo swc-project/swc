@@ -459,4 +459,4 @@ function foo4(t, u) {
  //    var j = [u, derived]; // Derived[]
  //    var k: Base[] = [t, u];
  //}
-var WithContextualType;
+var Derived, WithContextualType;

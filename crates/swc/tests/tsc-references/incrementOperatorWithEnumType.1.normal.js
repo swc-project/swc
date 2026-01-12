@@ -6,9 +6,10 @@ var ENUM1 = /*#__PURE__*/ function(ENUM1) {
     ENUM1[ENUM1[""] = 2] = "";
     return ENUM1;
 }(ENUM1 || {});
+;
 // expression
-var ResultIsNumber1 = ++ENUM1["B"];
-var ResultIsNumber2 = ENUM1.B++;
+var ResultIsNumber1 = ++1;
+var ResultIsNumber2 = 1++;
 // miss assignment operator
-++ENUM1["B"];
-ENUM1.B++;
+++1;
+1++;

@@ -177,10 +177,6 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        _class_private_field_init._(this, _queue, {
-            writable: true,
-            value: new _utils.AsyncQueue()
-        });
         /**
          * The REST Manager.
          * @type {Rest}
@@ -189,6 +185,10 @@ class RequestHandler {
          * The ID of this request handler.
          * @type {string}
          */ this.id = id;
+        _class_private_field_init._(this, _queue, {
+            writable: true,
+            value: new _utils.AsyncQueue()
+        });
         /**
          * Timestamp in which the rate-limit will reset.
          * @type {number}

@@ -18,23 +18,23 @@ function fun3() {
     n1.d = fun2("Hello", "Hello");
     n1.e = fun3("Hello", "Hello", "World", "Foo");
     // Should be valid
-    n1.a = takeReturnString(n1.a);
-    n1.b = takeReturnString(n1.b);
-    n1.c = takeReturnString(n1.c);
-    n1.d = takeReturnString(n1.d);
-    n1.e = takeReturnString(n1.e);
+    a = takeReturnString(a);
+    b = takeReturnString(b);
+    c = takeReturnString(c);
+    d = takeReturnString(d);
+    e = takeReturnString(e);
     // Passing these as arguments should cause an error.
-    n1.a = takeReturnHello(n1.a);
-    n1.b = takeReturnHello(n1.b);
-    n1.c = takeReturnHello(n1.c);
-    n1.d = takeReturnHello(n1.d);
-    n1.e = takeReturnHello(n1.e);
+    a = takeReturnHello(a);
+    b = takeReturnHello(b);
+    c = takeReturnHello(c);
+    d = takeReturnHello(d);
+    e = takeReturnHello(e);
     // Passing these as arguments should cause an error.
-    n1.a = takeReturnHelloWorld(n1.a);
-    n1.b = takeReturnHelloWorld(n1.b);
-    n1.c = takeReturnHelloWorld(n1.c);
-    n1.d = takeReturnHelloWorld(n1.d);
-    n1.e = takeReturnHelloWorld(n1.e);
+    a = takeReturnHelloWorld(a);
+    b = takeReturnHelloWorld(b);
+    c = takeReturnHelloWorld(c);
+    d = takeReturnHelloWorld(d);
+    e = takeReturnHelloWorld(e);
 })(n1 || (n1 = {}));
 (function(n2) {
     n2.a = fun1("Hello", "Hello");
@@ -43,23 +43,23 @@ function fun3() {
     n2.d = fun2("Hello", "World");
     n2.e = fun3("Hello", "World");
     // Assignment from the returned value should cause an error.
-    n2.a = takeReturnString(n2.a);
-    n2.b = takeReturnString(n2.b);
-    n2.c = takeReturnString(n2.c);
-    n2.d = takeReturnString(n2.d);
-    n2.e = takeReturnString(n2.e);
+    a = takeReturnString(a);
+    b = takeReturnString(b);
+    c = takeReturnString(c);
+    d = takeReturnString(d);
+    e = takeReturnString(e);
     // Should be valid
-    n2.a = takeReturnHello(n2.a);
-    n2.b = takeReturnHello(n2.b);
-    n2.c = takeReturnHello(n2.c);
-    n2.d = takeReturnHello(n2.d);
-    n2.e = takeReturnHello(n2.e);
+    a = takeReturnHello(a);
+    b = takeReturnHello(b);
+    c = takeReturnHello(c);
+    d = takeReturnHello(d);
+    e = takeReturnHello(e);
     // Assignment from the returned value should cause an error.
-    n2.a = takeReturnHelloWorld(n2.a);
-    n2.b = takeReturnHelloWorld(n2.b);
-    n2.c = takeReturnHelloWorld(n2.c);
-    n2.d = takeReturnHelloWorld(n2.d);
-    n2.e = takeReturnHelloWorld(n2.e);
+    a = takeReturnHelloWorld(a);
+    b = takeReturnHelloWorld(b);
+    c = takeReturnHelloWorld(c);
+    d = takeReturnHelloWorld(d);
+    e = takeReturnHelloWorld(e);
 })(n2 || (n2 = {}));
 (function(n3) {
     n3.a = fun2("Hello", "World");
@@ -68,22 +68,22 @@ function fun3() {
     n3.d = fun2("World", "World");
     n3.e = fun3("Hello", "World");
     // Assignment from the returned value should cause an error.
-    n3.a = takeReturnString(n3.a);
-    n3.b = takeReturnString(n3.b);
-    n3.c = takeReturnString(n3.c);
-    n3.d = takeReturnString(n3.d);
-    n3.e = takeReturnString(n3.e);
+    a = takeReturnString(a);
+    b = takeReturnString(b);
+    c = takeReturnString(c);
+    d = takeReturnString(d);
+    e = takeReturnString(e);
     // Passing these as arguments should cause an error.
-    n3.a = takeReturnHello(n3.a);
-    n3.b = takeReturnHello(n3.b);
-    n3.c = takeReturnHello(n3.c);
-    n3.d = takeReturnHello(n3.d);
-    n3.e = takeReturnHello(n3.e);
+    a = takeReturnHello(a);
+    b = takeReturnHello(b);
+    c = takeReturnHello(c);
+    d = takeReturnHello(d);
+    e = takeReturnHello(e);
     // Both should be valid.
-    n3.a = takeReturnHelloWorld(n3.a);
-    n3.b = takeReturnHelloWorld(n3.b);
-    n3.c = takeReturnHelloWorld(n3.c);
-    n3.d = takeReturnHelloWorld(n3.d);
-    n3.e = takeReturnHelloWorld(n3.e);
+    a = takeReturnHelloWorld(a);
+    b = takeReturnHelloWorld(b);
+    c = takeReturnHelloWorld(c);
+    d = takeReturnHelloWorld(d);
+    e = takeReturnHelloWorld(e);
 })(n3 || (n3 = {}));
 var n1, n2, n3;

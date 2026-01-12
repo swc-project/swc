@@ -244,6 +244,7 @@ try {
             _ts_dispose_resources(env);
         }
     })(N || (N = {}));
+    var N;
     {
         const env = {
             stack: [],
@@ -486,7 +487,6 @@ try {
             _ts_dispose_resources(env);
         }
     }
-    var N;
 } catch (e) {
     env.error = e;
     env.hasError = true;

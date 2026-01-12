@@ -1,3 +1,3 @@
 //// [globalThisAmbientModules.ts]
-var valueModule;
-(valueModule || (valueModule = {})).val = 1;
+var valueModule, namespaceModule;
+(valueModule || (valueModule = {})).val = 1, namespaceModule || (namespaceModule = {});

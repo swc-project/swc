@@ -1,10 +1,8 @@
 //// [file.tsx]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[2:1]
-//!  1 | 
-//!  2 | import React = require('react');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  3 | 
-//!  4 | <div>
-//!  5 |     // Not Comment
-//!    `----
+/*#__PURE__*/ React.createElement("div", null, "// Not Comment");
+/*#__PURE__*/ React.createElement("div", null, "// Not Comment", "// Another not Comment");
+/*#__PURE__*/ React.createElement("div", null, "// Not Comment", //Comment just Fine
+"Hi", "// Another not Comment");
+/*#__PURE__*/ React.createElement("div", null, "/* Not Comment */", //Comment just Fine
+"Hi");
+export { };

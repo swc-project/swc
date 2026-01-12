@@ -1,6 +1,5 @@
 //// [importTag3.ts]
 //// [/types.ts]
-export { };
 //// [/foo.js]
 /**
  * @import Foo from "./types"

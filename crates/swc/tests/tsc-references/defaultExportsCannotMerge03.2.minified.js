@@ -8,9 +8,10 @@ Object.defineProperty(exports, "__esModule", {
         return Decl;
     }
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), Decl = function Decl() {
+var Decl, _class_call_check = require("@swc/helpers/_/_class_call_check"), Decl = function Decl() {
     _class_call_check._(this, Decl);
 };
+Decl || (Decl = {});
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

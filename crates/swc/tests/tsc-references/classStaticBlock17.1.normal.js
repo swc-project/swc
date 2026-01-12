@@ -24,12 +24,14 @@ friendA = {
         _class_private_field_set(obj, _x, value);
     }
 };
+;
 class B {
     constructor(a){
         const x = friendA.getX(a); // ok
         friendA.setX(a, x + 1); // ok
     }
 }
+;
 const a = new A(41);
 const b = new B(a);
 a.getX();

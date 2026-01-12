@@ -54,6 +54,7 @@ var data = {
         null
     ]
 };
+;
 function f1(t1, t2, t3) {
     t1 = t2;
     t1 = t3;

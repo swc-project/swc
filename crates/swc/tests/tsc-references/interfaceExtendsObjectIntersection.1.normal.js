@@ -65,6 +65,12 @@ var C7 = /*#__PURE__*/ function(_Constructor) {
     }
     return C7;
 }(Constructor());
+var EX = /*#__PURE__*/ function(EX) {
+    EX[EX["A"] = 0] = "A";
+    EX[EX["B"] = 1] = "B";
+    EX[EX["C"] = 2] = "C";
+    return EX;
+}(EX || {});
 var C20 = /*#__PURE__*/ function(_Constructor) {
     "use strict";
     _inherits(C20, _Constructor);

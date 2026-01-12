@@ -7,8 +7,8 @@ export var AppController = /*#__PURE__*/ function() {
     "use strict";
     function AppController(appService) {
         _class_call_check(this, AppController);
-        _define_property(this, "appService", void 0);
         this.appService = appService;
+        _define_property(this, "appService", void 0);
     }
     _create_class(AppController, [
         {

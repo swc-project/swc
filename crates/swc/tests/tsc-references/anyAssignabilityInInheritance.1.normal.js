@@ -42,3 +42,4 @@ var CC = function CC() {
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any
+var f, CC;

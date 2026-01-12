@@ -4,6 +4,7 @@ export class Reflect {
 }
 export default class {
 }
+;
 //// [locals.ts]
 class C extends B {
     static{
@@ -36,8 +37,7 @@ class C extends B {
             (()=>{
                 let Reflect = /*#__PURE__*/ function(Reflect) {
                     return Reflect;
-                }({})// collision (es2015-es2021 only)
-                ;
+                }({});
                 super.w();
             })(),
             (()=>{
@@ -89,8 +89,7 @@ class C extends B {
     static{
         let Reflect = /*#__PURE__*/ function(Reflect) {
             return Reflect;
-        }({})// collision (es2015-es2021 only)
-        ;
+        }({});
         super.w();
     }
     static{
@@ -206,24 +205,27 @@ class C extends B {
 }
 export { };
 //// [valueNamespaceInContainingScopeStaticField.ts]
+(function(Reflect) {})(Reflect || (Reflect = {}));
 class C extends B {
     static{
         this._ = super.w();
     }
 }
+var Reflect;
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
+(function(Reflect) {})(Reflect || (Reflect = {}));
 class C extends B {
     static{
         super.w();
     }
 }
+var Reflect;
 export { };
 //// [enumInContainingScopeStaticField.ts]
 var Reflect = /*#__PURE__*/ function(Reflect) {
     return Reflect;
-}(Reflect || {})// collision (es2015-es2021 only)
-;
+}(Reflect || {});
 class C extends B {
     static{
         this._ = super.w();
@@ -233,8 +235,7 @@ export { };
 //// [enumInContainingScopeStaticBlock.ts]
 var Reflect = /*#__PURE__*/ function(Reflect) {
     return Reflect;
-}(Reflect || {})// collision (es2015-es2021 only)
-;
+}(Reflect || {});
 class C extends B {
     static{
         super.w();
@@ -261,112 +262,112 @@ class C extends B {
         this._ = super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportInContainingScopeStaticField.ts]
 class C extends B {
     static{
         this._ = super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
 class C extends B {
     static{
         this._ = super.w();
     }
 }
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
 class C extends B {
     static{
         this._ = super.w();
     }
 }
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
 class C extends B {
     static{
         this._ = super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
 class C extends B {
     static{
         this._ = super.w();
     }
 }
-export { }; // no collision
+export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // no collision
+export { };
 //// [defaultImportInContainingScopeStaticField.ts]
 class C extends B {
     static{
         this._ = super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
 class C extends B {
     static{
         this._ = super.w();
     }
 }
-export { }; // no collision
+export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
 class C extends B {
     static{
         super.w();
     }
 }
-export { }; // no collision
+export { };
 //// [typeInContainingScopeStaticField.ts]
 class C extends B {
     static{
@@ -382,6 +383,7 @@ class C extends B {
 }
 export { };
 //// [interfaceInContainingScopeStaticField.ts]
+; // no collision
 class C extends B {
     static{
         this._ = super.w();
@@ -389,6 +391,7 @@ class C extends B {
 }
 export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
+; // no collision
 class C extends B {
     static{
         super.w();
@@ -396,6 +399,7 @@ class C extends B {
 }
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticField.ts]
+; // no collision
 class C extends B {
     static{
         this._ = super.w();
@@ -403,6 +407,7 @@ class C extends B {
 }
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
+; // no collision
 class C extends B {
     static{
         super.w();

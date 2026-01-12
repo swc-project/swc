@@ -30,6 +30,7 @@ condString ? exprString1 : exprBoolean1; // union
 function foo() {
     return "string";
 }
+;
 var array = [
     "1",
     "2",

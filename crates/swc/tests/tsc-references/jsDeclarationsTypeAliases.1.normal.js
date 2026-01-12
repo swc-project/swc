@@ -1,5 +1,6 @@
 //// [index.js]
-export { }; // flag file as module
+export { };
+ // flag file as module
  /**
  * @typedef {string | number | symbol} PropName 
  */  /**
@@ -18,8 +19,7 @@ export { }; // flag file as module
  * @callback Identity
  * @param {T} x
  * @returns {T}
- */ 
-//// [mixed.js]
+ */ //// [mixed.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /**
  * @typedef {{x: string} | number | LocalThing | ExportedThing} SomeType

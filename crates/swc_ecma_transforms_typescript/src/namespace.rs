@@ -402,6 +402,15 @@ fn process_stmt(
                     }))));
                 }
             }
+            Decl::Var(v) if v.declare => {
+                // Skip ambient var declarations
+            }
+            Decl::Fn(f) if f.declare || f.function.body.is_none() => {
+                // Skip ambient function declarations and function overloads
+            }
+            Decl::Class(c) if c.declare => {
+                // Skip ambient class declarations
+            }
             decl => {
                 out.push(Stmt::Decl(decl));
             }
@@ -426,6 +435,10 @@ fn process_module_decl(
         ModuleDecl::ExportDecl(export) => match export.decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::Class(c) => {
+                // Skip ambient class declarations
+                if c.declare {
+                    return;
+                }
                 let ident = c.ident.clone();
                 // Rewrite references to exported members in class body
                 let mut class_decl = c;
@@ -435,6 +448,10 @@ fn process_module_decl(
                 emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Fn(f) => {
+                // Skip ambient function declarations and function overloads
+                if f.declare || f.function.body.is_none() {
+                    return;
+                }
                 let ident = f.ident.clone();
                 // Rewrite references to exported members in function body
                 let mut fn_decl = f;
@@ -444,6 +461,10 @@ fn process_module_decl(
                 emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Var(v) => {
+                // Skip ambient var declarations
+                if v.declare {
+                    return;
+                }
                 // For exported variable declarations:
                 // - Simple binding: export const a = 1; -> ns.a = 1;
                 // - Destructuring: export const [a, b] = x; -> [ns.a, ns.b] = x;

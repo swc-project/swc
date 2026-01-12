@@ -20,6 +20,6 @@ var C = function C() {
 };
 export { C as default };
 //// [/main6.ts]
-export default I;
+export { };
 //// [/main7.ts]
 export default C;

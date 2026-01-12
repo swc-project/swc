@@ -43,4 +43,4 @@ var Point = /*#__PURE__*/ function() {
         } // not an error since not exported
     })(A.Point || (A.Point = {}));
 })(A || (A = {}));
-var A;
+var Point, A;

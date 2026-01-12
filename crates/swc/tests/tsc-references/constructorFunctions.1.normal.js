@@ -16,6 +16,7 @@ var c2_v2 = new C2();
 /** @class */ function C3() {
     if (!_instanceof(this, C3)) return new C3();
 }
+;
 var c3_v1 = C3(); // error: @class tag requires 'new'
 var c3_v2 = new C3();
 /** @class */ var C4 = function C41() {
@@ -45,6 +46,7 @@ new c5_v2();
         }
     ];
 }
+;
 var c6_v1 = new C6();
 /**
  * @constructor

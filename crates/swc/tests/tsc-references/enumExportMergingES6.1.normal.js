@@ -7,5 +7,5 @@ export var Animals = /*#__PURE__*/ function(Animals) {
     Animals[Animals["Dog"] = 2] = "Dog";
 })(Animals);
 (function(Animals) {
-    Animals[Animals["CatDog"] = 3] = "CatDog";
+    Animals[Animals["CatDog"] = Cat | Dog] = "CatDog";
 })(Animals);

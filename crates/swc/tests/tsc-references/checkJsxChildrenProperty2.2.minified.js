@@ -1,10 +1,8 @@
 //// [file.tsx]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[2:1]
-//!  1 | 
-//!  2 | import React = require('react');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  3 | 
-//!  4 | interface Prop {
-//!  5 |     a: number,
-//!    `----
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+_object_spread({
+    a: 10,
+    b: "hi"
+}, {
+    children: "Random"
+});

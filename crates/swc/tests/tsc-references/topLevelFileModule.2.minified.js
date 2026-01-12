@@ -9,9 +9,6 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [vs/fum.d.ts]
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-});
 //// [foo_1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

@@ -23,3 +23,8 @@ var T5 = /*#__PURE__*/ function(T5) {
     T5["a"] = "12";
     return T5;
 }(T5 || {});
+var T6 = /*#__PURE__*/ function(T6) {
+    T6["a"] = "1";
+    T6["b"] = "12";
+    return T6;
+}(T6 || {});

@@ -18,9 +18,6 @@ _export(exports, {
     get C1 () {
         return C;
     },
-    get D () {
-        return D;
-    },
     get D1 () {
         return D;
     },
@@ -35,6 +32,12 @@ _export(exports, {
     },
     get M1 () {
         return M;
+    },
+    get N () {
+        return N;
+    },
+    get N1 () {
+        return N;
     },
     get a () {
         return a;
@@ -65,15 +68,10 @@ var E = /*#__PURE__*/ function(E) {
     E[E["C"] = 2] = "C";
     return E;
 }({});
-var D = /*#__PURE__*/ function(D) {
-    D[D["A"] = 0] = "A";
-    D[D["B"] = 1] = "B";
-    D[D["C"] = 2] = "C";
-    return D;
-}({});
 (function(M) {})(M || (M = {}));
+(function(N) {})(N || (N = {}));
 const a = M.x;
-var M;
+var M, N;
 //// [t2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

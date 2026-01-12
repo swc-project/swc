@@ -2570,6 +2570,7 @@ var x320 = true ? {
     }
 } : undefined;
 function x321(n) {}
+;
 x321(function() {
     return [
         d1,
@@ -2577,6 +2578,7 @@ x321(function() {
     ];
 });
 function x322(n) {}
+;
 x322(function() {
     return [
         d1,
@@ -2584,6 +2586,7 @@ x322(function() {
     ];
 });
 function x323(n) {}
+;
 x323(function named() {
     return [
         d1,
@@ -2591,6 +2594,7 @@ x323(function named() {
     ];
 });
 function x324(n) {}
+;
 x324(function() {
     return [
         d1,
@@ -2598,6 +2602,7 @@ x324(function() {
     ];
 });
 function x325(n) {}
+;
 x325(function() {
     return [
         d1,
@@ -2605,6 +2610,7 @@ x325(function() {
     ];
 });
 function x326(n) {}
+;
 x326(function named() {
     return [
         d1,
@@ -2612,21 +2618,25 @@ x326(function named() {
     ];
 });
 function x327(n) {}
+;
 x327([
     d1,
     d2
 ]);
 function x328(n) {}
+;
 x328([
     d1,
     d2
 ]);
 function x329(n) {}
+;
 x329([
     d1,
     d2
 ]);
 function x330(n) {}
+;
 x330({
     n: [
         d1,
@@ -2634,11 +2644,13 @@ x330({
     ]
 });
 function x331(n) {}
+;
 x331(function(n) {
     var n;
     return null;
 });
 function x332(n) {}
+;
 x332({
     func: function(n) {
         return [

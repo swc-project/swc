@@ -43,24 +43,5 @@ Object.defineProperty(module.exports, "thing", {
 //// [index.js]
 require("./mod1").thing, require("./mod2").thing;
 //// [validator.ts]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[3:1]
-//!  1 | import "./";
-//!  2 | 
-//!  3 | import m1 = require("./mod1");
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  4 | 
-//!  5 | m1.thing;
-//!  6 | m1.readonlyProp;
-//!    `----
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!     ,-[23:1]
-//!  20 | m1.rwAccessors = "no";
-//!  21 | m1.setonlyAccessor = 0;
-//!  22 | 
-//!  23 | import m2 = require("./mod2");
-//!     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  24 | 
-//!  25 | m2.thing;
-//!  26 | m2.readonlyProp;
-//!     `----
+import "./";
+m1.thing, m1.readonlyProp, m1.rwAccessors, m1.readonlyAccessor, m1.setonlyAccessor, m1.thing = 10, m1.rwAccessors = 11, m1.setonlyAccessor = "yes", m1.readonlyProp = "name", m1.readonlyAccessor = 12, m1.thing = "no", m1.rwAccessors = "no", m1.setonlyAccessor = 0, m2.thing, m2.readonlyProp, m2.rwAccessors, m2.readonlyAccessor, m2.setonlyAccessor, m2.thing = "ok", m2.rwAccessors = 11, m2.setonlyAccessor = "yes", m2.readonlyProp = "name", m2.readonlyAccessor = 12, m2.thing = 0, m2.rwAccessors = "no", m2.setonlyAccessor = 0;

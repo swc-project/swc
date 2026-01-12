@@ -1,2 +1,3 @@
 //// [InvalidNonInstantiatedModule.ts]
-M;
+var M;
+M || (M = {});

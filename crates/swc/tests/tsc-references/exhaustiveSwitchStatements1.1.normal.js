@@ -35,7 +35,6 @@ function f3(x) {
             throw new Error("Bad input");
     }
 }
-// Repro from #11572
 var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
@@ -92,7 +91,6 @@ function areaWrapped(s) {
     }();
     return area;
 }
-// Repro from #13241
 var MyEnum = /*#__PURE__*/ function(MyEnum) {
     MyEnum[MyEnum["A"] = 0] = "A";
     MyEnum[MyEnum["B"] = 1] = "B";
@@ -133,7 +131,6 @@ function good2(e) {
             return "it was B";
     }
 }
-// Repro from #18362
 var Level = /*#__PURE__*/ function(Level) {
     Level[Level["One"] = 0] = "One";
     Level[Level["Two"] = 1] = "Two";
@@ -192,7 +189,6 @@ function test4(value) {
     }
     return x;
 }
-// Repro from #34661
 var Animal = /*#__PURE__*/ function(Animal) {
     Animal[Animal["DOG"] = 0] = "DOG";
     Animal[Animal["CAT"] = 1] = "CAT";

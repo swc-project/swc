@@ -1,34 +1,30 @@
 //// [exportCodeGen.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // should replace all refs to 'x' in the body,
 // with fully qualified
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(A) {
     A.x = 12;
     function lt12() {
-        return A.x < 12;
-    }
-})(A || (A = {}));
-// should not fully qualify 'x'
-(function(B) {
-    var x = 12;
-    function lt12() {
         return x < 12;
     }
+})(A || (A = {}));
+(function(B) {
+    var x1 = 12;
+    function lt12() {
+        return x1 < 12;
+    }
 })(B || (B = {}));
-// not copied, since not exported
 (function(C) {
     function no() {
         return false;
     }
 })(C || (C = {}));
-// copies, since exported
 (function(D) {
     function yes() {
         return true;
     }
     D.yes = yes;
 })(D || (D = {}));
-// validate all exportable statements
 (function(E) {
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
@@ -44,8 +40,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         M.x = 42;
     })(E.M || (E.M = {}));
 })(E || (E = {}));
-// validate all exportable statements,
-// which are not exported
 (function(F) {
     var Color = /*#__PURE__*/ function(Color) {
         Color[Color["Red"] = 0] = "Red";
@@ -57,7 +51,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         _class_call_check(this, C);
     };
     (function(M) {
-        var x = 42;
+        var x1 = 42;
     })(M || (M = {}));
     var M;
 })(F || (F = {}));

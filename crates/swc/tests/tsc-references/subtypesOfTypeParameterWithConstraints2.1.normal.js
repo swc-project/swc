@@ -146,3 +146,4 @@ function f21(x) {
     var r20 = true ? {} : x; // ok
     var r20 = true ? x : {}; // ok
 }
+var f, c;

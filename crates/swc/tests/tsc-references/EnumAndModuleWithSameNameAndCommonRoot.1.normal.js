@@ -18,3 +18,4 @@ var x;
 var x = 0;
 var y;
 var y = new enumdule.Point(0, 0);
+var enumdule;

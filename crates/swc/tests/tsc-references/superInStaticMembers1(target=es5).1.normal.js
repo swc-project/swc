@@ -10,6 +10,7 @@ var _default = function _default() {
     _class_call_check(this, _default);
 };
 export { _default as default };
+;
 //// [locals.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -56,8 +57,7 @@ C._ = [
     function() {
         var Reflect = /*#__PURE__*/ function(Reflect) {
             return Reflect;
-        }({})// collision (es2015-es2021 only)
-        ;
+        }({});
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
@@ -112,8 +112,7 @@ C._ = [
 (function() {
     var Reflect = /*#__PURE__*/ function(Reflect) {
         return Reflect;
-    }({})// collision (es2015-es2021 only)
-    ;
+    }({});
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -331,6 +330,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+(function(Reflect) {})(Reflect || (Reflect = {}));
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -341,6 +341,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
+var Reflect;
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
@@ -348,6 +349,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+(function(Reflect) {})(Reflect || (Reflect = {}));
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -358,6 +360,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
+var Reflect;
 export { };
 //// [enumInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
@@ -367,8 +370,7 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var Reflect = /*#__PURE__*/ function(Reflect) {
     return Reflect;
-}(Reflect || {})// collision (es2015-es2021 only)
-;
+}(Reflect || {});
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -388,8 +390,7 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var Reflect = /*#__PURE__*/ function(Reflect) {
     return Reflect;
-}(Reflect || {})// collision (es2015-es2021 only)
-;
+}(Reflect || {});
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -451,7 +452,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -468,7 +469,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -485,7 +486,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -502,7 +503,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -519,7 +520,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -536,7 +537,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -553,7 +554,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -570,7 +571,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only, not a type-only import)
+export { };
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -587,7 +588,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -604,7 +605,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -621,7 +622,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // no collision
+export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -638,7 +639,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // no collision
+export { };
 //// [defaultImportInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -655,7 +656,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -672,7 +673,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // collision (es2015-es2021 only)
+export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -689,7 +690,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // no collision
+export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -706,7 +707,7 @@ var C = /*#__PURE__*/ function(B1) {
     return C;
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
-export { }; // no collision
+export { };
 //// [typeInContainingScopeStaticField.ts]
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -747,6 +748,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+; // no collision
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -764,6 +766,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+; // no collision
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -781,6 +784,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+; // no collision
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -798,6 +802,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+; // no collision
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);

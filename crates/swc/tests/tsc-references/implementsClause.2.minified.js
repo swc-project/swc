@@ -4,3 +4,4 @@ export { };
 export { };
 //// [index.ts]
 import "@swc/helpers/_/_class_call_check";
+import './ns';

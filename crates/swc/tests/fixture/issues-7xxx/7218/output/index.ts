@@ -1,7 +1,7 @@
 export var Test = /*#__PURE__*/ function(Test) {
     Test[Test["A"] = 1073741824] = "A";
-    Test[Test["B"] = -2147483648] = "B";
-    Test[Test["C"] = -1073741824] = "C";
+    Test[Test["B"] = 2147483648] = "B";
+    Test[Test["C"] = 3221225472] = "C";
     return Test;
 }({});
 var a = 1 << 30; // 1073741824

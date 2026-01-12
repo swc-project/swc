@@ -1,4 +1,5 @@
 //// [propertyAccessStringIndexSignature.ts]
+;
 var flags;
 flags.b;
 flags.f;

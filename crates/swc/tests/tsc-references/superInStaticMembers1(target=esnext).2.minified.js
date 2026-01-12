@@ -155,6 +155,8 @@ class C extends B {
 }
 export { };
 //// [valueNamespaceInContainingScopeStaticField.ts]
+var Reflect;
+Reflect || (Reflect = {});
 class C extends B {
     static{
         this._ = super.w();
@@ -162,6 +164,8 @@ class C extends B {
 }
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
+var Reflect;
+Reflect || (Reflect = {});
 class C extends B {
     static{
         super.w();

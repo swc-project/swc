@@ -40,4 +40,3 @@ async function copyExtensions(fromExtensions) {
             await scanMetadata(e)
         ]));
 }
-export { };

@@ -7,6 +7,7 @@ var X = function X() {
     "use strict";
     _class_call_check(this, X);
 };
+;
 var A = /*#__PURE__*/ function(X) {
     "use strict";
     _inherits(A, X);
@@ -16,6 +17,7 @@ var A = /*#__PURE__*/ function(X) {
     }
     return A;
 }(X);
+;
 var B = /*#__PURE__*/ function(X) {
     "use strict";
     _inherits(B, X);
@@ -25,6 +27,7 @@ var B = /*#__PURE__*/ function(X) {
     }
     return B;
 }(X);
+;
 var x;
 var a;
 var b;

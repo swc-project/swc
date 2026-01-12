@@ -1,12 +1,12 @@
 //// [node_modules/@types/node/index.d.ts]
 //// [index.js]
-//!   x ESM-style module declarations are not permitted in a namespace.
-//!     ,-[10:1]
-//!   7 |         const Something = require("fs").Something;
-//!   8 |         const thing = new Something();
-//!   9 |         // @ts-ignore
-//!  10 |         export { thing };
-//!     :         ^^^^^^^^^^^^^^^^^
-//!  11 |     }
-//!  12 | }
-//!     `----
+/// <reference types="node" />
+export var Something = 2; // to show conflict that can occur
+(function(A) {
+    (function(B) {
+        var Something = require("fs").Something;
+        var thing = new Something();
+        B.thing = thing;
+    })(A.B || (A.B = {}));
+})(A || (A = {}));
+export var A;

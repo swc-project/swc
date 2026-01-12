@@ -16,6 +16,8 @@ var Decl = function Decl() {
     "use strict";
     _class_call_check._(this, Decl);
 };
+(function(Decl) {})(Decl || (Decl = {}));
+var Decl;
 //// [m2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

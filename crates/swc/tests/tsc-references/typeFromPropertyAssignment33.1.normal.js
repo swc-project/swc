@@ -11,7 +11,7 @@
 (function(ExpandoMerge) {
     ExpandoMerge.p2 = 222;
 })(ExpandoMerge || (ExpandoMerge = {}));
-var ExpandoMerge;
+var ExpandoMerge, ExpandoMerge;
 //// [expando.ts]
 function ExpandoMerge(n) {
     return n;

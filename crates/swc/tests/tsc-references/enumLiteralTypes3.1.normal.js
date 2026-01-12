@@ -1,4 +1,5 @@
 //// [enumLiteralTypes3.ts]
+;
 function f1(a, b, c, d) {
     a = a;
     a = b;

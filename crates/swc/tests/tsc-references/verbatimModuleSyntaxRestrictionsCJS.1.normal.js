@@ -26,6 +26,9 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    get JustTypes () {
+        return JustTypes;
+    },
     get Values () {
         return Values;
     },
@@ -37,10 +40,11 @@ const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildc
 const _decl = /*#__PURE__*/ _interop_require_wildcard._(require("./decl"));
 Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./decl"))); // error
 const x = 1; // error
+(function(JustTypes) {})(JustTypes || (JustTypes = {}));
 (function(Values) {
     Values.x = 1;
 })(Values || (Values = {}));
-var Values;
+var JustTypes, Values;
  // sketchy, but ok
 //// [/main2.ts]
 "use strict";
@@ -86,14 +90,7 @@ class C {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "default" // error
-, {
-    enumerable: true,
-    get: function() {
-        return _default;
-    }
-});
-const _default = I;
+ // error
 //// [/main7.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

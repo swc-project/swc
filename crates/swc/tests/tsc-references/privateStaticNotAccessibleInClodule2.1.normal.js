@@ -17,5 +17,6 @@ var D = /*#__PURE__*/ function(C) {
     return D;
 }(C);
 (function(D) {
-    D.y = D.bar; // error
+    D.y = D.bar;
 })(D || (D = {}));
+var D;

@@ -2,6 +2,6 @@
 //// [a.ts]
 export { };
 //// [b.ts]
-import "./a";
+export { };
 //// [c.ts]
 export var bar = function(p) {};

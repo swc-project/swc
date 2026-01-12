@@ -1,3 +1,3 @@
 //// [esnextmodulekindWithES5Target7.ts]
-N || (N = {});
-export var N;
+N || (N = {}), N2 || (N2 = {});
+export var N, N2;

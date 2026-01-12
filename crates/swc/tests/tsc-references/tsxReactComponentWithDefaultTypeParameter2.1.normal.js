@@ -1,10 +1,6 @@
 //// [file.tsx]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[2:1]
-//!  1 | 
-//!  2 | import React = require('react');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  3 | 
-//!  4 | interface Prop {
-//!  5 |     a: number,
-//!    `----
+var x = /*#__PURE__*/ React.createElement(MyComp, null);
+var x1 = /*#__PURE__*/ React.createElement(MyComp, {
+    a: "hi"
+});
+export { };

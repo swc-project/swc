@@ -16,7 +16,7 @@
         Test.answer = 42;
     })(Foo.Test || (Foo.Test = {}));
 })(Foo || (Foo = {}));
-var Foo;
+var Foo, Foo;
 module.exports = Foo;
 //// [foo_1.ts]
 "use strict";

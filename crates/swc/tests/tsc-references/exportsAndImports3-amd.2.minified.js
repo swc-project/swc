@@ -11,18 +11,15 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var E, D, all = {
+    var E, all = {
         get C () {
             return C;
         },
         get C1 () {
             return C;
         },
-        get D () {
-            return D1;
-        },
         get D1 () {
-            return D1;
+            return D;
         },
         get E () {
             return E1;
@@ -35,6 +32,12 @@ define([
         },
         get M1 () {
             return M;
+        },
+        get N () {
+            return N;
+        },
+        get N1 () {
+            return N;
         },
         get a () {
             return a;
@@ -59,12 +62,12 @@ define([
         enumerable: !0,
         get: Object.getOwnPropertyDescriptor(all, name).get
     });
-    var M, v = 1;
+    var M, N, v = 1;
     function f() {}
     var C = function C() {
         _class_call_check._(this, C);
-    }, E1 = ((E = {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = ((D = {})[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", D);
-    M || (M = {});
+    }, E1 = ((E = {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E);
+    M || (M = {}), N || (N = {});
     var a = M.x;
 });
 //// [t2.ts]

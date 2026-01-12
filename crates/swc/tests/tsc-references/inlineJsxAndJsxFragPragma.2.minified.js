@@ -1,5 +1,4 @@
 //// [renderer.d.ts]
-export { };
 //// [preacty.tsx]
 import "./renderer";
 //// [snabbdomy.tsx]

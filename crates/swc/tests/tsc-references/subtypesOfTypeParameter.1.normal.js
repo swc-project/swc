@@ -106,3 +106,4 @@ function f2(x, y) {
     var r20 = true ? {} : x; // ok
     var r20 = true ? x : {}; // ok
 }
+var f, c;

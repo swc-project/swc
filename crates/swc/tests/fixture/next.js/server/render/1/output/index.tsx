@@ -14,6 +14,7 @@ import Loadable from "../shared/lib/loadable";
 import { LoadableContext } from "../shared/lib/loadable-context";
 import postProcess from "../shared/lib/post-process";
 import { RouterContext } from "../shared/lib/router-context";
+import { NextRouter } from "../shared/lib/router/router";
 import { isDynamicRoute } from "../shared/lib/router/utils/is-dynamic";
 import { HtmlContext, getDisplayName, isResSent, loadGetInitialProps } from "../shared/lib/utils";
 import { tryGetPreviewData } from "./api-utils";

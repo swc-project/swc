@@ -12,6 +12,7 @@ define([
     (function(foo) {
         foo.answer = 42;
     })(foo || (foo = {}));
+    var foo;
     return foo;
 });
 //// [foo_1.ts]

@@ -10,8 +10,11 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     A.Point = Point;
     A.Origin = new Point(0, 0);
 })(A || (A = {}));
-// no code gen expected
+(function(B) {
+    var a = A; //Error generates 'var <Alias> = <EntityName>;'
+})(B || (B = {}));
 (function(C) {
+    var a = A; //Error generates 'var <Alias> = <EntityName>;'
     var m;
     var p;
     var p = {
@@ -19,7 +22,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         y: 0
     };
 })(C || (C = {}));
-// code gen expected
 (function(D) {
     var a = A;
     var p = new a.Point(1, 1);
@@ -31,4 +33,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }
     E.xDist = xDist;
 })(E || (E = {}));
-var A, C, D, E;
+var A, B, C, D, E;

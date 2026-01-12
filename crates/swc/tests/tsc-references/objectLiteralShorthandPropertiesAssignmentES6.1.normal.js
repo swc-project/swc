@@ -6,6 +6,7 @@ var person = {
     id
 };
 function foo(obj) {}
+;
 function bar(name, id) {
     return {
         name,

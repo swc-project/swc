@@ -3,6 +3,7 @@ import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_fie
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 class D {
 }
+;
 var _x = /*#__PURE__*/ new WeakMap();
 class C {
     foo() {
