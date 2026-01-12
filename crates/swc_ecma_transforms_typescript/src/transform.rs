@@ -1826,6 +1826,10 @@ impl TypeStripper<'_> {
             .collect();
         c.params = new_params;
 
+        // Strip TypeScript-only properties from constructor
+        c.accessibility = None;
+        c.is_optional = false;
+
         // Insert property initializations at the beginning of constructor body (after
         // super call if present)
         // We use inject_after_super to handle both cases consistently with how
