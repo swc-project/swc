@@ -82,6 +82,10 @@ pub struct ProgramInfo {
 
     /// JSX pragma identifiers to preserve (from @jsx comments or config).
     pub jsx_pragma_ids: FxHashSet<Atom>,
+
+    /// Type-only imported identifiers (from type-only imports or type-only
+    /// specifiers).
+    pub type_only_imports: FxHashSet<Id>,
 }
 
 /// Semantic analyzer that collects program metadata.
@@ -143,7 +147,11 @@ impl<'a> Analyzer<'a> {
     fn collect_module_decl_imports(&mut self, decl: &ModuleDecl) {
         match decl {
             ModuleDecl::Import(import) => {
+                // Track type-only imports
                 if import.type_only {
+                    for spec in &import.specifiers {
+                        self.info.type_only_imports.insert(spec.local().to_id());
+                    }
                     return;
                 }
 
@@ -151,10 +159,11 @@ impl<'a> Analyzer<'a> {
                 for spec in &import.specifiers {
                     match spec {
                         ImportSpecifier::Named(named) => {
+                            let local_id = named.local.to_id();
                             if named.is_type_only {
+                                self.info.type_only_imports.insert(local_id);
                                 continue;
                             }
-                            let local_id = named.local.to_id();
                             let imported: Atom = match &named.imported {
                                 Some(ModuleExportName::Ident(i)) => i.sym.clone(),
                                 Some(ModuleExportName::Str(s)) => wtf8_to_atom(&s.value),
@@ -191,6 +200,7 @@ impl<'a> Analyzer<'a> {
             }
             ModuleDecl::TsImportEquals(import) => {
                 if import.is_type_only {
+                    self.info.type_only_imports.insert(import.id.to_id());
                     return;
                 }
 
@@ -313,17 +323,57 @@ impl<'a> Analyzer<'a> {
             self.info.value_usages.insert(id);
         }
     }
+
+    /// Marks the root identifier of an entity name as used.
+    fn mark_entity_as_used(&mut self, entity: &TsEntityName) {
+        match entity {
+            TsEntityName::Ident(i) => {
+                self.info.value_usages.insert(i.to_id());
+            }
+            TsEntityName::TsQualifiedName(q) => {
+                // For Foo.Bar, only Foo is a value usage
+                self.mark_entity_as_used(&q.left);
+            }
+        }
+    }
 }
 
 impl Visit for Analyzer<'_> {
-    // Skip type annotations - they don't contribute to value usages
-    fn visit_ts_type(&mut self, _: &TsType) {}
+    // Handle `typeof X` - the X is a value usage even though it's in a type context
+    fn visit_ts_type_query(&mut self, n: &TsTypeQuery) {
+        match &n.expr_name {
+            TsTypeQueryExpr::TsEntityName(entity) => {
+                self.mark_entity_as_used(entity);
+            }
+            TsTypeQueryExpr::Import(import) => {
+                // import("mod") - no local identifier to mark
+                import.visit_with(self);
+            }
+        }
+    }
+
+    // Skip most type annotations - they don't contribute to value usages
+    // Note: TsTypeQuery is handled above before this general skip
+    fn visit_ts_type(&mut self, n: &TsType) {
+        // Handle typeof specially - it references values
+        if let TsType::TsTypeQuery(query) = n {
+            self.visit_ts_type_query(query);
+        }
+        // Skip other types
+    }
 
     fn visit_ts_type_ann(&mut self, _: &TsTypeAnn) {}
 
     fn visit_ts_type_param_decl(&mut self, _: &TsTypeParamDecl) {}
 
     fn visit_ts_type_param_instantiation(&mut self, _: &TsTypeParamInstantiation) {}
+
+    // Skip import declarations - imported identifiers should not be marked as used
+    // just by visiting the import. They're only used when referenced elsewhere.
+    fn visit_import_decl(&mut self, _: &ImportDecl) {}
+
+    // Skip import specifiers as well (for safety)
+    fn visit_import_specifier(&mut self, _: &ImportSpecifier) {}
 
     fn visit_ident(&mut self, n: &Ident) {
         self.mark_value_usage(n.to_id());
@@ -694,7 +744,6 @@ fn compute_const_expr(expr: &Expr, enum_values: &FxHashMap<Atom, TsLit>) -> Opti
 
 #[cfg(test)]
 mod tests {
-    use swc_common::DUMMY_SP;
     use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
 
     use super::*;

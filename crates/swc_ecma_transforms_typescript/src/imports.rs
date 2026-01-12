@@ -8,6 +8,7 @@ pub struct ImportInfo {
     /// The kind of import (value or type-only).
     pub kind: ImportKind,
     /// The source module.
+    #[allow(dead_code)]
     pub src: Str,
 }
 

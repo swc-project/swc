@@ -15,6 +15,7 @@ use swc_ecma_utils::{constructor::inject_after_super, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::{
+    analyzer::{Analyzer, ProgramInfo},
     config::{Config, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig},
     enums::transform_enum,
     imports::{ImportInfo, ImportKind},
@@ -187,8 +188,6 @@ struct TransformState {
     imports: FxHashMap<Id, ImportInfo>,
     /// Set of identifiers that are used as values (not just types).
     value_usages: FxHashSet<Id>,
-    /// Whether we're in a type-only position.
-    in_type: bool,
     /// Enum values for inlining.
     enum_values: FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     /// Set of const enum IDs (for inlining and removal).
@@ -223,7 +222,6 @@ impl Default for TransformState {
         Self {
             imports: Default::default(),
             value_usages: Default::default(),
-            in_type: false,
             enum_values: Default::default(),
             const_enum_ids: Default::default(),
             has_value_export: false,
@@ -240,23 +238,91 @@ impl Default for TransformState {
     }
 }
 
-impl VisitMut for TypeScript {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        let mut state = TransformState::default();
-        state.was_module = !n.body.is_empty()
+impl TransformState {
+    /// Creates a TransformState from a ProgramInfo and module.
+    fn from_program_info(info: ProgramInfo, n: &Module) -> Self {
+        let was_module = !n.body.is_empty()
             && n.body
                 .iter()
                 .any(|item| matches!(item, ModuleItem::ModuleDecl(_)));
 
-        // First pass: collect information about imports, local declarations, and usage
-        self.collect_local_decls(n, &mut state);
-        self.collect_imports(n, &mut state);
-        self.collect_value_usages(n, &mut state);
+        // Build the imports map from the module (we need the source strings)
+        let mut imports = FxHashMap::default();
+        for item in &n.body {
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+                for spec in &import.specifiers {
+                    let id = spec.local().to_id();
+                    let is_type_only = import.type_only
+                        || matches!(
+                            spec,
+                            ImportSpecifier::Named(ImportNamedSpecifier {
+                                is_type_only: true,
+                                ..
+                            })
+                        );
+                    imports.insert(
+                        id,
+                        ImportInfo {
+                            kind: if is_type_only {
+                                ImportKind::TypeOnly
+                            } else {
+                                ImportKind::Value
+                            },
+                            src: (*import.src).clone(),
+                        },
+                    );
+                }
+            } else if let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = item {
+                imports.insert(
+                    import.id.to_id(),
+                    ImportInfo {
+                        kind: if import.is_type_only {
+                            ImportKind::TypeOnly
+                        } else {
+                            ImportKind::Value
+                        },
+                        src: Str {
+                            span: DUMMY_SP,
+                            value: "".into(),
+                            raw: None,
+                        },
+                    },
+                );
+            }
+        }
 
-        // Collect const enum values for inlining (always done for const enums)
-        self.collect_const_enum_values(n, &mut state);
+        Self {
+            imports,
+            value_usages: info.value_usages,
+            enum_values: info.enum_values,
+            const_enum_ids: info.const_enum_ids,
+            has_value_export: info.has_value_export,
+            has_value_import: info.has_value_import,
+            was_module,
+            exported_ids: Default::default(),
+            local_decls: info.local_decls,
+            import_equals_refs: info.import_equals_refs,
+            type_decls: info.type_decls,
+            ns_var_decls: Default::default(),
+            ns_export_var_decls: Default::default(),
+            seen_enum_ids: Default::default(),
+        }
+    }
+}
+
+impl VisitMut for TypeScript {
+    noop_visit_mut_type!();
+
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        // First pass: analyze the module using the semantic analyzer
+        let mut info = ProgramInfo::default();
+        {
+            let mut analyzer = Analyzer::new(&mut info);
+            analyzer.analyze_module(n);
+        }
+
+        // Initialize state from the analyzed info
+        let mut state = TransformState::from_program_info(info, n);
 
         // Pre-process import equals to update value_usages before we process imports
         // This is needed because import equals may reference imports that come later
@@ -409,227 +475,6 @@ impl VisitMut for TypeScript {
 }
 
 impl TypeScript {
-    /// Collects locally declared identifiers (to detect import shadowing).
-    fn collect_local_decls(&self, n: &Module, state: &mut TransformState) {
-        for item in &n.body {
-            match item {
-                ModuleItem::Stmt(stmt) => {
-                    self.collect_local_decls_from_stmt(stmt, state);
-                }
-                ModuleItem::ModuleDecl(decl) => match decl {
-                    ModuleDecl::ExportDecl(export) => {
-                        self.collect_local_decls_from_decl(&export.decl, state);
-                    }
-                    ModuleDecl::ExportDefaultExpr(_)
-                    | ModuleDecl::ExportDefaultDecl(_)
-                    | ModuleDecl::ExportNamed(_)
-                    | ModuleDecl::ExportAll(_)
-                    | ModuleDecl::TsExportAssignment(_)
-                    | ModuleDecl::TsNamespaceExport(_)
-                    | ModuleDecl::Import(_)
-                    | ModuleDecl::TsImportEquals(_) => {}
-                },
-            }
-        }
-    }
-
-    fn collect_local_decls_from_stmt(&self, stmt: &Stmt, state: &mut TransformState) {
-        match stmt {
-            Stmt::Decl(decl) => self.collect_local_decls_from_decl(decl, state),
-            _ => {}
-        }
-    }
-
-    fn collect_local_decls_from_decl(&self, decl: &Decl, state: &mut TransformState) {
-        match decl {
-            Decl::Class(c) => {
-                state.local_decls.insert(c.ident.to_id());
-            }
-            Decl::Fn(f) => {
-                state.local_decls.insert(f.ident.to_id());
-            }
-            Decl::Var(v) => {
-                for decl in &v.decls {
-                    self.collect_local_decls_from_pat(&decl.name, state);
-                }
-            }
-            Decl::Using(u) => {
-                for decl in &u.decls {
-                    self.collect_local_decls_from_pat(&decl.name, state);
-                }
-            }
-            Decl::TsInterface(i) => {
-                state.type_decls.insert(i.id.to_id());
-            }
-            Decl::TsTypeAlias(t) => {
-                state.type_decls.insert(t.id.to_id());
-            }
-            Decl::TsEnum(e) => {
-                state.local_decls.insert(e.id.to_id());
-            }
-            Decl::TsModule(ns) => {
-                if let TsModuleName::Ident(id) = &ns.id {
-                    state.local_decls.insert(id.to_id());
-                }
-            }
-        }
-    }
-
-    fn collect_local_decls_from_pat(&self, pat: &Pat, state: &mut TransformState) {
-        match pat {
-            Pat::Ident(i) => {
-                state.local_decls.insert(i.to_id());
-            }
-            Pat::Array(a) => {
-                for elem in a.elems.iter().flatten() {
-                    self.collect_local_decls_from_pat(elem, state);
-                }
-            }
-            Pat::Object(o) => {
-                for prop in &o.props {
-                    match prop {
-                        ObjectPatProp::KeyValue(kv) => {
-                            self.collect_local_decls_from_pat(&kv.value, state);
-                        }
-                        ObjectPatProp::Assign(a) => {
-                            state.local_decls.insert(a.key.to_id());
-                        }
-                        ObjectPatProp::Rest(r) => {
-                            self.collect_local_decls_from_pat(&r.arg, state);
-                        }
-                    }
-                }
-            }
-            Pat::Rest(r) => {
-                self.collect_local_decls_from_pat(&r.arg, state);
-            }
-            Pat::Assign(a) => {
-                self.collect_local_decls_from_pat(&a.left, state);
-            }
-            Pat::Expr(_) | Pat::Invalid(_) => {}
-        }
-    }
-
-    /// Collects information about imports.
-    fn collect_imports(&self, n: &Module, state: &mut TransformState) {
-        for item in &n.body {
-            if let ModuleItem::ModuleDecl(decl) = item {
-                match decl {
-                    ModuleDecl::Import(import) => {
-                        if import.type_only {
-                            for spec in &import.specifiers {
-                                let id = spec.local().to_id();
-                                state.imports.insert(
-                                    id,
-                                    ImportInfo {
-                                        kind: ImportKind::TypeOnly,
-                                        src: (*import.src).clone(),
-                                    },
-                                );
-                            }
-                        } else {
-                            for spec in &import.specifiers {
-                                let is_type_only = matches!(
-                                    spec,
-                                    ImportSpecifier::Named(ImportNamedSpecifier {
-                                        is_type_only: true,
-                                        ..
-                                    })
-                                );
-                                let id = spec.local().to_id();
-                                state.imports.insert(
-                                    id,
-                                    ImportInfo {
-                                        kind: if is_type_only {
-                                            ImportKind::TypeOnly
-                                        } else {
-                                            ImportKind::Value
-                                        },
-                                        src: (*import.src).clone(),
-                                    },
-                                );
-                            }
-                        }
-                    }
-                    ModuleDecl::TsImportEquals(import) => {
-                        state.imports.insert(
-                            import.id.to_id(),
-                            ImportInfo {
-                                kind: if import.is_type_only {
-                                    ImportKind::TypeOnly
-                                } else {
-                                    ImportKind::Value
-                                },
-                                src: Str {
-                                    span: DUMMY_SP,
-                                    value: "".into(),
-                                    raw: None,
-                                },
-                            },
-                        );
-                        // Store the RHS root reference for lazy value usage tracking
-                        if !import.is_type_only {
-                            if let TsModuleRef::TsEntityName(entity) = &import.module_ref {
-                                let root = get_entity_root(entity);
-                                state.import_equals_refs.insert(import.id.to_id(), root);
-                            }
-                        }
-                    }
-                    _ => {}
-                }
-            }
-        }
-    }
-
-    /// Collects value usages of identifiers.
-    fn collect_value_usages(&self, n: &Module, state: &mut TransformState) {
-        let mut collector = ValueUsageCollector {
-            state,
-            in_type: false,
-        };
-        for item in &n.body {
-            collector.collect_module_item(item);
-        }
-    }
-
-    /// Collects enum values for inlining.
-    /// All enum values are collected (for computing const enum values),
-    /// but only const enum IDs are tracked for later inlining.
-    fn collect_const_enum_values(&self, n: &Module, state: &mut TransformState) {
-        // Collect all enum values in order (needed for resolving references like F.A or
-        // H.A)
-        for item in &n.body {
-            match item {
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
-                    if e.is_const {
-                        state.const_enum_ids.insert(e.id.to_id());
-                    }
-                    // Collect values for all enums, passing existing values for resolution
-                    if let Some(values) =
-                        self.collect_enum_values_with_existing(e, &state.enum_values)
-                    {
-                        state.enum_values.insert(e.id.to_id(), values);
-                    }
-                }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::TsEnum(e),
-                    ..
-                })) => {
-                    if e.is_const {
-                        state.const_enum_ids.insert(e.id.to_id());
-                    }
-                    // Collect values for all enums, passing existing values for resolution
-                    if let Some(values) =
-                        self.collect_enum_values_with_existing(e, &state.enum_values)
-                    {
-                        state.enum_values.insert(e.id.to_id(), values);
-                    }
-                }
-                _ => {}
-            }
-        }
-    }
-
     /// Collects enum member values, resolving references to other enums.
     /// This function collects PARTIAL values - if some members can be computed,
     /// they are collected even if later members cannot be computed.
@@ -1432,640 +1277,6 @@ fn ts_entity_to_expr(entity: TsEntityName) -> Box<Expr> {
             obj: ts_entity_to_expr(q.left),
             prop: MemberProp::Ident(q.right),
         })),
-    }
-}
-
-/// Gets the root identifier from a TsEntityName.
-/// For `Foo`, returns Foo's id. For `Foo.Bar.Baz`, returns Foo's id.
-fn get_entity_root(entity: &TsEntityName) -> Id {
-    match entity {
-        TsEntityName::Ident(i) => i.to_id(),
-        TsEntityName::TsQualifiedName(q) => get_entity_root(&q.left),
-    }
-}
-
-/// Collects value usages of identifiers.
-struct ValueUsageCollector<'a> {
-    state: &'a mut TransformState,
-    in_type: bool,
-}
-
-impl ValueUsageCollector<'_> {
-    fn collect_module_item(&mut self, item: &ModuleItem) {
-        match item {
-            ModuleItem::ModuleDecl(decl) => self.collect_module_decl(decl),
-            ModuleItem::Stmt(stmt) => self.collect_stmt(stmt),
-        }
-    }
-
-    fn collect_module_decl(&mut self, decl: &ModuleDecl) {
-        match decl {
-            ModuleDecl::Import(_) => {}
-            ModuleDecl::ExportDecl(export) => self.collect_decl(&export.decl),
-            ModuleDecl::ExportNamed(export) => {
-                // Skip type-only exports entirely
-                if export.type_only {
-                    return;
-                }
-                if export.src.is_none() {
-                    for spec in &export.specifiers {
-                        if let ExportSpecifier::Named(named) = spec {
-                            if !named.is_type_only {
-                                if let ModuleExportName::Ident(id) = &named.orig {
-                                    self.state.value_usages.insert(id.to_id());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            ModuleDecl::ExportDefaultExpr(export) => self.collect_expr(&export.expr),
-            ModuleDecl::ExportDefaultDecl(export) => match &export.decl {
-                DefaultDecl::Class(c) => self.collect_class(&c.class),
-                DefaultDecl::Fn(f) => self.collect_function(&f.function),
-                DefaultDecl::TsInterfaceDecl(_) => {}
-            },
-            ModuleDecl::ExportAll(_) => {}
-            // TsImportEquals usages are collected lazily during transform
-            // (only if the LHS is actually used as a value)
-            ModuleDecl::TsImportEquals(_) => {}
-            ModuleDecl::TsExportAssignment(export) => self.collect_expr(&export.expr),
-            ModuleDecl::TsNamespaceExport(_) => {}
-        }
-    }
-
-    fn collect_stmt(&mut self, stmt: &Stmt) {
-        match stmt {
-            Stmt::Block(s) => {
-                for stmt in &s.stmts {
-                    self.collect_stmt(stmt);
-                }
-            }
-            Stmt::With(s) => {
-                self.collect_expr(&s.obj);
-                self.collect_stmt(&s.body);
-            }
-            Stmt::Return(s) => {
-                if let Some(arg) = &s.arg {
-                    self.collect_expr(arg);
-                }
-            }
-            Stmt::Labeled(s) => self.collect_stmt(&s.body),
-            Stmt::If(s) => {
-                self.collect_expr(&s.test);
-                self.collect_stmt(&s.cons);
-                if let Some(alt) = &s.alt {
-                    self.collect_stmt(alt);
-                }
-            }
-            Stmt::Switch(s) => {
-                self.collect_expr(&s.discriminant);
-                for case in &s.cases {
-                    if let Some(test) = &case.test {
-                        self.collect_expr(test);
-                    }
-                    for stmt in &case.cons {
-                        self.collect_stmt(stmt);
-                    }
-                }
-            }
-            Stmt::Throw(s) => self.collect_expr(&s.arg),
-            Stmt::Try(s) => {
-                for stmt in &s.block.stmts {
-                    self.collect_stmt(stmt);
-                }
-                if let Some(handler) = &s.handler {
-                    if let Some(param) = &handler.param {
-                        self.collect_pat(param);
-                    }
-                    for stmt in &handler.body.stmts {
-                        self.collect_stmt(stmt);
-                    }
-                }
-                if let Some(finalizer) = &s.finalizer {
-                    for stmt in &finalizer.stmts {
-                        self.collect_stmt(stmt);
-                    }
-                }
-            }
-            Stmt::While(s) => {
-                self.collect_expr(&s.test);
-                self.collect_stmt(&s.body);
-            }
-            Stmt::DoWhile(s) => {
-                self.collect_stmt(&s.body);
-                self.collect_expr(&s.test);
-            }
-            Stmt::For(s) => {
-                match &s.init {
-                    Some(VarDeclOrExpr::VarDecl(v)) => {
-                        for decl in &v.decls {
-                            if let Some(init) = &decl.init {
-                                self.collect_expr(init);
-                            }
-                        }
-                    }
-                    Some(VarDeclOrExpr::Expr(e)) => self.collect_expr(e),
-                    None => {}
-                }
-                if let Some(test) = &s.test {
-                    self.collect_expr(test);
-                }
-                if let Some(update) = &s.update {
-                    self.collect_expr(update);
-                }
-                self.collect_stmt(&s.body);
-            }
-            Stmt::ForIn(s) => {
-                match &s.left {
-                    ForHead::VarDecl(v) => {
-                        for decl in &v.decls {
-                            if let Some(init) = &decl.init {
-                                self.collect_expr(init);
-                            }
-                        }
-                    }
-                    ForHead::UsingDecl(u) => {
-                        for decl in &u.decls {
-                            if let Some(init) = &decl.init {
-                                self.collect_expr(init);
-                            }
-                        }
-                    }
-                    ForHead::Pat(p) => self.collect_pat(p),
-                }
-                self.collect_expr(&s.right);
-                self.collect_stmt(&s.body);
-            }
-            Stmt::ForOf(s) => {
-                match &s.left {
-                    ForHead::VarDecl(v) => {
-                        for decl in &v.decls {
-                            if let Some(init) = &decl.init {
-                                self.collect_expr(init);
-                            }
-                        }
-                    }
-                    ForHead::UsingDecl(u) => {
-                        for decl in &u.decls {
-                            if let Some(init) = &decl.init {
-                                self.collect_expr(init);
-                            }
-                        }
-                    }
-                    ForHead::Pat(p) => self.collect_pat(p),
-                }
-                self.collect_expr(&s.right);
-                self.collect_stmt(&s.body);
-            }
-            Stmt::Decl(d) => self.collect_decl(d),
-            Stmt::Expr(s) => self.collect_expr(&s.expr),
-            _ => {}
-        }
-    }
-
-    fn collect_decl(&mut self, decl: &Decl) {
-        match decl {
-            Decl::Class(c) => self.collect_class(&c.class),
-            Decl::Fn(f) => self.collect_function(&f.function),
-            Decl::Var(v) => {
-                for decl in &v.decls {
-                    // Collect usages from default values in patterns (e.g., [a = Test])
-                    self.collect_pat(&decl.name);
-                    if let Some(init) = &decl.init {
-                        self.collect_expr(init);
-                    }
-                }
-            }
-            Decl::Using(u) => {
-                for decl in &u.decls {
-                    if let Some(init) = &decl.init {
-                        self.collect_expr(init);
-                    }
-                }
-            }
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) => {}
-            Decl::TsModule(ns) => {
-                // Collect usages from namespace contents (e.g., export import A = I.A)
-                self.collect_ts_module_body(&ns.body);
-            }
-        }
-    }
-
-    fn collect_expr(&mut self, expr: &Expr) {
-        if self.in_type {
-            return;
-        }
-
-        match expr {
-            Expr::Ident(i) => {
-                self.state.value_usages.insert(i.to_id());
-            }
-            Expr::This(_) | Expr::Lit(_) | Expr::PrivateName(_) | Expr::MetaProp(_) => {}
-            Expr::Array(a) => {
-                for elem in a.elems.iter().flatten() {
-                    self.collect_expr(&elem.expr);
-                }
-            }
-            Expr::Object(o) => {
-                for prop in &o.props {
-                    match prop {
-                        PropOrSpread::Spread(s) => self.collect_expr(&s.expr),
-                        PropOrSpread::Prop(p) => match &**p {
-                            Prop::Shorthand(i) => {
-                                self.state.value_usages.insert(i.to_id());
-                            }
-                            Prop::KeyValue(kv) => {
-                                self.collect_prop_name(&kv.key);
-                                self.collect_expr(&kv.value);
-                            }
-                            Prop::Assign(a) => self.collect_expr(&a.value),
-                            Prop::Getter(g) => {
-                                self.collect_prop_name(&g.key);
-                                if let Some(body) = &g.body {
-                                    for stmt in &body.stmts {
-                                        self.collect_stmt(stmt);
-                                    }
-                                }
-                            }
-                            Prop::Setter(s) => {
-                                self.collect_prop_name(&s.key);
-                                self.collect_pat(&s.param);
-                                if let Some(body) = &s.body {
-                                    for stmt in &body.stmts {
-                                        self.collect_stmt(stmt);
-                                    }
-                                }
-                            }
-                            Prop::Method(m) => {
-                                self.collect_prop_name(&m.key);
-                                self.collect_function(&m.function);
-                            }
-                        },
-                    }
-                }
-            }
-            Expr::Fn(f) => self.collect_function(&f.function),
-            Expr::Unary(u) => self.collect_expr(&u.arg),
-            Expr::Update(u) => self.collect_expr(&u.arg),
-            Expr::Bin(b) => {
-                self.collect_expr(&b.left);
-                self.collect_expr(&b.right);
-            }
-            Expr::Assign(a) => {
-                match &a.left {
-                    AssignTarget::Simple(s) => match s {
-                        SimpleAssignTarget::Ident(i) => {
-                            self.state.value_usages.insert(i.to_id());
-                        }
-                        SimpleAssignTarget::Member(m) => self.collect_member_expr(m),
-                        SimpleAssignTarget::SuperProp(s) => {
-                            if let SuperProp::Computed(c) = &s.prop {
-                                self.collect_expr(&c.expr);
-                            }
-                        }
-                        SimpleAssignTarget::Paren(p) => self.collect_expr(&p.expr),
-                        SimpleAssignTarget::OptChain(o) => self.collect_opt_chain(o),
-                        SimpleAssignTarget::TsAs(a) => self.collect_expr(&a.expr),
-                        SimpleAssignTarget::TsSatisfies(s) => self.collect_expr(&s.expr),
-                        SimpleAssignTarget::TsNonNull(n) => self.collect_expr(&n.expr),
-                        SimpleAssignTarget::TsTypeAssertion(a) => self.collect_expr(&a.expr),
-                        SimpleAssignTarget::TsInstantiation(i) => self.collect_expr(&i.expr),
-                        SimpleAssignTarget::Invalid(_) => {}
-                    },
-                    AssignTarget::Pat(p) => match p {
-                        AssignTargetPat::Array(a) => {
-                            for elem in a.elems.iter().flatten() {
-                                self.collect_pat(elem);
-                            }
-                        }
-                        AssignTargetPat::Object(o) => {
-                            for prop in &o.props {
-                                match prop {
-                                    ObjectPatProp::KeyValue(kv) => {
-                                        self.collect_prop_name(&kv.key);
-                                        self.collect_pat(&kv.value);
-                                    }
-                                    ObjectPatProp::Assign(a) => {
-                                        if let Some(value) = &a.value {
-                                            self.collect_expr(value);
-                                        }
-                                    }
-                                    ObjectPatProp::Rest(r) => self.collect_pat(&r.arg),
-                                }
-                            }
-                        }
-                        AssignTargetPat::Invalid(_) => {}
-                    },
-                }
-                self.collect_expr(&a.right);
-            }
-            Expr::Member(m) => self.collect_member_expr(m),
-            Expr::SuperProp(s) => {
-                if let SuperProp::Computed(c) = &s.prop {
-                    self.collect_expr(&c.expr);
-                }
-            }
-            Expr::Cond(c) => {
-                self.collect_expr(&c.test);
-                self.collect_expr(&c.cons);
-                self.collect_expr(&c.alt);
-            }
-            Expr::Call(c) => {
-                match &c.callee {
-                    Callee::Super(_) | Callee::Import(_) => {}
-                    Callee::Expr(e) => self.collect_expr(e),
-                }
-                for arg in &c.args {
-                    self.collect_expr(&arg.expr);
-                }
-            }
-            Expr::New(n) => {
-                self.collect_expr(&n.callee);
-                if let Some(args) = &n.args {
-                    for arg in args {
-                        self.collect_expr(&arg.expr);
-                    }
-                }
-            }
-            Expr::Seq(s) => {
-                for expr in &s.exprs {
-                    self.collect_expr(expr);
-                }
-            }
-            Expr::Tpl(t) => {
-                for expr in &t.exprs {
-                    self.collect_expr(expr);
-                }
-            }
-            Expr::TaggedTpl(t) => {
-                self.collect_expr(&t.tag);
-                for expr in &t.tpl.exprs {
-                    self.collect_expr(expr);
-                }
-            }
-            Expr::Arrow(a) => {
-                for param in &a.params {
-                    self.collect_pat(param);
-                }
-                match &*a.body {
-                    BlockStmtOrExpr::BlockStmt(b) => {
-                        for stmt in &b.stmts {
-                            self.collect_stmt(stmt);
-                        }
-                    }
-                    BlockStmtOrExpr::Expr(e) => self.collect_expr(e),
-                }
-            }
-            Expr::Class(c) => self.collect_class(&c.class),
-            Expr::Yield(y) => {
-                if let Some(arg) = &y.arg {
-                    self.collect_expr(arg);
-                }
-            }
-            Expr::Await(a) => self.collect_expr(&a.arg),
-            Expr::Paren(p) => self.collect_expr(&p.expr),
-            Expr::JSXMember(j) => self.collect_jsx_obj(&j.obj),
-            Expr::JSXNamespacedName(_) => {}
-            Expr::JSXEmpty(_) => {}
-            Expr::JSXElement(e) => self.collect_jsx_element(e),
-            Expr::JSXFragment(f) => {
-                for child in &f.children {
-                    self.collect_jsx_child(child);
-                }
-            }
-            Expr::TsTypeAssertion(a) => self.collect_expr(&a.expr),
-            Expr::TsConstAssertion(a) => self.collect_expr(&a.expr),
-            Expr::TsNonNull(n) => self.collect_expr(&n.expr),
-            Expr::TsAs(a) => self.collect_expr(&a.expr),
-            Expr::TsInstantiation(i) => self.collect_expr(&i.expr),
-            Expr::TsSatisfies(s) => self.collect_expr(&s.expr),
-            Expr::OptChain(o) => self.collect_opt_chain(o),
-            Expr::Invalid(_) => {}
-        }
-    }
-
-    fn collect_jsx_obj(&mut self, obj: &JSXObject) {
-        match obj {
-            JSXObject::JSXMemberExpr(m) => self.collect_jsx_obj(&m.obj),
-            JSXObject::Ident(i) => {
-                self.state.value_usages.insert(i.to_id());
-            }
-        }
-    }
-
-    fn collect_jsx_element(&mut self, elem: &JSXElement) {
-        self.collect_jsx_element_name(&elem.opening.name);
-        for attr in &elem.opening.attrs {
-            match attr {
-                JSXAttrOrSpread::JSXAttr(a) => {
-                    if let Some(value) = &a.value {
-                        match value {
-                            JSXAttrValue::Str(_) => {}
-                            JSXAttrValue::JSXExprContainer(c) => {
-                                if let JSXExpr::Expr(e) = &c.expr {
-                                    self.collect_expr(e);
-                                }
-                            }
-                            JSXAttrValue::JSXElement(e) => self.collect_jsx_element(e),
-                            JSXAttrValue::JSXFragment(f) => {
-                                for child in &f.children {
-                                    self.collect_jsx_child(child);
-                                }
-                            }
-                        }
-                    }
-                }
-                JSXAttrOrSpread::SpreadElement(s) => self.collect_expr(&s.expr),
-            }
-        }
-        for child in &elem.children {
-            self.collect_jsx_child(child);
-        }
-    }
-
-    fn collect_jsx_element_name(&mut self, name: &JSXElementName) {
-        match name {
-            JSXElementName::Ident(i) => {
-                // Only treat as value if it starts with uppercase
-                if i.sym.chars().next().map_or(false, |c| c.is_uppercase()) {
-                    self.state.value_usages.insert(i.to_id());
-                }
-            }
-            JSXElementName::JSXMemberExpr(m) => self.collect_jsx_obj(&m.obj),
-            JSXElementName::JSXNamespacedName(_) => {}
-        }
-    }
-
-    fn collect_jsx_child(&mut self, child: &JSXElementChild) {
-        match child {
-            JSXElementChild::JSXText(_) => {}
-            JSXElementChild::JSXExprContainer(c) => {
-                if let JSXExpr::Expr(e) = &c.expr {
-                    self.collect_expr(e);
-                }
-            }
-            JSXElementChild::JSXSpreadChild(s) => self.collect_expr(&s.expr),
-            JSXElementChild::JSXElement(e) => self.collect_jsx_element(e),
-            JSXElementChild::JSXFragment(f) => {
-                for child in &f.children {
-                    self.collect_jsx_child(child);
-                }
-            }
-        }
-    }
-
-    fn collect_opt_chain(&mut self, opt: &OptChainExpr) {
-        match &*opt.base {
-            OptChainBase::Member(m) => self.collect_member_expr(m),
-            OptChainBase::Call(c) => {
-                self.collect_expr(&c.callee);
-                for arg in &c.args {
-                    self.collect_expr(&arg.expr);
-                }
-            }
-        }
-    }
-
-    fn collect_member_expr(&mut self, m: &MemberExpr) {
-        self.collect_expr(&m.obj);
-        if let MemberProp::Computed(c) = &m.prop {
-            self.collect_expr(&c.expr);
-        }
-    }
-
-    /// Collects usages from namespace body.
-    fn collect_ts_module_body(&mut self, body: &Option<TsNamespaceBody>) {
-        let Some(body) = body else { return };
-        match body {
-            TsNamespaceBody::TsModuleBlock(block) => {
-                for item in &block.body {
-                    match item {
-                        ModuleItem::ModuleDecl(decl) => {
-                            match decl {
-                                ModuleDecl::ExportDecl(export) => self.collect_decl(&export.decl),
-                                ModuleDecl::TsImportEquals(import) => {
-                                    // For `export import A = I.A`, collect I as a value usage
-                                    if !import.is_type_only {
-                                        if let TsModuleRef::TsEntityName(entity) =
-                                            &import.module_ref
-                                        {
-                                            self.collect_ts_entity_name(entity);
-                                        }
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
-                        ModuleItem::Stmt(stmt) => self.collect_stmt(stmt),
-                    }
-                }
-            }
-            TsNamespaceBody::TsNamespaceDecl(ns) => {
-                self.collect_ts_module_body(&Some((*ns.body).clone()));
-            }
-        }
-    }
-
-    /// Collects usages from TsEntityName (used in import equals)
-    fn collect_ts_entity_name(&mut self, entity: &TsEntityName) {
-        match entity {
-            TsEntityName::Ident(i) => {
-                self.state.value_usages.insert(i.to_id());
-            }
-            TsEntityName::TsQualifiedName(q) => {
-                // For Foo.Bar, only the root Foo is a usage
-                self.collect_ts_entity_name(&q.left);
-            }
-        }
-    }
-
-    fn collect_prop_name(&mut self, name: &PropName) {
-        if let PropName::Computed(c) = name {
-            self.collect_expr(&c.expr);
-        }
-    }
-
-    fn collect_pat(&mut self, pat: &Pat) {
-        match pat {
-            Pat::Ident(_) => {}
-            Pat::Array(a) => {
-                for elem in a.elems.iter().flatten() {
-                    self.collect_pat(elem);
-                }
-            }
-            Pat::Rest(r) => self.collect_pat(&r.arg),
-            Pat::Object(o) => {
-                for prop in &o.props {
-                    match prop {
-                        ObjectPatProp::KeyValue(kv) => {
-                            self.collect_prop_name(&kv.key);
-                            self.collect_pat(&kv.value);
-                        }
-                        ObjectPatProp::Assign(a) => {
-                            if let Some(value) = &a.value {
-                                self.collect_expr(value);
-                            }
-                        }
-                        ObjectPatProp::Rest(r) => self.collect_pat(&r.arg),
-                    }
-                }
-            }
-            Pat::Assign(a) => {
-                self.collect_pat(&a.left);
-                self.collect_expr(&a.right);
-            }
-            Pat::Expr(e) => self.collect_expr(e),
-            Pat::Invalid(_) => {}
-        }
-    }
-
-    fn collect_function(&mut self, f: &Function) {
-        for param in &f.params {
-            self.collect_pat(&param.pat);
-        }
-        if let Some(body) = &f.body {
-            for stmt in &body.stmts {
-                self.collect_stmt(stmt);
-            }
-        }
-    }
-
-    fn collect_class(&mut self, c: &Class) {
-        if let Some(super_class) = &c.super_class {
-            self.collect_expr(super_class);
-        }
-        for member in &c.body {
-            match member {
-                ClassMember::Constructor(c) => {
-                    if let Some(body) = &c.body {
-                        for stmt in &body.stmts {
-                            self.collect_stmt(stmt);
-                        }
-                    }
-                }
-                ClassMember::Method(m) => self.collect_function(&m.function),
-                ClassMember::PrivateMethod(m) => self.collect_function(&m.function),
-                ClassMember::ClassProp(p) => {
-                    if let Some(value) = &p.value {
-                        self.collect_expr(value);
-                    }
-                }
-                ClassMember::PrivateProp(p) => {
-                    if let Some(value) = &p.value {
-                        self.collect_expr(value);
-                    }
-                }
-                ClassMember::StaticBlock(s) => {
-                    for stmt in &s.body.stmts {
-                        self.collect_stmt(stmt);
-                    }
-                }
-                ClassMember::TsIndexSignature(_)
-                | ClassMember::AutoAccessor(_)
-                | ClassMember::Empty(_) => {}
-            }
-        }
     }
 }
 

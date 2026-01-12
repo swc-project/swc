@@ -10,7 +10,7 @@ use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use crate::enums::{
-    collect_enum_values, transform_enum, transform_enum_block_scoped, transform_namespace_enum,
+    collect_enum_values, transform_enum_block_scoped, transform_namespace_enum,
     transform_namespace_enum_merging,
 };
 
@@ -854,11 +854,6 @@ fn ts_entity_to_expr(entity: TsEntityName) -> Box<Expr> {
     }
 }
 
-/// Checks if a pattern is a simple identifier binding.
-fn is_simple_ident_binding(pat: &Pat) -> bool {
-    matches!(pat, Pat::Ident(_))
-}
-
 /// Emits an export assignment statement: ns.name = name;
 fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, out: &mut Vec<Stmt>) {
     let assign = Expr::Assign(AssignExpr {
@@ -998,15 +993,6 @@ fn assign_target_to_pat(target: &AssignTarget) -> Pat {
             AssignTargetPat::Object(o) => Pat::Object(o.clone()),
             AssignTargetPat::Invalid(i) => Pat::Invalid(i.clone()),
         },
-    }
-}
-
-/// Converts AssignTargetPat to Pat.
-fn assign_target_pat_to_pat(target: AssignTargetPat) -> Pat {
-    match target {
-        AssignTargetPat::Array(a) => Pat::Array(a),
-        AssignTargetPat::Object(o) => Pat::Object(o),
-        AssignTargetPat::Invalid(i) => Pat::Invalid(i),
     }
 }
 
