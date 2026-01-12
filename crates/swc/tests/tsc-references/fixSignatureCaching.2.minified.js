@@ -1,6 +1,6 @@
 //// [fixSignatureCaching.ts]
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-(function(undefined) {
+(function() {
     if ("u" > typeof module && module.exports) return function(factory) {
         module.exports = factory();
     };

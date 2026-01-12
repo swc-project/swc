@@ -1,4 +1,4 @@
 "use strict";
-console.log(function(a) {
+console.log(function() {
     return 42;
-}(0));
+}());
