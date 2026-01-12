@@ -96,6 +96,8 @@ struct TransformState {
     ns_var_decls: Vec<VarDeclarator>,
     /// Deferred exported namespace var declarations (to be emitted at the end).
     ns_export_var_decls: Vec<VarDeclarator>,
+    /// Set of seen enum IDs (for merging).
+    seen_enum_ids: FxHashSet<Id>,
 }
 
 impl Default for TransformState {
@@ -115,6 +117,7 @@ impl Default for TransformState {
             type_decls: Default::default(),
             ns_var_decls: Default::default(),
             ns_export_var_decls: Default::default(),
+            seen_enum_ids: Default::default(),
         }
     }
 }
@@ -247,12 +250,14 @@ impl VisitMut for TypeScript {
         let mut new_body = Vec::with_capacity(n.body.len());
         let mut ns_var_decls: Vec<Stmt> = Vec::new();
         let mut seen_ns_ids: FxHashSet<Id> = FxHashSet::default();
+        let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
         for stmt in n.body.drain(..) {
             self.transform_stmt_with_ns_decls(
                 stmt,
                 &mut new_body,
                 &mut ns_var_decls,
                 &mut seen_ns_ids,
+                &mut seen_enum_ids,
             );
         }
         // Merge namespace var declarations into a single var statement
@@ -580,6 +585,7 @@ impl TypeScript {
                     &mut stmts,
                     &mut ns_var_decls,
                     &mut seen_ns_ids,
+                    &mut state.seen_enum_ids,
                 );
                 out.extend(stmts.into_iter().map(ModuleItem::Stmt));
                 // Defer namespace var declarations to state for later emission
@@ -704,12 +710,6 @@ impl TypeScript {
                         }
 
                         let id = e.id.to_id();
-                        let (var, _) = transform_enum(
-                            &e,
-                            self.config.ts_enum_is_mutable,
-                            &state.enum_values,
-                            true, // is_export
-                        );
 
                         // Store enum values for potential inlining
                         if !self.config.ts_enum_is_mutable {
@@ -719,11 +719,26 @@ impl TypeScript {
                         }
 
                         state.has_value_export = true;
-                        state.exported_ids.insert(id);
-                        out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span: export.span,
-                            decl: Decl::Var(Box::new(var)),
-                        })));
+
+                        // Check if this enum is merging with an existing exported declaration
+                        if state.exported_ids.contains(&id) {
+                            // Merging: emit just the IIFE statement
+                            let stmt = crate::enums::transform_enum_merging(&e, &state.enum_values);
+                            out.push(ModuleItem::Stmt(stmt));
+                        } else {
+                            // First declaration: emit export var with IIFE
+                            let (var, _) = transform_enum(
+                                &e,
+                                self.config.ts_enum_is_mutable,
+                                &state.enum_values,
+                                true, // is_export
+                            );
+                            state.exported_ids.insert(id);
+                            out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                                span: export.span,
+                                decl: Decl::Var(Box::new(var)),
+                            })));
+                        }
                     }
 
                     // Transform namespaces
@@ -801,6 +816,7 @@ impl TypeScript {
                     }
 
                     // For local exports, check if the name refers to a type declaration
+                    // or a type-only import
                     if let ExportSpecifier::Named(ExportNamedSpecifier { orig, .. }) = s {
                         if let ModuleExportName::Ident(id) = orig {
                             let id_ref = id.to_id();
@@ -810,6 +826,12 @@ impl TypeScript {
                                 && !state.local_decls.contains(&id_ref)
                             {
                                 return false;
+                            }
+                            // Filter out exports of type-only imports
+                            if let Some(import_info) = state.imports.get(&id_ref) {
+                                if matches!(import_info.kind, ImportKind::TypeOnly) {
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -935,6 +957,7 @@ impl TypeScript {
         out: &mut Vec<Stmt>,
         ns_var_decls: &mut Vec<Stmt>,
         seen_ns_ids: &mut FxHashSet<Id>,
+        seen_enum_ids: &mut FxHashSet<Id>,
     ) {
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -948,14 +971,23 @@ impl TypeScript {
                         return;
                     }
 
-                    let state = TransformState::default();
-                    let (var, _) = transform_enum(
-                        &e,
-                        self.config.ts_enum_is_mutable,
-                        &state.enum_values,
-                        false, // not an export
-                    );
-                    out.push(Stmt::Decl(Decl::Var(Box::new(var))));
+                    let enum_id = e.id.to_id();
+                    if seen_enum_ids.contains(&enum_id) {
+                        // Merging: emit just the IIFE statement
+                        let stmt = crate::enums::transform_enum_merging(&e, &FxHashMap::default());
+                        out.push(stmt);
+                    } else {
+                        // First declaration: emit var with IIFE
+                        seen_enum_ids.insert(enum_id);
+                        let state = TransformState::default();
+                        let (var, _) = transform_enum(
+                            &e,
+                            self.config.ts_enum_is_mutable,
+                            &state.enum_values,
+                            false, // not an export
+                        );
+                        out.push(Stmt::Decl(Decl::Var(Box::new(var))));
+                    }
                 }
 
                 // Transform namespaces
@@ -1008,10 +1040,18 @@ impl TypeScript {
 
     /// Transforms statements (simple version without namespace var decl
     /// collection).
+    #[allow(dead_code)]
     fn transform_stmt(&mut self, stmt: Stmt, out: &mut Vec<Stmt>) {
         let mut ns_var_decls = Vec::new();
         let mut seen_ns_ids = FxHashSet::default();
-        self.transform_stmt_with_ns_decls(stmt, out, &mut ns_var_decls, &mut seen_ns_ids);
+        let mut seen_enum_ids = FxHashSet::default();
+        self.transform_stmt_with_ns_decls(
+            stmt,
+            out,
+            &mut ns_var_decls,
+            &mut seen_ns_ids,
+            &mut seen_enum_ids,
+        );
         // In transform_stmt, we add ns_var_decls inline (used for modules)
         out.append(&mut ns_var_decls);
     }
@@ -1855,14 +1895,66 @@ impl VisitMut for TypeStripper<'_> {
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         // Remove function declaration overloads (signatures without bodies)
-        n.retain(|s| {
-            if let Stmt::Decl(Decl::Fn(f)) = s {
-                if f.function.body.is_none() {
-                    return false;
-                }
-            }
-            true
+        // and remove type declarations
+        n.retain(|s| match s {
+            Stmt::Decl(Decl::Fn(f)) if f.function.body.is_none() => false,
+            Stmt::Decl(Decl::TsInterface(_) | Decl::TsTypeAlias(_)) => false,
+            _ => true,
         });
+
+        // Transform nested enums and namespaces, tracking seen enum IDs for merging
+        let mut new_stmts = Vec::with_capacity(n.len());
+        let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
+        for stmt in n.drain(..) {
+            match stmt {
+                Stmt::Decl(Decl::TsEnum(e)) => {
+                    // Skip const enums - they are removed and their usages inlined
+                    if e.is_const {
+                        continue;
+                    }
+                    let enum_id = e.id.to_id();
+                    if seen_enum_ids.contains(&enum_id) {
+                        // Merging: emit just the IIFE statement
+                        let stmt = crate::enums::transform_enum_merging(&e, &FxHashMap::default());
+                        new_stmts.push(stmt);
+                    } else {
+                        // First declaration: emit let with IIFE
+                        seen_enum_ids.insert(enum_id);
+                        let (var, _) =
+                            crate::enums::transform_enum_block_scoped(&e, &FxHashMap::default());
+                        new_stmts.push(Stmt::Decl(Decl::Var(Box::new(var))));
+                    }
+                }
+                Stmt::Decl(Decl::TsModule(ns)) => {
+                    // Skip declare and empty namespaces
+                    if ns.declare || ns.body.is_none() {
+                        continue;
+                    }
+                    // Transform the namespace to JavaScript
+                    let stmts =
+                        crate::namespace::transform_namespace(&ns, false, &FxHashMap::default());
+                    new_stmts.extend(stmts);
+                    // Add var declaration for namespace
+                    if let TsModuleName::Ident(id) = &ns.id {
+                        new_stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(id.clone().into()),
+                                init: None,
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        }))));
+                    }
+                }
+                stmt => new_stmts.push(stmt),
+            }
+        }
+        *n = new_stmts;
+
         n.visit_mut_children_with(self);
     }
 
@@ -2083,8 +2175,8 @@ impl VisitMut for TypeStripper<'_> {
                                         TsLit::Number(num) => Expr::Lit(Lit::Num(num.clone())),
                                         TsLit::Str(s) => Expr::Lit(Lit::Str(s.clone())),
                                         TsLit::Bool(b) => Expr::Lit(Lit::Bool(b.clone())),
-                                        TsLit::Tpl(_) => return None, /* Cannot inline template
-                                                                        * literals */
+                                        TsLit::Tpl(_) => return None, /* Cannot inline template */
+                                        // literals
                                         TsLit::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
                                     })
                                 })

@@ -2,7 +2,7 @@
 //!
 //! Transforms TypeScript namespaces/modules into JavaScript IIFE patterns.
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -11,6 +11,7 @@ use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use crate::enums::{
     collect_enum_values, transform_enum, transform_enum_block_scoped, transform_namespace_enum,
+    transform_namespace_enum_merging,
 };
 
 /// Transforms a TypeScript namespace declaration into JavaScript.
@@ -41,6 +42,8 @@ pub fn transform_namespace(
     let mut enum_values = enum_values.clone();
     // Track exported import equals for usage rewriting
     let mut exported_import_equals: FxHashMap<Id, Ident> = FxHashMap::default();
+    // Track seen enum IDs for merging
+    let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
 
     for item in &body.body {
         match item {
@@ -50,6 +53,7 @@ pub fn transform_namespace(
                     &mut inner_stmts,
                     &mut exports,
                     &mut enum_values,
+                    &mut seen_enum_ids,
                 );
             }
             ModuleItem::ModuleDecl(decl) => {
@@ -67,6 +71,7 @@ pub fn transform_namespace(
                     &mut inner_stmts,
                     &mut exports,
                     &mut enum_values,
+                    &mut seen_enum_ids,
                 );
             }
         }
@@ -230,6 +235,7 @@ fn transform_child_namespace(
             let mut stmts = Vec::new();
             let mut exports = Vec::new();
             let mut local_enum_values = enum_values.clone();
+            let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
 
             for item in &block.body {
                 match item {
@@ -239,6 +245,7 @@ fn transform_child_namespace(
                             &mut stmts,
                             &mut exports,
                             &mut local_enum_values,
+                            &mut seen_enum_ids,
                         );
                     }
                     ModuleItem::ModuleDecl(decl) => {
@@ -248,6 +255,7 @@ fn transform_child_namespace(
                             &mut stmts,
                             &mut exports,
                             &mut local_enum_values,
+                            &mut seen_enum_ids,
                         );
                     }
                 }
@@ -340,17 +348,29 @@ fn process_stmt(
     out: &mut Vec<Stmt>,
     _exports: &mut Vec<Ident>,
     enum_values: &mut FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    seen_enum_ids: &mut FxHashSet<Id>,
 ) {
     match stmt {
         Stmt::Decl(decl) => match decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::TsEnum(e) => {
-                // Non-exported enum inside namespace: use let and ({})
-                let (var, _) = transform_enum_block_scoped(&e, enum_values);
-                if let Some(values) = collect_enum_values(&e) {
-                    enum_values.insert(e.id.to_id(), values);
+                let enum_id = e.id.to_id();
+                if seen_enum_ids.contains(&enum_id) {
+                    // Merging: emit just the IIFE statement
+                    let stmt = crate::enums::transform_enum_merging(&e, enum_values);
+                    if let Some(values) = collect_enum_values(&e) {
+                        enum_values.insert(e.id.to_id(), values);
+                    }
+                    out.push(stmt);
+                } else {
+                    // First declaration: use let and ({})
+                    seen_enum_ids.insert(enum_id);
+                    let (var, _) = transform_enum_block_scoped(&e, enum_values);
+                    if let Some(values) = collect_enum_values(&e) {
+                        enum_values.insert(e.id.to_id(), values);
+                    }
+                    out.push(Stmt::Decl(Decl::Var(Box::new(var))));
                 }
-                out.push(Stmt::Decl(Decl::Var(Box::new(var))));
             }
             Decl::TsModule(ns) => {
                 if ns.declare || ns.body.is_none() {
@@ -389,8 +409,9 @@ fn process_module_decl(
     decl: ModuleDecl,
     ns_id: &Ident,
     out: &mut Vec<Stmt>,
-    exports: &mut Vec<Ident>,
+    _exports: &mut Vec<Ident>,
     enum_values: &mut FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    seen_enum_ids: &mut FxHashSet<Id>,
 ) {
     match decl {
         ModuleDecl::ExportDecl(export) => match export.decl {
@@ -436,8 +457,15 @@ fn process_module_decl(
                 }
             }
             Decl::TsEnum(e) => {
-                // Use namespace enum pattern: (function(E){...})(NS.E || (NS.E = {}))
-                let stmt = transform_namespace_enum(&e, ns_id, enum_values);
+                let enum_id = e.id.to_id();
+                let stmt = if seen_enum_ids.contains(&enum_id) {
+                    // Merging: use NS.E instead of NS.E || (NS.E = {})
+                    transform_namespace_enum_merging(&e, ns_id, enum_values)
+                } else {
+                    // First declaration: use NS.E || (NS.E = {})
+                    seen_enum_ids.insert(enum_id.clone());
+                    transform_namespace_enum(&e, ns_id, enum_values)
+                };
                 if let Some(values) = collect_enum_values(&e) {
                     enum_values.insert(e.id.to_id(), values);
                 }
