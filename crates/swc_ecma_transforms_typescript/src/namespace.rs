@@ -59,21 +59,9 @@ pub fn transform_namespace(
         }
     }
 
-    // Create export assignments at the end of the IIFE body
-    for export_ident in &exports {
-        let assign = Expr::Assign(AssignExpr {
-            span: DUMMY_SP,
-            op: op!("="),
-            left: MemberExpr {
-                span: DUMMY_SP,
-                obj: Box::new(Expr::Ident(id.clone())),
-                prop: MemberProp::Ident(IdentName::new(export_ident.sym.clone(), DUMMY_SP)),
-            }
-            .into(),
-            right: Box::new(Expr::Ident(export_ident.clone())),
-        });
-        inner_stmts.push(assign.into_stmt());
-    }
+    // Note: export assignments are emitted immediately after each exported item
+    // in process_module_decl, not collected at the end.
+    let _ = exports; // exports are already processed inline
 
     // Create IIFE
     let param = Param {
@@ -217,42 +205,92 @@ fn process_module_decl(
         ModuleDecl::ExportDecl(export) => match export.decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::Class(c) => {
-                exports.push(c.ident.clone());
+                let ident = c.ident.clone();
                 out.push(Stmt::Decl(Decl::Class(c)));
+                // Emit export assignment immediately after declaration
+                emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Fn(f) => {
-                exports.push(f.ident.clone());
+                let ident = f.ident.clone();
                 out.push(Stmt::Decl(Decl::Fn(f)));
+                // Emit export assignment immediately after declaration
+                emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Var(v) => {
+                // For exported variable declarations, we need to handle two cases:
+                // 1. Simple binding: export const a = 1; -> const a = 1; ns.a = a;
+                // 2. Destructuring: export const [a, b] = x; -> [ns.a, ns.b] = x;
+                let mut simple_idents = Vec::new();
                 for decl in &v.decls {
-                    collect_binding_idents(&decl.name, exports);
+                    if is_simple_ident_binding(&decl.name) {
+                        // Simple binding - collect for declaration + immediate export
+                        collect_binding_idents(&decl.name, &mut simple_idents);
+                    } else {
+                        // Destructuring - transform to direct namespace assignment
+                        let left = transform_pat_to_assign_target(&decl.name, ns_id);
+                        if let Some(init) = &decl.init {
+                            let assign = Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left,
+                                right: init.clone(),
+                            });
+                            out.push(assign.into_stmt());
+                        }
+                    }
                 }
-                out.push(Stmt::Decl(Decl::Var(v)));
+                // Only keep simple identifier bindings in the var decl
+                let filtered_decls: Vec<_> = v
+                    .decls
+                    .iter()
+                    .filter(|d| is_simple_ident_binding(&d.name))
+                    .cloned()
+                    .collect();
+                if !filtered_decls.is_empty() {
+                    out.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        span: v.span,
+                        kind: v.kind,
+                        declare: v.declare,
+                        decls: filtered_decls,
+                        ..Default::default()
+                    }))));
+                    // Emit export assignments immediately after declaration
+                    for ident in &simple_idents {
+                        emit_export_assignment(ns_id, ident, out);
+                    }
+                }
             }
             Decl::Using(u) => {
+                let mut idents = Vec::new();
                 for decl in &u.decls {
-                    collect_binding_idents(&decl.name, exports);
+                    collect_binding_idents(&decl.name, &mut idents);
                 }
                 out.push(Stmt::Decl(Decl::Using(u)));
+                // Emit export assignments immediately
+                for ident in &idents {
+                    emit_export_assignment(ns_id, ident, out);
+                }
             }
             Decl::TsEnum(e) => {
-                exports.push(e.id.clone());
+                let ident = e.id.clone();
                 let (var, _) = transform_enum(&e, false, enum_values);
                 if let Some(values) = collect_enum_values(&e) {
                     enum_values.insert(e.id.to_id(), values);
                 }
                 out.push(Stmt::Decl(Decl::Var(Box::new(var))));
+                // Emit export assignment immediately
+                emit_export_assignment(ns_id, &ident, out);
             }
             Decl::TsModule(ns) => {
                 if ns.declare || ns.body.is_none() {
                     return;
                 }
-                if let TsModuleName::Ident(id) = &ns.id {
-                    exports.push(id.clone());
-                }
                 let stmts = transform_namespace(&ns, true, enum_values);
                 out.extend(stmts);
+                // Emit export assignment immediately
+                if let TsModuleName::Ident(id) = &ns.id {
+                    emit_export_assignment(ns_id, id, out);
+                }
             }
         },
         ModuleDecl::ExportNamed(export) => {
@@ -375,5 +413,150 @@ fn ts_entity_to_expr(entity: TsEntityName) -> Box<Expr> {
             obj: ts_entity_to_expr(q.left),
             prop: MemberProp::Ident(q.right),
         })),
+    }
+}
+
+/// Checks if a pattern is a simple identifier binding.
+fn is_simple_ident_binding(pat: &Pat) -> bool {
+    matches!(pat, Pat::Ident(_))
+}
+
+/// Emits an export assignment statement: ns.name = name;
+fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, out: &mut Vec<Stmt>) {
+    let assign = Expr::Assign(AssignExpr {
+        span: DUMMY_SP,
+        op: op!("="),
+        left: MemberExpr {
+            span: DUMMY_SP,
+            obj: Box::new(Expr::Ident(ns_id.clone())),
+            prop: MemberProp::Ident(IdentName::new(export_ident.sym.clone(), DUMMY_SP)),
+        }
+        .into(),
+        right: Box::new(Expr::Ident(export_ident.clone())),
+    });
+    out.push(assign.into_stmt());
+}
+
+/// Transforms a pattern into an assignment target, replacing identifiers with
+/// namespace member access.
+fn transform_pat_to_assign_target(pat: &Pat, ns_id: &Ident) -> AssignTarget {
+    match pat {
+        Pat::Ident(i) => {
+            // Transform `a` into `ns.a`
+            AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: Box::new(Expr::Ident(ns_id.clone())),
+                prop: MemberProp::Ident(IdentName::new(i.sym.clone(), DUMMY_SP)),
+            }))
+        }
+        Pat::Array(a) => {
+            // Transform `[a, b]` into `[ns.a, ns.b]`
+            let elems: Vec<Option<Pat>> = a
+                .elems
+                .iter()
+                .map(|elem| {
+                    elem.as_ref()
+                        .map(|p| assign_target_to_pat(&transform_pat_to_assign_target(p, ns_id)))
+                })
+                .collect();
+            AssignTarget::Pat(AssignTargetPat::Array(ArrayPat {
+                span: DUMMY_SP,
+                elems,
+                optional: false,
+                type_ann: None,
+            }))
+        }
+        Pat::Object(o) => {
+            // Transform `{a, b}` into `{a: ns.a, b: ns.b}`
+            let props: Vec<ObjectPatProp> = o
+                .props
+                .iter()
+                .map(|prop| match prop {
+                    ObjectPatProp::KeyValue(kv) => ObjectPatProp::KeyValue(KeyValuePatProp {
+                        key: kv.key.clone(),
+                        value: Box::new(assign_target_to_pat(&transform_pat_to_assign_target(
+                            &kv.value, ns_id,
+                        ))),
+                    }),
+                    ObjectPatProp::Assign(a) => {
+                        // Transform shorthand `{ a }` into `{ a: ns.a }`
+                        ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: PropName::Ident(IdentName::new(a.key.sym.clone(), DUMMY_SP)),
+                            value: Box::new(Pat::Expr(Box::new(Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: Box::new(Expr::Ident(ns_id.clone())),
+                                prop: MemberProp::Ident(IdentName::new(
+                                    a.key.sym.clone(),
+                                    DUMMY_SP,
+                                )),
+                            })))),
+                        })
+                    }
+                    ObjectPatProp::Rest(r) => ObjectPatProp::Rest(RestPat {
+                        span: DUMMY_SP,
+                        dot3_token: DUMMY_SP,
+                        arg: Box::new(assign_target_to_pat(&transform_pat_to_assign_target(
+                            &r.arg, ns_id,
+                        ))),
+                        type_ann: None,
+                    }),
+                })
+                .collect();
+            AssignTarget::Pat(AssignTargetPat::Object(ObjectPat {
+                span: DUMMY_SP,
+                props,
+                optional: false,
+                type_ann: None,
+            }))
+        }
+        Pat::Rest(r) => transform_pat_to_assign_target(&r.arg, ns_id),
+        Pat::Assign(a) => {
+            // Default values - just transform the left side
+            transform_pat_to_assign_target(&a.left, ns_id)
+        }
+        Pat::Expr(e) => AssignTarget::Simple(SimpleAssignTarget::Paren(ParenExpr {
+            span: DUMMY_SP,
+            expr: e.clone(),
+        })),
+        Pat::Invalid(_) => {
+            AssignTarget::Simple(SimpleAssignTarget::Invalid(Invalid { span: DUMMY_SP }))
+        }
+    }
+}
+
+/// Converts an AssignTarget back to a Pat for use in ArrayPat.
+fn assign_target_to_pat(target: &AssignTarget) -> Pat {
+    match target {
+        AssignTarget::Simple(s) => match s {
+            SimpleAssignTarget::Ident(i) => Pat::Ident(i.clone()),
+            SimpleAssignTarget::Member(m) => Pat::Expr(Box::new(Expr::Member(m.clone()))),
+            SimpleAssignTarget::SuperProp(s) => Pat::Expr(Box::new(Expr::SuperProp(s.clone()))),
+            SimpleAssignTarget::Paren(p) => Pat::Expr(p.expr.clone()),
+            SimpleAssignTarget::OptChain(o) => Pat::Expr(Box::new(Expr::OptChain(o.clone()))),
+            SimpleAssignTarget::TsAs(t) => Pat::Expr(Box::new(Expr::TsAs(t.clone()))),
+            SimpleAssignTarget::TsSatisfies(t) => Pat::Expr(Box::new(Expr::TsSatisfies(t.clone()))),
+            SimpleAssignTarget::TsNonNull(t) => Pat::Expr(Box::new(Expr::TsNonNull(t.clone()))),
+            SimpleAssignTarget::TsTypeAssertion(t) => {
+                Pat::Expr(Box::new(Expr::TsTypeAssertion(t.clone())))
+            }
+            SimpleAssignTarget::TsInstantiation(t) => {
+                Pat::Expr(Box::new(Expr::TsInstantiation(t.clone())))
+            }
+            SimpleAssignTarget::Invalid(i) => Pat::Invalid(i.clone()),
+        },
+        AssignTarget::Pat(p) => match p {
+            AssignTargetPat::Array(a) => Pat::Array(a.clone()),
+            AssignTargetPat::Object(o) => Pat::Object(o.clone()),
+            AssignTargetPat::Invalid(i) => Pat::Invalid(i.clone()),
+        },
+    }
+}
+
+/// Converts AssignTargetPat to Pat.
+fn assign_target_pat_to_pat(target: AssignTargetPat) -> Pat {
+    match target {
+        AssignTargetPat::Array(a) => Pat::Array(a),
+        AssignTargetPat::Object(o) => Pat::Object(o),
+        AssignTargetPat::Invalid(i) => Pat::Invalid(i),
     }
 }

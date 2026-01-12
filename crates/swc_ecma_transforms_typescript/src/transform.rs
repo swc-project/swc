@@ -79,6 +79,11 @@ struct TransformState {
     has_value_import: bool,
     /// Was the module originally an ES module?
     was_module: bool,
+    /// Set of identifiers that have been exported (to avoid duplicate exports
+    /// for namespace augmentations).
+    exported_ids: FxHashSet<Id>,
+    /// Set of locally declared identifiers (to detect import shadowing).
+    local_decls: FxHashSet<Id>,
 }
 
 impl Default for TransformState {
@@ -91,6 +96,8 @@ impl Default for TransformState {
             has_value_export: false,
             has_value_import: false,
             was_module: false,
+            exported_ids: Default::default(),
+            local_decls: Default::default(),
         }
     }
 }
@@ -105,7 +112,8 @@ impl VisitMut for TypeScript {
                 .iter()
                 .any(|item| matches!(item, ModuleItem::ModuleDecl(_)));
 
-        // First pass: collect information about imports and their usage
+        // First pass: collect information about imports, local declarations, and usage
+        self.collect_local_decls(n, &mut state);
         self.collect_imports(n, &mut state);
         self.collect_value_usages(n, &mut state);
 
@@ -156,6 +164,102 @@ impl VisitMut for TypeScript {
 }
 
 impl TypeScript {
+    /// Collects locally declared identifiers (to detect import shadowing).
+    fn collect_local_decls(&self, n: &Module, state: &mut TransformState) {
+        for item in &n.body {
+            match item {
+                ModuleItem::Stmt(stmt) => {
+                    self.collect_local_decls_from_stmt(stmt, state);
+                }
+                ModuleItem::ModuleDecl(decl) => match decl {
+                    ModuleDecl::ExportDecl(export) => {
+                        self.collect_local_decls_from_decl(&export.decl, state);
+                    }
+                    ModuleDecl::ExportDefaultExpr(_)
+                    | ModuleDecl::ExportDefaultDecl(_)
+                    | ModuleDecl::ExportNamed(_)
+                    | ModuleDecl::ExportAll(_)
+                    | ModuleDecl::TsExportAssignment(_)
+                    | ModuleDecl::TsNamespaceExport(_)
+                    | ModuleDecl::Import(_)
+                    | ModuleDecl::TsImportEquals(_) => {}
+                },
+            }
+        }
+    }
+
+    fn collect_local_decls_from_stmt(&self, stmt: &Stmt, state: &mut TransformState) {
+        match stmt {
+            Stmt::Decl(decl) => self.collect_local_decls_from_decl(decl, state),
+            _ => {}
+        }
+    }
+
+    fn collect_local_decls_from_decl(&self, decl: &Decl, state: &mut TransformState) {
+        match decl {
+            Decl::Class(c) => {
+                state.local_decls.insert(c.ident.to_id());
+            }
+            Decl::Fn(f) => {
+                state.local_decls.insert(f.ident.to_id());
+            }
+            Decl::Var(v) => {
+                for decl in &v.decls {
+                    self.collect_local_decls_from_pat(&decl.name, state);
+                }
+            }
+            Decl::Using(u) => {
+                for decl in &u.decls {
+                    self.collect_local_decls_from_pat(&decl.name, state);
+                }
+            }
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
+            Decl::TsEnum(e) => {
+                state.local_decls.insert(e.id.to_id());
+            }
+            Decl::TsModule(ns) => {
+                if let TsModuleName::Ident(id) = &ns.id {
+                    state.local_decls.insert(id.to_id());
+                }
+            }
+        }
+    }
+
+    fn collect_local_decls_from_pat(&self, pat: &Pat, state: &mut TransformState) {
+        match pat {
+            Pat::Ident(i) => {
+                state.local_decls.insert(i.to_id());
+            }
+            Pat::Array(a) => {
+                for elem in a.elems.iter().flatten() {
+                    self.collect_local_decls_from_pat(elem, state);
+                }
+            }
+            Pat::Object(o) => {
+                for prop in &o.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(kv) => {
+                            self.collect_local_decls_from_pat(&kv.value, state);
+                        }
+                        ObjectPatProp::Assign(a) => {
+                            state.local_decls.insert(a.key.to_id());
+                        }
+                        ObjectPatProp::Rest(r) => {
+                            self.collect_local_decls_from_pat(&r.arg, state);
+                        }
+                    }
+                }
+            }
+            Pat::Rest(r) => {
+                self.collect_local_decls_from_pat(&r.arg, state);
+            }
+            Pat::Assign(a) => {
+                self.collect_local_decls_from_pat(&a.left, state);
+            }
+            Pat::Expr(_) | Pat::Invalid(_) => {}
+        }
+    }
+
     /// Collects information about imports.
     fn collect_imports(&self, n: &Module, state: &mut TransformState) {
         for item in &n.body {
@@ -264,15 +368,20 @@ impl TypeScript {
                     if import.type_only {
                         return;
                     }
-                    // Remove type-only specifiers
+                    // Remove type-only and shadowed specifiers
                     import.specifiers.retain(|s| {
-                        !matches!(
+                        if matches!(
                             s,
                             ImportSpecifier::Named(ImportNamedSpecifier {
                                 is_type_only: true,
                                 ..
                             })
-                        )
+                        ) {
+                            return false;
+                        }
+                        // Filter out specifiers shadowed by local declarations
+                        let id = s.local().to_id();
+                        !state.local_decls.contains(&id)
                     });
                     if !import.specifiers.is_empty() {
                         state.has_value_import = true;
@@ -291,7 +400,7 @@ impl TypeScript {
                         return;
                     }
 
-                    // Filter out type-only and unused specifiers
+                    // Filter out type-only, unused, and shadowed specifiers
                     import.specifiers.retain(|s| {
                         if matches!(
                             s,
@@ -302,11 +411,17 @@ impl TypeScript {
                         ) {
                             return false;
                         }
+
+                        // Filter out specifiers shadowed by local declarations
+                        let id = s.local().to_id();
+                        if state.local_decls.contains(&id) {
+                            return false;
+                        }
+
                         if matches!(
                             self.config.import_not_used_as_values,
                             ImportsNotUsedAsValues::Remove
                         ) {
-                            let id = s.local().to_id();
                             state.value_usages.contains(&id)
                         } else {
                             true
@@ -335,6 +450,7 @@ impl TypeScript {
 
                     // Transform enums
                     Decl::TsEnum(e) => {
+                        let id = e.id.to_id();
                         let (var, _) =
                             transform_enum(&e, self.config.ts_enum_is_mutable, &state.enum_values);
 
@@ -346,6 +462,7 @@ impl TypeScript {
                         }
 
                         state.has_value_export = true;
+                        state.exported_ids.insert(id);
                         out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                             span: export.span,
                             decl: Decl::Var(Box::new(var)),
@@ -360,6 +477,48 @@ impl TypeScript {
                         state.has_value_export = true;
                         let stmts = transform_namespace(&ns, true, &state.enum_values);
                         out.extend(stmts.into_iter().map(ModuleItem::Stmt));
+                        // Add `export var ns;` after the IIFE only if not already exported
+                        if let TsModuleName::Ident(id) = &ns.id {
+                            let ns_id = id.to_id();
+                            if !state.exported_ids.contains(&ns_id) {
+                                state.exported_ids.insert(ns_id);
+                                out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                                    ExportDecl {
+                                        span: DUMMY_SP,
+                                        decl: Decl::Var(Box::new(VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Var,
+                                            declare: false,
+                                            decls: vec![VarDeclarator {
+                                                span: DUMMY_SP,
+                                                name: Pat::Ident(id.clone().into()),
+                                                init: None,
+                                                definite: false,
+                                            }],
+                                            ..Default::default()
+                                        })),
+                                    },
+                                )));
+                            }
+                        }
+                    }
+
+                    // Track exported class/function identifiers
+                    Decl::Class(ref c) => {
+                        state.has_value_export = true;
+                        state.exported_ids.insert(c.ident.to_id());
+                        out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: export.span,
+                            decl: export.decl,
+                        })));
+                    }
+                    Decl::Fn(ref f) => {
+                        state.has_value_export = true;
+                        state.exported_ids.insert(f.ident.to_id());
+                        out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: export.span,
+                            decl: export.decl,
+                        })));
                     }
 
                     decl => {
@@ -503,6 +662,11 @@ impl TypeScript {
                     let stmts = transform_namespace(&ns, false, &state.enum_values);
                     out.extend(stmts);
                 }
+
+                // Skip declare statements (they have no runtime behavior)
+                Decl::Var(v) if v.declare => {}
+                Decl::Class(c) if c.declare => {}
+                Decl::Fn(f) if f.declare => {}
 
                 decl => {
                     out.push(Stmt::Decl(decl));
@@ -1294,23 +1458,30 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
-        // Remove abstract members and index signatures
+        // Remove:
+        // - Index signatures
+        // - Abstract members
+        // - Method/constructor overloads (signatures without bodies)
+        // - Declare properties
         n.retain(|m| {
-            !matches!(m, ClassMember::TsIndexSignature(_))
-                && !matches!(
-                    m,
-                    ClassMember::Method(ClassMethod {
-                        is_abstract: true,
-                        ..
-                    })
-                )
-                && !matches!(
-                    m,
-                    ClassMember::ClassProp(ClassProp {
-                        is_abstract: true,
-                        ..
-                    })
-                )
+            match m {
+                ClassMember::TsIndexSignature(_) => false,
+                ClassMember::Method(ClassMethod {
+                    is_abstract: true, ..
+                }) => false,
+                ClassMember::ClassProp(ClassProp {
+                    is_abstract: true, ..
+                }) => false,
+                // Remove method overloads (no body)
+                ClassMember::Method(ClassMethod { function, .. }) if function.body.is_none() => {
+                    false
+                }
+                // Remove constructor overloads (no body)
+                ClassMember::Constructor(Constructor { body: None, .. }) => false,
+                // Remove declare properties
+                ClassMember::ClassProp(ClassProp { declare: true, .. }) => false,
+                _ => true,
+            }
         });
 
         n.visit_mut_children_with(self);

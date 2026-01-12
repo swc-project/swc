@@ -40,7 +40,12 @@ pub fn transform_enum(
                     }
                     TsLit::Str(s) => {
                         current_value = None;
-                        Box::new(Expr::Lit(Lit::Str(s.clone())))
+                        // Create new Str with raw: None to normalize quote style
+                        Box::new(Expr::Lit(Lit::Str(Str {
+                            span: s.span,
+                            value: s.value.clone(),
+                            raw: None,
+                        })))
                     }
                     _ => {
                         current_value = None;
