@@ -35,7 +35,7 @@ where
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
             .apply(resolver(unresolved_mark, top_level_mark, true))
-            .apply(strip(unresolved_mark, top_level_mark));
+            .apply(strip(Default::default(), unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
@@ -78,13 +78,13 @@ fn common_typescript(b: &mut Bencher) {
         let top_level_mark = Mark::fresh(Mark::root());
         let module = module
             .apply(resolver(unresolved_mark, top_level_mark, true))
-            .apply(strip(unresolved_mark, top_level_mark));
+            .apply(strip(Default::default(), unresolved_mark, top_level_mark));
 
         b.iter(|| {
             let module = module.clone();
 
             helpers::HELPERS.set(&Default::default(), || {
-                black_box(module.apply(strip(unresolved_mark, top_level_mark)));
+                black_box(module.apply(strip(Default::default(), unresolved_mark, top_level_mark)));
             });
         });
 
