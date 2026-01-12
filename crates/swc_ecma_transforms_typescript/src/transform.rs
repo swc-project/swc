@@ -1696,9 +1696,29 @@ impl TypeStripper<'_> {
                     false
                 });
 
-                let insert_pos = super_pos.map_or(0, |p| p + 1);
-                for (i, stmt) in prop_stmts.into_iter().enumerate() {
-                    body.stmts.insert(insert_pos + i, stmt);
+                if let Some(super_idx) = super_pos {
+                    // Combine super call with property initializations as sequence expr
+                    // super(message), this.message = message;
+                    let super_stmt = body.stmts.remove(super_idx);
+                    if let Stmt::Expr(e) = super_stmt {
+                        let mut exprs: Vec<Box<Expr>> = vec![e.expr];
+                        for stmt in prop_stmts {
+                            if let Stmt::Expr(e) = stmt {
+                                exprs.push(e.expr);
+                            }
+                        }
+
+                        let seq = Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs,
+                        });
+                        body.stmts.insert(super_idx, seq.into_stmt());
+                    }
+                } else {
+                    // No super call, insert at beginning
+                    for (i, stmt) in prop_stmts.into_iter().enumerate() {
+                        body.stmts.insert(i, stmt);
+                    }
                 }
             }
         }

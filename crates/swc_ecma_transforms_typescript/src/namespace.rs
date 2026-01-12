@@ -217,46 +217,19 @@ fn process_module_decl(
                 emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Var(v) => {
-                // For exported variable declarations, we need to handle two cases:
-                // 1. Simple binding: export const a = 1; -> const a = 1; ns.a = a;
-                // 2. Destructuring: export const [a, b] = x; -> [ns.a, ns.b] = x;
-                let mut simple_idents = Vec::new();
+                // For exported variable declarations:
+                // - Simple binding: export const a = 1; -> ns.a = 1;
+                // - Destructuring: export const [a, b] = x; -> [ns.a, ns.b] = x;
                 for decl in &v.decls {
-                    if is_simple_ident_binding(&decl.name) {
-                        // Simple binding - collect for declaration + immediate export
-                        collect_binding_idents(&decl.name, &mut simple_idents);
-                    } else {
-                        // Destructuring - transform to direct namespace assignment
-                        let left = transform_pat_to_assign_target(&decl.name, ns_id);
-                        if let Some(init) = &decl.init {
-                            let assign = Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left,
-                                right: init.clone(),
-                            });
-                            out.push(assign.into_stmt());
-                        }
-                    }
-                }
-                // Only keep simple identifier bindings in the var decl
-                let filtered_decls: Vec<_> = v
-                    .decls
-                    .iter()
-                    .filter(|d| is_simple_ident_binding(&d.name))
-                    .cloned()
-                    .collect();
-                if !filtered_decls.is_empty() {
-                    out.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                        span: v.span,
-                        kind: v.kind,
-                        declare: v.declare,
-                        decls: filtered_decls,
-                        ..Default::default()
-                    }))));
-                    // Emit export assignments immediately after declaration
-                    for ident in &simple_idents {
-                        emit_export_assignment(ns_id, ident, out);
+                    let left = transform_pat_to_assign_target(&decl.name, ns_id);
+                    if let Some(init) = &decl.init {
+                        let assign = Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left,
+                            right: init.clone(),
+                        });
+                        out.push(assign.into_stmt());
                     }
                 }
             }
