@@ -8,4 +8,5 @@
 -   When instructed to fix tests, do not remove or modify existing tests.
 -   Write documentation for your code.
 -   Run `cargo fmt --all` before commiting files.
--   Commit changes once you are done.
+-   Commit your work as frequent as possible using git. Do NOT use `--no-verify` flag.
+-   Prefer multiple small files over single large file.
