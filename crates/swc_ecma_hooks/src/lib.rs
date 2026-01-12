@@ -12,3 +12,13 @@ pub use swc_ecma_visit;
 
 pub use crate::generated::*;
 mod generated;
+
+pub fn noop_hook() -> NoopHook {
+    NoopHook
+}
+
+pub struct NoopHook;
+
+impl<C> VisitHook<C> for NoopHook {}
+
+impl<C> VisitMutHook<C> for NoopHook {}

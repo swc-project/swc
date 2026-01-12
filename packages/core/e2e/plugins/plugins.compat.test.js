@@ -1,4 +1,4 @@
-/// <reference types="jest" />
+/// <reference types="@rstest/core/globals" />
 const { getPkgRoot } = require("../utils");
 const path = require("path");
 const { readFileSync } = require("fs");

@@ -1,4 +1,4 @@
-/// <reference types="jest" />
+/// <reference types="@rstest/core/globals" />
 const { getPkgRoot } = require("../utils");
 const { spawn } = require("child_process");
 const path = require("path");

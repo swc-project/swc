@@ -122,8 +122,10 @@ impl VisitMut for Arrow {
                 is_generator,
                 ..
             }) => {
-                params.visit_mut_with(self);
+                // First, hoist `this` references in params
                 params.visit_mut_with(&mut self.hoister);
+                // Then, convert nested arrow functions in params
+                params.visit_mut_with(self);
 
                 let params: Vec<Param> = params
                     .take()
@@ -135,9 +137,14 @@ impl VisitMut for Arrow {
                     })
                     .collect();
 
-                body.visit_mut_with(self);
-
+                // First, replace `this` with `_this` in the entire body
+                // This must happen before converting nested arrow functions
+                // because once they become regular functions, the hoister
+                // won't recurse into them
                 body.visit_mut_with(&mut self.hoister);
+
+                // Then, convert nested arrow functions
+                body.visit_mut_with(self);
 
                 let fn_expr = Function {
                     decorators: Vec::new(),

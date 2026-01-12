@@ -8,158 +8,158 @@ members = [
 ]
 resolver = "2"
 
-  [workspace.package]
-  edition    = "2021"
-  license    = "Apache-2.0"
-  repository = "https://github.com/swc-project/swc.git"
+[workspace.package]
+edition    = "2021"
+license    = "Apache-2.0"
+repository = "https://github.com/swc-project/swc.git"
 
 
-  [workspace.dependencies]
-  # bytecheck version should be in sync with rkyv version. Do not bump individually.
-  bytecheck = "0.8.0"
-  rancor    = "0.1.0"
-  rkyv      = "0.8.8"
+[workspace.dependencies]
+# bytecheck version should be in sync with rkyv version. Do not bump individually.
+bytecheck = "0.8.0"
+rancor    = "0.1.0"
+rkyv      = "0.8.8"
 
 
-  Inflector                 = "0.11.4"
-  allocator-api2            = "0.2.18"
-  ansi_term                 = "0.12.1"
-  anyhow                    = "1.0.98"
-  arbitrary                 = "1"
-  arrayvec                  = "0.7.4"
-  ascii                     = "1.1.0"
-  assert_cmd                = "2.0.12"
-  assert_fs                 = "1.0.13"
-  auto_impl                 = "1.2.0"
-  backtrace                 = "0.3"
-  base64                    = "0.22.1"
-  bitflags                  = "2.5.0"
-  blake3                    = "1.5.4"
-  browserslist-rs           = "0.19.0"
-  bumpalo                   = "3.16.0"
-  bytes-str                 = "0.2.5"
-  cargo_metadata            = "0.18.1"
-  changesets                = "0.2.2"
-  chrono                    = "0.4.38"
-  codspeed-criterion-compat = "3.0.4"
-  compact_str               = "0.7.1"
-  console_error_panic_hook  = "0.1.7"
-  copyless                  = "0.1.5"
-  crc                       = "2.1.0"
-  criterion                 = "0.5.1"
-  dashmap                   = "5.5.3"
-  dialoguer                 = "0.10.2"
-  dragonbox_ecma            = "0.1.0"
-  difference                = "2"
-  either                    = "1.10.0"
-  enumset                   = "1.1.2"
-  flate2                    = "1.0"
-  getrandom                 = "0.3.3"
-  glob                      = "0.3.0"
-  globset                   = { version = "0.4.16", default-features = false }
-  hashbrown                 = "0.14.5"
-  hex                       = "0.4.3"
-  humansize                 = "2.1.3"
-  indexmap                  = "2.0.0"
-  is-macro                  = "0.3.5"
-  js-sys                    = "0.3.77"
-  jsonc-parser              = "0.26.2"
-  kstring                   = "2.0.0"
-  lazy_static               = "1.4.0"
-  lexical                   = "6.1.0"
-  lightningcss              = "1.0.0-alpha.66"
-  lru                       = "0.16.1"
-  memchr                    = "2.6.1"
-  miette                    = "7.6.0"
-  napi                      = { version = "3", default-features = false }
-  napi-build                = "2"
-  napi-derive               = { version = "3", default-features = false }
-  new_debug_unreachable     = "1.0.6"
-  nom                       = "7.1.3"
-  ntest                     = "0.7.2"
-  num-bigint                = "0.4.3"
-  num_cpus                  = "1.13.1"
-  once_cell                 = "1.19.0"
-  owo-colors                = "4.2.1"
-  par-core                  = { version = "2.0.0", default-features = false }
-  par-iter                  = "2.0.0"
-  parking_lot               = "0.12.1"
-  path-absolutize           = "3.0.11"
-  path-clean                = "1.0"
-  pathdiff                  = "0.2.1"
-  petgraph                  = "0.7.1"
-  phf                       = "0.11.2"
-  pretty_assertions         = "1.3"
-  proc-macro2               = "1.0.24"
-  quote                     = "1.0.7"
-  radix_fmt                 = "1.0.0"
-  rand                      = "0.8.5"
-  rayon                     = "1.7.0"
-  regex                     = "1.5.4"
-  regress                   = "0.10.3"
-  relative-path             = "1.6.1"
-  reqwest                   = "0.11.14"
-  rustc-hash                = "2"
-  ryu-js                    = "1.0.0"
-  scoped-tls                = "1.0.1"
-  semver                    = "1.0.20"
-  seq-macro                 = "0.3"
-  serde                     = "1.0.225"
-  serde-wasm-bindgen        = "0.6.5"
-  serde_derive              = "1.0.225"
-  serde_json                = "1.0.140"
-  sha1                      = "0.10.6"
-  sha2                      = "0.10.8"
-  shrink-to-fit             = "0.2.1"
-  siphasher                 = "0.3.9"
-  smallvec                  = "1.8.0"
-  smartstring               = "1.0.1"
-  smol_str                  = "0.2.0"
-  st-map                    = "0.2.0"
-  string_cache              = "0.8.7"
-  swc_sourcemap             = "9.3.4"
-  syn                       = "2"
-  tempfile                  = "3.6.0"
-  termcolor                 = "1.0"
-  thiserror                 = "1.0.30"
-  tokio                     = { version = "1", default-features = false }
-  toml                      = "0.8.2"
-  tracing                   = "0.1.41"
-  tracing-chrome            = "0.7.2"
-  tracing-subscriber        = "0.3.20"
-  triomphe                  = "0.1.13"
-  unicode-id-start          = "1.2.0"
-  unicode-width             = "0.2.1"
-  url                       = "2.5.4"
-  vergen                    = { version = "9.0.0", default-features = false }
-  walkdir                   = "2.4.0"
-  wasi-common               = { version = "38", default-features = false }
-  wasm-bindgen              = "0.2.100"
-  wasm-bindgen-futures      = "0.4.50"
-  wasmer                    = { version = "6.1.0-rc.2", default-features = false }
-  wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
-  wasmtime                  = { version = "38", default-features = false }
+Inflector                 = "0.11.4"
+allocator-api2            = "0.2.18"
+ansi_term                 = "0.12.1"
+anyhow                    = "1.0.98"
+arbitrary                 = "1"
+arrayvec                  = "0.7.4"
+ascii                     = "1.1.0"
+assert_cmd                = "2.0.12"
+assert_fs                 = "1.0.13"
+auto_impl                 = "1.2.0"
+backtrace                 = "0.3"
+base64                    = "0.22.1"
+bitflags                  = "2.5.0"
+blake3                    = "1.5.4"
+browserslist-rs           = "0.19.0"
+bumpalo                   = "3.16.0"
+bytes-str                 = "0.2.5"
+cargo_metadata            = "0.18.1"
+changesets                = "0.2.2"
+chrono                    = "0.4.38"
+codspeed-criterion-compat = "3.0.4"
+compact_str               = "0.7.1"
+console_error_panic_hook  = "0.1.7"
+copyless                  = "0.1.5"
+crc                       = "2.1.0"
+criterion                 = "0.5.1"
+dashmap                   = "5.5.3"
+dialoguer                 = "0.10.2"
+difference                = "2"
+dragonbox_ecma            = "0.1.0"
+either                    = "1.10.0"
+enumset                   = "1.1.2"
+flate2                    = "1.0"
+getrandom                 = "0.3.3"
+glob                      = "0.3.0"
+globset                   = { version = "0.4.16", default-features = false }
+hashbrown                 = "0.14.5"
+hex                       = "0.4.3"
+humansize                 = "2.1.3"
+indexmap                  = "2.0.0"
+is-macro                  = "0.3.5"
+js-sys                    = "0.3.77"
+jsonc-parser              = "0.26.2"
+kstring                   = "2.0.0"
+lazy_static               = "1.4.0"
+lexical                   = "6.1.0"
+lightningcss              = "1.0.0-alpha.68"
+lru                       = "0.16.1"
+memchr                    = "2.6.1"
+miette                    = "7.6.0"
+napi                      = { version = "3", default-features = false }
+napi-build                = "2"
+napi-derive               = { version = "3", default-features = false }
+new_debug_unreachable     = "1.0.6"
+nom                       = "7.1.3"
+ntest                     = "0.7.2"
+num-bigint                = "0.4.3"
+num_cpus                  = "1.13.1"
+once_cell                 = "1.19.0"
+owo-colors                = "4.2.1"
+par-core                  = { version = "2.0.0", default-features = false }
+par-iter                  = "2.0.0"
+parking_lot               = "0.12.1"
+path-absolutize           = "3.0.11"
+path-clean                = "1.0"
+pathdiff                  = "0.2.1"
+petgraph                  = "0.7.1"
+phf                       = "0.11.2"
+pretty_assertions         = "1.3"
+proc-macro2               = "1.0.24"
+quote                     = "1.0.7"
+radix_fmt                 = "1.0.0"
+rand                      = "0.8.5"
+rayon                     = "1.7.0"
+regex                     = "1.5.4"
+regress                   = "0.10.3"
+relative-path             = "1.6.1"
+reqwest                   = "0.11.14"
+rustc-hash                = "2"
+ryu-js                    = "1.0.0"
+scoped-tls                = "1.0.1"
+semver                    = "1.0.20"
+seq-macro                 = "0.3"
+serde                     = "1.0.225"
+serde-wasm-bindgen        = "0.6.5"
+serde_derive              = "1.0.225"
+serde_json                = "1.0.140"
+sha1                      = "0.10.6"
+sha2                      = "0.10.8"
+shrink-to-fit             = "0.2.1"
+siphasher                 = "0.3.9"
+smallvec                  = "1.8.0"
+smartstring               = "1.0.1"
+smol_str                  = "0.2.0"
+st-map                    = "0.2.0"
+string_cache              = "0.8.7"
+swc_sourcemap             = "9.3.4"
+syn                       = "2"
+tempfile                  = "3.6.0"
+termcolor                 = "1.0"
+thiserror                 = "1.0.30"
+tokio                     = { version = "1", default-features = false }
+toml                      = "0.8.2"
+tracing                   = "0.1.41"
+tracing-chrome            = "0.7.2"
+tracing-subscriber        = "0.3.20"
+triomphe                  = "0.1.13"
+unicode-id-start          = "1.2.0"
+unicode-width             = "0.2.1"
+url                       = "2.5.4"
+vergen                    = { version = "9.0.0", default-features = false }
+walkdir                   = "2.4.0"
+wasi-common               = { version = "38", default-features = false }
+wasm-bindgen              = "0.2.100"
+wasm-bindgen-futures      = "0.4.50"
+wasmer                    = { version = "6.1.0-rc.2", default-features = false }
+wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
+wasmtime                  = { version = "38", default-features = false }
 
 
-  cbor4ii         = "1.2"
-  foldhash        = "0.1"
-  precomputed-map = "0.2"
+cbor4ii         = "1.2"
+foldhash        = "0.1"
+precomputed-map = "0.2"
 
-  [workspace.metadata.cargo-shear]
-  # `serde` is used when #[ast_node] is expanded
-  # the rests are used for enabling features
-  ignored = [
-    "par-core",
-    "serde",
-    "napi",
-    "napi-derive",
-    "indexmap",
-    "tracing",
-    "num-bigint",
-    "swc_ecma_utils",
-    "swc_ecma_transforms_base",
-    "getrandom",
-  ]
+[workspace.metadata.cargo-shear]
+# `serde` is used when #[ast_node] is expanded
+# the rests are used for enabling features
+ignored = [
+  "par-core",
+  "serde",
+  "napi",
+  "napi-derive",
+  "indexmap",
+  "tracing",
+  "num-bigint",
+  "swc_ecma_utils",
+  "swc_ecma_transforms_base",
+  "getrandom",
+]
 
 [profile.release]
 lto = "fat"
@@ -198,161 +198,161 @@ opt-level = 3
 opt-level = 3
 
 
-  [profile.release.package]
+[profile.release.package]
 
-    [profile.release.package.wasmer-wasix]
-    opt-level = "s"
+[profile.release.package.wasmer-wasix]
+opt-level = "s"
 
-    [profile.release.package.cranelift-codegen]
-    opt-level = "s"
+[profile.release.package.cranelift-codegen]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_minifier]
-    opt-level = 3
+[profile.release.package.swc_ecma_minifier]
+opt-level = 3
 
-    [profile.release.package.swc]
-    opt-level = 3
+[profile.release.package.swc]
+opt-level = 3
 
-    [profile.release.package.swc_ecma_compat_es2015]
-    opt-level = "s"
+[profile.release.package.swc_ecma_compat_es2015]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_parser]
-    opt-level = 3
+[profile.release.package.swc_ecma_parser]
+opt-level = 3
 
-    [profile.release.package.wast]
-    opt-level = "s"
+[profile.release.package.wast]
+opt-level = "s"
 
-    [profile.release.package.wasmparser]
-    opt-level = "s"
+[profile.release.package.wasmparser]
+opt-level = "s"
 
-    [profile.release.package.browserslist-rs]
-    opt-level = "s"
+[profile.release.package.browserslist-rs]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_transforms_module]
-    opt-level = "s"
+[profile.release.package.swc_ecma_transforms_module]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_transforms_proposal]
-    opt-level = "s"
+[profile.release.package.swc_ecma_transforms_proposal]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_transforms_optimization]
-    opt-level = 3
+[profile.release.package.swc_ecma_transforms_optimization]
+opt-level = 3
 
-    [profile.release.package.swc_ecma_ast]
-    opt-level = 3
+[profile.release.package.swc_ecma_ast]
+opt-level = 3
 
-    [profile.release.package.swc_ecma_transforms_base]
-    opt-level = 3
+[profile.release.package.swc_ecma_transforms_base]
+opt-level = 3
 
-    [profile.release.package.webc]
-    opt-level = "s"
+[profile.release.package.webc]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_compat_es2022]
-    opt-level = "s"
+[profile.release.package.swc_ecma_compat_es2022]
+opt-level = "s"
 
-    [profile.release.package.regex-automata]
-    opt-level = "s"
+[profile.release.package.regex-automata]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_transforms_typescript]
-    opt-level = 3
+[profile.release.package.swc_ecma_transforms_typescript]
+opt-level = 3
 
-    [profile.release.package.clap]
-    opt-level = "s"
+[profile.release.package.clap]
+opt-level = "s"
 
-    [profile.release.package.swc_cli_impl]
-    opt-level = "s"
+[profile.release.package.swc_cli_impl]
+opt-level = "s"
 
-    # ICU and internationalization crates (not performance critical)
-    [profile.release.package.zerovec]
-    opt-level = "s"
+# ICU and internationalization crates (not performance critical)
+[profile.release.package.zerovec]
+opt-level = "s"
 
-    [profile.release.package.icu_locid]
-    opt-level = "s"
+[profile.release.package.icu_locid]
+opt-level = "s"
 
-    [profile.release.package.icu_properties]
-    opt-level = "s"
+[profile.release.package.icu_properties]
+opt-level = "s"
 
-    [profile.release.package.icu_normalizer]
-    opt-level = "s"
+[profile.release.package.icu_normalizer]
+opt-level = "s"
 
-    [profile.release.package.icu_provider]
-    opt-level = "s"
+[profile.release.package.icu_provider]
+opt-level = "s"
 
-    [profile.release.package.icu_collections]
-    opt-level = "s"
+[profile.release.package.icu_collections]
+opt-level = "s"
 
-    [profile.release.package.icu_locid_transform]
-    opt-level = "s"
+[profile.release.package.icu_locid_transform]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_visit]
-    opt-level = "s"
+[profile.release.package.swc_ecma_visit]
+opt-level = "s"
 
-    [profile.release.package.swc_sourcemap]
-    opt-level = "s"
+[profile.release.package.swc_sourcemap]
+opt-level = "s"
 
-    [profile.release.package.wasmer-config]
-    opt-level = "s"
+[profile.release.package.wasmer-config]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_utils]
-    opt-level = 3
+[profile.release.package.swc_ecma_utils]
+opt-level = 3
 
-    [profile.release.package.wasmer-compiler]
-    opt-level = "s"
+[profile.release.package.wasmer-compiler]
+opt-level = "s"
 
-    [profile.release.package.wasmer]
-    opt-level = "s"
+[profile.release.package.wasmer]
+opt-level = "s"
 
-    [profile.release.package.wasmer-vm]
-    opt-level = "s"
+[profile.release.package.wasmer-vm]
+opt-level = "s"
 
-    [profile.release.package.wasmer-compiler-cranelift]
-    opt-level = "s"
+[profile.release.package.wasmer-compiler-cranelift]
+opt-level = "s"
 
-    [profile.release.package.regalloc2]
-    opt-level = "s"
+[profile.release.package.regalloc2]
+opt-level = "s"
 
-    [profile.release.package.swc_plugin_backend_wasmer]
-    opt-level = "s"
+[profile.release.package.swc_plugin_backend_wasmer]
+opt-level = "s"
 
-    [profile.release.package.swc_plugin_runner]
-    opt-level = "s"
+[profile.release.package.swc_plugin_runner]
+opt-level = "s"
 
-    [profile.release.package.globset]
-    opt-level = "s"
+[profile.release.package.globset]
+opt-level = "s"
 
-    [profile.release.package.toml_edit]
-    opt-level = "s"
+[profile.release.package.toml_edit]
+opt-level = "s"
 
-    [profile.release.package.miette]
-    opt-level = "s"
+[profile.release.package.miette]
+opt-level = "s"
 
-    [profile.release.package.swc_bundler]
-    opt-level = "s"
+[profile.release.package.swc_bundler]
+opt-level = "s"
 
-    [profile.release.package.swc_ecma_compat_es3]
-    opt-level = "s"
+[profile.release.package.swc_ecma_compat_es3]
+opt-level = "s"
 
-    [profile.release.package.serde]
-    opt-level = "s"
+[profile.release.package.serde]
+opt-level = "s"
 
-    [profile.release.package.regex-syntax]
-    opt-level = "s"
+[profile.release.package.regex-syntax]
+opt-level = "s"
 
-    [profile.release.package.virtual-fs]
-    opt-level = "s"
+[profile.release.package.virtual-fs]
+opt-level = "s"
 
-    [profile.release.package.swc_typescript]
-    opt-level = "s"
+[profile.release.package.swc_typescript]
+opt-level = "s"
 
-    [profile.release.package.wasmer-package]
-    opt-level = "s"
+[profile.release.package.wasmer-package]
+opt-level = "s"
 
-    [profile.release.package.aho-corasick]
-    opt-level = "s"
+[profile.release.package.aho-corasick]
+opt-level = "s"
 
-    [profile.release.package.backtrace]
-    opt-level = "s"
+[profile.release.package.backtrace]
+opt-level = "s"
 
-    [profile.release.package.tokio]
-    opt-level = "s"
+[profile.release.package.tokio]
+opt-level = "s"
 
-    [profile.release.package.napi]
-    opt-level = "s"
+[profile.release.package.napi]
+opt-level = "s"

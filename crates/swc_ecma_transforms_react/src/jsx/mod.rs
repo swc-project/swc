@@ -1,9 +1,6 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{
-    iter::{self, once},
-    sync::RwLock,
-};
+use std::sync::RwLock;
 
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
@@ -24,12 +21,13 @@ use swc_common::{
 };
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_utils::{
     drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
     StmtLike,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::VisitMut;
 
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
@@ -208,17 +206,17 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 /// ```js
 /// import React from 'react';
 /// ```
-pub fn jsx<C>(
+pub fn hook<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
     options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
-) -> impl Pass + VisitMut
+) -> impl VisitMutHook<()>
 where
     C: Comments,
 {
-    visit_mut_pass(Jsx {
+    Jsx {
         cm: cm.clone(),
         top_level_mark,
         unresolved_mark,
@@ -247,6 +245,26 @@ where
             .throw_if_namespace
             .unwrap_or_else(default_throw_if_namespace),
         top_level_node: true,
+    }
+}
+
+// Re-export for compatibility
+pub fn jsx<C>(
+    cm: Lrc<SourceMap>,
+    comments: Option<C>,
+    options: Options,
+    top_level_mark: Mark,
+    unresolved_mark: Mark,
+) -> impl Pass + VisitMut
+where
+    C: Comments,
+{
+    use swc_ecma_hooks::VisitMutWithHook;
+    use swc_ecma_visit::visit_mut_pass;
+
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(cm, comments, options, top_level_mark, unresolved_mark),
+        context: (),
     })
 }
 
@@ -471,6 +489,22 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    /// Process JSX attribute value, handling JSXElements and JSXFragments
+    fn process_attr_value(&mut self, value: Option<JSXAttrValue>) -> Box<Expr> {
+        match value {
+            Some(JSXAttrValue::JSXElement(el)) => Box::new(self.jsx_elem_to_expr(*el)),
+            Some(JSXAttrValue::JSXFragment(frag)) => Box::new(self.jsx_frag_to_expr(frag)),
+            Some(JSXAttrValue::JSXExprContainer(container)) => match container.expr {
+                JSXExpr::Expr(e) => e,
+                JSXExpr::JSXEmptyExpr(_) => panic!("empty expression container"),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            },
+            Some(v) => jsx_attr_value_to_expr(v).expect("empty expression container?"),
+            None => true.into(),
+        }
+    }
+
     fn inject_runtime<T, F>(&mut self, body: &mut Vec<T>, inject: F)
     where
         T: StmtLike,
@@ -595,14 +629,16 @@ where
                         .clone()
                 };
 
-                let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
-
+                // Build args Vec directly
                 let args = if self.development {
-                    args.chain(once(Expr::undefined(DUMMY_SP).as_arg()))
-                        .chain(once(use_jsxs.as_arg()))
-                        .collect()
+                    vec![
+                        fragment.as_arg(),
+                        props_obj.as_arg(),
+                        Expr::undefined(DUMMY_SP).as_arg(),
+                        use_jsxs.as_arg(),
+                    ]
                 } else {
-                    args.collect()
+                    vec![fragment.as_arg(), props_obj.as_arg()]
                 };
 
                 CallExpr {
@@ -614,19 +650,24 @@ where
                 .into()
             }
             Runtime::Classic => {
+                // Build args Vec directly for better performance
+                let children_capacity = el.children.len();
+                let mut args = Vec::with_capacity(2 + children_capacity);
+
+                args.push((*self.pragma_frag).clone().as_arg());
+                args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+
+                // Add children
+                for child in el.children {
+                    if let Some(expr) = self.jsx_elem_child_to_expr(child) {
+                        args.push(expr);
+                    }
+                }
+
                 CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
-                    args: iter::once((*self.pragma_frag).clone().as_arg())
-                        // attribute: null
-                        .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
-                        .chain({
-                            // Children
-                            el.children
-                                .into_iter()
-                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
-                        })
-                        .collect(),
+                    args,
                     ..Default::default()
                 }
                 .into()
@@ -662,9 +703,11 @@ where
             Runtime::Automatic => {
                 // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
 
+                // Pre-allocate with estimated capacity
+                let estimated_props_capacity = el.opening.attrs.len() + 1; // attrs + potential children
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
-                    props: Vec::new(),
+                    props: Vec::with_capacity(estimated_props_capacity),
                 };
 
                 let mut key = None;
@@ -734,11 +777,7 @@ where
                                         continue;
                                     }
 
-                                    let value = match attr.value {
-                                        Some(v) => jsx_attr_value_to_expr(v)
-                                            .expect("empty expression container?"),
-                                        None => true.into(),
-                                    };
+                                    let value = self.process_attr_value(attr.value);
 
                                     // TODO: Check if `i` is a valid identifier.
                                     let key = if i.sym.contains('-') {
@@ -773,11 +812,7 @@ where
                                         });
                                     }
 
-                                    let value = match attr.value {
-                                        Some(v) => jsx_attr_value_to_expr(v)
-                                            .expect("empty expression container?"),
-                                        None => true.into(),
-                                    };
+                                    let value = self.process_attr_value(attr.value);
 
                                     let str_value = format!("{}:{}", ns.sym, name.sym);
                                     let key = Str {
@@ -867,34 +902,43 @@ where
 
                 self.top_level_node = top_level_node;
 
-                let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
+                // Build args Vec directly instead of using iterator chains
                 let args = if use_create_element {
-                    args.chain(children.into_iter().flatten()).collect()
+                    let mut args = Vec::with_capacity(2 + children.len());
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+                    args.extend(children.into_iter().flatten());
+                    args
                 } else if self.development {
+                    let mut args = Vec::with_capacity(6);
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+
                     // set undefined literal to key if key is None
-                    let key = match key {
-                        Some(key) => key,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
+                    let key = key.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(key);
+
+                    args.push(use_jsxs.as_arg());
 
                     // set undefined literal to __source if __source is None
-                    let source_props = match source_props {
-                        Some(source_props) => source_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
+                    let source_props =
+                        source_props.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(source_props);
 
                     // set undefined literal to __self if __self is None
-                    let self_props = match self_props {
-                        Some(self_props) => self_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
-                    args.chain(once(key))
-                        .chain(once(use_jsxs.as_arg()))
-                        .chain(once(source_props))
-                        .chain(once(self_props))
-                        .collect()
+                    let self_props =
+                        self_props.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(self_props);
+
+                    args
                 } else {
-                    args.chain(key).collect()
+                    let mut args = Vec::with_capacity(if key.is_some() { 3 } else { 2 });
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+                    if let Some(key) = key {
+                        args.push(key);
+                    }
+                    args
                 };
                 CallExpr {
                     span,
@@ -905,21 +949,24 @@ where
                 .into()
             }
             Runtime::Classic => {
+                // Build args Vec directly for better performance
+                let children_capacity = el.children.len();
+                let mut args = Vec::with_capacity(2 + children_capacity);
+
+                args.push(name.as_arg());
+                args.push(self.fold_attrs_for_classic(el.opening.attrs).as_arg());
+
+                // Add children
+                for child in el.children {
+                    if let Some(expr) = self.jsx_elem_child_to_expr(child) {
+                        args.push(expr);
+                    }
+                }
+
                 CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
-                    args: iter::once(name.as_arg())
-                        .chain(iter::once({
-                            // Attributes
-                            self.fold_attrs_for_classic(el.opening.attrs).as_arg()
-                        }))
-                        .chain({
-                            // Children
-                            el.children
-                                .into_iter()
-                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
-                        })
-                        .collect(),
+                    args,
                     ..Default::default()
                 }
                 .into()
@@ -1109,13 +1156,17 @@ where
     }
 }
 
-impl<C> VisitMut for Jsx<C>
+impl<C> VisitMutHook<()> for Jsx<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+    /// Called after visiting children of an expression.
+    ///
+    /// This is where we transform JSX syntax to JavaScript function calls.
+    /// By doing this in exit_expr (after children are visited), we ensure that
+    /// jsx_src and jsx_self have already added their __source and __self
+    /// attributes.
+    fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut ()) {
         let top_level_node = self.top_level_node;
         let mut did_work = false;
 
@@ -1145,12 +1196,10 @@ where
             self.top_level_node = false;
         }
 
-        expr.visit_mut_children_with(self);
-
         self.top_level_node = top_level_node;
     }
 
-    fn visit_mut_module(&mut self, module: &mut Module) {
+    fn enter_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         self.parse_directives(module.span);
 
         for item in &module.body {
@@ -1159,9 +1208,9 @@ where
                 break;
             }
         }
+    }
 
-        module.visit_mut_children_with(self);
-
+    fn exit_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         if self.runtime == Runtime::Automatic {
             self.inject_runtime(&mut module.body, |imports, src, stmts| {
                 let specifiers = imports
@@ -1197,7 +1246,7 @@ where
         }
     }
 
-    fn visit_mut_script(&mut self, script: &mut Script) {
+    fn enter_script(&mut self, script: &mut Script, _ctx: &mut ()) {
         self.parse_directives(script.span);
 
         for item in &script.body {
@@ -1206,9 +1255,9 @@ where
                 break;
             }
         }
+    }
 
-        script.visit_mut_children_with(self);
-
+    fn exit_script(&mut self, script: &mut Script, _ctx: &mut ()) {
         if self.runtime == Runtime::Automatic {
             let mark = self.unresolved_mark;
             self.inject_runtime(&mut script.body, |imports, src, stmts| {
@@ -1501,6 +1550,15 @@ fn add_line_of_jsx_text_wtf8(
 /// Internal implementation that works with &str
 #[inline]
 fn jsx_text_to_str_impl(t: &str) -> Atom {
+    // Fast path: if no line terminators and no leading/trailing whitespace
+    if !t.is_empty()
+        && !t.chars().any(is_line_terminator)
+        && !t.starts_with(is_white_space_single_line)
+        && !t.ends_with(is_white_space_single_line)
+    {
+        return t.into();
+    }
+
     let mut acc: Option<String> = None;
     let mut only_line: Option<&str> = None;
     let mut first_non_whitespace: Option<usize> = Some(0);
@@ -1611,6 +1669,22 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
 }
 
 fn transform_jsx_attr_str(v: &Wtf8) -> Wtf8Buf {
+    // Fast path: check if transformation is needed
+    let needs_transform = v.code_points().any(|cp| {
+        if let Some(c) = cp.to_char() {
+            matches!(
+                c,
+                '\u{0008}' | '\u{000c}' | '\n' | '\r' | '\t' | '\u{000b}' | '\0'
+            )
+        } else {
+            false
+        }
+    });
+
+    if !needs_transform {
+        return v.to_owned();
+    }
+
     let single_quote = false;
     let mut buf = Wtf8Buf::with_capacity(v.len());
     let mut iter = v.code_points().peekable();

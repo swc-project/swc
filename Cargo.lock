@@ -695,7 +695,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c02af038c863b51d496dd4a2eabdf781f8f7ab68025e13b984b7f2c525560454"
 dependencies = [
  "bytes",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "serde",
 ]
 
@@ -2154,6 +2154,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2"
 
 [[package]]
+name = "foldhash"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77ce24cb58228fbb8aa041425bb1050850ac19177686ea6e0f41a70416f56fdb"
+
+[[package]]
 name = "foreign-types"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2492,7 +2498,7 @@ checksum = "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1"
 dependencies = [
  "allocator-api2",
  "equivalent",
- "foldhash",
+ "foldhash 0.1.5",
  "serde",
 ]
 
@@ -2501,6 +2507,11 @@ name = "hashbrown"
 version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5419bdc4f6a9207fbeba6d11b604d481addf78ecd10c11ad51e76c2f6482748d"
+dependencies = [
+ "allocator-api2",
+ "equivalent",
+ "foldhash 0.2.0",
+]
 
 [[package]]
 name = "heapless"
@@ -2567,7 +2578,7 @@ dependencies = [
  "once_cell",
  "par-iter",
  "rand",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -3314,11 +3325,11 @@ checksum = "34080505efa8e45a4b816c349525ebe327ceaa8559756f0356cba97ef3bf7432"
 
 [[package]]
 name = "lru"
-version = "0.16.1"
+version = "0.16.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bfe949189f46fabb938b3a9a0be30fdd93fd8a09260da863399a8cf3db756ec8"
+checksum = "a1dc47f592c06f33f8e3aea9591776ec7c9f9e4124778ff8a3c3b87159f7e593"
 dependencies = [
- "hashbrown 0.15.5",
+ "hashbrown 0.16.0",
 ]
 
 [[package]]
@@ -4650,19 +4661,19 @@ dependencies = [
 
 [[package]]
 name = "rkyv"
-version = "0.8.9"
+version = "0.8.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b11a153aec4a6ab60795f8ebe2923c597b16b05bb1504377451e705ef1a45323"
+checksum = "8b2e88acca7157d83d789836a3987dafc12bc3d88a050e54b8fe9ea4aaa29d20"
 dependencies = [
  "bytecheck 0.8.1",
  "bytes",
- "hashbrown 0.15.5",
+ "hashbrown 0.16.0",
  "indexmap 2.12.0",
  "munge",
  "ptr_meta 0.3.0",
  "rancor",
  "rend 0.5.2",
- "rkyv_derive 0.8.9",
+ "rkyv_derive 0.8.13",
  "tinyvec",
  "uuid",
 ]
@@ -4680,9 +4691,9 @@ dependencies = [
 
 [[package]]
 name = "rkyv_derive"
-version = "0.8.9"
+version = "0.8.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "beb382a4d9f53bd5c0be86b10d8179c3f8a14c30bf774ff77096ed6581e35981"
+checksum = "7f6dffea3c91fa91a3c0fc8a061b0e27fef25c6304728038a6d6bcb1c58ba9bd"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5403,7 +5414,7 @@ dependencies = [
  "hstr",
  "once_cell",
  "rancor",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "serde",
  "shrink-to-fit",
 ]
@@ -5498,7 +5509,7 @@ dependencies = [
  "par-iter",
  "parking_lot",
  "rancor",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -5647,7 +5658,7 @@ dependencies = [
  "bytecheck 0.8.1",
  "cbor4ii",
  "is-macro",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -5822,7 +5833,7 @@ dependencies = [
  "once_cell",
  "phf",
  "rancor",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -6203,7 +6214,7 @@ version = "45.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
- "foldhash",
+ "foldhash 0.1.5",
  "indexmap 2.12.0",
  "once_cell",
  "precomputed-map",
@@ -6524,6 +6535,7 @@ dependencies = [
  "swc_config",
  "swc_ecma_ast",
  "swc_ecma_codegen",
+ "swc_ecma_hooks",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_compat",
@@ -6728,7 +6740,7 @@ dependencies = [
  "bytecheck 0.8.1",
  "cbor4ii",
  "is-macro",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -7942,7 +7954,7 @@ dependencies = [
  "ipnet",
  "iprange",
  "pin-project-lite",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "serde",
  "smoltcp",
  "thiserror 1.0.69",
@@ -8255,7 +8267,7 @@ dependencies = [
  "more-asserts",
  "object 0.32.2",
  "region",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "self_cell",
  "shared-buffer",
  "smallvec",
@@ -8338,7 +8350,7 @@ dependencies = [
  "derive_more 2.0.1",
  "lz4_flex",
  "num_enum",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "serde",
  "serde_json",
  "thiserror 1.0.69",
@@ -8392,7 +8404,7 @@ dependencies = [
  "hex",
  "indexmap 2.12.0",
  "more-asserts",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "serde",
  "sha2",
  "target-lexicon 0.12.16",
@@ -8463,7 +8475,7 @@ dependencies = [
  "pin-project",
  "pin-utils",
  "rand",
- "rkyv 0.8.9",
+ "rkyv 0.8.13",
  "rusty_pool",
  "semver",
  "serde",

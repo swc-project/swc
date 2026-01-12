@@ -1,6 +1,6 @@
 use swc_ecma_hooks::VisitMutHook;
 
-use crate::{hook_utils::OptionalHook, TraverseCtx};
+use crate::TraverseCtx;
 
 mod optional_catch_binding;
 
@@ -11,9 +11,9 @@ pub struct Es2019Options {
 }
 
 pub(crate) fn hook(options: Es2019Options) -> impl VisitMutHook<TraverseCtx> {
-    OptionalHook(if options.optional_catch_binding {
+    if options.optional_catch_binding {
         Some(self::optional_catch_binding::hook())
     } else {
         None
-    })
+    }
 }
