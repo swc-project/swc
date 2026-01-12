@@ -67,7 +67,7 @@ fn main() {
         let module = module.apply(resolver(unresolved_mark, top_level_mark, true));
 
         // Remove typescript types
-        let module = module.apply(strip(unresolved_mark, top_level_mark));
+        let module = module.apply(strip(Default::default(), unresolved_mark, top_level_mark));
 
         // Fix up any identifiers with the same name, but different contexts
         let module = module.apply(hygiene());
