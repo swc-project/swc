@@ -1,3 +1,3 @@
-console.log(function f() {
+console.log(function f(a) {
     return (function() {}).length;
 }());

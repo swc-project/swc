@@ -319,9 +319,9 @@
                     if (!initialized && "function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
-                            var _step, _iterator = function(o) {
+                            var _step, _iterator = function(o, allowArrayLike) {
                                 if ("u" < typeof Symbol || null == o[Symbol.iterator]) {
-                                    if (Array.isArray(o) || (it = function(o) {
+                                    if (Array.isArray(o) || (it = function(o, minLen) {
                                         if (o) {
                                             if ("string" == typeof o) return _arrayLikeToArray(o, void 0);
                                             var n = Object.prototype.toString.call(o).slice(8, -1);

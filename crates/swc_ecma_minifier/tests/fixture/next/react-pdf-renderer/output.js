@@ -22460,13 +22460,13 @@
                         return t <= 127 ? 0 : t >> 5 == 6 ? 2 : t >> 4 == 14 ? 3 : t >> 3 == 30 ? 4 : t >> 6 == 2 ? -1 : -2;
                     }
                     function u(t) {
-                        var e = this.lastTotal - this.lastNeed, r = function(t, e) {
+                        var e = this.lastTotal - this.lastNeed, r = function(t, e, r) {
                             if ((192 & e[0]) != 128) return t.lastNeed = 0, "�";
                             if (t.lastNeed > 1 && e.length > 1) {
                                 if ((192 & e[1]) != 128) return t.lastNeed = 1, "�";
                                 if (t.lastNeed > 2 && e.length > 2 && (192 & e[2]) != 128) return t.lastNeed = 2, "�";
                             }
-                        }(this, t);
+                        }(this, t, 0);
                         return void 0 !== r ? r : this.lastNeed <= t.length ? (t.copy(this.lastChar, e, 0, this.lastNeed), this.lastChar.toString(this.encoding, 0, this.lastTotal)) : void (t.copy(this.lastChar, e, 0, t.length), this.lastNeed -= t.length);
                     }
                     function l(t, e) {
@@ -28744,12 +28744,12 @@
             function i(t, e) {
                 var r = "u" > typeof Symbol && t[Symbol.iterator] || t["@@iterator"];
                 if (r) return (r = r.call(t)).next.bind(r);
-                if (Array.isArray(t) || (r = function(t) {
+                if (Array.isArray(t) || (r = function(t, e) {
                     if (t) {
                         if ("string" == typeof t) return n(t, void 0);
-                        var e = Object.prototype.toString.call(t).slice(8, -1);
-                        if ("Object" === e && t.constructor && (e = t.constructor.name), "Map" === e || "Set" === e) return Array.from(t);
-                        if ("Arguments" === e || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(e)) return n(t, void 0);
+                        var r = Object.prototype.toString.call(t).slice(8, -1);
+                        if ("Object" === r && t.constructor && (r = t.constructor.name), "Map" === r || "Set" === r) return Array.from(t);
+                        if ("Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)) return n(t, void 0);
                     }
                 } // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/createForOfIteratorHelperLoose.js
                 (t)) || e && t && "number" == typeof t.length) {

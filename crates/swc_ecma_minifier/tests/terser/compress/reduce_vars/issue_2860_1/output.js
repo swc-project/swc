@@ -1,3 +1,3 @@
-console.log(function() {
+console.log(function(a) {
     return 1;
 }());

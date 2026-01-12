@@ -1,3 +1,3 @@
-console.log(function() {
+console.log(function(k) {
     return "PASS";
-}());
+}(0));
