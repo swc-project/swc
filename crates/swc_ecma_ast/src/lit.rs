@@ -6,10 +6,13 @@ use std::{
 
 use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8Buf},
+    Atom, Wtf8Atom,
+};
+use swc_common::{ast_node, errors::HANDLER, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
-use crate::jsx::JSXText;
+use crate::{jsx::JSXText, TplElement};
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
@@ -253,53 +256,189 @@ impl<'a> arbitrary::Arbitrary<'a> for Str {
     }
 }
 
+fn emit_span_error(span: Span, msg: &str) {
+    HANDLER.with(|handler| {
+        handler.struct_span_err(span, msg).emit();
+    });
+}
+
 impl Str {
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.value.is_empty()
     }
 
-    pub fn from_tpl_raw(tpl_raw: &str) -> Atom {
-        let mut buf = String::with_capacity(tpl_raw.len());
-
+    pub fn from_tpl_raw(tpl: &TplElement) -> Wtf8Atom {
+        let tpl_raw = &tpl.raw;
+        let span = tpl.span;
+        let mut buf: Wtf8Buf = Wtf8Buf::with_capacity(tpl_raw.len());
         let mut iter = tpl_raw.chars();
-
+        // prev_result can only be less than 0xdc00
+        // so init with 0xdc00 as no prev result
+        const NO_PREV_RESULT: u32 = 0xdc00;
+        let mut prev_result: u32 = NO_PREV_RESULT;
         while let Some(c) = iter.next() {
             match c {
                 '\\' => {
-                    if let Some(next) = iter.next() {
-                        match next {
+                    if let Some(c) = iter.next() {
+                        match c {
                             '`' | '$' | '\\' => {
-                                buf.push(next);
+                                buf.push_char(c);
                             }
                             'b' => {
-                                buf.push('\u{0008}');
+                                buf.push_char('\u{0008}');
                             }
                             'f' => {
-                                buf.push('\u{000C}');
+                                buf.push_char('\u{000C}');
                             }
                             'n' => {
-                                buf.push('\n');
+                                buf.push_char('\n');
                             }
                             'r' => {
-                                buf.push('\r');
+                                buf.push_char('\r');
                             }
                             't' => {
-                                buf.push('\t');
+                                buf.push_char('\t');
                             }
                             'v' => {
-                                buf.push('\u{000B}');
+                                buf.push_char('\u{000B}');
+                            }
+                            '\r' => {
+                                let mut next_iter = iter.clone();
+                                if let Some('\n') = next_iter.next() {
+                                    iter = next_iter;
+                                }
+                            }
+                            '\n' | '\u{2028}' | '\u{2029}' => {}
+                            'u' | 'x' => {
+                                let mut count: u8 = 0;
+                                // result is a 4 digit hex value
+                                let mut result: u32 = 0;
+                                let mut max_len = if c == 'u' { 4 } else { 2 };
+                                for c in &mut iter {
+                                    match c {
+                                        '{' if max_len == 4 && count == 0 => {
+                                            max_len = 6;
+                                            continue;
+                                        }
+                                        '}' if max_len == 6 => {
+                                            break;
+                                        }
+                                        '0'..='9' => {
+                                            result = (result << 4) | (c as u32 - '0' as u32);
+                                            count += 1;
+                                        }
+                                        'a'..='f' => {
+                                            result = (result << 4) | (c as u32 - 'a' as u32 + 10);
+                                            count += 1;
+                                        }
+                                        'A'..='F' => {
+                                            result = (result << 4) | (c as u32 - 'A' as u32 + 10);
+                                            count += 1;
+                                        }
+                                        _ => emit_span_error(
+                                            span,
+                                            "Uncaught SyntaxError: Invalid Unicode escape sequence",
+                                        ),
+                                    }
+                                    if count >= max_len {
+                                        if result > 0x10ffff {
+                                            emit_span_error(
+                                                span,
+                                                "Uncaught SyntaxError: Undefined Unicode \
+                                                 code-point",
+                                            )
+                                        } else {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if max_len == 2 && max_len != count {
+                                    emit_span_error(
+                                        span,
+                                        "Uncaught SyntaxError: Invalid hexadecimal escape sequence",
+                                    );
+                                }
+                                if (0xd800..=0xdfff).contains(&result) {
+                                    // Handle UTF-16 surrogate pair
+                                    if result < 0xdc00 {
+                                        // High surrogate pair
+                                        if prev_result != NO_PREV_RESULT {
+                                            // If the previous result is a high surrogate
+                                            // We can be sure `prev_result` is less than 0xdc00
+                                            buf.push(unsafe {
+                                                CodePoint::from_u32_unchecked(prev_result)
+                                            });
+                                        }
+                                        let mut iter = iter.clone();
+                                        if let Some('\\') = iter.next() {
+                                            if let Some('u') = iter.next() {
+                                                // less than 0xdc00
+                                                prev_result = result;
+                                                continue;
+                                            }
+                                        }
+                                    } else if prev_result != NO_PREV_RESULT {
+                                        // Low surrogate pair
+                                        // Decode to supplementary plane code point
+                                        // (0x10000-0x10FFFF)
+                                        result = 0x10000
+                                            + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
+                                        // We can be sure result is a valid code point here
+                                        buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                                        prev_result = NO_PREV_RESULT;
+                                        continue;
+                                    }
+                                }
+                                if prev_result != NO_PREV_RESULT {
+                                    // Could not find a valid low surrogate pair
+                                    // We can be sure `prev_result` is less than 0xdc00
+                                    buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
+                                    prev_result = NO_PREV_RESULT;
+                                }
+                                if result <= 0x10ffff {
+                                    // We can be sure result is a valid code point here
+                                    buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                                } else {
+                                    emit_span_error(
+                                        span,
+                                        "Uncaught SyntaxError: Undefined Unicode code-point",
+                                    );
+                                }
+                            }
+                            '0'..='7' => {
+                                let next = iter.clone().next();
+                                if c == '0' {
+                                    match next {
+                                        Some(next) => {
+                                            if !next.is_digit(8) {
+                                                buf.push_char('\u{0000}');
+                                                continue;
+                                            }
+                                        }
+                                        // \0 is not an octal literal nor decimal literal.
+                                        _ => {
+                                            buf.push_char('\u{0000}');
+                                            continue;
+                                        }
+                                    }
+                                }
+                                emit_span_error(
+                                    span,
+                                    "Uncaught SyntaxError: Octal escape sequences are not allowed \
+                                     in template strings.",
+                                );
                             }
                             _ => {
-                                buf.push('\\');
-                                buf.push(next);
+                                // output raw value when this is not supported
+                                buf.push_char(c);
                             }
                         }
                     }
                 }
 
                 c => {
-                    buf.push(c);
+                    buf.push_char(c);
                 }
             }
         }

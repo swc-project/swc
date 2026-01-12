@@ -71,10 +71,6 @@ impl Mode for Eval {
     fn should_be_very_correct(&self) -> bool {
         false
     }
-
-    fn force_str_for_tpl(&self) -> bool {
-        true
-    }
 }
 
 impl Evaluator {
@@ -230,7 +226,6 @@ impl Evaluator {
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: true,
-                        force_str_for_tpl: self.data.force_str_for_tpl(),
                     },
                 ));
                 return Some(Box::new(e));
@@ -255,7 +250,6 @@ impl Evaluator {
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: false,
-                        force_str_for_tpl: self.data.force_str_for_tpl(),
                     },
                 ));
                 return Some(Box::new(e));
@@ -292,12 +286,21 @@ impl Evaluator {
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
-                    force_str_for_tpl: self.data.force_str_for_tpl(),
                 },
             ));
         }
 
-        Some(EvalResult::Lit(e.lit()?))
+        match *e {
+            Expr::Lit(l) => Some(EvalResult::Lit(l)),
+            Expr::Tpl(t) if t.exprs.is_empty() && t.quasis[0].cooked.is_some() => {
+                Some(EvalResult::Lit(Lit::Str(Str {
+                    span: t.span,
+                    value: t.quasis[0].cooked.clone().unwrap(),
+                    raw: None,
+                })))
+            }
+            _ => None,
+        }
     }
 }
 

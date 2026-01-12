@@ -134,7 +134,7 @@ impl Pure<'_> {
                 if let Some(cooked) = $e.cooked {
                     cur_cooked_str.push_wtf8(&cooked);
                 } else {
-                    cur_cooked_str.push_str(Str::from_tpl_raw(&$e.raw).as_ref());
+                    cur_cooked_str.push_wtf8(&Str::from_tpl_raw(&$e));
                 }
                 cur_raw_str.push_str(&$e.raw);
             };
@@ -207,51 +207,67 @@ impl Pure<'_> {
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
-                if let Some(value) = &t.quasis[0].cooked {
-                    if let Some(value) = value.as_str() {
-                        if value.chars().all(|c| match c {
-                            '\\' => false,
-                            '\u{0020}'..='\u{007e}' => true,
-                            '\n' | '\r' => self.config.force_str_for_tpl,
-                            _ => false,
-                        }) {
-                            report_change!("converting a template literal to a string literal");
-
-                            *e = Lit::Str(Str {
-                                span: t.span,
-                                raw: None,
-                                value: t.quasis[0].cooked.clone().unwrap(),
-                            })
-                            .into();
-                            return;
+                let c = &t.quasis[0].raw;
+                let mut template_longer_count = 0;
+                let mut iter = c.chars().peekable();
+                while let Some(ch) = iter.next() {
+                    match ch {
+                        '\\' => {
+                            if let Some(next_ch) = iter.next() {
+                                match next_ch {
+                                    c @ '\n' | c @ '\r' => {
+                                        if c == '\r' && iter.peek() == Some(&'\n') {
+                                            iter.next();
+                                        }
+                                    }
+                                    'n' | 'r' => {
+                                        template_longer_count -= 1;
+                                    }
+                                    '`' => {
+                                        template_longer_count += 1;
+                                    }
+                                    _ => {}
+                                }
+                            }
                         }
+                        c @ '\n' | c @ '\r' => {
+                            template_longer_count -= 1;
+                            if c == '\r' && iter.peek() == Some(&'\n') {
+                                iter.next();
+                            }
+                        }
+                        _ => {}
                     }
                 }
 
-                let c = &t.quasis[0].raw;
+                if template_longer_count < 0 {
+                    return;
+                }
 
-                if c.chars().all(|c| match c {
-                    '\u{0020}'..='\u{007e}' => true,
-                    '\n' | '\r' => self.config.force_str_for_tpl,
-                    _ => false,
-                }) && (self.config.force_str_for_tpl
-                    || c.contains("\\`")
-                    || (!c.contains("\\n") && !c.contains("\\r")))
-                    && !c.contains("\\0")
-                    && !c.contains("\\x")
-                    && !c.contains("\\u")
-                {
-                    let value = Str::from_tpl_raw(c);
-
+                if let Some(cooked) = &t.quasis[0].cooked {
                     report_change!("converting a template literal to a string literal");
 
                     *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
-                        value: value.into(),
+                        value: cooked.clone(),
                     })
                     .into();
+                    return;
                 }
+
+                let value = Str::from_tpl_raw(&t.quasis[0]);
+
+                report_change!(
+                    "converting a template literal to a string literal by Str::from_tpl_raw"
+                );
+
+                *e = Lit::Str(Str {
+                    span: t.span,
+                    raw: None,
+                    value,
+                })
+                .into();
             }
             _ => {}
         }
@@ -338,7 +354,7 @@ impl Pure<'_> {
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
                         if let Some(cur_cooked) = &mut cur_cooked {
-                            cur_cooked.push_wtf8(&convert_str_value_to_tpl_cooked(&s.value));
+                            cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                         }
 
                         if let Some(raw) = &s.raw {
@@ -402,7 +418,7 @@ impl Pure<'_> {
 
                     if let Some(cooked) = &mut l_last.cooked {
                         let mut c = Wtf8Buf::from(&*cooked);
-                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&rs.value));
+                        c.push_wtf8(&Cow::Borrowed(&rs.value));
                         *cooked = c.into();
                     }
 
@@ -438,7 +454,7 @@ impl Pure<'_> {
 
                     if let Some(cooked) = &mut r_first.cooked {
                         let mut c = Wtf8Buf::new();
-                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&ls.value));
+                        c.push_wtf8(&Cow::Borrowed(&ls.value));
                         c.push_wtf8(&*cooked);
                         *cooked = c.into();
                     }
@@ -580,53 +596,6 @@ impl Pure<'_> {
                 }
             }
         }
-    }
-}
-
-pub(super) fn convert_str_value_to_tpl_cooked(value: &Wtf8) -> Cow<Wtf8> {
-    let mut result = Wtf8Buf::default();
-    let mut need_replace = false;
-
-    let mut iter = value.code_points().peekable();
-    while let Some(code_point) = iter.next() {
-        if let Some(ch) = code_point.to_char() {
-            match ch {
-                '\\' => {
-                    if let Some(next) = iter.peek().and_then(|c| c.to_char()) {
-                        match next {
-                            '\\' => {
-                                need_replace = true;
-                                result.push_char('\\');
-                                iter.next();
-                            }
-                            '`' => {
-                                need_replace = true;
-                                result.push_char('`');
-                                iter.next();
-                            }
-                            '$' => {
-                                need_replace = true;
-                                result.push_char('$');
-                                iter.next();
-                            }
-                            _ => result.push_char(ch),
-                        }
-                    } else {
-                        result.push_char(ch);
-                    }
-                }
-                _ => result.push_char(ch),
-            }
-        } else {
-            need_replace = true;
-            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
-        }
-    }
-
-    if need_replace {
-        result.into()
-    } else {
-        Cow::Borrowed(value)
     }
 }
 

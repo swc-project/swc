@@ -149,7 +149,35 @@ impl Optimizer<'_> {
         }
 
         if let Expr::Lit(Lit::Str(s)) = expr {
-            if s.value.contains_char('\n') {
+            let mut template_longer_count = 0;
+            let mut iter = s.value.code_points().peekable();
+            while let Some(cp) = iter.next() {
+                if let Some(ch) = cp.to_char() {
+                    match ch {
+                        '`' => {
+                            template_longer_count += 1;
+                        }
+                        '\r' | '\n' => {
+                            template_longer_count -= 1;
+                        }
+                        '$' if iter.peek().and_then(|cp| cp.to_char()) == Some('{') => {
+                            iter.next();
+                            let mut cloned_iter = iter.clone();
+                            while let Some(cp) = cloned_iter.next() {
+                                if let Some(ch) = cp.to_char() {
+                                    if ch == '}' {
+                                        iter = cloned_iter;
+                                        template_longer_count += 1;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+            if template_longer_count < 0 {
                 *expr = Expr::Tpl(Tpl {
                     span: s.span,
                     exprs: Default::default(),
