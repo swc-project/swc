@@ -356,6 +356,146 @@ pub fn compute_const_expr(
     }
 }
 
+/// Transforms a TypeScript enum declaration inside a namespace.
+///
+/// Returns an IIFE statement that directly assigns to the namespace:
+/// `(function(E) { E["A"] = 0; })(NS.E || (NS.E = {}));`
+pub fn transform_namespace_enum(
+    e: &TsEnumDecl,
+    ns_id: &Ident,
+    existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+) -> Stmt {
+    let enum_id = e.id.clone();
+
+    // Create IIFE body (without return statement)
+    let mut stmts = Vec::with_capacity(e.members.len());
+    let mut current_value: Option<f64> = Some(0.0);
+    let mut member_values: FxHashMap<Atom, TsLit> = FxHashMap::default();
+
+    for member in &e.members {
+        let member_name: Atom = match &member.id {
+            TsEnumMemberId::Ident(i) => i.sym.clone(),
+            TsEnumMemberId::Str(s) => s.value.to_atom_lossy().into_owned(),
+        };
+
+        let (value_expr, computed_value) = if let Some(init) = &member.init {
+            let computed = compute_const_expr(init, &member_values, existing_values);
+            let expr = if let Some(val) = &computed {
+                match val {
+                    TsLit::Number(n) => {
+                        current_value = Some(n.value);
+                        Box::new(Expr::Lit(Lit::Num(n.clone())))
+                    }
+                    TsLit::Str(s) => {
+                        current_value = None;
+                        Box::new(Expr::Lit(Lit::Str(Str {
+                            span: s.span,
+                            value: s.value.clone(),
+                            raw: None,
+                        })))
+                    }
+                    _ => {
+                        current_value = None;
+                        init.clone()
+                    }
+                }
+            } else {
+                current_value = None;
+                init.clone()
+            };
+            (expr, computed)
+        } else if let Some(val) = current_value {
+            let num = Number {
+                span: DUMMY_SP,
+                value: val,
+                raw: None,
+            };
+            (
+                Box::new(Expr::Lit(Lit::Num(num.clone()))),
+                Some(TsLit::Number(num)),
+            )
+        } else {
+            let undefined_ident = Ident::new_no_ctxt("undefined".into(), DUMMY_SP);
+            (Box::new(Expr::Ident(undefined_ident)), None)
+        };
+
+        if let Some(val) = &computed_value {
+            member_values.insert(member_name.clone(), val.clone());
+        }
+
+        if let Some(val) = current_value {
+            current_value = Some(val + 1.0);
+        }
+
+        let stmt = create_enum_member_stmt(&enum_id, &member_name, value_expr, &member.id);
+        stmts.push(stmt);
+    }
+
+    // Create the IIFE with namespace member access
+    let param = Param {
+        span: DUMMY_SP,
+        decorators: vec![],
+        pat: Pat::Ident(enum_id.clone().into()),
+    };
+
+    let func = Function {
+        params: vec![param],
+        decorators: vec![],
+        span: DUMMY_SP,
+        body: Some(BlockStmt {
+            span: DUMMY_SP,
+            stmts,
+            ..Default::default()
+        }),
+        is_generator: false,
+        is_async: false,
+        ..Default::default()
+    };
+
+    let callee = Expr::Paren(ParenExpr {
+        span: DUMMY_SP,
+        expr: Box::new(Expr::Fn(FnExpr {
+            ident: None,
+            function: Box::new(func),
+        })),
+    });
+
+    // Create NS.E member expression
+    let ns_member = MemberExpr {
+        span: DUMMY_SP,
+        obj: Box::new(Expr::Ident(ns_id.clone())),
+        prop: MemberProp::Ident(IdentName::new(enum_id.sym.clone(), DUMMY_SP)),
+    };
+
+    // Pattern: NS.E || (NS.E = {})
+    let arg = Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        op: op!("||"),
+        left: Box::new(Expr::Member(ns_member.clone())),
+        right: Box::new(Expr::Paren(ParenExpr {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: AssignTarget::Simple(SimpleAssignTarget::Member(ns_member)),
+                right: Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                })),
+            })),
+        })),
+    });
+
+    // Create call expression: (function(E) {...})(NS.E || (NS.E = {}))
+    Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: Callee::Expr(Box::new(callee)),
+        args: vec![arg.as_arg()],
+        ..Default::default()
+    })
+    .into_stmt()
+}
+
 /// Collects enum member values for potential inlining.
 pub fn collect_enum_values(e: &TsEnumDecl) -> Option<FxHashMap<Atom, TsLit>> {
     let mut values = FxHashMap::default();

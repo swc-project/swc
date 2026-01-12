@@ -90,6 +90,10 @@ struct TransformState {
     import_equals_refs: FxHashMap<Id, Id>,
     /// Set of type-only declarations (type aliases and interfaces).
     type_decls: FxHashSet<Id>,
+    /// Deferred namespace var declarations (to be emitted at the end).
+    ns_var_decls: Vec<VarDeclarator>,
+    /// Deferred exported namespace var declarations (to be emitted at the end).
+    ns_export_var_decls: Vec<VarDeclarator>,
 }
 
 impl Default for TransformState {
@@ -106,6 +110,8 @@ impl Default for TransformState {
             local_decls: Default::default(),
             import_equals_refs: Default::default(),
             type_decls: Default::default(),
+            ns_var_decls: Default::default(),
+            ns_export_var_decls: Default::default(),
         }
     }
 }
@@ -125,29 +131,67 @@ impl VisitMut for TypeScript {
         self.collect_imports(n, &mut state);
         self.collect_value_usages(n, &mut state);
 
-        // Second pass: transform non-import module items first
-        // This allows import equals to add RHS usages before we process imports
-        let mut new_body = Vec::with_capacity(n.body.len());
-        let mut deferred_imports: Vec<ImportDecl> = Vec::new();
-
-        for item in n.body.drain(..) {
-            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
-                // Defer import processing
-                deferred_imports.push(import);
-            } else {
-                self.transform_module_item(item, &mut new_body, &mut state);
+        // Pre-process import equals to update value_usages before we process imports
+        // This is needed because import equals may reference imports that come later
+        for item in &n.body {
+            if let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = item {
+                if !import.is_type_only {
+                    let is_used =
+                        import.is_export || state.value_usages.contains(&import.id.to_id());
+                    if is_used {
+                        if let Some(rhs_root) =
+                            state.import_equals_refs.get(&import.id.to_id()).cloned()
+                        {
+                            state.value_usages.insert(rhs_root);
+                        }
+                    }
+                }
             }
         }
 
-        // Now process deferred imports (after import equals have updated value_usages)
-        let mut import_items: Vec<ModuleItem> = Vec::new();
-        for import in deferred_imports {
-            self.transform_import(import, &mut import_items, &mut state);
+        // Second pass: transform items in original order (preserving import positions)
+        let mut new_body = Vec::with_capacity(n.body.len());
+
+        for item in n.body.drain(..) {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                    // Process import in place
+                    let mut import_items = Vec::new();
+                    self.transform_import(import, &mut import_items, &mut state);
+                    new_body.extend(import_items);
+                }
+                item => {
+                    self.transform_module_item(item, &mut new_body, &mut state);
+                }
+            }
         }
 
-        // Prepend imports to the body
-        import_items.append(&mut new_body);
-        new_body = import_items;
+        // Emit deferred namespace var declarations at the end
+        if !state.ns_var_decls.is_empty() {
+            let var_decl = VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: state.ns_var_decls,
+                ..Default::default()
+            };
+            new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var_decl)))));
+        }
+
+        // Emit deferred exported namespace var declarations at the end
+        if !state.ns_export_var_decls.is_empty() {
+            let var_decl = VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: state.ns_export_var_decls,
+                ..Default::default()
+            };
+            new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                span: DUMMY_SP,
+                decl: Decl::Var(Box::new(var_decl)),
+            })));
+        }
 
         // If we removed all imports/exports but the module was originally an ES module,
         // add an empty export to preserve module semantics
@@ -178,8 +222,33 @@ impl VisitMut for TypeScript {
 
     fn visit_mut_script(&mut self, n: &mut Script) {
         let mut new_body = Vec::with_capacity(n.body.len());
+        let mut ns_var_decls: Vec<Stmt> = Vec::new();
+        let mut seen_ns_ids: FxHashSet<Id> = FxHashSet::default();
         for stmt in n.body.drain(..) {
-            self.transform_stmt(stmt, &mut new_body);
+            self.transform_stmt_with_ns_decls(
+                stmt,
+                &mut new_body,
+                &mut ns_var_decls,
+                &mut seen_ns_ids,
+            );
+        }
+        // Merge namespace var declarations into a single var statement
+        if !ns_var_decls.is_empty() {
+            let mut all_declarators: Vec<VarDeclarator> = Vec::new();
+            for stmt in ns_var_decls {
+                if let Stmt::Decl(Decl::Var(var)) = stmt {
+                    all_declarators.extend(var.decls);
+                }
+            }
+            if !all_declarators.is_empty() {
+                new_body.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: all_declarators,
+                    ..Default::default()
+                }))));
+            }
         }
         n.body = new_body;
 
@@ -386,8 +455,21 @@ impl TypeScript {
             }
             ModuleItem::Stmt(stmt) => {
                 let mut stmts = vec![];
-                self.transform_stmt(stmt, &mut stmts);
+                let mut ns_var_decls = vec![];
+                let mut seen_ns_ids = FxHashSet::default();
+                self.transform_stmt_with_ns_decls(
+                    stmt,
+                    &mut stmts,
+                    &mut ns_var_decls,
+                    &mut seen_ns_ids,
+                );
                 out.extend(stmts.into_iter().map(ModuleItem::Stmt));
+                // Defer namespace var declarations to state for later emission
+                for var_stmt in ns_var_decls {
+                    if let Stmt::Decl(Decl::Var(var)) = var_stmt {
+                        state.ns_var_decls.extend(var.decls);
+                    }
+                }
             }
         }
     }
@@ -529,28 +611,17 @@ impl TypeScript {
                         state.has_value_export = true;
                         let stmts = transform_namespace(&ns, true, &state.enum_values);
                         out.extend(stmts.into_iter().map(ModuleItem::Stmt));
-                        // Add `export var ns;` after the IIFE only if not already exported
+                        // Defer `export var ns;` to the end
                         if let TsModuleName::Ident(id) = &ns.id {
                             let ns_id = id.to_id();
                             if !state.exported_ids.contains(&ns_id) {
                                 state.exported_ids.insert(ns_id);
-                                out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                                    ExportDecl {
-                                        span: DUMMY_SP,
-                                        decl: Decl::Var(Box::new(VarDecl {
-                                            span: DUMMY_SP,
-                                            kind: VarDeclKind::Var,
-                                            declare: false,
-                                            decls: vec![VarDeclarator {
-                                                span: DUMMY_SP,
-                                                name: Pat::Ident(id.clone().into()),
-                                                init: None,
-                                                definite: false,
-                                            }],
-                                            ..Default::default()
-                                        })),
-                                    },
-                                )));
+                                state.ns_export_var_decls.push(VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(id.clone().into()),
+                                    init: None,
+                                    definite: false,
+                                });
                             }
                         }
                     }
@@ -609,8 +680,12 @@ impl TypeScript {
                     // For local exports, check if the name refers to a type declaration
                     if let ExportSpecifier::Named(ExportNamedSpecifier { orig, .. }) = s {
                         if let ModuleExportName::Ident(id) = orig {
-                            // Filter out exports that reference type declarations
-                            if state.type_decls.contains(&id.to_id()) {
+                            let id_ref = id.to_id();
+                            // Filter out exports that reference type declarations,
+                            // BUT keep them if there's also a value declaration with the same name
+                            if state.type_decls.contains(&id_ref)
+                                && !state.local_decls.contains(&id_ref)
+                            {
                                 return false;
                             }
                         }
@@ -722,8 +797,14 @@ impl TypeScript {
         }
     }
 
-    /// Transforms statements.
-    fn transform_stmt(&mut self, stmt: Stmt, out: &mut Vec<Stmt>) {
+    /// Transforms statements with namespace var decl collection.
+    fn transform_stmt_with_ns_decls(
+        &mut self,
+        stmt: Stmt,
+        out: &mut Vec<Stmt>,
+        ns_var_decls: &mut Vec<Stmt>,
+        seen_ns_ids: &mut FxHashSet<Id>,
+    ) {
         match stmt {
             Stmt::Decl(decl) => match decl {
                 // Remove type declarations
@@ -748,7 +829,30 @@ impl TypeScript {
                     }
                     let state = TransformState::default();
                     let stmts = transform_namespace(&ns, false, &state.enum_values);
-                    out.extend(stmts);
+                    // Only emit if there are statements (namespace wasn't empty)
+                    if !stmts.is_empty() {
+                        out.extend(stmts);
+                        // Collect var declaration for the namespace identifier (to emit at the end)
+                        // Dedupe by only adding if we haven't seen this namespace name yet
+                        if let TsModuleName::Ident(id) = &ns.id {
+                            let ns_id = id.to_id();
+                            if !seen_ns_ids.contains(&ns_id) {
+                                seen_ns_ids.insert(ns_id);
+                                ns_var_decls.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: vec![VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(id.clone().into()),
+                                        init: None,
+                                        definite: false,
+                                    }],
+                                    ..Default::default()
+                                }))));
+                            }
+                        }
+                    }
                 }
 
                 // Skip declare statements (they have no runtime behavior)
@@ -766,6 +870,16 @@ impl TypeScript {
         }
     }
 
+    /// Transforms statements (simple version without namespace var decl
+    /// collection).
+    fn transform_stmt(&mut self, stmt: Stmt, out: &mut Vec<Stmt>) {
+        let mut ns_var_decls = Vec::new();
+        let mut seen_ns_ids = FxHashSet::default();
+        self.transform_stmt_with_ns_decls(stmt, out, &mut ns_var_decls, &mut seen_ns_ids);
+        // In transform_stmt, we add ns_var_decls inline (used for modules)
+        out.append(&mut ns_var_decls);
+    }
+
     /// Transforms import equals in classic mode.
     fn transform_import_equals_classic(
         &self,
@@ -775,34 +889,73 @@ impl TypeScript {
     ) {
         match &import.module_ref {
             TsModuleRef::TsExternalModuleRef(external) => {
-                // import foo = require("foo") -> var foo = require("foo")
-                let var = VarDecl {
-                    span: import.span,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(import.id.clone().into()),
-                        init: Some(Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                                "require".into(),
-                                DUMMY_SP,
-                            )))),
-                            args: vec![external.expr.clone().as_arg()],
-                            ..Default::default()
-                        }))),
-                        definite: false,
-                    }],
-                    ..Default::default()
-                };
                 state.has_value_import = true;
                 if import.is_export {
-                    out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    // export import foo = require("foo") -> const foo = exports.foo =
+                    // require("foo")
+                    let require_call = Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                            "require".into(),
+                            DUMMY_SP,
+                        )))),
+                        args: vec![external.expr.clone().as_arg()],
+                        ..Default::default()
+                    });
+                    // exports.foo = require("foo")
+                    let export_assign = Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: MemberExpr {
+                            span: DUMMY_SP,
+                            obj: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                "exports".into(),
+                                DUMMY_SP,
+                            ))),
+                            prop: MemberProp::Ident(IdentName::new(
+                                import.id.sym.clone(),
+                                DUMMY_SP,
+                            )),
+                        }
+                        .into(),
+                        right: Box::new(require_call),
+                    });
+                    // const foo = exports.foo = require("foo")
+                    let var = VarDecl {
                         span: import.span,
-                        decl: Decl::Var(Box::new(var)),
-                    })));
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(import.id.clone().into()),
+                            init: Some(Box::new(export_assign)),
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    };
+                    out.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var)))));
                 } else {
+                    // import foo = require("foo") -> var foo = require("foo")
+                    let var = VarDecl {
+                        span: import.span,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(import.id.clone().into()),
+                            init: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                    "require".into(),
+                                    DUMMY_SP,
+                                )))),
+                                args: vec![external.expr.clone().as_arg()],
+                                ..Default::default()
+                            }))),
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    };
                     out.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var)))));
                 }
             }
@@ -970,6 +1123,10 @@ impl ValueUsageCollector<'_> {
             ModuleDecl::Import(_) => {}
             ModuleDecl::ExportDecl(export) => self.collect_decl(&export.decl),
             ModuleDecl::ExportNamed(export) => {
+                // Skip type-only exports entirely
+                if export.type_only {
+                    return;
+                }
                 if export.src.is_none() {
                     for spec in &export.specifiers {
                         if let ExportSpecifier::Named(named) = spec {
@@ -1133,6 +1290,8 @@ impl ValueUsageCollector<'_> {
             Decl::Fn(f) => self.collect_function(&f.function),
             Decl::Var(v) => {
                 for decl in &v.decls {
+                    // Collect usages from default values in patterns (e.g., [a = Test])
+                    self.collect_pat(&decl.name);
                     if let Some(init) = &decl.init {
                         self.collect_expr(init);
                     }
@@ -1542,10 +1701,28 @@ impl VisitMut for TypeStripper<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        // Remove function declaration overloads (signatures without bodies)
+        n.retain(|item| match item {
+            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) if f.function.body.is_none() => false,
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Fn(f),
+                ..
+            })) if f.function.body.is_none() => false,
+            _ => true,
+        });
         n.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        // Remove function declaration overloads (signatures without bodies)
+        n.retain(|s| {
+            if let Stmt::Decl(Decl::Fn(f)) = s {
+                if f.function.body.is_none() {
+                    return false;
+                }
+            }
+            true
+        });
         n.visit_mut_children_with(self);
     }
 

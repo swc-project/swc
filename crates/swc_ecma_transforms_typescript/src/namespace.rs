@@ -8,7 +8,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 
-use crate::enums::{collect_enum_values, transform_enum};
+use crate::enums::{collect_enum_values, transform_enum, transform_namespace_enum};
 
 /// Transforms a TypeScript namespace declaration into JavaScript.
 pub fn transform_namespace(
@@ -122,41 +122,196 @@ pub fn transform_namespace(
     vec![iife_stmt]
 }
 
-/// Transforms a nested namespace declaration.
+/// Transforms a nested namespace declaration (e.g., `namespace A.B { ... }`).
+/// Creates: `(function(A) { (function(B) {...})(A.B || (A.B = {})); })(A || (A
+/// = {}));`
 fn transform_nested_namespace(
     outer_id: &Ident,
     nested: &TsNamespaceDecl,
-    is_export: bool,
+    _is_export: bool,
     enum_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
 ) -> Vec<Stmt> {
-    // Create inner namespace
-    let inner_ns = TsModuleDecl {
-        span: nested.span,
-        declare: nested.declare,
-        global: false,
-        namespace: true,
-        id: TsModuleName::Ident(nested.id.clone()),
-        body: Some((*nested.body).clone()),
-    };
+    // First transform the inner namespace content using the outer namespace as
+    // parent
+    let inner_stmt =
+        match transform_child_namespace(outer_id, &nested.id, &nested.body, enum_values) {
+            Some(stmt) => stmt,
+            None => return vec![], // Empty namespace, skip
+        };
 
-    let inner_stmts = transform_namespace(&inner_ns, true, enum_values);
-
-    // Create outer namespace body with inner namespace
-    let body_stmts: Vec<ModuleItem> = inner_stmts.into_iter().map(ModuleItem::Stmt).collect();
-
-    let outer_ns = TsModuleDecl {
+    // Create outer namespace IIFE
+    let param = Param {
         span: DUMMY_SP,
-        declare: false,
-        global: false,
-        namespace: true,
-        id: TsModuleName::Ident(outer_id.clone()),
-        body: Some(TsNamespaceBody::TsModuleBlock(TsModuleBlock {
-            span: DUMMY_SP,
-            body: body_stmts,
-        })),
+        decorators: vec![],
+        pat: Pat::Ident(outer_id.clone().into()),
     };
 
-    transform_namespace(&outer_ns, is_export, enum_values)
+    let func = Function {
+        params: vec![param],
+        decorators: vec![],
+        span: DUMMY_SP,
+        body: Some(BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![inner_stmt],
+            ..Default::default()
+        }),
+        is_generator: false,
+        is_async: false,
+        ..Default::default()
+    };
+
+    let callee = Expr::Fn(FnExpr {
+        ident: None,
+        function: Box::new(func),
+    });
+
+    // Pattern: outer || (outer = {})
+    let arg = Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        op: op!("||"),
+        left: Box::new(Expr::Ident(outer_id.clone())),
+        right: Box::new(Expr::Paren(ParenExpr {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: AssignTarget::Simple(SimpleAssignTarget::Ident(outer_id.clone().into())),
+                right: Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                })),
+            })),
+        })),
+    });
+
+    let call = Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        callee: Callee::Expr(Box::new(callee)),
+        args: vec![arg.as_arg()],
+        ..Default::default()
+    });
+
+    vec![call.into_stmt()]
+}
+
+/// Transforms a child namespace inside a parent namespace.
+/// Creates: `(function(Inner) {...})(Parent.Inner || (Parent.Inner = {}));`
+/// Returns None if the namespace body is empty (only contains type
+/// declarations).
+fn transform_child_namespace(
+    parent_id: &Ident,
+    child_id: &Ident,
+    body: &TsNamespaceBody,
+    enum_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+) -> Option<Stmt> {
+    // Handle nested namespace body
+    let inner_stmts = match body {
+        TsNamespaceBody::TsModuleBlock(block) => {
+            let mut stmts = Vec::new();
+            let mut exports = Vec::new();
+            let mut local_enum_values = enum_values.clone();
+
+            for item in &block.body {
+                match item {
+                    ModuleItem::Stmt(stmt) => {
+                        process_stmt(
+                            stmt.clone(),
+                            &mut stmts,
+                            &mut exports,
+                            &mut local_enum_values,
+                        );
+                    }
+                    ModuleItem::ModuleDecl(decl) => {
+                        process_module_decl(
+                            decl.clone(),
+                            child_id,
+                            &mut stmts,
+                            &mut exports,
+                            &mut local_enum_values,
+                        );
+                    }
+                }
+            }
+            stmts
+        }
+        TsNamespaceBody::TsNamespaceDecl(nested) => {
+            // Further nesting: A.B.C
+            match transform_child_namespace(child_id, &nested.id, &nested.body, enum_values) {
+                Some(stmt) => vec![stmt],
+                None => return None,
+            }
+        }
+    };
+
+    // If the body is empty (only type declarations), skip this namespace
+    if inner_stmts.is_empty() {
+        return None;
+    }
+
+    // Create inner IIFE
+    let param = Param {
+        span: DUMMY_SP,
+        decorators: vec![],
+        pat: Pat::Ident(child_id.clone().into()),
+    };
+
+    let func = Function {
+        params: vec![param],
+        decorators: vec![],
+        span: DUMMY_SP,
+        body: Some(BlockStmt {
+            span: DUMMY_SP,
+            stmts: inner_stmts,
+            ..Default::default()
+        }),
+        is_generator: false,
+        is_async: false,
+        ..Default::default()
+    };
+
+    let callee = Expr::Paren(ParenExpr {
+        span: DUMMY_SP,
+        expr: Box::new(Expr::Fn(FnExpr {
+            ident: None,
+            function: Box::new(func),
+        })),
+    });
+
+    // Create Parent.Child member expression
+    let parent_child = MemberExpr {
+        span: DUMMY_SP,
+        obj: Box::new(Expr::Ident(parent_id.clone())),
+        prop: MemberProp::Ident(IdentName::new(child_id.sym.clone(), DUMMY_SP)),
+    };
+
+    // Pattern: Parent.Child || (Parent.Child = {})
+    let arg = Expr::Bin(BinExpr {
+        span: DUMMY_SP,
+        op: op!("||"),
+        left: Box::new(Expr::Member(parent_child.clone())),
+        right: Box::new(Expr::Paren(ParenExpr {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: AssignTarget::Simple(SimpleAssignTarget::Member(parent_child)),
+                right: Box::new(Expr::Object(ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![],
+                })),
+            })),
+        })),
+    });
+
+    Some(
+        Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: Callee::Expr(Box::new(callee)),
+            args: vec![arg.as_arg()],
+            ..Default::default()
+        })
+        .into_stmt(),
+    )
 }
 
 /// Processes a statement in namespace body.
@@ -182,6 +337,21 @@ fn process_stmt(
                 }
                 let stmts = transform_namespace(&ns, false, enum_values);
                 out.extend(stmts);
+                // Add var declaration for the nested namespace
+                if let TsModuleName::Ident(id) = &ns.id {
+                    out.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(id.clone().into()),
+                            init: None,
+                            definite: false,
+                        }],
+                        ..Default::default()
+                    }))));
+                }
             }
             decl => {
                 out.push(Stmt::Decl(decl));
@@ -245,24 +415,31 @@ fn process_module_decl(
                 }
             }
             Decl::TsEnum(e) => {
-                let ident = e.id.clone();
-                let (var, _) = transform_enum(&e, false, enum_values, false);
+                // Use namespace enum pattern: (function(E){...})(NS.E || (NS.E = {}))
+                let stmt = transform_namespace_enum(&e, ns_id, enum_values);
                 if let Some(values) = collect_enum_values(&e) {
                     enum_values.insert(e.id.to_id(), values);
                 }
-                out.push(Stmt::Decl(Decl::Var(Box::new(var))));
-                // Emit export assignment immediately
-                emit_export_assignment(ns_id, &ident, out);
+                out.push(stmt);
+                // No separate export assignment needed - it's built into the
+                // IIFE
             }
-            Decl::TsModule(ns) => {
-                if ns.declare || ns.body.is_none() {
+            Decl::TsModule(ns_decl) => {
+                let body = match &ns_decl.body {
+                    Some(b) => b,
+                    None => return, // Ambient declaration
+                };
+                if ns_decl.declare {
                     return;
                 }
-                let stmts = transform_namespace(&ns, true, enum_values);
-                out.extend(stmts);
-                // Emit export assignment immediately
-                if let TsModuleName::Ident(id) = &ns.id {
-                    emit_export_assignment(ns_id, id, out);
+                // Use namespace pattern: (function(Child){...})(Parent.Child || (Parent.Child =
+                // {}))
+                if let TsModuleName::Ident(child_id) = &ns_decl.id {
+                    if let Some(stmt) =
+                        transform_child_namespace(ns_id, child_id, body, enum_values)
+                    {
+                        out.push(stmt);
+                    }
                 }
             }
         },
