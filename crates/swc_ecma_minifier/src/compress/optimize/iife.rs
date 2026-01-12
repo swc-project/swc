@@ -168,6 +168,20 @@ impl Optimizer<'_> {
             }
         }
 
+        fn clean_params(callee: &mut Expr) {
+            match callee {
+                Expr::Arrow(callee) => {
+                    // Drop invalid nodes
+                    callee.params.retain(|p| !p.is_invalid())
+                }
+                Expr::Fn(callee) => {
+                    // Drop invalid nodes
+                    callee.function.params.retain(|p| !p.pat.is_invalid())
+                }
+                _ => {}
+            }
+        }
+
         if let Expr::Fn(FnExpr {
             ident: Some(ident), ..
         }) = callee
@@ -179,7 +193,7 @@ impl Optimizer<'_> {
                 .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                 .is_some()
             {
-                log_abort!("iife: used recursively");
+                log_abort!("iife: [x] Recursive?");
                 return;
             }
         }
@@ -200,7 +214,7 @@ impl Optimizer<'_> {
                             }
                         }
 
-                        let arg = e.args.get_mut(idx).map(|v| &mut v.expr);
+                        let arg = e.args.get(idx).map(|v| &v.expr);
 
                         if let Some(arg) = arg {
                             match &**arg {
@@ -217,7 +231,7 @@ impl Optimizer<'_> {
                                     param.id.sym,
                                     param.id.ctxt
                                 );
-                                vars.insert(param.take().to_id(), arg.take());
+                                vars.insert(param.to_id(), arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
@@ -232,14 +246,12 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            let span = param.span();
-
-                            vars.insert(param.take().to_id(), Expr::undefined(span));
+                            vars.insert(param.to_id(), Expr::undefined(param.span()));
                         }
                     }
 
                     Pat::Rest(rest_pat) => {
-                        if let Pat::Ident(param_id) = &mut *rest_pat.arg {
+                        if let Pat::Ident(param_id) = &*rest_pat.arg {
                             if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
                                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     || usage.ref_count != 1
@@ -262,22 +274,15 @@ impl Optimizer<'_> {
                                     continue;
                                 }
 
-                                let span = param_id.span;
-
                                 vars.insert(
-                                    param_id.take().to_id(),
+                                    param_id.to_id(),
                                     ArrayLit {
-                                        span,
+                                        span: param_id.span,
                                         elems: e
                                             .args
-                                            .iter_mut()
+                                            .iter()
                                             .skip(idx)
-                                            .map(|arg| {
-                                                Some(ExprOrSpread {
-                                                    spread: arg.spread,
-                                                    expr: arg.expr.take(),
-                                                })
-                                            })
+                                            .map(|arg| Some(arg.clone()))
                                             .collect(),
                                     }
                                     .into(),
@@ -315,28 +320,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            e.args.retain(|a| !a.expr.is_invalid());
-
-            fn is_invalid_pat(p: &Pat) -> bool {
-                match p {
-                    Pat::Invalid(_) => true,
-                    Pat::Ident(i) => i.id.is_dummy(),
-                    Pat::Rest(r) => is_invalid_pat(&r.arg),
-                    _ => false,
-                }
-            }
-
-            match callee {
-                Expr::Arrow(callee) => {
-                    // Drop invalid nodes
-                    callee.params.retain(|p| !is_invalid_pat(p))
-                }
-                Expr::Fn(callee) => {
-                    // Drop invalid nodes
-                    callee.function.params.retain(|p| !is_invalid_pat(&p.pat))
-                }
-                _ => {}
-            };
+            clean_params(callee);
         }
     }
 

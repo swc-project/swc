@@ -1,2 +1,2 @@
 var c = "FAIL";
-console.log(c = "PASS");
+(c = "PASS"), console.log(c);

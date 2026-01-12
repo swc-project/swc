@@ -1742,7 +1742,7 @@
         if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
         var other, c = {};
         return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && // compare two arrays, return the number of differences
-        function(array1, array2) {
+        function(array1, array2, dontConvert) {
             var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
             for(i = 0; i < len; i++)toInt(array1[i]) !== toInt(array2[i]) && diffs++;
             return diffs + lengthDiff;
