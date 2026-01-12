@@ -2,13 +2,20 @@ use std::mem;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::atom;
-use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
+use swc_common::{
+    comments::Comments, pass::Either, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned,
+};
 use swc_ecma_ast::*;
+use swc_ecma_hooks::{noop_hook, CompositeHook, NoopHook, VisitMutHook, VisitMutWithHook};
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
-use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
+use crate::{
+    strip_import_export::{self, StripImportExport, StripImportExportHook},
+    strip_type::{self, StripType},
+    transform::{self, transform as transform_fn},
+};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -29,6 +36,113 @@ pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -
 
 pub fn strip(unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     typescript(Config::default(), unresolved_mark, top_level_mark)
+}
+
+/// Returns a hook-based TypeScript transformer.
+///
+/// This uses `VisitMutHook` and `CompositeHook` for composable transformation.
+/// The hook chains:
+/// 1. `StripImportExportHook` - strips unused imports/exports (conditional)
+/// 2. `StripTypeHook` - strips TypeScript types
+/// 3. `TransformHook` - transforms enums, namespaces, parameter properties
+/// 4. `EsmContextHook` - restores ESM context if needed
+pub fn hook(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
+    hook_with_id_usage(config, unresolved_mark, top_level_mark, Default::default())
+}
+
+/// Returns a hook-based TypeScript transformer with initial id usage.
+///
+/// This is used by the TSX transformer to pass pragma usage information.
+pub fn hook_with_id_usage(
+    config: Config,
+    unresolved_mark: Mark,
+    top_level_mark: Mark,
+    id_usage: FxHashSet<Id>,
+) -> impl Pass {
+    debug_assert_ne!(unresolved_mark, top_level_mark);
+
+    // Create the strip_import_export hook conditionally
+    let strip_import_export_hook: Either<StripImportExportHook, NoopHook> =
+        if !config.verbatim_module_syntax {
+            Either::Left(strip_import_export::hook(
+                config.import_not_used_as_values,
+                id_usage,
+            ))
+        } else {
+            Either::Right(noop_hook())
+        };
+
+    // Create the strip_type hook
+    let strip_type_hook = strip_type::hook();
+
+    // Create the transform hook
+    let transform_hook = transform::hook(
+        unresolved_mark,
+        top_level_mark,
+        config.import_export_assign_config,
+        config.ts_enum_is_mutable,
+        config.verbatim_module_syntax,
+        config.native_class_properties,
+    );
+
+    // Create the esm context hook
+    let esm_ctx_hook = EsmContextHook {
+        no_empty_export: config.no_empty_export,
+        was_module: None,
+    };
+
+    // Chain all hooks using CompositeHook
+    let hook = CompositeHook {
+        first: strip_import_export_hook,
+        second: CompositeHook {
+            first: strip_type_hook,
+            second: CompositeHook {
+                first: transform_hook,
+                second: esm_ctx_hook,
+            },
+        },
+    };
+
+    visit_mut_pass(VisitMutWithHook { hook, context: () })
+}
+
+/// A hook that preserves ESM module context by adding an empty export
+/// if needed.
+struct EsmContextHook {
+    no_empty_export: bool,
+    was_module: Option<Span>,
+}
+
+impl<C> VisitMutHook<C> for EsmContextHook {
+    #[inline]
+    fn enter_module(&mut self, node: &mut Module, _ctx: &mut C) {
+        if self.no_empty_export {
+            self.was_module = None;
+            return;
+        }
+
+        self.was_module = node
+            .body
+            .iter()
+            .rev()
+            .find(|m| m.is_es_module_decl())
+            .map(Spanned::span);
+    }
+
+    #[inline]
+    fn exit_module(&mut self, node: &mut Module, _ctx: &mut C) {
+        if let Some(span) = self.was_module.take() {
+            if !node.body.iter().any(ModuleItem::is_es_module_decl) {
+                node.body.push(
+                    NamedExport {
+                        span,
+                        ..NamedExport::dummy()
+                    }
+                    .into(),
+                );
+            }
+        }
+    }
 }
 
 pub(crate) struct TypeScript {
@@ -53,7 +167,7 @@ impl Pass for TypeScript {
 
         n.visit_mut_with(&mut StripType::default());
 
-        n.mutate(transform(
+        n.mutate(transform_fn(
             self.unresolved_mark,
             self.top_level_mark,
             self.config.import_export_assign_config,
