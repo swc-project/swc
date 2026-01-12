@@ -12,10 +12,14 @@ use swc_ecma_utils::ExprFactory;
 ///
 /// Returns a variable declaration that combines var + IIFE:
 /// `var Foo = /*#__PURE__*/ function(Foo) { ... }(Foo || {});`
+///
+/// For exported enums, uses `({})` instead of `(Foo || {})` since the
+/// export declaration creates a fresh binding.
 pub fn transform_enum(
     e: &TsEnumDecl,
     _is_mutable: bool,
     existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    is_export: bool,
 ) -> (VarDecl, Expr) {
     let id = e.id.clone();
 
@@ -92,7 +96,8 @@ pub fn transform_enum(
     }));
 
     // Create the IIFE expression: function(Foo) { ... }(Foo || {})
-    let iife = create_enum_iife(&id, stmts);
+    // For exports, use ({}) instead of (Foo || {})
+    let iife = create_enum_iife(&id, stmts, is_export);
 
     // Create variable declaration: var Foo = IIFE;
     let var_decl = VarDecl {
@@ -189,7 +194,8 @@ fn create_enum_member_stmt(
 
 /// Creates the IIFE wrapper for the enum.
 /// Output format: /*#__PURE__*/ function(Foo) { ... }(Foo || {})
-fn create_enum_iife(enum_id: &Ident, body: Vec<Stmt>) -> Expr {
+/// For exports: /*#__PURE__*/ function(Foo) { ... }({})
+fn create_enum_iife(enum_id: &Ident, body: Vec<Stmt>, is_export: bool) -> Expr {
     let param = Param {
         span: DUMMY_SP,
         decorators: vec![],
@@ -215,17 +221,26 @@ fn create_enum_iife(enum_id: &Ident, body: Vec<Stmt>) -> Expr {
         function: Box::new(func),
     });
 
-    let arg = Expr::Bin(BinExpr {
-        span: DUMMY_SP,
-        op: op!("||"),
-        left: Box::new(Expr::Ident(enum_id.clone())),
-        right: Box::new(Expr::Object(ObjectLit {
+    // For exports, use just {} since the export creates a fresh binding
+    // For non-exports, use (Foo || {}) to support declaration merging
+    let arg = if is_export {
+        Expr::Object(ObjectLit {
             span: DUMMY_SP,
             props: vec![],
-        })),
-    });
+        })
+    } else {
+        Expr::Bin(BinExpr {
+            span: DUMMY_SP,
+            op: op!("||"),
+            left: Box::new(Expr::Ident(enum_id.clone())),
+            right: Box::new(Expr::Object(ObjectLit {
+                span: DUMMY_SP,
+                props: vec![],
+            })),
+        })
+    };
 
-    // Create call expression: /*#__PURE__*/ function(Foo) { ... }(Foo || {})
+    // Create call expression: /*#__PURE__*/ function(Foo) { ... }(arg)
     // Use PURE_SP to add the /*#__PURE__*/ annotation
     Expr::Call(CallExpr {
         span: PURE_SP,

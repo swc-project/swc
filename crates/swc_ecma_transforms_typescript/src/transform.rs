@@ -84,6 +84,12 @@ struct TransformState {
     exported_ids: FxHashSet<Id>,
     /// Set of locally declared identifiers (to detect import shadowing).
     local_decls: FxHashSet<Id>,
+    /// Import equals declarations: LHS id -> root id of RHS TsEntityName.
+    /// Used to check if import equals should be transformed (only if LHS is
+    /// used).
+    import_equals_refs: FxHashMap<Id, Id>,
+    /// Set of type-only declarations (type aliases and interfaces).
+    type_decls: FxHashSet<Id>,
 }
 
 impl Default for TransformState {
@@ -98,6 +104,8 @@ impl Default for TransformState {
             was_module: false,
             exported_ids: Default::default(),
             local_decls: Default::default(),
+            import_equals_refs: Default::default(),
+            type_decls: Default::default(),
         }
     }
 }
@@ -117,11 +125,29 @@ impl VisitMut for TypeScript {
         self.collect_imports(n, &mut state);
         self.collect_value_usages(n, &mut state);
 
-        // Second pass: transform the module
+        // Second pass: transform non-import module items first
+        // This allows import equals to add RHS usages before we process imports
         let mut new_body = Vec::with_capacity(n.body.len());
+        let mut deferred_imports: Vec<ImportDecl> = Vec::new();
+
         for item in n.body.drain(..) {
-            self.transform_module_item(item, &mut new_body, &mut state);
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+                // Defer import processing
+                deferred_imports.push(import);
+            } else {
+                self.transform_module_item(item, &mut new_body, &mut state);
+            }
         }
+
+        // Now process deferred imports (after import equals have updated value_usages)
+        let mut import_items: Vec<ModuleItem> = Vec::new();
+        for import in deferred_imports {
+            self.transform_import(import, &mut import_items, &mut state);
+        }
+
+        // Prepend imports to the body
+        import_items.append(&mut new_body);
+        new_body = import_items;
 
         // If we removed all imports/exports but the module was originally an ES module,
         // add an empty export to preserve module semantics
@@ -213,7 +239,12 @@ impl TypeScript {
                     self.collect_local_decls_from_pat(&decl.name, state);
                 }
             }
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
+            Decl::TsInterface(i) => {
+                state.type_decls.insert(i.id.to_id());
+            }
+            Decl::TsTypeAlias(t) => {
+                state.type_decls.insert(t.id.to_id());
+            }
             Decl::TsEnum(e) => {
                 state.local_decls.insert(e.id.to_id());
             }
@@ -317,6 +348,13 @@ impl TypeScript {
                                 },
                             },
                         );
+                        // Store the RHS root reference for lazy value usage tracking
+                        if !import.is_type_only {
+                            if let TsModuleRef::TsEntityName(entity) = &import.module_ref {
+                                let root = get_entity_root(entity);
+                                state.import_equals_refs.insert(import.id.to_id(), root);
+                            }
+                        }
                     }
                     _ => {}
                 }
@@ -354,6 +392,93 @@ impl TypeScript {
         }
     }
 
+    /// Transforms import declarations.
+    /// Called after other module items to ensure import equals usages are
+    /// collected.
+    fn transform_import(
+        &mut self,
+        mut import: ImportDecl,
+        out: &mut Vec<ModuleItem>,
+        state: &mut TransformState,
+    ) {
+        if self.config.verbatim_module_syntax {
+            if import.type_only {
+                return;
+            }
+            // Remove type-only and shadowed specifiers
+            import.specifiers.retain(|s| {
+                if matches!(
+                    s,
+                    ImportSpecifier::Named(ImportNamedSpecifier {
+                        is_type_only: true,
+                        ..
+                    })
+                ) {
+                    return false;
+                }
+                // Filter out specifiers shadowed by local declarations
+                let id = s.local().to_id();
+                !state.local_decls.contains(&id)
+            });
+            if !import.specifiers.is_empty() {
+                state.has_value_import = true;
+                out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+            }
+        } else {
+            // Remove type-only imports
+            if import.type_only {
+                if matches!(
+                    self.config.import_not_used_as_values,
+                    ImportsNotUsedAsValues::Preserve
+                ) {
+                    import.specifiers.clear();
+                    out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                }
+                return;
+            }
+
+            // Side-effect imports (no specifiers) should always be kept
+            let is_side_effect = import.specifiers.is_empty();
+
+            // Filter out type-only, unused, and shadowed specifiers
+            import.specifiers.retain(|s| {
+                if matches!(
+                    s,
+                    ImportSpecifier::Named(ImportNamedSpecifier {
+                        is_type_only: true,
+                        ..
+                    })
+                ) {
+                    return false;
+                }
+
+                // Filter out specifiers shadowed by local declarations
+                let id = s.local().to_id();
+                if state.local_decls.contains(&id) {
+                    return false;
+                }
+
+                // Always check for value usage, regardless of mode
+                state.value_usages.contains(&id)
+            });
+
+            if import.specifiers.is_empty() {
+                // Keep side-effect imports, or preserve mode
+                if is_side_effect
+                    || matches!(
+                        self.config.import_not_used_as_values,
+                        ImportsNotUsedAsValues::Preserve
+                    )
+                {
+                    out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+                }
+            } else {
+                state.has_value_import = true;
+                out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
+            }
+        }
+    }
+
     /// Transforms module declarations.
     fn transform_module_decl(
         &mut self,
@@ -362,85 +487,8 @@ impl TypeScript {
         state: &mut TransformState,
     ) {
         match decl {
-            // Handle type-only imports
-            ModuleDecl::Import(mut import) => {
-                if self.config.verbatim_module_syntax {
-                    if import.type_only {
-                        return;
-                    }
-                    // Remove type-only and shadowed specifiers
-                    import.specifiers.retain(|s| {
-                        if matches!(
-                            s,
-                            ImportSpecifier::Named(ImportNamedSpecifier {
-                                is_type_only: true,
-                                ..
-                            })
-                        ) {
-                            return false;
-                        }
-                        // Filter out specifiers shadowed by local declarations
-                        let id = s.local().to_id();
-                        !state.local_decls.contains(&id)
-                    });
-                    if !import.specifiers.is_empty() {
-                        state.has_value_import = true;
-                        out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
-                    }
-                } else {
-                    // Remove type-only imports
-                    if import.type_only {
-                        if matches!(
-                            self.config.import_not_used_as_values,
-                            ImportsNotUsedAsValues::Preserve
-                        ) {
-                            import.specifiers.clear();
-                            out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
-                        }
-                        return;
-                    }
-
-                    // Filter out type-only, unused, and shadowed specifiers
-                    import.specifiers.retain(|s| {
-                        if matches!(
-                            s,
-                            ImportSpecifier::Named(ImportNamedSpecifier {
-                                is_type_only: true,
-                                ..
-                            })
-                        ) {
-                            return false;
-                        }
-
-                        // Filter out specifiers shadowed by local declarations
-                        let id = s.local().to_id();
-                        if state.local_decls.contains(&id) {
-                            return false;
-                        }
-
-                        if matches!(
-                            self.config.import_not_used_as_values,
-                            ImportsNotUsedAsValues::Remove
-                        ) {
-                            state.value_usages.contains(&id)
-                        } else {
-                            true
-                        }
-                    });
-
-                    if import.specifiers.is_empty() {
-                        if matches!(
-                            self.config.import_not_used_as_values,
-                            ImportsNotUsedAsValues::Preserve
-                        ) {
-                            out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
-                        }
-                    } else {
-                        state.has_value_import = true;
-                        out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
-                    }
-                }
-            }
+            // Imports are handled separately via transform_import
+            ModuleDecl::Import(_) => unreachable!("imports should be handled via transform_import"),
 
             // Handle export declarations
             ModuleDecl::ExportDecl(export) => {
@@ -451,8 +499,12 @@ impl TypeScript {
                     // Transform enums
                     Decl::TsEnum(e) => {
                         let id = e.id.to_id();
-                        let (var, _) =
-                            transform_enum(&e, self.config.ts_enum_is_mutable, &state.enum_values);
+                        let (var, _) = transform_enum(
+                            &e,
+                            self.config.ts_enum_is_mutable,
+                            &state.enum_values,
+                            true, // is_export
+                        );
 
                         // Store enum values for potential inlining
                         if !self.config.ts_enum_is_mutable {
@@ -537,15 +589,34 @@ impl TypeScript {
                     return;
                 }
 
-                // Filter type-only exports
+                // Filter type-only exports and exports that reference type declarations
                 export.specifiers.retain(|s| {
-                    !matches!(
+                    if matches!(
                         s,
                         ExportSpecifier::Named(ExportNamedSpecifier {
                             is_type_only: true,
                             ..
                         })
-                    )
+                    ) {
+                        return false;
+                    }
+
+                    // For re-exports from another module, keep them
+                    if export.src.is_some() {
+                        return true;
+                    }
+
+                    // For local exports, check if the name refers to a type declaration
+                    if let ExportSpecifier::Named(ExportNamedSpecifier { orig, .. }) = s {
+                        if let ModuleExportName::Ident(id) = orig {
+                            // Filter out exports that reference type declarations
+                            if state.type_decls.contains(&id.to_id()) {
+                                return false;
+                            }
+                        }
+                    }
+
+                    true
                 });
 
                 if !export.specifiers.is_empty() {
@@ -583,6 +654,19 @@ impl TypeScript {
                 if import.is_type_only {
                     return;
                 }
+
+                // Only transform if the LHS is used as a value (or if it's an export)
+                let is_used = import.is_export || state.value_usages.contains(&import.id.to_id());
+                if !is_used {
+                    return;
+                }
+
+                // Now that we know it's used, mark the RHS root as used
+                // so the corresponding import is kept
+                if let Some(rhs_root) = state.import_equals_refs.get(&import.id.to_id()).cloned() {
+                    state.value_usages.insert(rhs_root);
+                }
+
                 match self.config.import_export_assign_config {
                     TsImportExportAssignConfig::Classic => {
                         self.transform_import_equals_classic(&import, out, state);
@@ -648,8 +732,12 @@ impl TypeScript {
                 // Transform enums
                 Decl::TsEnum(e) => {
                     let state = TransformState::default();
-                    let (var, _) =
-                        transform_enum(&e, self.config.ts_enum_is_mutable, &state.enum_values);
+                    let (var, _) = transform_enum(
+                        &e,
+                        self.config.ts_enum_is_mutable,
+                        &state.enum_values,
+                        false, // not an export
+                    );
                     out.push(Stmt::Decl(Decl::Var(Box::new(var))));
                 }
 
@@ -719,11 +807,11 @@ impl TypeScript {
                 }
             }
             TsModuleRef::TsEntityName(entity) => {
-                // import foo = ns.bar -> var foo = ns.bar
+                // import foo = ns.bar -> const foo = ns.bar
                 let expr = ts_entity_to_expr(entity.clone());
                 let var = VarDecl {
                     span: import.span,
-                    kind: VarDeclKind::Var,
+                    kind: VarDeclKind::Const,
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
@@ -854,6 +942,15 @@ fn ts_entity_to_expr(entity: TsEntityName) -> Box<Expr> {
     }
 }
 
+/// Gets the root identifier from a TsEntityName.
+/// For `Foo`, returns Foo's id. For `Foo.Bar.Baz`, returns Foo's id.
+fn get_entity_root(entity: &TsEntityName) -> Id {
+    match entity {
+        TsEntityName::Ident(i) => i.to_id(),
+        TsEntityName::TsQualifiedName(q) => get_entity_root(&q.left),
+    }
+}
+
 /// Collects value usages of identifiers.
 struct ValueUsageCollector<'a> {
     state: &'a mut TransformState,
@@ -892,6 +989,8 @@ impl ValueUsageCollector<'_> {
                 DefaultDecl::TsInterfaceDecl(_) => {}
             },
             ModuleDecl::ExportAll(_) => {}
+            // TsImportEquals usages are collected lazily during transform
+            // (only if the LHS is actually used as a value)
             ModuleDecl::TsImportEquals(_) => {}
             ModuleDecl::TsExportAssignment(export) => self.collect_expr(&export.expr),
             ModuleDecl::TsNamespaceExport(_) => {}
@@ -1332,6 +1431,19 @@ impl ValueUsageCollector<'_> {
         }
     }
 
+    /// Collects usages from TsEntityName (used in import equals)
+    fn collect_ts_entity_name(&mut self, entity: &TsEntityName) {
+        match entity {
+            TsEntityName::Ident(i) => {
+                self.state.value_usages.insert(i.to_id());
+            }
+            TsEntityName::TsQualifiedName(q) => {
+                // For Foo.Bar, only the root Foo is a usage
+                self.collect_ts_entity_name(&q.left);
+            }
+        }
+    }
+
     fn collect_prop_name(&mut self, name: &PropName) {
         if let PropName::Computed(c) = name {
             self.collect_expr(&c.expr);
@@ -1438,7 +1550,8 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
-        // Remove type parameters
+        // Remove abstract modifier and type parameters
+        n.is_abstract = false;
         n.type_params = None;
         n.super_type_params = None;
         n.implements = vec![];
@@ -1460,7 +1573,7 @@ impl VisitMut for TypeStripper<'_> {
     fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
         // Remove:
         // - Index signatures
-        // - Abstract members
+        // - Abstract members (methods, props, auto accessors, private methods)
         // - Method/constructor overloads (signatures without bodies)
         // - Declare properties
         n.retain(|m| {
@@ -1472,8 +1585,20 @@ impl VisitMut for TypeStripper<'_> {
                 ClassMember::ClassProp(ClassProp {
                     is_abstract: true, ..
                 }) => false,
+                ClassMember::AutoAccessor(AutoAccessor {
+                    is_abstract: true, ..
+                }) => false,
+                ClassMember::PrivateMethod(PrivateMethod {
+                    is_abstract: true, ..
+                }) => false,
                 // Remove method overloads (no body)
                 ClassMember::Method(ClassMethod { function, .. }) if function.body.is_none() => {
+                    false
+                }
+                // Remove private method overloads (no body)
+                ClassMember::PrivateMethod(PrivateMethod { function, .. })
+                    if function.body.is_none() =>
+                {
                     false
                 }
                 // Remove constructor overloads (no body)
@@ -1511,6 +1636,16 @@ impl VisitMut for TypeStripper<'_> {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_auto_accessor(&mut self, n: &mut AutoAccessor) {
+        // Strip TypeScript-only fields
+        n.accessibility = None;
+        n.is_abstract = false;
+        n.is_override = false;
+        n.type_ann = None;
+        n.definite = false;
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
         // Strip TypeScript-only fields
         n.accessibility = None;
@@ -1532,6 +1667,13 @@ impl VisitMut for TypeStripper<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.type_params = None;
         n.return_type = None;
+
+        // Remove `this` parameter (TypeScript-only syntax for declaring this type)
+        if let Some(first) = n.params.first() {
+            if matches!(&first.pat, Pat::Ident(ident) if &*ident.sym == "this") {
+                n.params.remove(0);
+            }
+        }
 
         // Remove parameter type annotations
         for param in &mut n.params {
@@ -1557,12 +1699,15 @@ impl VisitMut for TypeStripper<'_> {
         match n {
             Pat::Ident(i) => {
                 i.type_ann = None;
+                i.optional = false;
             }
             Pat::Array(a) => {
                 a.type_ann = None;
+                a.optional = false;
             }
             Pat::Object(o) => {
                 o.type_ann = None;
+                o.optional = false;
             }
             Pat::Rest(r) => {
                 r.type_ann = None;
@@ -1643,15 +1788,18 @@ impl TypeStripper<'_> {
         for param in &mut c.params {
             if let ParamOrTsParamProp::TsParamProp(prop) = param {
                 let (name, init) = match &prop.param {
-                    TsParamPropParam::Ident(i) => (
-                        PropName::Ident(i.id.clone().into()),
-                        Expr::Ident(i.id.clone()),
-                    ),
+                    TsParamPropParam::Ident(i) => {
+                        // Clear the optional flag from the ident when using as expression
+                        let mut ident = i.id.clone();
+                        ident.optional = false;
+                        (PropName::Ident(ident.clone().into()), Expr::Ident(ident))
+                    }
                     TsParamPropParam::Assign(a) => match &*a.left {
-                        Pat::Ident(i) => (
-                            PropName::Ident(i.id.clone().into()),
-                            Expr::Ident(i.id.clone()),
-                        ),
+                        Pat::Ident(i) => {
+                            let mut ident = i.id.clone();
+                            ident.optional = false;
+                            (PropName::Ident(ident.clone().into()), Expr::Ident(ident))
+                        }
                         _ => continue,
                     },
                 };

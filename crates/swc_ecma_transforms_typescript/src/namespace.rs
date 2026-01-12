@@ -170,7 +170,7 @@ fn process_stmt(
         Stmt::Decl(decl) => match decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::TsEnum(e) => {
-                let (var, _) = transform_enum(&e, false, enum_values);
+                let (var, _) = transform_enum(&e, false, enum_values, false);
                 if let Some(values) = collect_enum_values(&e) {
                     enum_values.insert(e.id.to_id(), values);
                 }
@@ -246,7 +246,7 @@ fn process_module_decl(
             }
             Decl::TsEnum(e) => {
                 let ident = e.id.clone();
-                let (var, _) = transform_enum(&e, false, enum_values);
+                let (var, _) = transform_enum(&e, false, enum_values, false);
                 if let Some(values) = collect_enum_values(&e) {
                     enum_values.insert(e.id.to_id(), values);
                 }
