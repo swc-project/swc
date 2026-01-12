@@ -2162,15 +2162,37 @@ impl VisitMut for TypeStripper<'_> {
                 *n = *Take::take(&mut a.expr);
                 n.visit_mut_with(self);
             }
-            // Inline const enum member accesses
+            // Inline enum member accesses (const enums always, regular enums when not mutable)
             Expr::Member(m) => {
-                // Check if this is a const enum access before visiting children
+                // Check if this is an enum access before visiting children
                 let replacement = if let Expr::Ident(obj) = &*m.obj {
                     let obj_id = obj.to_id();
-                    if self.const_enum_ids.contains(&obj_id) {
-                        if let MemberProp::Ident(prop) = &m.prop {
-                            if let Some(enum_values) = self.enum_values.get(&obj_id) {
-                                enum_values.get(&prop.sym).and_then(|value| {
+                    // Check if we have enum values for this ID
+                    if let Some(enum_values) = self.enum_values.get(&obj_id) {
+                        // Get the property name from either ident or computed string literal
+                        let prop_name: Option<Atom> = match &m.prop {
+                            MemberProp::Ident(prop) => Some(prop.sym.clone()),
+                            MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
+                                Expr::Lit(Lit::Str(s)) => {
+                                    Some(s.value.to_atom_lossy().into_owned())
+                                }
+                                Expr::Tpl(t) if t.exprs.is_empty() => {
+                                    t.quasis.first().map(|q| q.raw.clone())
+                                }
+                                _ => None,
+                            },
+                            _ => None,
+                        };
+
+                        // Only inline if:
+                        // - It's a const enum, OR
+                        // - It's a regular enum and ts_enum_is_mutable is false
+                        let should_inline = self.const_enum_ids.contains(&obj_id)
+                            || !self.config.ts_enum_is_mutable;
+
+                        if should_inline {
+                            prop_name.and_then(|name| {
+                                enum_values.get(&name).and_then(|value| {
                                     Some(match value {
                                         TsLit::Number(num) => Expr::Lit(Lit::Num(num.clone())),
                                         TsLit::Str(s) => Expr::Lit(Lit::Str(s.clone())),
@@ -2180,9 +2202,7 @@ impl VisitMut for TypeStripper<'_> {
                                         TsLit::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
                                     })
                                 })
-                            } else {
-                                None
-                            }
+                            })
                         } else {
                             None
                         }
