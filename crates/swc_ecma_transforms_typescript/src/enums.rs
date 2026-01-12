@@ -15,11 +15,31 @@ use swc_ecma_utils::ExprFactory;
 ///
 /// For exported enums, uses `({})` instead of `(Foo || {})` since the
 /// export declaration creates a fresh binding.
+///
+/// For block-scoped enums (non-exported inside namespaces), uses `let` instead
+/// of `var`.
 pub fn transform_enum(
     e: &TsEnumDecl,
     _is_mutable: bool,
     existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     is_export: bool,
+) -> (VarDecl, Expr) {
+    transform_enum_with_options(e, existing_values, is_export, false)
+}
+
+/// Transforms a TypeScript enum declaration with more options.
+pub fn transform_enum_block_scoped(
+    e: &TsEnumDecl,
+    existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+) -> (VarDecl, Expr) {
+    transform_enum_with_options(e, existing_values, true, true)
+}
+
+fn transform_enum_with_options(
+    e: &TsEnumDecl,
+    existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    use_empty_object: bool,
+    is_block_scoped: bool,
 ) -> (VarDecl, Expr) {
     let id = e.id.clone();
 
@@ -96,13 +116,17 @@ pub fn transform_enum(
     }));
 
     // Create the IIFE expression: function(Foo) { ... }(Foo || {})
-    // For exports, use ({}) instead of (Foo || {})
-    let iife = create_enum_iife(&id, stmts, is_export);
+    // For exports or block-scoped, use ({}) instead of (Foo || {})
+    let iife = create_enum_iife(&id, stmts, use_empty_object);
 
-    // Create variable declaration: var Foo = IIFE;
+    // Create variable declaration: var Foo = IIFE; (or let for block-scoped)
     let var_decl = VarDecl {
         span: DUMMY_SP,
-        kind: VarDeclKind::Var,
+        kind: if is_block_scoped {
+            VarDeclKind::Let
+        } else {
+            VarDeclKind::Var
+        },
         declare: false,
         decls: vec![VarDeclarator {
             span: DUMMY_SP,

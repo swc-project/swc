@@ -7,8 +7,11 @@ use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 
-use crate::enums::{collect_enum_values, transform_enum, transform_namespace_enum};
+use crate::enums::{
+    collect_enum_values, transform_enum, transform_enum_block_scoped, transform_namespace_enum,
+};
 
 /// Transforms a TypeScript namespace declaration into JavaScript.
 pub fn transform_namespace(
@@ -36,6 +39,8 @@ pub fn transform_namespace(
     let mut exports: Vec<Ident> = vec![];
     let mut inner_stmts: Vec<Stmt> = vec![];
     let mut enum_values = enum_values.clone();
+    // Track exported import equals for usage rewriting
+    let mut exported_import_equals: FxHashMap<Id, Ident> = FxHashMap::default();
 
     for item in &body.body {
         match item {
@@ -48,6 +53,14 @@ pub fn transform_namespace(
                 );
             }
             ModuleItem::ModuleDecl(decl) => {
+                // Check for exported import equals before processing
+                if let ModuleDecl::TsImportEquals(import) = decl {
+                    if import.is_export && !import.is_type_only {
+                        if let TsModuleRef::TsEntityName(_) = &import.module_ref {
+                            exported_import_equals.insert(import.id.to_id(), id.clone());
+                        }
+                    }
+                }
                 process_module_decl(
                     decl.clone(),
                     &id,
@@ -56,6 +69,13 @@ pub fn transform_namespace(
                     &mut enum_values,
                 );
             }
+        }
+    }
+
+    // Rewrite usages of exported import equals
+    if !exported_import_equals.is_empty() {
+        for stmt in &mut inner_stmts {
+            rewrite_exported_import_usages(stmt, &exported_import_equals);
         }
     }
 
@@ -325,7 +345,8 @@ fn process_stmt(
         Stmt::Decl(decl) => match decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::TsEnum(e) => {
-                let (var, _) = transform_enum(&e, false, enum_values, false);
+                // Non-exported enum inside namespace: use let and ({})
+                let (var, _) = transform_enum_block_scoped(&e, enum_values);
                 if let Some(values) = collect_enum_values(&e) {
                     enum_values.insert(e.id.to_id(), values);
                 }
@@ -491,22 +512,39 @@ fn process_module_decl(
             match &import.module_ref {
                 TsModuleRef::TsEntityName(entity) => {
                     let expr = ts_entity_to_expr(entity.clone());
-                    let var = VarDecl {
-                        span: import.span,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: Pat::Ident(import.id.clone().into()),
-                            init: Some(expr),
-                            definite: false,
-                        }],
-                        ..Default::default()
-                    };
                     if import.is_export {
-                        exports.push(import.id.clone());
+                        // export import a = A; -> NS.a = A;
+                        let member = MemberExpr {
+                            span: DUMMY_SP,
+                            obj: Box::new(Expr::Ident(ns_id.clone())),
+                            prop: MemberProp::Ident(IdentName::new(
+                                import.id.sym.clone(),
+                                DUMMY_SP,
+                            )),
+                        };
+                        let assign = Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: AssignTarget::Simple(SimpleAssignTarget::Member(member)),
+                            right: expr,
+                        });
+                        out.push(assign.into_stmt());
+                    } else {
+                        // import b = A; -> const b = A;
+                        let var = VarDecl {
+                            span: import.span,
+                            kind: VarDeclKind::Const,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(import.id.clone().into()),
+                                init: Some(expr),
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        };
+                        out.push(Stmt::Decl(Decl::Var(Box::new(var))));
                     }
-                    out.push(Stmt::Decl(Decl::Var(Box::new(var))));
                 }
                 TsModuleRef::TsExternalModuleRef(_) => {
                     // External module references are not supported in
@@ -552,6 +590,37 @@ fn collect_binding_idents(pat: &Pat, out: &mut Vec<Ident>) {
         }
         Pat::Expr(_) | Pat::Invalid(_) => {}
     }
+}
+
+/// Rewrites usages of exported import equals to use namespace member access.
+/// For `export import a = A;`, usages of `a` become `NS.a`.
+fn rewrite_exported_import_usages(stmt: &mut Stmt, exported_import_equals: &FxHashMap<Id, Ident>) {
+    struct Rewriter<'a> {
+        exported_import_equals: &'a FxHashMap<Id, Ident>,
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_expr(&mut self, n: &mut Expr) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite standalone identifier usages to member access
+            if let Expr::Ident(id) = n {
+                if let Some(ns_id) = self.exported_import_equals.get(&id.to_id()) {
+                    // Replace `a` with `NS.a`
+                    *n = Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
+    }
+
+    let mut rewriter = Rewriter {
+        exported_import_equals,
+    };
+    stmt.visit_mut_with(&mut rewriter);
 }
 
 /// Converts a TsEntityName to an expression.

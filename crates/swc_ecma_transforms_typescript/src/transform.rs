@@ -73,6 +73,8 @@ struct TransformState {
     in_type: bool,
     /// Enum values for inlining.
     enum_values: FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    /// Set of const enum IDs (for inlining and removal).
+    const_enum_ids: FxHashSet<Id>,
     /// Whether the module has any non-type exports.
     has_value_export: bool,
     /// Whether the module has any non-type imports.
@@ -103,6 +105,7 @@ impl Default for TransformState {
             value_usages: Default::default(),
             in_type: false,
             enum_values: Default::default(),
+            const_enum_ids: Default::default(),
             has_value_export: false,
             has_value_import: false,
             was_module: false,
@@ -130,6 +133,9 @@ impl VisitMut for TypeScript {
         self.collect_local_decls(n, &mut state);
         self.collect_imports(n, &mut state);
         self.collect_value_usages(n, &mut state);
+
+        // Collect const enum values for inlining (always done for const enums)
+        self.collect_const_enum_values(n, &mut state);
 
         // Pre-process import equals to update value_usages before we process imports
         // This is needed because import equals may reference imports that come later
@@ -214,13 +220,30 @@ impl VisitMut for TypeScript {
 
         n.body = new_body;
 
-        // Final pass: strip remaining type annotations
+        // Final pass: strip remaining type annotations and inline const enums
         n.visit_mut_children_with(&mut TypeStripper {
             config: &self.config,
+            enum_values: &state.enum_values,
+            const_enum_ids: &state.const_enum_ids,
         });
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
+        // Collect const enum values before transformation
+        let mut enum_values: FxHashMap<Id, FxHashMap<Atom, TsLit>> = FxHashMap::default();
+        let mut const_enum_ids: FxHashSet<Id> = FxHashSet::default();
+        for stmt in &n.body {
+            if let Stmt::Decl(Decl::TsEnum(e)) = stmt {
+                if e.is_const {
+                    const_enum_ids.insert(e.id.to_id());
+                }
+                if let Some(values) = self.collect_enum_values_with_existing_script(e, &enum_values)
+                {
+                    enum_values.insert(e.id.to_id(), values);
+                }
+            }
+        }
+
         let mut new_body = Vec::with_capacity(n.body.len());
         let mut ns_var_decls: Vec<Stmt> = Vec::new();
         let mut seen_ns_ids: FxHashSet<Id> = FxHashSet::default();
@@ -252,8 +275,11 @@ impl VisitMut for TypeScript {
         }
         n.body = new_body;
 
+        // Strip remaining type annotations and inline const enums
         n.visit_mut_children_with(&mut TypeStripper {
             config: &self.config,
+            enum_values: &enum_values,
+            const_enum_ids: &const_enum_ids,
         });
     }
 }
@@ -442,6 +468,98 @@ impl TypeScript {
         }
     }
 
+    /// Collects enum values for inlining.
+    /// All enum values are collected (for computing const enum values),
+    /// but only const enum IDs are tracked for later inlining.
+    fn collect_const_enum_values(&self, n: &Module, state: &mut TransformState) {
+        // Collect all enum values in order (needed for resolving references like F.A or
+        // H.A)
+        for item in &n.body {
+            match item {
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsEnum(e))) => {
+                    if e.is_const {
+                        state.const_enum_ids.insert(e.id.to_id());
+                    }
+                    // Collect values for all enums, passing existing values for resolution
+                    if let Some(values) =
+                        self.collect_enum_values_with_existing(e, &state.enum_values)
+                    {
+                        state.enum_values.insert(e.id.to_id(), values);
+                    }
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::TsEnum(e),
+                    ..
+                })) => {
+                    if e.is_const {
+                        state.const_enum_ids.insert(e.id.to_id());
+                    }
+                    // Collect values for all enums, passing existing values for resolution
+                    if let Some(values) =
+                        self.collect_enum_values_with_existing(e, &state.enum_values)
+                    {
+                        state.enum_values.insert(e.id.to_id(), values);
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    /// Collects enum member values, resolving references to other enums.
+    fn collect_enum_values_with_existing(
+        &self,
+        e: &TsEnumDecl,
+        existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    ) -> Option<FxHashMap<Atom, TsLit>> {
+        let mut values = FxHashMap::default();
+        let mut current_value: Option<f64> = Some(0.0);
+
+        for member in &e.members {
+            let member_name: Atom = match &member.id {
+                TsEnumMemberId::Ident(i) => i.sym.clone(),
+                TsEnumMemberId::Str(s) => s.value.to_atom_lossy().into_owned(),
+            };
+
+            let value = if let Some(init) = &member.init {
+                let computed = crate::enums::compute_const_expr(init, &values, existing_values)?;
+                if let TsLit::Number(n) = &computed {
+                    current_value = Some(n.value);
+                } else {
+                    current_value = None;
+                }
+                computed
+            } else if let Some(val) = current_value {
+                TsLit::Number(Number {
+                    span: DUMMY_SP,
+                    value: val,
+                    raw: None,
+                })
+            } else {
+                return None;
+            };
+
+            values.insert(member_name, value);
+
+            if let Some(val) = current_value {
+                current_value = Some(val + 1.0);
+            }
+        }
+
+        Some(values)
+    }
+
+    /// Collects enum member values for scripts, resolving references to other
+    /// enums.
+    fn collect_enum_values_with_existing_script(
+        &self,
+        e: &TsEnumDecl,
+        existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    ) -> Option<FxHashMap<Atom, TsLit>> {
+        // Same logic as collect_enum_values_with_existing
+        self.collect_enum_values_with_existing(e, existing_values)
+    }
+
     /// Transforms a single module item.
     fn transform_module_item(
         &mut self,
@@ -580,6 +698,11 @@ impl TypeScript {
 
                     // Transform enums
                     Decl::TsEnum(e) => {
+                        // Skip const enums - they are removed and their usages inlined
+                        if e.is_const {
+                            return;
+                        }
+
                         let id = e.id.to_id();
                         let (var, _) = transform_enum(
                             &e,
@@ -709,6 +832,14 @@ impl TypeScript {
             }
 
             ModuleDecl::ExportDefaultExpr(export) => {
+                // Check if the exported expression is an identifier that only refers to a type
+                if let Expr::Ident(id) = &*export.expr {
+                    let id_ref = id.to_id();
+                    // If the identifier is a type declaration and not a value declaration, skip it
+                    if state.type_decls.contains(&id_ref) && !state.local_decls.contains(&id_ref) {
+                        return;
+                    }
+                }
                 state.has_value_export = true;
                 out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                     export,
@@ -812,6 +943,11 @@ impl TypeScript {
 
                 // Transform enums
                 Decl::TsEnum(e) => {
+                    // Skip const enums - they are removed and their usages inlined
+                    if e.is_const {
+                        return;
+                    }
+
                     let state = TransformState::default();
                     let (var, _) = transform_enum(
                         &e,
@@ -935,10 +1071,10 @@ impl TypeScript {
                     };
                     out.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(var)))));
                 } else {
-                    // import foo = require("foo") -> var foo = require("foo")
+                    // import foo = require("foo") -> const foo = require("foo")
                     let var = VarDecl {
                         span: import.span,
-                        kind: VarDeclKind::Var,
+                        kind: VarDeclKind::Const,
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
@@ -1692,9 +1828,13 @@ impl ValueUsageCollector<'_> {
     }
 }
 
-/// Strips remaining TypeScript type annotations.
+/// Strips remaining TypeScript type annotations and inlines const enum values.
 struct TypeStripper<'a> {
     config: &'a Config,
+    /// Enum values for const enum inlining.
+    enum_values: &'a FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    /// Set of const enum IDs (to identify which member accesses to inline).
+    const_enum_ids: &'a FxHashSet<Id>,
 }
 
 impl VisitMut for TypeStripper<'_> {
@@ -1929,6 +2069,43 @@ impl VisitMut for TypeStripper<'_> {
             Expr::TsInstantiation(a) => {
                 *n = *Take::take(&mut a.expr);
                 n.visit_mut_with(self);
+            }
+            // Inline const enum member accesses
+            Expr::Member(m) => {
+                // Check if this is a const enum access before visiting children
+                let replacement = if let Expr::Ident(obj) = &*m.obj {
+                    let obj_id = obj.to_id();
+                    if self.const_enum_ids.contains(&obj_id) {
+                        if let MemberProp::Ident(prop) = &m.prop {
+                            if let Some(enum_values) = self.enum_values.get(&obj_id) {
+                                enum_values.get(&prop.sym).and_then(|value| {
+                                    Some(match value {
+                                        TsLit::Number(num) => Expr::Lit(Lit::Num(num.clone())),
+                                        TsLit::Str(s) => Expr::Lit(Lit::Str(s.clone())),
+                                        TsLit::Bool(b) => Expr::Lit(Lit::Bool(b.clone())),
+                                        TsLit::Tpl(_) => return None, /* Cannot inline template
+                                                                        * literals */
+                                        TsLit::BigInt(b) => Expr::Lit(Lit::BigInt(b.clone())),
+                                    })
+                                })
+                            } else {
+                                None
+                            }
+                        } else {
+                            None
+                        }
+                    } else {
+                        None
+                    }
+                } else {
+                    None
+                };
+
+                if let Some(replacement) = replacement {
+                    *n = replacement;
+                } else {
+                    n.visit_mut_children_with(self);
+                }
             }
             _ => {
                 n.visit_mut_children_with(self);
