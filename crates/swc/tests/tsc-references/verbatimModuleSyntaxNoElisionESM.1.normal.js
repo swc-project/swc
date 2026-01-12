@@ -8,8 +8,10 @@ export var AClass = function AClass() {
 };
 //// [/b.ts]
 import { a, A, AClass } from "./a";
+import "./a";
 export { A };
 export { A as A2 } from "./a";
+export { } from "./a";
 //// [/c.ts]
 import { AClass } from "./b";
 //// [/main4.ts]
@@ -23,7 +25,6 @@ var C = function C() {
 ;
 export { C as default };
 //// [/main6.ts]
-export { };
- // error
+export default I; // error
 //// [/main7.ts]
 export default C; // error

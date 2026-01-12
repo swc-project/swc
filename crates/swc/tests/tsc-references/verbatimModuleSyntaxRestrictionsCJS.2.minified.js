@@ -14,10 +14,7 @@ let _default = esmy;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var JustTypes, Values, target = exports, all = {
-    get JustTypes () {
-        return JustTypes;
-    },
+var Values, target = exports, all = {
     get Values () {
         return Values;
     },
@@ -32,7 +29,7 @@ for(var name in all)Object.defineProperty(target, name, {
 let _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 /*#__PURE__*/ require("./decl"), Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./decl")));
 let x = 1;
-JustTypes || (JustTypes = {}), (Values || (Values = {})).x = 1;
+(Values || (Values = {})).x = 1;
 //// [/main2.ts]
 module.exports = {
     x: 1
@@ -64,7 +61,13 @@ class C {
 //// [/main6.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
+}), Object.defineProperty(exports, "default", {
+    enumerable: !0,
+    get: function() {
+        return _default;
+    }
 });
+let _default = I;
 //// [/main7.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

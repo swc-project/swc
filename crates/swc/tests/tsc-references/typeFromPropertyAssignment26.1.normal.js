@@ -23,4 +23,3 @@ var C = /*#__PURE__*/ function(_UI_TreeElement) {
     };
     return C;
 }(UI.TreeElement);
-;

@@ -22,4 +22,4 @@ var _object_spread_props = require("@swc/helpers/_/_object_spread_props");
     // Quotes
     var x = /*#__PURE__*/ React.createElement("div", null, 'This "quote" thing');
 })(M || (M = {}));
-var M, M;
+var M;

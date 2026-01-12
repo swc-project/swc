@@ -1,9 +1,9 @@
 //// [callSignatureAssignabilityInInheritance3.ts]
-// checking subtype relations for function types as it relates to contextual signature instantiation
-// error cases
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// checking subtype relations for function types as it relates to contextual signature instantiation
+// error cases
 (function(Errors) {
     var Base = function Base() {
         "use strict";
@@ -36,9 +36,5 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         }
         return OtherDerived;
     }(Base);
-    (function(WithNonGenericSignaturesInBaseType) {})(WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}));
-    var WithNonGenericSignaturesInBaseType;
-    (function(WithGenericSignaturesInBaseType) {})(WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}));
-    var WithGenericSignaturesInBaseType;
 })(Errors || (Errors = {}));
 var Errors;

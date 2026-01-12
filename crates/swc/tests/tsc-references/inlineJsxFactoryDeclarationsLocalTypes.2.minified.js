@@ -1,11 +1,7 @@
 //// [renderer.d.ts]
-var JSX;
-dom || (dom = {}), JSX || (JSX = {});
-export var dom;
+export { };
 //// [renderer2.d.ts]
-var JSX;
-predom || (predom = {}), JSX || (JSX = {});
-export var predom;
+export { };
 //// [component.tsx]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";

@@ -8,7 +8,6 @@
 //  Assign to a parameter
 //  Assign to an interface
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(function(M) {})(M || (M = {}));
 M = null; // Error
 var C = function C() {
     "use strict";
@@ -29,4 +28,3 @@ function fn2(p) {
     p = null; // OK
 }
 I = null; // Error
-var M;

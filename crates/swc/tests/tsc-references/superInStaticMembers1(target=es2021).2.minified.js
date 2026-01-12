@@ -115,18 +115,14 @@ class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
 //// [valueNamespaceInContainingScopeStaticField.ts]
-var Reflect;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-Reflect || (Reflect = {});
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
-var Reflect;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-Reflect || (Reflect = {});
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);

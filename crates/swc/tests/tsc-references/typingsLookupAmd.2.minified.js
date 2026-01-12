@@ -4,8 +4,13 @@ define([
 ], function(require) {});
 //// [/node_modules/@types/a/index.d.ts]
 define([
-    "require"
-], function(require) {});
+    "require",
+    "exports"
+], function(require, exports) {
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+});
 //// [/x/node_modules/@types/b/index.d.ts]
 define([
     "require",

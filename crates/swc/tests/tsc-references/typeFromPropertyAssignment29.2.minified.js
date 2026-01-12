@@ -6,7 +6,7 @@ function ExpandoDecl(n) {
 ExpandoDecl.prop = 2, ExpandoDecl.m = function(n) {
     return n + 1;
 }, ExpandoDecl.prop, ExpandoDecl.m(12), ExpandoDecl(101).length;
-var ExpandoMerge, Ns, ExpandoExpr = function(n) {
+var Ns, ExpandoExpr = function(n) {
     return n.toString();
 };
 ExpandoExpr.prop = {

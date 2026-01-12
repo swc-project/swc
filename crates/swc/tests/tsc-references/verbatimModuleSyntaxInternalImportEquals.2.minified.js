@@ -1,4 +1,4 @@
 //// [verbatimModuleSyntaxInternalImportEquals.ts]
 var Foo;
-(Foo || (Foo = {})).foo = 1;
+NonExistent, (Foo || (Foo = {})).foo = 1, Foo.foo, Foo.T;
 export { };

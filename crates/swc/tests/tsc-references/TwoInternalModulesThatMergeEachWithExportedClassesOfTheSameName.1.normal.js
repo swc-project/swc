@@ -12,6 +12,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         "use strict";
         _class_call_check(this, Point);
     };
+    // expected error
     A.Point = Point;
 })(A || (A = {}));
 (function(X) {
@@ -32,8 +33,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
                 "use strict";
                 _class_call_check(this, Line);
             };
+            // expected error
             Z.Line = Line;
         })(Y.Z || (Y.Z = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
-var A, A, X, X;
+var A, X;

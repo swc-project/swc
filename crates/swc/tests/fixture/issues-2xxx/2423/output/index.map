@@ -1,7 +1,8 @@
 {
-  "mappings": ";UAAUA;IAAAA,MACW;IACV,SAASC;QACZC,QAAQC,GAAG,CAHTH;IAIN;IAJMA,MAEUC;GAFVD,MAAAA;IAAAA",
+  "mappings": ";UAAUA;MACOC,IAAI;IACV,SAASC;QACZC,QAAQC,GAAG,GAACH;IAChB;MAFgBC,IAAAA;AAGpB,GALUF,MAAAA",
   "names": [
     "A",
+    "v",
     "a",
     "console",
     "log"

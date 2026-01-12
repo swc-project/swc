@@ -8,6 +8,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     M.A = A;
     new A;
 })(M || (M = {}));
+var myA = M.A;
 new myA;
 var M;
-export { };

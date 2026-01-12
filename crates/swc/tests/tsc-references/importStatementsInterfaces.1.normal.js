@@ -1,11 +1,6 @@
 //// [importStatementsInterfaces.ts]
-(function(A) {})(A || (A = {}));
-(function(B) {
-    var a = A;
-})(B || (B = {}));
+// no code gen expected
 (function(C) {
-    var a = A;
-    var b = a.inA;
     var m;
     var p;
     var p = {
@@ -14,15 +9,15 @@
         z: 0
     };
 })(C || (C = {}));
+// no code gen expected
 (function(D) {
-    var a = A;
     var p;
 })(D || (D = {}));
+// no code gen expected
 (function(E) {
-    var a = A.inA;
     function xDist(x) {
         return 0 - x.x;
     }
     E.xDist = xDist;
 })(E || (E = {}));
-var A, B, C, D, E;
+var C, D, E;

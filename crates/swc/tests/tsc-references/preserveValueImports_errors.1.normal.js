@@ -7,7 +7,6 @@ var B = function B() {
     "use strict";
     _class_call_check(this, B);
 };
-;
 export { };
 //// [c.ts]
 export { };

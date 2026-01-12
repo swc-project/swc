@@ -12,6 +12,9 @@ Object.defineProperty(exports, "x", {
 var x;
 //// [vs/fum.d.ts]
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 //// [foo_1.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

@@ -2,7 +2,6 @@
 define([
     "require"
 ], function(require) {
-    var foo;
     function foo() {
         return "test";
     }

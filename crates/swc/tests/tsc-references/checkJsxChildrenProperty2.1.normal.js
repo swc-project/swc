@@ -1,42 +1,10 @@
 //// [file.tsx]
-import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
-function Comp(p) {
-    return /*#__PURE__*/ React.createElement("div", null, p.b);
-}
-// Error: missing children
-var k = /*#__PURE__*/ React.createElement(Comp, {
-    a: 10,
-    b: "hi"
-});
-var k0 = /*#__PURE__*/ React.createElement(Comp, {
-    a: 10,
-    b: "hi",
-    children: "Random"
-}, "hi hi hi!");
-var o = {
-    children: "Random"
-};
-var k1 = /*#__PURE__*/ React.createElement(Comp, _object_spread({
-    a: 10,
-    b: "hi"
-}, o), "hi hi hi!");
-// Error: incorrect type
-var k2 = /*#__PURE__*/ React.createElement(Comp, {
-    a: 10,
-    b: "hi"
-}, /*#__PURE__*/ React.createElement("div", null, " My Div "), function(name) {
-    return /*#__PURE__*/ React.createElement("div", null, " My name ", name, " ");
-});
-var k3 = /*#__PURE__*/ React.createElement(Comp, {
-    a: 10,
-    b: "hi"
-}, /*#__PURE__*/ React.createElement("div", null, " My Div "), 1000000);
-var k4 = /*#__PURE__*/ React.createElement(Comp, {
-    a: 10,
-    b: "hi"
-}, /*#__PURE__*/ React.createElement("div", null, " My Div "), "hi hi hi!");
-var k5 = /*#__PURE__*/ React.createElement(Comp, {
-    a: 10,
-    b: "hi"
-}, /*#__PURE__*/ React.createElement("div", null, " My Div "), /*#__PURE__*/ React.createElement("div", null, " My Div "));
-export { };
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,-[2:1]
+//!  1 | 
+//!  2 | import React = require('react');
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!  3 | 
+//!  4 | interface Prop {
+//!  5 |     a: number,
+//!    `----

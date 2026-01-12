@@ -1,8 +1,8 @@
 //// [parserRealSource6.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(TypeScript) {
     var TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
         "use strict";
@@ -187,6 +187,11 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         if (context.scopeStartAST === null) return null;
         return context;
     }
+    //
+    // Find the enclosing scope context from a position inside a script AST.
+    // The "scopeStartAST" of the returned scope is always valid.
+    // Return "null" if the enclosing scope can't be found.
+    //
     TypeScript.findEnclosingScopeAt = findEnclosingScopeAt;
 })(TypeScript || (TypeScript = {}));
 var TypeScript;

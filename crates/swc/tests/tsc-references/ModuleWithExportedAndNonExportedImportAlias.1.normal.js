@@ -1,6 +1,5 @@
 //// [ModuleWithExportedAndNonExportedImportAlias.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(function(A) {})(A || (A = {}));
 (function(B) {
     var Line = function Line(start, end) {
         "use strict";
@@ -30,4 +29,4 @@ var line;
 var line = Geometry.Unit;
 // not expected to work since non are exported
 var line = Geometry.Lines.Line;
-var A, B, Geometry;
+var B, Geometry;

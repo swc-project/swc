@@ -1,13 +1,13 @@
 var CHAR = /*#__PURE__*/ function(CHAR) {
-    CHAR[CHAR["	"] = 0x09] = "	";
-    CHAR[CHAR["\n"] = 0x0A] = "\n";
-    CHAR[CHAR["\v"] = 0x0B] = "\v";
-    CHAR[CHAR["\f"] = 0x0C] = "\f";
-    CHAR[CHAR["\r"] = 0x0D] = "\r";
-    CHAR[CHAR[" "] = 0x20] = " ";
-    CHAR[CHAR["-"] = 0x2D] = "-";
-    CHAR[CHAR["["] = 0x5B] = "[";
+    CHAR[CHAR["	"] = 9] = "	";
+    CHAR[CHAR["\n"] = 10] = "\n";
+    CHAR[CHAR["\v"] = 11] = "\v";
+    CHAR[CHAR["\f"] = 12] = "\f";
+    CHAR[CHAR["\r"] = 13] = "\r";
+    CHAR[CHAR[" "] = 32] = " ";
+    CHAR[CHAR["-"] = 45] = "-";
+    CHAR[CHAR["["] = 91] = "[";
     return CHAR;
 }(CHAR || {});
 var c = "\n";
-console.log(c.charCodeAt(0) === 0x0A);
+console.log(c.charCodeAt(0) === 10);

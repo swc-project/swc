@@ -33,9 +33,6 @@ define([
         get M () {
             return M;
         },
-        get N () {
-            return N;
-        },
         get a () {
             return a;
         },
@@ -58,10 +55,15 @@ define([
         E[E["C"] = 2] = "C";
         return E;
     }(E || {});
+    var D = /*#__PURE__*/ function(D) {
+        D[D["A"] = 0] = "A";
+        D[D["B"] = 1] = "B";
+        D[D["C"] = 2] = "C";
+        return D;
+    }(D || {});
     (function(M) {})(M || (M = {}));
-    (function(N) {})(N || (N = {}));
     var a = M.x;
-    var M, N;
+    var M;
 });
 //// [t2.ts]
 define([

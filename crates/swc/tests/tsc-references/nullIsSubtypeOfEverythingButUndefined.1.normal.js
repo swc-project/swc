@@ -88,4 +88,3 @@ var r19 = true ? new Object() : null;
 var r19 = true ? null : new Object();
 var r20 = true ? {} : null;
 var r20 = true ? null : {};
-var f, c;

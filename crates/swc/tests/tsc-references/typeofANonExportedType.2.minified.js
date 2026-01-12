@@ -16,7 +16,7 @@ export var r6;
 export var r7;
 export var r8;
 export var r9;
-var foo, M, E, M1, foo1, E1 = ((E = E1 || {})[E.A = 0] = "A", E);
+var foo, M, E, M1, E1 = ((E = E1 || {})[E.A = 0] = "A", E);
 export var r10;
 export var r11;
 export var r12;

@@ -38,4 +38,3 @@ var clodule4 = function clodule4() {
         _class_call_check(this, D);
     };
 })(clodule4 || (clodule4 = {}));
-var clodule1, clodule2, clodule3, clodule4;

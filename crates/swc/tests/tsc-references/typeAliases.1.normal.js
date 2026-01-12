@@ -27,7 +27,6 @@ var x10;
 var x10;
 var x11;
 var x11;
-;
 var x13_1;
 var x13_2;
 foo13(x13_1, x13_2);

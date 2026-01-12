@@ -27,3 +27,4 @@ function set_c(v) {
 }
 //// [tslib.d.ts]
 // these are pre-TS4.3 versions of emit helpers, which only supported private instance fields
+export { };

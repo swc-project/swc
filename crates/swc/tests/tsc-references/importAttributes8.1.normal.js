@@ -5,5 +5,4 @@ export default {
     b: "b"
 };
 //// [/b.ts]
-export { };
- // ok
+export { }; // ok

@@ -36,7 +36,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         })(Y.Y || (Y.Y = {}));
     })(Y.Y || (Y.Y = {}));
 })(Y || (Y = {}));
+// no collision, since interface doesn't
+// generate code.
 (function(D) {
     D.E = 'hello';
 })(D || (D = {}));
-var A, B, B, X, Y, D;
+var A, B, X, Y, D;

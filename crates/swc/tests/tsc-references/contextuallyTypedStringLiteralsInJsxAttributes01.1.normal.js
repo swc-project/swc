@@ -1,5 +1,4 @@
 //// [contextuallyTypedStringLiteralsInJsxAttributes01.tsx]
-(function(JSX) {})(JSX || (JSX = {}));
 var FooComponent = function(props) {
     return /*#__PURE__*/ React.createElement("span", null, props.foo);
 };
@@ -15,4 +14,3 @@ var FooComponent = function(props) {
 /*#__PURE__*/ React.createElement(FooComponent, {
     foo: "f"
 });
-var JSX;

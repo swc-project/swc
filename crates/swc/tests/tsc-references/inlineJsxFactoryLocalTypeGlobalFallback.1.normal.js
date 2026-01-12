@@ -1,10 +1,7 @@
 //// [renderer.d.ts]
+export { };
 //// [renderer2.d.ts]
-(function(predom) {
-    (function(JSX) {})(JSX || (JSX = {}));
-    var JSX;
-})(predom || (predom = {}));
-export var predom;
+export { };
 //// [component.tsx]
 /** @jsx predom */ import { predom } from "./renderer2";
 export default /*#__PURE__*/ predom("h", null);

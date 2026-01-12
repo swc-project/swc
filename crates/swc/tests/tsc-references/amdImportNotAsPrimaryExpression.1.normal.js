@@ -20,9 +20,6 @@ define([
         },
         get E1 () {
             return E1;
-        },
-        get M1 () {
-            return M1;
         }
     });
     var C1 = function C1() {
@@ -31,27 +28,18 @@ define([
         this.m1 = 42;
     };
     C1.s1 = true;
-    (function(M1) {})(M1 || (M1 = {}));
     var E1 = /*#__PURE__*/ function(E1) {
         E1[E1["A"] = 0] = "A";
         E1[E1["B"] = 1] = "B";
         E1[E1["C"] = 2] = "C";
         return E1;
     }({});
-    var M1;
 });
 //// [foo_1.ts]
 define([
-    "require",
-    "exports",
-    "./foo_0"
-], function(require, exports, _foo_0) {
+    "require"
+], function(require) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    // None of the below should cause a runtime dependency on foo_0
-    var f = _foo_0.M1;
     var i;
     var x = {};
     var y = false;

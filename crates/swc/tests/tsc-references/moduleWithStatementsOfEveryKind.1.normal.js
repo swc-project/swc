@@ -35,7 +35,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
             _class_call_check(this, A);
         };
     })(Module || (Module = {}));
-    var Module;
     var Color = /*#__PURE__*/ function(Color) {
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
@@ -54,6 +53,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         id: 2,
         isvalid: true
     };
+    var Module;
 })(A || (A = {}));
 (function(Y) {
     var A = function A() {

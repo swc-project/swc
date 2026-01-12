@@ -26,4 +26,4 @@ var n = ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge.p4 + 
 (function(ExpandoMerge) {
     ExpandoMerge.p2 = 222;
 })(ExpandoMerge || (ExpandoMerge = {}));
-var ExpandoMerge, ExpandoMerge;
+var ExpandoMerge;

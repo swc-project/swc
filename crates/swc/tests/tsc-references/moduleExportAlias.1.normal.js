@@ -1,26 +1,13 @@
 //// [moduleExportAlias.ts]
 //// [a.ts]
-b.func1;
-b.func2;
-b.func3;
-b.func4;
-b.func5;
-b.func6;
-b.func7;
-b.func8;
-b.func9;
-b.func10;
-b.func11;
-b.func12;
-b.func13;
-b.func14;
-b.func15;
-b.func16;
-b.func17;
-b.func18;
-b.func19;
-b.func20;
-export { };
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,-[1:1]
+//!  1 | import b = require("./b.js");
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!  2 | b.func1;
+//!  3 | b.func2;
+//!  4 | b.func3;
+//!    `----
 //// [b.js]
 var exportsAlias = exports;
 exportsAlias.func1 = function() {};

@@ -2,10 +2,8 @@
 var A = {};
 export { A };
 //// [b.ts]
-import "./a";
+export { };
 //// [c.ts]
-var A;
-A || (A = {});
-export { A };
+import "./b";
 //// [d.ts]
 import "./c";

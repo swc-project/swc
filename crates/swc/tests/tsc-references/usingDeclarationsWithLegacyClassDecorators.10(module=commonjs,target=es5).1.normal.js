@@ -19,7 +19,6 @@ var env = {
     hasError: false
 };
 try {
-    declare var dec;
     var _class = function _class() {
         "use strict";
         _class_call_check._(this, _class);

@@ -21,12 +21,12 @@ var _bar = {
 }, _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakMap();
 class Child extends Parent {
     constructor(...args){
-        super(...args), _class_private_field_set(this, _foo1, "foo"), _class_private_field_set(this, _bar1, "bar"), _class_private_field_init(this, _foo1, {
+        super(...args), _class_private_field_init(this, _foo1, {
             writable: !0,
             value: void 0
         }), _class_private_field_init(this, _bar1, {
             writable: !0,
             value: void 0
-        });
+        }), _class_private_field_set(this, _foo1, "foo"), _class_private_field_set(this, _bar1, "bar");
     }
 }

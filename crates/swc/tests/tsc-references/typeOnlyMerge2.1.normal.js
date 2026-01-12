@@ -2,11 +2,9 @@
 var A = {};
 export { A };
 //// [b.ts]
-import { A } from "./a";
+export { };
 //// [c.ts]
-(function(A) {})(A || (A = {}));
-export { A };
-var A;
+import { A } from "./b";
 //// [d.ts]
 import { A } from "./c";
 A;

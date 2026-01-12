@@ -50,4 +50,4 @@ var p;
 // ensure merges as expected
 var l;
 var l;
-var A, A, X, X;
+var A, X;

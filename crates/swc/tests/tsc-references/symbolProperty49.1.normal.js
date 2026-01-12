@@ -1,7 +1,7 @@
 //// [symbolProperty49.ts]
 (function(M) {
     class C {
-        [Symbol.iterator]() {}
+        [M.Symbol.iterator]() {}
     }
 })(M || (M = {}));
 var M;

@@ -5,17 +5,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: Object.getOwnPropertyDescriptor(all, name).get
-    });
-}
-_export(exports, {
-    get Decl () {
-        return Decl;
-    },
-    get default () {
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
         return Decl;
     }
 });
@@ -24,8 +16,6 @@ var Decl = function Decl() {
     "use strict";
     _class_call_check._(this, Decl);
 };
-(function(Decl) {})(Decl || (Decl = {}));
-var Decl;
 //// [m2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

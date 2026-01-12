@@ -6,11 +6,9 @@ var ENUM = /*#__PURE__*/ function(ENUM) {
     ENUM[ENUM["C"] = 2] = "C";
     return ENUM;
 }(ENUM || {});
-;
 var ENUM1 = /*#__PURE__*/ function(ENUM1) {
     return ENUM1;
 }(ENUM1 || {});
-;
 // enum type var
 var ResultIsBoolean1 = !ENUM;
 // enum type expressions

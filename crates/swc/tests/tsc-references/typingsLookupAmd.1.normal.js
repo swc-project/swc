@@ -6,9 +6,13 @@ define([
 });
 //// [/node_modules/@types/a/index.d.ts]
 define([
-    "require"
-], function(require) {
+    "require",
+    "exports"
+], function(require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
 });
 //// [/x/node_modules/@types/b/index.d.ts]
 define([

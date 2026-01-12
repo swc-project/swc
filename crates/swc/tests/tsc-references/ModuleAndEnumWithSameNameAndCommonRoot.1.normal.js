@@ -9,11 +9,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     };
     enumdule.Point = Point;
 })(enumdule || (enumdule = {}));
-var enumdule = /*#__PURE__*/ function(enumdule) {
+(function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
     enumdule[enumdule["Blue"] = 1] = "Blue";
-    return enumdule;
-}(enumdule || {});
+})(enumdule);
 var x;
 var x = 0;
 var y;

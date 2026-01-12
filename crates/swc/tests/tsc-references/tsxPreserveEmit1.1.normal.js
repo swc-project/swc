@@ -29,5 +29,5 @@ define([
         // Should emit 'M.X' in both opening and closing tags
         var y = /*#__PURE__*/ _react.createElement(X, null);
     })(M || (M = {}));
-    var M, M;
+    var M;
 });

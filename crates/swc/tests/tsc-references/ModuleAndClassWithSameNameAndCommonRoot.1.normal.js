@@ -2,7 +2,7 @@
 (function(X) {
     (function(Y) {
         (function(Point) {
-            Point.Origin = new Point(0, 0);
+            Point.Origin = new Y.Point(0, 0);
         })(Y.Point || (Y.Point = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
@@ -17,6 +17,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             this.x = x;
             this.y = y;
         };
+        // duplicate identifier
         Y.Point = Point;
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));

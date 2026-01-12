@@ -22,14 +22,14 @@ export var AppStyle = /*#__PURE__*/ function(AppStyle) {
 }({});
 const appTypeStylesWithError = new Map([
     [
-        'Standard',
+        "Standard",
         [
             2,
             3
         ]
     ],
     [
-        'Relationship',
+        "Relationship",
         [
             2,
             0,
@@ -37,7 +37,7 @@ const appTypeStylesWithError = new Map([
         ]
     ],
     [
-        'AdvancedList',
+        "AdvancedList",
         [
             2,
             3

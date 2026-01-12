@@ -24,4 +24,3 @@ var c = function c() {
 (function(c) {
     c.bar = 1;
 })(c || (c = {}));
-var f, c;

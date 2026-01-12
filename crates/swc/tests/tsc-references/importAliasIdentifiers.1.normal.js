@@ -40,5 +40,4 @@ function fundule() {
 var p;
 var p;
 var p;
-var moduleA, clodule, fundule;
-export { };
+var moduleA;

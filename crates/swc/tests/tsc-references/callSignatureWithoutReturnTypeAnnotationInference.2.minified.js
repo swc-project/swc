@@ -9,7 +9,7 @@ function m1() {
 }(), _type_of(1), (M = M1 || (M1 = {})).x = 1, M.C = function C() {
     _class_call_check(this, C);
 }, (m1 || (m1 = {})).y = 2;
-var e1, M, M1, m1, e11, c1 = function c1(x) {
+var e1, M, M1, c1 = function c1(x) {
     _class_call_check(this, c1);
 };
 (c1 || (c1 = {})).x = 1;

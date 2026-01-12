@@ -48,4 +48,4 @@ function foo() {}
     foo.C = C;
 })(foo || (foo = {}));
 export var r13;
-var M, foo;
+var M;

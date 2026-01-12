@@ -2,23 +2,15 @@
 //// [m1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var target = exports, all = {
-    get Decl () {
-        return Decl;
-    },
-    get default () {
+}), Object.defineProperty(exports, "default", {
+    enumerable: !0,
+    get: function() {
         return Decl;
     }
-};
-for(var name in all)Object.defineProperty(target, name, {
-    enumerable: !0,
-    get: Object.getOwnPropertyDescriptor(all, name).get
 });
-var Decl, _class_call_check = require("@swc/helpers/_/_class_call_check"), Decl = function Decl() {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), Decl = function Decl() {
     _class_call_check._(this, Decl);
 };
-Decl || (Decl = {});
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

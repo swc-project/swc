@@ -45,4 +45,4 @@ var Point = /*#__PURE__*/ function() {
         Point.Origin = Origin;
     })(A.Point || (A.Point = {}));
 })(A || (A = {}));
-var Point, A;
+var A;

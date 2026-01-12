@@ -16,6 +16,7 @@ var D = function D() {
 };
 var a;
 var r = a.a;
+// generic interfaces in a module
 (function(M) {
     var C = function C() {
         "use strict";

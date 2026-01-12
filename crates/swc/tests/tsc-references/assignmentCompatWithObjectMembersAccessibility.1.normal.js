@@ -1,6 +1,6 @@
 //// [assignmentCompatWithObjectMembersAccessibility.ts]
-// members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 (function(TargetIsPublic) {
     // targets
     var Base = function Base() {
@@ -87,4 +87,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     e = d; // errror
     e = e;
 })(TargetIsPublic || (TargetIsPublic = {}));
-var TargetIsPublic, TargetIsPublic;
+var TargetIsPublic;

@@ -4,7 +4,6 @@ export var B = function B() {
     "use strict";
     _class_call_check(this, B);
 };
-;
 //// [/b.ts]
 var t = {
     A: undefined,

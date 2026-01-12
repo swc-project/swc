@@ -1,8 +1,7 @@
 //// [renderer.d.ts]
+export { };
 //// [renderer2.d.ts]
-var JSX;
-predom || (predom = {}), JSX || (JSX = {});
-export var predom;
+export { };
 //// [component.tsx]
 import { predom } from "./renderer2";
 export default predom("h", null);

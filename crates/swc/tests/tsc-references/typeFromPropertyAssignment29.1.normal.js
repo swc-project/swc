@@ -86,4 +86,4 @@ ExpandoExpr3.m = function(n) {
     return n + 1;
 };
 var n = ExpandoExpr3.prop + ExpandoExpr3.m(13) + new ExpandoExpr3().n;
-var ExpandoMerge, ExpandoMerge, Ns;
+var Ns;

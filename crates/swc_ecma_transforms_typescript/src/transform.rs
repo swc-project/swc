@@ -690,9 +690,8 @@ impl TypeScript {
 
                     // Transform enums
                     Decl::TsEnum(e) => {
-                        // Skip const enums unless verbatimModuleSyntax is enabled
-                        // (in which case exported const enums should be kept)
-                        if e.is_const && !self.config.verbatim_module_syntax {
+                        // Skip const enums - they are removed and their usages inlined
+                        if e.is_const {
                             return;
                         }
 
@@ -887,46 +886,7 @@ impl TypeScript {
                         self.transform_import_equals_classic(&import, out, state);
                     }
                     TsImportExportAssignConfig::Preserve => {
-                        // Only preserve TsExternalModuleRef (require-style) for module
-                        // transforms to handle. TsEntityName must be converted to const
-                        // declarations as module transforms don't support them.
-                        match &import.module_ref {
-                            TsModuleRef::TsExternalModuleRef(_) => {
-                                out.push(ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(
-                                    import,
-                                )));
-                            }
-                            TsModuleRef::TsEntityName(entity) => {
-                                // import foo = ns.bar -> const foo = ns.bar
-                                // export import foo = ns.bar -> export const foo = ns.bar
-                                let expr = ts_entity_to_expr(entity.clone());
-                                let var = VarDecl {
-                                    span: import.span,
-                                    kind: VarDeclKind::Const,
-                                    declare: false,
-                                    decls: vec![VarDeclarator {
-                                        span: DUMMY_SP,
-                                        name: Pat::Ident(import.id.clone().into()),
-                                        init: Some(expr),
-                                        definite: false,
-                                    }],
-                                    ..Default::default()
-                                };
-                                state.has_value_import = true;
-                                if import.is_export {
-                                    out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                                        ExportDecl {
-                                            span: import.span,
-                                            decl: Decl::Var(Box::new(var)),
-                                        },
-                                    )));
-                                } else {
-                                    out.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(
-                                        var,
-                                    )))));
-                                }
-                            }
-                        }
+                        out.push(ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)));
                     }
                     TsImportExportAssignConfig::NodeNext => {
                         self.transform_import_equals_node_next(&import, out, state);
@@ -1333,41 +1293,13 @@ impl VisitMut for TypeStripper<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        // Remove function declaration overloads (signatures without bodies) and ambient
-        // declarations
+        // Remove function declaration overloads (signatures without bodies)
         n.retain(|item| match item {
-            // Function declarations without bodies (overloads)
             ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) if f.function.body.is_none() => false,
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::Fn(f),
                 ..
             })) if f.function.body.is_none() => false,
-            // Export default function without body (overload)
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                decl: DefaultDecl::Fn(f),
-                ..
-            })) if f.function.body.is_none() => false,
-            // Export default interface (TypeScript-only)
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                decl: DefaultDecl::TsInterfaceDecl(_),
-                ..
-            })) => false,
-            // Declare statements (ambient declarations) - these should be removed
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))) if v.declare => false,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) if f.declare => false,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Class(c))) if c.declare => false,
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Var(v),
-                ..
-            })) if v.declare => false,
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Fn(f),
-                ..
-            })) if f.declare => false,
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Class(c),
-                ..
-            })) if c.declare => false,
             _ => true,
         });
         n.visit_mut_children_with(self);
@@ -1594,13 +1526,6 @@ impl VisitMut for TypeStripper<'_> {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        // Strip TypeScript-only fields
-        n.accessibility = None;
-        n.is_optional = false;
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.type_params = None;
         n.return_type = None;
@@ -1630,18 +1555,6 @@ impl VisitMut for TypeStripper<'_> {
             param.visit_mut_with(self);
         }
         n.body.visit_mut_with(self);
-    }
-
-    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
-        // Strip return type annotation
-        n.type_ann = None;
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        // Strip `this` parameter (TypeScript-only)
-        n.this_param = None;
-        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
@@ -1799,67 +1712,6 @@ impl VisitMut for TypeStripper<'_> {
         n.type_args = None;
         n.visit_mut_children_with(self);
     }
-
-    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
-        // Strip type arguments from JSX elements (e.g., <Component<Props>>)
-        n.type_args = None;
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        // Unwrap TypeScript-only wrappers
-        loop {
-            match n {
-                SimpleAssignTarget::TsAs(a) => {
-                    match SimpleAssignTarget::try_from(Take::take(&mut a.expr)) {
-                        Ok(target) => *n = target,
-                        Err(expr) => {
-                            *n = SimpleAssignTarget::Paren(ParenExpr { span: a.span, expr });
-                            break;
-                        }
-                    }
-                }
-                SimpleAssignTarget::TsSatisfies(a) => {
-                    match SimpleAssignTarget::try_from(Take::take(&mut a.expr)) {
-                        Ok(target) => *n = target,
-                        Err(expr) => {
-                            *n = SimpleAssignTarget::Paren(ParenExpr { span: a.span, expr });
-                            break;
-                        }
-                    }
-                }
-                SimpleAssignTarget::TsNonNull(a) => {
-                    match SimpleAssignTarget::try_from(Take::take(&mut a.expr)) {
-                        Ok(target) => *n = target,
-                        Err(expr) => {
-                            *n = SimpleAssignTarget::Paren(ParenExpr { span: a.span, expr });
-                            break;
-                        }
-                    }
-                }
-                SimpleAssignTarget::TsTypeAssertion(a) => {
-                    match SimpleAssignTarget::try_from(Take::take(&mut a.expr)) {
-                        Ok(target) => *n = target,
-                        Err(expr) => {
-                            *n = SimpleAssignTarget::Paren(ParenExpr { span: a.span, expr });
-                            break;
-                        }
-                    }
-                }
-                SimpleAssignTarget::TsInstantiation(a) => {
-                    match SimpleAssignTarget::try_from(Take::take(&mut a.expr)) {
-                        Ok(target) => *n = target,
-                        Err(expr) => {
-                            *n = SimpleAssignTarget::Paren(ParenExpr { span: a.span, expr });
-                            break;
-                        }
-                    }
-                }
-                _ => break,
-            }
-        }
-        n.visit_mut_children_with(self);
-    }
 }
 
 impl TypeStripper<'_> {
@@ -1867,11 +1719,6 @@ impl TypeStripper<'_> {
     /// Returns a list of field declarations for parameter properties that
     /// should be inserted into the class body.
     fn transform_constructor(&mut self, c: &mut Constructor) -> Vec<ClassMember> {
-        // Skip constructor overloads (no body)
-        if c.body.is_none() {
-            return vec![];
-        }
-
         // Collect parameter properties
         let mut prop_stmts: Vec<Stmt> = vec![];
         let mut field_decls: Vec<ClassMember> = vec![];

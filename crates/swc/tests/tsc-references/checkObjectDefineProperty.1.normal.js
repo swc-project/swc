@@ -60,18 +60,12 @@ match(function() {
 });
 module.exports = x;
 //// [validate.ts]
-// Validate in TS as simple validations would usually be interpreted as more special assignments
-x.name;
-x.middleInit;
-x.lastName;
-x.zip;
-x.houseNumber;
-x.zipStr;
-x.name = "Another";
-x.zip = 98123;
-x.zipStr = "OK";
-x.lastName = "should fail";
-x.houseNumber = 12; // should also fail
-x.zipStr = 12; // should fail
-x.middleInit = "R"; // should also fail
-export { };
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,-[2:1]
+//!  1 | // Validate in TS as simple validations would usually be interpreted as more special assignments
+//!  2 | import x = require("./");
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+//!  3 | x.name;
+//!  4 | x.middleInit;
+//!  5 | x.lastName;
+//!    `----
