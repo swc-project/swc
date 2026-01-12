@@ -52,7 +52,11 @@ fn as_es(c: &swc::Compiler) -> Program {
 
     program
         .apply(&mut resolver(unresolved_mark, top_level_mark, true))
-        .apply(&mut typescript::strip(unresolved_mark, top_level_mark))
+        .apply(&mut typescript::strip(
+            Default::default(),
+            unresolved_mark,
+            top_level_mark,
+        ))
 }
 
 fn base_tr_group(c: &mut Criterion) {
