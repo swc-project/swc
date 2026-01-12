@@ -35,6 +35,12 @@ pub fn transform_namespace(
         None => return vec![], // Ambient declaration
     };
 
+    // Check if namespace is instantiated (has non-type exports).
+    // Non-instantiated namespaces (only interfaces/type aliases) produce no output.
+    if !is_namespace_instantiated(body) {
+        return vec![];
+    }
+
     // Collect exported identifiers (store full Ident to preserve syntax context for
     // hygiene)
     let mut exports: Vec<Ident> = vec![];
@@ -92,7 +98,8 @@ pub fn transform_namespace(
     // in process_module_decl, not collected at the end.
     let _ = exports; // exports are already processed inline
 
-    // Create IIFE
+    // Create IIFE (even if inner_stmts is empty - the namespace is still
+    // instantiated)
     let param = Param {
         span: DUMMY_SP,
         decorators: vec![],
@@ -362,6 +369,10 @@ fn process_stmt(
         Stmt::Decl(decl) => match decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::TsEnum(e) => {
+                // Skip declare enum (ambient)
+                if e.declare {
+                    return;
+                }
                 let enum_id = e.id.to_id();
                 if seen_enum_ids.contains(&enum_id) {
                     // Merging: emit just the IIFE statement
@@ -402,6 +413,27 @@ fn process_stmt(
                     }))));
                 }
             }
+            Decl::Fn(f) => {
+                // Skip declare function (ambient)
+                if f.declare {
+                    return;
+                }
+                out.push(Stmt::Decl(Decl::Fn(f)));
+            }
+            Decl::Class(c) => {
+                // Skip declare class (ambient)
+                if c.declare {
+                    return;
+                }
+                out.push(Stmt::Decl(Decl::Class(c)));
+            }
+            Decl::Var(v) => {
+                // Skip declare var (ambient)
+                if v.declare {
+                    return;
+                }
+                out.push(Stmt::Decl(Decl::Var(v)));
+            }
             decl => {
                 out.push(Stmt::Decl(decl));
             }
@@ -426,6 +458,10 @@ fn process_module_decl(
         ModuleDecl::ExportDecl(export) => match export.decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
             Decl::Class(c) => {
+                // Skip declare class (ambient)
+                if c.declare {
+                    return;
+                }
                 let ident = c.ident.clone();
                 // Rewrite references to exported members in class body
                 let mut class_decl = c;
@@ -435,6 +471,10 @@ fn process_module_decl(
                 emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Fn(f) => {
+                // Skip declare function (ambient)
+                if f.declare {
+                    return;
+                }
                 let ident = f.ident.clone();
                 // Rewrite references to exported members in function body
                 let mut fn_decl = f;
@@ -444,6 +484,10 @@ fn process_module_decl(
                 emit_export_assignment(ns_id, &ident, out);
             }
             Decl::Var(v) => {
+                // Skip declare var (ambient)
+                if v.declare {
+                    return;
+                }
                 // For exported variable declarations:
                 // - Simple binding: export const a = 1; -> ns.a = 1;
                 // - Destructuring: export const [a, b] = x; -> [ns.a, ns.b] = x;
@@ -475,6 +519,10 @@ fn process_module_decl(
                 }
             }
             Decl::TsEnum(e) => {
+                // Skip declare enum (ambient)
+                if e.declare {
+                    return;
+                }
                 let enum_id = e.id.to_id();
                 let stmt = if seen_enum_ids.contains(&enum_id) {
                     // Merging: use NS.E instead of NS.E || (NS.E = {})
@@ -667,6 +715,96 @@ fn rewrite_exported_import_usages(stmt: &mut Stmt, exported_import_equals: &FxHa
         exported_import_equals,
     };
     stmt.visit_mut_with(&mut rewriter);
+}
+
+/// Checks if a namespace is "instantiated" (has non-type exports).
+/// A namespace is instantiated if it has any exports other than interfaces
+/// and type aliases. This includes `export declare` items which declare
+/// runtime values even though they don't provide implementations.
+fn is_namespace_instantiated(block: &TsModuleBlock) -> bool {
+    for item in &block.body {
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                match &export.decl {
+                    // Type-only declarations - not instantiated
+                    Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
+                    // Nested modules - only instantiated if they contain instantiated content
+                    Decl::TsModule(ns) => {
+                        if !ns.declare {
+                            match &ns.body {
+                                Some(TsNamespaceBody::TsModuleBlock(block)) => {
+                                    if is_namespace_instantiated(block) {
+                                        return true;
+                                    }
+                                }
+                                Some(TsNamespaceBody::TsNamespaceDecl(nested)) => {
+                                    // Recursively check nested namespace declarations
+                                    if is_nested_namespace_instantiated(nested) {
+                                        return true;
+                                    }
+                                }
+                                None => {} // Ambient, skip
+                            }
+                        }
+                    }
+                    // All other declarations (including declare) make namespace instantiated
+                    _ => return true,
+                }
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                // Named exports (except type-only) make namespace instantiated
+                if !export.type_only {
+                    for spec in &export.specifiers {
+                        if let ExportSpecifier::Named(named) = spec {
+                            if !named.is_type_only {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                // Non-type import equals make namespace instantiated
+                if !import.is_type_only {
+                    return true;
+                }
+            }
+            ModuleItem::Stmt(Stmt::Decl(decl)) => {
+                // Non-exported declarations still make namespace instantiated
+                match decl {
+                    Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
+                    Decl::TsModule(ns) => {
+                        // Only if the nested namespace is instantiated
+                        if !ns.declare {
+                            if let Some(TsNamespaceBody::TsModuleBlock(block)) = &ns.body {
+                                if is_namespace_instantiated(block) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    _ => return true,
+                }
+            }
+            ModuleItem::Stmt(_) => {
+                // Non-declaration statements (like console.log) make namespace instantiated
+                return true;
+            }
+            _ => {}
+        }
+    }
+    false
+}
+
+/// Checks if a nested namespace declaration (e.g., `Y.Z`) contains instantiated
+/// content.
+fn is_nested_namespace_instantiated(nested: &TsNamespaceDecl) -> bool {
+    match &*nested.body {
+        TsNamespaceBody::TsModuleBlock(block) => is_namespace_instantiated(block),
+        TsNamespaceBody::TsNamespaceDecl(further_nested) => {
+            is_nested_namespace_instantiated(further_nested)
+        }
+    }
 }
 
 /// Collects exported identifiers from a namespace block.

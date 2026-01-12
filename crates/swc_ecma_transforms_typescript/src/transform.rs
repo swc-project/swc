@@ -694,6 +694,10 @@ impl TypeScript {
                         if e.is_const {
                             return;
                         }
+                        // Skip declare enums (ambient)
+                        if e.declare {
+                            return;
+                        }
 
                         let id = e.id.to_id();
 
@@ -732,26 +736,33 @@ impl TypeScript {
                         if ns.declare || ns.body.is_none() {
                             return;
                         }
-                        state.has_value_export = true;
                         let stmts = transform_namespace(&ns, true, &state.enum_values);
-                        out.extend(stmts.into_iter().map(ModuleItem::Stmt));
-                        // Defer `export var ns;` to the end
-                        if let TsModuleName::Ident(id) = &ns.id {
-                            let ns_id = id.to_id();
-                            if !state.exported_ids.contains(&ns_id) {
-                                state.exported_ids.insert(ns_id);
-                                state.ns_export_var_decls.push(VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: Pat::Ident(id.clone().into()),
-                                    init: None,
-                                    definite: false,
-                                });
+                        // Only emit if there are statements (namespace wasn't empty)
+                        if !stmts.is_empty() {
+                            state.has_value_export = true;
+                            out.extend(stmts.into_iter().map(ModuleItem::Stmt));
+                            // Defer `export var ns;` to the end
+                            if let TsModuleName::Ident(id) = &ns.id {
+                                let ns_id = id.to_id();
+                                if !state.exported_ids.contains(&ns_id) {
+                                    state.exported_ids.insert(ns_id);
+                                    state.ns_export_var_decls.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: Pat::Ident(id.clone().into()),
+                                        init: None,
+                                        definite: false,
+                                    });
+                                }
                             }
                         }
                     }
 
                     // Track exported class/function identifiers
                     Decl::Class(ref c) => {
+                        // Skip declare class (ambient)
+                        if c.declare {
+                            return;
+                        }
                         state.has_value_export = true;
                         state.exported_ids.insert(c.ident.to_id());
                         out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -760,8 +771,23 @@ impl TypeScript {
                         })));
                     }
                     Decl::Fn(ref f) => {
+                        // Skip declare function (ambient)
+                        if f.declare {
+                            return;
+                        }
                         state.has_value_export = true;
                         state.exported_ids.insert(f.ident.to_id());
+                        out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: export.span,
+                            decl: export.decl,
+                        })));
+                    }
+                    Decl::Var(ref v) => {
+                        // Skip declare var (ambient)
+                        if v.declare {
+                            return;
+                        }
+                        state.has_value_export = true;
                         out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                             span: export.span,
                             decl: export.decl,
@@ -833,6 +859,10 @@ impl TypeScript {
 
             // Handle default exports
             ModuleDecl::ExportDefaultDecl(export) => {
+                // Skip type-only default exports (interface)
+                if matches!(export.decl, DefaultDecl::TsInterfaceDecl(_)) {
+                    return;
+                }
                 state.has_value_export = true;
                 out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                     export,
@@ -955,6 +985,10 @@ impl TypeScript {
                 Decl::TsEnum(e) => {
                     // Skip const enums - they are removed and their usages inlined
                     if e.is_const {
+                        return;
+                    }
+                    // Skip declare enums (ambient)
+                    if e.declare {
                         return;
                     }
 
@@ -1357,6 +1391,10 @@ impl VisitMut for TypeStripper<'_> {
                     if e.is_const {
                         continue;
                     }
+                    // Skip declare enums (ambient)
+                    if e.declare {
+                        continue;
+                    }
                     let enum_id = e.id.to_id();
                     if seen_enum_ids.contains(&enum_id) {
                         // Merging: emit just the IIFE statement
@@ -1378,21 +1416,24 @@ impl VisitMut for TypeStripper<'_> {
                     // Transform the namespace to JavaScript
                     let stmts =
                         crate::namespace::transform_namespace(&ns, false, &FxHashMap::default());
-                    new_stmts.extend(stmts);
-                    // Add var declaration for namespace
-                    if let TsModuleName::Ident(id) = &ns.id {
-                        new_stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: false,
-                            decls: vec![VarDeclarator {
+                    // Only emit if there are statements (namespace wasn't empty)
+                    if !stmts.is_empty() {
+                        new_stmts.extend(stmts);
+                        // Add var declaration for namespace
+                        if let TsModuleName::Ident(id) = &ns.id {
+                            new_stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(id.clone().into()),
-                                init: None,
-                                definite: false,
-                            }],
-                            ..Default::default()
-                        }))));
+                                kind: VarDeclKind::Var,
+                                declare: false,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(id.clone().into()),
+                                    init: None,
+                                    definite: false,
+                                }],
+                                ..Default::default()
+                            }))));
+                        }
                     }
                 }
                 stmt => new_stmts.push(stmt),
