@@ -46,6 +46,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: list-crates
     strategy:
+      fail-fast: false
       matrix:
         crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
