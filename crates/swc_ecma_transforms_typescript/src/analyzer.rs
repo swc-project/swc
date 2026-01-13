@@ -380,6 +380,10 @@ impl Visit for Analyzer<'_> {
 
     fn visit_ts_type_param_instantiation(&mut self, _: &TsTypeParamInstantiation) {}
 
+    // Skip TsExprWithTypeArgs used in `implements` and `extends` clauses.
+    // These are type-level usages, not value usages.
+    fn visit_ts_expr_with_type_args(&mut self, _: &TsExprWithTypeArgs) {}
+
     // Skip import declarations - imported identifiers should not be marked as used
     // just by visiting the import. They're only used when referenced elsewhere.
     fn visit_import_decl(&mut self, _: &ImportDecl) {}
