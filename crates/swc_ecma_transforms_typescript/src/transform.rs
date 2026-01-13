@@ -192,6 +192,9 @@ struct TransformState {
     enum_values: FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     /// Set of const enum IDs (for inlining and removal).
     const_enum_ids: FxHashSet<Id>,
+    /// Set of const enum IDs that are used as standalone values (not member
+    /// access). These must be kept even though they're const enums.
+    const_enums_as_values: FxHashSet<Id>,
     /// Whether the module has any non-type exports.
     has_value_export: bool,
     /// Whether the module has any non-type imports.
@@ -224,6 +227,7 @@ impl Default for TransformState {
             value_usages: Default::default(),
             enum_values: Default::default(),
             const_enum_ids: Default::default(),
+            const_enums_as_values: Default::default(),
             has_value_export: false,
             has_value_import: false,
             was_module: false,
@@ -296,6 +300,7 @@ impl TransformState {
             value_usages: info.value_usages,
             enum_values: info.enum_values,
             const_enum_ids: info.const_enum_ids,
+            const_enums_as_values: info.const_enums_as_values,
             has_value_export: info.has_value_export,
             has_value_import: info.has_value_import,
             was_module,
@@ -435,6 +440,9 @@ impl VisitMut for TypeScript {
         let mut ns_var_decls: Vec<Stmt> = Vec::new();
         let mut seen_ns_ids: FxHashSet<Id> = FxHashSet::default();
         let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
+        // In script mode, const enums are always stripped (no export default possible
+        // in scripts)
+        let empty_const_enums_as_values = FxHashSet::default();
         for stmt in n.body.drain(..) {
             self.transform_stmt_with_ns_decls(
                 stmt,
@@ -443,6 +451,7 @@ impl VisitMut for TypeScript {
                 &mut seen_ns_ids,
                 &mut seen_enum_ids,
                 &enum_values,
+                &empty_const_enums_as_values,
             );
         }
         // Merge namespace var declarations into a single var statement
@@ -567,6 +576,7 @@ impl TypeScript {
                     &mut seen_ns_ids,
                     &mut state.seen_enum_ids,
                     &state.enum_values,
+                    &state.const_enums_as_values,
                 );
                 out.extend(stmts.into_iter().map(ModuleItem::Stmt));
                 // Defer namespace var declarations to state for later emission
@@ -690,14 +700,13 @@ impl TypeScript {
 
                     // Transform enums
                     Decl::TsEnum(e) => {
-                        // Skip const enums - they are removed and their usages inlined
-                        if e.is_const {
-                            return;
-                        }
                         // Skip declare enums (ambient)
                         if e.declare {
                             return;
                         }
+                        // Note: Exported const enums are kept because SWC operates
+                        // in isolatedModules mode where cross-module inlining isn't
+                        // possible
 
                         let id = e.id.to_id();
 
@@ -863,6 +872,12 @@ impl TypeScript {
                 if matches!(export.decl, DefaultDecl::TsInterfaceDecl(_)) {
                     return;
                 }
+                // Skip function overloads (declarations without body)
+                if let DefaultDecl::Fn(f) = &export.decl {
+                    if f.function.body.is_none() {
+                        return;
+                    }
+                }
                 state.has_value_export = true;
                 out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
                     export,
@@ -975,6 +990,7 @@ impl TypeScript {
         seen_ns_ids: &mut FxHashSet<Id>,
         seen_enum_ids: &mut FxHashSet<Id>,
         enum_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+        const_enums_as_values: &FxHashSet<Id>,
     ) {
         match stmt {
             Stmt::Decl(decl) => match decl {
@@ -984,7 +1000,9 @@ impl TypeScript {
                 // Transform enums
                 Decl::TsEnum(e) => {
                     // Skip const enums - they are removed and their usages inlined
-                    if e.is_const {
+                    // But keep them if they're used as standalone values (e.g., export default
+                    // EnumName) because SWC operates in isolatedModules mode
+                    if e.is_const && !const_enums_as_values.contains(&e.id.to_id()) {
                         return;
                     }
                     // Skip declare enums (ambient)
@@ -1087,6 +1105,7 @@ impl TypeScript {
         let mut seen_ns_ids = FxHashSet::default();
         let mut seen_enum_ids = FxHashSet::default();
         let empty_enum_values = FxHashMap::default();
+        let empty_const_enums_as_values = FxHashSet::default();
         self.transform_stmt_with_ns_decls(
             stmt,
             out,
@@ -1094,6 +1113,7 @@ impl TypeScript {
             &mut seen_ns_ids,
             &mut seen_enum_ids,
             &empty_enum_values,
+            &empty_const_enums_as_values,
         );
         // In transform_stmt, we add ns_var_decls inline (used for modules)
         out.append(&mut ns_var_decls);
@@ -1456,10 +1476,13 @@ impl VisitMut for TypeStripper<'_> {
             .retain(|m| !matches!(m, ClassMember::TsIndexSignature(_)));
 
         // Handle parameter properties in constructor and collect field declarations
+        // Skip constructor overloads (those without body)
         let mut param_prop_fields: Vec<ClassMember> = vec![];
         for member in &mut n.body {
             if let ClassMember::Constructor(c) = member {
-                param_prop_fields = self.transform_constructor(c);
+                if c.body.is_some() {
+                    param_prop_fields = self.transform_constructor(c);
+                }
             }
         }
 
@@ -1596,6 +1619,24 @@ impl VisitMut for TypeStripper<'_> {
             param.visit_mut_with(self);
         }
         n.body.visit_mut_with(self);
+    }
+
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        // Remove TypeScript `this` parameter from setter
+        n.this_param = None;
+        // Strip type annotation from parameter
+        n.param.visit_mut_with(self);
+        if let Some(body) = &mut n.body {
+            body.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        // Strip return type
+        n.type_ann = None;
+        if let Some(body) = &mut n.body {
+            body.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
@@ -1753,6 +1794,27 @@ impl VisitMut for TypeStripper<'_> {
         n.type_args = None;
         n.visit_mut_children_with(self);
     }
+
+    fn visit_mut_jsx_opening_element(&mut self, n: &mut JSXOpeningElement) {
+        n.type_args = None;
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+        // Strip TypeScript-only assignment target wrappers
+        loop {
+            let expr = match n {
+                SimpleAssignTarget::TsAs(a) => a.expr.take(),
+                SimpleAssignTarget::TsSatisfies(a) => a.expr.take(),
+                SimpleAssignTarget::TsNonNull(a) => a.expr.take(),
+                SimpleAssignTarget::TsTypeAssertion(a) => a.expr.take(),
+                SimpleAssignTarget::TsInstantiation(a) => a.expr.take(),
+                _ => break,
+            };
+            *n = expr_to_simple_assign_target(*expr);
+        }
+        n.visit_mut_children_with(self);
+    }
 }
 
 impl TypeStripper<'_> {
@@ -1854,5 +1916,28 @@ impl TypeStripper<'_> {
         }
 
         field_decls
+    }
+}
+
+/// Convert an expression to a SimpleAssignTarget.
+fn expr_to_simple_assign_target(e: Expr) -> SimpleAssignTarget {
+    match e {
+        Expr::Ident(i) => SimpleAssignTarget::Ident(BindingIdent {
+            id: i,
+            type_ann: None,
+        }),
+        Expr::Member(m) => SimpleAssignTarget::Member(m),
+        Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
+        Expr::Paren(p) => SimpleAssignTarget::Paren(p),
+        Expr::OptChain(o) => SimpleAssignTarget::OptChain(o),
+        Expr::TsAs(a) => SimpleAssignTarget::TsAs(a),
+        Expr::TsSatisfies(s) => SimpleAssignTarget::TsSatisfies(s),
+        Expr::TsNonNull(n) => SimpleAssignTarget::TsNonNull(n),
+        Expr::TsTypeAssertion(t) => SimpleAssignTarget::TsTypeAssertion(t),
+        Expr::TsInstantiation(i) => SimpleAssignTarget::TsInstantiation(i),
+        _ => SimpleAssignTarget::Paren(ParenExpr {
+            span: DUMMY_SP,
+            expr: Box::new(e),
+        }),
     }
 }

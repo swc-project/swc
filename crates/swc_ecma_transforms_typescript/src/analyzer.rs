@@ -86,6 +86,11 @@ pub struct ProgramInfo {
     /// Type-only imported identifiers (from type-only imports or type-only
     /// specifiers).
     pub type_only_imports: FxHashSet<Id>,
+
+    /// Const enum IDs that are used as standalone values (not member access).
+    /// These must be kept even though they're const enums.
+    /// Examples: `export default MyEnum`, `const x = MyEnum`
+    pub const_enums_as_values: FxHashSet<Id>,
 }
 
 /// Semantic analyzer that collects program metadata.
@@ -545,6 +550,13 @@ impl Visit for Analyzer<'_> {
 
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
         self.info.has_value_export = true;
+        // If exporting a const enum by name, track it as used as a value
+        if let Expr::Ident(id) = &*n.expr {
+            let id_ref = id.to_id();
+            if self.info.const_enum_ids.contains(&id_ref) {
+                self.info.const_enums_as_values.insert(id_ref);
+            }
+        }
         n.expr.visit_with(self);
     }
 
