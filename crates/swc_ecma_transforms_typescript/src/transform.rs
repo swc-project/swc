@@ -359,8 +359,30 @@ impl VisitMut for TypeScript {
 
         // Second pass: transform items in original order (preserving import positions)
         let mut new_body = Vec::with_capacity(n.body.len());
+        // Track if previous item was a TypeScript-only construct (enum, namespace,
+        // type) to filter orphaned semicolons like `enum Foo { };`
+        let mut prev_was_ts_construct = false;
 
         for item in n.body.drain(..) {
+            // Skip empty statements that immediately follow TypeScript constructs
+            if prev_was_ts_construct {
+                if matches!(&item, ModuleItem::Stmt(Stmt::Empty(_))) {
+                    prev_was_ts_construct = false;
+                    continue;
+                }
+            }
+
+            // Check if this item is a TypeScript-only construct
+            prev_was_ts_construct = matches!(
+                &item,
+                ModuleItem::Stmt(Stmt::Decl(
+                    Decl::TsEnum(_)
+                        | Decl::TsModule(_)
+                        | Decl::TsInterface(_)
+                        | Decl::TsTypeAlias(_)
+                ))
+            );
+
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
                     // Process import in place
@@ -1371,6 +1393,7 @@ impl VisitMut for TypeStripper<'_> {
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         // Remove function declaration overloads (signatures without bodies)
+        // and declare var/let/const
         n.retain(|item| match item {
             ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) if f.function.body.is_none() => false,
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
@@ -1666,6 +1689,8 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        // Visit the key (for computed property names with type assertions)
+        n.key.visit_mut_with(self);
         // Remove TypeScript `this` parameter from setter
         n.this_param = None;
         // Strip type annotation from parameter
@@ -1676,6 +1701,8 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        // Visit the key (for computed property names with type assertions)
+        n.key.visit_mut_with(self);
         // Strip return type
         n.type_ann = None;
         if let Some(body) = &mut n.body {
