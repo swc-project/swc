@@ -19,6 +19,8 @@ use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
+use crate::namespace::is_namespace_instantiated;
+
 /// Converts a Wtf8Atom to an Atom.
 #[inline]
 fn wtf8_to_atom(s: &swc_atoms::Wtf8Atom) -> Atom {
@@ -91,6 +93,11 @@ pub struct ProgramInfo {
     /// These must be kept even though they're const enums.
     /// Examples: `export default MyEnum`, `const x = MyEnum`
     pub const_enums_as_values: FxHashSet<Id>,
+
+    /// Non-instantiated namespace IDs (namespaces that only contain type
+    /// exports). These should be treated like type declarations and
+    /// filtered from exports.
+    pub non_instantiated_namespaces: FxHashSet<Id>,
 }
 
 /// Semantic analyzer that collects program metadata.
@@ -473,6 +480,13 @@ impl Visit for Analyzer<'_> {
 
         if let TsModuleName::Ident(id) = &n.id {
             self.namespace_stack.push(id.clone());
+
+            // Check if this namespace is non-instantiated (only type exports)
+            if let Some(TsNamespaceBody::TsModuleBlock(block)) = &n.body {
+                if !is_namespace_instantiated(block) {
+                    self.info.non_instantiated_namespaces.insert(id.to_id());
+                }
+            }
         }
 
         // Visit namespace body to collect usages

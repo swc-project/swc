@@ -212,6 +212,9 @@ struct TransformState {
     import_equals_refs: FxHashMap<Id, Id>,
     /// Set of type-only declarations (type aliases and interfaces).
     type_decls: FxHashSet<Id>,
+    /// Non-instantiated namespace IDs (namespaces that only contain type
+    /// exports).
+    non_instantiated_namespaces: FxHashSet<Id>,
     /// Deferred namespace var declarations (to be emitted at the end).
     ns_var_decls: Vec<VarDeclarator>,
     /// Deferred exported namespace var declarations (to be emitted at the end).
@@ -235,6 +238,7 @@ impl Default for TransformState {
             local_decls: Default::default(),
             import_equals_refs: Default::default(),
             type_decls: Default::default(),
+            non_instantiated_namespaces: Default::default(),
             ns_var_decls: Default::default(),
             ns_export_var_decls: Default::default(),
             seen_enum_ids: Default::default(),
@@ -308,6 +312,7 @@ impl TransformState {
             local_decls: info.local_decls,
             import_equals_refs: info.import_equals_refs,
             type_decls: info.type_decls,
+            non_instantiated_namespaces: info.non_instantiated_namespaces,
             ns_var_decls: Default::default(),
             ns_export_var_decls: Default::default(),
             seen_enum_ids: Default::default(),
@@ -846,6 +851,11 @@ impl TypeScript {
                             if state.type_decls.contains(&id_ref)
                                 && !state.local_decls.contains(&id_ref)
                             {
+                                return false;
+                            }
+                            // Filter out exports of non-instantiated namespaces
+                            // (namespaces that only contain type exports)
+                            if state.non_instantiated_namespaces.contains(&id_ref) {
                                 return false;
                             }
                             // Filter out exports of type-only imports

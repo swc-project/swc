@@ -721,7 +721,7 @@ fn rewrite_exported_import_usages(stmt: &mut Stmt, exported_import_equals: &FxHa
 /// A namespace is instantiated if it has any exports other than interfaces
 /// and type aliases. This includes `export declare` items which declare
 /// runtime values even though they don't provide implementations.
-fn is_namespace_instantiated(block: &TsModuleBlock) -> bool {
+pub fn is_namespace_instantiated(block: &TsModuleBlock) -> bool {
     for item in &block.body {
         match item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
