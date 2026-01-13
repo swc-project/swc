@@ -221,6 +221,9 @@ struct TransformState {
     ns_export_var_decls: Vec<VarDeclarator>,
     /// Set of seen enum IDs (for merging).
     seen_enum_ids: FxHashSet<Id>,
+    /// Set of seen namespace IDs for merging (class/function/enum/namespace).
+    /// Used to prevent emitting duplicate var declarations when merging.
+    seen_ns_ids: FxHashSet<Id>,
 }
 
 impl Default for TransformState {
@@ -242,6 +245,7 @@ impl Default for TransformState {
             ns_var_decls: Default::default(),
             ns_export_var_decls: Default::default(),
             seen_enum_ids: Default::default(),
+            seen_ns_ids: Default::default(),
         }
     }
 }
@@ -316,6 +320,7 @@ impl TransformState {
             ns_var_decls: Default::default(),
             ns_export_var_decls: Default::default(),
             seen_enum_ids: Default::default(),
+            seen_ns_ids: Default::default(),
         }
     }
 }
@@ -573,12 +578,11 @@ impl TypeScript {
             ModuleItem::Stmt(stmt) => {
                 let mut stmts = vec![];
                 let mut ns_var_decls = vec![];
-                let mut seen_ns_ids = FxHashSet::default();
                 self.transform_stmt_with_ns_decls(
                     stmt,
                     &mut stmts,
                     &mut ns_var_decls,
-                    &mut seen_ns_ids,
+                    &mut state.seen_ns_ids,
                     &mut state.seen_enum_ids,
                     &state.enum_values,
                     &state.const_enums_as_values,
