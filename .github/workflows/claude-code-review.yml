@@ -21,6 +21,31 @@ jobs:
         with:
           fetch-depth: 1
 
+
+      - name: Dismiss old Claude bot comments
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get PR comments from claude[bot] and hide them as outdated
+          REPO="${{ github.repository }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+
+          # Get review comments (PR review comments)
+          gh api "repos/$REPO/pulls/$PR_NUMBER/comments" --jq '.[] | select(.user.login == "claude[bot]") | .node_id' | while read -r comment_node_id; do
+            if [ -n "$comment_node_id" ]; then
+              echo "Hiding review comment: $comment_node_id"
+              gh api graphql -f query='
+                mutation($id: ID!) {
+                  minimizeComment(input: {subjectId: $id, classifier: OUTDATED}) {
+                    minimizedComment {
+                      isMinimized
+                    }
+                  }
+                }' -f id="$comment_node_id"
+            fi
+          done
+  
+
       - name: Run Claude Code Review
         id: claude-review
         env:
