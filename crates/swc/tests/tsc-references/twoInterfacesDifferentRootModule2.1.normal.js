@@ -9,12 +9,12 @@
         var r3 = b.foo; // error
         var r4 = b.bar;
     })(M2 || (M2 = {}));
+    var M2;
     var a;
     var r1 = a.foo;
     var r2 = a.bar; // error
     var b;
     var r3 = b.foo;
     var r4 = b.bar; // error
-    var M2;
 })(M || (M = {}));
 var M;

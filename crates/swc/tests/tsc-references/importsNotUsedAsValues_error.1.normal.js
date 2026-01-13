@@ -19,19 +19,20 @@ export var C = /*#__PURE__*/ function(C) {
 var a;
 var b;
 console.log(a, b);
-export { }; // Error
+export { };
 //// [/c.ts]
 var a;
 var b;
 console.log(a, b);
-export { }; // Error
+export { };
 //// [/d.ts]
 import { A } from './a';
 var a = A;
 var b;
 console.log(a, b);
 //// [/e.ts]
-export { }; // noUnusedLocals error only
+export { };
+ // noUnusedLocals error only
 //// [/f.ts]
 import { C } from './a';
 C.One;
@@ -44,33 +45,23 @@ var d;
 console.log(c, d);
 export { };
 //// [/h.ts]
-//!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[2:1]
-//!  1 | class H {}
-//!  2 | export = H;
-//!    : ^^^^^^^^^^^
-//!  3 | 
-//!    `----
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var H = function H() {
+    "use strict";
+    _class_call_check(this, H);
+};
+export { };
 //// [/i.ts]
 var h = {};
 console.log(h);
+export { };
 //// [/j.ts]
+export { };
  // noUnusedLocals error only
 //// [/k.ts]
-//!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[2:1]
-//!  1 | const enum K { One, Two }
-//!  2 | export = K;
-//!    : ^^^^^^^^^^^
-//!  3 | 
-//!    `----
+export { };
 //// [/l.ts]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[1:1]
-//!  1 | import K = require('./k');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  2 | K.One;
-//!  3 | 
-//!    `----
+K.One;
+export { };
 //// [/j.ts]
 // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

@@ -58,32 +58,32 @@ var StringEnum = /*#__PURE__*/ function(StringEnum) {
 if (u === NumberEnum || u === StringEnum) {
     var enumObj = u;
 }
-if (u === 0) {
+if (u === NumberEnum.A) {
     var a = u;
 }
-if (u === "B") {
+if (u === StringEnum.B) {
     var b = u;
 }
 function switchTestEnum(x) {
     switch(x){
-        case "A":
+        case StringEnum.A:
             var a = x;
             break;
-        case "B":
+        case StringEnum.B:
             var b = x;
             break;
-        case "C":
+        case StringEnum.C:
             var c = x;
             break;
     }
 }
 function switchTestCollectEnum(x) {
     switch(x){
-        case "A":
+        case StringEnum.A:
             var a = x;
-        case "B":
+        case StringEnum.B:
             var b = x;
-        case "C":
+        case StringEnum.C:
             var c = x;
             var all = x;
             return;
@@ -168,14 +168,14 @@ function notNotEquals(u) {
     if (u !== NumberEnum) {} else {
         var o = u;
     }
-    if (u !== 0) {} else {
+    if (u !== NumberEnum.A) {} else {
         var a = u;
     }
-    if (u !== 0 && u !== 1 && u !== "A") {} else {
+    if (u !== NumberEnum.A && u !== NumberEnum.B && u !== StringEnum.A) {} else {
         var aOrB = u;
     }
     // equivalent to
-    if (!(u === 0 || u === 1 || u === "A")) {} else {
+    if (!(u === NumberEnum.A || u === NumberEnum.B || u === StringEnum.A)) {} else {
         var aOrB1 = u;
     }
 }

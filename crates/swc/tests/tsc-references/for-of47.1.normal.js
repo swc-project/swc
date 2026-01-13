@@ -10,7 +10,7 @@ var E = /*#__PURE__*/ function(E) {
     E[E["x"] = 0] = "x";
     return E;
 }(E || {});
-for ({ x, y: y = 0 } of array){
+for ({ x, y: y = E.x } of array){
     x;
     y;
 }

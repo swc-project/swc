@@ -19,4 +19,4 @@ langCodes.map(function(code) {
     };
 });
 var E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E);
-f(0);
+f(E1.A);

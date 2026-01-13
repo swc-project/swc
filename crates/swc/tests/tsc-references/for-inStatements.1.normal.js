@@ -89,5 +89,5 @@ var Color = /*#__PURE__*/ function(Color) {
     return Color;
 }(Color || {});
 for(var x in Color){}
-for(var x in 1){}
+for(var x in Color.Blue){}
 var M;

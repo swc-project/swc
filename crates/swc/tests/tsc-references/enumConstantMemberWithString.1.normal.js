@@ -4,7 +4,7 @@ var T1 = /*#__PURE__*/ function(T1) {
     T1["b"] = "12";
     T1["c"] = "123";
     T1[T1["d"] = "a" - "a"] = "d";
-    T1["e"] = "a1";
+    T1[T1["e"] = "a" + 1] = "e";
     return T1;
 }(T1 || {});
 var T2 = /*#__PURE__*/ function(T2) {

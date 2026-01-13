@@ -8,7 +8,7 @@ var E = /*#__PURE__*/ function(E) {
 }(E || {});
 var cond;
 function f1() {
-    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : 0;
+    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : E.A;
     var v1 = 1;
     var v2 = -123;
     var v3 = 3 + 4;
@@ -16,7 +16,7 @@ function f1() {
     var v5 = "";
     var v6 = "abc" + "def";
     var v7 = true;
-    var v8 = 0;
+    var v8 = E.A;
     var x1 = 1;
     var x2 = -123;
     var x3 = 3 + 4;
@@ -24,7 +24,7 @@ function f1() {
     var x5 = "";
     var x6 = "abc" + "def";
     var x7 = true;
-    var x8 = 0;
+    var x8 = E.A;
     var c1 = 1;
     var c2 = -123;
     var c3 = 3 + 4;
@@ -32,25 +32,25 @@ function f1() {
     var c5 = "";
     var c6 = "abc" + "def";
     var c7 = true;
-    var c8 = 0;
+    var c8 = E.A;
 }
 function f2() {
-    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : 0;
+    var p1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1, p2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "abc", p3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true, p4 = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : E.A;
     var v1 = 1;
     var v2 = -123;
     var v3 = "abc";
     var v4 = true;
-    var v5 = 0;
+    var v5 = E.A;
     var x1 = 1;
     var x2 = -123;
     var x3 = "abc";
     var x4 = true;
-    var x5 = 0;
+    var x5 = E.A;
 }
 function f3() {
     var c1 = cond ? 1 : 2;
     var c2 = cond ? 1 : "two";
-    var c3 = cond ? 0 : cond ? true : 123;
+    var c3 = cond ? E.A : cond ? true : 123;
     var c4 = cond ? "abc" : null;
     var c5 = cond ? 456 : undefined;
     var c6 = {
@@ -80,7 +80,7 @@ var C1 = function C1() {
     this.x5 = "";
     this.x6 = "abc" + "def";
     this.x7 = true;
-    this.x8 = 0;
+    this.x8 = E.A;
     this.c1 = 1;
     this.c2 = -123;
     this.c3 = 3 + 4;
@@ -88,7 +88,7 @@ var C1 = function C1() {
     this.c5 = "";
     this.c6 = "abc" + "def";
     this.c7 = true;
-    this.c8 = 0;
+    this.c8 = E.A;
 };
 function f4() {
     var c1 = {
@@ -184,7 +184,7 @@ function f20() {
         return true;
     };
     var f4 = function() {
-        return 2;
+        return E.C;
     };
     var f5 = function() {
         return "foo";

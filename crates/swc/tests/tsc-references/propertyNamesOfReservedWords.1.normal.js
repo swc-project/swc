@@ -79,5 +79,5 @@ var E = /*#__PURE__*/ function(E) {
     E[E["with"] = 62] = "with";
     return E;
 }(E || {});
-var r7 = 0;
-var r8 = 1;
+var r7 = E.abstract;
+var r8 = E.as;

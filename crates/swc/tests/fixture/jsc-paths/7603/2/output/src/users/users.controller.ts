@@ -8,8 +8,8 @@ export var UsersController = /*#__PURE__*/ function() {
     "use strict";
     function UsersController(usersService) {
         _class_call_check(this, UsersController);
-        _define_property(this, "usersService", void 0);
         this.usersService = usersService;
+        _define_property(this, "usersService", void 0);
     }
     _create_class(UsersController, [
         {

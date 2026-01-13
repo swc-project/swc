@@ -61,13 +61,7 @@ class C {
 //// [/main6.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), Object.defineProperty(exports, "default", {
-    enumerable: !0,
-    get: function() {
-        return _default;
-    }
 });
-let _default = I;
 //// [/main7.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

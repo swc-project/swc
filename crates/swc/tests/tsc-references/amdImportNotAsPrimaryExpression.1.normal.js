@@ -37,9 +37,16 @@ define([
 });
 //// [foo_1.ts]
 define([
-    "require"
-], function(require) {
+    "require",
+    "exports",
+    "./foo_0"
+], function(require, exports, _foo_0) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    // None of the below should cause a runtime dependency on foo_0
+    var f = _foo_0.M1;
     var i;
     var x = {};
     var y = false;

@@ -22,25 +22,25 @@ export var AppStyle = /*#__PURE__*/ function(AppStyle) {
 }({});
 const appTypeStylesWithError = new Map([
     [
-        "Standard",
+        AppType.Standard,
         [
-            2,
-            3
+            AppStyle.Standard,
+            AppStyle.MiniApp
         ]
     ],
     [
-        "Relationship",
+        AppType.Relationship,
         [
-            2,
-            0,
-            1
+            AppStyle.Standard,
+            AppStyle.Tree,
+            AppStyle.TreeEntity
         ]
     ],
     [
-        "AdvancedList",
+        AppType.AdvancedList,
         [
-            2,
-            3
+            AppStyle.Standard,
+            AppStyle.MiniApp
         ]
     ]
 ]);

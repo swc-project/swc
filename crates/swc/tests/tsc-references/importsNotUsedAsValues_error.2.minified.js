@@ -28,30 +28,15 @@ C.One, console.log(C.Two, C.Two);
 console.log(void 0, void 0);
 export { };
 //// [/h.ts]
-//!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[2:1]
-//!  1 | class H {}
-//!  2 | export = H;
-//!    : ^^^^^^^^^^^
-//!  3 | 
-//!    `----
+import "@swc/helpers/_/_class_call_check";
 //// [/i.ts]
 console.log({});
+export { };
 //// [/j.ts]
+export { };
 //// [/k.ts]
-//!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[2:1]
-//!  1 | const enum K { One, Two }
-//!  2 | export = K;
-//!    : ^^^^^^^^^^^
-//!  3 | 
-//!    `----
+export { };
 //// [/l.ts]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[1:1]
-//!  1 | import K = require('./k');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  2 | K.One;
-//!  3 | 
-//!    `----
+K.One;
+export { };
 //// [/j.ts]

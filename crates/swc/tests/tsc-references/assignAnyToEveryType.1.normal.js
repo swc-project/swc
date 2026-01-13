@@ -15,7 +15,7 @@ var E = /*#__PURE__*/ function(E) {
     return E;
 }(E || {});
 var g = x;
-var g2 = 0;
+var g2 = E.A;
 g2 = x;
 var C = function C() {
     "use strict";

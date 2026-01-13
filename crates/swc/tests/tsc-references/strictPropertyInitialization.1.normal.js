@@ -142,8 +142,10 @@ var E = /*#__PURE__*/ function(E) {
     E["B"] = "B";
     return E;
 }(E || {});
+let prop;
 class C13 {
     constructor(){
-        this["A"] = 1;
+        this[E.A] = 1;
     }
 }
+prop = E.A;

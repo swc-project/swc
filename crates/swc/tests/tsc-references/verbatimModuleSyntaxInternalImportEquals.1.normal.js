@@ -1,5 +1,4 @@
 //// [verbatimModuleSyntaxInternalImportEquals.ts]
-export { };
 var f1 = NonExistent;
 (function(Foo) {
     Foo.foo = 1;
@@ -7,3 +6,4 @@ var f1 = NonExistent;
 var f2 = Foo.foo;
 var f3 = Foo.T;
 var Foo;
+export { };

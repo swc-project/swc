@@ -6,8 +6,8 @@ var bothIndex, stringOrNumber, someObject, Compass, Compass1 = ((Compass = Compa
     3: 'three',
     three: 'three'
 }, strIndex = {
-    N: 0,
-    E: 2
+    N: Compass1.North,
+    E: Compass1.East
 };
 function noIndex() {}
 var obj = {
@@ -23,4 +23,4 @@ var obj = {
     },
     'literal property': 100
 }, anyVar = {};
-obj.y = 4, anyVar.x = anyVar.y = obj.x = anyVar.z, obj.x, obj.hasOwnProperty, obj.qqq, obj['literal property'], obj['wa wa wa wa wa'], obj['10'], obj['1'], numIndex[3.0], numIndex[1], numIndex[anyVar], numIndex.what, numIndex[someObject], strIndex.N, strIndex.zzz, strIndex[10], strIndex[2], strIndex[null], noIndex[123], noIndex[1], noIndex[null], noIndex[someObject], noIndex[32], bothIndex[2], bothIndex[null], bothIndex.foo, bothIndex['1.0'], bothIndex[someObject], numIndex[stringOrNumber], strIndex[stringOrNumber], bothIndex[stringOrNumber];
+obj.y = 4, anyVar.x = anyVar.y = obj.x = anyVar.z, obj.x, obj.hasOwnProperty, obj.qqq, obj['literal property'], obj['wa wa wa wa wa'], obj['10'], obj['1'], numIndex[3.0], numIndex[Compass1.South], numIndex[anyVar], numIndex.what, numIndex[someObject], strIndex.N, strIndex.zzz, strIndex[10], strIndex[Compass1.East], strIndex[null], noIndex[123], noIndex[Compass1.South], noIndex[null], noIndex[someObject], noIndex[32], bothIndex[Compass1.East], bothIndex[null], bothIndex.foo, bothIndex['1.0'], bothIndex[someObject], numIndex[stringOrNumber], strIndex[stringOrNumber], bothIndex[stringOrNumber];

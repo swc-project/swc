@@ -107,5 +107,5 @@ function foo1() {
         a[_key] = arguments[_key];
     }
 }
-foo1(1, 2, 3, 0);
-foo1(1, 2, 3, 0, 1);
+foo1(1, 2, 3, E.a);
+foo1(1, 2, 3, 0, E.b);

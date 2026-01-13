@@ -29,6 +29,7 @@ condNumber ? exprString1 : exprBoolean1; // Union
 function foo() {
     return 1;
 }
+;
 var array = [
     1,
     2,

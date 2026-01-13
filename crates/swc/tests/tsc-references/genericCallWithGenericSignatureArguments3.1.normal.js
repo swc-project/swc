@@ -43,10 +43,10 @@ var F = /*#__PURE__*/ function(F) {
     F[F["A"] = 0] = "A";
     return F;
 }(F || {});
-var r6 = foo(0, function(x) {
-    return 0;
+var r6 = foo(E.A, function(x) {
+    return E.A;
 }, function(x) {
-    return 0;
+    return F.A;
 }); // number => number 
 function foo2(x, a, b) {
     var r;

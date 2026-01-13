@@ -18,9 +18,10 @@ var C = function C() {
     _class_call_check(this, C);
 };
 export { C as default };
- /**
+; /**
  * @typedef {string | number} default
- */ //// [index3.js]
+ */ 
+//// [index3.js]
 // merge type alias and variable (behavior is borked, see #32366)
 var x = 12;
 export { x as default }; /**

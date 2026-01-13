@@ -1666,6 +1666,8 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        // Visit the key (for computed property names with type assertions)
+        n.key.visit_mut_with(self);
         // Remove TypeScript `this` parameter from setter
         n.this_param = None;
         // Strip type annotation from parameter
@@ -1676,6 +1678,8 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        // Visit the key (for computed property names with type assertions)
+        n.key.visit_mut_with(self);
         // Strip return type
         n.type_ann = None;
         if let Some(body) = &mut n.body {

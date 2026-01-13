@@ -4,4 +4,4 @@ var E = /*#__PURE__*/ function(E) {
     E[E["member"] = 0] = "member";
     return E;
 }(E || {});
-var v = _define_property({}, 0, 0);
+var v = _define_property({}, E.member, 0);

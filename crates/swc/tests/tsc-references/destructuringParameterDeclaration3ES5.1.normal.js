@@ -72,5 +72,5 @@ var E = /*#__PURE__*/ function(E) {
     return E;
 }(E || {});
 function foo1(...a) {}
-foo1(1, 2, 3, 0);
-foo1(1, 2, 3, 0, 1);
+foo1(1, 2, 3, E.a);
+foo1(1, 2, 3, 0, E.b);

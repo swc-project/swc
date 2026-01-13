@@ -25,12 +25,6 @@ Person.prototype.describe = function() {
     }
 }), module.exports = Person;
 //// [validator.ts]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[3:1]
-//!  1 | import "./";
-//!  2 | 
-//!  3 | import Person = require("./mod1");
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  4 | 
-//!  5 | const m1 = new Person("Name")
-//!    `----
+import "./";
+var m1 = new Person("Name");
+m1.thing, m1.readonlyProp, m1.rwAccessors, m1.readonlyAccessor, m1.setonlyAccessor, m1.thing = 10, m1.rwAccessors = 11, m1.setonlyAccessor = "yes", m1.readonlyProp = "name", m1.readonlyAccessor = 12, m1.thing = "no", m1.rwAccessors = "no", m1.setonlyAccessor = 0;

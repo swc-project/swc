@@ -14,6 +14,7 @@ var Foo = function Foo() {
     this.a = /** @type {Foo} */ null;
 };
 export { Foo as default };
+;
 export var X = Foo;
 export { Foo as Bar };
 //// [index4.js]
@@ -41,6 +42,6 @@ export default 12; /**
 //// [index6.js]
 // merge type alias and function (OK)
 export default function func() {}
- /**
+; /**
  * @typedef {string | number} default
  */ 

@@ -13,8 +13,6 @@
         ErrorRecoverySet[ErrorRecoverySet["SColon"] = 2] = "SColon";
         ErrorRecoverySet[ErrorRecoverySet["Asg"] = 4] = "Asg";
         ErrorRecoverySet[ErrorRecoverySet["BinOp"] = 8] = "BinOp";
-        // AsgMod, AsgAdd, AsgSub, AsgLsh, AsgRsh, AsgRs2, AsgAnd, AsgXor, AsgOr, QMark, Mult, Div, 
-        // Pct, GT, LT, And, Xor, Or
         ErrorRecoverySet[ErrorRecoverySet["RBrack"] = 16] = "RBrack";
         ErrorRecoverySet[ErrorRecoverySet["RCurly"] = 32] = "RCurly";
         ErrorRecoverySet[ErrorRecoverySet["RParen"] = 64] = "RParen";
@@ -41,7 +39,6 @@
         ErrorRecoverySet[ErrorRecoverySet["RLit"] = 134217728] = "RLit";
         ErrorRecoverySet[ErrorRecoverySet["Func"] = 268435456] = "Func";
         ErrorRecoverySet[ErrorRecoverySet["EOF"] = 536870912] = "EOF";
-        // REVIEW: Name this something clearer.
         ErrorRecoverySet[ErrorRecoverySet["TypeScriptS"] = 1073741824] = "TypeScriptS";
         ErrorRecoverySet[ErrorRecoverySet["ExprStart"] = 520158210] = "ExprStart";
         ErrorRecoverySet[ErrorRecoverySet["StmtStart"] = 1608580098] = "StmtStart";
@@ -81,9 +78,6 @@
         ASTFlags[ASTFlags["PossibleOptionalParameter"] = 256] = "PossibleOptionalParameter";
         ASTFlags[ASTFlags["ClassBaseConstructorCall"] = 512] = "ClassBaseConstructorCall";
         ASTFlags[ASTFlags["OptionalName"] = 1024] = "OptionalName";
-        // REVIEW: This flag is to mark lambda nodes to note that the LParen of an expression has already been matched in the lambda header.
-        //         The flag is used to communicate this piece of information to the calling parseTerm, which intern will remove it.
-        //         Once we have a better way to associate information with nodes, this flag should not be used.
         ASTFlags[ASTFlags["SkipNextRParen"] = 2048] = "SkipNextRParen";
     })(TypeScript.ASTFlags || (TypeScript.ASTFlags = {}));
     (function(DeclFlags) {
@@ -186,6 +180,10 @@
         SignatureFlags[SignatureFlags["IsStringIndexer"] = 2] = "IsStringIndexer";
         SignatureFlags[SignatureFlags["IsNumberIndexer"] = 4] = "IsNumberIndexer";
     })(TypeScript.SignatureFlags || (TypeScript.SignatureFlags = {}));
+    TypeScript.ToDeclFlags = ToDeclFlags;
+    TypeScript.ToDeclFlags = ToDeclFlags;
+    TypeScript.ToDeclFlags = ToDeclFlags;
+    TypeScript.ToDeclFlags = ToDeclFlags;
     function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags) {
         return fncOrVarOrSymbolOrModuleFlags;
     }
@@ -220,8 +218,8 @@
         ModuleGenTarget[ModuleGenTarget["Asynchronous"] = 1] = "Asynchronous";
         ModuleGenTarget[ModuleGenTarget["Local"] = 2] = "Local";
     })(TypeScript.ModuleGenTarget || (TypeScript.ModuleGenTarget = {}));
-    TypeScript.codeGenTarget = 0;
-    TypeScript.moduleGenTarget = 0;
+    TypeScript.codeGenTarget = CodeGenTarget.ES3;
+    TypeScript.moduleGenTarget = ModuleGenTarget.Synchronous;
     TypeScript.optimizeModuleCodeGen = true;
     function flagsToString(e, flags) {
         var builder = "";

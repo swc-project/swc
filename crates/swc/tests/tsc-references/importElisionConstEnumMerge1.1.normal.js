@@ -4,7 +4,7 @@ export var Enum = /*#__PURE__*/ function(Enum) {
     return Enum;
 }({});
 //// [merge.ts]
-import { Enum } from "./enum";
+export { };
 //// [index.ts]
 import { Enum } from "./merge";
 Enum.One;

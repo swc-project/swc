@@ -4,5 +4,5 @@ var E = /*#__PURE__*/ function(E) {
     return E;
 }(E || {});
 var v = {
-    [0]: 0
+    [E.member]: 0
 };

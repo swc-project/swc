@@ -11,10 +11,12 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
+;
 var D = function D() {
     "use strict";
     _class_call_check(this, D);
 };
+;
 var E = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(E, A);
@@ -24,6 +26,7 @@ var E = /*#__PURE__*/ function(A) {
     }
     return E;
 }(A);
+;
 var F = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(F, A);
@@ -33,6 +36,7 @@ var F = /*#__PURE__*/ function(A) {
     }
     return F;
 }(A);
+;
 var E1 = /*#__PURE__*/ function(E1) {
     E1[E1["one"] = 0] = "one";
     return E1;
@@ -59,8 +63,8 @@ var classCDATuple = classCDTuple;
 var eleFromCDA1 = classCDATuple[2]; // A
 var eleFromCDA2 = classCDATuple[5]; // C | D | A
 var t10 = [
-    0,
-    0
+    E1.one,
+    E2.one
 ];
 var t11 = t10;
 var array1 = emptyObjTuple;

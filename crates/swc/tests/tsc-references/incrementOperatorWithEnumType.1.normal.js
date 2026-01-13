@@ -6,6 +6,7 @@ var ENUM1 = /*#__PURE__*/ function(ENUM1) {
     ENUM1[ENUM1[""] = 2] = "";
     return ENUM1;
 }(ENUM1 || {});
+;
 // expression
 var ResultIsNumber1 = ++ENUM1["B"];
 var ResultIsNumber2 = ENUM1.B++;

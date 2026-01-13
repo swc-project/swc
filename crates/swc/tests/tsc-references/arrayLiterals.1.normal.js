@@ -101,6 +101,7 @@ var Derived1 = /*#__PURE__*/ function(Base) {
     }
     return Derived1;
 }(Base);
+;
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Derived2, Base);
@@ -110,6 +111,7 @@ var Derived2 = /*#__PURE__*/ function(Base) {
     }
     return Derived2;
 }(Base);
+;
 var context3 = [
     new Derived1(),
     new Derived2()

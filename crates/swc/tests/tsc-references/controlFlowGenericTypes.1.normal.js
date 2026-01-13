@@ -74,6 +74,7 @@ function notWorking(object) {
     if (!object.testable) return;
     object.doTest();
 }
+;
 function get(key, obj) {
     var value = obj[key];
     if (value !== null) {
@@ -81,6 +82,7 @@ function get(key, obj) {
     }
     return 0;
 }
+;
 // Repro from #44093
 var EventEmitter = /*#__PURE__*/ function() {
     "use strict";

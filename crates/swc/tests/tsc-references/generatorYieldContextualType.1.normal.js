@@ -7,7 +7,6 @@ f2(async function*() {
     const a = yield 0;
     return 0;
 });
-// repro from #41428
 var Directive = /*#__PURE__*/ function(Directive) {
     Directive[Directive["Back"] = 0] = "Back";
     Directive[Directive["Cancel"] = 1] = "Cancel";

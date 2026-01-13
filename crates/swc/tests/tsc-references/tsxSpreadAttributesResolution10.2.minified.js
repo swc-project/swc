@@ -1,10 +1,17 @@
 //// [file.tsx]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[2:1]
-//!  1 | 
-//!  2 | import React = require('react');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  3 | 
-//!  4 | interface OptionProp {
-//!  5 |     x?: 2
-//!    `----
+import "@swc/helpers/_/_call_super";
+import "@swc/helpers/_/_class_call_check";
+import "@swc/helpers/_/_inherits";
+import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
+import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
+/*#__PURE__*/ React.Component;
+var obj1 = {
+    x: 2
+};
+_object_spread_props(_object_spread({}, {}), {
+    x: 3
+}), _object_spread_props(_object_spread({}, obj1), {
+    x: "Hi"
+}), _object_spread_props(_object_spread({}, obj1), {
+    x: 3
+});

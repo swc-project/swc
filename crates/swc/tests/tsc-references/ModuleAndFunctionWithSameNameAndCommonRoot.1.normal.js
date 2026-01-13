@@ -16,7 +16,6 @@ var A;
             y: 0
         };
     }
-    // duplicate identifier error
     A.Point = Point;
 })(A || (A = {}));
 var A;
@@ -34,7 +33,6 @@ var A;
             y: 0
         };
     }
-    // duplicate identifier error
     B.Point = Point;
 })(B || (B = {}));
 var B;

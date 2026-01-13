@@ -8,7 +8,7 @@ extractIndexer({
     [a]: ""
 }); // Should return string
 extractIndexer({
-    [0]: ""
+    [E.x]: ""
 }); // Should return string
 extractIndexer({
     ["" || 0]: ""

@@ -33,7 +33,6 @@
         E3[E3["B"] = 'foo'.length] = "B";
     })(M.E3 || (M.E3 = {}));
 })(M || (M = {}));
-// Enum with no initializer in either declaration with constant members with the same root module
 (function(M1) {
     (function(E1) {
         E1[E1["A"] = 0] = "A";
@@ -49,7 +48,6 @@
         E1[E1["C"] = 0] = "C";
     })(M1.E1 || (M1.E1 = {}));
 })(M1 || (M1 = {}));
-// Enum with initializer in only one of three declarations with constant members with the same root module
 (function(M2) {
     (function(E1) {
         E1[E1["A"] = 0] = "A";

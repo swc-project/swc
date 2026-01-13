@@ -3,12 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var E, D, target = exports, all = {
+var E, target = exports, all = {
     get C () {
         return C;
     },
     get D () {
-        return D1;
+        return D;
     },
     get E () {
         return E1;
@@ -34,7 +34,7 @@ var M, v = 1;
 function f() {}
 class C {
 }
-var E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = ((D = D1 || {})[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", D);
+var E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E);
 M || (M = {});
 let a = M.x;
 //// [t2.ts]
