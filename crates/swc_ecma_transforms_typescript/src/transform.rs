@@ -1360,14 +1360,25 @@ impl VisitMut for TypeStripper<'_> {
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        // Handle const enum declarations in single-statement positions
-        // (e.g., `if (cond) const enum E { ... }`)
-        // These need to be replaced with empty statements
+        // Handle enum declarations in single-statement positions
+        // (e.g., `if (cond) enum E { ... }`)
+        // These need to be transformed into var declarations with IIFE
         if let Stmt::Decl(Decl::TsEnum(e)) = n {
             if e.is_const {
+                // Const enums are removed
                 *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
+            if e.declare {
+                // Declare enums are removed
+                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+            // Transform regular enum into var declaration with IIFE
+            let (var, _) =
+                transform_enum(e, self.config.ts_enum_is_mutable, self.enum_values, false);
+            *n = Stmt::Decl(Decl::Var(Box::new(var)));
+            return;
         }
         // Handle declare namespace/module in single-statement positions
         if let Stmt::Decl(Decl::TsModule(ns)) = n {
