@@ -348,12 +348,15 @@ pub fn compute_const_expr(
                         op!("/") => l.value / r.value,
                         op!("%") => l.value % r.value,
                         op!("**") => l.value.powf(r.value),
-                        op!("|") => ((l.value as i64) | (r.value as i64)) as f64,
-                        op!("&") => ((l.value as i64) & (r.value as i64)) as f64,
-                        op!("^") => ((l.value as i64) ^ (r.value as i64)) as f64,
-                        op!("<<") => ((l.value as i64) << (r.value as i64)) as f64,
-                        op!(">>") => ((l.value as i64) >> (r.value as i64)) as f64,
-                        op!(">>>") => ((l.value as u64) >> (r.value as u64)) as f64,
+                        // JavaScript bitwise operations use 32-bit signed integers
+                        op!("|") => ((l.value as i32) | (r.value as i32)) as f64,
+                        op!("&") => ((l.value as i32) & (r.value as i32)) as f64,
+                        op!("^") => ((l.value as i32) ^ (r.value as i32)) as f64,
+                        // Shift amount is masked to 5 bits (0-31)
+                        op!("<<") => ((l.value as i32) << ((r.value as u32) & 0x1f)) as f64,
+                        op!(">>") => ((l.value as i32) >> ((r.value as u32) & 0x1f)) as f64,
+                        // Unsigned right shift returns unsigned 32-bit result
+                        op!(">>>") => ((l.value as u32) >> ((r.value as u32) & 0x1f)) as f64,
                         _ => return None,
                     };
                     Some(TsLit::Number(Number {

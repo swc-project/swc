@@ -940,18 +940,25 @@ impl TypeScript {
                     state.value_usages.insert(rhs_root);
                 }
 
-                match self.config.import_export_assign_config {
-                    TsImportExportAssignConfig::Classic => {
-                        self.transform_import_equals_classic(&import, out, state);
-                    }
-                    TsImportExportAssignConfig::Preserve => {
-                        out.push(ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)));
-                    }
-                    TsImportExportAssignConfig::NodeNext => {
-                        self.transform_import_equals_node_next(&import, out, state);
-                    }
-                    TsImportExportAssignConfig::EsNext => {
-                        // Error: import = is not supported in ESNext
+                // TsEntityName refs (import foo = ns.bar) are not real module imports,
+                // they're just aliasing. Transform them to var declarations regardless
+                // of the import_export_assign_config.
+                if matches!(import.module_ref, TsModuleRef::TsEntityName(_)) {
+                    self.transform_import_equals_classic(&import, out, state);
+                } else {
+                    match self.config.import_export_assign_config {
+                        TsImportExportAssignConfig::Classic => {
+                            self.transform_import_equals_classic(&import, out, state);
+                        }
+                        TsImportExportAssignConfig::Preserve => {
+                            out.push(ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)));
+                        }
+                        TsImportExportAssignConfig::NodeNext => {
+                            self.transform_import_equals_node_next(&import, out, state);
+                        }
+                        TsImportExportAssignConfig::EsNext => {
+                            // Error: import = is not supported in ESNext
+                        }
                     }
                 }
             }
