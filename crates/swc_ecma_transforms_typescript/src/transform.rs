@@ -1377,6 +1377,8 @@ impl VisitMut for TypeStripper<'_> {
                 decl: Decl::Fn(f),
                 ..
             })) if f.function.body.is_none() => false,
+            // Remove declare var/let/const statements
+            ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))) if v.declare => false,
             _ => true,
         });
         n.visit_mut_children_with(self);
@@ -1422,16 +1424,24 @@ impl VisitMut for TypeStripper<'_> {
                 return;
             }
         }
+        // Handle declare var/let/const in single-statement positions
+        if let Stmt::Decl(Decl::Var(v)) = n {
+            if v.declare {
+                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+        }
 
         n.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        // Remove function declaration overloads (signatures without bodies)
-        // and remove type declarations
+        // Remove function declaration overloads (signatures without bodies),
+        // type declarations, and declare var/let/const
         n.retain(|s| match s {
             Stmt::Decl(Decl::Fn(f)) if f.function.body.is_none() => false,
             Stmt::Decl(Decl::TsInterface(_) | Decl::TsTypeAlias(_)) => false,
+            Stmt::Decl(Decl::Var(v)) if v.declare => false,
             _ => true,
         });
 
