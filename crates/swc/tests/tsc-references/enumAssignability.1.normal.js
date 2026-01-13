@@ -1,6 +1,6 @@
 //// [enumAssignability.ts]
-// enums assignable to number, any, Object, errors unless otherwise noted
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// enums assignable to number, any, Object, errors unless otherwise noted
 var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     return E;
@@ -9,8 +9,8 @@ var F = /*#__PURE__*/ function(F) {
     F[F["B"] = 0] = "B";
     return F;
 }(F || {});
-var e = E.A;
-var f = F.B;
+var e = 0;
+var f = 0;
 e = f;
 f = e;
 e = 1; // ok

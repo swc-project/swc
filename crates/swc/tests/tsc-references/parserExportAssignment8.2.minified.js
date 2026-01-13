@@ -1,5 +1,9 @@
 //// [parserExportAssignment8.ts]
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-export var C = function C() {
-    _class_call_check(this, C);
-};
+//!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
+//!    ,-[1:1]
+//!  1 | export = B;
+//!    : ^^^^^^^^^^^
+//!  2 | 
+//!  3 | export class C {
+//!  4 | }
+//!    `----

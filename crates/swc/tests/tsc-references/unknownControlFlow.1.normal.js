@@ -290,7 +290,6 @@ function SendBlob(encoding) {
     }
     encoding;
 }
-;
 function doSomething1(value) {
     if (value === undefined) {
         return value;

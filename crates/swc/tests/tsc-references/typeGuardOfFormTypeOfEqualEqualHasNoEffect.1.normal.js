@@ -5,7 +5,6 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-;
 var strOrNum;
 var strOrBool;
 var numOrBool;

@@ -12,6 +12,8 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             _class_call_check(this, Bar1);
         };
         S1.Bar = Bar1;
+    // Emit Foo
+    // Foo, <Foo />;
     })(M.S || (M.S = {}));
 })(M || (M = {}));
 (function(M) {

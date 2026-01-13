@@ -120,5 +120,5 @@ var E = /*#__PURE__*/ function(E) {
     E[E["B"] = 1] = "B";
     return E;
 }(E || {});
-var a = f(E.A);
+var a = f(0);
 var b = a;

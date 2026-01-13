@@ -1,7 +1,7 @@
 //// [assignmentCompatWithObjectMembers.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 // no errors expected
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(SimpleTypes) {
     var S = function S() {
         "use strict";

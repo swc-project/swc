@@ -2,7 +2,6 @@
 function Multimap4() {
     this._map = {};
 }
-;
 Multimap4["prototype"] = {
     /**
    * @param {string} key

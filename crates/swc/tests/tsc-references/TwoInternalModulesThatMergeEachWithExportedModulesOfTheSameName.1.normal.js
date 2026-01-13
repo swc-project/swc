@@ -1,6 +1,9 @@
 //// [TwoInternalModulesThatMergeEachWithExportedModulesOfTheSameName.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(A) {
+    (function(B) {})(A.B || (A.B = {}));
+})(A || (A = {}));
+(function(A) {
     (function(B) {})(B || (B = {}));
     var B;
 })(A || (A = {}));

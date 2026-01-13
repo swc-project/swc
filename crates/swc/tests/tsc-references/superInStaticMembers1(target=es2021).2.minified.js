@@ -2,7 +2,6 @@
 //// [external.ts]
 export class Reflect {
 }
-export var Baz = {};
 export default class {
 }
 //// [locals.ts]

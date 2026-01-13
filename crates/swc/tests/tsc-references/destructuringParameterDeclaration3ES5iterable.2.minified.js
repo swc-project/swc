@@ -55,4 +55,4 @@ var E1 = ((E = E1 || {})[E.a = 0] = "a", E[E.b = 1] = "b", E);
 function foo1() {
     for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
 }
-foo1(1, 2, 3, E1.a), foo1(1, 2, 3, 0, E1.b);
+foo1(1, 2, 3, 0), foo1(1, 2, 3, 0, 1);

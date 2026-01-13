@@ -6,7 +6,6 @@ var Test = function Test(name) {
     "use strict";
     var _this = this;
     _class_call_check(this, Test);
-    this.name = name;
     _define_property(this, "print", function(arg) {
         return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
@@ -17,6 +16,7 @@ var Test = function Test(name) {
             });
         }).call(_this);
     });
+    this.name = name;
 };
 function Parent() {
     new Test("name").print("test");

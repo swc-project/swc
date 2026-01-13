@@ -6,12 +6,8 @@ define([
 });
 //// [foo_1.ts]
 define([
-    "require",
-    "exports",
-    "./foo_0"
-], function(require, exports, _foo_0) {
+    "require"
+], function(require) {
     var x;
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    }), x("test"), x(42), x.b, x.c, x.d;
+    x("test"), x(42), x.b, x.c, x.d;
 });

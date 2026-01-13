@@ -9,7 +9,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     };
     moduleA.Point = Point;
 })(moduleA || (moduleA = {}));
-var alias = moduleA;
 var p;
 var p;
 var p;
@@ -23,7 +22,6 @@ var clodule = function clodule() {
         y: 0
     };
 })(clodule || (clodule = {}));
-var clolias = clodule;
 var p;
 var p;
 var p;
@@ -39,9 +37,7 @@ function fundule() {
         y: 0
     };
 })(fundule || (fundule = {}));
-var funlias = fundule;
 var p;
 var p;
 var p;
 var moduleA;
-export { };

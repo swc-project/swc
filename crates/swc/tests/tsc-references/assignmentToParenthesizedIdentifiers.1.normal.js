@@ -19,7 +19,8 @@ M = {
     y: 3
 }; // Error
 (function(M2) {
-    M3 = {
+    (function(M3) {})(M2.M3 || (M2.M3 = {}));
+    M2.M3 = {
         x: 3
     }; // Error
 })(M2 || (M2 = {}));

@@ -1,8 +1,8 @@
 //// [parserRealSource14.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(TypeScript) {
     function lastOf(items) {
         return items === null || items.length === 0 ? null : items[items.length - 1];
@@ -235,6 +235,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         };
         return AstPath;
     }();
+    //
+    // Helper class representing a path from a root ast node to a (grand)child ast node.
+    // This is helpful as our tree don't have parents.
+    //
     TypeScript.AstPath = AstPath;
     function isValidAstNode(ast) {
         if (ast === null) return false;
@@ -251,10 +255,17 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     (function(GetAstPathOptions) {
         GetAstPathOptions[GetAstPathOptions["Default"] = 0] = "Default";
         GetAstPathOptions[GetAstPathOptions["EdgeInclusive"] = 1] = "EdgeInclusive";
+        //We need this options dealing with an AST coming from an incomplete AST. For example:
+        //     class foo { // r
+        // If we ask for the AST at the position after the "r" character, we won't see we are 
+        // inside a comment, because the "class" AST node has a limChar corresponding to the position of 
+        // the "{" character, meaning we don't traverse the tree down to the stmt list of the class, meaning
+        // we don't find the "precomment" attached to the errorneous empty stmt.
+        //TODO: It would be nice to be able to get rid of this.
         GetAstPathOptions[GetAstPathOptions["DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
     })(TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}));
     function getAstPathToPosition(script, pos) {
-        var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : GetAstPathOptions.Default;
+        var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
         var lookInComments = function(comments) {
             if (comments && comments.length > 0) {
                 for(var i = 0; i < comments.length; i++){
@@ -278,7 +289,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
                 //  bar
                 //  0123
                 // If "position == 3", the caret is at the "right" of the "r" character, which should be considered valid
-                var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar; // Special "EOF" case
+                var inclusive = hasFlag(options, 1) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar; // Special "EOF" case
                 var minChar = cur.minChar;
                 var limChar = cur.limChar + (inclusive ? 1 : 0);
                 if (pos >= minChar && pos < limChar) {
@@ -298,7 +309,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
                 if (pos >= minChar) {
                     lookInComments(cur.postComments);
                 }
-                if (!hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition)) {
+                if (!hasFlag(options, 2)) {
                     // Don't go further down the tree if pos is outside of [minChar, limChar]
                     walker.options.goChildren = minChar <= pos && pos <= limChar;
                 }
@@ -309,6 +320,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         TypeScript.getAstWalkerFactory().walk(script, pre, null, null, ctx);
         return ctx.path;
     }
+    ///
+    /// Return the stack of AST nodes containing "position"
+    ///
     TypeScript.getAstPathToPosition = getAstPathToPosition;
     function getTokenizationOffset(script, position) {
         var bestOffset = 0;
@@ -328,6 +342,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         TypeScript.getAstWalkerFactory().walk(script, pre);
         return bestOffset;
     }
+    //
+    // Find a source text offset that is safe for lexing tokens at the given position.
+    // This is used when "position" might be inside a comment or string, etc.
+    //
     TypeScript.getTokenizationOffset = getTokenizationOffset;
     function walkAST(ast, callback) {
         var pre = function pre(cur, parent, walker) {
@@ -344,6 +362,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var path = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
     }
+    ///
+    /// Simple function to Walk an AST using a simple callback function.
+    ///
     TypeScript.walkAST = walkAST;
 })(TypeScript || (TypeScript = {}));
 var TypeScript;

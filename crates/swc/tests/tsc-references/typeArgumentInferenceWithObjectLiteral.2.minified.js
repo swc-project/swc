@@ -14,25 +14,25 @@ f1({
     r: function() {
         return 0;
     }
-}, E11.X), f1({
+}, 0), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E11.X;
+        return 0;
     }
 }, 0), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E11.X;
+        return 0;
     }
-}, E11.X), f1({
+}, 0), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E11.X;
+        return 0;
     }
-}, E21.X);
+}, 0);

@@ -53,8 +53,8 @@ var E = /*#__PURE__*/ function(E) {
 }(E || {});
 var r13 = true ? E : null;
 var r13 = true ? null : E;
-var r14 = true ? E.A : null;
-var r14 = true ? null : E.A;
+var r14 = true ? 0 : null;
+var r14 = true ? null : 0;
 function f() {}
 (function(f) {
     f.bar = 1;

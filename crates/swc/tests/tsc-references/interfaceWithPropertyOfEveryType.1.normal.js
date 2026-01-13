@@ -33,6 +33,6 @@ var a = {
     l: f1,
     m: M,
     n: {},
-    o: E.A
+    o: 0
 };
 var M;

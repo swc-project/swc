@@ -1,7 +1,10 @@
 //// [inlineJsxAndJsxFragPragmaOverridesCompilerOptions.tsx]
 //// [react.d.ts]
+export { };
 //// [preact.d.ts]
+export { };
 //// [snabbdom.d.ts]
+export { };
 //// [reacty.tsx]
 React.Fragment;
 export { };

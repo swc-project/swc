@@ -49,10 +49,10 @@
         var r;
         return r;
     }
-    var r7 = foo3(E.A, function(x) {
-        return E.A;
+    var r7 = foo3(0, function(x) {
+        return 0;
     }, function(x) {
-        return F.A;
+        return 0;
     }); // error
 })(onlyT || (onlyT = {}));
 (function(TU) {
@@ -102,10 +102,10 @@
         var r;
         return r;
     }
-    var r7 = foo3(E.A, function(x) {
-        return E.A;
+    var r7 = foo3(0, function(x) {
+        return 0;
     }, function(x) {
-        return F.A;
+        return 0;
     });
 })(TU || (TU = {}));
 var onlyT, TU;

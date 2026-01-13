@@ -86,7 +86,14 @@ class C {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
- // error
+Object.defineProperty(exports, "default" // error
+, {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+const _default = I;
 //// [/main7.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

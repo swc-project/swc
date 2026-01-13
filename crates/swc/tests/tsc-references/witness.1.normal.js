@@ -75,7 +75,6 @@ function fnArg1(x, y) {
 function overload1() {
     return undefined;
 }
-;
 function fnArg2() {
     return overload1(fnArg2);
 }
@@ -109,6 +108,7 @@ var propAcc1 = {
     m: propAcc1.m
 };
 var propAcc1;
+// Property access of module member
 (function(M2) {
     M2.x = M2.x;
     var y = M2.x;

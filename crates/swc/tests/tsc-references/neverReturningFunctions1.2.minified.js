@@ -1,11 +1,10 @@
 //// [neverReturningFunctions1.ts]
-var Debug;
 import "@swc/helpers/_/_call_super";
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_get";
 import "@swc/helpers/_/_get_prototype_of";
 import "@swc/helpers/_/_inherits";
-Debug || (Debug = {}), registerComponent('test-component', {
+registerComponent('test-component', {
     schema: {
         myProperty: {
             default: [],

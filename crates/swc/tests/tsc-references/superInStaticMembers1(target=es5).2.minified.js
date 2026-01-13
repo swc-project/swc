@@ -4,7 +4,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var Reflect = function Reflect() {
     _class_call_check(this, Reflect);
 };
-export var Baz = {};
 var _default = function _default() {
     _class_call_check(this, _default);
 };

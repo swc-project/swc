@@ -19,7 +19,7 @@ var E = /*#__PURE__*/ function(E) {
     return E;
 }(E || {});
 var b = {
-    foo: E.A
+    foo: 0
 };
 function foo5(x) {}
 function foo5b(x) {}

@@ -1,22 +1,10 @@
 //// [file.tsx]
-import { _ as _call_super } from "@swc/helpers/_/_call_super";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _inherits } from "@swc/helpers/_/_inherits";
-export var AddressComp = /*#__PURE__*/ function(_React_Component) {
-    "use strict";
-    _inherits(AddressComp, _React_Component);
-    function AddressComp() {
-        _class_call_check(this, AddressComp);
-        return _call_super(this, AddressComp, arguments);
-    }
-    var _proto = AddressComp.prototype;
-    _proto.render = function render() {
-        return null;
-    };
-    return AddressComp;
-}(React.Component);
-var a = /*#__PURE__*/ React.createElement(AddressComp, {
-    postalCode: "T1B 0L3",
-    street: "vancouver",
-    country: "CA"
-});
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,-[2:1]
+//!  1 | 
+//!  2 | import React = require('react');
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!  3 | 
+//!  4 | interface Address {
+//!  5 |   street: string;
+//!    `----

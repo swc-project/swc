@@ -8,4 +8,4 @@ var E2 = /*#__PURE__*/ function(E2) {
     E2[E2["x"] = 0] = "x";
     return E2;
 }(E2 || {});
-var o = _define_property({}, E1.x || E2.x, 0);
+var o = _define_property({}, 0 || 0, 0);

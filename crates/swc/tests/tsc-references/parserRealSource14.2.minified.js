@@ -11,7 +11,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     TypeScript.lastOf = lastOf, TypeScript.max = max, TypeScript.min = function(a, b) {
         return a <= b ? a : b;
     };
-    var GetAstPathOptions1, AstPath = /*#__PURE__*/ function() {
+    var GetAstPathOptions, AstPath = /*#__PURE__*/ function() {
         function AstPath() {
             _class_call_check(this, AstPath), this.asts = [], this.top = -1;
         }
@@ -158,8 +158,8 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     var AstPathContext = function AstPathContext() {
         _class_call_check(this, AstPathContext), this.path = new TypeScript.AstPath();
     };
-    TypeScript.AstPathContext = AstPathContext, (GetAstPathOptions1 = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}))[GetAstPathOptions1.Default = 0] = "Default", GetAstPathOptions1[GetAstPathOptions1.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions1[GetAstPathOptions1.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript.getAstPathToPosition = function(script, pos) {
-        var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : GetAstPathOptions.Default, lookInComments = function(comments) {
+    TypeScript.AstPathContext = AstPathContext, (GetAstPathOptions = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript.getAstPathToPosition = function(script, pos) {
+        var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 0, lookInComments = function(comments) {
             if (comments && comments.length > 0) for(var i = 0; i < comments.length; i++){
                 var minChar = comments[i].minChar, limChar = comments[i].limChar;
                 !comments[i].isBlockComment && limChar++, pos >= minChar && pos < limChar && ctx.path.push(comments[i]);
@@ -167,12 +167,12 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         }, ctx = new AstPathContext();
         return TypeScript.getAstWalkerFactory().walk(script, function(cur, parent, walker) {
             if (isValidAstNode(cur)) {
-                var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + +!!inclusive;
+                var inclusive = hasFlag(options, 1) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + +!!inclusive;
                 if (pos >= minChar && pos < limChar) {
                     var previous = ctx.path.ast();
                     (null == previous || cur.minChar >= previous.minChar && cur.limChar <= previous.limChar) && ctx.path.push(cur);
                 }
-                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition) || (walker.options.goChildren = minChar <= pos && pos <= limChar);
+                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, 2) || (walker.options.goChildren = minChar <= pos && pos <= limChar);
             }
             return cur;
         }, null, null, ctx), ctx.path;

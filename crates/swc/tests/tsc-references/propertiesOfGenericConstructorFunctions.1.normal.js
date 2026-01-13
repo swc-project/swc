@@ -10,7 +10,6 @@ import { _ as _define_property } from "@swc/helpers/_/_define_property";
     // without type annotation
     this._map2 = _define_property({}, ik, iv);
 }
-;
 /** @type {Multimap<"a" | "b", number>} with type annotation */ var map = new Multimap("a", 1);
 // without type annotation
 var map2 = new Multimap("m", 2);

@@ -25,9 +25,8 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
         return C;
     }();
     (function(C) {
-        C.bar = '';
+        C.bar = ''; // not reflected in class type
     })(C || (C = {}));
-    var C;
     var c = new C(1, 2);
     var r = c.fn();
     var r4 = c.foo; // error
@@ -58,9 +57,8 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
         return C;
     }();
     (function(C) {
-        C.bar = '';
+        C.bar = ''; // not reflected in class type
     })(C || (C = {}));
-    var C;
     var c = new C(1, '');
     var r = c.fn();
     var r4 = c.foo; // error

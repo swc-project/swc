@@ -27,7 +27,6 @@ var x10;
 var x10;
 var x11;
 var x11;
-;
 var x13_1;
 var x13_2;
 foo13(x13_1, x13_2);
@@ -37,7 +36,7 @@ var E = /*#__PURE__*/ function(E) {
     E[E["x"] = 10] = "x";
     return E;
 }(E || {});
-f15(E.x).toLowerCase();
+f15(10).toLowerCase();
 var x;
 f16(x);
 var y = [

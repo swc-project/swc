@@ -5,19 +5,23 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var x = "p";
-var _x = x;
+var _ref = _x = x;
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A(y) {
         _class_call_check(this, A);
-        this.y = y;
         _define_property(this, "y", void 0);
-        _define_property(this, "a", this.y);
+        _define_property(this, "a", void 0);
         _define_property(this, "b", void 0);
         _define_property(this, "c", void 0);
-        _define_property(this, "computed", 13);
-        _define_property(this, _x, 14);
-        _define_property(this, "z", this.y);
+        _define_property(this, "computed", void 0);
+        _define_property(this, _ref, void 0);
+        _define_property(this, "z", void 0);
+        this.y = y;
+        this.a = this.y;
+        this["computed"] = 13;
+        this[_x] = 14;
+        this.z = this.y;
     }
     _create_class(A, [
         {
@@ -38,8 +42,9 @@ var C = /*#__PURE__*/ function(B) {
     function C(ka) {
         _class_call_check(this, C);
         var _this;
-        _this = _call_super(this, C), _this.ka = ka, _define_property(_this, "ka", void 0), _define_property(_this, "z", _this.ka), _define_property(_this, "ki", _this.ka);
+        _this = _call_super(this, C), _define_property(_this, "ka", void 0), _define_property(_this, "z", void 0), _define_property(_this, "ki", void 0), _this.ka = ka, _this.z = _this.ka, _this.ki = _this.ka;
         return _this;
     }
     return C;
 }(B);
+var _x;

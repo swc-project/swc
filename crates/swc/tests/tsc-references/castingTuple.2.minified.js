@@ -10,4 +10,4 @@ var E1, E2, C = function C() {
     new C(),
     new D()
 ];
-classCDTuple[2], classCDTuple[5], E11.one, E21.one, new C(), new C(), new D(), t4[2] = 10;
+classCDTuple[2], classCDTuple[5], new C(), new C(), new D(), t4[2] = 10;

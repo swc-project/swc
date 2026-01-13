@@ -17,7 +17,7 @@ function f1() {
     var a = [
         new C()
     ];
-    a[0].x = E.B;
+    a[0].x = 1;
     return a;
 }
 function f2() {
@@ -35,7 +35,7 @@ function f2() {
         var a = [
             new C()
         ];
-        a[0].x = E.B;
+        a[0].x = 1;
         return a;
     }
     return g();
@@ -56,7 +56,7 @@ function f3(b) {
             var a = [
                 new C()
             ];
-            a[0].x = E.B;
+            a[0].x = 1;
             return a;
         } else {
             var A = function A() {
@@ -66,7 +66,7 @@ function f3(b) {
             var c = [
                 new A()
             ];
-            c[0].x = E.B;
+            c[0].x = 1;
             return c;
         }
     }

@@ -9,6 +9,7 @@ var b;
 var r4 = b.foo;
 var r5 = b.bar;
 var r6 = b.baz;
+// basic non-generic and generic case inside a module
 (function(M) {
     var a;
     var r1 = a.foo;

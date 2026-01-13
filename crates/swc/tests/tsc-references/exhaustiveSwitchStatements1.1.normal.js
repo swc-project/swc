@@ -35,6 +35,7 @@ function f3(x) {
             throw new Error("Bad input");
     }
 }
+// Repro from #11572
 var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
@@ -42,18 +43,18 @@ var E = /*#__PURE__*/ function(E) {
 }(E || {});
 function f(e) {
     switch(e){
-        case E.A:
+        case 0:
             return 0;
-        case E.B:
+        case 1:
             return 1;
     }
 }
 function g(e) {
     if (!true) return -1;
     else switch(e){
-        case E.A:
+        case 0:
             return 0;
-        case E.B:
+        case 1:
             return 1;
     }
 }
@@ -91,6 +92,7 @@ function areaWrapped(s) {
     }();
     return area;
 }
+// Repro from #13241
 var MyEnum = /*#__PURE__*/ function(MyEnum) {
     MyEnum[MyEnum["A"] = 0] = "A";
     MyEnum[MyEnum["B"] = 1] = "B";
@@ -99,10 +101,10 @@ var MyEnum = /*#__PURE__*/ function(MyEnum) {
 function thisGivesError(e) {
     var s;
     switch(e){
-        case MyEnum.A:
+        case 0:
             s = "it was A";
             break;
-        case MyEnum.B:
+        case 1:
             s = "it was B";
             break;
     }
@@ -111,10 +113,10 @@ function thisGivesError(e) {
 function good1(e) {
     var s;
     switch(e){
-        case MyEnum.A:
+        case 0:
             s = "it was A";
             break;
-        case MyEnum.B:
+        case 1:
             s = "it was B";
             break;
         default:
@@ -125,12 +127,13 @@ function good1(e) {
 }
 function good2(e) {
     switch(e){
-        case MyEnum.A:
+        case 0:
             return "it was A";
-        case MyEnum.B:
+        case 1:
             return "it was B";
     }
 }
+// Repro from #18362
 var Level = /*#__PURE__*/ function(Level) {
     Level[Level["One"] = 0] = "One";
     Level[Level["Two"] = 1] = "Two";
@@ -139,11 +142,11 @@ var Level = /*#__PURE__*/ function(Level) {
 var doSomethingWithLevel = function(level) {
     var next;
     switch(level){
-        case Level.One:
-            next = Level.Two;
+        case 0:
+            next = 1;
             break;
-        case Level.Two:
-            next = Level.One;
+        case 1:
+            next = 0;
             break;
     }
     return next;
@@ -189,6 +192,7 @@ function test4(value) {
     }
     return x;
 }
+// Repro from #34661
 var Animal = /*#__PURE__*/ function(Animal) {
     Animal[Animal["DOG"] = 0] = "DOG";
     Animal[Animal["CAT"] = 1] = "CAT";
@@ -196,11 +200,11 @@ var Animal = /*#__PURE__*/ function(Animal) {
 }(Animal || {});
 function expression() {
     var _ref;
-    switch((_ref = zoo === null || zoo === void 0 ? void 0 : zoo.animal) !== null && _ref !== void 0 ? _ref : Animal.DOG){
-        case Animal.DOG:
-            return Animal.DOG;
-        case Animal.CAT:
-            return Animal.CAT;
+    switch((_ref = zoo === null || zoo === void 0 ? void 0 : zoo.animal) !== null && _ref !== void 0 ? _ref : 0){
+        case 0:
+            return 0;
+        case 1:
+            return 1;
     }
 }
 // Repro from #34840

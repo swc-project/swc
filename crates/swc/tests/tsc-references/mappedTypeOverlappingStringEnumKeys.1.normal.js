@@ -5,20 +5,18 @@ var TerrestrialAnimalTypes = /*#__PURE__*/ function(TerrestrialAnimalTypes) {
     TerrestrialAnimalTypes["DOG"] = "dog";
     return TerrestrialAnimalTypes;
 }(TerrestrialAnimalTypes || {});
-;
 var AlienAnimalTypes = /*#__PURE__*/ function(AlienAnimalTypes) {
     AlienAnimalTypes["CAT"] = "cat";
     return AlienAnimalTypes;
 }(AlienAnimalTypes || {});
-;
 var catMap = {
     cat: [
         {
-            type: TerrestrialAnimalTypes.CAT,
+            type: "cat",
             address: ""
         },
         {
-            type: AlienAnimalTypes.CAT,
+            type: "cat",
             planet: ""
         }
     ],

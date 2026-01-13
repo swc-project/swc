@@ -1,8 +1,10 @@
 //// [file.tsx]
-export default function Component(props) {
-    return React.createElement(AnotherComponent, props);
-}
-function AnotherComponent(param) {
-    var property1 = param.property1;
-    return React.createElement("span", null, property1);
-}
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,-[2:1]
+//!  1 | 
+//!  2 | import React = require('react');
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!  3 | 
+//!  4 | interface ComponentProps {
+//!  5 |     property1: string;
+//!    `----

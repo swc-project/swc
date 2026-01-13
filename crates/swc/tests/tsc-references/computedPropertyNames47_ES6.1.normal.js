@@ -8,5 +8,5 @@ var E2 = /*#__PURE__*/ function(E2) {
     return E2;
 }(E2 || {});
 var o = {
-    [E1.x || E2.x]: 0
+    [0 || 0]: 0
 };

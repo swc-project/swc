@@ -35,7 +35,6 @@ function f13(x, fail) {
     fail();
     x; // Unreachable
 }
-(function(Debug) {})(Debug || (Debug = {}));
 function f21(x) {
     if (x === undefined) Debug.fail("undefined argument");
     x.length; // string
@@ -215,5 +214,4 @@ function foo(services, s) {
         return s;
     }
 }
-var Debug;
 export { };

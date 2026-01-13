@@ -4,7 +4,6 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-;
 var str;
 var bool;
 var num;

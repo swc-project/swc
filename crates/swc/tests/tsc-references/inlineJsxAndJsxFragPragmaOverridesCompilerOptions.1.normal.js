@@ -1,7 +1,10 @@
 //// [inlineJsxAndJsxFragPragmaOverridesCompilerOptions.tsx]
 //// [react.d.ts]
+export { };
 //// [preact.d.ts]
+export { };
 //// [snabbdom.d.ts]
+export { };
 //// [reacty.tsx]
 /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("span", null));
 export { };

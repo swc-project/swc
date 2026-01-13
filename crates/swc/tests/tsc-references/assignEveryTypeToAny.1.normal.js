@@ -21,8 +21,8 @@ var E = /*#__PURE__*/ function(E) {
     E[E["A"] = 0] = "A";
     return E;
 }(E || {});
-x = E.A;
-var f = E.A;
+x = 0;
+var f = 0;
 x = f;
 var g;
 x = g;

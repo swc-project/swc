@@ -3,7 +3,7 @@ var E, a, E1 = ((E = E1 || {})[E.x = 0] = "x", E);
 extractIndexer({
     [a]: ""
 }), extractIndexer({
-    [E1.x]: ""
+    0: ""
 }), extractIndexer({
     0: ""
 });

@@ -399,9 +399,6 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                                 use_define_for_class_fields: use_define_for_class_fields.into(),
                                 decorator_metadata: decorator_metadata.into(),
                                 verbatim_module_syntax: verbatim_module_syntax.into(),
-                                // Don't inline non-const enums (match TypeScript's default
-                                // behavior)
-                                ts_enum_is_mutable: true.into(),
                                 ..Default::default()
                             })
                             .into(),

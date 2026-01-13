@@ -1,12 +1,10 @@
 //// [file.tsx]
-import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
-import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
-var decorator = function decorator(props) {
-    return /*#__PURE__*/ React.createElement(Component, props);
-};
-var decorator1 = function decorator1(props) {
-    return /*#__PURE__*/ React.createElement(Component, _object_spread_props(_object_spread({}, props), {
-        x: "hi"
-    }));
-};
-export { };
+//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
+//!    ,-[2:1]
+//!  1 | 
+//!  2 | import React = require('react');
+//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//!  3 | 
+//!  4 | declare function Component<T>(props: T) : JSX.Element;
+//!  5 | const decorator = function <U>(props: U) {
+//!    `----

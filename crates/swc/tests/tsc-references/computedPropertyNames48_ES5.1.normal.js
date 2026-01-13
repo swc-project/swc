@@ -6,5 +6,5 @@ var E = /*#__PURE__*/ function(E) {
 }(E || {});
 var a;
 extractIndexer(_define_property({}, a, "")); // Should return string
-extractIndexer(_define_property({}, E.x, "")); // Should return string
+extractIndexer(_define_property({}, 0, "")); // Should return string
 extractIndexer(_define_property({}, "" || 0, "")); // Should return any (widened form of undefined)
