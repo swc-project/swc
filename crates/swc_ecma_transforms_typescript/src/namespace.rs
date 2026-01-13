@@ -1034,6 +1034,22 @@ fn rewrite_export_references(expr: &mut Expr, exported_ids: &FxHashSet<Id>, ns_i
                 }
             }
         }
+
+        fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite JSX object identifiers like <Context.Provider/> to
+            // <Ns.Context.Provider/>
+            if let JSXObject::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    *n = JSXObject::JSXMemberExpr(Box::new(JSXMemberExpr {
+                        span: DUMMY_SP,
+                        obj: JSXObject::Ident(self.ns_id.clone()),
+                        prop: IdentName::new(id.sym.clone(), DUMMY_SP),
+                    }));
+                }
+            }
+        }
     }
 
     let mut rewriter = Rewriter {
@@ -1097,6 +1113,22 @@ fn rewrite_export_references_in_fn(
                         obj: JSXObject::Ident(self.ns_id.clone()),
                         prop: IdentName::new(id.sym.clone(), DUMMY_SP),
                     });
+                }
+            }
+        }
+
+        fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite JSX object identifiers like <Context.Provider/> to
+            // <Ns.Context.Provider/>
+            if let JSXObject::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    *n = JSXObject::JSXMemberExpr(Box::new(JSXMemberExpr {
+                        span: DUMMY_SP,
+                        obj: JSXObject::Ident(self.ns_id.clone()),
+                        prop: IdentName::new(id.sym.clone(), DUMMY_SP),
+                    }));
                 }
             }
         }
@@ -1166,6 +1198,22 @@ fn rewrite_export_references_in_class(
                 }
             }
         }
+
+        fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite JSX object identifiers like <Context.Provider/> to
+            // <Ns.Context.Provider/>
+            if let JSXObject::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    *n = JSXObject::JSXMemberExpr(Box::new(JSXMemberExpr {
+                        span: DUMMY_SP,
+                        obj: JSXObject::Ident(self.ns_id.clone()),
+                        prop: IdentName::new(id.sym.clone(), DUMMY_SP),
+                    }));
+                }
+            }
+        }
     }
 
     let mut rewriter = Rewriter {
@@ -1226,6 +1274,22 @@ fn rewrite_export_references_in_stmt(stmt: &mut Stmt, exported_ids: &FxHashSet<I
                         obj: JSXObject::Ident(self.ns_id.clone()),
                         prop: IdentName::new(id.sym.clone(), DUMMY_SP),
                     });
+                }
+            }
+        }
+
+        fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite JSX object identifiers like <Context.Provider/> to
+            // <Ns.Context.Provider/>
+            if let JSXObject::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    *n = JSXObject::JSXMemberExpr(Box::new(JSXMemberExpr {
+                        span: DUMMY_SP,
+                        obj: JSXObject::Ident(self.ns_id.clone()),
+                        prop: IdentName::new(id.sym.clone(), DUMMY_SP),
+                    }));
                 }
             }
         }
