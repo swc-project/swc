@@ -94,6 +94,15 @@ pub fn transform_namespace(
         }
     }
 
+    // Rewrite references to exported members in all statements
+    // This handles standalone expression statements like `a = 1;` which should
+    // become `ns.a = 1;`
+    if !exported_ids.is_empty() {
+        for stmt in &mut inner_stmts {
+            rewrite_export_references_in_stmt(stmt, &exported_ids, &id);
+        }
+    }
+
     // Note: export assignments are emitted immediately after each exported item
     // in process_module_decl, not collected at the end.
     let _ = exports; // exports are already processed inline
@@ -275,6 +284,14 @@ fn transform_child_namespace(
                     }
                 }
             }
+
+            // Rewrite references to exported members in all statements
+            if !exported_ids.is_empty() {
+                for stmt in &mut stmts {
+                    rewrite_export_references_in_stmt(stmt, &exported_ids, child_id);
+                }
+            }
+
             stmts
         }
         TsNamespaceBody::TsNamespaceDecl(nested) => {
@@ -810,7 +827,11 @@ fn is_nested_namespace_instantiated(nested: &TsNamespaceDecl) -> bool {
 /// Collects exported identifiers from a namespace block.
 /// Returns IDs that should be rewritten as namespace member access.
 /// Function and class declarations create local bindings (NOT rewritten),
-/// while var declarations create direct namespace assignments (rewritten).
+/// while var declarations (including declare) create direct namespace
+/// assignments (rewritten).
+///
+/// Important: excludes IDs that also have non-export `var` declarations, as
+/// those create local bindings that shadow the exported namespace property.
 fn collect_exported_ids(block: &TsModuleBlock) -> FxHashSet<Id> {
     let mut exported_ids = FxHashSet::default();
 
@@ -818,6 +839,7 @@ fn collect_exported_ids(block: &TsModuleBlock) -> FxHashSet<Id> {
         if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) = item {
             match &export.decl {
                 // Var declarations go directly to namespace object, need rewriting
+                // This includes `declare let/const/var` which create ambient bindings
                 Decl::Var(v) => {
                     for decl in &v.decls {
                         collect_binding_ids(&decl.name, &mut exported_ids);
@@ -837,7 +859,105 @@ fn collect_exported_ids(block: &TsModuleBlock) -> FxHashSet<Id> {
         }
     }
 
+    // Collect local var declarations that shadow exported vars
+    // When there's a non-export `var` declaration, it creates a local binding that
+    // shadows the namespace property, so we shouldn't rewrite those references
+    let local_vars = collect_local_var_ids(block);
+    for id in local_vars {
+        exported_ids.remove(&id);
+    }
+
     exported_ids
+}
+
+/// Collects IDs from non-export `var` declarations in a namespace block.
+/// These create local bindings that shadow exported namespace properties.
+fn collect_local_var_ids(block: &TsModuleBlock) -> FxHashSet<Id> {
+    use swc_ecma_visit::Visit;
+
+    struct VarCollector {
+        ids: FxHashSet<Id>,
+    }
+
+    impl Visit for VarCollector {
+        fn visit_var_decl(&mut self, v: &VarDecl) {
+            // Only collect from var (not let/const) since var has function scope
+            if v.kind == VarDeclKind::Var {
+                for decl in &v.decls {
+                    collect_pat_ids(&decl.name, &mut self.ids);
+                }
+            }
+            // Don't recurse into nested functions/classes which have their own
+            // scope
+        }
+
+        fn visit_function(&mut self, _: &Function) {
+            // Don't descend into functions - they have their own scope
+        }
+
+        fn visit_class(&mut self, _: &Class) {
+            // Don't descend into classes - they have their own scope
+        }
+
+        fn visit_arrow_expr(&mut self, _: &ArrowExpr) {
+            // Don't descend into arrows - they have their own scope
+        }
+    }
+
+    fn collect_pat_ids(pat: &Pat, ids: &mut FxHashSet<Id>) {
+        match pat {
+            Pat::Ident(i) => {
+                ids.insert(i.to_id());
+            }
+            Pat::Array(a) => {
+                for elem in a.elems.iter().flatten() {
+                    collect_pat_ids(elem, ids);
+                }
+            }
+            Pat::Object(o) => {
+                for prop in &o.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(kv) => {
+                            collect_pat_ids(&kv.value, ids);
+                        }
+                        ObjectPatProp::Assign(a) => {
+                            ids.insert(a.key.to_id());
+                        }
+                        ObjectPatProp::Rest(r) => {
+                            collect_pat_ids(&r.arg, ids);
+                        }
+                    }
+                }
+            }
+            Pat::Rest(r) => {
+                collect_pat_ids(&r.arg, ids);
+            }
+            Pat::Assign(a) => {
+                collect_pat_ids(&a.left, ids);
+            }
+            Pat::Expr(_) | Pat::Invalid(_) => {}
+        }
+    }
+
+    let mut collector = VarCollector {
+        ids: FxHashSet::default(),
+    };
+
+    // Visit all statements in the namespace body
+    for item in &block.body {
+        match item {
+            ModuleItem::Stmt(stmt) => {
+                use swc_ecma_visit::VisitWith;
+                stmt.visit_with(&mut collector);
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(_)) => {
+                // Skip export declarations - we only want non-export vars
+            }
+            _ => {}
+        }
+    }
+
+    collector.ids
 }
 
 /// Collects binding IDs from a pattern.
@@ -935,6 +1055,21 @@ fn rewrite_export_references_in_fn(
                 }
             }
         }
+
+        fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite assignment targets like `a = 1` to `ns.a = 1`
+            if let SimpleAssignTarget::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    *n = SimpleAssignTarget::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
     }
 
     let mut rewriter = Rewriter {
@@ -971,6 +1106,21 @@ fn rewrite_export_references_in_class(
                 }
             }
         }
+
+        fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite assignment targets like `a = 1` to `ns.a = 1`
+            if let SimpleAssignTarget::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    *n = SimpleAssignTarget::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
     }
 
     let mut rewriter = Rewriter {
@@ -978,6 +1128,54 @@ fn rewrite_export_references_in_class(
         ns_id,
     };
     class.visit_mut_with(&mut rewriter);
+}
+
+/// Rewrites references to exported members in a statement.
+fn rewrite_export_references_in_stmt(stmt: &mut Stmt, exported_ids: &FxHashSet<Id>, ns_id: &Ident) {
+    struct Rewriter<'a> {
+        exported_ids: &'a FxHashSet<Id>,
+        ns_id: &'a Ident,
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_expr(&mut self, n: &mut Expr) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite standalone identifier usages to member access
+            if let Expr::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    // Replace `a` with `NS.a`
+                    *n = Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
+
+        fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite assignment targets like `a = 1` to `ns.a = 1`
+            if let SimpleAssignTarget::Ident(id) = n {
+                if self.exported_ids.contains(&id.to_id()) {
+                    // Replace `a` with `NS.a`
+                    *n = SimpleAssignTarget::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
+    }
+
+    let mut rewriter = Rewriter {
+        exported_ids,
+        ns_id,
+    };
+    stmt.visit_mut_with(&mut rewriter);
 }
 
 /// Converts a TsEntityName to an expression.
