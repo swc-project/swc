@@ -1025,10 +1025,12 @@ impl TypeScript {
                     }
 
                     let enum_id = e.id.to_id();
-                    if seen_enum_ids.contains(&enum_id) {
+                    // Check if enum merges with existing enum OR namespace/class/function
+                    if seen_enum_ids.contains(&enum_id) || seen_ns_ids.contains(&enum_id) {
                         // Merging: emit just the IIFE statement
                         let stmt = crate::enums::transform_enum_merging(&e, enum_values);
                         out.push(stmt);
+                        seen_enum_ids.insert(enum_id);
                     } else {
                         // First declaration: emit var with IIFE
                         seen_enum_ids.insert(enum_id.clone());
