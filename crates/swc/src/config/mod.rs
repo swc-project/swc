@@ -853,6 +853,11 @@ impl Options {
                         verbatim_module_syntax,
                         native_class_properties,
                         ts_enum_is_mutable,
+                        // When useDefineForClassFields is true and there are parameter properties,
+                        // the TypeScript transform needs to split field initialization for correct
+                        // execution order (define with void 0, then assign values after param
+                        // props).
+                        use_define_for_class_fields: !assumptions.set_public_class_fields,
                         ..Default::default()
                     };
 

@@ -12,6 +12,12 @@ pub struct Config {
     #[serde(default)]
     pub native_class_properties: bool,
 
+    /// https://www.typescriptlang.org/tsconfig#useDefineForClassFields
+    /// When true and there are parameter properties, class field initialization
+    /// is split into define + assign for correct execution order.
+    #[serde(default)]
+    pub use_define_for_class_fields: bool,
+
     /// https://www.typescriptlang.org/tsconfig/#importsNotUsedAsValues
     #[serde(default)]
     pub import_not_used_as_values: ImportsNotUsedAsValues,

@@ -509,13 +509,13 @@ fn process_module_decl(
                 // - Simple binding: export const a = 1; -> ns.a = 1;
                 // - Destructuring: export const [a, b] = x; -> [ns.a, ns.b] = x;
                 for decl in &v.decls {
-                    let left = transform_pat_to_assign_target(&decl.name, ns_id);
+                    let left = transform_pat_to_assign_target_with_span(&decl.name, ns_id);
                     if let Some(init) = &decl.init {
                         // Rewrite references to other exported members in the init expr
                         let mut init_expr = init.clone();
                         rewrite_export_references(&mut init_expr, exported_ids, ns_id);
                         let assign = Expr::Assign(AssignExpr {
-                            span: DUMMY_SP,
+                            span: decl.span,
                             op: op!("="),
                             left,
                             right: init_expr,
@@ -1331,59 +1331,53 @@ fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, out: &mut Vec<Stm
 }
 
 /// Transforms a pattern into an assignment target, replacing identifiers with
-/// namespace member access.
-fn transform_pat_to_assign_target(pat: &Pat, ns_id: &Ident) -> AssignTarget {
+/// namespace member access. Preserves original spans for sourcemap generation.
+fn transform_pat_to_assign_target_with_span(pat: &Pat, ns_id: &Ident) -> AssignTarget {
     match pat {
         Pat::Ident(i) => {
-            // Transform `a` into `ns.a`
+            // Transform `a` into `ns.a`, preserving span of the identifier
             AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                span: DUMMY_SP,
+                span: i.span,
                 obj: Box::new(Expr::Ident(ns_id.clone())),
-                prop: MemberProp::Ident(IdentName::new(i.sym.clone(), DUMMY_SP)),
+                prop: MemberProp::Ident(IdentName::new(i.sym.clone(), i.span)),
             }))
         }
         Pat::Array(a) => {
-            // Transform `[a, b]` into `[ns.a, ns.b]`
-            // Transform `[c = 3]` into `[ns.c = 3]`
             let elems: Vec<Option<Pat>> = a
                 .elems
                 .iter()
                 .map(|elem| {
                     elem.as_ref()
-                        .map(|p| transform_pat_preserving_default(p, ns_id))
+                        .map(|p| transform_pat_preserving_default_with_span(p, ns_id))
                 })
                 .collect();
             AssignTarget::Pat(AssignTargetPat::Array(ArrayPat {
-                span: DUMMY_SP,
+                span: a.span,
                 elems,
                 optional: false,
                 type_ann: None,
             }))
         }
         Pat::Object(o) => {
-            // Transform `{a, b}` into `{a: ns.a, b: ns.b}`
             let props: Vec<ObjectPatProp> = o
                 .props
                 .iter()
                 .map(|prop| match prop {
                     ObjectPatProp::KeyValue(kv) => ObjectPatProp::KeyValue(KeyValuePatProp {
                         key: kv.key.clone(),
-                        value: Box::new(assign_target_to_pat(&transform_pat_to_assign_target(
-                            &kv.value, ns_id,
-                        ))),
+                        value: Box::new(assign_target_to_pat(
+                            &transform_pat_to_assign_target_with_span(&kv.value, ns_id),
+                        )),
                     }),
                     ObjectPatProp::Assign(a) => {
-                        // Transform shorthand `{ a }` into `{ a: ns.a }`
-                        // Transform `{ a = 1 }` into `{ a: ns.a = 1 }`
                         let member_expr = Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
+                            span: a.key.span,
                             obj: Box::new(Expr::Ident(ns_id.clone())),
-                            prop: MemberProp::Ident(IdentName::new(a.key.sym.clone(), DUMMY_SP)),
+                            prop: MemberProp::Ident(IdentName::new(a.key.sym.clone(), a.key.span)),
                         });
                         let value_pat: Pat = if let Some(default_value) = &a.value {
-                            // Include the default value: `ns.a = 1`
                             Pat::Assign(AssignPat {
-                                span: DUMMY_SP,
+                                span: a.span,
                                 left: Box::new(Pat::Expr(Box::new(member_expr))),
                                 right: default_value.clone(),
                             })
@@ -1391,40 +1385,49 @@ fn transform_pat_to_assign_target(pat: &Pat, ns_id: &Ident) -> AssignTarget {
                             Pat::Expr(Box::new(member_expr))
                         };
                         ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(IdentName::new(a.key.sym.clone(), DUMMY_SP)),
+                            key: PropName::Ident(IdentName::new(a.key.sym.clone(), a.key.span)),
                             value: Box::new(value_pat),
                         })
                     }
                     ObjectPatProp::Rest(r) => ObjectPatProp::Rest(RestPat {
-                        span: DUMMY_SP,
-                        dot3_token: DUMMY_SP,
-                        arg: Box::new(assign_target_to_pat(&transform_pat_to_assign_target(
-                            &r.arg, ns_id,
-                        ))),
+                        span: r.span,
+                        dot3_token: r.dot3_token,
+                        arg: Box::new(assign_target_to_pat(
+                            &transform_pat_to_assign_target_with_span(&r.arg, ns_id),
+                        )),
                         type_ann: None,
                     }),
                 })
                 .collect();
             AssignTarget::Pat(AssignTargetPat::Object(ObjectPat {
-                span: DUMMY_SP,
+                span: o.span,
                 props,
                 optional: false,
                 type_ann: None,
             }))
         }
-        Pat::Rest(r) => transform_pat_to_assign_target(&r.arg, ns_id),
-        Pat::Assign(a) => {
-            // This should not be reached as Pat::Assign is handled specially
-            // in transform_pat_to_pat_preserving_default
-            transform_pat_to_assign_target(&a.left, ns_id)
-        }
+        Pat::Rest(r) => transform_pat_to_assign_target_with_span(&r.arg, ns_id),
+        Pat::Assign(a) => transform_pat_to_assign_target_with_span(&a.left, ns_id),
         Pat::Expr(e) => AssignTarget::Simple(SimpleAssignTarget::Paren(ParenExpr {
             span: DUMMY_SP,
             expr: e.clone(),
         })),
-        Pat::Invalid(_) => {
-            AssignTarget::Simple(SimpleAssignTarget::Invalid(Invalid { span: DUMMY_SP }))
+        Pat::Invalid(i) => AssignTarget::Simple(SimpleAssignTarget::Invalid(i.clone())),
+    }
+}
+
+/// Transforms a pattern while preserving default values and original spans.
+fn transform_pat_preserving_default_with_span(pat: &Pat, ns_id: &Ident) -> Pat {
+    match pat {
+        Pat::Assign(a) => {
+            let left_transformed = transform_pat_preserving_default_with_span(&a.left, ns_id);
+            Pat::Assign(AssignPat {
+                span: a.span,
+                left: Box::new(left_transformed),
+                right: a.right.clone(),
+            })
         }
+        _ => assign_target_to_pat(&transform_pat_to_assign_target_with_span(pat, ns_id)),
     }
 }
 
@@ -1453,27 +1456,5 @@ fn assign_target_to_pat(target: &AssignTarget) -> Pat {
             AssignTargetPat::Object(o) => Pat::Object(o.clone()),
             AssignTargetPat::Invalid(i) => Pat::Invalid(i.clone()),
         },
-    }
-}
-
-/// Transforms a pattern while preserving default values.
-/// For `c = 3`, returns `ns.c = 3`.
-/// For `{ d = 4 } = {}`, returns `{ d: ns.d = 4 } = {}`.
-fn transform_pat_preserving_default(pat: &Pat, ns_id: &Ident) -> Pat {
-    match pat {
-        Pat::Assign(a) => {
-            // Transform `c = 3` to `ns.c = 3`
-            // Transform `{ d = 4 } = {}` to `{ d: ns.d = 4 } = {}`
-            let left_transformed = transform_pat_preserving_default(&a.left, ns_id);
-            Pat::Assign(AssignPat {
-                span: DUMMY_SP,
-                left: Box::new(left_transformed),
-                right: a.right.clone(),
-            })
-        }
-        _ => {
-            // For non-Assign patterns, use the standard transformation
-            assign_target_to_pat(&transform_pat_to_assign_target(pat, ns_id))
-        }
     }
 }

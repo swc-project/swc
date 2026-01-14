@@ -1595,13 +1595,70 @@ impl VisitMut for TypeStripper<'_> {
         n.body
             .retain(|m| !matches!(m, ClassMember::TsIndexSignature(_)));
 
+        // Check if there are parameter properties in the constructor
+        let has_param_props = n.body.iter().any(|member| {
+            if let ClassMember::Constructor(c) = member {
+                if c.body.is_some() {
+                    return c
+                        .params
+                        .iter()
+                        .any(|p| matches!(p, ParamOrTsParamProp::TsParamProp(_)));
+                }
+            }
+            false
+        });
+
+        // When useDefineForClassFields is true AND we have parameter properties AND
+        // native class properties are not supported, we need to split field
+        // initialization so that:
+        // 1. Fields are defined with void 0 (done by class_properties transform)
+        // 2. Parameter property assignments run (this.foo = foo)
+        // 3. Field value assignments run after (this.a = 1)
+        //
+        // Without splitting, field initializers would run BEFORE parameter property
+        // assignments, which is incorrect.
+        let should_split_fields = has_param_props
+            && self.config.use_define_for_class_fields
+            && !self.config.native_class_properties;
+
+        let mut field_initializers: Vec<(PropName, Box<Expr>)> = vec![];
+        let mut private_field_initializers: Vec<(PrivateName, Box<Expr>)> = vec![];
+
+        if should_split_fields {
+            for member in &mut n.body {
+                match member {
+                    ClassMember::ClassProp(prop) => {
+                        // Only handle non-static, non-declare instance fields with values
+                        if !prop.is_static && !prop.declare {
+                            if let Some(value) = prop.value.take() {
+                                field_initializers.push((prop.key.clone(), value));
+                            }
+                        }
+                    }
+                    ClassMember::PrivateProp(prop) => {
+                        // Only handle non-static instance private fields with values
+                        if !prop.is_static {
+                            if let Some(value) = prop.value.take() {
+                                private_field_initializers.push((prop.key.clone(), value));
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        }
+
         // Handle parameter properties in constructor and collect field declarations
         // Skip constructor overloads (those without body)
         let mut param_prop_fields: Vec<ClassMember> = vec![];
         for member in &mut n.body {
             if let ClassMember::Constructor(c) = member {
                 if c.body.is_some() {
-                    param_prop_fields = self.transform_constructor(c);
+                    param_prop_fields = self.transform_constructor(
+                        c,
+                        &field_initializers,
+                        &private_field_initializers,
+                    );
                 }
             }
         }
@@ -1968,10 +2025,16 @@ impl VisitMut for TypeStripper<'_> {
 }
 
 impl TypeStripper<'_> {
-    /// Transform constructor - handles parameter properties.
+    /// Transform constructor - handles parameter properties and class field
+    /// initializers (when useDefineForClassFields is true).
     /// Returns a list of field declarations for parameter properties that
     /// should be inserted into the class body.
-    fn transform_constructor(&mut self, c: &mut Constructor) -> Vec<ClassMember> {
+    fn transform_constructor(
+        &mut self,
+        c: &mut Constructor,
+        field_initializers: &[(PropName, Box<Expr>)],
+        private_field_initializers: &[(PrivateName, Box<Expr>)],
+    ) -> Vec<ClassMember> {
         // Collect parameter properties
         let mut prop_stmts: Vec<Stmt> = vec![];
         let mut field_decls: Vec<ClassMember> = vec![];
@@ -2015,6 +2078,31 @@ impl TypeStripper<'_> {
                 let stmt = crate::utils::assign_value_to_this_prop(name, init).into_stmt();
                 prop_stmts.push(stmt);
             }
+        }
+
+        // Add class field initializer assignments (when useDefineForClassFields is true
+        // and there are parameter properties). These are added after parameter property
+        // assignments to ensure correct execution order.
+        for (name, value) in field_initializers {
+            let stmt =
+                crate::utils::assign_value_to_this_prop(name.clone(), *value.clone()).into_stmt();
+            prop_stmts.push(stmt);
+        }
+
+        // Add private field initializer assignments
+        for (name, value) in private_field_initializers {
+            let assign_expr = Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: MemberExpr {
+                    span: DUMMY_SP,
+                    obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                    prop: MemberProp::PrivateName(name.clone()),
+                }
+                .into(),
+                right: value.clone(),
+            });
+            prop_stmts.push(assign_expr.into_stmt());
         }
 
         // Convert params to regular params
