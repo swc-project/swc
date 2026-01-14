@@ -6,6 +6,27 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::ExprFactory;
 
+/// Checks if an expression is a private field init call
+/// (pattern: `_class_private_field_init._(...)`  or
+/// `_class_private_field_init(...)`)
+fn is_private_field_init(expr: &Expr) -> bool {
+    if let Expr::Call(CallExpr { callee, .. }) = expr {
+        if let Callee::Expr(callee_expr) = callee {
+            // Check for _class_private_field_init._(...) pattern (swc helpers)
+            if let Expr::Member(MemberExpr { obj, .. }) = &**callee_expr {
+                if let Expr::Ident(ident) = &**obj {
+                    return ident.sym.starts_with("_class_private_field_init");
+                }
+            }
+            // Check for direct _class_private_field_init(...) pattern
+            if let Expr::Ident(ident) = &**callee_expr {
+                return ident.sym.starts_with("_class_private_field_init");
+            }
+        }
+    }
+    false
+}
+
 /// Checks if an expression looks like a parameter property initialization
 /// (pattern: `this.identifier = identifier` where both identifiers are the
 /// same)
@@ -67,14 +88,22 @@ pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
     if !injector.injected {
         let exprs = injector.exprs.take();
 
-        // Find the position after parameter property initializations
-        // Parameter properties are inserted by TypeScript transform at the
-        // beginning with DUMMY_SP span and have the pattern: this.x = x
-        let insert_pos = body
-            .stmts
-            .iter()
-            .take_while(|s| is_param_prop_init(s))
-            .count();
+        // Check if the first expression is a private field init call
+        // (_class_private_field_init). Private field inits should come
+        // BEFORE parameter properties, so insert at position 0.
+        let starts_with_private_init = exprs.first().is_some_and(|e| is_private_field_init(e));
+
+        let insert_pos = if starts_with_private_init {
+            // Private field inits go at position 0 (before param props)
+            0
+        } else {
+            // Other expressions go after parameter property initializations
+            // Parameter properties have DUMMY_SP span and pattern: this.x = x
+            body.stmts
+                .iter()
+                .take_while(|s| is_param_prop_init(s))
+                .count()
+        };
 
         body.stmts.splice(
             insert_pos..insert_pos,
