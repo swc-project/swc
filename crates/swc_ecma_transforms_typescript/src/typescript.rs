@@ -51,7 +51,8 @@ impl Pass for TypeScript {
             });
         }
 
-        n.visit_mut_with(&mut StripType::default());
+        let mut strip_type = StripType::default();
+        n.visit_mut_with(&mut strip_type);
 
         n.mutate(transform(
             self.unresolved_mark,
@@ -60,6 +61,7 @@ impl Pass for TypeScript {
             self.config.ts_enum_is_mutable,
             self.config.verbatim_module_syntax,
             self.config.native_class_properties,
+            strip_type.get_stripped_declare_ids(),
         ));
 
         if let Some(span) = was_module {

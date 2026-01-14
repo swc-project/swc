@@ -2833,3 +2833,98 @@ test!(
     ts_jsx_bad_pragma,
     r#"/** @jsx bad-pragma */"#
 );
+
+// Issue #11448: References to stripped `declare` statements should be marked as
+// unresolved
+#[test]
+fn issue_11448_declare_unresolved_mark() {
+    use swc_common::{sync::Lrc, FileName, Globals, SourceMap, SyntaxContext, GLOBALS};
+    use swc_ecma_ast::Ident;
+    use swc_ecma_parser::parse_file_as_program;
+    use swc_ecma_visit::{Visit, VisitWith};
+
+    struct IdentChecker {
+        unresolved_ctxt: SyntaxContext,
+        top_level_ctxt: SyntaxContext,
+        errors: Vec<String>,
+    }
+
+    impl Visit for IdentChecker {
+        fn visit_ident(&mut self, n: &Ident) {
+            // Check that `Foo` and `global` references have unresolved_ctxt
+            // (their declarations were stripped)
+            if n.sym == "Foo" || n.sym == "global" {
+                if n.ctxt == self.top_level_ctxt {
+                    self.errors.push(format!(
+                        "Identifier '{}' should have unresolved context, but has top_level context",
+                        n.sym
+                    ));
+                } else if n.ctxt != self.unresolved_ctxt {
+                    self.errors.push(format!(
+                        "Identifier '{}' should have unresolved context, but has context {:?}",
+                        n.sym, n.ctxt
+                    ));
+                }
+            }
+            // `console` should always have unresolved_ctxt (global builtin)
+            if n.sym == "console" && n.ctxt != self.unresolved_ctxt {
+                self.errors.push(format!(
+                    "Identifier 'console' should have unresolved context, but has context {:?}",
+                    n.ctxt
+                ));
+            }
+            // `Number` should have top_level_ctxt (local destructured binding)
+            if n.sym == "Number" && n.ctxt != self.top_level_ctxt {
+                self.errors.push(format!(
+                    "Identifier 'Number' should have top_level context, but has context {:?}",
+                    n.ctxt
+                ));
+            }
+        }
+    }
+
+    let src = r#"
+declare const Foo = 1234;
+console.log(Foo);
+
+declare global {}
+const { Number } = global
+"#;
+
+    let cm: Lrc<SourceMap> = Default::default();
+    let source_file = cm.new_source_file(FileName::Anon.into(), src.to_string());
+
+    GLOBALS.set(&Globals::new(), || {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        let mut program = parse_file_as_program(
+            &source_file,
+            Syntax::Typescript(TsSyntax::default()),
+            Default::default(),
+            None,
+            &mut vec![],
+        )
+        .unwrap();
+
+        program = program
+            .apply(resolver(unresolved_mark, top_level_mark, true))
+            .apply(typescript::typescript(
+                Default::default(),
+                unresolved_mark,
+                top_level_mark,
+            ));
+
+        let mut checker = IdentChecker {
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+            top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+            errors: vec![],
+        };
+
+        program.visit_with(&mut checker);
+
+        if !checker.errors.is_empty() {
+            panic!("Test failed:\n{}", checker.errors.join("\n"));
+        }
+    });
+}

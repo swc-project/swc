@@ -82,6 +82,10 @@ pub(crate) struct Transform {
 
     in_class_prop: Vec<Id>,
     in_class_prop_init: Vec<Box<Expr>>,
+
+    /// IDs of bindings from `declare` statements that were stripped.
+    /// References to these need to be re-marked as unresolved.
+    stripped_declare_ids: FxHashSet<Id>,
 }
 
 pub fn transform(
@@ -91,6 +95,7 @@ pub fn transform(
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
     native_class_properties: bool,
+    stripped_declare_ids: FxHashSet<Id>,
 ) -> impl Pass {
     visit_mut_pass(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -99,6 +104,7 @@ pub fn transform(
         ts_enum_is_mutable,
         verbatim_module_syntax,
         native_class_properties,
+        stripped_declare_ids,
         ..Default::default()
     })
 }
@@ -220,6 +226,15 @@ impl Visit for Transform {
 
 impl VisitMut for Transform {
     noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
+        // Re-mark identifiers that reference stripped declare bindings
+        // from top_level_ctxt to unresolved_ctxt.
+        // We check if the identifier's ID (name + context) was stripped.
+        if self.stripped_declare_ids.contains(&node.to_id()) {
+            node.ctxt = self.unresolved_ctxt;
+        }
+    }
 
     fn visit_mut_program(&mut self, node: &mut Program) {
         node.visit_with(self);

@@ -1,8 +1,9 @@
 use std::mem;
 
+use rustc_hash::FxHashSet;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
+use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::type_to_none;
@@ -18,6 +19,104 @@ pub fn strip_type() -> impl VisitMut {
 #[derive(Default)]
 pub(crate) struct StripType {
     in_namespace: bool,
+    /// IDs of bindings from `declare` statements that are being stripped.
+    /// These need to be re-marked as unresolved since their declarations
+    /// are removed.
+    stripped_declare_ids: FxHashSet<Id>,
+    /// IDs of bindings from declarations that are being retained.
+    /// Used to exclude IDs from stripped_declare_ids when there's a
+    /// non-stripped declaration with the same ID.
+    retained_declare_ids: FxHashSet<Id>,
+}
+
+impl StripType {
+    /// Collect binding IDs from a declaration that is being stripped.
+    fn collect_stripped_ids(&mut self, decl: &Decl) {
+        match decl {
+            Decl::Class(ClassDecl { ident, .. }) => {
+                self.stripped_declare_ids.insert(ident.to_id());
+            }
+            Decl::Fn(FnDecl { ident, .. }) => {
+                self.stripped_declare_ids.insert(ident.to_id());
+            }
+            Decl::Var(var) => {
+                let ids: Vec<Id> = find_pat_ids(&var.decls);
+                self.stripped_declare_ids.extend(ids);
+            }
+            Decl::TsEnum(ts_enum) => {
+                self.stripped_declare_ids.insert(ts_enum.id.to_id());
+            }
+            Decl::TsModule(ts_module) => {
+                if let TsModuleName::Ident(id) = &ts_module.id {
+                    self.stripped_declare_ids.insert(id.to_id());
+                }
+            }
+            // TsInterface and TsTypeAlias don't have runtime bindings
+            _ => {}
+        }
+    }
+
+    /// Collect binding IDs from a declaration that is being retained.
+    fn collect_retained_ids(&mut self, decl: &Decl) {
+        match decl {
+            Decl::Class(ClassDecl { ident, .. }) => {
+                self.retained_declare_ids.insert(ident.to_id());
+            }
+            Decl::Fn(FnDecl { ident, .. }) => {
+                self.retained_declare_ids.insert(ident.to_id());
+            }
+            Decl::Var(var) => {
+                let ids: Vec<Id> = find_pat_ids(&var.decls);
+                self.retained_declare_ids.extend(ids);
+            }
+            Decl::TsEnum(ts_enum) => {
+                self.retained_declare_ids.insert(ts_enum.id.to_id());
+            }
+            Decl::TsModule(ts_module) => {
+                if let TsModuleName::Ident(id) = &ts_module.id {
+                    self.retained_declare_ids.insert(id.to_id());
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Collect binding IDs from an import declaration.
+    fn collect_import_ids(&mut self, import: &ImportDecl) {
+        for specifier in &import.specifiers {
+            match specifier {
+                ImportSpecifier::Named(named) => {
+                    self.retained_declare_ids.insert(named.local.to_id());
+                }
+                ImportSpecifier::Default(default) => {
+                    self.retained_declare_ids.insert(default.local.to_id());
+                }
+                ImportSpecifier::Namespace(namespace) => {
+                    self.retained_declare_ids.insert(namespace.local.to_id());
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => {}
+            }
+        }
+    }
+
+    /// Get the final set of stripped IDs, excluding those that have retained
+    /// declarations.
+    pub fn get_stripped_declare_ids(self) -> FxHashSet<Id> {
+        self.stripped_declare_ids
+            .difference(&self.retained_declare_ids)
+            .cloned()
+            .collect()
+    }
+}
+
+/// Get the declaration from a module item if it contains one.
+fn get_decl_from_module_item(item: &ModuleItem) -> Option<&Decl> {
+    match item {
+        ModuleItem::Stmt(Stmt::Decl(decl)) => Some(decl),
+        ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => Some(decl),
+        _ => None,
+    }
 }
 
 impl VisitMut for StripType {
@@ -157,6 +256,25 @@ impl VisitMut for StripType {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        // Collect IDs from declarations, distinguishing between stripped and
+        // retained
+        for item in n.iter() {
+            let is_retained = should_retain_module_item(item, self.in_namespace);
+            if let Some(decl) = get_decl_from_module_item(item) {
+                if is_retained {
+                    self.collect_retained_ids(decl);
+                } else {
+                    self.collect_stripped_ids(decl);
+                }
+            }
+            // Also collect retained IDs from imports (they're always retained
+            // at this point, since strip_import_export already ran)
+            if is_retained {
+                if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+                    self.collect_import_ids(import);
+                }
+            }
+        }
         n.retain(|item| should_retain_module_item(item, self.in_namespace));
         n.visit_mut_children_with(self);
     }
@@ -223,8 +341,17 @@ impl VisitMut for StripType {
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         if should_retain_stmt(n) {
+            // Collect retained IDs from declarations
+            if let Stmt::Decl(decl) = n {
+                self.collect_retained_ids(decl);
+            }
             n.visit_mut_children_with(self);
         } else if !n.is_empty() {
+            // Collect stripped IDs from declare statements before they're
+            // stripped
+            if let Stmt::Decl(decl) = n {
+                self.collect_stripped_ids(decl);
+            }
             n.take();
         }
     }
