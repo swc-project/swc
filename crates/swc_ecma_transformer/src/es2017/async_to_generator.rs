@@ -1197,9 +1197,13 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
         Expr::OptChain(opt) => {
             replace_this_in_opt_chain_base(&mut opt.base, this_var);
         }
-        // Don't traverse into nested functions/classes/arrows as they have their own `this`
-        // context
-        Expr::Fn(_) | Expr::Arrow(_) | Expr::Class(_) => {}
+        // Arrow functions don't have their own `this` context - they inherit from the
+        // enclosing scope, so we need to traverse into them
+        Expr::Arrow(arrow) => {
+            replace_this_in_block_stmt_or_expr(&mut arrow.body, this_var);
+        }
+        // Don't traverse into nested functions/classes as they have their own `this` context
+        Expr::Fn(_) | Expr::Class(_) => {}
         // These don't contain expressions that could have `this`
         Expr::Ident(_)
         | Expr::Lit(_)
