@@ -16,6 +16,7 @@ var Bar = /*#__PURE__*/ function(Bar) {
 var Baz = /*#__PURE__*/ function(Baz) {
     Baz[Baz["a"] = 0] = "a";
     Baz[Baz["b"] = 1] = "b";
+    // @ts-ignore
     Baz[Baz["x"] = Baz.a.toString()] = "x";
     return Baz;
 }(Baz || {});

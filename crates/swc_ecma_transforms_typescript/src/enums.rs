@@ -137,7 +137,7 @@ fn transform_enum_with_options(
         }
 
         // Use string key: Foo["a"] instead of Foo.a
-        let stmt = create_enum_member_stmt(&id, &member_name, value_expr, &member.id);
+        let stmt = create_enum_member_stmt(&id, &member_name, value_expr, &member.id, member.span);
         stmts.push(stmt);
 
         // Track this member name for rewriting references in later members
@@ -183,6 +183,7 @@ fn create_enum_member_stmt(
     member_name: &Atom,
     value: Box<Expr>,
     member_id: &TsEnumMemberId,
+    member_span: Span,
 ) -> Stmt {
     let is_string_value = matches!(&*value, Expr::Lit(Lit::Str(_)));
 
@@ -213,7 +214,10 @@ fn create_enum_member_stmt(
             .into(),
             right: value,
         });
-        assign.into_stmt()
+        Stmt::Expr(ExprStmt {
+            span: member_span,
+            expr: Box::new(assign),
+        })
     } else {
         // For numeric values: Foo[Foo["a"] = 0] = "a";
         let inner_assign = Expr::Assign(AssignExpr {
@@ -247,7 +251,10 @@ fn create_enum_member_stmt(
             }))),
         });
 
-        outer_assign.into_stmt()
+        Stmt::Expr(ExprStmt {
+            span: member_span,
+            expr: Box::new(outer_assign),
+        })
     }
 }
 
@@ -499,7 +506,8 @@ pub fn transform_namespace_enum(
             current_value = Some(val + 1.0);
         }
 
-        let stmt = create_enum_member_stmt(&enum_id, &member_name, value_expr, &member.id);
+        let stmt =
+            create_enum_member_stmt(&enum_id, &member_name, value_expr, &member.id, member.span);
         stmts.push(stmt);
     }
 
@@ -640,7 +648,8 @@ pub fn transform_enum_merging(
             current_value = Some(val + 1.0);
         }
 
-        let stmt = create_enum_member_stmt(&enum_id, &member_name, value_expr, &member.id);
+        let stmt =
+            create_enum_member_stmt(&enum_id, &member_name, value_expr, &member.id, member.span);
         stmts.push(stmt);
     }
 
@@ -759,7 +768,8 @@ pub fn transform_namespace_enum_merging(
             current_value = Some(val + 1.0);
         }
 
-        let stmt = create_enum_member_stmt(&enum_id, &member_name, value_expr, &member.id);
+        let stmt =
+            create_enum_member_stmt(&enum_id, &member_name, value_expr, &member.id, member.span);
         stmts.push(stmt);
     }
 
