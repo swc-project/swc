@@ -22,6 +22,40 @@ use crate::{
     namespace::transform_namespace,
 };
 
+/// Check if a statement contains TypeScript constructs that would produce
+/// orphaned semicolons. This includes control statements that have TypeScript
+/// constructs in their body.
+fn contains_ts_construct(stmt: &Stmt) -> bool {
+    match stmt {
+        // Direct TypeScript constructs
+        Stmt::Decl(
+            Decl::TsEnum(_) | Decl::TsModule(_) | Decl::TsInterface(_) | Decl::TsTypeAlias(_),
+        ) => true,
+        // Control statements that might contain TS constructs in their body
+        Stmt::If(s) => {
+            contains_ts_construct(&s.cons)
+                || s.alt.as_ref().is_some_and(|alt| contains_ts_construct(alt))
+        }
+        Stmt::While(s) => contains_ts_construct(&s.body),
+        Stmt::DoWhile(s) => contains_ts_construct(&s.body),
+        Stmt::For(s) => contains_ts_construct(&s.body),
+        Stmt::ForIn(s) => contains_ts_construct(&s.body),
+        Stmt::ForOf(s) => contains_ts_construct(&s.body),
+        Stmt::With(s) => contains_ts_construct(&s.body),
+        Stmt::Labeled(s) => contains_ts_construct(&s.body),
+        Stmt::Block(s) => s.stmts.iter().any(contains_ts_construct),
+        _ => false,
+    }
+}
+
+/// Check if a module item contains TypeScript constructs
+fn module_item_contains_ts_construct(item: &ModuleItem) -> bool {
+    match item {
+        ModuleItem::Stmt(stmt) => contains_ts_construct(stmt),
+        _ => false,
+    }
+}
+
 /// Creates a TypeScript transform pass.
 pub fn typescript(
     config: Config,
@@ -359,29 +393,22 @@ impl VisitMut for TypeScript {
 
         // Second pass: transform items in original order (preserving import positions)
         let mut new_body = Vec::with_capacity(n.body.len());
-        // Track if previous item was a TypeScript-only construct (enum, namespace,
-        // type) to filter orphaned semicolons like `enum Foo { };`
-        let mut prev_was_ts_construct = false;
+        // Track if previous item contained a TypeScript construct (enum, namespace,
+        // type) to filter orphaned semicolons like `enum Foo { };` or `while(x) enum E
+        // {};`
+        let mut prev_contained_ts_construct = false;
 
         for item in n.body.drain(..) {
-            // Skip empty statements that immediately follow TypeScript constructs
-            if prev_was_ts_construct {
+            // Skip empty statements that immediately follow items containing TS constructs
+            if prev_contained_ts_construct {
                 if matches!(&item, ModuleItem::Stmt(Stmt::Empty(_))) {
-                    prev_was_ts_construct = false;
+                    prev_contained_ts_construct = false;
                     continue;
                 }
             }
 
-            // Check if this item is a TypeScript-only construct
-            prev_was_ts_construct = matches!(
-                &item,
-                ModuleItem::Stmt(Stmt::Decl(
-                    Decl::TsEnum(_)
-                        | Decl::TsModule(_)
-                        | Decl::TsInterface(_)
-                        | Decl::TsTypeAlias(_)
-                ))
-            );
+            // Check if this item contains a TypeScript construct
+            prev_contained_ts_construct = module_item_contains_ts_construct(&item);
 
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
@@ -650,8 +677,9 @@ impl TypeScript {
             });
             if !import.specifiers.is_empty() {
                 state.has_value_import = true;
-                out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
             }
+            // Keep the import (either as value import or side-effect import)
+            out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(import)));
         } else {
             // Remove type-only imports
             if import.type_only {
@@ -1471,7 +1499,22 @@ impl VisitMut for TypeStripper<'_> {
         // Transform nested enums and namespaces, tracking seen enum IDs for merging
         let mut new_stmts = Vec::with_capacity(n.len());
         let mut seen_enum_ids: FxHashSet<Id> = FxHashSet::default();
+        // Track if previous item contained a TypeScript construct to filter orphaned
+        // semicolons
+        let mut prev_contained_ts_construct = false;
+
         for stmt in n.drain(..) {
+            // Skip empty statements that immediately follow items containing TS constructs
+            if prev_contained_ts_construct {
+                if matches!(&stmt, Stmt::Empty(_)) {
+                    prev_contained_ts_construct = false;
+                    continue;
+                }
+            }
+
+            // Check if this statement contains a TypeScript construct
+            prev_contained_ts_construct = contains_ts_construct(&stmt);
+
             match stmt {
                 Stmt::Decl(Decl::TsEnum(e)) => {
                     // Skip const enums - they are removed and their usages inlined
