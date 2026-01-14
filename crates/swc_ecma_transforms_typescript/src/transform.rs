@@ -224,6 +224,8 @@ struct TransformState {
     /// Set of seen namespace IDs for merging (class/function/enum/namespace).
     /// Used to prevent emitting duplicate var declarations when merging.
     seen_ns_ids: FxHashSet<Id>,
+    /// Whether we need to emit createRequire infrastructure for NodeNext mode.
+    needs_create_require: bool,
 }
 
 impl Default for TransformState {
@@ -246,6 +248,7 @@ impl Default for TransformState {
             ns_export_var_decls: Default::default(),
             seen_enum_ids: Default::default(),
             seen_ns_ids: Default::default(),
+            needs_create_require: false,
         }
     }
 }
@@ -321,6 +324,7 @@ impl TransformState {
             ns_export_var_decls: Default::default(),
             seen_enum_ids: Default::default(),
             seen_ns_ids: Default::default(),
+            needs_create_require: false,
         }
     }
 }
@@ -359,6 +363,86 @@ impl VisitMut for TypeScript {
 
         // Second pass: transform items in original order (preserving import positions)
         let mut new_body = Vec::with_capacity(n.body.len());
+
+        // Pre-emit createRequire infrastructure if any TsImportEquals with NodeNext
+        // mode exists This ensures createRequire import comes before regular
+        // imports
+        if matches!(
+            self.config.import_export_assign_config,
+            TsImportExportAssignConfig::NodeNext
+        ) {
+            let needs_create_require = n.body.iter().any(|item| {
+                if let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = item {
+                    if !import.is_type_only {
+                        let is_used =
+                            import.is_export || state.value_usages.contains(&import.id.to_id());
+                        if is_used {
+                            return matches!(
+                                import.module_ref,
+                                TsModuleRef::TsExternalModuleRef(_)
+                            );
+                        }
+                    }
+                }
+                false
+            });
+
+            if needs_create_require {
+                let create_require_local = Ident::new_no_ctxt("_createRequire".into(), DUMMY_SP);
+                let require_local = Ident::new_no_ctxt("__require".into(), DUMMY_SP);
+
+                // import { createRequire as _createRequire } from "module"
+                new_body.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    span: DUMMY_SP,
+                    specifiers: vec![ImportSpecifier::Named(ImportNamedSpecifier {
+                        span: DUMMY_SP,
+                        local: create_require_local.clone(),
+                        imported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
+                            "createRequire".into(),
+                            DUMMY_SP,
+                        ))),
+                        is_type_only: false,
+                    })],
+                    src: Box::new(Str {
+                        span: DUMMY_SP,
+                        value: "module".into(),
+                        raw: None,
+                    }),
+                    type_only: false,
+                    with: None,
+                    phase: Default::default(),
+                })));
+
+                // const __require = _createRequire(import.meta.url)
+                new_body.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(require_local.into()),
+                        init: Some(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: Callee::Expr(Box::new(Expr::Ident(create_require_local))),
+                            args: vec![Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: Box::new(Expr::MetaProp(MetaPropExpr {
+                                    span: DUMMY_SP,
+                                    kind: MetaPropKind::ImportMeta,
+                                })),
+                                prop: MemberProp::Ident(IdentName::new("url".into(), DUMMY_SP)),
+                            })
+                            .as_arg()],
+                            ..Default::default()
+                        }))),
+                        definite: false,
+                    }],
+                    ..Default::default()
+                })))));
+
+                state.needs_create_require = true;
+            }
+        }
 
         for item in n.body.drain(..) {
             // Skip all empty statements at module level - they're not "concrete" statements
@@ -1264,61 +1348,12 @@ impl TypeScript {
         state: &mut TransformState,
     ) {
         if let TsModuleRef::TsExternalModuleRef(external) = &import.module_ref {
-            // import { createRequire as _createRequire } from "module"
-            // const __require = _createRequire(import.meta.url)
             // const foo = __require("foo")
+            // Note: createRequire infrastructure is pre-emitted at the beginning of the
+            // module when state.needs_create_require is true (set in
+            // visit_mut_module)
 
-            let create_require_local = Ident::new_no_ctxt("_createRequire".into(), DUMMY_SP);
             let require_local = Ident::new_no_ctxt("__require".into(), DUMMY_SP);
-
-            // import { createRequire as _createRequire } from "module"
-            out.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                span: DUMMY_SP,
-                specifiers: vec![ImportSpecifier::Named(ImportNamedSpecifier {
-                    span: DUMMY_SP,
-                    local: create_require_local.clone(),
-                    imported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
-                        "createRequire".into(),
-                        DUMMY_SP,
-                    ))),
-                    is_type_only: false,
-                })],
-                src: Box::new(Str {
-                    span: DUMMY_SP,
-                    value: "module".into(),
-                    raw: None,
-                }),
-                type_only: false,
-                with: None,
-                phase: Default::default(),
-            })));
-
-            // const __require = _createRequire(import.meta.url)
-            out.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Const,
-                declare: false,
-                decls: vec![VarDeclarator {
-                    span: DUMMY_SP,
-                    name: Pat::Ident(require_local.clone().into()),
-                    init: Some(Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
-                        callee: Callee::Expr(Box::new(Expr::Ident(create_require_local))),
-                        args: vec![Expr::Member(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: Box::new(Expr::MetaProp(MetaPropExpr {
-                                span: DUMMY_SP,
-                                kind: MetaPropKind::ImportMeta,
-                            })),
-                            prop: MemberProp::Ident(IdentName::new("url".into(), DUMMY_SP)),
-                        })
-                        .as_arg()],
-                        ..Default::default()
-                    }))),
-                    definite: false,
-                }],
-                ..Default::default()
-            })))));
 
             // const foo = __require("foo")
             let var = VarDecl {
@@ -1377,6 +1412,11 @@ impl VisitMut for TypeStripper<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        // Check if we had any module declarations before filtering
+        let had_module_decl = n
+            .iter()
+            .any(|item| matches!(item, ModuleItem::ModuleDecl(_)));
+
         // Remove function declaration overloads (signatures without bodies)
         // and declare var/let/const
         n.retain(|item| match item {
@@ -1389,6 +1429,26 @@ impl VisitMut for TypeStripper<'_> {
             ModuleItem::Stmt(Stmt::Decl(Decl::Var(v))) if v.declare => false,
             _ => true,
         });
+
+        // If we removed all module declarations but the module originally had them,
+        // add an empty export to preserve module semantics
+        if !self.config.no_empty_export
+            && had_module_decl
+            && !n
+                .iter()
+                .any(|item| matches!(item, ModuleItem::ModuleDecl(_)))
+        {
+            n.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                NamedExport {
+                    span: DUMMY_SP,
+                    specifiers: vec![],
+                    src: None,
+                    type_only: false,
+                    with: None,
+                },
+            )));
+        }
+
         n.visit_mut_children_with(self);
     }
 
