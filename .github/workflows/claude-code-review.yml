@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: write
       issues: read
       id-token: write
 
@@ -21,7 +21,6 @@ jobs:
         with:
           fetch-depth: 1
 
-
       - name: Dismiss old Claude bot comments
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,8 +29,8 @@ jobs:
           REPO="${{ github.repository }}"
           PR_NUMBER="${{ github.event.pull_request.number }}"
 
-          # Get review comments (PR review comments)
-          gh api "repos/$REPO/pulls/$PR_NUMBER/comments" --jq '.[] | select(.user.login == "claude[bot]") | .node_id' | while read -r comment_node_id; do
+          # Get issue comments (gh pr comment creates issue comments, not review comments)
+          gh api "repos/$REPO/issues/$PR_NUMBER/comments" --jq '.[] | select(.user.login == "claude[bot]") | .node_id' | while read -r comment_node_id; do
             if [ -n "$comment_node_id" ]; then
               echo "Hiding review comment: $comment_node_id"
               gh api graphql -f query='
@@ -44,7 +43,7 @@ jobs:
                 }' -f id="$comment_node_id"
             fi
           done
-  
+
 
       - name: Run Claude Code Review
         id: claude-review
