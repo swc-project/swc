@@ -6,6 +6,7 @@ pub use self::{strip_type::*, typescript::*};
 mod config;
 mod macros;
 mod strip_import_export;
+mod strip_rewrite_ctxt;
 mod strip_type;
 mod transform;
 mod ts_enum;

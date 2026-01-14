@@ -2833,3 +2833,95 @@ test!(
     ts_jsx_bad_pragma,
     r#"/** @jsx bad-pragma */"#
 );
+
+/// Test that identifiers from stripped `declare` statements are marked as
+/// unresolved https://github.com/swc-project/swc/issues/11448
+#[test]
+fn issue_11448_declare_unresolved_marks() {
+    use swc_common::{sync::Lrc, FileName, Globals, SourceMap, SyntaxContext, GLOBALS};
+    use swc_ecma_ast::{Ident, Program};
+    use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
+    use swc_ecma_visit::{Visit, VisitWith};
+
+    let src = r#"
+declare const Foo = 1234;
+console.log(Foo);
+
+declare global {}
+const { Number } = global
+"#;
+
+    let cm: Lrc<SourceMap> = Default::default();
+    let fm = cm.new_source_file(FileName::Anon.into(), src);
+
+    let lexer = Lexer::new(
+        Syntax::Typescript(TsSyntax::default()),
+        Default::default(),
+        StringInput::from(&*fm),
+        None,
+    );
+
+    let mut parser = Parser::new_from(lexer);
+    let mut program = Program::Module(parser.parse_module().expect("Failed to parse"));
+
+    GLOBALS.set(&Globals::new(), || {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        program = program
+            .apply(resolver(unresolved_mark, top_level_mark, true))
+            .apply(typescript::typescript(
+                typescript::Config {
+                    no_empty_export: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+                top_level_mark,
+            ));
+
+        // Now check that Foo and global are marked as unresolved
+        struct MarkChecker {
+            unresolved_ctxt: SyntaxContext,
+            top_level_ctxt: SyntaxContext,
+            errors: Vec<String>,
+        }
+
+        impl Visit for MarkChecker {
+            fn visit_ident(&mut self, ident: &Ident) {
+                // Check if Foo reference (not in declaration) has unresolved mark
+                if ident.sym.as_ref() == "Foo" {
+                    if ident.ctxt != self.unresolved_ctxt {
+                        self.errors.push(format!(
+                            "Foo should have unresolved_ctxt ({:?}) but has {:?}",
+                            self.unresolved_ctxt, ident.ctxt
+                        ));
+                    }
+                }
+                // Check if global reference has unresolved mark
+                if ident.sym.as_ref() == "global" {
+                    if ident.ctxt != self.unresolved_ctxt {
+                        self.errors.push(format!(
+                            "global should have unresolved_ctxt ({:?}) but has {:?}",
+                            self.unresolved_ctxt, ident.ctxt
+                        ));
+                    }
+                }
+            }
+        }
+
+        let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+        let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
+
+        let mut checker = MarkChecker {
+            unresolved_ctxt,
+            top_level_ctxt,
+            errors: Vec::new(),
+        };
+
+        program.visit_with(&mut checker);
+
+        if !checker.errors.is_empty() {
+            panic!("Mark check failed:\n{}", checker.errors.join("\n"));
+        }
+    });
+}

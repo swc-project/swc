@@ -5,10 +5,15 @@ use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
-use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith, VisitWith};
 
 pub use crate::config::*;
-use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
+use crate::{
+    strip_import_export::StripImportExport,
+    strip_rewrite_ctxt::{CtxtRewriter, DeclareIdCollector},
+    strip_type::StripType,
+    transform::transform,
+};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -51,7 +56,21 @@ impl Pass for TypeScript {
             });
         }
 
+        // Collect identifiers from `declare` statements that will be stripped
+        let mut declare_id_collector = DeclareIdCollector::new();
+        n.visit_with(&mut declare_id_collector);
+
         n.visit_mut_with(&mut StripType::default());
+
+        // Rewrite the syntax context of identifiers that were declared in stripped
+        // `declare` statements from `top_level_mark` to `unresolved_mark`
+        if !declare_id_collector.ids.is_empty() {
+            n.visit_mut_with(&mut CtxtRewriter::new(
+                declare_id_collector.ids,
+                self.unresolved_mark,
+                self.top_level_mark,
+            ));
+        }
 
         n.mutate(transform(
             self.unresolved_mark,
