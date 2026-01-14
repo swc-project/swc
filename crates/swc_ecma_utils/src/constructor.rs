@@ -6,21 +6,26 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::ExprFactory;
 
-/// Checks if an expression is a private field init call
-/// (pattern: `_class_private_field_init._(...)`  or
-/// `_class_private_field_init(...)`)
-fn is_private_field_init(expr: &Expr) -> bool {
+/// Checks if an expression is a field definition call that should come before
+/// param props. This includes:
+/// - `_class_private_field_init._(...)`  or `_class_private_field_init(...)`
+/// - `_define_property._(...)`  or `_define_property(...)`
+fn is_field_init(expr: &Expr) -> bool {
     if let Expr::Call(CallExpr { callee, .. }) = expr {
         if let Callee::Expr(callee_expr) = callee {
-            // Check for _class_private_field_init._(...) pattern (swc helpers)
+            // Check for helper._(...) pattern (swc helpers with member access)
             if let Expr::Member(MemberExpr { obj, .. }) = &**callee_expr {
                 if let Expr::Ident(ident) = &**obj {
-                    return ident.sym.starts_with("_class_private_field_init");
+                    let sym = &ident.sym;
+                    return sym.starts_with("_class_private_field_init")
+                        || sym.starts_with("_define_property");
                 }
             }
-            // Check for direct _class_private_field_init(...) pattern
+            // Check for direct helper(...) pattern
             if let Expr::Ident(ident) = &**callee_expr {
-                return ident.sym.starts_with("_class_private_field_init");
+                let sym = &ident.sym;
+                return sym.starts_with("_class_private_field_init")
+                    || sym.starts_with("_define_property");
             }
         }
     }
@@ -88,13 +93,13 @@ pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
     if !injector.injected {
         let exprs = injector.exprs.take();
 
-        // Check if the first expression is a private field init call
-        // (_class_private_field_init). Private field inits should come
-        // BEFORE parameter properties, so insert at position 0.
-        let starts_with_private_init = exprs.first().is_some_and(|e| is_private_field_init(e));
+        // Check if the first expression is a field init call
+        // (_class_private_field_init or _define_property). Field inits should
+        // come BEFORE parameter properties, so insert at position 0.
+        let starts_with_field_init = exprs.first().is_some_and(|e| is_field_init(e));
 
-        let insert_pos = if starts_with_private_init {
-            // Private field inits go at position 0 (before param props)
+        let insert_pos = if starts_with_field_init {
+            // Field inits go at position 0 (before param props)
             0
         } else {
             // Other expressions go after parameter property initializations
