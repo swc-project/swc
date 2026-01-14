@@ -12,4 +12,3 @@ for (const _ of Math.random());
 switch(Math.random()){
     case 1:
 }
-;
