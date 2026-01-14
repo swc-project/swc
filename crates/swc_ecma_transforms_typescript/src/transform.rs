@@ -1815,7 +1815,33 @@ impl VisitMut for TypeStripper<'_> {
                             prop_name.and_then(|name| {
                                 enum_values.get(&name).and_then(|value| {
                                     Some(match value {
-                                        TsLit::Number(num) => Expr::Lit(Lit::Num(num.clone())),
+                                        // Handle NaN/Infinity as identifiers
+                                        TsLit::Number(num) if num.value.is_nan() => {
+                                            Expr::Ident(Ident::new_no_ctxt("NaN".into(), DUMMY_SP))
+                                        }
+                                        TsLit::Number(num) if num.value.is_infinite() => {
+                                            if num.value.is_sign_positive() {
+                                                Expr::Ident(Ident::new_no_ctxt(
+                                                    "Infinity".into(),
+                                                    DUMMY_SP,
+                                                ))
+                                            } else {
+                                                Expr::Unary(UnaryExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!(unary, "-"),
+                                                    arg: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                                                        "Infinity".into(),
+                                                        DUMMY_SP,
+                                                    ))),
+                                                })
+                                            }
+                                        }
+                                        // Normalize number format with raw: None
+                                        TsLit::Number(num) => Expr::Lit(Lit::Num(Number {
+                                            span: num.span,
+                                            value: num.value,
+                                            raw: None,
+                                        })),
                                         TsLit::Str(s) => Expr::Lit(Lit::Str(s.clone())),
                                         TsLit::Bool(b) => Expr::Lit(Lit::Bool(b.clone())),
                                         TsLit::Tpl(_) => return None, /* Cannot inline template */

@@ -4,10 +4,34 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{source_map::PURE_SP, DUMMY_SP};
+use swc_common::{source_map::PURE_SP, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
+
+/// Creates an expression for a numeric value.
+/// Handles special cases like NaN and Infinity which must be identifiers.
+fn num_to_expr(n: &Number) -> Box<Expr> {
+    if n.value.is_nan() {
+        Box::new(Expr::Ident(Ident::new_no_ctxt("NaN".into(), DUMMY_SP)))
+    } else if n.value.is_infinite() {
+        if n.value.is_sign_positive() {
+            Box::new(Expr::Ident(Ident::new_no_ctxt("Infinity".into(), DUMMY_SP)))
+        } else {
+            Box::new(Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!(unary, "-"),
+                arg: Box::new(Expr::Ident(Ident::new_no_ctxt("Infinity".into(), DUMMY_SP))),
+            }))
+        }
+    } else {
+        Box::new(Expr::Lit(Lit::Num(Number {
+            span: n.span,
+            value: n.value,
+            raw: None,
+        })))
+    }
+}
 
 /// Transforms a TypeScript enum declaration into JavaScript.
 ///
@@ -63,7 +87,8 @@ fn transform_enum_with_options(
                 match val {
                     TsLit::Number(n) => {
                         current_value = Some(n.value);
-                        Box::new(Expr::Lit(Lit::Num(n.clone())))
+                        // Use helper to handle NaN/Infinity as identifiers
+                        num_to_expr(n)
                     }
                     TsLit::Str(s) => {
                         current_value = None;
@@ -319,7 +344,16 @@ pub fn compute_const_expr(
                     None
                 }
             }
-            op!(unary, "+") => compute_const_expr(&u.arg, local_values, existing_values),
+            op!(unary, "+") => {
+                // Unary + converts to number - only return computed value if it's already a
+                // number
+                match compute_const_expr(&u.arg, local_values, existing_values) {
+                    Some(TsLit::Number(n)) => Some(TsLit::Number(n)),
+                    // Can't compute string to number at compile time, return None to preserve
+                    // original
+                    _ => None,
+                }
+            }
             op!("~") => {
                 if let Some(TsLit::Number(n)) =
                     compute_const_expr(&u.arg, local_values, existing_values)
@@ -421,7 +455,8 @@ pub fn transform_namespace_enum(
                 match val {
                     TsLit::Number(n) => {
                         current_value = Some(n.value);
-                        Box::new(Expr::Lit(Lit::Num(n.clone())))
+                        // Use helper to handle NaN/Infinity as identifiers
+                        num_to_expr(n)
                     }
                     TsLit::Str(s) => {
                         current_value = None;
@@ -561,7 +596,8 @@ pub fn transform_enum_merging(
                 match val {
                     TsLit::Number(n) => {
                         current_value = Some(n.value);
-                        Box::new(Expr::Lit(Lit::Num(n.clone())))
+                        // Use helper to handle NaN/Infinity as identifiers
+                        num_to_expr(n)
                     }
                     TsLit::Str(s) => {
                         current_value = None;
@@ -679,7 +715,8 @@ pub fn transform_namespace_enum_merging(
                 match val {
                     TsLit::Number(n) => {
                         current_value = Some(n.value);
-                        Box::new(Expr::Lit(Lit::Num(n.clone())))
+                        // Use helper to handle NaN/Infinity as identifiers
+                        num_to_expr(n)
                     }
                     TsLit::Str(s) => {
                         current_value = None;
