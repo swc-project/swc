@@ -340,6 +340,25 @@ impl VisitMut for TypeScript {
             analyzer.analyze_module(n);
         }
 
+        // Save the span of the last ES module declaration for empty export restoration
+        // This preserves attached comments when we add `export {}` to maintain module
+        // semantics
+        let last_module_decl_span = if !self.config.no_empty_export {
+            n.body.iter().rev().find_map(|item| match item {
+                ModuleItem::ModuleDecl(
+                    ModuleDecl::Import(_)
+                    | ModuleDecl::ExportDecl(_)
+                    | ModuleDecl::ExportNamed(_)
+                    | ModuleDecl::ExportDefaultDecl(_)
+                    | ModuleDecl::ExportDefaultExpr(_)
+                    | ModuleDecl::ExportAll(_),
+                ) => Some(item.span()),
+                _ => None,
+            })
+        } else {
+            None
+        };
+
         // Initialize state from the analyzed info
         let mut state = TransformState::from_program_info(info, n);
 
@@ -499,9 +518,12 @@ impl VisitMut for TypeScript {
                 .iter()
                 .any(|item| matches!(item, ModuleItem::ModuleDecl(_)))
         {
+            // Use the span from the last ES module declaration to preserve attached
+            // comments
+            let span = last_module_decl_span.unwrap_or(DUMMY_SP);
             new_body.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                 NamedExport {
-                    span: DUMMY_SP,
+                    span,
                     specifiers: vec![],
                     src: None,
                     type_only: false,
@@ -880,8 +902,8 @@ impl TypeScript {
                         })));
                     }
                     Decl::Fn(ref f) => {
-                        // Skip declare function (ambient)
-                        if f.declare {
+                        // Skip declare function (ambient) or function without body (.d.ts files)
+                        if f.declare || f.function.body.is_none() {
                             return;
                         }
                         state.has_value_export = true;
@@ -1165,14 +1187,16 @@ impl TypeScript {
                         if let TsModuleName::Ident(id) = &ns.id {
                             let ns_id = id.to_id();
                             if !seen_ns_ids.contains(&ns_id) {
-                                seen_ns_ids.insert(ns_id);
+                                seen_ns_ids.insert(ns_id.clone());
+                                // Use Ident::from(Id) to get DUMMY_SP span, avoiding extra source
+                                // map entries
                                 ns_var_decls.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                                     span: DUMMY_SP,
                                     kind: VarDeclKind::Var,
                                     declare: false,
                                     decls: vec![VarDeclarator {
                                         span: DUMMY_SP,
-                                        name: Pat::Ident(id.clone().into()),
+                                        name: Pat::Ident(Ident::from(ns_id).into()),
                                         init: None,
                                         definite: false,
                                     }],

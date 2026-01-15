@@ -4,7 +4,7 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -109,18 +109,15 @@ pub fn transform_namespace(
 
     // Create IIFE (even if inner_stmts is empty - the namespace is still
     // instantiated)
-    let param = Param {
-        span: DUMMY_SP,
-        decorators: vec![],
-        pat: Pat::Ident(id.clone().into()),
-    };
+    // Preserve original identifier span for source map accuracy
+    let param = Param::from(Pat::from(BindingIdent::from(id.clone())));
 
     let func = Function {
         params: vec![param],
         decorators: vec![],
         span: DUMMY_SP,
         body: Some(BlockStmt {
-            span: DUMMY_SP,
+            span: body.span,
             stmts: inner_stmts,
             ..Default::default()
         }),
@@ -189,11 +186,8 @@ fn transform_nested_namespace(
         };
 
     // Create outer namespace IIFE
-    let param = Param {
-        span: DUMMY_SP,
-        decorators: vec![],
-        pat: Pat::Ident(outer_id.clone().into()),
-    };
+    // Preserve original identifier span for source map accuracy
+    let param = Param::from(Pat::from(BindingIdent::from(outer_id.clone())));
 
     let func = Function {
         params: vec![param],
@@ -313,11 +307,8 @@ fn transform_child_namespace(
     }
 
     // Create inner IIFE
-    let param = Param {
-        span: DUMMY_SP,
-        decorators: vec![],
-        pat: Pat::Ident(child_id.clone().into()),
-    };
+    // Preserve original identifier span for source map accuracy
+    let param = Param::from(Pat::from(BindingIdent::from(child_id.clone())));
 
     let func = Function {
         params: vec![param],
@@ -614,7 +605,7 @@ fn process_module_decl(
                             op: op!("="),
                             left: MemberExpr {
                                 span: DUMMY_SP,
-                                obj: Box::new(Expr::Ident(ns_id.clone())),
+                                obj: Box::new(Expr::Ident(Ident::from(ns_id.to_id()))),
                                 prop: MemberProp::Ident(IdentName::new(exported_name, DUMMY_SP)),
                             }
                             .into(),
@@ -645,7 +636,7 @@ fn process_module_decl(
                         // export import a = A; -> NS.a = A;
                         let member = MemberExpr {
                             span: DUMMY_SP,
-                            obj: Box::new(Expr::Ident(ns_id.clone())),
+                            obj: Box::new(Expr::Ident(Ident::from(ns_id.to_id()))),
                             prop: MemberProp::Ident(IdentName::new(
                                 import.id.sym.clone(),
                                 DUMMY_SP,
@@ -738,8 +729,8 @@ fn rewrite_exported_import_usages(stmt: &mut Stmt, exported_import_equals: &FxHa
                     // Replace `a` with `NS.a`
                     *n = Expr::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1031,8 +1022,8 @@ fn rewrite_export_references(expr: &mut Expr, exported_ids: &FxHashSet<Id>, ns_i
                     // Replace `a` with `NS.a`
                     *n = Expr::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(self.ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1098,8 +1089,8 @@ fn rewrite_export_references_in_fn(
                     // Replace `a` with `NS.a`
                     *n = Expr::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(self.ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1113,8 +1104,8 @@ fn rewrite_export_references_in_fn(
                 if self.exported_ids.contains(&id.to_id()) {
                     *n = SimpleAssignTarget::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(self.ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1180,8 +1171,8 @@ fn rewrite_export_references_in_class(
                     // Replace `a` with `NS.a`
                     *n = Expr::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(self.ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1195,8 +1186,8 @@ fn rewrite_export_references_in_class(
                 if self.exported_ids.contains(&id.to_id()) {
                     *n = SimpleAssignTarget::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(self.ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1258,8 +1249,8 @@ fn rewrite_export_references_in_stmt(stmt: &mut Stmt, exported_ids: &FxHashSet<I
                     // Replace `a` with `NS.a`
                     *n = Expr::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(self.ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1274,8 +1265,8 @@ fn rewrite_export_references_in_stmt(stmt: &mut Stmt, exported_ids: &FxHashSet<I
                     // Replace `a` with `NS.a`
                     *n = SimpleAssignTarget::Member(MemberExpr {
                         span: DUMMY_SP,
-                        obj: Box::new(Expr::Ident(self.ns_id.clone())),
-                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                        obj: Box::new(Expr::Ident(Ident::from(self.ns_id.to_id()))),
+                        prop: MemberProp::Ident(id.clone().into()),
                     });
                 }
             }
@@ -1334,13 +1325,16 @@ fn ts_entity_to_expr(entity: TsEntityName) -> Box<Expr> {
 
 /// Emits an export assignment statement: ns.name = name;
 fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, span: Span, out: &mut Vec<Stmt>) {
+    // Use Ident::from(id.to_id()) to get DUMMY_SP span, avoiding extra source map
+    // entries But preserve the export_ident span for the property for source
+    // map accuracy
     let assign = Expr::Assign(AssignExpr {
         span: DUMMY_SP,
         op: op!("="),
         left: MemberExpr {
             span: DUMMY_SP,
-            obj: Box::new(Expr::Ident(ns_id.clone())),
-            prop: MemberProp::Ident(IdentName::new(export_ident.sym.clone(), DUMMY_SP)),
+            obj: Box::new(Expr::Ident(Ident::from(ns_id.to_id()))),
+            prop: MemberProp::Ident(export_ident.clone().into()),
         }
         .into(),
         right: Box::new(Expr::Ident(export_ident.clone())),
@@ -1352,15 +1346,18 @@ fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, span: Span, out: 
 }
 
 /// Transforms a pattern into an assignment target, replacing identifiers with
-/// namespace member access. Preserves original spans for sourcemap generation.
+/// namespace member access. Uses DUMMY_SP for the MemberExpr span but preserves
+/// the original identifier span in the prop for proper source map generation.
 fn transform_pat_to_assign_target_with_span(pat: &Pat, ns_id: &Ident) -> AssignTarget {
+    // Create namespace identifier with DUMMY_SP to avoid extra source map entries
+    let ns_ident = Ident::from(ns_id.to_id());
     match pat {
         Pat::Ident(i) => {
-            // Transform `a` into `ns.a`, preserving span of the identifier
+            // Transform `a` into `ns.a`, preserving original identifier span in prop
             AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                span: i.span,
-                obj: Box::new(Expr::Ident(ns_id.clone())),
-                prop: MemberProp::Ident(IdentName::new(i.sym.clone(), i.span)),
+                span: DUMMY_SP,
+                obj: Box::new(Expr::Ident(ns_ident)),
+                prop: MemberProp::Ident(i.id.clone().into()),
             }))
         }
         Pat::Array(a) => {
@@ -1392,13 +1389,13 @@ fn transform_pat_to_assign_target_with_span(pat: &Pat, ns_id: &Ident) -> AssignT
                     }),
                     ObjectPatProp::Assign(a) => {
                         let member_expr = Expr::Member(MemberExpr {
-                            span: a.key.span,
-                            obj: Box::new(Expr::Ident(ns_id.clone())),
-                            prop: MemberProp::Ident(IdentName::new(a.key.sym.clone(), a.key.span)),
+                            span: DUMMY_SP,
+                            obj: Box::new(Expr::Ident(Ident::from(ns_id.to_id()))),
+                            prop: MemberProp::Ident(a.key.id.clone().into()),
                         });
                         let value_pat: Pat = if let Some(default_value) = &a.value {
                             Pat::Assign(AssignPat {
-                                span: a.span,
+                                span: DUMMY_SP,
                                 left: Box::new(Pat::Expr(Box::new(member_expr))),
                                 right: default_value.clone(),
                             })
@@ -1406,7 +1403,7 @@ fn transform_pat_to_assign_target_with_span(pat: &Pat, ns_id: &Ident) -> AssignT
                             Pat::Expr(Box::new(member_expr))
                         };
                         ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(IdentName::new(a.key.sym.clone(), a.key.span)),
+                            key: PropName::Ident(a.key.id.clone().into()),
                             value: Box::new(value_pat),
                         })
                     }
