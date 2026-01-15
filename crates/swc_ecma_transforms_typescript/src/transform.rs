@@ -965,10 +965,14 @@ impl TypeScript {
                     true
                 });
 
+                // Keep the export only if it has specifiers remaining
                 if !export.specifiers.is_empty() {
                     state.has_value_export = true;
                     out.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
                 }
+                // Note: Empty exports (including originally empty `export {}`)
+                // are dropped Module semantics will be
+                // preserved at the end if needed
             }
 
             // Handle default exports

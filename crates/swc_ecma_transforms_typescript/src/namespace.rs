@@ -4,7 +4,7 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::DUMMY_SP;
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -160,7 +160,11 @@ pub fn transform_namespace(
         ..Default::default()
     });
 
-    let iife_stmt = call.into_stmt();
+    // Use original namespace span for sourcemap accuracy
+    let iife_stmt = Stmt::Expr(ExprStmt {
+        span: ns.span,
+        expr: Box::new(call),
+    });
 
     // Just return the IIFE statement
     // Variable declaration is handled by the caller if needed
@@ -472,109 +476,123 @@ fn process_module_decl(
     exported_ids: &FxHashSet<Id>,
 ) {
     match decl {
-        ModuleDecl::ExportDecl(export) => match export.decl {
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
-            Decl::Class(c) => {
-                // Skip declare class (ambient)
-                if c.declare {
-                    return;
+        ModuleDecl::ExportDecl(export) => {
+            let export_span = export.span;
+            match export.decl {
+                Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {}
+                Decl::Class(c) => {
+                    // Skip declare class (ambient)
+                    if c.declare {
+                        return;
+                    }
+                    let ident = c.ident.clone();
+                    // Rewrite references to exported members in class body
+                    let mut class_decl = c;
+                    rewrite_export_references_in_class(&mut class_decl.class, exported_ids, ns_id);
+                    out.push(Stmt::Decl(Decl::Class(class_decl)));
+                    // Emit export assignment immediately after declaration
+                    emit_export_assignment(ns_id, &ident, export_span, out);
                 }
-                let ident = c.ident.clone();
-                // Rewrite references to exported members in class body
-                let mut class_decl = c;
-                rewrite_export_references_in_class(&mut class_decl.class, exported_ids, ns_id);
-                out.push(Stmt::Decl(Decl::Class(class_decl)));
-                // Emit export assignment immediately after declaration
-                emit_export_assignment(ns_id, &ident, out);
-            }
-            Decl::Fn(f) => {
-                // Skip declare function (ambient)
-                if f.declare {
-                    return;
+                Decl::Fn(f) => {
+                    // Skip declare function (ambient)
+                    if f.declare {
+                        return;
+                    }
+                    let ident = f.ident.clone();
+                    // Rewrite references to exported members in function body
+                    let mut fn_decl = f;
+                    rewrite_export_references_in_fn(&mut fn_decl.function, exported_ids, ns_id);
+                    out.push(Stmt::Decl(Decl::Fn(fn_decl)));
+                    // Emit export assignment immediately after declaration
+                    emit_export_assignment(ns_id, &ident, export_span, out);
                 }
-                let ident = f.ident.clone();
-                // Rewrite references to exported members in function body
-                let mut fn_decl = f;
-                rewrite_export_references_in_fn(&mut fn_decl.function, exported_ids, ns_id);
-                out.push(Stmt::Decl(Decl::Fn(fn_decl)));
-                // Emit export assignment immediately after declaration
-                emit_export_assignment(ns_id, &ident, out);
-            }
-            Decl::Var(v) => {
-                // Skip declare var (ambient)
-                if v.declare {
-                    return;
+                Decl::Var(v) => {
+                    // Skip declare var (ambient)
+                    if v.declare {
+                        return;
+                    }
+                    // For exported variable declarations, transform to namespace
+                    // assignments following main branch logic: collect all
+                    // assignments and emit as single/seq expr statement
+                    let mut exprs: Vec<Box<Expr>> = Vec::new();
+                    for decl in &v.decls {
+                        if let Some(init) = &decl.init {
+                            let left = transform_pat_to_assign_target_with_span(&decl.name, ns_id);
+                            // Rewrite references to other exported members in the init expr
+                            let mut init_expr = init.clone();
+                            rewrite_export_references(&mut init_expr, exported_ids, ns_id);
+                            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span: decl.span,
+                                op: op!("="),
+                                left,
+                                right: init_expr,
+                            })));
+                        }
+                    }
+                    if !exprs.is_empty() {
+                        let expr = if exprs.len() == 1 {
+                            exprs.pop().unwrap()
+                        } else {
+                            Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            }))
+                        };
+                        out.push(Stmt::Expr(ExprStmt { span: v.span, expr }));
+                    }
                 }
-                // For exported variable declarations:
-                // - Simple binding: export const a = 1; -> ns.a = 1;
-                // - Destructuring: export const [a, b] = x; -> [ns.a, ns.b] = x;
-                for decl in &v.decls {
-                    let left = transform_pat_to_assign_target_with_span(&decl.name, ns_id);
-                    if let Some(init) = &decl.init {
-                        // Rewrite references to other exported members in the init expr
-                        let mut init_expr = init.clone();
-                        rewrite_export_references(&mut init_expr, exported_ids, ns_id);
-                        let assign = Expr::Assign(AssignExpr {
-                            span: decl.span,
-                            op: op!("="),
-                            left,
-                            right: init_expr,
-                        });
-                        out.push(assign.into_stmt());
+                Decl::Using(u) => {
+                    let mut idents = Vec::new();
+                    for decl in &u.decls {
+                        collect_binding_idents(&decl.name, &mut idents);
+                    }
+                    out.push(Stmt::Decl(Decl::Using(u)));
+                    // Emit export assignments immediately
+                    for ident in &idents {
+                        emit_export_assignment(ns_id, ident, export_span, out);
+                    }
+                }
+                Decl::TsEnum(e) => {
+                    // Skip declare enum (ambient)
+                    if e.declare {
+                        return;
+                    }
+                    let enum_id = e.id.to_id();
+                    let stmt = if seen_enum_ids.contains(&enum_id) {
+                        // Merging: use NS.E instead of NS.E || (NS.E = {})
+                        transform_namespace_enum_merging(&e, ns_id, enum_values)
+                    } else {
+                        // First declaration: use NS.E || (NS.E = {})
+                        seen_enum_ids.insert(enum_id.clone());
+                        transform_namespace_enum(&e, ns_id, enum_values)
+                    };
+                    if let Some(values) = collect_enum_values(&e) {
+                        enum_values.insert(e.id.to_id(), values);
+                    }
+                    out.push(stmt);
+                    // No separate export assignment needed - it's built into
+                    // the IIFE
+                }
+                Decl::TsModule(ns_decl) => {
+                    let body = match &ns_decl.body {
+                        Some(b) => b,
+                        None => return, // Ambient declaration
+                    };
+                    if ns_decl.declare {
+                        return;
+                    }
+                    // Use namespace pattern: (function(Child){...})(Parent.Child ||
+                    // (Parent.Child = {}))
+                    if let TsModuleName::Ident(child_id) = &ns_decl.id {
+                        if let Some(stmt) =
+                            transform_child_namespace(ns_id, child_id, body, enum_values)
+                        {
+                            out.push(stmt);
+                        }
                     }
                 }
             }
-            Decl::Using(u) => {
-                let mut idents = Vec::new();
-                for decl in &u.decls {
-                    collect_binding_idents(&decl.name, &mut idents);
-                }
-                out.push(Stmt::Decl(Decl::Using(u)));
-                // Emit export assignments immediately
-                for ident in &idents {
-                    emit_export_assignment(ns_id, ident, out);
-                }
-            }
-            Decl::TsEnum(e) => {
-                // Skip declare enum (ambient)
-                if e.declare {
-                    return;
-                }
-                let enum_id = e.id.to_id();
-                let stmt = if seen_enum_ids.contains(&enum_id) {
-                    // Merging: use NS.E instead of NS.E || (NS.E = {})
-                    transform_namespace_enum_merging(&e, ns_id, enum_values)
-                } else {
-                    // First declaration: use NS.E || (NS.E = {})
-                    seen_enum_ids.insert(enum_id.clone());
-                    transform_namespace_enum(&e, ns_id, enum_values)
-                };
-                if let Some(values) = collect_enum_values(&e) {
-                    enum_values.insert(e.id.to_id(), values);
-                }
-                out.push(stmt);
-                // No separate export assignment needed - it's built into the
-                // IIFE
-            }
-            Decl::TsModule(ns_decl) => {
-                let body = match &ns_decl.body {
-                    Some(b) => b,
-                    None => return, // Ambient declaration
-                };
-                if ns_decl.declare {
-                    return;
-                }
-                // Use namespace pattern: (function(Child){...})(Parent.Child || (Parent.Child =
-                // {}))
-                if let TsModuleName::Ident(child_id) = &ns_decl.id {
-                    if let Some(stmt) =
-                        transform_child_namespace(ns_id, child_id, body, enum_values)
-                    {
-                        out.push(stmt);
-                    }
-                }
-            }
-        },
+        }
         ModuleDecl::ExportNamed(export) => {
             if export.src.is_some() || export.type_only {
                 return;
@@ -1315,7 +1333,7 @@ fn ts_entity_to_expr(entity: TsEntityName) -> Box<Expr> {
 }
 
 /// Emits an export assignment statement: ns.name = name;
-fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, out: &mut Vec<Stmt>) {
+fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, span: Span, out: &mut Vec<Stmt>) {
     let assign = Expr::Assign(AssignExpr {
         span: DUMMY_SP,
         op: op!("="),
@@ -1327,7 +1345,10 @@ fn emit_export_assignment(ns_id: &Ident, export_ident: &Ident, out: &mut Vec<Stm
         .into(),
         right: Box::new(Expr::Ident(export_ident.clone())),
     });
-    out.push(assign.into_stmt());
+    out.push(Stmt::Expr(ExprStmt {
+        span,
+        expr: Box::new(assign),
+    }));
 }
 
 /// Transforms a pattern into an assignment target, replacing identifiers with
