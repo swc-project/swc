@@ -7,7 +7,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 use crate::enums::{
     collect_enum_values, transform_enum_block_scoped, transform_namespace_enum,
@@ -54,6 +54,10 @@ pub fn transform_namespace(
     // Collect all exported IDs first for reference rewriting
     let exported_ids = collect_exported_ids(body);
 
+    // Collect identifiers that are used as values in the namespace body.
+    // This is needed to determine which import equals should be emitted.
+    let value_usages = collect_value_usages_in_block(body);
+
     for item in &body.body {
         match item {
             ModuleItem::Stmt(stmt) => {
@@ -82,6 +86,7 @@ pub fn transform_namespace(
                     &mut enum_values,
                     &mut seen_enum_ids,
                     &exported_ids,
+                    &value_usages,
                 );
             }
         }
@@ -239,14 +244,30 @@ fn transform_nested_namespace(
 
 /// Transforms a child namespace inside a parent namespace.
 /// Creates: `(function(Inner) {...})(Parent.Inner || (Parent.Inner = {}));`
-/// Returns None if the namespace body is empty (only contains type
-/// declarations).
+/// Returns None if the namespace is not instantiated (only contains type
+/// declarations and no value declarations).
 fn transform_child_namespace(
     parent_id: &Ident,
     child_id: &Ident,
     body: &TsNamespaceBody,
     enum_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
 ) -> Option<Stmt> {
+    // Check if the namespace is instantiated (has value declarations).
+    // We need to check this separately because a namespace might have value
+    // declarations without initializers (e.g., `export var Point: number;`)
+    // which don't produce statements but still require the namespace to exist.
+    let is_instantiated = match body {
+        TsNamespaceBody::TsModuleBlock(block) => is_namespace_instantiated(block),
+        TsNamespaceBody::TsNamespaceDecl(nested) => match &*nested.body {
+            TsNamespaceBody::TsModuleBlock(block) => is_namespace_instantiated(block),
+            TsNamespaceBody::TsNamespaceDecl(_) => {
+                // For deeply nested namespaces, assume instantiated if we get here
+                // (will be recursively checked)
+                true
+            }
+        },
+    };
+
     // Handle nested namespace body
     let inner_stmts = match body {
         TsNamespaceBody::TsModuleBlock(block) => {
@@ -257,6 +278,10 @@ fn transform_child_namespace(
 
             // Collect exported IDs for reference rewriting
             let exported_ids = collect_exported_ids(block);
+
+            // Collect identifiers that are used as values in the namespace body.
+            // This is needed to determine which import equals should be emitted.
+            let value_usages = collect_value_usages_in_block(block);
 
             for item in &block.body {
                 match item {
@@ -278,6 +303,7 @@ fn transform_child_namespace(
                             &mut local_enum_values,
                             &mut seen_enum_ids,
                             &exported_ids,
+                            &value_usages,
                         );
                     }
                 }
@@ -296,13 +322,13 @@ fn transform_child_namespace(
             // Further nesting: A.B.C
             match transform_child_namespace(child_id, &nested.id, &nested.body, enum_values) {
                 Some(stmt) => vec![stmt],
-                None => return None,
+                None => vec![],
             }
         }
     };
 
-    // If the body is empty (only type declarations), skip this namespace
-    if inner_stmts.is_empty() {
+    // If the namespace is not instantiated (only type declarations), skip it
+    if !is_instantiated {
         return None;
     }
 
@@ -465,6 +491,7 @@ fn process_module_decl(
     enum_values: &mut FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     seen_enum_ids: &mut FxHashSet<Id>,
     exported_ids: &FxHashSet<Id>,
+    value_usages: &FxHashSet<Id>,
 ) {
     match decl {
         ModuleDecl::ExportDecl(export) => {
@@ -629,6 +656,13 @@ fn process_module_decl(
             if import.is_type_only {
                 return;
             }
+            // Only emit import equals if:
+            // 1. It's exported (export import a = A;), OR
+            // 2. It's used as a value in the namespace body
+            let is_value_used = import.is_export || value_usages.contains(&import.id.to_id());
+            if !is_value_used {
+                return;
+            }
             match &import.module_ref {
                 TsModuleRef::TsEntityName(entity) => {
                     let expr = ts_entity_to_expr(entity.clone());
@@ -674,6 +708,70 @@ fn process_module_decl(
         }
         _ => {}
     }
+}
+
+/// Collects identifiers that are used as values (not just types) in a namespace
+/// block. This is used to determine which import equals should be emitted.
+fn collect_value_usages_in_block(block: &TsModuleBlock) -> FxHashSet<Id> {
+    use swc_ecma_visit::Visit;
+
+    struct ValueUsageCollector {
+        usages: FxHashSet<Id>,
+    }
+
+    impl Visit for ValueUsageCollector {
+        // Skip all TypeScript type-only constructs
+        fn visit_ts_type(&mut self, _: &TsType) {}
+
+        fn visit_ts_type_ann(&mut self, _: &TsTypeAnn) {}
+
+        fn visit_ts_type_param_decl(&mut self, _: &TsTypeParamDecl) {}
+
+        fn visit_ts_type_param_instantiation(&mut self, _: &TsTypeParamInstantiation) {}
+
+        fn visit_ts_interface_decl(&mut self, _: &TsInterfaceDecl) {}
+
+        fn visit_ts_type_alias_decl(&mut self, _: &TsTypeAliasDecl) {}
+
+        fn visit_ts_expr_with_type_args(&mut self, _: &TsExprWithTypeArgs) {}
+
+        // Skip patterns - they are declarations, not value usages
+        fn visit_pat(&mut self, _: &Pat) {}
+
+        // Skip import declarations - we don't want to mark the import id as used
+        fn visit_import_decl(&mut self, _: &ImportDecl) {}
+
+        fn visit_ts_import_equals_decl(&mut self, _: &TsImportEqualsDecl) {}
+
+        // Handle expressions - this is where value usages occur
+        fn visit_expr(&mut self, n: &Expr) {
+            match n {
+                Expr::Ident(i) => {
+                    self.usages.insert(i.to_id());
+                }
+                Expr::Member(m) => {
+                    // Only the object is a value usage
+                    m.obj.visit_with(self);
+                    if let MemberProp::Computed(c) = &m.prop {
+                        c.expr.visit_with(self);
+                    }
+                }
+                _ => {
+                    n.visit_children_with(self);
+                }
+            }
+        }
+    }
+
+    let mut collector = ValueUsageCollector {
+        usages: FxHashSet::default(),
+    };
+
+    for item in &block.body {
+        item.visit_with(&mut collector);
+    }
+
+    collector.usages
 }
 
 /// Collects binding identifiers from a pattern.
@@ -790,8 +888,10 @@ pub fn is_namespace_instantiated(block: &TsModuleBlock) -> bool {
                 }
             }
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
-                // Non-type import equals make namespace instantiated
-                if !import.is_type_only {
+                // Only exported import equals make namespace instantiated.
+                // Non-exported import equals are just aliases and don't by themselves
+                // create any namespace content.
+                if !import.is_type_only && import.is_export {
                     return true;
                 }
             }

@@ -155,8 +155,9 @@ fn transform_enum_with_options(
     let iife = create_enum_iife(&id, stmts, use_empty_object);
 
     // Create variable declaration: var Foo = IIFE; (or let for block-scoped)
+    // Use the original enum span to preserve leading comments
     let var_decl = VarDecl {
-        span: DUMMY_SP,
+        span: e.span,
         kind: if is_block_scoped {
             VarDeclKind::Let
         } else {
