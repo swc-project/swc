@@ -153,7 +153,7 @@ impl VisitMut for Injector {
     fn visit_mut_seq_expr(&mut self, node: &mut SeqExpr) {
         // Check if this SeqExpr starts with a super() call - if so, it was
         // created by a previous inject_after_super call and we should insert
-        // after super() and any existing param prop expressions
+        // expressions in the correct order
         if let Some(first) = node.exprs.first() {
             if matches!(
                 &**first,
@@ -163,11 +163,27 @@ impl VisitMut for Injector {
                 })
             ) {
                 // This is a SeqExpr from a previous injection
-                // Find position after super() and any param prop expressions
-                let insert_pos = 1 + node.exprs[1..]
-                    .iter()
-                    .take_while(|e| is_param_prop_expr(e))
-                    .count();
+                // Field init expressions (_define_property, _class_private_field_init)
+                // should come BEFORE param prop expressions (this.x = x).
+                // Other expressions should come AFTER param prop expressions.
+                let starts_with_field_init = self.exprs.first().is_some_and(|e| is_field_init(e));
+
+                let insert_pos = if starts_with_field_init {
+                    // Field inits go right after super(), before param props
+                    // Find position right after super() and any existing field inits
+                    1 + node.exprs[1..]
+                        .iter()
+                        .take_while(|e| is_field_init(e))
+                        .count()
+                } else {
+                    // Other expressions (like param props) go after existing field inits
+                    // and existing param props
+                    1 + node.exprs[1..]
+                        .iter()
+                        .take_while(|e| is_field_init(e) || is_param_prop_expr(e))
+                        .count()
+                };
+
                 self.injected = true;
                 node.exprs
                     .splice(insert_pos..insert_pos, self.exprs.clone());
