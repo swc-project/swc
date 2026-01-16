@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "23.0.0"
+version       = "24.0.0"
 
 [lib]
 bench   = false
@@ -42,8 +42,8 @@ swc_atoms = { version = "9.0.0", path = '../swc_atoms' }
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "19.0.0", path = "../swc_plugin_proxy" }
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "20.0.0", path = "../swc_plugin_proxy" }
 swc_transform_common = { version = "12.0.0", path = "../swc_transform_common" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]

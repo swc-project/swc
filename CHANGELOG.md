@@ -1,4 +1,102 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(ci)** Handle merged PRs separately in milestone manager ([#11409](https://github.com/swc-project/swc/issues/11409)) ([3554268](https://github.com/swc-project/swc/commit/3554268dcb7c8af4abfe0a06e61a382a23c4a3eb))
+
+
+- **(es/compat)** Preserve this context in nested arrow functions ([#11423](https://github.com/swc-project/swc/issues/11423)) ([f2bdaf2](https://github.com/swc-project/swc/commit/f2bdaf27d869a6d54a3dd47cd47e63c5b39a4d5c))
+
+
+- **(es/es2017)** Replace `this` in arrow functions during async-to-generator ([#11450](https://github.com/swc-project/swc/issues/11450)) ([a993da6](https://github.com/swc-project/swc/commit/a993da6fb6e43bdbc2cd3a288c8b5be1b79e08c0))
+
+### Features
+
+
+
+- **(bindings/wasm)** Enable ecma_lints feature to support semantic error detection ([#11414](https://github.com/swc-project/swc/issues/11414)) ([1faa4a5](https://github.com/swc-project/swc/commit/1faa4a57454ef3932c75a1aca7dd36e37bb215d3))
+
+
+- **(es/hooks)** Implement VisitMutHook for Either type ([#11428](https://github.com/swc-project/swc/issues/11428)) ([395c85e](https://github.com/swc-project/swc/commit/395c85e921eeb0cad661c8714d97372970cbfb6c))
+
+
+- **(es/hooks)** Implement VisitMutHook for Option<H> ([#11429](https://github.com/swc-project/swc/issues/11429)) ([0bf1954](https://github.com/swc-project/swc/commit/0bf195421de167b3a01f710be7578d1cedf033b9))
+
+
+- **(es/hooks)** Add VisitHook trait for immutable AST visitors ([#11437](https://github.com/swc-project/swc/issues/11437)) ([3efb41d](https://github.com/swc-project/swc/commit/3efb41d97e2cdb1d593c55c841c016eb2958ee72))
+
+
+- **(es/minifier)** Improve nested template literal evaluation ([#11411](https://github.com/swc-project/swc/issues/11411)) ([147df2f](https://github.com/swc-project/swc/commit/147df2f0233c4b701311675dc7c237ee18f0c854))
+
+
+- **(es/minifier)** Remove inlined IIFE arg and param ([#11436](https://github.com/swc-project/swc/issues/11436)) ([2bc5d40](https://github.com/swc-project/swc/commit/2bc5d402ade64f84523bfa7cf0c2da88ef494ad6))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update `rkyv` ([#11419](https://github.com/swc-project/swc/issues/11419)) ([432197b](https://github.com/swc-project/swc/commit/432197bdc7c574fbd8829ad5a6e0b3108ccb1d3c))
+
+
+- **(deps)** Update lru to 0.16.3 ([#11438](https://github.com/swc-project/swc/issues/11438)) ([67c2d75](https://github.com/swc-project/swc/commit/67c2d752910c945732cf4deebf2af0f8a110e880))
+
+
+- **(helpers)** Replace MagicString with ast-grep's built-in edit API ([#11410](https://github.com/swc-project/swc/issues/11410)) ([a3f0d33](https://github.com/swc-project/swc/commit/a3f0d33916f7ad225d8320c499a8dd0f7b46e5b9))
+
+
+- **(hstr/wtf8)** Address legacy FIXME comments by switching to derives ([#11416](https://github.com/swc-project/swc/issues/11416)) ([f03bfd8](https://github.com/swc-project/swc/commit/f03bfd8dd15630acbcdb011d64bdea5c1a0ccf79))
+
+### Performance
+
+
+
+- **(es/codegen, es/utils)** Migrate to dragonbox_ecma for faster Number::toString ([#11412](https://github.com/swc-project/swc/issues/11412)) ([b7978cc](https://github.com/swc-project/swc/commit/b7978cc9dbe92b26d781748d09ad50e2f1a6343b))
+
+
+- **(es/react)** Optimize JSX transforms to reduce allocations ([#11425](https://github.com/swc-project/swc/issues/11425)) ([2a20cb6](https://github.com/swc-project/swc/commit/2a20cb6e34bed4260efe2a1b87165f52f9b3d45c))
+
+### Refactor
+
+
+
+- **(es)** Improve TypeScript transform configuration structure ([#11434](https://github.com/swc-project/swc/issues/11434)) ([f33a975](https://github.com/swc-project/swc/commit/f33a975c74f63f8d8e3c05db5166912c432ae18b))
+
+
+- **(es/minifier)** Migrate MinifierPass to Pass trait ([#11442](https://github.com/swc-project/swc/issues/11442)) ([a41e631](https://github.com/swc-project/swc/commit/a41e63193c86290f20fec6529d7aa944562df713))
+
+
+- **(es/minifier)** Improve tpl to str ([#11415](https://github.com/swc-project/swc/issues/11415)) ([0239523](https://github.com/swc-project/swc/commit/0239523c3863f3c0c8f8a3c7d486b64213fc60ff))
+
+
+- **(es/react)** Port to VisitMutHook ([#11418](https://github.com/swc-project/swc/issues/11418)) ([9604d9c](https://github.com/swc-project/swc/commit/9604d9cc8a3d265d66ab32c1f70c25031b09cc18))
+
+
+- **(es/transformer)** Remove OptionalHook wrapper in favor of Option<H> ([#11430](https://github.com/swc-project/swc/issues/11430)) ([72da6bd](https://github.com/swc-project/swc/commit/72da6bdd526eff0fdde76f22a978cbec736b9d3c))
+
+
+- **(es/transforms)** Migrate TypeScript transform to Pass trait ([#11439](https://github.com/swc-project/swc/issues/11439)) ([dd007c6](https://github.com/swc-project/swc/commit/dd007c64a691d37f6d4903624a8dfa39d389f912))
+
+### Testing
+
+
+
+- **(es)** Enable benchmark for `swc` ([#11420](https://github.com/swc-project/swc/issues/11420)) ([3a50a25](https://github.com/swc-project/swc/commit/3a50a2592784a418ef3312b0f445bde2762959ca))
+
+
+- Disable LTO for benchmarks ([#11421](https://github.com/swc-project/swc/issues/11421)) ([af3c2d3](https://github.com/swc-project/swc/commit/af3c2d36d772eab7905db717f8be2080fd14abec))
+
+
+- Use rstest as the test framework ([#11417](https://github.com/swc-project/swc/issues/11417)) ([fae258f](https://github.com/swc-project/swc/commit/fae258f530d2f54fa148f90225e9a7740de57d96))
+
+### Ci
+
+
+
+- Collapse preivous `claude[bot]` PR review comments ([affb6a2](https://github.com/swc-project/swc/commit/affb6a29de9a511148a3483149aa5a574720fccf))
+
 ## [1.15.8] - 2025-12-30
 
 ### Bug Fixes
@@ -1905,96 +2003,10 @@
 
 ## [1.11.22] - 2025-04-23
 
-### Bug Fixes
-
-
-
-- **(es/parser)** Parse `export default from;` with `exportDefaultFrom: true` option ([#10373](https://github.com/swc-project/swc/issues/10373)) ([a270cb0](https://github.com/swc-project/swc/commit/a270cb0f469b174cd36174740a674f0ffc19b042))
-
-
-- **(es/proposal)** Fix exported class for `explicit-resource-management` ([#10393](https://github.com/swc-project/swc/issues/10393)) ([6b5dbc6](https://github.com/swc-project/swc/commit/6b5dbc6078248cc6fd467a7f57be17082b837565))
-
-
-- **(swc_core)** Fix downstream doc builds ([#10401](https://github.com/swc-project/swc/issues/10401)) ([df511ba](https://github.com/swc-project/swc/commit/df511ba183570f1a2f4564cd24a3d67dd3b3573c))
-
-
-- Upgrade browserslist-rs version ([#10389](https://github.com/swc-project/swc/issues/10389)) ([f802892](https://github.com/swc-project/swc/commit/f802892add01c7dac9744db1a8f1f7366b43dd0a))
-
-### Features
-
-
-
-- **(bindings/core)** Enhance existing parse function to accept both string and buffer types([#10371](https://github.com/swc-project/swc/issues/10371)) ([c9a2afc](https://github.com/swc-project/swc/commit/c9a2afcfd1b6ce0bd5ca8ea56a4ab7f75a629094))
-
-
-- **(css/prefixer)** Fix default implementation ([#10351](https://github.com/swc-project/swc/issues/10351)) ([34f4e41](https://github.com/swc-project/swc/commit/34f4e4158524da6d2a9fbbea96ecaab861336553))
-
 ### Miscellaneous Tasks
 
 
 
 - **(bindings/node)** Add `README.md` ([#10402](https://github.com/swc-project/swc/issues/10402)) ([a0e89f0](https://github.com/swc-project/swc/commit/a0e89f09b86a2dd034020257907130ad1c66797f))
-
-
-- **(es/parser)** Remove useless check ([#10386](https://github.com/swc-project/swc/issues/10386)) ([d1770ac](https://github.com/swc-project/swc/commit/d1770ac5d75a295fc0910cc5185c8d6a75b2b9be))
-
-
-- **(es/utils)** Mark Symbol members as literal ([#10400](https://github.com/swc-project/swc/issues/10400)) ([3935b60](https://github.com/swc-project/swc/commit/3935b60340685d1f4aa464da8e9cec80c48cabd2))
-
-### Performance
-
-
-
-- **(common)** Use `next` instead of `nth` ([#10403](https://github.com/swc-project/swc/issues/10403)) ([12c2807](https://github.com/swc-project/swc/commit/12c28079fccc67c8e125a782c9dfd7ef5354df9e))
-
-
-- **(es/minifier)** Use bigflags to reduce context size of analyzer ([#10380](https://github.com/swc-project/swc/issues/10380)) ([773d19c](https://github.com/swc-project/swc/commit/773d19cdc49ddb55ed6f6c3262a0fccbf73b4c5f))
-
-
-- **(es/minifier)** Use `bitflags` to reduce context size of `InfectionCollector`  ([#10387](https://github.com/swc-project/swc/issues/10387)) ([126d432](https://github.com/swc-project/swc/commit/126d43295e7f5e09092da653f537c843f2d79836))
-
-
-- **(es/minifier)** Use `bitflags` to reduce compress context size ([#10381](https://github.com/swc-project/swc/issues/10381)) ([99495bd](https://github.com/swc-project/swc/commit/99495bde7e73b045c8d2aea8a3fa9a2c9492ca82))
-
-
-- **(es/parser)** Move `found_module_item` to `Parser` ([#10388](https://github.com/swc-project/swc/issues/10388)) ([fd52c5c](https://github.com/swc-project/swc/commit/fd52c5c5c0682309042e22ecc511a1a1712322ec))
-
-### Refactor
-
-
-
-- **(es/compat)** Simplify `async_to_generator` ([#10341](https://github.com/swc-project/swc/issues/10341)) ([e9eeba1](https://github.com/swc-project/swc/commit/e9eeba1b3d4b2c291633c4a8951737c4a5b2246c))
-
-
-- **(es/lexer)** Split lexer ([#10377](https://github.com/swc-project/swc/issues/10377)) ([3ef2bd1](https://github.com/swc-project/swc/commit/3ef2bd13d0102b2a59a5c32c4197ccdea998b5f2))
-
-### Testing
-
-
-
-- **(es/transform)** Add tests for source map ([#10375](https://github.com/swc-project/swc/issues/10375)) ([0018a8e](https://github.com/swc-project/swc/commit/0018a8ead2592857b9a6dff446933c16f58a9df2))
-
-## [1.11.21] - 2025-04-14
-
-### Bug Fixes
-
-
-
-- **(es/helpers)** Sync tslib `_ts_generator` implementation ([#10366](https://github.com/swc-project/swc/issues/10366)) ([d3fb992](https://github.com/swc-project/swc/commit/d3fb992a2f16882837cef4b6932be5d5415e7268))
-
-### Performance
-
-
-
-- **(es/parser)** Reduce clone of token contexts ([#10364](https://github.com/swc-project/swc/issues/10364)) ([3ab47b2](https://github.com/swc-project/swc/commit/3ab47b291f846d12aa26f209999978a91dc31719))
-
-
-- **(es/parser)** Use `bitflags` to reduce parser context size ([#10367](https://github.com/swc-project/swc/issues/10367)) ([a2d3596](https://github.com/swc-project/swc/commit/a2d35960ad39799e105d15cb30a90b5344345646))
-
-
-- **(es/parser)** Replace byte arguments with generics ([#10370](https://github.com/swc-project/swc/issues/10370)) ([68f7667](https://github.com/swc-project/swc/commit/68f76679b4a46205cb129be44f36ca31fac953c3))
-
-
-- **(es/parser)** Use `arrayvec` and unsafe `push` to optimize escaped string parsing ([#10369](https://github.com/swc-project/swc/issues/10369)) ([e12ae1c](https://github.com/swc-project/swc/commit/e12ae1c994d901caab57335d16678d6e2aad7e0e))
 
 <!-- generated by git-cliff -->

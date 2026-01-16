@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "hstr"
 repository  = { workspace = true }
-version     = "3.0.3"
+version     = "3.0.4"
 
 [lib]
 bench = false

@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_parser"
 repository    = { workspace = true }
-version       = "32.0.0"
+version       = "33.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -39,8 +39,8 @@ serde          = { workspace = true, features = ["derive"] }
 smartstring    = { workspace = true }
 swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
 swc_common     = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast   = { version = "19.0.0", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit", optional = true }
+swc_ecma_ast   = { version = "20.0.0", path = "../swc_ecma_ast" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", optional = true }
 tracing        = { workspace = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
@@ -54,11 +54,11 @@ walkdir           = { workspace = true }
 
 cbor4ii = { workspace = true, features = ["use_std"] }
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
   "encoding-impl",
 ] }
-swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "19.0.0", path = "../testing" }
 

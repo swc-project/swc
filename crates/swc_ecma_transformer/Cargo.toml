@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transformer"
 repository    = { workspace = true }
-version       = "6.0.0"
+version       = "7.0.0"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
@@ -16,11 +16,11 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 rustc-hash = { workspace = true }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
 swc_common = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast" }
-swc_ecma_hooks = { version = "0.3.0", path = "../swc_ecma_hooks" }
-swc_ecma_transforms_base = { version = "35.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "25.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit", features = [
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
+swc_ecma_hooks = { version = "0.4.0", path = "../swc_ecma_hooks" }
+swc_ecma_transforms_base = { version = "36.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "26.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", features = [
     "path",
 ] }
 tracing = { workspace = true }

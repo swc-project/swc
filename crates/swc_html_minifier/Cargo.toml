@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = { workspace = true }
 name = "swc_html_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "42.0.0"
+version = "43.0.0"
 
 [lib]
 bench = false
@@ -41,18 +41,18 @@ swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", optional = true }
 swc_css_codegen = { version = "18.0.0", path = "../swc_css_codegen", optional = true }
 swc_css_minifier = { version = "18.0.0", path = "../swc_css_minifier", optional = true }
 swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", optional = true }
-swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "21.0.0", path = "../swc_ecma_codegen", features = [
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "42.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "43.0.0", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "32.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "35.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "19.0.0", path = "../swc_ecma_visit" }
+swc_ecma_transforms_base = { version = "36.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 swc_html_ast = { version = "18.0.0", path = "../swc_html_ast" }
 swc_html_codegen = { version = "19.0.0", path = "../swc_html_codegen" }
 swc_html_parser = { version = "18.0.0", path = "../swc_html_parser" }

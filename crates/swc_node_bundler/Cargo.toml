@@ -7,7 +7,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_node_bundler"
 repository    = { workspace = true }
-version       = "53.0.0"
+version       = "54.0.0"
 
 [lib]
 bench = false
@@ -25,27 +25,27 @@ serde      = { workspace = true, features = ["derive"], optional = true }
 tracing    = { workspace = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum" }
-swc = { version = "52.0.0", path = "../swc" }
+swc = { version = "53.0.0", path = "../swc" }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_bundler = { version = "40.0.0", path = "../swc_bundler", features = [
+swc_bundler = { version = "41.0.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "19.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "21.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "18.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "32.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms = { version = "44.0.0", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "25.0.0", path = "../swc_ecma_utils" }
+swc_ecma_transforms = { version = "45.0.0", path = "../swc_ecma_transforms" }
+swc_ecma_utils = { version = "26.0.0", path = "../swc_ecma_utils" }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 
 [dev-dependencies]
 
-swc_ecma_transforms_base = { version = "35.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "36.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 testing = { version = "19.0.0", path = "../testing" }
