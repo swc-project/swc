@@ -391,6 +391,27 @@ impl Visit for Analyzer<'_> {
     // Skip import specifiers as well (for safety)
     fn visit_import_specifier(&mut self, _: &ImportSpecifier) {}
 
+    // Handle import equals declarations carefully.
+    // The LHS is a declaration, not a usage - don't visit it.
+    // For exports, the RHS is definitely used, so visit it.
+    // For non-exports, value usages are propagated in transform.rs when the LHS is
+    // used.
+    fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
+        if n.is_type_only {
+            return;
+        }
+
+        // If it's an export, the RHS is definitely used as a value
+        if n.is_export {
+            if let TsModuleRef::TsEntityName(entity) = &n.module_ref {
+                self.visit_ts_entity_name(entity);
+            }
+        }
+        // For non-exports, the LHS might only be used in type positions,
+        // so we don't mark the RHS as used here. The transform will
+        // propagate usage if the LHS is actually used as a value.
+    }
+
     fn visit_ident(&mut self, n: &Ident) {
         self.mark_value_usage(n.to_id());
     }
@@ -511,15 +532,6 @@ impl Visit for Analyzer<'_> {
                 for item in &block.body {
                     match item {
                         ModuleItem::ModuleDecl(decl) => {
-                            // Handle import equals inside namespace
-                            if let ModuleDecl::TsImportEquals(import) = decl {
-                                if !import.is_type_only {
-                                    if let TsModuleRef::TsEntityName(entity) = &import.module_ref {
-                                        // Mark the referenced entity as used
-                                        self.visit_ts_entity_name(entity);
-                                    }
-                                }
-                            }
                             decl.visit_with(self);
                         }
                         ModuleItem::Stmt(stmt) => {
@@ -545,7 +557,12 @@ impl Visit for Analyzer<'_> {
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         if !n.is_type_only {
             if let ModuleExportName::Ident(id) = &n.orig {
-                self.mark_value_usage(id.to_id());
+                let id_ref = id.to_id();
+                self.mark_value_usage(id_ref.clone());
+                // If exporting a const enum by name, track it as used as a value
+                if self.info.const_enum_ids.contains(&id_ref) {
+                    self.info.const_enums_as_values.insert(id_ref);
+                }
                 self.info.has_value_export = true;
             }
         }

@@ -49,7 +49,7 @@ pub fn transform_enum(
     existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     is_export: bool,
 ) -> (VarDecl, Expr) {
-    transform_enum_with_options(e, existing_values, is_export, false)
+    transform_enum_with_options(e, existing_values, is_export, false, false)
 }
 
 /// Transforms a TypeScript enum declaration with more options.
@@ -57,7 +57,26 @@ pub fn transform_enum_block_scoped(
     e: &TsEnumDecl,
     existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
 ) -> (VarDecl, Expr) {
-    transform_enum_with_options(e, existing_values, true, true)
+    transform_enum_with_options(e, existing_values, true, true, false)
+}
+
+/// Transforms a const enum that has non-constant members.
+/// Skips members with constant values (they can be inlined at call sites).
+pub fn transform_const_enum_with_nonconstant_members(
+    e: &TsEnumDecl,
+    existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+    is_export: bool,
+) -> (VarDecl, Expr) {
+    transform_enum_with_options(e, existing_values, is_export, false, true)
+}
+
+/// Transforms a const enum that has non-constant members (block-scoped
+/// version).
+pub fn transform_const_enum_block_scoped_with_nonconstant_members(
+    e: &TsEnumDecl,
+    existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
+) -> (VarDecl, Expr) {
+    transform_enum_with_options(e, existing_values, true, true, true)
 }
 
 fn transform_enum_with_options(
@@ -65,6 +84,7 @@ fn transform_enum_with_options(
     existing_values: &FxHashMap<Id, FxHashMap<Atom, TsLit>>,
     use_empty_object: bool,
     is_block_scoped: bool,
+    skip_constant_members: bool,
 ) -> (VarDecl, Expr) {
     let id = e.id.clone();
 
@@ -134,6 +154,13 @@ fn transform_enum_with_options(
 
         if let Some(val) = current_value {
             current_value = Some(val + 1.0);
+        }
+
+        // Skip constant members for const enums - they can be inlined at call sites
+        if skip_constant_members && computed_value.is_some() {
+            // Still track the member name for rewriting references
+            seen_member_names.insert(member_name);
+            continue;
         }
 
         // Use string key: Foo["a"] instead of Foo.a

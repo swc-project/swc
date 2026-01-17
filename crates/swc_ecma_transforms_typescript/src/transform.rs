@@ -9,7 +9,7 @@
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{comments::Comments, errors::HANDLER, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{constructor::inject_after_super, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -256,10 +256,23 @@ impl Default for TransformState {
 impl TransformState {
     /// Creates a TransformState from a ProgramInfo and module.
     fn from_program_info(info: ProgramInfo, n: &Module) -> Self {
+        // Check if this was an ES module (has actual ES import/export, not just TS
+        // constructs) TsImportEquals and TsExportAssignment are
+        // TypeScript-specific and don't make a file an ES module
         let was_module = !n.body.is_empty()
-            && n.body
-                .iter()
-                .any(|item| matches!(item, ModuleItem::ModuleDecl(_)));
+            && n.body.iter().any(|item| {
+                matches!(
+                    item,
+                    ModuleItem::ModuleDecl(
+                        ModuleDecl::Import(_)
+                            | ModuleDecl::ExportDecl(_)
+                            | ModuleDecl::ExportNamed(_)
+                            | ModuleDecl::ExportDefaultDecl(_)
+                            | ModuleDecl::ExportDefaultExpr(_)
+                            | ModuleDecl::ExportAll(_)
+                    )
+                )
+            });
 
         // Build the imports map from the module (we need the source strings)
         let mut imports = FxHashMap::default();
@@ -364,19 +377,33 @@ impl VisitMut for TypeScript {
 
         // Pre-process import equals to update value_usages before we process imports
         // This is needed because import equals may reference imports that come later
-        for item in &n.body {
-            if let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = item {
-                if !import.is_type_only {
-                    let is_used =
-                        import.is_export || state.value_usages.contains(&import.id.to_id());
-                    if is_used {
-                        if let Some(rhs_root) =
-                            state.import_equals_refs.get(&import.id.to_id()).cloned()
-                        {
-                            state.value_usages.insert(rhs_root);
+        // We loop until no more changes occur to handle chained imports:
+        // e.g., import Class = ns2.Class; import ns2 = ns1.ns2;
+        // If Class is used, ns2 needs to be marked as used, which then marks ns1 as
+        // used
+        loop {
+            let mut changed = false;
+            for item in &n.body {
+                if let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = item {
+                    if !import.is_type_only {
+                        // With verbatim_module_syntax, keep all imports
+                        let is_used = self.config.verbatim_module_syntax
+                            || import.is_export
+                            || state.value_usages.contains(&import.id.to_id());
+                        if is_used {
+                            if let Some(rhs_root) =
+                                state.import_equals_refs.get(&import.id.to_id()).cloned()
+                            {
+                                if state.value_usages.insert(rhs_root) {
+                                    changed = true;
+                                }
+                            }
                         }
                     }
                 }
+            }
+            if !changed {
+                break;
             }
         }
 
@@ -393,8 +420,10 @@ impl VisitMut for TypeScript {
             let needs_create_require = n.body.iter().any(|item| {
                 if let ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) = item {
                     if !import.is_type_only {
-                        let is_used =
-                            import.is_export || state.value_usages.contains(&import.id.to_id());
+                        // With verbatim_module_syntax, keep all imports
+                        let is_used = self.config.verbatim_module_syntax
+                            || import.is_export
+                            || state.value_usages.contains(&import.id.to_id());
                         if is_used {
                             return matches!(
                                 import.module_ref,
@@ -1045,8 +1074,33 @@ impl TypeScript {
                     return;
                 }
 
+                // For external module references (import = require), emit error in ESM mode
+                // regardless of usage - the syntax itself is invalid in ESM
+                if matches!(import.module_ref, TsModuleRef::TsExternalModuleRef(_))
+                    && matches!(
+                        self.config.import_export_assign_config,
+                        TsImportExportAssignConfig::EsNext
+                    )
+                {
+                    // TS1202: import = is not supported in ESNext
+                    if HANDLER.is_set() {
+                        HANDLER.with(|handler| {
+                            handler.struct_span_err(
+                                import.span,
+                                r#"Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead."#,
+                            )
+                            .emit();
+                        });
+                    }
+                    // Don't emit anything - the import is invalid in ESM
+                    return;
+                }
+
                 // Only transform if the LHS is used as a value (or if it's an export)
-                let is_used = import.is_export || state.value_usages.contains(&import.id.to_id());
+                // With verbatim_module_syntax, keep all imports (except type-only)
+                let is_used = self.config.verbatim_module_syntax
+                    || import.is_export
+                    || state.value_usages.contains(&import.id.to_id());
                 if !is_used {
                     return;
                 }
@@ -1074,7 +1128,9 @@ impl TypeScript {
                             self.transform_import_equals_node_next(&import, out, state);
                         }
                         TsImportExportAssignConfig::EsNext => {
-                            // Error: import = is not supported in ESNext
+                            // For TsEntityName refs (import foo = ns.bar), this is a local
+                            // alias, not a module import - handled above with Classic
+                            unreachable!("TsEntityName refs should be handled before this match");
                         }
                     }
                 }
@@ -1109,7 +1165,16 @@ impl TypeScript {
                         )));
                     }
                     TsImportExportAssignConfig::NodeNext | TsImportExportAssignConfig::EsNext => {
-                        // Error: export = is not supported
+                        // TS1203: export = is not supported in ESNext/NodeNext
+                        if HANDLER.is_set() {
+                            HANDLER.with(|handler| {
+                                handler.struct_span_err(
+                                    export.span,
+                                    r#"Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead."#,
+                                )
+                                .emit();
+                            });
+                        }
                     }
                 }
             }
@@ -1138,11 +1203,25 @@ impl TypeScript {
                 // Transform enums
                 Decl::TsEnum(e) => {
                     // Skip const enums - they are removed and their usages inlined
-                    // But keep them if they're used as standalone values (e.g., export default
-                    // EnumName) because SWC operates in isolatedModules mode
-                    if e.is_const && !const_enums_as_values.contains(&e.id.to_id()) {
-                        return;
-                    }
+                    // But keep them if:
+                    // 1. They're used as standalone values (e.g., export default EnumName)
+                    // 2. They have non-constant computed values (e.g., Math.random()) that cannot
+                    //    be inlined at compile time
+                    let is_const_with_nonconstant_values =
+                        if e.is_const && !const_enums_as_values.contains(&e.id.to_id()) {
+                            // Check if all values are computable
+                            // Empty enums are always fully computable
+                            let all_values_computable = e.members.is_empty()
+                                || enum_values
+                                    .get(&e.id.to_id())
+                                    .is_some_and(|vals| vals.len() == e.members.len());
+                            if all_values_computable {
+                                return;
+                            }
+                            true // Has non-constant values
+                        } else {
+                            false
+                        };
                     // Skip declare enums (ambient)
                     if e.declare {
                         return;
@@ -1161,12 +1240,21 @@ impl TypeScript {
                         // Also mark as seen namespace ID to prevent extra var decl
                         // when namespace merges with this enum
                         seen_ns_ids.insert(enum_id);
-                        let (var, _) = transform_enum(
-                            &e,
-                            self.config.ts_enum_is_mutable,
-                            enum_values,
-                            false, // not an export
-                        );
+                        let (var, _) = if is_const_with_nonconstant_values {
+                            // For const enums with non-constant values, skip constant members
+                            crate::enums::transform_const_enum_with_nonconstant_members(
+                                &e,
+                                enum_values,
+                                false, // not an export
+                            )
+                        } else {
+                            transform_enum(
+                                &e,
+                                self.config.ts_enum_is_mutable,
+                                enum_values,
+                                false, // not an export
+                            )
+                        };
                         out.push(Stmt::Decl(Decl::Var(Box::new(var))));
                     }
                 }
@@ -1485,19 +1573,37 @@ impl VisitMut for TypeStripper<'_> {
         // (e.g., `if (cond) enum E { ... }`)
         // These need to be transformed into var declarations with IIFE
         if let Stmt::Decl(Decl::TsEnum(e)) = n {
-            if e.is_const {
-                // Const enums are removed
-                *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                return;
-            }
+            let is_const_with_nonconstant_values = if e.is_const {
+                // Only remove const enums if all values are computable
+                // Empty enums are always fully computable
+                let all_values_computable = e.members.is_empty()
+                    || self
+                        .enum_values
+                        .get(&e.id.to_id())
+                        .is_some_and(|vals| vals.len() == e.members.len());
+                if all_values_computable {
+                    *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    return;
+                }
+                true // Emit const enum with non-computable values
+            } else {
+                false
+            };
             if e.declare {
                 // Declare enums are removed
                 *n = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                 return;
             }
-            // Transform regular enum into var declaration with IIFE
-            let (var, _) =
-                transform_enum(e, self.config.ts_enum_is_mutable, self.enum_values, false);
+            // Transform enum into var declaration with IIFE
+            let (var, _) = if is_const_with_nonconstant_values {
+                crate::enums::transform_const_enum_with_nonconstant_members(
+                    e,
+                    self.enum_values,
+                    false,
+                )
+            } else {
+                transform_enum(e, self.config.ts_enum_is_mutable, self.enum_values, false)
+            };
             *n = Stmt::Decl(Decl::Var(Box::new(var)));
             return;
         }
@@ -1555,10 +1661,21 @@ impl VisitMut for TypeStripper<'_> {
 
             match stmt {
                 Stmt::Decl(Decl::TsEnum(e)) => {
-                    // Skip const enums - they are removed and their usages inlined
-                    if e.is_const {
-                        continue;
-                    }
+                    // Skip const enums if all values are computable (they can be inlined)
+                    let is_const_with_nonconstant_values = if e.is_const {
+                        // Empty enums are always fully computable
+                        let all_values_computable = e.members.is_empty()
+                            || self
+                                .enum_values
+                                .get(&e.id.to_id())
+                                .is_some_and(|vals| vals.len() == e.members.len());
+                        if all_values_computable {
+                            continue;
+                        }
+                        true // Emit const enum with non-computable values
+                    } else {
+                        false
+                    };
                     // Skip declare enums (ambient)
                     if e.declare {
                         continue;
@@ -1566,13 +1683,19 @@ impl VisitMut for TypeStripper<'_> {
                     let enum_id = e.id.to_id();
                     if seen_enum_ids.contains(&enum_id) {
                         // Merging: emit just the IIFE statement
-                        let stmt = crate::enums::transform_enum_merging(&e, &FxHashMap::default());
+                        let stmt = crate::enums::transform_enum_merging(&e, self.enum_values);
                         new_stmts.push(stmt);
                     } else {
                         // First declaration: emit let with IIFE
                         seen_enum_ids.insert(enum_id);
-                        let (var, _) =
-                            crate::enums::transform_enum_block_scoped(&e, &FxHashMap::default());
+                        let (var, _) = if is_const_with_nonconstant_values {
+                            crate::enums::transform_const_enum_block_scoped_with_nonconstant_members(
+                                &e,
+                                self.enum_values,
+                            )
+                        } else {
+                            crate::enums::transform_enum_block_scoped(&e, self.enum_values)
+                        };
                         new_stmts.push(Stmt::Decl(Decl::Var(Box::new(var))));
                     }
                 }

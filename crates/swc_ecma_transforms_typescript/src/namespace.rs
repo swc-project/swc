@@ -7,7 +7,7 @@ use swc_atoms::Atom;
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith, VisitWith};
 
 use crate::enums::{
     collect_enum_values, transform_enum_block_scoped, transform_namespace_enum,
@@ -314,6 +314,15 @@ fn transform_child_namespace(
                 for stmt in &mut stmts {
                     rewrite_export_references_in_stmt(stmt, &exported_ids, child_id);
                 }
+            }
+
+            // Rewrite references to the child namespace name (child_id) to use
+            // parent_id.child_id. This is needed when a class/function/etc is
+            // merged with a namespace of the same name. Inside the namespace IIFE,
+            // the parameter shadows the outer declaration, so we need to access
+            // the outer one through the parent namespace.
+            for stmt in &mut stmts {
+                rewrite_self_references_in_stmt(stmt, child_id, parent_id);
             }
 
             stmts
@@ -1575,4 +1584,82 @@ fn assign_target_to_pat(target: &AssignTarget) -> Pat {
             AssignTargetPat::Invalid(i) => Pat::Invalid(i.clone()),
         },
     }
+}
+
+/// Rewrites references to the namespace name (self_id) to use
+/// parent_id.self_id. This is needed when a class/function/etc is merged with a
+/// namespace of the same name. Inside the namespace IIFE, the parameter shadows
+/// the outer declaration, so we need to access the outer one through the parent
+/// namespace.
+fn rewrite_self_references_in_stmt(stmt: &mut Stmt, self_id: &Ident, parent_id: &Ident) {
+    struct Rewriter<'a> {
+        self_id: &'a Ident,
+        parent_id: &'a Ident,
+    }
+
+    impl VisitMut for Rewriter<'_> {
+        fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+            // If the object is the self_id, don't transform it
+            // This is accessing a member through the IIFE parameter (e.g., Point.Origin)
+            if let Expr::Ident(obj) = &*n.obj {
+                if obj.sym == self.self_id.sym && obj.ctxt == self.self_id.ctxt {
+                    // Only visit the property, not the object
+                    n.prop.visit_mut_with(self);
+                    return;
+                }
+            }
+            n.visit_mut_children_with(self);
+        }
+
+        fn visit_mut_expr(&mut self, n: &mut Expr) {
+            n.visit_mut_children_with(self);
+
+            // Rewrite standalone identifier usages to member access
+            // Only rewrite if syntax context matches (same binding)
+            if let Expr::Ident(id) = n {
+                if id.sym == self.self_id.sym && id.ctxt == self.self_id.ctxt {
+                    // Replace `SelfId` with `Parent.SelfId`
+                    *n = Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Expr::Ident(self.parent_id.clone())),
+                        prop: MemberProp::Ident(IdentName::new(id.sym.clone(), DUMMY_SP)),
+                    });
+                }
+            }
+        }
+
+        fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+            // For namespace IIFEs, only visit the callee (which will skip the
+            // function body) but skip the args (which contain parent namespace
+            // references that should not be transformed)
+            if is_namespace_iife(n) {
+                n.callee.visit_mut_with(self);
+                return;
+            }
+            n.visit_mut_children_with(self);
+        }
+
+        // Don't recurse into nested functions (including child namespace IIFEs)
+        // because they have their own scope where the identifier might be bound
+        // to a different value (e.g., the IIFE parameter)
+        fn visit_mut_function(&mut self, _n: &mut Function) {}
+
+        fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
+    }
+
+    let mut rewriter = Rewriter { self_id, parent_id };
+    stmt.visit_mut_with(&mut rewriter);
+}
+
+/// Checks if a call expression is a namespace IIFE pattern:
+/// `(function(X) { ... })(X || (X = {}))`
+fn is_namespace_iife(call: &CallExpr) -> bool {
+    if let Callee::Expr(callee) = &call.callee {
+        if let Expr::Paren(p) = &**callee {
+            if matches!(&*p.expr, Expr::Fn(_)) {
+                return true;
+            }
+        }
+    }
+    false
 }
