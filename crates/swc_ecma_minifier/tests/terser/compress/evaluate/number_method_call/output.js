@@ -1,0 +1,8 @@
+console.log("1.23e+0");
+console.log("1.23");
+console.log("1.23e+0");
+console.log("1.23");
+console.log("1.23e+0");
+console.log("1.23");
+console.log("1.23e+0");
+console.log("1.23e+0");
