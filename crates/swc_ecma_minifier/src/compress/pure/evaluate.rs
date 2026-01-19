@@ -586,8 +586,9 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toPrecision" {
-            // TODO: handle num.toPrecision(undefined)
-            if args.is_empty() {
+            if args.is_empty()
+                || (args[0].spread.is_none() && args[0].expr.is_undefined(self.expr_ctx))
+            {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
                 let value = num.value.to_js_string().into();
@@ -608,10 +609,13 @@ impl Pure<'_> {
                 return;
             }
 
-            if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
+            if let Some(precision) = args.first().and_then(|arg| {
+                if arg.spread.is_none() {
+                    eval_as_number(self.expr_ctx, &arg.expr)
+                } else {
+                    None
+                }
+            }) {
                 let p = precision.trunc() as usize;
                 // 5. If p < 1 or p > 100, throw a RangeError exception.
                 if !(1..=21).contains(&p) {
@@ -636,8 +640,9 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toExponential" {
-            // TODO: handle num.toExponential(undefined)
-            if args.is_empty() {
+            if args.is_empty()
+                || (args[0].spread.is_none() && args[0].expr.is_undefined(self.expr_ctx))
+            {
                 let value = f64_to_exponential(num.value).into();
 
                 self.changed = true;
@@ -654,10 +659,13 @@ impl Pure<'_> {
                 })
                 .into();
                 return;
-            } else if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
+            } else if let Some(precision) = args.first().and_then(|arg| {
+                if arg.spread.is_none() {
+                    eval_as_number(self.expr_ctx, &arg.expr)
+                } else {
+                    None
+                }
+            }) {
                 let p = precision.trunc() as usize;
                 // 5. If p < 1 or p > 100, throw a RangeError exception.
                 if !(0..=20).contains(&p) {
