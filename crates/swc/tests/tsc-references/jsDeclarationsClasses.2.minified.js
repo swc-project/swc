@@ -97,13 +97,13 @@ export var L = /*#__PURE__*/ function(K) {
     }
     return _inherits(L, K), L;
 }(K);
-export var M = /*#__PURE__*/ function(_superClass) {
+export var M = /*#__PURE__*/ function() {
     function M() {
         var _this;
         return _class_call_check(this, M), _assert_this_initialized(_this).prop = 12, _assert_this_initialized(_this);
     }
     return _inherits(M, null), M;
-}(0);
+}();
 export var N = /*#__PURE__*/ function(L) {
     function N(param) {
         var _this;

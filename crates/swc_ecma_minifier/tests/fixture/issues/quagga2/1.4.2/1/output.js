@@ -8659,10 +8659,10 @@
                                 if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
                                 for(; offset < length && 0xff === dataView.getUint8(offset);){
                                     if (0xe1 === dataView.getUint8(offset + 1)) return function(file, start, exifTags) {
-                                        if ("Exif" !== function(buffer, start, length) {
+                                        if ("Exif" !== function(buffer, start) {
                                             for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
                                             return outstr;
-                                        }(file, start, 0)) return !1;
+                                        }(file, start)) return !1;
                                         var bigEnd, tiffOffset = start + 6;
                                         if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
                                         else {
@@ -8671,16 +8671,16 @@
                                         }
                                         if (0x002a !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
                                         var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
-                                        return !(firstIFDOffset < 0x00000008) && function(file, tiffStart, dirStart, strings, bigEnd) {
+                                        return !(firstIFDOffset < 0x00000008) && function(file, dirStart, strings, bigEnd) {
                                             for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
                                                 var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
-                                                tag && (tags[tag] = function(file, entryOffset, tiffStart, dirStart, bigEnd) {
+                                                tag && (tags[tag] = function(file, entryOffset, bigEnd) {
                                                     var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
                                                     return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
-                                                }(file, entryOffset, 0, 0, bigEnd));
+                                                }(file, entryOffset, bigEnd));
                                             }
                                             return tags;
-                                        }(file, 0, tiffOffset + firstIFDOffset, exifTags, bigEnd);
+                                        }(file, tiffOffset + firstIFDOffset, exifTags, bigEnd);
                                     }(dataView, offset + 4, exifTags);
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }

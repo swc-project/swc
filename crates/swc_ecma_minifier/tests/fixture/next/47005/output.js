@@ -18,10 +18,10 @@
             var B = Object.getOwnPropertyDescriptor;
             var C = Object.getOwnPropertyNames;
             var N = Object.getPrototypeOf, $ = Object.prototype.hasOwnProperty;
-            var D = (m, S, h)=>(h = null != m ? L(N(m)) : {}, ((m, S, h, E)=>{
-                    if (S && "object" == typeof S || "function" == typeof S) for (let h of C(S))$.call(m, h) || void 0 === h || j(m, h, {
-                        get: ()=>S[h],
-                        enumerable: !(E = B(S, h)) || E.enumerable
+            var D = (m, S, h)=>(h = null != m ? L(N(m)) : {}, ((m, S, h)=>{
+                    if (S && "object" == typeof S || "function" == typeof S) for (let E of C(S))$.call(m, E) || void 0 === E || j(m, E, {
+                        get: ()=>S[E],
+                        enumerable: !(h = B(S, E)) || h.enumerable
                     });
                     return m;
                 })(!S && m && m.__esModule ? h : j(h, "default", {}), m));
@@ -49,18 +49,13 @@
             function Z(m, S) {}
             var ee = {
                 getClippingRect: function(m) {
-                    var S, h, E;
-                    let { element: k, boundary: A, rootBoundary: O, strategy: L } = m, j = [
-                        ..."clippingAncestors" === A ? function(m, S) {
-                            var h, E;
-                            let k = S.get(m);
-                            if (k) return k;
-                            let A = (void (h = 0)).filter((m)=>{
-                                var S;
-                                return J(m) && (S = 0, true);
-                            }), O = null, L = "fixed" === G(m).position, j = L ? Q(m) : m;
-                            for(; J(j) && (E = 0, true);){
-                                let m = G(j), S = function(m) {
+                    let { element: S, boundary: h, rootBoundary: E, strategy: k } = m, A = [
+                        ..."clippingAncestors" === h ? function(m, S) {
+                            let h = S.get(m);
+                            if (h) return h;
+                            let E = (void 0).filter((m)=>J(m) && true), k = null, A = "fixed" === G(m).position, O = A ? Q(m) : m;
+                            for(; J(O) && true;){
+                                let m = G(O), S = function(m) {
                                     let S = /firefox/i.test(function() {
                                         if (R) return R;
                                         let m = navigator.userAgentData;
@@ -78,41 +73,40 @@
                                         let S = h.contain;
                                         return null != S && S.includes(m);
                                     });
-                                }(j);
-                                "fixed" === m.position ? O = null : (L ? S || O : S || "static" !== m.position || !O || ![
+                                }(O);
+                                "fixed" === m.position ? k = null : (A ? S || k : S || "static" !== m.position || !k || ![
                                     "absolute",
                                     "fixed"
-                                ].includes(O.position)) ? O = m : A = A.filter((m)=>m !== j), j = Q(j);
+                                ].includes(k.position)) ? k = m : E = E.filter((m)=>m !== O), O = Q(O);
                             }
-                            return S.set(m, A), A;
-                        }(k, this._c) : [].concat(A),
-                        O
-                    ], B = j[0], C = j.reduce(()=>{}, (S = 0, h = 0, void (E = 0)));
+                            return S.set(m, E), E;
+                        }(S, this._c) : [].concat(h),
+                        E
+                    ], O = A[0], L = A.reduce(()=>{}, void 0);
                     return {
-                        width: C.right - C.left,
-                        height: C.bottom - C.top,
-                        x: C.left,
-                        y: C.top
+                        width: L.right - L.left,
+                        height: L.bottom - L.top,
+                        x: L.left,
+                        y: L.top
                     };
                 },
                 convertOffsetParentRelativeRectToViewportRelativeRect: function() {},
                 isElement: J,
                 getDimensions: function(m) {
-                    var S, h;
-                    return S = 0, m.getBoundingClientRect();
+                    return m.getBoundingClientRect();
                 },
                 getOffsetParent: Z,
                 getDocumentElement: function(m) {},
                 getScale: function(m) {},
                 async getElementRects (m) {
-                    var S, h, E;
-                    let { reference: k, floating: R, strategy: A } = m, O = this.getOffsetParent || Z, L = this.getDimensions;
+                    var S;
+                    let { reference: h, floating: E, strategy: k } = m, R = this.getOffsetParent || Z, A = this.getDimensions;
                     return {
-                        reference: (S = 0, h = await O(R), void (E = 0)),
+                        reference: void (S = await R(E)),
                         floating: {
                             x: 0,
                             y: 0,
-                            ...await L(R)
+                            ...await A(E)
                         }
                     };
                 },

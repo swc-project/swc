@@ -1,5 +1,5 @@
 var c = 0;
-(function(a, b) {
+(function(b) {
     (function f(o) {
         var n = 2;
         while(--b + (o = {
