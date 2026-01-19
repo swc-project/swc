@@ -183,4 +183,12 @@ mod tests {
             "empty query should return non-empty result"
         );
     }
+
+    #[test]
+    fn test_node_20_19() {
+        let res = Query::Single("node 20.19".into()).exec().unwrap();
+        let node_version = res.node.expect("node version should be resolved");
+        assert_eq!(node_version.major, 20, "major version should be 20");
+        assert_eq!(node_version.minor, 19, "minor version should be 19");
+    }
 }
