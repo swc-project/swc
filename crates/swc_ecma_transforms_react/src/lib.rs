@@ -6,48 +6,18 @@
 
 use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::Pass;
-use swc_ecma_hooks::{CompositeHook, VisitMutWithHook};
-use swc_ecma_visit::visit_mut_pass;
-
-pub use self::{jsx::*, refresh::options::RefreshOptions};
-
-mod display_name;
-pub mod jsx;
-mod jsx_self;
-mod jsx_src;
-mod pure_annotations;
-mod refresh;
 
 // Re-export old function names for compatibility
-pub fn display_name() -> impl Pass {
-    visit_mut_pass(VisitMutWithHook {
-        hook: display_name::hook(),
-        context: (),
-    })
-}
+pub fn display_name() -> impl Pass {}
 
-pub fn jsx_self(dev: bool) -> impl Pass {
-    visit_mut_pass(VisitMutWithHook {
-        hook: jsx_self::hook(dev),
-        context: (),
-    })
-}
+pub fn jsx_self(dev: bool) -> impl Pass {}
 
-pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Pass {
-    visit_mut_pass(VisitMutWithHook {
-        hook: jsx_src::hook(dev, cm),
-        context: (),
-    })
-}
+pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Pass {}
 
 pub fn pure_annotations<C>(comments: Option<C>) -> impl Pass
 where
     C: Comments,
 {
-    visit_mut_pass(VisitMutWithHook {
-        hook: pure_annotations::hook(comments),
-        context: (),
-    })
 }
 
 pub fn refresh<C: Comments>(
@@ -57,10 +27,6 @@ pub fn refresh<C: Comments>(
     comments: Option<C>,
     global_mark: Mark,
 ) -> impl Pass {
-    visit_mut_pass(VisitMutWithHook {
-        hook: refresh::hook(dev, options, cm, comments, global_mark),
-        context: (),
-    })
 }
 
 /// `@babel/preset-react`
@@ -86,39 +52,4 @@ pub fn react<C>(
 where
     C: Comments + Clone,
 {
-    let Options { development, .. } = options;
-    let development = development.unwrap_or(false);
-
-    let refresh_options = options.refresh.take();
-
-    let hook = CompositeHook {
-        first: jsx_src::hook(development, cm.clone()),
-        second: CompositeHook {
-            first: jsx_self::hook(development),
-            second: CompositeHook {
-                first: refresh::hook(
-                    development,
-                    refresh_options.clone(),
-                    cm.clone(),
-                    comments.clone(),
-                    top_level_mark,
-                ),
-                second: CompositeHook {
-                    first: jsx::hook(
-                        cm.clone(),
-                        comments.clone(),
-                        options,
-                        top_level_mark,
-                        unresolved_mark,
-                    ),
-                    second: CompositeHook {
-                        first: display_name::hook(),
-                        second: pure_annotations::hook(comments.clone()),
-                    },
-                },
-            },
-        },
-    };
-
-    visit_mut_pass(VisitMutWithHook { hook, context: () })
 }
