@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.15.10] - 2026-01-19
 
 ### Bug Fixes
 
@@ -1997,9 +1997,6 @@
 
 
 - **(es/compat)** Remove `PURE` mark from _async_to_generator ([#10414](https://github.com/swc-project/swc/issues/10414)) ([1c6f65c](https://github.com/swc-project/swc/commit/1c6f65cd5b2c742a41b35b8711af00eb61297f88))
-
-
-- **(es/proposal)** Preserve class id for hoisted classes when transforming `using` declarations ([#10407](https://github.com/swc-project/swc/issues/10407)) ([b703f21](https://github.com/swc-project/swc/commit/b703f21f6175386be7794ff1adaff471e42af9f3))
 
 ### Refactor
 

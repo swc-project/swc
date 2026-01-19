@@ -2600,12 +2600,6 @@
 
 ## [swc_core@v22.5.3] - 2025-04-29
 
-### Bug Fixes
-
-
-
-- **(es/proposal)** Preserve class id for hoisted classes when transforming `using` declarations ([#10407](https://github.com/swc-project/swc/issues/10407)) ([b703f21](https://github.com/swc-project/swc/commit/b703f21f6175386be7794ff1adaff471e42af9f3))
-
 ### Refactor
 
 
