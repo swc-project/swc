@@ -267,11 +267,13 @@ impl Visit for AnalyzerAndCollector {
         //
         // We need to check for assign pattern because safari has a bug.
         // https://github.com/swc-project/swc/issues/9015
-        let has_rest = node
-            .function
-            .params
-            .iter()
-            .any(|p| p.pat.is_rest() || p.pat.is_assign());
+        //
+        // Safari also has a bug with duplicate parameter names in destructuring.
+        // https://github.com/swc-project/swc/issues/11083
+        let has_rest =
+            node.function.params.iter().any(|p| {
+                p.pat.is_rest() || p.pat.is_assign() || p.pat.is_object() || p.pat.is_array()
+            });
         let need_skip_analyzer_record =
             self.analyzer.is_first_node && self.analyzer.skip_first_fn_or_class_decl;
         self.analyzer.is_first_node = false;
@@ -312,12 +314,12 @@ impl Visit for AnalyzerAndCollector {
             //
             // We need to check for assign pattern because safari has a bug.
             // https://github.com/swc-project/swc/issues/9015
-            if node
-                .function
-                .params
-                .iter()
-                .any(|p| p.pat.is_rest() || p.pat.is_assign())
-            {
+            //
+            // Safari also has a bug with duplicate parameter names in destructuring.
+            // https://github.com/swc-project/swc/issues/11083
+            if node.function.params.iter().any(|p| {
+                p.pat.is_rest() || p.pat.is_assign() || p.pat.is_object() || p.pat.is_array()
+            }) {
                 self.analyzer.add_usage(id.to_id());
             }
             node.function.decorators.visit_with(self);
