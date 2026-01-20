@@ -157,6 +157,11 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
         n.visit_mut_children_with(self);
 
+        // Only check for @__PURE__ comment on the new expression itself.
+        // We don't check the callee's @__PURE__ comment because that applies to
+        // function calls, not construction.
+        // The purity check for class/function expressions is done via
+        // is_pure_callee in may_have_side_effects.
         if has_pure(self.comments, n.span) {
             n.ctxt = n.ctxt.apply_mark(self.marks.pure);
         }
