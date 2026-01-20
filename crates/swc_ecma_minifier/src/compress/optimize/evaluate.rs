@@ -42,7 +42,7 @@ impl Optimizer<'_> {
         }) = e
         {
             if let Expr::Ident(obj) = &**obj {
-                let metadata = *self.functions.get(&obj.to_id())?;
+                let metadata = self.functions.get(&obj.to_id())?.clone();
 
                 let usage = self.data.vars.get(&obj.to_id())?;
 

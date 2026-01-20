@@ -324,19 +324,71 @@ impl Repeated for Optimizer<'_> {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 struct FnMetadata {
     len: usize,
+    /// Parameter Ids for checking unused params at call sites.
+    /// Only populated for simple identifier parameters.
+    param_ids: Vec<Id>,
+    /// Total number of parameters (including destructuring).
+    /// Used to verify all params are simple identifiers.
+    total_param_count: usize,
+    /// The syntax context of the function, used to check scope data.
+    scope: SyntaxContext,
 }
 
-impl From<&Function> for FnMetadata {
-    fn from(f: &Function) -> Self {
+impl FnMetadata {
+    fn from_function(f: &Function) -> Self {
+        let param_ids: Vec<Id> = f
+            .params
+            .iter()
+            .filter_map(|p| {
+                if let Pat::Ident(ident) = &p.pat {
+                    Some(ident.to_id())
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        let total_param_count = f.params.len();
+
         FnMetadata {
             len: f
                 .params
                 .iter()
                 .filter(|p| matches!(&p.pat, Pat::Ident(..) | Pat::Array(..) | Pat::Object(..)))
                 .count(),
+            param_ids,
+            total_param_count,
+            scope: f.ctxt,
+        }
+    }
+
+    fn from_arrow(arrow: &ArrowExpr) -> Self {
+        let param_ids: Vec<Id> = arrow
+            .params
+            .iter()
+            .filter_map(|p| {
+                if let Pat::Ident(ident) = p {
+                    Some(ident.to_id())
+                } else {
+                    None
+                }
+            })
+            .collect();
+
+        let total_param_count = arrow.params.len();
+
+        FnMetadata {
+            len: arrow
+                .params
+                .iter()
+                .filter(|p| matches!(p, Pat::Ident(..) | Pat::Array(..) | Pat::Object(..)))
+                .count(),
+            param_ids,
+            total_param_count,
+            scope: arrow.ctxt,
         }
     }
 }
@@ -1693,6 +1745,7 @@ impl VisitMut for Optimizer<'_> {
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
         self.drop_arguments_of_symbol_call(e);
+        self.drop_unused_args_of_call(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -2108,7 +2161,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.functions
             .entry(f.ident.to_id())
-            .or_insert_with(|| FnMetadata::from(&*f.function));
+            .or_insert_with(|| FnMetadata::from_function(&f.function));
 
         self.drop_unused_params(&mut f.function.params);
 
@@ -2127,7 +2180,7 @@ impl VisitMut for Optimizer<'_> {
         if let Some(ident) = &e.ident {
             self.functions
                 .entry(ident.to_id())
-                .or_insert_with(|| FnMetadata::from(&*e.function));
+                .or_insert_with(|| FnMetadata::from_function(&e.function));
         }
 
         if !self.options.keep_fnames {
@@ -2926,6 +2979,29 @@ impl VisitMut for Optimizer<'_> {
         self.remove_duplicate_name_of_function(var);
 
         debug_assert_valid(&var.init);
+
+        // Store function metadata for arrow and function expressions assigned to
+        // variables
+        if let VarDeclarator {
+            name: Pat::Ident(id),
+            init: Some(init),
+            ..
+        } = var
+        {
+            match &**init {
+                Expr::Arrow(arrow) => {
+                    self.functions
+                        .entry(id.to_id())
+                        .or_insert_with(|| FnMetadata::from_arrow(arrow));
+                }
+                Expr::Fn(fn_expr) => {
+                    self.functions
+                        .entry(id.to_id())
+                        .or_insert_with(|| FnMetadata::from_function(&fn_expr.function));
+                }
+                _ => {}
+            }
+        }
 
         if let VarDeclarator {
             name: Pat::Ident(id),

@@ -1201,3 +1201,120 @@ impl Visit for ThisPropertyVisitor {
         }
     }
 }
+
+impl Optimizer<'_> {
+    /// Removes unused trailing arguments from call expressions to named
+    /// functions when the corresponding parameters are not used.
+    ///
+    /// # Example
+    ///
+    /// ```js
+    /// const fn = (msg) => console.log(k++);
+    /// fn('Hi'); // 'Hi' is not used, can be removed
+    /// ```
+    ///
+    /// becomes:
+    ///
+    /// ```js
+    /// const fn = () => console.log(k++);
+    /// fn();
+    /// ```
+    pub(super) fn drop_unused_args_of_call(&mut self, e: &mut CallExpr) {
+        if !self.options.unused {
+            return;
+        }
+
+        // Only handle calls to identifiers (named functions)
+        let callee_ident = match &e.callee {
+            Callee::Expr(callee) => match &**callee {
+                Expr::Ident(ident) => ident,
+                _ => return,
+            },
+            _ => return,
+        };
+
+        // Don't optimize if there are spread arguments
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            return;
+        }
+
+        // Look up the function metadata
+        let fn_meta = match self.functions.get(&callee_ident.to_id()) {
+            Some(meta) => meta.clone(),
+            None => return,
+        };
+
+        // Only proceed if all parameters are simple identifiers
+        // (no destructuring, rest params, etc.)
+        if fn_meta.param_ids.len() != fn_meta.total_param_count {
+            return;
+        }
+
+        // Don't optimize if the function uses `arguments`
+        if let Some(scope_data) = self.data.get_scope(fn_meta.scope) {
+            if scope_data.contains(ScopeData::USED_ARGUMENTS) {
+                return;
+            }
+        }
+
+        // Check if the function variable is not reassigned
+        if let Some(usage) = self.data.vars.get(&callee_ident.to_id()) {
+            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                return;
+            }
+        } else {
+            return;
+        }
+
+        // Find which parameters are unused (from the end)
+        // We can only remove trailing unused arguments to preserve argument order
+        let mut last_used_param_idx: Option<usize> = None;
+        for (idx, param_id) in fn_meta.param_ids.iter().enumerate().rev() {
+            if let Some(usage) = self.data.vars.get(param_id) {
+                if usage.ref_count > 0 {
+                    last_used_param_idx = Some(idx);
+                    break;
+                }
+            } else {
+                // If we can't find usage info, assume it's used
+                last_used_param_idx = Some(idx);
+                break;
+            }
+        }
+
+        // Calculate how many arguments we can keep
+        let keep_args = match last_used_param_idx {
+            Some(idx) => idx + 1,
+            None => 0, // All params unused, can remove all args
+        };
+
+        // Remove unused trailing arguments (only if they have no side effects)
+        if e.args.len() > keep_args {
+            let mut can_remove_from = e.args.len();
+
+            // Find the first argument from the end that can be removed
+            for (idx, arg) in e.args.iter().enumerate().rev() {
+                if idx < keep_args {
+                    break;
+                }
+
+                // Check if the argument has side effects
+                if arg.expr.may_have_side_effects(self.ctx.expr_ctx) {
+                    break;
+                }
+
+                can_remove_from = idx;
+            }
+
+            if can_remove_from < e.args.len() {
+                report_change!(
+                    "unused: Dropping {} unused trailing arguments from call to `{}`",
+                    e.args.len() - can_remove_from,
+                    callee_ident.sym
+                );
+                e.args.truncate(can_remove_from);
+                self.changed = true;
+            }
+        }
+    }
+}
