@@ -23,14 +23,14 @@ var E2 = /*#__PURE__*/ function(E2) {
     return E2;
 }(E2 || {});
 // Enum with only computed members
-var E3 = /*#__PURE__*/ function(E3) {
+var E3 = function(E3) {
     E3[E3["X"] = 'foo'.length] = "X";
     E3[E3["Y"] = 7] = "Y";
     E3[E3["Z"] = +"foo"] = "Z";
     return E3;
 }(E3 || {});
 // Enum with constant members followed by computed members
-var E4 = /*#__PURE__*/ function(E4) {
+var E4 = function(E4) {
     E4[E4["X"] = 0] = "X";
     E4[E4["Y"] = 1] = "Y";
     E4[E4["Z"] = 'foo'.length] = "Z";
@@ -50,12 +50,12 @@ var E6 = /*#__PURE__*/ function(E6) {
     return E6;
 }(E6 || {});
 // Enum with computed member initializer of type 'any'
-var E7 = /*#__PURE__*/ function(E7) {
+var E7 = function(E7) {
     E7[E7["A"] = 'foo'['foo']] = "A";
     return E7;
 }(E7 || {});
 // Enum with computed member initializer of type number
-var E8 = /*#__PURE__*/ function(E8) {
+var E8 = function(E8) {
     E8[E8["B"] = 'foo'['foo']] = "B";
     return E8;
 }(E8 || {});

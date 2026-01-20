@@ -729,6 +729,10 @@ impl Transform {
             return FoldedDecl::Empty;
         }
 
+        let opaque = member_list
+            .iter()
+            .any(|item| matches!(item.value, TsEnumRecordValue::Opaque(..)));
+
         let stmts = member_list
             .into_iter()
             .filter(|item| !ts_enum_safe_remove || !item.is_const())
@@ -783,8 +787,10 @@ impl Transform {
             }
         };
 
-        let expr = Factory::function(vec![id.clone().into()], body)
-            .as_call(if iife { DUMMY_SP } else { PURE_SP }, vec![init_arg]);
+        let expr = Factory::function(vec![id.clone().into()], body).as_call(
+            if iife || opaque { DUMMY_SP } else { PURE_SP },
+            vec![init_arg],
+        );
 
         if iife {
             FoldedDecl::Expr(
