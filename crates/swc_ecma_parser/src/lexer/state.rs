@@ -551,7 +551,7 @@ impl Lexer<'_> {
 
                     // Read the jsx entity and update the start of chunk
                     if let Ok(jsx_entity) = self.read_jsx_entity() {
-                        value.push(jsx_entity.0);
+                        value.push_str(&jsx_entity.0);
                         chunk_start = self.input.cur_pos();
                     }
                 }

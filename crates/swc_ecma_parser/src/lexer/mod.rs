@@ -1362,17 +1362,42 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
+    fn read_jsx_entity(&mut self) -> LexResult<(String, String)> {
         debug_assert!(self.syntax().jsx());
 
-        fn from_code(s: &str, radix: u32) -> LexResult<char> {
-            // TODO(kdy1): unwrap -> Err
-            let c = char::from_u32(
-                u32::from_str_radix(s, radix).expect("failed to parse string as number"),
-            )
-            .expect("failed to parse number as char");
+        fn parse_from_code(s: &str, radix: u32) -> LexResult<u32> {
+            let num = match u32::from_str_radix(s, radix) {
+                Ok(num) if num <= 0x10ffff => num,
+                Ok(_) => {
+                    return Err(crate::error::Error::new(
+                        Span::default(),
+                        SyntaxError::InvalidJSXValue,
+                    ))
+                }
+                Err(_) => {
+                    return Err(crate::error::Error::new(
+                        Span::default(),
+                        SyntaxError::InvalidJSXValue,
+                    ))
+                }
+            };
 
-            Ok(c)
+            Ok(num)
+        }
+        fn parse_utf16_surrogates(utf16_data: &[u16]) -> String {
+            let mut result = String::new();
+            for maybe_char in char::decode_utf16(utf16_data.iter().copied()) {
+                match maybe_char {
+                    Ok(c) => result.push(c),
+                    Err(e) => {
+                        // Handle the error (e.g., an unpaired surrogate),
+                        // perhaps push a replacement character (U+FFFD)
+                        eprintln!("Error decoding UTF-16: {e:?}");
+                        result.push(std::char::REPLACEMENT_CHARACTER);
+                    }
+                }
+            }
+            result
         }
 
         fn is_hex(s: &str) -> bool {
@@ -1389,35 +1414,71 @@ impl<'a> Lexer<'a> {
         self.bump(1); // `&`
 
         let start_pos = self.input().cur_pos();
-
-        for _ in 0..10 {
+        let mut value = String::new();
+        let mut raw = String::new();
+        const NO_PREV_RESULT: u16 = 0xdc00;
+        let mut prev_result: u16 = NO_PREV_RESULT;
+        for _ in 0..20 {
             let c = match self.input().cur() {
                 Some(c) => c,
                 None => break,
             };
             self.bump(1); // `c` is u8
 
-            if c == b';' {
-                if let Some(stripped) = s.strip_prefix('#') {
-                    if stripped.starts_with('x') {
-                        if is_hex(&s[2..]) {
-                            let value = from_code(&s[2..], 16)?;
+            if c != b';' {
+                s.push(c as char);
+                continue;
+            }
+            if let Some(stripped) = s.strip_prefix('#') {
+                if stripped.starts_with('x') {
+                    if is_hex(&s[2..]) {
+                        let result = parse_from_code(&s[2..], 16)?;
+                        if (0xd800..=0xdfff).contains(&result) {
+                            if result < 0xdc00 {
+                                if prev_result != NO_PREV_RESULT {
+                                    // If the previous result is a high surrogate
+                                    // We can be sure `prev_result` is less than 0xdc00
+                                    value.push_str(format!("&#{prev_result:04X};",).as_str());
+                                }
+                                if self.input().cur() == Some(b'&')
+                                    && self.input().peek() == Some(b'#')
+                                {
+                                    self.bump(1); // `&`
 
+                                    // wait for the next surrogate
+                                    prev_result = result as u16;
+                                    raw.push_str(format!("&{s};").as_str());
+                                    s.clear();
+                                    continue;
+                                } else {
+                                    prev_result = result as u16;
+                                    return Ok((
+                                        parse_utf16_surrogates(&[prev_result]),
+                                        format!("&{s};"),
+                                    ));
+                                }
+                            } else if prev_result != NO_PREV_RESULT {
+                                value.push_str(
+                                    parse_utf16_surrogates(&[prev_result, result as u16]).as_str(),
+                                );
+                                raw.push_str(format!("&{s};").as_str());
+                                return Ok((value, raw));
+                            }
+                        } else {
+                            let value = char::from_u32(result as u32).unwrap().to_string();
                             return Ok((value, format!("&{s};")));
                         }
-                    } else if is_dec(stripped) {
-                        let value = from_code(stripped, 10)?;
 
                         return Ok((value, format!("&{s};")));
                     }
-                } else if let Some(entity) = xhtml(&s) {
-                    return Ok((entity, format!("&{s};")));
+                } else if is_dec(stripped) {
+                    let result = parse_from_code(stripped, 10)?;
+                    let value = char::from_u32(result as u32).unwrap().to_string();
+                    return Ok((value, format!("&{s};")));
                 }
-
-                break;
+            } else if let Some(entity) = xhtml(&s) {
+                return Ok((entity.to_string(), format!("&{s};")));
             }
-
-            s.push(c as char)
         }
 
         unsafe {
@@ -1425,7 +1486,7 @@ impl<'a> Lexer<'a> {
             self.input_mut().reset_to(start_pos);
         }
 
-        Ok(('&', "&".to_string()))
+        Ok(('&'.to_string(), "&".to_string()))
     }
 
     fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
@@ -1487,7 +1548,7 @@ impl<'a> Lexer<'a> {
 
                 let jsx_entity = self.read_jsx_entity()?;
 
-                out.push(jsx_entity.0);
+                out.push_str(&jsx_entity.0);
 
                 chunk_start = self.input().cur_pos();
             } else if ch.is_line_terminator() {
