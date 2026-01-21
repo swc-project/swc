@@ -30,9 +30,9 @@ swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-fea
   "typescript",
   "unstable",
 ] }
-swc_ecma_transforms_base = { version = "36.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_react = { version = "39.0.0", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "39.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript = { version = "39.0.1", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 wasm-bindgen = { workspace = true, optional = true }
 

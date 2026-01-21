@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "55.0.1"
+version       = "55.0.2"
 [package.metadata.docs.rs]
 features = [
   "allocator_node",
@@ -352,21 +352,21 @@ swc_ecma_ast                     = { optional = true, version = "20.0.0", path =
 swc_ecma_codegen                 = { optional = true, version = "22.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "27.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "18.0.0", path = "../swc_ecma_loader" }
-swc_ecma_minifier                = { optional = true, version = "43.0.1", path = "../swc_ecma_minifier" }
+swc_ecma_minifier                = { optional = true, version = "43.0.2", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
 swc_ecma_preset_env              = { optional = true, version = "46.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "33.0.0", path = "../swc_ecma_quote_macros" }
 swc_ecma_react_compiler          = { optional = true, version = "13.0.0", path = "../swc_ecma_react_compiler" }
-swc_ecma_transforms_base         = { optional = true, version = "36.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base         = { optional = true, version = "36.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { optional = true, version = "41.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_module       = { optional = true, version = "39.0.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "38.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_transforms_proposal     = { optional = true, version = "36.0.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react        = { optional = true, version = "39.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "39.0.0", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript   = { optional = true, version = "39.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript   = { optional = true, version = "39.0.1", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_usage_analyzer          = { optional = true, version = "28.0.0", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils                   = { optional = true, version = "26.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils                   = { optional = true, version = "26.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "20.0.0", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "1.2.4", path = "../swc_malloc" }
 swc_node_bundler                 = { optional = true, version = "54.0.0", path = "../swc_node_bundler" }

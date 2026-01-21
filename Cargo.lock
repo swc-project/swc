@@ -5582,7 +5582,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "55.0.1"
+version = "55.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6138,7 +6138,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "43.0.1"
+version = "43.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6363,7 +6363,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "36.0.0"
+version = "36.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -6571,7 +6571,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "39.0.0"
+version = "39.0.1"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -6610,7 +6610,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "dragonbox_ecma",
  "indexmap 2.12.0",

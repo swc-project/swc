@@ -37,8 +37,8 @@ swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "36.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "26.0.0", path = "../swc_ecma_utils" }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 
 
@@ -46,12 +46,12 @@ swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 par-core = { workspace = true, features = ["chili"] }
 
 
-swc_ecma_transforms_base = { version = "36.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_module = { version = "39.0.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_proposal = { version = "36.0.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing = { version = "39.0.0", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript = { version = "39.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript = { version = "39.0.1", path = "../swc_ecma_transforms_typescript" }
 testing = { version = "19.0.0", path = "../testing" }
