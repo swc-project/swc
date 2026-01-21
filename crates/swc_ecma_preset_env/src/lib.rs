@@ -5,7 +5,11 @@
 use std::{path::PathBuf, sync::Arc};
 
 use preset_env_base::query::targets_to_versions;
-pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
+pub use preset_env_base::{
+    query::{TargetInfo, Targets},
+    version::Version,
+    BrowserData, Versions,
+};
 use rustc_hash::FxHashSet;
 use serde::Deserialize;
 use swc_atoms::{atom, Atom};
@@ -343,6 +347,7 @@ where
             includes: env_config.core_js_config.included_modules,
             excludes: env_config.core_js_config.excluded_modules,
             unresolved_mark,
+            unknown_version: env_config.core_js_config.unknown_version,
         }),
     )
 }
@@ -378,6 +383,10 @@ struct Polyfills {
     includes: FxHashSet<String>,
     excludes: FxHashSet<String>,
     unresolved_mark: Mark,
+    /// True if the browserslist query returned an empty result (unknown browser
+    /// version). When this is true, we should add no polyfills, similar to
+    /// Babel's behavior.
+    unknown_version: bool,
 }
 impl Polyfills {
     fn collect<T>(&mut self, m: &mut T) -> Vec<Atom>
@@ -387,6 +396,13 @@ impl Polyfills {
             + VisitMutWith<corejs2::Entry>
             + VisitMutWith<corejs3::Entry>,
     {
+        // If browserslist returned empty (unknown browser version), don't add any
+        // polyfills. This matches Babel's behavior where unknown versions are
+        // assumed to support all features.
+        if self.unknown_version {
+            return Default::default();
+        }
+
         let required = match self.mode {
             None => Default::default(),
             Some(Mode::Usage) => {
@@ -633,6 +649,11 @@ pub struct FeatureConfig {
     include: Vec<Feature>,
     exclude: Vec<Feature>,
     is_any_target: bool,
+    /// True if the browserslist query returned an empty result (unknown browser
+    /// version). When this is true, we should assume the browser is a
+    /// recent version that supports all modern features (no transforms
+    /// needed), similar to Babel's behavior.
+    unknown_version: bool,
     force_all_transforms: bool,
     bugfixes: bool,
 }
@@ -641,6 +662,9 @@ struct CoreJSConfig {
     targets: Arc<Versions>,
     included_modules: FxHashSet<String>,
     excluded_modules: FxHashSet<String>,
+    /// True if the browserslist query returned an empty result (unknown browser
+    /// version).
+    unknown_version: bool,
 }
 
 pub struct EnvConfig {
@@ -651,25 +675,27 @@ pub struct EnvConfig {
 
 impl From<Config> for EnvConfig {
     fn from(mut config: Config) -> Self {
-        let targets = targets_to_versions(config.targets.take(), config.path.take())
+        let target_info = targets_to_versions(config.targets.take(), config.path.take())
             .expect("failed to parse targets");
-        let is_any_target = targets.is_any_target();
+        let is_any_target = target_info.versions.is_any_target();
 
         let (include, included_modules) = FeatureOrModule::split(config.include.clone());
         let (exclude, excluded_modules) = FeatureOrModule::split(config.exclude.clone());
 
         let feature_config = FeatureConfig {
-            targets: Arc::clone(&targets),
+            targets: Arc::clone(&target_info.versions),
             include,
             exclude,
             is_any_target,
+            unknown_version: target_info.unknown_version,
             force_all_transforms: config.force_all_transforms,
             bugfixes: config.bugfixes,
         };
         let core_js_config = CoreJSConfig {
-            targets: Arc::clone(&targets),
+            targets: Arc::clone(&target_info.versions),
             included_modules,
             excluded_modules,
+            unknown_version: target_info.unknown_version,
         };
         Self {
             config,
@@ -688,6 +714,13 @@ impl EnvConfig {
 impl Caniuse for FeatureConfig {
     fn caniuse(&self, feature: Feature) -> bool {
         if self.exclude.contains(&feature) {
+            return true;
+        }
+
+        // If browserslist returned empty (unknown browser version), assume all
+        // features are supported (like Babel does). This handles cases like
+        // "Chrome > 130" where the version is newer than the browserslist database.
+        if self.unknown_version {
             return true;
         }
 
