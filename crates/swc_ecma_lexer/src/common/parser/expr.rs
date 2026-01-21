@@ -1545,8 +1545,13 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         };
 
         if op == op!("delete") {
-            if let Expr::Ident(ref i) = *arg {
-                p.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+            // Skip emitting TS1102 in TypeScript mode because it's a semantic error
+            // that should be handled by the type checker, not the parser.
+            // See: https://github.com/swc-project/swc/issues/10558
+            if !p.input().syntax().typescript() {
+                if let Expr::Ident(ref i) = *arg {
+                    p.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                }
             }
         }
 

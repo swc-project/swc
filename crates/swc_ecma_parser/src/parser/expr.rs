@@ -259,8 +259,13 @@ impl<I: Tokens> Parser<I> {
             };
 
             if op == op!("delete") {
-                if let Expr::Ident(ref i) = *arg {
-                    self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                // Skip emitting TS1102 in TypeScript mode because it's a semantic error
+                // that should be handled by the type checker, not the parser.
+                // See: https://github.com/swc-project/swc/issues/10558
+                if !self.input().syntax().typescript() {
+                    if let Expr::Ident(ref i) = *arg {
+                        self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                    }
                 }
             }
 
