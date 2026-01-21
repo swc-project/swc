@@ -13,7 +13,12 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
-use crate::{debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt};
+use crate::{
+    debug::AssertValid,
+    maybe_par,
+    option::{CompressOptions, PureGetterOption},
+    util::ModuleItemExt,
+};
 
 mod arrows;
 mod bools;
@@ -53,6 +58,7 @@ pub(crate) fn pure_optimizer<'a>(
             is_unresolved_ref_safe: false,
             in_strict: options.module,
             remaining_depth: 6,
+            pure_getters: options.pure_getters == PureGetterOption::Bool(true),
         },
         ctx: Default::default(),
         changed: Default::default(),

@@ -37,6 +37,7 @@ where
             is_unresolved_ref_safe: false,
             in_strict: false,
             remaining_depth: 3,
+            pure_getters: false,
         },
         used_recursively: FxHashMap::default(),
     };

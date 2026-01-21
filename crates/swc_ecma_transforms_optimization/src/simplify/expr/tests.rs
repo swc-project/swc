@@ -24,6 +24,7 @@ fn fold(src: &str, expected: &str) {
                         is_unresolved_ref_safe: true,
                         in_strict: false,
                         remaining_depth: 4,
+                        pure_getters: false,
                     },
                     config: super::Config {},
                     changed: false,

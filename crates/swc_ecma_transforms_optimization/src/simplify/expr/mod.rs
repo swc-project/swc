@@ -53,6 +53,7 @@ pub fn expr_simplifier(
             is_unresolved_ref_safe: false,
             in_strict: false,
             remaining_depth: 4,
+            pure_getters: false,
         },
         config,
         changed: false,

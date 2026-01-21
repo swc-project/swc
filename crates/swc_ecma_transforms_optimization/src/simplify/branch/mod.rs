@@ -33,6 +33,7 @@ pub fn dead_branch_remover(
             is_unresolved_ref_safe: false,
             in_strict: false,
             remaining_depth: 3,
+            pure_getters: false,
         },
     })
 }

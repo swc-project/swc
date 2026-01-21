@@ -32,6 +32,7 @@ impl Evaluator {
                 is_unresolved_ref_safe: false,
                 in_strict: true,
                 remaining_depth: 3,
+                pure_getters: false,
             },
 
             program: Program::Module(module),

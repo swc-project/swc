@@ -31,7 +31,7 @@ use crate::{
     debug::AssertValid,
     maybe_par,
     mode::Mode,
-    option::{CompressOptions, MangleOptions},
+    option::{CompressOptions, MangleOptions, PureGetterOption},
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     util::{contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt},
 };
@@ -74,6 +74,7 @@ pub(super) fn optimizer<'a>(
             is_unresolved_ref_safe: false,
             in_strict: options.module,
             remaining_depth: 6,
+            pure_getters: options.pure_getters == PureGetterOption::Bool(true),
         },
         scope: SyntaxContext::default(),
         bit_ctx: BitCtx::default(),
@@ -1172,6 +1173,13 @@ impl Optimizer<'_> {
                     return None;
                 }
                 return self.ignore_return_value(&mut expr.arg);
+            }
+
+            // The `in` operator can trigger the `has` trap on a Proxy, which is a
+            // side effect. We only consider it side-effect-free if `pure_getters`
+            // is explicitly enabled.
+            Expr::Bin(BinExpr { op: op!("in"), .. }) if self.ctx.expr_ctx.pure_getters != true => {
+                return Some(e.take());
             }
 
             Expr::Bin(BinExpr {

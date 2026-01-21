@@ -32,6 +32,7 @@ pub fn dce(
             is_unresolved_ref_safe: false,
             in_strict: false,
             remaining_depth: 2,
+            pure_getters: false,
         },
         config,
         changed: false,

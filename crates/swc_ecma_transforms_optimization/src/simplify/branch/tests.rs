@@ -27,6 +27,7 @@ macro_rules! test_stmt {
                             is_unresolved_ref_safe: true,
                             in_strict: false,
                             remaining_depth: 4,
+                            pure_getters: false,
                         },
                     }),
                 )

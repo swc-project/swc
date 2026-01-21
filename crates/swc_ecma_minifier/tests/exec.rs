@@ -11498,7 +11498,29 @@ function printError() {
 }
 
 printError()
-    
+
+        ",
+    );
+}
+
+/// The `in` operator can trigger the `has` trap on a Proxy, so it must not be
+/// removed as a side-effect-free expression.
+#[test]
+fn issue_11246() {
+    run_default_exec_test(
+        "
+const TRACK_MEMO_SYMBOL = Symbol();
+
+const obj = new Proxy({}, {
+    has: (target, p) => {
+        if (p === TRACK_MEMO_SYMBOL) {
+            console.log('sideEffect')
+        }
+        return target[p]
+    }
+})
+
+TRACK_MEMO_SYMBOL in obj;
         ",
     );
 }

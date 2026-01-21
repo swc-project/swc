@@ -718,6 +718,12 @@ pub struct ExprCtx {
     ///
     /// Default value is `4`
     pub remaining_depth: u8,
+
+    /// If true, property access and `in` operator are assumed to have no side
+    /// effects (no Proxy traps will be triggered).
+    ///
+    /// Default value is `false`
+    pub pure_getters: bool,
 }
 
 /// Extension methods for [Expr].
@@ -3591,7 +3597,15 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             op: op!("delete"), ..
         }) => true,
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
-        Expr::Bin(BinExpr { left, right, .. }) => {
+        Expr::Bin(BinExpr {
+            op, left, right, ..
+        }) => {
+            // The `in` operator can trigger the `has` trap on a Proxy, which is a
+            // side effect. We only consider it side-effect-free if `pure_getters`
+            // is explicitly enabled.
+            if *op == op!("in") && !ctx.pure_getters {
+                return true;
+            }
             left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
         }
 
@@ -3837,6 +3851,60 @@ mod tests {
     fn top_level_export_await() {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
+    }
+
+    fn parse_expr(text: &str) -> Expr {
+        let syntax = Syntax::Es(Default::default());
+        let wrapped = format!("({})", text);
+        let mut p = Parser::new(
+            syntax,
+            StringInput::new(&wrapped, BytePos(0), BytePos(wrapped.len() as u32)),
+            None,
+        );
+        *p.parse_expr().unwrap()
+    }
+
+    fn expr_has_side_effects(text: &str, pure_getters: bool) -> bool {
+        let expr = parse_expr(text);
+        let ctx = ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty(),
+            // Set to true so identifiers don't trigger side effects
+            is_unresolved_ref_safe: true,
+            in_strict: false,
+            remaining_depth: 4,
+            pure_getters,
+        };
+        expr.may_have_side_effects(ctx)
+    }
+
+    /// Test that the `in` operator is treated as having side effects when
+    /// `pure_getters` is false (the default), because it can trigger the
+    /// `has` trap on a Proxy.
+    #[test]
+    fn test_in_operator_side_effects() {
+        // With pure_getters=false, `in` should have side effects
+        // Use literals/object literals to avoid identifier side-effect considerations
+        assert!(
+            expr_has_side_effects("'key' in {}", false),
+            "in operator should have side effects when pure_getters is false"
+        );
+
+        // With pure_getters=true, `in` should not have side effects
+        // (assuming the operands themselves don't have side effects)
+        assert!(
+            !expr_has_side_effects("'key' in {}", true),
+            "in operator should not have side effects when pure_getters is true"
+        );
+
+        // Other binary operators should not have side effects (when operands don't)
+        assert!(
+            !expr_has_side_effects("1 + 2", false),
+            "addition should not have side effects"
+        );
+        assert!(
+            !expr_has_side_effects("1 === 2", false),
+            "equality check should not have side effects"
+        );
     }
 }
 
