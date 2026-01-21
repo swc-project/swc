@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "minify": {
+            "compress": true,
+            "mangle": false
+        }
+    },
+    "minify": true
+}
