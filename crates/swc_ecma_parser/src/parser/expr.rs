@@ -761,6 +761,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    #[cfg(feature = "typescript")]
     fn parse_tpl_ty_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
         trace_cur!(self, parse_tpl_elements);
 
@@ -778,6 +779,7 @@ impl<I: Tokens> Parser<I> {
         Ok((tys, quasis))
     }
 
+    #[cfg(feature = "typescript")]
     fn parse_no_substitution_template_ty(&mut self) -> PResult<TsTplLitType> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
@@ -802,6 +804,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    #[cfg(feature = "typescript")]
     fn parse_tpl_ty(&mut self) -> PResult<TsTplLitType> {
         trace_cur!(self, parse_tpl_ty);
         debug_assert!(matches!(self.input.cur(), Token::TemplateHead));
@@ -819,6 +822,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    #[cfg(feature = "typescript")]
     pub(super) fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
         let start = self.cur_pos();
         debug_assert!(self.input().syntax().typescript());
@@ -2669,6 +2673,7 @@ impl<I: Tokens> Parser<I> {
         .into())
     }
 
+    #[cfg(feature = "typescript")]
     pub(crate) fn is_start_of_left_hand_side_expr(&mut self) -> bool {
         let cur = self.input().cur();
         matches!(
