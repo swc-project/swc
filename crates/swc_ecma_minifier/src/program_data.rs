@@ -34,6 +34,81 @@ where
     analyze_with_custom_storage(data, n, marks)
 }
 
+/// Represents the value passed to a parameter across all call sites.
+#[derive(Debug, Clone)]
+pub(crate) enum ParamInlineValue {
+    /// The parameter receives undefined (either implicit or explicit) at all
+    /// call sites.
+    Undefined,
+    /// The parameter receives a constant literal at all call sites.
+    Lit(Box<Lit>),
+    /// The parameter receives different values at different call sites.
+    Mixed,
+}
+
+impl Default for ParamInlineValue {
+    fn default() -> Self {
+        // Parameters start as undefined (no calls yet)
+        ParamInlineValue::Undefined
+    }
+}
+
+impl ParamInlineValue {
+    /// Merge another value into this one. If the values are the same, keep it.
+    /// Otherwise, mark as Mixed.
+    pub fn merge(&mut self, other: &ParamInlineValue) {
+        match (&self, other) {
+            (ParamInlineValue::Undefined, ParamInlineValue::Undefined) => {}
+            (ParamInlineValue::Lit(a), ParamInlineValue::Lit(b)) => {
+                if !lit_eq(a, b) {
+                    *self = ParamInlineValue::Mixed;
+                }
+            }
+            (ParamInlineValue::Mixed, _) => {}
+            _ => {
+                *self = ParamInlineValue::Mixed;
+            }
+        }
+    }
+
+    /// Record a value passed at a call site
+    pub fn record_value(&mut self, expr: Option<&Expr>) {
+        let new_value = match expr {
+            None => ParamInlineValue::Undefined,
+            Some(Expr::Ident(id)) if &*id.sym == "undefined" => ParamInlineValue::Undefined,
+            Some(Expr::Unary(UnaryExpr {
+                op: op!("void"),
+                arg,
+                ..
+            })) if matches!(&**arg, Expr::Lit(Lit::Num(_))) => ParamInlineValue::Undefined,
+            Some(Expr::Lit(lit)) => ParamInlineValue::Lit(Box::new(lit.clone())),
+            _ => ParamInlineValue::Mixed,
+        };
+
+        self.merge(&new_value);
+    }
+}
+
+/// Helper to compare literals for equality (for parameter value tracking)
+fn lit_eq(a: &Lit, b: &Lit) -> bool {
+    match (a, b) {
+        (Lit::Str(a), Lit::Str(b)) => a.value == b.value,
+        (Lit::Bool(a), Lit::Bool(b)) => a.value == b.value,
+        (Lit::Null(_), Lit::Null(_)) => true,
+        (Lit::Num(a), Lit::Num(b)) => a.value == b.value,
+        (Lit::BigInt(a), Lit::BigInt(b)) => a.value == b.value,
+        (Lit::Regex(a), Lit::Regex(b)) => a.exp == b.exp && a.flags == b.flags,
+        _ => false,
+    }
+}
+
+/// Information about a function declaration for parameter optimization.
+#[derive(Debug, Clone, Default)]
+pub(crate) struct FnDeclInfo {
+    /// Values passed to each parameter index across all call sites.
+    pub(crate) param_values: Vec<ParamInlineValue>,
+}
+
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
@@ -46,6 +121,10 @@ pub(crate) struct ProgramData {
     scopes: Vec<ScopeData>,
 
     pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
+
+    /// Map from function identifier to function declaration info.
+    /// Used for tracking parameter values across call sites.
+    pub(crate) fn_decls: FxHashMap<Id, FnDeclInfo>,
 }
 
 bitflags::bitflags! {
@@ -190,9 +269,11 @@ impl Storage for ProgramData {
     fn new_child(&mut self) -> Self {
         let scopes = std::mem::take(&mut self.scopes);
         let property_atoms = std::mem::take(&mut self.property_atoms);
+        let fn_decls = std::mem::take(&mut self.fn_decls);
         Self {
             scopes,
             property_atoms,
+            fn_decls,
             ..Default::default()
         }
     }
@@ -222,6 +303,7 @@ impl Storage for ProgramData {
         // Corresponding to [Self::new_child]
         self.scopes = child.scopes;
         self.property_atoms = child.property_atoms;
+        self.fn_decls = child.fn_decls;
 
         self.vars.reserve(child.vars.len());
         for (id, mut var_info) in child.vars {
@@ -548,6 +630,14 @@ impl Storage for ProgramData {
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
         self.vars.get(&id).map(|v| v.as_ref())
     }
+
+    fn register_fn_decl(&mut self, fn_id: Id, num_params: usize) {
+        ProgramData::register_fn_decl(self, fn_id, num_params);
+    }
+
+    fn record_call_site(&mut self, fn_id: &Id, args: &[ExprOrSpread]) {
+        ProgramData::record_call_site(self, fn_id, args);
+    }
 }
 
 impl ScopeDataLike for ScopeData {
@@ -661,6 +751,50 @@ impl ProgramData {
     pub(crate) fn get_scope(&self, ctxt: SyntaxContext) -> Option<&ScopeData> {
         let ctxt = ctxt.as_u32() as usize;
         self.scopes.get(ctxt)
+    }
+
+    /// Register a function declaration with its parameter identifiers.
+    pub(crate) fn register_fn_decl(&mut self, fn_id: Id, num_params: usize) {
+        self.fn_decls.insert(
+            fn_id,
+            FnDeclInfo {
+                param_values: vec![ParamInlineValue::default(); num_params],
+            },
+        );
+    }
+
+    /// Record call site arguments for a function.
+    pub(crate) fn record_call_site(&mut self, fn_id: &Id, args: &[ExprOrSpread]) {
+        if let Some(fn_info) = self.fn_decls.get_mut(fn_id) {
+            // Record value for each parameter
+            for (idx, param_value) in fn_info.param_values.iter_mut().enumerate() {
+                let arg_expr = args.get(idx).map(|a| {
+                    // If there's a spread, we can't determine the value
+                    if a.spread.is_some() {
+                        None
+                    } else {
+                        Some(&*a.expr)
+                    }
+                });
+
+                match arg_expr {
+                    Some(Some(expr)) => param_value.record_value(Some(expr)),
+                    Some(None) => {
+                        // Spread argument - mark as mixed
+                        *param_value = ParamInlineValue::Mixed;
+                    }
+                    None => {
+                        // Argument not provided - record undefined
+                        param_value.record_value(None);
+                    }
+                }
+            }
+        }
+    }
+
+    /// Get function declaration info
+    pub(crate) fn get_fn_decl(&self, fn_id: &Id) -> Option<&FnDeclInfo> {
+        self.fn_decls.get(fn_id)
     }
 
     /// This should be used only for conditionals pass.

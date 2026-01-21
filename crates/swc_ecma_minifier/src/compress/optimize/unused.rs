@@ -14,7 +14,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::{util::extract_class_side_effect, BitCtx},
     option::PureGetterOption,
-    program_data::{ScopeData, VarUsageInfoFlags},
+    program_data::{ParamInlineValue, ScopeData, VarUsageInfoFlags},
 };
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -176,6 +176,178 @@ impl Optimizer<'_> {
         }
 
         params.retain(|p| !p.is_invalid());
+    }
+
+    /// Inline parameters that receive the same value across all call sites.
+    ///
+    /// When all call sites pass the same value (or undefined) to a parameter,
+    /// we can convert the parameter to a local variable with that value.
+    ///
+    /// For example:
+    /// ```js
+    /// function complex(foo, fn) {
+    ///   if (Math.random() > 0.5) throw new Error()
+    ///   return fn?.(foo)
+    /// }
+    /// console.log(complex("foo"))  // fn is undefined at all call sites
+    /// ```
+    ///
+    /// Becomes:
+    /// ```js
+    /// function complex(foo) {
+    ///   var fn;  // undefined
+    ///   if (Math.random() > 0.5) throw new Error()
+    ///   return fn?.(foo)
+    /// }
+    /// ```
+    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    pub(super) fn inline_params_with_same_value(
+        &mut self,
+        fn_id: &Id,
+        params: &mut Vec<Param>,
+        body: &mut Option<BlockStmt>,
+    ) {
+        if self.options.keep_fargs || !self.options.unused {
+            return;
+        }
+
+        // Check for eval/with
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+        }
+
+        // Get function declaration info
+        let Some(fn_info) = self.data.get_fn_decl(fn_id) else {
+            return;
+        };
+
+        trace_op!(
+            "unused: inline_params_with_same_value: fn_id={:?}, param_values={:?}",
+            fn_id,
+            fn_info.param_values
+        );
+
+        // Collect parameters that can be inlined (from the end, to preserve
+        // function.length)
+        let mut params_to_inline = Vec::new();
+
+        for (idx, (param, value)) in params
+            .iter()
+            .zip(fn_info.param_values.iter())
+            .enumerate()
+            .rev()
+        {
+            // Only handle simple identifier parameters
+            let param_id = match &param.pat {
+                Pat::Ident(id) => id.to_id(),
+                _ => break, // Stop at complex patterns
+            };
+
+            // Check if this parameter has a consistent value across all call sites
+            let inline_value: Option<Box<Expr>> = match value {
+                ParamInlineValue::Undefined => {
+                    // All call sites pass undefined - we can replace with local variable
+                    Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                        "undefined".into(),
+                        DUMMY_SP,
+                    ))))
+                }
+                ParamInlineValue::Lit(lit) => {
+                    // All call sites pass the same literal
+                    Some(Box::new(Expr::Lit((**lit).clone())))
+                }
+                ParamInlineValue::Mixed => {
+                    // Different values at different call sites - cannot inline
+                    break; // Stop processing earlier parameters too
+                }
+            };
+
+            if let Some(init_value) = inline_value {
+                // Check if the parameter is used
+                if let Some(usage) = self.data.vars.get(&param_id) {
+                    // Don't inline if the parameter is reassigned
+                    if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                        break;
+                    }
+                }
+
+                params_to_inline.push((idx, param_id, init_value));
+            }
+        }
+
+        if params_to_inline.is_empty() {
+            return;
+        }
+
+        // Create variable declarations for the inlined parameters
+        let body = match body {
+            Some(b) => b,
+            None => return,
+        };
+
+        // Insert variable declarations at the start of the function body
+        let mut var_decls = Vec::new();
+        #[allow(unused_variables)]
+        for (param_idx, param_id, init_value) in params_to_inline.iter().rev() {
+            // Check if the init value is `undefined` identifier - if so, don't add
+            // initializer
+            let init = if matches!(
+                init_value.as_ref(),
+                Expr::Ident(id) if &*id.sym == "undefined"
+            ) {
+                None
+            } else {
+                Some(init_value.clone())
+            };
+
+            var_decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(BindingIdent {
+                    id: Ident::new(param_id.0.clone(), DUMMY_SP, param_id.1),
+                    type_ann: None,
+                }),
+                init,
+                definite: false,
+            });
+
+            report_change!(
+                "unused: Inlining parameter '{}{:?}' at index {} with consistent value from all \
+                 call sites",
+                param_id.0,
+                param_id.1,
+                param_idx
+            );
+        }
+
+        if !var_decls.is_empty() {
+            self.changed = true;
+
+            // Insert var declaration at the start of the function body
+            body.stmts.insert(
+                0,
+                Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span: DUMMY_SP,
+                    ctxt: Default::default(),
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: var_decls,
+                }))),
+            );
+
+            // Remove the inlined parameters from the function signature
+            // We need to remove from highest index first
+            let mut indices_to_remove: Vec<_> = params_to_inline
+                .iter()
+                .map(|(param_idx, _, _)| *param_idx)
+                .collect();
+            indices_to_remove.sort_by(|a, b| b.cmp(a)); // Sort in reverse order
+
+            for param_idx in indices_to_remove {
+                params.remove(param_idx);
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]

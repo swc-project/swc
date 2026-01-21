@@ -42,6 +42,14 @@ pub trait Storage: Sized {
     fn mark_property_mutation(&mut self, id: Id);
 
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
+
+    /// Register a function declaration with its number of parameters.
+    /// Default implementation does nothing.
+    fn register_fn_decl(&mut self, _fn_id: Id, _num_params: usize) {}
+
+    /// Record call site arguments for a function.
+    /// Default implementation does nothing.
+    fn record_call_site(&mut self, _fn_id: &Id, _args: &[ExprOrSpread]) {}
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {

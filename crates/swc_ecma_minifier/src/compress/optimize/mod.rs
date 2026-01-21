@@ -2112,6 +2112,10 @@ impl VisitMut for Optimizer<'_> {
 
         self.drop_unused_params(&mut f.function.params);
 
+        // Inline parameters that have consistent values across all call sites
+        let fn_id = f.ident.to_id();
+        self.inline_params_with_same_value(&fn_id, &mut f.function.params, &mut f.function.body);
+
         let ctx = self
             .ctx
             .clone()

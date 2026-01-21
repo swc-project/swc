@@ -427,6 +427,11 @@ where
                 self.data.var_or_default(i.to_id()).mark_used_as_callee();
             });
 
+            // Record call site arguments for named function calls
+            if let Expr::Ident(callee_ident) = &**callee {
+                self.data.record_call_site(&callee_ident.to_id(), &n.args);
+            }
+
             match &**callee {
                 Expr::Fn(callee) => {
                     for (idx, p) in callee.function.params.iter().enumerate() {
@@ -786,11 +791,16 @@ where
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
         }
 
-        let id = n.ident.to_id();
+        // Register function declaration with number of parameters for parameter value
+        // tracking
+        let fn_id = n.ident.to_id();
+        self.data
+            .register_fn_decl(fn_id.clone(), n.function.params.len());
+
         self.used_recursively
-            .insert(id.clone(), RecursiveUsage::FnOrClass);
+            .insert(fn_id.clone(), RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
-        self.used_recursively.remove(&id);
+        self.used_recursively.remove(&fn_id);
 
         {
             let mut v = None;
