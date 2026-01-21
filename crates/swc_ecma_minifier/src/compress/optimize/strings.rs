@@ -210,6 +210,25 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8Atom) -> Atom {
                     result.push_str("\\${");
                     code_points.next(); // Consume the '{'
                 }
+                // Escape control characters (0x00-0x1f) except \n (0x0a) and \t (0x09)
+                // which can be safely included in template literals
+                '\x00' => {
+                    // Check if next char is a digit - if so, use \x00 to avoid ambiguity
+                    if code_points
+                        .peek()
+                        .and_then(|cp| cp.to_char())
+                        .is_some_and(|c| c.is_ascii_digit())
+                    {
+                        result.push_str("\\x00");
+                    } else {
+                        result.push_str("\\0");
+                    }
+                }
+                '\x01'..='\x08' | '\x0b' | '\x0c' | '\x0e'..='\x1f' => {
+                    // Use \xNN format for other control characters
+                    use std::fmt::Write;
+                    write!(result, "\\x{:02x}", ch as u8).unwrap();
+                }
                 _ => result.push(ch),
             }
         } else {
