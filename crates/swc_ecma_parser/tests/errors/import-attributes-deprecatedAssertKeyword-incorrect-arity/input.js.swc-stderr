@@ -1,0 +1,6 @@
+  x `import()` requires exactly one or two arguments
+   ,-[$DIR/tests/errors/import-attributes-deprecatedAssertKeyword-incorrect-arity/input.js:1:1]
+ 1 | import();
+   : ^^^^^^^^
+ 2 | import("./foo.json", { assert: { type: "json"} }, "unsupported");
+   `----
