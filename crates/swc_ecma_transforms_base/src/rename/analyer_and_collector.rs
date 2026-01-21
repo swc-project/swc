@@ -270,10 +270,15 @@ impl Visit for AnalyzerAndCollector {
         //
         // Safari also has a bug with duplicate parameter names in destructuring.
         // https://github.com/swc-project/swc/issues/11083
-        let has_rest =
-            node.function.params.iter().any(|p| {
-                p.pat.is_rest() || p.pat.is_assign() || p.pat.is_object() || p.pat.is_array()
-            });
+        //
+        // Note: The destructuring pattern check (is_object/is_array) only applies
+        // in mangle mode to prevent the minifier from creating collisions. In normal
+        // hygiene mode, existing collisions in source code should be preserved.
+        let has_rest = node.function.params.iter().any(|p| {
+            p.pat.is_rest()
+                || p.pat.is_assign()
+                || (self.analyzer.mangle && (p.pat.is_object() || p.pat.is_array()))
+        });
         let need_skip_analyzer_record =
             self.analyzer.is_first_node && self.analyzer.skip_first_fn_or_class_decl;
         self.analyzer.is_first_node = false;
@@ -317,8 +322,14 @@ impl Visit for AnalyzerAndCollector {
             //
             // Safari also has a bug with duplicate parameter names in destructuring.
             // https://github.com/swc-project/swc/issues/11083
+            //
+            // Note: The destructuring pattern check (is_object/is_array) only applies
+            // in mangle mode to prevent the minifier from creating collisions. In normal
+            // hygiene mode, existing collisions in source code should be preserved.
             if node.function.params.iter().any(|p| {
-                p.pat.is_rest() || p.pat.is_assign() || p.pat.is_object() || p.pat.is_array()
+                p.pat.is_rest()
+                    || p.pat.is_assign()
+                    || (self.analyzer.mangle && (p.pat.is_object() || p.pat.is_array()))
             }) {
                 self.analyzer.add_usage(id.to_id());
             }
@@ -538,11 +549,17 @@ pub(super) fn analyzer_and_collect_unresolved<N>(
     has_eval: bool,
     top_level_mark: Mark,
     skip_first_fn_or_class_decl: bool,
+    mangle: bool,
 ) -> (Scope, FxHashSet<Atom>)
 where
     N: VisitWith<AnalyzerAndCollector>,
 {
-    let analyzer = Analyzer::new(has_eval, top_level_mark, skip_first_fn_or_class_decl);
+    let analyzer = Analyzer::new(
+        has_eval,
+        top_level_mark,
+        skip_first_fn_or_class_decl,
+        mangle,
+    );
     let id_collector = IdCollector {
         ids: Default::default(),
         stopped: false,
