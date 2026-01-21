@@ -491,6 +491,15 @@ impl<I: Tokens> Parser<I> {
         let mut elems = Vec::with_capacity(8);
 
         while !self.input().is(Token::RBracket) {
+            // Recovery: check for EOF to prevent infinite loop
+            if self.input().is(Token::Eof) {
+                self.emit_err(
+                    self.input().cur_span(),
+                    SyntaxError::Expected("]".into(), "eof".into()),
+                );
+                break;
+            }
+
             if self.input().is(Token::Comma) {
                 expect!(self, Token::Comma);
                 elems.push(None);
@@ -500,7 +509,22 @@ impl<I: Tokens> Parser<I> {
             elems.push(self.allow_in_expr(|p| p.parse_expr_or_spread()).map(Some)?);
 
             if !self.input().is(Token::RBracket) {
-                expect!(self, Token::Comma);
+                // Recovery: if not a comma, emit error but continue
+                if !self.input_mut().eat(Token::Comma) {
+                    // If EOF, break out to avoid infinite loop
+                    if self.input().is(Token::Eof) {
+                        self.emit_err(
+                            self.input().cur_span(),
+                            SyntaxError::Expected("]".into(), "eof".into()),
+                        );
+                        break;
+                    }
+                    // Emit error for missing comma but continue parsing
+                    let span = self.input().cur_span();
+                    let cur = self.input_mut().dump_cur();
+                    self.emit_err(span, SyntaxError::Expected(",".into(), cur));
+                }
+
                 if self.input().is(Token::RBracket) {
                     let prev_span = self.input().prev_span();
                     self.state_mut().trailing_commas.insert(start, prev_span);
@@ -508,7 +532,8 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        expect!(self, Token::RBracket);
+        // Recovery: use expect_or_recover to allow continuing even without ]
+        expect_or_recover!(self, Token::RBracket);
 
         let span = self.span(start);
         Ok(ArrayLit { span, elems }.into())
@@ -919,10 +944,30 @@ impl<I: Tokens> Parser<I> {
             let mut expr_or_spreads = Vec::with_capacity(2);
 
             while !p.input().is(Token::RParen) {
+                // Recovery: check for EOF to prevent infinite loop
+                if p.input().is(Token::Eof) {
+                    p.emit_err(
+                        p.input().cur_span(),
+                        SyntaxError::Expected(")".into(), "eof".into()),
+                    );
+                    break;
+                }
+
                 if first {
                     first = false;
                 } else {
-                    expect!(p, Token::Comma);
+                    // Recovery: if not a comma, emit error but continue
+                    if !p.input_mut().eat(Token::Comma) {
+                        // Check if we're at a closing paren or EOF
+                        if p.input().is(Token::RParen) || p.input().is(Token::Eof) {
+                            break;
+                        }
+                        // Emit error for missing comma
+                        let span = p.input().cur_span();
+                        let cur = p.input_mut().dump_cur();
+                        p.emit_err(span, SyntaxError::Expected(",".into(), cur));
+                    }
+
                     // Handle trailing comma.
                     if p.input().is(Token::RParen) {
                         if is_dynamic_import && !p.input().syntax().import_attributes() {
@@ -936,7 +981,8 @@ impl<I: Tokens> Parser<I> {
                 expr_or_spreads.push(p.allow_in_expr(|p| p.parse_expr_or_spread())?);
             }
 
-            expect!(p, Token::RParen);
+            // Recovery: use expect_or_recover for closing paren
+            expect_or_recover!(p, Token::RParen);
             Ok(expr_or_spreads)
         })
     }
