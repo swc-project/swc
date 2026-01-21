@@ -1543,6 +1543,19 @@ pub trait SourceMapGenConfig {
     fn ignore_list(&self, f: &FileName) -> bool {
         matches!(f, FileName::Anon | FileName::Internal(..))
     }
+
+    /// Whether to emit scopes information in the source map.
+    ///
+    /// Specification for scopes: https://tc39.es/ecma426/
+    ///
+    /// When enabled, the source map will include a "scopes" field that encodes
+    /// scope and variable binding information, allowing debuggers to
+    /// reconstruct original frames, scopes, and variables from minified code.
+    ///
+    /// By default, scopes are not emitted.
+    fn emit_scopes(&self) -> bool {
+        false
+    }
 }
 
 #[derive(Debug, Clone)]

@@ -36,6 +36,10 @@ pub use ast_node::{ast_node, ast_serde, Decode, DeserializeEnum, Encode, Spanned
 pub use from_variant::FromVariant;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 
+#[cfg(feature = "sourcemap")]
+pub use self::source_map_scopes::{
+    Callsite, GeneratedRange, OriginalScope, ScopeBuilder, ScopeKind, ScopePosition,
+};
 pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},
@@ -67,6 +71,9 @@ pub mod private;
 mod rustc_data_structures;
 pub mod serializer;
 pub mod source_map;
+#[cfg(feature = "sourcemap")]
+#[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
+pub mod source_map_scopes;
 pub mod sync;
 mod syntax_pos;
 #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]

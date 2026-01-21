@@ -48,6 +48,35 @@ pub trait WriteJs {
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         false
     }
+
+    /// Start a new scope in the generated output.
+    ///
+    /// This is used for source map scope tracking (ECMA-426).
+    /// The default implementation does nothing.
+    fn start_scope(
+        &mut self,
+        _name: Option<&str>,
+        _kind: Option<&str>,
+        _is_stack_frame: bool,
+    ) -> Result {
+        Ok(())
+    }
+
+    /// End the current scope in the generated output.
+    ///
+    /// This is used for source map scope tracking (ECMA-426).
+    /// The default implementation does nothing.
+    fn end_scope(&mut self) -> Result {
+        Ok(())
+    }
+
+    /// Add a variable binding to the current scope.
+    ///
+    /// This is used for source map scope tracking (ECMA-426).
+    /// The default implementation does nothing.
+    fn add_scope_variable(&mut self, _name: &str, _binding: Option<&str>) -> Result {
+        Ok(())
+    }
 }
 
 impl<W> WriteJs for Box<W>
@@ -146,6 +175,26 @@ where
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
+    }
+
+    #[inline]
+    fn start_scope(
+        &mut self,
+        name: Option<&str>,
+        kind: Option<&str>,
+        is_stack_frame: bool,
+    ) -> Result {
+        (**self).start_scope(name, kind, is_stack_frame)
+    }
+
+    #[inline]
+    fn end_scope(&mut self) -> Result {
+        (**self).end_scope()
+    }
+
+    #[inline]
+    fn add_scope_variable(&mut self, name: &str, binding: Option<&str>) -> Result {
+        (**self).add_scope_variable(name, binding)
     }
 }
 
@@ -246,5 +295,25 @@ where
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
+    }
+
+    #[inline]
+    fn start_scope(
+        &mut self,
+        name: Option<&str>,
+        kind: Option<&str>,
+        is_stack_frame: bool,
+    ) -> Result {
+        (**self).start_scope(name, kind, is_stack_frame)
+    }
+
+    #[inline]
+    fn end_scope(&mut self) -> Result {
+        (**self).end_scope()
+    }
+
+    #[inline]
+    fn add_scope_variable(&mut self, name: &str, binding: Option<&str>) -> Result {
+        (**self).add_scope_variable(name, binding)
     }
 }
