@@ -5,10 +5,12 @@ use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
+#[cfg(feature = "typescript")]
+use crate::lexer::TokenAndSpan;
 use crate::{
     error::SyntaxError,
     input::Buffer,
-    lexer::{Token, TokenAndSpan},
+    lexer::Token,
     parser::{
         input::Tokens,
         state::{State, WithState},
@@ -40,12 +42,15 @@ mod stmt;
 mod tests;
 #[cfg(feature = "typescript")]
 mod typescript;
+#[cfg(not(feature = "typescript"))]
+mod typescript_stubs;
 mod util;
 #[cfg(feature = "verify")]
 mod verifier;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
+#[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     buffer_prev_span: Span,
@@ -82,6 +87,7 @@ impl<I: Tokens> Parser<I> {
         &mut self.state
     }
 
+    #[cfg(feature = "typescript")]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
@@ -91,6 +97,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    #[cfg(feature = "typescript")]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
