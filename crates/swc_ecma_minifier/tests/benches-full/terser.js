@@ -20179,7 +20179,7 @@
         function convert_ast(fn) {
             return AST_Node.from_mozilla_ast(Object.keys(files).reduce(fn, null));
         }
-        async function run_cli1() {
+        async function run_cli() {
             let result;
             var content = program.sourceMap && program.sourceMap.content;
             content && "inline" !== content && (options.sourceMap.content = read_file(content, content)), program.timings && (options.timings = !0);
@@ -20345,7 +20345,7 @@
                     chunks.join("")
                 ], resolve();
             }), process.stdin.resume();
-        }), await run_cli1();
+        }), await run_cli();
     }
     async function _default_options() {
         let defs = {};
