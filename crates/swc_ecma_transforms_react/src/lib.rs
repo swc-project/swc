@@ -6,12 +6,13 @@
 
 use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::Pass;
-use swc_ecma_hooks::{CompositeHook, VisitMutWithHook};
+use swc_ecma_hooks::VisitMutWithHook;
 use swc_ecma_visit::visit_mut_pass;
 
 pub use self::{jsx::*, refresh::options::RefreshOptions};
 
 mod display_name;
+mod hook_utils;
 pub mod jsx;
 mod jsx_self;
 mod jsx_src;
@@ -86,39 +87,32 @@ pub fn react<C>(
 where
     C: Comments + Clone,
 {
+    use hook_utils::HookBuilder;
+
     let Options { development, .. } = options;
     let development = development.unwrap_or(false);
 
     let refresh_options = options.refresh.take();
 
-    let hook = CompositeHook {
-        first: jsx_src::hook(development, cm.clone()),
-        second: CompositeHook {
-            first: jsx_self::hook(development),
-            second: CompositeHook {
-                first: refresh::hook(
-                    development,
-                    refresh_options.clone(),
-                    cm.clone(),
-                    comments.clone(),
-                    top_level_mark,
-                ),
-                second: CompositeHook {
-                    first: jsx::hook(
-                        cm.clone(),
-                        comments.clone(),
-                        options,
-                        top_level_mark,
-                        unresolved_mark,
-                    ),
-                    second: CompositeHook {
-                        first: display_name::hook(),
-                        second: pure_annotations::hook(comments.clone()),
-                    },
-                },
-            },
-        },
-    };
+    let hook = HookBuilder::new(jsx_src::hook(development, cm.clone()))
+        .chain(jsx_self::hook(development))
+        .chain(refresh::hook(
+            development,
+            refresh_options.clone(),
+            cm.clone(),
+            comments.clone(),
+            top_level_mark,
+        ))
+        .chain(jsx::hook(
+            cm.clone(),
+            comments.clone(),
+            options,
+            top_level_mark,
+            unresolved_mark,
+        ))
+        .chain(display_name::hook())
+        .chain(pure_annotations::hook(comments.clone()))
+        .build();
 
     visit_mut_pass(VisitMutWithHook { hook, context: () })
 }
