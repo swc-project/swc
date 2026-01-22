@@ -79,6 +79,18 @@ where
     chained_method!(enter_assign_pat, exit_assign_pat, AssignPat);
 
     chained_method!(enter_private_prop, exit_private_prop, PrivateProp);
+
+    chained_method!(enter_prop, exit_prop, Prop);
+
+    chained_method!(enter_assign_expr, exit_assign_expr, AssignExpr);
+
+    chained_method!(enter_key_value_prop, exit_key_value_prop, KeyValueProp);
+
+    chained_method!(enter_var_declarator, exit_var_declarator, VarDeclarator);
+
+    chained_method!(enter_bin_expr, exit_bin_expr, BinExpr);
+
+    chained_method!(enter_fn_decl, exit_fn_decl, FnDecl);
 }
 
 pub(crate) struct NoopHook;
