@@ -6,11 +6,6 @@
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 
-/// A simple hook that does nothing. Used as a starting point for hook chains.
-pub(crate) struct NoopHook;
-
-impl<C> VisitMutHook<C> for NoopHook {}
-
 /// Execution order: A => B (both for enter and exit)
 ///
 /// Unlike `CompositeHook` in swc_ecma_hooks which uses reverse order for exit,

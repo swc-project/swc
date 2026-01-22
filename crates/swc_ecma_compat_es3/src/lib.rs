@@ -4,7 +4,7 @@
 //! ES3 environments.
 
 use swc_ecma_ast::Pass;
-use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+use swc_ecma_hooks::{NoopHook, VisitMutHook, VisitMutWithHook};
 use swc_ecma_visit::visit_mut_pass;
 
 pub use self::{
@@ -17,7 +17,7 @@ mod member_expr_lits;
 mod prop_lits;
 mod reserved_word;
 
-use hook_utils::{HookBuilder, NoopHook};
+use hook_utils::HookBuilder;
 
 /// Make output es3-compatible using a single AST traversal.
 ///
