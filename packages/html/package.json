@@ -15,7 +15,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
+        "url": "git+https://github.com/swc-project/swc.git",
+        "directory": "packages/html"
     },
     "bugs": {
         "url": "https://github.com/swc-project/swc/issues"
