@@ -8,10 +8,9 @@ use std::{
 use swc_ecma_codegen::{Config, Emitter};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
-use swc_ecma_transforms_compat::{
-    es2015::{arrow, classes},
-    es3::property_literals,
-};
+use swc_ecma_transforms_compat::es2015::{arrow, classes};
+#[cfg(feature = "es3")]
+use swc_ecma_transforms_compat::es3::property_literals;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
 use testing::NormalizedOutput;
 
@@ -405,6 +404,7 @@ class App extends React.Component {
 "#
 );
 
+#[cfg(feature = "es3")]
 test!(
     module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
