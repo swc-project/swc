@@ -11,12 +11,14 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+#[cfg(feature = "es3")]
+use swc_ecma_transforms::compat::es3;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2020, es2022, es3,
+        es2020, es2022,
     },
     Assumptions,
 };
@@ -42,7 +44,7 @@ fn transform_internal<C>(
     comments: Option<C>,
     assumptions: Assumptions,
     loose: bool,
-    dynamic_import: bool,
+    #[cfg_attr(not(feature = "es3"), allow(unused_variables))] dynamic_import: bool,
     debug: bool,
     caniuse: impl (Fn(Feature) -> bool),
 ) -> impl Pass
@@ -262,12 +264,15 @@ where
     //    NamedCapturingGroupsRegex,
 
     // ES 3
+    #[cfg(feature = "es3")]
     let pass = add!(pass, PropertyLiterals, es3::property_literals());
+    #[cfg(feature = "es3")]
     let pass = add!(
         pass,
         MemberExpressionLiterals,
         es3::member_expression_literals()
     );
+    #[cfg(feature = "es3")]
     let pass = add!(pass, ReservedWords, es3::reserved_words(dynamic_import));
 
     // Bugfixes

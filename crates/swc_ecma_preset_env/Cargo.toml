@@ -19,8 +19,9 @@ version = "46.0.0"
 bench = false
 
 [features]
-default    = ["serde-impl"]
+default    = ["serde-impl", "es3"]
 serde-impl = ["serde"]
+es3 = ["swc_ecma_transforms/es3"]
 
 [dependencies]
 indexmap   = { workspace = true }
