@@ -149,14 +149,6 @@ impl<C> VisitMutHook<C> for ReservedWordHook {
         }
     }
 
-    fn exit_named_export(&mut self, n: &mut NamedExport, _ctx: &mut C) {
-        // Skip re-exports from other modules
-        if n.src.is_some() {
-            return;
-        }
-        // Let the children handle the transformation
-    }
-
     fn exit_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier, _ctx: &mut C) {
         if s.local.is_reserved_in_es3() {
             s.imported.get_or_insert_with(|| s.local.clone().into());
