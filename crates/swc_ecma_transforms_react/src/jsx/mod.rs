@@ -981,7 +981,7 @@ where
         Some(match c {
             JSXElementChild::JSXText(text) => {
                 // TODO(kdy1): Optimize
-                let value = jsx_text_to_str(&*text.value);
+                let value = jsx_text_to_str_with_raw(&text.value, &text.raw);
                 let s = Str {
                     span: text.span,
                     raw: None,
@@ -1454,6 +1454,495 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 /// - 'trimRight' the first line, 'trimLeft' the last line, 'trim' middle lines.
 /// - Decode entities on each line (individually).
 /// - Remove empty lines and join the rest with " ".
+///
+/// This version takes both `value` (decoded) and `raw` (original source) to
+/// preserve whitespace that was explicitly encoded as HTML entities like
+/// `&#32;`, `&#9;`, `&#10;`, `&#13;`.
+#[inline]
+fn jsx_text_to_str_with_raw(value: &Atom, raw: &Atom) -> Wtf8Atom {
+    // Fast path: if no HTML entities (raw == value), use the simple algorithm
+    if value.as_str() == raw.as_str() {
+        return jsx_text_to_str_impl(value).into();
+    }
+
+    // Build a mask of which byte positions in value came from HTML entities
+    let entity_mask = build_entity_mask(value, raw);
+
+    jsx_text_to_str_with_entity_mask(value, &entity_mask).into()
+}
+
+/// Build a mask indicating which character positions in `value` came from HTML
+/// entities in `raw`.
+///
+/// Returns a Vec<bool> where true means the character at that index was from an
+/// entity.
+fn build_entity_mask(value: &str, raw: &str) -> Vec<bool> {
+    let mut mask = vec![false; value.chars().count()];
+    let mut value_char_idx = 0;
+    let mut raw_chars = raw.chars().peekable();
+
+    while let Some(raw_c) = raw_chars.next() {
+        if raw_c == '&' {
+            // Possible HTML entity
+            let mut entity_chars: Vec<char> = vec!['&'];
+            let mut found_semicolon = false;
+
+            // Collect up to 10 characters to match entity pattern
+            for _ in 0..10 {
+                if let Some(&next_c) = raw_chars.peek() {
+                    entity_chars.push(next_c);
+                    raw_chars.next();
+                    if next_c == ';' {
+                        found_semicolon = true;
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            if found_semicolon && is_valid_entity(&entity_chars) {
+                // This was a valid entity - mark this position in value as from
+                // entity
+                if value_char_idx < mask.len() {
+                    mask[value_char_idx] = true;
+                }
+                value_char_idx += 1;
+            } else {
+                // Not a valid entity, the '&' is literal
+                value_char_idx += 1;
+                // The other characters we consumed are also literal
+                for _ in 1..entity_chars.len() {
+                    value_char_idx += 1;
+                }
+            }
+        } else {
+            // Regular character
+            value_char_idx += 1;
+        }
+    }
+
+    mask
+}
+
+/// Check if the collected characters form a valid HTML entity
+fn is_valid_entity(chars: &[char]) -> bool {
+    if chars.len() < 3 {
+        return false;
+    }
+    if chars[0] != '&' || chars[chars.len() - 1] != ';' {
+        return false;
+    }
+
+    let inner: String = chars[1..chars.len() - 1].iter().collect();
+
+    if let Some(stripped) = inner.strip_prefix('#') {
+        // Numeric entity
+        if let Some(hex) = stripped
+            .strip_prefix('x')
+            .or_else(|| stripped.strip_prefix('X'))
+        {
+            // Hex: &#xHHHH;
+            !hex.is_empty() && hex.chars().all(|c| c.is_ascii_hexdigit())
+        } else {
+            // Decimal: &#DDDD;
+            !stripped.is_empty() && stripped.chars().all(|c| c.is_ascii_digit())
+        }
+    } else {
+        // Named entity - check against known entities
+        is_known_html_entity(&inner)
+    }
+}
+
+/// Check if name is a known HTML entity
+fn is_known_html_entity(name: &str) -> bool {
+    // Common HTML entities that decode to whitespace or other characters
+    // This list matches the entities defined in swc_ecma_lexer jsx.rs xhtml!
+    // macro
+    matches!(
+        name,
+        "nbsp"
+            | "iexcl"
+            | "cent"
+            | "pound"
+            | "curren"
+            | "yen"
+            | "brvbar"
+            | "sect"
+            | "uml"
+            | "copy"
+            | "ordf"
+            | "laquo"
+            | "not"
+            | "shy"
+            | "reg"
+            | "macr"
+            | "deg"
+            | "plusmn"
+            | "sup2"
+            | "sup3"
+            | "acute"
+            | "micro"
+            | "para"
+            | "middot"
+            | "cedil"
+            | "sup1"
+            | "ordm"
+            | "raquo"
+            | "frac14"
+            | "frac12"
+            | "frac34"
+            | "iquest"
+            | "Agrave"
+            | "Aacute"
+            | "Acirc"
+            | "Atilde"
+            | "Auml"
+            | "Aring"
+            | "AElig"
+            | "Ccedil"
+            | "Egrave"
+            | "Eacute"
+            | "Ecirc"
+            | "Euml"
+            | "Igrave"
+            | "Iacute"
+            | "Icirc"
+            | "Iuml"
+            | "ETH"
+            | "Ntilde"
+            | "Ograve"
+            | "Oacute"
+            | "Ocirc"
+            | "Otilde"
+            | "Ouml"
+            | "times"
+            | "Oslash"
+            | "Ugrave"
+            | "Uacute"
+            | "Ucirc"
+            | "Uuml"
+            | "Yacute"
+            | "THORN"
+            | "szlig"
+            | "agrave"
+            | "aacute"
+            | "acirc"
+            | "atilde"
+            | "auml"
+            | "aring"
+            | "aelig"
+            | "ccedil"
+            | "egrave"
+            | "eacute"
+            | "ecirc"
+            | "euml"
+            | "igrave"
+            | "iacute"
+            | "icirc"
+            | "iuml"
+            | "eth"
+            | "ntilde"
+            | "ograve"
+            | "oacute"
+            | "ocirc"
+            | "otilde"
+            | "ouml"
+            | "divide"
+            | "oslash"
+            | "ugrave"
+            | "uacute"
+            | "ucirc"
+            | "uuml"
+            | "yacute"
+            | "thorn"
+            | "yuml"
+            | "OElig"
+            | "oelig"
+            | "Scaron"
+            | "scaron"
+            | "Yuml"
+            | "fnof"
+            | "circ"
+            | "tilde"
+            | "Alpha"
+            | "Beta"
+            | "Gamma"
+            | "Delta"
+            | "Epsilon"
+            | "Zeta"
+            | "Eta"
+            | "Theta"
+            | "Iota"
+            | "Kappa"
+            | "Lambda"
+            | "Mu"
+            | "Nu"
+            | "Xi"
+            | "Omicron"
+            | "Pi"
+            | "Rho"
+            | "Sigma"
+            | "Tau"
+            | "Upsilon"
+            | "Phi"
+            | "Chi"
+            | "Psi"
+            | "Omega"
+            | "alpha"
+            | "beta"
+            | "gamma"
+            | "delta"
+            | "epsilon"
+            | "zeta"
+            | "eta"
+            | "theta"
+            | "iota"
+            | "kappa"
+            | "lambda"
+            | "mu"
+            | "nu"
+            | "xi"
+            | "omicron"
+            | "pi"
+            | "rho"
+            | "sigmaf"
+            | "sigma"
+            | "tau"
+            | "upsilon"
+            | "phi"
+            | "chi"
+            | "psi"
+            | "omega"
+            | "thetasym"
+            | "upsih"
+            | "piv"
+            | "ensp"
+            | "emsp"
+            | "thinsp"
+            | "zwnj"
+            | "zwj"
+            | "lrm"
+            | "rlm"
+            | "ndash"
+            | "mdash"
+            | "lsquo"
+            | "rsquo"
+            | "sbquo"
+            | "ldquo"
+            | "rdquo"
+            | "bdquo"
+            | "dagger"
+            | "Dagger"
+            | "bull"
+            | "hellip"
+            | "permil"
+            | "prime"
+            | "Prime"
+            | "lsaquo"
+            | "rsaquo"
+            | "oline"
+            | "frasl"
+            | "euro"
+            | "image"
+            | "weierp"
+            | "real"
+            | "trade"
+            | "alefsym"
+            | "larr"
+            | "uarr"
+            | "rarr"
+            | "darr"
+            | "harr"
+            | "crarr"
+            | "lArr"
+            | "uArr"
+            | "rArr"
+            | "dArr"
+            | "hArr"
+            | "forall"
+            | "part"
+            | "exist"
+            | "empty"
+            | "nabla"
+            | "isin"
+            | "notin"
+            | "ni"
+            | "prod"
+            | "sum"
+            | "minus"
+            | "lowast"
+            | "radic"
+            | "prop"
+            | "infin"
+            | "ang"
+            | "and"
+            | "or"
+            | "cap"
+            | "cup"
+            | "int"
+            | "there4"
+            | "sim"
+            | "cong"
+            | "asymp"
+            | "ne"
+            | "equiv"
+            | "le"
+            | "ge"
+            | "sub"
+            | "sup"
+            | "nsub"
+            | "sube"
+            | "supe"
+            | "oplus"
+            | "otimes"
+            | "perp"
+            | "sdot"
+            | "lceil"
+            | "rceil"
+            | "lfloor"
+            | "rfloor"
+            | "lang"
+            | "rang"
+            | "loz"
+            | "spades"
+            | "clubs"
+            | "hearts"
+            | "diams"
+            | "quot"
+            | "amp"
+            | "lt"
+            | "gt"
+    )
+}
+
+/// JSX text processing with entity mask - preserves whitespace from HTML
+/// entities
+fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
+    // Fast path: if no line terminators and no trimmable whitespace
+    // (whitespace that's not from entities at the leading edge)
+    let chars: Vec<char> = t.chars().collect();
+    let has_line_terminator = chars.iter().any(|&c| is_line_terminator(c));
+
+    let has_trimmable_leading = chars
+        .first()
+        .is_some_and(|&c| is_white_space_single_line(c) && !entity_mask.first().unwrap_or(&false));
+
+    // For single-line text, we keep trailing whitespace (matching original
+    // behavior)
+    if !t.is_empty() && !has_line_terminator && !has_trimmable_leading {
+        return t.into();
+    }
+
+    let mut acc: Option<String> = None;
+    let mut only_line: Option<String> = None;
+    let mut line_start: Option<usize> = Some(0);
+    let mut line_end: Option<usize> = None;
+
+    for (char_idx, c) in chars.iter().enumerate() {
+        let is_from_entity = *entity_mask.get(char_idx).unwrap_or(&false);
+
+        if is_line_terminator(*c) {
+            // Process current line - trim both leading AND trailing (intermediate
+            // line)
+            if let (Some(start), Some(end)) = (line_start, line_end) {
+                let line_text = extract_line_content(&chars, start, end, entity_mask, true, true);
+                add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+            }
+            line_start = None;
+            line_end = None;
+        } else if !is_white_space_single_line(*c) || is_from_entity {
+            // Non-whitespace or entity-derived whitespace - counts as content
+            line_end = Some(char_idx + 1);
+            if line_start.is_none() {
+                line_start = Some(char_idx);
+            }
+        }
+    }
+
+    // Handle final line - only trim leading, keep trailing (matching original
+    // behavior)
+    if let Some(start) = line_start {
+        // For final line, take from first non-whitespace (or entity) to end of string
+        let line_text = extract_line_content(&chars, start, chars.len(), entity_mask, true, false);
+        add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+    }
+
+    if let Some(acc) = acc {
+        acc.into()
+    } else if let Some(only_line) = only_line {
+        only_line.into()
+    } else {
+        "".into()
+    }
+}
+
+/// Extract line content, optionally trimming non-entity whitespace from edges
+///
+/// - `trim_leading`: if true, trim leading non-entity whitespace
+/// - `trim_trailing`: if true, trim trailing non-entity whitespace
+fn extract_line_content(
+    chars: &[char],
+    start: usize,
+    end: usize,
+    entity_mask: &[bool],
+    trim_leading: bool,
+    trim_trailing: bool,
+) -> String {
+    // Find first non-trimmable position (if trim_leading is true)
+    let mut actual_start = start;
+    if trim_leading {
+        while actual_start < end {
+            let c = chars[actual_start];
+            let is_from_entity = *entity_mask.get(actual_start).unwrap_or(&false);
+            if !is_white_space_single_line(c) || is_from_entity {
+                break;
+            }
+            actual_start += 1;
+        }
+    }
+
+    // Find last non-trimmable position (if trim_trailing is true)
+    let mut actual_end = end;
+    if trim_trailing {
+        while actual_end > actual_start {
+            let c = chars[actual_end - 1];
+            let is_from_entity = *entity_mask.get(actual_end - 1).unwrap_or(&false);
+            if !is_white_space_single_line(c) || is_from_entity {
+                break;
+            }
+            actual_end -= 1;
+        }
+    }
+
+    chars[actual_start..actual_end].iter().collect()
+}
+
+/// Owned version of add_line_of_jsx_text for use with entity mask processing
+fn add_line_of_jsx_text_owned(
+    line: String,
+    acc: &mut Option<String>,
+    only_line: &mut Option<String>,
+) {
+    if line.is_empty() {
+        return;
+    }
+
+    if let Some(buffer) = acc.as_mut() {
+        buffer.push(' ');
+        buffer.push_str(&line);
+    } else if let Some(only_line_content) = only_line.take() {
+        let mut buffer = String::with_capacity(line.len() * 2);
+        buffer.push_str(&only_line_content);
+        buffer.push(' ');
+        buffer.push_str(&line);
+        *acc = Some(buffer);
+    } else {
+        *only_line = Some(line);
+    }
+}
+
+#[allow(dead_code)]
 #[inline]
 fn jsx_text_to_str<'a, T>(t: &'a T) -> Wtf8Atom
 where

@@ -765,6 +765,47 @@ test!(
     r#"<div>&nbsp;</div>;"#
 );
 
+// See https://github.com/swc-project/swc/issues/11392
+// HTML entity-encoded whitespace should not be trimmed even in multiline JSX
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_not_strip_entity_encoded_whitespace_multiline,
+    r#"<example>
+  foo
+  <hr />&#32;
+  bar
+</example>;"#
+);
+
+// Numeric entity &#32; should be preserved as space
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_entity_encoded_space,
+    r#"<div>&#32;content</div>;"#
+);
+
+// Numeric entity &#32; at end of line should be preserved
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_trailing_entity_encoded_space,
+    r#"<div>content&#32;</div>;"#
+);
+
 test!(
     module,
     // Comments are currently stripped out
