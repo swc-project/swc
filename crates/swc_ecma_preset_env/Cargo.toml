@@ -19,7 +19,7 @@ version = "46.0.0"
 bench = false
 
 [features]
-default    = ["serde-impl", "es3"]
+default    = ["serde-impl"]
 serde-impl = ["serde"]
 es3 = ["swc_ecma_transforms/es3"]
 

@@ -16,7 +16,7 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [features]
-default = ["es3"]
+default = []
 concurrent = [
   "swc_ecma_transforms_base/concurrent",
   "swc_ecma_utils/concurrent",
