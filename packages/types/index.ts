@@ -406,27 +406,27 @@ export interface Options extends Config {
      *
      * "root" - Passes the "root" value through as unchanged.
      * "upward" - Walks upward from the "root" directory, looking for a directory
-     * containing a swc.config.js file, and throws an error if a swc.config.js
+     * containing a .swcrc file, and throws an error if a .swcrc
      * is not found.
      * "upward-optional" - Walk upward from the "root" directory, looking for
-     * a directory containing a swc.config.js file, and falls back to "root"
-     *  if a swc.config.js is not found.
+     * a directory containing a .swcrc file, and falls back to "root"
+     *  if a .swcrc is not found.
      *
      *
      * "root" is the default mode because it avoids the risk that Swc
-     * will accidentally load a swc.config.js that is entirely outside
+     * will accidentally load a .swcrc that is entirely outside
      * of the current project folder. If you use "upward-optional",
      * be aware that it will walk up the directory structure all the
      * way to the filesystem root, and it is always possible that someone
-     * will have a forgotten swc.config.js in their home directory,
+     * will have a forgotten .swcrc in their home directory,
      * which could cause unexpected errors in your builds.
      *
      *
      * Users with monorepo project structures that run builds/tests on a
      * per-package basis may well want to use "upward" since monorepos
-     * often have a swc.config.js in the project root. Running Swc
+     * often have a .swcrc in the project root. Running Swc
      * in a monorepo subdirectory without "upward", will cause Swc
-     * to skip loading any swc.config.js files in the project root,
+     * to skip loading any .swcrc files in the project root,
      * which can lead to unexpected errors and compilation failure.
      */
     rootMode?: "root" | "upward" | "upward-optional";
