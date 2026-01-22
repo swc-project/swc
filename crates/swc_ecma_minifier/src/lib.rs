@@ -67,6 +67,7 @@ mod macros;
 mod compress;
 mod debug;
 pub mod eval;
+mod hook_utils;
 #[doc(hidden)]
 pub mod js;
 mod metadata;
