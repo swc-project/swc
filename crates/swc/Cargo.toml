@@ -151,9 +151,15 @@ swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
 swc_ecma_lints = { version = "27.0.0", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
+swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env", features = [
+  "es3",
+] }
 swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
+] }
+swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat", features = [
+  "es3",
 ] }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "19.0.0", path = "../testing" }

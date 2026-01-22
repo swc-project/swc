@@ -4,16 +4,20 @@
 
 use swc_common::{pass::Repeat, Mark};
 use swc_ecma_parser::{Syntax, TsSyntax};
-use swc_ecma_transforms_base::{helpers::inject_helpers, resolver};
 #[cfg(feature = "es3")]
-use swc_ecma_transforms_compat::es3;
-use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties};
+use swc_ecma_transforms_base::helpers::inject_helpers;
+use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_compat::es2022::class_properties;
+#[cfg(feature = "es3")]
+use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es3};
+#[cfg(feature = "es3")]
 use swc_ecma_transforms_module::{common_js::common_js, import_analysis::import_analyzer};
 use swc_ecma_transforms_optimization::simplify::{
     dce::{self, dce},
     dead_branch_remover, expr_simplifier,
     inlining::{self, inlining},
 };
+#[cfg(feature = "es3")]
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_transform};
 use swc_ecma_transforms_typescript::strip;
