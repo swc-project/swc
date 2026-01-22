@@ -1,27 +1,173 @@
+//! babel: `@babel/plugin-transform-reserved-words`
+//!
+//! Some words were reserved in ES3 as potential future keywords but were not
+//! reserved in ES5 and later. This plugin, to be used when targeting ES3
+//! environments, renames variables from that set of words.
+//!
+//! # Input
+//! ```js
+//! var abstract = 1;
+//! var x = abstract + 1;
+//! ```
+//!
+//! # Output
+//! ```js
+//! var _abstract = 1;
+//! var x = _abstract + 1;
+//! ```
+
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
+/// Creates a reserved words transformation hook.
+///
+/// The `preserve_import` parameter controls whether to preserve the `import`
+/// identifier.
+pub(crate) fn hook<C>(preserve_import: bool) -> impl VisitMutHook<C> {
+    ReservedWordHook { preserve_import }
+}
+
 /// babel: `@babel/plugin-transform-reserved-words`
-///
-/// Some words were reserved in ES3 as potential future keywords but were not
-/// reserved in ES5 and later. This plugin, to be used when targeting ES3
-/// environments, renames variables from that set of words.
-///
-/// # Input
-/// ```js
-/// var abstract = 1;
-/// var x = abstract + 1;
-/// ```
-///
-/// # Output
-/// ```js
-/// var _abstract = 1;
-/// var x = _abstract + 1;
-/// ```
 pub fn reserved_words(preserve_import: bool) -> impl Pass {
     visit_mut_pass(ReservedWord { preserve_import })
 }
+
+struct ReservedWordHook {
+    pub preserve_import: bool,
+}
+
+impl<C> VisitMutHook<C> for ReservedWordHook {
+    fn exit_ident(&mut self, i: &mut Ident, _ctx: &mut C) {
+        if self.preserve_import && i.sym == *"import" {
+            return;
+        }
+
+        if i.is_reserved_in_es3() {
+            i.sym = format!("_{}", i.sym).into()
+        }
+    }
+
+    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, _ctx: &mut C) {
+        let mut extra_exports = Vec::new();
+
+        for module_item in n.iter_mut() {
+            match module_item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: decl @ Decl::Fn(..) | decl @ Decl::Class(..),
+                    ..
+                })) => {
+                    let ident = match decl {
+                        Decl::Class(d) => d.ident.clone(),
+                        Decl::Fn(d) => d.ident.clone(),
+                        _ => {
+                            unreachable!()
+                        }
+                    };
+
+                    if ident.is_reserved_in_es3() {
+                        let new_decl = decl.take();
+                        *module_item = new_decl.into();
+
+                        let mut orig = ident.clone();
+                        rename_reserved_ident(&mut orig, self.preserve_import);
+
+                        extra_exports.push(
+                            ExportNamedSpecifier {
+                                span: DUMMY_SP,
+                                orig: orig.into(),
+                                exported: Some(ident.into()),
+                                is_type_only: false,
+                            }
+                            .into(),
+                        );
+                    }
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(var),
+                    ..
+                })) => {
+                    // Check if any variable name is a reserved word
+                    let has_reserved = var.decls.iter().any(|v| {
+                        if let Pat::Ident(i) = &v.name {
+                            i.sym.is_reserved_in_es3()
+                        } else {
+                            false
+                        }
+                    });
+
+                    if has_reserved {
+                        for v in &var.decls {
+                            let ident = Ident::from(v.name.clone().expect_ident());
+
+                            if ident.is_reserved_in_es3() {
+                                let mut orig = ident.clone();
+                                rename_reserved_ident(&mut orig, self.preserve_import);
+
+                                extra_exports.push(
+                                    ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: orig.into(),
+                                        exported: Some(ident.into()),
+                                        is_type_only: false,
+                                    }
+                                    .into(),
+                                );
+                            }
+                        }
+
+                        *module_item = var.take().into();
+                    }
+                }
+
+                _ => {}
+            }
+        }
+
+        if !extra_exports.is_empty() {
+            let module_item = NamedExport {
+                span: DUMMY_SP,
+                specifiers: extra_exports,
+                src: None,
+                type_only: false,
+                with: None,
+            }
+            .into();
+
+            n.push(module_item);
+        }
+    }
+
+    fn exit_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier, _ctx: &mut C) {
+        if matches!(&n.orig, ModuleExportName::Ident(ident) if ident.is_reserved_in_es3()) {
+            n.exported.get_or_insert_with(|| n.orig.clone());
+            if let ModuleExportName::Ident(ident) = &mut n.orig {
+                rename_reserved_ident(ident, self.preserve_import);
+            }
+        }
+    }
+
+    fn exit_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier, _ctx: &mut C) {
+        if s.local.is_reserved_in_es3() {
+            s.imported.get_or_insert_with(|| s.local.clone().into());
+            rename_reserved_ident(&mut s.local, self.preserve_import);
+        }
+    }
+}
+
+/// Renames an identifier if it's a reserved word in ES3.
+fn rename_reserved_ident(i: &mut Ident, preserve_import: bool) {
+    if preserve_import && i.sym == *"import" {
+        return;
+    }
+
+    if i.is_reserved_in_es3() {
+        i.sym = format!("_{}", i.sym).into()
+    }
+}
+
 struct ReservedWord {
     pub preserve_import: bool,
 }
