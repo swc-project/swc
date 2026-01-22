@@ -49,6 +49,7 @@ where
     A: VisitMutHook<C>,
     B: VisitMutHook<C>,
 {
+    // Name mangling hooks
     chained_method!(enter_private_name, exit_private_name, PrivateName, C);
 
     chained_method!(enter_labeled_stmt, exit_labeled_stmt, LabeledStmt, C);
@@ -57,23 +58,64 @@ where
 
     chained_method!(enter_break_stmt, exit_break_stmt, BreakStmt, C);
 
+    // Top-level traversal hooks
     chained_method!(enter_program, exit_program, Program, C);
 
     chained_method!(enter_module, exit_module, Module, C);
 
     chained_method!(enter_script, exit_script, Script, C);
 
+    // Statement hooks
     chained_method!(enter_stmt, exit_stmt, Stmt, C);
 
     chained_method!(enter_stmts, exit_stmts, Vec<Stmt>, C);
 
+    chained_method!(enter_block_stmt, exit_block_stmt, BlockStmt, C);
+
+    // Module item hooks
     chained_method!(enter_module_item, exit_module_item, ModuleItem, C);
 
     chained_method!(enter_module_items, exit_module_items, Vec<ModuleItem>, C);
 
+    // Expression hooks
     chained_method!(enter_expr, exit_expr, Expr, C);
 
-    chained_method!(enter_block_stmt, exit_block_stmt, BlockStmt, C);
+    chained_method!(enter_call_expr, exit_call_expr, CallExpr, C);
+
+    chained_method!(enter_new_expr, exit_new_expr, NewExpr, C);
+
+    chained_method!(enter_tagged_tpl, exit_tagged_tpl, TaggedTpl, C);
+
+    // Declaration hooks
+    chained_method!(enter_var_decl, exit_var_decl, VarDecl, C);
+
+    chained_method!(enter_var_declarator, exit_var_declarator, VarDeclarator, C);
+
+    chained_method!(enter_fn_decl, exit_fn_decl, FnDecl, C);
+
+    chained_method!(enter_fn_expr, exit_fn_expr, FnExpr, C);
+
+    chained_method!(enter_function, exit_function, Function, C);
+
+    // Export hooks
+    chained_method!(
+        enter_export_default_decl,
+        exit_export_default_decl,
+        ExportDefaultDecl,
+        C
+    );
+
+    chained_method!(
+        enter_export_default_expr,
+        exit_export_default_expr,
+        ExportDefaultExpr,
+        C
+    );
+
+    chained_method!(enter_export_decl, exit_export_decl, ExportDecl, C);
+
+    // Identifier hooks
+    chained_method!(enter_ident, exit_ident, Ident, C);
 }
 
 /// A builder for composing hooks in a fluent API style.
