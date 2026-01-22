@@ -360,3 +360,209 @@ class s {
         },
     )
 }
+
+/// Test basic property mangling - all properties should be mangled when there's
+/// no dynamic access
+#[test]
+fn basic_property_mangling() {
+    let src = r#"const obj = { foo: 1, bar: 2 };
+console.log(obj.foo, obj.bar);"#;
+
+    let expected = r#"const o = {
+    o: 1,
+    a: 2
+};
+console.log(o.o, o.a);
+"#;
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+/// Test nested property mangling - nested properties should be mangled
+#[test]
+fn nested_property_mangling() {
+    let src = r#"const obj = { nested: { foo: 1, bar: 2 } };
+console.log(obj.nested.foo, obj.nested.bar);"#;
+
+    let expected = r#"const e = {
+    e: {
+        o: 1,
+        n: 2
+    }
+};
+console.log(e.e.o, e.e.n);
+"#;
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+/// Test that dynamically accessed properties are NOT mangled
+#[test]
+fn dynamic_access_no_mangle() {
+    // When obj[key] is accessed with a dynamic key, the direct properties should
+    // NOT be mangled
+    let src = r#"const obj = { foo: 1, bar: 2 };
+function get(key) {
+    return obj[key];
+}"#;
+
+    // foo and bar should NOT be mangled because they're accessed dynamically
+    let expected = r#"const n = {
+    foo: 1,
+    bar: 2
+};
+function o(o) {
+    return n[o];
+}
+"#;
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+/// Simpler test: nested properties should be mangled when accessed statically
+/// Using "xval" instead of "inner" because "inner" is a reserved DOM property
+#[test]
+fn nested_props_static_access_mangled() {
+    let src = r#"const obj = {
+    foo: { xval: 1 }
+};
+console.log(obj.foo.xval);"#;
+
+    // Both foo and xval should be mangled
+    let expected = r#"const o = {
+    o: {
+        l: 1
+    }
+};
+console.log(o.o.l);
+"#;
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+/// Test: only top-level props should be protected with dynamic access
+#[test]
+fn dynamic_access_only_top_level_protected() {
+    // When obj[key] is accessed with a dynamic key, only the TOP-LEVEL
+    // properties should NOT be mangled. Nested properties remain mangleable.
+    // Using "xval" instead of "inner" because "inner" is a reserved DOM property
+    let src = r#"const obj = {
+    foo: { xval: 1 }
+};
+function get(key) {
+    return obj[key].xval;
+}"#;
+
+    // foo should NOT be mangled (dynamic access)
+    // xval SHOULD be mangled (static access)
+    let expected = r#"const n = {
+    foo: {
+        n: 1
+    }
+};
+function o(o) {
+    return n[o].n;
+}
+"#;
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
+
+/// Test for issue #10332: Safe property mangling for local objects
+/// Nested properties accessed with static keys should be mangled
+/// even when parent is accessed with dynamic keys
+#[test]
+fn safe_property_mangling_nested_static() {
+    // The top-level properties A4 and Letter are accessed dynamically via
+    // sizes[paper], so they should NOT be mangled
+    // However, xwidth and xheight are always accessed statically via
+    // sizes[paper].xwidth, so they SHOULD be mangled
+    // Using xwidth/xheight instead of width/height because the latter are
+    // reserved DOM properties
+    let src = r#"const sizes = {
+    A4: { xwidth: '21cm', xheight: '29.7cm' },
+    Letter: { xwidth: '8.5in', xheight: '11in' }
+};
+function printSize(paper) {
+    return sizes[paper].xwidth + sizes[paper].xheight;
+}"#;
+
+    // xwidth and xheight should be mangled
+    // A4 and Letter should NOT be mangled
+    let expected = r#"const t = {
+    A4: {
+        t: '21cm',
+        h: '29.7cm'
+    },
+    Letter: {
+        t: '8.5in',
+        h: '11in'
+    }
+};
+function h(h) {
+    return t[h].t + t[h].h;
+}
+"#;
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            top_level: Some(true),
+            props: Some(ManglePropertiesOptions {
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    )
+}
