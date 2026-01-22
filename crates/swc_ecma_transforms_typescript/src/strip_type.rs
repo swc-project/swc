@@ -1,60 +1,88 @@
-use std::mem;
-
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-
-use crate::type_to_none;
+use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_visit::{visit_mut_pass, VisitMut};
 
 pub fn strip_type() -> impl VisitMut {
+    visit_mut_pass(swc_ecma_hooks::VisitMutWithHook {
+        hook: hook(),
+        context: (),
+    })
+}
+
+/// Returns a hook that strips all TypeScript types, generics, interfaces, and
+/// type declarations.
+///
+/// `export declare var` in a namespace will be retained.
+pub fn hook() -> impl VisitMutHook<()> {
     StripType::default()
 }
 
-/// This Module will strip all types/generics/interface/declares
-/// and type import/export.
-///
-/// `export declare var` in a namespace will be retained.
 #[derive(Default)]
 pub(crate) struct StripType {
     in_namespace: bool,
 }
 
-impl VisitMut for StripType {
-    noop_visit_mut_type!(fail);
-
-    type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
-
-    type_to_none!(visit_mut_opt_ts_type_ann, Box<TsTypeAnn>);
-
-    type_to_none!(visit_mut_opt_ts_type_param_decl, Box<TsTypeParamDecl>);
-
-    type_to_none!(
-        visit_mut_opt_ts_type_param_instantiation,
-        Box<TsTypeParamInstantiation>
-    );
-
-    fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
-        n.visit_mut_children_with(self);
-        n.optional = false;
-    }
-
-    fn visit_mut_auto_accessor(&mut self, n: &mut AutoAccessor) {
+impl VisitMutHook<()> for StripType {
+    // Strip type annotations from patterns
+    fn enter_binding_ident(&mut self, n: &mut BindingIdent, _: &mut ()) {
         n.type_ann = None;
-        n.accessibility = None;
-        n.definite = false;
-        n.is_override = false;
-        n.is_abstract = false;
-        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_class(&mut self, n: &mut Class) {
+    fn enter_array_pat(&mut self, n: &mut ArrayPat, _: &mut ()) {
+        n.optional = false;
+        n.type_ann = None;
+    }
+
+    fn enter_object_pat(&mut self, pat: &mut ObjectPat, _: &mut ()) {
+        pat.optional = false;
+        pat.type_ann = None;
+    }
+
+    fn enter_rest_pat(&mut self, n: &mut RestPat, _: &mut ()) {
+        n.type_ann = None;
+    }
+
+    // Strip type annotations from function-related nodes
+    fn enter_function(&mut self, n: &mut Function, _: &mut ()) {
+        n.return_type = None;
+        n.type_params = None;
+    }
+
+    fn enter_arrow_expr(&mut self, n: &mut ArrowExpr, _: &mut ()) {
+        n.return_type = None;
+        n.type_params = None;
+    }
+
+    // Strip type parameters from call/new expressions
+    fn enter_call_expr(&mut self, n: &mut CallExpr, _: &mut ()) {
+        n.type_args = None;
+    }
+
+    fn enter_new_expr(&mut self, n: &mut NewExpr, _: &mut ()) {
+        n.type_args = None;
+    }
+
+    fn enter_tagged_tpl(&mut self, n: &mut TaggedTpl, _: &mut ()) {
+        n.type_params = None;
+    }
+
+    // Strip type arguments from JSX
+    fn enter_jsx_opening_element(&mut self, n: &mut JSXOpeningElement, _: &mut ()) {
+        n.type_args = None;
+    }
+
+    // Strip types from class-related nodes
+    fn enter_class(&mut self, n: &mut Class, _: &mut ()) {
         n.is_abstract = false;
         n.implements.clear();
-        n.visit_mut_children_with(self);
+        n.type_params = None;
+        n.super_type_params = None;
     }
 
-    fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
+    // Filter class members BEFORE children are visited (so abstract/declare flags
+    // are still set)
+    fn enter_class_members(&mut self, n: &mut Vec<ClassMember>, _: &mut ()) {
         n.retain(|member| match member {
             ClassMember::TsIndexSignature(..) => false,
             ClassMember::Constructor(Constructor { body: None, .. }) => false,
@@ -82,19 +110,16 @@ impl VisitMut for StripType {
 
             _ => true,
         });
-
-        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+    fn enter_class_method(&mut self, n: &mut ClassMethod, _: &mut ()) {
         n.accessibility = None;
         n.is_override = false;
         n.is_abstract = false;
         n.is_optional = false;
-        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
+    fn enter_class_prop(&mut self, prop: &mut ClassProp, _: &mut ()) {
         prop.declare = false;
         prop.readonly = false;
         prop.is_override = false;
@@ -102,30 +127,48 @@ impl VisitMut for StripType {
         prop.is_abstract = false;
         prop.definite = false;
         prop.accessibility = None;
-        prop.visit_mut_children_with(self);
+        prop.type_ann = None;
     }
 
-    fn visit_mut_private_method(&mut self, n: &mut PrivateMethod) {
+    fn enter_private_method(&mut self, n: &mut PrivateMethod, _: &mut ()) {
         n.accessibility = None;
         n.is_abstract = false;
         n.is_optional = false;
         n.is_override = false;
-        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+    fn enter_private_prop(&mut self, prop: &mut PrivateProp, _: &mut ()) {
+        prop.readonly = false;
+        prop.is_override = false;
+        prop.is_optional = false;
+        prop.definite = false;
+        prop.accessibility = None;
+        prop.type_ann = None;
+    }
+
+    fn enter_constructor(&mut self, n: &mut Constructor, _: &mut ()) {
         n.accessibility = None;
-        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>) {
-        n.retain(|s| match s {
-            ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
-            _ => true,
-        })
+    fn enter_auto_accessor(&mut self, n: &mut AutoAccessor, _: &mut ()) {
+        n.type_ann = None;
+        n.accessibility = None;
+        n.definite = false;
+        n.is_override = false;
+        n.is_abstract = false;
     }
 
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
+    // Strip types from other nodes
+    fn enter_getter_prop(&mut self, n: &mut GetterProp, _: &mut ()) {
+        n.type_ann = None;
+    }
+
+    fn enter_setter_prop(&mut self, n: &mut SetterProp, _: &mut ()) {
+        n.this_param = None;
+    }
+
+    // Strip type assertions from expressions
+    fn enter_expr(&mut self, n: &mut Expr, _: &mut ()) {
         // https://github.com/tc39/proposal-type-annotations#type-assertions
         // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
         while let Expr::TsAs(TsAsExpr { expr, .. })
@@ -137,37 +180,54 @@ impl VisitMut for StripType {
         {
             *n = *expr.take();
         }
+    }
 
-        maybe_grow_default(|| n.visit_mut_children_with(self));
+    fn enter_simple_assign_target(&mut self, n: &mut SimpleAssignTarget, _: &mut ()) {
+        // https://github.com/tc39/proposal-type-annotations#type-assertions
+        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
+        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
+        {
+            *n = expr.take().try_into().unwrap();
+        }
     }
 
     // https://github.com/tc39/proposal-type-annotations#parameter-optionality
-    fn visit_mut_ident(&mut self, n: &mut Ident) {
+    fn enter_ident(&mut self, n: &mut Ident, _: &mut ()) {
         n.optional = false;
     }
 
-    fn visit_mut_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>) {
+    // Strip type-only specifiers
+    fn exit_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>, _: &mut ()) {
+        n.retain(|s| match s {
+            ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
+            _ => true,
+        })
+    }
+
+    fn exit_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>, _: &mut ()) {
         n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
     }
 
-    fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        let in_namespace = mem::replace(&mut self.in_namespace, true);
-        node.visit_mut_children_with(self);
-        self.in_namespace = in_namespace;
+    // Handle namespace context for module items
+    fn enter_ts_module_block(&mut self, _node: &mut TsModuleBlock, _: &mut ()) {
+        self.in_namespace = true;
     }
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        n.retain(|item| should_retain_module_item(item, self.in_namespace));
-        n.visit_mut_children_with(self);
+    fn exit_ts_module_block(&mut self, _node: &mut TsModuleBlock, _: &mut ()) {
+        self.in_namespace = false;
     }
 
-    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
-        pat.visit_mut_children_with(self);
-        pat.optional = false;
+    fn exit_module_items(&mut self, n: &mut Vec<ModuleItem>, _: &mut ()) {
+        let in_namespace = self.in_namespace;
+        n.retain(|item| should_retain_module_item(item, in_namespace));
     }
 
     // https://github.com/tc39/proposal-type-annotations#this-parameters
-    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
+    fn exit_params(&mut self, n: &mut Vec<Param>, _: &mut ()) {
         if n.first()
             .filter(|param| {
                 matches!(
@@ -182,61 +242,20 @@ impl VisitMut for StripType {
         {
             n.drain(0..1);
         }
-
-        n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
-        prop.readonly = false;
-        prop.is_override = false;
-        prop.is_optional = false;
-        prop.definite = false;
-        prop.accessibility = None;
-        prop.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.this_param = None;
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        // https://github.com/tc39/proposal-type-annotations#type-assertions
-        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
-        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
-        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
-        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
-        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
-        {
-            *n = expr.take().try_into().unwrap();
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        n.visit_mut_children_with(self);
+    fn exit_stmts(&mut self, n: &mut Vec<Stmt>, _: &mut ()) {
         n.retain(|s| !matches!(s, Stmt::Empty(e) if e.span.is_dummy()));
     }
 
-    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        if should_retain_stmt(n) {
-            n.visit_mut_children_with(self);
-        } else if !n.is_empty() {
+    fn enter_stmt(&mut self, n: &mut Stmt, _: &mut ()) {
+        if !should_retain_stmt(n) && !n.is_empty() {
             n.take();
         }
     }
 
-    fn visit_mut_ts_import_equals_decl(&mut self, _: &mut TsImportEqualsDecl) {
-        // n.id.visit_mut_with(self);
-    }
-
-    fn visit_mut_ts_param_prop(&mut self, n: &mut TsParamProp) {
-        // skip accessibility
-        n.decorators.visit_mut_with(self);
-        n.param.visit_mut_with(self);
+    fn enter_ts_param_prop(&mut self, _n: &mut TsParamProp, _: &mut ()) {
+        // skip accessibility - only visit decorators and param
     }
 }
 
