@@ -225,7 +225,7 @@ fn test_unicode_property_regex_letter() {
     );
 
     // Print for debugging
-    eprintln!("Letter compiled output: {}", compiled);
+    eprintln!("Letter compiled output: {compiled}");
 
     // Should be transformed to RegExp with character classes
     assert!(compiled.contains("RegExp"));
