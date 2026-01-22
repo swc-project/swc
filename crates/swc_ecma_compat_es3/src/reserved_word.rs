@@ -46,46 +46,8 @@ impl VisitMut for ReservedWord {
                         }
                     };
 
-                    if !ident.is_reserved_in_es3() {
-                        return;
-                    }
-
-                    *module_item = decl.take().into();
-
-                    let mut orig = ident.clone();
-                    orig.visit_mut_with(self);
-
-                    extra_exports.push(
-                        ExportNamedSpecifier {
-                            span: DUMMY_SP,
-                            orig: orig.into(),
-                            exported: Some(ident.into()),
-                            is_type_only: false,
-                        }
-                        .into(),
-                    );
-                }
-
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(var),
-                    ..
-                })) => {
-                    if var.decls.iter().all(|var| {
-                        if let Pat::Ident(i) = &var.name {
-                            !i.sym.is_reserved_in_es3()
-                        } else {
-                            true
-                        }
-                    }) {
-                        return;
-                    }
-
-                    for var in &var.decls {
-                        let ident = Ident::from(var.name.clone().expect_ident());
-
-                        if !ident.is_reserved_in_es3() {
-                            return;
-                        }
+                    if ident.is_reserved_in_es3() {
+                        *module_item = decl.take().into();
 
                         let mut orig = ident.clone();
                         orig.visit_mut_with(self);
@@ -100,8 +62,43 @@ impl VisitMut for ReservedWord {
                             .into(),
                         );
                     }
+                }
 
-                    *module_item = var.take().into();
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(var),
+                    ..
+                })) => {
+                    // Check if any variable name is a reserved word
+                    let has_reserved = var.decls.iter().any(|var| {
+                        if let Pat::Ident(i) = &var.name {
+                            i.sym.is_reserved_in_es3()
+                        } else {
+                            false
+                        }
+                    });
+
+                    if has_reserved {
+                        for var in &var.decls {
+                            let ident = Ident::from(var.name.clone().expect_ident());
+
+                            if ident.is_reserved_in_es3() {
+                                let mut orig = ident.clone();
+                                orig.visit_mut_with(self);
+
+                                extra_exports.push(
+                                    ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: orig.into(),
+                                        exported: Some(ident.into()),
+                                        is_type_only: false,
+                                    }
+                                    .into(),
+                                );
+                            }
+                        }
+
+                        *module_item = var.take().into();
+                    }
                 }
 
                 _ => {}
@@ -219,6 +216,30 @@ function utf8CheckByte(byte) {
             console.log("char====char");
             return "";
         }
+        "#
+    );
+
+    // Issue #10266: Reserved words inside exported variable initializers should
+    // be transformed
+    test!(
+        Default::default(),
+        |_| reserved_words(false),
+        issue_10266,
+        r#"
+        import { boolean } from 'yup';
+        export const foo = boolean();
+        "#
+    );
+
+    // Test that non-reserved exported variables still have their initializers
+    // visited
+    test!(
+        Default::default(),
+        |_| reserved_words(false),
+        issue_10266_non_reserved_export,
+        r#"
+        import { boolean } from 'yup';
+        export const normalName = someFn(boolean());
         "#
     );
 }
