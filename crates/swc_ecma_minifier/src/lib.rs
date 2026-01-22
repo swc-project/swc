@@ -49,13 +49,13 @@ use swc_timer::timer;
 
 pub use crate::pass::global_defs::globals_defs;
 use crate::{
+    combined_hook::{visit_with_post_mangle, visit_with_pre_compress},
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
-    metadata::info_marker,
     mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},
     pass::{
-        global_defs, mangle_names::idents_to_preserve, mangle_props::mangle_properties,
-        merge_exports::merge_exports, postcompress::postcompress_optimizer,
+        mangle_names::idents_to_preserve, mangle_props::mangle_properties,
+        postcompress::postcompress_optimizer,
     },
     // program_data::ModuleInfo,
     timing::Timings,
@@ -64,6 +64,7 @@ use crate::{
 
 #[macro_use]
 mod macros;
+mod combined_hook;
 mod compress;
 mod debug;
 pub mod eval;
@@ -105,31 +106,27 @@ pub fn optimize(
 
     debug_assert_valid(&n);
 
-    if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
-        let _timer = timer!("inline global defs");
-        // Apply global defs.
-        //
-        // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we don't
-        // have to see if optimized code matches global definition and we can run
-        // this at startup.
-
-        if !defs.is_empty() {
-            let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
-            n.visit_mut_with(&mut global_defs::globals_defs(
-                defs,
-                extra.unresolved_mark,
-                extra.top_level_mark,
-            ));
-        }
-    }
-
+    // Combined pre-compression pass: GlobalDefs + InfoMarker in a single traversal
+    // This replaces the previous two separate traversals.
     if options.compress.is_some() {
-        n.visit_mut_with(&mut info_marker(
+        let _timer = timer!("pre-compress hooks");
+
+        let global_defs = options.compress.as_ref().map(|c| {
+            c.global_defs
+                .iter()
+                .map(|(k, v)| (k.clone(), v.clone()))
+                .collect()
+        });
+
+        visit_with_pre_compress(
+            &mut n,
+            global_defs,
+            extra.unresolved_mark,
+            extra.top_level_mark,
             options.compress.as_ref(),
             comments,
             marks,
-            // extra.unresolved_mark,
-        ));
+        );
         debug_assert_valid(&n);
     }
 
@@ -224,7 +221,8 @@ pub fn optimize(
         }
     }
 
-    n.visit_mut_with(&mut merge_exports());
+    // Combined post-mangle pass: MergeExports in a single traversal
+    visit_with_post_mangle(&mut n);
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");

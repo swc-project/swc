@@ -3,7 +3,12 @@
 //! This module provides a hook-based API similar to `swc_ecma_transformer`
 //! for combining multiple visitor operations into a single AST traversal.
 
-use swc_ecma_ast::*;
+use swc_ecma_ast::{
+    AssignExpr, BlockStmt, BreakStmt, CallExpr, ContinueStmt, ExportDecl, ExportDefaultDecl,
+    ExportDefaultExpr, Expr, FnDecl, FnExpr, Function, Ident, LabeledStmt, Module, ModuleItem,
+    NamedExport, NewExpr, PrivateName, Program, Script, Stmt, TaggedTpl, UpdateExpr, VarDecl,
+    VarDeclarator,
+};
 use swc_ecma_hooks::VisitMutHook;
 
 /// A simple hook that does nothing. Used as a starting point for hook chains.
@@ -116,6 +121,14 @@ where
 
     // Identifier hooks
     chained_method!(enter_ident, exit_ident, Ident, C);
+
+    // Assignment and update expression hooks (for GlobalDefs)
+    chained_method!(enter_assign_expr, exit_assign_expr, AssignExpr, C);
+
+    chained_method!(enter_update_expr, exit_update_expr, UpdateExpr, C);
+
+    // Named export hooks (for MergeExports)
+    chained_method!(enter_named_export, exit_named_export, NamedExport, C);
 }
 
 /// A builder for composing hooks in a fluent API style.
