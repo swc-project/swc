@@ -30,6 +30,7 @@ mod utils;
 pub struct TraverseCtx {
     pub(crate) statement_injector: common::StmtInjectorStore,
     pub(crate) var_declarations: common::VarDeclarationsStore,
+    pub(crate) trailing_static_blocks: common::TrailingStaticBlocksStore,
 }
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
@@ -58,6 +59,10 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     // VarDeclarations must run after all other transforms to collect all variable
     // declarations
     let hook = hook.chain(common::VarDeclarations);
+
+    // Trailing static blocks must run after VarDeclarations so variable
+    // declarations are already collected
+    let hook = hook.chain(common::TrailingStaticBlocks);
 
     // Statement injector must be the last to process all injected statements
     // because exit_stmts must be called after all statements are injected

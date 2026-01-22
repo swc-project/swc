@@ -1,3 +1,4 @@
+var _initStaticBlock0;
 class Foo {
 }
 var _bar = {
@@ -9,4 +10,7 @@ var _bar = {
     Foo.qux1 = Foo.qux;
 })();
 _define_property(Foo, "qux", 21);
-Foo.qux2 = Foo.qux;
+_initStaticBlock0 = ()=>{
+    Foo.qux2 = Foo.qux;
+};
+_initStaticBlock0.call(Foo);
