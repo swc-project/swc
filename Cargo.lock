@@ -6130,12 +6130,7 @@ dependencies = [
 name = "swc_ecma_compat_regexp"
 version = "0.1.0"
 dependencies = [
- "icu_collections 2.1.1",
  "icu_properties 2.1.2",
- "once_cell",
- "rustc-hash 2.1.1",
- "swc_atoms",
- "swc_common",
  "swc_ecma_regexp",
  "swc_ecma_regexp_ast",
  "swc_ecma_regexp_visit",
