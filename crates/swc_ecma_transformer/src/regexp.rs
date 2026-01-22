@@ -69,8 +69,7 @@ impl RegexpPass {
             .ok()?;
 
         // Transform unicode property escapes
-        // We keep the unicode flag since we're outputting \u{...} escapes
-        transform_unicode_property_escapes(&mut ast, true);
+        transform_unicode_property_escapes(&mut ast);
 
         // Serialize back to string
         Some(ast.to_string())
@@ -87,7 +86,7 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                 || (self.options.has_indices && regex.flags.contains('d'))
                 || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
                 || (self.options.lookbehind_assertion
-                    && (regex.exp.contains("(?<=") || regex.exp.contains("(<!?")))
+                    && (regex.exp.contains("(?<=") || regex.exp.contains("(?<!")))
                 || (self.options.unicode_property_regex
                     && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")));
 

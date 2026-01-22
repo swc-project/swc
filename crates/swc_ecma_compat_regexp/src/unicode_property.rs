@@ -31,21 +31,16 @@ use swc_ecma_regexp_visit::{VisitMut, VisitMutWith};
 ///
 /// # Arguments
 /// * `pattern` - The parsed regex pattern AST
-/// * `use_unicode_flag` - If true, output uses `\u{XXXX}` escapes (for patterns
-///   that will keep the `u` flag). If false, output uses surrogate pairs for
-///   astral code points.
 ///
 /// # Returns
 /// The transformed pattern with unicode property escapes expanded to character
 /// classes.
-pub fn transform_unicode_property_escapes(pattern: &mut Pattern, use_unicode_flag: bool) {
-    let mut transformer = UnicodePropertyTransformer { use_unicode_flag };
+pub fn transform_unicode_property_escapes(pattern: &mut Pattern) {
+    let mut transformer = UnicodePropertyTransformer;
     pattern.visit_mut_with(&mut transformer);
 }
 
-struct UnicodePropertyTransformer {
-    use_unicode_flag: bool,
-}
+struct UnicodePropertyTransformer;
 
 impl VisitMut for UnicodePropertyTransformer {
     fn visit_mut_terms(&mut self, terms: &mut Vec<Term>) {
@@ -54,7 +49,7 @@ impl VisitMut for UnicodePropertyTransformer {
         for term in terms.drain(..) {
             match term {
                 Term::UnicodePropertyEscape(prop) => {
-                    if let Some(class) = expand_unicode_property(&prop, self.use_unicode_flag) {
+                    if let Some(class) = expand_unicode_property(&prop) {
                         new_terms.push(Term::CharacterClass(Box::new(class)));
                     } else {
                         // If we can't expand it, keep the original
@@ -64,7 +59,7 @@ impl VisitMut for UnicodePropertyTransformer {
                 Term::Quantifier(mut q) => {
                     // Handle quantified unicode property escapes
                     if let Term::UnicodePropertyEscape(prop) = &q.body {
-                        if let Some(class) = expand_unicode_property(prop, self.use_unicode_flag) {
+                        if let Some(class) = expand_unicode_property(prop) {
                             q.body = Term::CharacterClass(Box::new(class));
                         }
                     }
@@ -96,7 +91,14 @@ impl VisitMut for UnicodePropertyTransformer {
                 CharacterClassContents::UnicodePropertyEscape(prop) => {
                     // Inside a character class, we need to inline the ranges directly
                     if let Some(ranges) = get_property_ranges(&prop) {
-                        for range in ranges {
+                        // If the property is negative (\P{...}), we need to complement
+                        // the ranges
+                        let final_ranges = if prop.negative {
+                            complement_ranges(&ranges)
+                        } else {
+                            ranges
+                        };
+                        for range in final_ranges {
                             let start = *range.start();
                             let end = *range.end();
                             if start == end {
@@ -146,10 +148,7 @@ impl VisitMut for UnicodePropertyTransformer {
 }
 
 /// Expands a unicode property escape into a character class.
-fn expand_unicode_property(
-    prop: &UnicodePropertyEscape,
-    _use_unicode_flag: bool,
-) -> Option<CharacterClass> {
+fn expand_unicode_property(prop: &UnicodePropertyEscape) -> Option<CharacterClass> {
     let ranges = get_property_ranges(prop)?;
 
     let mut body = Vec::new();
@@ -426,6 +425,55 @@ fn get_binary_property_ranges(name: &str) -> Option<Vec<RangeInclusive<u32>>> {
     }
 }
 
+/// Computes the complement of a set of code point ranges.
+///
+/// Given a set of ranges representing a character set, returns the ranges
+/// representing all Unicode code points NOT in that set.
+fn complement_ranges(ranges: &[RangeInclusive<u32>]) -> Vec<RangeInclusive<u32>> {
+    const MAX_CODEPOINT: u32 = 0x10ffff;
+
+    if ranges.is_empty() {
+        return vec![0..=MAX_CODEPOINT];
+    }
+
+    // Sort ranges by start value
+    let mut sorted: Vec<_> = ranges.to_vec();
+    sorted.sort_by_key(|r| *r.start());
+
+    // Merge overlapping ranges
+    let mut merged: Vec<RangeInclusive<u32>> = Vec::new();
+    for range in sorted {
+        if let Some(last) = merged.last_mut() {
+            if *range.start() <= last.end() + 1 {
+                // Ranges overlap or are adjacent, merge them
+                *last = *last.start()..=(*last.end()).max(*range.end());
+            } else {
+                merged.push(range);
+            }
+        } else {
+            merged.push(range);
+        }
+    }
+
+    // Compute complement
+    let mut result = Vec::new();
+    let mut current = 0u32;
+
+    for range in merged {
+        if current < *range.start() {
+            result.push(current..=(*range.start() - 1));
+        }
+        current = range.end().saturating_add(1);
+    }
+
+    // Add final range if there's space after the last range
+    if current <= MAX_CODEPOINT {
+        result.push(current..=MAX_CODEPOINT);
+    }
+
+    result
+}
+
 #[cfg(test)]
 mod tests {
     use swc_ecma_regexp::{LiteralParser, Options};
@@ -436,7 +484,7 @@ mod tests {
         let mut ast = LiteralParser::new(pattern, Some(flags), Options::default())
             .parse()
             .unwrap();
-        transform_unicode_property_escapes(&mut ast, true);
+        transform_unicode_property_escapes(&mut ast);
         ast.to_string()
     }
 
@@ -478,5 +526,40 @@ mod tests {
         assert!(result.starts_with('['));
         // ASCII should be \u0000-\u007F
         assert!(result.contains("\\u0000-\\u007F"));
+    }
+
+    #[test]
+    fn test_negative_property_in_class() {
+        // \P{ASCII} inside a character class should expand to the complement of
+        // ASCII
+        let result = parse_and_transform(r"[\P{ASCII}]", "u");
+        // Should be a character class starting with non-ASCII range
+        assert!(result.starts_with('['));
+        // Should NOT be a negated class since we're computing the complement
+        assert!(!result.starts_with("[^"));
+        // Should contain the range starting after ASCII (\u0080)
+        assert!(result.contains("\\u0080"));
+    }
+
+    #[test]
+    fn test_complement_ranges() {
+        // Test complement of ASCII range
+        let ascii = vec![0..=0x7fu32];
+        let complement = complement_ranges(&ascii);
+        assert_eq!(complement.len(), 1);
+        assert_eq!(complement[0], 0x80..=0x10ffff);
+
+        // Test complement of empty range
+        let empty: Vec<RangeInclusive<u32>> = vec![];
+        let complement = complement_ranges(&empty);
+        assert_eq!(complement.len(), 1);
+        assert_eq!(complement[0], 0..=0x10ffff);
+
+        // Test complement with gap in middle
+        let with_gap = vec![0..=10u32, 20..=30u32];
+        let complement = complement_ranges(&with_gap);
+        assert_eq!(complement.len(), 2);
+        assert_eq!(complement[0], 11..=19);
+        assert_eq!(complement[1], 31..=0x10ffff);
     }
 }
