@@ -1,6 +1,9 @@
+use swc_atoms::Atom;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
+use swc_ecma_compat_regexp::transform_unicode_property_escapes;
 use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_regexp::{LiteralParser, Options as RegexpOptions};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 
 use crate::TraverseCtx;
@@ -47,23 +50,56 @@ struct RegexpPass {
     options: RegExpOptions,
 }
 
+impl RegexpPass {
+    /// Transform the regex pattern if it contains unicode property escapes.
+    /// Returns the transformed pattern string.
+    fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
+        // Only transform if unicode_property_regex is enabled and pattern contains
+        // \p{ or \P{
+        if !self.options.unicode_property_regex {
+            return None;
+        }
+        if !pattern.contains("\\p{") && !pattern.contains("\\P{") {
+            return None;
+        }
+
+        // Parse the regex pattern
+        let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+            .parse()
+            .ok()?;
+
+        // Transform unicode property escapes
+        // We keep the unicode flag since we're outputting \u{...} escapes
+        transform_unicode_property_escapes(&mut ast, true);
+
+        // Serialize back to string
+        Some(ast.to_string())
+    }
+}
+
 impl VisitMutHook<TraverseCtx> for RegexpPass {
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
         if let Expr::Lit(Lit::Regex(regex)) = expr {
-            if (self.options.dot_all_regex && regex.flags.contains('s'))
+            let needs_transform = (self.options.dot_all_regex && regex.flags.contains('s'))
                 || (self.options.sticky_regex && regex.flags.contains('y'))
                 || (self.options.unicode_regex && regex.flags.contains('u'))
                 || (self.options.unicode_sets_regex && regex.flags.contains('v'))
                 || (self.options.has_indices && regex.flags.contains('d'))
                 || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
-                || (self.options.lookbehind_assertion && regex.exp.contains("(?<=")
-                    || regex.exp.contains("(?<!"))
+                || (self.options.lookbehind_assertion
+                    && (regex.exp.contains("(?<=") || regex.exp.contains("(<!?")))
                 || (self.options.unicode_property_regex
-                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")))
-            {
+                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")));
+
+            if needs_transform {
                 let Regex { exp, flags, span } = regex.take();
 
-                let exp: Expr = exp.into();
+                // Transform the pattern if it contains unicode property escapes
+                let transformed_pattern = self
+                    .transform_pattern(&exp, &flags)
+                    .unwrap_or_else(|| exp.to_string());
+
+                let exp: Expr = Atom::from(transformed_pattern).into();
                 let mut args = vec![exp.into()];
 
                 if !flags.is_empty() {

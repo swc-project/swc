@@ -173,3 +173,60 @@ fn is_module_unknown_module() {
 
     assert_eq!(compiled, expected);
 }
+
+#[test]
+fn test_unicode_property_regex_transform() {
+    // Test that unicode property escapes are expanded to character classes
+    let source = r#"const re = /\p{ASCII}/u;"#;
+
+    let compiled = compile(
+        source,
+        Options {
+            swcrc: false,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2017),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    );
+
+    // Should be transformed to RegExp with expanded character class
+    assert!(compiled.contains("RegExp"));
+    // Should contain the ASCII range
+    assert!(compiled.contains("[\\u0000-\\u007F]"));
+    // Should NOT contain the original \p{ASCII} escape
+    assert!(!compiled.contains("\\p{ASCII}"));
+}
+
+#[test]
+fn test_unicode_property_regex_letter() {
+    // Test that Letter property is expanded
+    let source = r#"const re = /\p{L}/u;"#;
+
+    let compiled = compile(
+        source,
+        Options {
+            swcrc: false,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2017),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    );
+
+    // Print for debugging
+    eprintln!("Letter compiled output: {}", compiled);
+
+    // Should be transformed to RegExp with character classes
+    assert!(compiled.contains("RegExp"));
+    // Should NOT contain the original \p{L} escape
+    assert!(!compiled.contains("\\p{L}"));
+}
