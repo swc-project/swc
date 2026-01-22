@@ -19,6 +19,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 [features]
 concurrent = ["swc_common/concurrent", "swc_ecma_transforms_base/concurrent"]
 debug      = []
+es3        = ["swc_ecma_transforms_compat/es3"]
 
 [dependencies]
 bytes-str  = { workspace = true }

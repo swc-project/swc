@@ -25,8 +25,8 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["es3", "lint", "isolated-dts"]
-es3 = []
+default = ["lint", "isolated-dts"]
+es3 = ["swc_ecma_transforms_compat/es3", "swc_ecma_preset_env/es3"]
 isolated-dts = ["swc_typescript"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
@@ -99,7 +99,7 @@ swc_ecma_minifier = { version = "43.0.2", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env" }
+swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
 swc_ecma_transforms = { version = "45.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
@@ -109,7 +109,7 @@ swc_ecma_transforms = { version = "45.0.0", path = "../swc_ecma_transforms", fea
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
 swc_ecma_transforms_optimization = { version = "38.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
@@ -151,9 +151,15 @@ swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
 swc_ecma_lints = { version = "27.0.0", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
+swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env", features = [
+  "es3",
+] }
 swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
+] }
+swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat", features = [
+  "es3",
 ] }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "19.0.0", path = "../testing" }

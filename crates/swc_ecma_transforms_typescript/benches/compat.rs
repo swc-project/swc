@@ -99,6 +99,7 @@ fn common_reserved_word(b: &mut Bencher) {
 }
 
 fn version_group(c: &mut Criterion) {
+    #[cfg(feature = "es3")]
     c.bench_function("es/target/es3", es3);
     c.bench_function("es/target/es2015", es2015);
     c.bench_function("es/target/es2016", es2016);
@@ -293,6 +294,7 @@ fn es2015_typeof_symbol(b: &mut Bencher) {
     });
 }
 
+#[cfg(feature = "es3")]
 fn es3(b: &mut Bencher) {
     run(b, |_| swc_ecma_transforms_compat::es3(Default::default()));
 }

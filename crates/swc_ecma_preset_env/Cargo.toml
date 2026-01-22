@@ -21,6 +21,7 @@ bench = false
 [features]
 default    = ["serde-impl"]
 serde-impl = ["serde"]
+es3 = ["swc_ecma_transforms/es3"]
 
 [dependencies]
 indexmap   = { workspace = true }

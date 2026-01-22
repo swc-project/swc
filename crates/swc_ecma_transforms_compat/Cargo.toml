@@ -16,10 +16,12 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [features]
+default = []
 concurrent = [
   "swc_ecma_transforms_base/concurrent",
   "swc_ecma_utils/concurrent",
 ]
+es3 = ["swc_ecma_compat_es3"]
 
 [dependencies]
 indexmap = { workspace = true }
@@ -40,7 +42,7 @@ swc_ecma_compat_es2019   = { version = "36.0.0", path = "../swc_ecma_compat_es20
 swc_ecma_compat_es2020   = { version = "38.0.0", path = "../swc_ecma_compat_es2020" }
 swc_ecma_compat_es2021   = { version = "36.0.0", path = "../swc_ecma_compat_es2021" }
 swc_ecma_compat_es2022   = { version = "38.0.0", path = "../swc_ecma_compat_es2022" }
-swc_ecma_compat_es3      = { version = "27.0.0", path = "../swc_ecma_compat_es3" }
+swc_ecma_compat_es3      = { version = "27.0.0", path = "../swc_ecma_compat_es3", optional = true }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils           = { version = "26.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "20.0.0", path = "../swc_ecma_visit" }
