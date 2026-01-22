@@ -196,10 +196,12 @@ fn test_unicode_property_regex_transform() {
 
     // Should be transformed to RegExp with expanded character class
     assert!(compiled.contains("RegExp"));
-    // Should contain the ASCII range
-    assert!(compiled.contains("[\\u0000-\\u007F]"));
-    // Should NOT contain the original \p{ASCII} escape
-    assert!(!compiled.contains("\\p{ASCII}"));
+    // Should contain the ASCII range (double backslash because it's in a string,
+    // not regex literal)
+    assert!(compiled.contains("[\\\\u0000-\\\\u007F]"));
+    // Should NOT contain the original \p{ASCII} escape (also double backslash in
+    // string)
+    assert!(!compiled.contains("\\\\p{ASCII}"));
 }
 
 #[test]
