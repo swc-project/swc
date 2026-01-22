@@ -877,24 +877,74 @@ fn test_fixture_inner<'a>(
 ) {
     let _logger = testing::init();
 
+    let update = env::var("UPDATE").unwrap_or_default() == "1";
+
     let expected = read_to_string(output);
-    let _is_really_expected = expected.is_ok();
+    let is_really_expected = expected.is_ok();
     let expected = expected.unwrap_or_default();
 
-    let expected_src = Tester::run(|tester| {
-        let expected_program =
-            tester.apply_transform(noop_pass(), "expected.js", syntax, config.module, &expected)?;
+    // When UPDATE=1 is set and the expected output file contains invalid code,
+    // we should not update the file. Use run_captured to handle parse errors
+    // gracefully.
+    let (expected_src, expected_valid) = if update && is_really_expected && !expected.is_empty() {
+        let (result, _stderr) = Tester::run_captured(|tester| {
+            let expected_program = tester.apply_transform(
+                noop_pass(),
+                "expected.js",
+                syntax,
+                config.module,
+                &expected,
+            )?;
 
-        let expected_src = tester.print(&expected_program, &tester.comments.clone());
+            let expected_src = tester.print(&expected_program, &tester.comments.clone());
 
-        println!(
-            "----- {} -----\n{}",
-            Color::Green.paint("Expected"),
-            expected_src
-        );
+            println!(
+                "----- {} -----\n{}",
+                Color::Green.paint("Expected"),
+                expected_src
+            );
 
-        Ok(expected_src)
-    });
+            Ok(expected_src)
+        });
+
+        match result {
+            Some(src) => (src, true),
+            None => {
+                // Expected file contains invalid code. When UPDATE=1, we should not
+                // update the file. Print a warning and skip the comparison.
+                eprintln!(
+                    "----- {} -----",
+                    Color::Red.paint("Warning: expected output file contains invalid code")
+                );
+                eprintln!(
+                    "Skipping update for {} because it contains invalid code.",
+                    output.display()
+                );
+                (String::new(), false)
+            }
+        }
+    } else {
+        let expected_src = Tester::run(|tester| {
+            let expected_program = tester.apply_transform(
+                noop_pass(),
+                "expected.js",
+                syntax,
+                config.module,
+                &expected,
+            )?;
+
+            let expected_src = tester.print(&expected_program, &tester.comments.clone());
+
+            println!(
+                "----- {} -----\n{}",
+                Color::Green.paint("Expected"),
+                expected_src
+            );
+
+            Ok(expected_src)
+        });
+        (expected_src, true)
+    };
 
     let mut src_map = if config.sourcemap {
         Some(Vec::new())
@@ -987,7 +1037,9 @@ fn test_fixture_inner<'a>(
             eprintln!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
         }
 
-        if actual_src != expected_src {
+        // Skip comparison/update if the expected file contains invalid code
+        // and UPDATE=1 is set
+        if expected_valid && actual_src != expected_src {
             NormalizedOutput::from(actual_src)
                 .compare_to_file(output)
                 .unwrap();
