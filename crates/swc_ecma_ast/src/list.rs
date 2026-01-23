@@ -207,4 +207,14 @@ impl ListFormat {
             _ => unreachable!(),
         }
     }
+
+    /// Returns `true` if the opening bracket requires committing a pending
+    /// semicolon before it (to avoid ASI issues). This is true for `{`,
+    /// `(`, and `[`, but not for `<`.
+    #[inline]
+    pub fn opening_bracket_requires_semi_commit(self) -> bool {
+        // `<` is the only opening bracket that doesn't require committing a
+        // pending semicolon
+        !matches!(self & ListFormat::BracketsMask, ListFormat::AngleBrackets)
+    }
 }

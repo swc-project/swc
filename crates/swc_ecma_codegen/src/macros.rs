@@ -35,19 +35,50 @@ macro_rules! keyword {
     };
 }
 
+/// Returns true if the punctuation character requires committing a pending
+/// semicolon before it (to avoid ASI issues).
+#[inline(always)]
+pub const fn punct_requires_semi_commit(s: &'static str) -> bool {
+    let bytes = s.as_bytes();
+    if bytes.len() == 1 {
+        let c = bytes[0];
+        matches!(
+            c,
+            b'"' | b'\''
+                | b'['
+                | b'!'
+                | b'/'
+                | b'{'
+                | b'('
+                | b'~'
+                | b'-'
+                | b'+'
+                | b'#'
+                | b'`'
+                | b'*'
+        )
+    } else {
+        false
+    }
+}
+
 macro_rules! punct {
     ($emitter:expr, $sp:expr, ";") => {
         $emitter.wr.write_semi(Some($sp))?;
     };
     ($emitter:expr, $sp:expr, $s:expr) => {
-        $emitter.wr.write_punct(Some($sp), $s)?;
+        $emitter
+            .wr
+            .write_punct(Some($sp), $s, crate::macros::punct_requires_semi_commit($s))?;
     };
 
     ($emitter:expr, ";") => {
         $emitter.wr.write_semi(None)?
     };
     ($emitter:expr, $s:expr) => {
-        $emitter.wr.write_punct(None, $s)?
+        $emitter
+            .wr
+            .write_punct(None, $s, crate::macros::punct_requires_semi_commit($s))?
     };
 }
 

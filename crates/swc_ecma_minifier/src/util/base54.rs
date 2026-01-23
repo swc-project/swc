@@ -157,7 +157,12 @@ impl WriteJs for CharFreq {
     }
 
     #[inline(always)]
-    fn write_punct(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
+    fn write_punct(
+        &mut self,
+        _: Option<Span>,
+        s: &'static str,
+        _commit_pending_semi: bool,
+    ) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }

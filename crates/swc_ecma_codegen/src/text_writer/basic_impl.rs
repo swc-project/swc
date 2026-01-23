@@ -251,7 +251,12 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
     }
 
     #[inline]
-    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
+    fn write_punct(
+        &mut self,
+        span: Option<Span>,
+        s: &'static str,
+        _commit_pending_semi: bool,
+    ) -> Result {
         self.write(span, s)?;
         Ok(())
     }

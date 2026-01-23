@@ -410,7 +410,11 @@ where
         }
 
         if format.contains(ListFormat::BracketsMask) {
-            if let Err(err) = self.wr.write_punct(None, format.opening_bracket()) {
+            if let Err(err) = self.wr.write_punct(
+                None,
+                format.opening_bracket(),
+                format.opening_bracket_requires_semi_commit(),
+            ) {
                 return Some(Err(err));
             }
 
@@ -597,7 +601,8 @@ where
                     true,
                 )?; // Emit leading comments within empty lists
             }
-            self.wr.write_punct(None, format.closing_bracket())?;
+            // Closing brackets never require committing pending semi
+            self.wr.write_punct(None, format.closing_bracket(), false)?;
         }
 
         Ok(())
@@ -891,18 +896,19 @@ where
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
-            ListFormat::CommaDelimited => self.wr.write_punct(None, ",")?,
+            // Delimiters (`,`, `|`, `&`) never require committing pending semi
+            ListFormat::CommaDelimited => self.wr.write_punct(None, ",", false)?,
             ListFormat::BarDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct(None, "|")?;
+                self.wr.write_punct(None, "|", false)?;
             }
             ListFormat::AmpersandDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct(None, "&")?;
+                self.wr.write_punct(None, "&", false)?;
             }
             _ => unreachable!(),
         }
