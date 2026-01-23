@@ -343,7 +343,16 @@ where
         }
 
         let s = rel_path.to_string_lossy();
-        let s = if s.starts_with('.') || s.starts_with('/') || rel_path.is_absolute() {
+        // Check for actual relative path markers (./ or ../) or absolute paths.
+        // Note: We can't just check `starts_with('.')` because that would match
+        // hidden directories like `.foo`, which need a `./` prefix to be valid
+        // relative imports. See https://github.com/swc-project/swc/issues/9551
+        let s = if s.starts_with("./")
+            || s.starts_with("../")
+            || s == ".."
+            || s.starts_with('/')
+            || rel_path.is_absolute()
+        {
             s
         } else {
             Cow::Owned(format!("./{s}"))
