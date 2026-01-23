@@ -375,6 +375,14 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(default))]
     pub unsafe_undefined: bool,
 
+    /// Hoist static methods of built-in objects like `Object.assign` to local
+    /// variables when they are used multiple times. This can reduce code size
+    /// after mangling.
+    ///
+    /// This is unsafe because user code may have overridden these methods.
+    #[cfg_attr(feature = "extra-serde", serde(default))]
+    pub unsafe_hoist_static_method_alias: bool,
+
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     pub unused: bool,
 
@@ -480,6 +488,7 @@ impl Default for CompressOptions {
             unsafe_regexp: false,
             unsafe_symbols: false,
             unsafe_undefined: false,
+            unsafe_hoist_static_method_alias: false,
             unused: true,
             const_to_let: true,
             pristine_globals: true,

@@ -241,6 +241,9 @@ pub struct TerserCompressorOptions {
     pub unsafe_undefined: bool,
 
     #[serde(default)]
+    pub unsafe_hoist_static_method_alias: bool,
+
+    #[serde(default)]
     pub unused: Option<bool>,
 
     #[serde(default)]
@@ -385,6 +388,7 @@ impl TerserCompressorOptions {
             unsafe_proto: self.unsafe_proto,
             unsafe_regexp: self.unsafe_regexp,
             unsafe_undefined: self.unsafe_undefined,
+            unsafe_hoist_static_method_alias: self.unsafe_hoist_static_method_alias,
             unused: self.unused.unwrap_or(self.defaults),
             const_to_let: self.const_to_let.unwrap_or(self.defaults),
             pristine_globals: self.pristine_globals.unwrap_or(self.defaults),
