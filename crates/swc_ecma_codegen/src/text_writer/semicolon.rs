@@ -66,34 +66,18 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
         Ok(())
     }
 
-    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
-        let bytes = s.as_bytes();
-        if bytes.len() == 1 {
-            let first = *unsafe { bytes.get_unchecked(0) };
-            static PUNCT_TABLE: [bool; 256] = {
-                let mut table = [false; 256];
-                table[b'"' as usize] = true;
-                table[b'\'' as usize] = true;
-                table[b'[' as usize] = true;
-                table[b'!' as usize] = true;
-                table[b'/' as usize] = true;
-                table[b'{' as usize] = true;
-                table[b'(' as usize] = true;
-                table[b'~' as usize] = true;
-                table[b'-' as usize] = true;
-                table[b'+' as usize] = true;
-                table[b'#' as usize] = true;
-                table[b'`' as usize] = true;
-                table[b'*' as usize] = true;
-                table
-            };
-            if PUNCT_TABLE[first as usize] {
-                self.commit_pending_semi()?;
-                return self.inner.write_punct(span, s);
-            }
+    fn write_punct(
+        &mut self,
+        span: Option<Span>,
+        s: &'static str,
+        commit_pending_semi: bool,
+    ) -> Result {
+        if commit_pending_semi {
+            self.commit_pending_semi()?;
+        } else {
+            self.pending_semi = None;
         }
-        self.pending_semi = None;
-        self.inner.write_punct(span, s)
+        self.inner.write_punct(span, s, commit_pending_semi)
     }
 
     #[inline]
