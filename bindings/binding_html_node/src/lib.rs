@@ -699,7 +699,7 @@ fn minify_inner(
 
 fn to_string(code: Either<Buffer, String>) -> String {
     match code {
-        Either::A(code) => String::from_utf8_lossy(code.as_ref()).to_string(),
+        Either::A(code) => String::from_utf8_lossy(code.as_ref()).into_owned(),
         Either::B(code) => code,
     }
 }
@@ -712,7 +712,7 @@ fn minify(
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
     let code = to_string(code);
-    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let options = String::from_utf8_lossy(opts.as_ref()).into_owned();
 
     let task = MinifyTask {
         code,
@@ -731,7 +731,7 @@ fn minify_fragment(
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
     let code = to_string(code);
-    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let options = String::from_utf8_lossy(opts.as_ref()).into_owned();
 
     let task = MinifyTask {
         code,

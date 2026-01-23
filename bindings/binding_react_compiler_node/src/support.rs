@@ -50,7 +50,7 @@ fn is_react_compiler_required(
     code: Buffer,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<IsReactCompilerRequiredTask> {
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
 
     let task = IsReactCompilerRequiredTask { code };
 
@@ -59,7 +59,7 @@ fn is_react_compiler_required(
 
 #[napi]
 pub fn is_react_compiler_required_sync(code: Buffer) -> napi::Result<bool> {
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
 
     Ok(is_react_compiler_required_inner(&code))
 }
