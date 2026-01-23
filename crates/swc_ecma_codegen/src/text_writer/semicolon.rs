@@ -107,9 +107,8 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     }
 
     fn commit_pending_semi(&mut self) -> Result {
-        if let Some(span) = self.pending_semi {
+        if let Some(span) = self.pending_semi.take() {
             self.inner.write_semi(Some(span))?;
-            self.pending_semi = None;
         }
         Ok(())
     }
