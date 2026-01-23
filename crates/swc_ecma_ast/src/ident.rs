@@ -108,6 +108,18 @@ impl BindingIdent {
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.ctxt)
     }
+
+    /// Consumes `self` and creates `Id` without cloning.
+    #[inline]
+    pub fn into_id(self) -> Id {
+        self.id.into_id()
+    }
+}
+
+impl From<BindingIdent> for Id {
+    fn from(bi: BindingIdent) -> Self {
+        bi.into_id()
+    }
 }
 
 impl Take for BindingIdent {
@@ -267,6 +279,12 @@ impl Ident {
     /// Creates `Id` using `Atom` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.ctxt)
+    }
+
+    /// Consumes `self` and creates `Id` without cloning.
+    #[inline]
+    pub fn into_id(self) -> Id {
+        (self.sym, self.ctxt)
     }
 
     #[inline]
