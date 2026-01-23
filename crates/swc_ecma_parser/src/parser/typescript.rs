@@ -2918,6 +2918,20 @@ impl<I: Tokens> Parser<I> {
         let res = if cur == Token::Lt || cur == Token::JSXTagStart {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
+
+                // In TSX mode, type parameters that could be mistaken for JSX
+                // (single param without constraint and no trailing comma) are not
+                // allowed.
+                if p.input().syntax().jsx() && type_params.params.len() == 1 {
+                    let single_param = &type_params.params[0];
+                    let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
+                    let dominated_by_jsx = single_param.constraint.is_none() && !has_trailing_comma;
+
+                    if dominated_by_jsx {
+                        return Ok(None);
+                    }
+                }
+
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, Token::LParen);
                 let params: Vec<Pat> = p

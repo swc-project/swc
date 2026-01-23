@@ -1,1 +1,1 @@
-const a = <T>(value: T): any => {};
+const a = <T,>(value: T): any => {};
