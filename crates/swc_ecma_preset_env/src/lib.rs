@@ -196,8 +196,6 @@ where
         true
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
-    let pass = add!(pass, ShorthandProperties, es2015::shorthand());
-    let pass = add!(pass, FunctionName, es2015::function_name());
     let pass = add!(
         pass,
         ForOf,
@@ -218,14 +216,35 @@ where
         )
     );
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
-    let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
-    let pass = add!(pass, StickyRegex, es2015::sticky_regex());
-    let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
-    let pass = add!(
-        pass,
-        TypeOfSymbol,
-        es2015::typeof_symbol(es2015::typeof_symbol::Config { loose })
-    );
+    {
+        // We use a separate options for es2015 transforms because of the pass order.
+        let mut options = swc_ecma_transformer::Options::default();
+
+        options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+        options.assumptions = assumptions;
+
+        if !caniuse(Feature::ShorthandProperties) {
+            options.env.es2015.shorthand = true;
+        }
+
+        if !caniuse(Feature::FunctionName) {
+            options.env.es2015.function_name = true;
+        }
+
+        if !caniuse(Feature::DuplicateKeys) {
+            options.env.es2015.duplicate_keys = true;
+        }
+
+        if !caniuse(Feature::StickyRegex) {
+            options.env.es2015.sticky_regex = true;
+        }
+
+        if !caniuse(Feature::TypeOfSymbol) {
+            options.env.es2015.instanceof = true;
+            options.env.es2015.typeof_symbol = true;
+        }
+    }
+
     let pass = add!(
         pass,
         ComputedProperties,
