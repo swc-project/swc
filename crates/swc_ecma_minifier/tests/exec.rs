@@ -11498,7 +11498,38 @@ function printError() {
 }
 
 printError()
-    
+
         ",
     );
+}
+
+/// Test that `unsafe_hoist_static_method_alias` properly handles variable name
+/// collisions. When a variable already exists with the same name as the alias
+/// would have, the hoisting should either use a different name or skip
+/// hoisting.
+#[test]
+fn issue_9741_collision() {
+    let src = r#"
+const _Object_assign = [];
+_Object_assign.push(1);
+_Object_assign.push(2);
+_Object_assign.push(3);
+
+const a = {};
+Object.assign(a, {});
+const b = {};
+Object.assign(b, {});
+Object.assign(b, a);
+
+console.log(_Object_assign.length);
+console.log(_Object_assign[0]);
+console.log(Array.isArray(_Object_assign));
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
 }
