@@ -16,6 +16,12 @@ pub fn typeof_symbol(c: Config) -> impl Pass {
     }
 }
 
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub loose: bool,
+}
+
 #[cfg(test)]
 mod tests {
     use swc_ecma_parser::Syntax;
