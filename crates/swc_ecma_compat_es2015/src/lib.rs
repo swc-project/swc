@@ -49,18 +49,15 @@ pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl 
 where
     C: Comments + Clone,
 {
+    let mut options = swc_ecma_transformer::Options::default();
+    options.env.regexp.sticky_regex = true;
+    options.env.es2015.shorthand = true;
+    options.env.es2015.instanceof = true;
+    options.env.es2015.duplicate_keys = true;
+    options.env.es2015.typeof_symbol = true;
+
     (
         (
-            regexp(regexp::Config {
-                dot_all_regex: false,
-                has_indices: false,
-                lookbehind_assertion: false,
-                named_capturing_groups_regex: false,
-                sticky_regex: true,
-                unicode_property_regex: false,
-                unicode_regex: true,
-                unicode_sets_regex: false,
-            }),
             block_scoped_functions(),
             template_literal(c.template_literal),
             classes(c.classes),
@@ -73,7 +70,6 @@ where
         } else {
             None
         },
-        shorthand(),
         function_name(),
         for_of(c.for_of),
         // Should come before parameters
@@ -81,15 +77,12 @@ where
         parameters(c.parameters, unresolved_mark),
         (
             arrow(unresolved_mark),
-            duplicate_keys(),
-            sticky_regex(),
-            instance_of(),
-            typeof_symbol(c.typeof_symbol),
             computed_properties(c.computed_props),
             destructuring(c.destructuring),
             block_scoping(unresolved_mark),
             generator::generator(unresolved_mark, comments.clone()),
         ),
+        options.into_pass(),
     )
 }
 
