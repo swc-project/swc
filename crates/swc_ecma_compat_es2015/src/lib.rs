@@ -36,15 +36,6 @@ mod sticky_regex;
 pub mod template_literal;
 pub mod typeof_symbol;
 
-fn exprs(unresolved_mark: Mark) -> impl Pass {
-    (
-        arrow(unresolved_mark),
-        duplicate_keys(),
-        sticky_regex(),
-        instance_of(),
-    )
-}
-
 /// Compiles es2015 to es5.
 ///
 /// # Parameters
@@ -89,7 +80,10 @@ where
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters, unresolved_mark),
         (
-            exprs(unresolved_mark),
+            arrow(unresolved_mark),
+            duplicate_keys(),
+            sticky_regex(),
+            instance_of(),
             typeof_symbol(c.typeof_symbol),
             computed_properties(c.computed_props),
             destructuring(c.destructuring),
