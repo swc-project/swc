@@ -20,6 +20,6 @@ use swc_trace_macro::swc_trace;
 /// ```
 pub fn sticky_regex() -> impl Pass {
     let mut options = swc_ecma_transformer::Options::default();
-    options.env.regex.sticky = true;
+    options.env.regexp.sticky_regex = true;
     options.into_pass()
 }
