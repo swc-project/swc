@@ -31,10 +31,7 @@ pub(crate) fn hook<C>(preserve_import: bool) -> impl VisitMutHook<C> {
 
 /// babel: `@babel/plugin-transform-reserved-words`
 pub fn reserved_words(preserve_import: bool) -> impl Pass {
-    visit_mut_pass(VisitMutWithHook {
-        hook: hook(preserve_import),
-        context: (),
-    })
+    visit_mut_pass(ReservedWord { preserve_import })
 }
 
 struct ReservedWordHook {
@@ -169,6 +166,146 @@ fn rename_reserved_ident(i: &mut Ident, preserve_import: bool) {
     if i.is_reserved_in_es3() {
         i.sym = format!("_{}", i.sym).into()
     }
+}
+
+struct ReservedWord {
+    pub preserve_import: bool,
+}
+
+impl VisitMut for ReservedWord {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let mut extra_exports = Vec::new();
+
+        n.iter_mut().for_each(|module_item| {
+            match module_item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: decl @ Decl::Fn(..) | decl @ Decl::Class(..),
+                    ..
+                })) => {
+                    let ident = match decl {
+                        Decl::Class(d) => d.ident.clone(),
+                        Decl::Fn(d) => d.ident.clone(),
+                        _ => {
+                            unreachable!()
+                        }
+                    };
+
+                    if ident.is_reserved_in_es3() {
+                        *module_item = decl.take().into();
+
+                        let mut orig = ident.clone();
+                        orig.visit_mut_with(self);
+
+                        extra_exports.push(
+                            ExportNamedSpecifier {
+                                span: DUMMY_SP,
+                                orig: orig.into(),
+                                exported: Some(ident.into()),
+                                is_type_only: false,
+                            }
+                            .into(),
+                        );
+                    }
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(var),
+                    ..
+                })) => {
+                    // Check if any variable name is a reserved word
+                    let has_reserved = var.decls.iter().any(|var| {
+                        if let Pat::Ident(i) = &var.name {
+                            i.sym.is_reserved_in_es3()
+                        } else {
+                            false
+                        }
+                    });
+
+                    if has_reserved {
+                        for var in &var.decls {
+                            let ident = Ident::from(var.name.clone().expect_ident());
+
+                            if ident.is_reserved_in_es3() {
+                                let mut orig = ident.clone();
+                                orig.visit_mut_with(self);
+
+                                extra_exports.push(
+                                    ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: orig.into(),
+                                        exported: Some(ident.into()),
+                                        is_type_only: false,
+                                    }
+                                    .into(),
+                                );
+                            }
+                        }
+
+                        *module_item = var.take().into();
+                    }
+                }
+
+                _ => {}
+            }
+
+            module_item.visit_mut_with(self);
+        });
+
+        if !extra_exports.is_empty() {
+            let module_item = NamedExport {
+                span: DUMMY_SP,
+                specifiers: extra_exports,
+                src: None,
+                type_only: false,
+                with: None,
+            }
+            .into();
+
+            n.push(module_item);
+        }
+    }
+
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if matches!(&n.orig, ModuleExportName::Ident(ident) if ident.is_reserved_in_es3()) {
+            n.exported.get_or_insert_with(|| n.orig.clone());
+            n.orig.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        if n.src.is_none() {
+            n.visit_mut_children_with(self);
+        }
+    }
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if self.preserve_import && i.sym == *"import" {
+            return;
+        }
+
+        if i.is_reserved_in_es3() {
+            i.sym = format!("_{}", i.sym).into()
+        }
+    }
+
+    fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
+        if s.local.is_reserved_in_es3() {
+            s.imported.get_or_insert_with(|| s.local.clone().into());
+            s.local.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.obj.visit_mut_with(self);
+
+        if let MemberProp::Computed(c) = &mut e.prop {
+            c.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, _: &mut PropName) {}
 }
 
 #[cfg(test)]
