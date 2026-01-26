@@ -168,21 +168,6 @@ where
         options.env.es2016.exponentiation_operator = true;
     }
 
-    // ES3 - integrated into swc_ecma_transformer
-    #[cfg(feature = "es3")]
-    {
-        if !caniuse(Feature::PropertyLiterals) {
-            options.env.es3.property_literals = true;
-        }
-        if !caniuse(Feature::MemberExpressionLiterals) {
-            options.env.es3.member_expression_literals = true;
-        }
-        if !caniuse(Feature::ReservedWords) {
-            options.env.es3.reserved_words = true;
-            options.env.es3.preserve_import = dynamic_import;
-        }
-    }
-
     // Single-pass compiler - skip traversal when no transforms are enabled
     let is_enabled = options.env.is_enabled();
     let pass = (pass, Optional::new(options.into_pass(), is_enabled));
@@ -235,7 +220,34 @@ where
             unresolved_mark
         )
     );
+
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
+
+    let pass = add!(
+        pass,
+        ComputedProperties,
+        es2015::computed_properties(es2015::computed_props::Config { loose }),
+        true
+    );
+    let pass = add!(
+        pass,
+        Destructuring,
+        es2015::destructuring(es2015::destructuring::Config { loose }),
+        true
+    );
+    let pass = add!(
+        pass,
+        BlockScoping,
+        es2015::block_scoping(unresolved_mark),
+        true
+    );
+    let pass = add!(
+        pass,
+        Regenerator,
+        generator(unresolved_mark, comments),
+        true
+    );
+
     let pass = {
         // We use a separate options for es2015 transforms because of the pass order.
         let mut options = swc_ecma_transformer::Options::default();
@@ -264,35 +276,25 @@ where
             options.env.es2015.typeof_symbol = true;
         }
 
+        // ES3
+        #[cfg(feature = "es3")]
+        {
+            if !caniuse(Feature::PropertyLiterals) {
+                options.env.es3.property_literals = true;
+            }
+            if !caniuse(Feature::MemberExpressionLiterals) {
+                options.env.es3.member_expression_literals = true;
+            }
+            if !caniuse(Feature::ReservedWords) {
+                options.env.es3.reserved_words = true;
+                options.env.es3.preserve_import = dynamic_import;
+            }
+        }
+
         // Skip traversal when no transforms are enabled
         let is_enabled = options.env.is_enabled();
         (pass, Optional::new(options.into_pass(), is_enabled))
     };
-
-    let pass = add!(
-        pass,
-        ComputedProperties,
-        es2015::computed_properties(es2015::computed_props::Config { loose }),
-        true
-    );
-    let pass = add!(
-        pass,
-        Destructuring,
-        es2015::destructuring(es2015::destructuring::Config { loose }),
-        true
-    );
-    let pass = add!(
-        pass,
-        BlockScoping,
-        es2015::block_scoping(unresolved_mark),
-        true
-    );
-    let pass = add!(
-        pass,
-        Regenerator,
-        generator(unresolved_mark, comments),
-        true
-    );
 
     // TODO:
     //    Literals,
