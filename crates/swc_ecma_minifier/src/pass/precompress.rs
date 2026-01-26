@@ -44,10 +44,28 @@ use swc_ecma_visit::{
 
 use crate::option::CompressOptions;
 
-/// Minimum number of usages required to hoist a static method.
-/// The alias costs extra bytes (`var a=Object.assign;`), so we only hoist
-/// if there are enough usages to make it worthwhile.
-const MIN_USAGES_TO_HOIST: usize = 2;
+/// Calculate the minimum number of usages needed to save bytes after hoisting.
+///
+/// The formula is: `ceil((name_len + 7) / (name_len - 1))`
+///
+/// Rationale:
+/// - Every hoist costs `name_len + 7` bytes (e.g., `var a=Set;` for Set is 10
+///   bytes)
+/// - Every usage saves `name_len - 1` bytes (e.g., `new a()` vs `new Set()`
+///   saves 2 bytes)
+/// - We need enough usages for savings to exceed the cost
+///
+/// Examples:
+/// - `Object.assign` (13 chars): (13+7)/(13-1) = 20/12 = 2 usages
+/// - `Math.cos` (8 chars): (8+7)/(8-1) = 15/7 = 3 usages
+/// - `Set` (3 chars): (3+7)/(3-1) = 10/2 = 5 usages
+fn min_usages_for_name(name_len: usize) -> usize {
+    if name_len <= 1 {
+        return usize::MAX; // Never hoist single-char names
+    }
+    // ceil((name_len + 7) / (name_len - 1))
+    (name_len + 7 + (name_len - 2)) / (name_len - 1)
+}
 
 /// Known built-in objects and their static methods that are safe to hoist.
 fn is_known_static_method(obj: &str, prop: &str) -> bool {
@@ -307,7 +325,10 @@ impl AliasReplacer {
 
         // Handle static method aliases
         for ((obj, prop), count) in static_method_counts {
-            if count >= MIN_USAGES_TO_HOIST {
+            // Calculate the name length as "Object.assign" (obj.len + 1 + prop.len)
+            let name_len = obj.len() + 1 + prop.len();
+            let min_usages = min_usages_for_name(name_len);
+            if count >= min_usages {
                 // Create a private identifier - hygiene pass will handle conflicts
                 let alias_ident = private_ident!(format!("_{}_{}", obj, prop));
 
@@ -331,7 +352,8 @@ impl AliasReplacer {
 
         // Handle global object aliases
         for (name, count) in global_object_counts {
-            if count >= MIN_USAGES_TO_HOIST {
+            let min_usages = min_usages_for_name(name.len());
+            if count >= min_usages {
                 // Create a private identifier - hygiene pass will handle conflicts
                 let alias_ident = private_ident!(format!("_{}", name));
 
