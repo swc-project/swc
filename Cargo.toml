@@ -125,7 +125,7 @@ repository = "https://github.com/swc-project/swc.git"
   serde-wasm-bindgen = { version = "0.4.5", default-features = false }
   serde_derive = { version = "1.0.225", default-features = false }
   serde_json = { version = "1.0.115", default-features = false, features = [
-    "alloc",
+    "std",
   ] }
   sha1 = { version = "0.10.6", default-features = false }
   sha2 = { version = "0.10.8", default-features = false }
@@ -157,6 +157,7 @@ repository = "https://github.com/swc-project/swc.git"
   tracing-subscriber = { version = "0.3.20", default-features = false, features = [
     "fmt",
     "env-filter",
+    "ansi",
   ] }
   triomphe = { version = "0.1.13", default-features = false }
   unicode-id-start = { version = "1.2.0", default-features = false }
