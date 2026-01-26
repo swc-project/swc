@@ -4834,6 +4834,20 @@ name = "shrink-to-fit"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "040f84743f19cf4a481c2580f4d9d12beab78f401773314ff18835ef78c930ea"
+dependencies = [
+ "shrink-to-fit-macro",
+]
+
+[[package]]
+name = "shrink-to-fit-macro"
+version = "0.2.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "16d9bafdb4ba0cafd45a5aea7e8bc35b0f6280a603795c2ba9a823ca6afaba73"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.110",
+]
 
 [[package]]
 name = "simdutf8"
