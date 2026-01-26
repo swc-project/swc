@@ -33,7 +33,7 @@ swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features 
 
 swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", default-features = false }
 
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing", default-features = false }
 

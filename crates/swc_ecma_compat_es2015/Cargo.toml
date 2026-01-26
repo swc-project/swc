@@ -60,7 +60,7 @@ tracing = { workspace = true, default-features = false }
 
 
 [dev-dependencies]
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 swc_ecma_transforms_testing = { version = "39.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
 

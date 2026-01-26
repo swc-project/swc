@@ -43,7 +43,7 @@ swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", default-f
 swc_ecma_minifier = { version = "43.0.2", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
 

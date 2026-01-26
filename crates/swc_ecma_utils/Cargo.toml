@@ -53,5 +53,5 @@ stacker = { version = "0.1.15", optional = true }
 [dev-dependencies]
 par-core = { workspace = true, features = ["chili"], default-features = false }
 
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 

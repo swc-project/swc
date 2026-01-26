@@ -84,7 +84,7 @@ pretty_assertions = { workspace = true, default-features = false }
 
 swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", default-features = false }
 
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 testing = { version = "19.0.0", path = "../testing", default-features = false }
 

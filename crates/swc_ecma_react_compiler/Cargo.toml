@@ -21,7 +21,7 @@ swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-featu
 
 
 [dev-dependencies]
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 testing = { version = "19.0.0", path = "../testing", default-features = false }
 

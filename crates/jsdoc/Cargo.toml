@@ -36,7 +36,7 @@ swc_common = { version = "18.0.1", path = "../swc_common", default-features = fa
 [dev-dependencies]
 dashmap = { workspace = true, default-features = false }
 
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 testing = { version = "19.0.0", path = "../testing", default-features = false }
 

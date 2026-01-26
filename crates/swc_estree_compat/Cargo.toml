@@ -59,7 +59,7 @@ pretty_assertions = { workspace = true, default-features = false }
 swc                 = { version = "53.0.0", path = "../swc", default-features = false }
 swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
 
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 swc_ecma_transforms = { version = "45.0.0", path = "../swc_ecma_transforms/", default-features = false }
 

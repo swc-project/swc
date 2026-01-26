@@ -66,7 +66,7 @@ swc_allocator = { version = "4.0.1", path = "../swc_allocator", default-features
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 
 swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing", default-features = false }
 
