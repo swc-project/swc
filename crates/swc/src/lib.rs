@@ -491,7 +491,24 @@ impl Compiler {
                 _ => {
                     if *swcrc {
                         if let FileName::Real(ref path) = name {
-                            find_swcrc(path, root, *root_mode)
+                            // Canonicalize relative paths for proper parent traversal
+                            let abs_path = if path.is_relative() {
+                                root.join(path).canonicalize().ok()
+                            } else {
+                                path.canonicalize().ok()
+                            };
+                            let found = abs_path.and_then(|p| find_swcrc(&p, root, *root_mode));
+
+                            // "upward" mode requires a .swcrc to be found
+                            if found.is_none() && *root_mode == RootMode::Upward {
+                                bail!(
+                                    "Could not find .swcrc file while using rootMode \
+                                     \"upward\".\nSearched from: {}",
+                                    path.display()
+                                );
+                            }
+
+                            found
                         } else {
                             None
                         }
