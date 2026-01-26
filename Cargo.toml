@@ -42,6 +42,7 @@ repository = "https://github.com/swc-project/swc.git"
   cargo_metadata = { version = "0.18.1", default-features = false }
   changesets = { version = "0.2.2", default-features = false }
   chrono = { version = "0.4.38", default-features = false }
+  clap = { version = "4.5.9", default-features = false, features = ["std", "derive"] }
   codspeed-criterion-compat = { version = "3.0.4", default-features = true }
   compact_str = { version = "0.7.1", default-features = false }
   console_error_panic_hook = { version = "0.1.7", default-features = false }
@@ -153,7 +154,9 @@ repository = "https://github.com/swc-project/swc.git"
     "attributes",
   ] }
   tracing-chrome = { version = "0.5.0", default-features = false }
-  tracing-subscriber = { version = "0.3.20", default-features = false }
+  tracing-subscriber = { version = "0.3.20", default-features = false, features = [
+    "fmt",
+  ] }
   triomphe = { version = "0.1.13", default-features = false }
   unicode-id-start = { version = "1.2.0", default-features = false }
   unicode-width = { version = "0.1.4", default-features = false }

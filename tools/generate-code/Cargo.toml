@@ -11,7 +11,7 @@ Inflector = { workspace = true, default-features = false }
 
 anyhow = { workspace = true, default-features = false }
 
-clap = { version = "4.5.9", features = ["derive"], default-features = false }
+clap = { workspace = true, default-features = false }
 
 proc-macro2 = { workspace = true, default-features = false }
 

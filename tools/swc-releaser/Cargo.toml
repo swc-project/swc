@@ -13,7 +13,7 @@ cargo_metadata = { workspace = true, default-features = false }
 
 changesets = { workspace = true, default-features = false }
 
-clap = { version = "4.5.9", features = ["derive"], default-features = false }
+clap = { workspace = true, default-features = false }
 
 indexmap = { workspace = true, default-features = false }
 
