@@ -17,9 +17,9 @@
 //! ```
 
 use swc_ecma_ast::*;
-use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::is_valid_ident;
-use swc_ecma_visit::visit_mut_pass;
+use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
 
 /// Creates a member expression literals transformation hook.
 pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
@@ -69,7 +69,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| member_expression_literals(),
+        |_| fold_pass(MemberExprLit),
         basic,
         r#"obj["foo"] = "isValid";
 
@@ -80,14 +80,14 @@ obj["var"] = "isKeyword";"#,
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| member_expression_literals(),
+        |_| fold_pass(MemberExprLit),
         issue_206,
         "const number = foo[bar1][baz1]"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| member_expression_literals(),
+        |_| fold_pass(MemberExprLit),
         issue_211,
         "_query[idx]=$this.attr('data-ref');"
     );
