@@ -33,7 +33,7 @@ repository = "https://github.com/swc-project/swc.git"
   auto_impl = { version = "1.2.0", default-features = false }
   backtrace = { version = "0.3", default-features = false }
   path-clean = { version = "0.1", default-features = false }
-  base64 = { version = "0.22.1", default-features = false }
+  base64 = { version = "0.22.1", default-features = false, features = ["std"] }
   bitflags = { version = "2.5.0", default-features = false }
   blake3 = { version = "1.5.4", default-features = false }
   browserslist-rs = { version = "0.19.0", default-features = false }
@@ -65,7 +65,7 @@ repository = "https://github.com/swc-project/swc.git"
   is-macro = { version = "0.3.5", default-features = false }
   js-sys = { version = "0.3.59", default-features = false }
   jsonc-parser = { version = "0.26.2", default-features = false }
-  kstring = { version = "2.0.0", default-features = false }
+  kstring = { version = "2.0.0", default-features = false, features = ["std"] }
   lazy_static = { version = "1.4.0", default-features = false }
   lexical = { version = "6.1.0", default-features = false, features = ["parse"] }
   lightningcss = { version = "1.0.0-alpha.68", default-features = false }
@@ -130,7 +130,10 @@ repository = "https://github.com/swc-project/swc.git"
   thiserror = { version = "1.0.30", default-features = false }
   tokio = { version = "1", default-features = false }
   toml = { version = "0.8.2", default-features = false }
-  tracing = { version = "0.1.40", default-features = false }
+  tracing = { version = "0.1.40", default-features = false, features = [
+    "std",
+    "attributes",
+  ] }
   tracing-chrome = { version = "0.5.0", default-features = false }
   tracing-subscriber = { version = "0.3.20", default-features = false }
   triomphe = { version = "0.1.13", default-features = false }
