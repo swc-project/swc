@@ -122,10 +122,8 @@ impl<C: AsMut<ReservedWordContext>> VisitMutHook<C> for ReservedWordHook {
             Some(ModuleExportName::Ident(ident)) if ident.is_reserved_in_es3()
         );
 
-        if orig_is_reserved {
-            if n.exported.is_none() {
-                n.exported = Some(n.orig.clone());
-            }
+        if orig_is_reserved && n.exported.is_none() {
+            n.exported = Some(n.orig.clone());
         }
 
         // If either orig or exported contains a reserved word, we need to skip the
