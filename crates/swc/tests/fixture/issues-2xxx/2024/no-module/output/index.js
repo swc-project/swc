@@ -6,7 +6,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    sleep = function() {
+                    sleep = function sleep() {
                         return new Promise(function(resolve) {
                             return setTimeout(function() {
                                 return resolve(undefined);

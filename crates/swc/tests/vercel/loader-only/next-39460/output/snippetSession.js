@@ -852,7 +852,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
                 var modelBasedVariableResolver = editor.invokeWithinContext(function(accessor) {
                     return new ModelBasedVariableResolver(accessor.get(ILabelService), model);
                 });
-                var readClipboardText = function() {
+                var readClipboardText = function readClipboardText() {
                     return clipboardText;
                 };
                 var delta = 0;
