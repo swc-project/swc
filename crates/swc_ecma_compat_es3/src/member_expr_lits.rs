@@ -28,7 +28,10 @@ pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
 
 /// babel: `transform-member-expression-literals`
 pub fn member_expression_literals() -> impl Pass {
-    fold_pass(MemberExprLit)
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(),
+        context: (),
+    })
 }
 
 struct MemberExprLitHook;
@@ -55,46 +58,6 @@ impl<C> VisitMutHook<C> for MemberExprLitHook {
                 e.prop = MemberProp::Ident(IdentName::new(i.sym.clone(), i.span));
             }
         }
-    }
-}
-
-#[derive(Default, Clone, Copy)]
-struct MemberExprLit;
-
-impl Fold for MemberExprLit {
-    standard_only_fold!();
-
-    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        let e: MemberExpr = e.fold_children_with(self);
-
-        if let MemberProp::Ident(i) = e.prop {
-            if i.sym.is_reserved()
-                || i.sym.is_reserved_in_strict_mode(true)
-                || i.sym.is_reserved_in_es3()
-                // it's not bind, so you could use eval
-                || !is_valid_ident(&i.sym)
-            {
-                return MemberExpr {
-                    prop: MemberProp::Computed(ComputedPropName {
-                        span: i.span,
-                        expr: Lit::Str(Str {
-                            span: i.span,
-                            raw: None,
-                            value: i.sym.into(),
-                        })
-                        .into(),
-                    }),
-                    ..e
-                };
-            } else {
-                return MemberExpr {
-                    prop: MemberProp::Ident(IdentName::new(i.sym, i.span)),
-                    ..e
-                };
-            }
-        };
-
-        e
     }
 }
 

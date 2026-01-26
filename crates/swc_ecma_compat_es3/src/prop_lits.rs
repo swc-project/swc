@@ -38,7 +38,10 @@ pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
 
 /// babel: `transform-property-literals`
 pub fn property_literals() -> impl Pass {
-    fold_pass(PropertyLiteral)
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(),
+        context: (),
+    })
 }
 
 struct PropertyLiteralHook;
@@ -74,46 +77,6 @@ impl<C> VisitMutHook<C> for PropertyLiteralHook {
                 }
             }
             _ => {}
-        }
-    }
-}
-
-struct PropertyLiteral;
-
-impl Fold for PropertyLiteral {
-    standard_only_fold!();
-
-    fn fold_prop_name(&mut self, n: PropName) -> PropName {
-        let n = n.fold_children_with(self);
-
-        match n {
-            PropName::Str(Str {
-                raw, value, span, ..
-            }) if value.as_str().is_some() => {
-                let v = value.as_str().unwrap();
-                if v.is_reserved() || !is_valid_ident(v) {
-                    PropName::Str(Str { span, raw, value })
-                } else {
-                    PropName::Ident(IdentName::new(
-                        // SAFETY: checked above
-                        unsafe { Atom::from_wtf8_unchecked(value.clone()) },
-                        span,
-                    ))
-                }
-            }
-            PropName::Ident(i) => {
-                let IdentName { sym, span, .. } = i;
-                if sym.is_reserved() || sym.contains('-') || sym.contains('.') {
-                    PropName::Str(Str {
-                        span,
-                        raw: None,
-                        value: sym.into(),
-                    })
-                } else {
-                    PropName::Ident(IdentName { span, sym })
-                }
-            }
-            _ => n,
         }
     }
 }
