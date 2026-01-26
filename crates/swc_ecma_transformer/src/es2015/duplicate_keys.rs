@@ -97,10 +97,10 @@ impl PropFolder {
             Prop::Assign(..) => {}
 
             Prop::Getter(GetterProp { key, .. }) => {
-                self.visit_prop_name(key, &mut self.getter_props.clone());
+                self.visit_prop_name(key, PropKind::Getter);
             }
             Prop::Setter(SetterProp { key, .. }) => {
-                self.visit_prop_name(key, &mut self.setter_props.clone());
+                self.visit_prop_name(key, PropKind::Setter);
             }
             _ => {
                 self.visit_prop_name_for_key_value_or_method(prop);
@@ -165,7 +165,12 @@ impl PropFolder {
         }
     }
 
-    fn visit_prop_name(&mut self, name: &mut PropName, props: &mut FxHashSet<Atom>) {
+    fn visit_prop_name(&mut self, name: &mut PropName, kind: PropKind) {
+        let props = match kind {
+            PropKind::Getter => &mut self.getter_props,
+            PropKind::Setter => &mut self.setter_props,
+        };
+
         let span = name.span();
 
         match name {
@@ -199,4 +204,9 @@ impl PropFolder {
             _ => {}
         }
     }
+}
+
+enum PropKind {
+    Getter,
+    Setter,
 }
