@@ -1,10 +1,5 @@
 use serde::Deserialize;
-use swc_common::{util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Parallel};
-use swc_ecma_utils::{quote_str, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
+use swc_ecma_ast::Pass;
 
 pub fn typeof_symbol(c: Config) -> impl Pass {
     if c.loose {

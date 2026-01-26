@@ -62,14 +62,15 @@ impl VisitMutHook<TraverseCtx> for FunctionNamePass {
     }
 
     fn exit_key_value_prop(&mut self, p: &mut KeyValueProp, _ctx: &mut TraverseCtx) {
-        if let Expr::Fn(expr @ FnExpr { ident: None, .. }) = &mut *p.value {
-            if let PropName::Ident(ref i) = p.key {
-                p.value = FnExpr {
-                    ident: Some(prepare(i.clone().into())),
-                    ..expr.take()
-                }
-                .into();
-            }
+        rename_key_value_prop(p);
+    }
+
+    fn exit_prop(&mut self, prop: &mut Prop, _ctx: &mut TraverseCtx) {
+        // Handle KeyValue props here too, because shorthand transform may have
+        // converted Method to KeyValue in its exit_prop handler, which runs
+        // before this one in the chain.
+        if let Prop::KeyValue(p) = prop {
+            rename_key_value_prop(p);
         }
     }
 
@@ -79,6 +80,18 @@ impl VisitMutHook<TraverseCtx> for FunctionNamePass {
             if let Some(ref mut init) = decl.init {
                 rename_fn_or_class(init, Some(name));
             }
+        }
+    }
+}
+
+fn rename_key_value_prop(p: &mut KeyValueProp) {
+    if let Expr::Fn(expr @ FnExpr { ident: None, .. }) = &mut *p.value {
+        if let PropName::Ident(ref i) = p.key {
+            p.value = FnExpr {
+                ident: Some(prepare(i.clone().into())),
+                ..expr.take()
+            }
+            .into();
         }
     }
 }

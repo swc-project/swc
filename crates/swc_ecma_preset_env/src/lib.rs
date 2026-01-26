@@ -216,7 +216,7 @@ where
         )
     );
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
-    {
+    let pass = {
         // We use a separate options for es2015 transforms because of the pass order.
         let mut options = swc_ecma_transformer::Options::default();
 
@@ -243,7 +243,9 @@ where
             options.env.es2015.instanceof = true;
             options.env.es2015.typeof_symbol = true;
         }
-    }
+
+        (pass, options.into_pass())
+    };
 
     let pass = add!(
         pass,

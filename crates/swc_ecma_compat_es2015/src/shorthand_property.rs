@@ -1,8 +1,4 @@
-use swc_common::util::take::Take;
-use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
+use swc_ecma_ast::Pass;
 
 /// Compile ES2015 shorthand properties to ES5
 ///

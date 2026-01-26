@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-var type = function() {
+var type = function type() {
     return null;
 };
 var widget = {
@@ -7,7 +7,7 @@ var widget = {
         type: type
     }
 };
-var render = function() {
+var render = function render() {
     return /*#__PURE__*/ _jsx(widget.component.type, {
         if: "aaa"
     });

@@ -1,9 +1,4 @@
-use swc_common::{util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_utils::{private_ident, IdentUsageFinder};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
+use swc_ecma_ast::Pass;
 
 /// `@babel/plugin-transform-function-name`
 ///
