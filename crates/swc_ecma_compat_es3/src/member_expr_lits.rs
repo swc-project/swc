@@ -17,9 +17,6 @@
 //! ```
 
 use swc_ecma_ast::*;
-use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
-use swc_ecma_utils::is_valid_ident;
-use swc_ecma_visit::visit_mut_pass;
 
 /// babel: `transform-member-expression-literals`
 pub fn member_expression_literals() -> impl Pass {

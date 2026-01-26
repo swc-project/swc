@@ -16,10 +16,7 @@
 //! var x = _abstract + 1;
 //! ```
 
-use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
-use swc_ecma_visit::visit_mut_pass;
 
 /// babel: `@babel/plugin-transform-reserved-words`
 pub fn reserved_words(preserve_import: bool) -> impl Pass {

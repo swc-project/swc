@@ -27,9 +27,6 @@
 //! ```
 
 use swc_ecma_ast::*;
-use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
-use swc_ecma_utils::{is_valid_ident, swc_atoms::Atom};
-use swc_ecma_visit::visit_mut_pass;
 
 /// babel: `transform-property-literals`
 pub fn property_literals() -> impl Pass {
