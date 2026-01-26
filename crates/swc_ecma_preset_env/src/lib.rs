@@ -15,8 +15,6 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-#[cfg(feature = "es3")]
-use swc_ecma_transforms::compat::es3;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
@@ -170,6 +168,21 @@ where
         options.env.es2016.exponentiation_operator = true;
     }
 
+    // ES3 - integrated into swc_ecma_transformer
+    #[cfg(feature = "es3")]
+    {
+        if !caniuse(Feature::PropertyLiterals) {
+            options.env.es3.property_literals = true;
+        }
+        if !caniuse(Feature::MemberExpressionLiterals) {
+            options.env.es3.member_expression_literals = true;
+        }
+        if !caniuse(Feature::ReservedWords) {
+            options.env.es3.reserved_words = true;
+            options.env.es3.preserve_import = dynamic_import;
+        }
+    }
+
     // Single-pass compiler - skip traversal when no transforms are enabled
     let is_enabled = options.env.is_enabled();
     let pass = (pass, Optional::new(options.into_pass(), is_enabled));
@@ -290,18 +303,6 @@ where
     //    UnicodePropertyRegex,
     //    JsonStrings,
     //    NamedCapturingGroupsRegex,
-
-    // ES 3
-    #[cfg(feature = "es3")]
-    let pass = add!(pass, PropertyLiterals, es3::property_literals());
-    #[cfg(feature = "es3")]
-    let pass = add!(
-        pass,
-        MemberExpressionLiterals,
-        es3::member_expression_literals()
-    );
-    #[cfg(feature = "es3")]
-    let pass = add!(pass, ReservedWords, es3::reserved_words(dynamic_import));
 
     // Bugfixes
     let pass = add!(pass, BugfixEdgeDefaultParam, bugfixes::edge_default_param());

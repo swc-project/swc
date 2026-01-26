@@ -9,6 +9,10 @@ name          = "swc_ecma_transformer"
 repository    = { workspace = true }
 version       = "7.0.0"
 
+[features]
+default = []
+es3 = []
+
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
