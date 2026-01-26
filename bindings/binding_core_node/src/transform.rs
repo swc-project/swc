@@ -169,7 +169,7 @@ pub fn transform_file(
 
     let c = get_fresh_compiler();
 
-    let path = clean(&src);
+    let path = PathBuf::from(clean(&src));
     let task = TransformTask {
         c,
         input: Input::File(path),
