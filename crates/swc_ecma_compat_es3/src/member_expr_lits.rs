@@ -21,44 +21,11 @@ use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_utils::is_valid_ident;
 use swc_ecma_visit::visit_mut_pass;
 
-/// Creates a member expression literals transformation hook.
-pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
-    MemberExprLitHook
-}
-
 /// babel: `transform-member-expression-literals`
 pub fn member_expression_literals() -> impl Pass {
-    visit_mut_pass(VisitMutWithHook {
-        hook: hook(),
-        context: (),
-    })
-}
-
-struct MemberExprLitHook;
-
-impl<C> VisitMutHook<C> for MemberExprLitHook {
-    fn exit_member_expr(&mut self, e: &mut MemberExpr, _ctx: &mut C) {
-        if let MemberProp::Ident(i) = &e.prop {
-            if i.sym.is_reserved()
-                || i.sym.is_reserved_in_strict_mode(true)
-                || i.sym.is_reserved_in_es3()
-                // it's not bind, so you could use eval
-                || !is_valid_ident(&i.sym)
-            {
-                e.prop = MemberProp::Computed(ComputedPropName {
-                    span: i.span,
-                    expr: Lit::Str(Str {
-                        span: i.span,
-                        raw: None,
-                        value: i.sym.clone().into(),
-                    })
-                    .into(),
-                });
-            } else {
-                e.prop = MemberProp::Ident(IdentName::new(i.sym.clone(), i.span));
-            }
-        }
-    }
+    let mut options = swc_ecma_transformer::Options::default();
+    options.env.es3.member_expression_literals = true;
+    options.into_pass()
 }
 
 #[cfg(test)]
