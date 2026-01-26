@@ -91,6 +91,14 @@ where
     chained_method!(enter_bin_expr, exit_bin_expr, BinExpr);
 
     chained_method!(enter_fn_decl, exit_fn_decl, FnDecl);
+
+    chained_method!(enter_object_pat, exit_object_pat, ObjectPat);
+
+    chained_method!(
+        enter_block_stmt_or_expr,
+        exit_block_stmt_or_expr,
+        BlockStmtOrExpr
+    );
 }
 
 pub(crate) struct NoopHook;
