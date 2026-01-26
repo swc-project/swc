@@ -33,7 +33,7 @@
 //!
 //! After mangling, this can result in smaller output.
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -189,6 +189,33 @@ fn is_known_global_object(name: &str) -> bool {
 /// Key for tracking static method usage: (object_name, method_name)
 type StaticMethodKey = (Atom, Atom);
 
+/// Collects all identifier names used in the program.
+/// Used to avoid generating alias names that would collide with existing
+/// identifiers.
+struct IdentifierCollector {
+    names: FxHashSet<Atom>,
+}
+
+impl IdentifierCollector {
+    fn new() -> Self {
+        Self {
+            names: FxHashSet::default(),
+        }
+    }
+}
+
+impl Visit for IdentifierCollector {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, i: &Ident) {
+        self.names.insert(i.sym.clone());
+    }
+
+    fn visit_binding_ident(&mut self, i: &BindingIdent) {
+        self.names.insert(i.sym.clone());
+    }
+}
+
 /// First pass: count usages of static method calls and global object usages.
 struct UsageCounter {
     unresolved_ctxt: SyntaxContext,
@@ -298,17 +325,24 @@ impl AliasReplacer {
         unresolved_mark: Mark,
         static_method_counts: FxHashMap<StaticMethodKey, usize>,
         global_object_counts: FxHashMap<Atom, usize>,
+        existing_names: FxHashSet<Atom>,
     ) -> Self {
         let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
         let mut static_method_aliases = FxHashMap::default();
         let mut global_object_aliases = FxHashMap::default();
         let mut var_decls = Vec::new();
 
+        // Track all names we've used (including existing ones and newly created
+        // aliases)
+        let mut used_names = existing_names;
+
         // Handle static method aliases
         for ((obj, prop), count) in static_method_counts {
             if count >= MIN_USAGES_TO_HOIST {
-                // Create a private name for the alias
-                let alias_name: Atom = format!("_{}_{}", obj, prop).into();
+                // Create a private name for the alias, avoiding collisions
+                let base_name = format!("_{}_{}", obj, prop);
+                let alias_name = find_unique_name(&base_name, &used_names);
+                used_names.insert(alias_name.clone());
                 let alias_ident = Ident::new(alias_name, DUMMY_SP, SyntaxContext::empty());
 
                 // Create the initializer: Object.assign
@@ -332,8 +366,10 @@ impl AliasReplacer {
         // Handle global object aliases
         for (name, count) in global_object_counts {
             if count >= MIN_USAGES_TO_HOIST {
-                // Create a private name for the alias
-                let alias_name: Atom = format!("_{}", name).into();
+                // Create a private name for the alias, avoiding collisions
+                let base_name = format!("_{}", name);
+                let alias_name = find_unique_name(&base_name, &used_names);
+                used_names.insert(alias_name.clone());
                 let alias_ident = Ident::new(alias_name, DUMMY_SP, SyntaxContext::empty());
 
                 // Create the initializer: Map
@@ -399,6 +435,25 @@ impl VisitMut for AliasReplacer {
     }
 }
 
+/// Find a unique name that doesn't collide with existing names.
+/// If the base name is available, use it. Otherwise, append a number suffix.
+fn find_unique_name(base_name: &str, used_names: &FxHashSet<Atom>) -> Atom {
+    let base_atom: Atom = base_name.into();
+    if !used_names.contains(&base_atom) {
+        return base_atom;
+    }
+
+    // Try adding numeric suffixes
+    for i in 1.. {
+        let candidate: Atom = format!("{}{}", base_name, i).into();
+        if !used_names.contains(&candidate) {
+            return candidate;
+        }
+    }
+
+    unreachable!("Could not find a unique name")
+}
+
 /// Run the precompress optimization on a program.
 pub fn precompress_optimizer(
     program: &mut Program,
@@ -412,6 +467,11 @@ pub fn precompress_optimizer(
         return;
     }
 
+    // Collect all existing identifier names to avoid collisions
+    let mut id_collector = IdentifierCollector::new();
+    program.visit_with(&mut id_collector);
+    let existing_names = id_collector.names;
+
     // First pass: count usages
     let mut counter =
         UsageCounter::new(unresolved_mark, count_static_methods, count_global_objects);
@@ -422,6 +482,7 @@ pub fn precompress_optimizer(
         unresolved_mark,
         counter.static_method_counts,
         counter.global_object_counts,
+        existing_names,
     );
 
     if !replacer.has_aliases() {

@@ -11587,6 +11587,33 @@ console.log(a instanceof Map);
     run_exec_test(src, config, false);
 }
 
+/// Test that `unsafe_hoist_static_method_alias` handles function name
+/// collisions properly when a user-defined function has the same name
+/// as the generated alias.
+#[test]
+fn issue_9741_collision_function() {
+    let src = r#"
+function _Object_assign(a, b) {
+    return a + b;
+}
+console.log(_Object_assign(4, 2));
+
+const a = {};
+Object.assign(a, { x: 1 });
+const b = {};
+Object.assign(b, { y: 2 });
+console.log(a.x);
+console.log(b.y);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
 /// Test both options working together.
 #[test]
 fn issue_9741_combined() {
