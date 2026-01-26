@@ -51,34 +51,62 @@ shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 
 
 [dependencies]
-anyhow        = { workspace = true }
-arbitrary     = { workspace = true, features = ["derive"], optional = true }
-bytecheck     = { workspace = true, optional = true }
-bytes-str     = { workspace = true, features = ["serde"] }
-cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
-either        = { workspace = true }
-num-bigint    = { workspace = true }
-once_cell     = { workspace = true }
-parking_lot   = { workspace = true, optional = true }
-rancor        = { workspace = true, optional = true }
-rkyv          = { workspace = true, optional = true }
-rustc-hash    = { workspace = true }
-serde         = { workspace = true, features = ["derive"] }
-shrink-to-fit = { workspace = true, optional = true }
-siphasher     = { workspace = true }
-swc_sourcemap = { workspace = true, optional = true }
-termcolor     = { workspace = true, optional = true }
-tracing       = { workspace = true }
-unicode-width = { workspace = true }
-url           = { workspace = true }
+anyhow = { workspace = true, default-features = false }
 
-ast_node             = { version = "5.0.0", path = "../ast_node" }
-better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls" }
-from_variant         = { version = "3.0.0", path = "../from_variant" }
-swc_atoms            = { version = "9.0.0", path = "../swc_atoms" }
-swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
-swc_visit            = { version = "2.0.1", path = "../swc_visit" }
+arbitrary = { workspace = true, features = ["derive"], optional = true, default-features = false }
+
+bytecheck = { workspace = true, optional = true, default-features = false }
+
+bytes-str = { workspace = true, features = ["serde"], default-features = false }
+
+cbor4ii = { workspace = true, features = ["use_std"], optional = true, default-features = false }
+
+either = { workspace = true, default-features = false }
+
+num-bigint = { workspace = true, default-features = false }
+
+once_cell = { workspace = true, default-features = false }
+
+parking_lot = { workspace = true, optional = true, default-features = false }
+
+rancor = { workspace = true, optional = true, default-features = false }
+
+rkyv = { workspace = true, optional = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+shrink-to-fit = { workspace = true, optional = true, default-features = false }
+
+siphasher = { workspace = true, default-features = false }
+
+swc_sourcemap = { workspace = true, optional = true, default-features = false }
+
+termcolor = { workspace = true, optional = true, default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
+unicode-width = { workspace = true, default-features = false }
+
+url = { workspace = true, default-features = false }
+
+
+ast_node = { version = "5.0.0", path = "../ast_node", default-features = false }
+
+better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
+
+from_variant = { version = "3.0.0", path = "../from_variant", default-features = false }
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros", default-features = false }
+
+swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false }
+
 
 [dev-dependencies]
-par-iter   = { workspace = true }
-serde_json = { workspace = true }
+par-iter = { workspace = true, default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+

@@ -16,20 +16,31 @@ version = "19.0.0"
 bench = false
 
 [dependencies]
-auto_impl  = { workspace = true }
-bitflags   = { workspace = true }
-rustc-hash = { workspace = true }
+auto_impl = { workspace = true, default-features = false }
 
-swc_atoms               = { version = "9.0.0", path = "../swc_atoms" }
-swc_common              = { version = "18.0.1", path = "../swc_common" }
-swc_html_ast            = { version = "18.0.0", path = "../swc_html_ast" }
-swc_html_codegen_macros = { version = "1.0.1", path = "../swc_html_codegen_macros" }
-swc_html_utils          = { version = "16.0.0", path = "../swc_html_utils" }
+bitflags = { workspace = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_html_ast = { version = "18.0.0", path = "../swc_html_ast", default-features = false }
+
+swc_html_codegen_macros = { version = "1.0.1", path = "../swc_html_codegen_macros", default-features = false }
+
+swc_html_utils = { version = "16.0.0", path = "../swc_html_utils", default-features = false }
+
 
 [dev-dependencies]
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_html_parser = { version = "18.0.0", path = "../swc_html_parser" }
-swc_html_visit = { version = "18.0.0", path = "../swc_html_visit" }
-testing = { version = "19.0.0", path = "../testing" }
+swc_html_parser = { version = "18.0.0", path = "../swc_html_parser", default-features = false }
+
+swc_html_visit = { version = "18.0.0", path = "../swc_html_visit", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+

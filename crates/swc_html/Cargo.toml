@@ -22,7 +22,11 @@ bench = false
 minifier = []
 
 [dependencies]
-swc_html_ast     = { version = "18.0.0", path = "../swc_html_ast" }
-swc_html_codegen = { version = "19.0.0", path = "../swc_html_codegen" }
-swc_html_parser  = { version = "18.0.0", path = "../swc_html_parser" }
-swc_html_visit   = { version = "18.0.0", path = "../swc_html_visit" }
+swc_html_ast = { version = "18.0.0", path = "../swc_html_ast", default-features = false }
+
+swc_html_codegen = { version = "19.0.0", path = "../swc_html_codegen", default-features = false }
+
+swc_html_parser = { version = "18.0.0", path = "../swc_html_parser", default-features = false }
+
+swc_html_visit = { version = "18.0.0", path = "../swc_html_visit", default-features = false }
+

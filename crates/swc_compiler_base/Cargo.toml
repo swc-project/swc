@@ -13,29 +13,45 @@ version       = "46.0.0"
 node = ["napi", "napi-derive"]
 
 [dependencies]
-anyhow        = { workspace = true }
-base64        = { workspace = true }
-bytes-str     = { workspace = true }
-once_cell     = { workspace = true }
-pathdiff      = { workspace = true }
-rustc-hash    = { workspace = true }
-serde         = { workspace = true, features = ["derive"] }
-serde_json    = { workspace = true }
-swc_sourcemap = { workspace = true }
+anyhow = { workspace = true, default-features = false }
 
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+base64 = { workspace = true, default-features = false }
+
+bytes-str = { workspace = true, default-features = false }
+
+once_cell = { workspace = true, default-features = false }
+
+pathdiff = { workspace = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+
+swc_sourcemap = { workspace = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_config = { version = "3.1.2", path = "../swc_config" }
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "43.0.2", path = "../swc_ecma_minifier" }
+swc_config = { version = "3.1.2", path = "../swc_config", default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", default-features = false }
+
+swc_ecma_minifier = { version = "43.0.2", path = "../swc_ecma_minifier", default-features = false }
+
 swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-swc_timer = { version = "1.0.0", path = "../swc_timer" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+
+swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false }
+
 
 [dependencies.napi-derive]
 default-features = false

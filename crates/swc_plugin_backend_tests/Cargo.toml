@@ -24,30 +24,46 @@ encoding-impl = []
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dev-dependencies]
-anyhow                    = { workspace = true }
-codspeed-criterion-compat = { workspace = true }
-rustc-hash                = { workspace = true }
-serde                     = { workspace = true, features = ["derive"] }
-serde_json                = { workspace = true }
-tokio                     = { workspace = true, features = ["rt"] }
-tracing                   = { workspace = true }
-cbor4ii                   = { workspace = true, features = [ "use_std" ] }
+anyhow = { workspace = true, default-features = false }
+
+codspeed-criterion-compat = { workspace = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+
+tokio = { workspace = true, features = ["rt"], default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
+cbor4ii = { workspace = true, features = [ "use_std" ], default-features = false }
+
 
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
+swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"], default-features = false }
+
 swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-swc_transform_common = { version = "12.0.0", path = "../swc_transform_common" }
-swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
-testing = { version = "19.0.0", path = "../testing" }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
 
-swc_plugin_backend_wasmer   = { version = "7.0", path = "../swc_plugin_backend_wasmer" }
-swc_plugin_backend_wasmtime = { version = "6.0", path = "../swc_plugin_backend_wasmtime" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+
+swc_transform_common = { version = "12.0.0", path = "../swc_transform_common", default-features = false }
+
+swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+
+
+swc_plugin_backend_wasmer = { version = "7.0", path = "../swc_plugin_backend_wasmer", default-features = false }
+
+swc_plugin_backend_wasmtime = { version = "6.0", path = "../swc_plugin_backend_wasmtime", default-features = false }
+
 
 [[bench]]
 harness = false

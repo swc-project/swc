@@ -17,28 +17,41 @@ default = []
 nightly = []
 
 [dependencies]
-anyhow = { workspace = true }
-bytes-str = { workspace = true }
-serde = { workspace = true, features = ["derive"] }
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+anyhow = { workspace = true, default-features = false }
+
+bytes-str = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", default-features = false }
+
 swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
   "unstable",
 ] }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_react = { version = "39.0.0", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "39.0.1", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-wasm-bindgen = { workspace = true, optional = true }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+
+swc_ecma_transforms_react = { version = "39.0.0", path = "../swc_ecma_transforms_react", default-features = false }
+
+swc_ecma_transforms_typescript = { version = "39.0.1", path = "../swc_ecma_transforms_typescript", default-features = false }
+
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+
+wasm-bindgen = { workspace = true, optional = true, default-features = false }
+
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true }
-testing                   = { version = "19.0.0", path = "../testing" }
+codspeed-criterion-compat = { workspace = true, default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+
 
 [[bench]]
 harness = false

@@ -12,19 +12,31 @@ version       = "19.0.0"
 bench = false
 
 [dependencies]
-cargo_metadata     = { workspace = true }
-difference         = { workspace = true }
-once_cell          = { workspace = true }
-pretty_assertions  = { workspace = true }
-regex              = { workspace = true }
-rustc-hash         = { workspace = true }
-serde              = { workspace = true }
-serde_json         = { workspace = true }
-tracing            = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
+cargo_metadata = { workspace = true, default-features = false }
+
+difference = { workspace = true, default-features = false }
+
+once_cell = { workspace = true, default-features = false }
+
+pretty_assertions = { workspace = true, default-features = false }
+
+regex = { workspace = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+serde = { workspace = true, default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
+tracing-subscriber = { workspace = true, features = ["env-filter"], default-features = false }
+
 
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "tty-emitter",
 ] }
-swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters" }
-testing_macros = { version = "1.0.1", path = "../testing_macros" }
+swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters", default-features = false }
+
+testing_macros = { version = "1.0.1", path = "../testing_macros", default-features = false }
+

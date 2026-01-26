@@ -16,17 +16,26 @@ version = "18.0.0"
 bench = false
 
 [dependencies]
-auto_impl              = { workspace = true }
-bitflags               = { workspace = true }
-rustc-hash             = { workspace = true }
-swc_common             = { version = "18.0.1", path = "../swc_common" }
-swc_xml_ast            = { version = "18.0.0", path = "../swc_xml_ast" }
-swc_xml_codegen_macros = { version = "1.0.1", path = "../swc_xml_codegen_macros" }
+auto_impl = { workspace = true, default-features = false }
+
+bitflags = { workspace = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_xml_ast = { version = "18.0.0", path = "../swc_xml_ast", default-features = false }
+
+swc_xml_codegen_macros = { version = "1.0.1", path = "../swc_xml_codegen_macros", default-features = false }
+
 
 [dev-dependencies]
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_xml_parser = { version = "18.0.0", path = "../swc_xml_parser" }
-swc_xml_visit = { version = "18.0.0", path = "../swc_xml_visit" }
-testing = { version = "19.0.0", path = "../testing" }
+swc_xml_parser = { version = "18.0.0", path = "../swc_xml_parser", default-features = false }
+
+swc_xml_visit = { version = "18.0.0", path = "../swc_xml_visit", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+

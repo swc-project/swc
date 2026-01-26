@@ -29,38 +29,60 @@ unstable      = []
 verify        = ["swc_ecma_visit"]
 
 [dependencies]
-bitflags       = { workspace = true }
-either         = { workspace = true }
-num-bigint     = { workspace = true }
-phf            = { workspace = true, features = ["macros"] }
-rustc-hash     = { workspace = true }
-seq-macro      = { workspace = true }
-serde          = { workspace = true, features = ["derive"] }
-smartstring    = { workspace = true }
-swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
-swc_common     = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast   = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", optional = true }
-tracing        = { workspace = true }
+bitflags = { workspace = true, default-features = false }
+
+either = { workspace = true, default-features = false }
+
+num-bigint = { workspace = true, default-features = false }
+
+phf = { workspace = true, features = ["macros"], default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+seq-macro = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+smartstring = { workspace = true, default-features = false }
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", optional = true, default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
-pathdiff          = { workspace = true }
-pretty_assertions = { workspace = true }
-serde_json        = { workspace = true }
-walkdir           = { workspace = true }
+pathdiff = { workspace = true, default-features = false }
 
-cbor4ii = { workspace = true, features = ["use_std"] }
-codspeed-criterion-compat = { workspace = true }
+pretty_assertions = { workspace = true, default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+
+walkdir = { workspace = true, default-features = false }
+
+
+cbor4ii = { workspace = true, features = ["use_std"], default-features = false }
+
+codspeed-criterion-compat = { workspace = true, default-features = false }
+
 swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
   "encoding-impl",
 ] }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
-testing = { version = "19.0.0", path = "../testing" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+
+swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+
 
 [[example]]
 name = "typescript"

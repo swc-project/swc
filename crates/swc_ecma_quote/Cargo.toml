@@ -15,8 +15,11 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-swc_common            = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast          = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_quote_macros = { version = "33.0.0", path = "../swc_ecma_quote_macros" }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_quote_macros = { version = "33.0.0", path = "../swc_ecma_quote_macros", default-features = false }
+
 
 [dev-dependencies]

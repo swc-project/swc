@@ -8,11 +8,15 @@ repository  = { workspace = true }
 version     = "6.0.0"
 
 [dependencies]
-anyhow      = { workspace = true }
-wasi-common = { workspace = true, features = ["sync", "wasmtime"] }
-wasmtime    = { workspace = true, features = ["runtime", "cranelift", "threads"] }
+anyhow = { workspace = true, default-features = false }
+
+wasi-common = { workspace = true, features = ["sync", "wasmtime"], default-features = false }
+
+wasmtime = { workspace = true, features = ["runtime", "cranelift", "threads"], default-features = false }
+
 
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner" }
+swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner", default-features = false }
+

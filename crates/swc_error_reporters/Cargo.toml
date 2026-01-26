@@ -12,10 +12,14 @@ version       = "20.0.0"
 bench = false
 
 [dependencies]
-anyhow    = { workspace = true }
-miette    = { workspace = true, features = ["fancy-no-syscall"] }
-once_cell = { workspace = true }
-serde     = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+
+miette = { workspace = true, features = ["fancy-no-syscall"], default-features = false }
+
+once_cell = { workspace = true, default-features = false }
+
+serde = { workspace = true, default-features = false }
+
 
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",

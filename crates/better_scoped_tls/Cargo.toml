@@ -12,4 +12,5 @@ version       = "1.0.1"
 bench = false
 
 [dependencies]
-scoped-tls = { workspace = true }
+scoped-tls = { workspace = true, default-features = false }
+
