@@ -169,7 +169,7 @@ repository = "https://github.com/swc-project/swc.git"
   wasm-bindgen = { version = "0.2.91", default-features = false }
   wasm-bindgen-futures = { version = "0.4.41", default-features = false }
   wasmer = { version = "6.1.0-rc.2", default-features = false, features = ["sys-default"] }
-  wasmer-wasix = { version = "0.601.0-rc.2", default-features = true }
+  wasmer-wasix = { version = "0.601.0-rc.2", default-features = false, features = ["sys"] }
   wasmtime = { version = "38", default-features = false }
 
   cbor4ii         = { version = "1.2", default-features = false }
