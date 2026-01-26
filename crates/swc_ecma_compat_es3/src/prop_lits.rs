@@ -27,9 +27,9 @@
 //! ```
 
 use swc_ecma_ast::*;
-use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_utils::{is_valid_ident, swc_atoms::Atom};
-use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
+use swc_ecma_visit::visit_mut_pass;
 
 /// Creates a property literals transformation hook.
 pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
@@ -89,7 +89,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| fold_pass(PropertyLiteral),
+        |_| property_literals(),
         babel_basic,
         r#"var foo = {
   // changed
@@ -106,7 +106,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| fold_pass(PropertyLiteral),
+        |_| property_literals(),
         str_lit,
         r#"'use strict';
 var x = {

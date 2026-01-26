@@ -19,26 +19,33 @@ mod reserved_word;
 
 use hook_utils::HookBuilder;
 
-/// Make output es3-compatible using a single AST traversal.
+/// Make output es3-compatible.
 ///
-/// This combines three transforms into a single pass:
+/// This combines three transforms:
 /// - `property_literals`: Transform property names
 /// - `member_expression_literals`: Transform member expression literals
 /// - `reserved_words`: Rename reserved words
+///
+/// Note: `reserved_words` uses a separate traversal because it requires
+/// selective visitation that is incompatible with the hook composition pattern.
 pub fn es3(preserve_import: bool) -> impl Pass {
-    visit_mut_pass(VisitMutWithHook {
-        hook: es3_hook(preserve_import),
-        context: (),
-    })
+    (
+        visit_mut_pass(VisitMutWithHook {
+            hook: es3_hook(),
+            context: (),
+        }),
+        reserved_words(preserve_import),
+    )
 }
 
-/// Creates a combined ES3 hook that merges all ES3 transforms.
+/// Creates a combined ES3 hook for property and member expression literals.
 ///
 /// This can be used to combine with other hooks for a single AST traversal.
-pub fn es3_hook<C>(preserve_import: bool) -> impl VisitMutHook<C> {
+/// Note: This does NOT include `reserved_words` because it requires selective
+/// visitation that is incompatible with generic hook composition.
+pub fn es3_hook<C>() -> impl VisitMutHook<C> {
     HookBuilder::new(NoopHook)
         .chain(member_expr_lits::hook())
         .chain(prop_lits::hook())
-        .chain(reserved_word::hook(preserve_import))
         .build()
 }
