@@ -1,4 +1,4 @@
-var navigation = function(path) {
+var navigation = function navigation(path) {
     return [
         {
             name: "Home",

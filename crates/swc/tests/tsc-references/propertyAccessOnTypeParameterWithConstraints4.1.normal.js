@@ -21,7 +21,7 @@ var a;
 var r3 = a().notHere();
 var r3b = a()['notHere']();
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
         var a = x['notHere'](); // should be string
         return a + x.notHere();
     },

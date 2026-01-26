@@ -271,7 +271,7 @@ var C9 = /*#__PURE__*/ function(B9) {
     var _proto = C9.prototype;
     _proto.f = function f() {
         var _this = this;
-        var _this1 = this, _superprop_get_g = function() {
+        var _this1 = this, _superprop_get_g = function _superprop_get_g() {
             return _get(_get_prototype_of(C9.prototype), "g", _this);
         };
         return _wrap_async_generator(function() {

@@ -10,7 +10,7 @@ var ComponentType = function ComponentType() {
     "use strict";
     _class_call_check(this, ComponentType);
 };
-var withTeamsForUser = function(_WrappedComponent) {
+var withTeamsForUser = function withTeamsForUser(_WrappedComponent) {
     var _class = /*#__PURE__*/ function(Component) {
         "use strict";
         _inherits(_class, Component);

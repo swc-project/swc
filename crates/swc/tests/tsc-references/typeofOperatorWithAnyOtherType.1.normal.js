@@ -11,7 +11,7 @@ var ANY2 = [
 var obj;
 var obj1 = {
     x: "a",
-    y: function() {}
+    y: function y() {}
 };
 function foo() {
     var a;

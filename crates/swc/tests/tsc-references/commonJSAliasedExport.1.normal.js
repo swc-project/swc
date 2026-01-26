@@ -1,5 +1,5 @@
 //// [commonJSAliasedExport.js]
-var donkey = function(ast) {
+var donkey = function donkey(ast) {
     return ast;
 };
 function funky(declaration) {

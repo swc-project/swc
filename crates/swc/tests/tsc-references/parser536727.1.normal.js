@@ -2,10 +2,10 @@
 function foo(f) {
     return f("");
 }
-var g = function(x) {
+var g = function g(x) {
     return x + "blah";
 };
-var x = function() {
+var x = function x() {
     return g;
 };
 foo(g);

@@ -32,7 +32,7 @@ var ResultIsNumber4 = -{
 };
 var ResultIsNumber5 = -{
     x: 1,
-    y: function(n) {
+    y: function y(n) {
         return n;
     }
 };

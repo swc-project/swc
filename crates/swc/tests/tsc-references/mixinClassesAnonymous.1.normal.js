@@ -23,7 +23,7 @@ var Derived = /*#__PURE__*/ function(Base) {
     }
     return Derived;
 }(Base);
-var Printable = function(superClass) {
+var Printable = function Printable(superClass) {
     var _class = /*#__PURE__*/ function(superClass) {
         "use strict";
         _inherits(_class, superClass);
@@ -93,7 +93,7 @@ var Thing3 = /*#__PURE__*/ function(Thing2) {
     return Thing3;
 }(Thing2);
 // Repro from #13805
-var Timestamped = function(Base) {
+var Timestamped = function Timestamped(Base) {
     return /*#__PURE__*/ function(Base) {
         "use strict";
         _inherits(_class, Base);

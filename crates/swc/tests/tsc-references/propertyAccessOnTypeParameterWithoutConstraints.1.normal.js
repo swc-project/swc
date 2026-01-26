@@ -21,7 +21,7 @@ var a;
 var r3 = a().toString();
 var r3b = a()['toString']();
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
         var a = x['toString'](); // should be string
         return a + x.toString();
     }

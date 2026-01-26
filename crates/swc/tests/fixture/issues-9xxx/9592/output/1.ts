@@ -8,7 +8,7 @@ Object.defineProperty(exports, "safe", {
         return safe;
     }
 });
-var safe = function(fn) {
+var safe = function safe(fn) {
     try {
         var data = fn();
         return {

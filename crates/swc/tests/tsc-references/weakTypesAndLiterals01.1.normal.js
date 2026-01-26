@@ -1,26 +1,26 @@
 //// [weakTypesAndLiterals01.ts]
-var f = function(arg) {
+var f = function f(arg) {
     if (arg === "A") {
         return arg;
     } else {
         return arg;
     }
 };
-var g = function(arg) {
+var g = function g(arg) {
     if (arg === "A") {
         return arg;
     } else {
         return arg;
     }
 };
-var h = function(arg) {
+var h = function h(arg) {
     if (arg === aOrB) {
         return arg;
     } else {
         return arg;
     }
 };
-var i = function(arg) {
+var i = function i(arg) {
     if (arg === aOrB) {
         return arg;
     } else {

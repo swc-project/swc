@@ -19,6 +19,13 @@ pub struct Es2022Options {
     pub private_property_in_object: bool,
 }
 
+impl Es2022Options {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.class_properties || self.class_static_block || self.private_property_in_object
+    }
+}
+
 pub fn hook(options: Es2022Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 

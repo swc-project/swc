@@ -1,11 +1,11 @@
 //// [emitArrowFunctionWhenUsingArguments01.ts]
 var _arguments = arguments;
-var a = function() {
+var a = function a() {
     var arg = _arguments[0]; // error
 };
 var b = function b() {
     var _arguments = arguments;
-    var a = function() {
+    var a = function a() {
         var arg = _arguments[0]; // error
     };
 };

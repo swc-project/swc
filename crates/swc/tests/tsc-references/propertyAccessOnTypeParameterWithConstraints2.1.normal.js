@@ -76,7 +76,7 @@ var aB = new B();
 var r3c = a(aB, aB).foo();
 var r3d = a(aB, aB)['foo']();
 var b = {
-    foo: function(x, y) {
+    foo: function foo(x, y) {
         var a = x['foo'](); // should be string
         return a + x.foo();
     }

@@ -19,7 +19,7 @@ var env = {
 try {
     var _C1;
     var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
-    var a = function() {
+    var a = function a() {
         var env = {
             stack: [],
             error: void 0,

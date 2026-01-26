@@ -33,7 +33,7 @@ function load() {
 }
 var loader = /*#__PURE__*/ React.createElement(AsyncLoader, {
     prop1: load,
-    prop2: function(result) {
+    prop2: function prop2(result) {
         return result;
     }
 });

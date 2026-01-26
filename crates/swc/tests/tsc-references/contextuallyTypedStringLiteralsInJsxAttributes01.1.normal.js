@@ -1,5 +1,5 @@
 //// [contextuallyTypedStringLiteralsInJsxAttributes01.tsx]
-var FooComponent = function(props) {
+var FooComponent = function FooComponent(props) {
     return /*#__PURE__*/ React.createElement("span", null, props.foo);
 };
 /*#__PURE__*/ React.createElement(FooComponent, {

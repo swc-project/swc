@@ -25,7 +25,7 @@ var Derived2 = /*#__PURE__*/ function(Base) {
     return Derived2;
 }(Base);
 var b = new Base(), d1 = new Derived1(), d2 = new Derived2();
-var x1 = function() {
+var x1 = function x1() {
     return [
         d1,
         d2
@@ -43,7 +43,7 @@ var x3 = function named() {
         d2
     ];
 };
-var x4 = function() {
+var x4 = function x4() {
     return [
         d1,
         d2
@@ -79,12 +79,12 @@ var x10 = {
         d2
     ]
 };
-var x11 = function(n) {
+var x11 = function x11(n) {
     var n;
     return null;
 };
 var x12 = {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -197,7 +197,7 @@ var x24 = function x24() {
     "use strict";
     _class_call_check(this, x24);
     this.member = {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -311,7 +311,7 @@ var x36 = function x36() {
     "use strict";
     _class_call_check(this, x36);
     this.member = {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -425,7 +425,7 @@ var x48 = function x48() {
     "use strict";
     _class_call_check(this, x48);
     this.member = {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -540,7 +540,7 @@ var x60 = function x60() {
     _class_call_check(this, x60);
 };
 x60.member = {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -654,7 +654,7 @@ var x72 = function x72() {
     _class_call_check(this, x72);
 };
 x72.member = {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -768,7 +768,7 @@ var x84 = function x84() {
     _class_call_check(this, x84);
 };
 x84.member = {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -880,7 +880,7 @@ var x95 = function x95() {
 var x96 = function x96() {
     "use strict";
     var parm = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1005,7 +1005,7 @@ var x107 = function x107() {
 var x108 = function x108() {
     "use strict";
     var parm = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1131,7 +1131,7 @@ var x119 = function x119() {
 var x120 = function x120() {
     "use strict";
     var parm = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1223,7 +1223,7 @@ function x131() {
 }
 function x132() {
     var parm = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1313,7 +1313,7 @@ function x143() {
 }
 function x144() {
     return {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1461,7 +1461,7 @@ function x155() {
 }
 function x156() {
     return {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1469,7 +1469,7 @@ function x156() {
         }
     };
     return {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1477,7 +1477,7 @@ function x156() {
         }
     };
 }
-var x157 = function() {
+var x157 = function x157() {
     return function() {
         return [
             d1,
@@ -1485,23 +1485,7 @@ var x157 = function() {
         ];
     };
 };
-var x158 = function() {
-    return function x158() {
-        return [
-            d1,
-            d2
-        ];
-    };
-};
-var x159 = function() {
-    return function named() {
-        return [
-            d1,
-            d2
-        ];
-    };
-};
-var x160 = function() {
+var x158 = function x158() {
     return function() {
         return [
             d1,
@@ -1509,15 +1493,7 @@ var x160 = function() {
         ];
     };
 };
-var x161 = function() {
-    return function x161() {
-        return [
-            d1,
-            d2
-        ];
-    };
-};
-var x162 = function() {
+var x159 = function x159() {
     return function named() {
         return [
             d1,
@@ -1525,25 +1501,49 @@ var x162 = function() {
         ];
     };
 };
-var x163 = function() {
+var x160 = function x160() {
+    return function() {
+        return [
+            d1,
+            d2
+        ];
+    };
+};
+var x161 = function x161() {
+    return function() {
+        return [
+            d1,
+            d2
+        ];
+    };
+};
+var x162 = function x162() {
+    return function named() {
+        return [
+            d1,
+            d2
+        ];
+    };
+};
+var x163 = function x163() {
     return [
         d1,
         d2
     ];
 };
-var x164 = function() {
+var x164 = function x164() {
     return [
         d1,
         d2
     ];
 };
-var x165 = function() {
+var x165 = function x165() {
     return [
         d1,
         d2
     ];
 };
-var x166 = function() {
+var x166 = function x166() {
     return {
         n: [
             d1,
@@ -1551,15 +1551,15 @@ var x166 = function() {
         ]
     };
 };
-var x167 = function() {
+var x167 = function x167() {
     return function(n) {
         var n;
         return null;
     };
 };
-var x168 = function() {
+var x168 = function x168() {
     return {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1649,7 +1649,7 @@ var x179 = function x179() {
 };
 var x180 = function x180() {
     return {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1658,7 +1658,7 @@ var x180 = function x180() {
     };
 };
 (function(x181) {
-    var t = function() {
+    var t = function t() {
         return [
             d1,
             d2
@@ -1682,7 +1682,7 @@ var x180 = function x180() {
     };
 })(x183 || (x183 = {}));
 (function(x184) {
-    var t = function() {
+    var t = function t() {
         return [
             d1,
             d2
@@ -1732,14 +1732,14 @@ var x180 = function x180() {
     };
 })(x190 || (x190 = {}));
 (function(x191) {
-    var t = function(n) {
+    var t = function t(n) {
         var n;
         return null;
     };
 })(x191 || (x191 = {}));
 (function(x192) {
     var t = {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1829,7 +1829,7 @@ var x180 = function x180() {
 })(x203 || (x203 = {}));
 (function(x204) {
     x204.t = {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -1880,7 +1880,7 @@ var x214 = {
     ]
 };
 var x216 = {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -1930,7 +1930,7 @@ var x224 = undefined || {
     ]
 };
 var x225;
-x225 = function() {
+x225 = function x225() {
     return [
         d1,
         d2
@@ -1951,7 +1951,7 @@ x227 = function named() {
     ];
 };
 var x228;
-x228 = function() {
+x228 = function x228() {
     return [
         d1,
         d2
@@ -1994,13 +1994,13 @@ x234 = {
     ]
 };
 var x235;
-x235 = function(n) {
+x235 = function x235(n) {
     var n;
     return null;
 };
 var x236;
 x236 = {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -2008,7 +2008,7 @@ x236 = {
     }
 };
 var x237 = {
-    n: function() {
+    n: function n() {
         return [
             d1,
             d2
@@ -2032,7 +2032,7 @@ var x239 = {
     }
 };
 var x240 = {
-    n: function() {
+    n: function n() {
         return [
             d1,
             d2
@@ -2082,14 +2082,14 @@ var x246 = {
     }
 };
 var x247 = {
-    n: function(n) {
+    n: function n(n) {
         var n;
         return null;
     }
 };
 var x248 = {
     n: {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -2149,7 +2149,7 @@ var x258 = [
 ];
 var x260 = [
     {
-        func: function(n) {
+        func: function func(n) {
             return [
                 d1,
                 d2
@@ -2328,7 +2328,7 @@ var x285 = true ? function() {
         d2
     ];
 };
-var x286 = true ? function x286() {
+var x286 = true ? function() {
     return [
         d1,
         d2
@@ -2361,7 +2361,7 @@ var x288 = true ? function() {
         d2
     ];
 };
-var x289 = true ? function x289() {
+var x289 = true ? function() {
     return [
         d1,
         d2
@@ -2423,14 +2423,14 @@ var x295 = true ? function(n) {
     return null;
 };
 var x296 = true ? {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
         ];
     }
 } : {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -2443,7 +2443,7 @@ var x297 = true ? undefined : function() {
         d2
     ];
 };
-var x298 = true ? undefined : function x298() {
+var x298 = true ? undefined : function() {
     return [
         d1,
         d2
@@ -2461,7 +2461,7 @@ var x300 = true ? undefined : function() {
         d2
     ];
 };
-var x301 = true ? undefined : function x301() {
+var x301 = true ? undefined : function() {
     return [
         d1,
         d2
@@ -2496,7 +2496,7 @@ var x307 = true ? undefined : function(n) {
     return null;
 };
 var x308 = true ? undefined : {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -2509,7 +2509,7 @@ var x309 = true ? function() {
         d2
     ];
 } : undefined;
-var x310 = true ? function x310() {
+var x310 = true ? function() {
     return [
         d1,
         d2
@@ -2527,7 +2527,7 @@ var x312 = true ? function() {
         d2
     ];
 } : undefined;
-var x313 = true ? function x313() {
+var x313 = true ? function() {
     return [
         d1,
         d2
@@ -2562,7 +2562,7 @@ var x319 = true ? function(n) {
     return null;
 } : undefined;
 var x320 = true ? {
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -2640,14 +2640,14 @@ x331(function(n) {
 });
 function x332(n) {}
 x332({
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
         ];
     }
 });
-var x333 = function(n) {
+var x333 = function x333(n) {
     return n;
 };
 x333(function() {
@@ -2656,7 +2656,7 @@ x333(function() {
         d2
     ];
 });
-var x334 = function(n) {
+var x334 = function x334(n) {
     return n;
 };
 x334(function() {
@@ -2665,7 +2665,7 @@ x334(function() {
         d2
     ];
 });
-var x335 = function(n) {
+var x335 = function x335(n) {
     return n;
 };
 x335(function named() {
@@ -2674,7 +2674,7 @@ x335(function named() {
         d2
     ];
 });
-var x336 = function(n) {
+var x336 = function x336(n) {
     return n;
 };
 x336(function() {
@@ -2683,7 +2683,7 @@ x336(function() {
         d2
     ];
 });
-var x337 = function(n) {
+var x337 = function x337(n) {
     return n;
 };
 x337(function() {
@@ -2692,7 +2692,7 @@ x337(function() {
         d2
     ];
 });
-var x338 = function(n) {
+var x338 = function x338(n) {
     return n;
 };
 x338(function named() {
@@ -2701,28 +2701,28 @@ x338(function named() {
         d2
     ];
 });
-var x339 = function(n) {
+var x339 = function x339(n) {
     return n;
 };
 x339([
     d1,
     d2
 ]);
-var x340 = function(n) {
+var x340 = function x340(n) {
     return n;
 };
 x340([
     d1,
     d2
 ]);
-var x341 = function(n) {
+var x341 = function x341(n) {
     return n;
 };
 x341([
     d1,
     d2
 ]);
-var x342 = function(n) {
+var x342 = function x342(n) {
     return n;
 };
 x342({
@@ -2731,18 +2731,18 @@ x342({
         d2
     ]
 });
-var x343 = function(n) {
+var x343 = function x343(n) {
     return n;
 };
 x343(function(n) {
     var n;
     return null;
 });
-var x344 = function(n) {
+var x344 = function x344(n) {
     return n;
 };
 x344({
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2
@@ -2820,7 +2820,7 @@ x355(function(n) {
 });
 var x356 = function x356(n) {};
 x356({
-    func: function(n) {
+    func: function func(n) {
         return [
             d1,
             d2

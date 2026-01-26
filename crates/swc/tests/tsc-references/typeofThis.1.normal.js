@@ -50,7 +50,7 @@ var Test5 = function Test5() {
         var x = 1;
     };
 })(Test7 || (Test7 = {}));
-var Test8 = function() {
+var Test8 = function Test8() {
     var x = 1;
 };
 var Test9 = /*#__PURE__*/ function() {

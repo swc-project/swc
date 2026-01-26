@@ -10,7 +10,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    sleep = function() {
+                    sleep = function sleep() {
                         return new Promise(function(resolve) {
                             return setTimeout(function() {
                                 return resolve(undefined);

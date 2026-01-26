@@ -170,8 +170,9 @@ where
         options.env.es2016.exponentiation_operator = true;
     }
 
-    // Single-pass compiler
-    let pass = (pass, options.into_pass());
+    // Single-pass compiler - skip traversal when no transforms are enabled
+    let is_enabled = options.env.is_enabled();
+    let pass = (pass, Optional::new(options.into_pass(), is_enabled));
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
@@ -202,8 +203,6 @@ where
         true
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
-    let pass = add!(pass, ShorthandProperties, es2015::shorthand());
-    let pass = add!(pass, FunctionName, es2015::function_name());
     let pass = add!(
         pass,
         ForOf,
@@ -224,14 +223,39 @@ where
         )
     );
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
-    let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
-    let pass = add!(pass, StickyRegex, es2015::sticky_regex());
-    let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
-    let pass = add!(
-        pass,
-        TypeOfSymbol,
-        es2015::typeof_symbol(es2015::typeof_symbol::Config { loose })
-    );
+    let pass = {
+        // We use a separate options for es2015 transforms because of the pass order.
+        let mut options = swc_ecma_transformer::Options::default();
+
+        options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+        options.assumptions = assumptions;
+
+        if !caniuse(Feature::ShorthandProperties) {
+            options.env.es2015.shorthand = true;
+        }
+
+        if !caniuse(Feature::FunctionName) {
+            options.env.es2015.function_name = true;
+        }
+
+        if !caniuse(Feature::DuplicateKeys) {
+            options.env.es2015.duplicate_keys = true;
+        }
+
+        if !caniuse(Feature::StickyRegex) {
+            options.env.es2015.sticky_regex = true;
+        }
+
+        if !caniuse(Feature::TypeOfSymbol) {
+            options.env.es2015.instanceof = true;
+            options.env.es2015.typeof_symbol = true;
+        }
+
+        // Skip traversal when no transforms are enabled
+        let is_enabled = options.env.is_enabled();
+        (pass, Optional::new(options.into_pass(), is_enabled))
+    };
+
     let pass = add!(
         pass,
         ComputedProperties,

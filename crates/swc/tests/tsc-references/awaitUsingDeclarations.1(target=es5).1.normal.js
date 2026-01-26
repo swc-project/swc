@@ -22,7 +22,7 @@ try {
             });
         })();
     }), true);
-    var a = function() {
+    var a = function a() {
         return _async_to_generator(function() {
             var env, d6, e, result;
             return _ts_generator(this, function(_state) {

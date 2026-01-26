@@ -6,7 +6,7 @@ var MyClass = function MyClass() {
     "use strict";
     _class_call_check(this, MyClass);
 };
-export var fn = function() {
+export var fn = function fn() {
     var _class = /*#__PURE__*/ function(MyClass) {
         "use strict";
         _inherits(_class, MyClass);

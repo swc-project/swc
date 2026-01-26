@@ -12,5 +12,5 @@ var C2 = function C2() {
 function f() {}
 function f2() {}
 var a;
-var b = function() {};
-var b2 = function() {};
+var b = function b() {};
+var b2 = function b2() {};

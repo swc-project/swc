@@ -140,7 +140,7 @@ function f42(x) {
     x; // Unreachable
 }
 function f43() {
-    var fail = function() {
+    var fail = function fail() {
         throw new Error();
     };
     var f = [

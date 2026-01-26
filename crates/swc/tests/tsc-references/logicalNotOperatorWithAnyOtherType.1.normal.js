@@ -10,7 +10,7 @@ var ANY2 = [
 var obj;
 var obj1 = {
     x: "",
-    y: function() {}
+    y: function y() {}
 };
 function foo() {
     var a;

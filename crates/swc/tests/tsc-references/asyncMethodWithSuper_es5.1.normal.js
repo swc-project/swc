@@ -28,11 +28,11 @@ var B = /*#__PURE__*/ function(A) {
     // async method with only call/get on 'super' does not require a binding
     _proto.simple = function simple() {
         var _this = this;
-        var _this1 = this, _superprop_get_x = function() {
+        var _this1 = this, _superprop_get_x = function _superprop_get_x() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
-        }, _superprop_get_y = function() {
+        }, _superprop_get_y = function _superprop_get_y() {
             return _get(_get_prototype_of(B.prototype), "y", _this);
-        }, _superprop_get = function(_prop) {
+        }, _superprop_get = function _superprop_get(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
         return _async_to_generator(function() {
@@ -64,7 +64,7 @@ var B = /*#__PURE__*/ function(A) {
             set _ (v){
                 _superprop_set_x(v);
             }
-        }, _superprop_update = function(_prop) {
+        }, _superprop_update = function _superprop_update(_prop) {
             return {
                 get _ () {
                     return _superprop_get(_prop);
@@ -73,19 +73,19 @@ var B = /*#__PURE__*/ function(A) {
                     return _superprop_set(_prop, v);
                 }
             };
-        }, _superprop_get_x = function() {
+        }, _superprop_get_x = function _superprop_get_x() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
-        }, _superprop_get = function(_prop) {
+        }, _superprop_get = function _superprop_get(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
-        }, _superprop_set_x = function(_value) {
+        }, _superprop_set_x = function _superprop_set_x(_value) {
             return _set(_get_prototype_of(B.prototype), "x", _value, _this, true);
-        }, _superprop_set = function(_prop, _value) {
+        }, _superprop_set = function _superprop_set(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
         return _async_to_generator(function() {
             var f, a, b, ref, ref1;
             return _ts_generator(this, function(_state) {
-                f = function() {};
+                f = function f() {};
                 // call with property access
                 _superprop_get_x().call(_this1);
                 // call with element access

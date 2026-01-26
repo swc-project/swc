@@ -1,17 +1,17 @@
 //// [emitDefaultParametersFunctionExpression.ts]
-var lambda1 = function() {
+var lambda1 = function lambda1() {
     var y = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "hello";
 };
-var lambda2 = function(x) {
+var lambda2 = function lambda2(x) {
     var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "hello";
 };
-var lambda3 = function(x) {
+var lambda3 = function lambda3(x) {
     var y = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "hello";
     for(var _len = arguments.length, rest = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         rest[_key - 2] = arguments[_key];
     }
 };
-var lambda4 = function() {
+var lambda4 = function lambda4() {
     var y = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "hello";
     for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];

@@ -15,25 +15,25 @@ function addAlgoliaAgents(searchClient) {
         searchClient.addAlgoliaAgent("react-instantsearch (".concat(version, ")"));
     }
 }
-var isMultiIndexContext = function(widget) {
+var isMultiIndexContext = function isMultiIndexContext(widget) {
     return hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
     });
 };
-var isTargetedIndexEqualIndex = function(widget, indexId) {
+var isTargetedIndexEqualIndex = function isTargetedIndexEqualIndex(widget, indexId) {
     return widget.props.indexContextValue.targetedIndex === indexId;
 };
 // Relying on the `indexId` is a bit brittle to detect the `Index` widget.
 // Since it's a class we could rely on `instanceof` or similar. We never
 // had an issue though. Works for now.
-var isIndexWidget = function(widget) {
+var isIndexWidget = function isIndexWidget(widget) {
     return Boolean(widget.props.indexId);
 };
-var isIndexWidgetEqualIndex = function(widget, indexId) {
+var isIndexWidgetEqualIndex = function isIndexWidgetEqualIndex(widget, indexId) {
     return widget.props.indexId === indexId;
 };
-var sortIndexWidgetsFirst = function(firstWidget, secondWidget) {
+var sortIndexWidgetsFirst = function sortIndexWidgetsFirst(firstWidget, secondWidget) {
     var isFirstWidgetIndex = isIndexWidget(firstWidget);
     var isSecondWidgetIndex = isIndexWidget(secondWidget);
     if (isFirstWidgetIndex && !isSecondWidgetIndex) {
@@ -47,10 +47,10 @@ var sortIndexWidgetsFirst = function(firstWidget, secondWidget) {
 // This function is copied from the algoliasearch v4 API Client. If modified,
 // consider updating it also in `serializeQueryParameters` from `@algolia/transporter`.
 function serializeQueryParameters(parameters) {
-    var isObjectOrArray = function(value) {
+    var isObjectOrArray = function isObjectOrArray(value) {
         return Object.prototype.toString.call(value) === "[object Object]" || Object.prototype.toString.call(value) === "[object Array]";
     };
-    var encode = function(format) {
+    var encode = function encode(format) {
         for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             args[_key - 1] = arguments[_key];
         }
@@ -504,19 +504,19 @@ function hydrateMetadata(resultsState) {
     // add a value noop, which gets replaced once the widgets are mounted
     return resultsState.metadata.map(function(datum) {
         return _object_spread_props(_object_spread({
-            value: function() {
+            value: function value() {
                 return {};
             }
         }, datum), {
             items: datum.items && datum.items.map(function(item) {
                 return _object_spread_props(_object_spread({
-                    value: function() {
+                    value: function value() {
                         return {};
                     }
                 }, item), {
                     items: item.items && item.items.map(function(nestedItem) {
                         return _object_spread({
-                            value: function() {
+                            value: function value() {
                                 return {};
                             }
                         }, nestedItem);

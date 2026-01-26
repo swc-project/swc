@@ -38,12 +38,12 @@ for(var anObjectLiteral = {
 for(var anOtherObjectLiteral = new C();;){}
 for(var aFunction = F;;){}
 for(var anOtherFunction = F;;){}
-for(var aLambda = function(x) {
+for(var aLambda = function aLambda(x) {
     return 2;
 };;){}
 for(var aModule = M;;){}
 for(var aClassInModule = new M.A();;){}
-for(var aFunctionInModule = function(x) {
+for(var aFunctionInModule = function aFunctionInModule(x) {
     return 'this is a string';
 };;){}
 var M;

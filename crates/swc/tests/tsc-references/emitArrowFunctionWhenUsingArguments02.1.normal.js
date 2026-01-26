@@ -1,5 +1,5 @@
 //// [emitArrowFunctionWhenUsingArguments02.ts]
 var _arguments = arguments;
-var a = function() {
+var a = function a() {
     return _arguments;
 };

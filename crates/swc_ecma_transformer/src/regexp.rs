@@ -30,6 +30,20 @@ pub struct RegExpOptions {
     pub unicode_sets_regex: bool,
 }
 
+impl RegExpOptions {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.dot_all_regex
+            || self.has_indices
+            || self.lookbehind_assertion
+            || self.named_capturing_groups_regex
+            || self.sticky_regex
+            || self.unicode_property_regex
+            || self.unicode_regex
+            || self.unicode_sets_regex
+    }
+}
+
 pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseCtx>> {
     if options.dot_all_regex
         || options.has_indices

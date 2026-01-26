@@ -5,7 +5,7 @@ function f(x) {
     return null;
 }
 var r = f(1);
-var f2 = function(x) {
+var f2 = function f2(x) {
     return null;
 };
 var r2 = f2(1);

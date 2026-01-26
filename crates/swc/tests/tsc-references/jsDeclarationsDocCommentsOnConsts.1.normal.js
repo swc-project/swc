@@ -1,7 +1,7 @@
 //// [index1.js]
 /**
  * const doc comment
- */ var x = function(a) {
+ */ var x = function x(a) {
     return '';
 };
 /**

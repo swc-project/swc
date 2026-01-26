@@ -5,7 +5,7 @@ new Promise(function(r) {
 }).then(function(a) {
     return a === null || a === void 0 ? void 0 : a.b;
 });
-var anony = function() {
+var anony = function anony() {
     return a === null || a === void 0 ? void 0 : a.b;
 };
 // code below works

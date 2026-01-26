@@ -85,27 +85,27 @@ var l = fun(Math.random() < 0.5 ? function(x) {
     x(undefined);
     return x;
 }, 10);
-var lambda1 = function(x) {
+var lambda1 = function lambda1(x) {
     x(undefined);
     return x;
 };
-var lambda2 = function(x) {
+var lambda2 = function lambda2(x) {
     x(undefined);
     return x;
 };
 var obj1 = {
-    x: function(x) {
+    x: function x(x) {
         return x, undefined;
     },
-    y: function(y) {
+    y: function y(y) {
         return y, undefined;
     }
 };
 var obj2 = {
-    x: function(x) {
+    x: function x(x) {
         return x, undefined;
     },
-    y: function(y) {
+    y: function y(y) {
         return y, undefined;
     }
 };

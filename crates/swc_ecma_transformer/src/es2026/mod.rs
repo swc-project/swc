@@ -6,6 +6,14 @@ use crate::TraverseCtx;
 #[non_exhaustive]
 pub struct Es2026Options {}
 
+impl Es2026Options {
+    /// Returns true if any transform is enabled.
+    /// Currently no transforms are available for ES2026.
+    pub fn is_enabled(&self) -> bool {
+        false
+    }
+}
+
 pub fn hook(options: Es2026Options) -> impl VisitMutHook<TraverseCtx> {
     Es2026Pass { options }
 }

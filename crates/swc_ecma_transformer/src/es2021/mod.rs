@@ -13,6 +13,13 @@ pub struct Es2021Options {
     pub logical_assignment_operators: bool,
 }
 
+impl Es2021Options {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.logical_assignment_operators
+    }
+}
+
 pub fn hook(options: Es2021Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 

@@ -1,4 +1,4 @@
 //// [stringMappingReduction.ts]
-export var virtualOn = function(eventQrl) {
+export var virtualOn = function virtualOn(eventQrl) {
     _virtualOn(eventQrl);
 };

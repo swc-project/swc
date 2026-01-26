@@ -1,6 +1,6 @@
 //// [optionalChainingInParameterInitializer.ts]
 // https://github.com/microsoft/TypeScript/issues/36295
-var a = function() {
+var a = function a() {
     return undefined;
 };
 (function() {

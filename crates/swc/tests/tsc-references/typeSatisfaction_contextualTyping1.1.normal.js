@@ -1,9 +1,9 @@
 //// [typeSatisfaction_contextualTyping1.ts]
 var p = {
-    isEven: function(n) {
+    isEven: function isEven(n) {
         return n % 2 === 0;
     },
-    isOdd: function(n) {
+    isOdd: function isOdd(n) {
         return n % 2 === 1;
     }
 };

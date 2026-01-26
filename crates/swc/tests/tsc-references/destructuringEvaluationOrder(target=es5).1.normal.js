@@ -7,7 +7,7 @@ import { _ as _to_array } from "@swc/helpers/_/_to_array";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 // https://github.com/microsoft/TypeScript/issues/39205
 var trace = [];
-var order = function(n) {
+var order = function order(n) {
     return trace.push(n);
 };
 // order(0) should evaluate before order(1) because the first element is undefined

@@ -32,7 +32,7 @@ var ResultIsBoolean4 = delete {
 };
 var ResultIsBoolean5 = delete {
     x: 1,
-    y: function(n) {
+    y: function y(n) {
         return n;
     }
 };

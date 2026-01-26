@@ -1,4 +1,4 @@
-export var then = function(callback) {
+export var then = function then(callback) {
     var returns;
     var called;
 };

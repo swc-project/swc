@@ -52,7 +52,7 @@ var D = /*#__PURE__*/ function() {
     return D;
 }();
 // Arrow function
-var f1 = function(p1) {
+var f1 = function f1(p1) {
     return false;
 };
 // Function expressions
