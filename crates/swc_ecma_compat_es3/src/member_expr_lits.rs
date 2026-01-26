@@ -17,9 +17,9 @@
 //! ```
 
 use swc_ecma_ast::*;
-use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_utils::is_valid_ident;
-use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
+use swc_ecma_visit::visit_mut_pass;
 
 /// Creates a member expression literals transformation hook.
 pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
@@ -28,7 +28,10 @@ pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
 
 /// babel: `transform-member-expression-literals`
 pub fn member_expression_literals() -> impl Pass {
-    fold_pass(MemberExprLit)
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(),
+        context: (),
+    })
 }
 
 struct MemberExprLitHook;
@@ -58,46 +61,6 @@ impl<C> VisitMutHook<C> for MemberExprLitHook {
     }
 }
 
-#[derive(Default, Clone, Copy)]
-struct MemberExprLit;
-
-impl Fold for MemberExprLit {
-    standard_only_fold!();
-
-    fn fold_member_expr(&mut self, e: MemberExpr) -> MemberExpr {
-        let e: MemberExpr = e.fold_children_with(self);
-
-        if let MemberProp::Ident(i) = e.prop {
-            if i.sym.is_reserved()
-                || i.sym.is_reserved_in_strict_mode(true)
-                || i.sym.is_reserved_in_es3()
-                // it's not bind, so you could use eval
-                || !is_valid_ident(&i.sym)
-            {
-                return MemberExpr {
-                    prop: MemberProp::Computed(ComputedPropName {
-                        span: i.span,
-                        expr: Lit::Str(Str {
-                            span: i.span,
-                            raw: None,
-                            value: i.sym.into(),
-                        })
-                        .into(),
-                    }),
-                    ..e
-                };
-            } else {
-                return MemberExpr {
-                    prop: MemberProp::Ident(IdentName::new(i.sym, i.span)),
-                    ..e
-                };
-            }
-        };
-
-        e
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use swc_ecma_transforms_testing::test;
@@ -106,7 +69,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| fold_pass(MemberExprLit),
+        |_| member_expression_literals(),
         basic,
         r#"obj["foo"] = "isValid";
 
@@ -117,14 +80,14 @@ obj["var"] = "isKeyword";"#,
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| fold_pass(MemberExprLit),
+        |_| member_expression_literals(),
         issue_206,
         "const number = foo[bar1][baz1]"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| fold_pass(MemberExprLit),
+        |_| member_expression_literals(),
         issue_211,
         "_query[idx]=$this.attr('data-ref');"
     );
