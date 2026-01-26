@@ -138,7 +138,7 @@ pub fn targets_to_versions(v: Option<Targets>, path: Option<PathBuf>) -> Result<
             // When targets is None, it means the user didn't specify any targets.
             // We use browserslist config or defaults, so we should NOT treat empty
             // results as "unknown version". That case is for when a user explicitly
-            // specifies a query like "Chrome > 999" that returns empty.
+            // specifies a query like "Chrome > 99999" that returns empty.
             let versions = BrowserData::parse_versions(distribs)
                 .with_context(|| "failed to parse browser version")?;
 
@@ -181,7 +181,7 @@ pub fn targets_to_versions(v: Option<Targets>, path: Option<PathBuf>) -> Result<
 
             if map.is_empty() {
                 if let Some((versions, is_unknown)) = q {
-                    let mut versions = (*versions).clone();
+                    let mut versions = *versions;
                     versions.node = node;
                     unknown_version = is_unknown;
                     return Ok(TargetInfo {
@@ -246,7 +246,7 @@ mod tests {
     #[test]
     fn test_unknown_chrome_version() {
         // Chrome 999 is an unknown version, browserslist should return empty
-        let (res, unknown_version) = Query::Single("Chrome > 999".into()).exec().unwrap();
+        let (res, unknown_version) = Query::Single("Chrome > 9999999".into()).exec().unwrap();
         assert!(
             res.is_any_target(),
             "unknown chrome version should return empty result"
