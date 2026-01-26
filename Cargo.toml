@@ -139,12 +139,12 @@ repository = "https://github.com/swc-project/swc.git"
   url = { version = "2.5.4", default-features = false }
   vergen = { version = "9.0.0", default-features = false }
   walkdir = { version = "2.4.0", default-features = false }
-  wasi-common = { version = "35", default-features = false }
+  wasi-common = { version = "38", default-features = false }
   wasm-bindgen = { version = "0.2.91", default-features = false }
   wasm-bindgen-futures = { version = "0.4.41", default-features = false }
   wasmer = { version = "6.1.0-rc.2", default-features = false }
   wasmer-wasix = { version = "0.601.0-rc.2", default-features = false }
-  wasmtime = { version = "35", default-features = false }
+  wasmtime = { version = "38", default-features = false }
 
   cbor4ii         = { version = "1.2", default-features = false }
   foldhash        = { version = "0.1", default-features = false }
@@ -163,6 +163,7 @@ repository = "https://github.com/swc-project/swc.git"
     "num-bigint",
     "swc_ecma_utils",
     "swc_ecma_transforms_base",
+    "getrandom",
   ]
 
 
