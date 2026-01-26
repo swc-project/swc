@@ -349,7 +349,10 @@ impl CompileOptions {
 
         if let Some(root_mode) = self.root_mode {
             options.root_mode = root_mode;
-            options.swcrc = true;
+            // Enable .swcrc search for upward modes
+            if matches!(root_mode, RootMode::Upward | RootMode::UpwardOptional) {
+                options.swcrc = true;
+            }
         }
 
         if let Some(source_maps) = &self.source_maps {
