@@ -49,7 +49,7 @@ throw anObjectLiteral;
 var aFunction = F;
 throw aFunction;
 throw aFunction('');
-var aLambda = function(x) {
+var aLambda = function aLambda(x) {
     return 2;
 };
 throw aLambda;

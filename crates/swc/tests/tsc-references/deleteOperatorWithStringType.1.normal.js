@@ -1,55 +1,56 @@
 //// [deleteOperatorWithStringType.ts]
-//!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[18:1]
-//!  15 | var objA = new A();
-//!  16 | 
-//!  17 | // string type var
-//!  18 | var ResultIsBoolean1 = delete STRING;
-//!     :                               ^^^^^^
-//!  19 | var ResultIsBoolean2 = delete STRING1;
-//!  20 | 
-//!  21 | // string type literal
-//!     `----
-//!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[19:1]
-//!  16 | 
-//!  17 | // string type var
-//!  18 | var ResultIsBoolean1 = delete STRING;
-//!  19 | var ResultIsBoolean2 = delete STRING1;
-//!     :                               ^^^^^^^
-//!  20 | 
-//!  21 | // string type literal
-//!  22 | var ResultIsBoolean3 = delete "";
-//!     `----
-//!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[36:1]
-//!  33 | var ResultIsBoolean12 = delete STRING.charAt(0);
-//!  34 | 
-//!  35 | // multiple delete  operator
-//!  36 | var ResultIsBoolean13 = delete delete STRING;
-//!     :                                       ^^^^^^
-//!  37 | var ResultIsBoolean14 = delete delete delete (STRING + STRING);
-//!  38 | 
-//!  39 | // miss assignment operators
-//!     `----
-//!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[41:1]
-//!  38 | 
-//!  39 | // miss assignment operators
-//!  40 | delete "";
-//!  41 | delete STRING;
-//!     :        ^^^^^^
-//!  42 | delete STRING1;
-//!  43 | delete foo();
-//!  44 | delete objA.a,M.n;
-//!     `----
-//!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[42:1]
-//!  39 | // miss assignment operators
-//!  40 | delete "";
-//!  41 | delete STRING;
-//!  42 | delete STRING1;
-//!     :        ^^^^^^^
-//!  43 | delete foo();
-//!  44 | delete objA.a,M.n;
-//!     `----
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// delete  operator on string type
+var STRING;
+var STRING1 = [
+    "",
+    "abc"
+];
+function foo() {
+    return "abc";
+}
+var A = /*#__PURE__*/ function() {
+    "use strict";
+    function A() {
+        _class_call_check(this, A);
+    }
+    A.foo = function foo() {
+        return "";
+    };
+    return A;
+}();
+(function(M) {})(M || (M = {}));
+var objA = new A();
+// string type var
+var ResultIsBoolean1 = delete STRING;
+var ResultIsBoolean2 = delete STRING1;
+// string type literal
+var ResultIsBoolean3 = delete "";
+var ResultIsBoolean4 = delete {
+    x: "",
+    y: ""
+};
+var ResultIsBoolean5 = delete {
+    x: "",
+    y: function y(s) {
+        return s;
+    }
+};
+// string type expressions
+var ResultIsBoolean6 = delete objA.a;
+var ResultIsBoolean7 = delete M.n;
+var ResultIsBoolean8 = delete STRING1[0];
+var ResultIsBoolean9 = delete foo();
+var ResultIsBoolean10 = delete A.foo();
+var ResultIsBoolean11 = delete (STRING + STRING);
+var ResultIsBoolean12 = delete STRING.charAt(0);
+// multiple delete  operator
+var ResultIsBoolean13 = delete delete STRING;
+var ResultIsBoolean14 = delete delete delete (STRING + STRING);
+// miss assignment operators
+delete "";
+delete STRING;
+delete STRING1;
+delete foo();
+delete objA.a, M.n;
+var M;

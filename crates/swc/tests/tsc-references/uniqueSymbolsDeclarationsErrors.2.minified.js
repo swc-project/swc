@@ -26,7 +26,7 @@ for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
     get: Object.getOwnPropertyDescriptor(all, name).get
 });
-const obj = {
+let obj = {
     method1: (p)=>p,
     method2: (p)=>p
 }, classExpression = class {

@@ -7,7 +7,7 @@ var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 var _ts_metadata = require("@swc/helpers/_/_ts_metadata");
 require("reflect-metadata");
 var COL_KEY = Symbol("col");
-var column = function() {
+var column = function column() {
     return function(object, key) {
         Reflect.defineMetadata(COL_KEY, "value", object, key);
     };

@@ -1,0 +1,97 @@
+name: "DevBird"
+run-name: "DevBird: ${{ inputs.task_title }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Instructions for DevBird. Can be a direct prompt or custom template."
+        type: string
+        required: true
+
+      base_branch:
+        description: "The branch to use as the base/source when creating new branches (defaults to repository default branch)"
+        type: string
+        required: false
+        default: "main"
+
+      agent:
+        description: "The agent to use for the action. Can be 'claude_code', 'gemini_cli', 'codex_cli' or 'opencode'"
+        type: choice
+        default: "claude_code"
+        options:
+          - claude_code
+          - gemini_cli
+          - codex_cli
+          - opencode
+          - crush_cli
+          - github_copilot_cli
+
+      agent_model:
+        description: "The (optional) model to use for the agent"
+        type: string
+        required: false
+        default: ""
+
+      devbird_workflow_execution_token:
+        description: "The token to use for the DevBird task"
+        type: string
+        required: false
+        default: ""
+
+      devbird_mode:
+        description: "The DevBird execution mode. Can be 'develop' (default) or 'plan' (for task graph planning)"
+        type: choice
+        default: "develop"
+        options:
+          - develop
+          - plan
+
+      task_title:
+        description: "The title of the DevBird task"
+        type: string
+        required: false
+        default: ""
+
+jobs:
+  devbird:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read # Required for Claude to read CI results on PRs
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - run: corepack enable
+
+      # Source map format
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          target: wasm32-wasip1
+          components: rustfmt
+
+      - name: Run DevBird
+        uses: delinoio/devbird-action@main
+        with:
+          agent: ${{ inputs.agent }}
+          agent_model: ${{ inputs.agent_model }}
+          devbird_mode: ${{ inputs.devbird_mode }}
+          devbird_workflow_execution_token: ${{ inputs.devbird_workflow_execution_token }}
+          prompt: ${{ inputs.prompt }}
+          base_branch: ${{ inputs.base_branch }}
+          delino_access_token: ${{ secrets.DELINO_ACCESS_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          openai_api_key: ${{ secrets.AUTODEV_OPENAI_API_KEY }}

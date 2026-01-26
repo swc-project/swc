@@ -1,13 +1,24 @@
-use std::{cell::RefCell, mem, rc::Rc};
+use std::mem;
 
-use swc_ecma_lexer::common::syntax::SyntaxFlags;
+use swc_common::Span;
 
-use crate::{input::Tokens, lexer::token::TokenAndSpan};
+use crate::{
+    error::Error,
+    input::Tokens,
+    lexer::{token::TokenAndSpan, Token, TokenFlags},
+    syntax::SyntaxFlags,
+    Context,
+};
 
 #[derive(Debug)]
 pub struct Capturing<I> {
     inner: I,
-    captured: Rc<RefCell<Vec<TokenAndSpan>>>,
+    captured: Vec<TokenAndSpan>,
+}
+
+pub struct CapturingCheckpoint<I: Tokens> {
+    pos: usize,
+    inner: I::Checkpoint,
 }
 
 impl<I: Clone> Clone for Capturing<I> {
@@ -27,53 +38,60 @@ impl<I> Capturing<I> {
         }
     }
 
-    pub fn tokens(&self) -> Rc<RefCell<Vec<TokenAndSpan>>> {
-        self.captured.clone()
+    pub fn tokens(&self) -> &[TokenAndSpan] {
+        &self.captured
     }
 
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::take(&mut *self.captured.borrow_mut())
+        mem::take(&mut self.captured)
+    }
+
+    fn capture(&mut self, ts: TokenAndSpan) {
+        let v = &mut self.captured;
+
+        // remove tokens that could change due to backtracing
+        while let Some(last) = v.last() {
+            if last.span.lo >= ts.span.lo {
+                v.pop();
+            } else {
+                break;
+            }
+        }
+
+        v.push(ts);
     }
 }
 
-impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
-    type Item = TokenAndSpan;
+impl<I: Tokens> Tokens for Capturing<I> {
+    type Checkpoint = CapturingCheckpoint<I>;
 
-    fn next(&mut self) -> Option<Self::Item> {
-        let next = self.inner.next();
-
-        match next {
-            Some(ts) => {
-                let mut v = self.captured.borrow_mut();
-
-                // remove tokens that could change due to backtracing
-                while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
-                        v.pop();
-                    } else {
-                        break;
-                    }
-                }
-
-                v.push(ts);
-
-                Some(ts)
-            }
-            None => None,
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        Self::Checkpoint {
+            pos: self.captured.len(),
+            inner: self.inner.checkpoint_save(),
         }
     }
-}
 
-impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
-    swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Capturing<I>
-{
-    fn set_ctx(&mut self, ctx: swc_ecma_lexer::common::context::Context) {
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.captured.truncate(checkpoint.pos);
+        self.inner.checkpoint_load(checkpoint.inner);
+    }
+
+    fn read_string(&self, span: Span) -> &str {
+        self.inner.read_string(span)
+    }
+
+    fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx);
     }
 
-    fn ctx(&self) -> swc_ecma_lexer::common::context::Context {
+    fn ctx(&self) -> Context {
         self.inner.ctx()
+    }
+
+    fn ctx_mut(&mut self) -> &mut Context {
+        self.inner.ctx_mut()
     }
 
     fn syntax(&self) -> SyntaxFlags {
@@ -92,23 +110,11 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.set_next_regexp(start);
     }
 
-    fn token_context(&self) -> &swc_ecma_lexer::lexer::TokenContexts {
-        self.inner.token_context()
-    }
-
-    fn token_context_mut(&mut self) -> &mut swc_ecma_lexer::lexer::TokenContexts {
-        self.inner.token_context_mut()
-    }
-
-    fn set_token_context(&mut self, c: swc_ecma_lexer::lexer::TokenContexts) {
-        self.inner.set_token_context(c);
-    }
-
-    fn add_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_error(&mut self, error: Error) {
         self.inner.add_error(error);
     }
 
-    fn add_module_mode_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         self.inner.add_module_mode_error(error);
     }
 
@@ -116,24 +122,22 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.end_pos()
     }
 
-    fn take_errors(&mut self) -> Vec<swc_ecma_lexer::error::Error> {
+    fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
     }
 
-    fn take_script_module_errors(&mut self) -> Vec<swc_ecma_lexer::error::Error> {
+    fn take_script_module_errors(&mut self) -> Vec<Error> {
         self.inner.take_script_module_errors()
     }
 
-    fn update_token_flags(&mut self, f: impl FnOnce(&mut swc_ecma_lexer::lexer::TokenFlags)) {
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
         self.inner.update_token_flags(f);
     }
 
-    fn token_flags(&self) -> swc_ecma_lexer::lexer::TokenFlags {
+    fn token_flags(&self) -> TokenFlags {
         self.inner.token_flags()
     }
-}
 
-impl<I: Tokens> Tokens for Capturing<I> {
     fn clone_token_value(&self) -> Option<super::TokenValue> {
         self.inner.clone_token_value()
     }
@@ -146,47 +150,67 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.get_token_value()
     }
 
+    fn first_token(&mut self) -> TokenAndSpan {
+        let next = self.inner.first_token();
+        if next.token != Token::Eof {
+            self.capture(next);
+        }
+        next
+    }
+
+    fn next_token(&mut self) -> TokenAndSpan {
+        let next = self.inner.next_token();
+        if next.token != Token::Eof {
+            self.capture(next);
+        }
+        next
+    }
+
     fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
         self.inner.set_token_value(token_value);
     }
 
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan> {
-        self.inner.scan_jsx_token(allow_multiline_jsx_text)
+    fn scan_jsx_token(&mut self) -> TokenAndSpan {
+        self.inner.scan_jsx_token()
     }
 
-    fn scan_jsx_open_el_terminal_token(&mut self) -> Option<TokenAndSpan> {
+    fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
         self.inner.scan_jsx_open_el_terminal_token()
     }
 
-    fn rescan_jsx_open_el_terminal_token(
-        &mut self,
-        reset: swc_common::BytePos,
-    ) -> Option<TokenAndSpan> {
-        self.inner.rescan_jsx_open_el_terminal_token(reset)
+    fn rescan_jsx_open_el_terminal_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
+        let ts = self.inner.rescan_jsx_open_el_terminal_token(reset);
+        self.capture(ts);
+        ts
     }
 
-    fn rescan_jsx_token(
-        &mut self,
-        allow_multiline_jsx_text: bool,
-        reset: swc_common::BytePos,
-    ) -> Option<TokenAndSpan> {
-        self.inner.rescan_jsx_token(allow_multiline_jsx_text, reset)
+    fn rescan_jsx_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
+        let ts = self.inner.rescan_jsx_token(reset);
+        self.capture(ts);
+        ts
     }
 
     fn scan_jsx_identifier(&mut self, start: swc_common::BytePos) -> TokenAndSpan {
-        self.inner.scan_jsx_identifier(start)
+        let ts = self.inner.scan_jsx_identifier(start);
+        self.capture(ts);
+        ts
     }
 
-    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan> {
-        self.inner.scan_jsx_attribute_value()
+    fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
+        let ts = self.inner.scan_jsx_attribute_value();
+        self.capture(ts);
+        ts
     }
 
     fn rescan_template_token(
         &mut self,
         start: swc_common::BytePos,
         start_with_back_tick: bool,
-    ) -> Option<TokenAndSpan> {
-        self.inner
-            .rescan_template_token(start, start_with_back_tick)
+    ) -> TokenAndSpan {
+        let ts = self
+            .inner
+            .rescan_template_token(start, start_with_back_tick);
+        self.capture(ts);
+        ts
     }
 }

@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_malloc"
 repository    = { workspace = true }
-version       = "1.2.3"
+version       = "1.2.4"
 
 [lib]
 bench = false

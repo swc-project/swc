@@ -1,12 +1,12 @@
-var _require = require("react/jsx-runtime"), _jsx = _require.jsx;
-var render = function() {
+import { jsx as _jsx } from "react/jsx-runtime";
+var render = function render() {
     return /*#__PURE__*/ _jsx(widget.component.type, {});
 };
-var foo = function() {
+var foo = function foo() {
     return /*#__PURE__*/ _jsx(widget.string, {
         children: /*#__PURE__*/ _jsx(Foo.interface, {})
     });
 };
-var bar = function() {
+var bar = function bar() {
     return /*#__PURE__*/ _jsx("widget:number", {});
 };

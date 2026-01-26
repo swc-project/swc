@@ -4,12 +4,12 @@ use std::{
     process::{Command, Stdio},
 };
 
-use anyhow::{Context, Result};
+use anyhow::Result;
 use assert_cmd::prelude::*;
 use assert_fs::TempDir;
 
 fn cli() -> Result<Command> {
-    let mut cmd = Command::cargo_bin("swc").context("Failed to get swc binary")?;
+    let mut cmd = Command::new(assert_cmd::cargo::cargo_bin!("swc"));
     cmd.stderr(Stdio::inherit());
     Ok(cmd)
 }

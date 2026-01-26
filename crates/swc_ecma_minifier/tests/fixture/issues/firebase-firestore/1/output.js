@@ -15,7 +15,7 @@
             });
             /* unused harmony exports AbstractUserDataWriter, Bytes, CACHE_SIZE_UNLIMITED, CollectionReference, DocumentReference, DocumentSnapshot, FieldPath, FieldValue, Firestore, FirestoreError, GeoPoint, LoadBundleTask, Query, QueryConstraint, QueryDocumentSnapshot, QuerySnapshot, SnapshotMetadata, Timestamp, Transaction, WriteBatch, _DatabaseId, _DocumentKey, _EmptyCredentialsProvider, _FieldPath, _cast, _debugAssert, _isBase64Available, _logWarn, _validateIsNotUsedTogether, addDoc, arrayRemove, arrayUnion, clearIndexedDbPersistence, collectionGroup, connectFirestoreEmulator, deleteDoc, deleteField, disableNetwork, doc, documentId, enableIndexedDbPersistence, enableMultiTabIndexedDbPersistence, enableNetwork, endAt, endBefore, ensureFirestoreConfigured, executeWrite, getDoc, getDocFromCache, getDocFromServer, getDocsFromCache, getDocsFromServer, getFirestore, increment, initializeFirestore, limit, limitToLast, loadBundle, namedQuery, onSnapshot, onSnapshotsInSync, orderBy, query, queryEqual, refEqual, runTransaction, serverTimestamp, setDoc, setLogLevel, snapshotEqual, startAfter, startAt, terminate, updateDoc, waitForPendingWrites, where, writeBatch */ /* harmony import */ var hn, ln, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2238), _firebase_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8463), _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3333), _firebase_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4444), _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3510);
             __webpack_require__(4155);
-            const S = "@firebase/firestore";
+            let S = "@firebase/firestore";
             /**
                  * @license
                  * Copyright 2017 Google LLC
@@ -69,36 +69,20 @@
                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                  * See the License for the specific language governing permissions and
                  * limitations under the License.
-                 */ let C = "9.4.0";
-            /**
-                 * @license
-                 * Copyright 2017 Google LLC
-                 *
-                 * Licensed under the Apache License, Version 2.0 (the "License");
-                 * you may not use this file except in compliance with the License.
-                 * You may obtain a copy of the License at
-                 *
-                 *   http://www.apache.org/licenses/LICENSE-2.0
-                 *
-                 * Unless required by applicable law or agreed to in writing, software
-                 * distributed under the License is distributed on an "AS IS" BASIS,
-                 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-                 * See the License for the specific language governing permissions and
-                 * limitations under the License.
-                 */ const N = new _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ /* .Logger */ .Yd("@firebase/firestore");
+                 */ let C = "9.4.0", N = new _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ /* .Logger */ .Yd("@firebase/firestore");
             // Helper methods are needed because variables can't be exported as read/write
             function x() {
                 return N.logLevel;
             }
             function $(t, ...e) {
                 if (N.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ /* .LogLevel.DEBUG */ .in.DEBUG) {
-                    const n = e.map(M);
+                    let n = e.map(M);
                     N.debug(`Firestore (${C}): ${t}`, ...n);
                 }
             }
             function O(t, ...e) {
                 if (N.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ /* .LogLevel.ERROR */ .in.ERROR) {
-                    const n = e.map(M);
+                    let n = e.map(M);
                     N.error(`Firestore (${C}): ${t}`, ...n);
                 }
             }
@@ -106,7 +90,7 @@
                  * @internal
                  */ function F(t, ...e) {
                 if (N.logLevel <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ /* .LogLevel.WARN */ .in.WARN) {
-                    const n = e.map(M);
+                    let n = e.map(M);
                     N.warn(`Firestore (${C}): ${t}`, ...n);
                 }
             }
@@ -146,7 +130,7 @@
                  */ function L(t = "Unexpected state") {
                 // Log the failure in addition to throw an exception, just in case the
                 // exception is swallowed.
-                const e = `FIRESTORE (${C}) INTERNAL ASSERTION FAILED: ` + t;
+                let e = `FIRESTORE (${C}) INTERNAL ASSERTION FAILED: ` + t;
                 // NOTE: We don't use FirestoreError here because these are internal failures
                 // that cannot be handled by the user. (Also it would create a circular
                 // dependency between the error and assert modules which doesn't work.)
@@ -167,7 +151,7 @@
                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                  * See the License for the specific language governing permissions and
                  * limitations under the License.
-                 */ const K = {
+                 */ let K = {
                 // Causes are copied from:
                 // https://github.com/grpc/grpc/blob/bceec94ea4fc5f0085d81235d8e1c06798dc341a/include/grpc%2B%2B/impl/codegen/status_code_enum.h
                 /** Not an error; returned on success. */ OK: "ok",
@@ -339,17 +323,12 @@
                              */ this.i = 0, this.forceRefresh = !1, this.auth = null;
                 }
                 start(t, e) {
-                    let n = this.i;
-                    // A change listener that prevents double-firing for the same token change.
-                    const s = (t)=>this.i !== n ? (n = this.i, e(t)) : Promise.resolve();
-                    // A promise that can be waited on to block on the next token change.
-                    // This promise is re-created after each change.
-                    let i = new Q();
+                    let n = this.i, s = (t)=>this.i !== n ? (n = this.i, e(t)) : Promise.resolve(), i = new Q();
                     this.o = ()=>{
                         this.i++, this.currentUser = this.u(), i.resolve(), i = new Q(), t.enqueueRetryable(()=>s(this.currentUser));
                     };
-                    const r = ()=>{
-                        const e = i;
+                    let r = ()=>{
+                        let e = i;
                         t.enqueueRetryable(async ()=>{
                             await e.promise, await s(this.currentUser);
                         });
@@ -361,7 +340,7 @@
                     // determine whether to start up in unauthenticated mode.
                     setTimeout(()=>{
                         if (!this.auth) {
-                            const t = this.t.getImmediate({
+                            let t = this.t.getImmediate({
                                 optional: !0
                             });
                             t ? o(t) : ($("FirebaseCredentialsProvider", "Auth not yet detected"), i.resolve(), i = new Q());
@@ -372,7 +351,7 @@
                     // Take note of the current value of the tokenCounter so that this method
                     // can fail (with an ABORTED error) if there is a token change while the
                     // request is outstanding.
-                    const t = this.i, e = this.forceRefresh;
+                    let t = this.i, e = this.forceRefresh;
                     return this.forceRefresh = !1, this.auth ? this.auth.getToken(e).then((e)=>// Cancel the request since the token changed while the request was
                         // outstanding so the response is potentially for a previous user (which
                         // user, we can't be sure).
@@ -389,7 +368,7 @@
                 // This method should only be called in the AuthTokenListener callback
                 // to guarantee to get the actual user.
                 u() {
-                    const t = this.auth && this.auth.getUid();
+                    let t = this.auth && this.auth.getUid();
                     return null === t || "string" == typeof t || L(), new D(t);
                 }
             }
@@ -404,7 +383,7 @@
                     this.h = t, this.l = e, this.m = n, this.type = "FirstParty", this.user = D.FIRST_PARTY;
                 }
                 get authHeaders() {
-                    const t = {
+                    let t = {
                         "X-Goog-AuthUser": this.l
                     }, e = this.h.auth.getAuthHeaderValueForFirstParty([]);
                     // Use array notation to prevent minification
@@ -460,7 +439,7 @@
                     return this.previousValue = Math.max(t, this.previousValue), this.previousValue;
                 }
                 next() {
-                    const t = ++this.previousValue;
+                    let t = ++this.previousValue;
                     return this.p && this.p(t), t;
                 }
             }
@@ -483,11 +462,9 @@
             class tt {
                 static I() {
                     // Alphanumeric characters
-                    const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length;
-                    // The largest byte value that is a multiple of `char.length`.
-                    let n = "";
+                    let t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length, n = "";
                     for(; n.length < 20;){
-                        const s = /**
+                        let s = /**
                  * @license
                  * Copyright 2020 Google LLC
                  *
@@ -506,14 +483,14 @@
                  * Generates `nBytes` of random bytes.
                  *
                  * If `nBytes < 0` , an error will be thrown.
-                 */ function(t) {
+                 */ function() {
                             // Polyfills for IE and WebWorker by using `self` and `msCrypto` when `crypto` is not available.
-                            const e = // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
+                            let e = // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            "u" > typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
                             if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
                             else for(let e = 0; e < 40; e++)n[e] = Math.floor(256 * Math.random());
                             return n;
-                        }(0);
+                        }();
                         for(let i = 0; i < s.length; ++i)// Only accept values that are [0, maxMultiple), this ensures they can
                         // be evenly mapped to indices of `chars` via a modulo operation.
                         n.length < 20 && s[i] < e && (n += t.charAt(s[i] % t.length));
@@ -599,7 +576,7 @@
                      * @returns A new `Timestamp` representing the same point in time as the given
                      *     number of milliseconds.
                      */ static fromMillis(t) {
-                    const e = Math.floor(t / 1e3), n = Math.floor(1e6 * (t - 1e3 * e));
+                    let e = Math.floor(t / 1e3), n = Math.floor(1e6 * (t - 1e3 * e));
                     return new it(e, n);
                 }
                 /**
@@ -712,11 +689,11 @@
                  * limitations under the License.
                  */ function ot(t) {
                 let e = 0;
-                for(const n in t)Object.prototype.hasOwnProperty.call(t, n) && e++;
+                for(let n in t)Object.prototype.hasOwnProperty.call(t, n) && e++;
                 return e;
             }
             function ct(t, e) {
-                for(const n in t)Object.prototype.hasOwnProperty.call(t, n) && e(n, t[n]);
+                for(let n in t)Object.prototype.hasOwnProperty.call(t, n) && e(n, t[n]);
             }
             /**
                  * @license
@@ -746,7 +723,7 @@
                     return 0 === ut.comparator(this, t);
                 }
                 child(t) {
-                    const e = this.segments.slice(this.offset, this.limit());
+                    let e = this.segments.slice(this.offset, this.limit());
                     return t instanceof ut ? t.forEach((t)=>{
                         e.push(t);
                     }) : e.push(t), this.construct(e);
@@ -789,9 +766,9 @@
                     return this.segments.slice(this.offset, this.limit());
                 }
                 static comparator(t, e) {
-                    const n = Math.min(t.length, e.length);
+                    let n = Math.min(t.length, e.length);
                     for(let s = 0; s < n; s++){
-                        const n = t.get(s), i = e.get(s);
+                        let n = t.get(s), i = e.get(s);
                         if (n < i) return -1;
                         if (n > i) return 1;
                     }
@@ -824,8 +801,8 @@
                     // NOTE: The client is ignorant of any path segments containing escape
                     // sequences (e.g. __id123__) and just passes them through raw (they exist
                     // for legacy reasons and should not be used frequently).
-                    const e = [];
-                    for (const n of t){
+                    let e = [];
+                    for (let n of t){
                         if (n.indexOf("//") >= 0) throw new j(K.INVALID_ARGUMENT, `Invalid segment (${n}). Paths must not contain // in them.`);
                         // Strip leading and traling slashed.
                         e.push(...n.split("/").filter((t)=>t.length > 0));
@@ -836,7 +813,7 @@
                     return new ht([]);
                 }
             }
-            const lt = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
+            let lt = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
             /**
                  * A dot-separated path for navigating sub-objects within a document.
                  * @internal
@@ -878,18 +855,15 @@
                      * TODO(b/37244157): we should make this more strict. Right now, it allows
                      * non-identifier path components, even if they aren't escaped.
                      */ static fromServerFormat(t) {
-                    const e = [];
-                    let n = "", s = 0;
-                    const i = ()=>{
+                    let e = [], n = "", s = 0, i = ()=>{
                         if (0 === n.length) throw new j(K.INVALID_ARGUMENT, `Invalid field path (${t}). Paths must not be empty, begin with '.', end with '.', or contain '..'`);
                         e.push(n), n = "";
-                    };
-                    let r = !1;
+                    }, r = !1;
                     for(; s < t.length;){
-                        const e = t[s];
+                        let e = t[s];
                         if ("\\" === e) {
                             if (s + 1 === t.length) throw new j(K.INVALID_ARGUMENT, "Path has trailing escape character: " + t);
-                            const e = t[s + 1];
+                            let e = t[s + 1];
                             if ("\\" !== e && "." !== e && "`" !== e) throw new j(K.INVALID_ARGUMENT, "Path has invalid escape sequence: " + t);
                             n += e, s += 2;
                         } else "`" === e ? r = !r : "." !== e || r ? n += e : i(), s++;
@@ -963,7 +937,7 @@
                              * limitations under the License.
                              */ // A RegExp matching ISO 8601 UTC timestamps with optional fraction.
                     this.binaryString;
-                    const e = new Uint8Array(t.length);
+                    let e = new Uint8Array(t.length);
                     for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
                     return e;
                 }
@@ -978,7 +952,7 @@
                 }
             }
             _t.EMPTY_BYTE_STRING = new _t("");
-            const mt = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
+            let mt = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
             /**
                  * Converts the possible Proto values for a timestamp value into a "seconds and
                  * nanos" representation.
@@ -990,8 +964,7 @@
                     // The date string can have higher precision (nanos) than the Date class
                     // (millis), so we do some custom parsing here.
                     // Parse the nanos right out of the string.
-                    let e = 0;
-                    const n = mt.exec(t);
+                    let e = 0, n = mt.exec(t);
                     if (n || L(), n[1]) {
                         // Pad the fraction out to 9 digits (nanos).
                         let t = n[1];
@@ -1056,7 +1029,7 @@
             /**
                  * Returns the local time at which this timestamp was first set.
                  */ function It(t) {
-                const e = gt(t.mapValue.fields.__local_write_time__.timestampValue);
+                let e = gt(t.mapValue.fields.__local_write_time__.timestampValue);
                 return new it(e.seconds, e.nanos);
             }
             /**
@@ -1154,7 +1127,7 @@
                 return "nullValue" in t ? 0 /* NullValue */  : "booleanValue" in t ? 1 /* BooleanValue */  : "integerValue" in t || "doubleValue" in t ? 2 /* NumberValue */  : "timestampValue" in t ? 3 /* TimestampValue */  : "stringValue" in t ? 5 /* StringValue */  : "bytesValue" in t ? 6 /* BlobValue */  : "referenceValue" in t ? 7 /* RefValue */  : "geoPointValue" in t ? 8 /* GeoPointValue */  : "arrayValue" in t ? 9 /* ArrayValue */  : "mapValue" in t ? Tt(t) ? 4 /* ServerTimestampValue */  : 10 /* ObjectValue */  : L();
             }
             /** Tests `left` and `right` for equality based on the backend semantics. */ function Vt(t, e) {
-                const n = vt(t);
+                let n = vt(t);
                 if (n !== vt(e)) return !1;
                 switch(n){
                     case 0 /* NullValue */ :
@@ -1166,7 +1139,7 @@
                     case 3 /* TimestampValue */ :
                         if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) // Use string equality for ISO 8601 timestamps
                         return t.timestampValue === e.timestampValue;
-                        const n1 = gt(t.timestampValue), s = gt(e.timestampValue);
+                        let n1 = gt(t.timestampValue), s = gt(e.timestampValue);
                         return n1.seconds === s.seconds && n1.nanos === s.nanos;
                     case 5 /* StringValue */ :
                         return t.stringValue === e.stringValue;
@@ -1179,16 +1152,16 @@
                     case 2 /* NumberValue */ :
                         if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
                         if ("doubleValue" in t && "doubleValue" in e) {
-                            const n = yt(t.doubleValue), s = yt(e.doubleValue);
+                            let n = yt(t.doubleValue), s = yt(e.doubleValue);
                             return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
                         }
                         return !1;
                     case 9 /* ArrayValue */ :
                         return nt(t.arrayValue.values || [], e.arrayValue.values || [], Vt);
                     case 10 /* ObjectValue */ :
-                        const n2 = /** Returns true if the ArrayValue contains the specified element. */ t.mapValue.fields || {}, s1 = e.mapValue.fields || {};
+                        let n2 = /** Returns true if the ArrayValue contains the specified element. */ t.mapValue.fields || {}, s1 = e.mapValue.fields || {};
                         if (ot(n2) !== ot(s1)) return !1;
-                        for(const t in n2)if (n2.hasOwnProperty(t) && (void 0 === s1[t] || !Vt(n2[t], s1[t]))) return !1;
+                        for(let t in n2)if (n2.hasOwnProperty(t) && (void 0 === s1[t] || !Vt(n2[t], s1[t]))) return !1;
                         return !0;
                     default:
                         return L();
@@ -1198,7 +1171,8 @@
                 return void 0 !== (t.values || []).find((t)=>Vt(t, e));
             }
             function Dt(t, e) {
-                const n = vt(t), s = vt(e);
+                var t1, e1, t2, e2;
+                let n = vt(t), s = vt(e);
                 if (n !== s) return et(n, s);
                 switch(n){
                     case 0 /* NullValue */ :
@@ -1206,8 +1180,8 @@
                     case 1 /* BooleanValue */ :
                         return et(t.booleanValue, e.booleanValue);
                     case 2 /* NumberValue */ :
-                        const n1 = yt(t.integerValue || t.doubleValue), s1 = yt(e.integerValue || e.doubleValue);
-                        return n1 < s1 ? -1 : n1 > s1 ? 1 : n1 === s1 ? 0 : isNaN(n1) ? isNaN(s1) ? 0 : -1 : 1;
+                        let n1, s1;
+                        return (n1 = yt(t.integerValue || t.doubleValue)) < (s1 = yt(e.integerValue || e.doubleValue)) ? -1 : n1 > s1 ? 1 : n1 === s1 ? 0 : isNaN(n1) ? isNaN(s1) ? 0 : -1 : 1;
                     case 3 /* TimestampValue */ :
                         return Ct(t.timestampValue, e.timestampValue);
                     case 4 /* ServerTimestampValue */ :
@@ -1215,45 +1189,41 @@
                     case 5 /* StringValue */ :
                         return et(t.stringValue, e.stringValue);
                     case 6 /* BlobValue */ :
-                        return function(t, e) {
-                            const n = pt(t), s = pt(e);
-                            return n.compareTo(s);
-                        }(t.bytesValue, e.bytesValue);
+                        let n2, s2;
+                        return t1 = t.bytesValue, e1 = e.bytesValue, n2 = pt(t1), s2 = pt(e1), n2.compareTo(s2);
                     case 7 /* RefValue */ :
                         return function(t, e) {
-                            const n = t.split("/"), s = e.split("/");
+                            let n = t.split("/"), s = e.split("/");
                             for(let t = 0; t < n.length && t < s.length; t++){
-                                const e = et(n[t], s[t]);
+                                let e = et(n[t], s[t]);
                                 if (0 !== e) return e;
                             }
                             return et(n.length, s.length);
                         }(t.referenceValue, e.referenceValue);
                     case 8 /* GeoPointValue */ :
-                        return function(t, e) {
-                            const n = et(yt(t.latitude), yt(e.latitude));
-                            return 0 !== n ? n : et(yt(t.longitude), yt(e.longitude));
-                        }(t.geoPointValue, e.geoPointValue);
+                        let n3;
+                        return t2 = t.geoPointValue, e2 = e.geoPointValue, 0 !== (n3 = et(yt(t2.latitude), yt(e2.latitude))) ? n3 : et(yt(t2.longitude), yt(e2.longitude));
                     case 9 /* ArrayValue */ :
                         return function(t, e) {
-                            const n = t.values || [], s = e.values || [];
+                            let n = t.values || [], s = e.values || [];
                             for(let t = 0; t < n.length && t < s.length; ++t){
-                                const e = Dt(n[t], s[t]);
+                                let e = Dt(n[t], s[t]);
                                 if (e) return e;
                             }
                             return et(n.length, s.length);
                         }(t.arrayValue, e.arrayValue);
                     case 10 /* ObjectValue */ :
                         return function(t, e) {
-                            const n = t.fields || {}, s = Object.keys(n), i = e.fields || {}, r = Object.keys(i);
+                            let n = t.fields || {}, s = Object.keys(n), i = e.fields || {}, r = Object.keys(i);
                             // Even though MapValues are likely sorted correctly based on their insertion
                             // order (e.g. when received from the backend), local modifications can bring
                             // elements out of order. We need to re-sort the elements to ensure that
                             // canonical IDs are independent of insertion order.
                             s.sort(), r.sort();
                             for(let t = 0; t < s.length && t < r.length; ++t){
-                                const e = et(s[t], r[t]);
+                                let e = et(s[t], r[t]);
                                 if (0 !== e) return e;
-                                const o = Dt(n[s[t]], i[r[t]]);
+                                let o = Dt(n[s[t]], i[r[t]]);
                                 if (0 !== o) return o;
                             }
                             return et(s.length, r.length);
@@ -1267,24 +1237,21 @@
             }
             function Ct(t, e) {
                 if ("string" == typeof t && "string" == typeof e && t.length === e.length) return et(t, e);
-                const n = gt(t), s = gt(e), i = et(n.seconds, s.seconds);
+                let n = gt(t), s = gt(e), i = et(n.seconds, s.seconds);
                 return 0 !== i ? i : et(n.nanos, s.nanos);
             }
             function xt(t) {
                 var e, n;
-                return "nullValue" in t ? "null" : "booleanValue" in t ? "" + t.booleanValue : "integerValue" in t ? "" + t.integerValue : "doubleValue" in t ? "" + t.doubleValue : "timestampValue" in t ? function(t) {
-                    const e = gt(t);
-                    return `time(${e.seconds},${e.nanos})`;
-                }(t.timestampValue) : "stringValue" in t ? t.stringValue : "bytesValue" in t ? pt(t.bytesValue).toBase64() : "referenceValue" in t ? (n = t.referenceValue, Pt.fromName(n).toString()) : "geoPointValue" in t ? `geo(${(e = t.geoPointValue).latitude},${e.longitude})` : "arrayValue" in t ? function(t) {
+                let e1;
+                return "nullValue" in t ? "null" : "booleanValue" in t ? "" + t.booleanValue : "integerValue" in t ? "" + t.integerValue : "doubleValue" in t ? "" + t.doubleValue : "timestampValue" in t ? (e1 = gt(t.timestampValue), `time(${e1.seconds},${e1.nanos})`) : "stringValue" in t ? t.stringValue : "bytesValue" in t ? pt(t.bytesValue).toBase64() : "referenceValue" in t ? (n = t.referenceValue, Pt.fromName(n).toString()) : "geoPointValue" in t ? `geo(${(e = t.geoPointValue).latitude},${e.longitude})` : "arrayValue" in t ? function(t) {
                     let e = "[", n = !0;
-                    for (const s of t.values || [])n ? n = !1 : e += ",", e += xt(s);
+                    for (let s of t.values || [])n ? n = !1 : e += ",", e += xt(s);
                     return e + "]";
                 }(/** Returns a reference value for the provided database and key. */ t.arrayValue) : "mapValue" in t ? function(t) {
                     // Iteration order in JavaScript is not guaranteed. To ensure that we generate
                     // matching canonical IDs for identical maps, we need to sort the keys.
-                    const e = Object.keys(t.fields || {}).sort();
-                    let n = "{", s = !0;
-                    for (const i of e)s ? s = !1 : n += ",", n += `${i}:${xt(t.fields[i])}`;
+                    let e = Object.keys(t.fields || {}).sort(), n = "{", s = !0;
+                    for (let i of e)s ? s = !1 : n += ",", n += `${i}:${xt(t.fields[i])}`;
                     return n + "}";
                 }(t.mapValue) : L();
             }
@@ -1311,7 +1278,7 @@
                     timestampValue: Object.assign({}, t.timestampValue)
                 };
                 if (t.mapValue) {
-                    const e = {
+                    let e = {
                         mapValue: {
                             fields: {}
                         }
@@ -1319,7 +1286,7 @@
                     return ct(t.mapValue.fields, (t, n)=>e.mapValue.fields[t] = Bt(n)), e;
                 }
                 if (t.arrayValue) {
-                    const e = {
+                    let e = {
                         arrayValue: {
                             values: []
                         }
@@ -1386,12 +1353,12 @@
                     t.forEach((t, i)=>{
                         if (!e.isImmediateParentOf(i)) {
                             // Insert the accumulated changes at this parent location
-                            const t = this.getFieldsMap(e);
+                            let t = this.getFieldsMap(e);
                             this.applyChanges(t, n, s), n = {}, s = [], e = i.popLast();
                         }
                         t ? n[i.lastSegment()] = Bt(t) : s.push(i.lastSegment());
                     });
-                    const i = this.getFieldsMap(e);
+                    let i = this.getFieldsMap(e);
                     this.applyChanges(i, n, s);
                 }
                 /**
@@ -1400,7 +1367,7 @@
                      *
                      * @param path - The field path to remove.
                      */ delete(t) {
-                    const e = this.field(t.popLast());
+                    let e = this.field(t.popLast());
                     Lt(e) && e.mapValue.fields && delete e.mapValue.fields[t.lastSegment()];
                 }
                 isEqual(t) {
@@ -1428,7 +1395,7 @@
                      * Modifies `fieldsMap` by adding, replacing or deleting the specified
                      * entries.
                      */ applyChanges(t, e, n) {
-                    for (const e1 of (ct(e, (e, n)=>t[e] = n), n))delete t[e1];
+                    for (let e1 of (ct(e, (e, n)=>t[e] = n), n))delete t[e1];
                 }
                 clone() {
                     return new Ut(Bt(this.value));
@@ -1606,7 +1573,7 @@
                     return "in" /* IN */  === e ? new Zt(t, n) : new te(t, n);
                 }
                 matches(t) {
-                    const e = t.data.field(this.field);
+                    let e = t.data.field(this.field);
                     // Types do not have to match in NOT_EQUAL filters.
                     return "!=" /* NOT_EQUAL */  === this.op ? null !== e && this.P(Dt(e, this.value)) : null !== e && vt(this.value) === vt(e) && this.P(Dt(e, this.value));
                 // Only compare types with matching backend order (such as double and int).
@@ -1645,7 +1612,7 @@
                     super(t, e, n), this.key = Pt.fromName(n.referenceValue);
                 }
                 matches(t) {
-                    const e = Pt.comparator(t.key, this.key);
+                    let e = Pt.comparator(t.key, this.key);
                     return this.P(e);
                 }
             }
@@ -1674,7 +1641,7 @@
                     super(t, "array-contains" /* ARRAY_CONTAINS */ , e);
                 }
                 matches(t) {
-                    const e = t.data.field(this.field);
+                    let e = t.data.field(this.field);
                     return Ot(e) && St(e.arrayValue, this.value);
                 }
             }
@@ -1683,7 +1650,7 @@
                     super(t, "in" /* IN */ , e);
                 }
                 matches(t) {
-                    const e = t.data.field(this.field);
+                    let e = t.data.field(this.field);
                     return null !== e && St(this.value.arrayValue, e);
                 }
             }
@@ -1695,7 +1662,7 @@
                     if (St(this.value.arrayValue, {
                         nullValue: "NULL_VALUE"
                     })) return !1;
-                    const e = t.data.field(this.field);
+                    let e = t.data.field(this.field);
                     return null !== e && !St(this.value.arrayValue, e);
                 }
             }
@@ -1704,7 +1671,7 @@
                     super(t, "array-contains-any" /* ARRAY_CONTAINS_ANY */ , e);
                 }
                 matches(t) {
-                    const e = t.data.field(this.field);
+                    let e = t.data.field(this.field);
                     return !(!Ot(e) || !e.arrayValue.values) && e.arrayValue.values.some((t)=>St(this.value.arrayValue, t));
                 }
             }
@@ -1743,7 +1710,7 @@
                  */ function he(t, e, n) {
                 let s = 0;
                 for(let i = 0; i < t.position.length; i++){
-                    const r = e[i], o = t.position[i];
+                    let r = e[i], o = t.position[i];
                     if (s = r.field.isKeyField() ? Pt.comparator(Pt.fromName(o.referenceValue), n.key) : Dt(o, n.data.field(r.field)), "desc" /* DESCENDING */  === r.dir && (s *= -1), 0 !== s) break;
                 }
                 return t.before ? s <= 0 : s < 0;
@@ -1802,8 +1769,8 @@
                  */ function Te(t) {
                 if (null === t.V) {
                     t.V = [];
-                    const t1 = function(t) {
-                        for (const e of t.filters)if (e.v()) return e.field;
+                    let t1 = function(t) {
+                        for (let e of t.filters)if (e.v()) return e.field;
                         return null;
                     }(t), n = t.explicitOrderBy.length > 0 ? t.explicitOrderBy[0].field : null;
                     if (null !== t1 && null === n) // In order to implicitly add key ordering, we must also add the
@@ -1812,11 +1779,11 @@
                     t1.isKeyField() || t.V.push(new ae(t1)), t.V.push(new ae(ft.keyField(), "asc" /* ASCENDING */ ));
                     else {
                         let t1 = !1;
-                        for (const n of t.explicitOrderBy)t.V.push(n), n.field.isKeyField() && (t1 = !0);
+                        for (let n of t.explicitOrderBy)t.V.push(n), n.field.isKeyField() && (t1 = !0);
                         if (!t1) {
                             // The order of the implicit key ordering always matches the last
                             // explicit order by
-                            const t1 = t.explicitOrderBy.length > 0 ? t.explicitOrderBy[t.explicitOrderBy.length - 1].dir : "asc"; /* ASCENDING */ 
+                            let t1 = t.explicitOrderBy.length > 0 ? t.explicitOrderBy[t.explicitOrderBy.length - 1].dir : "asc"; /* ASCENDING */ 
                             t.V.push(new ae(ft.keyField(), t1));
                         }
                     }
@@ -1829,13 +1796,13 @@
                 if (!t.S) if ("F" /* First */  === t.limitType) t.S = Qt(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
                 else {
                     // Flip the orderBy directions since we want the last results
-                    const t1 = [];
-                    for (const n of Te(t)){
-                        const e = "desc" /* DESCENDING */  === n.dir ? "asc" /* ASCENDING */  : "desc"; /* DESCENDING */ 
+                    let t1 = [];
+                    for (let n of Te(t)){
+                        let e = "desc" /* DESCENDING */  === n.dir ? "asc" /* ASCENDING */  : "desc"; /* DESCENDING */ 
                         t1.push(new ae(n.field, e));
                     }
                     // We need to swap the cursors to match the now-flipped query ordering.
-                    const n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
+                    let n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
                     // Now return as a LimitType.First query.
                     t.S = Qt(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
                 }
@@ -1856,18 +1823,16 @@
                 return `Query(target=${e = (t1 = Ee(t)).path.canonicalString(), null !== t1.collectionGroup && (e += " collectionGroup=" + t1.collectionGroup), t1.filters.length > 0 && (e += `, filters: [${t1.filters.map((t)=>`${t.field.canonicalString()} ${t.op} ${xt(t.value)}`).join(", ")}]`), At(t1.limit) || (e += ", limit: " + t1.limit), t1.orderBy.length > 0 && (e += `, orderBy: [${t1.orderBy.map((t)=>`${t.field.canonicalString()} (${t.dir})`).join(", ")}]`), t1.startAt && (e += ", startAt: " + ce(t1.startAt)), t1.endAt && (e += ", endAt: " + ce(t1.endAt)), `Target(${e})`}; limitType=${t.limitType})`;
             }
             /** Returns whether `doc` matches the constraints of `query`. */ function Pe(t, e) {
-                return e.isFoundDocument() && function(t, e) {
-                    const n = e.key.path;
-                    return null !== t.collectionGroup ? e.key.hasCollectionId(t.collectionGroup) && t.path.isPrefixOf(n) : Pt.isDocumentKey(t.path) ? t.path.isEqual(n) : t.path.isImmediateParentOf(n);
-                }(/**
+                let n;
+                return e.isFoundDocument() && (n = e.key.path, null !== /**
                              * A document must have a value for every ordering clause in order to show up
                              * in the results.
-                             */ t, e) && function(t, e) {
+                             */ t.collectionGroup ? e.key.hasCollectionId(t.collectionGroup) && t.path.isPrefixOf(n) : Pt.isDocumentKey(t.path) ? t.path.isEqual(n) : t.path.isImmediateParentOf(n)) && function(t, e) {
                     // order by key always matches
-                    for (const n of t.explicitOrderBy)if (!n.field.isKeyField() && null === e.data.field(n.field)) return !1;
+                    for (let n of t.explicitOrderBy)if (!n.field.isKeyField() && null === e.data.field(n.field)) return !1;
                     return !0;
                 }(t, e) && function(t, e) {
-                    for (const n of t.filters)if (!n.matches(e)) return !1;
+                    for (let n of t.filters)if (!n.matches(e)) return !1;
                     return !0;
                 }(/** Makes sure a document is within the bounds, if provided. */ t, e) && !(/**
                              * Returns a new comparator function that can be used to compare two documents
@@ -1877,17 +1842,15 @@
             function ve(t) {
                 return (e, n)=>{
                     let s = !1;
-                    for (const i of Te(t)){
-                        const t = function(t, e, n) {
-                            const s = t.field.isKeyField() ? Pt.comparator(e.key, n.key) : function(t, e, n) {
-                                const s = e.data.field(t), i = n.data.field(t);
-                                return null !== s && null !== i ? Dt(s, i) : L();
-                            }(t.field, e, n);
+                    for (let i of Te(t)){
+                        let t = function(t, e, n) {
+                            var t1;
+                            let s, i, s1 = t.field.isKeyField() ? Pt.comparator(e.key, n.key) : (t1 = t.field, s = e.data.field(t1), i = n.data.field(t1), null !== s && null !== i ? Dt(s, i) : L());
                             switch(t.dir){
                                 case "asc" /* ASCENDING */ :
-                                    return s;
+                                    return s1;
                                 case "desc" /* DESCENDING */ :
-                                    return -1 * s;
+                                    return -1 * s1;
                                 default:
                                     return L();
                             }
@@ -1928,8 +1891,8 @@
                 }
             }
             function Me(t, e) {
-                const n = Ke(e);
-                for (const e of t.elements)n.some((t)=>Vt(t, e)) || n.push(e);
+                let n = Ke(e);
+                for (let e of t.elements)n.some((t)=>Vt(t, e)) || n.push(e);
                 return {
                     arrayValue: {
                         values: n
@@ -1943,7 +1906,7 @@
             }
             function Be(t, e) {
                 let n = Ke(e);
-                for (const e of t.elements)n = n.filter((t)=>!Vt(t, e));
+                for (let e of t.elements)n = n.filter((t)=>!Vt(t, e));
                 return {
                     arrayValue: {
                         values: n
@@ -2030,7 +1993,7 @@
                     if (!ze(t.precondition, e)) // The mutation failed to apply (e.g. a document ID created with add()
                     // caused a name collision).
                     return;
-                    const s = t.value.clone(), i = on(t.fieldTransforms, n, e);
+                    let s = t.value.clone(), i = on(t.fieldTransforms, n, e);
                     s.setAll(i), e.convertToFoundDocument(tn(e), s).setHasLocalMutations();
                 }(/**
                                * A mutation that modifies fields of the document at the given key with the
@@ -2046,7 +2009,7 @@
                                *    ignored.
                                */ t, e, n) : t instanceof nn ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
-                    const s = on(t.fieldTransforms, n, e), i = e.data;
+                    let s = on(t.fieldTransforms, n, e), i = e.data;
                     i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(tn(e), i).setHasLocalMutations();
                 }(/**
                                * Returns a FieldPath/Value map with the content of the PatchMutation.
@@ -2089,10 +2052,10 @@
                 }
             }
             function sn(t) {
-                const e = new Map();
+                let e = new Map();
                 return t.fieldMask.fields.forEach((n)=>{
                     if (!n.isEmpty()) {
-                        const s = t.data.field(n);
+                        let s = t.data.field(n);
                         e.set(n, s);
                     }
                 }), e;
@@ -2108,11 +2071,11 @@
                  * @param serverTransformResults - The transform results received by the server.
                  * @returns The transform results list.
                  */ function rn(t, e, n) {
-                var n1;
-                const s = new Map();
+                let s = new Map();
                 t.length === n.length || L();
                 for(let i = 0; i < n.length; i++){
-                    const r = t[i], o = r.transform, c = e.data.field(r.field);
+                    var n1;
+                    let r = t[i], o = r.transform, c = e.data.field(r.field);
                     s.set(r.field, (n1 = n[i], o instanceof Fe ? Me(o, c) : o instanceof Le ? Be(o, c) : n1));
                 }
                 return s;
@@ -2129,34 +2092,31 @@
                  *     previous mutations.
                  * @returns The transform results list.
                  */ function on(t, e, n) {
-                const s = new Map();
-                for (const i of t){
-                    const t = i.transform, r = n.data.field(i.field);
-                    s.set(i.field, t instanceof Oe ? function(t, e) {
-                        const n = {
+                let s = new Map();
+                for (let i of t){
+                    let t = i.transform, r = n.data.field(i.field);
+                    s.set(i.field, /**
+                 * Computes the local transform result against the provided `previousValue`,
+                 * optionally using the provided localWriteTime.
+                 */ function(t, e, n) {
+                        let n1, n2, s;
+                        return t instanceof Oe ? (n1 = {
                             fields: {
                                 __type__: {
                                     stringValue: "server_timestamp"
                                 },
                                 __local_write_time__: {
                                     timestampValue: {
-                                        seconds: t.seconds,
-                                        nanos: t.nanoseconds
+                                        seconds: n.seconds,
+                                        nanos: n.nanoseconds
                                     }
                                 }
                             }
-                        };
-                        return e && (n.fields.__previous_value__ = e), {
-                            mapValue: n
-                        };
-                    }(e, r) : t instanceof Fe ? Me(t, r) : t instanceof Le ? Be(t, r) : function(t, e) {
-                        // PORTING NOTE: Since JavaScript's integer arithmetic is limited to 53 bit
-                        // precision and resolves overflows by reducing precision, we do not
-                        // manually cap overflows at 2^63.
-                        const n = t instanceof Ue ? $t(e) || e && "doubleValue" in e ? e : {
+                        }, e && (n1.fields.__previous_value__ = e), {
+                            mapValue: n1
+                        }) : t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : (s = qe(n2 = t instanceof Ue ? $t(e) || e && "doubleValue" in e ? e : {
                             integerValue: 0
-                        } : null, s = qe(n) + qe(t.C);
-                        return $t(n) && $t(t.C) ? {
+                        } : null) + qe(t.C), $t(n2) && $t(t.C) ? {
                             integerValue: "" + s
                         } : /**
                  * @license
@@ -2191,8 +2151,8 @@
                             return {
                                 doubleValue: Rt(e) ? "-0" : e
                             };
-                        }(t.N, s);
-                    }(t, r));
+                        }(t.N, s));
+                    }(t, r, e));
                 }
                 return s;
             }
@@ -2318,7 +2278,7 @@
                 get(t) {
                     let e = this.root;
                     for(; !e.isEmpty();){
-                        const n = this.comparator(t, e.key);
+                        let n = this.comparator(t, e.key);
                         if (0 === n) return e.value;
                         n < 0 ? e = e.left : n > 0 && (e = e.right);
                     }
@@ -2330,7 +2290,7 @@
                     // Number of nodes that were pruned when descending right
                     let e = 0, n = this.root;
                     for(; !n.isEmpty();){
-                        const s = this.comparator(t, n.key);
+                        let s = this.comparator(t, n.key);
                         if (0 === s) return e + n.left.size;
                         s < 0 ? n = n.left : (e += n.left.size + 1, n = n.right);
                     }
@@ -2363,7 +2323,7 @@
                     this.inorderTraversal((e, n)=>(t(e, n), !1));
                 }
                 toString() {
-                    const t = [];
+                    let t = [];
                     return this.inorderTraversal((e, n)=>(t.push(`${e}:${n}`), !1)), `{${t.join(", ")}}`;
                 }
                 // Traverses the map in reverse key order and calls the specified action
@@ -2410,8 +2370,7 @@
                     }
                 }
                 getNext() {
-                    let t = this.nodeStack.pop();
-                    const e = {
+                    let t = this.nodeStack.pop(), e = {
                         key: t.key,
                         value: t.value
                     };
@@ -2424,7 +2383,7 @@
                 }
                 peek() {
                     if (0 === this.nodeStack.length) return null;
-                    const t = this.nodeStack[this.nodeStack.length - 1];
+                    let t = this.nodeStack[this.nodeStack.length - 1];
                     return {
                         key: t.key,
                         value: t.value
@@ -2472,8 +2431,7 @@
                 }
                 // Returns new tree, with the key/value added.
                 insert(t, e, n) {
-                    let s = this;
-                    const i = n(t, s.key);
+                    let s = this, i = n(t, s.key);
                     return (s = i < 0 ? s.copy(null, null, null, s.left.insert(t, e, n), null) : 0 === i ? s.copy(null, e, null, null, null) : s.copy(null, null, null, null, s.right.insert(t, e, n))).fixUp();
                 }
                 removeMin() {
@@ -2511,15 +2469,15 @@
                     return t.left.left.isRed() && (t = (t = t.rotateRight()).colorFlip()), t;
                 }
                 rotateLeft() {
-                    const t = this.copy(null, null, mn.RED, null, this.right.left);
+                    let t = this.copy(null, null, mn.RED, null, this.right.left);
                     return this.right.copy(null, null, this.color, t, null);
                 }
                 rotateRight() {
-                    const t = this.copy(null, null, mn.RED, this.left.right, null);
+                    let t = this.copy(null, null, mn.RED, this.left.right, null);
                     return this.left.copy(null, null, this.color, null, t);
                 }
                 colorFlip() {
-                    const t = this.left.copy(null, null, !this.left.color, null, null), e = this.right.copy(null, null, !this.right.color, null, null);
+                    let t = this.left.copy(null, null, !this.left.color, null, null), e = this.right.copy(null, null, !this.right.color, null, null);
                     return this.copy(null, null, !this.color, t, e);
                 }
                 // For testing.
@@ -2530,7 +2488,7 @@
                 // leaves is equal on both sides.  This function verifies that or asserts.
                 check() {
                     if (this.isRed() && this.left.isRed() || this.right.isRed()) throw L();
-                    const t = this.left.check();
+                    let t = this.left.check();
                     if (t !== this.right.check()) throw L();
                     return t + +!this.isRed();
                 }
@@ -2640,9 +2598,9 @@
                     this.data.inorderTraversal((e, n)=>(t(e), !1));
                 }
                 /** Iterates over `elem`s such that: range[0] &lt;= elem &lt; range[1]. */ forEachInRange(t, e) {
-                    const n = this.data.getIteratorFrom(t[0]);
+                    let n = this.data.getIteratorFrom(t[0]);
                     for(; n.hasNext();){
-                        const s = n.getNext();
+                        let s = n.getNext();
                         if (this.comparator(s.key, t[1]) >= 0) return;
                         e(s.key);
                     }
@@ -2654,7 +2612,7 @@
                     for(n = void 0 !== e ? this.data.getIteratorFrom(e) : this.data.getIterator(); n.hasNext();)if (!t(n.getNext().key)) return;
                 }
                 /** Finds the least element greater than or equal to `elem`. */ firstAfterOrEqual(t) {
-                    const e = this.data.getIteratorFrom(t);
+                    let e = this.data.getIteratorFrom(t);
                     return e.hasNext() ? e.getNext().key : null;
                 }
                 getIterator() {
@@ -2681,25 +2639,25 @@
                 }
                 isEqual(t) {
                     if (!(t instanceof gn) || this.size !== t.size) return !1;
-                    const e = this.data.getIterator(), n = t.data.getIterator();
+                    let e = this.data.getIterator(), n = t.data.getIterator();
                     for(; e.hasNext();){
-                        const t = e.getNext().key, s = n.getNext().key;
+                        let t = e.getNext().key, s = n.getNext().key;
                         if (0 !== this.comparator(t, s)) return !1;
                     }
                     return !0;
                 }
                 toArray() {
-                    const t = [];
+                    let t = [];
                     return this.forEach((e)=>{
                         t.push(e);
                     }), t;
                 }
                 toString() {
-                    const t = [];
+                    let t = [];
                     return this.forEach((e)=>t.push(e)), "SortedSet(" + t.toString() + ")";
                 }
                 copy(t) {
-                    const e = new gn(this.comparator);
+                    let e = new gn(this.comparator);
                     return e.data = t, e;
                 }
             }
@@ -2729,15 +2687,15 @@
                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                  * See the License for the specific language governing permissions and
                  * limitations under the License.
-                 */ const pn = new wn(Pt.comparator), En = new wn(Pt.comparator);
+                 */ let pn = new wn(Pt.comparator), En = new wn(Pt.comparator);
             new wn(Pt.comparator);
-            const bn = new gn(Pt.comparator);
+            let bn = new gn(Pt.comparator);
             function Pn(...t) {
                 let e = bn;
-                for (const n of t)e = e.add(n);
+                for (let n of t)e = e.add(n);
                 return e;
             }
-            const vn = new gn(et);
+            let vn = new gn(et);
             /**
                  * @license
                  * Copyright 2017 Google LLC
@@ -2780,7 +2738,7 @@
                      * CURRENT status change to a View, for queries executed in a different tab.
                      */ // PORTING NOTE: Multi-tab only
                 static createSynthesizedRemoteEventForCurrentChange(t, e) {
-                    const n = new Map();
+                    let n = new Map();
                     return n.set(t, Dn.createSynthesizedTargetChangeForCurrentChange(t, e)), new Sn(rt.min(), n, vn, pn, Pn());
                 }
             }
@@ -2962,12 +2920,12 @@
                 /**
                      * Processes and adds the DocumentWatchChange to the current set of changes.
                      */ rt(t) {
-                    for (const e of t.k)t.$ && t.$.isFoundDocument() ? this.ot(e, t.$) : this.ct(e, t.key, t.$);
-                    for (const e of t.removedTargetIds)this.ct(e, t.key, t.$);
+                    for (let e of t.k)t.$ && t.$.isFoundDocument() ? this.ot(e, t.$) : this.ct(e, t.key, t.$);
+                    for (let e of t.removedTargetIds)this.ct(e, t.key, t.$);
                 }
                 /** Processes and adds the WatchTargetChange to the current set of changes. */ at(t) {
                     this.forEachTarget(t, (e)=>{
-                        const n = this.ut(e);
+                        let n = this.ut(e);
                         switch(t.state){
                             case 0 /* NoChange */ :
                                 this.ht(e) && n.j(t.resumeToken);
@@ -3015,9 +2973,9 @@
                      * Targets that are invalidated by filter mismatches are added to
                      * `pendingTargetResets`.
                      */ ft(t) {
-                    const e = t.targetId, n = t.O.count, s = this.dt(e);
+                    let e = t.targetId, n = t.O.count, s = this.dt(e);
                     if (s) {
-                        const t = s.target;
+                        let t = s.target;
                         if (Ht(t)) if (0 === n) {
                             // The existence filter told us the document does not exist. We deduce
                             // that this document does not exist and apply a deleted document to
@@ -3025,7 +2983,7 @@
                             // another query that will raise this document as part of a snapshot
                             // until it is resolved, essentially exposing inconsistency between
                             // queries.
-                            const n = new Pt(t.path);
+                            let n = new Pt(t.path);
                             this.ct(e, n, Kt.newNoDocument(n, rt.min()));
                         } else 1 === n || L();
                         else this.wt(e) !== n && // Existence filter mismatch: We reset the mapping and raise a new
@@ -3037,9 +2995,9 @@
                      * Converts the currently accumulated state into a remote event at the
                      * provided snapshot version. Resets the accumulated changes before returning.
                      */ _t(t) {
-                    const e = new Map();
+                    let e = new Map();
                     this.et.forEach((n, s)=>{
-                        const i = this.dt(s);
+                        let i = this.dt(s);
                         if (i) {
                             if (n.current && Ht(i.target)) {
                                 // Document queries for document that don't exist can produce an empty
@@ -3050,7 +3008,7 @@
                                 // TODO(dimond): Ideally we would have an explicit lookup target
                                 // instead resulting in an explicit delete message and we could
                                 // remove this special logic.
-                                const e = new Pt(i.target.path);
+                                let e = new Pt(i.target.path);
                                 null !== this.nt.get(e) || this.gt(s, e) || this.ct(s, e, Kt.newNoDocument(e, t));
                             }
                             n.K && (e.set(s, n.W()), n.G());
@@ -3064,11 +3022,11 @@
                     this.st.forEach((t, e)=>{
                         let s = !0;
                         e.forEachWhile((t)=>{
-                            const e = this.dt(t);
+                            let e = this.dt(t);
                             return !e || 2 /* LimboResolution */  === e.purpose || (s = !1, !1);
                         }), s && (n = n.add(t));
                     });
-                    const s = new Sn(t, e, this.it, this.nt, n);
+                    let s = new Sn(t, e, this.it, this.nt, n);
                     return this.nt = pn, this.st = On(), this.it = new gn(et), s;
                 }
                 /**
@@ -3077,7 +3035,7 @@
                      */ // Visible for testing.
                 ot(t, e) {
                     if (!this.ht(t)) return;
-                    const n = 2 /* Modified */  * !!this.gt(t, e.key); /* Added */ 
+                    let n = 2 /* Modified */  * !!this.gt(t, e.key); /* Added */ 
                     this.ut(t).H(e.key, n), this.nt = this.nt.insert(e.key, e), this.st = this.st.insert(e.key, this.yt(e.key).add(t));
                 }
                 /**
@@ -3089,7 +3047,7 @@
                      */ // Visible for testing.
                 ct(t, e, n) {
                     if (!this.ht(t)) return;
-                    const s = this.ut(t);
+                    let s = this.ut(t);
                     this.gt(t, e) ? s.H(e, 1 /* Removed */ ) : // snapshot, so we can just ignore the change.
                     s.J(e), this.st = this.st.insert(e, this.yt(e).delete(t)), n && (this.nt = this.nt.insert(e, n));
                 }
@@ -3101,7 +3059,7 @@
                      * the number of documents that the LocalStore considers to be part of the
                      * target as well as any accumulated changes.
                      */ wt(t) {
-                    const e = this.ut(t).W();
+                    let e = this.ut(t).W();
                     return this.tt.getRemoteKeysForTarget(t).size + e.addedDocuments.size - e.removedDocuments.size;
                 }
                 /**
@@ -3123,14 +3081,14 @@
                      * `getTargetDataForTarget()`) and that we are not waiting for pending ADDs
                      * from watch.
                      */ ht(t) {
-                    const e = null !== this.dt(t);
+                    let e = null !== this.dt(t);
                     return e || $("WatchChangeAggregator", "Detected inactive target", t), e;
                 }
                 /**
                      * Returns the TargetData for an active target (i.e. a target that the user
                      * is still interested in that has no outstanding target change requests).
                      */ dt(t) {
-                    const e = this.et.get(t);
+                    let e = this.et.get(t);
                     return e && e.q ? null : this.tt.Tt(t);
                 }
                 /**
@@ -3170,7 +3128,7 @@
                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                  * See the License for the specific language governing permissions and
                  * limitations under the License.
-                 */ const Mn = {
+                 */ let Mn = {
                 asc: "ASCENDING",
                 desc: "DESCENDING"
             }, Ln = {
@@ -3204,17 +3162,15 @@
                 }
             }
             function jn(t) {
-                return t || L(), rt.fromTimestamp(function(t) {
-                    const e = gt(t);
-                    return new it(e.seconds, e.nanos);
-                }(t));
+                let e;
+                return t || L(), rt.fromTimestamp(new it((e = gt(t)).seconds, e.nanos));
             }
             function Wn(t) {
-                const e = ht.fromString(t);
+                let e = ht.fromString(t);
                 return Ts(e) || L(), e;
             }
             function zn(t, e) {
-                const n = Wn(e);
+                let n = Wn(e);
                 if (n.get(1) !== t.databaseId.projectId) throw new j(K.INVALID_ARGUMENT, "Tried to deserialize key from different project: " + n.get(1) + " vs " + t.databaseId.projectId);
                 if (n.get(3) !== t.databaseId.database) throw new j(K.INVALID_ARGUMENT, "Tried to deserialize key from different database: " + n.get(3) + " vs " + t.databaseId.database);
                 return new Pt(Xn(n));
@@ -3246,7 +3202,7 @@
                 };
             }
             function fs(t) {
-                const e = !!t.before;
+                let e = !!t.before;
                 return new oe(t.values || [], e);
             }
             function _s(t) {
@@ -3281,10 +3237,9 @@
                  */ function Es(t) {
                 let e = "";
                 for(let n = 0; n < t.length; n++)e.length > 0 && (e += ""), e = /** Encodes a single segment of a resource path into the given result */ function(t, e) {
-                    let n = e;
-                    const s = t.length;
+                    let n = e, s = t.length;
                     for(let e = 0; e < s; e++){
-                        const s = t.charAt(e);
+                        let s = t.charAt(e);
                         switch(s){
                             case "\0":
                                 n += "";
@@ -3397,7 +3352,6 @@
                  * document key. The rows in this table are references based on the contents of
                  * DbMutationBatch.mutations.
                  */ class Ss {
-                constructor(){}
                 /**
                      * Creates a [userId] key for use in the DbDocumentMutations index to iterate
                      * over all of a user's document mutations.
@@ -3763,7 +3717,7 @@
                 }
                 wrapUserFunction(t) {
                     try {
-                        const e = t();
+                        let e = t();
                         return e instanceof js ? e : js.resolve(e);
                     } catch (t) {
                         return js.reject(t);
@@ -3804,11 +3758,11 @@
                      * result will be whether any of them returned `true`.
                      */ static or(t) {
                     let e = js.resolve(!1);
-                    for (const n of t)e = e.next((t)=>t ? js.resolve(t) : n());
+                    for (let n of t)e = e.next((t)=>t ? js.resolve(t) : n());
                     return e;
                 }
                 static forEach(t, e) {
-                    const n = [];
+                    let n = [];
                     return t.forEach((t, s)=>{
                         n.push(e.call(this, t, s));
                     }), this.waitFor(n);
@@ -3858,28 +3812,35 @@
                      * @param batchResult - The result of applying the MutationBatch to the
                      * backend.
                      */ applyToRemoteDocument(t, e) {
-                    const n = e.mutationResults;
+                    let n = e.mutationResults;
                     for(let e = 0; e < this.mutations.length; e++){
-                        var n1;
-                        const s = this.mutations[e];
-                        s.key.isEqual(t.key) && (n1 = n[e], s instanceof en ? function(t, e, n) {
-                            // Unlike setMutationApplyToLocalView, if we're applying a mutation to a
-                            // remote document the server has accepted the mutation so the precondition
-                            // must have held.
-                            const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
-                            s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
-                        }(s, t, n1) : s instanceof nn ? function(t, e, n) {
-                            if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
-                            // matched on the backend. We therefore must not have the expected version
-                            // of the document in our cache and convert to an UnknownDocument with a
-                            // known updateTime.
-                            return e.convertToUnknownDocument(n.version);
-                            const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
-                            i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
-                        }(s, t, n1) : // Unlike applyToLocalView, if we're applying a mutation to a remote
-                        // document the server has accepted the mutation so the precondition must
-                        // have held.
-                        t.convertToNoDocument(n1.version).setHasCommittedMutations());
+                        let s = this.mutations[e];
+                        s.key.isEqual(t.key) && /**
+                 * Applies this mutation to the given document for the purposes of computing a
+                 * new remote document. If the input document doesn't match the expected state
+                 * (e.g. it is invalid or outdated), the document type may transition to
+                 * unknown.
+                 *
+                 * @param mutation - The mutation to apply.
+                 * @param document - The document to mutate. The input document can be an
+                 *     invalid document if the client has no knowledge of the pre-mutation state
+                 *     of the document.
+                 * @param mutationResult - The result of applying the mutation from the backend.
+                 */ function(t, e, n) {
+                            let s, i;
+                            t instanceof en ? (s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults), s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations()) : t instanceof nn ? function(t, e, n) {
+                                if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
+                                // matched on the backend. We therefore must not have the expected version
+                                // of the document in our cache and convert to an UnknownDocument with a
+                                // known updateTime.
+                                return e.convertToUnknownDocument(n.version);
+                                let s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
+                                i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
+                            }(t, e, n) : // Unlike applyToLocalView, if we're applying a mutation to a remote
+                            // document the server has accepted the mutation so the precondition must
+                            // have held.
+                            e.convertToNoDocument(n.version).setHasCommittedMutations();
+                        }(s, t, n[e]);
                     }
                 }
                 /**
@@ -3890,9 +3851,9 @@
                      */ applyToLocalView(t) {
                     // First, apply the base state. This allows us to apply non-idempotent
                     // transform against a consistent set of values.
-                    for (const e of this.baseMutations)e.key.isEqual(t.key) && Ye(e, t, this.localWriteTime);
+                    for (let e of this.baseMutations)e.key.isEqual(t.key) && Ye(e, t, this.localWriteTime);
                     // Second, apply all user-provided mutations.
-                    for (const e of this.mutations)e.key.isEqual(t.key) && Ye(e, t, this.localWriteTime);
+                    for (let e of this.mutations)e.key.isEqual(t.key) && Ye(e, t, this.localWriteTime);
                 }
                 /**
                      * Computes the local view for all provided documents given the mutations in
@@ -3902,7 +3863,7 @@
                     // directly (as done in `applyToLocalView()`), we can reduce the complexity
                     // to O(n).
                     this.mutations.forEach((e)=>{
-                        const n = t.get(e.key);
+                        let n = t.get(e.key);
                         // TODO(mutabledocuments): This method should take a MutableDocumentMap
                         // and we should remove this cast.
                         this.applyToLocalView(n), n.isValidDocument() || n.convertToNoDocument(rt.min());
@@ -4024,11 +3985,11 @@
                 }
                 // Returns false if the entry already existed.
                 add(t) {
-                    const e = t.lastSegment(), n = t.popLast(), s = this.index[e] || new gn(ht.comparator), i = !s.has(n);
+                    let e = t.lastSegment(), n = t.popLast(), s = this.index[e] || new gn(ht.comparator), i = !s.has(n);
                     return this.index[e] = s.add(n), i;
                 }
                 has(t) {
-                    const e = t.lastSegment(), n = t.popLast(), s = this.index[e];
+                    let e = t.lastSegment(), n = t.popLast(), s = this.index[e];
                     return s && s.has(n);
                 }
                 getEntries(t) {
@@ -4169,16 +4130,16 @@
                              */ this.inner = {};
                 }
                 /** Get a value for this key, or undefined if it does not exist. */ get(t) {
-                    const e = this.mapKeyFn(t), n = this.inner[e];
+                    let e = this.mapKeyFn(t), n = this.inner[e];
                     if (void 0 !== n) {
-                        for (const [e, s] of n)if (this.equalsFn(e, t)) return s;
+                        for (let [e, s] of n)if (this.equalsFn(e, t)) return s;
                     }
                 }
                 has(t) {
                     return void 0 !== this.get(t);
                 }
                 /** Put this key and value in the map. */ set(t, e) {
-                    const n = this.mapKeyFn(t), s = this.inner[n];
+                    let n = this.mapKeyFn(t), s = this.inner[n];
                     if (void 0 !== s) {
                         for(let n = 0; n < s.length; n++)if (this.equalsFn(s[n][0], t)) return void (s[n] = [
                             t,
@@ -4198,19 +4159,19 @@
                 /**
                      * Remove this key from the map. Returns a boolean if anything was deleted.
                      */ delete(t) {
-                    const e = this.mapKeyFn(t), n = this.inner[e];
+                    let e = this.mapKeyFn(t), n = this.inner[e];
                     if (void 0 === n) return !1;
                     for(let s = 0; s < n.length; s++)if (this.equalsFn(n[s][0], t)) return 1 === n.length ? delete this.inner[e] : n.splice(s, 1), !0;
                     return !1;
                 }
                 forEach(t) {
                     ct(this.inner, (e, n)=>{
-                        for (const [e, s] of n)t(e, s);
+                        for (let [e, s] of n)t(e, s);
                     });
                 }
                 isEmpty() {
                     var t = this.inner;
-                    for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
+                    for(let e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
                     return !0;
                 }
             }
@@ -4249,7 +4210,7 @@
                     this.changes = new ji((t)=>t.toString(), (t, e)=>t.isEqual(e)), this.changesApplied = !1;
                 }
                 getReadTime(t) {
-                    const e = this.changes.get(t);
+                    let e = this.changes.get(t);
                     return e ? e.readTime : rt.min();
                 }
                 /**
@@ -4286,7 +4247,7 @@
                      * cached.
                      */ getEntry(t, e) {
                     this.assertNotApplied();
-                    const n = this.changes.get(e);
+                    let n = this.changes.get(e);
                     return void 0 !== n ? js.resolve(n.document) : this.getFromCache(t, e);
                 }
                 /**
@@ -4343,7 +4304,7 @@
                 }
                 /** Internal version of `getDocument` that allows reusing batches. */ Rn(t, e, n) {
                     return this.He.getEntry(t, e).next((t)=>{
-                        for (const e of n)e.applyToLocalView(t);
+                        for (let e of n)e.applyToLocalView(t);
                         return t;
                     });
                 }
@@ -4351,7 +4312,7 @@
                 // all mutations in the given `batches`.
                 bn(t, e) {
                     t.forEach((t, n)=>{
-                        for (const t of e)t.applyToLocalView(n);
+                        for (let t of e)t.applyToLocalView(n);
                     });
                 }
                 /**
@@ -4389,10 +4350,9 @@
                     });
                 }
                 Sn(t, e, n) {
-                    const s = e.collectionGroup;
-                    let i = En;
+                    let s = e.collectionGroup, i = En;
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            const o = new fe(r.child(s), /*collectionGroup=*/ null, /**
+                            let o = new fe(r.child(s), /*collectionGroup=*/ null, /**
                                          * Returns true if this query does not specify any query constraints that
                                          * could remove results.
                                          */ e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt);
@@ -4407,9 +4367,8 @@
                     // Query the remote documents and overlay mutations.
                     let s, i;
                     return this.He.getDocumentsMatchingQuery(t, e, n).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t, e))).next((e)=>(i = e, this.Cn(t, i, s).next((t)=>{
-                            for (const t1 of (s = t, i))for (const e of t1.mutations){
-                                const n = e.key;
-                                let i = s.get(n);
+                            for (let t1 of (s = t, i))for (let e of t1.mutations){
+                                let n = e.key, i = s.get(n);
                                 null == i && // Create invalid document to apply mutations on top of
                                 (i = Kt.newInvalidDocument(n), s = s.insert(n, i)), Ye(e, i, t1.localWriteTime), i.isFoundDocument() || (s = s.remove(n));
                             }
@@ -4421,7 +4380,7 @@
                 }
                 Cn(t, e, n) {
                     let s = Pn();
-                    for (const t of e)for (const e of t.mutations)e instanceof nn && null === n.get(e.key) && (s = s.add(e.key));
+                    for (let t of e)for (let e of t.mutations)e instanceof nn && null === n.get(e.key) && (s = s.add(e.key));
                     let i = n;
                     return this.He.getEntries(t, s).next((t)=>(t.forEach((t, e)=>{
                             e.isFoundDocument() && (i = i.insert(t, e));
@@ -4453,7 +4412,7 @@
                 }
                 static kn(t, e) {
                     let n = Pn(), s = Pn();
-                    for (const t of e.docChanges)switch(t.type){
+                    for (let t of e.docChanges)switch(t.type){
                         case 0 /* Added */ :
                             n = n.add(t.doc.key);
                             break;
@@ -4504,7 +4463,7 @@
                     // key-based lookups. It is more efficient to scan all documents in a
                     // collection, rather than to perform individual lookups.
                     return 0 === e.filters.length && null === e.limit && null == e.startAt && null == e.endAt && (0 === e.explicitOrderBy.length || 1 === e.explicitOrderBy.length && e.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
-                        const r = this.Mn(e, i);
+                        let r = this.Mn(e, i);
                         return (_e(e) || me(e)) && this.Ln(e.limitType, r, s, n) ? this.Fn(t, e) : (x() <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ /* .LogLevel.DEBUG */ .in.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), be(e)), this.On.getDocumentsMatchingQuery(t, e, n).next((t)=>// We merge `previousResults` into `updateResults`, since
                             // `updateResults` is already a DocumentMap. If a document is
                             // contained in both lists, then its contents are the same.
@@ -4545,7 +4504,7 @@
                     // the boundary of the limit itself did not change and documents from cache
                     // will continue to be "rejected" by this boundary. Therefore, we can ignore
                     // any modifications that don't affect the last document.
-                    const i = "F" /* First */  === t ? e.last() : e.first();
+                    let i = "F" /* First */  === t ? e.last() : e.first();
                     return !!i && (i.hasPendingWrites || i.version.compareTo(s) > 0);
                 }
                 Fn(t, e) {
@@ -4600,19 +4559,16 @@
                  */ // PORTING NOTE: Android and iOS only return the documents affected by the
             // change.
             async function hr(t, e) {
-                let s = t.In, i = t.Qn;
-                const r = await t.persistence.runTransaction("Handle user change", "readonly", (t1)=>{
+                let s = t.In, i = t.Qn, r = await t.persistence.runTransaction("Handle user change", "readonly", (t1)=>{
                     // Swap out the mutation queue, grabbing the pending mutation batches
                     // before and after.
                     let r;
                     return t.In.getAllMutationBatches(t1).next((o)=>(r = o, s = t.persistence.getMutationQueue(e), // Recreate our LocalDocumentsView using the new
                         // MutationQueue.
                         i = new rr(t.jn, s, t.persistence.getIndexManager()), s.getAllMutationBatches(t1))).next((e)=>{
-                        const n = [], s = [];
-                        // Union the old/new changed keys.
-                        let o = Pn();
-                        for (const t of r)for (const e of (n.push(t.batchId), t.mutations))o = o.add(e.key);
-                        for (const t of e)for (const e of (s.push(t.batchId), t.mutations))o = o.add(e.key);
+                        let n = [], s = [], o = Pn();
+                        for (let t of r)for (let e of (n.push(t.batchId), t.mutations))o = o.add(e.key);
+                        for (let t of e)for (let e of (s.push(t.batchId), t.mutations))o = o.add(e.key);
                         // Return the set of all (potentially) changed documents and the list
                         // of mutation batch IDs that were affected by change.
                         return i.Pn(t1, o).next((t)=>({
@@ -4647,7 +4603,7 @@
                  * Releasing a non-existing `Target` is a no-op.
                  */ // PORTING NOTE: `keepPersistedTargetData` is multi-tab only.
             async function gr(t, e, n) {
-                const i = t.Un.get(e);
+                let i = t.Un.get(e);
                 try {
                     n || await t.persistence.runTransaction("Release target", n ? "readwrite" : "readwrite-primary", (t1)=>t.persistence.referenceDelegate.removeTarget(t1, i));
                 } catch (t) {
@@ -4670,17 +4626,18 @@
                  * be used to optimize this query execution.
                  */ function yr(t, e, n) {
                 let i = rt.min(), r = Pn();
-                return t.persistence.runTransaction("Execute query", "readonly", (t1)=>(function(t, e, n) {
-                        const i = t.qn.get(n);
-                        return void 0 !== i ? js.resolve(t.Un.get(i)) : t.ze.getTargetData(e, n);
-                    })(t, t1, Ee(e)).next((e)=>{
+                return t.persistence.runTransaction("Execute query", "readonly", (t1)=>{
+                    var n1;
+                    let i1;
+                    return (n1 = Ee(e), void 0 !== (i1 = t.qn.get(n1)) ? js.resolve(t.Un.get(i1)) : t.ze.getTargetData(t1, n1)).next((e)=>{
                         if (e) return i = e.lastLimboFreeSnapshotVersion, t.ze.getMatchingKeysForTargetId(t1, e.targetId).next((t)=>{
                             r = t;
                         });
                     }).next(()=>t.Bn.getDocumentsMatchingQuery(t1, e, n ? i : rt.min(), n ? r : Pn())).next((t)=>({
                             documents: t,
                             Gn: r
-                        })));
+                        }));
+                });
             }
             /**
                  * @license
@@ -4715,117 +4672,99 @@
                     return js.resolve(this.Xn.get(e));
                 }
                 saveNamedQuery(t, e) {
+                    var t1, e1;
+                    let e2;
                     return this.Xn.set(e.name, {
                         name: e.name,
-                        query: /**
-                 * A helper function for figuring out what kind of query has been stored.
-                 */ /**
-                 * Encodes a `BundledQuery` from bundle proto to a Query object.
-                 *
-                 * This reconstructs the original query used to build the bundle being loaded,
-                 * including features exists only in SDKs (for example: limit-to-last).
-                 */ function(t) {
-                            var e;
-                            const e1 = function(t) {
-                                var t1;
-                                let e, e1 = function(t) {
-                                    const e = Wn(t);
-                                    // In v1beta1 queries for collections at the root did not have a trailing
-                                    // "/documents". In v1 all resource paths contain "/documents". Preserve the
-                                    // ability to read the v1beta1 form for compatibility with queries persisted
-                                    // in the local target cache.
-                                    return 4 === e.length ? ht.emptyPath() : Xn(e);
-                                }(t.parent);
-                                const n = t.structuredQuery, s = n.from ? n.from.length : 0;
-                                let i = null;
-                                if (s > 0) {
-                                    1 === s || L();
-                                    const t = n.from[0];
-                                    t.allDescendants ? i = t.collectionId : e1 = e1.child(t.collectionId);
-                                }
-                                let r = [];
-                                n.where && (r = function hs(t) {
-                                    return t ? void 0 !== t.unaryFilter ? [
-                                        function(t) {
-                                            switch(t.unaryFilter.op){
-                                                case "IS_NAN":
-                                                    const e = ms(t.unaryFilter.field);
-                                                    return Jt.create(e, "==" /* EQUAL */ , {
-                                                        doubleValue: NaN
-                                                    });
-                                                case "IS_NULL":
-                                                    const n = ms(t.unaryFilter.field);
-                                                    return Jt.create(n, "==" /* EQUAL */ , {
-                                                        nullValue: "NULL_VALUE"
-                                                    });
-                                                case "IS_NOT_NAN":
-                                                    const s = ms(t.unaryFilter.field);
-                                                    return Jt.create(s, "!=" /* NOT_EQUAL */ , {
-                                                        doubleValue: NaN
-                                                    });
-                                                case "IS_NOT_NULL":
-                                                    const i = ms(t.unaryFilter.field);
-                                                    return Jt.create(i, "!=" /* NOT_EQUAL */ , {
-                                                        nullValue: "NULL_VALUE"
-                                                    });
-                                                default:
-                                                    return L();
-                                            }
-                                        }(t)
-                                    ] : void 0 !== t.fieldFilter ? [
-                                        Jt.create(ms(t.fieldFilter.field), function(t) {
-                                            switch(t){
-                                                case "EQUAL":
-                                                    return "==" /* EQUAL */ ;
-                                                case "NOT_EQUAL":
-                                                    return "!=" /* NOT_EQUAL */ ;
-                                                case "GREATER_THAN":
-                                                    return ">" /* GREATER_THAN */ ;
-                                                case "GREATER_THAN_OR_EQUAL":
-                                                    return ">=" /* GREATER_THAN_OR_EQUAL */ ;
-                                                case "LESS_THAN":
-                                                    return "<" /* LESS_THAN */ ;
-                                                case "LESS_THAN_OR_EQUAL":
-                                                    return "<=" /* LESS_THAN_OR_EQUAL */ ;
-                                                case "ARRAY_CONTAINS":
-                                                    return "array-contains" /* ARRAY_CONTAINS */ ;
-                                                case "IN":
-                                                    return "in" /* IN */ ;
-                                                case "NOT_IN":
-                                                    return "not-in" /* NOT_IN */ ;
-                                                case "ARRAY_CONTAINS_ANY":
-                                                    return "array-contains-any" /* ARRAY_CONTAINS_ANY */ ;
-                                                default:
-                                                    return L();
-                                            }
-                                        }(t.fieldFilter.op), t.fieldFilter.value)
-                                    ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                }(n.where));
-                                let o = [];
-                                n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), // visible for testing
+                        query: (e2 = function(t) {
+                            var t1;
+                            let e, e1, e2 = 4 === (e = Wn(t.parent)).length ? ht.emptyPath() : Xn(e), n = t.structuredQuery, s = n.from ? n.from.length : 0, i = null;
+                            if (s > 0) {
+                                1 === s || L();
+                                let t = n.from[0];
+                                t.allDescendants ? i = t.collectionId : e2 = e2.child(t.collectionId);
+                            }
+                            let r = [];
+                            n.where && (r = function hs(t) {
+                                return t ? void 0 !== t.unaryFilter ? [
                                     function(t) {
-                                        switch(t){
-                                            case "ASCENDING":
-                                                return "asc" /* ASCENDING */ ;
-                                            case "DESCENDING":
-                                                return "desc" /* DESCENDING */ ;
+                                        switch(t.unaryFilter.op){
+                                            case "IS_NAN":
+                                                let e = ms(t.unaryFilter.field);
+                                                return Jt.create(e, "==" /* EQUAL */ , {
+                                                    doubleValue: NaN
+                                                });
+                                            case "IS_NULL":
+                                                let n = ms(t.unaryFilter.field);
+                                                return Jt.create(n, "==" /* EQUAL */ , {
+                                                    nullValue: "NULL_VALUE"
+                                                });
+                                            case "IS_NOT_NAN":
+                                                let s = ms(t.unaryFilter.field);
+                                                return Jt.create(s, "!=" /* NOT_EQUAL */ , {
+                                                    doubleValue: NaN
+                                                });
+                                            case "IS_NOT_NULL":
+                                                let i = ms(t.unaryFilter.field);
+                                                return Jt.create(i, "!=" /* NOT_EQUAL */ , {
+                                                    nullValue: "NULL_VALUE"
+                                                });
                                             default:
-                                                return;
+                                                return L();
                                         }
-                                    }(// visible for testing
-                                    t.direction))));
-                                let c = null;
-                                n.limit && (c = At(e = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e);
-                                let a = null;
-                                n.startAt && (a = fs(n.startAt));
-                                let u = null;
-                                return n.endAt && (u = fs(n.endAt)), new fe(e1, i, o, r, c, "F" /* First */ , a, u);
-                            }({
-                                parent: t.parent,
-                                structuredQuery: t.structuredQuery
-                            });
-                            return "LAST" === t.limitType ? (e = e1.limit, new fe(e1.path, e1.collectionGroup, e1.explicitOrderBy.slice(), e1.filters.slice(), e, "L" /* Last */ , e1.startAt, e1.endAt)) : e1;
-                        }(e.bundledQuery),
+                                    }(t)
+                                ] : void 0 !== t.fieldFilter ? [
+                                    Jt.create(ms(t.fieldFilter.field), function(t) {
+                                        switch(t){
+                                            case "EQUAL":
+                                                return "==" /* EQUAL */ ;
+                                            case "NOT_EQUAL":
+                                                return "!=" /* NOT_EQUAL */ ;
+                                            case "GREATER_THAN":
+                                                return ">" /* GREATER_THAN */ ;
+                                            case "GREATER_THAN_OR_EQUAL":
+                                                return ">=" /* GREATER_THAN_OR_EQUAL */ ;
+                                            case "LESS_THAN":
+                                                return "<" /* LESS_THAN */ ;
+                                            case "LESS_THAN_OR_EQUAL":
+                                                return "<=" /* LESS_THAN_OR_EQUAL */ ;
+                                            case "ARRAY_CONTAINS":
+                                                return "array-contains" /* ARRAY_CONTAINS */ ;
+                                            case "IN":
+                                                return "in" /* IN */ ;
+                                            case "NOT_IN":
+                                                return "not-in" /* NOT_IN */ ;
+                                            case "ARRAY_CONTAINS_ANY":
+                                                return "array-contains-any" /* ARRAY_CONTAINS_ANY */ ;
+                                            default:
+                                                return L();
+                                        }
+                                    }(t.fieldFilter.op), t.fieldFilter.value)
+                                ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
+                            }(n.where));
+                            let o = [];
+                            n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), // visible for testing
+                                function(t) {
+                                    switch(t){
+                                        case "ASCENDING":
+                                            return "asc" /* ASCENDING */ ;
+                                        case "DESCENDING":
+                                            return "desc" /* DESCENDING */ ;
+                                        default:
+                                            return;
+                                    }
+                                }(// visible for testing
+                                t.direction))));
+                            let c = null;
+                            n.limit && (c = At(e1 = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e1);
+                            let a = null;
+                            n.startAt && (a = fs(n.startAt));
+                            let u = null;
+                            return n.endAt && (u = fs(n.endAt)), new fe(e2, i, o, r, c, "F" /* First */ , a, u);
+                        }({
+                            parent: (t1 = e.bundledQuery).parent,
+                            structuredQuery: t1.structuredQuery
+                        }), "LAST" === t1.limitType ? (e1 = e2.limit, new fe(e2.path, e2.collectionGroup, e2.explicitOrderBy.slice(), e2.filters.slice(), e1, "L" /* Last */ , e2.startAt, e2.endAt)) : e2),
                         readTime: jn(e.readTime)
                     }), js.resolve();
                 }
@@ -4869,7 +4808,7 @@
                     return this.Zn.isEmpty();
                 }
                 /** Adds a reference to the given document key for the given ID. */ addReference(t, e) {
-                    const n = new Pr(t, e);
+                    let n = new Pr(t, e);
                     this.Zn = this.Zn.add(n), this.es = this.es.add(n);
                 }
                 /** Add references to the given document keys for the given ID. */ ss(t, e) {
@@ -4888,7 +4827,7 @@
                      * Clears all references with a given ID. Calls removeRef() for each key
                      * removed.
                      */ cs(t) {
-                    const e = new Pt(new ht([])), n = new Pr(e, t), s = new Pr(e, t + 1), i = [];
+                    let e = new Pt(new ht([])), n = new Pr(e, t), s = new Pr(e, t + 1), i = [];
                     return this.es.forEachInRange([
                         n,
                         s
@@ -4903,8 +4842,7 @@
                     this.Zn = this.Zn.delete(t), this.es = this.es.delete(t);
                 }
                 hs(t) {
-                    const e = new Pt(new ht([])), n = new Pr(e, t), s = new Pr(e, t + 1);
-                    let i = Pn();
+                    let e = new Pt(new ht([])), n = new Pr(e, t), s = new Pr(e, t + 1), i = Pn();
                     return this.es.forEachInRange([
                         n,
                         s
@@ -4913,7 +4851,7 @@
                     }), i;
                 }
                 containsKey(t) {
-                    const e = new Pr(t, 0), n = this.Zn.firstAfterOrEqual(e);
+                    let e = new Pr(t, 0), n = this.Zn.firstAfterOrEqual(e);
                     return null !== n && t.isEqual(n.key);
                 }
             }
@@ -4954,18 +4892,18 @@
                     return js.resolve(0 === this.In.length);
                 }
                 addMutationBatch(t, e, n, s) {
-                    const i = this.fs;
+                    let i = this.fs;
                     this.fs++, this.In.length > 0 && this.In[this.In.length - 1];
-                    const r = new ni(i, e, n, s);
+                    let r = new ni(i, e, n, s);
                     // Track references by document key and index collection parents.
-                    for (const e of (this.In.push(r), s))this.ds = this.ds.add(new Pr(e.key, i)), this.Ht.addToCollectionParentIndex(t, e.key.path.popLast());
+                    for (let e of (this.In.push(r), s))this.ds = this.ds.add(new Pr(e.key, i)), this.Ht.addToCollectionParentIndex(t, e.key.path.popLast());
                     return js.resolve(r);
                 }
                 lookupMutationBatch(t, e) {
                     return js.resolve(this.ws(e));
                 }
                 getNextMutationBatchAfterBatchId(t, e) {
-                    const s = this._s(e + 1), i = s < 0 ? 0 : s;
+                    let s = this._s(e + 1), i = s < 0 ? 0 : s;
                     // The requested batchId may still be out of range so normalize it to the
                     // start of the queue.
                     return js.resolve(this.In.length > i ? this.In[i] : null);
@@ -4977,19 +4915,19 @@
                     return js.resolve(this.In.slice());
                 }
                 getAllMutationBatchesAffectingDocumentKey(t, e) {
-                    const n = new Pr(e, 0), s = new Pr(e, 1 / 0), i = [];
+                    let n = new Pr(e, 0), s = new Pr(e, 1 / 0), i = [];
                     return this.ds.forEachInRange([
                         n,
                         s
                     ], (t)=>{
-                        const e = this.ws(t.ls);
+                        let e = this.ws(t.ls);
                         i.push(e);
                     }), js.resolve(i);
                 }
                 getAllMutationBatchesAffectingDocumentKeys(t, e) {
                     let n = new gn(et);
                     return e.forEach((t)=>{
-                        const e = new Pr(t, 0), s = new Pr(t, 1 / 0);
+                        let e = new Pr(t, 0), s = new Pr(t, 1 / 0);
                         this.ds.forEachInRange([
                             e,
                             s
@@ -5001,19 +4939,11 @@
                 getAllMutationBatchesAffectingQuery(t, e) {
                     // Use the query path as a prefix for testing if a document matches the
                     // query.
-                    const n = e.path, s = n.length + 1;
-                    // Construct a document reference for actually scanning the index. Unlike
-                    // the prefix the document key in this reference must have an even number of
-                    // segments. The empty segment can be used a suffix of the query path
-                    // because it precedes all other segments in an ordered traversal.
-                    let i = n;
+                    let n = e.path, s = n.length + 1, i = n;
                     Pt.isDocumentKey(i) || (i = i.child(""));
-                    const r = new Pr(new Pt(i), 0);
-                    // Find unique batchIDs referenced by all documents potentially matching the
-                    // query.
-                    let o = new gn(et);
+                    let r = new Pr(new Pt(i), 0), o = new gn(et);
                     return this.ds.forEachWhile((t)=>{
-                        const e = t.key.path;
+                        let e = t.key.path;
                         return !!n.isPrefixOf(e) && // Rows with document keys more than one segment longer than the query
                         // path can't be matches. For example, a query on 'rooms' can't match
                         // the document /rooms/abc/messages/xyx.
@@ -5025,9 +4955,9 @@
                 gs(t) {
                     // Construct an array of matching batches, sorted by batchID to ensure that
                     // multiple mutations affecting the same document key are applied in order.
-                    const e = [];
+                    let e = [];
                     return t.forEach((t)=>{
-                        const n = this.ws(t);
+                        let n = this.ws(t);
                         null !== n && e.push(n);
                     }), e;
                 }
@@ -5035,7 +4965,7 @@
                     0 === this.ys(e.batchId, "removed") || L(), this.In.shift();
                     let n = this.ds;
                     return js.forEach(e.mutations, (s)=>{
-                        const i = new Pr(s.key, e.batchId);
+                        let i = new Pr(s.key, e.batchId);
                         return n = n.delete(i), this.referenceDelegate.markPotentiallyOrphaned(t, s.key);
                     }).next(()=>{
                         this.ds = n;
@@ -5045,7 +4975,7 @@
                 // No-op since the memory mutation queue does not maintain a separate cache.
                 }
                 containsKey(t, e) {
-                    const n = new Pr(e, 0), s = this.ds.firstAfterOrEqual(n);
+                    let n = new Pr(e, 0), s = this.ds.firstAfterOrEqual(n);
                     return js.resolve(e.isEqual(s && s.key));
                 }
                 performConsistencyCheck(t) {
@@ -5076,7 +5006,7 @@
                      * A version of lookupMutationBatch that doesn't return a promise, this makes
                      * other functions that uses this code easier to read and more efficent.
                      */ ws(t) {
-                    const e = this._s(t);
+                    let e = this._s(t);
                     return e < 0 || e >= this.In.length ? null : this.In[e];
                 }
             }
@@ -5112,7 +5042,7 @@
                      * All calls of `addEntry`  are required to go through the RemoteDocumentChangeBuffer
                      * returned by `newChangeBuffer()`.
                      */ addEntry(t, e, n) {
-                    const s = e.key, i = this.docs.get(s), r = i ? i.size : 0, o = this.ps(e);
+                    let s = e.key, i = this.docs.get(s), r = i ? i.size : 0, o = this.ps(e);
                     return this.docs = this.docs.insert(s, {
                         document: e.clone(),
                         size: o,
@@ -5125,27 +5055,24 @@
                      * All calls of `removeEntry` are required to go through the RemoteDocumentChangeBuffer
                      * returned by `newChangeBuffer()`.
                      */ removeEntry(t) {
-                    const e = this.docs.get(t);
+                    let e = this.docs.get(t);
                     e && (this.docs = this.docs.remove(t), this.size -= e.size);
                 }
                 getEntry(t, e) {
-                    const n = this.docs.get(e);
+                    let n = this.docs.get(e);
                     return js.resolve(n ? n.document.clone() : Kt.newInvalidDocument(e));
                 }
                 getEntries(t, e) {
                     let n = pn;
                     return e.forEach((t)=>{
-                        const e = this.docs.get(t);
+                        let e = this.docs.get(t);
                         n = n.insert(t, e ? e.document.clone() : Kt.newInvalidDocument(t));
                     }), js.resolve(n);
                 }
                 getDocumentsMatchingQuery(t, e, n) {
-                    let s = pn;
-                    // Documents are ordered by key, so we can use a prefix scan to narrow down
-                    // the documents we need to match the query against.
-                    const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
+                    let s = pn, i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
                     for(; r.hasNext();){
-                        const { key: t, value: { document: i, readTime: o } } = r.getNext();
+                        let { key: t, value: { document: i, readTime: o } } = r.getNext();
                         if (!e.path.isPrefixOf(t.path)) break;
                         0 >= o.compareTo(n) || Pe(e, i) && (s = s.insert(i.key, i.clone()));
                     }
@@ -5177,7 +5104,7 @@
                     super(), this.Se = t;
                 }
                 applyChanges(t) {
-                    const e = [];
+                    let e = [];
                     return this.changes.forEach((n, s)=>{
                         s.document.isValidDocument() ? e.push(this.Se.addEntry(t, s.document, this.getReadTime(n))) : this.Se.removeEntry(n);
                     }), js.waitFor(e);
@@ -5230,7 +5157,7 @@
                 }
                 ce(t) {
                     this.Es.set(t.target, t);
-                    const e = t.targetId;
+                    let e = t.targetId;
                     e > this.highestTargetId && (this.Rs = new Ni(e), this.highestTargetId = e), t.sequenceNumber > this.Is && (this.Is = t.sequenceNumber);
                 }
                 addTargetData(t, e) {
@@ -5243,8 +5170,7 @@
                     return this.Es.delete(e.target), this.As.cs(e.targetId), this.targetCount -= 1, js.resolve();
                 }
                 removeTargets(t, e, n) {
-                    let s = 0;
-                    const i = [];
+                    let s = 0, i = [];
                     return this.Es.forEach((r, o)=>{
                         o.sequenceNumber <= e && null === n.get(o.targetId) && (this.Es.delete(r), i.push(this.removeMatchingKeysForTargetId(t, o.targetId)), s++);
                     }), js.waitFor(i).next(()=>s);
@@ -5253,7 +5179,7 @@
                     return js.resolve(this.targetCount);
                 }
                 getTargetData(t, e) {
-                    const n = this.Es.get(e) || null;
+                    let n = this.Es.get(e) || null;
                     return js.resolve(n);
                 }
                 addMatchingKeys(t, e, n) {
@@ -5261,7 +5187,7 @@
                 }
                 removeMatchingKeys(t, e, n) {
                     this.As.os(e, n);
-                    const s = this.persistence.referenceDelegate, i = [];
+                    let s = this.persistence.referenceDelegate, i = [];
                     return s && e.forEach((e)=>{
                         i.push(s.markPotentiallyOrphaned(t, e));
                     }), js.waitFor(i);
@@ -5270,7 +5196,7 @@
                     return this.As.cs(e), js.resolve();
                 }
                 getMatchingKeysForTargetId(t, e) {
-                    const n = this.As.hs(e);
+                    let n = this.As.hs(e);
                     return js.resolve(n);
                 }
                 containsKey(t, e) {
@@ -5338,7 +5264,7 @@
                 }
                 runTransaction(t, e, n) {
                     $("MemoryPersistence", "Starting transaction:", t);
-                    const s = new Nr(this.Le.next());
+                    let s = new Nr(this.Le.next());
                     return this.referenceDelegate.vs(), n(s).next((t)=>this.referenceDelegate.Vs(s).next(()=>t)).toPromise().then((t)=>(s.raiseOnCommittedEvent(), t));
                 }
                 Ss(t, e) {
@@ -5375,7 +5301,7 @@
                 }
                 removeTarget(t, e) {
                     this.Ds.cs(e.targetId).forEach((t)=>this.xs.add(t.toString()));
-                    const n = this.persistence.getTargetCache();
+                    let n = this.persistence.getTargetCache();
                     return n.getMatchingKeysForTargetId(t, e.targetId).next((t)=>{
                         t.forEach((t)=>this.xs.add(t.toString()));
                     }).next(()=>n.removeTargetData(t, e));
@@ -5385,9 +5311,9 @@
                 }
                 Vs(t) {
                     // Remove newly orphaned documents.
-                    const e = this.persistence.getRemoteDocumentCache().newChangeBuffer();
+                    let e = this.persistence.getRemoteDocumentCache().newChangeBuffer();
                     return js.forEach(this.xs, (n)=>{
-                        const s = Pt.fromPath(n);
+                        let s = Pt.fromPath(n);
                         return this.ks(t, s).next((t)=>{
                             t || e.removeEntry(s);
                         });
@@ -5541,15 +5467,15 @@
                     window.addEventListener("online", this.Ei), window.addEventListener("offline", this.Ai);
                 }
                 Ii() {
-                    for (const t of ($("ConnectivityMonitor", "Network connectivity changed: AVAILABLE"), this.bi))t(0 /* AVAILABLE */ );
+                    for (let t of ($("ConnectivityMonitor", "Network connectivity changed: AVAILABLE"), this.bi))t(0 /* AVAILABLE */ );
                 }
                 Ri() {
-                    for (const t of ($("ConnectivityMonitor", "Network connectivity changed: UNAVAILABLE"), this.bi))t(1 /* UNAVAILABLE */ );
+                    for (let t of ($("ConnectivityMonitor", "Network connectivity changed: UNAVAILABLE"), this.bi))t(1 /* UNAVAILABLE */ );
                 }
                 // TODO(chenbrian): Consider passing in window either into this component or
                 // here for testing via FakeWindow.
                 /** Checks that all used attributes of window are available. */ static bt() {
-                    return "undefined" != typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
+                    return "u" > typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
                 }
             }
             /**
@@ -5567,7 +5493,7 @@
                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                  * See the License for the specific language governing permissions and
                  * limitations under the License.
-                 */ const Wr = {
+                 */ let Wr = {
                 BatchGetDocuments: "batchGet",
                 Commit: "commit",
                 RunQuery: "runQuery"
@@ -5646,9 +5572,9 @@
                     this.Fi = e + "://" + t.host, this.Mi = "projects/" + this.databaseId.projectId + "/databases/" + this.databaseId.database + "/documents";
                 }
                 Li(t, e, n, s) {
-                    const i = this.Bi(t, e);
+                    let i = this.Bi(t, e);
                     $("RestConnection", "Sending: ", i, n);
-                    const r = {};
+                    let r = {};
                     return this.Ui(r, s), this.qi(t, i, r, n).then((t)=>($("RestConnection", "Received: ", t), t), (e)=>{
                         throw F("RestConnection", `${t} failed with error: `, e, "url: ", i, "request:", n), e;
                     });
@@ -5666,10 +5592,10 @@
                     // mess with CORS and redirects by proxies. If we add custom headers
                     // we will need to change this code to potentially use the $httpOverwrite
                     // parameter supported by ESF to avoid triggering preflight requests.
-                    t["Content-Type"] = "text/plain", this.databaseInfo.appId && (t["X-Firebase-GMPID"] = this.databaseInfo.appId), e) for(const n in e.authHeaders)e.authHeaders.hasOwnProperty(n) && (t[n] = e.authHeaders[n]);
+                    t["Content-Type"] = "text/plain", this.databaseInfo.appId && (t["X-Firebase-GMPID"] = this.databaseInfo.appId), e) for(let n in e.authHeaders)e.authHeaders.hasOwnProperty(n) && (t[n] = e.authHeaders[n]);
                 }
                 Bi(t, e) {
-                    const n = Wr[t];
+                    let n = Wr[t];
                     return `${this.Fi}/v1/${e}:${n}`;
                 }
             } {
@@ -5678,27 +5604,24 @@
                 }
                 qi(t, e, n, s) {
                     return new Promise((i, r)=>{
-                        const o = new _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .XhrIo */ .JJ();
+                        let o = new _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .XhrIo */ .JJ();
                         o.listenOnce(_firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .EventType.COMPLETE */ .tw.COMPLETE, ()=>{
                             try {
                                 switch(o.getLastErrorCode()){
                                     case _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .ErrorCode.NO_ERROR */ .jK.NO_ERROR:
-                                        const e = o.getResponseJson();
+                                        let e = o.getResponseJson();
                                         $("Connection", "XHR received:", JSON.stringify(e)), i(e);
                                         break;
                                     case _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .ErrorCode.TIMEOUT */ .jK.TIMEOUT:
                                         $("Connection", 'RPC "' + t + '" timed out'), r(new j(K.DEADLINE_EXCEEDED, "Request time out"));
                                         break;
                                     case _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .ErrorCode.HTTP_ERROR */ .jK.HTTP_ERROR:
-                                        const n = o.getStatus();
+                                        let n = o.getStatus();
                                         if ($("Connection", 'RPC "' + t + '" failed with status:', n, "response text:", o.getResponseText()), n > 0) {
-                                            const t = o.getResponseJson().error;
+                                            let t = o.getResponseJson().error;
                                             if (t && t.status && t.message) {
-                                                const e = function(t) {
-                                                    const e = t.toLowerCase().replace(/_/g, "-");
-                                                    return Object.values(K).indexOf(e) >= 0 ? e : K.UNKNOWN;
-                                                }(t.status);
-                                                r(new j(e, t.message));
+                                                let e, e1 = (e = t.status.toLowerCase().replace(/_/g, "-"), Object.values(K).indexOf(e) >= 0 ? e : K.UNKNOWN);
+                                                r(new j(e1, t.message));
                                             } else r(new j(K.UNKNOWN, "Server responded with status " + o.getStatus()));
                                         } else r(new j(K.UNAVAILABLE, "Connection failed."));
                                         break;
@@ -5709,12 +5632,12 @@
                                 $("Connection", 'RPC "' + t + '" completed.');
                             }
                         });
-                        const c = JSON.stringify(s);
+                        let c = JSON.stringify(s);
                         o.send(e, "POST", c, n, 15);
                     });
                 }
                 ji(t, e) {
-                    const n = [
+                    let n = [
                         this.Fi,
                         "/",
                         "google.firestore.v1.Firestore",
@@ -5761,19 +5684,9 @@
                     // known to (sometimes) not include an Origin. See
                     // https://github.com/firebase/firebase-js-sdk/issues/1491.
                     (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isMobileCordova */ .uI)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isReactNative */ .b$)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isElectron */ .d)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isIE */ .w1)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isUWP */ .Mn)() || (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__ /* .isBrowserExtension */ .ru)() || (r.httpHeadersOverwriteParam = "$httpHeaders");
-                    const o = n.join("");
+                    let o = n.join("");
                     $("Connection", "Creating WebChannel: " + o, r);
-                    const c = s.createWebChannel(o, r);
-                    // WebChannel supports sending the first message with the handshake - saving
-                    // a network round trip. However, it will have to call send in the same
-                    // JS event loop as open. In order to enforce this, we delay actually
-                    // opening the WebChannel until send is called. Whether we have called
-                    // open is tracked with this variable.
-                    let a = !1, u = !1;
-                    // A flag to determine whether the stream was closed (by us or through an
-                    // error/close event) to avoid delivering multiple close events or sending
-                    // on a closed stream
-                    const h = new Gr({
+                    let c = s.createWebChannel(o, r), a = !1, u = !1, h = new Gr({
                         vi: (t)=>{
                             u ? $("Connection", "Not sending because WebChannel is closed:", t) : (a || ($("Connection", "Opening WebChannel transport."), c.open(), a = !0), $("Connection", "WebChannel sending:", t), c.send(t));
                         },
@@ -5804,19 +5717,18 @@
                     }), g(c, _firebase_webchannel_wrapper__WEBPACK_IMPORTED_MODULE_4__ /* .WebChannel.EventType.MESSAGE */ .ii.EventType.MESSAGE, (t)=>{
                         var e;
                         if (!u) {
-                            const n = t.data[0];
+                            let n = t.data[0];
                             n || L();
                             // TODO(b/35143891): There is a bug in One Platform that caused errors
                             // (and only errors) to be wrapped in an extra array. To be forward
                             // compatible with the bug we need to check either condition. The latter
                             // can be removed once the fix has been rolled out.
                             // Use any because msgData.error is not typed.
-                            const i = n.error || (null == (e = n[0]) ? void 0 : e.error);
+                            let i = n.error || (null == (e = n[0]) ? void 0 : e.error);
                             if (i) {
                                 $("Connection", "WebChannel received error:", i);
                                 // error.status will be a string like 'OK' or 'NOT_FOUND'.
-                                const t = i.status;
-                                let e = /**
+                                let t = i.status, e = /**
                                                      * Maps an error Code from a GRPC status identifier like 'NOT_FOUND'.
                                                      *
                                                      * @returns The Code equivalent to the given status string or undefined if
@@ -5824,7 +5736,7 @@
                                                      */ function(t) {
                                     // lookup by string
                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    const e = hn[t];
+                                    let e = hn[t];
                                     if (void 0 !== e) return dn(e);
                                 }(t), n = i.message;
                                 void 0 === e && (e = K.INTERNAL, n = "Unknown error status: " + t + " with message " + i.message), // Mark closed so no further events are propagated
@@ -5845,7 +5757,7 @@
             /** The Platform's 'document' implementation or null if not available. */ function Jr() {
                 // `document` is not always available, e.g. in ReactNative and WebWorkers.
                 // eslint-disable-next-line no-restricted-globals
-                return "undefined" != typeof document ? document : null;
+                return "u" > typeof document ? document : null;
             }
             /**
                  * An instance of the Platform's 'TextEncoder' implementation.
@@ -5900,7 +5812,7 @@
                     this.cancel();
                     // First schedule using the current base (which may be 0 and should be
                     // honored as such).
-                    const e = Math.floor(this.zi + this.Zi()), n = Math.max(0, Date.now() - this.Ji), s = Math.max(0, e - n);
+                    let e = Math.floor(this.zi + this.Zi()), n = Math.max(0, Date.now() - this.Ji), s = Math.max(0, e - n);
                     // Guard against lastAttemptTime being in the future due to a clock change.
                     s > 0 && $("ExponentialBackoff", `Backing off for ${s} ms (base delay: ${this.zi} ms, delay with jitter: ${e} ms, last attempt: ${n} ms ago)`), this.Hi = this.Oe.enqueueAfterDelay(this.timerId, s, ()=>(this.Ji = Date.now(), t())), // Apply backoff factor to determine next delay and ensure it is within
                     // bounds.
@@ -6074,7 +5986,7 @@
                      */ pr() {}
                 auth() {
                     this.state = 1 /* Starting */ ;
-                    const t = this.Tr(this.ir), e = this.ir;
+                    let t = this.Tr(this.ir), e = this.ir;
                     // TODO(mikelehen): Just use dispatchIfNotClosed, but see TODO below.
                     this.credentialsProvider.getToken().then((t)=>{
                         // Stream can be stopped while waiting for authentication.
@@ -6087,13 +5999,13 @@
                         this.Er(t);
                     }, (e)=>{
                         t(()=>{
-                            const t = new j(K.UNKNOWN, "Fetching auth token failed: " + e.message);
+                            let t = new j(K.UNKNOWN, "Fetching auth token failed: " + e.message);
                             return this.Ir(t);
                         });
                     });
                 }
                 Er(t) {
-                    const e = this.Tr(this.ir);
+                    let e = this.Tr(this.ir);
                     this.stream = this.Ar(t), this.stream.Si(()=>{
                         e(()=>(this.state = 2, this.cr = this.Oe.enqueueAfterDelay(this.nr, 1e4, ()=>(this.hr() && (this.state = 3), Promise.resolve())), this.listener.Si()));
                     }), this.stream.Ci((t)=>{
@@ -6142,14 +6054,14 @@
                 onMessage(t) {
                     // A successful response means the stream is healthy
                     this.ar.reset();
-                    const e = function(t, e) {
+                    let e = function(t, e) {
                         let n;
                         if ("targetChange" in e) {
                             var t1, e1;
                             e.targetChange;
                             // proto3 default value is unset in JSON (undefined), so use 'NO_CHANGE'
                             // if unset
-                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 /* NoChange */  : "ADD" === t1 ? 1 /* Added */  : "REMOVE" === t1 ? 2 /* Removed */  : "CURRENT" === t1 ? 3 /* Current */  : "RESET" === t1 ? 4 /* Reset */  : L(), i = e.targetChange.targetIds || [], r = (e1 = e.targetChange.resumeToken, t.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause;
+                            let s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 /* NoChange */  : "ADD" === t1 ? 1 /* Added */  : "REMOVE" === t1 ? 2 /* Removed */  : "CURRENT" === t1 ? 3 /* Current */  : "RESET" === t1 ? 4 /* Reset */  : L(), i = e.targetChange.targetIds || [], r = (e1 = e.targetChange.resumeToken, t.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause;
                             n = new xn(s, i, r, o && new j(void 0 === /**
                                      * Returns a value for a number (or null) that's appropriate to put into
                                      * a google.protobuf.Int32Value proto.
@@ -6160,9 +6072,9 @@
                                      */ o.code ? K.UNKNOWN : dn(o.code), o.message || "") || null);
                         } else if ("documentChange" in e) {
                             e.documentChange;
-                            const s = e.documentChange;
+                            let s = e.documentChange;
                             s.document, s.document.name, s.document.updateTime;
-                            const i = zn(t, s.document.name), r = jn(s.document.updateTime), o = new Ut({
+                            let i = zn(t, s.document.name), r = jn(s.document.updateTime), o = new Ut({
                                 mapValue: {
                                     fields: s.document.fields
                                 }
@@ -6170,23 +6082,23 @@
                             n = new Cn(s.targetIds || [], s.removedTargetIds || [], c.key, c);
                         } else if ("documentDelete" in e) {
                             e.documentDelete;
-                            const s = e.documentDelete;
+                            let s = e.documentDelete;
                             s.document;
-                            const i = zn(t, s.document), r = s.readTime ? jn(s.readTime) : rt.min(), o = Kt.newNoDocument(i, r);
+                            let i = zn(t, s.document), r = s.readTime ? jn(s.readTime) : rt.min(), o = Kt.newNoDocument(i, r);
                             n = new Cn([], s.removedTargetIds || [], o.key, o);
                         } else if ("documentRemove" in e) {
                             e.documentRemove;
-                            const s = e.documentRemove;
+                            let s = e.documentRemove;
                             s.document;
-                            const i = zn(t, s.document);
+                            let i = zn(t, s.document);
                             n = new Cn([], s.removedTargetIds || [], i, null);
                         } else {
                             if (!("filter" in e)) return L();
                             {
                                 e.filter;
-                                const t = e.filter;
+                                let t = e.filter;
                                 t.targetId;
-                                const i = new un(t.count || 0);
+                                let i = new un(t.count || 0);
                                 n = new Nn(t.targetId, i);
                             }
                         }
@@ -6196,7 +6108,7 @@
                         // is a read_time set and it applies to all targets (i.e. the list of
                         // targets is empty). The backend is guaranteed to send such responses.
                         if (!("targetChange" in t)) return rt.min();
-                        const e = t.targetChange;
+                        let e = t.targetChange;
                         return e.targetIds && e.targetIds.length ? rt.min() : e.readTime ? jn(e.readTime) : rt.min();
                     }(t);
                     return this.listener.Rr(e, n);
@@ -6207,127 +6119,107 @@
                      * affect the target will be streamed back as WatchChange messages that
                      * reference the targetId.
                      */ br(t) {
-                    const e = {};
-                    e.database = Yn(this.N), e.addTarget = function(t, e) {
-                        var e1, e2;
-                        let n;
-                        const s = e.target;
-                        return (n = Ht(s) ? {
-                            documents: {
-                                documents: [
-                                    Hn(t, s.path)
-                                ]
+                    var t1, e, e1, e2;
+                    let n, s, n1, s1, i, r, o, n2, e3 = {};
+                    e3.database = Yn(this.N), t1 = this.N, (n = Ht(s = t.target) ? {
+                        documents: {
+                            documents: [
+                                Hn(t1, s.path)
+                            ]
+                        }
+                    } : {
+                        query: (n1 = {
+                            structuredQuery: {}
+                        }, s1 = s.path, null !== s.collectionGroup ? (n1.parent = Hn(t1, s1), n1.structuredQuery.from = [
+                            {
+                                collectionId: s.collectionGroup,
+                                allDescendants: !0
                             }
-                        } : {
-                            query: function(t, e) {
-                                var e1;
-                                // Dissect the path into parent, collectionId, and optional key filter.
-                                const n = {
-                                    structuredQuery: {}
-                                }, s = e.path;
-                                null !== e.collectionGroup ? (n.parent = Hn(t, s), n.structuredQuery.from = [
-                                    {
-                                        collectionId: e.collectionGroup,
-                                        allDescendants: !0
-                                    }
-                                ]) : (n.parent = Hn(t, s.popLast()), n.structuredQuery.from = [
-                                    {
-                                        collectionId: s.lastSegment()
-                                    }
-                                ]);
-                                const i = function(t) {
-                                    if (0 === t.length) return;
-                                    const e = t.map((t)=>// visible for testing
-                                        (function(t) {
-                                            if ("==" /* EQUAL */  === t.op) {
-                                                if (Mt(t.value)) return {
-                                                    unaryFilter: {
-                                                        field: _s(t.field),
-                                                        op: "IS_NAN"
-                                                    }
-                                                };
-                                                if (Ft(t.value)) return {
-                                                    unaryFilter: {
-                                                        field: _s(t.field),
-                                                        op: "IS_NULL"
-                                                    }
-                                                };
-                                            } else if ("!=" /* NOT_EQUAL */  === t.op) {
-                                                if (Mt(t.value)) return {
-                                                    unaryFilter: {
-                                                        field: _s(t.field),
-                                                        op: "IS_NOT_NAN"
-                                                    }
-                                                };
-                                                if (Ft(t.value)) return {
-                                                    unaryFilter: {
-                                                        field: _s(t.field),
-                                                        op: "IS_NOT_NULL"
-                                                    }
-                                                };
+                        ]) : (n1.parent = Hn(t1, s1.popLast()), n1.structuredQuery.from = [
+                            {
+                                collectionId: s1.lastSegment()
+                            }
+                        ]), (i = function(t) {
+                            if (0 === t.length) return;
+                            let e = t.map((t)=>// visible for testing
+                                (function(t) {
+                                    if ("==" /* EQUAL */  === t.op) {
+                                        if (Mt(t.value)) return {
+                                            unaryFilter: {
+                                                field: _s(t.field),
+                                                op: "IS_NAN"
                                             }
-                                            return {
-                                                fieldFilter: {
-                                                    field: _s(t.field),
-                                                    op: Ln[t.op],
-                                                    value: t.value
-                                                }
-                                            };
-                                        })(t));
-                                    return 1 === e.length ? e[0] : {
-                                        compositeFilter: {
-                                            op: "AND",
-                                            filters: e
+                                        };
+                                        if (Ft(t.value)) return {
+                                            unaryFilter: {
+                                                field: _s(t.field),
+                                                op: "IS_NULL"
+                                            }
+                                        };
+                                    } else if ("!=" /* NOT_EQUAL */  === t.op) {
+                                        if (Mt(t.value)) return {
+                                            unaryFilter: {
+                                                field: _s(t.field),
+                                                op: "IS_NOT_NAN"
+                                            }
+                                        };
+                                        if (Ft(t.value)) return {
+                                            unaryFilter: {
+                                                field: _s(t.field),
+                                                op: "IS_NOT_NULL"
+                                            }
+                                        };
+                                    }
+                                    return {
+                                        fieldFilter: {
+                                            field: _s(t.field),
+                                            op: Ln[t.op],
+                                            value: t.value
                                         }
                                     };
-                                }(e.filters);
-                                i && (n.structuredQuery.where = i);
-                                const r = function(t) {
-                                    if (0 !== t.length) return t.map((t)=>({
-                                            field: _s(t.field),
-                                            direction: Mn[t.dir]
-                                        }));
-                                }(e.orderBy);
-                                r && (n.structuredQuery.orderBy = r);
-                                const o = (e1 = e.limit, /**
-                         * Returns a number (or null) from a google.protobuf.Int32Value proto.
-                         */ t.D || At(e1) ? e1 : {
-                                    value: e1
-                                });
-                                return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
-                            }(t, s)
-                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? (e1 = e.resumeToken, n.resumeToken = t.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (e2 = e.snapshotVersion.toTimestamp(), // TODO(wuandy): Consider removing above check because it is most likely true.
-                        // Right now, many tests depend on this behaviour though (leaving min() out
-                        // of serialization).
-                        n.readTime = t.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
-                            seconds: "" + e2.seconds,
-                            nanos: e2.nanoseconds
-                        }), n;
-                    }(this.N, t);
-                    const n = function(t, e) {
-                        const n = function(t, e) {
-                            switch(e){
-                                case 0 /* Listen */ :
-                                    return null;
-                                case 1 /* ExistenceFilterMismatch */ :
-                                    return "existence-filter-mismatch";
-                                case 2 /* LimboResolution */ :
-                                    return "limbo-document";
-                                default:
-                                    return L();
-                            }
-                        }(0, e.purpose);
-                        return null == n ? null : {
-                            "goog-listen-tags": n
-                        };
-                    }(this.N, t);
-                    n && (e.labels = n), this.mr(e);
+                                })(t));
+                            return 1 === e.length ? e[0] : {
+                                compositeFilter: {
+                                    op: "AND",
+                                    filters: e
+                                }
+                            };
+                        }(s.filters)) && (n1.structuredQuery.where = i), (r = function(t) {
+                            if (0 !== t.length) return t.map((t)=>({
+                                    field: _s(t.field),
+                                    direction: Mn[t.dir]
+                                }));
+                        }(s.orderBy)) && (n1.structuredQuery.orderBy = r), e = s.limit, null !== (o = t1.D || At(e) ? e : {
+                            value: e
+                        }) && (n1.structuredQuery.limit = o), s.startAt && (n1.structuredQuery.startAt = ls(s.startAt)), s.endAt && (n1.structuredQuery.endAt = ls(s.endAt)), n1)
+                    }).targetId = t.targetId, t.resumeToken.approximateByteSize() > 0 ? (e1 = t.resumeToken, n.resumeToken = t1.D ? e1.toBase64() : e1.toUint8Array()) : t.snapshotVersion.compareTo(rt.min()) > 0 && (e2 = t.snapshotVersion.toTimestamp(), // TODO(wuandy): Consider removing above check because it is most likely true.
+                    // Right now, many tests depend on this behaviour though (leaving min() out
+                    // of serialization).
+                    n.readTime = t1.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
+                        seconds: "" + e2.seconds,
+                        nanos: e2.nanoseconds
+                    }), e3.addTarget = n;
+                    let n3 = (this.N, null == (n2 = function(e) {
+                        switch(e){
+                            case 0 /* Listen */ :
+                                return null;
+                            case 1 /* ExistenceFilterMismatch */ :
+                                return "existence-filter-mismatch";
+                            case 2 /* LimboResolution */ :
+                                return "limbo-document";
+                            default:
+                                return L();
+                        }
+                    }(t.purpose)) ? null : {
+                        "goog-listen-tags": n2
+                    });
+                    n3 && (e3.labels = n3), this.mr(e3);
                 }
                 /**
                      * Unregisters interest in the results of the target associated with the
                      * given targetId.
                      */ Pr(t) {
-                    const e = {};
+                    let e = {};
                     e.database = Yn(this.N), e.removeTarget = t, this.mr(e);
                 }
             }
@@ -6435,7 +6327,7 @@
                     t !== this.state && (this.state = t, this.onlineStateHandler(t));
                 }
                 Ur(t) {
-                    const e = `Could not reach Cloud Firestore backend. ${t}\nThis typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.`;
+                    let e = `Could not reach Cloud Firestore backend. ${t}\nThis typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.`;
                     this.Mr ? (O(e), this.Mr = !1) : $("OnlineStateTracker", e);
                 }
                 Kr() {
@@ -6507,13 +6399,13 @@
                 }
             }
             async function ro(t) {
-                if (wo(t)) for (const e of t.Gr)await e(/* enabled= */ !0);
+                if (wo(t)) for (let e of t.Gr)await e(/* enabled= */ !0);
             }
             /**
                  * Temporarily disables the network. The network can be re-enabled using
                  * enableNetwork().
                  */ async function oo(t) {
-                for (const e of t.Gr)await e(/* enabled= */ !1);
+                for (let e of t.Gr)await e(/* enabled= */ !1);
             }
             /**
                  * Starts new listen for the given target. Uses resume token if provided. It
@@ -6526,7 +6418,7 @@
                  * Removes the listen from server. It is a no-op if the given target id is
                  * not being listened to.
                  */ function ao(t, e) {
-                const s = Co(t);
+                let s = Co(t);
                 t.Qr.delete(e), s.hr() && ho(t, e), 0 === t.Qr.size && (s.hr() ? s.wr() : wo(t) && // Revert to OnlineState.Unknown if the watch stream is not open and we
                 // have no listeners, since without any listens to send we cannot
                 // confirm if the stream is healthy and upgrade to OnlineState.Online.
@@ -6577,9 +6469,9 @@
                 // to raise events
                 try {
                     await /** Handles an error on a target */ async function(t, e) {
-                        const n = e.cause;
+                        let n = e.cause;
                         // A watched target might have been removed already.
-                        for (const s of e.targetIds)t.Qr.has(s) && (await t.remoteSyncer.rejectListen(s, n), t.Qr.delete(s), t.Jr.removeTarget(s));
+                        for (let s of e.targetIds)t.Qr.has(s) && (await t.remoteSyncer.rejectListen(s, n), t.Qr.delete(s), t.Jr.removeTarget(s));
                     }(/**
                                  * Attempts to fill our write pipeline with writes from the LocalStore.
                                  *
@@ -6592,42 +6484,33 @@
                     $("RemoteStore", "Failed to remove targets %s: %s ", e.targetIds.join(","), n), await po(t, n);
                 }
                 else if (e instanceof Cn ? t.Jr.rt(e) : e instanceof Nn ? t.Jr.ft(e) : t.Jr.at(e), !n.isEqual(rt.min())) try {
-                    const e = await fr(t.localStore);
+                    let n1, e = await fr(t.localStore);
                     n.compareTo(e) >= 0 && // We have received a target change with a global snapshot if the snapshot
                     // version is not equal to SnapshotVersion.min().
-                    await /**
-                                 * Takes a batch of changes from the Datastore, repackages them as a
-                                 * RemoteEvent, and passes that on to the listener, which is typically the
-                                 * SyncEngine.
-                                 */ function(t, e) {
-                        const n = t.Jr._t(e);
-                        // Update in-memory resume tokens. LocalStore will update the
-                        // persistent view of these when applying the completed RemoteEvent.
-                        return n.targetChanges.forEach((n, s)=>{
-                            if (n.resumeToken.approximateByteSize() > 0) {
-                                const i = t.Qr.get(s);
-                                // A watched target might have been removed already.
-                                i && t.Qr.set(s, i.withResumeToken(n.resumeToken, e));
-                            }
-                        }), // Re-establish listens for the targets that have been invalidated by
-                        // existence filter mismatches.
-                        n.targetMismatches.forEach((e)=>{
-                            const n = t.Qr.get(e);
-                            if (!n) // A watched target might have been removed already.
-                            return;
-                            // Clear the resume token for the target, since we're in a known mismatch
-                            // state.
-                            t.Qr.set(e, n.withResumeToken(_t.EMPTY_BYTE_STRING, n.snapshotVersion)), // Cause a hard reset by unwatching and rewatching immediately, but
-                            // deliberately don't send a resume token so that we get a full update.
-                            ho(t, e);
-                            // Mark the target we send as being on behalf of an existence filter
-                            // mismatch, but don't actually retain that in listenTargets. This ensures
-                            // that we flag the first re-listen this way without impacting future
-                            // listens of this target (that might happen e.g. on reconnect).
-                            const s = new ii(n.target, e, 1 /* ExistenceFilterMismatch */ , n.sequenceNumber);
-                            uo(t, s);
-                        }), t.remoteSyncer.applyRemoteEvent(n);
-                    }(t, n);
+                    await ((n1 = t.Jr._t(n)).targetChanges.forEach((n1, s)=>{
+                        if (n1.resumeToken.approximateByteSize() > 0) {
+                            let i = t.Qr.get(s);
+                            // A watched target might have been removed already.
+                            i && t.Qr.set(s, i.withResumeToken(n1.resumeToken, n));
+                        }
+                    }), // Re-establish listens for the targets that have been invalidated by
+                    // existence filter mismatches.
+                    n1.targetMismatches.forEach((e)=>{
+                        let n = t.Qr.get(e);
+                        if (!n) // A watched target might have been removed already.
+                        return;
+                        // Clear the resume token for the target, since we're in a known mismatch
+                        // state.
+                        t.Qr.set(e, n.withResumeToken(_t.EMPTY_BYTE_STRING, n.snapshotVersion)), // Cause a hard reset by unwatching and rewatching immediately, but
+                        // deliberately don't send a resume token so that we get a full update.
+                        ho(t, e);
+                        // Mark the target we send as being on behalf of an existence filter
+                        // mismatch, but don't actually retain that in listenTargets. This ensures
+                        // that we flag the first re-listen this way without impacting future
+                        // listens of this target (that might happen e.g. on reconnect).
+                        let s = new ii(n.target, e, 1 /* ExistenceFilterMismatch */ , n.sequenceNumber);
+                        uo(t, s);
+                    }), t.remoteSyncer.applyRemoteEvent(n1));
                 } catch (e) {
                     $("RemoteStore", "Failed to raise snapshot:", e), await po(t, e);
                 }
@@ -6735,7 +6618,7 @@
                      *   PORTING NOTE: This exists to prevent making removeDelayedOperation() and
                      *   the DelayedOperation class public.
                      */ static createAndSchedule(t, e, n, s, i) {
-                    const o = new xo(t, e, Date.now() + n, s, i);
+                    let o = new xo(t, e, Date.now() + n, s, i);
                     return o.start(n), o;
                 }
                 /**
@@ -6824,7 +6707,7 @@
                      * Returns the index of the provided key in the document set, or -1 if the
                      * document key is not present in the set;
                      */ indexOf(t) {
-                    const e = this.keyedMap.get(t);
+                    let e = this.keyedMap.get(t);
                     return e ? this.sortedSet.indexOf(e) : -1;
                 }
                 get size() {
@@ -6835,30 +6718,30 @@
                 }
                 /** Inserts or updates a document with the same key */ add(t) {
                     // First remove the element if we have it.
-                    const e = this.delete(t.key);
+                    let e = this.delete(t.key);
                     return e.copy(e.keyedMap.insert(t.key, t), e.sortedSet.insert(t, null));
                 }
                 /** Deletes a document with a given key */ delete(t) {
-                    const e = this.get(t);
+                    let e = this.get(t);
                     return e ? this.copy(this.keyedMap.remove(t), this.sortedSet.remove(e)) : this;
                 }
                 isEqual(t) {
                     if (!(t instanceof $o) || this.size !== t.size) return !1;
-                    const e = this.sortedSet.getIterator(), n = t.sortedSet.getIterator();
+                    let e = this.sortedSet.getIterator(), n = t.sortedSet.getIterator();
                     for(; e.hasNext();){
-                        const t = e.getNext().key, s = n.getNext().key;
+                        let t = e.getNext().key, s = n.getNext().key;
                         if (!t.isEqual(s)) return !1;
                     }
                     return !0;
                 }
                 toString() {
-                    const t = [];
+                    let t = [];
                     return this.forEach((e)=>{
                         t.push(e.toString());
                     }), 0 === t.length ? "DocumentSet ()" : "DocumentSet (\n  " + t.join("  \n") + "\n)";
                 }
                 copy(t, e) {
-                    const n = new $o();
+                    let n = new $o();
                     return n.comparator = this.comparator, n.keyedMap = t, n.sortedSet = e, n;
                 }
             }
@@ -6885,7 +6768,7 @@
                     this.Zr = new wn(Pt.comparator);
                 }
                 track(t) {
-                    const e = t.doc.key, n = this.Zr.get(e);
+                    let e = t.doc.key, n = this.Zr.get(e);
                     n ? 0 /* Added */  !== t.type && 3 /* Metadata */  === n.type ? this.Zr = this.Zr.insert(e, t) : 3 /* Metadata */  === t.type && 1 /* Removed */  !== n.type ? this.Zr = this.Zr.insert(e, {
                         type: n.type,
                         doc: t.doc
@@ -6910,7 +6793,7 @@
                     L() : this.Zr = this.Zr.insert(e, t);
                 }
                 eo() {
-                    const t = [];
+                    let t = [];
                     return this.Zr.inorderTraversal((e, n)=>{
                         t.push(n);
                     }), t;
@@ -6921,7 +6804,7 @@
                     this.query = t, this.docs = e, this.oldDocs = n, this.docChanges = s, this.mutatedKeys = i, this.fromCache = r, this.syncStateChanged = o, this.excludesMetadataChanges = c;
                 }
                 /** Returns a view snapshot as if all documents in the snapshot were added. */ static fromInitialDocuments(t, e, n, s) {
-                    const i = [];
+                    let i = [];
                     return e.forEach((t)=>{
                         i.push({
                             type: 0 /* Added */ ,
@@ -6934,7 +6817,7 @@
                 }
                 isEqual(t) {
                     if (!(this.fromCache === t.fromCache && this.syncStateChanged === t.syncStateChanged && this.mutatedKeys.isEqual(t.mutatedKeys) && Ae(this.query, t.query) && this.docs.isEqual(t.docs) && this.oldDocs.isEqual(t.oldDocs))) return !1;
-                    const e = this.docChanges, n = t.docChanges;
+                    let e = this.docChanges, n = t.docChanges;
                     if (e.length !== n.length) return !1;
                     for(let t = 0; t < e.length; t++)if (e[t].type !== n[t].type || !e[t].doc.isEqual(n[t].doc)) return !1;
                     return !0;
@@ -6969,41 +6852,38 @@
                 }
             }
             async function Bo(t, e) {
-                const s = e.query;
-                let i = !1, r = t.queries.get(s);
+                let s = e.query, i = !1, r = t.queries.get(s);
                 if (r || (i = !0, r = new Mo()), i) try {
                     r.no = await t.onListen(s);
                 } catch (t) {
-                    const n = ko(t, `Initialization of query '${be(e.query)}' failed`);
+                    let n = ko(t, `Initialization of query '${be(e.query)}' failed`);
                     return void e.onError(n);
                 }
                 t.queries.set(s, r), r.listeners.push(e), // Run global snapshot listeners if a consistent snapshot has been emitted.
                 e.io(t.onlineState), r.no && e.ro(r.no) && jo(t);
             }
             async function Uo(t, e) {
-                const s = e.query;
-                let i = !1;
-                const r = t.queries.get(s);
+                let s = e.query, i = !1, r = t.queries.get(s);
                 if (r) {
-                    const t = r.listeners.indexOf(e);
+                    let t = r.listeners.indexOf(e);
                     t >= 0 && (r.listeners.splice(t, 1), i = 0 === r.listeners.length);
                 }
                 if (i) return t.queries.delete(s), t.onUnlisten(s);
             }
             function qo(t, e) {
                 let s = !1;
-                for (const t1 of e){
-                    const e = t1.query, i = t.queries.get(e);
+                for (let t1 of e){
+                    let e = t1.query, i = t.queries.get(e);
                     if (i) {
-                        for (const e of i.listeners)e.ro(t1) && (s = !0);
+                        for (let e of i.listeners)e.ro(t1) && (s = !0);
                         i.no = t1;
                     }
                 }
                 s && jo(t);
             }
             function Ko(t, e, n) {
-                const i = t.queries.get(e);
-                if (i) for (const t of i.listeners)t.onError(n);
+                let i = t.queries.get(e);
+                if (i) for (let t of i.listeners)t.onError(n);
                 // Remove all listeners. NOTE: We don't need to call syncEngine.unlisten()
                 // after an error.
                 t.queries.delete(e);
@@ -7034,8 +6914,8 @@
                      */ ro(t) {
                     if (!this.options.includeMetadataChanges) {
                         // Remove the metadata only changes.
-                        const e = [];
-                        for (const n of t.docChanges)3 /* Metadata */  !== n.type && e.push(n);
+                        let e = [];
+                        for (let n of t.docChanges)3 /* Metadata */  !== n.type && e.push(n);
                         t = new Fo(t.query, t.docs, t.oldDocs, e, t.mutatedKeys, t.fromCache, t.syncStateChanged, /* excludesMetadataChanges= */ !0);
                     }
                     let e = !1;
@@ -7060,7 +6940,7 @@
                     // At this point the only changes we will see are the ones we should
                     // propagate.
                     if (t.docChanges.length > 0) return !0;
-                    const e = this.ao && this.ao.hasPendingWrites !== t.hasPendingWrites;
+                    let e = this.ao && this.ao.hasPendingWrites !== t.hasPendingWrites;
                     return !(!t.syncStateChanged && !e) && !0 === this.options.includeMetadataChanges;
                 // Generally we should have hit one of the cases above, but it's possible
                 // to get here if there were only metadata docChanges and they got
@@ -7127,23 +7007,12 @@
                      *        with this set of docs and changes instead of the current view.
                      * @returns a new set of docs, changes, and refill flag.
                      */ bo(t, e) {
-                    const n = e ? e.Po : new Oo(), s = e ? e.Ao : this.Ao;
-                    let i = e ? e.mutatedKeys : this.mutatedKeys, r = s, o = !1;
-                    // Track the last doc in a (full) limit. This is necessary, because some
-                    // update (a delete, or an update moving a doc past the old limit) might
-                    // mean there is some other document in the local cache that either should
-                    // come (1) between the old last limit doc and the new last document, in the
-                    // case of updates, or (2) after the new last document, in the case of
-                    // deletes. So we keep this doc at the old limit to compare the updates to.
-                    // Note that this should never get used in a refill (when previousChanges is
-                    // set), because there will only be adds -- no deletes or updates.
-                    const c = _e(this.query) && s.size === this.query.limit ? s.last() : null, a = me(this.query) && s.size === this.query.limit ? s.first() : null;
+                    let n = e ? e.Po : new Oo(), s = e ? e.Ao : this.Ao, i = e ? e.mutatedKeys : this.mutatedKeys, r = s, o = !1, c = _e(this.query) && s.size === this.query.limit ? s.last() : null, a = me(this.query) && s.size === this.query.limit ? s.first() : null;
                     // Drop documents out to meet limit/limitToLast requirement.
                     if (t.inorderTraversal((t, e)=>{
-                        const u = s.get(t), h = Pe(this.query, e) ? e : null, l = !!u && this.mutatedKeys.has(u.key), f = !!h && (h.hasLocalMutations || // We only consider committed mutations for documents that were
+                        let u = s.get(t), h = Pe(this.query, e) ? e : null, l = !!u && this.mutatedKeys.has(u.key), f = !!h && (h.hasLocalMutations || // We only consider committed mutations for documents that were
                         // mutated during the lifetime of the view.
-                        this.mutatedKeys.has(h.key) && h.hasCommittedMutations);
-                        let d = !1;
+                        this.mutatedKeys.has(h.key) && h.hasCommittedMutations), d = !1;
                         u && h ? u.data.isEqual(h.data) ? l !== f && (n.track({
                             type: 3 /* Metadata */ ,
                             doc: h
@@ -7164,7 +7033,7 @@
                         // doc that should be in the results.
                         (o = !0)), d && (h ? (r = r.add(h), i = f ? i.add(t) : i.delete(t)) : (r = r.delete(t), i = i.delete(t)));
                     }), _e(this.query) || me(this.query)) for(; r.size > this.query.limit;){
-                        const t = _e(this.query) ? r.last() : r.first();
+                        let t = _e(this.query) ? r.last() : r.first();
                         r = r.delete(t.key), i = i.delete(t.key), n.track({
                             type: 1 /* Removed */ ,
                             doc: t
@@ -7198,29 +7067,14 @@
                      * @returns A new ViewChange with the given docs, changes, and sync state.
                      */ // PORTING NOTE: The iOS/Android clients always compute limbo document changes.
                 applyChanges(t, e, n) {
-                    const s = this.Ao;
+                    let s = this.Ao;
                     this.Ao = t.Ao, this.mutatedKeys = t.mutatedKeys;
                     // Sort changes based on type and query comparator
-                    const i = t.Po.eo();
-                    i.sort((t, e)=>(function(t, e) {
-                            const n = (t)=>{
-                                switch(t){
-                                    case 0 /* Added */ :
-                                        return 1;
-                                    case 2 /* Modified */ :
-                                    case 3 /* Metadata */ :
-                                        // A metadata change is converted to a modified change at the public
-                                        // api layer.  Since we sort by document key and then change type,
-                                        // metadata and modified changes must be sorted equivalently.
-                                        return 2;
-                                    case 1 /* Removed */ :
-                                        return 0;
-                                    default:
-                                        return L();
-                                }
-                            };
-                            return n(t) - n(e);
-                        })(/**
+                    let i = t.Po.eo();
+                    i.sort((t, e)=>{
+                        var t1, e1;
+                        let n;
+                        return t1 = /**
                                      * @license
                                      * Copyright 2020 Google LLC
                                      *
@@ -7235,8 +7089,24 @@
                                      * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                                      * See the License for the specific language governing permissions and
                                      * limitations under the License.
-                                     */ t.type, e.type) || this.Io(t.doc, e.doc)), this.Vo(n);
-                    const r = e ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 /* Synced */  : 0 /* Local */ , c = o !== this.To;
+                                     */ t.type, e1 = e.type, (n = (t)=>{
+                            switch(t){
+                                case 0 /* Added */ :
+                                    return 1;
+                                case 2 /* Modified */ :
+                                case 3 /* Metadata */ :
+                                    // A metadata change is converted to a modified change at the public
+                                    // api layer.  Since we sort by document key and then change type,
+                                    // metadata and modified changes must be sorted equivalently.
+                                    return 2;
+                                case 1 /* Removed */ :
+                                    return 0;
+                                default:
+                                    return L();
+                            }
+                        })(t1) - n(e1) || this.Io(t.doc, e.doc);
+                    }), this.Vo(n);
+                    let r = e ? this.So() : [], o = 0 === this.Eo.size && this.current ? 1 /* Synced */  : 0 /* Local */ , c = o !== this.To;
                     return (this.To = o, 0 !== i.length || c) ? {
                         snapshot: new Fo(this.query, t.Ao, s, i, t.mutatedKeys, 0 /* Local */  === o, c, /* excludesMetadataChanges= */ !1),
                         Do: r
@@ -7278,12 +7148,12 @@
                     if (!this.current) return [];
                     // TODO(klimt): Do this incrementally so that it's not quadratic when
                     // updating many documents.
-                    const t = this.Eo;
+                    let t = this.Eo;
                     this.Eo = Pn(), this.Ao.forEach((t)=>{
                         this.Co(t.key) && (this.Eo = this.Eo.add(t.key));
                     });
                     // Diff the new limbo docs with the old limbo docs.
-                    const e = [];
+                    let e = [];
                     return t.forEach((t)=>{
                         this.Eo.has(t) || e.push(new Yo(t));
                     }), this.Eo.forEach((n)=>{
@@ -7311,7 +7181,7 @@
                      */ // PORTING NOTE: Multi-tab only.
                 No(t) {
                     this.po = t.Gn, this.Eo = Pn();
-                    const e = this.bo(t.documents);
+                    let e = this.bo(t.documents);
                     return this.applyChanges(e, /*updateLimboDocuments=*/ !0);
                 }
                 /**
@@ -7395,8 +7265,7 @@
                  * subscribed handlers. Returns the initial snapshot.
                  */ async function nc(t, e) {
                 var t1, e1;
-                let s, i;
-                const n = (t.remoteStore.remoteSyncer.applyRemoteEvent = oc.bind(null, t), t.remoteStore.remoteSyncer.getRemoteKeysForTarget = Ec.bind(null, t), t.remoteStore.remoteSyncer.rejectListen = ac.bind(null, t), t.$o.Rr = qo.bind(null, t.eventManager), t.$o.Go = Ko.bind(null, t.eventManager), t), r = n.Oo.get(e);
+                let s, i, n = (t.remoteStore.remoteSyncer.applyRemoteEvent = oc.bind(null, t), t.remoteStore.remoteSyncer.getRemoteKeysForTarget = Ec.bind(null, t), t.remoteStore.remoteSyncer.rejectListen = ac.bind(null, t), t.$o.Rr = qo.bind(null, t.eventManager), t.$o.Go = Ko.bind(null, t.eventManager), t), r = n.Oo.get(e);
                 if (r) // PORTING NOTE: With Multi-Tab Web, it is possible that a query view
                 // already exists when EventManager calls us for the first time. This
                 // happens when the primary tab is already listening to this query on
@@ -7405,7 +7274,7 @@
                 // case and calls `listen` to obtain this ID.
                 s = r.targetId, n.sharedClientState.addLocalQueryTarget(s), i = r.view.xo();
                 else {
-                    const t = await (t1 = n.localStore, e1 = Ee(e), t1.persistence.runTransaction("Allocate target", "readwrite", (t)=>{
+                    let t = await (t1 = n.localStore, e1 = Ee(e), t1.persistence.runTransaction("Allocate target", "readwrite", (t)=>{
                         let s;
                         return t1.ze.getTargetData(t, e1).next((i)=>i ? // previous targetID.
                             // TODO(mcg): freshen last accessed date?
@@ -7413,7 +7282,7 @@
                     }).then((t)=>{
                         // If Multi-Tab is enabled, the existing target data may be newer than
                         // the in-memory data
-                        const s = t1.Un.get(t.targetId);
+                        let s = t1.Un.get(t.targetId);
                         return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (t1.Un = t1.Un.insert(t.targetId, t), t1.qn.set(e1, t.targetId)), t;
                     })), r = n.sharedClientState.addLocalQueryTarget(t.targetId);
                     s = t.targetId, i = await sc(n, e, s, "current" === r), n.isPrimaryClient && co(n.remoteStore, t);
@@ -7433,21 +7302,19 @@
                         // to re-run the query against the local store to make sure we
                         // didn't lose any good docs that had been past the limit.
                         (i = await yr(t.localStore, e.query, /* usePreviousResults= */ !1).then(({ documents: t })=>e.view.bo(t, i)));
-                        const r = s && s.targetChanges.get(e.targetId), o = e.view.applyChanges(i, /* updateLimboDocuments= */ t.isPrimaryClient, r);
+                        let r = s && s.targetChanges.get(e.targetId), o = e.view.applyChanges(i, /* updateLimboDocuments= */ t.isPrimaryClient, r);
                         return mc(t, e.targetId, o.Do), o.snapshot;
                     })(t, e, n, s);
-                const i = await yr(t.localStore, e, /* usePreviousResults= */ !0), r = new Xo(e, i.Gn), o = r.bo(i.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n, s && "Offline" /* Offline */  !== t.onlineState), a = r.applyChanges(o, /* updateLimboDocuments= */ t.isPrimaryClient, c);
+                let i = await yr(t.localStore, e, /* usePreviousResults= */ !0), r = new Xo(e, i.Gn), o = r.bo(i.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n, s && "Offline" /* Offline */  !== t.onlineState), a = r.applyChanges(o, /* updateLimboDocuments= */ t.isPrimaryClient, c);
                 mc(t, n, a.Do);
-                const u = new Zo(e, n, r);
+                let u = new Zo(e, n, r);
                 return t.Oo.set(e, u), t.Fo.has(n) ? t.Fo.get(n).push(e) : t.Fo.set(n, [
                     e
                 ]), a.snapshot;
             }
             /** Stops listening to the query. */ async function ic(t, e) {
-                const s = t.Oo.get(e), i = t.Fo.get(s.targetId);
-                if (i.length > 1) return t.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), void t.Oo.delete(e);
-                // No other queries are mapped to the target, clean up the query and the target.
-                t.isPrimaryClient ? (// We need to remove the local query target first to allow us to verify
+                let s = t.Oo.get(e), i = t.Fo.get(s.targetId);
+                i.length > 1 ? (t.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), t.Oo.delete(e)) : t.isPrimaryClient ? (// We need to remove the local query target first to allow us to verify
                 // whether any other client is still interested in this target.
                 t.sharedClientState.removeLocalQueryTarget(s.targetId), t.sharedClientState.isActiveQueryTarget(s.targetId) || await gr(t.localStore, s.targetId, /*keepPersistedTargetData=*/ !1).then(()=>{
                     t.sharedClientState.clearQueryState(s.targetId), ao(t.remoteStore, s.targetId), wc(t, s.targetId);
@@ -7459,80 +7326,69 @@
                  * visible because of the snapshot version the remote event contains.
                  */ async function oc(t, e) {
                 try {
-                    const t1 = await /**
-                 * Updates the "ground-state" (remote) documents. We assume that the remote
-                 * event reflects any write batches that have been acknowledged or rejected
-                 * (i.e. we do not re-apply local mutations to updates from this event).
-                 *
-                 * LocalDocuments are re-calculated if there are remaining mutations in the
-                 * queue.
-                 */ function(t, e) {
-                        const s = e.snapshotVersion;
-                        let i = t.Un;
-                        return t.persistence.runTransaction("Apply remote event", "readwrite-primary", (t1)=>{
-                            var n, // TODO(wuandy): We could add `readTime` to MaybeDocument instead to remove
-                            // this parameter.
-                            i1;
-                            let r;
-                            const r1 = t.jn.newChangeBuffer({
-                                trackRemovals: !0
-                            });
-                            // Reset newTargetDataByTargetMap in case this transaction gets re-run.
-                            i = t.Un;
-                            const o = [];
-                            e.targetChanges.forEach((e, r)=>{
-                                const c = i.get(r);
-                                if (!c) return;
-                                // Only update the remote keys if the target is still active. This
-                                // ensures that we can persist the updated target data along with
-                                // the updated assignment.
-                                o.push(t.ze.removeMatchingKeys(t1, e.removedDocuments, r).next(()=>t.ze.addMatchingKeys(t1, e.addedDocuments, r)));
-                                const a = e.resumeToken;
-                                // Update the resume token if the change includes one.
-                                if (a.approximateByteSize() > 0) {
-                                    const u = c.withResumeToken(a, s).withSequenceNumber(t1.currentSequenceNumber);
-                                    i = i.insert(r, u), u.resumeToken.approximateByteSize() > 0 || L(), (0 === /**
+                    var t1;
+                    let s, i, t2 = await (t1 = t.localStore, s = e.snapshotVersion, i = t1.Un, t1.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
+                        var n, // TODO(wuandy): We could add `readTime` to MaybeDocument instead to remove
+                        // this parameter.
+                        i1;
+                        let r, r1 = t1.jn.newChangeBuffer({
+                            trackRemovals: !0
+                        });
+                        // Reset newTargetDataByTargetMap in case this transaction gets re-run.
+                        i = t1.Un;
+                        let o = [];
+                        e.targetChanges.forEach((e, r)=>{
+                            let c = i.get(r);
+                            if (!c) return;
+                            // Only update the remote keys if the target is still active. This
+                            // ensures that we can persist the updated target data along with
+                            // the updated assignment.
+                            o.push(t1.ze.removeMatchingKeys(t, e.removedDocuments, r).next(()=>t1.ze.addMatchingKeys(t, e.addedDocuments, r)));
+                            let a = e.resumeToken;
+                            // Update the resume token if the change includes one.
+                            if (a.approximateByteSize() > 0) {
+                                let u = c.withResumeToken(a, s).withSequenceNumber(t.currentSequenceNumber);
+                                i = i.insert(r, u), u.resumeToken.approximateByteSize() > 0 || L(), (0 === /**
                                                  * Notifies local store of the changed views to locally pin documents.
-                                                 */ c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || e.addedDocuments.size + e.modifiedDocuments.size + e.removedDocuments.size > 0) && o.push(t.ze.updateTargetData(t1, u));
-                                }
-                            });
-                            let c = pn;
-                            // HACK: The only reason we allow a null snapshot version is so that we
-                            // can synthesize remote events when we get permission denied errors while
-                            // trying to resolve the state of a locally cached document that is in
-                            // limbo.
-                            if (e.documentUpdates.forEach((s, i)=>{
-                                e.resolvedLimboDocuments.has(s) && o.push(t.persistence.referenceDelegate.updateLimboDocument(t1, s));
-                            }), // Each loop iteration only affects its "own" doc, so it's safe to get all the remote
-                            // documents in advance in a single call.
-                            o.push((n = e.documentUpdates, i1 = void 0, r = Pn(), n.forEach((t)=>r = r.add(t)), r1.getEntries(t1, r).next((t)=>{
-                                let r = pn;
-                                return n.forEach((n, o)=>{
-                                    const c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s;
-                                    // Note: The order of the steps below is important, since we want
-                                    // to ensure that rejected limbo resolutions (which fabricate
-                                    // NoDocuments with SnapshotVersion.min()) never add documents to
-                                    // cache.
-                                    o.isNoDocument() && o.version.isEqual(rt.min()) ? // events. We remove these documents from cache since we lost
-                                    // access.
-                                    (r1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
-                                }), r;
-                            })).next((t)=>{
-                                c = t;
-                            })), !s.isEqual(rt.min())) {
-                                const e = t.ze.getLastRemoteSnapshotVersion(t1).next((e)=>t.ze.setTargetsMetadata(t1, t1.currentSequenceNumber, s));
-                                o.push(e);
+                                                 */ c.resumeToken.approximateByteSize() || u.snapshotVersion.toMicroseconds() - c.snapshotVersion.toMicroseconds() >= 3e8 || e.addedDocuments.size + e.modifiedDocuments.size + e.removedDocuments.size > 0) && o.push(t1.ze.updateTargetData(t, u));
                             }
-                            return js.waitFor(o).next(()=>r1.apply(t1)).next(()=>t.Qn.vn(t1, c)).next(()=>c);
-                        }).then((t1)=>(t.Un = i, t1));
-                    }(t.localStore, e);
+                        });
+                        let c = pn;
+                        // HACK: The only reason we allow a null snapshot version is so that we
+                        // can synthesize remote events when we get permission denied errors while
+                        // trying to resolve the state of a locally cached document that is in
+                        // limbo.
+                        if (e.documentUpdates.forEach((s, i)=>{
+                            e.resolvedLimboDocuments.has(s) && o.push(t1.persistence.referenceDelegate.updateLimboDocument(t, s));
+                        }), // Each loop iteration only affects its "own" doc, so it's safe to get all the remote
+                        // documents in advance in a single call.
+                        o.push((n = e.documentUpdates, i1 = void 0, r = Pn(), n.forEach((t)=>r = r.add(t)), r1.getEntries(t, r).next((t)=>{
+                            let r = pn;
+                            return n.forEach((n, o)=>{
+                                let c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s;
+                                // Note: The order of the steps below is important, since we want
+                                // to ensure that rejected limbo resolutions (which fabricate
+                                // NoDocuments with SnapshotVersion.min()) never add documents to
+                                // cache.
+                                o.isNoDocument() && o.version.isEqual(rt.min()) ? // events. We remove these documents from cache since we lost
+                                // access.
+                                (r1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
+                            }), r;
+                        })).next((t)=>{
+                            c = t;
+                        })), !s.isEqual(rt.min())) {
+                            let e = t1.ze.getLastRemoteSnapshotVersion(t).next((e)=>t1.ze.setTargetsMetadata(t, t.currentSequenceNumber, s));
+                            o.push(e);
+                        }
+                        return js.waitFor(o).next(()=>r1.apply(t)).next(()=>t1.Qn.vn(t, c)).next(()=>c);
+                    }).then((t)=>(t1.Un = i, t)));
                     // Update `receivedDocument` as appropriate for any limbo targets.
                     e.targetChanges.forEach((t1, e)=>{
-                        const s = t.Bo.get(e);
+                        let s = t.Bo.get(e);
                         s && // Since this is a limbo resolution lookup, it's for a single document
                         // and it could be added, modified, or removed, but not a combination.
                         (t1.addedDocuments.size + t1.modifiedDocuments.size + t1.removedDocuments.size <= 1 || L(), t1.addedDocuments.size > 0 ? s.ko = !0 : t1.modifiedDocuments.size > 0 ? s.ko || L() : t1.removedDocuments.size > 0 && (s.ko || L(), s.ko = !1));
-                    }), await pc(t, t1, e);
+                    }), await pc(t, t2, e);
                 } catch (t) {
                     await Fi(t);
                 }
@@ -7541,20 +7397,19 @@
                  * Applies an OnlineState change to the sync engine and notifies any views of
                  * the change.
                  */ function cc(t, e, n) {
-                var t1;
                 // If we are the secondary client, we explicitly ignore the remote store's
                 // online state (the local client may go offline, even though the primary
                 // tab remains online) and only apply the primary tab's online state from
                 // SharedClientState.
                 if (t.isPrimaryClient && 0 /* RemoteStore */  === n || !t.isPrimaryClient && 1 /* SharedClientState */  === n) {
-                    let s;
-                    const t2 = [];
+                    var t1;
+                    let s, t2 = [];
                     t.Oo.forEach((n, s)=>{
-                        const i = s.view.io(e);
+                        let i = s.view.io(e);
                         i.snapshot && t2.push(i.snapshot);
                     }), (t1 = t.eventManager).onlineState = e, s = !1, t1.queries.forEach((t, n)=>{
                         // Run global snapshot listeners if a consistent snapshot has been emitted.
-                        for (const t of n.listeners)t.io(e) && (s = !0);
+                        for (let t of n.listeners)t.io(e) && (s = !0);
                     }), s && jo(t1), t2.length && t.$o.Rr(t2), t.onlineState = e, t.isPrimaryClient && t.sharedClientState.setOnlineState(e);
                 }
             }
@@ -7571,7 +7426,7 @@
                  */ async function ac(t, e, n) {
                 // PORTING NOTE: Multi-tab only.
                 t.sharedClientState.updateQueryState(e, "rejected", n);
-                const i = t.Bo.get(e), r = i && i.key;
+                let i = t.Bo.get(e), r = i && i.key;
                 if (r) {
                     // TODO(klimt): We really only should do the following on permission
                     // denied errors, but we don't have the cause code here.
@@ -7581,7 +7436,7 @@
                     // the local store's invariants with another method.
                     let t1 = new wn(Pt.comparator);
                     t1 = t1.insert(r, Kt.newNoDocument(r, rt.min()));
-                    const n = Pn().add(r), i = new Sn(rt.min(), /* targetChanges= */ new Map(), /* targetMismatches= */ new gn(et), t1, n);
+                    let n = Pn().add(r), i = new Sn(rt.min(), /* targetChanges= */ new Map(), /* targetMismatches= */ new gn(et), t1, n);
                     await oc(t, i), // Since this query failed, we won't want to manually unlisten to it.
                     // We only remove it from bookkeeping after we successfully applied the
                     // RemoteEvent. If `applyRemoteEvent()` throws, we want to re-listen to
@@ -7591,7 +7446,7 @@
                 } else await gr(t.localStore, e, /* keepPersistedTargetData */ !1).then(()=>wc(t, e, n)).catch(Fi);
             }
             function wc(t, e, n = null) {
-                for (const s of (t.sharedClientState.removeLocalQueryTarget(e), t.Fo.get(e)))t.Oo.delete(s), n && t.$o.Go(s, n);
+                for (let s of (t.sharedClientState.removeLocalQueryTarget(e), t.Fo.get(e)))t.Oo.delete(s), n && t.$o.Go(s, n);
                 t.Fo.delete(e), t.isPrimaryClient && t.Uo.cs(e).forEach((e)=>{
                     t.Uo.containsKey(e) || // We removed the last reference for this key
                     _c(t, e);
@@ -7601,12 +7456,12 @@
                 t.Mo.delete(e.path.canonicalString());
                 // It's possible that the target already got removed because the query failed. In that case,
                 // the key won't exist in `limboTargetsByKey`. Only do the cleanup if we still have the target.
-                const n = t.Lo.get(e);
+                let n = t.Lo.get(e);
                 null !== n && (ao(t.remoteStore, n), t.Lo = t.Lo.remove(e), t.Bo.delete(n), yc(t));
             }
             function mc(t, e, n) {
-                for (const s of n)s instanceof Jo ? (t.Uo.addReference(s.key, e), function(t, e) {
-                    const n = e.key, s = n.path.canonicalString();
+                for (let s of n)s instanceof Jo ? (t.Uo.addReference(s.key, e), function(t, e) {
+                    let n = e.key, s = n.path.canonicalString();
                     t.Lo.get(n) || t.Mo.has(s) || ($("SyncEngine", "New document in limbo: " + n), t.Mo.add(s), yc(t));
                 }(t, s)) : s instanceof Yo ? ($("SyncEngine", "Document no longer in limbo: " + s.key), t.Uo.removeReference(s.key, e), t.Uo.containsKey(s.key) || // We removed the last reference for this key
                 _c(t, s.key)) : L();
@@ -7620,19 +7475,19 @@
                  * behavior as seen in https://github.com/firebase/firebase-js-sdk/issues/2683.
                  */ function yc(t) {
                 for(; t.Mo.size > 0 && t.Lo.size < t.maxConcurrentLimboResolutions;){
-                    const e = t.Mo.values().next().value;
+                    let e = t.Mo.values().next().value;
                     t.Mo.delete(e);
-                    const n = new Pt(ht.fromString(e)), s = t.jo.next();
+                    let n = new Pt(ht.fromString(e)), s = t.jo.next();
                     t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee(new fe(n.path)), s, 2 /* LimboResolution */ , X.T));
                 }
             }
             async function pc(t, e, n) {
-                const i = [], r = [], o = [];
+                let i = [], r = [], o = [];
                 t.Oo.isEmpty() || (t.Oo.forEach((t1, c)=>{
                     o.push(t.Wo(c, e, n).then((t1)=>{
                         if (t1) {
                             t.isPrimaryClient && t.sharedClientState.updateQueryState(c.targetId, t1.fromCache ? "not-current" : "current"), i.push(t1);
-                            const e = or.kn(c.targetId, t1);
+                            let e = or.kn(c.targetId, t1);
                             r.push(e);
                         }
                     }));
@@ -7647,10 +7502,10 @@
                         // would have, but it should not invalidate the integrity of the data.
                         $("LocalStore", "Failed to update sequence numbers: " + t);
                     }
-                    for (const t1 of e){
-                        const e = t1.targetId;
+                    for (let t1 of e){
+                        let e = t1.targetId;
                         if (!t1.fromCache) {
-                            const t1 = t.Un.get(e), s = t1.snapshotVersion, i = t1.withLastLimboFreeSnapshotVersion(s);
+                            let t1 = t.Un.get(e), s = t1.snapshotVersion, i = t1.withLastLimboFreeSnapshotVersion(s);
                             // Advance the last limbo free snapshot version
                             t.Un = t.Un.insert(e, i);
                         }
@@ -7660,7 +7515,7 @@
             async function Tc(t, e) {
                 if (!t.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
-                    const t1 = await hr(t.localStore, e);
+                    let t1 = await hr(t.localStore, e);
                     t.currentUser = e, t.Ko.forEach((t)=>{
                         t.forEach((t)=>{
                             t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
@@ -7670,14 +7525,13 @@
                 }
             }
             function Ec(t, e) {
-                const s = t.Bo.get(e);
+                let s = t.Bo.get(e);
                 if (s && s.ko) return Pn().add(s.key);
                 {
-                    let t1 = Pn();
-                    const s = t.Fo.get(e);
+                    let t1 = Pn(), s = t.Fo.get(e);
                     if (!s) return t1;
-                    for (const e of s){
-                        const s = t.Oo.get(e);
+                    for (let e of s){
+                        let s = t.Oo.get(e);
                         t1 = t1.unionWith(s.view.Ro);
                     }
                     return t1;
@@ -7717,18 +7571,15 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    const e = new Bn(t.databaseInfo.databaseId, !0), n = new zr(t.databaseInfo);
+                    let e = new Bn(t.databaseInfo.databaseId, !0), n = new zr(t.databaseInfo);
                     /** Return the Platform-specific connectivity monitor. */ return new no(t.credentials, n, e);
                 }
                 createRemoteStore(t) {
                     return new io(this.localStore, this.datastore, t.asyncQueue, (t)=>cc(this.syncEngine, t, 0 /* RemoteStore */ ), Qr.bt() ? new Qr() : new jr());
                 /** Re-enables the network. Idempotent. */ }
                 createSyncEngine(t, e) {
-                    return function(t, e, n, // PORTING NOTE: Manages state synchronization in multi-tab environments.
-                    s, i, r, o) {
-                        const c = new ec(t, e, n, s, i, r);
-                        return o && (c.Qo = !0), c;
-                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t.initialUser, t.maxConcurrentLimboResolutions, e);
+                    let c;
+                    return c = new ec(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t.initialUser, t.maxConcurrentLimboResolutions), e && (c.Qo = !0), c;
                 }
                 terminate() {
                     return async function(t) {
@@ -7849,7 +7700,7 @@
                 }
                 terminate() {
                     this.asyncQueue.enterRestrictedMode();
-                    const t = new Q();
+                    let t = new Q();
                     return this.asyncQueue.enqueueAndForgetEvenWhileRestricted(async ()=>{
                         try {
                             this.onlineComponents && await this.onlineComponents.terminate(), this.offlineComponents && await this.offlineComponents.terminate(), // The credentials provider must be terminated after shutting down the
@@ -7857,7 +7708,7 @@
                             // tokens.
                             this.credentials.shutdown(), t.resolve();
                         } catch (e) {
-                            const n = ko(e, "Failed to shutdown persistence");
+                            let n = ko(e, "Failed to shutdown persistence");
                             t.reject(n);
                         }
                     }), t.promise;
@@ -7865,7 +7716,7 @@
             }
             async function jc(t, e) {
                 t.asyncQueue.verifyOperationInProgress(), $("FirestoreClient", "Initializing OfflineComponentProvider");
-                const n = await t.getConfiguration();
+                let n = await t.getConfiguration();
                 await e.initialize(n);
                 let s = n.initialUser;
                 t.setCredentialChangeListener(async (t)=>{
@@ -7876,14 +7727,14 @@
             }
             async function Qc(t, e) {
                 t.asyncQueue.verifyOperationInProgress();
-                const n = await Wc(t);
+                let n = await Wc(t);
                 $("FirestoreClient", "Initializing OnlineComponentProvider");
-                const s = await t.getConfiguration();
+                let s = await t.getConfiguration();
                 await e.initialize(n, s), // The CredentialChangeListener of the online component provider takes
                 // precedence over the offline component provider.
                 t.setCredentialChangeListener((t)=>(async function(t, e) {
                         t.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
-                        const s = wo(t);
+                        let s = wo(t);
                         // Tear down and re-create our network streams. This will ensure we get a
                         // fresh auth token for the new user and re-fill the write pipeline with
                         // new mutations from the LocalStore (since mutations are per-user).
@@ -7898,7 +7749,7 @@
                 return t.onlineComponents || ($("FirestoreClient", "Using default OnlineComponentProvider"), await Qc(t, new Fc())), t.onlineComponents;
             }
             async function Xc(t) {
-                const e = await Gc(t), n = e.eventManager;
+                let e = await Gc(t), n = e.eventManager;
                 return n.onListen = nc.bind(null, e.syncEngine), n.onUnlisten = ic.bind(null, e.syncEngine), n;
             }
             class ua {
@@ -7951,7 +7802,7 @@
                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                  * See the License for the specific language governing permissions and
                  * limitations under the License.
-                 */ const la = new Map();
+                 */ let la = new Map();
             /**
                  * Validates that `path` refers to a collection (indicated by the fact it
                  * contains an odd numbers of segments).
@@ -7965,7 +7816,7 @@
                 (t = t._delegate), !(t instanceof e)) {
                     if (e.name === t.constructor.name) throw new j(K.INVALID_ARGUMENT, "Type does not match the expected instance. Did you pass a reference from a different Firestore SDK?");
                     {
-                        const n = /**
+                        let n = /**
                  * Returns true if it's a non-null object without a custom prototype
                  * (i.e. excludes Array, Date, etc.).
                  */ /** Returns a string describing the type / value of the provided input. */ function(t) {
@@ -7977,7 +7828,7 @@
                                 if (t instanceof Array) return "an array";
                                 {
                                     var t1;
-                                    const e = (t1 = /**
+                                    let e = (t1 = /**
                                      * Casts `obj` to `T`, optionally unwrapping Compat types to expose the
                                      * underlying instance. Throws if  `obj` is not an instance of `T`.
                                      *
@@ -8099,7 +7950,7 @@
                         if (!t) return new G();
                         switch(t.type){
                             case "gapi":
-                                const e = t.client;
+                                let e = t.client;
                                 // Make sure this really is a Gapi client.
                                 return "object" == typeof e && null !== e && e.auth && e.auth.getAuthHeaderValueForFirstParty || L(), new Y(e, t.sessionIndex || "0", t.iamToken || null);
                             case "provider":
@@ -8132,13 +7983,11 @@
                      *
                      * Only ever called once.
                      */ _terminate() {
+                    let e;
                     /**
                          * Removes all components associated with the provided instance. Must be called
                          * when the `Firestore` instance is terminated.
-                         */ return function(t) {
-                        const e = la.get(t);
-                        e && ($("ComponentProvider", "Removing Datastore"), la.delete(t), e.terminate());
-                    }(this), Promise.resolve();
+                         */ return (e = la.get(this)) && ($("ComponentProvider", "Removing Datastore"), la.delete(this), e.terminate()), Promise.resolve();
                 }
             }
             /**
@@ -8223,7 +8072,7 @@
                      * A reference to the containing `DocumentReference` if this is a
                      * subcollection. If this isn't a subcollection, the reference is null.
                      */ get parent() {
-                    const t = this._path.popLast();
+                    let t = this._path.popLast();
                     return t.isEmpty() ? null : new Ia(this.firestore, /* converter= */ null, new Pt(t));
                 }
                 withConverter(t) {
@@ -8252,12 +8101,12 @@
                  */ function(t, e, n) {
                     if (!n) throw new j(K.INVALID_ARGUMENT, `Function ${t}() cannot be called with an empty ${e}.`);
                 }("collection", "path", e), t instanceof Ta) {
-                    const s = ht.fromString(e, ...n);
+                    let s = ht.fromString(e, ...n);
                     return _a(s), new Ra(t, /* converter= */ null, s);
                 }
                 {
                     if (!(t instanceof Ia || t instanceof Ra)) throw new j(K.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
-                    const s = t._path.child(ht.fromString(e, ...n));
+                    let s = t._path.child(ht.fromString(e, ...n));
                     return _a(s), new Ra(t.firestore, /* converter= */ null, s);
                 }
             }
@@ -8295,7 +8144,7 @@
                     // operations. Meant to speed up recovery when we regain file system access
                     // after page comes into foreground.
                     this.Rc = ()=>{
-                        const t = Jr();
+                        let t = Jr();
                         t && $("AsyncQueue", "Visibility state changed to " + t.visibilityState), this.ar.tr();
                     };
                     const t = Jr();
@@ -8318,7 +8167,7 @@
                 enterRestrictedMode(t) {
                     if (!this.gc) {
                         this.gc = !0, this.Ic = t || !1;
-                        const e = Jr();
+                        let e = Jr();
                         e && "function" == typeof e.removeEventListener && e.removeEventListener("visibilitychange", this.Rc);
                     }
                 }
@@ -8328,7 +8177,7 @@
                     // Create a deferred Promise that we can return to the callee. This
                     // allows us to return a "hanging Promise" only to the callee and still
                     // advance the queue even when the operation is not run.
-                    const e = new Q();
+                    let e = new Q();
                     return this.Pc(()=>this.gc && this.Ic ? Promise.resolve() : (t().then(e.resolve, e.reject), e.promise)).then(()=>e.promise);
                 }
                 enqueueRetryable(t) {
@@ -8360,7 +8209,7 @@
                     }
                 }
                 Pc(t) {
-                    const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
+                    let e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
                             let e;
                             // Re-throw the error so that this.tail becomes a rejected Promise and
                             // all further attempts to chain (via .then) will just short-circuit
@@ -8387,7 +8236,7 @@
                 enqueueAfterDelay(t, e, n) {
                     this.bc(), // Fast-forward delays for timerIds that have been overriden.
                     this.Ac.indexOf(t) > -1 && (e = 0);
-                    const s = xo.createAndSchedule(this, t, e, n, (t)=>this.Vc(t));
+                    let s = xo.createAndSchedule(this, t, e, n, (t)=>this.Vc(t));
                     return this.yc.push(s), s;
                 }
                 bc() {
@@ -8410,7 +8259,7 @@
                      * For Tests: Determine if a delayed operation with a particular TimerId
                      * exists.
                      */ Dc(t) {
-                    for (const e of this.yc)if (e.timerId === t) return !0;
+                    for (let e of this.yc)if (e.timerId === t) return !0;
                     return !1;
                 }
                 /**
@@ -8422,7 +8271,7 @@
                      */ Cc(t) {
                     // Note that draining may generate more delayed ops, so we do that first.
                     return this.Sc().then(()=>{
-                        for (const e of (// Run ops in the same order they'd run if they ran naturally.
+                        for (let e of (// Run ops in the same order they'd run if they ran naturally.
                         this.yc.sort((t, e)=>t.targetTimeMs - e.targetTimeMs), this.yc))if (e.skipDelay(), "all" /* All */  !== t && e.timerId === t) break;
                         return this.Sc();
                     });
@@ -8434,7 +8283,7 @@
                 }
                 /** Called once a DelayedOperation is run or canceled. */ Vc(t) {
                     // NOTE: indexOf / slice are O(n), but delayedOperations is expected to be small.
-                    const e = this.yc.indexOf(t);
+                    let e = this.yc.indexOf(t);
                     this.yc.splice(e, 1);
                 }
             }
@@ -8456,7 +8305,7 @@
             }
             function Ma(t) {
                 var e;
-                const n = t._freezeSettings(), s = new ua(t._databaseId, (null == (e = t._app) ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
+                let n = t._freezeSettings(), s = new ua(t._databaseId, (null == (e = t._app) ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
                 t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             /**
@@ -8650,10 +8499,9 @@
             }
             /**
                  * Matches any characters in a field path string that are reserved.
-                 */ const Au = RegExp("[~\\*/\\[\\]]");
+                 */ let Au = RegExp("[~\\*/\\[\\]]");
             function bu(t, e, n, s, i) {
-                const r = s && !s.isEmpty(), o = void 0 !== i;
-                let c = `Function ${e}() called with invalid data`;
+                let r = s && !s.isEmpty(), o = void 0 !== i, c = `Function ${e}() called with invalid data`;
                 n && (c += " (via `toFirestore()`)"), c += ". ";
                 let a = "";
                 return (r || o) && (a += " (found", r && (a += ` in field ${s}`), o && (a += ` in document ${i}`), a += ")"), new j(K.INVALID_ARGUMENT, c + t + a);
@@ -8715,7 +8563,7 @@
                         if (this._converter) {
                             // We only want to use the converter and create a new DocumentSnapshot
                             // if a converter has been provided.
-                            const t = new Vu(this._firestore, this._userDataWriter, this._key, this._document, /* converter= */ null);
+                            let t = new Vu(this._firestore, this._userDataWriter, this._key, this._document, /* converter= */ null);
                             return this._converter.fromFirestore(t);
                         }
                         return this._userDataWriter.convertValue(this._document.data.value);
@@ -8733,7 +8581,7 @@
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 get(t) {
                     if (this._document) {
-                        const e = this._document.data.field(Su("DocumentSnapshot.get", t));
+                        let e = this._document.data.field(Su("DocumentSnapshot.get", t));
                         if (null !== e) return this._userDataWriter.convertValue(e);
                     }
                 }
@@ -8769,7 +8617,7 @@
                  * split on dots.
                  * @param targetDoc - The document against which the field path will be
                  * evaluated.
-                 */ function(t, e, n) {
+                 */ function(t, e) {
                     if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, /* hasConverter= */ !1, /* path= */ void 0, void 0);
                     try {
                         return new Ja(...e.split("."))._internalPath;
@@ -8844,7 +8692,7 @@
                         if (this._converter) {
                             // We only want to use the converter and create a new DocumentSnapshot
                             // if a converter has been provided.
-                            const e = new Nu(this._firestore, this._userDataWriter, this._key, this._document, this.metadata, /* converter= */ null);
+                            let e = new Nu(this._firestore, this._userDataWriter, this._key, this._document, this.metadata, /* converter= */ null);
                             return this._converter.fromFirestore(e, t);
                         }
                         return this._userDataWriter.convertValue(this._document.data.value, t.serverTimestamps);
@@ -8869,7 +8717,7 @@
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 get(t, e = {}) {
                     if (this._document) {
-                        const n = this._document.data.field(Su("DocumentSnapshot.get", t));
+                        let n = this._document.data.field(Su("DocumentSnapshot.get", t));
                         if (null !== n) return this._userDataWriter.convertValue(n, e.serverTimestamps);
                     }
                 }
@@ -8912,7 +8760,7 @@
                     this._firestore = t, this._userDataWriter = e, this._snapshot = s, this.metadata = new Du(s.hasPendingWrites, s.fromCache), this.query = n;
                 }
                 /** An array of all the documents in the `QuerySnapshot`. */ get docs() {
-                    const t = [];
+                    let t = [];
                     return this.forEach((e)=>t.push(e)), t;
                 }
                 /** The number of documents in the `QuerySnapshot`. */ get size() {
@@ -8941,7 +8789,7 @@
                      * changes (i.e. only `DocumentSnapshot.metadata` changed) should trigger
                      * snapshot events.
                      */ docChanges(t = {}) {
-                    const e = !!t.includeMetadataChanges;
+                    let e = !!t.includeMetadataChanges;
                     if (e && this._snapshot.excludesMetadataChanges) throw new j(K.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
                     return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === e || (this._cachedChanges = /** Calculates the array of `DocumentChange`s for a given `ViewSnapshot`. */ function(t, e) {
                         if (t._snapshot.oldDocs.isEmpty()) {
@@ -8958,8 +8806,7 @@
                             // to lookup the index of a document.
                             let n = t._snapshot.oldDocs;
                             return t._snapshot.docChanges.filter((t)=>e || 3 /* Metadata */  !== t.type).map((e)=>{
-                                const s = new Nu(t._firestore, t._userDataWriter, e.doc.key, e.doc, new Du(t._snapshot.mutatedKeys.has(e.doc.key), t._snapshot.fromCache), t.query.converter);
-                                let i = -1, r = -1;
+                                let s = new Nu(t._firestore, t._userDataWriter, e.doc.key, e.doc, new Du(t._snapshot.mutatedKeys.has(e.doc.key), t._snapshot.fromCache), t.query.converter), i = -1, r = -1;
                                 return 0 /* Added */  !== e.type && (i = n.indexOf(e.doc.key), n = n.delete(e.doc.key)), 1 /* Removed */  !== e.type && (r = (n = n.add(e.doc)).indexOf(e.doc.key)), {
                                     type: function(t) {
                                         switch(t){
@@ -9033,7 +8880,7 @@
                     }
                 }
                 convertObject(t, e) {
-                    const n = {};
+                    let n = {};
                     return ct(t.fields, (t, s)=>{
                         n[t] = this.convertValue(s, e);
                     }), n;
@@ -9047,7 +8894,7 @@
                 convertServerTimestamp(t, e) {
                     switch(e){
                         case "previous":
-                            const n = /**
+                            let n = /**
                  * Creates a new ServerTimestamp proto value (using the internal format).
                  */ /**
                  * Returns the value of the field before this ServerTimestamp was set.
@@ -9055,7 +8902,7 @@
                  * Preserving the previous values allows the user to display the last resoled
                  * value until the backend responds with the timestamp.
                  */ function Et(t) {
-                                const e = t.mapValue.fields.__previous_value__;
+                                let e = t.mapValue.fields.__previous_value__;
                                 return Tt(e) ? Et(e) : e;
                             }(t);
                             return null == n ? null : this.convertValue(n, e);
@@ -9066,13 +8913,13 @@
                     }
                 }
                 convertTimestamp(t) {
-                    const e = gt(t);
+                    let e = gt(t);
                     return new it(e.seconds, e.nanos);
                 }
                 convertDocumentKey(t, e) {
-                    const n = ht.fromString(t);
+                    let n = ht.fromString(t);
                     Ts(n) || L();
-                    const s = new ha(n.get(1), n.get(3)), i = new Pt(n.popFirst(5));
+                    let s = new ha(n.get(1), n.get(3)), i = new Pt(n.popFirst(5));
                     return s.isEqual(e) || // TODO(b/64130202): Somehow support foreign references.
                     O(`Document ${i} contains a document reference within a different database (${s.projectId}/${s.database}) which is not supported. It will be treated as a reference in the current database (${e.projectId}/${e.database}) instead.`), i;
                 }
@@ -9085,7 +8932,7 @@
                     return new Xa(t);
                 }
                 convertReference(t) {
-                    const e = this.convertDocumentKey(t, this.firestore._databaseId);
+                    let e = this.convertDocumentKey(t, this.firestore._databaseId);
                     return new Ia(this.firestore, /* converter= */ null, e);
                 }
             }
@@ -9100,7 +8947,7 @@
                  * @returns A `Promise` that will be resolved with the results of the query.
                  */ function lh(t) {
                 t = ga(t, Aa);
-                const e = ga(t.firestore, ka), n = (e._firestoreClient || Ma(e), e._firestoreClient.verifyNotTerminated(), e._firestoreClient), s = new ah(e);
+                let e = ga(t.firestore, ka), n = (e._firestoreClient || Ma(e), e._firestoreClient.verifyNotTerminated(), e._firestoreClient), s = new ah(e);
                 return(/**
                  * @license
                  * Copyright 2020 Google LLC
@@ -9119,30 +8966,31 @@
                  */ function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
                 }(t._query), (function(t, e, n = {}) {
-                    const s = new Q();
-                    return t.asyncQueue.enqueueAndForget(async ()=>(function(t, e, n, s, i) {
-                            const o = new Qo(n, new Lc({
-                                next: (n)=>{
-                                    // Remove query first before passing event to user to avoid
-                                    // user actions affecting the now stale query.
-                                    e.enqueueAndForget(()=>Uo(t, o)), n.fromCache && "server" === s.source ? i.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : i.resolve(n);
-                                },
-                                error: (t)=>i.reject(t)
-                            }), {
-                                includeMetadataChanges: !0,
-                                fo: !0
-                            });
-                            return Bo(t, o);
-                        })(await Xc(t), t.asyncQueue, e, n, s)), s.promise;
+                    let s = new Q();
+                    return t.asyncQueue.enqueueAndForget(async ()=>{
+                        var t1, e1;
+                        let o;
+                        return t1 = await Xc(t), e1 = t.asyncQueue, o = new Qo(e, new Lc({
+                            next: (n1)=>{
+                                // Remove query first before passing event to user to avoid
+                                // user actions affecting the now stale query.
+                                e1.enqueueAndForget(()=>Uo(t1, o)), n1.fromCache && "server" === n.source ? s.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : s.resolve(n1);
+                            },
+                            error: (t)=>s.reject(t)
+                        }), {
+                            includeMetadataChanges: !0,
+                            fo: !0
+                        }), Bo(t1, o);
+                    }), s.promise;
                 })(n, t._query).then((n)=>new xu(e, s, t, n)));
             }
             /**
                  * Cloud Firestore
                  *
                  * @packageDocumentation
-                 */ !function(t, e = !0) {
+                 */ !function(e = !0) {
                 C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .SDK_VERSION */ .Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* ._registerComponent */ .Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__ /* .Component */ .wA("firestore", (t, { options: n })=>{
-                    const i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
+                    let i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
                     return n = Object.assign({
                         useFetchStreams: e
                     }, n), i._setSettings(n), i;

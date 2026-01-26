@@ -2772,17 +2772,17 @@
             }, exports.XMLReader = XMLReader, exports.ParseError = ParseError;
         /***/ },
         /***/ 9144: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var doccy, topLevel = void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof window ? window : {}, minDoc = __webpack_require__(7579);
-            "undefined" != typeof document ? doccy = document : (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"]) || (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"] = minDoc), module.exports = doccy;
+            var doccy, topLevel = void 0 !== __webpack_require__.g ? __webpack_require__.g : "u" > typeof window ? window : {}, minDoc = __webpack_require__(7579);
+            "u" > typeof document ? doccy = document : (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"]) || (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"] = minDoc), module.exports = doccy;
         /***/ },
         /***/ 8908: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            module.exports = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {};
+            module.exports = "u" > typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "u" > typeof self ? self : {};
         /***/ },
         /***/ 7376: /***/ function(module) {
             module.exports = function(fn) {
                 if (!fn) return !1;
                 var string = toString.call(fn);
-                return "[object Function]" === string || "function" == typeof fn && "[object RegExp]" !== string || "undefined" != typeof window && // IE8 and below
+                return "[object Function]" === string || "function" == typeof fn && "[object RegExp]" !== string || "u" > typeof window && // IE8 and below
                 (fn === window.setTimeout || fn === window.alert || fn === window.confirm || fn === window.prompt);
             };
             var toString = Object.prototype.toString;
@@ -3404,18 +3404,18 @@
                                             return;
                                         } // check if the content is encrypted for Widevine
                                         // Widevine/HLS spec: https://storage.googleapis.com/wvdocs/Widevine_DRM_HLS.pdf
-                                        if ("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" === entry.attributes.KEYFORMAT) return -1 === [
+                                        "urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" === entry.attributes.KEYFORMAT ? -1 === [
                                             "SAMPLE-AES",
                                             "SAMPLE-AES-CTR",
                                             "SAMPLE-AES-CENC"
-                                        ].indexOf(entry.attributes.METHOD) ? void this.trigger("warn", {
+                                        ].indexOf(entry.attributes.METHOD) ? this.trigger("warn", {
                                             message: "invalid key method provided for Widevine"
                                         }) : ("SAMPLE-AES-CENC" === entry.attributes.METHOD && this.trigger("warn", {
                                             message: "SAMPLE-AES-CENC is deprecated, please use SAMPLE-AES-CTR instead"
-                                        }), "data:text/plain;base64," !== entry.attributes.URI.substring(0, 23)) ? void this.trigger("warn", {
+                                        }), "data:text/plain;base64," !== entry.attributes.URI.substring(0, 23)) ? this.trigger("warn", {
                                             message: "invalid key URI provided for Widevine"
                                         }) : entry.attributes.KEYID && "0x" === entry.attributes.KEYID.substring(0, 2) ? (// on the manifest to emulate Widevine tag structure in a DASH mpd
-                                        this.manifest.contentProtection = this.manifest.contentProtection || {}, void (this.manifest.contentProtection["com.widevine.alpha"] = {
+                                        this.manifest.contentProtection = this.manifest.contentProtection || {}, this.manifest.contentProtection["com.widevine.alpha"] = {
                                             attributes: {
                                                 schemeIdUri: entry.attributes.KEYFORMAT,
                                                 // remove '0x' from the key id string
@@ -3423,42 +3423,37 @@
                                             },
                                             // decode the base64-encoded PSSH box
                                             pssh: (0, decode_b64_to_uint8_array /* default */ .Z)(entry.attributes.URI.split(",")[1])
-                                        })) : void this.trigger("warn", {
+                                        }) : this.trigger("warn", {
                                             message: "invalid key ID provided for Widevine"
-                                        });
-                                        entry.attributes.METHOD || this.trigger("warn", {
+                                        }) : (entry.attributes.METHOD || this.trigger("warn", {
                                             message: "defaulting key method to AES-128"
                                         }), _key = {
                                             method: entry.attributes.METHOD || "AES-128",
                                             uri: entry.attributes.URI
-                                        }, void 0 !== entry.attributes.IV && (_key.iv = entry.attributes.IV);
+                                        }, void 0 !== entry.attributes.IV && (_key.iv = entry.attributes.IV));
                                     },
                                     "media-sequence": function() {
-                                        if (!isFinite(entry.number)) return void this.trigger("warn", {
+                                        isFinite(entry.number) ? this.manifest.mediaSequence = entry.number : this.trigger("warn", {
                                             message: "ignoring invalid media sequence: " + entry.number
                                         });
-                                        this.manifest.mediaSequence = entry.number;
                                     },
                                     "discontinuity-sequence": function() {
-                                        if (!isFinite(entry.number)) return void this.trigger("warn", {
+                                        isFinite(entry.number) ? (this.manifest.discontinuitySequence = entry.number, currentTimeline = entry.number) : this.trigger("warn", {
                                             message: "ignoring invalid discontinuity sequence: " + entry.number
                                         });
-                                        this.manifest.discontinuitySequence = entry.number, currentTimeline = entry.number;
                                     },
                                     "playlist-type": function() {
-                                        if (!/VOD|EVENT/.test(entry.playlistType)) return void this.trigger("warn", {
+                                        /VOD|EVENT/.test(entry.playlistType) ? this.manifest.playlistType = entry.playlistType : this.trigger("warn", {
                                             message: "ignoring unknown playlist type: " + entry.playlist
                                         });
-                                        this.manifest.playlistType = entry.playlistType;
                                     },
                                     map: function() {
                                         currentMap = {}, entry.uri && (currentMap.uri = entry.uri), entry.byterange && (currentMap.byterange = entry.byterange), _key && (currentMap.key = _key);
                                     },
                                     "stream-inf": function() {
-                                        if (this.manifest.playlists = uris, this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !entry.attributes) return void this.trigger("warn", {
+                                        (this.manifest.playlists = uris, this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, entry.attributes) ? (currentUri.attributes || (currentUri.attributes = {}), (0, esm_extends /* default */ .Z)(currentUri.attributes, entry.attributes)) : this.trigger("warn", {
                                             message: "ignoring empty stream-inf attributes"
                                         });
-                                        currentUri.attributes || (currentUri.attributes = {}), (0, esm_extends /* default */ .Z)(currentUri.attributes, entry.attributes);
                                     },
                                     media: function() {
                                         if (this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !(entry.attributes && entry.attributes.TYPE && entry.attributes["GROUP-ID"] && entry.attributes.NAME)) return void this.trigger("warn", {
@@ -3480,16 +3475,14 @@
                                         this.manifest.dateTimeString = entry.dateTimeString, this.manifest.dateTimeObject = entry.dateTimeObject), currentUri.dateTimeString = entry.dateTimeString, currentUri.dateTimeObject = entry.dateTimeObject;
                                     },
                                     targetduration: function() {
-                                        if (!isFinite(entry.duration) || entry.duration < 0) return void this.trigger("warn", {
+                                        !isFinite(entry.duration) || entry.duration < 0 ? this.trigger("warn", {
                                             message: "ignoring invalid target duration: " + entry.duration
-                                        });
-                                        this.manifest.targetDuration = entry.duration, setHoldBack.call(this, this.manifest);
+                                        }) : (this.manifest.targetDuration = entry.duration, setHoldBack.call(this, this.manifest));
                                     },
                                     start: function() {
-                                        if (!entry.attributes || isNaN(entry.attributes["TIME-OFFSET"])) return void this.trigger("warn", {
+                                        !entry.attributes || isNaN(entry.attributes["TIME-OFFSET"]) ? this.trigger("warn", {
                                             message: "ignoring start declaration without appropriate attribute list"
-                                        });
-                                        this.manifest.start = {
+                                        }) : this.manifest.start = {
                                             timeOffset: entry.attributes["TIME-OFFSET"],
                                             precise: entry.attributes.PRECISE
                                         };
@@ -5597,7 +5590,7 @@
                 // Move a StyleBox to its specified, or next best, position. The containerBox
                 // is the box that contains the StyleBox, such as a div. boxPositions are
                 // a list of other boxes that the styleBox can't overlap with.
-                function(window1, styleBox, containerBox, boxPositions) {
+                function(styleBox, containerBox, boxPositions) {
                     var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
                         if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                         if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
@@ -5683,7 +5676,7 @@
                         return bestPosition || specifiedPosition;
                     }(boxPosition, axis);
                     styleBox.move(bestPosition.toCSSCompatValues(containerBox));
-                }(0, styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
+                }(styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
                 // if we don't have too.
                 cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
             }, WebVTT1.Parser = function(window1, vttjs, decoder) {
@@ -6250,7 +6243,7 @@
                 }(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
                 return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
             };
-            for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
+            for(var lookup = [], revLookup = [], Arr = "u" > typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
             function getLens(b64) {
                 var len = b64.length;
                 if (len % 4 > 0) throw Error("Invalid string. Length must be a multiple of 4");
@@ -6310,7 +6303,7 @@
                 }
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
                 if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "u" > typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
                     if (encodingOrOffset < 0 || value.byteLength < encodingOrOffset) throw RangeError('"offset" is outside of buffer bounds');
                     if (value.byteLength < encodingOrOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                     return(// Return an augmented `Uint8Array` instance
@@ -6327,7 +6320,7 @@
                     return void 0 !== obj.length ? "number" != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
                 }(value);
                 if (b) return b;
-                if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
+                if ("u" > typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
                 throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
@@ -6556,7 +6549,7 @@
                 } catch (e) {
                     return !1;
                 }
-            }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+            }(), !Buffer.TYPED_ARRAY_SUPPORT && "u" > typeof console && "function" == typeof console.error && console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                 enumerable: !0,
                 get: function() {
                     if (Buffer.isBuffer(this)) return this.buffer;
@@ -7007,7 +7000,7 @@
             var setPrototypeOf = __webpack_require__(9611); // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/isNativeReflectConstruct.js
             function _construct(Parent, args, Class) {
                 return (_construct = !function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;

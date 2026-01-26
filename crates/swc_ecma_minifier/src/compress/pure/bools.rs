@@ -7,7 +7,6 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 use super::Pure;
 use crate::{
     compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate, negate_cost},
-    option::CompressOptions,
     util::make_bool,
 };
 
@@ -243,36 +242,38 @@ impl Pure<'_> {
     }
 
     pub(super) fn compress_cmp_with_long_op(&mut self, e: &mut BinExpr) {
-        fn should_optimize(l: &Expr, r: &Expr, ctx: ExprCtx, opts: &CompressOptions) -> bool {
-            match (l, r) {
+        if !matches!(e.op, op!("===") | op!("!==")) {
+            return;
+        }
+
+        let is_typeof_unaray = |l: &Expr, r: &Expr| {
+            matches!(
+                (l, r),
                 (
                     Expr::Unary(UnaryExpr {
-                        op: op!("typeof"), ..
+                        op: op!("typeof"),
+                        ..
                     }),
-                    Expr::Lit(..),
-                ) => true,
-                _ => {
-                    if opts.comparisons {
-                        match (l.get_type(ctx), r.get_type(ctx)) {
-                            (Value::Known(lt), Value::Known(rt)) => lt == rt,
+                    Expr::Lit(..)
+                )
+            )
+        };
 
-                            _ => false,
-                        }
+        let should_optimize = is_typeof_unaray(&e.left, &e.right)
+            || is_typeof_unaray(&e.right, &e.left)
+            || (self.options.comparisons && {
+                if let Value::Known(l) = e.left.get_type(self.expr_ctx) {
+                    if let Value::Known(r) = e.right.get_type(self.expr_ctx) {
+                        l == r
                     } else {
                         false
                     }
+                } else {
+                    false
                 }
-            }
-        }
+            });
 
-        match e.op {
-            op!("===") | op!("!==") => {}
-            _ => return,
-        }
-
-        if should_optimize(&e.left, &e.right, self.expr_ctx, self.options)
-            || should_optimize(&e.right, &e.left, self.expr_ctx, self.options)
-        {
+        if should_optimize {
             report_change!("bools: Compressing comparison of `typeof` with literal");
             self.changed = true;
             e.op = match e.op {

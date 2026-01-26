@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
@@ -65,13 +63,15 @@ pub fn parse_maybe_opt_binding_ident<'a>(
 }
 
 fn parse_maybe_decorator_args<'a, P: Parser<'a>>(p: &mut P, expr: Box<Expr>) -> PResult<Box<Expr>> {
-    let type_args = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
-        Some(parse_ts_type_args(p)?)
+    let type_args = if p.input().syntax().typescript() && p.input().is(&P::Token::LESS) {
+        let ret = parse_ts_type_args(p)?;
+        p.assert_and_bump(&P::Token::GREATER);
+        Some(ret)
     } else {
         None
     };
 
-    if type_args.is_none() && !p.input_mut().is(&P::Token::LPAREN) {
+    if type_args.is_none() && !p.input().is(&P::Token::LPAREN) {
         return Ok(expr);
     }
 
@@ -97,14 +97,14 @@ pub fn parse_decorators<'a, P: Parser<'a>>(
     let mut decorators = Vec::new();
     let start = p.cur_pos();
 
-    while p.input_mut().is(&P::Token::AT) {
+    while p.input().is(&P::Token::AT) {
         decorators.push(parse_decorator(p)?);
     }
     if decorators.is_empty() {
         return Ok(decorators);
     }
 
-    if p.input_mut().is(&P::Token::EXPORT) {
+    if p.input().is(&P::Token::EXPORT) {
         if !p.ctx().contains(Context::InClass)
             && !p.ctx().contains(Context::InFunction)
             && !allow_export
@@ -118,7 +118,7 @@ pub fn parse_decorators<'a, P: Parser<'a>>(
         {
             syntax_error!(p, p.span(start), SyntaxError::DecoratorOnExport);
         }
-    } else if !p.input_mut().is(&P::Token::CLASS) {
+    } else if !p.input().is(&P::Token::CLASS) {
         // syntax_error!(p, p.span(start),
         // SyntaxError::InvalidLeadingDecorator)
     }
@@ -179,8 +179,10 @@ pub fn parse_super_class<'a, P: Parser<'a>>(
             // because in some cases "super class" returned by `parse_lhs_expr`
             // may not include `TsExprWithTypeArgs`
             // but it's a super class with type params, for example, in JSX.
-            if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
-                Ok((super_class, parse_ts_type_args(p).map(Some)?))
+            if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
+                let ret = parse_ts_type_args(p)?;
+                p.assert_and_bump(&P::Token::GREATER);
+                Ok((super_class, Some(ret)))
             } else {
                 Ok((super_class, None))
             }
@@ -189,30 +191,24 @@ pub fn parse_super_class<'a, P: Parser<'a>>(
 }
 
 pub fn is_class_method<'a, P: Parser<'a>>(p: &mut P) -> bool {
-    p.input_mut().is(&P::Token::LPAREN)
-        || (p.input().syntax().typescript()
-            && p.input_mut()
-                .cur()
-                .is_some_and(|cur| cur.is_less() || cur.is_jsx_tag_start()))
+    let cur = p.input().cur();
+    cur == &P::Token::LPAREN
+        || (p.input().syntax().typescript() && (cur.is_less() || cur.is_jsx_tag_start()))
 }
 
 pub fn is_class_property<'a, P: Parser<'a>>(p: &mut P, asi: bool) -> bool {
-    (p.input().syntax().typescript()
-        && p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_bang() || cur.is_colon()))
-        || p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_equal() || cur.is_rbrace())
+    let cur = p.input().cur();
+    (p.input().syntax().typescript() && (cur.is_bang() || cur.is_colon()))
+        || (cur.is_equal() || cur.is_rbrace())
         || if asi {
             p.is_general_semi()
         } else {
-            p.input_mut().is(&P::Token::SEMI)
+            p.input().is(&P::Token::SEMI)
         }
 }
 
 pub fn parse_class_prop_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<Key> {
-    if p.input_mut().is(&P::Token::HASH) {
+    if p.input().is(&P::Token::HASH) {
         let name = parse_private_name(p)?;
         if name.name == "constructor" {
             p.emit_err(name.span, SyntaxError::PrivateConstructor);
@@ -236,19 +232,14 @@ where
     F: FnOnce(&mut P) -> PResult<Vec<Param>>,
 {
     trace_cur!(p, parse_fn_args_body);
-    // let prev_in_generator = p.ctx().in_generator;
-    let mut ctx = p.ctx();
-    ctx.set(Context::InAsync, is_async);
-    ctx.set(Context::InGenerator, is_generator);
-
-    p.with_ctx(ctx, |p| {
+    let f = |p: &mut P| {
         let type_params = if p.syntax().typescript() {
             p.in_type(|p| {
                 trace_cur!(p, parse_fn_args_body__type_params);
 
-                Ok(if p.input_mut().is(&P::Token::LESS) {
+                Ok(if p.input().is(&P::Token::LESS) {
                     Some(parse_ts_type_params(p, false, true)?)
-                } else if p.input_mut().is(&P::Token::JSX_TAG_START) {
+                } else if p.input().is(&P::Token::JSX_TAG_START) {
                     debug_assert_eq!(
                         p.input().token_context().current(),
                         Some(TokenContext::JSXOpeningTag)
@@ -271,15 +262,28 @@ where
 
         expect!(p, &P::Token::LPAREN);
 
-        let mut arg_ctx = (p.ctx() | Context::InParameters) & !Context::InFunction;
-        arg_ctx.set(Context::InAsync, is_async);
-        arg_ctx.set(Context::InGenerator, is_generator);
-        let params = p.with_ctx(arg_ctx, parse_args)?;
+        let parse_args_with_generator_ctx = |p: &mut P| {
+            if is_generator {
+                p.do_inside_of_context(Context::InGenerator, parse_args)
+            } else {
+                p.do_outside_of_context(Context::InGenerator, parse_args)
+            }
+        };
+
+        let params = p.do_inside_of_context(Context::InParameters, |p| {
+            p.do_outside_of_context(Context::InFunction, |p| {
+                if is_async {
+                    p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
+                } else {
+                    p.do_outside_of_context(Context::InAsync, parse_args_with_generator_ctx)
+                }
+            })
+        })?;
 
         expect!(p, &P::Token::RPAREN);
 
         // typescript extension
-        let return_type = if p.syntax().typescript() && p.input_mut().is(&P::Token::COLON) {
+        let return_type = if p.syntax().typescript() && p.input().is(&P::Token::COLON) {
             parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON).map(Some)?
         } else {
             None
@@ -320,7 +324,21 @@ where
             return_type,
             ctxt: Default::default(),
         }))
-    })
+    };
+
+    let f_with_generator_ctx = |p: &mut P| {
+        if is_generator {
+            p.do_inside_of_context(Context::InGenerator, f)
+        } else {
+            p.do_outside_of_context(Context::InGenerator, f)
+        }
+    };
+
+    if is_async {
+        p.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
+    } else {
+        p.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
+    }
 }
 
 pub fn parse_async_fn_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
@@ -380,26 +398,40 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
     let is_generator = p.input_mut().eat(&P::Token::MUL);
 
     let ident = if is_fn_expr {
-        let mut ctx = p.ctx() & !Context::AllowDirectSuper & !Context::InClassField;
-        ctx.set(Context::InAsync, is_async);
-        ctx.set(Context::InGenerator, is_generator);
+        let f_with_generator_context = |p: &mut P| {
+            if is_generator {
+                p.do_inside_of_context(Context::InGenerator, |p| {
+                    parse_maybe_opt_binding_ident(p, is_ident_required, false)
+                })
+            } else {
+                p.do_outside_of_context(Context::InGenerator, |p| {
+                    parse_maybe_opt_binding_ident(p, is_ident_required, false)
+                })
+            }
+        };
 
-        p.with_ctx(ctx, |p| {
-            parse_maybe_opt_binding_ident(p, is_ident_required, false)
-        })?
+        p.do_outside_of_context(
+            Context::AllowDirectSuper.union(Context::InClassField),
+            |p| {
+                if is_async {
+                    p.do_inside_of_context(Context::InAsync, f_with_generator_context)
+                } else {
+                    p.do_outside_of_context(Context::InAsync, f_with_generator_context)
+                }
+            },
+        )?
     } else {
         // function declaration does not change context for `BindingIdentifier`.
-        p.with_ctx(
-            p.ctx() & !Context::AllowDirectSuper & !Context::InClassField,
+        p.do_outside_of_context(
+            Context::AllowDirectSuper.union(Context::InClassField),
             |p| parse_maybe_opt_binding_ident(p, is_ident_required, false),
         )?
     };
 
-    p.with_ctx(
-        p.ctx()
-            & !Context::AllowDirectSuper
-            & !Context::InClassField
-            & !Context::WillExpectColonForCond,
+    p.do_outside_of_context(
+        Context::AllowDirectSuper
+            .union(Context::InClassField)
+            .union(Context::WillExpectColonForCond),
         |p| {
             let f = parse_fn_args_body(
                 p,
@@ -409,11 +441,9 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
                 is_async,
                 is_generator,
             )?;
-
             if is_fn_expr && f.body.is_none() {
                 unexpected!(p, "{");
             }
-
             Ok((ident, f))
         },
     )
@@ -495,10 +525,11 @@ where
     trace_cur!(p, make_method);
 
     let is_static = static_token.is_some();
-    let function = p.with_ctx(
-        (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField,
-        |p| parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator),
-    )?;
+    let function = p.do_inside_of_context(Context::AllowDirectSuper, |p| {
+        p.do_outside_of_context(Context::InClassField, |p| {
+            parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator)
+        })
+    })?;
 
     match kind {
         MethodKind::Getter | MethodKind::Setter
@@ -551,6 +582,8 @@ where
             }
             .into())
         }
+        #[cfg(swc_ast_unknown)]
+        _ => unreachable!(),
     }
 }
 
@@ -568,7 +601,7 @@ pub fn parse_fn_block_or_expr_body<'a, P: Parser<'a>>(
         is_arrow_function,
         is_simple_parameter_list,
         |p, is_simple_parameter_list| {
-            if p.input_mut().is(&P::Token::LBRACE) {
+            if p.input().is(&P::Token::LBRACE) {
                 parse_block(p, false)
                     .map(|block_stmt| {
                         if !is_simple_parameter_list {
@@ -598,7 +631,7 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
 ) -> PResult<T> {
     if p.ctx().contains(Context::InDeclare)
         && p.syntax().typescript()
-        && p.input_mut().is(&P::Token::LBRACE)
+        && p.input().is(&P::Token::LBRACE)
     {
         //            p.emit_err(
         //                p.ctx().span_of_fn_name.expect("we are not in function"),
@@ -607,25 +640,41 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
         p.emit_err(p.input().cur_span(), SyntaxError::TS1183);
     }
 
-    let mut ctx = (p.ctx() | Context::InFunction)
-        & !Context::InStaticBlock
-        & !Context::IsBreakAllowed
-        & !Context::IsContinueAllowed
-        & !Context::TopLevel;
-    ctx.set(Context::InAsync, is_async);
-    ctx.set(Context::InGenerator, is_generator);
-    ctx.set(
-        Context::InsideNonArrowFunctionScope,
-        if is_arrow_function {
-            p.ctx().contains(Context::InsideNonArrowFunctionScope)
-        } else {
-            true
-        },
-    );
+    let f_with_generator_context = |p: &mut P| {
+        let f_with_inside_non_arrow_fn_scope = |p: &mut P| {
+            let f_with_new_state = |p: &mut P| {
+                let mut p = p.with_state(crate::common::parser::state::State::default());
+                f(&mut p, is_simple_parameter_list)
+            };
 
-    p.with_ctx(ctx, |p| {
-        let mut p = p.with_state(crate::common::parser::state::State::default());
-        f(p.deref_mut(), is_simple_parameter_list)
+            if is_arrow_function && !p.ctx().contains(Context::InsideNonArrowFunctionScope) {
+                p.do_outside_of_context(Context::InsideNonArrowFunctionScope, f_with_new_state)
+            } else {
+                p.do_inside_of_context(Context::InsideNonArrowFunctionScope, f_with_new_state)
+            }
+        };
+
+        if is_generator {
+            p.do_inside_of_context(Context::InGenerator, f_with_inside_non_arrow_fn_scope)
+        } else {
+            p.do_outside_of_context(Context::InGenerator, f_with_inside_non_arrow_fn_scope)
+        }
+    };
+
+    p.do_inside_of_context(Context::InFunction, |p| {
+        p.do_outside_of_context(
+            Context::InStaticBlock
+                .union(Context::IsBreakAllowed)
+                .union(Context::IsContinueAllowed)
+                .union(Context::TopLevel),
+            |p| {
+                if is_async {
+                    p.do_inside_of_context(Context::InAsync, f_with_generator_context)
+                } else {
+                    p.do_outside_of_context(Context::InAsync, f_with_generator_context)
+                }
+            },
+        )
     })
 }
 
@@ -645,7 +694,7 @@ pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
         |p, is_simple_parameter_list| {
             // allow omitting body and allow placing `{` on next line
             if p.input().syntax().typescript()
-                && !p.input_mut().is(&P::Token::LBRACE)
+                && !p.input().is(&P::Token::LBRACE)
                 && p.eat_general_semi()
             {
                 return Ok(None);
@@ -698,9 +747,8 @@ fn make_property<'a, P: Parser<'a>>(
 
     let type_ann = try_parse_ts_type_ann(p)?;
 
-    let ctx = p.ctx() | Context::IncludeInExpr | Context::InClassField;
-    p.with_ctx(ctx, |p| {
-        let value = if p.input_mut().is(&P::Token::EQUAL) {
+    p.do_inside_of_context(Context::IncludeInExpr.union(Context::InClassField), |p| {
+        let value = if p.input().is(&P::Token::EQUAL) {
             p.assert_and_bump(&P::Token::EQUAL);
             Some(parse_assignment_expr(p)?)
         } else {
@@ -771,13 +819,17 @@ fn make_property<'a, P: Parser<'a>>(
                 }
                 .into()
             }
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         })
     })
 }
 
 fn parse_static_block<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> PResult<ClassMember> {
-    let body = p.with_ctx(
-        p.ctx() | Context::InStaticBlock | Context::InClassField | Context::AllowUsingDecl,
+    let body = p.do_inside_of_context(
+        Context::InStaticBlock
+            .union(Context::InClassField)
+            .union(Context::AllowUsingDecl),
         |p| parse_block(p, false),
     )?;
 
@@ -801,9 +853,11 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     let mut readonly = None;
     let mut modifier_span = None;
     let declare = declare_token.is_some();
-    while let Some(modifier) =
+    while let Some(modifier) = if p.input().syntax().typescript() {
         parse_ts_modifier(p, &["abstract", "readonly", "override", "static"], true)?
-    {
+    } else {
+        None
+    } {
         modifier_span = Some(p.input().prev_span());
         match modifier {
             "abstract" => {
@@ -878,7 +932,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
         }
     });
 
-    if is_static && p.input_mut().is(&P::Token::LBRACE) {
+    if is_static && p.input().is(&P::Token::LBRACE) {
         if let Some(span) = declare_token {
             p.emit_err(span, SyntaxError::TS1184);
         }
@@ -887,7 +941,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
         }
         return parse_static_block(p, start);
     }
-    if p.input_mut().is(&P::Token::STATIC) && peek!(p).is_some_and(|cur| cur.is_lbrace()) {
+    if p.input().is(&P::Token::STATIC) && peek!(p).is_some_and(|cur| cur.is_lbrace()) {
         // For "readonly", "abstract" and "override"
         if let Some(span) = modifier_span {
             p.emit_err(span, SyntaxError::TS1184);
@@ -936,11 +990,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     }
 
     trace_cur!(p, parse_class_member_with_is_static__normal_class_member);
-    let key = if readonly.is_some()
-        && p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_bang() || cur.is_colon())
-    {
+    let key = if readonly.is_some() && (p.input().cur().is_bang() || p.input().cur().is_colon()) {
         Key::Public(PropName::Ident(IdentName::new(
             atom!("readonly"),
             readonly.unwrap(),
@@ -969,7 +1019,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 p.emit_err(p.span(start), SyntaxError::TS1089(atom!("override")));
             }
 
-            if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+            if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
                 let start = p.cur_pos();
                 if peek!(p).is_some_and(|cur| cur.is_less()) {
                     p.assert_and_bump(&P::Token::LESS);
@@ -993,7 +1043,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             let params = parse_constructor_params(p)?;
             expect!(p, &P::Token::RPAREN);
 
-            if p.syntax().typescript() && p.input_mut().is(&P::Token::COLON) {
+            if p.syntax().typescript() && p.input().is(&P::Token::COLON) {
                 let start = p.cur_pos();
                 let type_ann = parse_ts_type_ann(p, true, start)?;
 
@@ -1078,7 +1128,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     }
 
     let is_next_line_generator =
-        p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::MUL);
+        p.input_mut().had_line_break_before_cur() && p.input().is(&P::Token::MUL);
     let getter_or_setter_ident = match key {
         // `get\n*` is an uninitialized property named 'get' followed by a generator.
         Key::Public(PropName::Ident(ref i))
@@ -1115,7 +1165,8 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     {
         // handle async foo(){}
 
-        if parse_ts_modifier(p, &["override"], false)?.is_some() {
+        if p.input().syntax().typescript() && parse_ts_modifier(p, &["override"], false)?.is_some()
+        {
             is_override = true;
             p.emit_err(
                 p.input().prev_span(),
@@ -1273,7 +1324,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
                 },
             );
         } else if is_class_property(p, /* asi */ true)
-            || (p.syntax().typescript() && p.input_mut().is(&P::Token::QUESTION))
+            || (p.syntax().typescript() && p.input().is(&P::Token::QUESTION))
         {
             // Property named `declare`
 
@@ -1351,7 +1402,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
                 },
             );
         } else if is_class_property(p, /* asi */ true)
-            || (p.syntax().typescript() && p.input_mut().is(&P::Token::QUESTION))
+            || (p.syntax().typescript() && p.input().is(&P::Token::QUESTION))
         {
             // Property named `accessor`
 
@@ -1406,14 +1457,14 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
                 },
             );
         } else if is_class_property(p, /* asi */ false)
-            || (p.syntax().typescript() && p.input_mut().is(&P::Token::QUESTION))
+            || (p.syntax().typescript() && p.input().is(&P::Token::QUESTION))
         {
             // Property named `static`
 
             // Avoid to parse
             //   static
             //   {}
-            let is_parsing_static_blocks = p.input_mut().is(&P::Token::LBRACE);
+            let is_parsing_static_blocks = p.input().is(&P::Token::LBRACE);
             if !is_parsing_static_blocks {
                 let key = Key::Public(PropName::Ident(IdentName::new(
                     atom!("static"),
@@ -1455,15 +1506,14 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
 fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
     let mut elems = Vec::with_capacity(32);
     let mut has_constructor_with_body = false;
-    while !eof!(p) && !p.input_mut().is(&P::Token::RBRACE) {
+    while !p.input().is(&P::Token::RBRACE) {
         if p.input_mut().eat(&P::Token::SEMI) {
             let span = p.input().prev_span();
-            elems.push(ClassMember::Empty(EmptyStmt {
-                span: Span::new(span.lo, span.hi),
-            }));
+            debug_assert!(span.lo <= span.hi);
+            elems.push(ClassMember::Empty(EmptyStmt { span }));
             continue;
         }
-        let elem = p.with_ctx(p.ctx() | Context::AllowDirectSuper, parse_class_member)?;
+        let elem = p.do_inside_of_context(Context::AllowDirectSuper, parse_class_member)?;
 
         if !p.ctx().contains(Context::InDeclare) {
             if let ClassMember::Constructor(Constructor {
@@ -1493,7 +1543,7 @@ pub fn parse_class<'a, T>(
 where
     T: OutputType,
 {
-    let (ident, mut class) = p.with_ctx(p.ctx() | Context::InClass, |p| {
+    let (ident, mut class) = p.do_inside_of_context(Context::InClass, |p| {
         parse_class_inner(p, start, class_start, decorators, T::IS_IDENT_REQUIRED)
     })?;
 
@@ -1601,11 +1651,14 @@ fn parse_class_inner<'a, P: Parser<'a>>(
         }
 
         expect!(p, &P::Token::LBRACE);
-        let mut ctx = p.ctx();
-        ctx.set(Context::HasSuperClass, super_class.is_some());
-        let body = p.with_ctx(ctx, parse_class_body)?;
 
-        if p.input_mut().cur().is_none() {
+        let body = if super_class.is_some() {
+            p.do_inside_of_context(Context::HasSuperClass, parse_class_body)?
+        } else {
+            p.do_outside_of_context(Context::HasSuperClass, parse_class_body)?
+        };
+
+        if p.input().cur().is_eof() {
             let eof_text = p.input_mut().dump_cur();
             p.emit_err(
                 p.input().cur_span(),
@@ -1614,12 +1667,12 @@ fn parse_class_inner<'a, P: Parser<'a>>(
         } else {
             expect!(p, &P::Token::RBRACE);
         }
-        let end = p.last_pos();
 
+        let span = p.span(class_start);
         Ok((
             ident,
             Box::new(Class {
-                span: Span::new(class_start, end),
+                span,
                 decorators,
                 is_abstract: false,
                 type_params,

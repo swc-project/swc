@@ -1,5 +1,5 @@
 //// [accessorsOverrideProperty8.ts]
-const Base = classWithProperties({
+let Base = classWithProperties({
     get x () {
         return 'boolean';
     },

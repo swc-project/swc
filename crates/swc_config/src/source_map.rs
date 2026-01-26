@@ -80,7 +80,7 @@ impl SourceMapContent {
                             }
                             src_id = (i64::from(src_id) + nums[1]) as u32;
                             if src_id >= sources.len() as u32 {
-                                bail!("invalid source reference: {}", src_id);
+                                bail!("invalid source reference: {src_id}");
                             }
 
                             src = src_id;
@@ -90,7 +90,7 @@ impl SourceMapContent {
                             if nums.len() > 4 {
                                 name_id = (i64::from(name_id) + nums[4]) as u32;
                                 if name_id >= names.len() as u32 {
-                                    bail!("invalid name reference: {}", name_id);
+                                    bail!("invalid name reference: {name_id}");
                                 }
                                 name = name_id;
                             }

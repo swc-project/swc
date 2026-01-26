@@ -44,7 +44,7 @@ Object.defineProperty(exports, "__esModule", {
         return D;
     }
 });
-const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+let _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 class D {
     method() {
         Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0"))), this.myModule.then((Zero)=>{

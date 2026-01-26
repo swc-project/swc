@@ -256,7 +256,8 @@ fn emit_output(
             ""
         };
 
-        println!("{}\n{}\n{}", file_path.display(), output.code, source_map,);
+        eprintln!("{}", file_path.display());
+        println!("{}\n{}", output.code, source_map,);
     };
     Ok(())
 }

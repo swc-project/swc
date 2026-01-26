@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_testing"
 repository    = { workspace = true }
-version       = "14.0.0"
+version       = "19.0.0"
 
 [lib]
 bench = false
@@ -17,4 +17,4 @@ hex     = { workspace = true }
 sha2    = { workspace = true }
 tracing = { workspace = true }
 
-testing = { version = "14.0.1", path = "../testing" }
+testing = { version = "19.0.0", path = "../testing" }

@@ -1,16 +1,14 @@
-var _extends = require("@swc/helpers/_/_extends");
-var _object_destructuring_empty = require("@swc/helpers/_/_object_destructuring_empty");
+import { _ as _extends } from "@swc/helpers/_/_extends";
+var _ref, _ref1, _ref2, _ref3;
 let rest;
-var _tmp;
-_tmp = [
+_ref = [
     {}
-], rest = _extends._({}, _object_destructuring_empty._(_tmp[0])), [{}] = _tmp, _tmp;
-for (var _ref of [
+], [_ref1] = _ref, ({} = _ref1), rest = _extends({}, _ref1), _ref;
+for (_ref2 of [
     [
         {}
     ]
 ]){
-    var _ref1;
-    _ref1 = _ref, rest = _extends._({}, _object_destructuring_empty._(_ref1[0])), [{}] = _ref1, _ref1;
+    [_ref3] = _ref2, ({} = _ref3), rest = _extends({}, _ref3), _ref2;
     ;
 }

@@ -1,6 +1,6 @@
 //// [incrementOperatorWithAnyOtherType.ts]
-// ++ operator on any type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// ++ operator on any type
 var ANY;
 var ANY1;
 var ANY2 = [

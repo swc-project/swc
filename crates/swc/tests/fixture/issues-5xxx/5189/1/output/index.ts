@@ -1,4 +1,8 @@
-var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const sym = Symbol("sym");
 var _key;
 _key = sym;

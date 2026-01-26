@@ -1,3 +1,4 @@
+"use strict";
 describe("multiline comments", ()=>{
     it("test1", ()=>{
         expect(false).toBe(true);

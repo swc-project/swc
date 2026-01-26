@@ -1,32 +1,66 @@
+//! babel: `transform-member-expression-literals`
+//!
+//! # Input
+//! ```js
+//! obj["foo"] = "isValid";
+//!
+//! obj.const = "isKeyword";
+//! obj["var"] = "isKeyword";
+//! ```
+//!
+//! # Output
+//! ```js
+//! obj.foo = "isValid";
+//!
+//! obj["const"] = "isKeyword";
+//! obj["var"] = "isKeyword";
+//! ```
+
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::is_valid_ident;
 use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
-use swc_trace_macro::swc_trace;
+
+/// Creates a member expression literals transformation hook.
+pub(crate) fn hook<C>() -> impl VisitMutHook<C> {
+    MemberExprLitHook
+}
 
 /// babel: `transform-member-expression-literals`
-///
-/// # Input
-/// ```js
-/// obj["foo"] = "isValid";
-///
-/// obj.const = "isKeyword";
-/// obj["var"] = "isKeyword";
-/// ```
-///
-/// # Output
-/// ```js
-/// obj.foo = "isValid";
-///
-/// obj["const"] = "isKeyword";
-/// obj["var"] = "isKeyword";
-/// ```
 pub fn member_expression_literals() -> impl Pass {
     fold_pass(MemberExprLit)
 }
+
+struct MemberExprLitHook;
+
+impl<C> VisitMutHook<C> for MemberExprLitHook {
+    fn exit_member_expr(&mut self, e: &mut MemberExpr, _ctx: &mut C) {
+        if let MemberProp::Ident(i) = &e.prop {
+            if i.sym.is_reserved()
+                || i.sym.is_reserved_in_strict_mode(true)
+                || i.sym.is_reserved_in_es3()
+                // it's not bind, so you could use eval
+                || !is_valid_ident(&i.sym)
+            {
+                e.prop = MemberProp::Computed(ComputedPropName {
+                    span: i.span,
+                    expr: Lit::Str(Str {
+                        span: i.span,
+                        raw: None,
+                        value: i.sym.clone().into(),
+                    })
+                    .into(),
+                });
+            } else {
+                e.prop = MemberProp::Ident(IdentName::new(i.sym.clone(), i.span));
+            }
+        }
+    }
+}
+
 #[derive(Default, Clone, Copy)]
 struct MemberExprLit;
 
-#[swc_trace]
 impl Fold for MemberExprLit {
     standard_only_fold!();
 
@@ -34,10 +68,11 @@ impl Fold for MemberExprLit {
         let e: MemberExpr = e.fold_children_with(self);
 
         if let MemberProp::Ident(i) = e.prop {
-            if i.sym.is_reserved() || i.sym.is_reserved_in_strict_mode(true)
-                        || i.sym.is_reserved_in_es3()
-                        // it's not bind, so you could use eval
-                        || !is_valid_ident(&i.sym)
+            if i.sym.is_reserved()
+                || i.sym.is_reserved_in_strict_mode(true)
+                || i.sym.is_reserved_in_es3()
+                // it's not bind, so you could use eval
+                || !is_valid_ident(&i.sym)
             {
                 return MemberExpr {
                     prop: MemberProp::Computed(ComputedPropName {
@@ -45,7 +80,7 @@ impl Fold for MemberExprLit {
                         expr: Lit::Str(Str {
                             span: i.span,
                             raw: None,
-                            value: i.sym,
+                            value: i.sym.into(),
                         })
                         .into(),
                     }),

@@ -4,19 +4,19 @@ function foo(arg) {
     return arg.cb(null);
 }
 var arg = {
-    cb: function(x) {
+    cb: function cb(x) {
         return '';
     }
 };
 var r = foo(arg); // {}
 // more args not allowed
 var r2 = foo({
-    cb: function(x, y) {
+    cb: function cb(x, y) {
         return '';
     }
 }); // error
 var r3 = foo({
-    cb: function(x, y) {
+    cb: function cb(x, y) {
         return '';
     }
 }); // error
@@ -26,17 +26,17 @@ function foo2(arg) {
 // fewer args ok
 var r4 = foo(arg); // {}
 var r5 = foo({
-    cb: function(x) {
+    cb: function cb(x) {
         return '';
     }
 }); // {}
 var r6 = foo({
-    cb: function(x) {
+    cb: function cb(x) {
         return '';
     }
 }); // string
 var r7 = foo({
-    cb: function() {
+    cb: function cb() {
         return '';
     }
 }); // string

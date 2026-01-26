@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "preset_env_base"
 repository    = { workspace = true }
-version       = "4.0.1"
+version       = "6.0.0"
 
 [lib]
 bench = false
@@ -22,4 +22,4 @@ serde           = { workspace = true, features = ["derive"] }
 st-map          = { workspace = true }
 tracing         = { workspace = true }
 
-from_variant = { version = "2.0.2", path = "../from_variant" }
+from_variant = { version = "3.0.0", path = "../from_variant" }

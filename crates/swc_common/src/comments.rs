@@ -624,6 +624,7 @@ impl SingleThreadedComments {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
@@ -644,6 +645,7 @@ impl Spanned for Comment {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub enum CommentKind {
     Line = 0,
     Block = 1,

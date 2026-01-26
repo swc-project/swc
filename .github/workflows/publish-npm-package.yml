@@ -26,6 +26,9 @@ permissions:
 on:
   workflow_call:
     inputs:
+      buildType:
+        type: string
+        required: true
       package:
         type: string
         required: true
@@ -51,7 +54,7 @@ jobs:
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # TODO: Check for existing artifacts
       - id: check
         if: ${{ !inputs.skipBuild }}
@@ -71,7 +74,7 @@ jobs:
             build: |
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
-                cp ../../bindings/target/x86_64-apple-darwin/release/swc .
+                cp ../../target/x86_64-apple-darwin/release/swc .
                 chmod +x ./swc
               fi
               yarn build --target x86_64-apple-darwin
@@ -82,7 +85,7 @@ jobs:
               yarn build --target x86_64-pc-windows-msvc
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
-                cp ../../bindings/target/x86_64-pc-windows-msvc/release/swc .
+                cp ../../target/x86_64-pc-windows-msvc/release/swc .
               fi
             target: x86_64-pc-windows-msvc
           - host: windows-latest
@@ -92,7 +95,7 @@ jobs:
               export CARGO_PROFILE_RELEASE_LTO=false
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
-                cp ../../bindings/target/i686-pc-windows-msvc/release/swc .
+                cp ../../target/i686-pc-windows-msvc/release/swc .
                 yarn build --target i686-pc-windows-msvc --no-default-features --features swc_v1
               else
                 yarn build --target i686-pc-windows-msvc
@@ -104,8 +107,8 @@ jobs:
             build: >-
               set -e &&
               unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
-              rm -rf ../../bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
-              cp ../../bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              rm -rf ../../target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
+              cp ../../target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               if [[ ${{ inputs.package }} == "core" ]]; then
                 yarn build --target x86_64-unknown-linux-gnu --no-default-features --features swc_v1,plugin
               else
@@ -126,7 +129,7 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
                 rm -rf target/release/.cargo-lock &&
-                cp ../../bindings/target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+                cp ../../target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
                 RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
               else
                 RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
@@ -141,7 +144,7 @@ jobs:
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
-                cp ../../bindings/target/aarch64-apple-darwin/release/swc .
+                cp ../../target/aarch64-apple-darwin/release/swc .
                 chmod +x ./swc
               fi
               yarn build --target aarch64-apple-darwin
@@ -154,7 +157,7 @@ jobs:
               rustup target add aarch64-unknown-linux-gnu &&
               if [[ ${{ inputs.package }} == "core" ]]; then
                 RUSTFLAGS='' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
-                cp ../../bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+                cp ../../target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
                 export CC_aarch64_unknown_linux_gnu=clang &&
                 yarn build --target aarch64-unknown-linux-gnu
               else
@@ -188,7 +191,7 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
                 rm -rf target/release/.cargo-lock &&
-                cp ../../bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+                cp ../../target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
                 env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
               else
                 env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
@@ -202,7 +205,7 @@ jobs:
               export CARGO_PROFILE_RELEASE_LTO=false
               if [[ ${{ inputs.package }} == "core" ]]; then
                 cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
-                cp ../../bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
+                cp ../../target/aarch64-pc-windows-msvc/release/swc.exe .
                 yarn build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
               else
                 yarn build --target aarch64-pc-windows-msvc
@@ -210,7 +213,7 @@ jobs:
     name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -218,7 +221,7 @@ jobs:
         shell: bash
         run: corepack enable
       - name: Setup node x64
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
           cache: yarn
@@ -233,17 +236,17 @@ jobs:
         with:
           targets: ${{ matrix.settings.target }}
           toolchain: ${{ steps.toolchain.outputs.version }}
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.12.0
+          version: 0.15.1
       - name: Cache cargo registry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
           key: ${{ matrix.settings.target }}-node@20-cargo-registry-trimmed
       - name: Cache cargo index
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/git
           key: ${{ matrix.settings.target }}-node@20-cargo-index-trimmed
@@ -267,7 +270,7 @@ jobs:
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
       - name: Setup node x86
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 20
@@ -293,7 +296,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: |
             packages/${{ inputs.package }}/swc*
             packages/${{ inputs.package }}/*.node
@@ -315,14 +318,14 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -330,9 +333,9 @@ jobs:
       - name: Install dependencies
         run: corepack enable && yarn install --network-timeout 300000
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -355,23 +358,23 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Install dependencies
         run: corepack enable && yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -392,14 +395,14 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -409,9 +412,9 @@ jobs:
           yarn config set supportedArchitectures.libc "musl"
           yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -426,15 +429,15 @@ jobs:
   #     - build
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v4
-  # with:
-  #   ref: "v${{ inputs.version }}"
+  #     - uses: actions/checkout@v5
+  #       with:
+  #         ref: "v${{ inputs.version }}"
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v5
   #       with:
-  #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-aarch64-unknown-linux-musl
+  #         name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-aarch64-unknown-linux-musl
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -452,6 +455,16 @@ jobs:
   #       with:
   #         platforms: arm64
   #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  #     - name: Validate binary loading (before full tests)
+  #       uses: addnab/docker-run-action@v3
+  #       with:
+  #         image: node:lts-alpine
+  #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
+  #         shell: bash
+  #         run: >-
+  #           set -e &&
+  #           echo "Running binary validation for ARM64 musl..." &&
+  #           node scripts/validate-binary.js packages/${{ inputs.package }}
   #     - name: Setup and run tests
   #       uses: addnab/docker-run-action@v3
   #       with:
@@ -461,7 +474,7 @@ jobs:
   #         run: >-
   #           set -e &&
   #           npm install -f -g yarn@1.22 &&
-  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test
+  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}
 
   # test-linux-arm-gnueabihf-binding:
   #   name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -475,15 +488,15 @@ jobs:
   #         - "22"
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v4
+  #     - uses: actions/checkout@v5
   # with:
   #   ref: "v${{ inputs.version }}"
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v5
   #       with:
-  #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-armv7-unknown-linux-gnueabihf
+  #         name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-armv7-unknown-linux-gnueabihf
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -512,6 +525,7 @@ jobs:
   #           DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
   #           ls -la
   publish:
+    environment: publish
     name: Publish ${{ inputs.version }}
     runs-on: ubuntu-latest
     needs:
@@ -521,11 +535,17 @@ jobs:
       - test-macOS-windows-binding
       # - test-linux-aarch64-musl-binding
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
       - uses: ./.github/actions/setup-node
+
+      # Update npm to latest, for trusted publish
+      - name: Update npm to latest
+        shell: bash
+        run: |
+          npm install -g npm@latest
 
       - name: Tag npm release
         run: |
@@ -539,9 +559,9 @@ jobs:
         run: corepack enable && yarn install
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
-          pattern: "bindings-${{ inputs.package }}-${{ inputs.version}}-*"
+          pattern: "bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
@@ -570,13 +590,9 @@ jobs:
       - name: Publish
         if: ${{ !inputs.skipPublishing }}
         run: |
-          npm config set provenance true
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          echo "npmAlwaysAuth:true\n npmAuthToken: '$NPM_TOKEN'\n" >> ~/.yarnrc
-          (cd packages/${{ inputs.package }} && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
+          (cd packages/${{ inputs.package }} && yarn prepack && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload CLI binaries to gh release
         if: ${{ !inputs.skipPublishing && inputs.package == 'core' }}
@@ -588,6 +604,7 @@ jobs:
           ./scripts/cli_upload_gh_release.sh
 
   publish-wasm:
+    environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
     if: ${{ inputs.package == 'core' }}
     runs-on: ubuntu-latest
@@ -606,14 +623,20 @@ jobs:
             target: web
             out: "pkg"
           - crate: "binding_typescript_wasm"
+            npm: "@swc\\/wasm-typescript"
             build: "./scripts/build.sh"
             out: "pkg"
           - crate: "binding_typescript_wasm"
+            npm: "@swc\\/wasm-typescript-esm"
             build: "./scripts/esm.sh"
             out: "esm"
+          # - crate: "binding_es_ast_viewer"
+          #   npm: "@swc\\/es-ast-viewer"
+          #   build: "./scripts/build.sh"
+          #   out: "pkg"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -629,16 +652,15 @@ jobs:
           fi
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/
-            **/target/
           key: ${{ runner.os }}-publish-integration
 
       - name: Install node dependencies
@@ -660,12 +682,13 @@ jobs:
         run: |
           ${{ matrix.settings.build }}
 
+      # Ensure npm 11.5.1 or later is installed
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Publish
         if: ${{ !inputs.skipBuild }}
         run: |
-          npm config set provenance true
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && npm publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -7,8 +7,7 @@ use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::{BitCtx, Optimizer};
 use crate::{
-    compress::util::eval_as_number, maybe_par, program_data::VarUsageInfoFlags,
-    DISABLE_BUGGY_PASSES,
+    compress::util::eval_as_number, program_data::VarUsageInfoFlags, DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `evaluate`.
@@ -70,7 +69,7 @@ impl Optimizer<'_> {
 
                             *e = Lit::Str(Str {
                                 span: *span,
-                                value: obj.sym.clone(),
+                                value: obj.sym.clone().into(),
                                 raw: None,
                             })
                             .into();
@@ -145,6 +144,12 @@ impl Optimizer<'_> {
                 span,
                 ..
             }) if matches!(obj.as_ref(), Expr::Ident(ident) if &*ident.sym == "Number") => {
+                if let Expr::Ident(number_ident) = &**obj {
+                    if number_ident.ctxt != self.ctx.expr_ctx.unresolved_ctxt {
+                        return;
+                    }
+                }
+
                 match &*prop.sym {
                     "MIN_VALUE" => {
                         report_change!("evaluate: `Number.MIN_VALUE` -> `5e-324`");
@@ -251,15 +256,18 @@ impl Optimizer<'_> {
                     0 => {}
                     1 => {
                         if let Expr::Lit(Lit::Str(exp)) = &*args[0].expr {
+                            let Some(value) = exp.value.as_str() else {
+                                return;
+                            };
                             self.changed = true;
                             report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
-                                exp.value
+                                value
                             );
 
                             *e = Lit::Regex(Regex {
                                 span,
-                                exp: exp.value.as_ref().into(),
+                                exp: value.into(),
                                 flags: atom!(""),
                             })
                             .into();
@@ -269,17 +277,24 @@ impl Optimizer<'_> {
                         if let (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) =
                             (&*args[0].expr, &*args[1].expr)
                         {
+                            let Some(value) = exp.value.as_str() else {
+                                return;
+                            };
+                            let Some(flags) = flags.value.as_str() else {
+                                return;
+                            };
+
                             self.changed = true;
                             report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
-                                exp.value,
-                                flags.value
+                                value,
+                                flags
                             );
 
                             *e = Lit::Regex(Regex {
                                 span,
-                                exp: exp.value.as_ref().into(),
-                                flags: flags.value.as_ref().into(),
+                                exp: value.into(),
+                                flags: flags.into(),
                             })
                             .into();
                         }
@@ -348,7 +363,7 @@ impl Optimizer<'_> {
                                             expr: Lit::Str(Str {
                                                 span: p.span,
                                                 raw: None,
-                                                value: p.sym.clone(),
+                                                value: p.sym.clone().into(),
                                             })
                                             .into(),
                                         }));
@@ -360,7 +375,7 @@ impl Optimizer<'_> {
                                                 expr: Lit::Str(Str {
                                                     span: key.span,
                                                     raw: None,
-                                                    value: key.sym.clone(),
+                                                    value: key.sym.clone().into(),
                                                 })
                                                 .into(),
                                             }));
@@ -375,6 +390,8 @@ impl Optimizer<'_> {
                                     },
                                     _ => return,
                                 },
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }
 
@@ -478,47 +495,21 @@ impl Optimizer<'_> {
                     }
 
                     // It's NaN
-                    match (ln.classify(), rn.classify()) {
-                        (FpCategory::Zero, FpCategory::Zero) => {
-                            // If a variable named `NaN` is in scope, don't convert e into NaN.
-                            let data = &self.data.vars;
-                            if maybe_par!(
-                                data.iter()
-                                    .any(|(name, v)| v.flags.contains(VarUsageInfoFlags::DECLARED)
-                                        && name.0 == "NaN"),
-                                *crate::LIGHT_TASK_PARALLELS
-                            ) {
-                                return;
+                    if let (FpCategory::Normal, FpCategory::Zero) = (ln.classify(), rn.classify()) {
+                        self.changed = true;
+                        report_change!("evaluate: `{} / 0` => `Infinity`", ln);
+
+                        // Sign does not matter for NaN
+                        *e = if ln.is_sign_positive() == rn.is_sign_positive() {
+                            Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
+                        } else {
+                            UnaryExpr {
+                                span: bin.span,
+                                op: op!(unary, "-"),
+                                arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
                             }
-
-                            self.changed = true;
-                            report_change!("evaluate: `0 / 0` => `NaN`");
-
-                            // Sign does not matter for NaN
-                            *e = Ident::new(
-                                atom!("NaN"),
-                                bin.span,
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into();
-                        }
-                        (FpCategory::Normal, FpCategory::Zero) => {
-                            self.changed = true;
-                            report_change!("evaluate: `{} / 0` => `Infinity`", ln);
-
-                            // Sign does not matter for NaN
-                            *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                                Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
-                            } else {
-                                UnaryExpr {
-                                    span: bin.span,
-                                    op: op!(unary, "-"),
-                                    arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
-                                }
-                                .into()
-                            };
-                        }
-                        _ => {}
+                            .into()
+                        };
                     }
                 }
             }

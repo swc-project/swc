@@ -1,5 +1,5 @@
 //// [enumConstantMemberWithString.ts]
-var T1 = /*#__PURE__*/ function(T1) {
+var T1 = function(T1) {
     T1["a"] = "1";
     T1["b"] = "12";
     T1["c"] = "123";

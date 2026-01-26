@@ -1,11 +1,11 @@
-var _init_a, _init_b;
+var _init_a, _init_b, _initProto;
 const dec = ()=>{};
 var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
     constructor(){
         _class_private_field_init(this, _a, {
             writable: true,
-            value: _init_a(this)
+            value: (_initProto(this), _init_a(this))
         });
         _class_private_field_init(this, _b, {
             writable: true,
@@ -13,7 +13,7 @@ class Foo {
         });
     }
 }
-({ e: [_init_a, _init_b] } = _apply_decs_2203_r(Foo, [
+({ e: [_init_a, _init_b, _initProto] } = _apply_decs_2203_r(Foo, [
     [
         dec,
         0,

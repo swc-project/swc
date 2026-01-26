@@ -2,6 +2,6 @@
    ,-[$DIR/tests/span/js/super/obj2.js:2:1]
  1 | let o = {
  2 |     a: super.x,
-   :              ^
+   :        ^^^^^
  3 | };
    `----

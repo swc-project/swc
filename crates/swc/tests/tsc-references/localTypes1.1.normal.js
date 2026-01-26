@@ -85,7 +85,7 @@ function f5() {
         };
         return new C();
     };
-    var z2 = function() {
+    var z2 = function z2() {
         var E = /*#__PURE__*/ function(E) {
             E[E["A"] = 0] = "A";
             E[E["B"] = 1] = "B";

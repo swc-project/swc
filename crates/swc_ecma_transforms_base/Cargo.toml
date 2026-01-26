@@ -7,18 +7,22 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_base"
 repository    = { workspace = true }
-version       = "19.0.2"
+version       = "36.0.1"
 
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 concurrent         = ["concurrent-renamer", "par-iter", "swc_ecma_utils/concurrent"]
 concurrent-renamer = ["par-iter"]
+# Allow helpers to be inlined. If this feature is disabled, the helpers will always be imported.
+inline-helpers = []
 
 [dependencies]
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls" }
-bitflags          = { workspace = true }
 indexmap          = { workspace = true }
 once_cell         = { workspace = true }
 par-core          = { workspace = true }
@@ -28,25 +32,24 @@ rustc-hash        = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 tracing           = { workspace = true }
 
-swc_atoms       = { version = "6.0.1", path = "../swc_atoms" }
-swc_common      = { version = "13.0.4", path = "../swc_common" }
-swc_ecma_ast    = { version = "13.0.1", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "18.0.2", path = "../swc_ecma_parser" }
-swc_ecma_utils  = { version = "18.0.3", path = "../swc_ecma_utils" }
-swc_ecma_visit  = { version = "13.0.0", path = "../swc_ecma_visit" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+swc_common = { version = "18.0.1", path = "../swc_common" }
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 
-swc_ecma_codegen           = { version = "15.0.2", path = "../swc_ecma_codegen" }
+swc_ecma_codegen           = { version = "22.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "1.0.1", path = "../swc_ecma_transforms_macros" }
-swc_malloc                 = { version = "1.2.3", path = "../swc_malloc" }
-testing                    = { version = "14.0.1", path = "../testing" }
+swc_malloc                 = { version = "1.2.4", path = "../swc_malloc" }
+testing                    = { version = "19.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
 name    = "base"
-[[bench]]
-harness = false
-name    = "parallel"

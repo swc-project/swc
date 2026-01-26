@@ -1,8 +1,8 @@
 !// threejs.org/license
 function(global, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
+    'object' == typeof exports && "u" > typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
         'exports'
-    ], factory) : factory((global = 'undefined' != typeof globalThis ? globalThis : global || self).THREE = {});
+    ], factory) : factory((global = "u" > typeof globalThis ? globalThis : global || self).THREE = {});
 }(this, function(exports1) {
     'use strict';
     void 0 === Number.EPSILON && (Number.EPSILON = 2.220446049250313e-16), void 0 === Number.isInteger && // Missing in IE
@@ -402,7 +402,7 @@ function(global, factory) {
         }, Matrix3;
     }(), ImageUtils = {
         getDataURL: function(image) {
-            if (/^data:/i.test(image.src) || 'undefined' == typeof HTMLCanvasElement) return image.src;
+            if (/^data:/i.test(image.src) || "u" < typeof HTMLCanvasElement) return image.src;
             if (image instanceof HTMLCanvasElement) canvas = image;
             else {
                 void 0 === _canvas && (_canvas = document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas')), _canvas.width = image.width, _canvas.height = image.height;
@@ -422,7 +422,7 @@ function(global, factory) {
         this.encoding = encoding, this.version = 0, this.onUpdate = null;
     }
     function serializeImage(image) {
-        return 'undefined' != typeof HTMLImageElement && image instanceof HTMLImageElement || 'undefined' != typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || 'undefined' != typeof ImageBitmap && image instanceof ImageBitmap ? ImageUtils.getDataURL(image) : image.data ? {
+        return "u" > typeof HTMLImageElement && image instanceof HTMLImageElement || "u" > typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || "u" > typeof ImageBitmap && image instanceof ImageBitmap ? ImageUtils.getDataURL(image) : image.data ? {
             data: Array.prototype.slice.call(image.data),
             width: image.width,
             height: image.height,
@@ -2356,7 +2356,7 @@ function(global, factory) {
         }, _proto.convertLinearToSRGB = function() {
             return this.copyLinearToSRGB(this), this;
         }, _proto.getHex = function() {
-            return 255 * this.r << 16 ^ 255 * this.g << 8 ^ (255 * this.b | 0);
+            return 255 * this.r << 16 ^ 255 * this.g << 8 ^ 255 * this.b;
         }, _proto.getHexString = function() {
             return ('000000' + this.getHex().toString(16)).slice(-6);
         }, _proto.getHSL = function(target) {
@@ -2784,7 +2784,7 @@ function(global, factory) {
         Int8Array: Int8Array,
         Uint8Array: Uint8Array,
         // Workaround for IE11 pre KB2929437. See #11440
-        Uint8ClampedArray: 'undefined' != typeof Uint8ClampedArray ? Uint8ClampedArray : Uint8Array,
+        Uint8ClampedArray: "u" > typeof Uint8ClampedArray ? Uint8ClampedArray : Uint8Array,
         Int16Array: Int16Array,
         Uint16Array: Uint16Array,
         Int32Array: Int32Array,
@@ -3611,7 +3611,7 @@ function(global, factory) {
         }
         return {
             start: function() {
-                !0 !== isAnimating && null !== animationLoop && (requestId = context.requestAnimationFrame(onAnimationFrame), isAnimating = !0);
+                !0 === isAnimating || null !== animationLoop && (requestId = context.requestAnimationFrame(onAnimationFrame), isAnimating = !0);
             },
             stop: function() {
                 context.cancelAnimationFrame(requestId), isAnimating = !1;
@@ -4575,7 +4575,7 @@ function(global, factory) {
             }
             return 'mediump' === precision && gl.getShaderPrecisionFormat(35633, 36337).precision > 0 && gl.getShaderPrecisionFormat(35632, 36337).precision > 0 ? 'mediump' : 'lowp';
         }
-        /* eslint-disable no-undef */ var maxAnisotropy, isWebGL2 = 'undefined' != typeof WebGL2RenderingContext && gl instanceof WebGL2RenderingContext || 'undefined' != typeof WebGL2ComputeRenderingContext && gl instanceof WebGL2ComputeRenderingContext, precision = void 0 !== parameters.precision ? parameters.precision : 'highp', maxPrecision = getMaxPrecision(precision);
+        /* eslint-disable no-undef */ var maxAnisotropy, isWebGL2 = "u" > typeof WebGL2RenderingContext && gl instanceof WebGL2RenderingContext || "u" > typeof WebGL2ComputeRenderingContext && gl instanceof WebGL2ComputeRenderingContext, precision = void 0 !== parameters.precision ? parameters.precision : 'highp', maxPrecision = getMaxPrecision(precision);
         maxPrecision !== precision && (console.warn('THREE.WebGLRenderer:', precision, 'not supported, using', maxPrecision, 'instead.'), precision = maxPrecision);
         var logarithmicDepthBuffer = !0 === parameters.logarithmicDepthBuffer, maxTextures = gl.getParameter(34930), maxVertexTextures = gl.getParameter(35660), maxTextureSize = gl.getParameter(3379), maxCubemapSize = gl.getParameter(34076), maxAttributes = gl.getParameter(34921), maxVertexUniforms = gl.getParameter(36347), maxVaryings = gl.getParameter(36348), maxFragmentUniforms = gl.getParameter(36349), vertexTextures = maxVertexTextures > 0, floatFragmentTextures = isWebGL2 || !!extensions.get('OES_texture_float'), maxSamples = isWebGL2 ? gl.getParameter(36183) : 0;
         return {
@@ -6328,7 +6328,7 @@ function(global, factory) {
         ]), 3));
         var fullScreenMesh = new Mesh(fullScreenTri, shadowMaterialVertical), scope = this;
         function getDepthMaterialVariant(useMorphing, useSkinning, useInstancing) {
-            var index = 0 | useMorphing | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
+            var index = useMorphing | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
             return void 0 === material && (material = new MeshDepthMaterial({
                 depthPacking: 3201,
                 morphTargets: useMorphing,
@@ -6336,7 +6336,7 @@ function(global, factory) {
             }), _depthMaterials[index] = material), material;
         }
         function getDistanceMaterialVariant(useMorphing, useSkinning, useInstancing) {
-            var index = 0 | useMorphing | useSkinning << 1 | useInstancing << 2, material = _distanceMaterials[index];
+            var index = useMorphing | useSkinning << 1 | useInstancing << 2, material = _distanceMaterials[index];
             return void 0 === material && (material = new MeshDistanceMaterial({
                 morphTargets: useMorphing,
                 skinning: useSkinning
@@ -6678,7 +6678,7 @@ function(global, factory) {
     function WebGLTextures(_gl, extensions, state, properties, capabilities, utils, info) {
         var _wrappingToGL, _filterToGL, _canvas, isWebGL2 = capabilities.isWebGL2, maxTextures = capabilities.maxTextures, maxCubemapSize = capabilities.maxCubemapSize, maxTextureSize = capabilities.maxTextureSize, maxSamples = capabilities.maxSamples, _videoTextures = new WeakMap(), useOffscreenCanvas = !1;
         try {
-            useOffscreenCanvas = 'undefined' != typeof OffscreenCanvas && null !== new OffscreenCanvas(1, 1).getContext('2d');
+            useOffscreenCanvas = "u" > typeof OffscreenCanvas && null !== new OffscreenCanvas(1, 1).getContext('2d');
         } catch (err) {}
         function createCanvas(width, height) {
             // Use OffscreenCanvas when available. Specially needed in web workers
@@ -6687,7 +6687,7 @@ function(global, factory) {
         function resizeImage(image, needsPowerOfTwo, needsNewCanvas, maxSize) {
             var scale = 1; // handle case if texture exceeds max size
             if ((image.width > maxSize || image.height > maxSize) && (scale = maxSize / Math.max(image.width, image.height)), scale < 1 || !0 === needsPowerOfTwo) // only perform resize for certain image types
-            if ('undefined' != typeof HTMLImageElement && image instanceof HTMLImageElement || 'undefined' != typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || 'undefined' != typeof ImageBitmap && image instanceof ImageBitmap) {
+            if ("u" > typeof HTMLImageElement && image instanceof HTMLImageElement || "u" > typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || "u" > typeof ImageBitmap && image instanceof ImageBitmap) {
                 var floor = needsPowerOfTwo ? MathUtils.floorPowerOfTwo : Math.floor, width = floor(scale * image.width), height = floor(scale * image.height);
                 void 0 === _canvas && (_canvas = createCanvas(width, height));
                 var canvas = needsNewCanvas ? createCanvas(width, height) : _canvas;
@@ -6747,7 +6747,7 @@ function(global, factory) {
         }
         function setTextureCube(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) return void function(textureProperties, texture, slot) {
+            texture.version > 0 && textureProperties.__version !== texture.version ? function(textureProperties, texture, slot) {
                 if (6 === texture.image.length) {
                     initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
                     for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
@@ -6782,8 +6782,7 @@ function(global, factory) {
                     generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
                 }
             } // Render targets
-            (textureProperties, texture, slot);
-            state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture);
+            (textureProperties, texture, slot) : (state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture));
         }
         var wrappingToGL = ((_wrappingToGL = {})[1000] = 10497, _wrappingToGL[1001] = 33071, _wrappingToGL[1002] = 33648, _wrappingToGL), filterToGL = ((_filterToGL = {})[1003] = 9728, _filterToGL[1004] = 9984, _filterToGL[1005] = 9986, _filterToGL[1006] = 9729, _filterToGL[1007] = 9985, _filterToGL[1008] = 9987, _filterToGL);
         function setTextureParameters(textureType, texture, supportsMips) {
@@ -6871,12 +6870,10 @@ function(global, factory) {
             textureUnits = 0;
         }, this.setTexture2D = setTexture2D, this.setTexture2DArray = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
-            state.activeTexture(33984 + slot), state.bindTexture(35866, textureProperties.__webglTexture);
+            texture.version > 0 && textureProperties.__version !== texture.version ? uploadTexture(textureProperties, texture, slot) : (state.activeTexture(33984 + slot), state.bindTexture(35866, textureProperties.__webglTexture));
         }, this.setTexture3D = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
-            state.activeTexture(33984 + slot), state.bindTexture(32879, textureProperties.__webglTexture);
+            texture.version > 0 && textureProperties.__version !== texture.version ? uploadTexture(textureProperties, texture, slot) : (state.activeTexture(33984 + slot), state.bindTexture(32879, textureProperties.__webglTexture));
         }, this.setTextureCube = setTextureCube, this.setupRenderTarget = function(renderTarget) {
             var renderTargetProperties = properties.get(renderTarget), textureProperties = properties.get(renderTarget.texture);
             renderTarget.addEventListener('dispose', onRenderTargetDispose), textureProperties.__webglTexture = _gl.createTexture(), info.memory.textures++;
@@ -7238,8 +7235,7 @@ function(global, factory) {
         }, this.getSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getsize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width, _height);
         }, this.setSize = function(width, height, updateStyle) {
-            if (xr.isPresenting) return void console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.');
-            _width = width, _height = height, _canvas.width = Math.floor(width * _pixelRatio), _canvas.height = Math.floor(height * _pixelRatio), !1 !== updateStyle && (_canvas.style.width = width + 'px', _canvas.style.height = height + 'px'), this.setViewport(0, 0, width, height);
+            xr.isPresenting ? console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.') : (_width = width, _height = height, _canvas.width = Math.floor(width * _pixelRatio), _canvas.height = Math.floor(height * _pixelRatio), !1 !== updateStyle && (_canvas.style.width = width + 'px', _canvas.style.height = height + 'px'), this.setViewport(0, 0, width, height));
         }, this.getDrawingBufferSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getdrawingBufferSize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width * _pixelRatio, _height * _pixelRatio).floor();
         }, this.setDrawingBufferSize = function(width, height, pixelRatio) {
@@ -7418,7 +7414,7 @@ function(global, factory) {
         } // If uniforms are marked as clean, they don't need to be loaded to the GPU.
         animation.setAnimationLoop(function(time) {
             !xr.isPresenting && onAnimationFrameCallback && onAnimationFrameCallback(time);
-        }), 'undefined' != typeof window && animation.setContext(window), this.setAnimationLoop = function(callback) {
+        }), "u" > typeof window && animation.setContext(window), this.setAnimationLoop = function(callback) {
             onAnimationFrameCallback = callback, xr.setAnimationLoop(callback), null === callback ? animation.stop() : animation.start();
         }, this.render = function(scene, camera) {
             if (void 0 !== arguments[2] && (console.warn('THREE.WebGLRenderer.render(): the renderTarget argument has been removed. Use .setRenderTarget() instead.'), renderTarget = arguments[2]), void 0 !== arguments[3] && (console.warn('THREE.WebGLRenderer.render(): the forceClear argument has been removed. Use .clear() instead.'), forceClear = arguments[3]), void 0 !== camera && !0 !== camera.isCamera) return void console.error('THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.');
@@ -7508,7 +7504,7 @@ function(global, factory) {
             textures.setTexture2D(texture, 0), state.unbindTexture();
         }, this.resetState = function() {
             state.reset(), bindingStates.reset();
-        }, 'undefined' != typeof __THREE_DEVTOOLS__ && __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent('observe', {
+        }, "u" > typeof __THREE_DEVTOOLS__ && __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent('observe', {
             detail: this
         }));
     }
@@ -7617,7 +7613,7 @@ function(global, factory) {
             var _this;
             return Object.defineProperty(_assertThisInitialized(_this = _Object3D.call(this) || this), 'isScene', {
                 value: !0
-            }), _this.type = 'Scene', _this.background = null, _this.environment = null, _this.fog = null, _this.overrideMaterial = null, _this.autoUpdate = !0, 'undefined' != typeof __THREE_DEVTOOLS__ && __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent('observe', {
+            }), _this.type = 'Scene', _this.background = null, _this.environment = null, _this.fog = null, _this.overrideMaterial = null, _this.autoUpdate = !0, "u" > typeof __THREE_DEVTOOLS__ && __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent('observe', {
                 detail: _assertThisInitialized(_this)
             })), _this;
         }
@@ -8516,8 +8512,7 @@ function(global, factory) {
             }
         },
         mergeMesh: function(mesh) {
-            if (!(mesh && mesh.isMesh)) return void console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
-            mesh.matrixAutoUpdate && mesh.updateMatrix(), this.merge(mesh.geometry, mesh.matrix);
+            mesh && mesh.isMesh ? (mesh.matrixAutoUpdate && mesh.updateMatrix(), this.merge(mesh.geometry, mesh.matrix)) : console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
         },
         /*
 		 * Checks for duplicate vertices with hashmap.
@@ -12562,7 +12557,7 @@ function(global, factory) {
     });
     var LoaderUtils = {
         decodeText: function(array) {
-            if ('undefined' != typeof TextDecoder) return new TextDecoder().decode(array);
+            if ("u" > typeof TextDecoder) return new TextDecoder().decode(array);
              // Avoid the String.fromCharCode.apply(null, array) shortcut, which
             for(var s = '', i = 0, il = array.length; i < il; i++)// Implicitly assumes little-endian.
             s += String.fromCharCode(array[i]);
@@ -12690,8 +12685,7 @@ function(global, factory) {
                     return;
                 }
                 var metadata = json.metadata;
-                if (void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase()) return void console.error('THREE.ObjectLoader: Can\'t load ' + url);
-                scope.parse(json, onLoad);
+                void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase() ? console.error('THREE.ObjectLoader: Can\'t load ' + url) : scope.parse(json, onLoad);
             }, onProgress, onError);
         }, _proto.parse = function(json, onLoad) {
             var animations = this.parseAnimations(json.animations), shapes = this.parseShapes(json.shapes), geometries = this.parseGeometries(json.geometries, shapes), images = this.parseImages(json.images, function() {
@@ -13024,7 +13018,7 @@ function(global, factory) {
         LinearMipmapLinearFilter: 1008
     };
     function ImageBitmapLoader(manager) {
-        'undefined' == typeof createImageBitmap && console.warn('THREE.ImageBitmapLoader: createImageBitmap() not supported.'), 'undefined' == typeof fetch && console.warn('THREE.ImageBitmapLoader: fetch() not supported.'), Loader.call(this, manager), this.options = {
+        "u" < typeof createImageBitmap && console.warn('THREE.ImageBitmapLoader: createImageBitmap() not supported.'), "u" < typeof fetch && console.warn('THREE.ImageBitmapLoader: fetch() not supported.'), Loader.call(this, manager), this.options = {
             premultiplyAlpha: 'none'
         };
     }
@@ -13308,7 +13302,7 @@ function(global, factory) {
         }, Clock;
     }();
     function now() {
-        return ('undefined' == typeof performance ? Date : performance).now(); // see #10732
+        return ("u" < typeof performance ? Date : performance).now(); // see #10732
     }
     var _position$2 = /*@__PURE__*/ new Vector3(), _quaternion$3 = /*@__PURE__*/ new Quaternion(), _scale$1 = /*@__PURE__*/ new Vector3(), _orientation = /*@__PURE__*/ new Vector3(), AudioListener = /*#__PURE__*/ function(_Object3D) {
         function AudioListener() {
@@ -16287,7 +16281,7 @@ function(global, factory) {
         console.error('THREE.ImageUtils.loadCompressedTexture has been removed. Use THREE.DDSLoader instead.');
     }, ImageUtils.loadCompressedTextureCube = function() {
         console.error('THREE.ImageUtils.loadCompressedTextureCube has been removed. Use THREE.DDSLoader instead.');
-    }, 'undefined' != typeof __THREE_DEVTOOLS__ && /* eslint-disable no-undef */ __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent('register', {
+    }, "u" > typeof __THREE_DEVTOOLS__ && /* eslint-disable no-undef */ __THREE_DEVTOOLS__.dispatchEvent(new CustomEvent('register', {
         detail: {
             revision: '124'
         }

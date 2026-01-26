@@ -155,7 +155,7 @@ impl Task for BundleTask {
             if let Some(s) = err.downcast_ref::<String>() {
                 return Err(napi::Error::new(
                     Status::GenericFailure,
-                    format!("panic detected: {}", s),
+                    format!("panic detected: {s}"),
                 ));
             }
 

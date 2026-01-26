@@ -4,7 +4,8 @@ use swc_atoms::Atom;
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     AssignPat, Decl, ExportDecl, Function, ModuleDecl, ModuleItem, Param, Pat, Script, Stmt,
-    TsKeywordTypeKind, TsType, TsTypeAnn, TsUnionOrIntersectionType, TsUnionType,
+    TsKeywordTypeKind, TsParenthesizedType, TsType, TsTypeAnn, TsUnionOrIntersectionType,
+    TsUnionType,
 };
 
 use super::{
@@ -42,6 +43,8 @@ impl FastDts {
                 Pat::Array(array_pat) => !array_pat.optional,
                 Pat::Object(object_pat) => !object_pat.optional,
                 Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) | Pat::Rest(_) => false,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
             self.transform_fn_param(param, is_required);
         }
@@ -57,27 +60,24 @@ impl FastDts {
         }
 
         // 2. Infer type annotation
-        let (type_ann, should_add_undefined) = match &mut param.pat {
+        let (should_add_undefined, type_ann) = match &mut param.pat {
             Pat::Ident(ident) => {
                 if ident.type_ann.is_none() {
                     self.parameter_must_have_explicit_type(param.span);
                 }
-                let is_none = ident.type_ann.is_none();
-                (ident.type_ann.as_mut(), is_none)
+                (ident.type_ann.is_none(), ident.type_ann.as_mut())
             }
             Pat::Array(arr_pat) => {
                 if arr_pat.type_ann.is_none() {
                     self.parameter_must_have_explicit_type(param.span);
                 }
-                let is_none = arr_pat.type_ann.is_none();
-                (arr_pat.type_ann.as_mut(), is_none)
+                (arr_pat.type_ann.is_none(), arr_pat.type_ann.as_mut())
             }
             Pat::Object(obj_pat) => {
                 if obj_pat.type_ann.is_none() {
                     self.parameter_must_have_explicit_type(param.span);
                 }
-                let is_none = obj_pat.type_ann.is_none();
-                (obj_pat.type_ann.as_mut(), is_none)
+                (obj_pat.type_ann.is_none(), obj_pat.type_ann.as_mut())
             }
             Pat::Assign(assign_pat) => {
                 if !self.transform_assign_pat(assign_pat, is_required) {
@@ -85,16 +85,20 @@ impl FastDts {
                 }
 
                 (
+                    true,
                     match assign_pat.left.as_mut() {
                         Pat::Ident(ident) => ident.type_ann.as_mut(),
                         Pat::Array(array_pat) => array_pat.type_ann.as_mut(),
                         Pat::Object(object_pat) => object_pat.type_ann.as_mut(),
                         Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
-                    true,
                 )
             }
-            Pat::Rest(_) | Pat::Expr(_) | Pat::Invalid(_) => (None, false),
+            Pat::Rest(_) | Pat::Expr(_) | Pat::Invalid(_) => (false, None),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         // 3. Add undefined type if needed
@@ -133,6 +137,8 @@ impl FastDts {
             }
             // These are illegal
             Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let mut has_expclicit_type = true;
@@ -167,13 +173,20 @@ impl FastDts {
         }
 
         if !is_maybe_undefined(&type_ann.type_ann) {
+            let mut ty = type_ann.type_ann.clone();
+            if ty.is_ts_fn_or_constructor_type() {
+                ty = Box::new(
+                    TsParenthesizedType {
+                        span: DUMMY_SP,
+                        type_ann: Box::new(*ty),
+                    }
+                    .into(),
+                );
+            }
             type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
                 TsUnionOrIntersectionType::TsUnionType(TsUnionType {
                     span: DUMMY_SP,
-                    types: vec![
-                        type_ann.type_ann.clone(),
-                        ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword),
-                    ],
+                    types: vec![ty, ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword)],
                 }),
             ))
         }

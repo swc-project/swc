@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_typescript_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.12.10"
+version     = "1.15.10"
 
 [lib]
 bench      = false
@@ -16,20 +16,20 @@ crate-type = ["cdylib"]
 nightly = ["swc_ts_fast_strip/nightly"]
 
 [dependencies]
-anyhow               = { workspace = true }
-getrandom            = { workspace = true, features = ["wasm_js"] }
-js-sys               = { workspace = true }
-miette               = { workspace = true }
-owo-colors           = { workspace = true }
-serde                = { workspace = true, features = ["derive"] }
-serde-wasm-bindgen   = { workspace = true }
-serde_json           = { workspace = true }
-swc_common           = { workspace = true }
-swc_error_reporters  = { workspace = true }
-swc_ts_fast_strip    = { workspace = true, features = ["wasm-bindgen"] }
-tracing              = { workspace = true, features = ["max_level_off"] }
-unicode-width        = { workspace = true }
-wasm-bindgen         = { workspace = true, features = ["enable-interning"] }
+anyhow = { workspace = true }
+js-sys = { workspace = true }
+miette = { workspace = true }
+owo-colors = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true }
+swc_common = { path = "../../crates/swc_common" }
+swc_error_reporters = { path = "../../crates/swc_error_reporters" }
+swc_ts_fast_strip = { path = "../../crates/swc_ts_fast_strip", features = [
+  "wasm-bindgen",
+] }
+tracing = { workspace = true, features = ["max_level_off"] }
+unicode-width = { workspace = true }
+wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 wasm-bindgen-futures = { workspace = true }
 
 [package.metadata.wasm-pack.profile.release]

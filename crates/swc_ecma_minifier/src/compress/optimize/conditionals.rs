@@ -392,7 +392,7 @@ impl Optimizer<'_> {
                 }
 
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
-                if IdentUsageFinder::find(&cons_callee.to_id(), &**test) {
+                if IdentUsageFinder::find(cons_callee, &**test) {
                     return None;
                 }
                 //

@@ -1,4 +1,4 @@
-const one = {
+let one = {
     kind: "Document",
     definitions: [],
     loc: {}

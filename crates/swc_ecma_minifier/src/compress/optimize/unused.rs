@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -71,10 +73,14 @@ impl Optimizer<'_> {
 
         #[cfg(debug_assertions)]
         {
-            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
-                if had_init && var.init.is_none() {
-                    unreachable!("const/let variable without initializer: {:#?}", var);
-                }
+            if self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                && had_init
+                && var.init.is_none()
+            {
+                unreachable!("const/let variable without initializer: {:#?}", var);
             }
         }
     }
@@ -85,7 +91,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -96,6 +102,14 @@ impl Optimizer<'_> {
             if pat.is_ident() {
                 return;
             }
+        }
+
+        // When keep_fargs is true, we should only optimize within destructuring
+        // patterns (arrays/objects) but not remove the entire parameter.
+        // For Pat::Assign (default parameters), we should not remove them if
+        // keep_fargs is true, as that would change the function signature.
+        if self.options.keep_fargs && matches!(pat, Pat::Assign(_)) {
+            return;
         }
 
         self.take_pat_if_unused(pat, None, false)
@@ -121,7 +135,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 log_abort!(
                     "unused: Preserving `{}` because of usages",
@@ -202,7 +216,11 @@ impl Optimizer<'_> {
 
             if v.ref_count == 0 && v.usage_count == 0 {
                 if let Some(e) = init {
-                    if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                    if self
+                        .ctx
+                        .bit_ctx
+                        .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                    {
                         if let Expr::Lit(Lit::Null(..)) = e {
                             return;
                         }
@@ -212,7 +230,11 @@ impl Optimizer<'_> {
                     if let Some(ret) = ret {
                         *e = ret;
                     } else {
-                        if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                        if self
+                            .ctx
+                            .bit_ctx
+                            .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                        {
                             *e = Null { span: DUMMY_SP }.into();
                         } else {
                             *e = Invalid { span: DUMMY_SP }.into();
@@ -290,7 +312,11 @@ impl Optimizer<'_> {
 
                         Prop::Setter(_) => true,
                         Prop::Method(_) => false,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 });
             }
 
@@ -337,21 +363,30 @@ impl Optimizer<'_> {
         };
 
         if !name.is_ident() {
-            // TODO: Use smart logic
-            if self.options.pure_getters != PureGetterOption::Bool(true) && !has_pure_ann {
-                return;
-            }
+            // For Pat::Assign (default parameters), we can skip the pure_getters check
+            // when there's no init expression, because the default value is part of the
+            // pattern itself and doesn't involve property access on an external value.
+            let is_assign_pat_without_init = matches!(name, Pat::Assign(_)) && init.is_none();
 
-            if !has_pure_ann {
-                if let Some(init) = init.as_mut() {
-                    if self.should_preserve_property_access(
-                        init,
-                        PropertyAccessOpts {
-                            allow_getter: false,
-                            only_ident: false,
-                        },
-                    ) {
-                        return;
+            if !is_assign_pat_without_init {
+                // TODO: Use smart logic
+                if self.options.pure_getters != PureGetterOption::Bool(true) && !has_pure_ann {
+                    return;
+                }
+
+                if !has_pure_ann {
+                    if let Some(init) = init.as_mut() {
+                        if !matches!(init, Expr::Ident(_))
+                            && self.should_preserve_property_access(
+                                init,
+                                PropertyAccessOpts {
+                                    allow_getter: false,
+                                    only_ident: false,
+                                },
+                            )
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -434,6 +469,8 @@ impl Optimizer<'_> {
                             }
                         }
                         ObjectPatProp::Rest(_) => {}
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
 
                     true
@@ -445,8 +482,29 @@ impl Optimizer<'_> {
             }
 
             Pat::Rest(_) => {}
-            Pat::Assign(_) => {
-                // TODO
+            Pat::Assign(assign) => {
+                // First check if the default value has side effects using
+                // may_have_side_effects which doesn't mutate optimizer state.
+                // If it does, we cannot remove this pattern at all.
+                if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
+                    // The default value has side effects, so we cannot remove
+                    // this assignment pattern. We must preserve it as-is.
+                    return;
+                }
+
+                // Now check if the left side of the assignment pattern is unused
+                self.take_pat_if_unused(&mut assign.left, None, is_var_decl);
+
+                // If the left side is now invalid (unused), we can remove the
+                // entire pattern since we already know the default has no side
+                // effects
+                if assign.left.is_invalid() {
+                    report_change!(
+                        "unused: Dropping assign pattern as left is unused and right has no side \
+                         effects"
+                    );
+                    name.take();
+                }
             }
             _ => {}
         }
@@ -467,7 +525,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -509,34 +567,41 @@ impl Optimizer<'_> {
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
+                    let Some(side_effects) = extract_class_side_effect(self.ctx.expr_ctx, class)
+                    else {
+                        return;
+                    };
+
                     self.changed = true;
                     report_change!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
                         ident.ctxt
                     );
-                    // This will remove the declaration.
-                    let class = decl.take().class().unwrap();
-                    let mut side_effects =
-                        extract_class_side_effect(self.ctx.expr_ctx, *class.class);
 
-                    if !side_effects.is_empty() {
-                        self.prepend_stmts.push(
-                            ExprStmt {
-                                span: DUMMY_SP,
-                                expr: if side_effects.len() > 1 {
-                                    SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: side_effects,
-                                    }
-                                    .into()
-                                } else {
-                                    side_effects.remove(0)
-                                },
-                            }
-                            .into(),
-                        )
+                    let mut side_effects: Vec<_> =
+                        side_effects.into_iter().map(|expr| expr.take()).collect();
+                    decl.take();
+
+                    if side_effects.is_empty() {
+                        return;
                     }
+
+                    self.prepend_stmts.push(
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: if side_effects.len() > 1 {
+                                SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: side_effects,
+                                }
+                                .into()
+                            } else {
+                                side_effects.remove(0)
+                            },
+                        }
+                        .into(),
+                    );
                 }
             }
             Decl::Fn(FnDecl { ident, .. }) => {
@@ -583,6 +648,9 @@ impl Optimizer<'_> {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
                 // Nothing to do. We might change this to unreachable!()
             }
+
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -692,14 +760,8 @@ impl Optimizer<'_> {
 
         let used_arguments = self
             .data
-            .scopes
-            .get(&self.ctx.scope)
-            .unwrap_or_else(|| {
-                unreachable!(
-                    "scope should exist\nScopes: {:?};\nCtxt: {:?}",
-                    self.data.scopes, self.ctx.scope
-                )
-            })
+            .get_scope(self.ctx.scope)
+            .unwrap_or_else(|| unreachable!("scope should exist\nCtxt: {:?}", self.ctx.scope))
             .contains(ScopeData::USED_ARGUMENTS);
 
         trace_op!(
@@ -745,6 +807,40 @@ impl Optimizer<'_> {
                     )
                 }
             }
+        }
+    }
+
+    pub(super) fn drop_empty_constructors(&self, n: &mut Class) {
+        let mut empty_constructor_indices = Vec::new();
+
+        for (index, member) in n.body.iter().enumerate() {
+            if let ClassMember::Constructor(constructor) = member {
+                if self.is_constructor_empty(constructor) {
+                    empty_constructor_indices.push(index);
+                }
+            }
+        }
+
+        if !empty_constructor_indices.is_empty() {
+            report_change!("Removing an empty constructor");
+            for index in empty_constructor_indices.into_iter().rev() {
+                n.body.remove(index);
+            }
+        }
+    }
+
+    fn is_constructor_empty(&self, constructor: &Constructor) -> bool {
+        if !constructor.params.is_empty() {
+            return false;
+        }
+
+        match &constructor.body {
+            None => true,
+            Some(body) => match body.stmts.as_slice() {
+                [] => true,
+                [Stmt::Empty(_)] => true,
+                _ => false,
+            },
         }
     }
 
@@ -824,11 +920,11 @@ impl Optimizer<'_> {
         }
 
         if let Some(Expr::Fn(f)) = v.init.as_deref_mut() {
-            if f.ident.is_none() {
+            let Some(f_ident) = f.ident.as_ref() else {
                 return;
-            }
+            };
 
-            if contains_ident_ref(&f.function.body, &f.ident.as_ref().unwrap().to_id()) {
+            if contains_ident_ref(&f.function.body, f_ident) {
                 return;
             }
 
@@ -873,7 +969,11 @@ impl Optimizer<'_> {
                 Prop::Getter(p) => p.key.is_computed(),
                 Prop::Setter(p) => p.key.is_computed(),
                 Prop::Method(p) => p.key.is_computed(),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }) {
             return None;
         }
@@ -900,6 +1000,8 @@ impl Optimizer<'_> {
             let prop = match prop {
                 PropOrSpread::Spread(_) => return None,
                 PropOrSpread::Prop(prop) => prop,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
 
             match &**prop {
@@ -950,22 +1052,22 @@ impl Optimizer<'_> {
                         }
                     }
                     PropName::Ident(i) => {
-                        if !can_remove_property(&i.sym) {
+                        if !can_remove_property(i.sym.borrow()) {
                             return None;
                         }
 
-                        if let Some(v) = unknown_used_props.get_mut(&i.sym) {
+                        if let Some(v) = unknown_used_props.get_mut(i.sym.borrow()) {
                             *v = 0;
                         }
                     }
                     _ => return None,
                 },
                 Prop::Shorthand(p) => {
-                    if !can_remove_property(&p.sym) {
+                    if !can_remove_property(p.sym.borrow()) {
                         return None;
                     }
 
-                    if let Some(v) = unknown_used_props.get_mut(&p.sym) {
+                    if let Some(v) = unknown_used_props.get_mut(p.sym.borrow()) {
                         *v = 0;
                     }
                 }
@@ -978,23 +1080,27 @@ impl Optimizer<'_> {
             return None;
         }
 
-        let should_preserve_property = |sym: &Atom| {
-            if let "toString" = &**sym {
-                return true;
-            }
+        let should_preserve_property = |sym: &swc_atoms::Wtf8Atom| {
+            if let Some(s) = sym.as_str() {
+                if s == "toString" {
+                    return true;
+                }
 
-            if sym.parse::<f64>().is_ok() || sym.parse::<i32>().is_ok() {
-                return true;
+                if s.parse::<f64>().is_ok() || s.parse::<i32>().is_ok() {
+                    return true;
+                }
             }
 
             usage.accessed_props.contains_key(sym) || properties_used_via_this.contains(sym)
         };
         let should_preserve = |key: &PropName| match key {
-            PropName::Ident(k) => should_preserve_property(&k.sym),
+            PropName::Ident(k) => should_preserve_property(k.sym.borrow()),
             PropName::Str(k) => should_preserve_property(&k.value),
             PropName::Num(..) => true,
             PropName::Computed(..) => true,
             PropName::BigInt(..) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let len = obj.props.len();
@@ -1003,7 +1109,7 @@ impl Optimizer<'_> {
                 unreachable!()
             }
             PropOrSpread::Prop(p) => match &**p {
-                Prop::Shorthand(p) => should_preserve_property(&p.sym),
+                Prop::Shorthand(p) => should_preserve_property(p.sym.borrow()),
                 Prop::KeyValue(p) => should_preserve(&p.key),
                 Prop::Assign(..) => {
                     unreachable!()
@@ -1011,7 +1117,11 @@ impl Optimizer<'_> {
                 Prop::Getter(p) => should_preserve(&p.key),
                 Prop::Setter(p) => should_preserve(&p.key),
                 Prop::Method(p) => should_preserve(&p.key),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         });
 
         if obj.props.len() != len {
@@ -1023,8 +1133,9 @@ impl Optimizer<'_> {
     }
 }
 
-fn can_remove_property(sym: &str) -> bool {
-    !matches!(sym, "toString" | "valueOf")
+fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
+    sym.as_str()
+        .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
 }
 
 #[derive(Default)]
@@ -1035,7 +1146,7 @@ struct ThisPropertyVisitor {
 }
 
 impl Visit for ThisPropertyVisitor {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         if self.should_abort {

@@ -27,7 +27,7 @@ function foo3(x) {
     if (typeof x === "string") {
         return x.length; // string
     } else {
-        var f = function() {
+        var f = function f() {
             return x * x;
         };
     }

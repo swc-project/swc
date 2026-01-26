@@ -437,27 +437,27 @@ export interface Options extends Config {
    *
    * "root" - Passes the "root" value through as unchanged.
    * "upward" - Walks upward from the "root" directory, looking for a directory
-   * containing a swc.config.js file, and throws an error if a swc.config.js
+   * containing a .swcrc file, and throws an error if a .swcrc
    * is not found.
    * "upward-optional" - Walk upward from the "root" directory, looking for
-   * a directory containing a swc.config.js file, and falls back to "root"
-   *  if a swc.config.js is not found.
+   * a directory containing a .swcrc file, and falls back to "root"
+   *  if a .swcrc is not found.
    *
    *
    * "root" is the default mode because it avoids the risk that Swc
-   * will accidentally load a swc.config.js that is entirely outside
+   * will accidentally load a .swcrc that is entirely outside
    * of the current project folder. If you use "upward-optional",
    * be aware that it will walk up the directory structure all the
    * way to the filesystem root, and it is always possible that someone
-   * will have a forgotten swc.config.js in their home directory,
+   * will have a forgotten .swcrc in their home directory,
    * which could cause unexpected errors in your builds.
    *
    *
    * Users with monorepo project structures that run builds/tests on a
    * per-package basis may well want to use "upward" since monorepos
-   * often have a swc.config.js in the project root. Running Swc
+   * often have a .swcrc in the project root. Running Swc
    * in a monorepo subdirectory without "upward", will cause Swc
-   * to skip loading any swc.config.js files in the project root,
+   * to skip loading any .swcrc files in the project root,
    * which can lead to unexpected errors and compilation failure.
    */
   rootMode?: "root" | "upward" | "upward-optional";
@@ -888,14 +888,23 @@ export interface ReactConfig {
       };
 
   /**
-   * jsx runtime
+   * Decides which runtime to use when transforming JSX.
+   * - `"automatic"` - Automatically imports the functions that JSX transpiles to.
+   * This is the modern approach introduced in React 17+ that eliminates the need to
+   * manually import React in every file that uses JSX.
+   * - `"classic"` - Uses the traditional JSX transform that relies on `React.createElement`
+   * calls. Requires React to be in scope, which was the standard behavior before React 17.
+   * - `"preserve"` - Leaves JSX syntax unchanged without transforming it.
+   * @default "classic"
    */
-  runtime?: 'automatic' | 'classic'
+  runtime?: "automatic" | "classic" | "preserve";
 
   /**
-   * Declares the module specifier to be used for importing the `jsx` and `jsxs` factory functions when using `runtime` 'automatic'
+   * Declares the module specifier to be used for importing the `jsx` and `jsxs` factory
+   * functions when using `runtime` 'automatic'
+   * @default "react"
    */
-  importSource?: string
+  importSource?: string;
 }
 /**
  *  - `import { DEBUG } from '@ember/env-flags';`
@@ -1726,7 +1735,7 @@ export interface JSXAttribute extends Node, HasSpan {
 export type JSXAttributeName = Identifier | JSXNamespacedName;
 
 export type JSXAttrValue =
-  | Literal
+  | StringLiteral
   | JSXExpressionContainer
   | JSXElement
   | JSXFragment;

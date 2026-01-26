@@ -623,6 +623,8 @@ impl VisitMut for Generator {
                                     expr: prop.into(),
                                 });
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
                         // [source]
                     }
@@ -631,16 +633,52 @@ impl VisitMut for Generator {
                     }
                 }
                 if node.op != op!("=") {
-                    let left_of_right =
+                    // Compound assignment: a.b += yield -> a.b = cache(a.b) + yield
+                    // Following TypeScript's visitRightAssociativeBinaryExpression
+
+                    // 1. Save target (the already-processed left, e.g., _._value)
+                    let target = node.left.clone();
+
+                    // 2. Cache target's value for right-side computation
+                    let cached_value =
                         self.cache_expression(node.left.take().expect_simple().into());
 
+                    // 3. Visit right expression
                     node.right.visit_mut_with(self);
 
+                    // 4. Convert compound assignment to normal assignment
+                    let bin_op = match node.op {
+                        op!("+=") => op!(bin, "+"),
+                        op!("-=") => op!(bin, "-"),
+                        op!("*=") => op!("*"),
+                        op!("/=") => op!("/"),
+                        op!("%=") => op!("%"),
+                        op!("**=") => op!("**"),
+                        op!("<<=") => op!("<<"),
+                        op!(">>=") => op!(">>"),
+                        op!(">>>=") => op!(">>>"),
+                        op!("&=") => op!("&"),
+                        op!("|=") => op!("|"),
+                        op!("^=") => op!("^"),
+                        op!("&&=") => op!("&&"),
+                        op!("||=") => op!("||"),
+                        op!("??=") => op!("??"),
+                        _ => {
+                            unreachable!("unknown compound assignment operator")
+                        }
+                    };
+
                     *e = AssignExpr {
-                        span: node.right.span(),
-                        op: node.op,
-                        left: left_of_right.into(),
-                        right: node.right.take(),
+                        span: node.span,
+                        op: op!("="),
+                        left: target,
+                        right: BinExpr {
+                            span: DUMMY_SP,
+                            op: bin_op,
+                            left: cached_value.into(),
+                            right: node.right.take(),
+                        }
+                        .into(),
                     }
                     .into();
                 } else {
@@ -735,6 +773,8 @@ impl VisitMut for Generator {
                                     props.push(CompiledProp::Prop(p));
                                 }
                             },
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
 
                         props
@@ -1112,7 +1152,7 @@ impl Generator {
             );
         }
 
-        let expressions = elements
+        let mut expressions = elements
             .iter_mut()
             .skip(num_initial_elements)
             .map(|v| v.take())
@@ -1128,7 +1168,17 @@ impl Generator {
                     spread: None,
                     expr: Box::new(Expr::Array(ArrayLit {
                         span: DUMMY_SP,
-                        elems: expressions,
+                        elems: expressions
+                            .take()
+                            .into_iter()
+                            .map(|expr| match expr {
+                                Some(expr_or_spread) => match &*expr_or_spread.expr {
+                                    Expr::Invalid(_) => None,
+                                    _ => Some(expr_or_spread),
+                                },
+                                None => None,
+                            })
+                            .collect(),
                     })),
                 }],
                 ..Default::default()
@@ -1141,7 +1191,13 @@ impl Generator {
                     .take()
                     .into_iter()
                     .map(Some)
-                    .chain(expressions)
+                    .chain(expressions.take().into_iter().map(|expr| match expr {
+                        Some(expr_or_spread) => match &*expr_or_spread.expr {
+                            Expr::Invalid(_) => None,
+                            _ => Some(expr_or_spread),
+                        },
+                        None => None,
+                    }))
                     .collect(),
             }
             .into()
@@ -1173,7 +1229,17 @@ impl Generator {
                             .as_callee(),
                         args: vec![Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
-                            elems: expressions.take(),
+                            elems: expressions
+                                .take()
+                                .into_iter()
+                                .map(|expr| match expr {
+                                    Some(expr_or_spread) => match &*expr_or_spread.expr {
+                                        Expr::Invalid(_) => None,
+                                        _ => Some(expr_or_spread),
+                                    },
+                                    None => None,
+                                })
+                                .collect(),
                         }))
                         .as_arg()],
                         ..Default::default()
@@ -1187,7 +1253,13 @@ impl Generator {
                                 .take()
                                 .into_iter()
                                 .map(Some)
-                                .chain(expressions.take())
+                                .chain(expressions.take().into_iter().map(|expr| match expr {
+                                    Some(expr_or_spread) => match &*expr_or_spread.expr {
+                                        Expr::Invalid(_) => None,
+                                        _ => Some(expr_or_spread),
+                                    },
+                                    None => None,
+                                }))
                                 .collect(),
                         }
                         .into(),
@@ -1199,9 +1271,7 @@ impl Generator {
         }
 
         element.visit_mut_with(self);
-        if element.is_some() {
-            expressions.push(element);
-        }
+        expressions.push(element);
         expressions
     }
 
@@ -1271,6 +1341,8 @@ impl Generator {
                     right: p.function.into(),
                 }
                 .into(),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             CompiledProp::Accessor(getter, setter) => {
                 let key = getter
@@ -1704,6 +1776,8 @@ impl Generator {
                             .into(),
                         );
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
 
@@ -1746,26 +1820,34 @@ impl Generator {
             //      }
             //
             // [intermediate]
-            //  .local _a, _b, _i
-            //      _a = [];
-            //      for (_b in o) _a.push(_b);
+            //  .local _obj, _keys, _key, _i
+            //      _obj = o;
+            //      _keys = [];
+            //      for (_key in _obj) _keys.push(_key);
             //      _i = 0;
             //  .loop incrementLabel, endLoopLabel
             //  .mark conditionLabel
-            //  .brfalse endLoopLabel, (_i < _a.length)
-            //      p = _a[_i];
+            //  .brfalse endLoopLabel, (_i < _keys.length)
+            //      _key = _keys[_i];
+            //  .brfalse incrementLabel, (_key in _obj)
+            //      p = _key;
             //      /*body*/
             //  .mark incrementLabel
-            //      _b++;
+            //      _i++;
             //  .br conditionLabel
             //  .endloop
             //  .mark endLoopLabel
 
+            let obj = self.declare_local(None);
             let keys_array = self.declare_local(None);
             let key = self.declare_local(None);
             let keys_index = private_ident!("_i");
 
             self.hoist_variable_declaration(&keys_index);
+
+            // Cache the object expression
+            node.right.visit_mut_with(self);
+            self.emit_assignment(obj.clone().into(), node.right.take(), None);
 
             self.emit_assignment(
                 keys_array.clone().into(),
@@ -1773,12 +1855,11 @@ impl Generator {
                 None,
             );
 
-            node.right.visit_mut_with(self);
             self.emit_stmt(
                 ForInStmt {
                     span: DUMMY_SP,
                     left: ForHead::Pat(key.clone().into()),
-                    right: node.right.take(),
+                    right: Box::new(obj.clone().into()),
                     body: Box::new(Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: CallExpr {
@@ -1787,7 +1868,7 @@ impl Generator {
                                 .clone()
                                 .make_member(quote_ident!("push"))
                                 .as_callee(),
-                            args: vec![key.as_arg()],
+                            args: vec![key.clone().as_arg()],
                             ..Default::default()
                         }
                         .into(),
@@ -1812,6 +1893,30 @@ impl Generator {
                 None,
             );
 
+            // Assign current key from array
+            self.emit_assignment(
+                key.clone().into(),
+                MemberExpr {
+                    span: DUMMY_SP,
+                    obj: Box::new(keys_array.into()),
+                    prop: MemberProp::Computed(ComputedPropName {
+                        span: DUMMY_SP,
+                        expr: Box::new(keys_index.clone().into()),
+                    }),
+                }
+                .into(),
+                None,
+            );
+
+            // Check if key still exists in object (handles property deletion during
+            // iteration)
+            self.emit_break_when_false(
+                increment_label,
+                Box::new(key.clone().make_bin(op!("in"), obj)),
+                None,
+            );
+
+            // Assign to user's variable
             let variable = match node.left {
                 ForHead::VarDecl(initializer) => {
                     for variable in initializer.decls.iter() {
@@ -1830,20 +1935,11 @@ impl Generator {
                 ForHead::UsingDecl(..) => {
                     unreachable!("using declaration must be removed by previous pass")
                 }
+
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
-            self.emit_assignment(
-                variable.try_into().unwrap(),
-                MemberExpr {
-                    span: DUMMY_SP,
-                    obj: Box::new(keys_array.into()),
-                    prop: MemberProp::Computed(ComputedPropName {
-                        span: DUMMY_SP,
-                        expr: Box::new(keys_index.clone().into()),
-                    }),
-                }
-                .into(),
-                None,
-            );
+            self.emit_assignment(variable.try_into().unwrap(), Box::new(key.into()), None);
             self.transform_and_emit_embedded_stmt(*node.body);
 
             self.mark_label(increment_label);
@@ -2563,19 +2659,21 @@ impl Generator {
 
         if let Some(block_stack) = &self.block_stack {
             if let Some(label_text) = label_text {
-                for i in (0..=block_stack.len() - 1).rev() {
-                    let block = &block_stack[i];
-                    if (self.supports_labeled_break_or_continue(&block.borrow())
-                        && block.borrow().label_text().unwrap() == label_text)
-                        || (self.supports_unlabeled_break(&block.borrow())
-                            && self.has_immediate_containing_labeled_block(&label_text, i - 1))
+                // For labeled break, only match LabeledBlocks.
+                // Unlike `continue`, we don't need to check Switch/Loop blocks
+                // because LabeledBlocks always have break_label, and the labeled
+                // break should exit to the LabeledBlock's end, not the inner
+                // Switch/Loop's end.
+                for block in block_stack.iter().rev() {
+                    if self.supports_labeled_break_or_continue(&block.borrow())
+                        && block.borrow().label_text().unwrap() == label_text
                     {
                         return block.borrow().break_label().unwrap();
                     }
                 }
             } else {
-                for i in (0..=block_stack.len() - 1).rev() {
-                    let block = &block_stack[i];
+                // For unlabeled break, match the innermost Switch/Loop
+                for block in block_stack.iter().rev() {
                     if self.supports_unlabeled_break(&block.borrow()) {
                         return block.borrow().break_label().unwrap();
                     }
@@ -2642,7 +2740,7 @@ impl Generator {
                         .push(expr);
                 }
                 return Invalid {
-                    span: Span::new(BytePos(label.0 as _), BytePos(label.0 as _)),
+                    span: Span::new_with_checked(BytePos(label.0 as _), BytePos(label.0 as _)),
                 }
                 .into();
             }

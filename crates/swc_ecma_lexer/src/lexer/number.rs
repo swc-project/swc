@@ -27,7 +27,13 @@ mod tests {
 
     fn num(s: &'static str) -> (f64, Atom) {
         lex(s, |l| {
-            l.read_number(s.starts_with('.')).unwrap().left().unwrap()
+            if s.starts_with('.') {
+                l.read_number::<true, false>().unwrap().left().unwrap()
+            } else if s.starts_with('0') {
+                l.read_number::<false, true>().unwrap().left().unwrap()
+            } else {
+                l.read_number::<false, false>().unwrap().left().unwrap()
+            }
         })
     }
 
@@ -180,7 +186,7 @@ mod tests {
         assert_eq!(
             lex(
                 "10000000000000000000000000000000000000000000000000000n",
-                |l| l.read_number(false).unwrap().right().unwrap()
+                |l| l.read_number::<false, false>().unwrap().right().unwrap()
             ),
             (
                 Box::new(

@@ -1,3 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 (function() {
@@ -6,7 +10,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    sleep = function() {
+                    sleep = function sleep() {
                         return new Promise(function(resolve) {
                             return setTimeout(function() {
                                 return resolve(undefined);

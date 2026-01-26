@@ -1,0 +1,6 @@
+  x 'delete' cannot be called on an identifier in strict mode
+   ,-[$DIR/tests/errors/strict-mode/delete-ident/input.js:3:1]
+ 2 | // In strict mode JS, delete on identifier should emit TS1102
+ 3 | delete a;
+   :        ^
+   `----

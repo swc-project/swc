@@ -333,11 +333,13 @@
                     },
                     "token": {
                       "Dimension": {
-                        "value": 30.0,
-                        "raw_value": "30",
-                        "unit": "px",
-                        "type": "integer",
-                        "raw_unit": "px"
+                        "dimension": {
+                          "value": 30.0,
+                          "raw_value": "30",
+                          "unit": "px",
+                          "type": "integer",
+                          "raw_unit": "px"
+                        }
                       }
                     }
                   }

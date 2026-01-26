@@ -1,0 +1,42 @@
+[package]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Runner backend for swc plugins. This crate is INTERNAL crate and used by swc itself."
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_plugin_backend_wasmer"
+repository  = { workspace = true }
+version     = "7.0.0"
+
+[lib]
+bench   = false
+doctest = false
+
+[features]
+default = ["plugin_transform_host_native"]
+plugin_transform_host_js = [
+  "wasmer/js-default",
+  "wasmer-wasix/js-default",
+  "wasmer-compiler-cranelift/wasm",
+]
+plugin_transform_host_native = [
+  "wasmer/cranelift",
+  "wasmer/sys",
+  "wasmer-wasix/sys-minimal",
+  "wasmer-wasix/host-fs",
+  "wasmer-compiler-cranelift/default",
+]
+
+[dependencies]
+anyhow       = { workspace = true }
+enumset      = { workspace = true }
+parking_lot  = { workspace = true }
+wasmer       = { workspace = true }
+wasmer-wasix = { workspace = true }
+
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
+  "concurrent",
+] }
+swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner" }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }

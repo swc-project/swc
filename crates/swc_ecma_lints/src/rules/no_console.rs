@@ -80,7 +80,8 @@ impl Visit for NoConsole {
                 }
                 MemberProp::Computed(ComputedPropName { expr, .. }) => {
                     if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
-                        self.check(member.span, ident, value);
+                        let method_atom = value.to_atom_lossy();
+                        self.check(member.span, ident, method_atom.as_ref());
                     } else {
                         expr.visit_with(self);
                     }

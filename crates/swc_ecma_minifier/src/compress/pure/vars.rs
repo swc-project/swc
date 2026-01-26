@@ -300,7 +300,7 @@ pub(super) struct VarWithOutInitCounter {
 }
 
 impl Visit for VarWithOutInitCounter {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
@@ -368,7 +368,7 @@ pub(super) struct VarMover {
 }
 
 impl VisitMut for VarMover {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
@@ -492,7 +492,7 @@ pub(super) struct VarPrepender {
 }
 
 impl VisitMut for VarPrepender {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     /// Noop
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}

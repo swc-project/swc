@@ -1,11 +1,11 @@
 import * as __typia_transform__validateReport from "typia/lib/internal/_validateReport.js";
 export var parse = function() {
-    var __is = function(input) {
+    var __is = function __is(input) {
         return "number" === typeof input;
     };
     var errors;
     var _report;
-    var __validate = function(input) {
+    var __validate = function __validate(input) {
         if (false === __is(input)) {
             errors = [];
             _report = __typia_transform__validateReport._validateReport(errors);

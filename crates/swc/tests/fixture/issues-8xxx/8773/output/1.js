@@ -1,1 +1,1 @@
-let t="\\\\";console.log("\\\\");
+console.log("\\\\");

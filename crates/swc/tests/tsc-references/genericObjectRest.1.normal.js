@@ -1,11 +1,10 @@
 //// [genericObjectRest.ts]
 import { _ as _extends } from "@swc/helpers/_/_extends";
-import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 const a = 'a';
 function f1(obj) {
-    let r0 = _extends({}, _object_destructuring_empty(obj));
+    let {} = obj, r0 = _extends({}, obj);
     let { a: a1 } = obj, r1 = _object_without_properties(obj, [
         "a"
     ]);
@@ -20,8 +19,8 @@ function f1(obj) {
         'a'
     ]);
     let { [a]: a5 } = obj, r5 = _object_without_properties(obj, [
-        a
-    ].map(_to_property_key));
+        _to_property_key(a)
+    ]);
 }
 const sa = Symbol();
 const sb = Symbol();

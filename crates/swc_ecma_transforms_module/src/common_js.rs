@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use rustc_hash::FxHashSet;
 use swc_common::{
     source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -188,7 +190,10 @@ impl VisitMut for Cjs {
                         if let Expr::Lit(Lit::Str(Str { value, raw, .. })) = &mut **expr {
                             is_lit_path = true;
 
-                            *value = self.resolver.resolve(value.clone());
+                            *value = self
+                                .resolver
+                                .resolve(value.to_atom_lossy().into_owned())
+                                .into();
                             *raw = None;
                         }
                     }
@@ -213,15 +218,17 @@ impl VisitMut for Cjs {
                         .unwrap_or_default() =>
             {
                 let p = match prop {
-                    MemberProp::Ident(IdentName { sym, .. }) => &**sym,
+                    MemberProp::Ident(IdentName { sym, .. }) => Cow::Borrowed(&**sym),
                     MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-                        Expr::Lit(Lit::Str(s)) => &s.value,
+                        Expr::Lit(Lit::Str(s)) => s.value.to_string_lossy(),
                         _ => return,
                     },
                     MemberProp::PrivateName(..) => return,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
 
-                match p {
+                match &*p {
                     "url" => {
                         let require = quote_ident!(
                             SyntaxContext::empty().apply_mark(self.unresolved_mark),
@@ -270,6 +277,21 @@ impl VisitMut for Cjs {
                     }
                     _ => {}
                 }
+            }
+            Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
+                if let OptChainBase::Member(member) = &mut **base {
+                    if member
+                        .obj
+                        .as_meta_prop()
+                        .is_some_and(|meta_prop| meta_prop.kind == MetaPropKind::ImportMeta)
+                    {
+                        *n = member.take().into();
+                        n.visit_mut_with(self);
+                        return;
+                    }
+                };
+
+                n.visit_mut_children_with(self);
             }
             _ => n.visit_mut_children_with(self),
         }
@@ -426,9 +448,11 @@ impl Cjs {
 
                 *has_ts_import_equals = true;
 
-                let require = self
-                    .resolver
-                    .make_require_call(self.unresolved_mark, src, src_span);
+                let require = self.resolver.make_require_call(
+                    self.unresolved_mark,
+                    src.to_atom_lossy().into_owned(),
+                    src_span,
+                );
 
                 if is_export {
                     // exports.foo = require("mod")

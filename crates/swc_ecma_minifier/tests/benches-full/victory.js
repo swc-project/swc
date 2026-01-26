@@ -11244,7 +11244,7 @@
             }
             printWarning = function(text) {
                 var message = 'Warning: ' + text;
-                'undefined' != typeof console && console.error(message);
+                "u" > typeof console && console.error(message);
                 try {
                     // --- Welcome to debugging React ---
                     // This error was thrown as a convenience so that you can use this stack
@@ -11274,7 +11274,7 @@
             }
             printWarning = function(text) {
                 var message = 'Warning: ' + text;
-                'undefined' != typeof console && console.error(message);
+                "u" > typeof console && console.error(message);
                 try {
                     // --- Welcome to debugging React ---
                     // This error was thrown as a convenience so that you can use this stack
@@ -11460,7 +11460,7 @@
                                 // New behavior only for users of `prop-types` package
                                 var err = Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");
                                 throw err.name = 'Invariant Violation', err;
-                            } else if ('undefined' != typeof console) {
+                            } else if ("u" > typeof console) {
                                 // Old behavior for people using React.PropTypes
                                 var cacheKey = componentName + ':' + propName;
                                 !manualPropTypeCallCache[cacheKey] && // Avoid spamming the console because they are often not actionable except for lib authors
@@ -11515,7 +11515,7 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-fast-compare/index.js ***!
   \************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
-            var isArray = Array.isArray, keyList = Object.keys, hasProp = Object.prototype.hasOwnProperty, hasElementType = 'undefined' != typeof Element;
+            var isArray = Array.isArray, keyList = Object.keys, hasProp = Object.prototype.hasOwnProperty, hasElementType = "u" > typeof Element;
             // end fast-deep-equal
             module1.exports = function(a, b) {
                 try {
@@ -14507,7 +14507,7 @@
                         "left",
                         "right"
                     ].reduce(function(memo, opt) {
-                        return memo = handles[opt] && _this.withinBounds(point, handles[opt]) ? memo.concat(opt) : memo;
+                        return handles[opt] && _this.withinBounds(point, handles[opt]) ? memo.concat(opt) : memo;
                     }, []);
                     return activeHandles.length && activeHandles;
                 },
@@ -14909,7 +14909,7 @@
                                     "left",
                                     "right"
                                 ].reduce(function(memo, curr) {
-                                    return memo = handleProps[curr] ? memo.concat(react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(handleComponent, lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({
+                                    return handleProps[curr] ? memo.concat(react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(handleComponent, lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({
                                         key: "".concat(name, "-handle-").concat(curr)
                                     }, handleProps[curr]))) : memo;
                                 }, []);
@@ -17898,16 +17898,16 @@
                 switch(textAnchor){
                     case "start":
                         return widths.reduce(function(memo, width, i) {
-                            return memo = i < index ? memo + width : memo;
+                            return i < index ? memo + width : memo;
                         }, 0);
                     case "end":
                         return widths.reduce(function(memo, width, i) {
-                            return memo = i > index ? memo - width : memo;
+                            return i > index ? memo - width : memo;
                         }, 0);
                     default:
                         // middle
                         return widths.reduce(function(memo, width, i) {
-                            return memo = i === index ? memo + width / 2 : memo + (i < index ? width : 0);
+                            return i === index ? memo + width / 2 : memo + (i < index ? width : 0);
                         }, -totalWidth / 2);
                 }
             }, getChildBackgrounds = function(calculatedProps, tspanValues) {
@@ -19937,7 +19937,7 @@
                         value: function(props, externalMutations) {
                             if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(externalMutations)) {
                                 var callbacks = props.externalEventMutations.reduce(function(memo, mutation) {
-                                    return memo = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
+                                    return lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
                                 }, []), compiledCallbacks = callbacks.length ? function() {
                                     callbacks.forEach(function(c) {
                                         return c();
@@ -21385,7 +21385,7 @@
                         if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(eventReturn)) {
                             var callbacks = compileCallbacks(eventReturn);
                             _this2.setState(Array.isArray(eventReturn) ? eventReturn.reduce(function(memo, props) {
-                                return memo = lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, memo, parseEvent(props, eventKey));
+                                return lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, memo, parseEvent(props, eventKey));
                             }, {}) : parseEvent(eventReturn, eventKey), callbacks);
                         }
                     }; // Returns the state object with the mutation caused by a given eventReturn
@@ -21509,8 +21509,8 @@
            * i.e. any static `defaultEvents` on `labelComponent` will be returned
            */ getComponentEvents: function(props, components) {
                     var events = Array.isArray(components) && components.reduce(function(memo, componentName) {
-                        var _memo, component = props[componentName], defaultEvents = component && component.type && component.type.defaultEvents, componentEvents = lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents) ? defaultEvents(component.props) : defaultEvents;
-                        return memo = Array.isArray(componentEvents) ? (_memo = memo).concat.apply(_memo, _toConsumableArray(componentEvents)) : memo;
+                        var component = props[componentName], defaultEvents = component && component.type && component.type.defaultEvents, componentEvents = lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents) ? defaultEvents(component.props) : defaultEvents;
+                        return Array.isArray(componentEvents) ? memo.concat.apply(memo, _toConsumableArray(componentEvents)) : memo;
                     }, []);
                     return events && events.length ? events : void 0;
                 },
@@ -26488,7 +26488,7 @@
                 return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
                     var _ref2 = function(arr) {
                         if (Array.isArray(arr)) return arr;
-                    }(_ref) || function(arr, i) {
+                    }(_ref) || function(arr) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
                         try {
                             for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -26502,7 +26502,7 @@
                             }
                         }
                         return _arr;
-                    }(_ref, 2) || function() {
+                    }(_ref) || function() {
                         throw TypeError("Invalid attempt to destructure non-iterable instance");
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
@@ -27524,12 +27524,12 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var range, angularRange, r, props1, calculatedProps1, props2, calculatedProps2, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
+                    var range, angularRange, r, props1, calculatedProps1, props2, calculatedProps2, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, calculatedProps) {
                         if (!props.offset) return 0;
                         var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis("x", props.horizontal), domain = calculatedProps.domain.x, range = calculatedProps.range[currentAxis];
                         return (Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain))) / (Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range))) * props.offset;
                     } // eslint-disable-next-line max-params
-                    (props2, 0, calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
+                    (props2, calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
                         if (props.labels) return Math.floor(datasets.length / 2) === index ? props.labels : void 0;
                     }(props, datasets, index) : child.props.labels, name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index);
                     return react__WEBPACK_IMPORTED_MODULE_1___default.a.cloneElement(child, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -28318,7 +28318,7 @@
             }
             function cross(...values) {
                 var reduce;
-                const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
+                let reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
                 if (j < 0 || lengths.some(empty)) return product;
                 for(;;){
                     product.push(index.map((j, i)=>values[i][j]));
@@ -28362,7 +28362,7 @@
             });
             /* harmony import */ var _variance_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./variance.js */ "../../victory-histogram/node_modules/d3-array/src/variance.js");
             function deviation(values, valueof) {
-                const v = Object(_variance_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, valueof);
+                let v = Object(_variance_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, valueof);
                 return v ? Math.sqrt(v) : v;
             }
         /***/ },
@@ -28372,7 +28372,7 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(values, valueof) {
                 let min, max;
-                if (void 0 === valueof) for (const value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
+                if (void 0 === valueof) for (let value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
                 else {
                     let index = -1;
                     for (let value of values)null != (value = valueof(value, ++index, values)) && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
@@ -28395,11 +28395,11 @@
                 let max, defined = !1;
                 if (1 === compare.length) {
                     let maxValue;
-                    for (const element of values){
-                        const value = compare(element);
+                    for (let element of values){
+                        let value = compare(element);
                         (defined ? Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, maxValue) > 0 : 0 === Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, value)) && (max = element, maxValue = value, defined = !0);
                     }
-                } else for (const value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
+                } else for (let value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
                 return max;
             }
         /***/ },
@@ -28415,7 +28415,7 @@
                 let maxValue;
                 if (1 === compare.length) return Object(_maxIndex_js__WEBPACK_IMPORTED_MODULE_1__.default)(values, compare);
                 let max = -1, index = -1;
-                for (const value of values)++index, (max < 0 ? 0 === compare(value, value) : compare(value, maxValue) > 0) && (maxValue = value, max = index);
+                for (let value of values)++index, (max < 0 ? 0 === compare(value, value) : compare(value, maxValue) > 0) && (maxValue = value, max = index);
                 return max;
             }
         /***/ },
@@ -28448,15 +28448,14 @@
             function nest(values, map, reduce, keys) {
                 return function regroup(values, i) {
                     if (i >= keys.length) return reduce(values);
-                    const groups = new Map(), keyof = keys[i++];
-                    let index = -1;
-                    for (const value of values){
-                        const key = keyof(value, ++index, values), group = groups.get(key);
+                    let groups = new Map(), keyof = keys[i++], index = -1;
+                    for (let value of values){
+                        let key = keyof(value, ++index, values), group = groups.get(key);
                         group ? group.push(value) : groups.set(key, [
                             value
                         ]);
                     }
-                    for (const [key, values] of groups)groups.set(key, regroup(values, i));
+                    for (let [key, values] of groups)groups.set(key, regroup(values, i));
                     return map(groups);
                 }(values, 0);
             }
@@ -28655,11 +28654,11 @@
                 let min, defined = !1;
                 if (1 === compare.length) {
                     let minValue;
-                    for (const element of values){
-                        const value = compare(element);
+                    for (let element of values){
+                        let value = compare(element);
                         (defined ? 0 > Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, minValue) : 0 === Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, value)) && (min = element, minValue = value, defined = !0);
                     }
-                } else for (const value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
+                } else for (let value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
                 return min;
             }
         /***/ },
@@ -28675,7 +28674,7 @@
                 let minValue;
                 if (1 === compare.length) return Object(_minIndex_js__WEBPACK_IMPORTED_MODULE_1__.default)(values, compare);
                 let min = -1, index = -1;
-                for (const value of values)++index, (min < 0 ? 0 === compare(value, value) : 0 > compare(value, minValue)) && (minValue = value, min = index);
+                for (let value of values)++index, (min < 0 ? 0 === compare(value, value) : 0 > compare(value, minValue)) && (minValue = value, min = index);
                 return min;
             }
         /***/ },
@@ -28685,7 +28684,7 @@
             "use strict";
             function max(values, valueof) {
                 let max;
-                if (void 0 === valueof) for (const value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
+                if (void 0 === valueof) for (let value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
                 else {
                     let index = -1;
                     for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value);
@@ -28702,7 +28701,7 @@
             "use strict";
             function maxIndex(values, valueof) {
                 let max, maxIndex = -1, index = -1;
-                if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
+                if (void 0 === valueof) for (let value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 else for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 return maxIndex;
             }
@@ -28743,7 +28742,7 @@
             "use strict";
             function merge(arrays) {
                 return Array.from(function*(arrays) {
-                    for (const array of arrays)yield* array;
+                    for (let array of arrays)yield* array;
                 }(arrays));
             }
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() {
@@ -28756,7 +28755,7 @@
             "use strict";
             function min(values, valueof) {
                 let min;
-                if (void 0 === valueof) for (const value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
+                if (void 0 === valueof) for (let value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
                 else {
                     let index = -1;
                     for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value);
@@ -28773,7 +28772,7 @@
             "use strict";
             function minIndex(values, valueof) {
                 let min, minIndex = -1, index = -1;
-                if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
+                if (void 0 === valueof) for (let value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 else for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 return minIndex;
             }
@@ -28803,10 +28802,8 @@
   \*********************************************************************************************************/ /*! exports provided: default, pair */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function pairs(values, pairof = pair) {
-                let previous;
-                const pairs1 = [];
-                let first = !1;
-                for (const value of values)first && pairs1.push(pairof(previous, value)), previous = value, first = !0;
+                let previous, pairs1 = [], first = !1;
+                for (let value of values)first && pairs1.push(pairof(previous, value)), previous = value, first = !0;
                 return pairs1;
             }
             function pair(a, b) {
@@ -28866,11 +28863,10 @@
                 function quickselect(array, k, left = 0, right = array.length - 1, compare = _ascending_js__WEBPACK_IMPORTED_MODULE_0__.default) {
                     for(; right > left;){
                         if (right - left > 600) {
-                            const n = right - left + 1, m = k - left + 1, z = Math.log(n), s = 0.5 * Math.exp(2 * z / 3), sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1), newLeft = Math.max(left, Math.floor(k - m * s / n + sd)), newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
+                            let n = right - left + 1, m = k - left + 1, z = Math.log(n), s = 0.5 * Math.exp(2 * z / 3), sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1), newLeft = Math.max(left, Math.floor(k - m * s / n + sd)), newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
                             quickselect(array, k, newLeft, newRight, compare);
                         }
-                        const t = array[k];
-                        let i = left, j = right;
+                        let t = array[k], i = left, j = right;
                         for(swap(array, left, k), compare(array[right], t) > 0 && swap(array, left, right); i < j;){
                             for(swap(array, i, j), ++i, --j; 0 > compare(array[i], t);)++i;
                             for(; compare(array[j], t) > 0;)--j;
@@ -28882,7 +28878,7 @@
             });
             /* harmony import */ var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ascending.js */ "../../victory-histogram/node_modules/d3-array/src/ascending.js");
             function swap(array, i, j) {
-                const t = array[i];
+                let t = array[i];
                 array[i] = array[j], array[j] = t;
             }
         /***/ },
@@ -28905,7 +28901,7 @@
             });
             /* harmony import */ var _leastIndex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./leastIndex.js */ "../../victory-histogram/node_modules/d3-array/src/leastIndex.js");
             function scan(values, compare) {
-                const index = Object(_leastIndex_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, compare);
+                let index = Object(_leastIndex_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, compare);
                 return index < 0 ? void 0 : index;
             }
         /***/ },
@@ -31426,7 +31422,7 @@
                 filterDatasets: function(props, datasets, bounds) {
                     var _this = this, filtered = datasets.reduce(function(memo, dataset) {
                         var selectedData = _this.getSelectedData(props, dataset.data, bounds);
-                        return memo = selectedData ? memo.concat({
+                        return selectedData ? memo.concat({
                             childName: dataset.childName,
                             eventKey: selectedData.eventKey,
                             data: selectedData.data
@@ -31850,7 +31846,7 @@
                         value: function(props, externalMutations) {
                             if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3___default()(externalMutations)) {
                                 var callbacks = props.externalEventMutations.reduce(function(memo, mutation) {
-                                    return memo = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
+                                    return lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
                                 }, []), compiledCallbacks = callbacks.length ? function() {
                                     callbacks.forEach(function(c) {
                                         return c();
@@ -31880,7 +31876,7 @@
                         value: function(name, cacheValues) {
                             var arr, _ref2 = function(arr) {
                                 if (Array.isArray(arr)) return arr;
-                            }(arr = this.sharedEventsCache[name] || []) || function(arr, i) {
+                            }(arr = this.sharedEventsCache[name] || []) || function(arr) {
                                 var _arr = [], _n = !0, _d = !1, _e = void 0;
                                 try {
                                     for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -31894,7 +31890,7 @@
                                     }
                                 }
                                 return _arr;
-                            }(arr, 2) || function() {
+                            }(arr) || function() {
                                 throw TypeError("Invalid attempt to destructure non-iterable instance");
                             }(), sharedEvents = _ref2[0], prevCacheValues = _ref2[1];
                             if (sharedEvents && react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default()(cacheValues, prevCacheValues)) return sharedEvents;
@@ -33246,7 +33242,7 @@
                                     }) : [
                                         style
                                     ];
-                                    return memo = memo.concat(styleArray);
+                                    return memo.concat(styleArray);
                                 }, []);
                             }
                         },
@@ -34723,7 +34719,7 @@
         });
     /******/ }, /******/ /******/ // define __esModule on exports
     /******/ __webpack_require__.r = function(exports1) {
-        'undefined' != typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
+        "u" > typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
             value: 'Module'
         }), /******/ Object.defineProperty(exports1, '__esModule', {
             value: !0

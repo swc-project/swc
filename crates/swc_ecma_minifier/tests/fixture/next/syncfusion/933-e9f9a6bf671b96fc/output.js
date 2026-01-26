@@ -221,7 +221,7 @@
             }
             /**
  *@private
- */ var containerObject = "undefined" != typeof window ? window : {};
+ */ var containerObject = "u" > typeof window ? window : {};
             /**
  * Check weather the given argument is only object.
  *
@@ -269,18 +269,17 @@
  */ function util_extend(copied, first, second, deep) {
                 var result = copied && 'object' == typeof copied ? copied : {}, length = arguments.length;
                 deep && (length -= 1);
-                for(var arguments_1 = arguments, i = 1; i < length; i++){
-                    var i1 = i;
+                for(var arguments_1 = arguments, i = 1; i < length; i++)!function(i) {
                     // eslint-disable-next-line
-                    if (arguments_1[i1]) {
+                    if (arguments_1[i]) {
                         // eslint-disable-next-line
-                        var obj1 = arguments_1[i1];
+                        var obj1 = arguments_1[i];
                         Object.keys(obj1).forEach(function(key) {
                             var clone, src = result[key], copy = obj1[key];
                             Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (/* istanbul ignore next */ clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
                         });
                     }
-                }
+                }(i);
                 return result;
             }
             /**
@@ -4352,7 +4351,7 @@
                 MSIE: /(msie|trident) ([\w.]+)/i,
                 MOZILLA: /(mozilla)(?:.*? rv:([\w.]+)|)/i
             };
-            'undefined' != typeof window && (window.browserDetails = window.browserDetails || {});
+            "u" > typeof window && (window.browserDetails = window.browserDetails || {});
             /**
  * Get configuration details for Browser
  *
@@ -4605,7 +4604,7 @@
                     },
                     enumerable: !0,
                     configurable: !0
-                }), /* istanbul ignore next */ Browser.uA = 'undefined' != typeof navigator ? navigator.userAgent : '', Browser;
+                }), /* istanbul ignore next */ Browser.uA = "u" > typeof navigator ? navigator.userAgent : '', Browser;
             }(), EventHandler = /** @class */ function() {
                 function EventHandler() {}
                 return(// to get the event data based on element
@@ -5812,7 +5811,7 @@
                             }
                             else validateMsg = this.errors.invalidKey;
                         } else validateMsg = this.errors.noLicense;
-                        if (validateMsg && 'undefined' != typeof document && !util_isNullOrUndefined(document)) {
+                        if (validateMsg && "u" > typeof document && !util_isNullOrUndefined(document)) {
                             var errorDiv = createElement('div', {
                                 innerHTML: validateMsg + '<span id="license-banner-error" class=".e-license-banner"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><line x1="5" y1="5" x2="15" y2="15" stroke="yellow" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"></line><line x1="15" y1="5" x2="5" y2="15" stroke="yellow" stroke-width="2.5" stroke-linecap="round" stroke-miterlimit="10"></line></svg></span>',
                                 styles: 'position:fixed;top:0;left:0;right:0;font-family:"Segoe UI";font-size:16px;background:repeating-linear-gradient(45deg,#d70f0f,#d70f0f 10px,#e12121 10px,#e12121 17px);color:#ffffff;z-index:999999999;text-align:center;padding:10px 50px 10px 25px;'
@@ -5927,7 +5926,7 @@
  * @private
  */ // eslint-disable-next-line
                     function() {
-                        if ('undefined' != typeof window) {
+                        if ("u" > typeof window) {
                             // eslint-disable-next-line
                             var num = new Uint16Array(5);
                             return (window.msCrypto || window.crypto).getRandomValues(num);
@@ -5950,7 +5949,7 @@
      *
      * @returns {void} ?
      */ Component.prototype.destroy = function() {
-                    !this.isDestroyed && (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), this.refreshing || (removeClass([
+                    this.isDestroyed || (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), this.refreshing || (removeClass([
                         this.element
                     ], [
                         'e-control'
@@ -6152,7 +6151,7 @@
                     NotifyPropertyChanges
                 ], Component);
             }(Base);
-            'undefined' != typeof window && window.addEventListener('popstate', /* istanbul ignore next */ function() {
+            "u" > typeof window && window.addEventListener('popstate', /* istanbul ignore next */ function() {
                 componentCount = 0;
             });
             var draggable_extends = (extendStatics2 = function(d, b) {
@@ -8530,7 +8529,7 @@
                     var floatExp = RegExp('[,.](.*)'), floatValue = floatExp.test(value.toString()), floatStep = floatExp.test(step.toString());
                     if (floatValue || floatStep) {
                         var max = Math.max(floatValue ? floatExp.exec(value.toString())[0].length : 0, floatStep ? floatExp.exec(step.toString())[0].length : 0);
-                        return value = this.roundValue(result, max);
+                        return this.roundValue(result, max);
                     }
                     return result;
                 }, NumericTextBox.prototype.roundValue = function(result, precision) {
@@ -14001,8 +14000,7 @@
                     'msie' === ej2_base /* Browser.info.name */ .AR.info.name ? this.contentModule.getEditPanel().removeEventListener('mscontrolselect', this.preventImgResize) : 'mozilla' === ej2_base /* Browser.info.name */ .AR.info.name && (this.contentModule.getDocument().execCommand('enableObjectResizing', !0, 'true'), this.contentModule.getDocument().execCommand('enableInlineTableEditing', !0, 'true'));
                 }, RichTextEditor.prototype.resizeHandler = function() {
                     var isExpand = !1;
-                    if (!document.body.contains(this.element)) return void document.defaultView.removeEventListener('resize', this.onResizeHandler, !0);
-                    this.toolbarSettings.enable && !this.inlineMode.enable && (this.toolbarModule.refreshToolbarOverflow(), isExpand = this.toolbarModule.baseToolbar.toolbarObj.element.classList.contains(classes /* CLS_EXPAND_OPEN */ .Yi)), this.setContentHeight('windowResize', isExpand), this.notify(constant /* windowResize */ .Qr, null);
+                    document.body.contains(this.element) ? (this.toolbarSettings.enable && !this.inlineMode.enable && (this.toolbarModule.refreshToolbarOverflow(), isExpand = this.toolbarModule.baseToolbar.toolbarObj.element.classList.contains(classes /* CLS_EXPAND_OPEN */ .Yi)), this.setContentHeight('windowResize', isExpand), this.notify(constant /* windowResize */ .Qr, null)) : document.defaultView.removeEventListener('resize', this.onResizeHandler, !0);
                 }, RichTextEditor.prototype.scrollHandler = function(e) {
                     this.notify(constant /* scroll */ .AR, {
                         args: e
@@ -14742,7 +14740,7 @@
                         ((0, ej2_base /* isNullOrUndefined */ .le)(event) || event && 'copy' !== event.action) && this.enableUndo(self1);
                     }
                 }, Formatter.prototype.getAncestorNode = function(node) {
-                    return node = 3 === node.nodeType ? node.parentNode : node;
+                    return 3 === node.nodeType ? node.parentNode : node;
                 }, /**
      * onKeyHandler method
      *
@@ -18940,7 +18938,7 @@
      * @hidden
 
      */ HtmlEditor.prototype.sanitizeHelper = function(value) {
-                    return value = (0, util /* sanitizeHelper */ .cC)(value, this.parent);
+                    return (0, util /* sanitizeHelper */ .cC)(value, this.parent);
                 }, HtmlEditor.prototype.addEventListener = function() {
                     this.parent.isDestroyed || (this.nodeSelectionObj = new selection /* NodeSelection */ .q(), this.colorPickerModule = new ColorPickerInput(this.parent, this.locator), this.parent.on(constant /* initialLoad */ .T5, this.instantiateRenderer, this), this.parent.on(constant /* htmlToolbarClick */ .s0, this.onToolbarClick, this), this.parent.on(constant /* keyDown */ .QG, this.onKeyDown, this), this.parent.on(constant /* keyUp */ .yR, this.onKeyUp, this), this.parent.on(constant /* renderColorPicker */ .jm, this.renderColorPicker, this), this.parent.on(constant /* initialEnd */ .Xr, this.render, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* selectAll */ .td, this.selectAll, this), this.parent.on(constant /* selectRange */ .jh, this.selectRange, this), this.parent.on(constant /* getSelectedHtml */ .Db, this.getSelectedHtml, this), this.parent.on(constant /* selectionSave */ .gA, this.onSelectionSave, this), this.parent.on(constant /* selectionRestore */ .Wz, this.onSelectionRestore, this), this.parent.on(constant /* readOnlyMode */ .Ed, this.updateReadOnly, this), this.parent.on(constant /* paste */ .RE, this.onPaste, this), this.parent.on(constant /* tableclass */ .LF, this.isTableClassAdded, this));
                 }, HtmlEditor.prototype.updateReadOnly = function() {
@@ -19686,14 +19684,14 @@
  * @param {createElementParams} makeElement - specifies the element
  * @returns {void}
  */ // eslint-disable-next-line
-                                    function(innerContainer, uniqueID, makeElement) {
+                                    function(innerContainer, uniqueID) {
                                         var svgBoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                                         svgBoot.setAttribute('id', uniqueID), svgBoot.setAttribute('class', 'e-spin-bootstrap'), svgBoot.setAttribute('viewBox', "0 0 64 64"), innerContainer.insertBefore(svgBoot, innerContainer.firstChild);
                                         for(var item = 0; item <= 7; item++){
                                             var bootCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                                             bootCircle.setAttribute('class', CLS_SPINCIRCLE + '_' + item), bootCircle.setAttribute('r', "2"), bootCircle.setAttribute('transform', "translate(32,32)"), svgBoot.appendChild(bootCircle);
                                         }
-                                    }(innerContainer, uniqueID, 0), /**
+                                    }(innerContainer, uniqueID), /**
  *
  * @param {HTMLElement} innerContainer - specifies the element
  * @param {number} radius - specifies the radius
@@ -19854,16 +19852,6 @@
                     y: centerY + radius * Math.sin(radians)
                 };
             }
-            // eslint-disable-next-line
-            /**
- * Function to show the Spinner.
- *
- * @param {HTMLElement} container - Specify the target of the Spinner.
- * @returns {void}
- * @private
- */ function showSpinner(container) {
-                showHideSpinner(container, !1), container = null;
-            }
             /**
  *
  * @param {HTMLElement} container - specifies the element
@@ -19928,14 +19916,14 @@
      * @param {number} series - specifies the series
      * @param {string} id - specifies the id
      * @returns {void}
-     */ function(circle, start, end, series, id) {
+     */ function(circle, start, series, id) {
                                         var count = 0;
                                         !// eslint-disable-next-line
                                         function boot_animate(radius) {
                                             globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), // eslint-disable-next-line
                                             globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
-                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, 0, /**
+                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, /**
  *
  * @param {number} begin - specifies the number
  * @param {number} stop  - specifirs the number
@@ -19972,7 +19960,7 @@
  * @returns {void}
  * @private
  */ function hideSpinner(container) {
-                showHideSpinner(container, !0), container = null;
+                showHideSpinner(container, !0);
             }
             var uploader_extends = (extendStatics1 = function(d, b) {
                 return (extendStatics1 = Object.setPrototypeOf || ({
@@ -20401,7 +20389,7 @@
                                     createSpinner({
                                         target: spinnerTarget,
                                         width: '20px'
-                                    }), showSpinner(spinnerTarget);
+                                    }), showHideSpinner(spinnerTarget, !1);
                                 }
                                 this.sequentialUpload && /* istanbul ignore next */ this.uploadSequential(), liElement.classList.contains(RESTRICT_RETRY) || this.checkActionComplete(!0);
                             } else (0, ej2_base /* closest */ .oq)(args.target, '.' + SPINNER_PANE) || this.remove(fileData, !1, !1, !0, args);
@@ -20435,7 +20423,7 @@
                         createSpinner({
                             target: spinnerTarget,
                             width: '20px'
-                        }), showSpinner(spinnerTarget);
+                        }), showHideSpinner(spinnerTarget, !1);
                     }
                     eventArgs.postRawFile && !(0, ej2_base /* isNullOrUndefined */ .le)(selectedFiles.rawFile) && '' !== selectedFiles.rawFile ? formData.append(name, selectedFiles.rawFile, selectedFiles.name) : formData.append(name, selectedFiles.name), this.updateFormData(formData, eventArgs.customFormData);
                 }, /* istanbul ignore next */ Uploader.prototype.updateFormData = function(formData, customData) {
@@ -21643,7 +21631,7 @@
                         createSpinner({
                             target: spinnerTarget,
                             width: '20px'
-                        }), showSpinner(spinnerTarget);
+                        }), showHideSpinner(spinnerTarget, !1);
                     }
                 }, uploader_decorate([
                     (0, ej2_base /* Complex */ .Zz)({
@@ -22141,7 +22129,7 @@
                 }, PasteCleanup.prototype.removeTempClass = function() {
                     for(var classElm = this.parent.inputElement.querySelectorAll('.pasteContent_RTE'), i = 0; i < classElm.length; i++)classElm[i].classList.remove('pasteContent_RTE'), '' === classElm[i].getAttribute('class') && classElm[i].removeAttribute('class');
                 }, PasteCleanup.prototype.sanitizeHelper = function(value) {
-                    return value = (0, util /* sanitizeHelper */ .cC)(value, this.parent);
+                    return (0, util /* sanitizeHelper */ .cC)(value, this.parent);
                 }, //Plain Formatting
                 PasteCleanup.prototype.plainFormatting = function(value, args) {
                     var _this = this, clipBoardElem = this.parent.createElement('div', {
@@ -22202,7 +22190,7 @@
                     for(var groupingTags = deniedTags.slice(), keys = Object.keys(config /* pasteCleanupGroupingTags */ .n4), values = keys.map(function(key) {
                         return config /* pasteCleanupGroupingTags */ .n4[key];
                     }), addTags = [], i = 0; i < groupingTags.length; i++)if (groupingTags[i].split('[').length > 1 && (groupingTags[i] = groupingTags[i].split('[')[0].trim()), keys.indexOf(groupingTags[i]) > -1) for(var j = 0; j < values[keys.indexOf(groupingTags[i])].length; j++)0 > groupingTags.indexOf(values[keys.indexOf(groupingTags[i])][j]) && 0 > addTags.indexOf(values[keys.indexOf(groupingTags[i])][j]) && addTags.push(values[keys.indexOf(groupingTags[i])][j]);
-                    return deniedTags = deniedTags.concat(addTags);
+                    return deniedTags.concat(addTags);
                 }, //Filter Attributes in Denied Tags
                 PasteCleanup.prototype.attributesfilter = function(deniedTags) {
                     for(var i = 0; i < deniedTags.length; i++)if (deniedTags[i].split('[').length > 1) {
@@ -24129,7 +24117,7 @@
  * @returns {number} - Index
  */ function isValidLI(ul, li, index, keyCode, count) {
                             if (void 0 === count && (count = 0), (li.classList.contains('e-separator') || li.classList.contains('e-disabled')) && (index === (40 === keyCode ? ul.childElementCount - 1 : 0) ? index = 40 === keyCode ? 0 : ul.childElementCount - 1 : 40 === keyCode ? index++ : index--), (li = ul.children[index]).classList.contains('e-separator') || li.classList.contains('e-disabled')) {
-                                if (++count === ul.childElementCount) return index = -1;
+                                if (++count === ul.childElementCount) return -1;
                                 index = isValidLI(ul, li, index, keyCode, count);
                             }
                             return index;
@@ -25388,7 +25376,7 @@
                 }, Slider.prototype.fractionalToInteger = function(value) {
                     value = 0 === this.numberOfDecimals(value) ? Number(value).toFixed(this.noOfDecimals) : value;
                     for(var tens = 1, i = 0; i < this.noOfDecimals; i++)tens *= 10;
-                    return value = Number((value * tens).toFixed(0));
+                    return Number((value * tens).toFixed(0));
                 }, /**
      * To Initialize the control rendering
      * @private
@@ -25868,7 +25856,7 @@
                 }, Slider.prototype.handleValueUpdate = function() {
                     return 'Range' === this.type ? 1 === this.activeHandle ? this.handleVal1 : this.handleVal2 : this.handleVal1;
                 }, Slider.prototype.getLimitCorrectedValues = function(value) {
-                    return value = 'MinRange' === this.type || 'Default' === this.type || 1 === this.activeHandle ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : this.getLimitValueAndPosition(value, this.limits.maxStart, this.limits.maxEnd)[0];
+                    return 'MinRange' === this.type || 'Default' === this.type || 1 === this.activeHandle ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : this.getLimitValueAndPosition(value, this.limits.maxStart, this.limits.maxEnd)[0];
                 }, Slider.prototype.focusSliderElement = function() {
                     this.isElementFocused || (this.element.focus(), this.isElementFocused = !0);
                 }, Slider.prototype.buttonClick = function(args) {
@@ -27464,49 +27452,51 @@
                         this.changeCssClassProps(newProp.cssClass, oldProp.cssClass), this.changeRtlProps(newProp.enableRtl);
                         return;
                     }
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
-                        case 'inline':
-                            newProp.inline ? (this.getWrapper().appendChild(this.container), this.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this.element.nextElementSibling), this.container.children.length || this.createWidget()) : (this.destroyOtherComp(), this.unWireEvents(), this.container.innerHTML = '', this.createSplitBtn());
-                            break;
-                        case 'cssClass':
-                            this.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
-                            var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' '));
-                            props = props.reduce(function(a, b) {
-                                return 0 > a.indexOf(b) && a.push(b), a;
-                            }, []);
-                            var count_1 = 0;
-                            props.forEach(function(cls) {
-                                0 === count_1 && (cls === HIDEVALUE || cls === HIDEVALUESWITCH || cls === SHOWVALUE || cls === HIDEHEX || cls === HIDERGBA) && ((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container)), _this.createInput(), count_1++);
-                            });
-                            break;
-                        case 'enableRtl':
-                            this.isPicker() && (this.hueSlider.enableRtl = newProp.enableRtl, this.enableOpacity && (this.opacitySlider.enableRtl = newProp.enableRtl), this.setInputEleProps()), this.changeRtlProps(newProp.enableRtl);
-                            break;
-                        case 'disabled':
-                            this.changeDisabledProp(newProp.disabled);
-                            break;
-                        case 'value':
-                            this.value !== oldProp.value && this.changeValueProp(newProp.value);
-                            break;
-                        case 'showButtons':
-                            this.changeShowBtnProps(newProp.showButtons);
-                            break;
-                        case 'mode':
-                            'Picker' === newProp.mode ? this.switchToPicker() : this.switchToPalette();
-                            break;
-                        case 'modeSwitcher':
-                            this.changeModeSwitcherProp(newProp.modeSwitcher);
-                            break;
-                        case 'columns':
-                        case 'presetColors':
-                            this.isPicker() || this.changePaletteProps();
-                            break;
-                        case 'noColor':
-                            newProp.noColor ? 'Palette' !== this.mode || this.modeSwitcher || this.setNoColor() : this.changePaletteProps();
-                            break;
-                        case 'enableOpacity':
-                            this.changeOpacityProps(newProp.enableOpacity);
-                    }
+                    for(var this_1 = this, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)!function(prop) {
+                        switch(prop){
+                            case 'inline':
+                                newProp.inline ? (this_1.getWrapper().appendChild(this_1.container), this_1.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this_1.element.nextElementSibling), this_1.container.children.length || this_1.createWidget()) : (this_1.destroyOtherComp(), this_1.unWireEvents(), this_1.container.innerHTML = '', this_1.createSplitBtn());
+                                break;
+                            case 'cssClass':
+                                this_1.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
+                                var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' '));
+                                props = props.reduce(function(a, b) {
+                                    return 0 > a.indexOf(b) && a.push(b), a;
+                                }, []);
+                                var count_1 = 0;
+                                props.forEach(function(cls) {
+                                    0 === count_1 && (cls === HIDEVALUE || cls === HIDEVALUESWITCH || cls === SHOWVALUE || cls === HIDEHEX || cls === HIDERGBA) && ((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container)), _this.createInput(), count_1++);
+                                });
+                                break;
+                            case 'enableRtl':
+                                this_1.isPicker() && (this_1.hueSlider.enableRtl = newProp.enableRtl, this_1.enableOpacity && (this_1.opacitySlider.enableRtl = newProp.enableRtl), this_1.setInputEleProps()), this_1.changeRtlProps(newProp.enableRtl);
+                                break;
+                            case 'disabled':
+                                this_1.changeDisabledProp(newProp.disabled);
+                                break;
+                            case 'value':
+                                this_1.value !== oldProp.value && this_1.changeValueProp(newProp.value);
+                                break;
+                            case 'showButtons':
+                                this_1.changeShowBtnProps(newProp.showButtons);
+                                break;
+                            case 'mode':
+                                'Picker' === newProp.mode ? this_1.switchToPicker() : this_1.switchToPalette();
+                                break;
+                            case 'modeSwitcher':
+                                this_1.changeModeSwitcherProp(newProp.modeSwitcher);
+                                break;
+                            case 'columns':
+                            case 'presetColors':
+                                this_1.isPicker() || this_1.changePaletteProps();
+                                break;
+                            case 'noColor':
+                                newProp.noColor ? 'Palette' !== this_1.mode || this_1.modeSwitcher || this_1.setNoColor() : this_1.changePaletteProps();
+                                break;
+                            case 'enableOpacity':
+                                this_1.changeOpacityProps(newProp.enableOpacity);
+                        }
+                    }(_a[_i]);
                 }, /**
      * Sets the focus to Colorpicker
      * its native method

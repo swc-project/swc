@@ -1628,14 +1628,6 @@ export class Visitor {
         if (!n) return n;
 
         switch (n.type) {
-            case "BooleanLiteral":
-                return this.visitBooleanLiteral(n);
-            case "NullLiteral":
-                return this.visitNullLiteral(n);
-            case "NumericLiteral":
-                return this.visitNumericLiteral(n);
-            case "JSXText":
-                return this.visitJSXText(n);
             case "StringLiteral":
                 return this.visitStringLiteral(n);
 

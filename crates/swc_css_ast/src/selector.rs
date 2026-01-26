@@ -28,7 +28,7 @@ pub struct ForgivingSelectorList {
     pub children: Vec<ForgivingComplexSelector>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ForgivingComplexSelector {
     #[tag("ComplexSelector")]
@@ -58,7 +58,7 @@ pub struct ForgivingRelativeSelectorList {
     pub children: Vec<ForgivingRelativeSelector>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ForgivingRelativeSelector {
     #[tag("RelativeSelector")]
@@ -83,7 +83,7 @@ impl Take for ComplexSelector {
     }
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ComplexSelectorChildren {
     #[tag("CompoundSelector")]
@@ -96,6 +96,10 @@ pub enum ComplexSelectorChildren {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct RelativeSelector {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub combinator: Option<Combinator>,
     pub selector: ComplexSelector,
 }
@@ -106,7 +110,15 @@ pub struct RelativeSelector {
 pub struct CompoundSelector {
     pub span: Span,
     /// "&"
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub nesting_selector: Option<NestingSelector>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_selector: Option<Box<TypeSelector>>,
     pub subclass_selectors: Vec<SubclassSelector>,
 }
@@ -130,6 +142,10 @@ pub struct Combinator {
 )]
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum CombinatorValue {
     /// ` `
     Descendant,
@@ -153,7 +169,7 @@ pub struct NestingSelector {
     pub span: Span,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum TypeSelector {
     #[tag("TagNameSelector")]
@@ -173,6 +189,10 @@ pub struct TagNameSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UniversalSelector {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub prefix: Option<NamespacePrefix>,
 }
 
@@ -180,10 +200,14 @@ pub struct UniversalSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct NamespacePrefix {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub namespace: Option<Namespace>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Namespace {
     #[tag("NamedNamespace")]
@@ -209,11 +233,15 @@ pub struct AnyNamespace {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct WqName {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub prefix: Option<NamespacePrefix>,
     pub value: Ident,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SubclassSelector {
     #[tag("IdSelector")]
@@ -253,8 +281,20 @@ pub struct ClassSelector {
 pub struct AttributeSelector {
     pub span: Span,
     pub name: WqName,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub matcher: Option<AttributeSelectorMatcher>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<AttributeSelectorValue>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub modifier: Option<AttributeSelectorModifier>,
 }
 
@@ -270,6 +310,10 @@ pub struct AttributeSelector {
 //    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace +
 // rkyv::ser::Serializer"))
 //)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum AttributeSelectorMatcherValue {
     /// `=`
     Equals,
@@ -297,7 +341,7 @@ pub struct AttributeSelectorMatcher {
     pub value: AttributeSelectorMatcherValue,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AttributeSelectorValue {
     #[tag("String")]
@@ -319,10 +363,14 @@ pub struct AttributeSelectorModifier {
 pub struct PseudoClassSelector {
     pub span: Span,
     pub name: Ident,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub children: Option<Vec<PseudoClassSelectorChildren>>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoClassSelectorChildren {
     #[tag("TokenAndSpan")]
@@ -362,7 +410,7 @@ pub enum PseudoClassSelectorChildren {
     CompoundSelector(CompoundSelector),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AnPlusB {
     #[tag("Ident")]
@@ -375,9 +423,25 @@ pub enum AnPlusB {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct AnPlusBNotation {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub a: Option<i32>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub a_raw: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub b: Option<i32>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub b_raw: Option<Atom>,
 }
 
@@ -386,10 +450,14 @@ pub struct AnPlusBNotation {
 pub struct PseudoElementSelector {
     pub span: Span,
     pub name: Ident,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub children: Option<Vec<PseudoElementSelectorChildren>>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoElementSelectorChildren {
     #[tag("TokenAndSpan")]
@@ -408,6 +476,10 @@ pub struct CustomHighlightName {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 

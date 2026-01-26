@@ -3,7 +3,7 @@ use either::Either;
 use super::*;
 
 impl Lexer<'_> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
+    pub(super) fn read_jsx_token(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
         let start = self.input.cur_pos();
@@ -12,7 +12,7 @@ impl Lexer<'_> {
 
         loop {
             let cur = match self.input.cur() {
-                Some(c) => c,
+                Some(c) => c as char,
                 None => {
                     let start = self.state.start;
                     self.error(start, SyntaxError::UnterminatedJSXContents)?
@@ -22,7 +22,7 @@ impl Lexer<'_> {
 
             match cur {
                 '<' if self.had_line_break_before_last() && self.is_str("<<<<<< ") => {
-                    let span = Span::new(cur_pos, cur_pos + BytePos(7));
+                    let span = Span::new_with_checked(cur_pos, cur_pos + BytePos(7));
 
                     self.emit_error_span(span, SyntaxError::TS1185);
                     self.skip_line_comment(6);
@@ -35,9 +35,9 @@ impl Lexer<'_> {
                         if cur == '<' && self.state.is_expr_allowed {
                             unsafe {
                                 // Safety: cur() was Some('<')
-                                self.input.bump();
+                                self.input.bump_bytes(1);
                             }
-                            return Ok(Some(Token::JSXTagStart));
+                            return Ok(Token::JSXTagStart);
                         }
                         return self.read_token();
                     }
@@ -62,7 +62,7 @@ impl Lexer<'_> {
                         self.atoms.atom(s)
                     };
 
-                    return Ok(Some(Token::JSXText { raw, value }));
+                    return Ok(Token::JSXText { raw, value });
                 }
                 '>' => {
                     self.emit_error(
@@ -73,7 +73,7 @@ impl Lexer<'_> {
                     );
                     unsafe {
                         // Safety: cur() was Some('>')
-                        self.input.bump()
+                        self.input.bump_bytes(1)
                     }
                 }
                 '}' => {
@@ -85,7 +85,7 @@ impl Lexer<'_> {
                     );
                     unsafe {
                         // Safety: cur() was Some('}')
-                        self.input.bump()
+                        self.input.bump_bytes(1)
                     }
                 }
                 '&' => {
@@ -114,7 +114,7 @@ impl Lexer<'_> {
                     } else {
                         unsafe {
                             // Safety: cur() was Some(c)
-                            self.input.bump()
+                            self.input.bump_bytes(1)
                         }
                     }
                 }

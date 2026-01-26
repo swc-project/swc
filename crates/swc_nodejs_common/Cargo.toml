@@ -6,14 +6,14 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_nodejs_common"
 repository    = { workspace = true }
-version       = "1.0.2"
+version       = "1.0.3"
 
 [lib]
 bench = false
 
 [dependencies]
-anyhow             = { workspace = true }
-napi               = { workspace = true, features = ["napi3", "serde-json"] }
-serde              = { workspace = true, features = ["derive"] }
-serde_json         = { workspace = true, features = ["unbounded_depth"] }
-tracing            = { workspace = true }
+anyhow     = { workspace = true }
+napi       = { workspace = true, features = ["napi3", "serde-json"] }
+serde      = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true, features = ["unbounded_depth"] }
+tracing    = { workspace = true }

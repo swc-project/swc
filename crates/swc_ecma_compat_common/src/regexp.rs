@@ -1,10 +1,19 @@
-use swc_common::util::take::Take;
-use swc_ecma_ast::{CallExpr, Expr, Lit, Pass, Regex};
-use swc_ecma_utils::{quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_ast::Pass;
 
 pub fn regexp(config: Config) -> impl Pass {
-    visit_mut_pass(RegExp { config })
+    let mut options = swc_ecma_transformer::Options::default();
+
+    let t = &mut options.env.regexp;
+    t.dot_all_regex = config.dot_all_regex;
+    t.has_indices = config.has_indices;
+    t.lookbehind_assertion = config.lookbehind_assertion;
+    t.named_capturing_groups_regex = config.named_capturing_groups_regex;
+    t.sticky_regex = config.sticky_regex;
+    t.unicode_property_regex = config.unicode_property_regex;
+    t.unicode_regex = config.unicode_regex;
+    t.unicode_sets_regex = config.unicode_sets_regex;
+
+    options.into_pass()
 }
 
 #[derive(Default, Clone, Copy)]
@@ -25,48 +34,4 @@ pub struct Config {
     pub unicode_regex: bool,
     // [RegExp.prototype.unicodeSets](https://github.com/tc39/proposal-regexp-v-flag)
     pub unicode_sets_regex: bool,
-}
-
-struct RegExp {
-    config: Config,
-}
-
-impl VisitMut for RegExp {
-    noop_visit_mut_type!(fail);
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
-
-        if let Expr::Lit(Lit::Regex(regex)) = expr {
-            if (self.config.dot_all_regex && regex.flags.contains('s'))
-                || (self.config.sticky_regex && regex.flags.contains('y'))
-                || (self.config.unicode_regex && regex.flags.contains('u'))
-                || (self.config.unicode_sets_regex && regex.flags.contains('v'))
-                || (self.config.has_indices && regex.flags.contains('d'))
-                || (self.config.named_capturing_groups_regex && regex.exp.contains("(?<"))
-                || (self.config.lookbehind_assertion && regex.exp.contains("(?<=")
-                    || regex.exp.contains("(?<!"))
-                || (self.config.unicode_property_regex
-                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")))
-            {
-                let Regex { exp, flags, span } = regex.take();
-
-                let exp: Expr = exp.into();
-                let mut args = vec![exp.into()];
-
-                if !flags.is_empty() {
-                    let flags: Expr = flags.into();
-                    args.push(flags.into());
-                }
-
-                *expr = CallExpr {
-                    span,
-                    callee: quote_ident!("RegExp").as_callee(),
-                    args,
-                    ..Default::default()
-                }
-                .into()
-            }
-        }
-    }
 }

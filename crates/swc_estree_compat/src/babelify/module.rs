@@ -20,6 +20,8 @@ impl Babelify for Program {
             Program::Script(script) => script.babelify(ctx),
             // TODO: reenable once experimental_metadata breaking change is merged
             // _ => unreachable!(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         File {
@@ -150,6 +152,8 @@ impl Babelify for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(d) => ModuleItemOutput::ModuleDecl(d.babelify(ctx).into()),
             ModuleItem::Stmt(s) => ModuleItemOutput::Stmt(s.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

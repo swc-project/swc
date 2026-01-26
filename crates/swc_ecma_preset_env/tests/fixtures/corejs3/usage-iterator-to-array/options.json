@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "../../../../lib",
+      {
+        "targets": "chrome 80",
+        "useBuiltIns": "usage",
+        "corejs": "3.45",
+        "shippedProposals": true,
+        "modules": false
+      }
+    ]
+  ]
+}

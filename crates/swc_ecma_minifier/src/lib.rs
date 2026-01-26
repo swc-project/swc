@@ -44,7 +44,6 @@ use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, Synta
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
@@ -52,12 +51,11 @@ pub use crate::pass::global_defs::globals_defs;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     metadata::info_marker,
-    mode::{Minification, Mode},
+    mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},
     pass::{
         global_defs, mangle_names::idents_to_preserve, mangle_props::mangle_properties,
         merge_exports::merge_exports, postcompress::postcompress_optimizer,
-        precompress::precompress_optimizer,
     },
     // program_data::ModuleInfo,
     timing::Timings,
@@ -69,6 +67,7 @@ mod macros;
 mod compress;
 mod debug;
 pub mod eval;
+mod hook_utils;
 #[doc(hidden)]
 pub mod js;
 mod metadata;
@@ -124,18 +123,6 @@ pub fn optimize(
         }
     }
 
-    if let Some(_options) = &options.compress {
-        let _timer = timer!("precompress");
-
-        n.visit_mut_with(&mut precompress_optimizer(ExprCtx {
-            unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
-            is_unresolved_ref_safe: false,
-            in_strict: false,
-            remaining_depth: 6,
-        }));
-        debug_assert_valid(&n);
-    }
-
     if options.compress.is_some() {
         n.visit_mut_with(&mut info_marker(
             options.compress.as_ref(),
@@ -187,13 +174,12 @@ pub fn optimize(
 
         let _timer = timer!("postcompress");
 
-        n.visit_mut_with(&mut postcompress_optimizer(c));
+        postcompress_optimizer(&mut n, c);
 
         n.visit_mut_with(&mut pure_optimizer(
             c,
             marks,
             PureOptimizerConfig {
-                force_str_for_tpl: Minification.force_str_for_tpl(),
                 enable_join_vars: true,
             },
         ));
@@ -217,20 +203,17 @@ pub fn optimize(
         let preserved = idents_to_preserve(mangle, marks, &n);
 
         let chars = if !mangle.disable_char_freq {
-            CharFreq::compute(
-                &n,
-                &preserved,
-                SyntaxContext::empty().apply_mark(marks.unresolved_mark),
-            )
-            .compile()
+            debug_assert!(preserved.idents.is_some());
+            CharFreq::compute(&n, preserved.idents.as_ref().unwrap()).compile()
         } else {
+            debug_assert!(preserved.idents.is_none());
             CharFreq::default().compile()
         };
 
         mangle_names(
             &mut n,
             mangle,
-            preserved,
+            preserved.preserved,
             chars,
             extra.top_level_mark,
             extra.mangle_name_cache.clone(),

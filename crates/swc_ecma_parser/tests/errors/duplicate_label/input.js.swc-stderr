@@ -1,0 +1,7 @@
+  x Label a is already declared
+   ,-[$DIR/tests/errors/duplicate_label/input.js:2:1]
+ 1 | a: {
+ 2 |   a: {
+   :   ^
+ 3 |     break a;
+   `----

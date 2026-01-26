@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "hstr"
 repository  = { workspace = true }
-version     = "1.1.4"
+version     = "3.0.4"
 
 [lib]
 bench = false
@@ -34,11 +34,12 @@ kstring      = { workspace = true }
 num_cpus     = { workspace = true }
 par-iter     = { workspace = true }
 rand         = { workspace = true }
+serde_json   = { workspace = true }
 smartstring  = { workspace = true }
 smol_str     = { workspace = true }
 string_cache = { workspace = true }
 
-swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
+swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 
 [[bench]]
 harness = false

@@ -13,6 +13,10 @@ pub struct Ident {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -47,6 +51,10 @@ pub struct CustomIdent {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -63,6 +71,10 @@ pub struct DashedIdent {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -86,6 +98,10 @@ pub struct CustomPropertyName {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -102,6 +118,10 @@ pub struct Str {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -123,6 +143,10 @@ impl EqIgnoreSpan for Str {
 )]
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum DelimiterValue {
     /// `,`
     Comma,
@@ -141,7 +165,7 @@ pub struct Delimiter {
 
 // TODO small AST improve for `CurrentColorOrSystemColor` and
 // `NamedColorOrTransparent`
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Color {
     #[tag("AbsoluteColorBase")]
@@ -153,7 +177,7 @@ pub enum Color {
     Function(Function),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AbsoluteColorBase {
     #[tag("HexColor")]
@@ -172,10 +196,14 @@ pub struct HexColor {
     /// Does **not** include `#`
     pub value: Atom,
     /// Does **not** include `#`
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AlphaValue {
     #[tag("Number")]
@@ -184,7 +212,7 @@ pub enum AlphaValue {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Hue {
     #[tag("Number")]
@@ -193,7 +221,7 @@ pub enum Hue {
     Angle(Angle),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CmykComponent {
     #[tag("Number")]
@@ -204,7 +232,7 @@ pub enum CmykComponent {
     Function(Function),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Dimension {
     #[tag("Length")]
@@ -292,7 +320,7 @@ pub struct Percentage {
     pub value: Number,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum LengthPercentage {
     #[tag("Length")]
@@ -301,7 +329,7 @@ pub enum LengthPercentage {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum FrequencyPercentage {
     #[tag("Frequency")]
@@ -310,7 +338,7 @@ pub enum FrequencyPercentage {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AnglePercentage {
     #[tag("Angle")]
@@ -319,7 +347,7 @@ pub enum AnglePercentage {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum TimePercentage {
     #[tag("Time")]
@@ -333,6 +361,10 @@ pub enum TimePercentage {
 pub struct Integer {
     pub span: Span,
     pub value: i64,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -346,6 +378,10 @@ impl EqIgnoreSpan for Integer {
 pub struct Number {
     pub span: Span,
     pub value: f64,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -385,6 +421,10 @@ impl EqIgnoreSpan for Number {
 pub struct Ratio {
     pub span: Span,
     pub left: Number,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub right: Option<Number>,
 }
 
@@ -400,6 +440,10 @@ pub struct Ratio {
 )]
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum BinOp {
     /// `+`
     Add,
@@ -416,11 +460,19 @@ pub enum BinOp {
 pub struct Url {
     pub span: Span,
     pub name: Ident,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Box<UrlValue>>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub modifiers: Option<Vec<UrlModifier>>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum UrlValue {
     #[tag("Str")]
@@ -435,10 +487,14 @@ pub struct UrlValueRaw {
     pub span: Span,
 
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum UrlModifier {
     #[tag("Ident")]
@@ -454,7 +510,15 @@ pub struct UnicodeRange {
 
     pub start: Atom,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub end: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -472,7 +536,7 @@ pub struct CalcSum {
     pub expressions: Vec<CalcProductOrOperator>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcProductOrOperator {
     #[tag("CalcProduct")]
@@ -507,6 +571,10 @@ pub struct CalcOperator {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum CalcOperatorType {
     /// `+`
     Add,
@@ -518,7 +586,7 @@ pub enum CalcOperatorType {
     Div,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValueOrOperator {
     #[tag("CalcValue")]
@@ -527,7 +595,7 @@ pub enum CalcValueOrOperator {
     Operator(CalcOperator),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValue {
     #[tag("Number")]
@@ -544,7 +612,7 @@ pub enum CalcValue {
     Function(Function),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum FamilyName {
     #[tag("Str")]

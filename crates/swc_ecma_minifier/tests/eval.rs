@@ -1,6 +1,6 @@
 #![deny(warnings)]
 
-use swc_atoms::Atom;
+use swc_atoms::{wtf8::Wtf8, Atom};
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -12,6 +12,21 @@ use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsSyntax, Syntax
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
+
+fn convert_wtf8_to_raw(s: &Wtf8) -> String {
+    let mut result = String::new();
+    let iter = s.code_points();
+
+    for code_point in iter {
+        if let Some(c) = code_point.to_char() {
+            result.push(c);
+        } else {
+            result.push_str(format!("\\u{:04X}", code_point.to_u32()).as_str());
+        }
+    }
+
+    result
+}
 
 fn eval(module: &str, expr: &str) -> Option<String> {
     testing::run_test2(false, |cm, _handler| {
@@ -46,7 +61,7 @@ fn eval(module: &str, expr: &str) -> Option<String> {
         match res {
             Some(res) => match res {
                 EvalResult::Lit(l) => match l {
-                    swc_ecma_ast::Lit::Str(v) => Ok(Some(v.value.to_string())),
+                    swc_ecma_ast::Lit::Str(v) => Ok(Some(convert_wtf8_to_raw(&v.value))),
                     swc_ecma_ast::Lit::Bool(v) => Ok(Some(v.value.to_string())),
                     swc_ecma_ast::Lit::Num(v) => Ok(Some(v.value.to_string())),
                     swc_ecma_ast::Lit::Null(_) => Ok(Some("null".into())),
@@ -64,12 +79,32 @@ fn eval(module: &str, expr: &str) -> Option<String> {
 
 fn simple() {
     assert_eq!(eval("const foo = 4", "foo").unwrap(), "4");
+    assert_eq!(
+        eval(
+            "const high = '\\uD83D'; const low = '\\uDCA9'; const result = high + low;",
+            "result"
+        )
+        .unwrap(),
+        "💩"
+    );
+    assert_eq!(eval("const high = '\\uD83D';", "high").unwrap(), "\\uD83D");
+    assert_eq!(eval("const low = '\\uDCA9';", "low").unwrap(), "\\uDCA9");
+    assert_eq!(eval("const crab = '🦀';", "`${crab}`").unwrap(), "🦀");
+    assert_eq!(eval("const rocket = '🚀';", "`${rocket}`").unwrap(), "🚀");
+}
+
+#[test]
+fn eval_bin() {
+    assert_eq!(eval("", "'1' + '2'").unwrap(), "12");
+    assert_eq!(eval("", "'1' + `2` + \"3\"").unwrap(), "123");
 }
 
 #[test]
 fn eval_lit() {
     assert_eq!(eval("", "true").unwrap(), "true");
     assert_eq!(eval("", "false").unwrap(), "false");
+    assert_eq!(eval("", "null").unwrap(), "null");
+    assert_eq!(eval("", "`🦀`").unwrap(), "🦀");
 }
 
 struct PartialInliner {
@@ -190,9 +225,9 @@ impl VisitMut for PartialInliner {
                                 let el = TplElement {
                                     span: s.span,
                                     tail: true,
-                                    // TODO possible bug for quotes
-                                    raw: Atom::new(&*s.value),
-                                    cooked: Some(Atom::new(&*s.value)),
+                                    // TODO possible bug for quotes and surrogates
+                                    raw: Atom::new(s.value.to_string_lossy()),
+                                    cooked: Some(s.value.clone()),
                                 };
                                 tt.tpl = Box::new(Tpl {
                                     span: el.span,

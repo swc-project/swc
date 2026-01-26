@@ -5,19 +5,24 @@
 use std::{path::PathBuf, sync::Arc};
 
 use preset_env_base::query::targets_to_versions;
-pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
+pub use preset_env_base::{
+    query::{TargetInfo, Targets},
+    version::Version,
+    BrowserData, Versions,
+};
 use rustc_hash::FxHashSet;
 use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+#[cfg(feature = "es3")]
+use swc_ecma_transforms::compat::es3;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
-        regexp::{self, regexp},
+        es2020, es2022,
     },
     Assumptions,
 };
@@ -43,7 +48,7 @@ fn transform_internal<C>(
     comments: Option<C>,
     assumptions: Assumptions,
     loose: bool,
-    dynamic_import: bool,
+    #[cfg_attr(not(feature = "es3"), allow(unused_variables))] dynamic_import: bool,
     debug: bool,
     caniuse: impl (Fn(Feature) -> bool),
 ) -> impl Pass
@@ -51,6 +56,10 @@ where
     C: Comments + Clone,
 {
     let pass = noop_pass();
+    let mut options = swc_ecma_transformer::Options::default();
+
+    options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+    options.assumptions = assumptions;
 
     macro_rules! add {
         ($prev:expr, $feature:ident, $pass:expr) => {{
@@ -76,39 +85,20 @@ where
         ),
     );
 
-    let pass = {
-        let enable_dot_all_regex = !caniuse(Feature::DotAllRegex);
-        let enable_named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
-        let enable_sticky_regex = !caniuse(Feature::StickyRegex);
-        let enable_unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
-        let enable_unicode_regex = !caniuse(Feature::UnicodeRegex);
-        let enable_unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
+    {
+        let t = &mut options.env.regexp;
 
-        let enable = enable_dot_all_regex
-            || enable_named_capturing_groups_regex
-            || enable_sticky_regex
-            || enable_unicode_property_regex
-            || enable_unicode_regex;
-
-        (
-            pass,
-            Optional::new(
-                regexp(regexp::Config {
-                    dot_all_regex: enable_dot_all_regex,
-                    // TODO: add Feature:HasIndicesRegex
-                    has_indices: false,
-                    // TODO: add Feature::LookbehindAssertion
-                    lookbehind_assertion: false,
-                    named_capturing_groups_regex: enable_named_capturing_groups_regex,
-                    sticky_regex: enable_sticky_regex,
-                    unicode_property_regex: enable_unicode_property_regex,
-                    unicode_regex: enable_unicode_regex,
-                    unicode_sets_regex: enable_unicode_sets_regex,
-                }),
-                enable,
-            ),
-        )
-    };
+        t.dot_all_regex = !caniuse(Feature::DotAllRegex);
+        t.named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
+        t.sticky_regex = !caniuse(Feature::StickyRegex);
+        t.unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
+        t.unicode_regex = !caniuse(Feature::UnicodeRegex);
+        t.unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
+        // TODO: add Feature:HasIndicesRegex
+        t.has_indices = false;
+        // TODO: add Feature::LookbehindAssertion
+        t.lookbehind_assertion = false;
+    }
 
     // Proposals
 
@@ -131,25 +121,23 @@ where
             unresolved_mark
         )
     );
-    let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
 
-    // ES2021
-    let pass = add!(
-        pass,
-        LogicalAssignmentOperators,
-        es2021::logical_assignments()
-    );
+    if !caniuse(Feature::PrivatePropertyInObject) {
+        options.env.es2022.private_property_in_object = true;
+    }
+
+    if !caniuse(Feature::LogicalAssignmentOperators) {
+        options.env.es2021.logical_assignment_operators = true;
+    }
+
+    if !caniuse(Feature::ExportNamespaceFrom) {
+        options.env.es2020.export_namespace_from = true;
+    }
 
     // ES2020
-
-    let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
-    let pass = add!(
-        pass,
-        NullishCoalescing,
-        es2020::nullish_coalescing(es2020::nullish_coalescing::Config {
-            no_document_all: loose || assumptions.no_document_all
-        })
-    );
+    if !caniuse(Feature::NullishCoalescing) {
+        options.env.es2020.nullish_coalescing = true;
+    }
 
     let pass = add!(
         pass,
@@ -164,33 +152,27 @@ where
     );
 
     // ES2019
-    let pass = add!(pass, OptionalCatchBinding, es2019::optional_catch_binding());
+    if !caniuse(Feature::OptionalCatchBinding) {
+        options.env.es2019.optional_catch_binding = true;
+    }
 
     // ES2018
-    let pass = add!(
-        pass,
-        ObjectRestSpread,
-        es2018::object_rest_spread(es2018::object_rest_spread::Config {
-            no_symbol: loose || assumptions.object_rest_no_symbols,
-            set_property: loose || assumptions.set_spread_properties,
-            pure_getters: loose || assumptions.pure_getters
-        })
-    );
+    if !caniuse(Feature::ObjectRestSpread) {
+        options.env.es2018.object_rest_spread = true;
+    }
 
-    // ES2017
-    let pass = add!(
-        pass,
-        AsyncToGenerator,
-        es2017::async_to_generator(
-            es2017::async_to_generator::Config {
-                ignore_function_length: loose || assumptions.ignore_function_length,
-            },
-            unresolved_mark
-        )
-    );
+    if !caniuse(Feature::AsyncToGenerator) {
+        options.env.es2017.async_to_generator = true;
+    }
 
     // ES2016
-    let pass = add!(pass, ExponentiationOperator, es2016::exponentiation());
+    if !caniuse(Feature::ExponentiationOperator) {
+        options.env.es2016.exponentiation_operator = true;
+    }
+
+    // Single-pass compiler - skip traversal when no transforms are enabled
+    let is_enabled = options.env.is_enabled();
+    let pass = (pass, Optional::new(options.into_pass(), is_enabled));
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
@@ -217,12 +199,10 @@ where
     let pass = add!(
         pass,
         Spread,
-        es2015::spread(es2015::spread::Config { loose }),
+        es2015::spread(es2015::spread::Config { loose }, unresolved_mark),
         true
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
-    let pass = add!(pass, ShorthandProperties, es2015::shorthand());
-    let pass = add!(pass, FunctionName, es2015::function_name());
     let pass = add!(
         pass,
         ForOf,
@@ -243,10 +223,39 @@ where
         )
     );
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
-    let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
-    let pass = add!(pass, StickyRegex, es2015::sticky_regex());
-    let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
-    let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
+    let pass = {
+        // We use a separate options for es2015 transforms because of the pass order.
+        let mut options = swc_ecma_transformer::Options::default();
+
+        options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+        options.assumptions = assumptions;
+
+        if !caniuse(Feature::ShorthandProperties) {
+            options.env.es2015.shorthand = true;
+        }
+
+        if !caniuse(Feature::FunctionName) {
+            options.env.es2015.function_name = true;
+        }
+
+        if !caniuse(Feature::DuplicateKeys) {
+            options.env.es2015.duplicate_keys = true;
+        }
+
+        if !caniuse(Feature::StickyRegex) {
+            options.env.es2015.sticky_regex = true;
+        }
+
+        if !caniuse(Feature::TypeOfSymbol) {
+            options.env.es2015.instanceof = true;
+            options.env.es2015.typeof_symbol = true;
+        }
+
+        // Skip traversal when no transforms are enabled
+        let is_enabled = options.env.is_enabled();
+        (pass, Optional::new(options.into_pass(), is_enabled))
+    };
+
     let pass = add!(
         pass,
         ComputedProperties,
@@ -283,12 +292,15 @@ where
     //    NamedCapturingGroupsRegex,
 
     // ES 3
+    #[cfg(feature = "es3")]
     let pass = add!(pass, PropertyLiterals, es3::property_literals());
+    #[cfg(feature = "es3")]
     let pass = add!(
         pass,
         MemberExpressionLiterals,
         es3::member_expression_literals()
     );
+    #[cfg(feature = "es3")]
     let pass = add!(pass, ReservedWords, es3::reserved_words(dynamic_import));
 
     // Bugfixes
@@ -364,22 +376,9 @@ where
             includes: env_config.core_js_config.included_modules,
             excludes: env_config.core_js_config.excluded_modules,
             unresolved_mark,
+            unknown_version: env_config.core_js_config.unknown_version,
         }),
     )
-}
-
-#[deprecated(note = "use transform_from_env instead")]
-pub fn preset_env<C>(
-    unresolved_mark: Mark,
-    comments: Option<C>,
-    c: Config,
-    assumptions: Assumptions,
-    _feature_set: &mut swc_ecma_transforms::feature::FeatureFlag,
-) -> impl Pass
-where
-    C: Comments + Clone,
-{
-    transform_from_env(unresolved_mark, comments, c.into(), assumptions)
 }
 
 pub fn transform_from_es_version<C>(
@@ -413,6 +412,10 @@ struct Polyfills {
     includes: FxHashSet<String>,
     excludes: FxHashSet<String>,
     unresolved_mark: Mark,
+    /// True if the browserslist query returned an empty result (unknown browser
+    /// version). When this is true, we should add no polyfills, similar to
+    /// Babel's behavior.
+    unknown_version: bool,
 }
 impl Polyfills {
     fn collect<T>(&mut self, m: &mut T) -> Vec<Atom>
@@ -422,6 +425,13 @@ impl Polyfills {
             + VisitMutWith<corejs2::Entry>
             + VisitMutWith<corejs3::Entry>,
     {
+        // If browserslist returned empty (unknown browser version), don't add any
+        // polyfills. This matches Babel's behavior where unknown versions are
+        // assumed to support all features.
+        if self.unknown_version {
+            return Default::default();
+        }
+
         let required = match self.mode {
             None => Default::default(),
             Some(Mode::Usage) => {
@@ -507,7 +517,7 @@ impl VisitMut for Polyfills {
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            value: src,
+                            value: src.into(),
                         }
                         .into(),
                         type_only: false,
@@ -527,7 +537,7 @@ impl VisitMut for Polyfills {
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            value: src,
+                            value: src.into(),
                         }
                         .into(),
                         type_only: false,
@@ -539,7 +549,7 @@ impl VisitMut for Polyfills {
             );
         }
 
-        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == atom!("")));
+        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value .is_empty()));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -563,7 +573,7 @@ impl VisitMut for Polyfills {
                             .as_callee(),
                             args: vec![Str {
                                 span: DUMMY_SP,
-                                value: src,
+                                value: src.into(),
                                 raw: None,
                             }
                             .as_arg()],
@@ -591,7 +601,7 @@ impl VisitMut for Polyfills {
                             .as_callee(),
                             args: vec![Str {
                                 span: DUMMY_SP,
-                                value: src,
+                                value: src.into(),
                                 raw: None,
                             }
                             .as_arg()],
@@ -668,6 +678,11 @@ pub struct FeatureConfig {
     include: Vec<Feature>,
     exclude: Vec<Feature>,
     is_any_target: bool,
+    /// True if the browserslist query returned an empty result (unknown browser
+    /// version). When this is true, we should assume the browser is a
+    /// recent version that supports all modern features (no transforms
+    /// needed), similar to Babel's behavior.
+    unknown_version: bool,
     force_all_transforms: bool,
     bugfixes: bool,
 }
@@ -676,6 +691,9 @@ struct CoreJSConfig {
     targets: Arc<Versions>,
     included_modules: FxHashSet<String>,
     excluded_modules: FxHashSet<String>,
+    /// True if the browserslist query returned an empty result (unknown browser
+    /// version).
+    unknown_version: bool,
 }
 
 pub struct EnvConfig {
@@ -686,25 +704,27 @@ pub struct EnvConfig {
 
 impl From<Config> for EnvConfig {
     fn from(mut config: Config) -> Self {
-        let targets = targets_to_versions(config.targets.take(), config.path.take())
+        let target_info = targets_to_versions(config.targets.take(), config.path.take())
             .expect("failed to parse targets");
-        let is_any_target = targets.is_any_target();
+        let is_any_target = target_info.versions.is_any_target();
 
         let (include, included_modules) = FeatureOrModule::split(config.include.clone());
         let (exclude, excluded_modules) = FeatureOrModule::split(config.exclude.clone());
 
         let feature_config = FeatureConfig {
-            targets: Arc::clone(&targets),
+            targets: Arc::clone(&target_info.versions),
             include,
             exclude,
             is_any_target,
+            unknown_version: target_info.unknown_version,
             force_all_transforms: config.force_all_transforms,
             bugfixes: config.bugfixes,
         };
         let core_js_config = CoreJSConfig {
-            targets: Arc::clone(&targets),
+            targets: Arc::clone(&target_info.versions),
             included_modules,
             excluded_modules,
+            unknown_version: target_info.unknown_version,
         };
         Self {
             config,
@@ -723,6 +743,13 @@ impl EnvConfig {
 impl Caniuse for FeatureConfig {
     fn caniuse(&self, feature: Feature) -> bool {
         if self.exclude.contains(&feature) {
+            return true;
+        }
+
+        // If browserslist returned empty (unknown browser version), assume all
+        // features are supported (like Babel does). This handles cases like
+        // "Chrome > 130" where the version is newer than the browserslist database.
+        if self.unknown_version {
             return true;
         }
 

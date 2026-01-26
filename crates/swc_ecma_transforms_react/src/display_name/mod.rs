@@ -3,7 +3,8 @@ use std::ops::DerefMut;
 use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -11,18 +12,26 @@ mod tests;
 /// `@babel/plugin-transform-react-display-name`
 ///
 /// Add displayName to React.createClass calls
-pub fn display_name() -> impl Pass {
-    visit_mut_pass(DisplayName)
+pub fn hook() -> impl VisitMutHook<()> {
+    DisplayName
 }
 
 struct DisplayName;
 
-impl VisitMut for DisplayName {
-    noop_visit_mut_type!();
+// For tests
+#[cfg(test)]
+fn display_name() -> impl Pass {
+    use swc_ecma_hooks::VisitMutWithHook;
+    use swc_ecma_visit::visit_mut_pass;
 
-    fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
-        expr.visit_mut_children_with(self);
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(),
+        context: (),
+    })
+}
 
+impl VisitMutHook<()> for DisplayName {
+    fn enter_assign_expr(&mut self, expr: &mut AssignExpr, _ctx: &mut ()) {
         if expr.op != op!("=") {
             return;
         }
@@ -43,7 +52,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: prop.span,
                         raw: None,
-                        value: prop.sym.clone(),
+                        value: prop.sym.clone().into(),
                     })
                     .into(),
                 ),
@@ -56,7 +65,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: ident.span,
                         raw: None,
-                        value: ident.sym.clone(),
+                        value: ident.sym.clone().into(),
                     })
                     .into(),
                 ),
@@ -64,16 +73,14 @@ impl VisitMut for DisplayName {
         }
     }
 
-    fn visit_mut_module_decl(&mut self, decl: &mut ModuleDecl) {
-        decl.visit_mut_children_with(self);
-
+    fn exit_module_decl(&mut self, decl: &mut ModuleDecl, _ctx: &mut ()) {
         if let ModuleDecl::ExportDefaultExpr(e) = decl {
             e.visit_mut_with(&mut Folder {
                 name: Some(
                     Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
-                        value: atom!("input"),
+                        value: atom!("input").into(),
                     })
                     .into(),
                 ),
@@ -81,34 +88,34 @@ impl VisitMut for DisplayName {
         }
     }
 
-    fn visit_mut_prop(&mut self, prop: &mut Prop) {
-        prop.visit_mut_children_with(self);
-
+    fn exit_prop(&mut self, prop: &mut Prop, _ctx: &mut ()) {
         if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
-            value.visit_mut_with(&mut Folder {
-                name: Some(match key {
-                    PropName::Ident(ref i) => Lit::Str(Str {
-                        span: i.span,
-                        raw: None,
-                        value: i.sym.clone(),
-                    })
-                    .into(),
-                    PropName::Str(ref s) => Lit::Str(s.clone()).into(),
-                    PropName::Num(ref n) => Lit::Num(n.clone()).into(),
-                    PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
-                    PropName::Computed(ref c) => c.expr.clone(),
-                }),
-            });
+            let name = match key {
+                PropName::Ident(ref i) => Lit::Str(Str {
+                    span: i.span,
+                    raw: None,
+                    value: i.sym.clone().into(),
+                })
+                .into(),
+                PropName::Str(ref s) => Lit::Str(s.clone()).into(),
+                PropName::Num(ref n) => Lit::Num(n.clone()).into(),
+                PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
+                PropName::Computed(ref c) => c.expr.clone(),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            };
+
+            value.visit_mut_with(&mut Folder { name: Some(name) });
         }
     }
 
-    fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
+    fn enter_var_declarator(&mut self, decl: &mut VarDeclarator, _ctx: &mut ()) {
         if let Pat::Ident(ref ident) = decl.name {
             decl.init.visit_mut_with(&mut Folder {
                 name: Some(
                     Lit::Str(Str {
                         span: ident.span,
-                        value: ident.sym.clone(),
+                        value: ident.sym.clone().into(),
                         raw: None,
                     })
                     .into(),
@@ -148,6 +155,8 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     let callee = match &call.callee {
         Callee::Super(_) | Callee::Import(_) => return false,
         Callee::Expr(callee) => &**callee,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     };
 
     match callee {
@@ -194,12 +203,18 @@ fn is_key_display_name(prop: &PropOrSpread) -> bool {
             | Prop::Setter(SetterProp { ref key, .. })
             | Prop::KeyValue(KeyValueProp { ref key, .. }) => match *key {
                 PropName::Ident(ref i) => i.sym == "displayName",
-                PropName::Str(ref s) => s.value == "displayName",
+                PropName::Str(ref s) => {
+                    matches!(s.value.as_str(), Some(value) if value == "displayName")
+                }
                 PropName::Num(..) => false,
                 PropName::BigInt(..) => false,
                 PropName::Computed(..) => false,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Prop::Assign(..) => unreachable!("invalid syntax"),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         },
         _ => false,
         // TODO(kdy1): maybe.. handle spread

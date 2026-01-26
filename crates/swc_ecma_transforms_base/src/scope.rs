@@ -29,6 +29,8 @@ impl From<VarDeclKind> for DeclKind {
         match kind {
             VarDeclKind::Const | VarDeclKind::Let => Self::Lexical,
             VarDeclKind::Var => Self::Var,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

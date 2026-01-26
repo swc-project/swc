@@ -5,9 +5,8 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{
     expr::{Expr, SpreadElement},
     ident::Ident,
-    lit::Lit,
     typescript::TsTypeParamInstantiation,
-    IdentName,
+    IdentName, Str,
 };
 
 /// Used for `obj` property of `JSXMemberExpr`.
@@ -126,6 +125,10 @@ pub struct JSXOpeningElement {
     /// Note: This field's name is different from one from babel because it is
     /// misleading
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -170,6 +173,10 @@ pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
     /// Babel uses Expr instead of JSXAttrValue
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<JSXAttrValue>,
 }
 
@@ -190,12 +197,7 @@ pub enum JSXAttrName {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXAttrValue {
     #[tag("StringLiteral")]
-    #[tag("BooleanLiteral")]
-    #[tag("NullLiteral")]
-    #[tag("NumericLiteral")]
-    #[tag("RegExpLiteral")]
-    #[tag("JSXText")]
-    Lit(Lit),
+    Str(Str),
 
     #[tag("JSXExpressionContainer")]
     JSXExprContainer(JSXExprContainer),
@@ -236,6 +238,10 @@ pub struct JSXElement {
     pub span: Span,
     pub opening: JSXOpeningElement,
     pub children: Vec<JSXElementChild>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub closing: Option<JSXClosingElement>,
 }
 

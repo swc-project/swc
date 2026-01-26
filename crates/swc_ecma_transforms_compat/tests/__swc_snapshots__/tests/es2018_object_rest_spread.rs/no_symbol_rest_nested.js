@@ -1,4 +1,4 @@
-let { a, nested: { b, c }, e } = obj, d = _object_without_properties_loose(obj.nested, [
+let { a, nested: _ref } = obj, { b, c } = _ref, d = _object_without_properties_loose(_ref, [
     "b",
     "c"
-]);
+]), { e } = obj;

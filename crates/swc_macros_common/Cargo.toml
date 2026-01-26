@@ -15,6 +15,6 @@ bench = false
 proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 
-  [dependencies.syn]
-  features  = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
-  workspace = true
+[dependencies.syn]
+features  = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
+workspace = true

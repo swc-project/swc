@@ -224,10 +224,10 @@ take(function() {
         rest[_key] = arguments[_key];
     }
 });
-var funcUnionTupleNoRest = function(num, strOrErr) {
+var funcUnionTupleNoRest = function funcUnionTupleNoRest(num, strOrErr) {
     return num;
 };
-var funcUnionTupleRest = function() {
+var funcUnionTupleRest = function funcUnionTupleRest() {
     for(var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++){
         params[_key] = arguments[_key];
     }

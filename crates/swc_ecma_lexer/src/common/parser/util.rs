@@ -37,16 +37,13 @@ pub fn has_use_strict(block: &BlockStmt) -> Option<Span> {
 }
 
 pub fn is_constructor(key: &Key) -> bool {
-    matches!(
-        &key,
-        Key::Public(PropName::Ident(IdentName {
-            sym: constructor,
-            ..
-        })) | Key::Public(PropName::Str(Str {
-            value: constructor,
-            ..
-        })) if  atom!("constructor").eq(constructor)
-    )
+    if let Key::Public(PropName::Ident(IdentName { sym, .. })) = key {
+        sym.eq("constructor")
+    } else if let Key::Public(PropName::Str(Str { value, .. })) = key {
+        value.eq("constructor")
+    } else {
+        false
+    }
 }
 
 pub fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
@@ -59,6 +56,8 @@ pub fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
                 member.prop.sym
             )
             .into(),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
     match *name {
@@ -69,6 +68,8 @@ pub fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
         JSXElementName::JSXMemberExpr(JSXMemberExpr {
             ref obj, ref prop, ..
         }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
+        #[cfg(swc_ast_unknown)]
+        _ => unreachable!(),
     }
 }
 
@@ -83,6 +84,8 @@ pub fn make_decl_declare(mut decl: Decl) -> Decl {
         Decl::TsEnum(ref mut e) => e.declare = true,
         Decl::TsModule(ref mut m) => m.declare = true,
         Decl::Using(..) => unreachable!("Using is not a valid declaration for `declare` keyword"),
+        #[cfg(swc_ast_unknown)]
+        _ => unreachable!(),
     }
     decl
 }

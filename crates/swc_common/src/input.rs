@@ -1,7 +1,5 @@
 use std::str;
 
-use debug_unreachable::debug_unreachable;
-
 use crate::syntax_pos::{BytePos, SourceFile};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
@@ -10,8 +8,8 @@ pub type SourceFileInput<'a> = StringInput<'a>;
 #[derive(Clone)]
 pub struct StringInput<'a> {
     last_pos: BytePos,
-    /// Current cursor
-    iter: str::Chars<'a>,
+    /// Remaining input as str - we slice this as we consume bytes
+    remaining: &'a str,
     orig: &'a str,
     /// Original start position.
     orig_start: BytePos,
@@ -33,7 +31,7 @@ impl<'a> StringInput<'a> {
         StringInput {
             last_pos: start,
             orig: src,
-            iter: src.chars(),
+            remaining: src,
             orig_start: start,
             orig_end: end,
         }
@@ -41,15 +39,32 @@ impl<'a> StringInput<'a> {
 
     #[inline(always)]
     pub fn as_str(&self) -> &str {
-        self.iter.as_str()
+        self.remaining
     }
 
-    #[inline]
-    pub fn bump_bytes(&mut self, n: usize) {
-        unsafe {
-            // Safety: We only proceed, not go back.
-            self.reset_to(self.last_pos + BytePos(n as u32));
-        }
+    #[inline(always)]
+    /// Compared to [StringInput::slice], this function doesn't set
+    /// `self.last_pos = end` because in most cases this property has been
+    /// satisfied but the compiler cannot optimize it.
+    ///
+    /// Caution: This function should only be used internally and will be
+    /// changed in the future.
+    ///
+    /// # Safety
+    /// - start should be less than or equal to end.
+    /// - start and end should be in the valid range of input.
+    pub unsafe fn slice_str(&self, start: BytePos, end: BytePos) -> &'a str {
+        debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
+        let s = self.orig;
+
+        let start_idx = (start - self.orig_start).0 as usize;
+        let end_idx = (end - self.orig_start).0 as usize;
+
+        debug_assert!(end_idx <= s.len());
+
+        let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
+
+        ret
     }
 
     pub fn start_pos(&self) -> BytePos {
@@ -75,46 +90,40 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 
 impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
-    fn cur(&self) -> Option<char> {
-        self.iter.clone().next()
+    fn cur(&self) -> Option<u8> {
+        self.remaining.as_bytes().first().copied()
     }
 
     #[inline]
-    fn peek(&self) -> Option<char> {
-        let mut iter = self.iter.clone();
-        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster.
-        iter.next();
-        iter.next()
+    fn peek(&self) -> Option<u8> {
+        self.remaining.as_bytes().get(1).copied()
     }
 
     #[inline]
-    fn peek_ahead(&self) -> Option<char> {
-        let mut iter = self.iter.clone();
-        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster
-        iter.next();
-        iter.next();
-        iter.next()
+    fn peek_ahead(&self) -> Option<u8> {
+        self.remaining.as_bytes().get(2).copied()
     }
 
     #[inline]
-    unsafe fn bump(&mut self) {
-        if let Some(c) = self.iter.next() {
-            self.last_pos = self.last_pos + BytePos((c.len_utf8()) as u32);
-        } else {
-            unsafe {
-                debug_unreachable!("bump should not be called when cur() == None");
-            }
-        }
+    unsafe fn bump_bytes(&mut self, n: usize) {
+        debug_assert!(n <= self.remaining.len());
+        self.remaining = unsafe { self.remaining.get_unchecked(n..) };
+        self.last_pos.0 += n as u32;
     }
 
     #[inline]
     fn cur_as_ascii(&self) -> Option<u8> {
-        let first_byte = *self.as_str().as_bytes().first()?;
+        let first_byte = *self.remaining.as_bytes().first()?;
         if first_byte <= 0x7f {
             Some(first_byte)
         } else {
             None
         }
+    }
+
+    #[inline]
+    fn cur_as_char(&self) -> Option<char> {
+        self.remaining.chars().next()
     }
 
     #[inline]
@@ -145,7 +154,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
-        self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+        self.remaining = unsafe { s.get_unchecked(end_idx..) };
         self.last_pos = end;
 
         ret
@@ -158,7 +167,7 @@ impl<'a> Input<'a> for StringInput<'a> {
     {
         let last = {
             let mut last = 0;
-            for c in self.iter.clone() {
+            for c in self.remaining.chars() {
                 if pred(c) {
                     last += c.len_utf8();
                 } else {
@@ -168,12 +177,11 @@ impl<'a> Input<'a> for StringInput<'a> {
             last
         };
 
-        let s = self.iter.as_str();
-        debug_assert!(last <= s.len());
-        let ret = unsafe { s.get_unchecked(..last) };
+        debug_assert!(last <= self.remaining.len());
+        let ret = unsafe { self.remaining.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
+        self.remaining = unsafe { self.remaining.get_unchecked(last..) };
 
         ret
     }
@@ -189,15 +197,13 @@ impl<'a> Input<'a> for StringInput<'a> {
         let idx = (to - self.orig_start).0 as usize;
 
         debug_assert!(idx <= orig.len());
-        let s = unsafe { orig.get_unchecked(idx..) };
-        self.iter = s.chars();
+        self.remaining = unsafe { orig.get_unchecked(idx..) };
         self.last_pos = to;
     }
 
     #[inline]
     fn is_byte(&self, c: u8) -> bool {
-        self.iter
-            .as_str()
+        self.remaining
             .as_bytes()
             .first()
             .map(|b| *b == c)
@@ -206,13 +212,13 @@ impl<'a> Input<'a> for StringInput<'a> {
 
     #[inline]
     fn is_str(&self, s: &str) -> bool {
-        self.as_str().starts_with(s)
+        self.remaining.starts_with(s)
     }
 
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
-            self.iter.next();
+            self.remaining = unsafe { self.remaining.get_unchecked(1..) };
             self.last_pos = self.last_pos + BytePos(1_u32);
             true
         } else {
@@ -222,27 +228,38 @@ impl<'a> Input<'a> for StringInput<'a> {
 }
 
 pub trait Input<'a>: Clone {
-    fn cur(&self) -> Option<char>;
-    fn peek(&self) -> Option<char>;
-    fn peek_ahead(&self) -> Option<char>;
+    /// Returns the current byte. Returns [None] if at end of input.
+    fn cur(&self) -> Option<u8>;
 
+    /// Returns the next byte without consuming the current byte.
+    fn peek(&self) -> Option<u8>;
+
+    /// Returns the byte after the next byte without consuming anything.
+    fn peek_ahead(&self) -> Option<u8>;
+
+    /// Advances the input by exactly `n` bytes.
+    /// Unlike `bump()`, this does not calculate UTF-8 character boundaries.
+    ///
     /// # Safety
     ///
-    /// This should be called only when `cur()` returns `Some`. i.e.
-    /// when the Input is not empty.
-    unsafe fn bump(&mut self);
+    /// - This should be called only when `cur()` returns `Some`. i.e. when the
+    ///   Input is not empty.
+    /// - `n` should be the number of bytes of the current character.
+    unsafe fn bump_bytes(&mut self, n: usize);
 
-    /// Returns [None] if it's end of input **or** current character is not an
-    /// ascii character.
+    /// Returns the current byte as ASCII if it's valid ASCII (0x00-0x7F).
+    /// Returns [None] if it's end of input or if the byte is not ASCII.
     #[inline]
     fn cur_as_ascii(&self) -> Option<u8> {
-        self.cur().and_then(|i| {
-            if i.is_ascii() {
-                return Some(i as u8);
-            }
-            None
-        })
+        self.cur()
+            .and_then(|b| if b <= 0x7f { Some(b) } else { None })
     }
+
+    /// Returns the current position as a UTF-8 char for cases where we need
+    /// full character processing (identifiers, strings, etc).
+    /// Returns [None] if at end of input or if the bytes don't form valid
+    /// UTF-8.
+    fn cur_as_char(&self) -> Option<char>;
 
     fn is_at_start(&self) -> bool;
 
@@ -267,16 +284,12 @@ pub trait Input<'a>: Clone {
     /// - `to` be in the valid range of input.
     unsafe fn reset_to(&mut self, to: BytePos);
 
-    /// Implementors can override the method to make it faster.
-    ///
-    /// `c` must be ASCII.
+    /// Check if the current byte equals the given byte.
+    /// `c` should typically be an ASCII byte for performance.
     #[inline]
     #[allow(clippy::wrong_self_convention)]
     fn is_byte(&self, c: u8) -> bool {
-        match self.cur() {
-            Some(ch) => ch == c as char,
-            _ => false,
-        }
+        self.cur() == Some(c)
     }
 
     /// Implementors can override the method to make it faster.
@@ -292,7 +305,7 @@ pub trait Input<'a>: Clone {
         if self.is_byte(c) {
             unsafe {
                 // Safety: We are sure that the input is not empty
-                self.bump();
+                self.bump_bytes(1);
             }
             true
         } else {
@@ -321,12 +334,12 @@ mod tests {
         with_test_sess("foo/d", |mut i| {
             assert_eq!(unsafe { i.slice(BytePos(1), BytePos(2)) }, "f");
             assert_eq!(i.last_pos, BytePos(2));
-            assert_eq!(i.cur(), Some('o'));
+            assert_eq!(i.cur(), Some(b'o'));
 
             assert_eq!(unsafe { i.slice(BytePos(2), BytePos(4)) }, "oo");
             assert_eq!(unsafe { i.slice(BytePos(1), BytePos(4)) }, "foo");
             assert_eq!(i.last_pos, BytePos(4));
-            assert_eq!(i.cur(), Some('/'));
+            assert_eq!(i.cur(), Some(b'/'));
         });
     }
 
@@ -335,10 +348,10 @@ mod tests {
         with_test_sess("load", |mut i| {
             assert_eq!(unsafe { i.slice(BytePos(1), BytePos(3)) }, "lo");
             assert_eq!(i.last_pos, BytePos(3));
-            assert_eq!(i.cur(), Some('a'));
+            assert_eq!(i.cur(), Some(b'a'));
             unsafe { i.reset_to(BytePos(1)) };
 
-            assert_eq!(i.cur(), Some('l'));
+            assert_eq!(i.cur(), Some(b'l'));
             assert_eq!(i.last_pos, BytePos(1));
         });
     }
@@ -352,16 +365,16 @@ mod tests {
 
             // assert_eq!(i.cur_pos(), BytePos(4));
             assert_eq!(i.last_pos, BytePos(4));
-            assert_eq!(i.cur(), Some('/'));
+            assert_eq!(i.cur(), Some(b'/'));
 
             unsafe {
-                i.bump();
+                i.bump_bytes(1);
             }
             assert_eq!(i.last_pos, BytePos(5));
-            assert_eq!(i.cur(), Some('d'));
+            assert_eq!(i.cur(), Some(b'd'));
 
             unsafe {
-                i.bump();
+                i.bump_bytes(1);
             }
             assert_eq!(i.last_pos, BytePos(6));
             assert_eq!(i.cur(), None);

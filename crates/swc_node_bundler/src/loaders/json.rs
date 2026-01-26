@@ -14,7 +14,7 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
         None,
         &mut Vec::new(),
     )
-    .map_err(|err| anyhow!("failed parse json as javascript object: {:#?}", err))?;
+    .map_err(|err| anyhow!("failed parse json as javascript object: {err:#?}"))?;
 
     let export = ExprStmt {
         span: DUMMY_SP,

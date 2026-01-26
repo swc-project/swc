@@ -1,8 +1,8 @@
 //// [propertyAccessOnTypeParameterWithConstraints2.ts]
-// generic types should behave as if they have properties of their constraint type
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// generic types should behave as if they have properties of their constraint type
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
@@ -76,7 +76,7 @@ var aB = new B();
 var r3c = a(aB, aB).foo();
 var r3d = a(aB, aB)['foo']();
 var b = {
-    foo: function(x, y) {
+    foo: function foo(x, y) {
         var a = x['foo'](); // should be string
         return a + x.foo();
     }

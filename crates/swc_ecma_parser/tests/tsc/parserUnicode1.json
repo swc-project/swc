@@ -2,14 +2,14 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 196
+    "end": 194
   },
   "body": [
     {
       "type": "TryStatement",
       "span": {
         "start": 1,
-        "end": 196
+        "end": 194
       },
       "block": {
         "type": "BlockStatement",
@@ -139,7 +139,7 @@
                               "start": 57,
                               "end": 101
                             },
-                            "value": "#6.1: var \\u0078x = 1; xx === 6. Actual: ",
+                            "value": "#6.1: var \\\\u0078x = 1; xx === 6. Actual: ",
                             "raw": "'#6.1: var \\\\u0078x = 1; xx === 6. Actual: '"
                           },
                           "right": {
@@ -175,7 +175,7 @@
         "type": "CatchClause",
         "span": {
           "start": 117,
-          "end": 196
+          "end": 194
         },
         "param": {
           "type": "Identifier",
@@ -192,28 +192,28 @@
           "type": "BlockStatement",
           "span": {
             "start": 127,
-            "end": 196
+            "end": 194
           },
           "ctxt": 0,
           "stmts": [
             {
               "type": "ExpressionStatement",
               "span": {
-                "start": 133,
-                "end": 193
+                "start": 131,
+                "end": 191
               },
               "expression": {
                 "type": "CallExpression",
                 "span": {
-                  "start": 133,
-                  "end": 192
+                  "start": 131,
+                  "end": 190
                 },
                 "ctxt": 0,
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 133,
-                    "end": 139
+                    "start": 131,
+                    "end": 137
                   },
                   "ctxt": 0,
                   "value": "$ERROR",
@@ -225,30 +225,30 @@
                     "expression": {
                       "type": "BinaryExpression",
                       "span": {
-                        "start": 140,
-                        "end": 191
+                        "start": 138,
+                        "end": 189
                       },
                       "operator": "+",
                       "left": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 140,
-                          "end": 184
+                          "start": 138,
+                          "end": 182
                         },
-                        "value": "#6.2: var \\u0078x = 1; xx === 6. Actual: ",
+                        "value": "#6.2: var \\\\u0078x = 1; xx === 6. Actual: ",
                         "raw": "'#6.2: var \\\\u0078x = 1; xx === 6. Actual: '"
                       },
                       "right": {
                         "type": "ParenthesisExpression",
                         "span": {
-                          "start": 187,
-                          "end": 191
+                          "start": 185,
+                          "end": 189
                         },
                         "expression": {
                           "type": "Identifier",
                           "span": {
-                            "start": 188,
-                            "end": 190
+                            "start": 186,
+                            "end": 188
                           },
                           "ctxt": 0,
                           "value": "xx",

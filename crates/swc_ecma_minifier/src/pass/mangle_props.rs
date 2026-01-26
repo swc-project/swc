@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::get_mut_object_define_property_name_arg;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -29,18 +29,18 @@ struct ManglePropertiesState<'a> {
     chars: Base54Chars,
     options: &'a ManglePropertiesOptions,
 
-    names_to_mangle: FxHashSet<Atom>,
-    unmangleable: FxHashSet<Atom>,
+    names_to_mangle: FxHashSet<Wtf8Atom>,
+    unmangleable: FxHashSet<Wtf8Atom>,
 
     // Cache of already mangled names
-    cache: FxHashMap<Atom, Atom>,
+    cache: FxHashMap<Wtf8Atom, Atom>,
 
     // Numbers to pass to base54()
     n: usize,
 }
 
 impl<'a> ManglePropertiesState<'a> {
-    fn add(&mut self, name: Atom) {
+    fn add(&mut self, name: Wtf8Atom) {
         let can_mangle = self.can_mangle(&name);
         let should_mangle = self.should_mangle(&name);
         match (can_mangle, !should_mangle) {
@@ -58,19 +58,23 @@ impl<'a> ManglePropertiesState<'a> {
         }
     }
 
-    fn can_mangle(&self, name: &Atom) -> bool {
+    fn can_mangle(&self, name: &Wtf8Atom) -> bool {
         !(self.unmangleable.contains(name) || self.is_reserved(name))
     }
 
-    fn matches_regex_option(&self, name: &Atom) -> bool {
+    fn matches_regex_option(&self, name: &Wtf8Atom) -> bool {
         if let Some(regex) = &self.options.regex {
-            regex.is_match(name)
+            if let Some(utf8_str) = name.as_str() {
+                regex.is_match(utf8_str)
+            } else {
+                false
+            }
         } else {
             true
         }
     }
 
-    fn should_mangle(&self, name: &Atom) -> bool {
+    fn should_mangle(&self, name: &Wtf8Atom) -> bool {
         if !self.matches_regex_option(name) || self.is_reserved(name) {
             false
         } else {
@@ -78,11 +82,16 @@ impl<'a> ManglePropertiesState<'a> {
         }
     }
 
-    fn is_reserved(&self, name: &Atom) -> bool {
-        JS_ENVIRONMENT_PROPS.contains(name) || self.options.reserved.contains(name)
+    fn is_reserved(&self, name: &Wtf8Atom) -> bool {
+        if let Some(utf8_str) = name.as_str() {
+            let atom = Atom::from(utf8_str);
+            JS_ENVIRONMENT_PROPS.contains(&atom) || self.options.reserved.contains(&atom)
+        } else {
+            false
+        }
     }
 
-    fn gen_name(&mut self, name: &Atom) -> Option<Atom> {
+    fn gen_name(&mut self, name: &Wtf8Atom) -> Option<Atom> {
         if self.should_mangle(name) {
             if let Some(cached) = self.cache.get(name) {
                 Some(cached.clone())
@@ -127,21 +136,22 @@ struct Mangler<'a, 'b> {
 
 impl Mangler<'_, '_> {
     fn mangle_ident(&mut self, ident: &mut IdentName) {
-        if let Some(mangled) = self.state.gen_name(&ident.sym) {
+        let wtf8_name = Wtf8Atom::from(ident.sym.clone());
+        if let Some(mangled) = self.state.gen_name(&wtf8_name) {
             ident.sym = mangled;
         }
     }
 
     fn mangle_str(&mut self, string: &mut Str) {
         if let Some(mangled) = self.state.gen_name(&string.value) {
-            string.value = mangled;
+            string.value = mangled.into();
             string.raw = None;
         }
     }
 }
 
 impl VisitMut for Mangler<'_, '_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);

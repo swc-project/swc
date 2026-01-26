@@ -32,7 +32,7 @@ for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
     get: Object.getOwnPropertyDescriptor(all, name).get
 });
-const _t1 = require("./t1");
+let _t1 = require("./t1");
 //// [t3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -49,4 +49,4 @@ for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
     get: Object.getOwnPropertyDescriptor(all, name).get
 });
-const _t1 = require("./t1");
+let _t1 = require("./t1");

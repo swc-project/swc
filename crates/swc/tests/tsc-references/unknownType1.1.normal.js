@@ -103,7 +103,7 @@ function f26(x, y, z) {
 function f27() {}
 // Rest type cannot be created from unknown
 function f28(x) {
-    var a = _extends({}, _object_destructuring_empty(x)); // Error
+    var ref = _object_destructuring_empty(x), a = _extends({}, x); // Error
 }
 // Class properties of type unknown don't need definite assignment
 var C1 = function C1() {

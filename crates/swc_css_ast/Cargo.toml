@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_css_ast"
 repository    = { workspace = true }
-version       = "13.0.1"
+version       = "18.0.0"
 
 [lib]
 bench = false
@@ -14,6 +14,11 @@ bench = false
 [features]
 __rkyv = []
 default = []
+encoding-impl = [
+  "cbor4ii",
+  "swc_atoms/encoding-impl",
+  "swc_common/encoding-impl",
+]
 rkyv-impl = [
   "__rkyv",
   "rkyv",
@@ -29,7 +34,8 @@ is-macro    = { workspace = true }
 serde       = { workspace = true, features = ["derive"], optional = true }
 string_enum = { version = "1.0.2", path = "../string_enum/" }
 
-swc_atoms  = { version = "6.0.1", path = "../swc_atoms" }
-swc_common = { version = "13.0.4", path = "../swc_common" }
+swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
+swc_common = { version = "18.0.1", path = "../swc_common" }
 
-rkyv = { workspace = true, optional = true }
+cbor4ii = { workspace = true, features = ["use_std"], optional = true }
+rkyv    = { workspace = true, optional = true }

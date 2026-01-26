@@ -4,8 +4,8 @@ do {
         return r[o];
         try {
             r = 2;
-        } catch (c) {
-            var c;
+        } catch (a) {
+            var a;
         }
     })(3);
 }while (0)

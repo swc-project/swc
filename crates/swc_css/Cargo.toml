@@ -6,11 +6,11 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_css"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "21.0.0"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
@@ -22,12 +22,12 @@ modules  = ["swc_css_modules"]
 prefixer = ["swc_css_prefixer"]
 
 [dependencies]
-swc_css_ast      = { version = "13.0.1", path = "../swc_css_ast" }
-swc_css_codegen  = { version = "13.0.0", path = "../swc_css_codegen" }
-swc_css_compat   = { version = "13.0.1", path = "../swc_css_compat", optional = true }
-swc_css_minifier = { version = "13.0.1", path = "../swc_css_minifier", optional = true }
-swc_css_modules  = { version = "13.0.1", path = "../swc_css_modules", optional = true }
-swc_css_parser   = { version = "13.0.1", path = "../swc_css_parser" }
-swc_css_prefixer = { version = "16.0.0", path = "../swc_css_prefixer", optional = true }
-swc_css_utils    = { version = "13.0.1", path = "../swc_css_utils/" }
-swc_css_visit    = { version = "13.0.0", path = "../swc_css_visit" }
+swc_css_ast      = { version = "18.0.0", path = "../swc_css_ast" }
+swc_css_codegen  = { version = "18.0.0", path = "../swc_css_codegen" }
+swc_css_compat   = { version = "18.0.0", path = "../swc_css_compat", optional = true }
+swc_css_minifier = { version = "18.0.0", path = "../swc_css_minifier", optional = true }
+swc_css_modules  = { version = "18.0.0", path = "../swc_css_modules", optional = true }
+swc_css_parser   = { version = "18.0.0", path = "../swc_css_parser" }
+swc_css_prefixer = { version = "21.0.0", path = "../swc_css_prefixer", optional = true }
+swc_css_utils    = { version = "18.0.0", path = "../swc_css_utils/" }
+swc_css_visit    = { version = "18.0.0", path = "../swc_css_visit" }

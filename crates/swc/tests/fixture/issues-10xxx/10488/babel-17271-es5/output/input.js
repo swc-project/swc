@@ -1,20 +1,19 @@
-var _extends = require("@swc/helpers/_/_extends");
-var _object_destructuring_empty = require("@swc/helpers/_/_object_destructuring_empty");
-var _sliced_to_array = require("@swc/helpers/_/_sliced_to_array");
+import { _ as _extends } from "@swc/helpers/_/_extends";
+import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
+var _ref, _ref1, _ref2, _ref3;
 var rest;
-var _tmp;
 var ref;
-_tmp = [
+_ref = [
     {}
-], rest = _extends._({}, _object_destructuring_empty._(_tmp[0])), ref = _sliced_to_array._(_tmp, 1), _object_destructuring_empty._(ref[0]), ref, _tmp;
+], ref = _sliced_to_array(_ref, 1), _ref1 = ref[0], ref, _object_destructuring_empty(_ref1), rest = _extends({}, _ref1), _ref;
 for(var _i = 0, _iter = [
     [
         {}
     ]
 ]; _i < _iter.length; _i++){
-    var _ref = _iter[_i];
-    var _ref1;
+    _ref2 = _iter[_i];
     var ref1;
-    _ref1 = _ref, rest = _extends._({}, _object_destructuring_empty._(_ref1[0])), ref1 = _sliced_to_array._(_ref1, 1), _object_destructuring_empty._(ref1[0]), ref1, _ref1;
+    ref1 = _sliced_to_array(_ref2, 1), _ref3 = ref1[0], ref1, _object_destructuring_empty(_ref3), rest = _extends({}, _ref3), _ref2;
     ;
 }

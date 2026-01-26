@@ -1,3 +1,4 @@
+use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -64,6 +65,8 @@ pub fn hygiene_with_config(config: Config) -> impl 'static + Pass + VisitMut {
 struct HygieneRenamer;
 
 impl Renamer for HygieneRenamer {
+    type Target = Atom;
+
     const MANGLE: bool = false;
     const RESET_N: bool = true;
 

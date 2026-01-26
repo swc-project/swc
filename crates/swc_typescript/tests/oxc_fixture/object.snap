@@ -1,0 +1,81 @@
+```==================== .D.TS ====================
+
+declare const A: {
+    readonly state: number;
+};
+declare const B: {
+    state: string;
+};
+declare const C: {
+    state: number;
+};
+declare const D: {
+    state: string;
+};
+declare const E: {
+    state;
+};
+declare const ObjectMethods: {
+    a(): number;
+    b(): number;
+    c();
+};
+declare const ObjectKeys: {
+    a: number;
+    ["b"]: number;
+    ["c"]: number;
+    [3]: number;
+    [-3]: number;
+    [4n]: number;
+};
+type family = '-apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif';
+declare const family: family;
+declare const theme: {
+    readonly 'font-family': family;
+};
+declare const X: {
+    'async': number;
+    'await': number;
+};
+declare const Y: {
+    0: number;
+    [1]: number;
+    ["2"]: number;
+    3: number;
+    [4]: number;
+    ["5"]: number;
+};
+declare const exoticKeys: {
+    // --- WORKING KEYS ---
+    "a": string;
+    "é": string;
+    "ø": string;
+    "Ж": string;
+    "你": string;
+    "あ": string;
+    "한": string;
+    "a\u0301": string;
+    // --- NON-WORKING KEYS ---
+    "😃": string;
+    "👍🏻": string;
+    "👨‍👩‍👧‍👦": string;
+    "±": string;
+    "€": string;
+    "“": string;
+    "\u0000": string;
+    "\\": string;
+};
+
+
+==================== Errors ====================
+  x TS9009: At least one accessor must have an explicit return type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/object.ts:32:1]
+ 31 |     const E = {
+ 32 | ,->     get state() {
+ 33 | |           return A;
+ 34 | `->     },
+ 35 |         set state(v) {
+    `----
+
+
+```

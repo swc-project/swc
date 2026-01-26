@@ -1,4 +1,4 @@
-  x Unexpected eof
+  x Unexpected token `<eof>`. Expected {
    ,-[$DIR/tests/typescript-errors/missing-fn-expr-body/async/input.ts:1:27]
  1 | let f = async function ()
    `----

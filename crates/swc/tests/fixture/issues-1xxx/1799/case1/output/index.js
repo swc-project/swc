@@ -14,7 +14,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var _react = /*#__PURE__*/ _interop_require_default._(require("react"));
 function Foo() {
     return /*#__PURE__*/ _react.default.createElement("div", {
-        onClick: function(e) {
+        onClick: function onClick(e) {
             return _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){

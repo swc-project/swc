@@ -1,7 +1,6 @@
 export default class Demo {
     static encode(value) {
-        const ranges = [];
-        let range = [], retrString = A.encode(value), bitField = '';
+        let ranges = [], range = [], retrString = A.encode(value), bitField = '';
         return value.forEach((curValue, i)=>{
             bitField += B.encode(curValue);
             range.push(i);

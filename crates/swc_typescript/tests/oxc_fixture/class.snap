@@ -50,6 +50,55 @@ export declare class PublicMethodClass {
         ['x']: number;
     };
 }
+export declare class ConstructorOverloadsClass {
+    readonly a: any;
+    constructor(a: number);
+    constructor(a: string);
+}
+export declare class ClassParameterProperties {
+    readonly b: string;
+    constructor(a: number, b: string);
+}
+export declare class PrivateConstructorWithParameterProperties {
+    readonly bar: string;
+    private constructor();
+}
+export declare class ProtectedConstructorWithParameterProperties {
+    foo: string;
+    private readonly bar;
+    protected baz: boolean;
+    readonly qux: string;
+    protected constructor(foo: string, bar: number, baz: boolean, qux: string);
+}
+export declare class PrivateConstructorMixedParameterProperties {
+    publicProp: string;
+    private privateProp;
+    protected protectedProp: boolean;
+    readonly readonlyProp: string;
+    readonly publicReadonlyProp: number;
+    private readonly privateReadonlyProp;
+    private constructor();
+}
+export declare class PrivateConstructorWithOverloads {
+    private constructor();
+    private constructor();
+    private constructor();
+}
+export declare class PrivateConstructorWithOptionalParameters {
+    publicOptional?: boolean | undefined;
+    private privateOptional?;
+    readonly readonlyOptional?: number | undefined;
+    private constructor();
+}
+export declare class PrivateConstructorWithRestParameters {
+    private constructor();
+}
+export declare class PrivateConstructorWithDefaultParameters {
+    prop1: string;
+    private prop2;
+    readonly prop3: boolean;
+    private constructor();
+}
 
 
 ==================== Errors ====================

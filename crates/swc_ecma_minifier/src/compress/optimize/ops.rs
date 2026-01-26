@@ -1,4 +1,3 @@
-use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
@@ -43,7 +42,10 @@ impl Optimizer<'_> {
         }
 
         if e.op == op!("===") || e.op == op!("!==") {
-            if (e.left.is_ident() || e.left.is_member()) && e.left.eq_ignore_span(&e.right) {
+            if (e.left.is_ident() || e.left.is_member())
+                && e.left.eq_ignore_span(&e.right)
+                && !contains_update_or_assign(&e.left)
+            {
                 self.changed = true;
                 report_change!("Reducing comparison of same variable ({})", e.op);
 
@@ -56,12 +58,9 @@ impl Optimizer<'_> {
             }
         }
 
-        let lt = e.left.get_type(self.ctx.expr_ctx);
-        let rt = e.right.get_type(self.ctx.expr_ctx);
-
         if e.op == op!("===") {
-            if let Known(lt) = lt {
-                if let Known(rt) = rt {
+            if let Known(lt) = e.left.get_type(self.ctx.expr_ctx) {
+                if let Known(rt) = e.right.get_type(self.ctx.expr_ctx) {
                     if lt == rt {
                         e.op = op!("==");
                         self.changed = true;
@@ -260,7 +259,7 @@ impl Optimizer<'_> {
                         *e = Lit::Str(Str {
                             span: *span,
                             raw: None,
-                            value,
+                            value: value.into(),
                         })
                         .into();
                     }
@@ -272,7 +271,7 @@ impl Optimizer<'_> {
                     *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        value: atom!("function"),
+                        value: "function".into(),
                     })
                     .into();
                 }
@@ -283,12 +282,80 @@ impl Optimizer<'_> {
                     *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        value: atom!("object"),
+                        value: "object".into(),
                     })
                     .into();
                 }
                 _ => {}
             }
         }
+    }
+}
+
+/// Check if an expression contains update expressions (++, --) or assignments
+/// that would make duplicate evaluations produce different results.
+fn contains_update_or_assign(expr: &Expr) -> bool {
+    match expr {
+        Expr::Update(..) | Expr::Assign(..) => true,
+
+        Expr::Bin(BinExpr { left, right, .. }) => {
+            contains_update_or_assign(left) || contains_update_or_assign(right)
+        }
+
+        Expr::Unary(UnaryExpr { arg, .. }) => contains_update_or_assign(arg),
+
+        Expr::Cond(CondExpr {
+            test, cons, alt, ..
+        }) => {
+            contains_update_or_assign(test)
+                || contains_update_or_assign(cons)
+                || contains_update_or_assign(alt)
+        }
+
+        Expr::Member(MemberExpr { obj, prop, .. }) => {
+            contains_update_or_assign(obj)
+                || match prop {
+                    MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                        contains_update_or_assign(expr)
+                    }
+                    _ => false,
+                }
+        }
+
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) => {
+            contains_update_or_assign(callee)
+                || args.iter().any(|arg| contains_update_or_assign(&arg.expr))
+        }
+
+        Expr::Seq(SeqExpr { exprs, .. }) => {
+            exprs.iter().any(|expr| contains_update_or_assign(expr))
+        }
+
+        Expr::Paren(ParenExpr { expr, .. }) => contains_update_or_assign(expr),
+
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(member) => {
+                contains_update_or_assign(&member.obj)
+                    || match &member.prop {
+                        MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                            contains_update_or_assign(expr)
+                        }
+                        _ => false,
+                    }
+            }
+            OptChainBase::Call(call) => {
+                contains_update_or_assign(&call.callee)
+                    || call
+                        .args
+                        .iter()
+                        .any(|arg| contains_update_or_assign(&arg.expr))
+            }
+        },
+
+        _ => false,
     }
 }

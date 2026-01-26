@@ -90,7 +90,7 @@ impl Visit for CommentPrinter<'_> {
                     swc_common::errors::Level::Note,
                     "Leading (lo)",
                 )
-                .span_note(Span::new(n.lo, n.lo), &c.text)
+                .span_note(Span::new_with_checked(n.lo, n.lo), &c.text)
                 .emit();
             }
         });
@@ -102,7 +102,7 @@ impl Visit for CommentPrinter<'_> {
                     swc_common::errors::Level::Note,
                     "Trailing (lo)",
                 )
-                .span_note(Span::new(n.lo, n.lo), &c.text)
+                .span_note(Span::new_with_checked(n.lo, n.lo), &c.text)
                 .emit();
             }
         });
@@ -114,7 +114,10 @@ impl Visit for CommentPrinter<'_> {
                     swc_common::errors::Level::Note,
                     "Leading (hi)",
                 )
-                .span_note(Span::new(n.hi - BytePos(1), n.hi - BytePos(1)), &c.text)
+                .span_note(
+                    Span::new_with_checked(n.hi - BytePos(1), n.hi - BytePos(1)),
+                    &c.text,
+                )
                 .emit();
             }
         });
@@ -126,7 +129,7 @@ impl Visit for CommentPrinter<'_> {
                     swc_common::errors::Level::Note,
                     "Trailing (hi)",
                 )
-                .span_note(Span::new(n.hi, n.hi), &c.text)
+                .span_note(Span::new_with_checked(n.hi, n.hi), &c.text)
                 .emit();
             }
         });

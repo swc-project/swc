@@ -292,6 +292,8 @@ impl IsConcrete for TsNamespaceBody {
                 ts_module_block.body.iter().any(|item| item.is_concrete())
             }
             Self::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl.body.is_concrete(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -301,6 +303,8 @@ impl IsConcrete for ModuleItem {
         match self {
             Self::ModuleDecl(module_decl) => module_decl.is_concrete(),
             Self::Stmt(stmt) => stmt.is_concrete(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -317,6 +321,8 @@ impl IsConcrete for ModuleDecl {
             Self::TsImportEquals(ts_import_equals) => !ts_import_equals.is_type_only,
             Self::TsExportAssignment(..) => true,
             Self::TsNamespaceExport(..) => false,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -328,6 +334,8 @@ impl IsConcrete for Decl {
             Self::Fn(r#fn) => r#fn.function.body.is_some(),
             Self::Class(..) | Self::Var(..) | Self::Using(..) | Self::TsEnum(..) => true,
             Self::TsModule(ts_module) => ts_module.is_concrete(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -338,6 +346,8 @@ impl IsConcrete for DefaultDecl {
             Self::Class(_) => true,
             Self::Fn(r#fn) => r#fn.function.body.is_some(),
             Self::TsInterfaceDecl(..) => false,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -367,6 +377,8 @@ impl IsDeclare for Decl {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => true,
             Decl::TsEnum(ts_enum) => ts_enum.declare,
             Decl::TsModule(ts_module) => ts_module.declare || ts_module.global,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

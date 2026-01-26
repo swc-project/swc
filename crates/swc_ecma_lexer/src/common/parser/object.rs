@@ -26,8 +26,7 @@ fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
     parse_prop: impl Fn(&mut P) -> PResult<ObjectProp>,
     make_object: impl Fn(&mut P, Span, Vec<ObjectProp>, Option<Span>) -> PResult<Object>,
 ) -> PResult<Object> {
-    let ctx = p.ctx() & !Context::WillExpectColonForCond;
-    p.with_ctx(ctx, |p| {
+    p.do_outside_of_context(Context::WillExpectColonForCond, |p| {
         trace_cur!(p, parse_object);
 
         let start = p.cur_pos();
@@ -39,9 +38,9 @@ fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
         while !p.input_mut().eat(&P::Token::RBRACE) {
             props.push(parse_prop(p)?);
 
-            if !p.input_mut().is(&P::Token::RBRACE) {
+            if !p.input().is(&P::Token::RBRACE) {
                 expect!(p, &P::Token::COMMA);
-                if p.input_mut().is(&P::Token::RBRACE) {
+                if p.input().is(&P::Token::RBRACE) {
                     trailing_comma = Some(p.input().prev_span());
                 }
             }
@@ -173,9 +172,8 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
     if p.input_mut().eat(&P::Token::MUL) {
         let name = p.parse_prop_name()?;
         return p
-            .with_ctx(
-                (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField,
-                |p| {
+            .do_inside_of_context(Context::AllowDirectSuper, |p| {
+                p.do_outside_of_context(Context::InClassField, |p| {
                     parse_fn_args_body(
                         p,
                         // no decorator in an object literal
@@ -185,8 +183,8 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                         false,
                         true,
                     )
-                },
-            )
+                })
+            })
             .map(|function| {
                 PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
                     key: name,
@@ -200,21 +198,20 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
 
     let key = p.parse_prop_name()?;
 
+    let cur = p.input().cur();
     if p.input().syntax().typescript()
-        && !p.input_mut().cur().is_some_and(|cur| {
-            cur.is_lparen()
-                || cur.is_lbracket()
-                || cur.is_colon()
-                || cur.is_comma()
-                || cur.is_question()
-                || cur.is_equal()
-                || cur.is_star()
-                || cur.is_str()
-                || cur.is_num()
-                || cur.is_word()
-        })
-        && !(p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS))
-        && !(p.input_mut().is(&P::Token::RBRACE) && matches!(key, PropName::Ident(..)))
+        && !(cur.is_lparen()
+            || cur.is_lbracket()
+            || cur.is_colon()
+            || cur.is_comma()
+            || cur.is_question()
+            || cur.is_equal()
+            || cur.is_star()
+            || cur.is_str()
+            || cur.is_num()
+            || cur.is_word())
+        && !(p.input().syntax().typescript() && p.input().is(&P::Token::LESS))
+        && !(p.input().is(&P::Token::RBRACE) && matches!(key, PropName::Ident(..)))
     {
         trace_cur!(p, parse_object_prop_error);
 
@@ -241,13 +238,12 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
     }
 
     // Handle `a(){}` (and async(){} / get(){} / set(){})
-    if (p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS))
-        || p.input_mut().is(&P::Token::LPAREN)
+    if (p.input().syntax().typescript() && p.input().is(&P::Token::LESS))
+        || p.input().is(&P::Token::LPAREN)
     {
         return p
-            .with_ctx(
-                (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField,
-                |p| {
+            .do_inside_of_context(Context::AllowDirectSuper, |p| {
+                p.do_outside_of_context(Context::InClassField, |p| {
                     parse_fn_args_body(
                         p,
                         // no decorator in an object literal
@@ -257,8 +253,8 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                         false,
                         false,
                     )
-                },
-            )
+                })
+            })
             .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
             .map(PropOrSpread::Prop);
     }
@@ -275,12 +271,9 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
 
     // `ident` from parse_prop_name is parsed as 'IdentifierName'
     // It means we should check for invalid expressions like { for, }
-    if p.input_mut()
-        .cur()
-        .is_some_and(|cur| cur.is_equal() || cur.is_comma() || cur.is_rbrace())
-    {
-        let is_reserved_word = { p.ctx().is_reserved_word(&ident.sym) };
-        if is_reserved_word {
+    let cur = p.input().cur();
+    if cur.is_equal() || cur.is_comma() || cur.is_rbrace() {
+        if p.ctx().is_reserved_word(&ident.sym) {
             p.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
         }
 
@@ -312,47 +305,10 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
             let is_generator = ident.sym == "async" && p.input_mut().eat(&P::Token::MUL);
             let key = p.parse_prop_name()?;
             let key_span = key.span();
-            let ctx = (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField;
-            p.with_ctx(ctx, |parser| {
-                match &*ident.sym {
-                    "get" => parse_fn_args_body(
-                        parser,
-                        // no decorator in an object literal
-                        Vec::new(),
-                        start,
-                        |p| {
-                            let params = parse_formal_params(p)?;
-
-                            if params.iter().any(is_not_this) {
-                                p.emit_err(key_span, SyntaxError::GetterParam);
-                            }
-
-                            Ok(params)
-                        },
-                        false,
-                        false,
-                    )
-                    .map(|v| *v)
-                    .map(
-                        |Function {
-                             body, return_type, ..
-                         }| {
-                            if parser.input().syntax().typescript()
-                                && parser.input().target() == EsVersion::Es3
-                            {
-                                parser.emit_err(key_span, SyntaxError::TS1056);
-                            }
-
-                            PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
-                                span: parser.span(start),
-                                key,
-                                type_ann: return_type,
-                                body,
-                            })))
-                        },
-                    ),
-                    "set" => {
-                        parse_fn_args_body(
+            p.do_inside_of_context(Context::AllowDirectSuper, |p| {
+                p.do_outside_of_context(Context::InClassField, |parser| {
+                    match &*ident.sym {
+                        "get" => parse_fn_args_body(
                             parser,
                             // no decorator in an object literal
                             Vec::new(),
@@ -360,20 +316,8 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                             |p| {
                                 let params = parse_formal_params(p)?;
 
-                                if params.iter().filter(|p| is_not_this(p)).count() != 1 {
-                                    p.emit_err(key_span, SyntaxError::SetterParam);
-                                }
-
-                                if !params.is_empty() {
-                                    if let Pat::Rest(..) = params[0].pat {
-                                        p.emit_err(params[0].span(), SyntaxError::RestPatInSetter);
-                                    }
-                                }
-
-                                if p.input().syntax().typescript()
-                                    && p.input().target() == EsVersion::Es3
-                                {
-                                    p.emit_err(key_span, SyntaxError::TS1056);
+                                if params.iter().any(is_not_this) {
+                                    p.emit_err(key_span, SyntaxError::GetterParam);
                                 }
 
                                 Ok(params)
@@ -384,46 +328,101 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
                         .map(|v| *v)
                         .map(
                             |Function {
-                                 mut params, body, ..
+                                 body, return_type, ..
                              }| {
-                                let mut this = None;
-                                if params.len() >= 2 {
-                                    this = Some(params.remove(0).pat);
+                                if parser.input().syntax().typescript()
+                                    && parser.input().target() == EsVersion::Es3
+                                {
+                                    parser.emit_err(key_span, SyntaxError::TS1056);
                                 }
 
-                                let param = Box::new(
-                                    params.into_iter().next().map(|v| v.pat).unwrap_or_else(|| {
-                                        parser.emit_err(key_span, SyntaxError::SetterParam);
-
-                                        Invalid { span: DUMMY_SP }.into()
-                                    }),
-                                );
-
-                                // debug_assert_eq!(params.len(), 1);
-                                PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
                                     span: parser.span(start),
                                     key,
+                                    type_ann: return_type,
                                     body,
-                                    param,
-                                    this_param: this,
                                 })))
                             },
+                        ),
+                        "set" => {
+                            parse_fn_args_body(
+                                parser,
+                                // no decorator in an object literal
+                                Vec::new(),
+                                start,
+                                |p| {
+                                    let params = parse_formal_params(p)?;
+
+                                    if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                                        p.emit_err(key_span, SyntaxError::SetterParam);
+                                    }
+
+                                    if !params.is_empty() {
+                                        if let Pat::Rest(..) = params[0].pat {
+                                            p.emit_err(
+                                                params[0].span(),
+                                                SyntaxError::RestPatInSetter,
+                                            );
+                                        }
+                                    }
+
+                                    if p.input().syntax().typescript()
+                                        && p.input().target() == EsVersion::Es3
+                                    {
+                                        p.emit_err(key_span, SyntaxError::TS1056);
+                                    }
+
+                                    Ok(params)
+                                },
+                                false,
+                                false,
+                            )
+                            .map(|v| *v)
+                            .map(
+                                |Function {
+                                     mut params, body, ..
+                                 }| {
+                                    let mut this = None;
+                                    if params.len() >= 2 {
+                                        this = Some(params.remove(0).pat);
+                                    }
+
+                                    let param = Box::new(
+                                        params.into_iter().next().map(|v| v.pat).unwrap_or_else(
+                                            || {
+                                                parser.emit_err(key_span, SyntaxError::SetterParam);
+
+                                                Invalid { span: DUMMY_SP }.into()
+                                            },
+                                        ),
+                                    );
+
+                                    // debug_assert_eq!(params.len(), 1);
+                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                        span: parser.span(start),
+                                        key,
+                                        body,
+                                        param,
+                                        this_param: this,
+                                    })))
+                                },
+                            )
+                        }
+                        "async" => parse_fn_args_body(
+                            parser,
+                            // no decorator in an object literal
+                            Vec::new(),
+                            start,
+                            parse_unique_formal_params,
+                            true,
+                            is_generator,
                         )
+                        .map(|function| {
+                            PropOrSpread::Prop(Box::new(Prop::Method(MethodProp { key, function })))
+                        }),
+                        _ => unreachable!(),
                     }
-                    "async" => parse_fn_args_body(
-                        parser,
-                        // no decorator in an object literal
-                        Vec::new(),
-                        start,
-                        parse_unique_formal_params,
-                        true,
-                        is_generator,
-                    )
-                    .map(|function| {
-                        PropOrSpread::Prop(Box::new(Prop::Method(MethodProp { key, function })))
-                    }),
-                    _ => unreachable!(),
-                }
+                })
             })
         }
         _ => {

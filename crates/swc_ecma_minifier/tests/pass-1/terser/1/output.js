@@ -1,7 +1,7 @@
 def_optimize(AST_Call, function(self, compressor) {
     if (compressor.option("unsafe")) {
         if (exp instanceof AST_Dot && "Array" === exp.start.value && "from" === exp.property && 1 === self.args.length) {
-            const [argument] = self.args;
+            let [argument] = self.args;
             if (argument instanceof AST_Array) return make_node(AST_Array, argument, {
                 elements: argument.elements
             }).optimize(compressor);

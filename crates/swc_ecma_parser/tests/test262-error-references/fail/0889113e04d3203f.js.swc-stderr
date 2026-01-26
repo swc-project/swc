@@ -1,4 +1,4 @@
-  x Unexpected eof
+  x Expected ident
    ,-[$DIR/tests/test262-parser/fail/0889113e04d3203f.js:1:1]
  1 | class
    `----

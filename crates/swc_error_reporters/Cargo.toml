@@ -6,17 +6,17 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_error_reporters"
 repository    = { workspace = true }
-version       = "15.0.1"
+version       = "20.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-anyhow       = { workspace = true }
-miette       = { workspace = true, features = ["fancy-no-syscall"] }
-once_cell    = { workspace = true }
-serde        = { workspace = true }
+anyhow    = { workspace = true }
+miette    = { workspace = true, features = ["fancy-no-syscall"] }
+once_cell = { workspace = true }
+serde     = { workspace = true }
 
-swc_common = { version = "13.0.4", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }

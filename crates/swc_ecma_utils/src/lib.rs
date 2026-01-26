@@ -18,7 +18,10 @@ use number::ToJsString;
 use once_cell::sync::Lazy;
 use parallel::{Parallel, ParallelExt};
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{
+    atom,
+    wtf8::{Wtf8, Wtf8Buf},
+};
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -52,9 +55,12 @@ pub mod parallel;
 mod value;
 pub mod var;
 
+pub mod unicode;
+
 mod node_ignore_span;
 pub mod number;
 pub mod stack_size;
+pub mod str;
 pub use node_ignore_span::NodeIgnoringSpan;
 
 // TODO: remove
@@ -117,7 +123,7 @@ where
     visitor.found
 }
 
-pub fn contains_ident_ref<'a, N>(body: &N, ident: &'a Id) -> bool
+pub fn contains_ident_ref<'a, N>(body: &N, ident: &'a Ident) -> bool
 where
     N: VisitWith<IdentRefFinder<'a>>,
 {
@@ -130,7 +136,7 @@ where
 }
 
 pub struct IdentRefFinder<'a> {
-    ident: &'a Id,
+    ident: &'a Ident,
     found: bool,
 }
 
@@ -141,7 +147,7 @@ impl Visit for IdentRefFinder<'_> {
         e.visit_children_with(self);
 
         match *e {
-            Expr::Ident(ref i) if i.sym == self.ident.0 && i.ctxt == self.ident.1 => {
+            Expr::Ident(ref i) if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym => {
                 self.found = true;
             }
             _ => {}
@@ -236,6 +242,8 @@ impl StmtOrModuleItem for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -244,6 +252,8 @@ impl StmtOrModuleItem for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -252,6 +262,8 @@ impl StmtOrModuleItem for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -535,7 +547,8 @@ pub trait StmtExt {
                         }
 
                         if !case.cons.is_empty() {
-                            let t = terminates_many(&case.cons, true, false, allow_throw)?;
+                            let t = terminates_many(&case.cons, true, false, allow_throw)
+                                .unwrap_or(false);
 
                             if t {
                                 has_non_empty_terminates = true
@@ -704,7 +717,7 @@ pub struct ExprCtx {
     /// function should not operate and return the safe value.
     ///
     /// Default value is `4`
-    pub remaining_depth: u32,
+    pub remaining_depth: u8,
 }
 
 /// Extension methods for [Expr].
@@ -798,6 +811,12 @@ pub trait ExprExt {
     #[inline(always)]
     fn as_pure_string(&self, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         as_pure_string(self.as_expr(), ctx)
+    }
+
+    /// Returns Known only if it's pure.
+    #[inline(always)]
+    fn as_pure_wtf8(&self, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
+        as_pure_wtf8(self.as_expr(), ctx)
     }
 
     /// Apply the supplied predicate against all possible result Nodes of the
@@ -1197,6 +1216,8 @@ impl Visit for LiteralVisitor {
             }
             PropName::BigInt(_) => self.is_lit = false,
             PropName::Computed(..) => self.is_lit = false,
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
     }
 
@@ -1258,12 +1279,14 @@ pub fn is_simple_pure_member_expr(m: &MemberExpr, pure_getters: bool) -> bool {
         MemberProp::Computed(c) => {
             is_simple_pure_expr(&c.expr, pure_getters) && is_simple_pure_expr(&m.obj, pure_getters)
         }
+        #[cfg(swc_ast_unknown)]
+        _ => false,
     }
 }
 
 fn sym_for_expr(expr: &Expr) -> Option<String> {
     match expr {
-        Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
+        Expr::Lit(Lit::Str(s)) => s.value.as_str().map(ToString::to_string),
         Expr::This(_) => Some("this".to_string()),
 
         Expr::Ident(ident)
@@ -1421,6 +1444,8 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Num(n) => Lit::Num(n).into(),
         PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 /// Similar to `prop_name_to_expr`, but used for value position.
@@ -1431,13 +1456,15 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
         PropName::Ident(i) => Lit::Str(Str {
             span: i.span,
             raw: None,
-            value: i.sym,
+            value: i.sym.into(),
         })
         .into(),
         PropName::Str(s) => Lit::Str(s).into(),
         PropName::Num(n) => Lit::Num(n).into(),
         PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -1457,6 +1484,8 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
             span: DUMMY_SP,
             expr: b.into(),
         }),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -1669,7 +1698,7 @@ where
     }
 }
 
-pub fn is_valid_ident(s: &Atom) -> bool {
+pub fn is_valid_ident(s: &str) -> bool {
     if s.is_empty() {
         return false;
     }
@@ -1705,7 +1734,7 @@ impl VisitMut for DropSpan {
 
 /// Finds usage of `ident`
 pub struct IdentUsageFinder<'a> {
-    ident: &'a Id,
+    ident: &'a Ident,
     found: bool,
 }
 
@@ -1728,7 +1757,7 @@ impl Visit for IdentUsageFinder<'_> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.ctxt == self.ident.1 && i.sym == self.ident.0 {
+        if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym {
             self.found = true;
         }
     }
@@ -1779,7 +1808,7 @@ impl Visit for IdentUsageFinder<'_> {
 }
 
 impl<'a> IdentUsageFinder<'a> {
-    pub fn find<N>(ident: &'a Id, node: &N) -> bool
+    pub fn find<N>(ident: &'a Ident, node: &N) -> bool
     where
         N: VisitWith<Self>,
     {
@@ -1928,11 +1957,15 @@ impl ExprCtx {
                         Prop::Assign(..) => {
                             unreachable!("assign property in object literal is not a valid syntax")
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => true,
                     },
                     PropOrSpread::Spread(SpreadElement { .. }) => {
                         has_spread = true;
                         true
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => true,
                 });
 
                 if has_spread {
@@ -1960,6 +1993,8 @@ impl ExprCtx {
                                     "assign property in object literal is not a valid syntax"
                                 )
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                         _ => unreachable!(),
                     })
@@ -2005,6 +2040,8 @@ impl ExprCtx {
             Expr::OptChain(..) => to.push(Box::new(expr)),
 
             Expr::Invalid(..) => unreachable!(),
+            #[cfg(swc_ast_unknown)]
+            _ => to.push(Box::new(expr)),
         }
     }
 }
@@ -2019,6 +2056,8 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,
             _ => false,
         },
+        #[cfg(swc_ast_unknown)]
+        _ => false,
     }
 }
 
@@ -2362,6 +2401,8 @@ impl VisitMut for IdentRenamer<'_> {
                 }
             }
             ModuleExportName::Str(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         }
     }
 
@@ -2380,7 +2421,7 @@ impl VisitMut for IdentRenamer<'_> {
                 let orig = p.key.clone();
                 p.key.visit_mut_with(self);
 
-                if orig.to_id() == p.key.to_id() {
+                if orig.ctxt == p.key.ctxt && orig.sym == p.key.sym {
                     return;
                 }
 
@@ -2513,6 +2554,8 @@ where
                     JSXElementName::Ident(ident) => ident.into(),
                     JSXElementName::JSXMemberExpr(expr) => Box::new(expr).into(),
                     JSXElementName::JSXNamespacedName(..) => unimplemented!(),
+                    #[cfg(swc_ast_unknown)]
+                    _ => return,
                 }
             }
         }
@@ -2947,6 +2990,8 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
                     Lit::Null(..) => false,
                     Lit::Regex(..) => true,
                     Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
+                    #[cfg(swc_ast_unknown)]
+                    _ => return (Pure, Unknown),
                 }),
             );
         }
@@ -2972,7 +3017,12 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
             Lit::Bool(Bool { value: true, .. }) => 1.0,
             Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
             Lit::Num(Number { value: n, .. }) => *n,
-            Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
+            Lit::Str(Str { value, .. }) => {
+                if let Some(value) = value.as_str() {
+                    return (Pure, num_from_str(value));
+                }
+                return (Pure, Unknown);
+            }
             _ => return (Pure, Unknown),
         },
         Expr::Array(..) => {
@@ -3058,23 +3108,45 @@ fn as_pure_number(expr: &Expr, ctx: ExprCtx) -> Value<f64> {
 }
 
 fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
+    match as_pure_wtf8(expr, ctx) {
+        Known(v) => match v {
+            Cow::Borrowed(v) => {
+                if let Some(v) = v.as_str() {
+                    Known(Cow::Borrowed(v))
+                } else {
+                    Unknown
+                }
+            }
+            Cow::Owned(v) => {
+                if let Ok(v) = v.into_string() {
+                    Known(Cow::Owned(v))
+                } else {
+                    Unknown
+                }
+            }
+        },
+        Unknown => Unknown,
+    }
+}
+
+fn as_pure_wtf8(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
     let Some(ctx) = ctx.consume_depth() else {
         return Unknown;
     };
 
     match *expr {
         Expr::Lit(ref l) => match *l {
-            Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
+            Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(&**value)),
             Lit::Num(ref n) => {
                 if n.value == -0.0 {
-                    return Known(Cow::Borrowed("0"));
+                    return Known(Cow::Borrowed("0".into()));
                 }
 
-                Known(Cow::Owned(n.value.to_js_string()))
+                Known(Cow::Owned(Wtf8Buf::from_string(n.value.to_js_string())))
             }
-            Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true")),
-            Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false")),
-            Lit::Null(..) => Known(Cow::Borrowed("null")),
+            Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true".into())),
+            Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false".into())),
+            Lit::Null(..) => Known(Cow::Borrowed("null".into())),
             _ => Unknown,
         },
         Expr::Tpl(_) => {
@@ -3086,13 +3158,13 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         }
         Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
             "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
-                Known(Cow::Borrowed(&**sym))
+                Known(Cow::Borrowed(Wtf8::from_str(sym)))
             }
             _ => Unknown,
         },
         Expr::Unary(UnaryExpr {
             op: op!("void"), ..
-        }) => Known(Cow::Borrowed("undefined")),
+        }) => Known(Cow::Borrowed("undefined".into())),
         Expr::Unary(UnaryExpr {
             op: op!("!"),
             ref arg,
@@ -3100,15 +3172,15 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         }) => Known(Cow::Borrowed(match arg.as_pure_bool(ctx) {
             Known(v) => {
                 if v {
-                    "false"
+                    "false".into()
                 } else {
-                    "true"
+                    "true".into()
                 }
             }
             Unknown => return Value::Unknown,
         })),
         Expr::Array(ArrayLit { ref elems, .. }) => {
-            let mut buf = String::new();
+            let mut buf = Wtf8Buf::new();
             let len = elems.len();
             // null, undefined is "" in array literal.
             for (idx, elem) in elems.iter().enumerate() {
@@ -3117,7 +3189,7 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
                     Some(ref elem) => {
                         let ExprOrSpread { ref expr, .. } = *elem;
                         match &**expr {
-                            Expr::Lit(Lit::Null(..)) => Cow::Borrowed(""),
+                            Expr::Lit(Lit::Null(..)) => Cow::Borrowed("".into()),
                             Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 arg,
@@ -3126,25 +3198,25 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
                                 if arg.may_have_side_effects(ctx) {
                                     return Value::Unknown;
                                 }
-                                Cow::Borrowed("")
+                                Cow::Borrowed("".into())
                             }
                             Expr::Ident(Ident { sym: undefined, .. })
                                 if &**undefined == "undefined" =>
                             {
-                                Cow::Borrowed("")
+                                Cow::Borrowed("".into())
                             }
-                            _ => match expr.as_pure_string(ctx) {
+                            _ => match expr.as_pure_wtf8(ctx) {
                                 Known(v) => v,
                                 Unknown => return Value::Unknown,
                             },
                         }
                     }
-                    None => Cow::Borrowed(""),
+                    None => Cow::Borrowed("".into()),
                 };
-                buf.push_str(&e);
+                buf.push_wtf8(&e);
 
                 if !last {
-                    buf.push(',');
+                    buf.push_char(',');
                 }
             }
             Known(buf.into())
@@ -3400,6 +3472,67 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     }
 }
 
+/// Check if a class expression is pure when used with `new`.
+/// This is different from `is_pure_callee` because:
+/// - Calling a class as a function (`(class {})()`) throws TypeError
+/// - But `new (class {})()` can be pure if the class has no side effects
+fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
+    match expr {
+        // An empty function expression is also pure for `new`
+        Expr::Fn(FnExpr { function: f, .. })
+            if f.params.iter().all(|p| p.pat.is_ident())
+                && f.body.is_some()
+                && f.body.as_ref().unwrap().stmts.is_empty() =>
+        {
+            true
+        }
+
+        // A class expression is pure for `new` if:
+        // 1. It has no side effects from definition (computed keys, property initializers, static
+        //    blocks)
+        // 2. It has no super class (calling super() may have side effects)
+        // 3. Either has no constructor, or constructor body is empty
+        // 4. Has no instance properties (they are initialized in the constructor)
+        Expr::Class(c) => {
+            let class = &c.class;
+
+            // Check for super class - calling super() may have side effects
+            if class.super_class.is_some() {
+                return false;
+            }
+
+            // Check for side effects from class definition
+            if class_has_side_effect(ctx, class) {
+                return false;
+            }
+
+            // Check for instance properties (non-static) - they run during construction
+            for member in &class.body {
+                match member {
+                    ClassMember::ClassProp(p) if !p.is_static => return false,
+                    ClassMember::PrivateProp(p) if !p.is_static => return false,
+                    _ => {}
+                }
+            }
+
+            // Check constructor - must be empty or not present
+            for member in &class.body {
+                if let ClassMember::Constructor(ctor) = member {
+                    if let Some(body) = &ctor.body {
+                        if !body.stmts.is_empty() {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            true
+        }
+
+        _ => false,
+    }
+}
+
 fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
     let Some(ctx) = ctx.consume_depth() else {
         return true;
@@ -3493,9 +3626,11 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                             Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => true,
                             Prop::Shorthand(Ident { sym, .. })
                             | Prop::KeyValue(KeyValueProp {
-                                key:
-                                    PropName::Ident(IdentName { sym, .. })
-                                    | PropName::Str(Str { value: sym, .. }),
+                                key: PropName::Ident(IdentName { sym, .. }),
+                                ..
+                            }) => &**sym == "__proto__",
+                            Prop::KeyValue(KeyValueProp {
+                                key: PropName::Str(Str { value: sym, .. }),
                                 ..
                             }) => &**sym == "__proto__",
                             Prop::KeyValue(KeyValueProp {
@@ -3504,6 +3639,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                             }) => true,
                             _ => false,
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => true,
                     };
                     if obj.props.iter().any(can_have_side_effect) {
                         return true;
@@ -3515,6 +3652,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             match prop {
                 MemberProp::Computed(c) => c.expr.may_have_side_effects(ctx),
                 MemberProp::Ident(_) | MemberProp::PrivateName(_) => false,
+                #[cfg(swc_ast_unknown)]
+                _ => true,
             }
         }
 
@@ -3534,7 +3673,14 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             true
         }
 
-        // TODO
+        // A new expression is side-effect free if callee is pure for `new` and args are
+        // side-effect free. Note: we use is_pure_new_callee instead of is_pure_callee because
+        // class expressions are valid for `new` but calling them throws TypeError.
+        Expr::New(NewExpr { callee, args, .. }) if is_pure_new_callee(callee, ctx) => args
+            .iter()
+            .flatten()
+            .any(|arg| arg.expr.may_have_side_effects(ctx)),
+
         Expr::New(_) => true,
 
         Expr::Call(CallExpr {
@@ -3588,9 +3734,13 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                     _ => false,
                 },
                 Prop::Assign(_) => true,
+                #[cfg(swc_ast_unknown)]
+                _ => true,
             },
             // may trigger getter
             PropOrSpread::Spread(_) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => true,
         }),
 
         Expr::JSXMember(..)
@@ -3606,6 +3756,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.may_have_side_effects(ctx),
 
         Expr::Invalid(..) => true,
+        #[cfg(swc_ast_unknown)]
+        _ => true,
     }
 }
 
@@ -3696,8 +3848,8 @@ mod ident_usage_finder_parallel_tests {
 
     use super::*;
 
-    fn make_id(name: &str) -> Id {
-        (Atom::from(name), SyntaxContext::empty())
+    fn make_id(name: &str) -> Ident {
+        Ident::new(Atom::from(name), Span::dummy(), SyntaxContext::empty())
     }
 
     #[test]

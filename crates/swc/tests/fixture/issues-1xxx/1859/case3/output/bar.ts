@@ -8,4 +8,4 @@ Object.defineProperty(exports, "bar", {
         return bar;
     }
 });
-var bar = function() {};
+var bar = function bar() {};

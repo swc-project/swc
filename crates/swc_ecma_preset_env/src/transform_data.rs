@@ -202,6 +202,13 @@ pub enum Feature {
 
     /// `bugfix/transform-safari-class-field-initializer-scope`
     BugfixTransformSafariClassFieldInitializerScope, // TODO
+
+    /// `transform-explicit-resource-management`
+    #[string_enum(alias("proposal-explicit-resource-management"))]
+    ExplicitResourceManagement,
+
+    /// `transform-regexp-modifiers`
+    RegexpModifiers,
 }
 
 pub(crate) static FEATURES: Lazy<FxHashMap<Feature, BrowserData<Option<Version>>>> =

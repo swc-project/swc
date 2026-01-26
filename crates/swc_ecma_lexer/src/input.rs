@@ -7,6 +7,8 @@ use swc_ecma_ast::EsVersion;
 use crate::{
     common::{
         input::Tokens,
+        lexer::token::TokenFactory,
+        parser::token_and_span::TokenAndSpan as TokenAndSpanTrait,
         syntax::{Syntax, SyntaxFlags},
     },
     error::Error,
@@ -53,12 +55,26 @@ impl Iterator for TokensInput {
 }
 
 impl Tokens<TokenAndSpan> for TokensInput {
+    type Checkpoint = Self;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
+    }
+
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
             self.errors.borrow_mut().append(&mut *module_errors);
         }
         self.ctx = ctx;
+    }
+
+    fn ctx_mut(&mut self) -> &mut Context {
+        &mut self.ctx
     }
 
     #[inline(always)]
@@ -103,12 +119,12 @@ impl Tokens<TokenAndSpan> for TokensInput {
     }
 
     #[inline(always)]
-    fn add_error(&self, error: Error) {
+    fn add_error(&mut self, error: Error) {
         self.errors.borrow_mut().push(error);
     }
 
     #[inline(always)]
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
@@ -207,9 +223,23 @@ impl<I: Tokens<TokenAndSpan>> Iterator for Capturing<I> {
 }
 
 impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
+    type Checkpoint = I::Checkpoint;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.inner.checkpoint_save()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.inner.checkpoint_load(checkpoint);
+    }
+
     #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx)
+    }
+
+    fn ctx_mut(&mut self) -> &mut Context {
+        self.inner.ctx_mut()
     }
 
     #[inline(always)]
@@ -258,12 +288,12 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     }
 
     #[inline(always)]
-    fn add_error(&self, error: Error) {
+    fn add_error(&mut self, error: Error) {
         self.inner.add_error(error);
     }
 
     #[inline(always)]
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         self.inner.add_module_mode_error(error)
     }
 
@@ -296,45 +326,51 @@ pub struct Buffer<I: Tokens<TokenAndSpan>> {
     pub iter: I,
     /// Span of the previous token.
     pub prev_span: Span,
-    pub cur: Option<TokenAndSpan>,
+    pub cur: TokenAndSpan,
     /// Peeked token
     pub next: Option<TokenAndSpan>,
 }
 
+impl<I: Tokens<TokenAndSpan>> Buffer<I> {
+    fn bump(&mut self) -> Token {
+        let next = if let Some(next) = self.next.take() {
+            next
+        } else if let Some(next) = self.iter.next() {
+            next
+        } else {
+            TokenAndSpan::new(Token::Eof, self.prev_span, true)
+        };
+        let prev = mem::replace(&mut self.cur, next);
+        self.prev_span = prev.span();
+        prev.token
+    }
+}
+
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for Buffer<I> {
     type I = I;
-    type Lexer = super::lexer::Lexer<'a>;
     type Next = TokenAndSpan;
     type Token = Token;
     type TokenAndSpan = TokenAndSpan;
 
     fn new(lexer: I) -> Self {
         let start_pos = lexer.start_pos();
+        let prev_span = Span::new_with_checked(start_pos, start_pos);
         Buffer {
             iter: lexer,
-            cur: None,
-            prev_span: Span::new(start_pos, start_pos),
+            cur: TokenAndSpan::new(Token::Eof, prev_span, false),
+            prev_span,
             next: None,
         }
     }
 
     #[inline(always)]
     fn set_cur(&mut self, token: TokenAndSpan) {
-        self.cur = Some(token);
+        self.cur = token;
     }
 
     #[inline(always)]
     fn next(&self) -> Option<&TokenAndSpan> {
         self.next.as_ref()
-    }
-
-    #[cold]
-    #[inline(never)]
-    fn dump_cur(&mut self) -> String {
-        match self.cur() {
-            Some(v) => format!("{v:?}"),
-            None => "<eof>".to_string(),
-        }
     }
 
     #[inline(always)]
@@ -348,16 +384,8 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     }
 
     #[inline]
-    fn cur(&mut self) -> Option<&Token> {
-        if self.cur.is_none() {
-            // If we have peeked a token, take it instead of calling lexer.next()
-            self.cur = self.next.take().or_else(|| self.iter.next());
-        }
-
-        match &self.cur {
-            Some(v) => Some(&v.token),
-            None => None,
-        }
+    fn cur(&self) -> &Token {
+        &self.cur.token
     }
 
     fn peek<'b>(&'b mut self) -> Option<&'b Token>
@@ -365,12 +393,12 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
         TokenAndSpan: 'b,
     {
         debug_assert!(
-            self.cur().is_some(),
+            self.cur() != &Token::Eof,
             "parser should not call peek() without knowing current token"
         );
 
         if self.next().is_none() {
-            let next = self.iter_mut().next();
+            let next = self.iter.next();
             self.set_next(next);
         }
 
@@ -378,23 +406,13 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     }
 
     #[inline(always)]
-    fn get_cur(&self) -> Option<&TokenAndSpan> {
-        self.cur.as_ref()
-    }
-
-    #[inline(always)]
-    fn get_cur_mut(&mut self) -> &mut Option<TokenAndSpan> {
-        &mut self.cur
+    fn get_cur(&self) -> &TokenAndSpan {
+        &self.cur
     }
 
     #[inline(always)]
     fn prev_span(&self) -> Span {
         self.prev_span
-    }
-
-    #[inline(always)]
-    fn set_prev_span(&mut self, span: Span) {
-        self.prev_span = span;
     }
 
     #[inline(always)]
@@ -405,5 +423,71 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     #[inline(always)]
     fn iter_mut(&mut self) -> &mut I {
         &mut self.iter
+    }
+
+    fn bump(&mut self) {
+        let _ = Buffer::bump(self);
+    }
+
+    fn expect_word_token_and_bump(&mut self) -> swc_atoms::Atom {
+        let t = self.bump();
+        t.take_word(self).unwrap()
+    }
+
+    fn expect_jsx_name_token_and_bump(&mut self) -> swc_atoms::Atom {
+        let t = self.bump();
+        t.take_jsx_name(self)
+    }
+
+    fn expect_jsx_text_token_and_bump(&mut self) -> (swc_atoms::Atom, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_jsx_text(self)
+    }
+
+    fn expect_number_token_and_bump(&mut self) -> (f64, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_num(self)
+    }
+
+    fn expect_string_token_and_bump(&mut self) -> (swc_atoms::Wtf8Atom, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_str(self)
+    }
+
+    fn expect_bigint_token_and_bump(&mut self) -> (Box<num_bigint::BigInt>, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_bigint(self)
+    }
+
+    fn expect_regex_token_and_bump(&mut self) -> (swc_atoms::Atom, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_regexp(self)
+    }
+
+    fn expect_template_token_and_bump(
+        &mut self,
+    ) -> (
+        crate::common::lexer::LexResult<swc_atoms::Wtf8Atom>,
+        swc_atoms::Atom,
+    ) {
+        let t = self.bump();
+        t.take_template(self)
+    }
+
+    fn expect_error_token_and_bump(&mut self) -> crate::error::Error {
+        let t = self.bump();
+        t.take_error(self)
+    }
+
+    fn expect_shebang_token_and_bump(&mut self) -> swc_atoms::Atom {
+        let t = self.bump();
+        t.take_shebang(self)
+    }
+
+    #[cold]
+    #[inline(never)]
+    fn dump_cur(&self) -> String {
+        let cur = self.cur();
+        format!("{cur:?}")
     }
 }

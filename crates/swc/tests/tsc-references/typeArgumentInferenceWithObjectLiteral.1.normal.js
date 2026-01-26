@@ -3,18 +3,18 @@ function foo(x) {}
 var s;
 // Calls below should infer string for T and then assign that type to the value parameter
 foo({
-    read: function() {
+    read: function read() {
         return s;
     },
-    write: function(value) {
+    write: function write(value) {
         return s = value;
     }
 });
 foo({
-    write: function(value) {
+    write: function write(value) {
         return s = value;
     },
-    read: function() {
+    read: function read() {
         return s;
     }
 });
@@ -28,43 +28,43 @@ var E2 = /*#__PURE__*/ function(E2) {
 }(E2 || {});
 var v1;
 var v1 = f1({
-    w: function(x) {
+    w: function w(x) {
         return x;
     },
-    r: function() {
+    r: function r() {
         return 0;
     }
 }, 0);
 var v1 = f1({
-    w: function(x) {
+    w: function w(x) {
         return x;
     },
-    r: function() {
+    r: function r() {
         return 0;
     }
 }, 0);
 var v1 = f1({
-    w: function(x) {
+    w: function w(x) {
         return x;
     },
-    r: function() {
+    r: function r() {
         return 0;
     }
 }, 0);
 var v2;
 var v2 = f1({
-    w: function(x) {
+    w: function w(x) {
         return x;
     },
-    r: function() {
+    r: function r() {
         return 0;
     }
 }, 0);
 var v3 = f1({
-    w: function(x) {
+    w: function w(x) {
         return x;
     },
-    r: function() {
+    r: function r() {
         return 0;
     }
 }, 0); // Error

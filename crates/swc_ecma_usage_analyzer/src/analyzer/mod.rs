@@ -19,18 +19,6 @@ use crate::{
 mod ctx;
 pub mod storage;
 
-/// TODO: Track assignments to variables via `arguments`.
-/// TODO: Scope-local. (Including block)
-///
-/// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
-where
-    S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
-{
-    analyze_with_custom_storage(Default::default(), n, marks)
-}
-
 pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
 where
     S: Storage,
@@ -53,9 +41,13 @@ where
         used_recursively: FxHashMap::default(),
     };
     n.visit_with(&mut v);
-    let top_scope = v.scope;
-    v.data.top_scope().merge(top_scope.clone(), false);
 
+    let mut top_scope = v.scope;
+    for scope in v.data.scopes() {
+        top_scope.merge(scope.clone(), true);
+    }
+
+    v.data.top_scope().merge(top_scope.clone(), false);
     v.data.scope(SyntaxContext::empty()).merge(top_scope, false);
 
     v.data
@@ -95,24 +87,28 @@ where
     where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
     {
+        let used_recursively = std::mem::take(&mut self.used_recursively);
+
+        let child_data = self.data.new_child();
         let mut child = UsageAnalyzer {
-            data: S::new(S::need_collect_prop_atom(&self.data)),
+            data: child_data,
             marks: self.marks,
             ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,
             scope: Default::default(),
-            used_recursively: self.used_recursively.clone(),
+            used_recursively,
         };
 
         let ret = op(&mut child);
         {
             let child_scope = child.data.scope(child_ctxt);
-
             child_scope.merge(child.scope.clone(), false);
         }
 
         self.scope.merge(child.scope, true);
         self.data.merge(kind, child.data);
+
+        self.used_recursively = child.used_recursively;
 
         ret
     }
@@ -170,13 +166,7 @@ where
         }
 
         if let Pat::Expr(e) = p {
-            match &**e {
-                Expr::Ident(i) => {
-                    self.data
-                        .report_assign(self.ctx, i.to_id(), is_read_modify, Value::Unknown)
-                }
-                _ => self.mark_mutation_if_member(e.as_member()),
-            }
+            self.mark_mutation_if_member(e.as_member());
         }
     }
 
@@ -257,6 +247,8 @@ where
                 BlockStmtOrExpr::Expr(body) => {
                     body.visit_with(child);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         })
     }
@@ -299,12 +291,16 @@ where
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().as_deref().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
                 AssignTarget::Pat(..) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
 
             if let Some(left) = left {
@@ -365,11 +361,17 @@ where
                     var.mark_used_as_ref();
 
                     match &*e.left {
-                        Expr::Lit(Lit::Str(prop)) if prop.value.parse::<f64>().is_err() => {
-                            var.add_accessed_property(prop.value.clone());
+                        Expr::Lit(Lit::Str(prop)) => {
+                            if prop
+                                .value
+                                .as_str()
+                                .map_or(true, |value| value.parse::<f64>().is_err())
+                            {
+                                var.add_accessed_property(prop.value.clone());
+                            }
                         }
 
-                        Expr::Lit(Lit::Str(_) | Lit::Num(_)) => {}
+                        Expr::Lit(Lit::Num(_)) => {}
                         _ => {
                             var.mark_indexed_with_dynamic_key();
                         }
@@ -714,6 +716,8 @@ where
                 v.mark_used_as_ref();
             }
             ModuleExportName::Str(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
     }
 
@@ -1025,11 +1029,16 @@ where
 
             if let MemberProp::Computed(prop) = &e.prop {
                 match &*prop.expr {
-                    Expr::Lit(Lit::Str(s)) if s.value.parse::<f64>().is_err() => {
-                        v.add_accessed_property(s.value.clone());
+                    Expr::Lit(Lit::Str(s)) => {
+                        if s.value
+                            .as_str()
+                            .map_or(true, |value| value.parse::<f64>().is_err())
+                        {
+                            v.add_accessed_property(s.value.clone());
+                        }
                     }
 
-                    Expr::Lit(Lit::Str(_) | Lit::Num(_)) => {}
+                    Expr::Lit(Lit::Num(_)) => {}
                     _ => {
                         v.mark_indexed_with_dynamic_key();
                     }
@@ -1037,7 +1046,7 @@ where
             }
 
             if let MemberProp::Ident(prop) = &e.prop {
-                v.add_accessed_property(prop.sym.clone());
+                v.add_accessed_property(prop.sym.clone().into());
             }
         });
 
@@ -1055,7 +1064,7 @@ where
 
         if is_root_of_member_expr_declared(e, &self.data) {
             if let MemberProp::Ident(ident) = &e.prop {
-                self.data.add_property_atom(ident.sym.clone());
+                self.data.add_property_atom(ident.sym.clone().into());
             }
         }
     }
@@ -1185,7 +1194,7 @@ where
         if let Prop::Shorthand(i) = n {
             let ctx = self.ctx.with(BitContext::IsIdRef, true);
             self.with_ctx(ctx).report_usage(i);
-            self.data.add_property_atom(i.sym.clone());
+            self.data.add_property_atom(i.sym.clone().into());
         } else {
             let ctx = self.ctx.with(BitContext::IsIdRef, true);
             n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1197,7 +1206,7 @@ where
 
         match node {
             PropName::Ident(ident) => {
-                self.data.add_property_atom(ident.sym.clone());
+                self.data.add_property_atom(ident.sym.clone().into());
             }
             PropName::Str(s) => {
                 self.data.add_property_atom(s.value.clone());
@@ -1564,7 +1573,11 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                     Prop::Method(p) => {
                         for_each_id_ref_in_fn(&p.function, op);
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             });
         }
         _ => {}
@@ -1582,6 +1595,8 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
                 ParamOrTsParamProp::Param(p) => {
                     for_each_id_ref_in_pat(&p.pat, op);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             });
         }
 
@@ -1620,6 +1635,8 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
         ClassMember::Empty(..)
         | ClassMember::StaticBlock(..)
         | ClassMember::TsIndexSignature(..) => {}
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     });
 }
 fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
@@ -1657,6 +1674,8 @@ fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
                 ObjectPatProp::Rest(p) => {
                     for_each_id_ref_in_pat(&p.arg, op);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             });
         }
         Pat::Assign(p) => {
@@ -1667,6 +1686,8 @@ fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
         Pat::Expr(p) => {
             for_each_id_ref_in_expr(p, op);
         }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 

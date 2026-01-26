@@ -1,6 +1,6 @@
 {
     "name": "@swc/workspace",
-    "packageManager": "yarn@4.0.2",
+    "packageManager": "yarn@4.10.3",
     "private": true,
     "workspaces": [
         "./.github/bot",
@@ -26,7 +26,7 @@
         "test:react-compiler": "cd ./packages/react-compiler && yarn test"
     },
     "devDependencies": {
-        "@babel/compat-data": "^7.25.4",
+        "@babel/compat-data": "^7.28.0",
         "@babel/core": "^7.13.16",
         "@babel/generator": "^7.18.13",
         "@babel/plugin-proposal-class-properties": "^7.13.0",
@@ -36,6 +36,7 @@
         "@babel/preset-react": "^7.13.13",
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
+        "@rstest/core": "^0.7.8",
         "@swc/helpers": "workspace:^",
         "@swc/plugin-jest": "^1.5.117",
         "@taplo/cli": "^0.5.2",
@@ -45,12 +46,13 @@
         "acorn": "^8.6.0",
         "acorn-jsx": "^5.3.2",
         "axios": "^0.21.1",
+        "babel-plugin-polyfill-corejs3": "^0.13.0",
         "babel-plugin-transform-node-env-inline": "^0.4.3",
         "benchmark": "^2.1.4",
         "bootstrap": "^5.2.1",
-        "class-validator": "^0.13.1",
+        "class-validator": "^0.14.2",
         "core-js": "^2.6.11",
-        "core-js-compat": "^3.38.1",
+        "core-js-compat": "^3.45.0",
         "cross-env": "^7.0.3",
         "cspell": "^5.12.3",
         "expect": "^27.4.2",

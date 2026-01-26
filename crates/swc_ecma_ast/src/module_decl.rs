@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use is_macro::Is;
 use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
@@ -130,6 +132,10 @@ pub struct ImportDecl {
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub with: Option<Box<ObjectLit>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -146,6 +152,11 @@ pub struct ImportDecl {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum ImportPhase {
     #[default]
     #[cfg_attr(feature = "serde-impl", serde(rename = "evaluation"))]
@@ -184,6 +195,10 @@ pub struct ExportAll {
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub with: Option<Box<ObjectLit>>,
 }
 
@@ -210,12 +225,20 @@ pub struct NamedExport {
     pub specifiers: Vec<ExportSpecifier>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub src: Option<Box<Str>>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeOnly"))]
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub with: Option<Box<ObjectLit>>,
 }
 
@@ -275,6 +298,8 @@ impl ImportSpecifier {
         match self {
             ImportSpecifier::Named(named) => named.is_type_only,
             ImportSpecifier::Default(..) | ImportSpecifier::Namespace(..) => false,
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown!(),
         }
     }
 
@@ -283,6 +308,8 @@ impl ImportSpecifier {
             ImportSpecifier::Named(named) => &named.local,
             ImportSpecifier::Default(default) => &default.local,
             ImportSpecifier::Namespace(ns) => &ns.local,
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown!(),
         }
     }
 
@@ -291,6 +318,8 @@ impl ImportSpecifier {
             ImportSpecifier::Named(named) => &mut named.local,
             ImportSpecifier::Default(default) => &mut default.local,
             ImportSpecifier::Namespace(ns) => &mut ns.local,
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown!(),
         }
     }
 }
@@ -328,6 +357,10 @@ pub struct ImportNamedSpecifier {
     pub local: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub imported: Option<ModuleExportName>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -380,6 +413,10 @@ pub struct ExportNamedSpecifier {
     pub orig: ModuleExportName,
     /// `Some(bar)` in `export { foo as bar }`
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub exported: Option<ModuleExportName>,
     /// `type` in `export { type foo as bar }`
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -404,10 +441,21 @@ bridge_from!(ModuleExportName, Ident, IdentName);
 
 impl ModuleExportName {
     /// Get the atom of the export name.
-    pub fn atom(&self) -> &Atom {
+    ///
+    /// If the name is a string literal that has ill-formed UTF16, it will be
+    /// converted to a UTF-8 valid string using lossy conversion (Unpaired
+    /// surrogates are replaced with Replacement Character).  This is
+    /// a SyntaxError if it's fully complied to the spec.
+    /// See: https://tc39.es/ecma262/#sec-module-semantics-static-semantics-early-errors
+    pub fn atom(&self) -> Cow<'_, Atom> {
         match self {
-            ModuleExportName::Ident(i) => &i.sym,
-            ModuleExportName::Str(s) => &s.value,
+            ModuleExportName::Ident(i) => Cow::Borrowed(&i.sym),
+            ModuleExportName::Str(s) => match s.value.clone().try_into_atom() {
+                Ok(atom) => Cow::Owned(atom),
+                Err(original) => Cow::Owned(Atom::from(&*original.to_string_lossy())),
+            },
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown!(),
         }
     }
 }

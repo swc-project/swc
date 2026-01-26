@@ -1,4 +1,4 @@
-const Cache = {
+let Cache = {
     enabled: !1,
     files: {},
     add: function(key, file) {
@@ -22,7 +22,7 @@ class Loader {
     }
     load() {}
     loadAsync(url, onProgress) {
-        const scope = this;
+        let scope = this;
         return new Promise(function(resolve, reject) {
             scope.load(url, resolve, onProgress, reject);
         });
@@ -45,7 +45,7 @@ class Loader {
     }
 }
 Loader.DEFAULT_MATERIAL_NAME = '__DEFAULT';
-const loading = {};
+let loading = {};
 class HttpError extends Error {
     constructor(message, response){
         super(message), this.response = response;
@@ -57,7 +57,7 @@ export class FileLoader extends Loader {
     }
     load(url, onLoad, onProgress, onError) {
         void 0 === url && (url = ''), void 0 !== this.path && (url = this.path + url), url = this.manager.resolveURL(url);
-        const cached = Cache.get(url);
+        let cached = Cache.get(url);
         if (void 0 !== cached) return this.manager.itemStart(url), setTimeout(()=>{
             onLoad && onLoad(cached), this.manager.itemEnd(url);
         }, 0), cached;
@@ -74,7 +74,7 @@ export class FileLoader extends Loader {
             onError: onError
         });
         // create request
-        const req = new Request(url, {
+        let req = new Request(url, {
             headers: new Headers(this.requestHeader),
             credentials: this.withCredentials ? 'include' : 'same-origin'
         }), mimeType = this.mimeType, responseType = this.responseType;
@@ -82,22 +82,21 @@ export class FileLoader extends Loader {
         fetch(req).then((response)=>{
             if (200 === response.status || 0 === response.status) {
                 // Workaround: Checking if response.body === undefined for Alipay browser #23548
-                if (0 === response.status && console.warn('THREE.FileLoader: HTTP Status 0 received.'), 'undefined' == typeof ReadableStream || void 0 === response.body || void 0 === response.body.getReader) return response;
-                const callbacks = loading[url], reader = response.body.getReader(), contentLength = response.headers.get('Content-Length') || response.headers.get('X-File-Size'), total = contentLength ? parseInt(contentLength) : 0, lengthComputable = 0 !== total;
-                let loaded = 0;
+                if (0 === response.status && console.warn('THREE.FileLoader: HTTP Status 0 received.'), "u" < typeof ReadableStream || void 0 === response.body || void 0 === response.body.getReader) return response;
+                let callbacks = loading[url], reader = response.body.getReader(), contentLength = response.headers.get('Content-Length') || response.headers.get('X-File-Size'), total = contentLength ? parseInt(contentLength) : 0, lengthComputable = 0 !== total, loaded = 0;
                 return new Response(new ReadableStream({
                     start (controller) {
                         !function readData() {
                             reader.read().then(({ done, value })=>{
                                 if (done) controller.close();
                                 else {
-                                    const event = new ProgressEvent('progress', {
+                                    let event = new ProgressEvent('progress', {
                                         lengthComputable,
                                         loaded: loaded += value.byteLength,
                                         total
                                     });
                                     for(let i = 0, il = callbacks.length; i < il; i++){
-                                        const callback = callbacks[i];
+                                        let callback = callbacks[i];
                                         callback.onProgress && callback.onProgress(event);
                                     }
                                     controller.enqueue(value), readData();
@@ -121,7 +120,7 @@ export class FileLoader extends Loader {
                 default:
                     if (void 0 === mimeType) return response.text();
                     {
-                        const exec = /charset="?([^;"\s]*)"?/i.exec(mimeType), decoder = new TextDecoder(exec && exec[1] ? exec[1].toLowerCase() : void 0);
+                        let exec = /charset="?([^;"\s]*)"?/i.exec(mimeType), decoder = new TextDecoder(exec && exec[1] ? exec[1].toLowerCase() : void 0);
                         return response.arrayBuffer().then((ab)=>decoder.decode(ab));
                     }
             }
@@ -129,20 +128,20 @@ export class FileLoader extends Loader {
             // Add to cache only on HTTP success, so that we do not cache
             // error response bodies as proper responses to requests.
             Cache.add(url, data);
-            const callbacks = loading[url];
+            let callbacks = loading[url];
             delete loading[url];
             for(let i = 0, il = callbacks.length; i < il; i++){
-                const callback = callbacks[i];
+                let callback = callbacks[i];
                 callback.onLoad && callback.onLoad(data);
             }
         }).catch((err)=>{
             // Abort errors and other errors are handled the same
-            const callbacks = loading[url];
+            let callbacks = loading[url];
             if (void 0 === callbacks) throw(// When onLoad was called and url was deleted in `loading`
             this.manager.itemError(url), err);
             delete loading[url];
             for(let i = 0, il = callbacks.length; i < il; i++){
-                const callback = callbacks[i];
+                let callback = callbacks[i];
                 callback.onError && callback.onError(err);
             }
             this.manager.itemError(url);

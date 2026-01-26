@@ -6,7 +6,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */ function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? factory(exports, require("react")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof exports && "u" > typeof module ? factory(exports, require("react")) : "function" == typeof define && define.amd ? define([
         "exports",
         "react"
     ], factory) : factory((global = global || self).ReactDOM = {}, global.React);
@@ -46,7 +46,7 @@
         registrationNameDependencies[registrationName] && error("EventRegistry: More than one plugin attempted to publish the same registration name, `%s`.", registrationName), registrationNameDependencies[registrationName] = dependencies, possibleRegistrationNames[registrationName.toLowerCase()] = registrationName, "onDoubleClick" === registrationName && (possibleRegistrationNames.ondblclick = registrationName);
         for(var i = 0; i < dependencies.length; i++)allNativeEvents.add(dependencies[i]);
     }
-    var canUseDOM = "undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement, ATTRIBUTE_NAME_START_CHAR = ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040", ROOT_ATTRIBUTE_NAME = "data-reactroot", VALID_ATTRIBUTE_NAME_REGEX = RegExp("^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {}, validatedAttributeNameCache = {};
+    var canUseDOM = "u" > typeof window && void 0 !== window.document && void 0 !== window.document.createElement, ATTRIBUTE_NAME_START_CHAR = ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040", ROOT_ATTRIBUTE_NAME = "data-reactroot", VALID_ATTRIBUTE_NAME_REGEX = RegExp("^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {}, validatedAttributeNameCache = {};
     function isAttributeNameSafe(attributeName) {
         return !!hasOwnProperty.call(validatedAttributeNameCache, attributeName) || !hasOwnProperty.call(illegalAttributeNameCache, attributeName) && (VALID_ATTRIBUTE_NAME_REGEX.test(attributeName) ? (validatedAttributeNameCache[attributeName] = !0, !0) : (illegalAttributeNameCache[attributeName] = !0, error("Invalid attribute name: `%s`", attributeName), !1));
     }
@@ -711,7 +711,7 @@
         return nextValue !== lastValue && (tracker.setValue(nextValue), !0);
     }
     function getActiveElement(doc) {
-        if (void 0 === (doc = doc || ("undefined" != typeof document ? document : void 0))) return null;
+        if (void 0 === (doc = doc || ("u" > typeof document ? document : void 0))) return null;
         try {
             return doc.activeElement || doc.body;
         } catch (e) {
@@ -812,7 +812,7 @@
    * Implements an <option> host component that warns when `selected` is set.
    */ function validateProps(element, props) {
         "object" == typeof props.children && null !== props.children && React.Children.forEach(props.children, function(child) {
-            null != child && "string" != typeof child && "number" != typeof child && "string" == typeof child.type && (didWarnInvalidChild || (didWarnInvalidChild = !0, error("Only strings and numbers are supported as <option> children.")));
+            null == child || "string" == typeof child || "number" == typeof child || "string" == typeof child.type && (didWarnInvalidChild || (didWarnInvalidChild = !0, error("Only strings and numbers are supported as <option> children.")));
         }), null == props.selected || didWarnSelectedSetOnOption || (error("Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>."), didWarnSelectedSetOnOption = !0);
     }
     function getHostProps$1(element, props) {
@@ -982,7 +982,7 @@
             return;
         }
         node.innerHTML = html;
-    }, "undefined" != typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
+    }, "u" > typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
         MSApp.execUnsafeLocalFunction(function() {
             return func(arg0, arg1, arg2, arg3);
         });
@@ -2145,14 +2145,14 @@
     // try-catch. Neat!
     // Check that the browser supports the APIs we need to implement our special
     // DEV version of invokeGuardedCallback
-    if ("undefined" != typeof window && "function" == typeof window.dispatchEvent && "undefined" != typeof document && "function" == typeof document.createEvent) {
+    if ("u" > typeof window && "function" == typeof window.dispatchEvent && "u" > typeof document && "function" == typeof document.createEvent) {
         var fakeNode = document.createElement("react");
         invokeGuardedCallbackImpl = function(name, func, context, a, b, c, d, e, f) {
             // If document doesn't exist we know for sure we will crash in this method
             // when we call document.createEvent(). However this can cause confusing
             // errors: https://github.com/facebookincubator/create-react-app/issues/3482
             // So we preemptively throw with a better message instead.
-            if ("undefined" == typeof document) throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
+            if ("u" < typeof document) throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
             var error, evt = document.createEvent("Event"), didCall = !1, didError = !0, windowEvent = window.event, windowEventDescriptor = Object.getOwnPropertyDescriptor(window, "event");
             function restoreAfterDispatch() {
                 // We immediately remove the callback from event listeners so that
@@ -3920,7 +3920,7 @@
                 node = node.return;
             }
         }
-        !function(fn, a, b) {
+        !function(fn) {
             if (isBatchingEventUpdates) // If we are currently inside another batch, we need to wait until it
             // fully completes before restoring state.
             return fn(void 0, void 0);
@@ -3932,7 +3932,7 @@
             }
         }(function() {
             var targetInst, nativeEventTarget, dispatchQueue;
-            return targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent), void (!function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+            return targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent), void (!function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags) {
                 // event's native "bubble" phase, which means that we're
                 // not in the capture phase. That's because we emulate
                 // the capture phase here still. This is a trade-off,
@@ -3949,13 +3949,13 @@
                 // could alter all these plugins to work in such ways, but
                 // that might cause other unknown side-effects that we
                 // can't forsee right now.
-                (!// TODO: we should remove the concept of a "SimpleEventPlugin".
+                if (!// TODO: we should remove the concept of a "SimpleEventPlugin".
                 // This is the basic functionality of the event system. All
                 // the other plugins are essentially polyfills. So the plugin
                 // should probably be inlined somewhere and have its logic
                 // be core the to event system. This would potentially allow
                 // us to ship builds of React without the polyfilled plugins below.
-                function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags) {
                     var reactName = topLevelEventsToReactNames.get(domEventName);
                     if (void 0 !== reactName) {
                         var SyntheticEventCtor = SyntheticEvent, reactEventType = domEventName;
@@ -4066,68 +4066,69 @@
                             });
                         }
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) && (!/**
+                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) {
+                    !/**
    * For almost every interaction we care about, there will be both a top-level
    * `mouseover` and `mouseout` event that occurs. Only use `mouseout` so that
    * we do not extract duplicate events. However, moving the mouse into the
    * browser from outside will not fire a `mouseout` event. In this case, we use
    * the `mouseover` top-level event.
-   */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
-                    if (isOverEvent && (16 & eventSystemFlags) == 0) {
-                        // If this is an over event with a target, we might have already dispatched
-                        // the event in the out event of the other target. If this is replayed,
-                        // then it's because we couldn't dispatch against this target previously
-                        // so we have to do it now instead.
-                        var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
-                        if (related && (getClosestInstanceFromNode(related) || related[internalContainerInstanceKey])) return;
-                    }
-                    if (isOutEvent || isOverEvent) {
-                        if (nativeEventTarget.window === nativeEventTarget) // `nativeEventTarget` is probably a window object.
-                        win = nativeEventTarget;
-                        else {
-                            // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
-                            var doc = nativeEventTarget.ownerDocument;
-                            win = doc ? doc.defaultView || doc.parentWindow : window;
+   */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags) {
+                        var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
+                        if (isOverEvent && (16 & eventSystemFlags) == 0) {
+                            // If this is an over event with a target, we might have already dispatched
+                            // the event in the out event of the other target. If this is replayed,
+                            // then it's because we couldn't dispatch against this target previously
+                            // so we have to do it now instead.
+                            var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
+                            if (related && (getClosestInstanceFromNode(related) || related[internalContainerInstanceKey])) return;
                         }
-                        if (isOutEvent) {
-                            var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
-                            if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
-                                var nearestMounted = getNearestMountedFiber(to);
-                                (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
+                        if (isOutEvent || isOverEvent) {
+                            if (nativeEventTarget.window === nativeEventTarget) // `nativeEventTarget` is probably a window object.
+                            win = nativeEventTarget;
+                            else {
+                                // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
+                                var doc = nativeEventTarget.ownerDocument;
+                                win = doc ? doc.defaultView || doc.parentWindow : window;
                             }
-                        } else // Moving to a node from outside the window.
-                        from = null, to = targetInst;
-                        if (from !== to) {
-                            var dispatchQueue1, leaveEvent, enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
-                            ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
-                            var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
-                            leave.target = fromNode, leave.relatedTarget = toNode;
-                            var enter = null; // We should only process this nativeEvent if we are processing
-                            if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
-                                var enterEvent1 = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
-                                enterEvent1.target = toNode, enterEvent1.relatedTarget = fromNode, enter = enterEvent1;
-                            }
-                            dispatchQueue1 = dispatchQueue, leaveEvent = leave, enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
+                            if (isOutEvent) {
+                                var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
+                                if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
+                                    var nearestMounted = getNearestMountedFiber(to);
+                                    (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
+                                }
+                            } else // Moving to a node from outside the window.
+                            from = null, to = targetInst;
+                            if (from !== to) {
+                                var dispatchQueue1, leaveEvent, enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
+                                ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
+                                var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
+                                leave.target = fromNode, leave.relatedTarget = toNode;
+                                var enter = null; // We should only process this nativeEvent if we are processing
+                                if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
+                                    var enterEvent1 = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
+                                    enterEvent1.target = toNode, enterEvent1.relatedTarget = fromNode, enter = enterEvent1;
+                                }
+                                dispatchQueue1 = dispatchQueue, leaveEvent = leave, enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
    * Return the lowest common ancestor of A and B, or null if they are in
    * different trees.
    */ function(instA, instB) {
-                                for(var nodeA = instA, nodeB = instB, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
-                                for(var depthB = 0, tempB = nodeB; tempB; tempB = getParent(tempB))depthB++;
-                                 // If A is deeper, crawl up.
-                                for(; depthA - depthB > 0;)nodeA = getParent(nodeA), depthA--;
-                                 // If B is deeper, crawl up.
-                                for(; depthB - depthA > 0;)nodeB = getParent(nodeB), depthB--;
-                                 // Walk in lockstep until we find a match.
-                                for(var depth = depthA; depth--;){
-                                    if (nodeA === nodeB || null !== nodeB && nodeA === nodeB.alternate) return nodeA;
-                                    nodeA = getParent(nodeA), nodeB = getParent(nodeB);
-                                }
-                                return null;
-                            }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue1, leaveEvent, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue1, enterEvent, to1, common, !0);
+                                    for(var nodeA = instA, nodeB = instB, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
+                                    for(var depthB = 0, tempB = nodeB; tempB; tempB = getParent(tempB))depthB++;
+                                     // If A is deeper, crawl up.
+                                    for(; depthA - depthB > 0;)nodeA = getParent(nodeA), depthA--;
+                                     // If B is deeper, crawl up.
+                                    for(; depthB - depthA > 0;)nodeB = getParent(nodeB), depthB--;
+                                     // Walk in lockstep until we find a match.
+                                    for(var depth = depthA; depth--;){
+                                        if (nodeA === nodeB || null !== nodeB && nodeA === nodeB.alternate) return nodeA;
+                                        nodeA = getParent(nodeA), nodeB = getParent(nodeB);
+                                    }
+                                    return null;
+                                }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue1, leaveEvent, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue1, enterEvent, to1, common, !0);
+                            }
                         }
-                    }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), /**
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), /**
    * This plugin creates an `onChange` event that normalizes change events
    * across form elements. This event fires at a time when it's possible to
    * change the element's value without seeing a flicker.
@@ -4136,28 +4137,15 @@
    * - input (see `isTextInputElement`)
    * - textarea
    * - select
-   */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var nodeName, nodeName1, state, getTargetInstFunc, handleEventFunc, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                    if ("select" === (nodeName = targetNode.nodeName && targetNode.nodeName.toLowerCase()) || "input" === nodeName && "file" === targetNode.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = targetNode.nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === targetNode.type || "radio" === targetNode.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
-                        var inst = getTargetInstFunc(domEventName, targetInst);
-                        if (inst) return createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
-                    }
-                    handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = targetNode._wrapperState) && state.controlled && "number" === targetNode.type && // If controlled, assign the value attribute to the current value on blur
-                    setDefaultValue(targetNode, "number", targetNode.value);
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
-   * This plugin creates an `onSelect` event that normalizes select events
-   * across form elements.
-   *
-   * Supported elements are:
-   * - input (see `isTextInputElement`)
-   * - textarea
-   * - contentEditable
-   *
-   * This differs from native browser implementations in the following ways:
-   * - Fires on contentEditable fields as well as inputs.
-   * - Fires for collapsed selection.
-   * - Fires after user input.
-   */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+   */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
+                        var nodeName, nodeName1, state, getTargetInstFunc, handleEventFunc, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                        if ("select" === (nodeName = targetNode.nodeName && targetNode.nodeName.toLowerCase()) || "input" === nodeName && "file" === targetNode.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = targetNode.nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === targetNode.type || "radio" === targetNode.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
+                            var inst = getTargetInstFunc(domEventName, targetInst);
+                            if (inst) return createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
+                        }
+                        handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = targetNode._wrapperState) && state.controlled && "number" === targetNode.type && // If controlled, assign the value attribute to the current value on blur
+                        setDefaultValue(targetNode, "number", targetNode.value);
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
                     var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
                     switch(domEventName){
                         // Track the input node that has focus.
@@ -4193,88 +4181,88 @@
                         case "keyup":
                             constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+                    !/**
    * @return {?object} A SyntheticCompositionEvent.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
-                    if (canUseCompositionEvent) eventType = /**
+                        if (canUseCompositionEvent) eventType = /**
    * Translate native top level events into event types.
    */ function(domEventName) {
-                        switch(domEventName){
-                            case "compositionstart":
-                                return "onCompositionStart";
-                            case "compositionend":
-                                return "onCompositionEnd";
-                            case "compositionupdate":
-                                return "onCompositionUpdate";
-                        }
-                    }(domEventName);
-                    else if (isComposing) isFallbackCompositionEnd(domEventName, nativeEvent) && (eventType = "onCompositionEnd");
-                    else "keydown" === domEventName && 229 === nativeEvent.keyCode && (eventType = "onCompositionStart");
-                    if (eventType) {
-                        useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : (root = nativeEventTarget, startText = getText(), isComposing = !0));
-                        var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
-                        if (listeners.length > 0) {
-                            var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
-                            if (dispatchQueue.push({
-                                event: event,
-                                listeners: listeners
-                            }), fallbackData) // Inject data generated from fallback path into the synthetic event.
-                            // This matches the property of native CompositionEventInterface.
-                            event.data = fallbackData;
-                            else {
-                                var customData = getDataFromCustomEvent(nativeEvent);
-                                null !== customData && (event.data = customData);
+                            switch(domEventName){
+                                case "compositionstart":
+                                    return "onCompositionStart";
+                                case "compositionend":
+                                    return "onCompositionEnd";
+                                case "compositionupdate":
+                                    return "onCompositionUpdate";
+                            }
+                        }(domEventName);
+                        else if (isComposing) isFallbackCompositionEnd(domEventName, nativeEvent) && (eventType = "onCompositionEnd");
+                        else "keydown" === domEventName && 229 === nativeEvent.keyCode && (eventType = "onCompositionStart");
+                        if (eventType) {
+                            useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : (root = nativeEventTarget, startText = getText(), isComposing = !0));
+                            var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
+                            if (listeners.length > 0) {
+                                var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
+                                if (dispatchQueue.push({
+                                    event: event,
+                                    listeners: listeners
+                                }), fallbackData) // Inject data generated from fallback path into the synthetic event.
+                                // This matches the property of native CompositionEventInterface.
+                                event.data = fallbackData;
+                                else {
+                                    var customData = getDataFromCustomEvent(nativeEvent);
+                                    null !== customData && (event.data = customData);
+                                }
                             }
                         }
-                    }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
    * Extract a SyntheticInputEvent for `beforeInput`, based on either native
    * `textInput` or fallback behavior.
    *
    * @return {?object} A SyntheticInputEvent.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
-                    // be fired.
-                    if (chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
-                        switch(domEventName){
-                            case "compositionend":
-                                return getDataFromCustomEvent(nativeEvent);
-                            case "keypress":
-                                if (32 !== nativeEvent.which) return null;
-                                return hasSpaceKeypress = !0, " ";
-                            case "textInput":
-                                // Record the characters to be added to the DOM.
-                                var chars = nativeEvent.data; // If it's a spacebar character, assume that we have already handled
-                                // it at the keypress level and bail immediately. Android Chrome
-                                // doesn't give us keycodes, so we need to ignore it.
-                                if (" " === chars && hasSpaceKeypress) return null;
-                                return chars;
-                            default:
-                                // For other native event types, do nothing.
-                                return null;
-                        }
-                    }(domEventName, nativeEvent) : /**
+                        // be fired.
+                        if (chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
+                            switch(domEventName){
+                                case "compositionend":
+                                    return getDataFromCustomEvent(nativeEvent);
+                                case "keypress":
+                                    if (32 !== nativeEvent.which) return null;
+                                    return hasSpaceKeypress = !0, " ";
+                                case "textInput":
+                                    // Record the characters to be added to the DOM.
+                                    var chars = nativeEvent.data; // If it's a spacebar character, assume that we have already handled
+                                    // it at the keypress level and bail immediately. Android Chrome
+                                    // doesn't give us keycodes, so we need to ignore it.
+                                    if (" " === chars && hasSpaceKeypress) return null;
+                                    return chars;
+                                default:
+                                    // For other native event types, do nothing.
+                                    return null;
+                            }
+                        }(domEventName, nativeEvent) : /**
    * For browsers that do not provide the `textInput` event, extract the
    * appropriate string to use for SyntheticInputEvent.
    */ function(domEventName, nativeEvent) {
-                        // If we are currently composing (IME) and using a fallback to do so,
-                        // try to extract the composed characters from the fallback object.
-                        // If composition event is available, we extract a string only at
-                        // compositionevent, otherwise extract it at fallback events.
-                        if (isComposing) {
-                            if ("compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent)) {
-                                var chars = getData();
-                                return root = null, startText = null, fallbackText = null, isComposing = !1, chars;
-                            }
-                            return null;
-                        }
-                        switch(domEventName){
-                            case "paste":
-                            default:
-                                // If a paste event occurs after a keypress, throw out the input
-                                // chars. Paste events should not lead to BeforeInput events.
+                            // If we are currently composing (IME) and using a fallback to do so,
+                            // try to extract the composed characters from the fallback object.
+                            // If composition event is available, we extract a string only at
+                            // compositionevent, otherwise extract it at fallback events.
+                            if (isComposing) {
+                                if ("compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent)) {
+                                    var chars = getData();
+                                    return root = null, startText = null, fallbackText = null, isComposing = !1, chars;
+                                }
                                 return null;
-                            case "keypress":
-                                /**
+                            }
+                            switch(domEventName){
+                                case "paste":
+                                default:
+                                    // If a paste event occurs after a keypress, throw out the input
+                                    // chars. Paste events should not lead to BeforeInput events.
+                                    return null;
+                                case "keypress":
+                                    /**
          * As of v27, Firefox may fire keypress events even when no character
          * will be inserted. A few possibilities:
          *
@@ -4290,31 +4278,32 @@
          *   being used. Ex: `Cmd+C`. No character is inserted, and no
          *   `input` event will occur.
          */ if (!((nativeEvent.ctrlKey || nativeEvent.altKey || nativeEvent.metaKey) && // ctrlKey && altKey is equivalent to AltGr, and is not a command.
-                                !(nativeEvent.ctrlKey && nativeEvent.altKey))) // IE fires the `keypress` event when a user types an emoji via
-                                // Touch keyboard of Windows.  In such a case, the `char` property
-                                // holds an emoji character like `\uD83D\uDE0A`.  Because its length
-                                // is 2, the property `which` does not represent an emoji correctly.
-                                // In such a case, we directly return the `char` property instead of
-                                // using `which`.
-                                {
-                                    if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
-                                    else if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
-                                }
-                                return null;
-                            case "compositionend":
-                                return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
+                                    !(nativeEvent.ctrlKey && nativeEvent.altKey))) // IE fires the `keypress` event when a user types an emoji via
+                                    // Touch keyboard of Windows.  In such a case, the `char` property
+                                    // holds an emoji character like `\uD83D\uDE0A`.  Because its length
+                                    // is 2, the property `which` does not represent an emoji correctly.
+                                    // In such a case, we directly return the `char` property instead of
+                                    // using `which`.
+                                    {
+                                        if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
+                                        else if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
+                                    }
+                                    return null;
+                                case "compositionend":
+                                    return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
+                            }
+                        }(domEventName, nativeEvent)) {
+                            var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
+                            if (listeners.length > 0) {
+                                var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
+                                dispatchQueue.push({
+                                    event: event,
+                                    listeners: listeners
+                                }), event.data = chars;
+                            }
                         }
-                    }(domEventName, nativeEvent)) {
-                        var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
-                        if (listeners.length > 0) {
-                            var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
-                            dispatchQueue.push({
-                                event: event,
-                                listeners: listeners
-                            }), event.data = chars;
-                        }
-                    }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget));
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
+                }
             } // List of events that need to be individually attached to media elements.
             (dispatchQueue = [], domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), processDispatchQueue(dispatchQueue, eventSystemFlags));
         });
@@ -4387,7 +4376,7 @@
     }, validatePropertiesInDevelopment = function(type, props) {
         if (!isCustomComponent(type, props)) {
             var invalidProps = [];
-            for(var key in props)!function(tagName, name) {
+            for(var key in props)!function(name) {
                 if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) return !0;
                 if (rARIACamel.test(name)) {
                     var ariaName = "aria-" + name.slice(4).toLowerCase(), correctName = ariaProperties.hasOwnProperty(ariaName) ? ariaName : null;
@@ -4404,7 +4393,7 @@
                     name !== standardName && (error("Unknown ARIA attribute `%s`. Did you mean `%s`?", name, standardName), warnedProperties[name] = !0);
                 }
                 return !0;
-            }(0, key) && invalidProps.push(key);
+            }(key) && invalidProps.push(key);
             var unknownPropString = invalidProps.map(function(prop) {
                 return "`" + prop + "`";
             }).join(", ");
@@ -4456,7 +4445,7 @@
         didWarnInvalidHydration || (didWarnInvalidHydration = !0, error("Expected server HTML to contain a matching <%s> in <%s>.", tag, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedText(parentNode, text) {
-        "" !== text && (didWarnInvalidHydration || (didWarnInvalidHydration = !0, error('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase())));
+        "" === text || didWarnInvalidHydration || (didWarnInvalidHydration = !0, error('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase()));
     }
     normalizeMarkupForTextOrAttribute = function(markup) {
         return ("string" == typeof markup ? markup : "" + markup).replace(NORMALIZE_NEWLINES_REGEX, "\n").replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, "");
@@ -4921,7 +4910,10 @@
         if (element) {
             var owner = element._owner, stack = function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
                 if (null == type) return "";
-                if ("function" == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
+                if ("function" == typeof type) {
+                    var prototype;
+                    return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
+                }
                 if ("string" == typeof type) return describeBuiltInComponentFrame(type);
                 switch(type){
                     case REACT_SUSPENSE_TYPE:
@@ -4938,7 +4930,7 @@
                     case REACT_BLOCK_TYPE:
                         return describeNativeComponentFrame(type._render, !1);
                     case REACT_LAZY_TYPE:
-                        var prototype, payload = type._payload, init = type._init;
+                        var payload = type._payload, init = type._init;
                         try {
                             // Lazy may contain any component type so we recursively resolve it.
                             return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
@@ -4981,8 +4973,7 @@
         };
     }
     function pop(cursor, fiber) {
-        if (index < 0) return void error("Unexpected pop.");
-        fiber !== fiberStack[index] && error("Unexpected Fiber popped."), cursor.current = valueStack[index], valueStack[index] = null, fiberStack[index] = null, index--;
+        index < 0 ? error("Unexpected pop.") : (fiber !== fiberStack[index] && error("Unexpected Fiber popped."), cursor.current = valueStack[index], valueStack[index] = null, fiberStack[index] = null, index--);
     }
     function push(cursor, value, fiber) {
         valueStack[++index] = cursor.current, fiberStack[index] = fiber, cursor.current = value;
@@ -5054,7 +5045,7 @@
             pop(didPerformWorkStackCursor, workInProgress), pop(contextStackCursor, workInProgress), push(contextStackCursor, mergedContext, workInProgress), push(didPerformWorkStackCursor, didChange, workInProgress);
         } else pop(didPerformWorkStackCursor, workInProgress), push(didPerformWorkStackCursor, didChange, workInProgress);
     }
-    var rendererID = null, injectedHook = null, hasLoggedError = !1, isDevToolsPresent = "undefined" != typeof __REACT_DEVTOOLS_GLOBAL_HOOK__;
+    var rendererID = null, injectedHook = null, hasLoggedError = !1, isDevToolsPresent = "u" > typeof __REACT_DEVTOOLS_GLOBAL_HOOK__;
     // Provide explicit error message when production+profiling bundle of e.g.
     // react-dom is used with production (non-profiling) bundle of
     // scheduler/tracing
@@ -5395,7 +5386,7 @@
                         };
                         newLastBaseUpdate = newLastBaseUpdate.next = _clone;
                     } // Process this update.
-                    if (newState = function(workInProgress, queue, update, prevState, nextProps, instance) {
+                    if (newState = function(workInProgress, update, prevState, nextProps, instance) {
                         switch(update.tag){
                             case 1:
                                 var payload = update.payload;
@@ -5437,7 +5428,7 @@
                                 hasForceUpdate = !0;
                         }
                         return prevState;
-                    }(workInProgress, 0, update, newState, props, instance), null !== update.callback) {
+                    }(workInProgress, update, newState, props, instance), null !== update.callback) {
                         workInProgress.flags |= /*                     */ 32;
                         var effects = queue.effects;
                         null === effects ? queue.effects = [
@@ -6694,10 +6685,10 @@
         currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, destroy, nextDeps);
     }
     function mountEffect(create, deps) {
-        return "undefined" != typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), mountEffectImpl(516, /*   */ 4, create, deps);
+        return "u" > typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), mountEffectImpl(516, /*   */ 4, create, deps);
     }
     function updateEffect(create, deps) {
-        return "undefined" != typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), updateEffectImpl(516, 4, create, deps);
+        return "u" > typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), updateEffectImpl(516, 4, create, deps);
     }
     function mountLayoutEffect(create, deps) {
         return mountEffectImpl(4, /*    */ 2, create, deps);
@@ -6904,7 +6895,7 @@
                     }
                 }
             }
-            "undefined" != typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
+            "u" > typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
         }
     }
     var ContextOnlyDispatcher = {
@@ -8427,7 +8418,7 @@
                     if (popHydrationState(workInProgress)) // TODO: Move this and createInstance step into the beginPhase
                     // to consolidate.
                     {
-                        instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+                        instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace) {
                             switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
@@ -8675,7 +8666,7 @@
                             }(type, props, rootContainerInstance, hostContext.namespace);
                             return hostInst = internalInstanceHandle, domElement[internalInstanceKey] = hostInst, node = domElement, props1 = props, node[internalPropsKey] = props1, domElement;
                         }(type, newProps, rootContainerInstance, currentHostContext, workInProgress);
-                        appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, function(domElement, tag, rawProps, rootContainerElement) {
+                        appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, function(domElement, tag, rawProps) {
                             var value, props, isCustomComponentTag = isCustomComponent(tag, rawProps);
                             switch(validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
@@ -8765,7 +8756,7 @@
                                     trapClickOnNonInteractiveElement(domElement);
                             }
                         } // Calculate the diff between the two objects.
-                        (instance1, type, newProps, 0), shouldAutoFocusHostComponent(type, newProps) && markUpdate(workInProgress);
+                        (instance1, type, newProps), shouldAutoFocusHostComponent(type, newProps) && markUpdate(workInProgress);
                     }
                     null !== workInProgress.ref && // If there is a ref on a host node we need to schedule a callback
                     markRef$1(workInProgress);
@@ -9001,7 +8992,6 @@
     }
     function logCapturedError(boundary, errorInfo) {
         try {
-            !1;
             var error = errorInfo.value, source = errorInfo.source, stack = errorInfo.stack;
             // `preventDefault()` in window `error` handler.
             // We record this information as an expando on the error.
@@ -9060,12 +9050,12 @@
         if (oldProps !== newProps) {
             // component is hitting the resume path. Figure out why. Possibly
             // related to `hidden`.
-            var updatePayload = function(domElement, type, oldProps, newProps, rootContainerInstance, hostContext) {
+            var updatePayload = function(domElement, type, oldProps, newProps, hostContext) {
                 if (typeof newProps.children != typeof oldProps.children && ("string" == typeof newProps.children || "number" == typeof newProps.children)) {
                     var string = "" + newProps.children, ownAncestorInfo = updatedAncestorInfo(hostContext.ancestorInfo, type);
                     validateDOMNesting(null, string, ownAncestorInfo);
                 }
-                return function(domElement, tag, lastRawProps, nextRawProps, rootContainerElement) {
+                return function(domElement, tag, lastRawProps, nextRawProps) {
                     validatePropertiesInDevelopment(tag, nextRawProps);
                     var lastProps, nextProps, propKey, styleName, updatePayload = null;
                     switch(tag){
@@ -9144,7 +9134,7 @@
                     }(styleUpdates, nextProps[STYLE]), (updatePayload = updatePayload || []).push(STYLE, styleUpdates)), updatePayload;
                 } // Apply the diff.
                 (domElement, type, oldProps, newProps);
-            }(workInProgress.stateNode, type, oldProps, newProps, 0, getHostContext()); // TODO: Type this specific to this type of component.
+            }(workInProgress.stateNode, type, oldProps, newProps, getHostContext()); // TODO: Type this specific to this type of component.
             workInProgress.updateQueue = updatePayload, updatePayload && markUpdate(workInProgress);
         } // If we get updated because one of our children updated, we don't
     }, updateHostText$1 = function(current, workInProgress, oldText, newText) {
@@ -9382,7 +9372,7 @@
                 currentParentIsValid = !0;
             }
             if (5 === node.tag || 6 === node.tag) // node from the tree.
-            (!function(finishedRoot, root, renderPriorityLevel) {
+            (!function(finishedRoot, root) {
                 for(// While we're inside a removed host node we don't want to call
                 // removeChild on the inner nodes because they're removed by the top
                 // call anyway. We also want to call componentWillUnmount on all
@@ -9432,12 +9422,12 @@
             case 14:
             case 15:
             case 22:
-                return void function(tag, finishedWork) {
+                return void function(finishedWork) {
                     var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
                     if (null !== lastEffect) {
                         var firstEffect = lastEffect.next, effect = firstEffect;
                         do {
-                            if ((3 & effect.tag) === tag) {
+                            if ((3 & effect.tag) == 3) {
                                 // Unmount
                                 var destroy = effect.destroy;
                                 effect.destroy = void 0, void 0 !== destroy && destroy();
@@ -9445,7 +9435,7 @@
                             effect = effect.next;
                         }while (effect !== firstEffect)
                     }
-                }(3, finishedWork);
+                }(finishedWork);
             case 1:
             case 12:
             case 17:
@@ -10176,7 +10166,7 @@
                 // This fiber did not complete because something threw. Pop values off
                 // the stack without entering the complete phase. If this is a boundary,
                 // capture values if possible.
-                var _next = function(workInProgress, renderLanes) {
+                var _next = function(workInProgress) {
                     switch(workInProgress.tag){
                         case 1:
                             isContextProvider(workInProgress.type) && popContext(workInProgress);
@@ -10537,7 +10527,7 @@
                     commitWork(nextEffect.alternate, nextEffect);
                     break;
                 case 8:
-                    !function(finishedRoot, current, renderPriorityLevel) {
+                    !function(finishedRoot, current) {
                         // Recursively delete all host nodes from the parent.
                         // Detach refs and call componentWillUnmount() on the whole subtree.
                         unmountHostComponents(finishedRoot, current);
@@ -10552,18 +10542,18 @@
         for(; null !== nextEffect;){
             setCurrentFiber(nextEffect);
             var flags = nextEffect.flags;
-            36 & flags && function(finishedRoot, current, finishedWork, committedLanes) {
+            36 & flags && function(finishedRoot, current, finishedWork) {
                 switch(finishedWork.tag){
                     case 0:
                     case 11:
                     case 15:
                     case 22:
-                        !function(tag, finishedWork) {
+                        !function(finishedWork) {
                             var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
                             if (null !== lastEffect) {
                                 var firstEffect = lastEffect.next, effect = firstEffect;
                                 do {
-                                    if ((3 & effect.tag) === tag) {
+                                    if ((3 & effect.tag) == 3) {
                                         // Mount
                                         var create = effect.create;
                                         effect.destroy = create();
@@ -10573,7 +10563,7 @@
                                     effect = effect.next;
                                 }while (effect !== firstEffect)
                             }
-                        }(3, finishedWork), function(finishedWork) {
+                        }(finishedWork), function(finishedWork) {
                             var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
                             if (null !== lastEffect) {
                                 var firstEffect = lastEffect.next, effect = firstEffect;
@@ -10638,19 +10628,19 @@
                         "function" == typeof onRender && onRender(finishedWork.memoizedProps.id, null === current ? "mount" : "update", finishedWork.actualDuration, finishedWork.treeBaseDuration, finishedWork.actualStartTime, commitTime1, finishedRoot.memoizedInteractions);
                         return;
                     case 13:
-                        var finishedWork1 = finishedWork;
-                        if (null === finishedWork1.memoizedState) {
-                            var current1 = finishedWork1.alternate;
-                            if (null !== current1) {
-                                var prevState1 = current1.memoizedState;
-                                if (null !== prevState1) {
-                                    var suspenseInstance = prevState1.dehydrated;
-                                    null !== suspenseInstance && // Retry if any event replaying was blocked on this.
-                                    retryIfBlockedOn(suspenseInstance);
+                        return function(finishedWork) {
+                            if (null === finishedWork.memoizedState) {
+                                var current = finishedWork.alternate;
+                                if (null !== current) {
+                                    var prevState = current.memoizedState;
+                                    if (null !== prevState) {
+                                        var suspenseInstance = prevState.dehydrated;
+                                        null !== suspenseInstance && // Retry if any event replaying was blocked on this.
+                                        retryIfBlockedOn(suspenseInstance);
+                                    }
                                 }
                             }
-                        }
-                        return;
+                        }(finishedWork);
                 }
                 throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
             }(root, nextEffect.alternate, nextEffect), 128 & flags && function(finishedWork) {
@@ -11026,7 +11016,7 @@
         return !1;
     }
     function markFailedErrorBoundaryForHotReloading(fiber) {
-        null !== resolveFamily && "function" == typeof WeakSet && (null === failedBoundaries && (failedBoundaries = new WeakSet()), failedBoundaries.add(fiber));
+        null === resolveFamily || "function" == typeof WeakSet && (null === failedBoundaries && (failedBoundaries = new WeakSet()), failedBoundaries.add(fiber));
     }
     var scheduleRefresh = function(root, update) {
         if (null !== resolveFamily) {
@@ -11305,7 +11295,7 @@
         }
         var current$1 = container.current, eventTime = requestEventTime();
         // $FlowExpectedError - jest isn't a global, and isn't recognized outside of tests
-        "undefined" != typeof jest && (!1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & current$1.mode || 4 & current$1.mode) && (didWarnAboutUnmockedScheduler = !0, error("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: \njest.mock('scheduler', () => require('scheduler/unstable_mock'));\n\nFor more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
+        "u" > typeof jest && (!1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & current$1.mode || 4 & current$1.mode) && (didWarnAboutUnmockedScheduler = !0, error("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: \njest.mock('scheduler', () => require('scheduler/unstable_mock'));\n\nFor more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
         var lane = requestUpdateLane(current$1), context = function(parentComponent) {
             if (!parentComponent) return emptyContextObject;
             var fiber = get(parentComponent), parentContext = function(fiber) {
@@ -11677,7 +11667,7 @@
             // Enables DevTools to append owner stacks to error messages in DEV mode.
             getCurrentFiber: getCurrentFiberForDevTools
         };
-        if ("undefined" == typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) // No DevTools
+        if ("u" < typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) // No DevTools
         return !1;
         var hook = __REACT_DEVTOOLS_GLOBAL_HOOK__;
         if (hook.isDisabled) // This isn't a real property on the hook, but it can be set to opt out

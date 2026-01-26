@@ -21,6 +21,7 @@ mod comment;
 mod common;
 mod decl;
 mod expr;
+mod flat_map_serializer;
 pub mod flavor;
 mod flow;
 mod jsx;

@@ -33,7 +33,17 @@ pub trait WriteJs {
 
     fn write_symbol(&mut self, span: Span, s: &str) -> Result;
 
-    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result;
+    /// `commit_pending_semi` should be `true` if the punctuation requires a
+    /// preceding semicolon to be committed before writing. This is typically
+    /// needed for punctuation like `"`, `'`, `[`, `!`, `/`, `{`, `(`, `~`,
+    /// `-`, `+`, `#`, `` ` ``, `*` where ASI (Automatic Semicolon Insertion)
+    /// could cause issues.
+    fn write_punct(
+        &mut self,
+        span: Option<Span>,
+        s: &'static str,
+        commit_pending_semi: bool,
+    ) -> Result;
 
     fn care_about_srcmap(&self) -> bool;
 
@@ -125,8 +135,13 @@ where
     }
 
     #[inline]
-    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
-        (**self).write_punct(span, s)
+    fn write_punct(
+        &mut self,
+        span: Option<Span>,
+        s: &'static str,
+        commit_pending_semi: bool,
+    ) -> Result {
+        (**self).write_punct(span, s, commit_pending_semi)
     }
 
     #[inline]
@@ -224,8 +239,13 @@ where
     }
 
     #[inline]
-    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
-        (**self).write_punct(span, s)
+    fn write_punct(
+        &mut self,
+        span: Option<Span>,
+        s: &'static str,
+        commit_pending_semi: bool,
+    ) -> Result {
+        (**self).write_punct(span, s, commit_pending_semi)
     }
 
     #[inline]

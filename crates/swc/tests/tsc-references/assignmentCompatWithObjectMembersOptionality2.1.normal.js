@@ -1,9 +1,9 @@
 //// [assignmentCompatWithObjectMembersOptionality2.ts]
-// M is optional and S contains no property with the same name as M
-// N is optional and T contains no property with the same name as N
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// M is optional and S contains no property with the same name as M
+// N is optional and T contains no property with the same name as N
 var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);

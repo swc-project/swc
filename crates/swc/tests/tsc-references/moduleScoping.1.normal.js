@@ -2,7 +2,7 @@
 var v1 = "sausages"; // Global scope
 //// [file2.ts]
 var v2 = 42; // Global scope
-var v4 = function() {
+var v4 = function v4() {
     return 5;
 };
 //// [file3.ts]

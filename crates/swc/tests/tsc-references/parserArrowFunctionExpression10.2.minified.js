@@ -1,5 +1,5 @@
 //// [parserArrowFunctionExpression10.ts]
 //// [fileJs.js]
-a || ((e)=>f);
+a;
 //// [fileTs.ts]
-a || ((e)=>f);
+a;

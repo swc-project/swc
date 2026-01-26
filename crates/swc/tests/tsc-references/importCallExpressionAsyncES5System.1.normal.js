@@ -67,7 +67,7 @@ System.register([
                 return cl1;
             }());
             _export("obj", obj = {
-                m: function() {
+                m: function m() {
                     return _async_to_generator(function() {
                         var req;
                         return _ts_generator(this, function(_state) {
@@ -91,7 +91,7 @@ System.register([
                 "use strict";
                 _class_call_check(this, cl2);
                 this.p = {
-                    m: function() {
+                    m: function m() {
                         return _async_to_generator(function() {
                             var req;
                             return _ts_generator(this, function(_state) {
@@ -112,7 +112,7 @@ System.register([
                     }
                 };
             });
-            _export("l", l = function() {
+            _export("l", l = function l() {
                 return _async_to_generator(function() {
                     var req;
                     return _ts_generator(this, function(_state) {

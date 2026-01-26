@@ -7,7 +7,6 @@ use swc_ecma_ast::*;
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
-    ctx::WithCtx,
     state::{State, WithState},
     token_and_span::TokenAndSpan,
 };
@@ -20,7 +19,6 @@ use crate::{
 pub type PResult<T> = Result<T, crate::error::Error>;
 
 pub mod buffer;
-pub mod ctx;
 pub mod expr_ext;
 pub mod is_directive;
 pub mod is_invalid_class_name;
@@ -54,22 +52,23 @@ pub trait Parser<'a>: Sized + Clone {
     type Token: std::fmt::Debug
         + Clone
         + TokenFactory<'a, Self::TokenAndSpan, Self::I, Buffer = Self::Buffer>;
-    type Lexer: super::lexer::Lexer<'a, Self::TokenAndSpan>;
     type Next: NextTokenAndSpan<Token = Self::Token>;
     type TokenAndSpan: TokenAndSpan<Token = Self::Token>;
     type I: Tokens<Self::TokenAndSpan>;
     type Buffer: self::buffer::Buffer<
         'a,
-        Lexer = Self::Lexer,
         Token = Self::Token,
         TokenAndSpan = Self::TokenAndSpan,
         I = Self::I,
     >;
+    type Checkpoint;
 
     fn input(&self) -> &Self::Buffer;
     fn input_mut(&mut self) -> &mut Self::Buffer;
     fn state(&self) -> &State;
     fn state_mut(&mut self) -> &mut State;
+    fn checkpoint_save(&self) -> Self::Checkpoint;
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 
     #[inline(always)]
     fn with_state<'w>(&'w mut self, state: State) -> WithState<'a, 'w, Self> {
@@ -86,12 +85,6 @@ pub trait Parser<'a>: Sized + Clone {
         self.input().get_ctx()
     }
 
-    /// Original context is restored when returned guard is dropped.
-    #[inline(always)]
-    fn with_ctx<T>(&mut self, ctx: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        WithCtx::parse_with(self, ctx, f)
-    }
-
     #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.input_mut().set_ctx(ctx);
@@ -99,20 +92,26 @@ pub trait Parser<'a>: Sized + Clone {
 
     #[inline]
     fn do_inside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        let mut ctx = self.ctx();
-        if ctx.contains(context) {
+        let ctx = self.ctx();
+        let inserted = ctx.complement().intersection(context);
+        if inserted.is_empty() {
             f(self)
         } else {
-            ctx.insert(context);
-            self.with_ctx(ctx, f)
+            self.input_mut().update_ctx(|ctx| ctx.insert(inserted));
+            let result = f(self);
+            self.input_mut().update_ctx(|ctx| ctx.remove(inserted));
+            result
         }
     }
 
     fn do_outside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        let mut ctx = self.ctx();
-        if ctx.intersects(context) {
-            ctx.remove(context);
-            self.with_ctx(ctx, f)
+        let ctx = self.ctx();
+        let removed = ctx.intersection(context);
+        if !removed.is_empty() {
+            self.input_mut().update_ctx(|ctx| ctx.remove(removed));
+            let result = f(self);
+            self.input_mut().update_ctx(|ctx| ctx.insert(removed));
+            result
         } else {
             f(self)
         }
@@ -157,25 +156,25 @@ pub trait Parser<'a>: Sized + Clone {
         if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
             return;
         }
-        if self.input_mut().cur().is_some_and(|cur| cur.is_error()) {
-            let err = self.input_mut().bump();
-            let err = err.take_error(self.input_mut());
-            self.input().iter().add_error(err);
+        let cur = self.input().cur();
+        if cur.is_error() {
+            let err = self.input_mut().expect_error_token_and_bump();
+            self.input_mut().iter_mut().add_error(err);
         }
-        self.input().iter().add_error(error);
+        self.input_mut().iter_mut().add_error(error);
     }
 
     #[cold]
-    fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
+    fn emit_strict_mode_err(&mut self, span: Span, error: SyntaxError) {
         if self.ctx().contains(Context::IgnoreError) {
             return;
         }
         let error = crate::error::Error::new(span, error);
         if self.ctx().contains(Context::Strict) {
-            self.input().iter().add_error(error);
-            return;
+            self.input_mut().iter_mut().add_error(error);
+        } else {
+            self.input_mut().iter_mut().add_module_mode_error(error);
         }
-        self.input().iter().add_module_mode_error(error);
     }
 
     fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
@@ -192,8 +191,8 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn cur_pos(&mut self) -> BytePos {
-        self.input_mut().cur_pos()
+    fn cur_pos(&self) -> BytePos {
+        self.input().cur_pos()
     }
 
     #[inline(always)]
@@ -203,24 +202,20 @@ pub trait Parser<'a>: Sized + Clone {
 
     #[inline]
     fn is_general_semi(&mut self) -> bool {
-        let Some(cur) = self.input_mut().cur() else {
-            return true;
-        };
-        cur.is_semi() || cur.is_rbrace() || self.input_mut().had_line_break_before_cur()
+        let cur = self.input().cur();
+        cur.is_semi() || cur.is_rbrace() || cur.is_eof() || self.input().had_line_break_before_cur()
     }
 
     fn eat_general_semi(&mut self) -> bool {
         if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", self.input_mut().cur());
+            tracing::trace!("eat(';'): cur={:?}", self.input().cur());
         }
-        let Some(cur) = self.input_mut().cur() else {
-            return true;
-        };
+        let cur = self.input().cur();
         if cur.is_semi() {
             self.bump();
             true
         } else {
-            cur.is_rbrace() || self.input_mut().had_line_break_before_cur()
+            cur.is_rbrace() || self.input().had_line_break_before_cur() || cur.is_eof()
         }
     }
 
@@ -257,9 +252,9 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn bump(&mut self) -> Self::Token {
+    fn bump(&mut self) {
         debug_assert!(
-            self.input().knows_cur(),
+            !self.input().cur().is_eof(),
             "parser should not call bump() without knowing current token"
         );
         self.input_mut().bump()
@@ -272,17 +267,16 @@ pub trait Parser<'a>: Sized + Clone {
             start <= end,
             "assertion failed: (span.start <= span.end). start = {start:?}, end = {end:?}",
         );
-        Span::new(start, end)
+        Span::new_with_checked(start, end)
     }
 
     #[inline(always)]
     fn assert_and_bump(&mut self, token: &Self::Token) {
         debug_assert!(
-            self.input_mut().is(token),
+            self.input().is(token),
             "assertion failed: expected {token:?}, got {:?}",
-            self.input_mut().cur()
+            self.input().cur()
         );
-        let _ = self.input_mut().cur();
         self.bump();
     }
 
@@ -327,12 +321,9 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
-        let Some(cur) = self.input_mut().cur() else {
-            return Err(eof_error(self));
-        };
+        let cur = self.input().cur();
         let (raw, cooked) = if cur.is_template() {
-            let cur = self.bump();
-            let (cooked, raw) = cur.take_template(self.input_mut());
+            let (cooked, raw) = self.input_mut().expect_template_token_and_bump();
             match cooked {
                 Ok(cooked) => (raw, Some(cooked)),
                 Err(err) => {
@@ -359,37 +350,32 @@ pub trait Parser<'a>: Sized + Clone {
     fn parse_prop_name(&mut self) -> PResult<PropName> {
         trace_cur!(self, parse_prop_name);
         self.do_inside_of_context(Context::InPropertyName, |p| {
-            let start = p.input_mut().cur_pos();
-            let Some(cur) = p.input_mut().cur() else {
-                return Err(eof_error(p));
-            };
+            let start = p.input().cur_pos();
+            let cur = p.input().cur();
             let v = if cur.is_str() {
                 PropName::Str(parse_str_lit(p))
             } else if cur.is_num() {
-                let t = p.bump();
-                let (value, raw) = t.take_num(p.input_mut());
+                let (value, raw) = p.input_mut().expect_number_token_and_bump();
                 PropName::Num(Number {
                     span: p.span(start),
                     value,
                     raw: Some(raw),
                 })
             } else if cur.is_bigint() {
-                let t = p.bump();
-                let (value, raw) = t.take_bigint(p.input_mut());
+                let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
                 PropName::BigInt(BigInt {
                     span: p.span(start),
                     value,
                     raw: Some(raw),
                 })
             } else if cur.is_word() {
-                let t = p.bump();
-                let w = t.take_word(p.input_mut()).unwrap();
+                let w = p.input_mut().expect_word_token_and_bump();
                 PropName::Ident(IdentName::new(w, p.span(start)))
             } else if cur.is_lbracket() {
                 p.bump();
-                let inner_start = p.input_mut().cur_pos();
+                let inner_start = p.input().cur_pos();
                 let mut expr = p.allow_in_expr(parse_assignment_expr)?;
-                if p.syntax().typescript() && p.input_mut().is(&Self::Token::COMMA) {
+                if p.syntax().typescript() && p.input().is(&Self::Token::COMMA) {
                     let mut exprs = vec![expr];
                     while p.input_mut().eat(&Self::Token::COMMA) {
                         //
@@ -423,7 +409,7 @@ pub trait Parser<'a>: Sized + Clone {
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
     fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(self, parse_expr_or_spread);
-        let start = self.input_mut().cur_pos();
+        let start = self.input().cur_pos();
         if self.input_mut().eat(&Self::Token::DOTDOTDOT) {
             let spread_span = self.span(start);
             let spread = Some(spread_span);
@@ -471,10 +457,8 @@ pub trait Parser<'a>: Sized + Clone {
 
     #[inline]
     fn is_ident_ref(&mut self) -> bool {
-        let ctx = self.ctx();
-        self.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_word() && !cur.is_reserved(ctx))
+        let cur = self.input().cur();
+        cur.is_word() && !cur.is_reserved(self.ctx())
     }
 
     #[inline]
@@ -511,9 +495,10 @@ pub trait Parser<'a>: Sized + Clone {
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
-    Ok(if p.input_mut().cur().is_some_and(|t| t.is_shebang()) {
-        let t = p.bump();
-        Some(t.take_shebang(p.input_mut()))
+    let cur = p.input().cur();
+    Ok(if cur.is_shebang() {
+        let ret = p.input_mut().expect_shebang_token_and_bump();
+        Some(ret)
     } else {
         None
     })
@@ -523,10 +508,10 @@ pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
 #[inline(never)]
 pub fn eof_error<'a, P: Parser<'a>>(p: &mut P) -> crate::error::Error {
     debug_assert!(
-        p.input_mut().cur().is_none(),
+        p.input().cur().is_eof(),
         "Parser should not call throw_eof_error() without knowing current token"
     );
     let pos = p.input().end_pos();
-    let last = Span::new(pos, pos);
+    let last = Span { lo: pos, hi: pos };
     crate::error::Error::new(last, crate::error::SyntaxError::Eof)
 }

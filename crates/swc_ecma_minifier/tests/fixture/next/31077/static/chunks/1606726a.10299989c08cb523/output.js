@@ -26,7 +26,7 @@
                 }
             });
             /* harmony import */ var prosemirror_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6922), prosemirror_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2230), prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1081), result = {};
-            if ("undefined" != typeof navigator && "undefined" != typeof document) {
+            if ("u" > typeof navigator && "u" > typeof document) {
                 var ie_edge = /Edge\/(\d+)/.exec(navigator.userAgent), ie_upto10 = /MSIE \d/.test(navigator.userAgent), ie_11up = /Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(navigator.userAgent), ie = result.ie = !!(ie_upto10 || ie_11up || ie_edge);
                 result.ie_version = ie_upto10 ? document.documentMode || 6 : ie_11up ? +ie_11up[1] : ie_edge ? +ie_edge[1] : null, result.gecko = !ie && /gecko\/(\d+)/i.test(navigator.userAgent), result.gecko_version = result.gecko && +(/Firefox\/(\d+)/.exec(navigator.userAgent) || [
                     0,

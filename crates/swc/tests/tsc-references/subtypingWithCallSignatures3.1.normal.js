@@ -1,9 +1,9 @@
 //// [subtypingWithCallSignatures3.ts]
-// checking subtype relations for function types as it relates to contextual signature instantiation
-// error cases, so function calls will all result in 'any'
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// checking subtype relations for function types as it relates to contextual signature instantiation
+// error cases, so function calls will all result in 'any'
 (function(Errors) {
     var Base = function Base() {
         "use strict";
@@ -59,12 +59,12 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
             ];
         }
     ];
-    var r2arg = function(x) {
+    var r2arg = function r2arg(x) {
         return function(r) {
             return null;
         };
     };
-    var r2arg2 = function(x) {
+    var r2arg2 = function r2arg2(x) {
         return function(r) {
             return null;
         };
@@ -78,12 +78,12 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         r2arg,
         r2arg2
     ];
-    var r3arg = function(x, y) {
+    var r3arg = function r3arg(x, y) {
         return function(r) {
             return null;
         };
     };
-    var r3arg2 = function(x, y) {
+    var r3arg2 = function r3arg2(x, y) {
         return function(r) {
             return null;
         };
@@ -97,13 +97,13 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         r3arg,
         r3arg2
     ];
-    var r4arg = function() {
+    var r4arg = function r4arg() {
         for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
             x[_key] = arguments[_key];
         }
         return null;
     };
-    var r4arg2 = function() {
+    var r4arg2 = function r4arg2() {
         for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
             x[_key] = arguments[_key];
         }
@@ -118,10 +118,10 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         r4arg,
         r4arg2
     ];
-    var r5arg = function(x, y) {
+    var r5arg = function r5arg(x, y) {
         return null;
     };
-    var r5arg2 = function(x, y) {
+    var r5arg2 = function r5arg2(x, y) {
         return null;
     };
     var r5 = foo11(r5arg); // any
@@ -133,10 +133,10 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         r5arg,
         r5arg2
     ];
-    var r6arg = function(x, y) {
+    var r6arg = function r6arg(x, y) {
         return null;
     };
-    var r6arg2 = function(x, y) {
+    var r6arg2 = function r6arg2(x, y) {
         return null;
     };
     var r6 = foo12(r6arg); // (x: Array<Base>, y: Array<Derived2>) => Array<Derived>
@@ -148,10 +148,10 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         r6arg,
         r6arg2
     ];
-    var r7arg = function(x) {
+    var r7arg = function r7arg(x) {
         return null;
     };
-    var r7arg2 = function(x) {
+    var r7arg2 = function r7arg2(x) {
         return 1;
     };
     var r7 = foo15(r7arg); // any
@@ -163,7 +163,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         r7arg,
         r7arg2
     ];
-    var r7arg3 = function(x) {
+    var r7arg3 = function r7arg3(x) {
         return 1;
     };
     var r7c = foo15(r7arg3); // (x: { a: string; b: number }) => number): number;
@@ -175,23 +175,23 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         r7arg3,
         r7arg2
     ];
-    var r8arg = function(x) {
+    var r8arg = function r8arg(x) {
         return null;
     };
     var r8 = foo16(r8arg); // any
-    var r9arg = function(x) {
+    var r9arg = function r9arg(x) {
         return null;
     };
     var r9 = foo17(r9arg); // (x: { <T extends Derived >(a: T): T; <T extends Base >(a: T): T; }): any[]; (x: { <T extends Derived2>(a: T): T; <T extends Base>(a: T): T; }): any[];
 })(Errors || (Errors = {}));
 (function(WithGenericSignaturesInBaseType) {
-    var r2arg2 = function(x) {
+    var r2arg2 = function r2arg2(x) {
         return [
             ''
         ];
     };
     var r2 = foo2(r2arg2); // <T>(x:T) => T[] since we can infer from generic signatures now
-    var r3arg2 = function(x) {
+    var r3arg2 = function r3arg2(x) {
         return null;
     };
     var r3 = foo3(r3arg2); // any

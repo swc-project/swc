@@ -3,9 +3,10 @@
 
 use core::str;
 use std::{
+    borrow::Borrow,
     fmt::{Debug, Display},
     hash::Hash,
-    mem::{self, forget, transmute},
+    mem::{self, forget, transmute, ManuallyDrop},
     num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
@@ -14,14 +15,22 @@ use std::{
 use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
 
-pub use crate::dynamic::AtomStore;
-use crate::tagged_value::TaggedValue;
+pub use crate::dynamic::{global_atom_store_gc, AtomStore};
+use crate::{
+    macros::{get_hash, impl_from_alias, partial_eq},
+    tagged_value::TaggedValue,
+};
 
 mod dynamic;
 mod global_store;
+mod macros;
 mod tagged_value;
 #[cfg(test)]
 mod tests;
+pub mod wtf8;
+mod wtf8_atom;
+
+pub use wtf8_atom::Wtf8Atom;
 
 /// An immutable string which is cheap to clone, compare, hash, and has small
 /// size.
@@ -83,11 +92,20 @@ mod tests;
 /// Small strings are stored in the [Atom] itself without any allocation.
 ///
 ///
-/// # Creating atoms
+/// ## Creating atoms
 ///
 /// If you are working on a module which creates lots of [Atom]s, you are
 /// recommended to use [AtomStore] API because it's faster. But if you are not,
 /// you can use global APIs for convenience.
+///
+/// ## Dealloc
+///
+/// - Atoms stored in the local `AtomStore` have the same lifetime as the store
+///   itself, and will be deallocated when the store is dropped.
+/// - Atoms created via the `atom!` macro or `String::into` are stored in the
+///   global atom store. By default, these atoms are never deallocated. To clean
+///   up unused atoms, call [global_atom_store_gc].
+#[repr(transparent)]
 pub struct Atom {
     // If this Atom is a dynamic one, this is *const Entry
     unsafe_data: TaggedValue,
@@ -174,7 +192,6 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 const DYNAMIC_TAG: u8 = 0b_00;
 const INLINE_TAG: u8 = 0b_01; // len in upper nybble
 const INLINE_TAG_INIT: NonZeroU8 = unsafe { NonZeroU8::new_unchecked(INLINE_TAG) };
-const STATIC_TAG: u8 = 0b_10;
 const TAG_MASK: u8 = 0b_11;
 const LEN_OFFSET: usize = 4;
 const LEN_MASK: u8 = 0xf0;
@@ -245,29 +262,10 @@ impl Atom {
 }
 
 impl Atom {
-    #[inline(never)]
     fn get_hash(&self) -> u64 {
-        match self.tag() {
-            DYNAMIC_TAG => {
-                unsafe { crate::dynamic::deref_from(self.unsafe_data) }
-                    .header
-                    .header
-                    .header
-                    .hash
-            }
-            INLINE_TAG => {
-                // This is passed as input to the caller's `Hasher` implementation, so it's okay
-                // that this isn't really a hash
-                self.unsafe_data.hash()
-            }
-            STATIC_TAG => {
-                todo!("static hash")
-            }
-            _ => unsafe { debug_unreachable!() },
-        }
+        get_hash!(self)
     }
 
-    #[inline(never)]
     fn as_str(&self) -> &str {
         match self.tag() {
             DYNAMIC_TAG => unsafe {
@@ -278,9 +276,6 @@ impl Atom {
                 let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
                 let src = self.unsafe_data.data();
                 unsafe { std::str::from_utf8_unchecked(&src[..(len as usize)]) }
-            }
-            STATIC_TAG => {
-                todo!("static as_str")
             }
             _ => unsafe { debug_unreachable!() },
         }
@@ -304,30 +299,7 @@ impl Atom {
 impl PartialEq for Atom {
     #[inline(never)]
     fn eq(&self, other: &Self) -> bool {
-        if self.unsafe_data == other.unsafe_data {
-            return true;
-        }
-
-        // If one is inline and the other is not, the length is different.
-        // If one is static and the other is not, it's different.
-        if self.tag() != other.tag() {
-            return false;
-        }
-
-        if self.is_dynamic() && other.is_dynamic() {
-            let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
-            let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
-
-            if te.header.header.header.hash != oe.header.header.header.hash {
-                return false;
-            }
-
-            return te.slice == oe.slice;
-        }
-
-        if self.get_hash() != other.get_hash() {
-            return false;
-        }
+        partial_eq!(self, other);
 
         // If the store is different, the string may be the same, even though the
         // `unsafe_data` is different
@@ -360,20 +332,7 @@ impl Clone for Atom {
     }
 }
 
-impl Atom {
-    #[inline]
-    pub(crate) fn from_alias(alias: TaggedValue) -> Self {
-        if alias.tag() & TAG_MASK == DYNAMIC_TAG {
-            unsafe {
-                let arc = crate::dynamic::restore_arc(alias);
-                forget(arc.clone());
-                forget(arc);
-            }
-        }
-
-        Self { unsafe_data: alias }
-    }
-}
+impl_from_alias!(Atom);
 
 impl Deref for Atom {
     type Target = str;
@@ -412,6 +371,19 @@ impl PartialEq<Atom> for str {
     }
 }
 
+impl Borrow<Wtf8Atom> for Atom {
+    #[inline(always)]
+    fn borrow(&self) -> &Wtf8Atom {
+        // SAFETY:
+        // 1. Wtf8Atom is #[repr(transparent)] over TaggedValue
+        // 2. Atom is #[repr(transparent)] over TaggedValue
+        // 3. hstr::Atom and hstr::Wtf8Atom share the same TaggedValue
+        const _: () = assert!(std::mem::size_of::<Atom>() == std::mem::size_of::<Wtf8Atom>());
+        const _: () = assert!(std::mem::align_of::<Atom>() == std::mem::align_of::<Wtf8Atom>());
+        unsafe { transmute::<&Atom, &Wtf8Atom>(self) }
+    }
+}
+
 /// NOT A PUBLIC API
 #[cfg(feature = "rkyv")]
 impl rkyv::Archive for Atom {
@@ -442,6 +414,28 @@ where
         let s: String = self.deserialize(deserializer)?;
 
         Ok(Atom::new(s))
+    }
+}
+
+impl Atom {
+    /// Converts a WTF-8 encoded [Wtf8Atom] to a regular UTF-8 [Atom] without
+    /// validation.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that the WTF-8 atom contains only valid UTF-8
+    /// data (no unpaired surrogates). This function performs no validation
+    /// and will create an invalid `Atom` if the input contains unpaired
+    /// surrogates.
+    ///
+    /// This is a zero-cost conversion that preserves all internal optimizations
+    /// (inline storage, precomputed hashes, etc.) since both types have
+    /// identical internal representation.
+    pub unsafe fn from_wtf8_unchecked(s: Wtf8Atom) -> Self {
+        let s = ManuallyDrop::new(s);
+        Atom {
+            unsafe_data: s.unsafe_data,
+        }
     }
 }
 

@@ -139,31 +139,29 @@ pub mod unstable {
     //! the performance.
     //!
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
-    pub use swc_ecma_lexer::common::lexer::token::TokenFactory;
-
     pub use crate::lexer::{
         capturing::Capturing,
         token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
     };
 }
 
-pub mod lexer;
-mod parser;
-
-pub use lexer::Lexer;
-pub use swc_common::input::{Input, StringInput};
+use error::Error;
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::{common::parser::Parser as ParserTrait, error::Error};
-pub use swc_ecma_lexer::{
-    common::{
-        context::Context,
-        syntax::{EsSyntax, Syntax, TsSyntax},
-    },
-    error, token,
-};
 
-pub use self::parser::*;
+mod context;
+pub mod error;
+mod legacy;
+pub mod lexer;
+mod parser;
+mod syntax;
+
+pub use context::Context;
+pub use legacy::token;
+pub use lexer::Lexer;
+pub use parser::*;
+pub use swc_common::input::{Input, StringInput};
+pub use syntax::{EsSyntax, Syntax, SyntaxFlags, TsSyntax};
 
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
@@ -228,3 +226,24 @@ expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });
 expose!(parse_file_as_commonjs, Script, |p| { p.parse_commonjs() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });
+
+#[inline(always)]
+#[cfg(any(
+    target_arch = "wasm32",
+    target_arch = "arm",
+    not(feature = "stacker"),
+    // miri does not work with stacker
+    miri
+))]
+fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callback: F) -> R {
+    callback()
+}
+
+#[inline(always)]
+#[cfg(all(
+    not(any(target_arch = "wasm32", target_arch = "arm", miri)),
+    feature = "stacker"
+))]
+fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
+    stacker::maybe_grow(red_zone, stack_size, callback)
+}

@@ -1,0 +1,18 @@
+[package]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Runner backend (wasmtime) for swc plugins. This crate is INTERNAL crate and used by swc itself."
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_plugin_backend_wasmtime"
+repository  = { workspace = true }
+version     = "6.0.0"
+
+[dependencies]
+anyhow      = { workspace = true }
+wasi-common = { workspace = true, features = ["sync", "wasmtime"] }
+wasmtime    = { workspace = true, features = ["runtime", "cranelift", "threads"] }
+
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
+  "concurrent",
+] }
+swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner" }

@@ -781,15 +781,15 @@ fn should_visit() {
 #[testing::fixture("tests/fixture/**/input/")]
 #[testing::fixture("tests/vercel/**/input/")]
 fn fixture(input_dir: PathBuf) {
-    tests(input_dir, Some(IsModule::Unknown));
+    tests(input_dir);
 }
 
 #[testing::fixture("tests/typescript/**/input/")]
 fn ts_id(input_dir: PathBuf) {
-    tests(input_dir, Some(IsModule::Bool(true)));
+    tests(input_dir);
 }
 
-fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
+fn tests(input_dir: PathBuf) {
     let output_dir = input_dir.parent().unwrap().join("output");
 
     for entry in WalkDir::new(&input_dir) {
@@ -828,7 +828,6 @@ fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
                             external_helpers: true.into(),
                             ..Default::default()
                         },
-                        is_module,
                         ..Default::default()
                     },
 
@@ -1256,6 +1255,26 @@ fn issue_8701_1() {
         "import { AppController } from \"./app.controller\";\nimport { AppService } from \
          \"./app.service\";\nconsole.log(AppController, AppService);\n"
     );
+}
+
+#[test]
+fn issue_9727_1() {
+    let f = file("tests/projects/issue-9727/pass-1/input.ts").unwrap();
+
+    assert!(f.contains(
+        "export class Foo {
+}"
+    ));
+}
+
+#[test]
+fn issue_9727_2() {
+    let f = file("tests/projects/issue-9727/pass-4/input.ts").unwrap();
+
+    assert!(f.contains(
+        "export class Foo {
+}"
+    ));
 }
 
 #[testing::fixture("tests/minify/**/input.js")]

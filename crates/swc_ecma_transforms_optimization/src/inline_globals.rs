@@ -1,9 +1,9 @@
-use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
-use swc_common::{sync::Lrc, Mark, SyntaxContext};
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::{Atom, Wtf8Atom};
+use swc_common::sync::Lrc;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
-use swc_ecma_utils::{parallel::cpu_count, NodeIgnoringSpan};
+use swc_ecma_utils::{collect_decls, parallel::cpu_count, NodeIgnoringSpan};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
@@ -17,32 +17,35 @@ pub type GlobalExprMap = Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>;
 ///
 /// Note: Values specified in `global_exprs` have higher precedence than
 pub fn inline_globals(
-    unresolved_mark: Mark,
     envs: Lrc<FxHashMap<Atom, Expr>>,
     globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: GlobalExprMap,
     typeofs: Lrc<FxHashMap<Atom, Atom>>,
 ) -> impl Pass {
-    let unresolved_ctxt = SyntaxContext::default().apply_mark(unresolved_mark);
+    let envs = Lrc::new(
+        envs.iter()
+            .map(|(k, v)| (k.clone().into(), v.clone()))
+            .collect(),
+    );
 
     visit_mut_pass(InlineGlobals {
         envs,
         globals,
         global_exprs,
         typeofs,
-        unresolved_ctxt,
+        bindings: Default::default(),
     })
 }
 
 #[derive(Clone)]
 struct InlineGlobals {
-    envs: Lrc<FxHashMap<Atom, Expr>>,
+    envs: Lrc<FxHashMap<Wtf8Atom, Expr>>,
     globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>,
 
     typeofs: Lrc<FxHashMap<Atom, Atom>>,
 
-    unresolved_ctxt: SyntaxContext,
+    bindings: Lrc<FxHashSet<Id>>,
 }
 
 impl Parallel for InlineGlobals {
@@ -61,9 +64,8 @@ impl VisitMut for InlineGlobals {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Ident(Ident { ctxt, .. }) = expr {
-            // Ignore declared variables
-            if *ctxt != self.unresolved_ctxt {
+        if let Expr::Ident(id) = expr {
+            if self.bindings.contains(&id.to_id()) {
                 return;
             }
         }
@@ -94,14 +96,9 @@ impl VisitMut for InlineGlobals {
                 arg,
                 ..
             }) => {
-                if let Expr::Ident(Ident {
-                    ref sym,
-                    ctxt: arg_ctxt,
-                    ..
-                }) = &**arg
-                {
+                if let Expr::Ident(ident @ Ident { ref sym, .. }) = &**arg {
                     // It's a declared variable
-                    if *arg_ctxt != self.unresolved_ctxt {
+                    if self.bindings.contains(&ident.to_id()) {
                         return;
                     }
 
@@ -110,7 +107,7 @@ impl VisitMut for InlineGlobals {
                         *expr = Lit::Str(Str {
                             span: *span,
                             raw: None,
-                            value,
+                            value: value.into(),
                         })
                         .into();
                     }
@@ -134,7 +131,8 @@ impl VisitMut for InlineGlobals {
                             }
 
                             MemberProp::Ident(IdentName { sym, .. }) => {
-                                if let Some(env) = self.envs.get(sym) {
+                                let sym_wtf8: Wtf8Atom = sym.clone().into();
+                                if let Some(env) = self.envs.get(&sym_wtf8) {
                                     *expr = env.clone();
                                 }
                             }
@@ -156,6 +154,12 @@ impl VisitMut for InlineGlobals {
         self.visit_mut_par(cpu_count(), n);
     }
 
+    fn visit_mut_module(&mut self, module: &mut Module) {
+        self.bindings = Lrc::new(collect_decls(&*module));
+
+        module.visit_mut_children_with(self);
+    }
+
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
         self.visit_mut_par(cpu_count(), n);
     }
@@ -165,7 +169,7 @@ impl VisitMut for InlineGlobals {
 
         if let Prop::Shorthand(i) = p {
             // Ignore declared variables
-            if i.ctxt != self.unresolved_ctxt {
+            if self.bindings.contains(&i.to_id()) {
                 return;
             }
 
@@ -183,13 +187,19 @@ impl VisitMut for InlineGlobals {
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
         self.visit_mut_par(cpu_count(), n);
     }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        self.bindings = Lrc::new(collect_decls(&*script));
+
+        script.visit_mut_children_with(self);
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use swc_common::Mark;
-    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::{test, Tester};
+    use swc_ecma_transforms_typescript::typescript;
     use swc_ecma_utils::{DropSpan, StmtOrModuleItem};
 
     use super::*;
@@ -244,148 +254,100 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                inline_globals(
-                    unresolved_mark,
-                    envs(tester, &[]),
-                    globals(tester, &[]),
-                    Default::default(),
-                    Default::default(),
-                ),
-            )
-        },
+        |tester| inline_globals(
+            envs(tester, &[("NODE_ENV", "development")]),
+            globals(tester, &[]),
+            Default::default(),
+            Default::default()
+        ),
         issue_215,
         r#"if (process.env.x === 'development') {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                inline_globals(
-                    unresolved_mark,
-                    envs(tester, &[("NODE_ENV", "development")]),
-                    globals(tester, &[]),
-                    Default::default(),
-                    Default::default(),
-                ),
-            )
-        },
+        |tester| inline_globals(
+            envs(tester, &[("NODE_ENV", "development")]),
+            globals(tester, &[]),
+            Default::default(),
+            Default::default(),
+        ),
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                inline_globals(
-                    unresolved_mark,
-                    envs(tester, &[]),
-                    globals(tester, &[("__DEBUG__", "true")]),
-                    Default::default(),
-                    Default::default(),
-                ),
-            )
-        },
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[("__DEBUG__", "true")]),
+            Default::default(),
+            Default::default()
+        ),
         globals_simple,
         r#"if (__DEBUG__) {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                inline_globals(
-                    unresolved_mark,
-                    envs(tester, &[]),
-                    globals(tester, &[("debug", "true")]),
-                    Default::default(),
-                    Default::default(),
-                ),
-            )
-        },
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[("debug", "true")]),
+            Default::default(),
+            Default::default(),
+        ),
         non_global,
         r#"if (foo.debug) {}"#
     );
 
     test!(
         Default::default(),
-        |tester| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                inline_globals(
-                    unresolved_mark,
-                    envs(tester, &[]),
-                    globals(tester, &[]),
-                    Default::default(),
-                    Default::default(),
-                ),
-            )
-        },
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[]),
+            Default::default(),
+            Default::default(),
+        ),
         issue_417_1,
         "const test = process.env['x']"
     );
 
     test!(
         Default::default(),
-        |tester| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                inline_globals(
-                    unresolved_mark,
-                    envs(tester, &[("x", "FOO")]),
-                    globals(tester, &[]),
-                    Default::default(),
-                    Default::default(),
-                ),
-            )
-        },
+        |tester| inline_globals(
+            envs(tester, &[("x", "FOO")]),
+            globals(tester, &[]),
+            Default::default(),
+            Default::default(),
+        ),
         issue_417_2,
         "const test = process.env['x']"
     );
 
     test!(
         Default::default(),
-        |tester| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                inline_globals(
-                    unresolved_mark,
-                    envs(tester, &[("x", "BAR")]),
-                    globals(tester, &[]),
-                    Default::default(),
-                    Default::default(),
-                ),
-            )
-        },
+        |tester| inline_globals(
+            envs(tester, &[("x", "BAR")]),
+            globals(tester, &[]),
+            Default::default(),
+            Default::default(),
+        ),
         issue_2499_1,
         "process.env.x = 'foo'"
+    );
+
+    test!(
+        swc_ecma_parser::Syntax::Typescript(Default::default()),
+        |tester| (
+            typescript(Default::default(), Mark::new(), Mark::new()),
+            inline_globals(
+                envs(tester, &[]),
+                globals(tester, &[("__MY_HOST__", "'https://swc.rs/'")]),
+                Default::default(),
+                Default::default(),
+            )
+        ),
+        issue_10831_1,
+        "declare let __MY_HOST__: string; console.log(__MY_HOST__);"
     );
 }

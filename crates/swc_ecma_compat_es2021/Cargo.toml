@@ -7,16 +7,18 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_compat_es2021"
 repository    = { workspace = true }
-version       = "19.0.1"
+version       = "36.0.0"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [dependencies]
 tracing = { workspace = true }
-swc_common               = { version = "13.0.4", path = "../swc_common" }
-swc_ecma_ast             = { version = "13.0.1", path = "../swc_ecma_ast" }
-swc_ecma_transforms_base = { version = "19.0.2", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils           = { version = "18.0.3", path = "../swc_ecma_utils" }
-swc_ecma_visit           = { version = "13.0.0", path = "../swc_ecma_visit" }
-swc_trace_macro          = { version = "2.0.2", path = "../swc_trace_macro" }
+
+swc_ecma_ast             = { version = "20.0.0", path = "../swc_ecma_ast" }
+swc_ecma_transformer     = { version = "7.0.0", path = "../swc_ecma_transformer" }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils           = { version = "26.0.1", path = "../swc_ecma_utils" }

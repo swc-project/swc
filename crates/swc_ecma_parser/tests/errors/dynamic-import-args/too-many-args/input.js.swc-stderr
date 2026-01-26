@@ -1,0 +1,5 @@
+  x `import()` requires exactly one or two arguments
+   ,-[$DIR/tests/errors/dynamic-import-args/too-many-args/input.js:1:1]
+ 1 | import('a', 'b', 'c');
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----

@@ -8,7 +8,7 @@ var ClassMapDirective = function ClassMapDirective() {
     "use strict";
     _class_call_check(this, ClassMapDirective);
 };
-export var directive = function(class_) {
+export var directive = function directive(class_) {
     return function() {
         return {
             directive: class_

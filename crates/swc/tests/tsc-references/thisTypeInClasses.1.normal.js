@@ -27,19 +27,19 @@ var C5 = /*#__PURE__*/ function() {
     var _proto = C5.prototype;
     _proto.foo = function foo() {
         var _this = this;
-        var f1 = function(x) {
+        var f1 = function f1(x) {
             return _this;
         };
-        var f2 = function(x) {
+        var f2 = function f2(x) {
             return _this;
         };
-        var f3 = function(x) {
+        var f3 = function f3(x) {
             return function(y) {
                 return _this;
             };
         };
-        var f4 = function(x) {
-            var g = function(y) {
+        var f4 = function f4(x) {
+            var g = function g(y) {
                 return function() {
                     return _this;
                 };

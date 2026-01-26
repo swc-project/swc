@@ -410,7 +410,11 @@ where
         }
 
         if format.contains(ListFormat::BracketsMask) {
-            if let Err(err) = self.wr.write_punct(None, format.opening_bracket()) {
+            if let Err(err) = self.wr.write_punct(
+                None,
+                format.opening_bracket(),
+                format.opening_bracket_requires_semi_commit(),
+            ) {
                 return Some(Err(err));
             }
 
@@ -597,7 +601,8 @@ where
                     true,
                 )?; // Emit leading comments within empty lists
             }
-            self.wr.write_punct(None, format.closing_bracket())?;
+            // Closing brackets never require committing pending semi
+            self.wr.write_punct(None, format.closing_bracket(), false)?;
         }
 
         Ok(())
@@ -794,6 +799,8 @@ where
                     Callee::Super(callee) => span_has_leading_comment(cmt, callee.span),
                     Callee::Import(callee) => span_has_leading_comment(cmt, callee.span),
                     Callee::Expr(callee) => self.has_leading_comment(callee),
+                    #[cfg(swc_ast_unknown)]
+                    _ => false,
                 };
 
                 if has_leading {
@@ -847,7 +854,11 @@ where
                         AssignTargetPat::Array(a) => span_has_leading_comment(cmt, a.span),
                         AssignTargetPat::Object(o) => span_has_leading_comment(cmt, o.span),
                         AssignTargetPat::Invalid(..) => false,
+                        #[cfg(swc_ast_unknown)]
+                        _ => false,
                     },
+                    #[cfg(swc_ast_unknown)]
+                    _ => false,
                 };
 
                 if has_leading {
@@ -866,6 +877,8 @@ where
                         return true;
                     }
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => (),
             },
 
             _ => {}
@@ -883,18 +896,19 @@ where
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
-            ListFormat::CommaDelimited => self.wr.write_punct(None, ",")?,
+            // Delimiters (`,`, `|`, `&`) never require committing pending semi
+            ListFormat::CommaDelimited => self.wr.write_punct(None, ",", false)?,
             ListFormat::BarDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct(None, "|")?;
+                self.wr.write_punct(None, "|", false)?;
             }
             ListFormat::AmpersandDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct(None, "&")?;
+                self.wr.write_punct(None, "&", false)?;
             }
             _ => unreachable!(),
         }
@@ -1409,6 +1423,8 @@ impl MacroNode for Program {
         match self {
             Program::Module(m) => emit!(m),
             Program::Script(s) => emit!(s),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
             // TODO: reenable once experimental_metadata breaking change is merged
             // _ => unreachable!(),
         }
@@ -1421,7 +1437,11 @@ impl MacroNode for Program {
 impl MacroNode for Module {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
+
+        if !should_skip_leading_comments {
+            emitter.emit_leading_comments_of_span(self.span(), false)?;
+        }
 
         if self.body.is_empty() {
             srcmap!(emitter, self, true);
@@ -1449,7 +1469,11 @@ impl MacroNode for Module {
 impl MacroNode for Script {
     #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
+
+        if !should_skip_leading_comments {
+            emitter.emit_leading_comments_of_span(self.span(), false)?;
+        }
 
         if self.body.is_empty() {
             srcmap!(emitter, self, true);
@@ -1480,6 +1504,8 @@ impl MacroNode for ModuleItem {
         match self {
             ModuleItem::Stmt(stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(decl) => emit!(decl),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
@@ -1500,6 +1526,8 @@ impl MacroNode for Callee {
             }
             Callee::Super(n) => emit!(n),
             Callee::Import(n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -1581,6 +1609,8 @@ impl MacroNode for Expr {
             Expr::TsSatisfies(n) => {
                 emit!(n)
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         if emitter.comments.is_some() {
@@ -1613,6 +1643,8 @@ impl MacroNode for OptChainExpr {
                     MemberProp::Computed(computed) => emit!(computed),
                     MemberProp::Ident(i) => emit!(i),
                     MemberProp::PrivateName(p) => emit!(p),
+                    #[cfg(swc_ast_unknown)]
+                    _ => return Err(unknown_error()),
                 }
             }
             OptChainBase::Call(e) => {
@@ -1631,6 +1663,8 @@ impl MacroNode for OptChainExpr {
                 )?;
                 punct!(emitter, ")");
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -1735,6 +1769,8 @@ impl MacroNode for MemberExpr {
                 punct!(emitter, ".");
                 emit!(private);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         srcmap!(emitter, self, false);
@@ -1761,6 +1797,8 @@ impl MacroNode for SuperPropExpr {
                 punct!(emitter, ".");
                 emit!(i);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -1836,6 +1874,9 @@ impl MacroNode for MetaPropExpr {
             MetaPropKind::ImportMeta => keyword!(emitter, "import.meta"),
 
             MetaPropKind::NewTarget => keyword!(emitter, "new.target"),
+
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -2002,6 +2043,8 @@ impl MacroNode for BlockStmtOrExpr {
                 emit!(expr);
                 emitter.wr.decrease_indent()?;
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -2132,6 +2175,8 @@ impl MacroNode for UnaryExpr {
                 punct!(emitter, self.op.as_str());
                 false
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         };
 
         if should_emit_whitespace_before_operand(self) {
@@ -2326,4 +2371,12 @@ impl MacroNode for IdentName {
 
         Ok(())
     }
+}
+
+#[cfg(swc_ast_unknown)]
+fn unknown_error() -> io::Error {
+    io::Error::new(
+        io::ErrorKind::Unsupported,
+        "emit unknown variant is not supported",
+    )
 }

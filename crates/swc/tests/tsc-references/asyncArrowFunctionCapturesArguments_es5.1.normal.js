@@ -11,7 +11,7 @@ var C = /*#__PURE__*/ function() {
     _proto.method = function method() {
         var _this = this, _arguments = arguments;
         function other() {}
-        var fn = function() {
+        var fn = function fn() {
             return _async_to_generator(function() {
                 var _arguments = arguments;
                 return _ts_generator(this, function(_state) {

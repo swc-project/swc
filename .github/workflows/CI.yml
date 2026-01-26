@@ -72,11 +72,30 @@ jobs:
       - name: Install cargo-deny
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-deny@0.14.15
+          tool: cargo-deny@0.18.9
 
       - name: Check licenses
         run: |
           cargo deny check
+
+  cargo-shear:
+    name: Cargo shear
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Install cargo-shear
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-shear@1.3.3
+
+      - name: cargo-shear
+        run: cargo shear --fix
 
   cargo-check:
     name: Check
@@ -133,6 +152,7 @@ jobs:
           - binding_core_wasm
           - binding_minifier_wasm
           - binding_typescript_wasm
+          - binding_es_ast_viewer
     steps:
       - uses: actions/checkout@v4
 
@@ -143,13 +163,6 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-
-      - name: Patch
-        shell: bash
-        run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
-          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -271,7 +284,7 @@ jobs:
           key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
+        if: matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr'
         run: |
           cargo test -p ${{ matrix.settings.crate }}
 
@@ -292,10 +305,15 @@ jobs:
           cargo test --manifest-path ./bindings/swc_cli/Cargo.toml --features plugin
 
       - name: Run cargo test (plugin)
-        if: matrix.settings.crate == 'swc_plugin_runner'
+        if: matrix.settings.crate == 'swc_plugin_backend_tests'
         run: |
           # export CARGO_TARGET_DIR=$(pwd)/target
-          cargo test -p swc_plugin_runner --release --features plugin_transform_schema_v1 --features rkyv-impl --features ecma --features css
+          cargo test -p swc_plugin_backend_tests --release
+
+      - name: Run cargo test (hstr)
+        if: matrix.settings.crate == 'hstr'
+        run: |
+          cargo test -p hstr --features serde
 
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'
@@ -334,6 +352,11 @@ jobs:
         run: |
           ./scripts/github/run-cargo-hack.sh ${{ matrix.settings.crate }}
 
+      - name: Check unknown variant with transforms
+        if: matrix.settings.crate == 'swc_ecma_transforms'
+        run: |
+          env RUSTFLAGS="--cfg swc_ast_unknown" cargo check -p ${{ matrix.settings.crate }} --features typescript,react,proposal,optimization,module,compat
+
   node-test:
     name: Test node bindings - ${{ matrix.os }}
     if: >-
@@ -360,14 +383,6 @@ jobs:
         with:
           node-version: 18
           cache: "yarn"
-
-      - name: Patch
-        shell: bash
-        run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
-          ./scripts/cargo/patch-section.sh
-          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Set platform name
         run: |
@@ -418,13 +433,6 @@ jobs:
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Patch
-        shell: bash
-        run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
-          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Prepare
         run: |
@@ -492,6 +500,7 @@ jobs:
       - cargo-fmt
       - cargo-clippy
       - cargo-deny
+      - cargo-shear
       - cargo-check
       - test-wasm
       - cargo-test

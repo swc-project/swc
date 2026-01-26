@@ -1,0 +1,80 @@
+name: Binary Size Check - Build
+
+on:
+  pull_request:
+    types: ["opened", "reopened", "synchronize"]
+
+env:
+  CI: 1
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: "always"
+  RUST_LOG: "off"
+  SKIP_YARN_COREPACK_CHECK: 1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  measure-binary-size:
+    name: Measure Binary Size
+    runs-on: ubuntu-latest
+    # No special permissions needed - this workflow only reads and uploads artifacts
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
+      - name: Measure binary sizes
+        id: measure
+        run: |
+          echo "## Binary Sizes" > size_report.md
+          echo "" >> size_report.md
+          echo "| File | Size |" >> size_report.md
+          echo "|------|------|" >> size_report.md
+
+          for file in ./packages/core/swc.*.node; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              size=$(ls -lh "$file" | awk '{print $5}')
+              size_bytes=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file")
+              echo "| \`$filename\` | $size ($size_bytes bytes) |" >> size_report.md
+            fi
+          done
+
+          echo "" >> size_report.md
+          echo "*Commit: ${{ github.sha }}*" >> size_report.md
+
+      - name: Save PR number
+        run: |
+          echo "${{ github.event.pull_request.number }}" > pr_number.txt
+
+      - name: Upload size report and PR info
+        uses: actions/upload-artifact@v4
+        with:
+          name: size-report
+          path: |
+            size_report.md
+            pr_number.txt
+          retention-days: 1

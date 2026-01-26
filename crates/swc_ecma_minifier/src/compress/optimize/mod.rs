@@ -4,7 +4,7 @@ use std::iter::once;
 
 use bitflags::bitflags;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
@@ -27,7 +27,7 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::util::is_pure_undefined,
+    compress::{optimize::util::get_ids_of_pat, util::is_pure_undefined},
     debug::AssertValid,
     maybe_par,
     mode::Mode,
@@ -40,6 +40,7 @@ mod arguments;
 mod bools;
 mod conditionals;
 mod dead_code;
+mod drop_console;
 mod evaluate;
 mod if_return;
 mod iife;
@@ -47,8 +48,10 @@ mod inline;
 mod loops;
 mod ops;
 mod props;
+mod rest_params;
 mod sequences;
 mod strings;
+mod unsafes;
 mod unused;
 mod util;
 
@@ -72,7 +75,6 @@ pub(super) fn optimizer<'a>(
             in_strict: options.module,
             remaining_depth: 6,
         },
-        var_kind: None,
         scope: SyntaxContext::default(),
         bit_ctx: BitCtx::default(),
     };
@@ -80,6 +82,7 @@ pub(super) fn optimizer<'a>(
     Optimizer {
         marks,
         changed: false,
+        is_module: false,
         options,
         mangle_options,
         prepend_stmts: Default::default(),
@@ -100,8 +103,6 @@ pub(super) fn optimizer<'a>(
 struct Ctx {
     expr_ctx: ExprCtx,
 
-    var_kind: Option<VarDeclKind>,
-
     /// Current scope.
     scope: SyntaxContext,
 
@@ -119,65 +120,73 @@ bitflags! {
     #[derive(Debug, Clone, Copy, Default)]
     pub(crate) struct BitCtx: u32 {
         /// `true` if the [VarDecl] has const annotation.
-        const HasConstAnn = 1 << 0;
+        const IsConst = 1 << 0;
+        const IsVar = 1 << 1;
+        const IsLet = 1 << 2;
 
-        const DontUsePrependNorAppend = 1 << 1;
+        const DontUsePrependNorAppend = 1 << 3;
 
-        const InBoolCtx = 1 << 2;
+        const InBoolCtx = 1 << 4;
 
-        const InAsm = 1 << 3;
+        const InAsm = 1 << 5;
 
         /// `true` only for [Callee::Expr].
-        const IsCallee = 1 << 4;
+        const IsCallee = 1 << 6;
 
         /// `true` if we are try block. `true` means we cannot be sure about control
         /// flow.
-        const InTryBlock = 1 << 5;
+        const InTryBlock = 1 << 7;
+
         /// `true` while handling `test` of if / while / for.
-        const InCond = 1 << 6;
+        const InCond = 1 << 8;
 
         /// `true` if we are in `arg` of `delete arg`.
-        const IsDeleteArg = 1 << 7;
+        const IsDeleteArg = 1 << 9;
+
         /// `true` if we are in `arg` of `++arg` or `--arg`.
-        const IsUpdateArg = 1 << 8;
-        const IsLhsOfAssign = 1 << 9;
+        const IsUpdateArg = 1 << 10;
+
+        const IsLhsOfAssign = 1 << 11;
+
         /// `false` for `d` in `d[0] = foo`.
-        const IsExactLhsOfAssign = 1 << 10;
+        const IsExactLhsOfAssign = 1 << 12;
 
         /// `true` for loop bodies and conditions of loops.
-        const ExecutedMultipleTime = 1 << 11;
+        const ExecutedMultipleTime = 1 << 13;
 
         /// `true` while handling `expr` of `!expr`
-        const InBangArg = 1 << 12;
-        const InVarDeclOfForInOrOfLoop = 1 << 13;
+        const InBangArg = 1 << 14;
 
-        const DontUseNegatedIife = 1 << 14;
+        const InVarDeclOfForInOrOfLoop = 1 << 15;
+
+        const DontUseNegatedIife = 1 << 16;
 
         /// `true` while handling top-level export decls.
-        const IsExported = 1 << 15;
+        const IsExported = 1 << 17;
 
         /// `true` while handling top level items.
-        const TopLevel = 1 << 16;
+        const TopLevel = 1 << 18;
 
         /// `true` while we are in a function or something similar.
-        const InFnLike = 1 << 17;
+        const InFnLike = 1 << 19;
 
-        const InBlock = 1 << 18;
+        const InBlock = 1 << 20;
 
-        const InObjOfNonComputedMember = 1 << 19;
+        const InObjOfNonComputedMember = 1 << 21;
 
-        const InTplExpr = 1 << 20;
+        const InTplExpr = 1 << 22;
 
         /// True while handling callee, except an arrow expression in callee.
-        const IsThisAwareCallee = 1 << 21;
+        const IsThisAwareCallee = 1 << 23;
 
-        const IsNestedIfReturnMerging = 1 << 22;
+        const IsNestedIfReturnMerging = 1 << 24;
 
-        const DontInvokeIife = 1 << 23;
+        const InWithStmt = 1 << 25;
 
-        const InWithStmt = 1 << 24;
+        const InParam = 1 << 26;
 
-        const InParam = 1 << 25;
+        /// `true` while we are inside a class body.
+        const InClass = 1 << 27;
     }
 }
 
@@ -210,6 +219,7 @@ struct Optimizer<'a> {
     marks: Marks,
 
     changed: bool,
+    is_module: bool,
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
     /// Statements prepended to the current statement.
@@ -240,7 +250,7 @@ struct Vars {
     lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
+    hoisted_props: Box<FxHashMap<(Id, Wtf8Atom), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
@@ -295,7 +305,7 @@ impl Vars {
         }
 
         if !self.vars_for_inlining.is_empty() {
-            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining);
+            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining, true);
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
@@ -358,10 +368,23 @@ impl Optimizer<'_> {
             return false;
         }
 
+        // in class field
+        if self.ctx.bit_ctx.contains(BitCtx::InClass)
+            && !self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::InFnLike | BitCtx::InBlock)
+        {
+            return false;
+        }
+
+        if self.ctx.bit_ctx.contains(BitCtx::InParam) {
+            return false;
+        }
+
         if self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL)
         {
@@ -634,10 +657,20 @@ impl Optimizer<'_> {
                 return None;
             }
 
+            // Arrow function expression cannot have a side effect.
+            Expr::Arrow(_) => {
+                report_change!(
+                    "ignore_return_value: Dropping unused arrow expr as it does not have any side \
+                     effect"
+                );
+                self.changed = true;
+                return None;
+            }
+
             Expr::Class(cls) => {
                 // Do not remove class if it's self-referencing
                 if let Some(id) = &cls.ident {
-                    if IdentUsageFinder::find(&id.to_id(), &cls.class.body) {
+                    if IdentUsageFinder::find(id, &cls.class.body) {
                         return Some(cls.take().into());
                     }
                 }
@@ -652,27 +685,32 @@ impl Optimizer<'_> {
                     return Some(cls.take().into());
                 }
 
+                let Some(side_effects) =
+                    extract_class_side_effect(self.ctx.expr_ctx, &mut cls.class)
+                else {
+                    return Some(cls.take().into());
+                };
+
                 report_change!(
                     "ignore_return_value: Dropping unused class expr as it does not have any side \
                      effect"
                 );
                 self.changed = true;
 
-                let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(self.ctx.expr_ctx, *cls.class.take())
-                        .into_iter()
-                        .filter_map(|mut e| self.ignore_return_value(&mut e))
-                        .map(Box::new)
-                        .collect();
+                let side_effects: Vec<Box<Expr>> = side_effects
+                    .into_iter()
+                    .filter_map(|e| self.ignore_return_value(e))
+                    .map(Box::new)
+                    .collect();
 
-                if exprs.is_empty() {
+                if side_effects.is_empty() {
                     return None;
                 }
 
                 return Some(
                     SeqExpr {
                         span: cls.class.span,
-                        exprs,
+                        exprs: side_effects,
                     }
                     .into(),
                 );
@@ -773,6 +811,8 @@ impl Optimizer<'_> {
                 Expr::Arrow(f) => match &*f.body {
                     BlockStmtOrExpr::BlockStmt(body) => body.stmts.is_empty(),
                     BlockStmtOrExpr::Expr(_) => false,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
                 _ => false,
             } && args.is_empty() =>
@@ -1049,6 +1089,8 @@ impl Optimizer<'_> {
                                         );
                                     }
                                     PropName::BigInt(_) => {}
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
                                 }
 
                                 exprs.extend(self.ignore_return_value(&mut value).map(Box::new));
@@ -1065,6 +1107,8 @@ impl Optimizer<'_> {
                                     );
                                 }
                                 PropName::BigInt(_) => {}
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             },
 
                             Prop::Assign(mut prop) => {
@@ -1074,7 +1118,11 @@ impl Optimizer<'_> {
                             }
 
                             Prop::Shorthand(_) => {}
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -1435,7 +1483,7 @@ impl Optimizer<'_> {
 }
 
 impl VisitMut for Optimizer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
@@ -1448,7 +1496,18 @@ impl VisitMut for Optimizer<'_> {
             n.params.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
-        n.body.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                bit_ctx: self
+                    .ctx
+                    .bit_ctx
+                    .with(BitCtx::InFnLike, true)
+                    .with(BitCtx::TopLevel, false),
+                scope: n.ctxt,
+                ..self.ctx.clone()
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         if !self.prepend_stmts.is_empty() {
             let mut stmts = self.prepend_stmts.take().take_stmts();
@@ -1473,6 +1532,8 @@ impl VisitMut for Optimizer<'_> {
                         ..Default::default()
                     }));
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -1562,6 +1623,8 @@ impl VisitMut for Optimizer<'_> {
                 self.drop_else_token(&mut n.stmts);
             }
             BlockStmtOrExpr::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -1570,6 +1633,8 @@ impl VisitMut for Optimizer<'_> {
         let is_this_undefined = match &e.callee {
             Callee::Super(_) | Callee::Import(_) => false,
             Callee::Expr(e) => e.is_ident(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         {
             let ctx = self
@@ -1582,6 +1647,8 @@ impl VisitMut for Optimizer<'_> {
                         || match &e.callee {
                             Callee::Super(_) | Callee::Import(_) => false,
                             Callee::Expr(callee) => is_callee_this_aware(callee),
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                 )
                 .with(BitCtx::IsLhsOfAssign, false)
@@ -1625,6 +1692,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
+        self.drop_arguments_of_symbol_call(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -1632,11 +1700,7 @@ impl VisitMut for Optimizer<'_> {
         n.decorators.visit_mut_with(self);
 
         {
-            let ctx = self
-                .ctx
-                .clone()
-                .with(BitCtx::DontInvokeIife, true)
-                .with(BitCtx::IsUpdateArg, false);
+            let ctx = self.ctx.clone().with(BitCtx::IsUpdateArg, false);
             n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
@@ -1650,6 +1714,48 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        {
+            if n.super_class.is_none() {
+                self.drop_empty_constructors(n);
+            }
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        let ctx = self
+            .ctx
+            .clone()
+            .with(BitCtx::InFnLike, false)
+            .with(BitCtx::InClass, true);
+
+        match n {
+            ClassMember::ClassProp(class_prop) => {
+                class_prop.key.visit_mut_with(self);
+                class_prop.value.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::Method(class_method) => {
+                class_method.key.visit_mut_with(self);
+                class_method
+                    .function
+                    .visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::AutoAccessor(auto_accessor) => {
+                auto_accessor.key.visit_mut_with(self);
+                auto_accessor.value.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::PrivateProp(private_prop) => {
+                private_prop.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::PrivateMethod(private_method) => {
+                private_method.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+
+            _ => {
+                n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            }
         }
     }
 
@@ -1686,6 +1792,8 @@ impl VisitMut for Optimizer<'_> {
                 self.drop_unused_params(&mut f.function.params);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         n.visit_mut_children_with(self);
@@ -1822,6 +1930,12 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.compress_typeofs(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.drop_console(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -2137,6 +2251,10 @@ impl VisitMut for Optimizer<'_> {
                 .optimize_usage_of_arguments(n);
         }
 
+        {
+            self.with_ctx(self.ctx.clone()).drop_unused_rest_params(n);
+        }
+
         self.ctx.bit_ctx.set(BitCtx::InAsm, old_in_asm);
 
         if let Some(body) = &mut n.body {
@@ -2195,6 +2313,11 @@ impl VisitMut for Optimizer<'_> {
 
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
+    }
+
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        self.is_module = true;
+        m.visit_mut_children_with(self);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -2284,7 +2407,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
             bit_ctx: self.ctx.bit_ctx.with(BitCtx::InParam, true),
-            var_kind: None,
             ..self.ctx.clone()
         };
         let mut o = self.with_ctx(ctx);
@@ -2323,6 +2445,9 @@ impl VisitMut for Optimizer<'_> {
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         n.visit_mut_children_with(self);
+
+        // Enhanced IIFE invocation for arrow functions in sequence expressions
+        self.invoke_iife_in_seq_expr(n);
 
         self.merge_sequences_in_seq_expr(n);
     }
@@ -2714,8 +2839,9 @@ impl VisitMut for Optimizer<'_> {
                 .ctx
                 .bit_ctx
                 .with(BitCtx::IsUpdateArg, false)
-                .with(BitCtx::HasConstAnn, false),
-            var_kind: None,
+                .with(BitCtx::IsConst, false)
+                .with(BitCtx::IsLet, false)
+                .with(BitCtx::IsVar, false),
             ..self.ctx.clone()
         };
 
@@ -2732,8 +2858,12 @@ impl VisitMut for Optimizer<'_> {
                     .ctx
                     .bit_ctx
                     .with(BitCtx::IsUpdateArg, false)
-                    .with(BitCtx::HasConstAnn, self.has_const_ann(n.ctxt)),
-                var_kind: Some(n.kind),
+                    .with(
+                        BitCtx::IsConst,
+                        n.kind == VarDeclKind::Const || self.has_const_ann(n.ctxt),
+                    )
+                    .with(BitCtx::IsVar, n.kind == VarDeclKind::Var)
+                    .with(BitCtx::IsLet, n.kind == VarDeclKind::Let),
                 ..self.ctx.clone()
             };
 
@@ -2742,6 +2872,10 @@ impl VisitMut for Optimizer<'_> {
 
         if n.kind == VarDeclKind::Let {
             n.decls.iter_mut().for_each(|var| {
+                if !var.name.is_ident() {
+                    return;
+                }
+
                 if let Some(e) = &var.init {
                     if is_pure_undefined(self.ctx.expr_ctx, e) {
                         self.changed = true;
@@ -2753,6 +2887,31 @@ impl VisitMut for Optimizer<'_> {
                     }
                 }
             });
+        }
+
+        if self.options.const_to_let
+            // Don't change constness of exported variables.
+            && !self.ctx.bit_ctx.contains(BitCtx::IsExported)
+            && (self.is_module || !self.ctx.in_top_level())
+        {
+            if n.kind == VarDeclKind::Const {
+                // If a const variable is reassigned, we should not convert it to `let`
+                let no_reassignment = n.decls.iter().all(|var| {
+                    let ids = get_ids_of_pat(&var.name);
+                    for id in ids {
+                        if let Some(usage) = self.data.vars.get(&id) {
+                            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                                return false;
+                            }
+                        }
+                    }
+                    true
+                });
+
+                if no_reassignment {
+                    n.kind = VarDeclKind::Let;
+                }
+            }
         }
     }
 
@@ -2843,8 +3002,7 @@ impl VisitMut for Optimizer<'_> {
 
         let uses_eval = self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL);
 

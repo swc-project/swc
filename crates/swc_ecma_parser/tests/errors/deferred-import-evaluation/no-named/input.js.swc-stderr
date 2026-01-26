@@ -1,0 +1,5 @@
+  x Expected 'from', got '{'
+   ,-[$DIR/tests/errors/deferred-import-evaluation/no-named/input.js:1:1]
+ 1 | import defer { x } from "x";
+   :              ^
+   `----

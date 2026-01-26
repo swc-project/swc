@@ -1,4 +1,4 @@
-  x Expected '>', got 'something'
+  x Expected '>', got 'ident'
    ,-[$DIR/tests/jsx/errors/wrong-closing-tag-fragment/input.js:1:1]
  1 | <></something>
    :     ^^^^^^^^^

@@ -264,6 +264,8 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         };
 
                                         let id: Id = exported.into();
@@ -286,9 +288,13 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         }
                                     }
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }
                     }
@@ -380,11 +386,15 @@ where
                             Expr::Call(CallExpr { callee, .. }) => match callee {
                                 Callee::Super(_) | Callee::Import(_) => continue,
                                 Callee::Expr(v) => v,
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             },
                             Expr::Await(AwaitExpr { arg, .. }) => match &mut **arg {
                                 Expr::Call(CallExpr { callee, .. }) => match callee {
                                     Callee::Super(_) | Callee::Import(_) => continue,
                                     Callee::Expr(v) => v,
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
                                 },
                                 _ => continue,
                             },
@@ -446,7 +456,8 @@ where
         entry.retain_mut(|_, item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
-                    if self.config.external_modules.contains(&export.src.value) {
+                    let src_atom = export.src.value.to_atom_lossy().into_owned();
+                    if self.config.external_modules.contains(&src_atom) {
                         return true;
                     }
 
@@ -455,7 +466,8 @@ where
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                     if let Some(src) = &export.src {
-                        if self.config.external_modules.contains(&src.value) {
+                        let src_atom = src.value.to_atom_lossy().into_owned();
+                        if self.config.external_modules.contains(&src_atom) {
                             return true;
                         }
                     }
@@ -468,7 +480,8 @@ where
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    if self.config.external_modules.contains(&import.src.value) {
+                    let src_atom = import.src.value.to_atom_lossy().into_owned();
+                    if self.config.external_modules.contains(&src_atom) {
                         return true;
                     }
 
@@ -518,6 +531,8 @@ where
                             ModuleExportName::Str(..) => {
                                 unimplemented!("module string names unimplemented")
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         };
                         // Default is not exported via `export *`
                         if &*exported.sym == "default" {
@@ -585,8 +600,9 @@ where
             for item in items {
                 match item {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
+                        let src_atom = import.src.value.to_atom_lossy().into_owned();
                         // Preserve imports from node.js builtin modules.
-                        if self.config.external_modules.contains(&import.src.value) {
+                        if self.config.external_modules.contains(&src_atom) {
                             new.push(import.into());
                             continue;
                         }
@@ -613,6 +629,8 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         };
                                         new.push(
                                             imported
@@ -665,6 +683,8 @@ where
                                         );
                                     }
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }
 
@@ -754,6 +774,8 @@ where
                                 }
                             }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
 
                         // Create `export { local_default as default }`
@@ -926,6 +948,8 @@ where
                             | Decl::TsEnum(_)
                             | Decl::TsModule(_)
                             | Decl::Using(..) => continue,
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         };
 
                         tracing::trace!(
@@ -1023,6 +1047,8 @@ where
                                                             "module string names unimplemented"
                                                         )
                                                     }
+                                                    #[cfg(swc_ast_unknown)]
+                                                    _ => panic!("unable to access unknown nodes"),
                                                 };
                                             }
                                             ExportSpecifier::Default(s) => {
@@ -1069,6 +1095,8 @@ where
                                                     definite: Default::default(),
                                                 });
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         }
                                     }
 
@@ -1101,6 +1129,8 @@ where
                                         ModuleExportName::Str(..) => {
                                             unimplemented!("module string names unimplemented")
                                         }
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => panic!("unable to access unknown nodes"),
                                     };
                                     let orig_ident = match orig {
                                         ModuleExportName::Ident(ident) => ident,
@@ -1202,6 +1232,8 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         }
                                     }
                                 }
@@ -1248,7 +1280,8 @@ where
 
             for stmt in stmts {
                 if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &stmt {
-                    if self.config.external_modules.contains(&import.src.value) {
+                    let src_atom = import.src.value.to_atom_lossy().into_owned();
+                    if self.config.external_modules.contains(&src_atom) {
                         new.push(stmt);
                         continue;
                     }
@@ -1262,6 +1295,8 @@ where
                                         ModuleExportName::Str(..) => {
                                             unimplemented!("module string names unimplemented")
                                         }
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => panic!("unable to access unknown nodes"),
                                     };
                                     vars.push((
                                         module_id,
@@ -1317,6 +1352,8 @@ where
                                     continue;
                                 }
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
                     }
 

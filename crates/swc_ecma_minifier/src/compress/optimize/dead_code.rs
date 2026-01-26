@@ -2,7 +2,7 @@ use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
 use super::{BitCtx, Optimizer};
-use crate::program_data::VarUsageInfoFlags;
+use crate::program_data::{ScopeData, VarUsageInfoFlags};
 
 /// Methods related to option `dead_code`.
 impl Optimizer<'_> {
@@ -48,6 +48,12 @@ impl Optimizer<'_> {
 
             // We only handle identifiers on lhs for now.
             if let Some(lhs) = assign.left.as_ident() {
+                let used_arguments = self
+                    .data
+                    .get_scope(self.ctx.scope)
+                    .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
+                    .unwrap_or(false);
+
                 if self
                     .data
                     .vars
@@ -55,7 +61,9 @@ impl Optimizer<'_> {
                     .map(|var| {
                         var.flags.contains(
                             VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
-                        ) && !var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                        ) && !(used_arguments
+                            && var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM))
+                            && !var.flags.intersects(VarUsageInfoFlags::EXPORTED)
                     })
                     .unwrap_or(false)
                 {
@@ -78,7 +86,12 @@ impl Optimizer<'_> {
                 }
 
                 if let Some(lhs) = assign.left.as_ident() {
-                    //
+                    let used_arguments = self
+                        .data
+                        .get_scope(self.ctx.scope)
+                        .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
+                        .unwrap_or(false);
+
                     if self
                         .data
                         .vars
@@ -86,7 +99,9 @@ impl Optimizer<'_> {
                         .map(|var| {
                             var.flags.contains(
                                 VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
-                            )
+                            ) && !(used_arguments
+                                && var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM))
+                                && !var.flags.contains(VarUsageInfoFlags::EXPORTED)
                         })
                         .unwrap_or(false)
                     {

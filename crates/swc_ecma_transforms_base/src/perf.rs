@@ -5,6 +5,7 @@ use swc_ecma_ast::*;
 pub use swc_ecma_utils::parallel::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
+#[cfg(feature = "concurrent")]
 use crate::helpers::Helpers;
 #[cfg(feature = "concurrent")]
 use crate::helpers::HELPERS;

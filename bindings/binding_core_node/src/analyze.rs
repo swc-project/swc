@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
 use napi::{
-    bindgen_prelude::{AbortSignal, AsyncTask},
-    Env, JsBuffer, JsBufferValue, Ref, Task,
+    bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
+    Env, Task,
 };
 use swc_core::{
     base::{wasm_analysis::WasmAnalysisOptions, Compiler},
@@ -16,7 +16,7 @@ use crate::{get_fresh_compiler, util::try_with};
 pub struct AnalyzeTask {
     pub c: Arc<Compiler>,
     pub input: Option<String>,
-    pub options: Ref<JsBufferValue>,
+    pub options: Buffer,
 }
 
 #[napi]
@@ -48,17 +48,12 @@ impl Task for AnalyzeTask {
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
         Ok(result)
     }
-
-    fn finally(&mut self, env: Env) -> napi::Result<()> {
-        self.options.unref(env)?;
-        Ok(())
-    }
 }
 
 #[napi]
 pub fn analyze(
     src: String,
-    options: JsBuffer,
+    options: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<AnalyzeTask>> {
     crate::util::init_default_trace_subscriber();
@@ -66,7 +61,7 @@ pub fn analyze(
     let task = AnalyzeTask {
         c: get_fresh_compiler(),
         input: Some(src),
-        options: options.into_ref()?,
+        options,
     };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }

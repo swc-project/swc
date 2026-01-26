@@ -99,6 +99,7 @@ fn common_reserved_word(b: &mut Bencher) {
 }
 
 fn version_group(c: &mut Criterion) {
+    #[cfg(feature = "es3")]
     c.bench_function("es/target/es3", es3);
     c.bench_function("es/target/es2015", es2015);
     c.bench_function("es/target/es2016", es2016);
@@ -279,7 +280,7 @@ fn es2015_shorthand_property(b: &mut Bencher) {
 
 fn es2015_spread(b: &mut Bencher) {
     run(b, |_| {
-        swc_ecma_transforms_compat::es2015::spread(Default::default())
+        swc_ecma_transforms_compat::es2015::spread(Default::default(), Mark::new())
     });
 }
 
@@ -288,9 +289,12 @@ fn es2015_sticky_regex(b: &mut Bencher) {
 }
 
 fn es2015_typeof_symbol(b: &mut Bencher) {
-    run(b, |_| swc_ecma_transforms_compat::es2015::typeof_symbol());
+    run(b, |_| {
+        swc_ecma_transforms_compat::es2015::typeof_symbol(Default::default())
+    });
 }
 
+#[cfg(feature = "es3")]
 fn es3(b: &mut Bencher) {
     run(b, |_| swc_ecma_transforms_compat::es3(Default::default()));
 }

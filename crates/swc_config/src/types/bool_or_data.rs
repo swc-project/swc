@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 use crate::merge::Merge;
 
@@ -113,35 +114,17 @@ where
     where
         D: serde::Deserializer<'de>,
     {
-        #[derive(Deserialize)]
-        #[serde(untagged)]
-        enum Deser<T> {
-            Bool(bool),
-            Obj(T),
-            EmptyObject(EmptyStruct),
-        }
+        // Try to deserialize as JSON Value first, then match on it
+        let value = Value::deserialize(deserializer)?;
 
-        #[derive(Deserialize)]
-        #[serde(deny_unknown_fields)]
-        struct EmptyStruct {}
-
-        use serde::__private::de;
-
-        let content = de::Content::deserialize(deserializer)?;
-
-        let deserializer = de::ContentRefDeserializer::<D::Error>::new(&content);
-
-        let res = Deser::deserialize(deserializer);
-
-        match res {
-            Ok(v) => Ok(match v {
-                Deser::Bool(v) => BoolOr::Bool(v),
-                Deser::Obj(v) => BoolOr::Data(v),
-                Deser::EmptyObject(_) => BoolOr::Bool(true),
-            }),
-            Err(..) => {
-                let d = de::ContentDeserializer::<D::Error>::new(content);
-                Ok(BoolOr::Data(T::deserialize(d)?))
+        match value {
+            Value::Bool(b) => Ok(BoolOr::Bool(b)),
+            Value::Object(map) if map.is_empty() => Ok(BoolOr::Bool(true)),
+            other => {
+                // Try to deserialize the value as T
+                T::deserialize(other)
+                    .map(BoolOr::Data)
+                    .map_err(|_| serde::de::Error::custom("expected boolean or object"))
             }
         }
     }

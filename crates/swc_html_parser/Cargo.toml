@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = { workspace = true }
 name = "swc_html_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "13.0.1"
+version = "18.0.0"
 
 [lib]
 bench = false
@@ -21,22 +21,22 @@ debug = []
 [dependencies]
 rustc-hash = { workspace = true }
 
-swc_atoms      = { version = "6.0.1", path = "../swc_atoms" }
-swc_common     = { version = "13.0.4", path = "../swc_common" }
-swc_html_ast   = { version = "13.0.0", path = "../swc_html_ast" }
-swc_html_utils = { version = "13.0.1", path = "../swc_html_utils" }
+swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
+swc_common     = { version = "18.0.1", path = "../swc_common" }
+swc_html_ast   = { version = "18.0.0", path = "../swc_html_ast" }
+swc_html_utils = { version = "16.0.0", path = "../swc_html_utils" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 serde                     = { workspace = true }
 serde_json                = { workspace = true }
 
-swc_html_ast = { version = "13.0.0", path = "../swc_html_ast", features = [
+swc_html_ast = { version = "18.0.0", path = "../swc_html_ast", features = [
   "serde-impl",
 ] }
-swc_html_visit = { version = "13.0.0", path = "../swc_html_visit" }
-swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
-testing = { version = "14.0.1", path = "../testing" }
+swc_html_visit = { version = "18.0.0", path = "../swc_html_visit" }
+swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
+testing = { version = "19.0.0", path = "../testing" }
 
 [[bench]]
 harness = false

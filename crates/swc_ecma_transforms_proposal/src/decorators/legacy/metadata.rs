@@ -39,6 +39,8 @@ impl VisitMut for ParamMetadata {
                                 decorators.push(new_dec);
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -170,13 +172,25 @@ impl VisitMut for Metadata<'_> {
                                 let ann = match &p.param {
                                     TsParamPropParam::Ident(i) => i.type_ann.as_deref(),
                                     TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
                                 };
-                                Some(serialize_type(self.class_name, ann).as_arg())
+                                Some(if let Some(kind) = self.enums.get_kind_as_str(ann) {
+                                    quote_ident!(kind).as_arg()
+                                } else {
+                                    serialize_type(self.class_name, ann).as_arg()
+                                })
                             }
-                            ParamOrTsParamProp::Param(p) => Some(
-                                serialize_type(self.class_name, get_type_ann_of_pat(&p.pat))
-                                    .as_arg(),
-                            ),
+                            ParamOrTsParamProp::Param(p) => {
+                                let param_type = get_type_ann_of_pat(&p.pat);
+                                Some(if let Some(kind) = self.enums.get_kind_as_str(param_type) {
+                                    quote_ident!(kind).as_arg()
+                                } else {
+                                    serialize_type(self.class_name, param_type).as_arg()
+                                })
+                            }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         })
                         .collect(),
                 }
@@ -208,6 +222,8 @@ impl VisitMut for Metadata<'_> {
                     get_type_ann_of_pat(&m.function.params[0].pat),
                 )
                 .as_arg(),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
 
             let dec = self.create_metadata_design_decorator("design:type", type_arg);
@@ -223,10 +239,12 @@ impl VisitMut for Metadata<'_> {
                         .params
                         .iter()
                         .map(|v| {
-                            Some(
-                                serialize_type(self.class_name, get_type_ann_of_pat(&v.pat))
-                                    .as_arg(),
-                            )
+                            let param_type = get_type_ann_of_pat(&v.pat);
+                            Some(if let Some(kind) = self.enums.get_kind_as_str(param_type) {
+                                quote_ident!(kind).as_arg()
+                            } else {
+                                serialize_type(self.class_name, param_type).as_arg()
+                            })
                         })
                         .collect(),
                 }
@@ -317,7 +335,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                             op: op!("==="),
                             right: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: atom!("undefined"),
+                                value: atom!("undefined").into(),
                                 raw: None,
                             }))),
                         }
@@ -340,7 +358,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 right: Box::new(
                     Lit::Str(Str {
                         span: DUMMY_SP,
-                        value: atom!("undefined"),
+                        value: atom!("undefined").into(),
                         raw: None,
                     })
                     .into(),
@@ -542,6 +560,8 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 TsUnionOrIntersectionType::TsIntersectionType(ty) => {
                     serialize_type_list(class_name, &ty.types)
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
 
             TsType::TsConditionalType(ty) => {
@@ -575,6 +595,8 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
             .into()
         }
         TsEntityName::Ident(i) => i.clone().with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -587,6 +609,8 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
         Pat::Assign(p) => get_type_ann_of_pat(&p.left),
         Pat::Invalid(_) => None,
         Pat::Expr(_) => None,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 

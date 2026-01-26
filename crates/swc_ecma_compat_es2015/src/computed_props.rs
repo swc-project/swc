@@ -134,7 +134,7 @@ impl VisitMut for ComputedProps {
                                     Lit::Str(Str {
                                         span: ident.span,
                                         raw: None,
-                                        value: ident.sym.clone(),
+                                        value: ident.sym.clone().into(),
                                     })
                                     .into()
                                 },
@@ -249,8 +249,12 @@ impl VisitMut for ComputedProps {
                             }
                             .into(),
                         ),
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
                     PropOrSpread::Spread(..) => unimplemented!("computed spread property"),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
 
                 if !self.c.loose && props_cnt == 1 {
@@ -414,7 +418,7 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
             } else {
                 Lit::Str(Str {
                     raw: None,
-                    value: i.sym,
+                    value: i.sym.into(),
                     span: i.span,
                 })
                 .into()
@@ -425,6 +429,8 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
         PropName::Num(n) => (Lit::Num(n).into(), true),
         PropName::BigInt(b) => (Lit::BigInt(b).into(), true),
         PropName::Computed(c) => (*c.expr, true),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 

@@ -38,8 +38,8 @@ pub struct Parser<I: Tokens<TokenAndSpan>> {
 
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I> {
     type Buffer = Buffer<I>;
+    type Checkpoint = Self;
     type I = I;
-    type Lexer = crate::lexer::Lexer<'a>;
     type Next = TokenAndSpan;
     type Token = Token;
     type TokenAndSpan = TokenAndSpan;
@@ -62,6 +62,14 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn state_mut(&mut self) -> &mut common::parser::state::State {
         &mut self.state
+    }
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
     }
 
     #[inline(always)]
@@ -116,11 +124,13 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         ctx.set(Context::InDeclare, in_declare);
         input.set_ctx(ctx);
 
-        Parser {
+        let mut p = Parser {
             state: Default::default(),
             input: Buffer::new(input),
             found_module_item: false,
-        }
+        };
+        p.input.bump(); // consume EOF
+        p
     }
 
     pub fn take_errors(&mut self) -> Vec<Error> {
@@ -141,11 +151,13 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         let shebang = parse_shebang(self)?;
 
-        parse_stmt_block_body(self, true, None).map(|body| Script {
+        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
             span: self.span(start),
             body,
             shebang,
-        })
+        })?;
+
+        Ok(ret)
     }
 
     pub fn parse_commonjs(&mut self) -> PResult<Script> {
@@ -160,11 +172,16 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        parse_stmt_block_body(self, true, None).map(|body| Script {
+        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
             span: self.span(start),
             body,
             shebang,
-        })
+        })?;
+
+        debug_assert!(self.input().cur() == &Token::Eof);
+        self.input_mut().bump();
+
+        Ok(ret)
     }
 
     #[cfg(test)]
@@ -180,11 +197,16 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        parse_module_item_block_body(self, true, None).map(|body| Module {
+        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
             span: self.span(start),
             body,
             shebang,
-        })
+        })?;
+
+        debug_assert!(self.input().cur() == &Token::Eof);
+        self.input_mut().bump();
+
+        Ok(ret)
     }
 
     /// Returns [Module] if it's a module and returns [Script] if it's not a
@@ -195,10 +217,11 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
-        let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
-        let body: Vec<ModuleItem> =
-            self.with_ctx(ctx, |p| parse_module_item_block_body(p, true, None))?;
+        let body: Vec<ModuleItem> = self
+            .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
+                parse_module_item_block_body(p, true, None)
+            })?;
         let has_module_item = self.found_module_item
             || body
                 .iter()
@@ -213,7 +236,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             self.input.set_ctx(ctx);
         }
 
-        Ok(if has_module_item {
+        let ret = if has_module_item {
             Program::Module(Module {
                 span: self.span(start),
                 body,
@@ -228,6 +251,8 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     above"
                     ),
                     ModuleItem::Stmt(stmt) => stmt,
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 })
                 .collect();
             Program::Script(Script {
@@ -235,7 +260,12 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 body,
                 shebang,
             })
-        })
+        };
+
+        debug_assert!(self.input().cur() == &Token::Eof);
+        self.input_mut().bump();
+
+        Ok(ret)
     }
 
     pub fn parse_module(&mut self) -> PResult<Module> {
@@ -250,10 +280,15 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        parse_module_item_block_body(self, true, None).map(|body| Module {
+        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
             span: self.span(start),
             body,
             shebang,
-        })
+        })?;
+
+        debug_assert!(self.input().cur() == &Token::Eof);
+        self.input_mut().bump();
+
+        Ok(ret)
     }
 }

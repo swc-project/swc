@@ -4,28 +4,28 @@ use swc_common::{
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
+use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use super::RenameMap;
 use crate::{
     hygiene::Config,
     perf::{cpu_count, ParExplode, Parallel, ParallelExt},
+    rename::RenamedVariable,
 };
 
-pub(super) struct Operator<'a, I>
+pub(super) struct Operator<'a, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
-    pub rename: &'a FxHashMap<Id, I>,
+    pub rename: &'a FxHashMap<Id, V>,
     pub config: Config,
 
     pub extra: Vec<ModuleItem>,
 }
 
-impl<I> Operator<'_, I>
+impl<V> Operator<'_, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
     fn keep_class_name(&mut self, ident: &mut Ident, class: &mut Class) -> Option<ClassExpr> {
         if !self.config.keep_class_names {
@@ -37,9 +37,9 @@ where
 
         {
             // Remove span hygiene of the class.
-            let mut rename = RenameMap::default();
+            let mut rename = FxHashMap::<Id, V>::default();
 
-            rename.insert(ident.to_id(), orig_name.sym.clone());
+            rename.insert(ident.to_id(), V::new_private(ident.sym.clone()));
 
             let mut operator = Operator {
                 rename: &rename,
@@ -62,9 +62,9 @@ where
     }
 }
 
-impl<I> Parallel for Operator<'_, I>
+impl<V> Parallel for Operator<'_, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
     fn create(&self) -> Self {
         Self {
@@ -83,9 +83,9 @@ where
     }
 }
 
-impl<I> ParExplode for Operator<'_, I>
+impl<V> ParExplode for Operator<'_, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
     fn after_one_stmt(&mut self, _: &mut Vec<Stmt>) {}
 
@@ -94,9 +94,9 @@ where
     }
 }
 
-impl<I> VisitMut for Operator<'_, I>
+impl<V> VisitMut for Operator<'_, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
     noop_visit_mut_type!();
 
@@ -168,6 +168,8 @@ where
                         }
                     }
                     ModuleExportName::Str(_) => {}
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
                 }
 
                 s.exported = Some(exported);
@@ -609,17 +611,17 @@ where
     }
 }
 
-struct VarFolder<'a, 'b, I>
+struct VarFolder<'a, 'b, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
-    orig: &'a mut Operator<'b, I>,
+    orig: &'a mut Operator<'b, V>,
     renamed: &'a mut Vec<ExportSpecifier>,
 }
 
-impl<I> VisitMut for VarFolder<'_, '_, I>
+impl<V> VisitMut for VarFolder<'_, '_, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
     noop_visit_mut_type!();
 
@@ -643,21 +645,21 @@ where
     }
 }
 
-impl<I> Operator<'_, I>
+impl<V> Operator<'_, V>
 where
-    I: IdentLike,
+    V: RenamedVariable,
 {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
         if let Some(new_id) = self.rename.get(&ident.to_id()) {
-            let (new_sym, new_ctxt) = new_id.to_id();
+            let new_sym = new_id.atom();
 
-            if new_sym == ident.sym {
+            if ident.sym.eq(new_sym) {
                 return Err(());
             }
 
-            ident.ctxt = new_ctxt;
-            ident.sym = new_sym;
+            ident.ctxt = new_id.ctxt();
+            ident.sym = new_sym.clone();
             return Ok(());
         }
 

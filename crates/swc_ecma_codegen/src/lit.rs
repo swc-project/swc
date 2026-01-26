@@ -2,10 +2,13 @@ use std::{fmt::Write, io, str};
 
 use ascii::AsciiChar;
 use compact_str::CompactString;
+use swc_atoms::wtf8::{CodePoint, Wtf8};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
+#[cfg(swc_ast_unknown)]
+use crate::unknown_error;
 use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
 
 #[node_impl]
@@ -29,11 +32,15 @@ impl MacroNode for Lit {
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
                 punct!(emitter, "/");
-                emitter.wr.write_str(&n.exp)?;
+                // Encode non-ASCII characters in regex pattern when ascii_only is enabled
+                let encoded_exp = encode_regex_for_ascii(&n.exp, emitter.cfg.ascii_only);
+                emitter.wr.write_str(&encoded_exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
             }
             Lit::JSXText(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -311,8 +318,87 @@ where
     }
 }
 
+/// Encodes non-ASCII characters in regex patterns when ascii_only is enabled.
+///
+/// This function converts non-ASCII characters to their Unicode escape
+/// sequences to ensure the regex can be safely used in ASCII-only contexts.
+///
+/// # Arguments
+/// * `pattern` - The regex pattern string to encode
+/// * `ascii_only` - Whether to encode non-ASCII characters
+///
+/// # Returns
+/// A string with non-ASCII characters encoded as Unicode escapes
+pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr {
+    if !ascii_only || pattern.is_ascii() {
+        return CowStr::Borrowed(pattern);
+    }
+
+    let mut buf = CompactString::with_capacity(pattern.len());
+
+    for c in pattern.chars() {
+        match c {
+            // ASCII characters are preserved as-is
+            '\x00'..='\x7e' => buf.push(c),
+            // Characters in the \x7f to \xff range use \xHH format
+            '\u{7f}'..='\u{ff}' => {
+                buf.push_str("\\x");
+                write!(&mut buf, "{:02x}", c as u8).unwrap();
+            }
+            // Line/paragraph separators need escaping in all contexts
+            '\u{2028}' => buf.push_str("\\u2028"),
+            '\u{2029}' => buf.push_str("\\u2029"),
+            // Characters above \xff use \uHHHH format
+            _ => {
+                if c > '\u{FFFF}' {
+                    // Characters beyond BMP are encoded as surrogate pairs for compatibility
+                    let code_point = c as u32;
+                    let h = ((code_point - 0x10000) / 0x400) + 0xd800;
+                    let l = ((code_point - 0x10000) % 0x400) + 0xdc00;
+                    write!(&mut buf, "\\u{h:04x}\\u{l:04x}").unwrap();
+                } else {
+                    write!(&mut buf, "\\u{:04x}", c as u16).unwrap();
+                }
+            }
+        }
+    }
+
+    CowStr::Owned(buf)
+}
+
+macro_rules! cp {
+    ($c:expr) => {
+        unsafe { CodePoint::from_u32_unchecked($c as u32) }
+    };
+}
+
+const DOUBLE_QUOTE: CodePoint = cp!('"');
+const SINGLE_QUOTE: CodePoint = cp!('\'');
+const NULL_CHAR: CodePoint = cp!('\x00');
+const BACKSPACE: CodePoint = cp!('\u{0008}');
+const FORM_FEED: CodePoint = cp!('\u{000c}');
+const LINE_FEED: CodePoint = cp!('\n');
+const CARRIAGE_RETURN: CodePoint = cp!('\r');
+const VERTICAL_TAB: CodePoint = cp!('\u{000b}');
+const TAB: CodePoint = cp!('\t');
+const BACKSLASH: CodePoint = cp!('\\');
+const CTRL_START_1: CodePoint = cp!('\x01');
+const CTRL_END_1: CodePoint = cp!('\x0f');
+const CTRL_START_2: CodePoint = cp!('\x10');
+const CTRL_END_2: CodePoint = cp!('\x1f');
+const PRINTABLE_START: CodePoint = cp!('\x20');
+const PRINTABLE_END: CodePoint = cp!('\x7e');
+const DEL_START: CodePoint = cp!('\u{7f}');
+const DEL_END: CodePoint = cp!('\u{ff}');
+const LINE_SEPARATOR: CodePoint = cp!('\u{2028}');
+const PARAGRAPH_SEPARATOR: CodePoint = cp!('\u{2029}');
+const ZERO_WIDTH_NO_BREAK_SPACE: CodePoint = cp!('\u{FEFF}');
+
+const SURROGATE_START: CodePoint = cp!(0xd800);
+const SURROGATE_END: CodePoint = cp!(0xdfff);
+
 /// Returns `(quote_char, value)`
-pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
+pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
     // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
     // allocation
     if v.is_ascii() {
@@ -344,7 +430,12 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
             if (quote_char == AsciiChar::Apostrophe && single_quote_count == 0)
                 || (quote_char == AsciiChar::Quotation && double_quote_count == 0)
             {
-                return (quote_char, CowStr::Borrowed(v));
+                return (
+                    quote_char,
+                    // SAFETY: We have checked that the string is ASCII. So it does not contain any
+                    // unpaired surrogate.
+                    CowStr::Borrowed(v.as_str().unwrap()),
+                );
             }
         }
     }
@@ -352,10 +443,10 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
     // Slow path: Original implementation for strings that need processing
     // Count quotes first to determine which quote character to use
     let (mut single_quote_count, mut double_quote_count) = (0, 0);
-    for c in v.chars() {
+    for c in v.code_points() {
         match c {
-            '\'' => single_quote_count += 1,
-            '"' => double_quote_count += 1,
+            SINGLE_QUOTE => single_quote_count += 1,
+            DOUBLE_QUOTE => double_quote_count += 1,
             _ => {}
         }
     }
@@ -381,146 +472,80 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
     let capacity = v.len() + escape_count;
     let mut buf = CompactString::with_capacity(capacity);
 
-    let mut iter = v.chars().peekable();
+    let mut iter = v.code_points().peekable();
     while let Some(c) = iter.next() {
         match c {
-            '\x00' => {
-                if target < EsVersion::Es5 || matches!(iter.peek(), Some('0'..='9')) {
+            NULL_CHAR => {
+                if target < EsVersion::Es5
+                    || matches!(iter.peek(), Some(x) if *x >= cp!('0') && *x <= cp!('9'))
+                {
                     buf.push_str("\\x00");
                 } else {
                     buf.push_str("\\0");
                 }
             }
-            '\u{0008}' => buf.push_str("\\b"),
-            '\u{000c}' => buf.push_str("\\f"),
-            '\n' => buf.push_str("\\n"),
-            '\r' => buf.push_str("\\r"),
-            '\u{000b}' => buf.push_str("\\v"),
-            '\t' => buf.push('\t'),
-            '\\' => {
-                let next = iter.peek();
-                match next {
-                    Some('u') => {
-                        let mut inner_iter = iter.clone();
-                        inner_iter.next();
-
-                        let mut is_curly = false;
-                        let mut next = inner_iter.peek();
-
-                        if next == Some(&'{') {
-                            is_curly = true;
-                            inner_iter.next();
-                            next = inner_iter.peek();
-                        } else if next != Some(&'D') && next != Some(&'d') {
-                            buf.push('\\');
-                        }
-
-                        if let Some(c @ 'D' | c @ 'd') = next {
-                            let mut inner_buf = String::with_capacity(8);
-                            inner_buf.push('\\');
-                            inner_buf.push('u');
-
-                            if is_curly {
-                                inner_buf.push('{');
-                            }
-
-                            inner_buf.push(*c);
-                            inner_iter.next();
-
-                            let mut is_valid = true;
-                            for _ in 0..3 {
-                                match inner_iter.next() {
-                                    Some(c @ '0'..='9') | Some(c @ 'a'..='f')
-                                    | Some(c @ 'A'..='F') => {
-                                        inner_buf.push(c);
-                                    }
-                                    _ => {
-                                        is_valid = false;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if is_curly {
-                                inner_buf.push('}');
-                            }
-
-                            let range = if is_curly {
-                                3..(inner_buf.len() - 1)
-                            } else {
-                                2..6
-                            };
-
-                            if is_valid {
-                                let val_str = &inner_buf[range];
-                                if let Ok(v) = u32::from_str_radix(val_str, 16) {
-                                    if v > 0xffff {
-                                        buf.push_str(&inner_buf);
-                                        let end = if is_curly { 7 } else { 5 };
-                                        for _ in 0..end {
-                                            iter.next();
-                                        }
-                                    } else if (0xd800..=0xdfff).contains(&v) {
-                                        buf.push('\\');
-                                    } else {
-                                        buf.push_str("\\\\");
-                                    }
-                                } else {
-                                    buf.push_str("\\\\");
-                                }
-                            } else {
-                                buf.push_str("\\\\");
-                            }
-                        } else if is_curly {
-                            buf.push_str("\\\\");
-                        } else {
-                            buf.push('\\');
-                        }
-                    }
-                    _ => buf.push_str("\\\\"),
-                }
-            }
-            c if c == escape_char => {
+            BACKSPACE => buf.push_str("\\b"),
+            FORM_FEED => buf.push_str("\\f"),
+            LINE_FEED => buf.push_str("\\n"),
+            CARRIAGE_RETURN => buf.push_str("\\r"),
+            VERTICAL_TAB => buf.push_str("\\v"),
+            TAB => buf.push('\t'),
+            BACKSLASH => buf.push_str("\\\\"),
+            c if matches!(c.to_char(), Some(c) if c == escape_char) => {
                 buf.push('\\');
-                buf.push(c);
+                // SAFETY: `escape_char` is a valid ASCII character.
+                buf.push(c.to_char().unwrap());
             }
-            '\x01'..='\x0f' => {
+            c if c >= CTRL_START_1 && c <= CTRL_END_1 => {
                 buf.push_str("\\x0");
-                write!(&mut buf, "{:x}", c as u8).unwrap();
+                write!(&mut buf, "{:x}", c.to_u32() as u8).unwrap();
             }
-            '\x10'..='\x1f' => {
+            c if c >= CTRL_START_2 && c <= CTRL_END_2 => {
                 buf.push_str("\\x");
-                write!(&mut buf, "{:x}", c as u8).unwrap();
+                write!(&mut buf, "{:x}", c.to_u32() as u8).unwrap();
             }
-            '\x20'..='\x7e' => buf.push(c),
-            '\u{7f}'..='\u{ff}' => {
+            c if c >= PRINTABLE_START && c <= PRINTABLE_END => {
+                // SAFETY: c is a valid ASCII character.
+                buf.push(c.to_char().unwrap())
+            }
+            c if c >= DEL_START && c <= DEL_END => {
                 if ascii_only || target <= EsVersion::Es5 {
                     buf.push_str("\\x");
-                    write!(&mut buf, "{:x}", c as u8).unwrap();
+                    write!(&mut buf, "{:x}", c.to_u32() as u8).unwrap();
                 } else {
-                    buf.push(c);
+                    // SAFETY: c is a valid Rust char.
+                    buf.push(c.to_char().unwrap());
                 }
             }
-            '\u{2028}' => buf.push_str("\\u2028"),
-            '\u{2029}' => buf.push_str("\\u2029"),
-            '\u{FEFF}' => buf.push_str("\\uFEFF"),
+            LINE_SEPARATOR => buf.push_str("\\u2028"),
+            PARAGRAPH_SEPARATOR => buf.push_str("\\u2029"),
+            ZERO_WIDTH_NO_BREAK_SPACE => buf.push_str("\\uFEFF"),
             c => {
                 if c.is_ascii() {
-                    buf.push(c);
-                } else if c > '\u{FFFF}' {
+                    // SAFETY: c is a valid ASCII character.
+                    buf.push(c.to_char().unwrap());
+                } else if c > cp!('\u{FFFF}') {
                     if target <= EsVersion::Es5 {
-                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
-                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+                        let h = ((c.to_u32() - 0x10000) / 0x400) + 0xd800;
+                        let l = (c.to_u32() - 0x10000) % 0x400 + 0xdc00;
                         write!(&mut buf, "\\u{h:04X}\\u{l:04X}").unwrap();
                     } else if ascii_only {
-                        write!(&mut buf, "\\u{{{:04X}}}", c as u32).unwrap();
+                        write!(&mut buf, "\\u{{{:04X}}}", c.to_u32()).unwrap();
                     } else {
-                        buf.push(c);
+                        // SAFETY: c is a valid Rust char. (> U+FFFF && <= U+10FFFF)
+                        // The latter condition is guaranteed by CodePoint.
+                        buf.push(c.to_char().unwrap());
                     }
+                } else if c >= SURROGATE_START && c <= SURROGATE_END {
+                    // Unparied Surrogate
+                    // Escape as \uXXXX
+                    write!(&mut buf, "\\u{:04X}", c.to_u32()).unwrap();
                 } else if ascii_only {
-                    write!(&mut buf, "\\u{:04X}", c as u16).unwrap();
+                    write!(&mut buf, "\\u{:04X}", c.to_u32() as u16).unwrap();
                 } else {
-                    buf.push(c);
+                    // SAFETY: c is a valid Rust char. (>= U+0080 && <= U+FFFF, excluding
+                    // surrogates)
+                    buf.push(c.to_char().unwrap());
                 }
             }
         }
@@ -612,7 +637,7 @@ impl Print for f64 {
             return self.to_string();
         }
 
-        let mut buffer = ryu_js::Buffer::new();
+        let mut buffer = dragonbox_ecma::Buffer::new();
         buffer.format(*self).to_string()
     }
 }

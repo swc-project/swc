@@ -1,7 +1,7 @@
-var _async_iterator = require("@swc/helpers/_/_async_iterator");
-var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 (function() {
-    return _async_to_generator._(function*() {
+    return _async_to_generator(function*() {
         let counter = 0;
         let resolve;
         let promise = new Promise((r)=>resolve = r);
@@ -14,11 +14,11 @@ var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
                 };
             }
         };
-        const res = (()=>_async_to_generator._(function*() {
+        const res = (()=>_async_to_generator(function*() {
                 {
                     var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
                     try {
-                        for(var _iterator = _async_iterator._(iterable), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                        for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                             let _value = _step.value;
                             const value = _value;
                             counter++;

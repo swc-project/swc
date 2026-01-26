@@ -2,7 +2,6 @@
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 import { _ as _extends } from "@swc/helpers/_/_extends";
-import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _write_only_error } from "@swc/helpers/_/_write_only_error";
 import { _ as _class_private_field_destructure } from "@swc/helpers/_/_class_private_field_destructure";
 var _value = /*#__PURE__*/ new WeakMap(), _valueRest = /*#__PURE__*/ new WeakMap(), _valueOne = /*#__PURE__*/ new WeakMap(), _valueCompound = /*#__PURE__*/ new WeakMap();
@@ -12,7 +11,7 @@ function set_valueOne(v) {}
 function set_valueCompound(v) {}
 new class {
     m() {
-        var _tmp1;
+        var _ref2;
         let foo = {
             bar: 1
         };
@@ -24,13 +23,13 @@ new class {
             o: {
                 foo
             }
-        }), _class_private_field_destructure(this, _value).value = _extends({}, _object_destructuring_empty({
+        }), _class_private_field_destructure(this, _value).value = _extends({}, {
             foo
-        })), ({ foo: _write_only_error("#value").foo } = {
+        }), ({ foo: _write_only_error("#value").foo } = {
             foo
-        }), _tmp1 = {
+        }), ({ foo: _ref2 } = {
             foo
-        }, _write_only_error("#value").foo = _extends({}, _object_destructuring_empty(_tmp1.foo)), ({ foo: {} } = _tmp1), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
+        }), _write_only_error("#value").foo = _extends({}, _ref2), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
             1,
             2,
             3

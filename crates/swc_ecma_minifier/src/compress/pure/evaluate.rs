@@ -2,13 +2,20 @@ use radix_fmt::Radix;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Type, Value};
+use swc_ecma_utils::{
+    number::ToJsString,
+    unicode::{is_high_surrogate, is_low_surrogate},
+    ExprExt, IsEmpty, Type, Value,
+};
 
 use super::Pure;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::util::{eval_as_number, is_pure_undefined_or_null},
+    compress::{
+        pure::Ctx,
+        util::{eval_as_number, is_pure_undefined_or_null},
+    },
     util::ValueExt,
 };
 
@@ -63,6 +70,18 @@ impl Pure<'_> {
 
     pub(super) fn eval_array_spread(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
+            return;
+        }
+
+        // Don't optimize arrays used as assignment targets in destructuring
+        // assignments, as delete operands, or as arguments to update operators
+        // (++/--). This prevents invalid transformations like: [obj.prop] =
+        // [true] => [!0] = [!0]
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
             return;
         }
 
@@ -183,7 +202,11 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
             return;
         }
 
@@ -203,6 +226,8 @@ impl Pure<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if let Expr::Member(MemberExpr {
@@ -336,7 +361,11 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
             return;
         }
 
@@ -356,6 +385,8 @@ impl Pure<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if let Expr::Member(MemberExpr {
@@ -399,7 +430,7 @@ impl Pure<'_> {
 
                 *e = Str {
                     span: call.span,
-                    value: atom!("function(){}"),
+                    value: atom!("function(){}").into(),
                     raw: None,
                 }
                 .into();
@@ -422,16 +453,20 @@ impl Pure<'_> {
             MemberProp::PrivateName(_) => {}
             MemberProp::Computed(p) => {
                 if let Expr::Lit(Lit::Str(s)) = &*p.expr {
-                    if let Ok(value) = s.value.parse::<u32>() {
-                        p.expr = Lit::Num(Number {
-                            span: s.span,
-                            value: value as f64,
-                            raw: None,
-                        })
-                        .into();
+                    if let Some(value) = s.value.as_str() {
+                        if let Ok(value) = value.parse::<u32>() {
+                            p.expr = Lit::Num(Number {
+                                span: s.span,
+                                value: value as f64,
+                                raw: None,
+                            })
+                            .into();
+                        }
                     }
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -559,7 +594,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision()` as `{}`",
+                    "evaluate: Evaluating `{}.toPrecision()` as `{:?}`",
                     num,
                     value
                 );
@@ -607,7 +642,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toExponential()` as `{}`",
+                    "evaluate: Evaluating `{}.toExponential()` as `{:?}`",
                     num,
                     value
                 );
@@ -633,7 +668,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision({})` as `{}`",
+                    "evaluate: Evaluating `{}.toPrecision({})` as `{:?}`",
                     num,
                     precision,
                     value
@@ -723,6 +758,8 @@ impl Pure<'_> {
                     *e = *Expr::undefined(*span);
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -748,7 +785,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_member_expr(&mut self, e: &mut Expr) {
-        if self.ctx.in_opt_chain {
+        if self.ctx.contains(Ctx::IN_OPT_CHAIN) {
             return;
         }
 
@@ -784,7 +821,7 @@ impl Pure<'_> {
 
             if let AssignTarget::Simple(SimpleAssignTarget::Ident(a_left)) = a_left {
                 if let Expr::Ident(b_id) = b {
-                    if b_id.to_id() == a_left.id.to_id() {
+                    if b_id.ctxt == a_left.id.ctxt && b_id.sym == a_left.id.sym {
                         report_change!("evaluate: Trivial: `{}`", a_left.id);
                         *b = *a_right.clone();
                         self.changed = true;
@@ -803,7 +840,11 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
             return;
         }
 
@@ -825,6 +866,8 @@ impl Pure<'_> {
                 },
                 _ => return,
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let new_val = match &*method {
@@ -840,14 +883,10 @@ impl Pure<'_> {
                     }
 
                     let idx = value.round() as i64 as usize;
-                    let c = s.value.chars().nth(idx);
+                    let c = s.value.to_ill_formed_utf16().nth(idx);
 
                     match c {
                         Some(v) => {
-                            let mut b = [0; 2];
-                            v.encode_utf16(&mut b);
-                            let v = b[0];
-
                             self.changed = true;
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
@@ -881,20 +920,49 @@ impl Pure<'_> {
                     }
 
                     let idx = value.round() as i64 as usize;
-                    let c = s.value.chars().nth(idx);
-                    match c {
+                    let mut c = s.value.to_ill_formed_utf16().skip(idx).peekable();
+                    match c.next() {
                         Some(v) => {
-                            self.changed = true;
-                            report_change!(
-                                "evaluate: Evaluated `codePointAt` of a string literal as `{}`",
-                                v
-                            );
-                            *e = Lit::Num(Number {
-                                span: call.span,
-                                value: v as usize as f64,
-                                raw: None,
-                            })
-                            .into()
+                            match (v, c.peek()) {
+                                (high, Some(&low))
+                                    if is_high_surrogate(high as u32)
+                                        && is_low_surrogate(low as u32) =>
+                                {
+                                    // Decode surrogate pair
+                                    let code_point = swc_ecma_utils::unicode::pair_to_code_point(
+                                        high as u32,
+                                        low as u32,
+                                    );
+                                    self.changed = true;
+                                    report_change!(
+                                        "evaluate: Evaluated `codePointAt` of a string literal as \
+                                         `{}`",
+                                        code_point
+                                    );
+                                    *e = Lit::Num(Number {
+                                        span: call.span,
+                                        value: code_point as f64,
+                                        raw: None,
+                                    })
+                                    .into();
+                                    return;
+                                }
+                                _ => {
+                                    // Not a surrogate pair
+                                    self.changed = true;
+                                    report_change!(
+                                        "evaluate: Evaluated `codePointAt` of a string literal as \
+                                         `{}`",
+                                        v
+                                    );
+                                    *e = Lit::Num(Number {
+                                        span: call.span,
+                                        value: v as usize as f64,
+                                        raw: None,
+                                    })
+                                    .into()
+                                }
+                            }
                         }
                         None => {
                             self.changed = true;

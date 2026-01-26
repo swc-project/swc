@@ -1,6 +1,6 @@
 //// [bitwiseNotOperatorWithNumberType.ts]
-// ~ operator on number type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// ~ operator on number type
 var NUMBER;
 var NUMBER1 = [
     1,
@@ -32,7 +32,7 @@ var ResultIsNumber4 = ~{
 };
 var ResultIsNumber5 = ~{
     x: 1,
-    y: function(n) {
+    y: function y(n) {
         return n;
     }
 };

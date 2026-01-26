@@ -32,7 +32,7 @@
 
 use std::fmt::Debug;
 
-pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
+pub use ast_node::{ast_node, ast_serde, Decode, DeserializeEnum, Encode, Spanned};
 pub use from_variant::FromVariant;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 
@@ -69,6 +69,8 @@ pub mod serializer;
 pub mod source_map;
 pub mod sync;
 mod syntax_pos;
+#[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+pub mod unknown;
 pub mod util;
 
 #[cfg(all(not(debug_assertions), feature = "plugin-rt", feature = "plugin-mode"))]
@@ -85,3 +87,18 @@ pub use self::syntax_pos::{
     ArchivedBytePos, ArchivedCharPos, ArchivedFileName, ArchivedMultiSpan, ArchivedSourceFile,
     ArchivedSourceFileAndBytePos, ArchivedSpan, ArchivedSpanLinesError, ArchivedSpanSnippetError,
 };
+
+#[cfg(swc_ast_unknown)]
+#[track_caller]
+pub fn unknown_impl() -> std::convert::Infallible {
+    panic!("unknown node")
+}
+
+#[cfg(swc_ast_unknown)]
+#[macro_export]
+macro_rules! unknown {
+    () => {{
+        #[allow(unreachable_code)]
+        match $crate::unknown_impl() {}
+    }};
+}

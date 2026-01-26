@@ -19,11 +19,11 @@ impl CleanCmd {
         for entry in WalkDir::new(
             root_dir
                 .join("crates")
-                .join("swc_plugin_runner")
+                .join("swc_plugin_backend_wasmer")
                 .join("tests"),
         ) {
             let entry = entry?;
-            if entry.file_name().to_string_lossy() == "Cargo.tomm" {
+            if entry.file_name().to_string_lossy() == "Cargo.toml" {
                 run_cargo_clean(entry.path().parent().unwrap())?;
             }
         }

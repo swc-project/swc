@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_regexp_visit"
 repository    = { workspace = true }
-version       = "0.2.1"
+version       = "0.7.0"
 
 [lib]
 bench = false
@@ -19,7 +19,7 @@ serde-impl = ["serde"]
 [dependencies]
 serde = { workspace = true, optional = true, features = ["derive"] }
 
-swc_atoms           = { version = "6.0.1", path = "../swc_atoms" }
-swc_common          = { version = "13.0.4", path = "../swc_common" }
-swc_ecma_regexp_ast = { version = "0.2.1", path = "../swc_ecma_regexp_ast" }
+swc_atoms           = { version = "9.0.0", path = "../swc_atoms" }
+swc_common          = { version = "18.0.1", path = "../swc_common" }
+swc_ecma_regexp_ast = { version = "0.7.0", path = "../swc_ecma_regexp_ast" }
 swc_visit           = { version = "2.0.1", path = "../swc_visit" }

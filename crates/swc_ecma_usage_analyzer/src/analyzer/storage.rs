@@ -1,4 +1,4 @@
-use swc_atoms::Atom;
+use swc_atoms::Wtf8Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{Type, Value};
@@ -6,17 +6,17 @@ use swc_ecma_utils::{Type, Value};
 use super::{ctx::Ctx, ScopeKind};
 use crate::alias::Access;
 
-pub trait Storage: Sized + Default {
+pub trait Storage: Sized {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
-    fn new(collect_prop_atom: bool) -> Self;
+    fn new_child(&mut self) -> Self;
 
-    fn need_collect_prop_atom(&self) -> bool;
-
-    fn add_property_atom(&mut self, atom: Atom);
+    fn add_property_atom(&mut self, atom: Wtf8Atom);
 
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
+
+    fn scopes(&self) -> &[Self::ScopeData];
 
     fn top_scope(&mut self) -> &mut Self::ScopeData;
 
@@ -76,7 +76,7 @@ pub trait VarDataLike: Sized {
 
     fn mark_indexed_with_dynamic_key(&mut self);
 
-    fn add_accessed_property(&mut self, name: Atom);
+    fn add_accessed_property(&mut self, name: Wtf8Atom);
 
     fn mark_used_as_ref(&mut self);
 

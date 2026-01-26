@@ -77,10 +77,18 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
             .with_context(|| format!("failed to set version for {pkg_name}"))?;
     }
 
+    // Remove changeset files
     {
         eprintln!("Removing changeset files... ");
         if !dry_run {
-            std::fs::remove_dir_all(&changeset_dir).context("failed to remove changeset files")?;
+            for file in std::fs::read_dir(&changeset_dir)? {
+                let file = file?;
+                if file.file_type()?.is_file()
+                    && file.path().extension().unwrap_or_default() == "md"
+                {
+                    std::fs::remove_file(file.path())?;
+                }
+            }
         }
     }
 
@@ -202,10 +210,10 @@ impl Bump<'_> {
     ) -> Result<()> {
         eprintln!("Bumping crate: {pkg_name}");
 
-        let original_version = self
-            .versions
-            .get(pkg_name)
-            .context(format!("failed to find original version for {pkg_name}"))?;
+        let Some(original_version) = self.versions.get(pkg_name) else {
+            eprintln!("No original version found for {pkg_name}, skipping bump");
+            return Ok(());
+        };
 
         let mut new_version = original_version.clone();
 
@@ -327,6 +335,10 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
     let mut versions = VersionMap::new();
 
     for pkg in md.workspace_packages() {
+        if pkg.publish == Some(vec![]) {
+            continue;
+        }
+
         versions.insert(pkg.name.clone(), pkg.version.clone());
     }
 

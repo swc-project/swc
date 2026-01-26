@@ -3,9 +3,9 @@ export default function(value, options) {
         if ("string" == typeof value && value.length > 0) {
             var str = value;
             if ((str = String(str)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
-            const match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
+            let match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
             if (!match) return NaN;
-            const n = parseFloat(match[1]), type = (match[2] || "ms").toLowerCase();
+            let n = parseFloat(match[1]), type = (match[2] || "ms").toLowerCase();
             switch(type){
                 case "years":
                 case "year":
@@ -49,18 +49,15 @@ export default function(value, options) {
                     throw Error(`The unit ${type} was matched, but no matching case exists.`);
             }
         }
-        if ("number" == typeof value && isFinite(value)) return options?.long ? function(ms) {
-            const msAbs = Math.abs(ms);
-            return msAbs >= 86400000 ? plural(ms, msAbs, 86400000, "day") : msAbs >= 3600000 ? plural(ms, msAbs, 3600000, "hour") : msAbs >= 60000 ? plural(ms, msAbs, 60000, "minute") : msAbs >= 1000 ? plural(ms, msAbs, 1000, "second") : `${ms} ms`;
-        }(value) : function(ms) {
-            const msAbs = Math.abs(ms);
-            return msAbs >= 86400000 ? `${Math.round(ms / 86400000)}d` : msAbs >= 3600000 ? `${Math.round(ms / 3600000)}h` : msAbs >= 60000 ? `${Math.round(ms / 60000)}m` : msAbs >= 1000 ? `${Math.round(ms / 1000)}s` : `${ms}ms`;
-        }(value);
+        if ("number" == typeof value && isFinite(value)) {
+            let msAbs, msAbs1;
+            return options?.long ? (msAbs = Math.abs(value)) >= 86400000 ? plural(value, msAbs, 86400000, "day") : msAbs >= 3600000 ? plural(value, msAbs, 3600000, "hour") : msAbs >= 60000 ? plural(value, msAbs, 60000, "minute") : msAbs >= 1000 ? plural(value, msAbs, 1000, "second") : `${value} ms` : (msAbs1 = Math.abs(value)) >= 86400000 ? `${Math.round(value / 86400000)}d` : msAbs1 >= 3600000 ? `${Math.round(value / 3600000)}h` : msAbs1 >= 60000 ? `${Math.round(value / 60000)}m` : msAbs1 >= 1000 ? `${Math.round(value / 1000)}s` : `${value}ms`;
+        }
         throw Error("Value is not a string or number.");
     } catch (error) {
         throw Error("object" == typeof error && null !== error && "message" in error ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.");
     }
-}
+};
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? "s" : ""}`;
 }

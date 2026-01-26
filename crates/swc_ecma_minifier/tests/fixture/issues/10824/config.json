@@ -1,0 +1,6 @@
+{
+    "defaults": true,
+    "passes": 2,
+    "reduce_vars": true,
+    "inline": 1
+}

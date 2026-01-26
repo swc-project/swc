@@ -40,6 +40,27 @@ use crate::EqIgnoreSpan;
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] u32);
 
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for SyntaxContext {
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        self.0.encode(writer)
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for SyntaxContext {
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        u32::decode(reader).map(SyntaxContext)
+    }
+}
+
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for SyntaxContext {
@@ -71,7 +92,6 @@ impl SyntaxContext {
 struct SyntaxContextData {
     outer_mark: Mark,
     prev_ctxt: SyntaxContext,
-    opaque: SyntaxContext,
 }
 
 /// A mark is a unique id associated with a macro expansion.
@@ -90,6 +110,10 @@ pub(crate) struct MarkData {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct MutableMarkContext(pub u32, pub u32, pub u32);
 
 // List of proxy calls injected by the host in the plugin's runtime context.
@@ -285,7 +309,6 @@ impl HygieneData {
             syntax_contexts: vec![SyntaxContextData {
                 outer_mark: Mark::root(),
                 prev_ctxt: SyntaxContext(0),
-                opaque: SyntaxContext(0),
             }],
             markings: HashMap::default(),
         }
@@ -368,16 +391,12 @@ impl SyntaxContext {
     #[allow(unused)]
     fn apply_mark_internal(self, mark: Mark) -> SyntaxContext {
         HygieneData::with(|data| {
-            let syntax_contexts = &mut data.syntax_contexts;
-            let mut opaque = syntax_contexts[self.0 as usize].opaque;
-
-            let prev_ctxt = opaque;
-            *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
+            *data.markings.entry((self, mark)).or_insert_with(|| {
+                let syntax_contexts = &mut data.syntax_contexts;
                 let new_opaque = SyntaxContext(syntax_contexts.len() as u32);
                 syntax_contexts.push(SyntaxContextData {
                     outer_mark: mark,
-                    prev_ctxt,
-                    opaque: new_opaque,
+                    prev_ctxt: self,
                 });
                 new_opaque
             })

@@ -1,8 +1,8 @@
 !// https://d3js.org v6.3.1 Copyright 2020 Mike Bostock
 function(global, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
+    'object' == typeof exports && "u" > typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
         'exports'
-    ], factory) : factory((global = 'undefined' != typeof globalThis ? globalThis : global || self).d3 = global.d3 || {});
+    ], factory) : factory((global = "u" > typeof globalThis ? globalThis : global || self).d3 = global.d3 || {});
 }(this, function(exports1) {
     'use strict';
     function ascending(a, b) {
@@ -12,7 +12,7 @@ function(global, factory) {
         let delta = f, compare = f;
         function left(a, x, lo, hi) {
             for(null == lo && (lo = 0), null == hi && (hi = a.length); lo < hi;){
-                const mid = lo + hi >>> 1;
+                let mid = lo + hi >>> 1;
                 0 > compare(a[mid], x) ? lo = mid + 1 : hi = mid;
             }
             return lo;
@@ -21,12 +21,12 @@ function(global, factory) {
             left,
             center: function(a, x, lo, hi) {
                 null == lo && (lo = 0), null == hi && (hi = a.length);
-                const i = left(a, x, lo, hi - 1);
+                let i = left(a, x, lo, hi - 1);
                 return i > lo && delta(a[i - 1], x) > -delta(a[i], x) ? i - 1 : i;
             },
             right: function(a, x, lo, hi) {
                 for(null == lo && (lo = 0), null == hi && (hi = a.length); lo < hi;){
-                    const mid = lo + hi >>> 1;
+                    let mid = lo + hi >>> 1;
                     compare(a[mid], x) > 0 ? hi = mid : lo = mid + 1;
                 }
                 return lo;
@@ -36,7 +36,7 @@ function(global, factory) {
     function number(x) {
         return null === x ? NaN : +x;
     }
-    const ascendingBisect = bisector(ascending), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left, bisectCenter = bisector(number).center;
+    let ascendingBisect = bisector(ascending), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left, bisectCenter = bisector(number).center;
     function count(values, valueof) {
         let count = 0;
         if (void 0 === valueof) for (let value of values)null != value && (value *= 1) >= value && ++count;
@@ -65,12 +65,12 @@ function(global, factory) {
         if (count > 1) return sum / (count - 1);
     }
     function deviation(values, valueof) {
-        const v = variance(values, valueof);
+        let v = variance(values, valueof);
         return v ? Math.sqrt(v) : v;
     }
     function extent(values, valueof) {
         let min, max;
-        if (void 0 === valueof) for (const value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
+        if (void 0 === valueof) for (let value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
         else {
             let index = -1;
             for (let value of values)null != (value = valueof(value, ++index, values)) && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
@@ -86,17 +86,15 @@ function(global, factory) {
             this._partials = new Float64Array(32), this._n = 0;
         }
         add(x) {
-            const p = this._partials;
-            let i = 0;
+            let p = this._partials, i = 0;
             for(let j = 0; j < this._n && j < 32; j++){
-                const y = p[j], hi = x + y, lo = Math.abs(x) < Math.abs(y) ? x - (hi - y) : y - (hi - x);
+                let y = p[j], hi = x + y, lo = Math.abs(x) < Math.abs(y) ? x - (hi - y) : y - (hi - x);
                 lo && (p[i++] = lo), x = hi;
             }
             return p[i] = x, this._n = i + 1, this;
         }
         valueOf() {
-            const p = this._partials;
-            let n = this._n, x, y, lo, hi = 0;
+            let p = this._partials, n = this._n, x, y, lo, hi = 0;
             if (n > 0) {
                 for(hi = p[--n]; n > 0 && (hi = (x = hi) + (y = p[--n]), !(lo = y - (hi - x))););
                 n > 0 && (lo < 0 && p[n - 1] < 0 || lo > 0 && p[n - 1] > 0) && (x = hi + (y = 2 * lo), y == x - hi && (hi = x));
@@ -114,15 +112,14 @@ function(global, factory) {
     function nest(values, map, reduce, keys) {
         return function regroup(values, i) {
             if (i >= keys.length) return reduce(values);
-            const groups = new Map(), keyof = keys[i++];
-            let index = -1;
-            for (const value of values){
-                const key = keyof(value, ++index, values), group = groups.get(key);
+            let groups = new Map(), keyof = keys[i++], index = -1;
+            for (let value of values){
+                let key = keyof(value, ++index, values), group = groups.get(key);
                 group ? group.push(value) : groups.set(key, [
                     value
                 ]);
             }
-            for (const [key, values] of groups)groups.set(key, regroup(values, i));
+            for (let [key, values] of groups)groups.set(key, regroup(values, i));
             return map(groups);
         }(values, 0);
     }
@@ -154,7 +151,7 @@ function(global, factory) {
     function nice(start, stop, count) {
         let prestep;
         for(;;){
-            const step = tickIncrement(start, stop, count);
+            let step = tickIncrement(start, stop, count);
             if (step === prestep || 0 === step || !isFinite(step)) return [
                 start,
                 stop
@@ -175,7 +172,7 @@ function(global, factory) {
             // Convert number of thresholds into uniform thresholds, and nice the
             // default domain accordingly.
             if (!Array.isArray(tz)) {
-                const max = x1, tn = +tz;
+                let max = x1, tn = +tz;
                 // If the last threshold is coincident with the domain’s upper bound, the
                 // last bin will be zero-width. If the default domain is used, and this
                 // last threshold is coincident with the maximum input value, we can
@@ -184,7 +181,7 @@ function(global, factory) {
                 // coerce values or the domain to numbers, and thus must be careful to
                 // compare order (>=) rather than strict equality (===)!
                 if (domain === extent && ([x0, x1] = nice(x0, x1, tn)), (tz = ticks(x0, x1, tn))[tz.length - 1] >= x1) if (max >= x1 && domain === extent) {
-                    const step = tickIncrement(x0, x1, tn);
+                    let step = tickIncrement(x0, x1, tn);
                     isFinite(step) && (step > 0 ? x1 = (Math.floor(x1 / step) + 1) * step : step < 0 && (x1 = -((Math.ceil(-(x1 * step)) + 1) / step)));
                 } else tz.pop();
             }
@@ -211,7 +208,7 @@ function(global, factory) {
     }
     function max(values, valueof) {
         let max;
-        if (void 0 === valueof) for (const value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
+        if (void 0 === valueof) for (let value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
         else {
             let index = -1;
             for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value);
@@ -220,7 +217,7 @@ function(global, factory) {
     }
     function min(values, valueof) {
         let min;
-        if (void 0 === valueof) for (const value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
+        if (void 0 === valueof) for (let value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
         else {
             let index = -1;
             for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value);
@@ -232,11 +229,10 @@ function(global, factory) {
     function quickselect(array, k, left = 0, right = array.length - 1, compare = ascending) {
         for(; right > left;){
             if (right - left > 600) {
-                const n = right - left + 1, m = k - left + 1, z = Math.log(n), s = 0.5 * Math.exp(2 * z / 3), sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1), newLeft = Math.max(left, Math.floor(k - m * s / n + sd)), newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
+                let n = right - left + 1, m = k - left + 1, z = Math.log(n), s = 0.5 * Math.exp(2 * z / 3), sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1), newLeft = Math.max(left, Math.floor(k - m * s / n + sd)), newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
                 quickselect(array, k, newLeft, newRight, compare);
             }
-            const t = array[k];
-            let i = left, j = right;
+            let t = array[k], i = left, j = right;
             for(swap(array, left, k), compare(array[right], t) > 0 && swap(array, left, right); i < j;){
                 for(swap(array, i, j), ++i, --j; 0 > compare(array[i], t);)++i;
                 for(; compare(array[j], t) > 0;)--j;
@@ -246,7 +242,7 @@ function(global, factory) {
         return array;
     }
     function swap(array, i, j) {
-        const t = array[i];
+        let t = array[i];
         array[i] = array[j], array[j] = t;
     }
     function quantile(values, p, valueof) {
@@ -273,18 +269,18 @@ function(global, factory) {
     }
     function maxIndex(values, valueof) {
         let max, maxIndex = -1, index = -1;
-        if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
+        if (void 0 === valueof) for (let value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
         else for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
         return maxIndex;
     }
     function merge(arrays) {
         return Array.from(function*(arrays) {
-            for (const array of arrays)yield* array;
+            for (let array of arrays)yield* array;
         }(arrays));
     }
     function minIndex(values, valueof) {
         let min, minIndex = -1, index = -1;
-        if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
+        if (void 0 === valueof) for (let value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
         else for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
         return minIndex;
     }
@@ -306,7 +302,7 @@ function(global, factory) {
         let minValue;
         if (1 === compare.length) return minIndex(values, compare);
         let min = -1, index = -1;
-        for (const value of values)++index, (min < 0 ? 0 === compare(value, value) : 0 > compare(value, minValue)) && (minValue = value, min = index);
+        for (let value of values)++index, (min < 0 ? 0 === compare(value, value) : 0 > compare(value, minValue)) && (minValue = value, min = index);
         return min;
     }
     var shuffle = shuffler(Math.random);
@@ -314,7 +310,7 @@ function(global, factory) {
         return function(array, i0 = 0, i1 = array.length) {
             let m = i1 - (i0 *= 1);
             for(; m;){
-                const i = random() * m-- | 0, t = array[m + i0];
+                let i = random() * m-- | 0, t = array[m + i0];
                 array[m + i0] = array[i + i0], array[i + i0] = t;
             }
             return array;
@@ -332,8 +328,8 @@ function(global, factory) {
         return values instanceof Set ? values : new Set(values);
     }
     function superset(values, other) {
-        const iterator = values[Symbol.iterator](), set = new Set();
-        for (const o of other){
+        let iterator = values[Symbol.iterator](), set = new Set();
+        for (let o of other){
             let value, done;
             if (!set.has(o)) for(; { value, done } = iterator.next();){
                 if (done) return !1;
@@ -798,7 +794,7 @@ function(global, factory) {
         },
         size: function() {
             let size = 0;
-            for (const node of this)++size; // eslint-disable-line no-unused-vars
+            for (let node of this)++size; // eslint-disable-line no-unused-vars
             return size;
         },
         empty: function() {
@@ -1425,7 +1421,7 @@ function(global, factory) {
             return (1 === (a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a))) ? "hsl(" : "hsla(") + (this.h || 0) + ", " + 100 * (this.s || 0) + "%, " + 100 * (this.l || 0) + "%" + (1 === a ? ")" : ", " + a + ")");
         }
     }));
-    const radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29, t2 = 6 / 29 * 3 * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
+    let radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29, t2 = 6 / 29 * 3 * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
     function labConvert(o) {
         if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
         if (o instanceof Hcl) return hcl2lab(o);
@@ -1699,7 +1695,7 @@ function(global, factory) {
         };
     }
     var interpolateTransformCss = interpolateTransform(/* eslint-disable no-undef */ function(value) {
-        const m = new ("function" == typeof DOMMatrix ? DOMMatrix : WebKitCSSMatrix)(value + "");
+        let m = new ("function" == typeof DOMMatrix ? DOMMatrix : WebKitCSSMatrix)(value + "");
         return m.isIdentity ? identity$2 : decompose(m.a, m.b, m.c, m.d, m.e, m.f);
     }, "px, ", "px)", "deg)"), interpolateTransformSvg = interpolateTransform(function(value) {
         return null == value ? identity$2 : (svgNode || (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), value = svgNode.transform.baseVal.consolidate()) ? decompose((value = value.matrix).a, value.b, value.c, value.d, value.e, value.f) : identity$2;
@@ -2389,7 +2385,7 @@ function(global, factory) {
     }, MODE_CENTER = {
         name: "center"
     };
-    const { abs, max: max$1, min: min$1 } = Math;
+    let { abs, max: max$1, min: min$1 } = Math;
     function number1(e) {
         return [
             +e[0],
@@ -2600,12 +2596,12 @@ function(global, factory) {
                 var w0, w1, n0, n1, e0, e1, s0, s1, moving, lockX, lockY, that = this, type = event.target.__data__.type, mode = (keys && event.metaKey ? type = "overlay" : type) === "selection" ? MODE_DRAG : keys && event.altKey ? MODE_CENTER : MODE_HANDLE, signX = dim === Y ? null : signsX[type], signY = dim === X ? null : signsY[type], state = local$1(that), extent = state.extent, selection = state.selection, W = extent[0][0], N = extent[0][1], E = extent[1][0], S = extent[1][1], dx = 0, dy = 0, shifting = signX && signY && keys && event.shiftKey, points = Array.from(event.touches || [
                     event
                 ], (t)=>{
-                    const i = t.identifier;
+                    let i = t.identifier;
                     return (t = pointer(t, that)).point0 = t.slice(), t.identifier = i, t;
                 });
                 if ("overlay" === type) {
                     selection && (moving = !0);
-                    const pts = [
+                    let pts = [
                         points[0],
                         points[1] || points[0]
                     ];
@@ -2662,19 +2658,19 @@ function(global, factory) {
                 redraw.call(that), emit.start(event, mode.name);
             }
             function moved(event) {
-                for (const p of event.changedTouches || [
+                for (let p of event.changedTouches || [
                     event
-                ])for (const d of points)d.identifier === p.identifier && (d.cur = pointer(p, that));
+                ])for (let d of points)d.identifier === p.identifier && (d.cur = pointer(p, that));
                 if (shifting && !lockX && !lockY && 1 === points.length) {
-                    const point = points[0];
+                    let point = points[0];
                     abs(point.cur[0] - point[0]) > abs(point.cur[1] - point[1]) ? lockY = !0 : lockX = !0;
                 }
-                for (const point of points)point.cur && (point[0] = point.cur[0], point[1] = point.cur[1]);
+                for (let point of points)point.cur && (point[0] = point.cur[0], point[1] = point.cur[1]);
                 moving = !0, noevent$1(event), move(event);
             }
             function move(event) {
                 var t;
-                const point = points[0], point0 = point.point0;
+                let point = points[0], point0 = point.point0;
                 switch(dx = point[0] - point0[0], dy = point[1] - point0[1], mode){
                     case MODE_SPACE:
                     case MODE_DRAG:
@@ -2798,11 +2794,11 @@ function(global, factory) {
             // Compute the angles for each group and constituent chord.
             {
                 let x = 0;
-                for (const i of (sortGroups && groupIndex.sort((a, b)=>sortGroups(groupSums[a], groupSums[b])), groupIndex)){
-                    const x0 = x;
+                for (let i of (sortGroups && groupIndex.sort((a, b)=>sortGroups(groupSums[a], groupSums[b])), groupIndex)){
+                    let x0 = x;
                     if (directed) {
-                        const subgroupIndex = range(~n + 1, n).filter((j)=>j < 0 ? matrix[~j * n + i] : matrix[i * n + j]);
-                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i] : matrix[i * n + a], b < 0 ? -matrix[~b * n + i] : matrix[i * n + b])), subgroupIndex))j < 0 ? (chords[~j * n + i] || (chords[~j * n + i] = {
+                        let subgroupIndex = range(~n + 1, n).filter((j)=>j < 0 ? matrix[~j * n + i] : matrix[i * n + j]);
+                        for (let j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i] : matrix[i * n + a], b < 0 ? -matrix[~b * n + i] : matrix[i * n + b])), subgroupIndex))j < 0 ? (chords[~j * n + i] || (chords[~j * n + i] = {
                             source: null,
                             target: null
                         })).target = {
@@ -2826,8 +2822,8 @@ function(global, factory) {
                             value: groupSums[i]
                         };
                     } else {
-                        const subgroupIndex = range(0, n).filter((j)=>matrix[i * n + j] || matrix[j * n + i]);
-                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(matrix[i * n + a], matrix[i * n + b])), subgroupIndex)){
+                        let subgroupIndex = range(0, n).filter((j)=>matrix[i * n + j] || matrix[j * n + i]);
+                        for (let j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(matrix[i * n + a], matrix[i * n + b])), subgroupIndex)){
                             let chord;
                             if (i < j ? (chord = chords[i * n + j] || (chords[i * n + j] = {
                                 source: null,
@@ -2846,7 +2842,7 @@ function(global, factory) {
                                 endAngle: x += matrix[i * n + j] * k,
                                 value: matrix[i * n + j]
                             }, i === j && (chord.source = chord.target)), chord.source && chord.target && chord.source.value < chord.target.value) {
-                                const source = chord.source;
+                                let source = chord.source;
                                 chord.source = chord.target, chord.target = source;
                             }
                         }
@@ -2875,7 +2871,7 @@ function(global, factory) {
             })._ = _, chord) : sortChords && sortChords._;
         }, chord;
     }
-    const pi$2 = Math.PI, tau$2 = 2 * pi$2, tauEpsilon = tau$2 - 1e-6;
+    let pi$2 = Math.PI, tau$2 = 2 * pi$2, tauEpsilon = tau$2 - 1e-6;
     function Path() {
         this._x0 = this._y0 = this._x1 = this._y1 = null, this._ = "";
     }
@@ -3311,12 +3307,12 @@ function(global, factory) {
     function defaultWeight() {
         return 1;
     }
-    const EDGE_STACK = new Uint32Array(512);
+    let EDGE_STACK = new Uint32Array(512);
     class Delaunator {
         static from(points, getX = defaultGetX, getY = defaultGetY) {
-            const n = points.length, coords = new Float64Array(2 * n);
+            let n = points.length, coords = new Float64Array(2 * n);
             for(let i = 0; i < n; i++){
-                const p = points[i];
+                let p = points[i];
                 coords[2 * i] = getX(p), coords[2 * i + 1] = getY(p);
             }
             return new Delaunator(coords);
@@ -3332,35 +3328,32 @@ function(global, factory) {
             this._ids = new Uint32Array(n), this._dists = new Float64Array(n), this.update();
         }
         update() {
-            let i0, i1, i2;
-            const { coords, _hullPrev: hullPrev, _hullNext: hullNext, _hullTri: hullTri, _hullHash: hullHash } = this, n = coords.length >> 1;
-            // populate an array of point indices; calculate input data bbox
-            let minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0;
+            var bx, by, cx, cy;
+            let dx, dy, ex, ey, bl, cl, d, i0, i1, i2, { coords, _hullPrev: hullPrev, _hullNext: hullNext, _hullTri: hullTri, _hullHash: hullHash } = this, n = coords.length >> 1, minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0;
             for(let i = 0; i < n; i++){
-                const x = coords[2 * i], y = coords[2 * i + 1];
+                let x = coords[2 * i], y = coords[2 * i + 1];
                 x < minX && (minX = x), y < minY && (minY = y), x > maxX && (maxX = x), y > maxY && (maxY = y), this._ids[i] = i;
             }
-            const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
-            let minDist = 1 / 0;
+            let cx1 = (minX + maxX) / 2, cy1 = (minY + maxY) / 2, minDist = 1 / 0;
             // pick a seed point close to the center
             for(let i = 0; i < n; i++){
-                const d = dist(cx, cy, coords[2 * i], coords[2 * i + 1]);
+                let d = dist(cx1, cy1, coords[2 * i], coords[2 * i + 1]);
                 d < minDist && (i0 = i, minDist = d);
             }
-            const i0x = coords[2 * i0], i0y = coords[2 * i0 + 1];
+            let i0x = coords[2 * i0], i0y = coords[2 * i0 + 1];
             minDist = 1 / 0;
             // find the point closest to the seed
             for(let i = 0; i < n; i++){
                 if (i === i0) continue;
-                const d = dist(i0x, i0y, coords[2 * i], coords[2 * i + 1]);
+                let d = dist(i0x, i0y, coords[2 * i], coords[2 * i + 1]);
                 d < minDist && d > 0 && (i1 = i, minDist = d);
             }
             let i1x = coords[2 * i1], i1y = coords[2 * i1 + 1], minRadius = 1 / 0;
             // find the third point which forms the smallest circumcircle with the first two
             for(let i = 0; i < n; i++){
                 if (i === i0 || i === i1) continue;
-                const r = function(ax, ay, bx, by, cx, cy) {
-                    const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
+                let r = function(ax, ay, bx, by, cx, cy) {
+                    let dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
                     return x * x + y * y;
                 }(i0x, i0y, i1x, i1y, coords[2 * i], coords[2 * i + 1]);
                 r < minRadius && (i2 = i, minRadius = r);
@@ -3371,10 +3364,9 @@ function(global, factory) {
                 // and return the list as a hull
                 for(let i = 0; i < n; i++)this._dists[i] = coords[2 * i] - coords[0] || coords[2 * i + 1] - coords[1];
                 quicksort(this._ids, this._dists, 0, n - 1);
-                const hull = new Uint32Array(n);
-                let j = 0;
+                let hull = new Uint32Array(n), j = 0;
                 for(let i = 0, d0 = -1 / 0; i < n; i++){
-                    const id = this._ids[i];
+                    let id = this._ids[i];
                     this._dists[id] > d0 && (hull[j++] = id, d0 = this._dists[id]);
                 }
                 this.hull = hull.subarray(0, j), this.triangles = new Uint32Array(0), this.halfedges = new Uint32Array(0);
@@ -3382,16 +3374,13 @@ function(global, factory) {
             }
             // swap the order of the seed points for counter-clockwise orientation
             if (orient(i0x, i0y, i1x, i1y, i2x, i2y)) {
-                const i = i1, x = i1x, y = i1y;
+                let i = i1, x = i1x, y = i1y;
                 i1 = i2, i1x = i2x, i1y = i2y, i2 = i, i2x = x, i2y = y;
             }
-            const center = function(ax, ay, bx, by, cx, cy) {
-                const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex);
-                return {
-                    x: ax + (ey * bl - dy * cl) * d,
-                    y: ay + (dx * cl - ex * bl) * d
-                };
-            }(i0x, i0y, i1x, i1y, i2x, i2y);
+            let center = (bx = i1x, by = i1y, cx = i2x, cy = i2y, dx = bx - i0x, dy = by - i0y, ex = cx - i0x, ey = cy - i0y, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), {
+                x: i0x + (ey * bl - dy * cl) * d,
+                y: i0y + (dx * cl - ex * bl) * d
+            });
             this._cx = center.x, this._cy = center.y;
             for(let i = 0; i < n; i++)this._dists[i] = dist(coords[2 * i], coords[2 * i + 1], center.x, center.y);
             // sort the points by distance from the seed triangle circumcenter
@@ -3400,7 +3389,7 @@ function(global, factory) {
             let hullSize = 3;
             hullNext[i0] = hullPrev[i2] = i1, hullNext[i1] = hullPrev[i0] = i2, hullNext[i2] = hullPrev[i1] = i0, hullTri[i0] = 0, hullTri[i1] = 1, hullTri[i2] = 2, hullHash.fill(-1), hullHash[this._hashKey(i0x, i0y)] = i0, hullHash[this._hashKey(i1x, i1y)] = i1, hullHash[this._hashKey(i2x, i2y)] = i2, this.trianglesLen = 0, this._addTriangle(i0, i1, i2, -1, -1, -1);
             for(let k = 0, xp, yp; k < this._ids.length; k++){
-                const i = this._ids[k], x = coords[2 * i], y = coords[2 * i + 1];
+                let i = this._ids[k], x = coords[2 * i], y = coords[2 * i + 1];
                 // skip near-duplicate points
                 if (k > 0 && 2.220446049250313e-16 >= Math.abs(x - xp) && 2.220446049250313e-16 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
                 // find a visible edge on the convex hull using edge hash
@@ -3431,30 +3420,27 @@ function(global, factory) {
             this.triangles = this._triangles.subarray(0, this.trianglesLen), this.halfedges = this._halfedges.subarray(0, this.trianglesLen);
         }
         _hashKey(x, y) {
-            return Math.floor(// monotonically increases with real angle, but doesn't need expensive trigonometry
-            function(dx, dy) {
-                const p = dx / (Math.abs(dx) + Math.abs(dy));
-                return (dy > 0 ? 3 - p : 1 + p) / 4; // [0..1]
-            }(x - this._cx, y - this._cy) * this._hashSize) % this._hashSize;
+            var dx, dy;
+            let p;
+            return Math.floor((p = (dx = x - this._cx) / (Math.abs(dx) + Math.abs(dy = y - this._cy)), (dy > 0 ? 3 - p : 1 + p) / 4 * this._hashSize)) % this._hashSize;
         }
         _legalize(a) {
-            const { _triangles: triangles, _halfedges: halfedges, coords } = this;
-            let i = 0, ar = 0;
+            let { _triangles: triangles, _halfedges: halfedges, coords } = this, i = 0, ar = 0;
             // recursion eliminated with a fixed-size stack
             for(;;){
-                const b = halfedges[a], a0 = a - a % 3;
+                let b = halfedges[a], a0 = a - a % 3;
                 if (ar = a0 + (a + 2) % 3, -1 === b) {
                     if (0 === i) break;
                     a = EDGE_STACK[--i];
                     continue;
                 }
-                const b0 = b - b % 3, al = a0 + (a + 1) % 3, bl = b0 + (b + 2) % 3, p0 = triangles[ar], pr = triangles[a], pl = triangles[al], p1 = triangles[bl];
+                let b0 = b - b % 3, al = a0 + (a + 1) % 3, bl = b0 + (b + 2) % 3, p0 = triangles[ar], pr = triangles[a], pl = triangles[al], p1 = triangles[bl];
                 if (function(ax, ay, bx, by, cx, cy, px, py) {
-                    const dx = ax - px, dy = ay - py, ex = bx - px, ey = by - py, fx = cx - px, fy = cy - py, bp = ex * ex + ey * ey, cp = fx * fx + fy * fy;
+                    let dx = ax - px, dy = ay - py, ex = bx - px, ey = by - py, fx = cx - px, fy = cy - py, bp = ex * ex + ey * ey, cp = fx * fx + fy * fy;
                     return dx * (ey * cp - bp * fy) - dy * (ex * cp - bp * fx) + (dx * dx + dy * dy) * (ex * fy - ey * fx) < 0;
                 }(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1])) {
                     triangles[a] = p1, triangles[b] = p0;
-                    const hbl = halfedges[bl];
+                    let hbl = halfedges[bl];
                     // edge swapped on the other side of the hull (rare); fix the halfedge reference
                     if (-1 === hbl) {
                         let e = this._hullStart;
@@ -3467,7 +3453,7 @@ function(global, factory) {
                         }while (e !== this._hullStart)
                     }
                     this._link(a, hbl), this._link(b, halfedges[ar]), this._link(ar, bl);
-                    const br = b0 + (b + 1) % 3;
+                    let br = b0 + (b + 1) % 3;
                     i < EDGE_STACK.length && (EDGE_STACK[i++] = br);
                 } else {
                     if (0 === i) break;
@@ -3481,17 +3467,17 @@ function(global, factory) {
         }
         // add a new triangle given vertex indices and adjacent half-edge ids
         _addTriangle(i0, i1, i2, a, b, c) {
-            const t = this.trianglesLen;
+            let t = this.trianglesLen;
             return this._triangles[t] = i0, this._triangles[t + 1] = i1, this._triangles[t + 2] = i2, this._link(t, a), this._link(t + 1, b), this._link(t + 2, c), this.trianglesLen += 3, t;
         }
     }
     function dist(ax, ay, bx, by) {
-        const dx = ax - bx, dy = ay - by;
+        let dx = ax - bx, dy = ay - by;
         return dx * dx + dy * dy;
     }
     // return 2d orientation sign if we're confident in it through J. Shewchuk's error bound check
     function orientIfSure(px, py, rx, ry, qx, qy) {
-        const l = (ry - py) * (qx - px), r = (rx - px) * (qy - py);
+        let l = (ry - py) * (qx - px), r = (rx - px) * (qy - py);
         return Math.abs(l - r) >= 3.3306690738754716e-16 * Math.abs(l + r) ? l - r : 0;
     }
     // a more robust orientation test that's stable in a given triangle (to fix robustness issues)
@@ -3500,16 +3486,14 @@ function(global, factory) {
     }
     function quicksort(ids, dists, left, right) {
         if (right - left <= 20) for(let i = left + 1; i <= right; i++){
-            const temp = ids[i], tempDist = dists[temp];
-            let j = i - 1;
+            let temp = ids[i], tempDist = dists[temp], j = i - 1;
             for(; j >= left && dists[ids[j]] > tempDist;)ids[j + 1] = ids[j--];
             ids[j + 1] = temp;
         }
         else {
-            const median = left + right >> 1;
-            let i = left + 1, j = right;
+            let median = left + right >> 1, i = left + 1, j = right;
             swap$1(ids, median, i), dists[ids[left]] > dists[ids[right]] && swap$1(ids, left, right), dists[ids[i]] > dists[ids[right]] && swap$1(ids, i, right), dists[ids[left]] > dists[ids[i]] && swap$1(ids, left, i);
-            const temp = ids[i], tempDist = dists[temp];
+            let temp = ids[i], tempDist = dists[temp];
             for(;;){
                 do i++;
                 while (dists[ids[i]] < tempDist)
@@ -3522,7 +3506,7 @@ function(global, factory) {
         }
     }
     function swap$1(arr, i, j) {
-        const tmp = arr[i];
+        let tmp = arr[i];
         arr[i] = arr[j], arr[j] = tmp;
     }
     function defaultGetX(p) {
@@ -3546,7 +3530,7 @@ function(global, factory) {
         }
         arc(x, y, r) {
             x *= 1, y *= 1, r *= 1;
-            const x0 = x + r, y0 = y;
+            let x0 = x + r, y0 = y;
             if (r < 0) throw Error("negative radius");
             null === this._x1 ? this._ += `M${x0},${y0}` : (Math.abs(this._x1 - x0) > 1e-6 || Math.abs(this._y1 - y0) > 1e-6) && (this._ += "L" + x0 + "," + y0), r && (this._ += `A${r},${r},0,1,1,${x - r},${y}A${r},${r},0,1,1,${this._x1 = x0},${this._y1 = y0}`);
         }
@@ -3594,13 +3578,13 @@ function(global, factory) {
             return this.delaunay.update(), this._init(), this;
         }
         _init() {
-            const { delaunay: { points, hull, triangles }, vectors } = this, circumcenters = this.circumcenters = this._circumcenters.subarray(0, triangles.length / 3 * 2);
+            let { delaunay: { points, hull, triangles }, vectors } = this, circumcenters = this.circumcenters = this._circumcenters.subarray(0, triangles.length / 3 * 2);
             for(let i = 0, j = 0, n = triangles.length, x, y; i < n; i += 3, j += 2){
-                const t1 = 2 * triangles[i], t2 = 2 * triangles[i + 1], t3 = 2 * triangles[i + 2], x1 = points[t1], y1 = points[t1 + 1], x2 = points[t2], y2 = points[t2 + 1], x3 = points[t3], y3 = points[t3 + 1], dx = x2 - x1, dy = y2 - y1, ex = x3 - x1, ey = y3 - y1, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, ab = (dx * ey - dy * ex) * 2;
+                let t1 = 2 * triangles[i], t2 = 2 * triangles[i + 1], t3 = 2 * triangles[i + 2], x1 = points[t1], y1 = points[t1 + 1], x2 = points[t2], y2 = points[t2 + 1], x3 = points[t3], y3 = points[t3 + 1], dx = x2 - x1, dy = y2 - y1, ex = x3 - x1, ey = y3 - y1, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, ab = (dx * ey - dy * ex) * 2;
                 if (ab) if (1e-8 > Math.abs(ab)) // almost equal points (degenerate triangle)
                 x = (x1 + x3) / 2, y = (y1 + y3) / 2;
                 else {
-                    const d = 1 / ab;
+                    let d = 1 / ab;
                     x = x1 + (ey * bl - dy * cl) * d, y = y1 + (dx * cl - ex * bl) * d;
                 }
                 else // degenerate case (collinear diagram)
@@ -3613,28 +3597,28 @@ function(global, factory) {
             for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], y1 = points[2 * h + 1], vectors[p0 + 2] = vectors[p1] = y0 - y1, vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
         }
         render(context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { delaunay: { halfedges, inedges, hull }, circumcenters, vectors } = this;
+            let buffer = null == context ? context = new Path$1 : void 0, { delaunay: { halfedges, inedges, hull }, circumcenters, vectors } = this;
             if (hull.length <= 1) return null;
             for(let i = 0, n = halfedges.length; i < n; ++i){
-                const j = halfedges[i];
+                let j = halfedges[i];
                 if (j < i) continue;
-                const ti = 2 * Math.floor(i / 3), tj = 2 * Math.floor(j / 3), xi = circumcenters[ti], yi = circumcenters[ti + 1], xj = circumcenters[tj], yj = circumcenters[tj + 1];
+                let ti = 2 * Math.floor(i / 3), tj = 2 * Math.floor(j / 3), xi = circumcenters[ti], yi = circumcenters[ti + 1], xj = circumcenters[tj], yj = circumcenters[tj + 1];
                 this._renderSegment(xi, yi, xj, yj, context);
             }
             let h0, h1 = hull[hull.length - 1];
             for(let i = 0; i < hull.length; ++i){
                 h0 = h1;
-                const t = 2 * Math.floor(inedges[h1 = hull[i]] / 3), x = circumcenters[t], y = circumcenters[t + 1], v = 4 * h0, p = this._project(x, y, vectors[v + 2], vectors[v + 3]);
+                let t = 2 * Math.floor(inedges[h1 = hull[i]] / 3), x = circumcenters[t], y = circumcenters[t + 1], v = 4 * h0, p = this._project(x, y, vectors[v + 2], vectors[v + 3]);
                 p && this._renderSegment(x, y, p[0], p[1], context);
             }
             return buffer && buffer.value();
         }
         renderBounds(context) {
-            const buffer = null == context ? context = new Path$1 : void 0;
+            let buffer = null == context ? context = new Path$1 : void 0;
             return context.rect(this.xmin, this.ymin, this.xmax - this.xmin, this.ymax - this.ymin), buffer && buffer.value();
         }
         renderCell(i, context) {
-            const buffer = null == context ? context = new Path$1 : void 0, points = this._clip(i);
+            let buffer = null == context ? context = new Path$1 : void 0, points = this._clip(i);
             if (null === points || !points.length) return;
             context.moveTo(points[0], points[1]);
             let n = points.length;
@@ -3643,28 +3627,27 @@ function(global, factory) {
             return context.closePath(), buffer && buffer.value();
         }
         *cellPolygons() {
-            const { delaunay: { points } } = this;
+            let { delaunay: { points } } = this;
             for(let i = 0, n = points.length / 2; i < n; ++i){
-                const cell = this.cellPolygon(i);
+                let cell = this.cellPolygon(i);
                 cell && (cell.index = i, yield cell);
             }
         }
         cellPolygon(i) {
-            const polygon = new Polygon;
+            let polygon = new Polygon;
             return this.renderCell(i, polygon), polygon.value();
         }
         _renderSegment(x0, y0, x1, y1, context) {
-            let S;
-            const c0 = this._regioncode(x0, y0), c1 = this._regioncode(x1, y1);
+            let S, c0 = this._regioncode(x0, y0), c1 = this._regioncode(x1, y1);
             0 === c0 && 0 === c1 ? (context.moveTo(x0, y0), context.lineTo(x1, y1)) : (S = this._clipSegment(x0, y0, x1, y1, c0, c1)) && (context.moveTo(S[0], S[1]), context.lineTo(S[2], S[3]));
         }
         contains(i, x, y) {
             return (x *= 1) == x && (y *= 1) == y && this.delaunay._step(i, x, y) === i;
         }
         *neighbors(i) {
-            const ci = this._clip(i);
-            if (ci) for (const j of this.delaunay.neighbors(i)){
-                const cj = this._clip(j);
+            let ci = this._clip(i);
+            if (ci) for (let j of this.delaunay.neighbors(i)){
+                let cj = this._clip(j);
                 // find the common edge
                 if (cj) {
                     loop: for(let ai = 0, li = ci.length; ai < li; ai += 2)for(let aj = 0, lj = cj.length; aj < lj; aj += 2)if (ci[ai] == cj[aj] && ci[ai + 1] == cj[aj + 1] && ci[(ai + 2) % li] == cj[(aj + lj - 2) % lj] && ci[(ai + 3) % li] == cj[(aj + lj - 1) % lj]) {
@@ -3675,12 +3658,11 @@ function(global, factory) {
             }
         }
         _cell(i) {
-            const { circumcenters, delaunay: { inedges, halfedges, triangles } } = this, e0 = inedges[i];
+            let { circumcenters, delaunay: { inedges, halfedges, triangles } } = this, e0 = inedges[i];
             if (-1 === e0) return null; // coincident point
-            const points = [];
-            let e = e0;
+            let points = [], e = e0;
             do {
-                const t = Math.floor(e / 3);
+                let t = Math.floor(e / 3);
                 if (points.push(circumcenters[2 * t], circumcenters[2 * t + 1]), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
                 e = halfedges[e];
             }while (e !== e0 && -1 !== e)
@@ -3698,15 +3680,13 @@ function(global, factory) {
                 this.xmin,
                 this.ymin
             ];
-            const points = this._cell(i);
+            let points = this._cell(i);
             if (null === points) return null;
-            const { vectors: V } = this, v = 4 * i;
+            let { vectors: V } = this, v = 4 * i;
             return V[v] || V[v + 1] ? this._clipInfinite(i, points, V[v], V[v + 1], V[v + 2], V[v + 3]) : this._clipFinite(i, points);
         }
         _clipFinite(i, points) {
-            let e0, e1;
-            const n = points.length;
-            let P = null, x0, y0, x1 = points[n - 2], y1 = points[n - 1], c0, c1 = this._regioncode(x1, y1);
+            let e0, e1, n = points.length, P = null, x0, y0, x1 = points[n - 2], y1 = points[n - 1], c0, c1 = this._regioncode(x1, y1);
             for(let j = 0; j < n; j += 2)if (x0 = x1, y0 = y1, x1 = points[j], y1 = points[j + 1], c0 = c1, c1 = this._regioncode(x1, y1), 0 === c0 && 0 === c1) e0 = e1, e1 = 0, P ? P.push(x1, y1) : P = [
                 x1,
                 y1
@@ -3800,7 +3780,7 @@ function(global, factory) {
                 (P[j] !== x || P[j + 1] !== y) && this.contains(i, x, y) && (P.splice(j, 0, x, y), j += 2);
             }
             if (P.length > 4) for(let i = 0; i < P.length; i += 2){
-                const j = (i + 2) % P.length, k = (i + 4) % P.length;
+                let j = (i + 2) % P.length, k = (i + 4) % P.length;
                 (P[i] === P[j] && P[j] === P[k] || P[i + 1] === P[j + 1] && P[j + 1] === P[k + 1]) && (P.splice(j, 2), i -= 2);
             }
             return j;
@@ -3833,7 +3813,7 @@ function(global, factory) {
             return (x < this.xmin ? 0b0001 : 0b0010 * (x > this.xmax)) | (y < this.ymin ? 0b0100 : 0b1000 * (y > this.ymax));
         }
     }
-    const tau$3 = 2 * Math.PI, pow = Math.pow;
+    let tau$3 = 2 * Math.PI, pow = Math.pow;
     function pointX(p) {
         return p[0];
     }
@@ -3843,15 +3823,15 @@ function(global, factory) {
     class Delaunay {
         static from(points, fx = pointX, fy = pointY, that) {
             return new Delaunay("length" in points ? function(points, fx, fy, that) {
-                const n = points.length, array = new Float64Array(2 * n);
+                let n = points.length, array = new Float64Array(2 * n);
                 for(let i = 0; i < n; ++i){
-                    const p = points[i];
+                    let p = points[i];
                     array[2 * i] = fx.call(that, p, i, points), array[2 * i + 1] = fy.call(that, p, i, points);
                 }
                 return array;
             }(points, fx, fy, that) : Float64Array.from(function*(points, fx, fy, that) {
                 let i = 0;
-                for (const p of points)yield fx.call(that, p, i, points), yield fy.call(that, p, i, points), ++i;
+                for (let p of points)yield fx.call(that, p, i, points), yield fy.call(that, p, i, points), ++i;
             }(points, fx, fy, that)));
         }
         constructor(points){
@@ -3861,13 +3841,13 @@ function(global, factory) {
             return this._delaunator.update(), this._init(), this;
         }
         _init() {
-            const d = this._delaunator, points = this.points;
+            let d = this._delaunator, points = this.points;
             // check for collinear
             if (d.hull && d.hull.length > 2 && // A triangulation is collinear if all its triangles have a non-null area
             function(d) {
-                const { triangles, coords } = d;
+                let { triangles, coords } = d;
                 for(let i = 0; i < triangles.length; i += 3){
-                    const a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
+                    let a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
                     if ((coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]) > 1e-10) return !1;
                 }
                 return !0;
@@ -3875,7 +3855,7 @@ function(global, factory) {
                 this.collinear = Int32Array.from({
                     length: points.length / 2
                 }, (_, i)=>i).sort((i, j)=>points[2 * i] - points[2 * j] || points[2 * i + 1] - points[2 * j + 1]); // for exact neighbors
-                const e = this.collinear[0], f = this.collinear[this.collinear.length - 1], bounds = [
+                let e = this.collinear[0], f = this.collinear[this.collinear.length - 1], bounds = [
                     points[2 * e],
                     points[2 * e + 1],
                     points[2 * f],
@@ -3883,7 +3863,7 @@ function(global, factory) {
                 ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
                 for(let i = 0, n = points.length / 2; i < n; ++i){
                     var x, y;
-                    const p = [
+                    let p = [
                         (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
                         y + Math.cos(x - y) * r
                     ];
@@ -3891,12 +3871,12 @@ function(global, factory) {
                 }
                 this._delaunator = new Delaunator(points);
             } else delete this.collinear;
-            const halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
+            let halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
             // Compute an index from each point to an (arbitrary) incoming halfedge
             // Used to give the first neighbor of each point; for this reason,
             // on the hull we give priority to exterior halfedges
             for(let e = 0, n = halfedges.length; e < n; ++e){
-                const p = triangles[e % 3 == 2 ? e - 2 : e + 1];
+                let p = triangles[e % 3 == 2 ? e - 2 : e + 1];
                 (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
             }
             for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
@@ -3907,20 +3887,20 @@ function(global, factory) {
             return new Voronoi(this, bounds);
         }
         *neighbors(i) {
-            const { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
+            let { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
             // degenerate case with several collinear points
             if (collinear) {
-                const l = collinear.indexOf(i);
+                let l = collinear.indexOf(i);
                 l > 0 && (yield collinear[l - 1]), l < collinear.length - 1 && (yield collinear[l + 1]);
                 return;
             }
-            const e0 = inedges[i];
+            let e0 = inedges[i];
             if (-1 === e0) return; // coincident point
             let e = e0, p0 = -1;
             do {
                 if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return; // bad triangulation
                 if (-1 === (e = halfedges[e])) {
-                    const p = hull[(_hullIndex[i] + 1) % hull.length];
+                    let p = hull[(_hullIndex[i] + 1) % hull.length];
                     p !== p0 && (yield p);
                     return;
                 }
@@ -3929,19 +3909,16 @@ function(global, factory) {
         find(x, y, i = 0) {
             let c;
             if ((x *= 1) != x || (y *= 1) != y) return -1;
-            const i0 = i;
+            let i0 = i;
             for(; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
             return c;
         }
         _step(i, x, y) {
-            const { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
+            let { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
             if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
-            let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2);
-            const e0 = inedges[i];
-            let e = e0;
+            let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2), e0 = inedges[i], e = e0;
             do {
-                let t = triangles[e];
-                const dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
+                let t = triangles[e], dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
                 if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
                 if (-1 === (e = halfedges[e])) {
                     if ((e = hull[(_hullIndex[i] + 1) % hull.length]) !== t && pow(x - points[2 * e], 2) + pow(y - points[2 * e + 1], 2) < dc) return e;
@@ -3951,46 +3928,46 @@ function(global, factory) {
             return c;
         }
         render(context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { points, halfedges, triangles } = this;
+            let buffer = null == context ? context = new Path$1 : void 0, { points, halfedges, triangles } = this;
             for(let i = 0, n = halfedges.length; i < n; ++i){
-                const j = halfedges[i];
+                let j = halfedges[i];
                 if (j < i) continue;
-                const ti = 2 * triangles[i], tj = 2 * triangles[j];
+                let ti = 2 * triangles[i], tj = 2 * triangles[j];
                 context.moveTo(points[ti], points[ti + 1]), context.lineTo(points[tj], points[tj + 1]);
             }
             return this.renderHull(context), buffer && buffer.value();
         }
         renderPoints(context, r = 2) {
-            const buffer = null == context ? context = new Path$1 : void 0, { points } = this;
+            let buffer = null == context ? context = new Path$1 : void 0, { points } = this;
             for(let i = 0, n = points.length; i < n; i += 2){
-                const x = points[i], y = points[i + 1];
+                let x = points[i], y = points[i + 1];
                 context.moveTo(x + r, y), context.arc(x, y, r, 0, tau$3);
             }
             return buffer && buffer.value();
         }
         renderHull(context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { hull, points } = this, h = 2 * hull[0], n = hull.length;
+            let buffer = null == context ? context = new Path$1 : void 0, { hull, points } = this, h = 2 * hull[0], n = hull.length;
             context.moveTo(points[h], points[h + 1]);
             for(let i = 1; i < n; ++i){
-                const h = 2 * hull[i];
+                let h = 2 * hull[i];
                 context.lineTo(points[h], points[h + 1]);
             }
             return context.closePath(), buffer && buffer.value();
         }
         hullPolygon() {
-            const polygon = new Polygon;
+            let polygon = new Polygon;
             return this.renderHull(polygon), polygon.value();
         }
         renderTriangle(i, context) {
-            const buffer = null == context ? context = new Path$1 : void 0, { points, triangles } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
+            let buffer = null == context ? context = new Path$1 : void 0, { points, triangles } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
             return context.moveTo(points[t0], points[t0 + 1]), context.lineTo(points[t1], points[t1 + 1]), context.lineTo(points[t2], points[t2 + 1]), context.closePath(), buffer && buffer.value();
         }
         *trianglePolygons() {
-            const { triangles } = this;
+            let { triangles } = this;
             for(let i = 0, n = triangles.length / 3; i < n; ++i)yield this.trianglePolygon(i);
         }
         trianglePolygon(i) {
-            const polygon = new Polygon;
+            let polygon = new Polygon;
             return this.renderTriangle(i, polygon), polygon.value();
         }
     }
@@ -4083,7 +4060,7 @@ function(global, factory) {
     }
     var csv = dsvFormat(","), csvParse = csv.parse, csvParseRows = csv.parseRows, csvFormat = csv.format, csvFormatBody = csv.formatBody, csvFormatRows = csv.formatRows, csvFormatRow = csv.formatRow, csvFormatValue = csv.formatValue, tsv = dsvFormat("\t"), tsvParse = tsv.parse, tsvParseRows = tsv.parseRows, tsvFormat = tsv.format, tsvFormatBody = tsv.formatBody, tsvFormatRows = tsv.formatRows, tsvFormatRow = tsv.formatRow, tsvFormatValue = tsv.formatValue;
     // https://github.com/d3/d3-dsv/issues/45
-    const fixtz = new Date("2019-01-01T00:00").getHours() || new Date("2019-07-01T00:00").getHours();
+    let fixtz = new Date("2019-01-01T00:00").getHours() || new Date("2019-07-01T00:00").getHours();
     function responseBlob(response) {
         if (!response.ok) throw Error(response.status + " " + response.statusText);
         return response.blob();
@@ -4219,7 +4196,7 @@ function(global, factory) {
         }) : node.target[i] = leaf_copy(child));
         return copy;
     }, treeProto.add = function(d) {
-        const x = +this._x.call(null, d), y = +this._y.call(null, d);
+        let x = +this._x.call(null, d), y = +this._y.call(null, d);
         return add(this.cover(x, y), x, y, d);
     }, treeProto.addAll = function(data) {
         var d, i, x, y, n = data.length, xz = Array(n), yz = Array(n), x0 = 1 / 0, y0 = 1 / 0, x1 = -1 / 0, y1 = -1 / 0;
@@ -6419,7 +6396,7 @@ function(global, factory) {
         },
         each: function(callback, that) {
             let index = -1;
-            for (const node of this)callback.call(that, node, ++index, this);
+            for (let node of this)callback.call(that, node, ++index, this);
             return this;
         },
         eachAfter: function(callback, that) {
@@ -6437,7 +6414,7 @@ function(global, factory) {
         },
         find: function(callback, that) {
             let index = -1;
-            for (const node of this)if (callback.call(that, node, ++index, this)) return node;
+            for (let node of this)if (callback.call(that, node, ++index, this)) return node;
         },
         sum: function(value) {
             return this.eachAfter(function(node) {
@@ -6582,11 +6559,10 @@ function(global, factory) {
     // Assumes points.length >= 3, is sorted by x, unique in y.
     // Returns an array of indices into points in left-to-right order.
     function computeUpperHullIndexes(points) {
-        const n = points.length, indexes = [
+        let n = points.length, indexes = [
             0,
             1
-        ];
-        let size = 2, i;
+        ], size = 2, i;
         for(i = 2; i < n; ++i){
             for(var a, b, c; size > 1 && 0 >= (a = points[indexes[size - 2]], b = points[indexes[size - 1]], c = points[i], (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]));)--size;
             indexes[size++] = i;
@@ -6760,7 +6736,7 @@ function(global, factory) {
         }
         return randomPoisson.source = sourceRandomPoisson, randomPoisson;
     }(defaultSource$1);
-    const eps = 1 / 0x100000000;
+    let eps = 1 / 0x100000000;
     function initRange(domain, range) {
         switch(arguments.length){
             case 0:
@@ -6785,7 +6761,7 @@ function(global, factory) {
         }
         return this;
     }
-    const implicit = Symbol("implicit");
+    let implicit = Symbol("implicit");
     function ordinal() {
         var index = new Map(), domain = [], range = [], unknown = implicit;
         function scale(d) {
@@ -6798,8 +6774,8 @@ function(global, factory) {
         }
         return scale.domain = function(_) {
             if (!arguments.length) return domain.slice();
-            for (const value of (domain = [], index = new Map(), _)){
-                const key = value + "";
+            for (let value of (domain = [], index = new Map(), _)){
+                let key = value + "";
                 index.has(key) || index.set(key, domain.push(value));
             }
             return scale;
@@ -8898,7 +8874,7 @@ function(global, factory) {
         return d[key];
     }
     function stackSeries(key) {
-        const series = [];
+        let series = [];
         return series.key = key, series;
     }
     function appearance(series) {
@@ -9425,7 +9401,7 @@ function(global, factory) {
         return select(creator(name).call(document.documentElement));
     }, exports1.creator = creator, exports1.cross = function(...values) {
         var reduce;
-        const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
+        let reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
         if (j < 0 || lengths.some(empty)) return product;
         for(;;){
             product.push(index.map((j, i)=>values[i][j]));
@@ -9461,11 +9437,11 @@ function(global, factory) {
     }, exports1.descending = function(a, b) {
         return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
     }, exports1.deviation = deviation, exports1.difference = function(values, ...others) {
-        for (const other of (values = new Set(values), others))for (const value of other)values.delete(value);
+        for (let other of (values = new Set(values), others))for (let value of other)values.delete(value);
         return values;
     }, exports1.disjoint = function(values, other) {
-        const iterator = other[Symbol.iterator](), set = new Set();
-        for (const v of values){
+        let iterator = other[Symbol.iterator](), set = new Set();
+        for (let v of values){
             let value, done;
             if (set.has(v)) return !1;
             for(; ({ value, done } = iterator.next()) && !done;){
@@ -9595,13 +9571,12 @@ function(global, factory) {
     }, exports1.every = function(values, test) {
         if ("function" != typeof test) throw TypeError("test is not a function");
         let index = -1;
-        for (const value of values)if (!test(value, ++index, values)) return !1;
+        for (let value of values)if (!test(value, ++index, values)) return !1;
         return !0;
     }, exports1.extent = extent, exports1.filter = function(values, test) {
         if ("function" != typeof test) throw TypeError("test is not a function");
-        const array = [];
-        let index = -1;
-        for (const value of values)test(value, ++index, values) && array.push(value);
+        let array = [], index = -1;
+        for (let value of values)test(value, ++index, values) && array.push(value);
         return array;
     }, exports1.forceCenter = function(x, y) {
         var nodes, strength = 1;
@@ -9869,7 +9844,7 @@ function(global, factory) {
             return arguments.length ? (y = "function" == typeof _ ? _ : constant$7(+_), initialize(), force) : y;
         }, force;
     }, exports1.formatDefaultLocale = defaultLocale, exports1.formatLocale = formatLocale, exports1.formatSpecifier = formatSpecifier, exports1.fsum = function(values, valueof) {
-        const adder = new Adder();
+        let adder = new Adder();
         if (void 0 === valueof) for (let value of values)(value *= 1) && adder.add(value);
         else {
             let index = -1;
@@ -10257,17 +10232,17 @@ function(global, factory) {
         let max, defined = !1;
         if (1 === compare.length) {
             let maxValue;
-            for (const element of values){
-                const value = compare(element);
+            for (let element of values){
+                let value = compare(element);
                 (defined ? ascending(value, maxValue) > 0 : 0 === ascending(value, value)) && (max = element, maxValue = value, defined = !0);
             }
-        } else for (const value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
+        } else for (let value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
         return max;
     }, exports1.greatestIndex = function(values, compare = ascending) {
         let maxValue;
         if (1 === compare.length) return maxIndex(values, compare);
         let max = -1, index = -1;
-        for (const value of values)++index, (max < 0 ? 0 === compare(value, value) : compare(value, maxValue) > 0) && (maxValue = value, max = index);
+        for (let value of values)++index, (max < 0 ? 0 === compare(value, value) : compare(value, maxValue) > 0) && (maxValue = value, max = index);
         return max;
     }, exports1.group = function(values, ...keys) {
         return nest(values, identity, identity, keys);
@@ -10316,7 +10291,7 @@ function(global, factory) {
         return "rgb(" + Math.max(0, Math.min(255, Math.round(34.61 + (t = Math.max(0, Math.min(1, t))) * (1172.33 - t * (10793.56 - t * (33300.12 - t * (38394.49 - 14825.05 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(23.31 + t * (557.33 + t * (1225.33 - t * (3574.96 - t * (1073.77 + 707.56 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(27.2 + t * (3211.1 - t * (15327.97 - t * (27814 - t * (22569.18 - 6838.66 * t))))))) + ")";
     }, exports1.interpolateViridis = viridis, exports1.interpolateWarm = warm, exports1.interpolateYlGn = YlGn, exports1.interpolateYlGnBu = YlGnBu, exports1.interpolateYlOrBr = YlOrBr, exports1.interpolateYlOrRd = YlOrRd, exports1.interpolateZoom = interpolateZoom, exports1.interrupt = interrupt, exports1.intersection = function(values, ...others) {
         values = new Set(values), others = others.map(set);
-        out: for (const value of values)for (const other of others)if (!other.has(value)) {
+        out: for (let value of values)for (let other of others)if (!other.has(value)) {
             values.delete(value);
             continue out;
         }
@@ -10336,11 +10311,11 @@ function(global, factory) {
         let min, defined = !1;
         if (1 === compare.length) {
             let minValue;
-            for (const element of values){
-                const value = compare(element);
+            for (let element of values){
+                let value = compare(element);
                 (defined ? 0 > ascending(value, minValue) : 0 === ascending(value, value)) && (min = element, minValue = value, defined = !0);
             }
-        } else for (const value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
+        } else for (let value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
         return min;
     }, exports1.leastIndex = leastIndex, exports1.line = line, exports1.lineRadial = lineRadial$1, exports1.linkHorizontal = function() {
         return link$2(curveHorizontal);
@@ -10381,10 +10356,8 @@ function(global, factory) {
     }, exports1.packEnclose = enclose, exports1.packSiblings = function(circles) {
         return packEnclose(circles), circles;
     }, exports1.pairs = function(values, pairof = pair) {
-        let previous;
-        const pairs = [];
-        let first = !1;
-        for (const value of values)first && pairs.push(pairof(previous, value)), previous = value, first = !0;
+        let previous, pairs = [], first = !1;
+        for (let value of values)first && pairs.push(pairof(previous, value)), previous = value, first = !0;
         return pairs;
     }, exports1.partition = function() {
         var dx = 1, dy = 1, padding = 0, round = !1;
@@ -10484,8 +10457,7 @@ function(global, factory) {
         return ()=>eps * ((state = 0x19660D * state + 0x3C6EF35F | 0) >>> 0);
     }, exports1.randomLogNormal = logNormal, exports1.randomLogistic = logistic, exports1.randomNormal = normal, exports1.randomPareto = pareto, exports1.randomPoisson = poisson, exports1.randomUniform = uniform, exports1.randomWeibull = weibull, exports1.range = sequence, exports1.reduce = function(values, reducer, value) {
         if ("function" != typeof reducer) throw TypeError("reducer is not a function");
-        const iterator = values[Symbol.iterator]();
-        let done, next, index = -1;
+        let iterator = values[Symbol.iterator](), done, next, index = -1;
         if (arguments.length < 3) {
             if ({ done, value } = iterator.next(), done) return;
             ++index;
@@ -10747,7 +10719,7 @@ function(global, factory) {
             Date.UTC(2000, 0, 2)
         ]), arguments);
     }, exports1.scan = function(values, compare) {
-        const index = leastIndex(values, compare);
+        let index = leastIndex(values, compare);
         return index < 0 ? void 0 : index;
     }, exports1.schemeAccent = Accent, exports1.schemeBlues = scheme$l, exports1.schemeBrBG = scheme, exports1.schemeBuGn = scheme$9, exports1.schemeBuPu = scheme$a, exports1.schemeCategory10 = category10, exports1.schemeDark2 = Dark2, exports1.schemeGnBu = scheme$b, exports1.schemeGreens = scheme$m, exports1.schemeGreys = scheme$n, exports1.schemeOrRd = scheme$c, exports1.schemeOranges = scheme$q, exports1.schemePRGn = scheme$1, exports1.schemePaired = Paired, exports1.schemePastel1 = Pastel1, exports1.schemePastel2 = Pastel2, exports1.schemePiYG = scheme$2, exports1.schemePuBu = scheme$e, exports1.schemePuBuGn = scheme$d, exports1.schemePuOr = scheme$3, exports1.schemePuRd = scheme$f, exports1.schemePurples = scheme$o, exports1.schemeRdBu = scheme$4, exports1.schemeRdGy = scheme$5, exports1.schemeRdPu = scheme$g, exports1.schemeRdYlBu = scheme$6, exports1.schemeRdYlGn = scheme$7, exports1.schemeReds = scheme$p, exports1.schemeSet1 = Set1, exports1.schemeSet2 = Set2, exports1.schemeSet3 = Set3, exports1.schemeSpectral = scheme$8, exports1.schemeTableau10 = Tableau10, exports1.schemeYlGn = scheme$i, exports1.schemeYlGnBu = scheme$h, exports1.schemeYlOrBr = scheme$j, exports1.schemeYlOrRd = scheme$k, exports1.select = select, exports1.selectAll = function(selector) {
         return "string" == typeof selector ? new Selection([
@@ -10760,7 +10732,7 @@ function(global, factory) {
     }, exports1.selection = selection, exports1.selector = selector, exports1.selectorAll = selectorAll, exports1.shuffle = shuffle, exports1.shuffler = shuffler, exports1.some = function(values, test) {
         if ("function" != typeof test) throw TypeError("test is not a function");
         let index = -1;
-        for (const value of values)if (test(value, ++index, values)) return !0;
+        for (let value of values)if (test(value, ++index, values)) return !0;
         return !1;
     }, exports1.sort = function(values, f = ascending) {
         if ("function" != typeof values[Symbol.iterator]) throw TypeError("values is not iterable");
@@ -10769,7 +10741,7 @@ function(global, factory) {
         var keys = constant$a([]), order = none$2, offset = none$1, value = stackValue;
         function stack(data) {
             var i, oz, sz = Array.from(keys.apply(this, arguments), stackSeries), n = sz.length, j = -1;
-            for (const d of data)for(i = 0, ++j; i < n; ++i)(sz[i][j] = [
+            for (let d of data)for(i = 0, ++j; i < n; ++i)(sz[i][j] = [
                 0,
                 +value(d, sz[i].key, j, data)
             ]).data = d;
@@ -11028,8 +11000,8 @@ function(global, factory) {
     }, exports1.treemapDice = treemapDice, exports1.treemapResquarify = resquarify, exports1.treemapSlice = treemapSlice, exports1.treemapSliceDice = function(parent, x0, y0, x1, y1) {
         (1 & parent.depth ? treemapSlice : treemapDice)(parent, x0, y0, x1, y1);
     }, exports1.treemapSquarify = squarify, exports1.tsv = tsv$1, exports1.tsvFormat = tsvFormat, exports1.tsvFormatBody = tsvFormatBody, exports1.tsvFormatRow = tsvFormatRow, exports1.tsvFormatRows = tsvFormatRows, exports1.tsvFormatValue = tsvFormatValue, exports1.tsvParse = tsvParse, exports1.tsvParseRows = tsvParseRows, exports1.union = function(...others) {
-        const set = new Set();
-        for (const other of others)for (const o of other)set.add(o);
+        let set = new Set();
+        for (let other of others)for (let o of other)set.add(o);
         return set;
     }, exports1.utcDay = utcDay, exports1.utcDays = utcDays, exports1.utcFriday = utcFriday, exports1.utcFridays = utcFridays, exports1.utcHour = utcHour, exports1.utcHours = utcHours, exports1.utcMillisecond = millisecond, exports1.utcMilliseconds = milliseconds, exports1.utcMinute = utcMinute, exports1.utcMinutes = utcMinutes, exports1.utcMonday = utcMonday, exports1.utcMondays = utcMondays, exports1.utcMonth = utcMonth, exports1.utcMonths = utcMonths, exports1.utcSaturday = utcSaturday, exports1.utcSaturdays = utcSaturdays, exports1.utcSecond = second, exports1.utcSeconds = seconds, exports1.utcSunday = utcSunday, exports1.utcSundays = utcSundays, exports1.utcThursday = utcThursday, exports1.utcThursdays = utcThursdays, exports1.utcTuesday = utcTuesday, exports1.utcTuesdays = utcTuesdays, exports1.utcWednesday = utcWednesday, exports1.utcWednesdays = utcWednesdays, exports1.utcWeek = utcSunday, exports1.utcWeeks = utcSundays, exports1.utcYear = utcYear, exports1.utcYears = utcYears, exports1.variance = variance, exports1.version = "6.3.1", exports1.window = defaultView, exports1.xml = xml, exports1.zip = function() {
         return transpose(arguments);

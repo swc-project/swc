@@ -32,6 +32,8 @@ impl FastDts {
                 Lit::Num(number) => Some(ts_lit_type(TsLit::Number(number.clone()))),
                 Lit::BigInt(big_int) => Some(ts_lit_type(TsLit::BigInt(big_int.clone()))),
                 Lit::Regex(_) | Lit::JSXText(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Expr::Tpl(tpl) => self
                 .tpl_to_string(tpl)
@@ -136,6 +138,8 @@ impl FastDts {
                 Pat::Rest(rest_pat) => Some(TsFnParam::Rest(rest_pat)),
                 Pat::Object(object_pat) => Some(TsFnParam::Object(object_pat)),
                 Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             })
             .collect()
     }
@@ -294,10 +298,14 @@ impl FastDts {
                         }
                     }
                     Prop::Assign(_) => {}
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
                 PropOrSpread::Spread(spread_element) => {
                     self.object_with_spread_assignments(spread_element.span());
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -389,6 +397,8 @@ impl FastDts {
 
                 computed.expr.as_ref().clone()
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -444,7 +454,10 @@ impl FastDts {
 
         tpl.quasis.first().map(|element| Str {
             span: DUMMY_SP,
-            value: element.cooked.as_ref().unwrap_or(&element.raw).clone(),
+            value: element
+                .cooked
+                .clone()
+                .unwrap_or_else(|| element.raw.clone().into()),
             raw: None,
         })
     }

@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use serde_derive::Deserialize;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, wtf8::Wtf8Buf};
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -63,11 +63,11 @@ impl VisitMut for TemplateLiteral {
                         let s = quasis[0]
                             .cooked
                             .clone()
-                            .unwrap_or_else(|| quasis[0].raw.clone());
+                            .unwrap_or_else(|| quasis[0].raw.clone().into());
 
                         Str {
                             span: quasis[0].span,
-                            value: Atom::from(&*s),
+                            value: s,
                             raw: None,
                         }
                     })
@@ -83,6 +83,10 @@ impl VisitMut for TemplateLiteral {
                 for i in 0..len {
                     if i == 0 {
                         quasis.next();
+
+                        if len == 1 {
+                            obj.set_span(*span);
+                        }
                         continue;
                     }
                     let last = i == len - 1;
@@ -93,12 +97,12 @@ impl VisitMut for TemplateLiteral {
                             Some(TplElement {
                                 span, cooked, raw, ..
                             }) => {
-                                let s = cooked.clone().unwrap_or_else(|| raw.clone());
+                                let s = cooked.clone().unwrap_or_else(|| raw.clone().into());
 
                                 Box::new(
                                     Lit::Str(Str {
                                         span: *span,
-                                        value: (&*s).into(),
+                                        value: s,
                                         raw: None,
                                     })
                                     .into(),
@@ -130,10 +134,13 @@ impl VisitMut for TemplateLiteral {
                                         value: r_value,
                                         ..
                                     })) => {
+                                        let mut value_buf: Wtf8Buf = (&value).into();
+                                        value_buf.push_wtf8(&r_value);
+                                        let value = value_buf.into();
                                         obj = Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
                                             raw: None,
-                                            value: format!("{value}{r_value}").into(),
+                                            value,
                                         })
                                         .into();
                                         continue;

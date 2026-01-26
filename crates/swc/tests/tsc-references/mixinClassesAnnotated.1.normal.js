@@ -23,7 +23,7 @@ var Derived = /*#__PURE__*/ function(Base) {
     }
     return Derived;
 }(Base);
-var Printable = function(superClass) {
+var Printable = function Printable(superClass) {
     var _class = /*#__PURE__*/ function(superClass) {
         "use strict";
         _inherits(_class, superClass);

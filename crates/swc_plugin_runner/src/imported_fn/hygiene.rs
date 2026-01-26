@@ -3,9 +3,10 @@ use swc_common::{
     plugin::serialized::{PluginSerializedBytes, VersionedSerializable},
     Mark, SyntaxContext,
 };
-use wasmer::{AsStoreMut, FunctionEnvMut};
 
-use crate::{host_environment::BaseHostEnvironment, memory_interop::write_into_memory_view};
+use crate::{
+    host_environment::BaseHostEnvironment, memory_interop::write_into_memory_view, runtime,
+};
 
 /// A proxy to Mark::fresh() that can be used in plugin.
 /// This it not directly called by plugin, instead `impl Mark` will selectively
@@ -25,16 +26,12 @@ pub fn mark_parent_proxy(self_mark: u32) -> u32 {
 /// with return value accordingly.
 #[tracing::instrument(level = "info", skip_all)]
 pub fn mark_is_descendant_of_proxy(
-    mut env: FunctionEnvMut<BaseHostEnvironment>,
+    caller: &mut dyn runtime::Caller<'_>,
+    _env: &BaseHostEnvironment,
     self_mark: u32,
     ancestor: u32,
     allocated_ptr: u32,
 ) {
-    let memory = env.data().memory.clone();
-    let memory = memory
-        .as_ref()
-        .expect("Memory instance should be available, check initialization");
-
     let self_mark = Mark::from_u32(self_mark);
     let ancestor = Mark::from_u32(ancestor);
 
@@ -48,26 +45,17 @@ pub fn mark_is_descendant_of_proxy(
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
-    write_into_memory_view(
-        memory,
-        &mut env.as_store_mut(),
-        &serialized_bytes,
-        |_, _| allocated_ptr,
-    );
+    write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn mark_least_ancestor_proxy(
-    mut env: FunctionEnvMut<BaseHostEnvironment>,
+    caller: &mut dyn runtime::Caller<'_>,
+    _env: &BaseHostEnvironment,
     a: u32,
     b: u32,
     allocated_ptr: u32,
 ) {
-    let memory = env.data().memory.clone();
-    let memory = memory
-        .as_ref()
-        .expect("Memory instance should be available, check initialization");
-
     let a = Mark::from_u32(a);
     let b = Mark::from_u32(b);
 
@@ -78,12 +66,7 @@ pub fn mark_least_ancestor_proxy(
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
-    write_into_memory_view(
-        memory,
-        &mut env.as_store_mut(),
-        &serialized_bytes,
-        |_, _| allocated_ptr,
-    );
+    write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -95,15 +78,11 @@ pub fn syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn syntax_context_remove_mark_proxy(
-    mut env: FunctionEnvMut<BaseHostEnvironment>,
+    caller: &mut dyn runtime::Caller<'_>,
+    _env: &BaseHostEnvironment,
     self_mark: u32,
     allocated_ptr: u32,
 ) {
-    let memory = env.data().memory.clone();
-    let memory = memory
-        .as_ref()
-        .expect("Memory instance should be available, check initialization");
-
     let mut self_mark = SyntaxContext::from_u32(self_mark);
 
     let return_value = self_mark.remove_mark();
@@ -116,12 +95,7 @@ pub fn syntax_context_remove_mark_proxy(
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
-    write_into_memory_view(
-        memory,
-        &mut env.as_store_mut(),
-        &serialized_bytes,
-        |_, _| allocated_ptr,
-    );
+    write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
 #[tracing::instrument(level = "info", skip_all)]

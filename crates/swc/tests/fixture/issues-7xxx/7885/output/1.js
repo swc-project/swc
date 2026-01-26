@@ -1,4 +1,4 @@
-export var loopError = function() {
+export var loopError = function loopError() {
     var _loop = function() {
         var object = 1;
         [].map(function() {

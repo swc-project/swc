@@ -2,6 +2,8 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
+#[cfg(swc_ast_unknown)]
+use crate::unknown_error;
 use crate::{is_empty_comments, ListFormat};
 
 #[node_impl]
@@ -50,6 +52,8 @@ impl MacroNode for Prop {
             Prop::Getter(ref n) => emit!(n),
             Prop::Setter(ref n) => emit!(n),
             Prop::Method(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -227,6 +231,8 @@ impl MacroNode for PropName {
             PropName::Num(ref n) => emit!(n),
             PropName::BigInt(ref n) => emit!(n),
             PropName::Computed(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())

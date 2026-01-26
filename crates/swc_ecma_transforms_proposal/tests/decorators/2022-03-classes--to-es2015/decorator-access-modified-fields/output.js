@@ -1,4 +1,4 @@
-var _initClass, _init_m;
+var _initClass, _init_m, _initProto;
 var value;
 const classDec = (Class)=>{
     value = (new Class).p;
@@ -8,10 +8,10 @@ const memberDec = ()=>()=>42;
 let _C;
 class C {
     constructor(){
-        _define_property(this, "m", _init_m(this));
+        _define_property(this, "m", (_initProto(this), _init_m(this)));
     }
 }
-({ e: [_init_m], c: [_C, _initClass] } = _apply_decs_2203_r(C, [
+({ e: [_init_m, _initProto], c: [_C, _initClass] } = _apply_decs_2203_r(C, [
     [
         memberDec,
         0,

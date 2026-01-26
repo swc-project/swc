@@ -1,13 +1,13 @@
+var _ref;
 var src = {};
 var counter = 0;
-for (var _ref of [
+for (_ref of [
     {
         x: 1,
         y: 2
     }
 ]){
-    var _ref1;
-    _ref1 = _ref, src.y = _extends({}, _object_destructuring_empty(_ref1)), _ref1;
+    ({} = _ref), src.y = _extends({}, _ref), _ref;
     expect(src.y.x).toEqual(1);
     expect(src.y.y).toEqual(2);
     counter += 1;

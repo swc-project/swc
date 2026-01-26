@@ -44,6 +44,7 @@ macro_rules! impl_visit_mut_fn {
                         })],
                         ..Default::default()
                     },
+                    _ => panic!("unable to access unknown nodes"),
                 },
             );
 

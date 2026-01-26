@@ -2,7 +2,7 @@ use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
-use swc_atoms::Atom;
+use swc_atoms::Wtf8Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -30,6 +30,7 @@ where
     } else {
         ProgramData::default()
     };
+
     analyze_with_custom_storage(data, n, marks)
 }
 
@@ -38,13 +39,13 @@ where
 pub(crate) struct ProgramData {
     pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
 
-    pub(crate) top: ScopeData,
-
-    pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
-
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 
-    pub(crate) property_atoms: Option<Vec<Atom>>,
+    pub(crate) top: ScopeData,
+
+    scopes: Vec<ScopeData>,
+
+    pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
 }
 
 bitflags::bitflags! {
@@ -127,7 +128,7 @@ pub(crate) struct VarUsageInfo {
     /// PR. (because it's hard to review)
     infects_to: Vec<Access>,
     /// Only **string** properties.
-    pub(crate) accessed_props: FxHashMap<Atom, u32>,
+    pub(crate) accessed_props: FxHashMap<Wtf8Atom, u32>,
 }
 
 impl Default for VarUsageInfo {
@@ -186,24 +187,26 @@ impl Storage for ProgramData {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
 
-    fn new(collect_prop_atom: bool) -> Self {
-        if collect_prop_atom {
-            ProgramData {
-                property_atoms: Some(Vec::with_capacity(128)),
-                ..Default::default()
-            }
-        } else {
-            ProgramData::default()
+    fn new_child(&mut self) -> Self {
+        let scopes = std::mem::take(&mut self.scopes);
+        let property_atoms = std::mem::take(&mut self.property_atoms);
+        Self {
+            scopes,
+            property_atoms,
+            ..Default::default()
         }
     }
 
-    #[inline(always)]
-    fn need_collect_prop_atom(&self) -> bool {
-        self.property_atoms.is_some()
+    fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
+        let ctxt = ctxt.as_u32() as usize;
+        if self.scopes.len() <= ctxt {
+            self.scopes.resize(ctxt + 1, ScopeData::default());
+        }
+        &mut self.scopes[ctxt]
     }
 
-    fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
-        self.scopes.entry(ctxt).or_default()
+    fn scopes(&self) -> &[ScopeData] {
+        &self.scopes
     }
 
     fn top_scope(&mut self) -> &mut Self::ScopeData {
@@ -215,17 +218,12 @@ impl Storage for ProgramData {
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {
-        self.scopes.reserve(child.scopes.len());
-
-        for (ctxt, scope) in child.scopes {
-            let to = self.scopes.entry(ctxt).or_default();
-            self.top.merge(scope, true);
-
-            to.merge(scope, false);
-        }
+        // Take the data back
+        // Corresponding to [Self::new_child]
+        self.scopes = child.scopes;
+        self.property_atoms = child.property_atoms;
 
         self.vars.reserve(child.vars.len());
-
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
@@ -351,10 +349,6 @@ impl Storage for ProgramData {
                     e.insert(var_info);
                 }
             }
-        }
-
-        if let Some(property_atoms) = self.property_atoms.as_mut() {
-            property_atoms.extend(child.property_atoms.unwrap());
         }
     }
 
@@ -545,7 +539,7 @@ impl Storage for ProgramData {
         }
     }
 
-    fn add_property_atom(&mut self, atom: Atom) {
+    fn add_property_atom(&mut self, atom: Wtf8Atom) {
         if let Some(atoms) = self.property_atoms.as_mut() {
             atoms.push(atom);
         }
@@ -617,7 +611,7 @@ impl VarDataLike for VarUsageInfo {
             .insert(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY);
     }
 
-    fn add_accessed_property(&mut self, name: swc_atoms::Atom) {
+    fn add_accessed_property(&mut self, name: swc_atoms::Wtf8Atom) {
         *self.accessed_props.entry(name).or_default() += 1;
     }
 
@@ -664,6 +658,11 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
+    pub(crate) fn get_scope(&self, ctxt: SyntaxContext) -> Option<&ScopeData> {
+        let ctxt = ctxt.as_u32() as usize;
+        self.scopes.get(ctxt)
+    }
+
     /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
@@ -695,6 +694,8 @@ impl ProgramData {
                         self.simple_assign_target_contains_unresolved(left)
                     }
                     AssignTarget::Pat(_) => false,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }) || self.contains_unresolved(right)
             }
             Expr::Cond(CondExpr {
@@ -770,6 +771,8 @@ impl ProgramData {
 
                 false
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -808,6 +811,8 @@ impl ProgramData {
             | SimpleAssignTarget::TsTypeAssertion(..)
             | SimpleAssignTarget::TsInstantiation(..) => false,
             SimpleAssignTarget::Invalid(..) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

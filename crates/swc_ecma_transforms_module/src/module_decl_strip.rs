@@ -79,6 +79,8 @@ impl VisitMut for ModuleDeclStrip {
                                 list.extend(fn_expr.as_fn_decl().map(From::from))
                             }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                         ModuleDecl::ExportDefaultExpr(..) => {
                             list.extend(self.export_default.take().map(From::from))
@@ -87,8 +89,12 @@ impl VisitMut for ModuleDeclStrip {
                         ModuleDecl::TsImportEquals(..) => continue,
                         ModuleDecl::TsExportAssignment(..) => continue,
                         ModuleDecl::TsNamespaceExport(..) => continue,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     };
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
         }
 
@@ -106,7 +112,7 @@ impl VisitMut for ModuleDeclStrip {
         } = n.take();
 
         self.link
-            .entry(src.value)
+            .entry(src.value.to_atom_lossy().into_owned())
             .or_default()
             .mut_dummy_span(src.span)
             .extend(specifiers.into_iter().map(From::from));
@@ -162,7 +168,7 @@ impl VisitMut for ModuleDeclStrip {
 
         if let Some(src) = src {
             self.link
-                .entry(src.value)
+                .entry(src.value.to_atom_lossy().into_owned())
                 .or_default()
                 .mut_dummy_span(src.span)
                 .extend(specifiers.into_iter().map(From::from));
@@ -180,6 +186,8 @@ impl VisitMut for ModuleDeclStrip {
                         ModuleExportName::Str(_) => {
                             unreachable!(r#"`export {{ "foo" }}` without src is invalid"#)
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     };
 
                     if let Some(exported) = exported {
@@ -187,9 +195,12 @@ impl VisitMut for ModuleDeclStrip {
                             ModuleExportName::Ident(Ident {
                                 ctxt, span, sym, ..
                             }) => (sym, (span, ctxt)),
-                            ModuleExportName::Str(Str { span, value, .. }) => {
-                                (value, (span, Default::default()))
-                            }
+                            ModuleExportName::Str(Str { span, value, .. }) => (
+                                value.to_atom_lossy().into_owned(),
+                                (span, Default::default()),
+                            ),
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         };
 
                         (export_name, ExportItem::new(export_name_span, orig))
@@ -200,6 +211,8 @@ impl VisitMut for ModuleDeclStrip {
                         )
                     }
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }))
         }
     }
@@ -242,6 +255,8 @@ impl VisitMut for ModuleDeclStrip {
                 );
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -281,7 +296,7 @@ impl VisitMut for ModuleDeclStrip {
         } = *n.take().src;
 
         self.link
-            .entry(src_key)
+            .entry(src_key.to_atom_lossy().into_owned())
             .or_default()
             .mut_dummy_span(src_span)
             .insert(LinkSpecifier::ExportStar);
@@ -321,7 +336,7 @@ impl VisitMut for ModuleDeclStrip {
             }
 
             self.link
-                .entry(src_key.clone())
+                .entry(src_key.to_atom_lossy().into_owned())
                 .or_default()
                 .mut_dummy_span(*span)
                 .insert(LinkSpecifier::ImportEqual(id.to_id()));
@@ -412,11 +427,16 @@ impl From<ImportSpecifier> for LinkSpecifier {
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
                 local,
-                imported:
-                    Some(ModuleExportName::Ident(Ident { sym: s, .. }))
-                    | Some(ModuleExportName::Str(Str { value: s, .. })),
+                imported: Some(ModuleExportName::Ident(Ident { sym: s, .. })),
                 ..
             }) if &*s == "default" => Self::ImportDefault(local.to_id()),
+
+            ImportSpecifier::Named(ImportNamedSpecifier {
+                is_type_only: false,
+                local,
+                imported: Some(ModuleExportName::Str(Str { value: s, .. })),
+                ..
+            }) if &s == "default" => Self::ImportDefault(local.to_id()),
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
@@ -424,9 +444,11 @@ impl From<ImportSpecifier> for LinkSpecifier {
                 imported,
                 ..
             }) => {
-                let imported = imported.map(|e| match e {
-                    ModuleExportName::Ident(Ident { sym, .. }) => sym,
-                    ModuleExportName::Str(Str { value, .. }) => value,
+                let imported = imported.and_then(|e| match e {
+                    ModuleExportName::Ident(Ident { sym, .. }) => Some(sym),
+                    ModuleExportName::Str(Str { value, .. }) => value.as_atom().cloned(),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 });
 
                 Self::ImportNamed {
@@ -444,10 +466,16 @@ impl From<ExportSpecifier> for LinkSpecifier {
         match e {
             ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                 name:
-                    ModuleExportName::Ident(Ident { span, sym, .. })
-                    | ModuleExportName::Str(Str {
+                    ModuleExportName::Str(Str {
                         span, value: sym, ..
                     }),
+                ..
+            }) => Self::ExportStarAs(
+                sym.to_atom_lossy().into_owned(),
+                (span, SyntaxContext::empty()),
+            ),
+            ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                name: ModuleExportName::Ident(Ident { span, sym, .. }),
                 ..
             }) => Self::ExportStarAs(sym, (span, SyntaxContext::empty())),
 
@@ -467,17 +495,31 @@ impl From<ExportSpecifier> for LinkSpecifier {
                 ..
             }) => {
                 let orig = match orig {
-                    ModuleExportName::Ident(Ident { span, sym, .. })
-                    | ModuleExportName::Str(Str {
+                    ModuleExportName::Ident(Ident { span, sym, .. }) => {
+                        (sym, (span, SyntaxContext::empty().apply_mark(Mark::new())))
+                    }
+                    ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
+                    }) => (
+                        sym.to_atom_lossy().into_owned(),
+                        (span, SyntaxContext::empty().apply_mark(Mark::new())),
+                    ),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
 
                 let exported = exported.map(|exported| match exported {
-                    ModuleExportName::Ident(Ident { span, sym, .. })
-                    | ModuleExportName::Str(Str {
+                    ModuleExportName::Ident(Ident { span, sym, .. }) => {
+                        (sym, (span, SyntaxContext::empty().apply_mark(Mark::new())))
+                    }
+                    ModuleExportName::Str(Str {
                         span, value: sym, ..
-                    }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
+                    }) => (
+                        sym.to_atom_lossy().into_owned(),
+                        (span, SyntaxContext::empty().apply_mark(Mark::new())),
+                    ),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 });
 
                 match (&*orig.0, orig.1) {
@@ -559,11 +601,15 @@ impl From<&ImportSpecifier> for LinkFlag {
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
-                imported:
-                    Some(ModuleExportName::Ident(Ident { sym: default, .. }))
-                    | Some(ModuleExportName::Str(Str { value: default, .. })),
+                imported: Some(ModuleExportName::Ident(Ident { sym: default, .. })),
                 ..
             }) if &**default == "default" => Self::DEFAULT,
+
+            ImportSpecifier::Named(ImportNamedSpecifier {
+                is_type_only: false,
+                imported: Some(ModuleExportName::Str(Str { value: default, .. })),
+                ..
+            }) if default == "default" => Self::DEFAULT,
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
@@ -582,11 +628,16 @@ impl From<&ExportSpecifier> for LinkFlag {
 
             // https://github.com/tc39/proposal-export-default-from
             ExportSpecifier::Default(..) => Self::DEFAULT,
+
             ExportSpecifier::Named(ExportNamedSpecifier {
                 is_type_only: false,
-                orig:
-                    ModuleExportName::Ident(Ident { sym: s, .. })
-                    | ModuleExportName::Str(Str { value: s, .. }),
+                orig: ModuleExportName::Str(Str { value: s, .. }),
+                ..
+            }) if s == "default" => Self::DEFAULT,
+
+            ExportSpecifier::Named(ExportNamedSpecifier {
+                is_type_only: false,
+                orig: ModuleExportName::Ident(Ident { sym: s, .. }),
                 ..
             }) if &**s == "default" => Self::DEFAULT,
 

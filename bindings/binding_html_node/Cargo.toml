@@ -6,7 +6,7 @@ exclude = ["artifacts.json", "index.node"]
 license = "Apache-2.0"
 name    = "binding_html_node"
 publish = false
-version = "0.1.0"
+version = "0.2.0"
 
 [lib]
 bench      = false
@@ -24,19 +24,20 @@ napi = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive = { workspace = true, features = ["type-def"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
-swc_atoms = { workspace = true }
-swc_common = { workspace = true, features = ["diagnostic-serde"] }
-swc_config = { workspace = true, features = ["regex"] }
-swc_css_ast = { workspace = true }
-swc_css_codegen = { workspace = true }
-swc_css_minifier = { workspace = true }
-swc_css_parser = { workspace = true }
-swc_error_reporters = { workspace = true }
-swc_html = { workspace = true, default-features = false }
-swc_html_ast = { workspace = true, features = ["serde"] }
-swc_html_minifier = { workspace = true, default-features = false, features = [
+swc_atoms = { path = "../../crates/swc_atoms" }
+swc_common = { path = "../../crates/swc_common", features = [
+  "diagnostic-serde",
+] }
+swc_config = { path = "../../crates/swc_config", features = ["regex"] }
+swc_css_ast = { path = "../../crates/swc_css_ast" }
+swc_css_codegen = { path = "../../crates/swc_css_codegen" }
+swc_css_minifier = { path = "../../crates/swc_css_minifier" }
+swc_css_parser = { path = "../../crates/swc_css_parser" }
+swc_error_reporters = { path = "../../crates/swc_error_reporters" }
+swc_html = { path = "../../crates/swc_html" }
+swc_html_ast = { path = "../../crates/swc_html_ast", features = ["serde"] }
+swc_html_minifier = { path = "../../crates/swc_html_minifier", features = [
   "custom-css-minifier",
 ] }
-swc_nodejs_common = { workspace = true }
+swc_nodejs_common = { path = "../../crates/swc_nodejs_common" }
 tracing = { workspace = true, features = ["release_max_level_info"] }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }

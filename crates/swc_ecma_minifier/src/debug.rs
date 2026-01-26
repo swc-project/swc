@@ -8,7 +8,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 pub(crate) struct Debugger {}
 
 impl VisitMut for Debugger {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         if !cfg!(feature = "debug") {

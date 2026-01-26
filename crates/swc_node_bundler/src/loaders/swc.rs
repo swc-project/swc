@@ -72,7 +72,7 @@ impl SwcLoader {
                 Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
-                    value: v,
+                    value: v.into(),
                 })
                 .into(),
             );
@@ -132,7 +132,7 @@ impl SwcLoader {
             .cm
             .load_file(match name {
                 FileName::Real(v) => v,
-                _ => bail!("swc-loader only accepts path. Got `{}`", name),
+                _ => bail!("swc-loader only accepts path. Got `{name}`"),
             })
             .with_context(|| format!("failed to load file `{name}`"))?;
 
@@ -185,7 +185,6 @@ impl SwcLoader {
                     ));
 
                     program.mutate(&mut inline_globals(
-                        unresolved_mark,
                         self.env_map(),
                         Default::default(),
                         Default::default(),
@@ -282,7 +281,6 @@ impl SwcLoader {
                         ));
 
                         program.mutate(&mut inline_globals(
-                            unresolved_mark,
                             self.env_map(),
                             Default::default(),
                             Default::default(),

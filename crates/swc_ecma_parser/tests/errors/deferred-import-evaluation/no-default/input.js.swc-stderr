@@ -1,0 +1,5 @@
+  x Expected 'from', got 'ident'
+   ,-[$DIR/tests/errors/deferred-import-evaluation/no-default/input.js:1:1]
+ 1 | import defer x from "x";
+   :              ^
+   `----

@@ -1,3 +1,4 @@
+"use strict";
 (function(A) {
     A.v = 25;
     function a() {

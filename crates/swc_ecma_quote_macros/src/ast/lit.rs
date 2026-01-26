@@ -1,7 +1,7 @@
 use proc_macro2::Span;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_ecma_ast::*;
-use syn::{parse_quote, ExprLit, LitBool, LitFloat};
+use syn::{parse_quote, ExprLit, LitBool, LitByteStr, LitFloat};
 
 use super::ToCode;
 use crate::{builder::Builder, ctxt::Ctx};
@@ -11,9 +11,11 @@ fail_todo!(JSXText);
 
 impl ToCode for Str {
     fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
-        if let Some(var_name) = self.value.strip_prefix('$') {
-            if let Some(var) = cx.var(crate::ctxt::VarPos::Str, var_name) {
-                return var.get_expr();
+        if let Some(var_name) = self.value.as_str() {
+            if let Some(var_name) = var_name.strip_prefix('$') {
+                if let Some(var) = cx.var(crate::ctxt::VarPos::Str, var_name) {
+                    return var.get_expr();
+                }
             }
         }
 
@@ -33,6 +35,13 @@ impl ToCode for Atom {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
         let val = &**self;
         parse_quote!(swc_core::atoms::atom!(#val))
+    }
+}
+
+impl ToCode for Wtf8Atom {
+    fn to_code(&self, _: &Ctx) -> syn::Expr {
+        let bytes_literal = LitByteStr::new(self.as_bytes(), Span::call_site());
+        parse_quote!(unsafe { swc_core::atoms::Wtf8Atom::from_bytes_unchecked(#bytes_literal) })
     }
 }
 

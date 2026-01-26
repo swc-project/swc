@@ -1,57 +1,80 @@
+//! Hook-based mangler for labels and private names.
+//!
+//! This module uses `swc_ecma_hooks` to combine label mangling and private name
+//! mangling into a single AST traversal, reducing overhead.
+
+use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
+use swc_ecma_visit::VisitMutWith;
 
-use self::{label_manger::LabelMangler, private_name_manger::PrivateNameMangler};
-use crate::util::base54::Base54Chars;
+use crate::{
+    hook_utils::{HookBuilder, NoopHook},
+    util::base54::Base54Chars,
+};
 
-mod label_manger {
-    use rustc_hash::FxHashMap;
-    use swc_atoms::Atom;
-    use swc_ecma_ast::*;
+/// Context passed through all mangler hooks.
+pub(super) struct ManglerCtx;
 
-    use crate::util::base54::Base54Chars;
+/// Hook for mangling label names in control flow statements.
+pub(super) struct LabelManglerHook {
+    chars: Base54Chars,
+    cache: FxHashMap<Atom, Atom>,
+    n: usize,
+}
 
-    pub(super) struct LabelMangler {
-        chars: Base54Chars,
-        cache: FxHashMap<Atom, Atom>,
-        n: usize,
+impl LabelManglerHook {
+    pub(super) fn new(chars: Base54Chars) -> Self {
+        Self {
+            chars,
+            cache: FxHashMap::with_capacity_and_hasher(64, Default::default()),
+            n: Default::default(),
+        }
     }
 
-    impl LabelMangler {
-        pub(super) fn new(chars: Base54Chars) -> Self {
-            Self {
-                chars,
-                cache: FxHashMap::with_capacity_and_hasher(64, Default::default()),
-                n: Default::default(),
-            }
+    fn mangle(&mut self, label: &mut Ident) {
+        // Avoid cloning the symbol if it's already cached
+        if let Some(cached) = self.cache.get(&label.sym) {
+            label.sym = cached.clone();
+            return;
         }
 
-        pub(super) fn mangle(&mut self, label: &mut Ident) {
-            // Avoid cloning the symbol if it's already cached
-            if let Some(cached) = self.cache.get(&label.sym) {
-                label.sym = cached.clone();
-                return;
-            }
+        let new_sym = self.chars.encode(&mut self.n, true);
+        self.cache.insert(label.sym.clone(), new_sym.clone());
+        label.sym = new_sym;
+    }
+}
 
-            let new_sym = self.chars.encode(&mut self.n, true);
-            self.cache.insert(label.sym.clone(), new_sym.clone());
-            label.sym = new_sym;
+impl VisitMutHook<ManglerCtx> for LabelManglerHook {
+    fn enter_labeled_stmt(&mut self, n: &mut LabeledStmt, _ctx: &mut ManglerCtx) {
+        self.mangle(&mut n.label);
+    }
+
+    fn enter_continue_stmt(&mut self, n: &mut ContinueStmt, _ctx: &mut ManglerCtx) {
+        if let Some(label) = &mut n.label {
+            self.mangle(label);
+        }
+    }
+
+    fn enter_break_stmt(&mut self, n: &mut BreakStmt, _ctx: &mut ManglerCtx) {
+        if let Some(label) = &mut n.label {
+            self.mangle(label);
         }
     }
 }
 
-mod private_name_manger {
-    use rustc_hash::FxHashMap;
-    use swc_atoms::Atom;
-    use swc_ecma_ast::*;
+/// Hook for mangling private field/method names.
+pub(super) struct PrivateNameManglerHook {
+    chars: Base54Chars,
+    keep_private_props: bool,
+    private_n: usize,
+    renamed_private: FxHashMap<Atom, Atom>,
+}
 
-    use crate::util::base54::Base54Chars;
-
-    pub(super) fn private_name_mangler(
-        keep_private_props: bool,
-        chars: Base54Chars,
-    ) -> PrivateNameMangler {
-        PrivateNameMangler {
+impl PrivateNameManglerHook {
+    pub(super) fn new(keep_private_props: bool, chars: Base54Chars) -> Self {
+        Self {
             keep_private_props,
             private_n: Default::default(),
             renamed_private: Default::default(),
@@ -59,78 +82,54 @@ mod private_name_manger {
         }
     }
 
-    pub(super) struct PrivateNameMangler {
-        chars: Base54Chars,
-        keep_private_props: bool,
-        private_n: usize,
-
-        renamed_private: FxHashMap<Atom, Atom>,
-    }
-
-    impl PrivateNameMangler {
-        pub(super) fn rename_private(&mut self, private_name: &mut PrivateName) {
-            if self.keep_private_props {
-                return;
-            }
-            let new_sym = if let Some(cached) = self.renamed_private.get(&private_name.name) {
-                cached.clone()
-            } else {
-                let sym = self.chars.encode(&mut self.private_n, true);
-
-                self.renamed_private
-                    .insert(private_name.name.clone(), sym.clone());
-
-                sym
-            };
-
-            private_name.name = new_sym;
+    fn rename_private(&mut self, private_name: &mut PrivateName) {
+        if self.keep_private_props {
+            return;
         }
+        let new_sym = if let Some(cached) = self.renamed_private.get(&private_name.name) {
+            cached.clone()
+        } else {
+            let sym = self.chars.encode(&mut self.private_n, true);
+
+            self.renamed_private
+                .insert(private_name.name.clone(), sym.clone());
+
+            sym
+        };
+
+        private_name.name = new_sym;
     }
 }
 
-pub(super) struct ManglerVisitor {
-    label_mangler: LabelMangler,
-    private_name_mangler: PrivateNameMangler,
-}
-
-impl ManglerVisitor {
-    pub(super) fn new(keep_private_props: bool, chars: Base54Chars) -> Self {
-        Self {
-            label_mangler: LabelMangler::new(chars),
-            private_name_mangler: self::private_name_manger::private_name_mangler(
-                keep_private_props,
-                chars,
-            ),
-        }
+impl VisitMutHook<ManglerCtx> for PrivateNameManglerHook {
+    fn enter_private_name(&mut self, n: &mut PrivateName, _ctx: &mut ManglerCtx) {
+        self.rename_private(n);
     }
 }
 
-impl VisitMut for ManglerVisitor {
-    noop_visit_mut_type!();
+/// Creates a combined mangler hook that handles both labels and private names
+/// in a single AST traversal.
+pub(super) fn mangler_hook(
+    keep_private_props: bool,
+    chars: Base54Chars,
+) -> impl VisitMutHook<ManglerCtx> {
+    HookBuilder::new(NoopHook)
+        .chain(LabelManglerHook::new(chars))
+        .chain(PrivateNameManglerHook::new(keep_private_props, chars))
+        .build()
+}
 
-    fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
-        self.private_name_mangler.rename_private(n);
-    }
+/// Visits a program with the combined mangler hooks.
+/// This performs a single AST traversal for both label and private name
+/// mangling.
+pub(super) fn visit_with_mangler(
+    program: &mut Program,
+    keep_private_props: bool,
+    chars: Base54Chars,
+) {
+    let hook = mangler_hook(keep_private_props, chars);
+    let ctx = ManglerCtx;
 
-    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
-        self.label_mangler.mangle(&mut n.label);
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_continue_stmt(&mut self, n: &mut ContinueStmt) {
-        if let Some(label) = &mut n.label {
-            self.label_mangler.mangle(label);
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_break_stmt(&mut self, n: &mut BreakStmt) {
-        if let Some(label) = &mut n.label {
-            self.label_mangler.mangle(label);
-        }
-
-        n.visit_mut_children_with(self);
-    }
+    let mut visitor = VisitMutWithHook { hook, context: ctx };
+    program.visit_mut_with(&mut visitor);
 }

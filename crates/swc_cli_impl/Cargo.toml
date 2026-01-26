@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_cli_impl"
 repository  = { workspace = true }
-version     = "30.0.2"
+version     = "55.0.0"
 
 [[bin]]
 name = "swc"
@@ -19,6 +19,7 @@ path       = "src/lib.rs"
 [features]
 default = []
 plugin = [
+  "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
@@ -37,7 +38,7 @@ tracing-chrome     = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 walkdir            = { workspace = true }
 
-swc_core = { version = "30.1.2", features = [
+swc_core = { version = "55.0.2", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",

@@ -39,6 +39,6 @@ define([
             3,
             4
         ],
-        selectHandler: function(val) {}
+        selectHandler: function selectHandler(val) {}
     });
 });

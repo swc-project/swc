@@ -165,7 +165,10 @@ export var [ dd, ee ] = ads;
 
 test!(
     syntax(),
-    |_| (tr(Default::default()), spread(Default::default())),
+    |_| (
+        tr(Default::default()),
+        spread(Default::default(), Mark::new())
+    ),
     rest_for_x,
     r#"
 // ForXStatement

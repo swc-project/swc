@@ -66,6 +66,8 @@ impl ModuleItemExt for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -73,6 +75,8 @@ impl ModuleItemExt for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -84,6 +88,8 @@ impl ModuleItemExt for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -229,7 +235,7 @@ pub(crate) struct LeapFinder {
 }
 
 impl Visit for LeapFinder {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         n.visit_children_with(self);
@@ -319,7 +325,7 @@ pub struct DeepThisExprVisitor {
 }
 
 impl Visit for DeepThisExprVisitor {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
@@ -342,7 +348,7 @@ pub(crate) struct IdentUsageCollector {
 }
 
 impl Visit for IdentUsageCollector {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 
@@ -404,7 +410,7 @@ pub(crate) struct CapturedIdCollector {
 }
 
 impl Visit for CapturedIdCollector {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 

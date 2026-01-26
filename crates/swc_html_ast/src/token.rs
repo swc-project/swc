@@ -14,9 +14,21 @@ pub struct AttributeToken {
     pub span: Span,
 
     pub name: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw_name: Option<Atom>,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw_value: Option<Atom>,
 }
 
@@ -33,6 +45,10 @@ pub struct AttributeToken {
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum Raw {
     Same,
     Atom(Atom),
@@ -51,39 +67,79 @@ pub enum Raw {
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum Token {
     Doctype {
         // Name
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         name: Option<Atom>,
         // Is force quirks?
         force_quirks: bool,
 
         // Public identifier
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         public_id: Option<Atom>,
 
         // System identifier
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         system_id: Option<Atom>,
         // Raw value
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         raw: Option<Atom>,
     },
     StartTag {
         tag_name: Atom,
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
     EndTag {
         tag_name: Atom,
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
     Comment {
         data: Atom,
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         raw: Option<Atom>,
     },
     Character {
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "::swc_common::serializer::WithChar")
+        )]
         value: char,
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         raw: Option<Raw>,
     },
     Eof,

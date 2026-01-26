@@ -1,2 +1,2 @@
 //// [for-of58.ts]
-for (const item of arr)item.x, item.y;
+for (let item of arr)item.x, item.y;

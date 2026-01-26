@@ -1,68 +1,70 @@
 {
-    "name": "@swc/react-compiler",
-    "version": "1.12.9",
-    "description": "SWC support for React Compiler",
-    "homepage": "https://swc.rs",
-    "main": "./index.js",
-    "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "license": "Apache-2.0",
-    "keywords": [
-        "swc",
-        "react",
-        "react-compiler"
-    ],
-    "engines": {
-        "node": ">=20"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
-    },
-    "bugs": {
-        "url": "https://github.com/swc-project/swc/issues"
-    },
-    "napi": {
-        "binaryName": "react-compiler",
-        "targets": [
-            "x86_64-apple-darwin",
-            "x86_64-pc-windows-msvc",
-            "x86_64-unknown-linux-gnu",
-            "x86_64-unknown-linux-musl",
-            "i686-pc-windows-msvc",
-            "armv7-unknown-linux-gnueabihf",
-            "aarch64-unknown-linux-gnu",
-            "aarch64-apple-darwin",
-            "aarch64-unknown-linux-musl",
-            "aarch64-pc-windows-msvc"
-        ]
-    },
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "access": "public"
-    },
-    "types": "./index.d.ts",
-    "scripts": {
-        "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
-        "pack": "wasm-pack",
-        "build:ts": "tsc -d",
-        "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_react_compiler_node --output-dir . --release",
-        "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_react_compiler_node --output-dir .",
-        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
-        "version": "napi version --npm-dir scripts/npm"
-    },
-    "funding": {
-        "type": "opencollective",
-        "url": "https://opencollective.com/swc"
-    },
-    "dependencies": {
-        "@swc/counter": "^0.1.3",
-        "@swc/types": "workspace:^"
-    },
-    "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.22",
-        "@types/node": "^20.7.1",
-        "cross-env": "^7.0.3",
-        "typescript": "^5.2.2"
-    }
+  "name": "@swc/react-compiler",
+  "version": "1.15.10",
+  "description": "SWC support for React Compiler",
+  "homepage": "https://swc.rs",
+  "main": "./index.js",
+  "author": "강동윤 <kdy1997.dev@gmail.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "swc",
+    "react",
+    "react-compiler"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc.git",
+    "directory": "packages/react-compiler"
+  },
+  "bugs": {
+    "url": "https://github.com/swc-project/swc/issues"
+  },
+  "napi": {
+    "binaryName": "react-compiler",
+    "targets": [
+      "x86_64-apple-darwin",
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-linux-gnu",
+      "x86_64-unknown-linux-musl",
+      "i686-pc-windows-msvc",
+      "armv7-unknown-linux-gnueabihf",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-apple-darwin",
+      "aarch64-unknown-linux-musl",
+      "aarch64-pc-windows-msvc"
+    ]
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
+  },
+  "types": "./index.d.ts",
+  "scripts": {
+    "artifacts": "napi artifacts --npm-dir scripts/npm",
+    "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
+    "pack": "wasm-pack",
+    "build:ts": "tsc -d",
+    "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir . --release",
+    "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .",
+    "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
+    "version": "napi version --npm-dir scripts/npm"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/swc"
+  },
+  "dependencies": {
+    "@swc/counter": "^0.1.3",
+    "@swc/types": "workspace:^"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^3.2.0",
+    "@types/node": "^20.7.1",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.2.2"
+  }
 }

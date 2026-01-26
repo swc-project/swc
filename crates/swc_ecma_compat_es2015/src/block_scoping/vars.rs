@@ -3,7 +3,7 @@ use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{rename::remap, scope::ScopeKind};
+use swc_ecma_transforms_base::{rename::rename_with_config, scope::ScopeKind};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -77,7 +77,9 @@ impl BlockScopedVars {
 
         // dbg!(&rename_map);
 
-        n.visit_mut_with(&mut remap(&rename_map, Default::default()) as &mut dyn VisitMut);
+        n.visit_mut_with(
+            &mut rename_with_config(&rename_map, Default::default()) as &mut dyn VisitMut
+        );
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {
@@ -250,6 +252,8 @@ impl VisitMut for BlockScopedVars {
                 BlockStmtOrExpr::Expr(b) => {
                     b.visit_mut_with(v);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         });
     }

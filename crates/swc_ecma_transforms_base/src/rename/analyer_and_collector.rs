@@ -5,7 +5,7 @@ use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::{analyzer::scope::Scope, Analyzer};
 
@@ -100,6 +100,8 @@ impl Visit for AnalyzerAndCollector {
         match node.body.as_ref() {
             BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
             BlockStmtOrExpr::Expr(n) => n.visit_with(self),
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
 
         self.analyzer.is_pat_decl = old_analyzer_is_pat_decl;
@@ -229,6 +231,8 @@ impl Visit for AnalyzerAndCollector {
                 f.visit_with(self);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         }
     }
 
@@ -263,11 +267,18 @@ impl Visit for AnalyzerAndCollector {
         //
         // We need to check for assign pattern because safari has a bug.
         // https://github.com/swc-project/swc/issues/9015
-        let has_rest = node
-            .function
-            .params
-            .iter()
-            .any(|p| p.pat.is_rest() || p.pat.is_assign());
+        //
+        // Safari also has a bug with duplicate parameter names in destructuring.
+        // https://github.com/swc-project/swc/issues/11083
+        //
+        // Note: The destructuring pattern check (is_object/is_array) only applies
+        // in mangle mode to prevent the minifier from creating collisions. In normal
+        // hygiene mode, existing collisions in source code should be preserved.
+        let has_rest = node.function.params.iter().any(|p| {
+            p.pat.is_rest()
+                || p.pat.is_assign()
+                || (self.analyzer.mangle && (p.pat.is_object() || p.pat.is_array()))
+        });
         let need_skip_analyzer_record =
             self.analyzer.is_first_node && self.analyzer.skip_first_fn_or_class_decl;
         self.analyzer.is_first_node = false;
@@ -308,12 +319,18 @@ impl Visit for AnalyzerAndCollector {
             //
             // We need to check for assign pattern because safari has a bug.
             // https://github.com/swc-project/swc/issues/9015
-            if node
-                .function
-                .params
-                .iter()
-                .any(|p| p.pat.is_rest() || p.pat.is_assign())
-            {
+            //
+            // Safari also has a bug with duplicate parameter names in destructuring.
+            // https://github.com/swc-project/swc/issues/11083
+            //
+            // Note: The destructuring pattern check (is_object/is_array) only applies
+            // in mangle mode to prevent the minifier from creating collisions. In normal
+            // hygiene mode, existing collisions in source code should be preserved.
+            if node.function.params.iter().any(|p| {
+                p.pat.is_rest()
+                    || p.pat.is_assign()
+                    || (self.analyzer.mangle && (p.pat.is_object() || p.pat.is_array()))
+            }) {
                 self.analyzer.add_usage(id.to_id());
             }
             node.function.decorators.visit_with(self);
@@ -532,11 +549,17 @@ pub(super) fn analyzer_and_collect_unresolved<N>(
     has_eval: bool,
     top_level_mark: Mark,
     skip_first_fn_or_class_decl: bool,
+    mangle: bool,
 ) -> (Scope, FxHashSet<Atom>)
 where
     N: VisitWith<AnalyzerAndCollector>,
 {
-    let analyzer = Analyzer::new(has_eval, top_level_mark, skip_first_fn_or_class_decl);
+    let analyzer = Analyzer::new(
+        has_eval,
+        top_level_mark,
+        skip_first_fn_or_class_decl,
+        mangle,
+    );
     let id_collector = IdCollector {
         ids: Default::default(),
         stopped: false,

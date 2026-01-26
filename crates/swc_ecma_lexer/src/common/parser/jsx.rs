@@ -43,11 +43,11 @@ fn parse_jsx_closing_element_at<'a, P: Parser<'a>>(
 /// Parses JSX expression enclosed into curly brackets.
 pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXExprContainer> {
     debug_assert!(p.input().syntax().jsx());
-    debug_assert!(p.input_mut().is(&P::Token::LBRACE));
+    debug_assert!(p.input().is(&P::Token::LBRACE));
 
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     p.bump(); // bump "{"
-    let expr = if p.input_mut().is(&P::Token::RBRACE) {
+    let expr = if p.input().is(&P::Token::RBRACE) {
         JSXExpr::JSXEmptyExpr(parse_jsx_empty_expr(p))
     } else {
         p.parse_expr().map(JSXExpr::Expr)?
@@ -63,9 +63,9 @@ pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXExpr
 fn parse_jsx_ident<'a, P: Parser<'a>>(p: &mut P) -> PResult<Ident> {
     debug_assert!(p.input().syntax().jsx());
     trace_cur!(p, parse_jsx_ident);
-    if p.input_mut().cur().is_some_and(|cur| cur.is_jsx_name()) {
-        let t = p.bump();
-        let name = t.take_jsx_name(p.input_mut());
+    let cur = p.input().cur();
+    if cur.is_jsx_name() {
+        let name = p.input_mut().expect_jsx_name_token_and_bump();
         let span = p.input().prev_span();
         Ok(Ident::new_no_ctxt(name, span))
     } else if p.ctx().contains(Context::InForcedJsxContext) {
@@ -79,14 +79,14 @@ fn parse_jsx_ident<'a, P: Parser<'a>>(p: &mut P) -> PResult<Ident> {
 fn parse_jsx_namespaced_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrName> {
     debug_assert!(p.input().syntax().jsx());
     trace_cur!(p, parse_jsx_namespaced_name);
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     let ns = parse_jsx_ident(p)?.into();
     if !p.input_mut().eat(&P::Token::COLON) {
         return Ok(JSXAttrName::Ident(ns));
     }
     let name = parse_jsx_ident(p).map(IdentName::from)?;
     Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
-        span: Span::new(start, name.span.hi),
+        span: Span::new_with_checked(start, name.span.hi),
         ns,
         name,
     }))
@@ -97,10 +97,12 @@ fn parse_jsx_namespaced_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrNam
 fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementName> {
     debug_assert!(p.input().syntax().jsx());
     trace_cur!(p, parse_jsx_element_name);
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     let mut node = match parse_jsx_namespaced_name(p)? {
         JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
         JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
+        #[cfg(swc_ast_unknown)]
+        _ => unreachable!(),
     };
     while p.input_mut().eat(&P::Token::DOT) {
         let prop = parse_jsx_ident(p).map(IdentName::from)?;
@@ -121,20 +123,21 @@ fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementNam
 /// JSXEmptyExpression is unique type since it doesn't actually parse
 /// anything, and so it should start at the end of last read token (left
 /// brace) and finish at the beginning of the next one (right brace).
-fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> JSXEmptyExpr {
+pub fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> JSXEmptyExpr {
     debug_assert!(p.input().syntax().jsx());
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     JSXEmptyExpr {
-        span: Span::new(start, start),
+        span: Span::new_with_checked(start, start),
     }
 }
 
 pub fn parse_jsx_text<'a>(p: &mut impl Parser<'a>) -> JSXText {
     debug_assert!(p.input().syntax().jsx());
-    debug_assert!(p.input_mut().cur().is_some_and(|t| t.is_jsx_text()));
-    let token = p.bump();
+
+    let cur = p.input().cur();
+    debug_assert!(cur.is_jsx_text());
+    let (value, raw) = p.input_mut().expect_jsx_text_token_and_bump();
     let span = p.input().prev_span();
-    let (value, raw) = token.take_jsx_text(p.input_mut());
     JSXText { span, value, raw }
 }
 
@@ -148,6 +151,8 @@ pub fn jsx_expr_container_to_jsx_attr_value<'a, P: Parser<'a>>(
             syntax_error!(p, p.span(start), SyntaxError::EmptyJSXAttr)
         }
         JSXExpr::Expr(..) => Ok(node.into()),
+        #[cfg(swc_ast_unknown)]
+        _ => unreachable!(),
     }
 }
 
@@ -160,14 +165,12 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
 
     let start = p.cur_pos();
 
-    let Some(cur) = p.input_mut().cur() else {
-        return Err(eof_error(p));
-    };
+    let cur = p.input().cur();
     if cur.is_lbrace() {
         let node = parse_jsx_expr_container(p)?;
         jsx_expr_container_to_jsx_attr_value(p, start, node)
     } else if cur.is_str() {
-        Ok(JSXAttrValue::Lit(Lit::Str(parse_str_lit(p))))
+        Ok(JSXAttrValue::Str(parse_str_lit(p)))
     } else if cur.is_jsx_tag_start() {
         let expr = parse_jsx_element(p)?;
         match expr {
@@ -181,14 +184,13 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
 }
 
 /// Parse JSX spread child
-pub fn parse_jsx_spread_child<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXSpreadChild> {
+fn parse_jsx_spread_child<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXSpreadChild> {
     debug_assert!(p.input().syntax().jsx());
-    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_lbrace()));
+    debug_assert!(p.input().cur().is_lbrace());
     debug_assert!(peek!(p).is_some_and(|peek| peek.is_dotdotdot()));
 
     let start = p.cur_pos();
     p.bump(); // bump "{"
-    let _ = p.input_mut().cur();
     p.bump(); // bump "..."
     let expr = p.parse_expr()?;
     expect!(p, &P::Token::RBRACE);
@@ -217,8 +219,8 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
 
     let name = parse_jsx_namespaced_name(p)?;
     let value = if p.input_mut().eat(&P::Token::EQUAL) {
-        p.with_ctx(
-            p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond,
+        p.do_outside_of_context(
+            Context::InCondExpr.union(Context::WillExpectColonForCond),
             parse_jsx_attr_value,
         )
         .map(Some)?
@@ -247,10 +249,8 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
         }));
     }
 
-    let name = p.with_ctx(
-        p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
-        parse_jsx_element_name,
-    )?;
+    let name =
+        p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_jsx_element_name)?;
     parse_jsx_opening_element_after_name(p, start, name).map(Either::Right)
 }
 
@@ -258,13 +258,11 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
 fn parse_jsx_attrs<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<JSXAttrOrSpread>> {
     let mut attrs = Vec::with_capacity(8);
 
-    while p.input_mut().cur().is_some() {
+    while !p.input().cur().is_eof() {
         trace_cur!(p, parse_jsx_opening__attrs_loop);
 
-        if p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_slash() || cur.is_jsx_tag_end())
-        {
+        let cur = p.input().cur();
+        if cur.is_slash() || cur.is_jsx_tag_end() {
             break;
         }
 
@@ -283,8 +281,12 @@ fn parse_jsx_opening_element_after_name<'a, P: Parser<'a>>(
 ) -> PResult<JSXOpeningElement> {
     debug_assert!(p.input().syntax().jsx());
 
-    let type_args = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
-        try_parse_ts(p, |p| parse_ts_type_args(p).map(Some))
+    let type_args = if p.input().syntax().typescript() && p.input().is(&P::Token::LESS) {
+        try_parse_ts(p, |p| {
+            let ret = parse_ts_type_args(p)?;
+            p.assert_and_bump(&P::Token::GREATER);
+            Ok(Some(ret))
+        })
     } else {
         None
     };
@@ -316,102 +318,76 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
 ) -> PResult<Either<JSXFragment, JSXElement>> {
     debug_assert!(p.input().syntax().jsx());
 
-    let Some(cur) = p.input_mut().cur() else {
-        return Err(eof_error(p));
-    };
+    let cur = p.input().cur();
     if cur.is_error() {
-        let c = p.input_mut().bump();
-        let err = c.take_error(p.input_mut());
-        return Err(err);
+        let error = p.input_mut().expect_error_token_and_bump();
+        return Err(error);
+    } else if cur.is_eof() {
+        return Err(eof_error(p));
     }
-    let start = p.cur_pos();
-    let cur = p.bump();
     let forced_jsx_context = if cur.is_less() {
         true
     } else {
         debug_assert!(cur.is_jsx_tag_start());
         false
     };
+    let start = p.cur_pos();
+    p.bump();
 
-    let mut ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
-    ctx.set(Context::InForcedJsxContext, forced_jsx_context);
-    p.with_ctx(ctx, |p| {
-        debug_tracing!(p, "parse_jsx_element");
+    p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+        let f = |p: &mut P| {
+            debug_tracing!(p, "parse_jsx_element");
 
-        let opening_element = parse_jsx_opening_element_at(p, start_pos)?;
+            let opening_element = parse_jsx_opening_element_at(p, start_pos)?;
 
-        trace_cur!(p, parse_jsx_element__after_opening_element);
+            trace_cur!(p, parse_jsx_element__after_opening_element);
 
-        let mut children = Vec::new();
-        let mut closing_element = None;
+            let mut children = Vec::new();
+            let mut closing_element = None;
 
-        let self_closing = match opening_element {
-            Either::Right(ref el) => el.self_closing,
-            _ => false,
-        };
+            let self_closing = match opening_element {
+                Either::Right(ref el) => el.self_closing,
+                _ => false,
+            };
 
-        if !self_closing {
-            'contents: loop {
-                let Some(cur) = p.input_mut().cur() else {
-                    return Err(eof_error(p));
-                };
-                if cur.is_jsx_tag_start() {
-                    let start = p.cur_pos();
-                    if peek!(p).is_some_and(|peek| peek.is_slash()) {
-                        p.bump(); // JSXTagStart
-                        let Some(_) = p.input_mut().cur() else {
-                            return Err(eof_error(p));
-                        };
-                        p.assert_and_bump(&P::Token::DIV);
-                        closing_element = parse_jsx_closing_element_at(p, start).map(Some)?;
-                        break 'contents;
-                    }
-                    children.push(parse_jsx_element_at(p, start).map(|e| match e {
-                        Either::Left(e) => JSXElementChild::from(e),
-                        Either::Right(e) => JSXElementChild::from(Box::new(e)),
-                    })?);
-                } else if cur.is_jsx_text() {
-                    children.push(JSXElementChild::from(parse_jsx_text(p)))
-                } else if cur.is_lbrace() {
-                    if peek!(p).is_some_and(|peek| peek.is_dotdotdot()) {
-                        children.push(parse_jsx_spread_child(p).map(JSXElementChild::from)?);
+            if !self_closing {
+                'contents: loop {
+                    let cur = p.input().cur();
+                    if cur.is_jsx_tag_start() {
+                        let start = p.cur_pos();
+                        if peek!(p).is_some_and(|peek| peek.is_slash()) {
+                            p.bump(); // JSXTagStart
+                            if p.input().cur().is_eof() {
+                                return Err(eof_error(p));
+                            }
+                            p.assert_and_bump(&P::Token::DIV);
+                            closing_element = parse_jsx_closing_element_at(p, start).map(Some)?;
+                            break 'contents;
+                        }
+                        children.push(parse_jsx_element_at(p, start).map(|e| match e {
+                            Either::Left(e) => JSXElementChild::from(e),
+                            Either::Right(e) => JSXElementChild::from(Box::new(e)),
+                        })?);
+                    } else if cur.is_jsx_text() {
+                        children.push(JSXElementChild::from(parse_jsx_text(p)))
+                    } else if cur.is_lbrace() {
+                        if peek!(p).is_some_and(|peek| peek.is_dotdotdot()) {
+                            children.push(parse_jsx_spread_child(p).map(JSXElementChild::from)?);
+                        } else {
+                            children.push(parse_jsx_expr_container(p).map(JSXElementChild::from)?);
+                        }
                     } else {
-                        children.push(parse_jsx_expr_container(p).map(JSXElementChild::from)?);
+                        unexpected!(p, "< (jsx tag start), jsx text or {")
                     }
-                } else {
-                    unexpected!(p, "< (jsx tag start), jsx text or {")
                 }
             }
-        }
-        let span = p.span(start);
+            let span = p.span(start);
 
-        Ok(match (opening_element, closing_element) {
-            (Either::Left(..), Some(Either::Right(closing))) => {
-                syntax_error!(p, closing.span(), SyntaxError::JSXExpectedClosingTagForLtGt);
-            }
-            (Either::Right(opening), Some(Either::Left(closing))) => {
-                syntax_error!(
-                    p,
-                    closing.span(),
-                    SyntaxError::JSXExpectedClosingTag {
-                        tag: get_qualified_jsx_name(&opening.name)
-                    }
-                );
-            }
-            (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
-                span,
-                opening,
-                children,
-                closing,
-            }),
-            (Either::Right(opening), None) => Either::Right(JSXElement {
-                span,
-                opening,
-                children,
-                closing: None,
-            }),
-            (Either::Right(opening), Some(Either::Right(closing))) => {
-                if get_qualified_jsx_name(&closing.name) != get_qualified_jsx_name(&opening.name) {
+            Ok(match (opening_element, closing_element) {
+                (Either::Left(..), Some(Either::Right(closing))) => {
+                    syntax_error!(p, closing.span(), SyntaxError::JSXExpectedClosingTagForLtGt);
+                }
+                (Either::Right(opening), Some(Either::Left(closing))) => {
                     syntax_error!(
                         p,
                         closing.span(),
@@ -420,15 +396,45 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
                         }
                     );
                 }
-                Either::Right(JSXElement {
+                (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
                     span,
                     opening,
                     children,
-                    closing: Some(closing),
-                })
-            }
-            _ => unreachable!(),
-        })
+                    closing,
+                }),
+                (Either::Right(opening), None) => Either::Right(JSXElement {
+                    span,
+                    opening,
+                    children,
+                    closing: None,
+                }),
+                (Either::Right(opening), Some(Either::Right(closing))) => {
+                    if get_qualified_jsx_name(&closing.name)
+                        != get_qualified_jsx_name(&opening.name)
+                    {
+                        syntax_error!(
+                            p,
+                            closing.span(),
+                            SyntaxError::JSXExpectedClosingTag {
+                                tag: get_qualified_jsx_name(&opening.name)
+                            }
+                        );
+                    }
+                    Either::Right(JSXElement {
+                        span,
+                        opening,
+                        children,
+                        closing: Some(closing),
+                    })
+                }
+                _ => unreachable!(),
+            })
+        };
+        if forced_jsx_context {
+            p.do_inside_of_context(Context::InForcedJsxContext, f)
+        } else {
+            p.do_outside_of_context(Context::InForcedJsxContext, f)
+        }
     })
 }
 
@@ -441,15 +447,15 @@ pub(crate) fn parse_jsx_element<'a, P: Parser<'a>>(
     trace_cur!(p, parse_jsx_element);
 
     debug_assert!(p.input().syntax().jsx());
-    debug_assert!(p
-        .input_mut()
-        .cur()
-        .is_some_and(|cur| cur.is_jsx_tag_start() || cur.is_less()));
+    debug_assert!({
+        let cur = p.input().cur();
+        cur.is_jsx_tag_start() || cur.is_less()
+    });
 
     let start_pos = p.cur_pos();
 
-    p.with_ctx(
-        p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond,
+    p.do_outside_of_context(
+        Context::InCondExpr.union(Context::WillExpectColonForCond),
         |p| parse_jsx_element_at(p, start_pos),
     )
 }

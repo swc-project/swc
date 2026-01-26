@@ -1,6 +1,6 @@
 //// [objectTypeWithRecursiveWrappedPropertyCheckedNominally.ts]
-// Types with infinitely expanding recursive types are type checked nominally
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// Types with infinitely expanding recursive types are type checked nominally
 var List = function List() {
     "use strict";
     _class_call_check(this, List);

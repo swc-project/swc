@@ -44,7 +44,7 @@ where
         let span = DUMMY_SP;
         let module_var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
-            None => bail!("{:?} should not be wrapped with a function", id),
+            None => bail!("{id:?} should not be wrapped with a function"),
         };
 
         let is_async = module.iter().any(|m| contains_top_level_await(m.1));
@@ -73,6 +73,8 @@ where
                                 ModuleExportName::Str(..) => {
                                     unimplemented!("module string names unimplemented")
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             };
                             if ctx.transitive_remap.get(&exported.ctxt).is_some() {
                                 let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
@@ -230,6 +232,8 @@ impl Fold for ExportToReturn {
         let decl = match item {
             ModuleItem::ModuleDecl(decl) => decl,
             ModuleItem::Stmt(_) => return item,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let stmt = match decl {
@@ -287,6 +291,8 @@ impl Fold for ExportToReturn {
                     )
                 }
                 DefaultDecl::TsInterfaceDecl(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             ModuleDecl::ExportDefaultExpr(_) => None,
             ModuleDecl::ExportAll(export) => return export.into(),
@@ -308,6 +314,8 @@ impl Fold for ExportToReturn {
                             Some(ModuleExportName::Str(..)) => {
                                 unimplemented!("module string names unimplemented")
                             }
+                            #[cfg(swc_ast_unknown)]
+                            Some(_) => panic!("unable to access unknown nodes"),
                             None => {
                                 if let ModuleExportName::Ident(orig) = &named.orig {
                                     self.export_id(orig.clone());
@@ -316,6 +324,8 @@ impl Fold for ExportToReturn {
                                 }
                             }
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -332,6 +342,8 @@ impl Fold for ExportToReturn {
             ModuleDecl::TsImportEquals(_) => None,
             ModuleDecl::TsExportAssignment(_) => None,
             ModuleDecl::TsNamespaceExport(_) => None,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if let Some(stmt) = stmt {

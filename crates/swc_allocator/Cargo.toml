@@ -8,9 +8,9 @@ name          = "swc_allocator"
 repository    = { workspace = true }
 version       = "4.0.1"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 
 [features]
@@ -40,7 +40,7 @@ rustc-hash     = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
-swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
+swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 
 
 [[bench]]

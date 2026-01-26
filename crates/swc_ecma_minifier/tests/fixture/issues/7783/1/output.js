@@ -1,7 +1,7 @@
 export default function Home() {
     return React.createElement("div", null, foo.a);
 }
-const foo = {
+let foo = {
     get a () {
         return `a ${this.b}`;
     },

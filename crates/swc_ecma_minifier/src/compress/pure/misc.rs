@@ -1,19 +1,20 @@
-use std::{fmt::Write, num::FpCategory};
+use std::{borrow::Cow, fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{
+    atom,
+    wtf8::{Wtf8, Wtf8Buf},
+    Atom, Wtf8Atom,
+};
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{
-    ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type,
-    Value::{self, Known},
-};
+use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
 
 use super::Pure;
 use crate::compress::{
-    pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
+    pure::{strings::convert_str_value_to_tpl_raw, Ctx},
     util::is_pure_undefined,
 };
 
@@ -188,6 +189,8 @@ impl Pure<'_> {
             BinaryOp::NullishCoalescing => {
                 op!("??=")
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         e.op = op;
@@ -278,6 +281,8 @@ impl Pure<'_> {
                     }
                     _ => false,
                 },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -458,21 +463,23 @@ impl Pure<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(callee) => &mut **callee,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let separator = if call.args.is_empty() {
-            atom!(",")
+            Wtf8Atom::from(",")
         } else if call.args.len() == 1 {
             if call.args[0].spread.is_some() {
                 return;
             }
 
             if is_pure_undefined(self.expr_ctx, &call.args[0].expr) {
-                atom!(",")
+                Wtf8Atom::from(",")
             } else {
                 match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
-                    Expr::Lit(Lit::Null(..)) => atom!("null"),
+                    Expr::Lit(Lit::Null(..)) => Wtf8Atom::from("null"),
                     _ => return,
                 }
             }
@@ -514,7 +521,7 @@ impl Pure<'_> {
             *e = Lit::Str(Str {
                 span: call.span,
                 raw: None,
-                value: atom!(""),
+                value: atom!("").into(),
             })
             .into();
             return;
@@ -560,8 +567,7 @@ impl Pure<'_> {
                 .any(|v| match &*v.expr {
                     e if is_pure_undefined(self.expr_ctx, e) => false,
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
-                    // This can change behavior if the value is `undefined` or `null`.
-                    Expr::Ident(..) => false,
+                    // All other expressions can potentially be null/undefined
                     _ => true,
                 })
             {
@@ -577,7 +583,7 @@ impl Pure<'_> {
             let mut res = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
-                value: atom!(""),
+                value: atom!("").into(),
             })
             .into();
 
@@ -595,8 +601,16 @@ impl Pure<'_> {
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
                 if let Some(ExprOrSpread { spread: None, expr }) = elem {
                     match &*expr {
-                        e if is_pure_undefined(self.expr_ctx, e) => {}
-                        Expr::Lit(Lit::Null(..)) => {}
+                        e if is_pure_undefined(self.expr_ctx, e) => {
+                            // null and undefined should become empty strings in
+                            // join
+                            // Don't add anything for empty string join
+                        }
+                        Expr::Lit(Lit::Null(..)) => {
+                            // null and undefined should become empty strings in
+                            // join
+                            // Don't add anything for empty string join
+                        }
                         _ => {
                             add(&mut res, expr);
                         }
@@ -613,14 +627,14 @@ impl Pure<'_> {
             return;
         }
 
-        let mut res = String::new();
+        let mut res = Wtf8Buf::default();
         for (last, elem) in arr.elems.iter().identify_last() {
             if let Some(elem) = elem {
                 debug_assert_eq!(elem.spread, None);
 
                 match &*elem.expr {
                     Expr::Lit(Lit::Str(s)) => {
-                        res.push_str(&s.value);
+                        res.push_wtf8(&s.value);
                     }
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
@@ -637,7 +651,7 @@ impl Pure<'_> {
             }
 
             if !last {
-                res.push_str(&separator);
+                res.push_wtf8(&separator);
             }
         }
 
@@ -659,7 +673,7 @@ impl Pure<'_> {
         &mut self,
         _span: Span,
         elems: &mut Vec<Option<ExprOrSpread>>,
-        separator: &str,
+        separator: &Wtf8,
     ) -> Option<Expr> {
         if !self.options.evaluate {
             return None;
@@ -793,17 +807,17 @@ impl Pure<'_> {
                 result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
-                    value: atom!(""),
+                    value: atom!("").into(),
                 }))));
             }
 
             for group in groups {
                 match group {
                     GroupType::Literals(literals) => {
-                        let mut joined = String::new();
+                        let mut joined = Wtf8Buf::new();
                         for literal in literals.iter() {
                             match &*literal.expr {
-                                Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
+                                Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
                                 Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // For string concatenation, null becomes
@@ -852,14 +866,14 @@ impl Pure<'_> {
             for group in groups {
                 match group {
                     GroupType::Literals(literals) => {
-                        let mut joined = String::new();
+                        let mut joined = Wtf8Buf::new();
                         for (idx, literal) in literals.iter().enumerate() {
                             if idx > 0 {
-                                joined.push_str(separator);
+                                joined.push_wtf8(separator);
                             }
 
                             match &*literal.expr {
-                                Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
+                                Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
                                 Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // null becomes empty string
@@ -949,14 +963,21 @@ impl Pure<'_> {
     fn optimize_regex(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
         fn valid_pattern(pattern: &Expr) -> Option<Atom> {
             if let Expr::Lit(Lit::Str(s)) = pattern {
-                if s.value.contains(|c: char| {
-                    // whitelist
+                if s.value.code_points().any(|c| {
+                    let Some(c) = c.to_char() else {
+                        return true;
+                    };
+
+                    // allowlist
                     !c.is_ascii_alphanumeric()
                         && !matches!(c, '$' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+' | '_')
                 }) {
                     None
                 } else {
-                    Some(s.value.clone())
+                    // SAFETY: We've verified that the string is valid UTF-8 in the if condition
+                    // above. For this branch, the string contains only ASCII alphanumeric
+                    // characters and a few special characters.
+                    Some(unsafe { Atom::from_wtf8_unchecked(s.value.clone()) })
                 }
             } else {
                 None
@@ -965,11 +986,11 @@ impl Pure<'_> {
         fn valid_flag(flag: &Expr, es_version: EsVersion) -> Option<Atom> {
             if let Expr::Lit(Lit::Str(s)) = flag {
                 let mut set = FxHashSet::default();
-                for c in s.value.chars() {
-                    if !(matches!(c, 'g' | 'i' | 'm')
-                        || (es_version >= EsVersion::Es2015 && matches!(c, 'u' | 'y'))
-                        || (es_version >= EsVersion::Es2018 && matches!(c, 's')))
-                        || (es_version >= EsVersion::Es2022 && matches!(c, 'd'))
+                for c in s.value.code_points() {
+                    if !(matches!(c.to_char()?, 'g' | 'i' | 'm')
+                        || (es_version >= EsVersion::Es2015 && matches!(c.to_char()?, 'u' | 'y'))
+                        || (es_version >= EsVersion::Es2018 && matches!(c.to_char()?, 's')))
+                        || (es_version >= EsVersion::Es2022 && matches!(c.to_char()?, 'd'))
                     {
                         return None;
                     }
@@ -979,7 +1000,9 @@ impl Pure<'_> {
                     }
                 }
 
-                Some(s.value.clone())
+                // SAFETY: matches above ensure that the string is valid UTF-8 ('g', 'i', 'm',
+                // 'u', 'y', 's', 'd')
+                Some(unsafe { Atom::from_wtf8_unchecked(s.value.clone()) })
             } else {
                 None
             }
@@ -1205,7 +1228,7 @@ impl Pure<'_> {
                         [] => Some(
                             Lit::Str(Str {
                                 span: *span,
-                                value: atom!(""),
+                                value: atom!("").into(),
                                 raw: None,
                             })
                             .into(),
@@ -1219,7 +1242,7 @@ impl Pure<'_> {
                                     op: op!(bin, "+"),
                                     right: Lit::Str(Str {
                                         span: *span,
-                                        value: atom!(""),
+                                        value: atom!("").into(),
                                         raw: None,
                                     })
                                     .into(),
@@ -1315,12 +1338,9 @@ impl Pure<'_> {
             {
                 self.ignore_return_value(
                     arg.as_deref_mut().unwrap(),
-                    DropOpts {
-                        drop_global_refs_if_unused: true,
-                        drop_number: true,
-                        drop_str_lit: true,
-                        ..Default::default()
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
 
                 if let Some(Expr::Invalid(..)) = arg.as_deref() {
@@ -1341,7 +1361,7 @@ impl Pure<'_> {
         &mut self,
         span: Span,
         elems: &mut Vec<Option<ExprOrSpread>>,
-        sep: &str,
+        sep: &Wtf8,
     ) -> Option<Expr> {
         if !self.options.evaluate {
             return None;
@@ -1364,15 +1384,15 @@ impl Pure<'_> {
             exprs: Vec::new(),
         };
         let mut cur_raw = String::new();
-        let mut cur_cooked = String::new();
+        let mut cur_cooked = Wtf8Buf::default();
         let mut first = true;
 
         for elem in elems.take().into_iter().flatten() {
             if first {
                 first = false;
             } else {
-                cur_raw.push_str(sep);
-                cur_cooked.push_str(sep);
+                cur_raw.push_str(&convert_str_value_to_tpl_raw(sep));
+                cur_cooked.push_wtf8(sep);
             }
 
             match *elem.expr {
@@ -1383,7 +1403,7 @@ impl Pure<'_> {
                             // quasis
                             let e = tpl.quasis[idx / 2].take();
 
-                            cur_cooked.push_str(&e.cooked.unwrap());
+                            cur_cooked.push_wtf8(&e.cooked.unwrap());
                             cur_raw.push_str(&e.raw);
                         } else {
                             new_tpl.quasis.push(TplElement {
@@ -1403,7 +1423,7 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Str(s)) => {
-                    cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
+                    cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                     cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                 }
                 _ => {
@@ -1484,11 +1504,9 @@ impl Pure<'_> {
             .filter_map(|mut e| {
                 self.ignore_return_value(
                     &mut e,
-                    DropOpts {
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        drop_number: true,
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
 
                 if let Expr::Invalid(..) = &*e {
@@ -1566,7 +1584,7 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete {
+        if self.ctx.contains(Ctx::IN_DELETE) {
             return;
         }
 
@@ -1735,7 +1753,7 @@ impl Pure<'_> {
             }
         }
 
-        if opts.drop_number {
+        if opts.contains(DropOpts::DROP_NUMBER) {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
                 if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
@@ -1750,7 +1768,7 @@ impl Pure<'_> {
             // If it's not a top level, it's a reference to a declared variable.
             if i.ctxt.outer() == self.marks.unresolved_mark {
                 if self.options.side_effects
-                    || (self.options.unused && opts.drop_global_refs_if_unused)
+                    || (self.options.unused && opts.contains(DropOpts::DROP_GLOBAL_REFS_IF_UNUSED))
                 {
                     if is_global_var_with_pure_property_access(&i.sym) {
                         report_change!("Dropping a reference to a global variable");
@@ -1776,12 +1794,9 @@ impl Pure<'_> {
                 }) => {
                     self.ignore_return_value(
                         arg,
-                        DropOpts {
-                            drop_str_lit: true,
-                            drop_global_refs_if_unused: true,
-                            drop_number: true,
-                            ..opts
-                        },
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
                     );
 
                     if arg.is_invalid() {
@@ -1798,12 +1813,9 @@ impl Pure<'_> {
                 }) => {
                     self.ignore_return_value(
                         arg,
-                        DropOpts {
-                            drop_str_lit: true,
-                            drop_global_refs_if_unused: true,
-                            drop_number: true,
-                            ..opts
-                        },
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
                     );
 
                     if arg.is_invalid() {
@@ -1877,7 +1889,7 @@ impl Pure<'_> {
 
         match e {
             Expr::Lit(Lit::Num(n)) => {
-                if n.value == 0.0 && opts.drop_number {
+                if n.value == 0.0 && opts.contains(DropOpts::DROP_NUMBER) {
                     report_change!("Dropping a zero number");
                     *e = Invalid { span: DUMMY_SP }.into();
                     return;
@@ -1930,23 +1942,16 @@ impl Pure<'_> {
             ) => {
                 self.ignore_return_value(
                     &mut bin.left,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        ..opts
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
                 self.ignore_return_value(
                     &mut bin.right,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        ..opts
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
-                let span = bin.span;
 
                 if bin.left.is_invalid() && bin.right.is_invalid() {
                     *e = Invalid { span: DUMMY_SP }.into();
@@ -1963,7 +1968,7 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("ignore_return_value: Compressing binary as seq");
                     *e = SeqExpr {
-                        span,
+                        span: bin.span,
                         exprs: vec![bin.left.take(), bin.right.take()],
                     }
                     .into();
@@ -1975,7 +1980,10 @@ impl Pure<'_> {
                 // Convert `a = a` to `a`.
                 if let Some(l) = assign.left.as_ident() {
                     if let Expr::Ident(r) = &*assign.right {
-                        if l.to_id() == r.to_id() && l.ctxt != self.expr_ctx.unresolved_ctxt {
+                        if l.ctxt == r.ctxt
+                            && l.ctxt != self.expr_ctx.unresolved_ctxt
+                            && l.sym == r.sym
+                        {
                             self.changed = true;
                             *e = *assign.right.take();
                         }
@@ -1988,11 +1996,7 @@ impl Pure<'_> {
                     if elem.spread.is_none() {
                         self.ignore_return_value(
                             &mut elem.expr,
-                            DropOpts {
-                                drop_number: true,
-                                drop_str_lit: true,
-                                ..Default::default()
-                            },
+                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                         );
                     }
                 }
@@ -2041,6 +2045,8 @@ impl Pure<'_> {
 
                             _ => {}
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -2067,8 +2073,9 @@ impl Pure<'_> {
 
         match e {
             Expr::Lit(Lit::Str(s)) => {
-                if (self.options.directives && !matches!(&*s.value, "use strict" | "use asm"))
-                    || opts.drop_str_lit
+                if (self.options.directives
+                    && !matches!(s.value.as_str(), Some(s) if s == "use strict" || s == "use asm"))
+                    || opts.contains(DropOpts::DROP_STR_LIT)
                     || (s.value.starts_with("@swc/helpers")
                         || s.value.starts_with("@babel/helpers"))
                 {
@@ -2131,7 +2138,7 @@ impl Pure<'_> {
                     Expr::Fn(callee) => {
                         if let Some(body) = &mut callee.function.body {
                             if let Some(ident) = &callee.ident {
-                                if IdentUsageFinder::find(&ident.to_id(), body) {
+                                if IdentUsageFinder::find(ident, body) {
                                     return;
                                 }
                             }
@@ -2155,6 +2162,8 @@ impl Pure<'_> {
                                 return;
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
                     _ => {}
                 }
@@ -2235,12 +2244,9 @@ impl Pure<'_> {
 
                                     self.ignore_return_value(
                                         &mut e.expr,
-                                        DropOpts {
-                                            drop_global_refs_if_unused: true,
-                                            drop_number: true,
-                                            drop_str_lit: true,
-                                            ..opts
-                                        },
+                                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                            .union(DropOpts::DROP_NUMBER)
+                                            .union(DropOpts::DROP_STR_LIT),
                                     );
                                     if e.expr.is_invalid() {
                                         return None;
@@ -2266,12 +2272,9 @@ impl Pure<'_> {
                     for ExprOrSpread { mut expr, .. } in arr.elems.take().into_iter().flatten() {
                         self.ignore_return_value(
                             &mut expr,
-                            DropOpts {
-                                drop_str_lit: true,
-                                drop_number: true,
-                                drop_global_refs_if_unused: true,
-                                ..opts
-                            },
+                            DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                .union(DropOpts::DROP_NUMBER)
+                                .union(DropOpts::DROP_STR_LIT),
                         );
                         if !expr.is_invalid() {
                             exprs.push(expr);
@@ -2308,6 +2311,8 @@ impl Pure<'_> {
                                 Prop::Getter(..) | Prop::Setter(..) => false,
                                 _ => true,
                             },
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }) {
                             let mut exprs = collect_exprs_from_object(object);
                             exprs.push(prop.expr.take());
@@ -2437,11 +2442,10 @@ impl Pure<'_> {
             _ => return,
         };
 
-        let lt = cond.cons.get_type(self.expr_ctx);
-        let rt = cond.alt.get_type(self.expr_ctx);
-        match (lt, rt) {
-            (Known(Type::Bool), Known(Type::Bool)) => {}
-            _ => return,
+        if (cond.cons.get_type(self.expr_ctx) != Value::Known(Type::Bool))
+            || (cond.alt.get_type(self.expr_ctx) != Value::Known(Type::Bool))
+        {
+            return;
         }
 
         let lb = cond.cons.as_pure_bool(self.expr_ctx);
@@ -2506,13 +2510,15 @@ impl Pure<'_> {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy)]
-pub(super) struct DropOpts {
-    /// If true and `unused` option is enabled, references to global variables
-    /// will be dropped, even if `side_effects` is false.
-    pub drop_global_refs_if_unused: bool,
-    pub drop_number: bool,
-    pub drop_str_lit: bool,
+bitflags::bitflags! {
+    #[derive(Debug, Default, Clone, Copy)]
+    pub(super) struct DropOpts: u8 {
+        /// If true and `unused` option is enabled, references to global variables
+        /// will be dropped, even if `side_effects` is false.
+        const DROP_GLOBAL_REFS_IF_UNUSED = 1 << 0;
+        const DROP_NUMBER = 1 << 1;
+        const DROP_STR_LIT = 1 << 2;
+    }
 }
 
 /// `obj` should have top level syntax context.

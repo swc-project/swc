@@ -1400,7 +1400,7 @@ __END__
     Slick1.parse = function(expression) {
         return parse(expression);
     }, Slick1.escapeRegExp = escapeRegExp, this.Slick || (this.Slick = Slick1);
-}).apply(/*<CommonJS>*/ "undefined" != typeof exports ? exports : /*</CommonJS>*/ this), /*
+}).apply(/*<CommonJS>*/ "u" > typeof exports ? exports : /*</CommonJS>*/ this), /*
 ---
 name: Slick.Finder
 description: The new, superfast css selector engine.
@@ -1965,7 +1965,7 @@ requires: Slick.Parser
     }, Slick1.isXML = local.isXML, Slick1.uidOf = function(node) {
         return local.getUIDHTML(node);
     }, this.Slick || (this.Slick = Slick1);
-}).apply(/*<CommonJS>*/ "undefined" != typeof exports ? exports : /*</CommonJS>*/ this);
+}).apply(/*<CommonJS>*/ "u" > typeof exports ? exports : /*</CommonJS>*/ this);
 /*
 ---
 
@@ -4076,7 +4076,7 @@ provides: Request.HTML
             url: Type.isString
         })), this;
     }
-}), "undefined" == typeof JSON && (this.JSON = {}), //<1.2compat>
+}), "u" < typeof JSON && (this.JSON = {}), //<1.2compat>
 JSON = new Hash({
     stringify: JSON.stringify,
     parse: JSON.parse

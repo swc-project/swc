@@ -1,32 +1,30 @@
 //// [objectRestAssignment.ts]
 import { _ as _extends } from "@swc/helpers/_/_extends";
-import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+var _ref, _ref1, _ref2, _rest, _ref3;
 let ka;
 let nested;
 let other;
 let rest;
 let complex;
-var _complex;
-_complex = complex, nested = _object_without_properties(_complex.x, [
+({ x: _ref } = complex), ({ ka } = _ref), nested = _object_without_properties(_ref, [
     "ka"
-]), rest = _object_without_properties(_complex, [
+]), ({ y: other } = complex), rest = _object_without_properties(complex, [
     "x",
     "y"
-]), ({ x: { ka }, y: other } = _complex), _complex;
+]), complex;
 // should be:
 let overEmit;
 // var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
-var { a: [{}, ...y], b: { z } } = overEmit, nested2 = _extends({}, _object_destructuring_empty(overEmit.a[0])), c = _object_without_properties(overEmit.b, [
+var { a: _ref4 } = overEmit, [_ref5, ..._rest1] = _ref4, {} = _ref5, nested2 = _extends({}, _ref5), [...y] = _rest1, { b: _ref6 } = overEmit, { z } = _ref6, c = _object_without_properties(_ref6, [
     "z"
 ]), rest2 = _object_without_properties(overEmit, [
     "a",
     "b"
 ]);
-var _overEmit;
-_overEmit = overEmit, nested2 = _extends({}, _object_destructuring_empty(_overEmit.a[0])), c = _object_without_properties(_overEmit.b, [
+({ a: _ref1 } = overEmit), [_ref2, ..._rest] = _ref1, ({} = _ref2), nested2 = _extends({}, _ref2), [...y] = _rest, ({ b: _ref3 } = overEmit), ({ z } = _ref3), c = _object_without_properties(_ref3, [
     "z"
-]), rest2 = _object_without_properties(_overEmit, [
+]), rest2 = _object_without_properties(overEmit, [
     "a",
     "b"
-]), ({ a: [{}, ...y], b: { z } } = _overEmit), _overEmit;
+]), overEmit;

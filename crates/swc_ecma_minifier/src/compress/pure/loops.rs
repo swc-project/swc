@@ -13,14 +13,7 @@ impl Pure<'_> {
         }
 
         if let Some(VarDeclOrExpr::Expr(e)) = init {
-            self.ignore_return_value(
-                e,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
-            );
+            self.ignore_return_value(e, DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT));
 
             if e.is_invalid() {
                 *init = None;
@@ -38,14 +31,7 @@ impl Pure<'_> {
         }
 
         if let Some(e) = update {
-            self.ignore_return_value(
-                e,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
-            );
+            self.ignore_return_value(e, DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT));
 
             if e.is_invalid() {
                 *update = None;

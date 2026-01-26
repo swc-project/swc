@@ -1,13 +1,13 @@
 //// [callGenericFunctionWithIncorrectNumberOfTypeArguments.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // type parameter lists must exactly match type argument lists
 // all of these invocations are errors
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function f(x, y) {
     return null;
 }
 var r1 = f(1, '');
 var r1b = f(1, '');
-var f2 = function(x, y) {
+var f2 = function f2(x, y) {
     return null;
 };
 var r2 = f2(1, '');

@@ -24,6 +24,8 @@ impl FastDts {
                 Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
                 Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
                 Lit::Regex(_) | Lit::JSXText(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Expr::Tpl(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
             Expr::Fn(fn_expr) => self.transform_fn_to_ts_type(
@@ -86,6 +88,8 @@ impl FastDts {
                 ReturnTypeInferrer::infer(self, &block_stmt.stmts)
             }
             BlockStmtOrExpr::Expr(expr) => self.infer_type_from_expr(expr),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
         .map(type_ann)
     }

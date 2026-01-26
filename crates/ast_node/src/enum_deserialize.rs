@@ -36,6 +36,7 @@ pub fn expand(
         let tag_match_arms = data
             .variants
             .iter()
+            .filter(|v| !crate::encoding::is_unknown(&v.attrs))
             .map(|variant| {
                 let field_type = match variant.fields {
                     Fields::Unnamed(ref fields) => {
@@ -117,6 +118,10 @@ pub fn expand(
             let mut visit_bytes_arms = Vec::new();
 
             for variant in &data.variants {
+                if crate::encoding::is_unknown(&variant.attrs) {
+                    continue;
+                }
+
                 let tags = variant
                     .attrs
                     .iter()
@@ -358,6 +363,7 @@ pub fn expand(
         let variants: Punctuated<Variant, Token![,]> = {
             data.variants
                 .iter()
+                .filter(|v| !crate::encoding::is_unknown(&v.attrs))
                 .cloned()
                 .map(|variant| Variant {
                     attrs: Default::default(),
@@ -378,9 +384,7 @@ pub fn expand(
                         #variants,
                     }
 
-                    let __content = <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
-                                __deserializer,
-                            )?;
+                    let __content = swc_common::private::content::deserialize_content(__deserializer)?;
 
                     let __tagged = #tag_expr;
 

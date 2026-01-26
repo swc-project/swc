@@ -2,6 +2,7 @@ use std::{iter, mem::take};
 
 use either::Either;
 use serde::Deserialize;
+use swc_atoms::Atom;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::{Pass, *};
 use swc_ecma_transforms_base::helper;
@@ -366,6 +367,8 @@ impl Decorators {
                                         MethodKind::Method => "method",
                                         MethodKind::Getter => "get",
                                         MethodKind::Setter => "set",
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => panic!("unable to access unknown nodes"),
                                     }
                                 )))),
                             },
@@ -434,11 +437,14 @@ impl Decorators {
                 //
                 match member {
                     ClassMember::Constructor(_) => unreachable!("multiple constructor?"),
-                    ClassMember::TsIndexSignature(_) => None,
+                    ClassMember::Empty(_) | ClassMember::TsIndexSignature(_) => None,
                     ClassMember::Method(method) => {
                         let fn_name = match method.key {
                             PropName::Ident(ref i) => Some(i.clone()),
-                            PropName::Str(ref s) => Some(IdentName::new(s.value.clone(), s.span)),
+                            PropName::Str(ref s) => s
+                                .value
+                                .as_str()
+                                .map(|sym| IdentName::new(Atom::from(sym), s.span)),
                             _ => None,
                         };
                         let key_prop_value = Box::new(prop_name_to_expr_value(method.key.clone()));
@@ -453,7 +459,7 @@ impl Decorators {
                         let key_prop_value = Lit::Str(Str {
                             span: method.key.span,
                             raw: None,
-                            value: method.key.name.clone(),
+                            value: method.key.name.clone().into(),
                         })
                         .into();
                         fold_method!(method, Some(fn_name), key_prop_value)
@@ -464,7 +470,7 @@ impl Decorators {
                             PropName::Ident(i) => Lit::Str(Str {
                                 span: i.span,
                                 raw: None,
-                                value: i.sym,
+                                value: i.sym.into(),
                             })
                             .into(),
                             _ => prop_name_to_expr(prop.key).into(),

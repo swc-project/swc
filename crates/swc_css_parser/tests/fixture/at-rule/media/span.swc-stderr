@@ -18704,7 +18704,7 @@
      :                   ^^^^^
  143 | @media (height foo bar) {}
      `----
-  x Dimension(DimensionToken { value: 600.0, raw_value: "600", unit: "px", type_flag: Integer, raw_unit: "px" })
+  x Dimension { dimension: DimensionToken { value: 600.0, raw_value: "600", unit: "px", type_flag: Integer, raw_unit: "px" } }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -19180,7 +19180,7 @@
      :                  ^^^^^
  146 | @media screen and (min-width: ) {}
      `----
-  x Dimension(DimensionToken { value: 600.0, raw_value: "600", unit: "px", type_flag: Integer, raw_unit: "px" })
+  x Dimension { dimension: DimensionToken { value: 600.0, raw_value: "600", unit: "px", type_flag: Integer, raw_unit: "px" } }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -19600,7 +19600,7 @@
      :             ^^^^^
  149 | @media screen and func(100px) {}
      `----
-  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "px", type_flag: Integer, raw_unit: "px" })
+  x Dimension { dimension: DimensionToken { value: 100.0, raw_value: "100", unit: "px", type_flag: Integer, raw_unit: "px" } }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
  147 | @media (aspect-ratio: 12/) {}
  148 | @media func(100px) {}
@@ -19726,7 +19726,7 @@
      :                        ^^^^^
  150 | @media(min-width:calc(10px + 10px)) {}
      `----
-  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "px", type_flag: Integer, raw_unit: "px" })
+  x Dimension { dimension: DimensionToken { value: 100.0, raw_value: "100", unit: "px", type_flag: Integer, raw_unit: "px" } }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
  148 | @media func(100px) {}
  149 | @media screen and func(100px) {}

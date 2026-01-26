@@ -2,7 +2,7 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use swc_atoms::atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -14,7 +14,7 @@ use swc_ecma_utils::{
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
 };
 use swc_trace_macro::swc_trace;
 
@@ -290,14 +290,18 @@ impl VisitMut for Classes {
                     c.ident = Some(Ident::from(ident.clone()).into_private());
                 }
                 PropName::Str(Str { value, span, .. }) => {
-                    if is_valid_prop_ident(value) {
-                        c.ident = Some(private_ident!(*span, value.clone()));
+                    if let Some(value_str) = value.as_str() {
+                        if is_valid_prop_ident(value_str) {
+                            c.ident = Some(private_ident!(*span, value_str));
+                        }
                     }
                 }
                 PropName::Computed(ComputedPropName { expr, .. }) => {
                     if let Expr::Lit(Lit::Str(Str { value, span, .. })) = &**expr {
-                        if is_valid_prop_ident(value) {
-                            c.ident = Some(private_ident!(*span, value.clone()));
+                        if let Some(value_str) = value.as_str() {
+                            if is_valid_prop_ident(value_str) {
+                                c.ident = Some(private_ident!(*span, value_str));
+                            }
                         }
                     }
                 }
@@ -520,6 +524,9 @@ impl Classes {
                 | ClassMember::StaticBlock(..)
                 | ClassMember::AutoAccessor(..) => {}
                 ClassMember::Empty(..) => {}
+
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -565,7 +572,7 @@ impl Classes {
                 &mut stmts,
                 Lit::Str(Str {
                     span: DUMMY_SP,
-                    value: atom!("use strict"),
+                    value: atom!("use strict").into(),
                     raw: Some(atom!("\"use strict\"")),
                 })
                 .into_stmt(),
@@ -632,6 +639,8 @@ impl Classes {
                     }
                     .into(),
                     PropName::Computed(c) => c.expr,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
             }))
         }
@@ -657,6 +666,8 @@ impl Classes {
                     .into(),
                 }),
                 PropName::Computed(c) => MemberProp::Computed(c),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -795,12 +806,18 @@ impl Classes {
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
-                        Expr::Lit(Lit::Str(Str { span, value, .. })) if is_valid_ident(&value) => {
-                            Some(Ident::new(
-                                value,
-                                span,
-                                SyntaxContext::empty().apply_mark(Mark::new()),
-                            ))
+                        Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                            value.as_str().and_then(|value_str| {
+                                if is_valid_ident(value_str) {
+                                    Some(Ident::new(
+                                        Atom::from(value_str),
+                                        span,
+                                        SyntaxContext::empty().apply_mark(Mark::new()),
+                                    ))
+                                } else {
+                                    None
+                                }
+                            })
                         }
                         _ => None,
                     }
@@ -832,6 +849,8 @@ impl Classes {
                     data.set = None;
                     data.method = Some(value)
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -934,69 +953,6 @@ impl Classes {
 
         res
     }
-}
-
-#[tracing::instrument(level = "debug", skip_all)]
-fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
-    let mut class_name_sym = name.clone();
-    class_name_sym.span = DUMMY_SP;
-    class_name_sym.ctxt = name.ctxt;
-
-    let class_call_check = CallExpr {
-        span: DUMMY_SP,
-        callee: helper!(class_call_check),
-        args: vec![
-            Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-            class_name_sym.as_arg(),
-        ],
-        ..Default::default()
-    }
-    .into_stmt();
-
-    prepend_stmt(c, class_call_check)
-}
-
-/// Returns true if no `super` is used before `super()` call.
-#[tracing::instrument(level = "debug", skip_all)]
-fn is_always_initialized(body: &[Stmt]) -> bool {
-    struct SuperFinder {
-        found: bool,
-    }
-
-    impl Visit for SuperFinder {
-        noop_visit_type!(fail);
-
-        fn visit_callee(&mut self, node: &Callee) {
-            match *node {
-                Callee::Super(..) => self.found = true,
-                _ => node.visit_children_with(self),
-            }
-        }
-
-        fn visit_super_prop_expr(&mut self, _: &SuperPropExpr) {
-            self.found = true
-        }
-    }
-
-    let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt { expr, .. }) => matches!(
-            &**expr,
-            Expr::Call(CallExpr {
-                callee: Callee::Super(..),
-                ..
-            })
-        ),
-        _ => false,
-    }) {
-        Some(pos) => pos,
-        _ => return false,
-    };
-
-    let mut v = SuperFinder { found: false };
-    let body = &body[..pos];
-    v.visit_stmts(body);
-
-    !v.found
 }
 
 fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {

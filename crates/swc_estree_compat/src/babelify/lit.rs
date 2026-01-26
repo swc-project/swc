@@ -26,6 +26,8 @@ impl Babelify for Lit {
             Lit::BigInt(i) => LitOutput::Lit(Literal::BigInt(i.babelify(ctx))),
             Lit::Regex(r) => LitOutput::Lit(Literal::RegExp(r.babelify(ctx))),
             Lit::JSXText(t) => LitOutput::JSX(t.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

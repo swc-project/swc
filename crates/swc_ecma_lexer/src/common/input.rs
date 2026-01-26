@@ -7,10 +7,16 @@ use crate::{common::syntax::SyntaxFlags, error::Error, lexer};
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
 pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
+    type Checkpoint;
+
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
+    fn ctx_mut(&mut self) -> &mut Context;
     fn syntax(&self) -> SyntaxFlags;
     fn target(&self) -> EsVersion;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint;
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 
     fn start_pos(&self) -> BytePos {
         BytePos(0)
@@ -27,7 +33,7 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     ///
     /// It is required because parser should backtrack while parsing typescript
     /// code.
-    fn add_error(&self, error: Error);
+    fn add_error(&mut self, error: Error);
 
     /// Add an error which is valid syntax in script mode.
     ///
@@ -36,7 +42,7 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     /// Implementor should check for if [Context].module, and buffer errors if
     /// module is false. Also, implementors should move errors to the error
     /// buffer on set_ctx if the parser mode become module mode.
-    fn add_module_mode_error(&self, error: Error);
+    fn add_module_mode_error(&mut self, error: Error);
 
     fn end_pos(&self) -> BytePos;
 

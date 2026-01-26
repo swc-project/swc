@@ -16,7 +16,7 @@ impl VisitMut for NodeColonPrefixStrip {
     noop_visit_mut_type!();
 
     fn visit_mut_import_decl(&mut self, node: &mut ImportDecl) {
-        if let Some(value) = Self::strip_node_colon(&node.src.value) {
+        if let Some(value) = Self::strip_node_colon(&node.src.value.to_string_lossy()) {
             node.src.value = value.into();
             node.src.raw = None;
         }
@@ -26,14 +26,14 @@ impl VisitMut for NodeColonPrefixStrip {
         let Some(src) = &mut node.src else {
             return;
         };
-        if let Some(value) = Self::strip_node_colon(&src.value) {
+        if let Some(value) = Self::strip_node_colon(&src.value.to_string_lossy()) {
             src.value = value.into();
             src.raw = None;
         }
     }
 
     fn visit_mut_export_all(&mut self, node: &mut ExportAll) {
-        if let Some(value) = Self::strip_node_colon(&node.src.value) {
+        if let Some(value) = Self::strip_node_colon(&node.src.value.to_string_lossy()) {
             node.src.value = value.into();
             node.src.raw = None;
         }
@@ -57,7 +57,7 @@ impl VisitMut for NodeColonPrefixStrip {
             .and_then(|arg| arg.expr.as_mut_lit())
             .and_then(|lit| lit.as_mut_str())
         {
-            if let Some(value) = Self::strip_node_colon(&source.value) {
+            if let Some(value) = Self::strip_node_colon(&source.value.to_string_lossy()) {
                 source.value = value.into();
                 source.raw = None;
             }

@@ -1,14 +1,14 @@
 use std::borrow::Cow;
 
-use ascii::AsciiChar;
-use char::{Char, CharExt};
-use comments_buffer::{BufferedComment, BufferedCommentKind};
-use cow_replace::ReplaceString;
+use char::CharExt;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
 use state::State;
-use swc_atoms::Atom;
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Atom,
+};
 use swc_common::{
     comments::{Comment, CommentKind},
     input::{Input, StringInput},
@@ -20,7 +20,7 @@ use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
 use crate::{
     common::lexer::{
-        comments_buffer::CommentsBuffer,
+        comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferTrait},
         number::{parse_integer, LazyInteger},
     },
     error::SyntaxError,
@@ -65,27 +65,72 @@ static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
 static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
 
-pub type LexResult<T> = Result<T, crate::error::Error>;
+/// Converts UTF-16 surrogate pair to Unicode code point.
+/// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
+#[inline]
+const fn pair_to_code_point(high: u32, low: u32) -> u32 {
+    (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000
+}
+
+/// A Unicode escape sequence.
+///
+/// `\u Hex4Digits`, `\u Hex4Digits \u Hex4Digits`, or `\u{ HexDigits }`.
+#[derive(Debug)]
+pub enum UnicodeEscape {
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code point.
+    // Char cannot be in range 0xD800..=0xDFFF.
+    CodePoint(char),
+    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code point.
+    // Char is in the range 0x10000..=0x10FFFF.
+    SurrogatePair(char),
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code point.
+    // Code unit is in the range 0xD800..=0xDFFF.
+    LoneSurrogate(u32),
+}
+
+impl From<UnicodeEscape> for CodePoint {
+    fn from(value: UnicodeEscape) -> Self {
+        match value {
+            UnicodeEscape::CodePoint(c) | UnicodeEscape::SurrogatePair(c) => {
+                CodePoint::from_char(c)
+            }
+            UnicodeEscape::LoneSurrogate(u) => unsafe { CodePoint::from_u32_unchecked(u) },
+        }
+    }
+}
+
+pub type LexResult<T> = swc_ecma_parser::lexer::LexResult<T>;
+
+fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
+    if has_underscore {
+        debug_assert!(s.contains('_'));
+        s.chars().filter(|&c| c != '_').collect::<String>().into()
+    } else {
+        debug_assert!(!s.contains('_'));
+        Cow::Borrowed(s)
+    }
+}
 
 pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     type State: self::state::State;
     type Token: token::TokenFactory<'a, TokenAndSpan, Self, Lexer = Self>;
+    type CommentsBuffer: CommentsBufferTrait;
 
     fn input(&self) -> &StringInput<'a>;
     fn input_mut(&mut self) -> &mut StringInput<'a>;
     fn state(&self) -> &Self::State;
     fn state_mut(&mut self) -> &mut Self::State;
     fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments>;
-    fn comments_buffer(&self) -> Option<&CommentsBuffer>;
-    fn comments_buffer_mut(&mut self) -> Option<&mut CommentsBuffer>;
+    fn comments_buffer(&self) -> Option<&Self::CommentsBuffer>;
+    fn comments_buffer_mut(&mut self) -> Option<&mut Self::CommentsBuffer>;
     /// # Safety
     ///
     /// We know that the start and the end are valid
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str;
     fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str;
     fn atom<'b>(&self, s: impl Into<Cow<'b, str>>) -> swc_atoms::Atom;
-    fn push_error(&self, error: crate::error::Error);
-    fn buf(&self) -> std::rc::Rc<std::cell::RefCell<String>>;
+    fn wtf8_atom<'b>(&self, s: impl Into<Cow<'b, Wtf8>>) -> swc_atoms::Wtf8Atom;
+    fn push_error(&mut self, error: crate::error::Error);
 
     #[inline(always)]
     #[allow(clippy::misnamed_getters)]
@@ -107,14 +152,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(always)]
-    fn bump(&mut self) {
-        unsafe {
-            // Safety: Actually this is not safe but this is an internal method.
-            self.input_mut().bump()
-        }
-    }
-
-    #[inline(always)]
     fn is(&self, c: u8) -> bool {
         self.input().is_byte(c)
     }
@@ -130,18 +167,31 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(always)]
-    fn cur(&self) -> Option<char> {
+    fn cur(&self) -> Option<u8> {
         self.input().cur()
     }
 
     #[inline(always)]
-    fn peek(&self) -> Option<char> {
+    fn peek(&self) -> Option<u8> {
         self.input().peek()
     }
 
     #[inline(always)]
-    fn peek_ahead(&self) -> Option<char> {
+    fn peek_ahead(&self) -> Option<u8> {
         self.input().peek_ahead()
+    }
+
+    #[inline(always)]
+    fn cur_as_char(&self) -> Option<char> {
+        self.input().cur_as_char()
+    }
+
+    #[inline(always)]
+    fn bump(&mut self) {
+        let c = self.cur_as_char().unwrap();
+        unsafe {
+            self.input_mut().bump_bytes(c.len_utf8());
+        }
     }
 
     #[inline(always)]
@@ -210,7 +260,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn skip_line_comment(&mut self, start_skip: usize) {
         // Position after the initial `//` (or similar)
         let start = self.cur_pos();
-        self.input_mut().bump_bytes(start_skip);
+        unsafe {
+            self.input_mut().bump_bytes(start_skip);
+        }
         let slice_start = self.cur_pos();
 
         // foo // comment for foo
@@ -260,15 +312,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let s = unsafe { self.input_slice(slice_start, end) };
                     let cmt = swc_common::comments::Comment {
                         kind: swc_common::comments::CommentKind::Line,
-                        span: Span::new(start, end),
+                        span: Span::new_with_checked(start, end),
                         text: self.atom(s),
                     };
 
                     if is_for_next {
-                        self.comments_buffer_mut().unwrap().push_pending_leading(cmt);
+                        self.comments_buffer_mut().unwrap().push_pending(cmt);
                     } else {
                         let pos = self.state().prev_hi();
-                        self.comments_buffer_mut().unwrap().push(BufferedComment {
+                        self.comments_buffer_mut().unwrap().push_comment(BufferedComment {
                             kind: BufferedCommentKind::Trailing,
                             pos,
                             comment: cmt,
@@ -291,21 +343,21 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
             let cmt = swc_common::comments::Comment {
                 kind: swc_common::comments::CommentKind::Line,
-                span: Span::new(start, end),
+                span: Span::new_with_checked(start, end),
                 text: self.atom(s),
             };
 
             if is_for_next {
-                self.comments_buffer_mut()
-                    .unwrap()
-                    .push_pending_leading(cmt);
+                self.comments_buffer_mut().unwrap().push_pending(cmt);
             } else {
                 let pos = self.state().prev_hi();
-                self.comments_buffer_mut().unwrap().push(BufferedComment {
-                    kind: BufferedCommentKind::Trailing,
-                    pos,
-                    comment: cmt,
-                });
+                self.comments_buffer_mut()
+                    .unwrap()
+                    .push_comment(BufferedComment {
+                        kind: BufferedCommentKind::Trailing,
+                        pos,
+                        comment: cmt,
+                    });
             }
         }
 
@@ -319,11 +371,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn skip_block_comment(&mut self) {
         let start = self.cur_pos();
 
-        debug_assert_eq!(self.cur(), Some('/'));
-        debug_assert_eq!(self.peek(), Some('*'));
+        debug_assert_eq!(self.cur(), Some(b'/'));
+        debug_assert_eq!(self.peek(), Some(b'*'));
 
         // Consume initial "/*"
-        self.input_mut().bump_bytes(2);
+        unsafe {
+            self.input_mut().bump_bytes(2);
+        }
 
         // jsdoc
         let slice_start = self.cur_pos();
@@ -364,7 +418,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.state_mut().mark_had_line_break();
                     }
                     let end_pos = self.input().end_pos();
-                    let span = Span::new(end_pos, end_pos);
+                    let span = Span::new_with_checked(end_pos, end_pos);
                     self.emit_error_span(span, SyntaxError::UnterminatedBlockComment);
                     return;
                 }
@@ -372,9 +426,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             match matched_byte {
                 b'*' => {
-                    if self.peek() == Some('/') {
+                    if self.peek() == Some(b'/') {
                         // Consume "*/"
-                        self.input_mut().bump_bytes(2);
+                        unsafe {
+                            self.input_mut().bump_bytes(2);
+                        }
 
                         if should_mark_had_line_break {
                             self.state_mut().mark_had_line_break();
@@ -400,21 +456,21 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             let s = &src[..src.len() - 2];
                             let cmt = Comment {
                                 kind: CommentKind::Block,
-                                span: Span::new(start, end),
+                                span: Span::new_with_checked(start, end),
                                 text: self.atom(s),
                             };
 
                             if is_for_next {
-                                self.comments_buffer_mut()
-                                    .unwrap()
-                                    .push_pending_leading(cmt);
+                                self.comments_buffer_mut().unwrap().push_pending(cmt);
                             } else {
                                 let pos = self.state().prev_hi();
-                                self.comments_buffer_mut().unwrap().push(BufferedComment {
-                                    kind: BufferedCommentKind::Trailing,
-                                    pos,
-                                    comment: cmt,
-                                });
+                                self.comments_buffer_mut()
+                                    .unwrap()
+                                    .push_comment(BufferedComment {
+                                        kind: BufferedCommentKind::Trailing,
+                                        pos,
+                                        comment: cmt,
+                                    });
                             }
                         }
 
@@ -431,13 +487,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 b'\r' => {
                     should_mark_had_line_break = true;
                     self.bump();
-                    if self.peek() == Some('\n') {
+                    if self.peek() == Some(b'\n') {
                         self.bump();
                     }
                 }
                 _ => {
                     // Unicode line terminator (LS/PS) or other character
-                    if let Some('\u{2028}' | '\u{2029}') = self.cur() {
+                    if let Some('\u{2028}' | '\u{2029}') = self.cur_as_char() {
                         should_mark_had_line_break = true;
                     }
                     self.bump();
@@ -464,17 +520,19 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 (skip.offset, skip.newline)
             };
 
-            self.input_mut().bump_bytes(offset as usize);
+            unsafe {
+                self.input_mut().bump_bytes(offset as usize);
+            }
             if newline {
                 self.state_mut().mark_had_line_break();
             }
 
             if LEX_COMMENTS && self.input().is_byte(b'/') {
                 if let Some(c) = self.peek() {
-                    if c == '/' {
+                    if c == b'/' {
                         self.skip_line_comment(2);
                         continue;
-                    } else if c == '*' {
+                    } else if c == b'*' {
                         self.skip_block_comment();
                         continue;
                     }
@@ -510,6 +568,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         &mut self,
         mut op: F,
         allow_num_separator: bool,
+        has_underscore: &mut bool,
     ) -> LexResult<Ret>
     where
         F: FnMut(Ret, u8, u32) -> LexResult<(Ret, bool)>,
@@ -529,45 +588,46 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let mut prev = None;
 
         while let Some(c) = self.cur() {
-            if allow_num_separator && c == '_' {
-                let is_allowed = |c: Option<char>| {
-                    let Some(c) = c else {
-                        return false;
+            if c == b'_' {
+                *has_underscore = true;
+                if allow_num_separator {
+                    let is_allowed = |c: Option<u8>| {
+                        let Some(c) = c else {
+                            return false;
+                        };
+                        (c as char).is_digit(RADIX as _)
                     };
-                    c.is_digit(RADIX as _)
-                };
-                let is_forbidden = |c: Option<char>| {
-                    let Some(c) = c else {
-                        return false;
+                    let is_forbidden = |c: Option<u8>| {
+                        let Some(c) = c else {
+                            return false;
+                        };
+
+                        if RADIX == 16 {
+                            matches!(c, b'.' | b'X' | b'_' | b'x')
+                        } else {
+                            matches!(c, b'.' | b'B' | b'E' | b'O' | b'_' | b'b' | b'e' | b'o')
+                        }
                     };
 
-                    if RADIX == 16 {
-                        matches!(c, '.' | 'X' | '_' | 'x')
-                    } else {
-                        matches!(c, '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
+                    let next = self.input().peek();
+
+                    if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
+                        self.emit_error(
+                            start,
+                            SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                        );
                     }
-                };
 
-                let next = self.input().peek();
-
-                if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
-                    self.emit_error(
-                        start,
-                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
-                    );
-                }
-
-                // Ignore this _ character
-                unsafe {
+                    // Ignore this _ character
                     // Safety: cur() returns Some(c) where c is a valid char
-                    self.input_mut().bump();
-                }
+                    self.bump();
 
-                continue;
+                    continue;
+                }
             }
 
             // e.g. (val for a) = 10  where radix = 16
-            let val = if let Some(val) = c.to_digit(RADIX as _) {
+            let val = if let Some(val) = (c as char).to_digit(RADIX as _) {
                 val
             } else {
                 return Ok(total);
@@ -602,6 +662,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut not_octal = false;
         let mut read_any = false;
+        let mut has_underscore = false;
 
         self.read_digits::<_, (), RADIX>(
             |_, _, v| {
@@ -614,6 +675,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 Ok(((), true))
             },
             true,
+            &mut has_underscore,
         )?;
 
         if !read_any {
@@ -624,31 +686,35 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             start,
             end: self.cur_pos(),
             not_octal,
+            has_underscore,
         })
     }
 
     /// Reads an integer, octal integer, or floating-point number
-    fn read_number(
+    fn read_number<const START_WITH_DOT: bool, const START_WITH_ZERO: bool>(
         &mut self,
-        starts_with_dot: bool,
     ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+        debug_assert!(!(START_WITH_DOT && START_WITH_ZERO));
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
+        let mut has_underscore = false;
 
-        let lazy_integer = if starts_with_dot {
+        let lazy_integer = if START_WITH_DOT {
             // first char is '.'
             debug_assert!(
-                self.cur().is_some_and(|c| c == '.'),
-                "read_number(starts_with_dot = true) expects current char to be '.'"
+                self.cur().is_some_and(|c| c == b'.'),
+                "read_number<START_WITH_DOT = true> expects current char to be '.'"
             );
             LazyInteger {
                 start,
                 end: start,
                 not_octal: true,
+                has_underscore: false,
             }
         } else {
-            let starts_with_zero = self.cur().unwrap() == '0';
+            debug_assert!(!START_WITH_DOT);
+            debug_assert!(!START_WITH_ZERO || self.cur().unwrap() == b'0');
 
             // Use read_number_no_dot to support long numbers.
             let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
@@ -657,7 +723,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(lazy_integer.start, lazy_integer.end)
             };
 
-            if self.eat(b'n') {
+            // legacy octal number is not allowed in bigint.
+            if (!START_WITH_ZERO || lazy_integer.end - lazy_integer.start == BytePos(1))
+                && self.eat(b'n')
+            {
                 let end = self.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
@@ -667,7 +736,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
             }
 
-            if starts_with_zero {
+            if START_WITH_ZERO {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
                 if s.as_bytes().iter().all(|&c| c == b'0') {
@@ -693,7 +762,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                 } else {
                     // It's Legacy octal, and we should reinterpret value.
-                    let val = parse_integer::<8>(s);
+                    let s = remove_underscore(s, lazy_integer.has_underscore);
+                    let val = parse_integer::<8>(&s);
                     let end = self.cur_pos();
                     let raw = unsafe {
                         // Safety: We got both start and end position from `self.input`
@@ -709,23 +779,24 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             lazy_integer
         };
 
+        has_underscore |= lazy_integer.has_underscore;
         // At this point, number cannot be an octal literal.
 
-        let has_dot = self.cur() == Some('.');
+        let has_dot = self.cur() == Some(b'.');
         //  `0.a`, `08.a`, `102.a` are invalid.
         //
         // `.1.a`, `.1e-4.a` are valid,
         if has_dot {
             self.bump();
 
-            // equal: if starts_with_dot { debug_assert!(xxxx) }
-            debug_assert!(!starts_with_dot || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
+            // equal: if START_WITH_DOT { debug_assert!(xxxx) }
+            debug_assert!(!START_WITH_DOT || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
 
             // Read numbers after dot
-            self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true)?;
+            self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true, &mut has_underscore)?;
         }
 
-        let has_e = self.cur().is_some_and(|c| c == 'e' || c == 'E');
+        let has_e = self.cur().is_some_and(|c| c == b'e' || c == b'E');
         // Handle 'e' and 'E'
         //
         // .5e1 = 5
@@ -743,11 +814,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
             };
 
-            if next == '+' || next == '-' {
+            if next == b'+' || next == b'-' {
                 self.bump(); // remove '+', '-'
             }
 
-            self.read_number_no_dot_as_str::<10>()?;
+            let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
+            has_underscore |= lazy_integer.has_underscore;
         }
 
         let val = if has_dot || has_e {
@@ -757,12 +829,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(start, end)
             };
 
-            raw.remove_all_ascii(AsciiChar::UnderScore)
-                .parse()
-                .expect("failed to parse float literal")
+            let raw = remove_underscore(raw, has_underscore);
+            raw.parse().expect("failed to parse float literal")
         } else {
             let s = unsafe { self.input_slice(lazy_integer.start, lazy_integer.end) };
-            parse_integer::<10>(s)
+            let s = remove_underscore(s, has_underscore);
+            parse_integer::<10>(&s)
         };
 
         self.ensure_not_ident()?;
@@ -788,13 +860,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     .checked_mul(radix as u32)
                     .and_then(|v| v.checked_add(val))
                     .ok_or_else(|| {
-                        let span = Span::new(start, start);
+                        let span = Span::new_with_checked(start, start);
                         crate::error::Error::new(span, SyntaxError::InvalidUnicodeEscape)
                     })?;
 
                 Ok((Some(total), count != len))
             },
             true,
+            &mut false,
         )?;
         if len != 0 && count != len {
             Ok(None)
@@ -813,15 +886,17 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         );
         let start = self.cur_pos();
 
-        debug_assert_eq!(self.cur(), Some('0'));
+        debug_assert_eq!(self.cur(), Some(b'0'));
         self.bump();
 
         debug_assert!(self
             .cur()
-            .is_some_and(|c| matches!(c, 'b' | 'B' | 'o' | 'O' | 'x' | 'X')));
+            .is_some_and(|c| matches!(c, b'b' | b'B' | b'o' | b'O' | b'x' | b'X')));
         self.bump();
 
         let lazy_integer = self.read_number_no_dot_as_str::<RADIX>()?;
+        let has_underscore = lazy_integer.has_underscore;
+
         let s = unsafe {
             // Safety: We got both start and end position from `self.input`
             self.input_slice(lazy_integer.start, lazy_integer.end)
@@ -836,7 +911,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), RADIX as _).unwrap();
             return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
         }
-        let val = parse_integer::<RADIX>(s);
+        let s = remove_underscore(s, has_underscore);
+        let val = parse_integer::<RADIX>(&s);
 
         self.ensure_not_ident()?;
 
@@ -860,25 +936,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let start_pos = self.start_pos();
             let comments_buffer = self.comments_buffer_mut().unwrap();
 
+            // if the file had no tokens and no shebang, then treat any
+            // comments in the leading comments buffer as leading.
+            // Otherwise treat them as trailing.
+            let kind = if last == start_pos {
+                BufferedCommentKind::Leading
+            } else {
+                BufferedCommentKind::Trailing
+            };
             // move the pending to the leading or trailing
-            for c in comments_buffer.take_pending_leading() {
-                // if the file had no tokens and no shebang, then treat any
-                // comments in the leading comments buffer as leading.
-                // Otherwise treat them as trailing.
-                if last == start_pos {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: last,
-                        comment: c,
-                    });
-                } else {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
-                        pos: last,
-                        comment: c,
-                    });
-                }
-            }
+            comments_buffer.pending_to_comment(kind, last);
 
             // now fill the user's passed in comments
             for comment in comments_buffer.take_comments() {
@@ -940,14 +1007,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut s = SmartString::<LazyCompact>::default();
 
-        debug_assert!(self.input().cur().is_some_and(|c| c == '&'));
+        debug_assert!(self.input().cur().is_some_and(|c| c == b'&'));
         self.bump();
 
         let start_pos = self.input().cur_pos();
 
         for _ in 0..10 {
             let c = match self.input().cur() {
-                Some(c) => c,
+                Some(c) => c as char,
                 None => break,
             };
             self.bump();
@@ -985,10 +1052,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
         debug_assert!(self.syntax().jsx());
-        let ch = self.input().cur().unwrap();
+        let ch = self.input().cur().unwrap() as char;
         self.bump();
 
-        let out = if ch == '\r' && self.input().cur() == Some('\n') {
+        let out = if ch == '\r' && self.input().cur() == Some(b'\n') {
             self.bump(); // `\n`
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
@@ -1000,15 +1067,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_jsx_str(&mut self, quote: char) -> LexResult<Self::Token> {
         debug_assert!(self.syntax().jsx());
         let start = self.input().cur_pos();
-        unsafe {
-            // Safety: cur() was Some(quote)
-            self.input_mut().bump(); // `quote`
-        }
+        // Safety: cur() was Some(quote)
+        self.bump(); // `quote`
         let mut out = String::new();
         let mut chunk_start = self.input().cur_pos();
         loop {
             let ch = match self.input().cur() {
-                Some(c) => c,
+                Some(c) => c as char,
                 None => {
                     self.emit_error(start, SyntaxError::UnterminatedStrLit);
                     break;
@@ -1067,10 +1132,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
             } else {
-                unsafe {
-                    // Safety: cur() was Some(ch)
-                    self.input_mut().bump();
-                }
+                // Safety: cur() was Some(ch)
+                self.bump();
             }
         }
         let cur_pos = self.input().cur_pos();
@@ -1098,24 +1161,76 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_slice(start, end)
         };
         let raw = self.atom(raw);
-        Ok(Self::Token::str(value, raw, self))
+        Ok(Self::Token::str(value.into(), raw, self))
     }
 
-    /// Utility method to reuse buffer.
-    fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
-    where
-        F: FnOnce(&mut Self, &mut String) -> LexResult<Ret>,
-    {
-        let b = self.buf();
-        let mut buf = b.borrow_mut();
-        buf.clear();
-        op(self, &mut buf)
+    // Modified based on <https://github.com/oxc-project/oxc/blob/f0e1510b44efdb1b0d9a09f950181b0e4c435abe/crates/oxc_parser/src/lexer/unicode.rs#L237>
+    /// Unicode code unit (`\uXXXX`).
+    ///
+    /// The opening `\u` must already have been consumed before calling this
+    /// method.
+    ///
+    /// See background info on surrogate pairs:
+    ///   * `https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae`
+    ///   * `https://mathiasbynens.be/notes/javascript-identifiers-es6`
+    fn read_unicode_code_unit(&mut self) -> LexResult<Option<UnicodeEscape>> {
+        const MIN_HIGH: u32 = 0xd800;
+        const MAX_HIGH: u32 = 0xdbff;
+        const MIN_LOW: u32 = 0xdc00;
+        const MAX_LOW: u32 = 0xdfff;
+
+        let Some(high) = self.read_int_u32::<16>(4)? else {
+            return Ok(None);
+        };
+        if let Some(ch) = char::from_u32(high) {
+            return Ok(Some(UnicodeEscape::CodePoint(ch)));
+        }
+
+        // The first code unit of a surrogate pair is always in the range from 0xD800 to
+        // 0xDBFF, and is called a high surrogate or a lead surrogate.
+        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would have
+        // returned `Some`, and already exited.
+        debug_assert!(high >= MIN_HIGH);
+        let is_pair = high <= MAX_HIGH
+            && self.input().cur() == Some(b'\\')
+            && self.input().peek() == Some(b'u');
+        if !is_pair {
+            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
+        }
+
+        let before_second = self.input().cur_pos();
+
+        // Bump `\u`
+        unsafe {
+            self.input_mut().bump_bytes(2);
+        }
+
+        let Some(low) = self.read_int_u32::<16>(4)? else {
+            return Ok(None);
+        };
+
+        // The second code unit of a surrogate pair is always in the range from 0xDC00
+        // to 0xDFFF, and is called a low surrogate or a trail surrogate.
+        // If this isn't a valid pair, rewind to before the 2nd, and return the first
+        // only. The 2nd could be the first part of a valid pair.
+        if !(MIN_LOW..=MAX_LOW).contains(&low) {
+            unsafe {
+                // Safety: state is valid position because we got it from cur_pos()
+                self.input_mut().reset_to(before_second);
+            }
+            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
+        }
+
+        let code_point = pair_to_code_point(high, low);
+        // SAFETY: `high` and `low` have been checked to be in ranges which always yield
+        // a `code_point` which is a valid `char`
+        let ch = unsafe { char::from_u32_unchecked(code_point) };
+        Ok(Some(UnicodeEscape::SurrogatePair(ch)))
     }
 
-    fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
-        debug_assert_eq!(self.cur(), Some('u'));
+    fn read_unicode_escape(&mut self) -> LexResult<UnicodeEscape> {
+        debug_assert_eq!(self.cur(), Some(b'u'));
 
-        let mut chars = Vec::with_capacity(4);
         let mut is_curly = false;
 
         self.bump(); // 'u'
@@ -1162,7 +1277,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         match c {
             Some(c) => {
-                chars.push(c.into());
+                if is_curly && !self.eat(b'}') {
+                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
+                }
+
+                Ok(UnicodeEscape::CodePoint(c))
             }
             _ => {
                 unsafe {
@@ -1170,49 +1289,31 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_mut().reset_to(state);
                 }
 
-                chars.push(Char::from('\\'));
-                chars.push(Char::from('u'));
+                let Some(value) = self.read_unicode_code_unit()? else {
+                    self.error(
+                        state,
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: if is_curly {
+                                "1-6 hex characters"
+                            } else {
+                                "4 hex characters"
+                            },
+                        },
+                    )?
+                };
 
-                if is_curly {
-                    chars.push(Char::from('{'));
-
-                    for _ in 0..6 {
-                        if let Some(c) = self.input().cur() {
-                            if c == '}' {
-                                break;
-                            }
-
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        } else {
-                            break;
-                        }
-                    }
-
-                    chars.push(Char::from('}'));
-                } else {
-                    for _ in 0..4 {
-                        if let Some(c) = self.input().cur() {
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        }
-                    }
+                if is_curly && !self.eat(b'}') {
+                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
                 }
+
+                Ok(value)
             }
         }
-
-        if is_curly && !self.eat(b'}') {
-            self.error(state, SyntaxError::InvalidUnicodeEscape)?
-        }
-
-        Ok(chars)
     }
 
     #[cold]
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
-        if self.input().cur() != Some('#') || self.input().peek() != Some('!') {
+        if self.input().cur() != Some(b'#') || self.input().peek() != Some(b'!') {
             return Ok(None);
         }
         self.bump(); // `#`
@@ -1224,7 +1325,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Self::Token> {
         let start = self.cur_pos();
 
-        let mut cooked = Ok(String::new());
+        let mut cooked = Ok(Wtf8Buf::new());
         let mut cooked_slice_start = start;
         let raw_slice_start = start;
 
@@ -1244,11 +1345,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // Handle edge case for immediate template end
         if start == self.cur_pos() && self.state().last_was_tpl_element() {
             if let Some(c) = self.cur() {
-                if c == '$' && self.peek() == Some('{') {
+                if c == b'$' && self.peek() == Some(b'{') {
                     self.bump(); // '$'
                     self.bump(); // '{'
                     return Ok(Self::Token::DOLLAR_LBRACE);
-                } else if c == '`' {
+                } else if c == b'`' {
                     self.bump(); // '`'
                     return Ok(Self::Token::BACKQUOTE);
                 }
@@ -1269,7 +1370,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             match matched_byte {
                 b'$' => {
                     // Check if this is ${
-                    if self.peek() == Some('{') {
+                    if self.peek() == Some(b'{') {
                         // Found template substitution
                         let cooked = if cooked_slice_start == raw_slice_start {
                             let last_pos = self.cur_pos();
@@ -1278,10 +1379,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                 // got them from `self.input`
                                 self.input_slice(cooked_slice_start, last_pos)
                             };
-                            Ok(self.atom(s))
+                            Ok(self.wtf8_atom(Wtf8::from_str(s)))
                         } else {
                             consume_cooked!();
-                            cooked.map(|s| self.atom(s))
+                            cooked.map(|s| self.wtf8_atom(&*s))
                         };
 
                         let end = self.input().cur_pos();
@@ -1303,10 +1404,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let cooked = if cooked_slice_start == raw_slice_start {
                         let last_pos = self.cur_pos();
                         let s = unsafe { self.input_slice(cooked_slice_start, last_pos) };
-                        Ok(self.atom(s))
+                        Ok(self.wtf8_atom(Wtf8::from_str(s)))
                     } else {
                         consume_cooked!();
-                        cooked.map(|s| self.atom(s))
+                        cooked.map(|s| self.wtf8_atom(&*s))
                     };
 
                     let end = self.input().cur_pos();
@@ -1321,12 +1422,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                     // Handle carriage return - consume \r and optionally \n, normalize to \n
                     self.bump(); // '\r'
-                    if self.peek() == Some('\n') {
+                    if self.peek() == Some(b'\n') {
                         self.bump(); // '\n'
                     }
 
                     if let Ok(ref mut cooked) = cooked {
-                        cooked.push('\n');
+                        cooked.push_char('\n');
                     }
                     cooked_slice_start = self.cur_pos();
                 }
@@ -1335,11 +1436,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     consume_cooked!();
 
                     match self.read_escaped_char(true) {
-                        Ok(Some(chars)) => {
+                        Ok(Some(escaped)) => {
                             if let Ok(ref mut cooked) = cooked {
-                                for c in chars {
-                                    cooked.extend(c);
-                                }
+                                cooked.push(escaped);
                             }
                         }
                         Ok(None) => {}
@@ -1358,15 +1457,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
-        debug_assert_eq!(self.cur(), Some('\\'));
+    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<CodePoint>> {
+        debug_assert_eq!(self.cur(), Some(b'\\'));
 
         let start = self.cur_pos();
 
         self.bump(); // '\'
 
         let c = match self.cur() {
-            Some(c) => c,
+            Some(c) => c as char,
             None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
         };
 
@@ -1396,7 +1495,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.bump(); // 'x'
 
                 match self.read_int_u32::<16>(2)? {
-                    Some(val) => return Ok(Some(vec![Char::from(val)])),
+                    Some(val) => return Ok(CodePoint::from_u32(val)),
                     None => self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -1408,7 +1507,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             // read unicode escape sequences
             'u' => match self.read_unicode_escape() {
-                Ok(chars) => return Ok(Some(chars)),
+                Ok(value) => {
+                    return Ok(Some(value.into()));
+                }
                 Err(err) => self.error(start, err.into_kind())?,
             },
 
@@ -1418,9 +1519,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 let first_c = if c == '0' {
                     match self.cur() {
-                        Some(next) if next.is_digit(8) => c,
+                        Some(next) if (next as char).is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
-                        _ => return Ok(Some(vec!['\u{0000}'.into()])),
+                        _ => return Ok(Some(CodePoint::from_char('\u{0000}'))),
                     }
                 } else {
                     c
@@ -1439,7 +1540,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     ($check:expr) => {{
                         let cur = self.cur();
 
-                        match cur.and_then(|c| c.to_digit(8)) {
+                        match cur.and_then(|c| (c as char).to_digit(8)) {
                             Some(v) => {
                                 value = if $check {
                                     let new_val = value
@@ -1447,7 +1548,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                         .and_then(|value| value.checked_add(v as u8));
                                     match new_val {
                                         Some(val) => val,
-                                        None => return Ok(Some(vec![Char::from(value as char)])),
+                                        None => return Ok(CodePoint::from_u32(value as u32)),
                                     }
                                 } else {
                                     value * 8 + v as u8
@@ -1455,7 +1556,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                                 self.bump();
                             }
-                            _ => return Ok(Some(vec![Char::from(value as u32)])),
+                            _ => return Ok(CodePoint::from_u32(value as u32)),
                         }
                     }};
                 }
@@ -1463,17 +1564,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 one!(false);
                 one!(true);
 
-                return Ok(Some(vec![Char::from(value as char)]));
+                return Ok(CodePoint::from_u32(value as u32));
             }
             _ => c,
         };
 
-        unsafe {
-            // Safety: cur() is Some(c) if this method is called.
-            self.input_mut().bump();
-        }
+        // Safety: cur() is Some(c) if this method is called.
+        self.bump();
 
-        Ok(Some(vec![c.into()]))
+        Ok(CodePoint::from_u32(c as u32))
     }
 
     /// Expects current char to be '/'
@@ -1483,47 +1582,51 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_mut().reset_to(start);
         }
 
-        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.cur(), Some(b'/'));
 
         let start = self.cur_pos();
 
-        self.bump();
+        self.bump(); // bump '/'
+
+        let slice_start = self.cur_pos();
 
         let (mut escaped, mut in_class) = (false, false);
 
-        let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.cur() {
-                // This is ported from babel.
-                // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_terminator() {
-                    let span = l.span(start);
+        while let Some(c) = self.cur() {
+            let c = c as char;
+            // This is ported from babel.
+            // Seems like regexp literal cannot contain linebreak.
+            if c.is_line_terminator() {
+                let span = self.span(start);
 
-                    return Err(crate::error::Error::new(
-                        span,
-                        SyntaxError::UnterminatedRegExp,
-                    ));
-                }
-
-                if escaped {
-                    escaped = false;
-                } else {
-                    match c {
-                        '[' => in_class = true,
-                        ']' if in_class => in_class = false,
-                        // Terminates content part of regex literal
-                        '/' if !in_class => break,
-                        _ => {}
-                    }
-
-                    escaped = c == '\\';
-                }
-
-                l.bump();
-                buf.push(c);
+                return Err(crate::error::Error::new(
+                    span,
+                    SyntaxError::UnterminatedRegExp,
+                ));
             }
 
-            Ok(l.atom(&**buf))
-        })?;
+            if escaped {
+                escaped = false;
+            } else {
+                match c {
+                    '[' => in_class = true,
+                    ']' if in_class => in_class = false,
+                    // Terminates content part of regex literal
+                    '/' if !in_class => break,
+                    _ => {}
+                }
+
+                escaped = c == '\\';
+            }
+
+            self.bump();
+        }
+
+        let content = {
+            let end = self.cur_pos();
+            let s = unsafe { self.input_slice(slice_start, end) };
+            self.atom(s)
+        };
 
         // input is terminated without following `/`
         if !self.is(b'/') {
@@ -1545,38 +1648,25 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => {
-                    self.read_word_as_str_with(|l, s, _, _| l.atom(s)).map(Some)
-                }
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with()
+                    .map(|(s, _)| Some(self.atom(s))),
                 _ => Ok(None),
             }
         }?
-        .map(|(value, _)| value)
         .unwrap_or_default();
 
         Ok(Self::Token::regexp(content, flags, self))
     }
 
     /// This method is optimized for texts without escape sequences.
-    ///
-    /// `convert(text, has_escape, can_be_keyword)`
-    fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
-    where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
-    {
+    fn read_word_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         debug_assert!(self.cur().is_some());
-        let mut can_be_keyword = true;
         let slice_start = self.cur_pos();
-        let has_escape = false;
 
         // Fast path: try to scan ASCII identifier using byte_search
         if let Some(c) = self.input().cur_as_ascii() {
             if Ident::is_valid_ascii_start(c) {
-                // Performance optimization: check if first char disqualifies as keyword
-                if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                    can_be_keyword = false;
-                }
-
                 // Advance past first byte
                 self.bump();
 
@@ -1593,27 +1683,17 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(slice_start, end)
                         };
 
-                        return Ok((convert(self, s, false, can_be_keyword), false));
+                        return Ok((Cow::Borrowed(s), false));
                     },
                 };
 
                 // Check if we hit end of identifier or need to fall back to slow path
                 if !next_byte.is_ascii() {
                     // Hit Unicode character, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(
-                        convert,
-                        slice_start,
-                        has_escape,
-                        can_be_keyword,
-                    );
+                    return self.read_word_as_str_with_slow_path(slice_start);
                 } else if next_byte == b'\\' {
                     // Hit escape sequence, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(
-                        convert,
-                        slice_start,
-                        has_escape,
-                        can_be_keyword,
-                    );
+                    return self.read_word_as_str_with_slow_path(slice_start);
                 } else {
                     // Hit end of identifier (non-continue ASCII char)
                     let end = self.cur_pos();
@@ -1623,140 +1703,135 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(slice_start, end)
                     };
 
-                    return Ok((convert(self, s, has_escape, can_be_keyword), has_escape));
+                    return Ok((Cow::Borrowed(s), false));
                 }
             }
         }
 
         // Fall back to slow path for non-ASCII start or complex cases
-        self.read_word_as_str_with_slow_path(convert, slice_start, has_escape, can_be_keyword)
+        self.read_word_as_str_with_slow_path(slice_start)
     }
 
     /// Slow path for identifier parsing that handles Unicode and escapes
     #[cold]
-    fn read_word_as_str_with_slow_path<F, Ret>(
+    fn read_word_as_str_with_slow_path(
         &mut self,
-        convert: F,
         mut slice_start: BytePos,
-        mut has_escape: bool,
-        mut can_be_keyword: bool,
-    ) -> LexResult<(Ret, bool)>
-    where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
-    {
+    ) -> LexResult<(Cow<'a, str>, bool)> {
         let mut first = true;
+        let mut has_escape = false;
 
-        self.with_buf(|l, buf| {
-            loop {
-                if let Some(c) = l.input().cur_as_ascii() {
-                    // Performance optimization
-                    if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                        can_be_keyword = false;
-                    }
-
-                    if Ident::is_valid_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_ascii_start(c) {
-                        l.bump();
-                        first = false;
-                        continue;
-                    }
-
-                    // unicode escape
-                    if c == b'\\' {
-                        first = false;
-                        has_escape = true;
-                        let start = l.cur_pos();
-                        l.bump();
-
-                        if !l.is(b'u') {
-                            l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
-                        }
-
-                        {
-                            let end = l.input().cur_pos();
-                            let s = unsafe {
-                                // Safety: start and end are valid position because we got them from
-                                // `self.input`
-                                l.input_slice(slice_start, start)
-                            };
-                            buf.push_str(s);
-                            unsafe {
-                                // Safety: We got end from `self.input`
-                                l.input_mut().reset_to(end);
-                            }
-                        }
-
-                        let chars = l.read_unicode_escape()?;
-
-                        if let Some(c) = chars.first() {
-                            let valid = if first {
-                                c.is_ident_start()
-                            } else {
-                                c.is_ident_part()
-                            };
-
-                            if !valid {
-                                l.emit_error(start, SyntaxError::InvalidIdentChar);
-                            }
-                        }
-
-                        for c in chars {
-                            buf.extend(c);
-                        }
-
-                        slice_start = l.cur_pos();
-                        continue;
-                    }
-
-                    // ASCII but not a valid identifier
-                    break;
-                } else if let Some(c) = l.input().cur() {
-                    if Ident::is_valid_non_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_non_ascii_start(c) {
-                        l.bump();
-                        first = false;
-                        continue;
-                    }
+        let mut buf = String::with_capacity(16);
+        loop {
+            if let Some(c) = self.input().cur_as_ascii() {
+                if Ident::is_valid_ascii_continue(c) {
+                    self.bump();
+                    continue;
+                } else if first && Ident::is_valid_ascii_start(c) {
+                    self.bump();
+                    first = false;
+                    continue;
                 }
 
+                // unicode escape
+                if c == b'\\' {
+                    first = false;
+                    has_escape = true;
+                    let start = self.cur_pos();
+                    self.bump();
+
+                    if !self.is(b'u') {
+                        self.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
+                    }
+
+                    {
+                        let end = self.input().cur_pos();
+                        let s = unsafe {
+                            // Safety: start and end are valid position because we got them from
+                            // `self.input`
+                            self.input_slice(slice_start, start)
+                        };
+                        buf.push_str(s);
+                        unsafe {
+                            // Safety: We got end from `self.input`
+                            self.input_mut().reset_to(end);
+                        }
+                    }
+
+                    let value = self.read_unicode_escape()?;
+
+                    match value {
+                        UnicodeEscape::CodePoint(ch) => {
+                            let valid = if first {
+                                ch.is_ident_start()
+                            } else {
+                                ch.is_ident_part()
+                            };
+                            if !valid {
+                                self.emit_error(start, SyntaxError::InvalidIdentChar);
+                            }
+                            buf.push(ch);
+                        }
+                        UnicodeEscape::SurrogatePair(ch) => {
+                            buf.push(ch);
+                            self.emit_error(start, SyntaxError::InvalidIdentChar);
+                        }
+                        UnicodeEscape::LoneSurrogate(code_point) => {
+                            buf.push_str(format!("\\u{code_point:04X}").as_str());
+                            self.emit_error(start, SyntaxError::InvalidIdentChar);
+                        }
+                    };
+
+                    slice_start = self.cur_pos();
+                    continue;
+                }
+
+                // ASCII but not a valid identifier
                 break;
+            } else if let Some(c) = self.input().cur_as_char() {
+                if Ident::is_valid_non_ascii_continue(c) {
+                    self.bump();
+                    continue;
+                } else if first && Ident::is_valid_non_ascii_start(c) {
+                    self.bump();
+                    first = false;
+                    continue;
+                }
             }
 
-            let end = l.cur_pos();
-            let s = unsafe {
-                // Safety: slice_start and end are valid position because we got them from
-                // `self.input`
-                l.input_slice(slice_start, end)
-            };
-            let value = if !has_escape {
-                // Fast path: raw slice is enough if there's no escape.
-                convert(l, s, has_escape, can_be_keyword)
-            } else {
-                buf.push_str(s);
-                convert(l, buf, has_escape, can_be_keyword)
-            };
+            break;
+        }
 
-            Ok((value, has_escape))
-        })
+        let end = self.cur_pos();
+        let s = unsafe {
+            // Safety: slice_start and end are valid position because we got them from
+            // `self.input`
+            self.input_slice(slice_start, end)
+        };
+        let value = if !has_escape {
+            // Fast path: raw slice is enough if there's no escape.
+            Cow::Borrowed(s)
+        } else {
+            buf.push_str(s);
+            Cow::Owned(buf)
+        };
+
+        Ok((value, has_escape))
     }
 
     /// `#`
-    fn read_token_number_sign(&mut self) -> LexResult<Option<Self::Token>> {
-        debug_assert!(self.cur().is_some_and(|c| c == '#'));
+    fn read_token_number_sign(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(self.cur().is_some_and(|c| c == b'#'));
 
         self.bump(); // '#'
 
         // `#` can also be a part of shebangs, however they should have been
         // handled by `read_shebang()`
         debug_assert!(
-            !self.input().is_at_start() || self.cur() != Some('!'),
+            !self.input().is_at_start() || self.cur() != Some(b'!'),
             "#! should have already been handled by read_shebang()"
         );
-        Ok(Some(Self::Token::HASH))
+        Ok(Self::Token::HASH)
     }
 
     /// Read a token given `.`.
@@ -1764,7 +1839,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_dot(&mut self) -> LexResult<Self::Token> {
-        debug_assert!(self.cur().is_some_and(|c| c == '.'));
+        debug_assert!(self.cur().is_some_and(|c| c == b'.'));
         // Check for eof
         let next = match self.input().peek() {
             Some(next) => next,
@@ -1774,15 +1849,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
         };
         if next.is_ascii_digit() {
-            return self.read_number(true).map(|v| match v {
+            return self.read_number::<true, false>().map(|v| match v {
                 Left((value, raw)) => Self::Token::num(value, raw, self),
-                Right((value, raw)) => Self::Token::bigint(value, raw, self),
+                Right(_) => unreachable!("read_number should not return bigint for leading dot"),
             });
         }
 
         self.bump(); // 1st `.`
 
-        if next == '.' && self.input().peek() == Some('.') {
+        if next == b'.' && self.input().peek() == Some(b'.') {
             self.bump(); // 2nd `.`
             self.bump(); // 3rd `.`
 
@@ -1797,7 +1872,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_question_mark(&mut self) -> LexResult<Self::Token> {
-        debug_assert!(self.cur().is_some_and(|c| c == '?'));
+        debug_assert!(self.cur().is_some_and(|c| c == b'?'));
         self.bump();
         if self.input_mut().eat_byte(b'?') {
             if self.input_mut().eat_byte(b'=') {
@@ -1815,7 +1890,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_colon(&mut self) -> LexResult<Self::Token> {
-        debug_assert!(self.cur().is_some_and(|c| c == ':'));
+        debug_assert!(self.cur().is_some_and(|c| c == b':'));
         self.bump(); // ':'
         Ok(Self::Token::COLON)
     }
@@ -1825,15 +1900,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_zero(&mut self) -> LexResult<Self::Token> {
-        debug_assert_eq!(self.cur(), Some('0'));
+        debug_assert_eq!(self.cur(), Some(b'0'));
         let next = self.input().peek();
 
         let bigint = match next {
-            Some('x') | Some('X') => self.read_radix_number::<16>(),
-            Some('o') | Some('O') => self.read_radix_number::<8>(),
-            Some('b') | Some('B') => self.read_radix_number::<2>(),
+            Some(b'x') | Some(b'X') => self.read_radix_number::<16>(),
+            Some(b'o') | Some(b'O') => self.read_radix_number::<8>(),
+            Some(b'b') | Some(b'B') => self.read_radix_number::<2>(),
             _ => {
-                return self.read_number(false).map(|v| match v {
+                return self.read_number::<false, true>().map(|v| match v {
                     Left((value, raw)) => Self::Token::num(value, raw, self),
                     Right((value, raw)) => Self::Token::bigint(value, raw, self),
                 });
@@ -1856,10 +1931,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
-        unsafe {
-            // Safety: cur() is Some(c as char)
-            self.input_mut().bump();
-        }
+        // Safety: cur() is Some(c as char)
+        self.bump();
         let token = if is_bit_and {
             Self::Token::BIT_AND
         } else {
@@ -1877,17 +1950,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         }
 
         // '||', '&&'
-        if self.input().cur() == Some(C as char) {
-            unsafe {
-                // Safety: cur() is Some(c)
-                self.input_mut().bump();
-            }
+        if self.input().cur() == Some(C) {
+            // Safety: cur() is Some(c)
+            self.bump();
 
-            if self.input().cur() == Some('=') {
-                unsafe {
-                    // Safety: cur() is Some('=')
-                    self.input_mut().bump();
-                }
+            if self.input().cur() == Some(b'=') {
+                // Safety: cur() is Some('=')
+                self.bump();
 
                 return Ok(if is_bit_and {
                     Self::Token::LOGICAL_AND_EQ
@@ -1923,7 +1992,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_mul_mod(&mut self, is_mul: bool) -> LexResult<Self::Token> {
-        debug_assert!(self.cur().is_some_and(|c| c == '*' || c == '%'));
+        debug_assert!(self.cur().is_some_and(|c| c == b'*' || c == b'%'));
         self.bump();
         let token = if is_mul {
             if self.input_mut().eat_byte(b'*') {
@@ -1951,14 +2020,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(never)]
-    fn read_slash(&mut self) -> LexResult<Option<Self::Token>> {
-        debug_assert_eq!(self.cur(), Some('/'));
+    fn read_slash(&mut self) -> LexResult<Self::Token> {
+        debug_assert_eq!(self.cur(), Some(b'/'));
         self.bump(); // '/'
-        Ok(Some(if self.eat(b'=') {
+        Ok(if self.eat(b'=') {
             Self::Token::DIV_EQ
         } else {
             Self::Token::DIV
-        }))
+        })
     }
 
     /// This can be used if there's no keyword starting with the first
@@ -1966,10 +2035,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_ident_unknown(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, _| {
-            let atom = l.atom(s);
-            Self::Token::unknown_ident(atom, l)
-        })?;
+        let (s, has_escape) = self.read_word_as_str_with()?;
+        let atom = self.atom(s);
+        let word = Self::Token::unknown_ident(atom, self);
+
         if has_escape {
             self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
         }
@@ -1980,160 +2049,201 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     // TODO: merge `read_str_lit` and `read_jsx_str`
     fn read_str_lit(&mut self) -> LexResult<Self::Token> {
-        debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
+        debug_assert!(self.cur() == Some(b'\'') || self.cur() == Some(b'"'));
         let start = self.cur_pos();
-        let quote = self.cur().unwrap() as u8;
+        let quote = self.cur().unwrap();
 
-        self.bump(); // '"'
+        self.bump(); // '"' or '\''
 
-        let mut has_escape = false;
         let mut slice_start = self.input().cur_pos();
 
-        self.with_buf(|l, buf| {
-            loop {
-                let table = if quote == b'"' {
-                    &DOUBLE_QUOTE_STRING_END_TABLE
-                } else {
-                    &SINGLE_QUOTE_STRING_END_TABLE
-                };
+        let mut buf: Option<Wtf8Buf> = None;
 
-                let fast_path_result = byte_search! {
-                    lexer: l,
-                    table: table,
-                    handle_eof: {
-                        let value_end = l.cur_pos();
+        loop {
+            let table = if quote == b'"' {
+                &DOUBLE_QUOTE_STRING_END_TABLE
+            } else {
+                &SINGLE_QUOTE_STRING_END_TABLE
+            };
+
+            let fast_path_result = byte_search! {
+                lexer: self,
+                table: table,
+                handle_eof: {
+                    let value_end = self.cur_pos();
+                    let s = unsafe {
+                            // Safety: slice_start and value_end are valid position because we
+                            // got them from `self.input`
+                        self.input_slice(slice_start, value_end)
+                    };
+
+                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
+
+                    let end = self.cur_pos();
+                    let raw = unsafe { self.input_slice(start, end) };
+                    return Ok(Self::Token::str(self.wtf8_atom(Wtf8::from_str(s)), self.atom(raw), self));
+                },
+            };
+            // dbg!(char::from_u32(fast_path_result as u32));
+
+            match fast_path_result {
+                b'"' | b'\'' if fast_path_result == quote => {
+                    let value_end = self.cur_pos();
+
+                    let value = if let Some(buf) = buf.as_mut() {
+                        // `buf` only exist when there has escape.
+                        debug_assert!(unsafe { self.input_slice(start, value_end).contains('\\') });
                         let s = unsafe {
-                                // Safety: slice_start and value_end are valid position because we
-                                // got them from `self.input`
-                            l.input_slice(slice_start, value_end)
+                            // Safety: slice_start and value_end are valid position because we
+                            // got them from `self.input`
+                            self.input_slice(slice_start, value_end)
                         };
                         buf.push_str(s);
+                        self.wtf8_atom(&**buf)
+                    } else {
+                        let s = unsafe { self.input_slice(slice_start, value_end) };
+                        self.wtf8_atom(Wtf8::from_str(s))
+                    };
 
-                        l.emit_error(start, SyntaxError::UnterminatedStrLit);
+                    // Safety: cur is quote
+                    self.bump();
 
-                        let end = l.cur_pos();
-                        let raw = unsafe { l.input_slice(start, end) };
-                        return Ok(Self::Token::str(l.atom(&**buf), l.atom(raw), l));
-                    },
-                };
-
-                match fast_path_result {
-                    b'"' | b'\'' if fast_path_result == quote => {
-                        let value_end = l.cur_pos();
-
-                        let value = if !has_escape {
-                            let s = unsafe { l.input_slice(slice_start, value_end) };
-                            l.atom(s)
-                        } else {
-                            let s = unsafe {
-                                // Safety: slice_start and value_end are valid position because we
-                                // got them from `self.input`
-                                l.input_slice(slice_start, value_end)
-                            };
-                            buf.push_str(s);
-
-                            l.atom(&**buf)
-                        };
-
-                        unsafe {
-                            // Safety: cur is quote
-                            l.input_mut().bump();
-                        }
-
-                        let end = l.cur_pos();
-                        let raw = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            l.input_slice(start, end)
-                        };
-                        let raw = l.atom(raw);
-                        return Ok(Self::Token::str(value, raw, l));
-                    }
-                    b'\\' => {
-                        has_escape = true;
-
-                        {
-                            let end = l.cur_pos();
-                            let s = unsafe {
-                                // Safety: start and end are valid position because we got them from
-                                // `self.input`
-                                l.input_slice(slice_start, end)
-                            };
-                            buf.push_str(s);
-                        }
-
-                        if let Some(chars) = l.read_escaped_char(false)? {
-                            for c in chars {
-                                buf.extend(c);
-                            }
-                        }
-
-                        slice_start = l.cur_pos();
-                        continue;
-                    }
-                    b'\n' | b'\r' => {
-                        let end = l.cur_pos();
-                        let s = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            l.input_slice(slice_start, end)
-                        };
-                        buf.push_str(s);
-
-                        l.emit_error(start, SyntaxError::UnterminatedStrLit);
-
-                        let end = l.cur_pos();
-
-                        let raw = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            l.input_slice(start, end)
-                        };
-                        return Ok(Self::Token::str(l.atom(&**buf), l.atom(raw), l));
-                    }
-                    _ => l.bump(),
+                    let end = self.cur_pos();
+                    let raw = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(start, end)
+                    };
+                    let raw = self.atom(raw);
+                    return Ok(Self::Token::str(value, raw, self));
                 }
+                b'\\' => {
+                    let end = self.cur_pos();
+                    let s = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(slice_start, end)
+                    };
+
+                    if buf.is_none() {
+                        buf = Some(Wtf8Buf::from_str(s));
+                    } else {
+                        buf.as_mut().unwrap().push_str(s);
+                    }
+
+                    if let Some(escaped) = self.read_escaped_char(false)? {
+                        buf.as_mut().unwrap().push(escaped);
+                    }
+
+                    slice_start = self.cur_pos();
+                    continue;
+                }
+                b'\n' | b'\r' => {
+                    let end = self.cur_pos();
+                    let s = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(slice_start, end)
+                    };
+
+                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
+
+                    let end = self.cur_pos();
+
+                    let raw = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(start, end)
+                    };
+                    return Ok(Self::Token::str(
+                        self.wtf8_atom(Wtf8::from_str(s)),
+                        self.atom(raw),
+                        self,
+                    ));
+                }
+                _ => self.bump(),
             }
-        })
+        }
     }
 
-    /// This can be used if there's no keyword starting with the first
-    /// character.
-    fn read_word_with(
+    fn read_keyword_with(
         &mut self,
         convert: &dyn Fn(&str) -> Option<Self::Token>,
-    ) -> LexResult<Option<Self::Token>> {
+    ) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
-            if can_be_known {
-                if let Some(word) = convert(s) {
-                    return word;
-                }
+        let (s, has_escape) = self.read_keyword_as_str_with()?;
+        if let Some(word) = convert(s.as_ref()) {
+            // Note: ctx is store in lexer because of this error.
+            // 'await' and 'yield' may have semantic of reserved word, which means lexer
+            // should know context or parser should handle this error. Our approach to this
+            // problem is former one.
+            if has_escape && word.is_reserved(self.ctx()) {
+                self.error(
+                    start,
+                    SyntaxError::EscapeInReservedWord { word: Atom::new(s) },
+                )
+            } else {
+                Ok(word)
             }
-            let atom = l.atom(s);
-            Self::Token::unknown_ident(atom, l)
-        })?;
-
-        // Note: ctx is store in lexer because of this error.
-        // 'await' and 'yield' may have semantic of reserved word, which means lexer
-        // should know context or parser should handle this error. Our approach to this
-        // problem is former one.
-
-        if has_escape && word.is_reserved(self.ctx()) {
-            let word = word.into_atom(self).unwrap();
-            self.error(start, SyntaxError::EscapeInReservedWord { word })?
         } else {
-            Ok(Some(word))
+            let atom = self.atom(s);
+            Ok(Self::Token::unknown_ident(atom, self))
+        }
+    }
+
+    /// This is a performant version of [Lexer::read_word_as_str_with] for
+    /// reading keywords. We should make sure the first byte is a valid
+    /// ASCII.
+    fn read_keyword_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
+        let slice_start = self.cur_pos();
+
+        // Fast path: try to scan ASCII identifier using byte_search
+        // Performance optimization: check if first char disqualifies as keyword
+        // Advance past first byte
+        self.bump();
+
+        // Use byte_search to quickly scan to end of ASCII identifier
+        let next_byte = byte_search! {
+            lexer: self,
+            table: NOT_ASCII_ID_CONTINUE_TABLE,
+            handle_eof: {
+                // Reached EOF, entire remainder is identifier
+                let end = self.cur_pos();
+                let s = unsafe {
+                    // Safety: slice_start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice(slice_start, end)
+                };
+
+                return Ok((Cow::Borrowed(s), false));
+            },
+        };
+
+        // Check if we hit end of identifier or need to fall back to slow path
+        if !next_byte.is_ascii() || next_byte == b'\\' {
+            // Hit Unicode character or escape sequence, fall back to slow path from current
+            // position
+            self.read_word_as_str_with_slow_path(slice_start)
+        } else {
+            // Hit end of identifier (non-continue ASCII char)
+            let end = self.cur_pos();
+            let s = unsafe {
+                // Safety: slice_start and end are valid position because we got them from
+                // `self.input`
+                self.input_slice(slice_start, end)
+            };
+
+            Ok((Cow::Borrowed(s), false))
         }
     }
 }
 
 pub fn pos_span(p: BytePos) -> Span {
-    Span::new(p, p)
+    Span::new_with_checked(p, p)
 }
 
 pub fn fixed_len_span(p: BytePos, len: u32) -> Span {
-    Span::new(p, p + BytePos(len))
+    Span::new_with_checked(p, p + BytePos(len))
 }

@@ -8,6 +8,9 @@ impl Pure<'_> {
     pub(super) fn optimize_expr_in_num_ctx(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                let Some(value) = value.as_str() else {
+                    return;
+                };
                 let value = if value.is_empty() {
                     0f64
                 } else {
@@ -170,6 +173,33 @@ impl Pure<'_> {
                     let value = bin_inner.take();
 
                     *bin = BinExpr { span, ..value };
+                }
+
+                (
+                    op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&"),
+                    e @ Expr::Bin(BinExpr { op: op!("|"), .. }),
+                    _,
+                )
+                | (
+                    op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&"),
+                    _,
+                    e @ Expr::Bin(BinExpr { op: op!("|"), .. }),
+                ) => {
+                    if let Expr::Bin(bin) = e {
+                        match (&mut *bin.left, &mut *bin.right) {
+                            (Expr::Lit(Lit::Num(n)), inner) | (inner, Expr::Lit(Lit::Num(n)))
+                                if n.value == 0.0 =>
+                            {
+                                report_change!("numbers: Turn '(a | 0) ^ b' into 'a ^ b'");
+                                self.changed = true;
+
+                                let new_expr = inner.take();
+
+                                *e = new_expr
+                            }
+                            _ => {}
+                        }
+                    }
                 }
 
                 (

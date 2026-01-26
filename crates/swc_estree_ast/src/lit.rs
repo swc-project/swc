@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
 use serde::{ser::SerializeMap, Deserialize, Serialize};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::ast_serde;
 
 use crate::{common::BaseNode, expr::Expression, flavor::Flavor, typescript::TSType};
@@ -76,7 +76,7 @@ impl Serialize for Literal {
                         {
                             // TODO(kdy1): This is bad.
                             l.base
-                                .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                                .serialize(crate::flat_map_serializer::FlatMapSerializer(&mut s))?;
                         }
                         s.serialize_entry("type", "Literal")?;
 
@@ -168,7 +168,7 @@ struct AcornLiteral<'a> {
 #[derive(Serialize)]
 #[serde(untagged)]
 enum AcornLiteralValue {
-    String(Atom),
+    String(Wtf8Atom),
     Numeric(f64),
     Null(Option<()>),
     Boolean(bool),
@@ -181,7 +181,7 @@ enum AcornLiteralValue {
 pub struct StringLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub value: Atom,
+    pub value: Wtf8Atom,
     pub raw: Atom,
 }
 
@@ -243,7 +243,7 @@ pub struct TemplateElVal {
     #[serde(default)]
     pub raw: Atom,
     #[serde(default)]
-    pub cooked: Option<Atom>,
+    pub cooked: Option<Wtf8Atom>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

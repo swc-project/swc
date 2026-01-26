@@ -1,8 +1,8 @@
 //// [subtypingWithCallSignatures4.ts]
-// checking subtype relations for function types as it relates to contextual signature instantiation
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// checking subtype relations for function types as it relates to contextual signature instantiation
 var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
@@ -34,10 +34,10 @@ var OtherDerived = /*#__PURE__*/ function(Base) {
     }
     return OtherDerived;
 }(Base);
-var r1arg = function(x) {
+var r1arg = function r1arg(x) {
     return null;
 };
-var r1arg2 = function(x) {
+var r1arg2 = function r1arg2(x) {
     return null;
 };
 var r1 = foo1(r1arg);
@@ -49,12 +49,12 @@ var r1b = [
     r1arg2,
     r1arg
 ];
-var r2arg = function(x) {
+var r2arg = function r2arg(x) {
     return [
         ''
     ];
 };
-var r2arg2 = function(x) {
+var r2arg2 = function r2arg2(x) {
     return [
         ''
     ];
@@ -68,10 +68,10 @@ var r2b = [
     r2arg2,
     r2arg
 ];
-var r3arg = function(x) {
+var r3arg = function r3arg(x) {
     return null;
 };
-var r3arg2 = function(x) {};
+var r3arg2 = function r3arg2(x) {};
 var r3 = foo3(r3arg);
 var r3a = [
     r3arg,
@@ -81,10 +81,10 @@ var r3b = [
     r3arg2,
     r3arg
 ];
-var r4arg = function(x, y) {
+var r4arg = function r4arg(x, y) {
     return '';
 };
-var r4arg2 = function(x, y) {
+var r4arg2 = function r4arg2(x, y) {
     return '';
 };
 var r4 = foo4(r4arg);
@@ -96,10 +96,10 @@ var r4b = [
     r4arg2,
     r4arg
 ];
-var r5arg = function(x) {
+var r5arg = function r5arg(x) {
     return null;
 };
-var r5arg2 = function(x) {
+var r5arg2 = function r5arg2(x) {
     return null;
 };
 var r5 = foo5(r5arg);
@@ -111,10 +111,10 @@ var r5b = [
     r5arg2,
     r5arg
 ];
-var r6arg = function(x) {
+var r6arg = function r6arg(x) {
     return null;
 };
-var r6arg2 = function(x) {
+var r6arg2 = function r6arg2(x) {
     return null;
 };
 var r6 = foo6(r6arg);
@@ -126,10 +126,10 @@ var r6b = [
     r6arg2,
     r6arg
 ];
-var r11arg = function(x, y) {
+var r11arg = function r11arg(x, y) {
     return null;
 };
-var r11arg2 = function(x, y) {
+var r11arg2 = function r11arg2(x, y) {
     return null;
 };
 var r11 = foo11(r11arg);
@@ -141,10 +141,10 @@ var r11b = [
     r11arg2,
     r11arg
 ];
-var r15arg = function(x) {
+var r15arg = function r15arg(x) {
     return null;
 };
-var r15arg2 = function(x) {
+var r15arg2 = function r15arg2(x) {
     return null;
 };
 var r15 = foo15(r15arg);
@@ -156,10 +156,10 @@ var r15b = [
     r15arg2,
     r15arg
 ];
-var r16arg = function(x) {
+var r16arg = function r16arg(x) {
     return null;
 };
-var r16arg2 = function(x) {
+var r16arg2 = function r16arg2(x) {
     return null;
 };
 var r16 = foo16(r16arg);
@@ -171,11 +171,11 @@ var r16b = [
     r16arg2,
     r16arg
 ];
-var r17arg = function(x) {
+var r17arg = function r17arg(x) {
     return null;
 };
 var r17 = foo17(r17arg);
-var r18arg = function(x) {
+var r18arg = function r18arg(x) {
     return null;
 };
 var r18 = foo18(r18arg);

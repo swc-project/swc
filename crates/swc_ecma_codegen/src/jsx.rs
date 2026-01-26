@@ -4,6 +4,8 @@ use swc_ecma_codegen_macros::node_impl;
 
 use super::Emitter;
 use crate::text_writer::WriteJs;
+#[cfg(swc_ast_unknown)]
+use crate::unknown_error;
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
@@ -15,6 +17,7 @@ where
 #[node_impl]
 impl MacroNode for JSXElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
         emit!(self.opening);
         emitter.emit_list(
             self.span(),
@@ -63,6 +66,8 @@ impl MacroNode for JSXElementName {
             JSXElementName::Ident(ref n) => emit!(n),
             JSXElementName::JSXMemberExpr(ref n) => emit!(n),
             JSXElementName::JSXNamespacedName(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -85,10 +90,12 @@ impl MacroNode for JSXAttr {
 impl MacroNode for JSXAttrValue {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
-            JSXAttrValue::Lit(ref n) => emit!(n),
+            JSXAttrValue::Str(ref n) => emit!(n),
             JSXAttrValue::JSXExprContainer(ref n) => emit!(n),
             JSXAttrValue::JSXElement(ref n) => emit!(n),
             JSXAttrValue::JSXFragment(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -100,6 +107,8 @@ impl MacroNode for JSXAttrName {
         match *self {
             JSXAttrName::Ident(ref n) => emit!(n),
             JSXAttrName::JSXNamespacedName(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -115,6 +124,8 @@ impl MacroNode for JSXAttrOrSpread {
                 emit!(n);
                 punct!(emitter, "}");
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -129,6 +140,8 @@ impl MacroNode for JSXElementChild {
             JSXElementChild::JSXFragment(ref n) => emit!(n),
             JSXElementChild::JSXSpreadChild(ref n) => emit!(n),
             JSXElementChild::JSXText(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -162,6 +175,8 @@ impl MacroNode for JSXExpr {
         match *self {
             JSXExpr::Expr(ref n) => emit!(n),
             JSXExpr::JSXEmptyExpr(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -180,6 +195,7 @@ impl MacroNode for JSXClosingElement {
 #[node_impl]
 impl MacroNode for JSXFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
         emit!(self.opening);
 
         emitter.emit_list(
@@ -222,6 +238,7 @@ impl MacroNode for JSXNamespacedName {
 #[node_impl]
 impl MacroNode for JSXEmptyExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span, false)?;
         Ok(())
     }
 }
@@ -250,6 +267,8 @@ impl MacroNode for JSXObject {
         match *self {
             JSXObject::Ident(ref n) => emit!(n),
             JSXObject::JSXMemberExpr(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }

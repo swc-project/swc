@@ -24,7 +24,7 @@
              * Returns navigator.userAgent string or '' if it's not defined.
              * @return user agent string
              */ function getUA() {
-                return "undefined" != typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
+                return "u" > typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
             }
             /**
              * Detect Cordova / PhoneGap / Ionic frameworks on a mobile device.
@@ -33,12 +33,12 @@
              * in the Ripple emulator) nor Cordova `onDeviceReady`, which would normally
              * wait for a callback.
              */ function isMobileCordova() {
-                return "undefined" != typeof window && // @ts-ignore Setting up an broadly applicable index signature for Window
+                return "u" > typeof window && // @ts-ignore Setting up an broadly applicable index signature for Window
                 // just to deal with this case would probably be a bad idea.
                 !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
             }
             function isBrowserExtension() {
-                const runtime = "object" == typeof chrome ? chrome.runtime : "object" == typeof browser ? browser.runtime : void 0;
+                let runtime = "object" == typeof chrome ? chrome.runtime : "object" == typeof browser ? browser.runtime : void 0;
                 return "object" == typeof runtime && void 0 !== runtime.id;
             }
             /**
@@ -52,7 +52,7 @@
                 return getUA().indexOf("Electron/") >= 0;
             }
             /** Detects Internet Explorer. */ function isIE() {
-                const ua = getUA();
+                let ua = getUA();
                 return ua.indexOf("MSIE ") >= 0 || ua.indexOf("Trident/") >= 0;
             }
             /** Detects Universal Windows Platform apps. */ function isUWP() {
@@ -98,14 +98,14 @@
                     this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
                 create(code, ...data) {
-                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? template.replace(PATTERN, (_, key)=>{
-                        const value = customData[key];
+                    let customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? template.replace(PATTERN, (_, key)=>{
+                        let value = customData[key];
                         return null != value ? String(value) : `<${key}?>`;
                     }) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`;
                     return new FirebaseError(fullCode, fullMessage, customData);
                 }
             }
-            const PATTERN = /\{\$([^}]+)}/g;
+            let PATTERN = /\{\$([^}]+)}/g;
             /**
              * @license
              * Copyright 2021 Google LLC
@@ -157,7 +157,7 @@
                     return /* binding */ getStatEventTarget;
                 }
             });
-            /* unused harmony export default */ var a, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
+            /* unused harmony export default */ var a, x, Na, Ab, cc, k, commonjsGlobal = "u" > typeof globalThis ? globalThis : "u" > typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "u" > typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
             function aa() {}
             function ba(a) {
                 var b = typeof a;
@@ -208,7 +208,7 @@
             }, v.prototype.M = function() {
                 if (this.o) for(; this.o.length;)this.o.shift()();
             };
-            const ma = Array.prototype.indexOf ? function(a, b) {
+            let ma = Array.prototype.indexOf ? function(a, b) {
                 return Array.prototype.indexOf.call(a, b, void 0);
             } : function(a, b) {
                 if ("string" == typeof a) return "string" != typeof b || 1 != b.length ? -1 : a.indexOf(b, 0);
@@ -217,16 +217,16 @@
             }, na = Array.prototype.forEach ? function(a, b, c) {
                 Array.prototype.forEach.call(a, b, c);
             } : function(a, b, c) {
-                const d = a.length, e = "string" == typeof a ? a.split("") : a;
+                let d = a.length, e = "string" == typeof a ? a.split("") : a;
                 for(let f = 0; f < d; f++)f in e && b.call(c, e[f], f, a);
             };
             function qa(a) {
                 return Array.prototype.concat.apply([], arguments);
             }
             function ra(a) {
-                const b = a.length;
+                let b = a.length;
                 if (0 < b) {
-                    const c = Array(b);
+                    let c = Array(b);
                     for(let d = 0; d < b; d++)c[d] = a[d];
                     return c;
                 }
@@ -255,11 +255,11 @@
                 x = "";
             }
             function xa(a, b, c) {
-                for(const d in a)b.call(c, a[d], d, a);
+                for(let d in a)b.call(c, a[d], d, a);
             }
             function ya(a) {
-                const b = {};
-                for(const c in a)b[c] = a[c];
+                let b = {};
+                for(let c in a)b[c] = a[c];
                 return b;
             }
             var za = "constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");
@@ -491,7 +491,7 @@
                     this.h = this.g = null;
                 }
                 add(a, b) {
-                    const c = vb.get();
+                    let c = vb.get();
                     c.set(a, b), this.h ? this.h.next = c : this.g = c, this.h = c;
                 }
             }();
@@ -542,7 +542,7 @@
                         a.g = Gb(()=>{
                             a.g = null, a.i && (a.i = !1, Hb(a));
                         }, a.j);
-                        const b = a.h;
+                        let b = a.h;
                         a.h = null, a.m.apply(null, b);
                     }(this);
                 }
@@ -625,14 +625,14 @@
                 z.call(this, H.Ma, a);
             }
             function I(a) {
-                const b = Sb();
+                let b = Sb();
                 D(b, new Tb(b, a));
             }
             function Ub(a, b) {
                 z.call(this, H.STAT_EVENT, a), this.stat = b;
             }
             function J(a) {
-                const b = Sb();
+                let b = Sb();
                 D(b, new Ub(b, a));
             }
             function Vb(a, b) {
@@ -788,21 +788,21 @@
                             let m = e[b];
                             if (c.U = m[0], m = m[1], 2 == c.G) if ("c" == m[0]) {
                                 c.J = m[1], c.la = m[2];
-                                const r = m[3];
+                                let r = m[3];
                                 null != r && (c.ma = r, c.h.info("VER=" + c.ma));
-                                const G = m[4];
+                                let G = m[4];
                                 null != G && (c.za = G, c.h.info("SVER=" + c.za));
-                                const Da = m[5];
+                                let Da = m[5];
                                 null != Da && "number" == typeof Da && 0 < Da && (c.K = d = 1.5 * Da, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
-                                const ca = a.g;
+                                let ca = a.g;
                                 if (ca) {
-                                    const Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
+                                    let Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
                                     if (Ea) {
                                         var f = d.i;
                                         !f.g && (w(Ea, "spdy") || w(Ea, "quic") || w(Ea, "h2")) && (f.j = f.l, f.g = new Set(), f.h && (Dc(f, f.h), f.h = null));
                                     }
                                     if (d.D) {
-                                        const xb = ca.g ? ca.g.getResponseHeader("X-HTTP-Session-Id") : null;
+                                        let xb = ca.g ? ca.g.getResponseHeader("X-HTTP-Session-Id") : null;
                                         xb && (d.sa = xb, R(d.F, d.D, xb));
                                     }
                                 }
@@ -872,14 +872,14 @@
                 this.P = a;
             }, k.gb = function(a) {
                 a = a.target;
-                const b = this.L;
+                let b = this.L;
                 b && 3 == O(a) ? b.l() : this.Ia(a);
             }, k.Ia = function(a) {
                 try {
                     if (a == this.g) a: {
-                        const r = O(this.g);
+                        let r = O(this.g);
                         var b = this.g.Da();
-                        const G = this.g.ba();
+                        let G = this.g.ba();
                         if (!(3 > r) && (3 != r || Ja || this.g && (this.h.h || this.g.ga() || oc(this.g)))) {
                             this.I || 4 != r || 7 == b || (8 == b || 0 >= G ? I(3) : I(2)), pc(this);
                             var c = this.g.ba();
@@ -889,7 +889,7 @@
                                 a = "";
                                 var e = d.length, f = 4 == O(this.g);
                                 if (!this.h.i) {
-                                    if ("undefined" == typeof TextDecoder) {
+                                    if ("u" < typeof TextDecoder) {
                                         P(this), rc(this);
                                         var h = "";
                                         break b;
@@ -936,7 +936,7 @@
             }, k.eb = function() {
                 var a, b;
                 this.B = null;
-                const a1 = Date.now();
+                let a1 = Date.now();
                 0 <= a1 - this.Y ? (a = this.j, b = this.A, a.info(function() {
                     return "TIMEOUT: " + b;
                 }), 2 != this.K && (I(3), J(17)), P(this), this.o = 2, rc(this)) : xc(this, this.Y - a1);
@@ -1110,7 +1110,7 @@
                 if (null != a.h) return a.i.concat(a.h.D);
                 if (null != a.g && 0 !== a.g.size) {
                     let b = a.i;
-                    for (const c of a.g.values())b = b.concat(c.D);
+                    for (let c of a.g.values())b = b.concat(c.D);
                     return b;
                 }
                 return ra(a.i);
@@ -1133,7 +1133,7 @@
             gd.prototype.cancel = function() {
                 if (this.i = jd(this), this.h) this.h.cancel(), this.h = null;
                 else if (this.g && 0 !== this.g.size) {
-                    for (const a of this.g.values())a.cancel();
+                    for (let a of this.g.values())a.cancel();
                     this.g.clear();
                 }
             }, kd.prototype.stringify = function(a) {
@@ -1161,7 +1161,7 @@
             }, k.send = function(a) {
                 if (1 != this.readyState) throw this.abort(), Error("need to call open() first. ");
                 this.g = !0;
-                const b = {
+                let b = {
                     headers: this.v,
                     method: this.C,
                     credentials: this.m,
@@ -1202,7 +1202,7 @@
                 return this.h && this.h.get(a.toLowerCase()) || "";
             }, k.getAllResponseHeaders = function() {
                 if (!this.h) return "";
-                const a = [], b = this.h.entries();
+                let a = [], b = this.h.entries();
                 for(var c = b.next(); !c.done;)a.push((c = c.value)[0] + ": " + c[1]), c = b.next();
                 return a.join("\r\n");
             }, Object.defineProperty(qd.prototype, "withCredentials", {
@@ -1237,7 +1237,7 @@
                     else if (D(a, "readystatechange"), 4 == O(a)) {
                         a.h = !1;
                         try {
-                            const n = a.ba();
+                            let n = a.ba();
                             switch(n){
                                 case 200:
                                 case 201:
@@ -1281,7 +1281,7 @@
             function Dd(a, b) {
                 if (a.g) {
                     Ad(a);
-                    const c = a.g, d = a.C[0] ? aa : null;
+                    let c = a.g, d = a.C[0] ? aa : null;
                     a.g = null, a.C = null, b || D(a, "ready");
                     try {
                         c.onreadystatechange = d;
@@ -1351,7 +1351,7 @@
             function Qd(a, b) {
                 var c;
                 c = b ? b.m : a.V++;
-                const d = N(a.F);
+                let d = N(a.F);
                 R(d, "SID", a.J), R(d, "RID", c), R(d, "AID", a.U), Kd(a, d), a.o && a.s && Gd(d, a.o, a.s), c = new M(a, a.h, c, a.C + 1), null === a.o && (c.H = a.s), b && (a.l = b.D.concat(a.l)), b = Pd(a, c, 1e3), c.setTimeout(Math.round(0.5 * a.ra) + Math.round(0.5 * a.ra * Math.random())), Dc(a.i, c), ic(c, d, b);
             }
             function Kd(a, b) {
@@ -1366,18 +1366,17 @@
                     var e = a.l;
                     let f = -1;
                     for(;;){
-                        const h = [
+                        let h = [
                             "count=" + c
                         ];
                         -1 == f ? 0 < c ? (f = e[0].h, h.push("ofs=" + f)) : f = 0 : h.push("ofs=" + f);
                         let n = !0;
                         for(let u = 0; u < c; u++){
-                            let m = e[u].h;
-                            const r = e[u].g;
+                            let m = e[u].h, r = e[u].g;
                             if (0 > (m -= f)) f = Math.max(0, e[u].h - 100), n = !1;
                             else try {
                                 !function(a, b, c) {
-                                    const d = c || "";
+                                    let d = c || "";
                                     try {
                                         Kc(a, function(e, f) {
                                             let h = e;
@@ -1459,9 +1458,9 @@
                     var d = q(a.jb, a);
                     c || (c = new U("//www.google.com/images/cleardot.gif"), l.location && "http" == l.location.protocol || Oc(c, "https"), jc(c));
                     var a1 = c.toString();
-                    const c1 = new Mb();
+                    let c1 = new Mb();
                     if (l.Image) {
-                        const d1 = new Image();
+                        let d1 = new Image();
                         d1.onload = ja(od, c1, d1, "TestLoadImage: loaded", !0, d), d1.onerror = ja(od, c1, d1, "TestLoadImage: error", !1, d), d1.onabort = ja(od, c1, d1, "TestLoadImage: abort", !1, d), d1.ontimeout = ja(od, c1, d1, "TestLoadImage: timeout", !1, d), l.setTimeout(function() {
                             d1.ontimeout && d1.ontimeout();
                         }, 1e4), d1.src = a1;
@@ -1477,7 +1476,7 @@
                 let d1 = (a1 = c) instanceof U ? N(a1) : new U(a1, void 0);
                 if ("" != d1.i) b && Pc(d1, b + "." + d1.i), Qc(d1, d1.m);
                 else {
-                    const e1 = l.location;
+                    let e1 = l.location;
                     a2 = e1.protocol, b1 = b ? b + "." + e1.hostname : e1.hostname, c1 = +e1.port, d = c, e = new U(null, void 0), a2 && Oc(e, a2), b1 && Pc(e, b1), c1 && Qc(e, c1), d && (e.l = d), d1 = e;
                 }
                 return a.aa && xa(a.aa, function(e, f) {
@@ -1508,7 +1507,7 @@
                 var b = a.__sm__;
                 if (b) {
                     a: {
-                        for(const c in b){
+                        for(let c in b){
                             a = c;
                             break a;
                         }
@@ -1533,13 +1532,13 @@
                     return;
                 }
                 a = c || "";
-                const e = new S(this.headers);
+                let e = new S(this.headers);
                 d && Kc(d, function(f, h) {
                     e.set(h, f);
                 }), d = function(a) {
                     a: {
                         var b = pa;
-                        const c = a.length, d = "string" == typeof a ? a.split("") : a;
+                        let c = a.length, d = "string" == typeof a ? a.split("") : a;
                         for(let e = 0; e < c; e++)if (e in d && b.call(void 0, d[e], e, a)) {
                             b = e;
                             break a;
@@ -1553,8 +1552,7 @@
                 try {
                     var a1, a2;
                     Ad(this), 0 < this.B && ((this.K = (a1 = this.g, y && (a2 = function() {
-                        let a = 0;
-                        const b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
+                        let a = 0, b = ta(String(Na)).split("."), c = ta("9").split("."), d = Math.max(b.length, c.length);
                         for(let h = 0; 0 == a && h < d; h++){
                             var a1, b1, a2, b2, a3, b3, e = b[h] || "", f = c[h] || "";
                             do {
@@ -1616,8 +1614,7 @@
                 if (this.m) if (this.m = null, 1 == this.G) {
                     if (!a) {
                         this.V = Math.floor(1e5 * Math.random()), a = this.V++;
-                        const e = new M(this, this.h, a, void 0);
-                        let f = this.s;
+                        let e = new M(this, this.h, a, void 0), f = this.s;
                         if (this.P && (f ? Aa(f = ya(f), this.P) : f = this.P), null === this.o && (e.H = f), this.ja) a: {
                             for(var b = 0, c = 0; c < this.l.length; c++){
                                 b: {
@@ -1784,7 +1781,7 @@
                 }(arr = _useIntersection.useIntersection({
                     rootMargin: void 0 === _lazyBoundary ? "200px" : _lazyBoundary,
                     disabled: !isLazy
-                })) || function(arr, i) {
+                })) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -1798,7 +1795,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
@@ -2131,7 +2128,7 @@
             }), exports.useIntersection = function(param) {
                 var arr, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr = _react.useState(!1)) || function(arr, i) {
+                }(arr = _react.useState(!1)) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -2145,7 +2142,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var ref, id, observer, elements;
@@ -2192,7 +2189,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "u" > typeof IntersectionObserver, observers = new Map();
         /***/ },
         /***/ 6978: /***/ function(__unused_webpack_module, exports) {
             "use strict";
@@ -2290,25 +2287,16 @@
                     // Loop through providers and get library/version pairs from any that are
                     // version components.
                     return this.container.getProviders().map((provider)=>{
-                        if (!/**
-             *
-             * @param provider check if this provider provides a VersionService
-             *
-             * NOTE: Using Provider<'app-version'> is a hack to indicate that the provider
-             * provides VersionService. The provider is not necessarily a 'app-version'
-             * provider.
-             */ function(provider) {
-                            const component = provider.getComponent();
-                            return (null == component ? void 0 : component.type) === "VERSION" /* VERSION */ ;
-                        }(provider)) return null;
+                        let component;
+                        if ((null == (component = provider.getComponent()) ? void 0 : component.type) !== "VERSION" /* VERSION */ ) return null;
                         {
-                            const service = provider.getImmediate();
+                            let service = provider.getImmediate();
                             return `${service.library}/${service.version}`;
                         }
                     }).filter((logString)=>logString).join(" ");
                 }
             }
-            const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ /* .Logger */ .Yd("@firebase/app"), PLATFORM_LOG_STRING = {
+            let name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__ /* .Logger */ .Yd("@firebase/app"), PLATFORM_LOG_STRING = {
                 [name$o]: "fire-core",
                 "@firebase/app-compat": "fire-core-compat",
                 "@firebase/analytics": "fire-analytics",
@@ -2343,10 +2331,10 @@
              *
              * @internal
              */ function _registerComponent(component) {
-                const componentName = component.name;
+                let componentName = component.name;
                 if (_components.has(componentName)) return logger.debug(`There were multiple attempts to register component ${componentName}.`), !1;
                 // add the component to existing app instances
-                for (const app of (_components.set(componentName, component), _apps.values()))try {
+                for (let app of (_components.set(componentName, component), _apps.values()))try {
                     app.container.addComponent(component);
                 } catch (e) {
                     logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
@@ -2380,7 +2368,7 @@
              * The current SDK version.
              *
              * @public
-             */ const SDK_VERSION = "9.4.1";
+             */ let SDK_VERSION = "9.4.1";
             /**
              * Registers a library's name and version for platform logging purposes.
              * @param library - Name of 1p or 3p library (e.g. firestore, angularfire)
@@ -2394,9 +2382,9 @@
                 // a good whitelist system.
                 let library = null != (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) ? _a : libraryKeyOrName;
                 variant && (library += `-${variant}`);
-                const libraryMismatch = library.match(/\s|\//), versionMismatch = version.match(/\s|\//);
+                let libraryMismatch = library.match(/\s|\//), versionMismatch = version.match(/\s|\//);
                 if (libraryMismatch || versionMismatch) {
-                    const warning = [
+                    let warning = [
                         `Unable to register library "${library}" with version "${version}":`
                     ];
                     libraryMismatch && warning.push(`library name "${library}" contains illegal characters (whitespace or "/")`), libraryMismatch && versionMismatch && warning.push("and"), versionMismatch && warning.push(`version name "${version}" contains illegal characters (whitespace or "/")`), logger.warn(warning.join(" "));
@@ -2481,9 +2469,9 @@
              * limitations under the License.
              */ /**
              * A container for all of the Logger instances
-             */ const instances = [];
+             */ let instances = [];
             (LogLevel1 = LogLevel || (LogLevel = {}))[LogLevel1.DEBUG = 0] = "DEBUG", LogLevel1[LogLevel1.VERBOSE = 1] = "VERBOSE", LogLevel1[LogLevel1.INFO = 2] = "INFO", LogLevel1[LogLevel1.WARN = 3] = "WARN", LogLevel1[LogLevel1.ERROR = 4] = "ERROR", LogLevel1[LogLevel1.SILENT = 5] = "SILENT";
-            const levelStringToEnum = {
+            let levelStringToEnum = {
                 debug: LogLevel.DEBUG,
                 verbose: LogLevel.VERBOSE,
                 info: LogLevel.INFO,
@@ -2498,7 +2486,7 @@
                 [LogLevel.ERROR]: "error"
             }, defaultLogHandler = (instance, logType, ...args)=>{
                 if (logType < instance.logLevel) return;
-                const now = new Date().toISOString(), method = ConsoleMethod[logType];
+                let now = new Date().toISOString(), method = ConsoleMethod[logType];
                 if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
                 else throw Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
             };

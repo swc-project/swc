@@ -1,0 +1,43 @@
+[package]
+authors    = ["강동윤 <kdy1997.dev@gmail.com>"]
+edition    = "2021"
+license    = { workspace = true }
+name       = "binding_es_ast_viewer"
+publish    = false
+repository = { workspace = true }
+version    = "1.15.10"
+
+[dependencies]
+anyhow       = { workspace = true }
+wasm-bindgen = { workspace = true }
+
+[dependencies.swc_core]
+features = [
+  "ecma_ast",
+  "common",
+  "ecma_visit",
+  "ecma_transforms",
+  "ecma_parser_unstable",
+]
+path = "../../crates/swc_core"
+
+[dependencies.swc_error_reporters]
+path = "../../crates/swc_error_reporters"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[example]]
+name = "cli"
+path = "examples/cli.rs"
+
+[profile.release]
+codegen-units = 1
+debug         = false     # set to `true` for debug information
+lto           = true
+opt-level     = "s"
+panic         = "abort"   # Let it crash and force ourselves to write safe Rust.
+strip         = "symbols" # set to `false` for debug information
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

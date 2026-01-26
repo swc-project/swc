@@ -4,7 +4,7 @@ use swc_ecma_ast::{
     JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
     JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
     JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
-    JSXOpeningFragment, JSXSpreadChild, JSXText, Lit,
+    JSXOpeningFragment, JSXSpreadChild, JSXText,
 };
 use swc_estree_ast::{
     flavor::Flavor, JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
@@ -26,6 +26,8 @@ impl Babelify for JSXObject {
         match self {
             JSXObject::JSXMemberExpr(e) => JSXMemberExprObject::Expr(e.babelify(ctx)),
             JSXObject::Ident(i) => JSXMemberExprObject::Id(i.babelify(ctx).into()),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -84,6 +86,8 @@ impl Babelify for JSXExpr {
             JSXExpr::Expr(e) => {
                 JSXExprContainerExpr::Expr(Box::alloc().init(e.babelify(ctx).into()))
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -107,6 +111,8 @@ impl Babelify for JSXElementName {
             JSXElementName::Ident(i) => BabelJSXElementName::Id(i.babelify(ctx).into()),
             JSXElementName::JSXMemberExpr(e) => BabelJSXElementName::Expr(e.babelify(ctx)),
             JSXElementName::JSXNamespacedName(n) => BabelJSXElementName::Name(n.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -140,6 +146,8 @@ impl Babelify for JSXAttrOrSpread {
                     argument: Box::alloc().init(spread.expr.babelify(ctx).into()),
                 })
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -203,6 +211,8 @@ impl Babelify for JSXAttrName {
         match self {
             JSXAttrName::Ident(i) => BabelJSXAttrName::Id(i.babelify(ctx).into()),
             JSXAttrName::JSXNamespacedName(n) => BabelJSXAttrName::Name(n.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -212,20 +222,12 @@ impl Babelify for JSXAttrValue {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            JSXAttrValue::Lit(lit) => {
-                // TODO(dwoznicki): Babel only seems to accept string literals here. Is that
-                // right?
-                match lit {
-                    Lit::Str(s) => JSXAttrVal::String(s.babelify(ctx)),
-                    _ => panic!(
-                        "illegal conversion: Cannot convert {:?} to JsxAttrVal::Lit",
-                        &lit
-                    ),
-                }
-            }
+            JSXAttrValue::Str(s) => JSXAttrVal::String(s.babelify(ctx)),
             JSXAttrValue::JSXExprContainer(e) => JSXAttrVal::Expr(e.babelify(ctx)),
             JSXAttrValue::JSXElement(e) => JSXAttrVal::Element(e.babelify(ctx)),
             JSXAttrValue::JSXFragment(f) => JSXAttrVal::Fragment(f.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -269,6 +271,8 @@ impl Babelify for JSXElementChild {
             JSXElementChild::JSXSpreadChild(s) => BabelJSXElementChild::Spread(s.babelify(ctx)),
             JSXElementChild::JSXElement(e) => BabelJSXElementChild::Element(e.babelify(ctx)),
             JSXElementChild::JSXFragment(f) => BabelJSXElementChild::Fragment(f.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

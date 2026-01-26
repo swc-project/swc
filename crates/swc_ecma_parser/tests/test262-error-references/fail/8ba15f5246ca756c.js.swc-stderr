@@ -1,5 +1,4 @@
-  x Expected '}', got '<eof>'
+  x Unexpected token `<eof>`. Expected identifier, string literal, numeric literal or [ for the computed key
    ,-[$DIR/tests/test262-parser/fail/8ba15f5246ca756c.js:1:1]
  1 | class A {
-   :         ^
    `----

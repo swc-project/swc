@@ -20,7 +20,6 @@ mod bools;
 mod conds;
 mod ctx;
 mod dead_code;
-mod drop_console;
 mod evaluate;
 mod if_return;
 mod loops;
@@ -31,15 +30,12 @@ mod properties;
 mod sequences;
 mod strings;
 mod switches;
-mod unsafes;
 mod vars;
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct PureOptimizerConfig {
     /// pass > 1
     pub enable_join_vars: bool,
-
-    pub force_str_for_tpl: bool,
 }
 
 #[allow(clippy::needless_lifetimes)]
@@ -194,16 +190,12 @@ impl Pure<'_> {
 }
 
 impl VisitMut for Pure<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
-        {
-            let ctx = Ctx {
-                is_lhs_of_assign: true,
-                ..self.ctx
-            };
-            e.left.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_inside_of_context(Ctx::IS_LHS_OF_ASSIGN, |this| {
+            e.left.visit_mut_children_with(this);
+        });
 
         e.right.visit_mut_with(self);
 
@@ -263,6 +255,8 @@ impl VisitMut for Pure<'_> {
         match body {
             BlockStmtOrExpr::BlockStmt(b) => self.optimize_fn_stmts(&mut b.stmts),
             BlockStmtOrExpr::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         self.optimize_arrow_body(body);
@@ -273,25 +267,15 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_inside_of_context(Ctx::IS_CALLEE, |this| {
+            e.callee.visit_mut_with(this);
+        });
 
-        {
-            let ctx = Ctx {
-                is_callee: false,
-                ..self.ctx
-            };
-            e.args.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_outside_of_context(Ctx::IS_CALLEE, |this| {
+            e.args.visit_mut_with(this);
+        });
 
         self.eval_spread_array_in_args(&mut e.args);
-
-        self.drop_arguments_of_symbol_call(e);
     }
 
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
@@ -325,13 +309,9 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_do_while_stmt(&mut self, s: &mut DoWhileStmt) {
         s.test.visit_mut_with(self);
 
-        {
-            let ctx = Ctx {
-                preserve_block: true,
-                ..self.ctx
-            };
-            s.body.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_inside_of_context(Ctx::PRESERVE_BLOCK, |this| {
+            s.body.visit_mut_with(this);
+        });
 
         self.make_bool_short(&mut s.test, true, false);
     }
@@ -344,16 +324,17 @@ impl VisitMut for Pure<'_> {
         // Expression simplifier
         match e {
             Expr::Member(..) => {
-                if !(self.ctx.in_delete
-                    || self.ctx.is_update_arg
-                    || self.ctx.is_lhs_of_assign
-                    || self.ctx.in_opt_chain)
-                {
+                if !self.ctx.intersects(
+                    Ctx::IN_DELETE
+                        .union(Ctx::IS_UPDATE_ARG)
+                        .union(Ctx::IS_LHS_OF_ASSIGN)
+                        .union(Ctx::IN_OPT_CHAIN),
+                ) {
                     let mut changed = false;
                     simplify::expr::optimize_member_expr(
                         self.expr_ctx,
                         e,
-                        self.ctx.is_callee,
+                        self.ctx.contains(Ctx::IS_CALLEE),
                         &mut changed,
                     );
 
@@ -413,11 +394,9 @@ impl VisitMut for Pure<'_> {
                 if !arg.is_lit() {
                     self.ignore_return_value(
                         arg,
-                        DropOpts {
-                            drop_global_refs_if_unused: true,
-                            drop_number: true,
-                            drop_str_lit: true,
-                        },
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
                     );
                     if arg.is_invalid() {
                         *e = *Expr::undefined(*span);
@@ -455,12 +434,6 @@ impl VisitMut for Pure<'_> {
         self.eval_str_addition(e);
 
         if self.changed {
-            self.remove_invalid(e);
-        }
-
-        let changed = self.drop_console(e);
-
-        if changed {
             self.remove_invalid(e);
         }
 
@@ -668,11 +641,7 @@ impl VisitMut for Pure<'_> {
 
         self.ignore_return_value(
             &mut s.expr,
-            DropOpts {
-                drop_number: true,
-                drop_global_refs_if_unused: true,
-                drop_str_lit: false,
-            },
+            DropOpts::DROP_NUMBER.union(DropOpts::DROP_GLOBAL_REFS_IF_UNUSED),
         );
 
         if s.expr.is_invalid() {
@@ -701,11 +670,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_for_head(&mut self, head: &mut ForHead) {
-        let ctx = Ctx {
-            is_update_arg: true,
-            ..Default::default()
-        };
-        head.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        self.do_inside_of_context(Ctx::IS_UPDATE_ARG, |this| {
+            head.visit_mut_children_with(this)
+        });
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
@@ -757,13 +724,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
-        {
-            let ctx = Ctx {
-                _in_try_block: false,
-                ..self.ctx
-            };
-            f.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_outside_of_context(Ctx::IN_TRY_BLOCK, |this| f.visit_mut_children_with(this));
 
         if let Some(body) = &mut f.body {
             self.optimize_fn_stmts(&mut body.stmts)
@@ -775,19 +736,14 @@ impl VisitMut for Pure<'_> {
 
         match &mut s.alt {
             Some(alt) => {
-                let ctx = Ctx {
-                    preserve_block: false,
-                    ..self.ctx
-                };
-                self.with_ctx(ctx)
-                    .visit_par_ref(&mut [&mut *s.cons, &mut **alt]);
+                self.do_outside_of_context(Ctx::PRESERVE_BLOCK, |this| {
+                    this.visit_par_ref(&mut [&mut *s.cons, &mut **alt]);
+                });
             }
             None => {
-                let ctx = Ctx {
-                    preserve_block: false,
-                    ..self.ctx
-                };
-                s.cons.visit_mut_with(&mut *self.with_ctx(ctx));
+                self.do_outside_of_context(Ctx::PRESERVE_BLOCK, |this| {
+                    s.cons.visit_mut_with(this);
+                });
             }
         }
 
@@ -807,31 +763,25 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
-        let ctx = Ctx {
-            is_label_body: true,
-            ..self.ctx
-        };
-        s.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        self.do_inside_of_context(Ctx::IS_LABEL_BODY, |this| {
+            s.body.visit_mut_with(this);
+        });
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
-        {
-            let ctx = Ctx {
-                is_callee: false,
-                is_update_arg: false,
-                ..self.ctx
-            };
-            e.obj.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_outside_of_context(Ctx::IS_CALLEE.union(Ctx::IS_UPDATE_ARG), |this| {
+            e.obj.visit_mut_with(this);
+        });
 
         if let MemberProp::Computed(c) = &mut e.prop {
-            let ctx = Ctx {
-                is_callee: false,
-                is_update_arg: false,
-                is_lhs_of_assign: false,
-                ..self.ctx
-            };
-            c.visit_mut_with(&mut *self.with_ctx(ctx));
+            self.do_outside_of_context(
+                Ctx::IS_CALLEE
+                    .union(Ctx::IS_UPDATE_ARG)
+                    .union(Ctx::IS_LHS_OF_ASSIGN),
+                |this| {
+                    c.visit_mut_with(this);
+                },
+            );
 
             // TODO: unify these two
             if let Some(ident) = self.optimize_property_of_member_expr(Some(&e.obj), c) {
@@ -852,21 +802,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_inside_of_context(Ctx::IS_CALLEE, |this| {
+            e.callee.visit_mut_with(this);
+        });
 
-        {
-            let ctx = Ctx {
-                is_callee: false,
-                ..self.ctx
-            };
-            e.args.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_outside_of_context(Ctx::IS_CALLEE, |this| {
+            e.args.visit_mut_with(this);
+        });
     }
 
     fn visit_mut_object_lit(&mut self, e: &mut ObjectLit) {
@@ -880,13 +822,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_inside_of_context(Ctx::IS_CALLEE, |this| {
+            opt_call.callee.visit_mut_with(this);
+        });
 
         opt_call.args.visit_mut_with(self);
 
@@ -894,11 +832,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_opt_chain_expr(&mut self, e: &mut OptChainExpr) {
-        let ctx = Ctx {
-            in_opt_chain: true,
-            ..Default::default()
-        };
-        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        self.do_inside_of_context(Ctx::IN_OPT_CHAIN, |this| {
+            e.visit_mut_children_with(this);
+        });
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
@@ -908,12 +844,9 @@ impl VisitMut for Pure<'_> {
             if let Some(VarDeclOrExpr::Expr(e)) = n {
                 self.ignore_return_value(
                     e,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        ..Default::default()
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
                 if e.is_invalid() {
                     *n = None;
@@ -1016,21 +949,15 @@ impl VisitMut for Pure<'_> {
 
         self.merge_seq_call(e);
 
-        let can_change_this = !self.ctx.is_callee || !e.exprs.last().unwrap().directness_matters();
+        let can_change_this =
+            !self.ctx.contains(Ctx::IS_CALLEE) || !e.exprs.last().unwrap().directness_matters();
 
         let len = e.exprs.len();
         for (idx, e) in e.exprs.iter_mut().enumerate() {
             let is_last = idx == len - 1;
 
             if !is_last {
-                self.ignore_return_value(
-                    e,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: false,
-                        drop_str_lit: true,
-                    },
-                );
+                self.ignore_return_value(e, DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT));
             }
         }
 
@@ -1047,17 +974,16 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        {
-            let ctx = Ctx {
-                is_update_arg: false,
-                is_callee: false,
-                in_delete: false,
-                preserve_block: false,
-                is_label_body: false,
-                ..self.ctx
-            };
-            s.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_outside_of_context(
+            Ctx::IS_UPDATE_ARG
+                .union(Ctx::IS_CALLEE)
+                .union(Ctx::IN_DELETE)
+                .union(Ctx::PRESERVE_BLOCK)
+                .union(Ctx::IS_LABEL_BODY),
+            |this| {
+                s.visit_mut_children_with(this);
+            },
+        );
 
         match s {
             Stmt::Expr(ExprStmt { expr, .. }) => {
@@ -1066,13 +992,7 @@ impl VisitMut for Pure<'_> {
                     return;
                 }
 
-                self.ignore_return_value(
-                    expr,
-                    DropOpts {
-                        drop_number: true,
-                        ..Default::default()
-                    },
-                );
+                self.ignore_return_value(expr, DropOpts::DROP_NUMBER);
 
                 if expr.is_invalid() {
                     *s = Stmt::dummy();
@@ -1104,7 +1024,7 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        if !self.ctx.preserve_block {
+        if !self.ctx.contains(Ctx::PRESERVE_BLOCK) {
             self.drop_needless_block(s);
 
             debug_assert_valid(s);
@@ -1227,21 +1147,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            n.tag.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_inside_of_context(Ctx::IS_CALLEE, |this| {
+            n.tag.visit_mut_with(this);
+        });
 
-        {
-            let ctx = Ctx {
-                is_callee: false,
-                ..self.ctx
-            };
-            n.tpl.exprs.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_outside_of_context(Ctx::IS_CALLEE, |this| {
+            n.tpl.exprs.visit_mut_with(this);
+        });
     }
 
     fn visit_mut_throw_stmt(&mut self, s: &mut ThrowStmt) {
@@ -1251,13 +1163,10 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
-        {
-            let ctx = Ctx {
-                is_callee: false,
-                ..self.ctx
-            };
-            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        self.do_outside_of_context(Ctx::IS_CALLEE, |this| {
+            n.visit_mut_children_with(this);
+        });
+
         debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
 
         self.compress_tpl(n);
@@ -1270,11 +1179,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
-        let ctx = Ctx {
-            _in_try_block: true,
-            ..self.ctx
-        };
-        n.block.visit_mut_with(&mut *self.with_ctx(ctx));
+        self.do_inside_of_context(Ctx::IN_TRY_BLOCK, |this| {
+            n.block.visit_mut_with(this);
+        });
 
         n.handler.visit_mut_with(self);
 
@@ -1282,12 +1189,14 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_unary_expr(&mut self, e: &mut UnaryExpr) {
-        {
-            let ctx = Ctx {
-                in_delete: e.op == op!("delete"),
-                ..self.ctx
-            };
-            e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        if e.op == op!("delete") {
+            self.do_inside_of_context(Ctx::IN_DELETE, |this| {
+                e.visit_mut_children_with(this);
+            })
+        } else {
+            self.do_outside_of_context(Ctx::IN_DELETE, |this| {
+                e.visit_mut_children_with(this);
+            })
         }
 
         match e.op {
@@ -1303,12 +1212,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_update_expr(&mut self, e: &mut UpdateExpr) {
-        let ctx = Ctx {
-            is_update_arg: true,
-            ..self.ctx
-        };
-
-        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        self.do_inside_of_context(Ctx::IS_UPDATE_ARG, |this| {
+            e.visit_mut_children_with(this);
+        });
     }
 
     fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {

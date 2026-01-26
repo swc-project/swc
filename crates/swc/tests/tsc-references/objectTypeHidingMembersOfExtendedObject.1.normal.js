@@ -35,7 +35,7 @@ var r2b = i.data;
 var r2c = r2b['hm']; // should be 'Object'
 var r2d = i['hm']; // should be 'any'
 var a = {
-    valueOf: function() {},
+    valueOf: function valueOf() {},
     data: new B()
 };
 var r3 = a.valueOf();

@@ -7,12 +7,8 @@ use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
+use self::builtin::BUILTINS;
 pub(crate) use self::entry::Entry;
-use self::{
-    builtin::BUILTINS,
-    data::{BUILTIN_TYPES, INSTANCE_PROPERTIES, STATIC_PROPERTIES},
-};
-use crate::util::DataMapExt;
 
 mod builtin;
 mod data;
@@ -57,16 +53,16 @@ impl UsageVisitor {
     }
 
     /// Add imports
-    fn add(&mut self, features: &'static [&'static str]) {
+    fn add(&mut self, features: impl ExactSizeIterator<Item = &'static str>) {
         let UsageVisitor {
             is_any_target,
             target,
             ..
         } = self;
 
-        self.required.extend(features.iter().filter(|f| {
+        self.required.extend(features.filter(|f| {
             if !*is_any_target {
-                if let Some(v) = BUILTINS.get(&***f) {
+                if let Some(v) = BUILTINS.get(*f) {
                     // Skip
                     if !should_enable(target, v, true) {
                         return false;
@@ -80,14 +76,14 @@ impl UsageVisitor {
 
     fn add_property_deps_inner(&mut self, obj: Option<&Atom>, prop: &Atom) {
         if let Some(obj) = obj {
-            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
-                if let Some(features) = map.get_data(prop) {
+            if let Some(map) = data::static_properties_get(obj) {
+                if let Some(features) = map.get(prop) {
                     self.add(features);
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
+        if let Some(features) = data::instance_properties_get(prop) {
             self.add(features);
         }
     }
@@ -131,10 +127,8 @@ impl Visit for UsageVisitor {
     fn visit_ident(&mut self, node: &Ident) {
         node.visit_children_with(self);
 
-        for (name, builtin) in BUILTIN_TYPES {
-            if node.sym == **name {
-                self.add(builtin)
-            }
+        if let Some(features) = data::builtin_types_get(&node.sym) {
+            self.add(features);
         }
     }
 
@@ -232,47 +226,39 @@ impl Visit for UsageVisitor {
         match &node.prop {
             MemberProp::Ident(i) => {
                 //
-                for (name, imports) in INSTANCE_PROPERTIES {
-                    if i.sym == **name {
-                        self.add(imports)
-                    }
+                if let Some(imports) = data::instance_properties_get(&i.sym) {
+                    self.add(imports);
                 }
             }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
-                    for (name, imports) in INSTANCE_PROPERTIES {
-                        if *value == **name {
-                            self.add(imports);
-                        }
+                    if let Some(imports) = data::instance_properties_get(&value.to_string_lossy()) {
+                        self.add(imports);
                     }
                 }
             }
             _ => {}
         }
         if let Expr::Ident(obj) = &*node.obj {
-            for (ty, props) in STATIC_PROPERTIES {
-                if obj.sym == **ty {
-                    match &node.prop {
-                        MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                            if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
-                                for (name, imports) in INSTANCE_PROPERTIES {
-                                    if *value == **name {
-                                        self.add(imports);
-                                    }
-                                }
+            if let Some(props) = data::static_properties_get(&obj.sym) {
+                match &node.prop {
+                    MemberProp::Computed(ComputedPropName { expr, .. }) => {
+                        if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
+                            if let Some(imports) =
+                                data::instance_properties_get(&value.to_string_lossy())
+                            {
+                                self.add(imports);
                             }
                         }
-
-                        MemberProp::Ident(ref p) => {
-                            for (prop, imports) in *props {
-                                if p.sym == **prop {
-                                    self.add(imports);
-                                }
-                            }
-                        }
-
-                        _ => {}
                     }
+
+                    MemberProp::Ident(ref p) => {
+                        if let Some(imports) = props.get(&p.sym) {
+                            self.add(imports);
+                        }
+                    }
+
+                    _ => {}
                 }
             }
         }
@@ -297,7 +283,7 @@ impl Visit for UsageVisitor {
                 }) if is_symbol_iterator(expr)),
             _ => false,
         } {
-            self.add(&["web.dom.iterable"])
+            self.add(["web.dom.iterable"].iter().copied())
         }
     }
 
@@ -307,7 +293,9 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         match e.op {
-            op!("in") if is_symbol_iterator(&e.left) => self.add(&["web.dom.iterable"]),
+            op!("in") if is_symbol_iterator(&e.left) => {
+                self.add(["web.dom.iterable"].iter().copied())
+            }
             _ => {}
         }
     }
@@ -318,7 +306,7 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         if e.delegate {
-            self.add(&["web.dom.iterable"])
+            self.add(["web.dom.iterable"].iter().copied())
         }
     }
 }

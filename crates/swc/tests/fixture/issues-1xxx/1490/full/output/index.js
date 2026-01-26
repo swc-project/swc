@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var _call_super = require("@swc/helpers/_/_call_super");
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _create_class = require("@swc/helpers/_/_create_class");
@@ -62,7 +65,7 @@ var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement) {
     }
     return ColouredSquare;
 }(ColouredCanvasElement);
-var bugExample = function() {
+var bugExample = function bugExample() {
     var colouredSquare = new ColouredSquare(), hidden = false;
     colouredSquare.createFacets(hidden);
 };

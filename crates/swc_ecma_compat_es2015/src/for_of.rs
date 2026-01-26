@@ -185,6 +185,9 @@ impl ForOf {
                 ForHead::UsingDecl(..) => {
                     unreachable!("using declaration must be removed by previous pass")
                 }
+
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
 
             let stmt = ForStmt {
@@ -286,6 +289,9 @@ impl ForOf {
                 ForHead::UsingDecl(..) => {
                     unreachable!("using declaration must be removed by previous pass")
                 }
+
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
 
             // !(_step = _iterator()).done;
@@ -377,6 +383,8 @@ impl ForOf {
                 ForHead::UsingDecl(..) => {
                     unreachable!("using declaration must be removed by previous pass")
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
         );
 

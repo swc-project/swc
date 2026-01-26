@@ -4,7 +4,6 @@
 use serde::Deserialize;
 use swc_common::{comments::Comments, Mark};
 use swc_ecma_ast::Pass;
-use swc_ecma_compat_common::regexp::{self, regexp};
 
 pub use self::{
     arrow::arrow, block_scoped_fn::block_scoped_functions, block_scoping::block_scoping,
@@ -34,17 +33,7 @@ mod shorthand_property;
 pub mod spread;
 mod sticky_regex;
 pub mod template_literal;
-mod typeof_symbol;
-
-fn exprs(unresolved_mark: Mark) -> impl Pass {
-    (
-        arrow(unresolved_mark),
-        duplicate_keys(),
-        sticky_regex(),
-        instance_of(),
-        typeof_symbol(),
-    )
-}
+pub mod typeof_symbol;
 
 /// Compiles es2015 to es5.
 ///
@@ -59,23 +48,20 @@ pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl 
 where
     C: Comments + Clone,
 {
+    let mut options = swc_ecma_transformer::Options::default();
+    options.env.regexp.sticky_regex = true;
+    options.env.es2015.shorthand = true;
+    options.env.es2015.instanceof = true;
+    options.env.es2015.duplicate_keys = true;
+    options.env.es2015.typeof_symbol = true;
+
     (
         (
-            regexp(regexp::Config {
-                dot_all_regex: false,
-                has_indices: false,
-                lookbehind_assertion: false,
-                named_capturing_groups_regex: false,
-                sticky_regex: true,
-                unicode_property_regex: false,
-                unicode_regex: true,
-                unicode_sets_regex: false,
-            }),
             block_scoped_functions(),
             template_literal(c.template_literal),
             classes(c.classes),
             new_target(),
-            spread(c.spread),
+            spread(c.spread, unresolved_mark),
         ),
         // https://github.com/Microsoft/TypeScript/issues/5441
         if !c.typescript {
@@ -83,19 +69,19 @@ where
         } else {
             None
         },
-        shorthand(),
         function_name(),
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters, unresolved_mark),
         (
-            exprs(unresolved_mark),
+            arrow(unresolved_mark),
             computed_properties(c.computed_props),
             destructuring(c.destructuring),
             block_scoping(unresolved_mark),
             generator::generator(unresolved_mark, comments.clone()),
         ),
+        options.into_pass(),
     )
 }
 
@@ -113,6 +99,9 @@ pub struct Config {
 
     #[serde(flatten)]
     pub destructuring: destructuring::Config,
+
+    #[serde(flatten)]
+    pub typeof_symbol: typeof_symbol::Config,
 
     #[serde(flatten)]
     pub spread: spread::Config,

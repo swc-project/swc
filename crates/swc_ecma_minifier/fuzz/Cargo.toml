@@ -5,8 +5,8 @@ name    = "swc_ecma_minifier-fuzz"
 publish = false
 version = "0.0.0"
 
-  [package.metadata]
-  cargo-fuzz = true
+[package.metadata]
+cargo-fuzz = true
 
 [dependencies]
 libfuzzer-sys            = "0.4"

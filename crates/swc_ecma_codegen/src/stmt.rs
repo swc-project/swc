@@ -2,6 +2,8 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
+#[cfg(swc_ast_unknown)]
+use crate::unknown_error;
 use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 
 #[node_impl]
@@ -38,6 +40,8 @@ impl MacroNode for Stmt {
                 semi!(emitter);
             }
             Stmt::Decl(ref e) => emit!(e),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi(), true, true)?;
@@ -56,7 +60,7 @@ impl MacroNode for EmptyStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emitter.wr.write_punct(None, ";")?;
+        emitter.wr.write_punct(None, ";", false)?;
 
         Ok(())
     }
@@ -401,9 +405,9 @@ impl MacroNode for ForStmt {
 
         punct!(emitter, "(");
         opt!(emitter, self.init);
-        emitter.wr.write_punct(None, ";")?;
+        emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.test);
-        emitter.wr.write_punct(None, ";")?;
+        emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.update);
         punct!(emitter, ")");
 
@@ -582,6 +586,8 @@ impl MacroNode for ModuleExportName {
         match self {
             ModuleExportName::Ident(ident) => emit!(ident),
             ModuleExportName::Str(s) => emit!(s),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -594,6 +600,8 @@ impl MacroNode for VarDeclOrExpr {
         match self {
             VarDeclOrExpr::Expr(node) => emit!(node),
             VarDeclOrExpr::VarDecl(node) => emit!(node),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())

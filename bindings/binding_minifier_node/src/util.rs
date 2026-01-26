@@ -26,7 +26,7 @@ pub fn get_target_triple() -> napi::Result<String> {
 
 #[napi]
 pub fn init_custom_trace_subscriber(
-    mut env: Env,
+    env: Env,
     trace_out_file_path: Option<String>,
 ) -> napi::Result<()> {
     CUSTOM_TRACE_SUBSCRIBER.get_or_init(|| {
@@ -78,9 +78,9 @@ where
                     };
 
                     if let Some(s) = p.downcast_ref::<String>() {
-                        Err(anyhow!("failed to handle: {}", s))
+                        Err(anyhow!("failed to handle: {s}"))
                     } else if let Some(s) = p.downcast_ref::<&str>() {
-                        Err(anyhow!("failed to handle: {}", s))
+                        Err(anyhow!("failed to handle: {s}"))
                     } else {
                         Err(anyhow!("failed to handle with unknown panic message"))
                     }

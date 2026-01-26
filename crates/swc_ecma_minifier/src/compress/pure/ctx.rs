@@ -1,61 +1,52 @@
-use std::ops::{Deref, DerefMut};
-
 use super::Pure;
 
+bitflags::bitflags! {
 #[derive(Default, Clone, Copy)]
-pub(super) struct Ctx {
-    pub in_delete: bool,
-
-    /// `true` if we are in `arg` of `++arg` or `--arg`.
-    pub is_update_arg: bool,
-
-    #[allow(unused)]
-    pub is_callee: bool,
-
-    pub _in_try_block: bool,
-
-    pub is_lhs_of_assign: bool,
-
-    pub preserve_block: bool,
-
-    pub is_label_body: bool,
-
-    pub in_opt_chain: bool,
+    pub(super) struct Ctx: u8 {
+        const IN_DELETE         = 1 << 0;
+        /// true if we are in `arg` of `++arg` or `--arg`.
+        const IS_UPDATE_ARG     = 1 << 1;
+        const IS_CALLEE         = 1 << 2;
+        const IN_TRY_BLOCK      = 1 << 3;
+        const IS_LHS_OF_ASSIGN  = 1 << 4;
+        const PRESERVE_BLOCK    = 1 << 5;
+        const IS_LABEL_BODY     = 1 << 6;
+        const IN_OPT_CHAIN      = 1 << 7;
+    }
 }
 
 impl<'b> Pure<'b> {
-    /// RAII guard to change context temporarically
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b> {
-        let orig_ctx = self.ctx;
-        self.ctx = ctx;
-        WithCtx {
-            pass: self,
-            orig_ctx,
+    pub(super) fn do_inside_of_context<T>(
+        &mut self,
+        context: Ctx,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let ctx = self.ctx;
+        let inserted = ctx.complement().intersection(context);
+        if inserted.is_empty() {
+            f(self)
+        } else {
+            self.ctx.insert(inserted);
+            let result = f(self);
+            self.ctx.remove(inserted);
+            result
         }
     }
-}
 
-pub(super) struct WithCtx<'a, 'b> {
-    pass: &'a mut Pure<'b>,
-    orig_ctx: Ctx,
-}
-
-impl<'b> Deref for WithCtx<'_, 'b> {
-    type Target = Pure<'b>;
-
-    fn deref(&self) -> &Self::Target {
-        self.pass
-    }
-}
-
-impl DerefMut for WithCtx<'_, '_> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        self.pass
-    }
-}
-
-impl Drop for WithCtx<'_, '_> {
-    fn drop(&mut self) {
-        self.pass.ctx = self.orig_ctx;
+    pub(super) fn do_outside_of_context<T>(
+        &mut self,
+        context: Ctx,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let ctx = self.ctx;
+        let removed = ctx.intersection(context);
+        if !removed.is_empty() {
+            self.ctx.remove(removed);
+            let result = f(self);
+            self.ctx.insert(removed);
+            result
+        } else {
+            f(self)
+        }
     }
 }

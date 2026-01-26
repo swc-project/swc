@@ -1,4 +1,4 @@
 //// [arrowFunctionWithParameterNameAsync_es2017.ts]
-var x = function(async) {
+var x = function x(async) {
     return async;
 };

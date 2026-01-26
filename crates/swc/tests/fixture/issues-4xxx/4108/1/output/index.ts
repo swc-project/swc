@@ -6,7 +6,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
-export var getErrorForTransaction = function(connection, txid) {
+export var getErrorForTransaction = function getErrorForTransaction(connection, txid) {
     return _async_to_generator(function() {
         var tx, errors;
         return _ts_generator(this, function(_state) {
@@ -150,7 +150,7 @@ export function sendTransactionsWithManualRetry(connection, wallet, instructions
         });
     })();
 }
-export var sendTransactions = function(connection, wallet, instructionSet, signersSet) {
+export var sendTransactions = function sendTransactions(connection, wallet, instructionSet, signersSet) {
     var sequenceType = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : 1, commitment = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : "singleGossip", successCallback = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : function(txid, ind) {}, failCallback = arguments.length > 7 && arguments[7] !== void 0 ? arguments[7] : function(txid, ind) {
         return false;
     }, block = arguments.length > 8 ? arguments[8] : void 0, beforeTransactions = arguments.length > 9 && arguments[9] !== void 0 ? arguments[9] : [], afterTransactions = arguments.length > 10 && arguments[10] !== void 0 ? arguments[10] : [];
@@ -353,7 +353,7 @@ export var sendTransactions = function(connection, wallet, instructionSet, signe
         });
     })();
 };
-export var sendTransaction = function(connection, wallet, instructions, signers) {
+export var sendTransaction = function sendTransaction(connection, wallet, instructions, signers) {
     var awaitConfirmation = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : true, commitment = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : "singleGossip", includesFeePayer = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : false, block = arguments.length > 7 ? arguments[7] : void 0;
     return _async_to_generator(function() {
         var transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
@@ -467,7 +467,7 @@ export var sendTransaction = function(connection, wallet, instructions, signers)
         });
     })();
 };
-export var sendTransactionWithRetry = function(connection, wallet, instructions, signers) {
+export var sendTransactionWithRetry = function sendTransactionWithRetry(connection, wallet, instructions, signers) {
     var commitment = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : "singleGossip", includesFeePayer = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : false, block = arguments.length > 6 ? arguments[6] : void 0, beforeSend = arguments.length > 7 ? arguments[7] : void 0;
     return _async_to_generator(function() {
         var transaction, _tmp, _transaction, _transaction1, _transaction2, _ref, txid, slot;
@@ -546,7 +546,7 @@ export var sendTransactionWithRetry = function(connection, wallet, instructions,
         });
     })();
 };
-export var getUnixTs = function() {
+export var getUnixTs = function getUnixTs() {
     return new Date().getTime() / 1000;
 };
 var DEFAULT_TIMEOUT = 15000;

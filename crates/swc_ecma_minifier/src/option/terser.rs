@@ -343,6 +343,7 @@ impl TerserCompressorOptions {
             keep_fnames: self.keep_fnames,
             keep_infinity: self.keep_infinity,
             loops: self.loops.unwrap_or(self.defaults),
+            merge_imports: self.defaults,
             module: self.module,
             negate_iife: self.negate_iife.unwrap_or(self.defaults),
             passes: self.passes,
@@ -489,7 +490,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             .into()
         }
         Value::String(v) => {
-            let value: Atom = v.into();
+            let value = v.into();
 
             Lit::Str(Str {
                 span: DUMMY_SP,

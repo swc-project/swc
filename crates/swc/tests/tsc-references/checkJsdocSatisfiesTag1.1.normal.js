@@ -22,7 +22,7 @@ var t3 = /** @satisfies {T1} */ {};
 /** @type {T2} */ var t4 = /** @satisfies {T2} */ {
     a: "a"
 };
-/** @type {(m: string) => string} */ var t5 = /** @satisfies {T3} */ function(m) {
+/** @type {(m: string) => string} */ var t5 = /** @satisfies {T3} */ function t5(m) {
     return m.substring(0);
 };
 var t6 = /** @satisfies {[number, number]} */ [

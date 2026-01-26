@@ -1,8 +1,8 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{comments::Comments, Span};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_hooks::VisitMutHook;
 
 #[cfg(test)]
 mod tests;
@@ -13,35 +13,35 @@ mod tests;
 /// React methods, so that terser and other minifiers can safely remove them
 /// during dead code elimination.
 /// See https://reactjs.org/docs/react-api.html
-pub fn pure_annotations<C>(comments: Option<C>) -> impl Pass
+pub fn hook<C>(comments: Option<C>) -> impl VisitMutHook<()>
 where
     C: Comments,
 {
-    visit_mut_pass(PureAnnotations {
+    PureAnnotations {
         imports: Default::default(),
         comments,
-    })
+    }
 }
 
 struct PureAnnotations<C>
 where
     C: Comments,
 {
-    imports: FxHashMap<Id, (Atom, Atom)>,
+    imports: FxHashMap<Id, (Wtf8Atom, Atom)>,
     comments: Option<C>,
 }
 
-impl<C> VisitMut for PureAnnotations<C>
+impl<C> VisitMutHook<()> for PureAnnotations<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module(&mut self, module: &mut Module) {
+    fn enter_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         // Pass 1: collect imports
         for item in &module.body {
             if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
-                let src_str = &*import.src.value;
+                let Some(src_str) = import.src.value.as_str() else {
+                    continue;
+                };
                 if src_str != "react" && src_str != "react-dom" {
                     continue;
                 }
@@ -50,10 +50,14 @@ where
                     let src = import.src.value.clone();
                     match specifier {
                         ImportSpecifier::Named(named) => {
-                            let imported = match &named.imported {
+                            let imported: Atom = match &named.imported {
                                 Some(ModuleExportName::Ident(imported)) => imported.sym.clone(),
-                                Some(ModuleExportName::Str(..)) => named.local.sym.clone(),
+                                Some(ModuleExportName::Str(s)) => {
+                                    s.value.to_atom_lossy().into_owned()
+                                }
                                 None => named.local.sym.clone(),
+                                #[cfg(swc_ast_unknown)]
+                                Some(_) => continue,
                             };
                             self.imports.insert(named.local.to_id(), (src, imported));
                         }
@@ -64,20 +68,19 @@ where
                         ImportSpecifier::Namespace(ns) => {
                             self.imports.insert(ns.local.to_id(), (src, atom!("*")));
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => (),
                     }
                 }
             }
         }
+    }
 
+    fn enter_call_expr(&mut self, call: &mut CallExpr, _ctx: &mut ()) {
         if self.imports.is_empty() {
             return;
         }
 
-        // Pass 2: add pure annotations.
-        module.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         let is_react_call = match &call.callee {
             Callee::Expr(expr) => match &**expr {
                 Expr::Ident(ident) => {
@@ -118,15 +121,18 @@ where
                 comments.add_pure_comment(call.span.lo);
             }
         }
-
-        call.visit_mut_children_with(self);
     }
 }
 
-fn is_pure(src: &Atom, specifier: &Atom) -> bool {
-    match &**src {
+fn is_pure(src: &Wtf8Atom, specifier: &Atom) -> bool {
+    let Some(src) = src.as_str() else {
+        return false;
+    };
+    let specifier = specifier.as_str();
+
+    match src {
         "react" => matches!(
-            &**specifier,
+            specifier,
             "cloneElement"
                 | "createContext"
                 | "createElement"
@@ -137,7 +143,7 @@ fn is_pure(src: &Atom, specifier: &Atom) -> bool {
                 | "memo"
                 | "lazy"
         ),
-        "react-dom" => matches!(&**specifier, "createPortal"),
+        "react-dom" => specifier == "createPortal",
         _ => false,
     }
 }

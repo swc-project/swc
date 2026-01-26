@@ -24,7 +24,7 @@
         return factory(w);
     } : factory(global);
 // Pass this if window is not defined yet
-}("undefined" != typeof window ? window : this, function(window1, noGlobal) {
+}("u" > typeof window ? window : this, function(window1, noGlobal) {
     // Edge <= 12 - 13+, Firefox <=18 - 45+, IE 10 - 11, Safari 5.1 - 9+, iOS 6 - 9.1
     // throw exceptions when non-strict code (e.g., ASP.NET 4.5) accesses strict mode
     // arguments.callee.caller (trac-13335). But as of jQuery 3.0 (2016), strict mode should be common
@@ -1772,7 +1772,7 @@
         // Handle when the DOM is ready
         ready: function(wait) {
             // Abort if there are pending holds or we're already ready
-            !(!0 === wait ? --jQuery.readyWait : jQuery.isReady) && (// Remember that the DOM is ready
+            (!0 === wait ? --jQuery.readyWait : jQuery.isReady) || (// Remember that the DOM is ready
             jQuery.isReady = !0, !0 !== wait && --jQuery.readyWait > 0 || // If there are functions bound, to execute
             readyList.resolveWith(document, [
                 jQuery

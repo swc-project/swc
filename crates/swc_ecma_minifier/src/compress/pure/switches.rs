@@ -5,7 +5,10 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
 use crate::{
-    compress::{pure::DropOpts, util::is_primitive},
+    compress::{
+        pure::{Ctx, DropOpts},
+        util::is_primitive,
+    },
     util::idents_used_by,
 };
 
@@ -41,11 +44,7 @@ impl Pure<'_> {
 
             self.ignore_return_value(
                 &mut sw.discriminant,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
 
             let discriminant = sw.discriminant.take();
@@ -204,11 +203,7 @@ impl Pure<'_> {
 
             self.ignore_return_value(
                 discriminant,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
 
             if !discriminant.is_invalid() {
@@ -222,11 +217,7 @@ impl Pure<'_> {
                 // We are creating ExprStmt, so we can ignore return value
                 self.ignore_return_value(
                     &mut test,
-                    DropOpts {
-                        drop_number: true,
-                        drop_str_lit: true,
-                        ..Default::default()
-                    },
+                    DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                 );
 
                 if !test.is_invalid() {
@@ -445,7 +436,7 @@ impl Pure<'_> {
 
     /// Try turn switch into if and remove empty switch
     fn optimize_small_switch(&mut self, s: &mut Stmt) {
-        if self.ctx.is_label_body {
+        if self.ctx.contains(Ctx::IS_LABEL_BODY) {
             return;
         }
 
@@ -494,11 +485,7 @@ impl Pure<'_> {
                     } else {
                         self.ignore_return_value(
                             &mut discriminant,
-                            DropOpts {
-                                drop_number: true,
-                                drop_str_lit: true,
-                                ..Default::default()
-                            },
+                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                         );
 
                         let mut stmts = vec![];
@@ -524,6 +511,7 @@ impl Pure<'_> {
 
                     if terminate {
                         remove_last_break(&mut first.cons);
+                        remove_last_break(&mut second.cons);
                         // they cannot both be default as that's syntax error
                         let (def, case) = if first.test.is_none() {
                             (first, second)
@@ -624,11 +612,7 @@ impl Pure<'_> {
             let mut exprs = Vec::new();
             self.ignore_return_value(
                 &mut s.discriminant,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
             if !s.discriminant.is_invalid() {
                 exprs.push(s.discriminant.take());
@@ -641,11 +625,7 @@ impl Pure<'_> {
                     .filter_map(|mut e| {
                         self.ignore_return_value(
                             &mut e,
-                            DropOpts {
-                                drop_number: true,
-                                drop_str_lit: true,
-                                ..Default::default()
-                            },
+                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                         );
                         if e.is_invalid() {
                             None
@@ -766,7 +746,7 @@ struct BreakFinder {
 }
 
 impl Visit for BreakFinder {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
         if !self.top_level && s.label.is_none() {

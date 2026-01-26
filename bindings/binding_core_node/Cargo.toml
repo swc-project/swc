@@ -6,7 +6,7 @@ exclude = ["artifacts.json", "index.node"]
 license = "Apache-2.0"
 name    = "binding_core_node"
 publish = false
-version = "0.1.0"
+version = "0.2.0"
 
 [lib]
 bench      = false
@@ -15,6 +15,7 @@ crate-type = ["cdylib"]
 [features]
 default = ["swc_v1", "plugin"]
 plugin = [
+  "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
@@ -37,7 +38,6 @@ anyhow             = { workspace = true }
 backtrace          = { workspace = true }
 napi               = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive        = { workspace = true, features = ["type-def"] }
-node_macro_deps    = { path = "../node_macro_deps" }
 par-core           = { workspace = true, features = ["chili"] }
 path-clean         = { workspace = true }
 rustc-hash         = { workspace = true }
@@ -45,10 +45,9 @@ serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true, features = ["release_max_level_info"] }
 tracing-chrome     = { workspace = true }
-tracing-futures    = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-swc_core = { workspace = true, features = [
+swc_core = { path = "../../crates/swc_core", features = [
   "allocator_node",
   "ecma_ast",
   "ecma_minifier",
@@ -57,9 +56,10 @@ swc_core = { workspace = true, features = [
   "common_concurrent",
   "bundler",
   "ecma_loader",
+  "ecma_helpers_inline",
   "ecma_transforms",
   "ecma_visit",
   "base_node",
   "base_concurrent",
 ] }
-swc_malloc = { workspace = true }
+swc_malloc = { path = "../../crates/swc_malloc" }

@@ -1,4 +1,4 @@
-var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
+import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 class Foo {
     static #loggedMethod(_prototype, _propertyKey, descriptor) {
         const method = descriptor.value;
@@ -15,7 +15,7 @@ class Foo {
         console.log("hi");
     }
     static{
-        _ts_decorate._([
+        _ts_decorate([
             Foo.#loggedMethod
         ], Foo.prototype, "greet", null);
     }

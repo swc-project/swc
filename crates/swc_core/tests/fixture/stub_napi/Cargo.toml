@@ -12,6 +12,7 @@ crate-type = ["cdylib"]
 [features]
 default = ["swc_v1", "plugin"]
 plugin = [
+  "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
@@ -32,11 +33,11 @@ napi-build = { version = "2" }
 anyhow = "1.0.66"
 backtrace = "0.3"
 munge_macro = "=0.4.3"
-napi = { version = "2", default-features = false, features = [
+napi = { version = "3", default-features = false, features = [
   "napi3",
   "serde-json",
 ] }
-napi-derive = { version = "2", default-features = false, features = [
+napi-derive = { version = "3", default-features = false, features = [
   "type-def",
 ] }
 par-core = { version = "2", features = ["chili"] }

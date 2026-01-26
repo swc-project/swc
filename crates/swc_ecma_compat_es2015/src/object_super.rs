@@ -150,6 +150,8 @@ impl VisitMut for SuperReplacer {
                         }
                     }
                     Prop::Shorthand(_) | Prop::Assign(_) => (),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
         }
@@ -194,12 +196,14 @@ impl SuperReplacer {
                 sym: value, span, ..
             }) => Lit::Str(Str {
                 raw: None,
-                value,
+                value: value.into(),
                 span,
             })
             .into(),
 
             SuperProp::Computed(ComputedPropName { expr, .. }) => expr,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -287,6 +291,8 @@ impl SuperReplacer {
                     let op = match op {
                         op!("++") => op!("+="),
                         op!("--") => op!("-="),
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     };
                     *n = self.super_to_set_call(*super_token, true, prop, op, 1.0.into(), *prefix);
                 }
@@ -396,6 +402,8 @@ impl SuperReplacer {
         let computed = match prop {
             SuperProp::Ident(_) => false,
             SuperProp::Computed(_) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         let mut prop = self.normalize_computed_expr(prop);
         match op {

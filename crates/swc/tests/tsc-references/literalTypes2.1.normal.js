@@ -174,25 +174,25 @@ var C2 = /*#__PURE__*/ function() {
     return C2;
 }();
 function f20() {
-    var f1 = function() {
+    var f1 = function f1() {
         return 0;
     };
-    var f2 = function() {
+    var f2 = function f2() {
         return "hello";
     };
-    var f3 = function() {
+    var f3 = function f3() {
         return true;
     };
-    var f4 = function() {
+    var f4 = function f4() {
         return 2;
     };
-    var f5 = function() {
+    var f5 = function f5() {
         return "foo";
     };
-    var f6 = function() {
+    var f6 = function f6() {
         return "bar";
     };
-    var f7 = function() {
+    var f7 = function f7() {
         return "bar";
     };
 }

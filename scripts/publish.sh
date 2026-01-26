@@ -12,17 +12,13 @@ swc_core_version="$(cargo tree -i -p swc_core --depth 0 | awk '{print $2}')"
 
 echo "Publishing $version with swc_core $swc_core_version"
 
-# Update swc_core
-(cd ./bindings && ../scripts/update-all-swc-crates.sh || true)
-
-
 # Update version
 (cd ./packages/core && npm version "$version" --no-git-tag-version --allow-same-version || true)
 (cd ./packages/html && npm version "$version" --no-git-tag-version --allow-same-version || true)
 (cd ./packages/minifier && npm version "$version" --no-git-tag-version --allow-same-version || true)
 (cd ./packages/react-compiler && npm version "$version" --no-git-tag-version --allow-same-version || true)
-(cd ./bindings && cargo set-version $version -p binding_core_wasm -p binding_minifier_wasm -p binding_typescript_wasm)
-(cd ./bindings && cargo set-version --bump patch -p swc_cli)
+cargo set-version $version -p binding_core_wasm -p binding_minifier_wasm -p binding_typescript_wasm -p binding_es_ast_viewer
+cargo set-version --bump patch -p swc_cli
 
 
 # Commmit and tag

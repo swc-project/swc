@@ -27,9 +27,9 @@ function f() {
     });
 }
 //// [alsoFails.ts]
-// fails in Typescript too
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
+// fails in Typescript too
 function g() {
     var o;
     return _ts_generator(this, function(_state) {

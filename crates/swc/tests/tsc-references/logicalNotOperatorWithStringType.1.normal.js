@@ -1,6 +1,6 @@
 //// [logicalNotOperatorWithStringType.ts]
-// ! operator on string type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// ! operator on string type
 var STRING;
 var STRING1 = [
     "",
@@ -32,7 +32,7 @@ var ResultIsBoolean4 = !{
 };
 var ResultIsBoolean5 = !{
     x: "",
-    y: function(s) {
+    y: function y(s) {
         return s;
     }
 };

@@ -1,0 +1,5 @@
+  x Identifier cannot follow number
+   ,-[$DIR/tests/errors/issue-10863/input.js:1:1]
+ 1 | 0123n
+   :     ^
+   `----

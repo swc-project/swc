@@ -1,4 +1,4 @@
-require("core-js/modules/es.object.to-string.js");
-require("core-js/modules/es.symbol.description.js");
-require("core-js/modules/es.symbol.js");
+import "core-js/modules/es.object.to-string.js";
+import "core-js/modules/es.symbol.description.js";
+import "core-js/modules/es.symbol.js";
 Symbol.asyncDispose;

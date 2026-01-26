@@ -1,9 +1,11 @@
 "use strict";
 const react = require.resolve("react");
 const url = require("url").pathToFileURL(__filename).toString();
+const urlMaybe = require("url").pathToFileURL(__filename).toString();
 const filename = __filename;
 const dirname = __dirname;
 const main = require.main == module;
+foo?.bar(require("url").pathToFileURL(__filename).toString());
 console.log(react);
 console.log(url);
 console.log(filename);

@@ -1,16 +1,16 @@
 //// [tryStatements.ts]
 function fn() {
-    try {} catch (e) {}
-    try {} catch (e) {
-        try {} catch (e) {
-            try {} catch (e) {}
+    try {} catch (unused) {}
+    try {} catch (unused) {
+        try {} catch (unused) {
+            try {} catch (unused) {}
         }
-        try {} catch (e) {}
+        try {} catch (unused) {}
     }
     try {} catch (x) {
         var x;
     }
     try {} finally{}
-    try {} catch (e) {} finally{}
+    try {} catch (unused) {} finally{}
     try {} catch (z) {} finally{}
 }

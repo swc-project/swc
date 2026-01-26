@@ -44,11 +44,11 @@ export function transform(
 export function transformSync(code: string | Program, opts?: Options, experimental_plugin_bytes_resolver?: any): Output;
 "#;
 
-build_minify_sync!(#[wasm_bindgen(js_name = "minifySync", typescript_type = "minifySync",skip_typescript)]);
-build_minify!(#[wasm_bindgen(js_name = "minify", typescript_type = "minify",skip_typescript)]);
-build_parse_sync!(#[wasm_bindgen(js_name = "parseSync", typescript_type = "parseSync",skip_typescript)]);
-build_parse!(#[wasm_bindgen(js_name = "parse", typescript_type = "parse",skip_typescript)]);
-build_print_sync!(#[wasm_bindgen(js_name = "printSync", typescript_type = "printSync",skip_typescript)]);
-build_print!(#[wasm_bindgen(js_name = "print", typescript_type = "print",skip_typescript)]);
-build_transform_sync!(#[wasm_bindgen(js_name = "transformSync", typescript_type = "transformSync",skip_typescript)]);
-build_transform!(#[wasm_bindgen(js_name = "transform", typescript_type = "transform",skip_typescript)]);
+build_minify_sync!(#[wasm_bindgen(js_name = "minifySync", skip_typescript)]);
+build_minify!(#[wasm_bindgen(js_name = "minify", skip_typescript)]);
+build_parse_sync!(#[wasm_bindgen(js_name = "parseSync", skip_typescript)]);
+build_parse!(#[wasm_bindgen(js_name = "parse", skip_typescript)]);
+build_print_sync!(#[wasm_bindgen(js_name = "printSync", skip_typescript)]);
+build_print!(#[wasm_bindgen(js_name = "print", skip_typescript)]);
+build_transform_sync!(#[wasm_bindgen(js_name = "transformSync", skip_typescript)]);
+build_transform!(#[wasm_bindgen(js_name = "transform", skip_typescript)]);

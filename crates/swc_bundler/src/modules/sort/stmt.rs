@@ -422,6 +422,8 @@ impl Visit for FieldInitFinder {
                     }
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         e.visit_children_with(self);
@@ -568,6 +570,8 @@ impl Visit for RequirementCalculator {
         let orig = match &n.orig {
             ModuleExportName::Ident(ident) => ident,
             ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         self.insert(orig.clone().into());
     }

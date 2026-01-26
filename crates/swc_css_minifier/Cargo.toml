@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_css_minifier"
 repository    = { workspace = true }
-version       = "13.0.1"
+version       = "18.0.0"
 
 [lib]
 bench = false
@@ -16,14 +16,14 @@ bench = false
 rustc-hash = { workspace = true }
 serde      = { workspace = true }
 
-swc_atoms     = { version = "6.0.1", path = "../swc_atoms" }
-swc_common    = { version = "13.0.4", path = "../swc_common" }
-swc_css_ast   = { version = "13.0.1", path = "../swc_css_ast" }
-swc_css_utils = { version = "13.0.1", path = "../swc_css_utils/" }
-swc_css_visit = { version = "13.0.0", path = "../swc_css_visit" }
+swc_atoms     = { version = "9.0.0", path = "../swc_atoms" }
+swc_common    = { version = "18.0.1", path = "../swc_common" }
+swc_css_ast   = { version = "18.0.0", path = "../swc_css_ast" }
+swc_css_utils = { version = "18.0.0", path = "../swc_css_utils/" }
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
 
-swc_css_codegen = { version = "13.0.0", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "13.0.1", path = "../swc_css_parser" }
-testing         = { version = "14.0.1", path = "../testing" }
+swc_css_codegen = { version = "18.0.0", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "18.0.0", path = "../swc_css_parser" }
+testing         = { version = "19.0.0", path = "../testing" }

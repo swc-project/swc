@@ -544,5 +544,63 @@
   "3.38": [
     "esnext.uint8-array.set-from-base64",
     "esnext.uint8-array.set-from-hex"
+  ],
+  "3.39": [
+    "es.iterator.constructor",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.from",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.promise.try",
+    "esnext.iterator.concat",
+    "esnext.map.get-or-insert",
+    "esnext.map.get-or-insert-computed",
+    "esnext.weak-map.get-or-insert",
+    "esnext.weak-map.get-or-insert-computed"
+  ],
+  "3.40": [
+    "esnext.error.is-error"
+  ],
+  "3.41": [
+    "es.data-view.get-float16",
+    "es.data-view.set-float16",
+    "es.math.f16round",
+    "es.regexp.escape"
+  ],
+  "3.43": [
+    "es.array.from-async",
+    "es.async-disposable-stack.constructor",
+    "es.async-iterator.async-dispose",
+    "es.disposable-stack.constructor",
+    "es.error.is-error",
+    "es.iterator.dispose",
+    "es.suppressed-error.constructor",
+    "es.symbol.async-dispose",
+    "es.symbol.dispose",
+    "esnext.iterator.chunks",
+    "esnext.iterator.windows",
+    "esnext.iterator.zip",
+    "esnext.iterator.zip-keyed",
+    "esnext.number.clamp"
+  ],
+  "3.44": [
+    "esnext.iterator.sliding"
+  ],
+  "3.45": [
+    "es.math.sum-precise",
+    "es.uint8-array.from-base64",
+    "es.uint8-array.from-hex",
+    "es.uint8-array.set-from-base64",
+    "es.uint8-array.set-from-hex",
+    "es.uint8-array.to-base64",
+    "es.uint8-array.to-hex"
   ]
 }

@@ -1,4 +1,4 @@
-  x Unexpected eof
+  x Unexpected token `<eof>`. Expected `}`
    ,-[$DIR/tests/test262-parser/fail/8c353ce78b905b58.js:1:1]
  1 | `${a
    `----

@@ -50,7 +50,7 @@ use swc_ecma_transforms::{
     modules::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::import_rewriter,
+        rewriter::{self, import_rewriter},
         util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
@@ -70,7 +70,7 @@ use swc_ecma_transforms_optimization::{
     GlobalExprMap,
 };
 use swc_ecma_utils::NodeIgnoringSpan;
-use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 use swc_visit::Optional;
 
 pub use crate::plugin::PluginConfig;
@@ -188,6 +188,38 @@ pub struct Options {
 
     #[serde(default)]
     pub experimental: ExperimentalOptions,
+
+    #[serde(skip, default)]
+    pub runtime_options: RuntimeOptions,
+}
+
+#[derive(Clone, Debug)]
+pub struct RuntimeOptions {
+    #[cfg(feature = "plugin")]
+    pub(crate) plugin_runtime: Option<Arc<dyn swc_plugin_runner::runtime::Runtime>>,
+}
+
+impl RuntimeOptions {
+    #[cfg(feature = "plugin")]
+    pub fn plugin_runtime(
+        mut self,
+        plugin_runtime: Arc<dyn swc_plugin_runner::runtime::Runtime>,
+    ) -> Self {
+        self.plugin_runtime = Some(plugin_runtime);
+        self
+    }
+}
+
+#[allow(clippy::derivable_impls)]
+impl Default for RuntimeOptions {
+    fn default() -> Self {
+        RuntimeOptions {
+            #[cfg(all(feature = "plugin", feature = "plugin_backend_wasmer"))]
+            plugin_runtime: Some(Arc::new(swc_plugin_backend_wasmer::WasmerRuntime)),
+            #[cfg(all(feature = "plugin", not(feature = "plugin_backend_wasmer")))]
+            plugin_runtime: None,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Merge)]
@@ -267,6 +299,7 @@ impl Options {
             #[cfg(feature = "lint")]
             lints,
             preserve_all_comments,
+            rewrite_relative_import_extensions,
             ..
         } = cfg.jsc;
         let loose = loose.into_bool();
@@ -503,7 +536,7 @@ impl Options {
         let optimization = {
             optimizer
                 .and_then(|o| o.globals)
-                .map(|opts| opts.build(cm, handler, unresolved_mark))
+                .map(|opts| opts.build(cm, handler))
         };
 
         let pass = (
@@ -610,6 +643,28 @@ impl Options {
             .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
+        let rewrite_import_pass = {
+            let swc_import_rewriter = match resolver.clone() {
+                Some((base, resolver)) => match cfg.module {
+                    None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => {
+                        Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
+                    }
+                    _ => Box::new(noop_pass()),
+                },
+                None => Box::new(noop_pass()),
+            };
+
+            let typescript_import_rewriter = Optional::new(
+                rewriter::typescript_import_rewriter(),
+                rewrite_relative_import_extensions.into_bool(),
+            );
+
+            // swc_import_rewriter should be in front of typescript_import_rewriter
+            // because path aliases should be resolved before rewriting relative import
+            // extensions
+            (swc_import_rewriter, typescript_import_rewriter)
+        };
+
         let built_pass = (
             pass,
             Optional::new(
@@ -622,6 +677,9 @@ impl Options {
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer,
             ),
+            // Rewrite import pass should be before inject_helpers pass because typescript import
+            // rewriter may require ts_rewrite_relative_import_extension helper
+            rewrite_import_pass,
             Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
             ModuleConfig::build(
                 cm.clone(),
@@ -635,12 +693,12 @@ impl Options {
                         .map_or_else(|| target.caniuse(f), |env| env.caniuse(f))
                 },
             ),
-            visit_mut_pass(MinifierPass {
+            MinifierPass {
                 options: js_minify,
                 cm: cm.clone(),
                 comments: comments.map(|v| v as &dyn Comments),
                 top_level_mark,
-            }),
+            },
             Optional::new(
                 hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
                     top_level_mark,
@@ -671,10 +729,17 @@ impl Options {
             // 2. embedded runtime can compiles & execute wasm
             #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
             {
+                let plugin_runtime = self
+                    .runtime_options
+                    .plugin_runtime
+                    .clone()
+                    .context("plugin runtime not configured")?;
+
                 if let Some(plugins) = &experimental.plugins {
                     crate::plugin::compile_wasm_plugins(
                         experimental.cache_root.as_deref(),
                         plugins,
+                        &*plugin_runtime,
                     )
                     .context("Failed to compile wasm plugins")?;
                 }
@@ -686,6 +751,7 @@ impl Options {
                     comments.cloned(),
                     cm.clone(),
                     unresolved_mark,
+                    plugin_runtime,
                 ))
             }
 
@@ -723,6 +789,9 @@ impl Options {
         {
             plugin_transforms.unwrap()
         } else {
+            let jsx_enabled =
+                syntax.jsx() && transform.react.runtime != Some(react::Runtime::Preserve);
+
             let decorator_pass: Box<dyn Pass> =
                 match transform.decorator_version.unwrap_or_default() {
                     DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
@@ -768,60 +837,58 @@ impl Options {
                         explicit_resource_management(),
                         syntax.explicit_resource_management(),
                     ),
-                ),
-                // The transform strips import assertions, so it's only enabled if
-                // keep_import_assertions is false.
-                (
+                    // The transform strips import assertions, so it's only enabled if
+                    // keep_import_assertions is false.
                     Optional::new(import_attributes(), !keep_import_attributes),
-                    {
-                        let native_class_properties = !assumptions.set_public_class_fields
-                            && feature_config.as_ref().map_or_else(
-                                || target.caniuse(Feature::ClassProperties),
-                                |env| env.caniuse(Feature::ClassProperties),
-                            );
-
-                        let ts_config = typescript::Config {
-                            import_export_assign_config,
-                            verbatim_module_syntax,
-                            native_class_properties,
-                            ts_enum_is_mutable,
-                            ..Default::default()
-                        };
-
-                        (
-                            Optional::new(
-                                typescript::typescript(ts_config, unresolved_mark, top_level_mark),
-                                syntax.typescript() && !syntax.jsx(),
-                            ),
-                            Optional::new(
-                                typescript::tsx::<Option<&dyn Comments>>(
-                                    cm.clone(),
-                                    ts_config,
-                                    typescript::TsxConfig {
-                                        pragma: Some(
-                                            transform
-                                                .react
-                                                .pragma
-                                                .clone()
-                                                .unwrap_or_else(default_pragma),
-                                        ),
-                                        pragma_frag: Some(
-                                            transform
-                                                .react
-                                                .pragma_frag
-                                                .clone()
-                                                .unwrap_or_else(default_pragma_frag),
-                                        ),
-                                    },
-                                    comments.map(|v| v as _),
-                                    unresolved_mark,
-                                    top_level_mark,
-                                ),
-                                syntax.typescript() && syntax.jsx(),
-                            ),
-                        )
-                    },
                 ),
+                ({
+                    let native_class_properties = !assumptions.set_public_class_fields
+                        && feature_config.as_ref().map_or_else(
+                            || target.caniuse(Feature::ClassProperties),
+                            |env| env.caniuse(Feature::ClassProperties),
+                        );
+
+                    let ts_config = typescript::Config {
+                        import_export_assign_config,
+                        verbatim_module_syntax,
+                        native_class_properties,
+                        ts_enum_is_mutable,
+                        ..Default::default()
+                    };
+
+                    (
+                        Optional::new(
+                            typescript::typescript(ts_config, unresolved_mark, top_level_mark),
+                            syntax.typescript() && !jsx_enabled,
+                        ),
+                        Optional::new(
+                            typescript::tsx::<Option<&dyn Comments>>(
+                                cm.clone(),
+                                ts_config,
+                                typescript::TsxConfig {
+                                    pragma: Some(
+                                        transform
+                                            .react
+                                            .pragma
+                                            .clone()
+                                            .unwrap_or_else(default_pragma),
+                                    ),
+                                    pragma_frag: Some(
+                                        transform
+                                            .react
+                                            .pragma_frag
+                                            .clone()
+                                            .unwrap_or_else(default_pragma_frag),
+                                    ),
+                                },
+                                comments.map(|v| v as _),
+                                unresolved_mark,
+                                top_level_mark,
+                            ),
+                            syntax.typescript() && jsx_enabled,
+                        ),
+                    )
+                }),
                 (
                     plugin_transforms.take(),
                     custom_before_pass(&program),
@@ -834,7 +901,7 @@ impl Options {
                             top_level_mark,
                             unresolved_mark,
                         ),
-                        syntax.jsx(),
+                        jsx_enabled,
                     ),
                     built_pass,
                     Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
@@ -1279,6 +1346,10 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub output: JscOutputConfig,
+
+    /// https://www.typescriptlang.org/tsconfig/#rewriteRelativeImportExtensions
+    #[serde(default)]
+    pub rewrite_relative_import_extensions: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1415,7 +1486,7 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
         unresolved_mark: Mark,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
-        caniuse: impl (Fn(Feature) -> bool),
+        caniuse: impl Fn(Feature) -> bool,
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }
@@ -1426,12 +1497,7 @@ impl ModuleConfig {
         let support_block_scoping = caniuse(Feature::BlockScoping);
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
-        match config {
-            None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
-            {
-                Resolver::Default => Box::new(noop_pass()),
-                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
-            },
+        let transform_pass = match config {
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,
                 unresolved_mark,
@@ -1440,7 +1506,7 @@ impl ModuleConfig {
                     support_block_scoping,
                     support_arrow,
                 },
-            )),
+            )) as Box<dyn Pass>,
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(
                 cm,
                 resolver,
@@ -1465,7 +1531,10 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
             )),
-        }
+            _ => Box::new(noop_pass()),
+        };
+
+        Box::new(transform_pass)
     }
 
     pub fn get_resolver(
@@ -1665,12 +1734,7 @@ impl Default for GlobalInliningPassEnvs {
 }
 
 impl GlobalPassOption {
-    pub(crate) fn build(
-        self,
-        cm: &SourceMap,
-        handler: &Handler,
-        unresolved_mark: Mark,
-    ) -> impl 'static + Pass {
+    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
         type ValuesMap = Arc<FxHashMap<Atom, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
@@ -1824,13 +1888,7 @@ impl GlobalPassOption {
             }
         };
 
-        inline_globals(
-            unresolved_mark,
-            env_map,
-            global_map,
-            global_exprs,
-            Arc::new(self.typeofs),
-        )
+        inline_globals(env_map, global_map, global_exprs, Arc::new(self.typeofs))
     }
 }
 

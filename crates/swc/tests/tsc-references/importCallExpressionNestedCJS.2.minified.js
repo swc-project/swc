@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
         return _default;
     }
 });
-const _default = "./foo";
+let _default = "./foo";
 //// [index.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

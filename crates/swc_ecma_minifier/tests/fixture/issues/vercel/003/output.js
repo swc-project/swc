@@ -1,21 +1,21 @@
 import { a, b } from "./utils";
-"undefined" != typeof window && require("intersection-observer");
-const manager = function() {
-    const c = new Map();
+"u" > typeof window && require("intersection-observer");
+let manager = function() {
+    let c = new Map();
     function j(k) {
         return c.has(k) ? c.get(k) : c.set(k, new Map()).get(k);
     }
     function g(u, v) {
         for (let w of u){
-            const y = j(v).get(w.target);
+            let y = j(v).get(w.target);
             y && y(w);
         }
     }
     return {
         d: function(e) {
             return function(g = {}) {
-                const h = b(g);
-                for (const i of c.keys())if (a(i, h)) return i;
+                let h = b(g);
+                for (let i of c.keys())if (a(i, h)) return i;
                 return null;
             }(e) || new IntersectionObserver(g, e);
         },

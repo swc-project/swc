@@ -61,6 +61,8 @@ impl Babelify for ClassMember {
             ),
             ClassMember::StaticBlock(s) => ClassBodyEl::StaticBlock(s.babelify(ctx)),
             ClassMember::AutoAccessor(..) => todo!("auto accessor"),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -212,6 +214,8 @@ impl Babelify for MethodKind {
             MethodKind::Method => ClassMethodKind::Method,
             MethodKind::Getter => ClassMethodKind::Get,
             MethodKind::Setter => ClassMethodKind::Set,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

@@ -45,7 +45,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
         return 2;
     }
     var array = null;
-    var fn = function(s) {
+    var fn = function fn(s) {
         return 'hello ' + s;
     };
     var ol = {

@@ -2,7 +2,7 @@
 
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
-use swc_atoms::AtomStoreCell;
+use swc_atoms::{wtf8::Wtf8, AtomStoreCell};
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
@@ -14,18 +14,17 @@ pub use self::state::{TokenContext, TokenContexts, TokenFlags, TokenType};
 use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     common::{
-        lexer::{
-            char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
-            Lexer as LexerTrait,
-        },
+        lexer::{char::CharExt, fixed_len_span, pos_span, LexResult, Lexer as LexerTrait},
         syntax::{Syntax, SyntaxFlags},
     },
     error::{Error, SyntaxError},
+    lexer::comments_buffer::CommentsBuffer,
     tok,
     token::{BinOpToken, Token, TokenAndSpan},
     Context,
 };
 
+mod comments_buffer;
 mod jsx;
 mod number;
 mod state;
@@ -50,14 +49,13 @@ pub struct Lexer<'a> {
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
-    buf: Rc<RefCell<String>>,
-
     atoms: Rc<AtomStoreCell>,
 }
 
 impl FusedIterator for Lexer<'_> {}
 
 impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
+    type CommentsBuffer = CommentsBuffer;
     type State = self::state::State;
     type Token = self::Token;
 
@@ -72,7 +70,7 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn push_error(&self, error: crate::error::Error) {
+    fn push_error(&mut self, error: crate::error::Error) {
         self.errors.borrow_mut().push(error);
     }
 
@@ -92,14 +90,12 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn comments_buffer(&self) -> Option<&crate::common::lexer::comments_buffer::CommentsBuffer> {
+    fn comments_buffer(&self) -> Option<&Self::CommentsBuffer> {
         self.comments_buffer.as_ref()
     }
 
     #[inline(always)]
-    fn comments_buffer_mut(
-        &mut self,
-    ) -> Option<&mut crate::common::lexer::comments_buffer::CommentsBuffer> {
+    fn comments_buffer_mut(&mut self) -> Option<&mut Self::CommentsBuffer> {
         self.comments_buffer.as_mut()
     }
 
@@ -119,8 +115,8 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn buf(&self) -> std::rc::Rc<std::cell::RefCell<String>> {
-        self.buf.clone()
+    fn wtf8_atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, Wtf8>>) -> swc_atoms::Wtf8Atom {
+        self.atoms.wtf8_atom(s)
     }
 }
 
@@ -145,16 +141,15 @@ impl<'a> Lexer<'a> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
-            buf: Rc::new(RefCell::new(String::with_capacity(256))),
             atoms: Default::default(),
         }
     }
 
     /// babel: `getTokenFromCode`
-    fn read_token(&mut self) -> LexResult<Option<Token>> {
+    fn read_token(&mut self) -> LexResult<Token> {
         let byte = match self.input.as_str().as_bytes().first() {
             Some(&v) => v,
-            None => return Ok(None),
+            None => return Ok(Token::Eof),
         };
 
         let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
@@ -163,7 +158,9 @@ impl<'a> Lexer<'a> {
             Some(handler) => handler(self),
             None => {
                 let start = self.cur_pos();
-                self.input.bump_bytes(1);
+                unsafe {
+                    self.input.bump_bytes(1);
+                }
                 self.error_span(
                     pos_span(start),
                     SyntaxError::UnexpectedChar { c: byte as _ },
@@ -172,19 +169,19 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
 
         unsafe {
             // Safety: cur() is Some(c), if this method is called.
-            self.input.bump();
+            self.input.bump_bytes(1);
         }
 
         // '++', '--'
-        Ok(Some(if self.input.cur() == Some(C as char) {
+        Ok(if self.input.cur() == Some(C) {
             unsafe {
                 // Safety: cur() is Some(c)
-                self.input.bump();
+                self.input.bump_bytes(1);
             }
 
             // Handle -->
@@ -212,19 +209,19 @@ impl<'a> Lexer<'a> {
             } else {
                 BinOpToken::Sub
             })
-        }))
+        })
     }
 
-    fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
         unsafe {
             // Safety: cur() is Some(c) if this method is called.
-            self.input.bump();
+            self.input.bump_bytes(1);
         }
 
-        Ok(Some(if self.input.eat_byte(b'=') {
+        Ok(if self.input.eat_byte(b'=') {
             // "=="
 
             if self.input.eat_byte(b'=') {
@@ -255,13 +252,13 @@ impl<'a> Lexer<'a> {
             Token::Bang
         } else {
             Token::AssignOp(AssignOp::Assign)
-        }))
+        })
     }
 }
 
 impl Lexer<'_> {
     #[inline(never)]
-    fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
         self.bump();
@@ -271,14 +268,17 @@ impl Lexer<'_> {
             && !self.ctx.contains(Context::ShouldNotLexLtOrGtAsType)
         {
             if C == b'<' {
-                return Ok(Some(tok!('<')));
+                return Ok(tok!('<'));
             } else if C == b'>' {
-                return Ok(Some(tok!('>')));
+                return Ok(tok!('>'));
             }
         }
 
         // XML style comment. `<!--`
-        if C == b'<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-')
+        if C == b'<'
+            && self.is(b'!')
+            && self.peek() == Some(b'-')
+            && self.peek_ahead() == Some(b'-')
         {
             self.skip_line_comment(3);
             self.skip_space::<true>();
@@ -294,7 +294,7 @@ impl Lexer<'_> {
         };
 
         // '<<', '>>'
-        if self.cur() == Some(C as char) {
+        if self.cur() == Some(C) {
             self.bump();
             op = if C == b'<' {
                 BinOpToken::LShift
@@ -303,7 +303,7 @@ impl Lexer<'_> {
             };
 
             //'>>>'
-            if C == b'>' && self.cur() == Some(C as char) {
+            if C == b'>' && self.cur() == Some(C) {
                 self.bump();
                 op = BinOpToken::ZeroFillRShift;
             }
@@ -341,6 +341,6 @@ impl Lexer<'_> {
             return self.read_token();
         }
 
-        Ok(Some(token))
+        Ok(token)
     }
 }

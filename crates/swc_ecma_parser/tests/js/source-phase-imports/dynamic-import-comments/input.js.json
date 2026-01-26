@@ -1,0 +1,48 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 8,
+    "end": 80
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 8,
+        "end": 80
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 8,
+          "end": 72
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 8,
+            "end": 35
+          },
+          "phase": "source"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 50,
+                "end": 55
+              },
+              "value": "foo",
+              "raw": "\"foo\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

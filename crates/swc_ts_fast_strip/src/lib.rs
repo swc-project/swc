@@ -1,4 +1,4 @@
-use std::{cell::RefCell, fmt::Display, rc::Rc};
+use std::fmt::Display;
 
 use anyhow::Context;
 use bytes_str::BytesStr;
@@ -23,7 +23,7 @@ use swc_ecma_ast::{
 };
 use swc_ecma_parser::{
     lexer::Lexer,
-    unstable::{Capturing, Token, TokenAndSpan, TokenFactory},
+    unstable::{Capturing, Token, TokenAndSpan},
     Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_transforms_base::{
@@ -120,7 +120,7 @@ interface TransformConfig {
      * Don't create `export {}`.
      * By default, strip creates `export {}` for modules to preserve module
      * context.
-     * 
+     *
      * @see https://github.com/swc-project/swc/issues/1698
      */
     noEmptyExport?: boolean;
@@ -129,7 +129,7 @@ interface TransformConfig {
      * Disables an optimization that inlines TS enum member values
      * within the same module that assumes the enum member values
      * are never modified.
-     * 
+     *
      * Defaults to false.
      */
     tsEnumIsMutable?: boolean;
@@ -143,7 +143,7 @@ interface TransformConfig {
 interface JsxConfig {
     /**
      * How to transform JSX.
-     * 
+     *
      * @default "react-jsx"
      */
     transform?: "react-jsx" | "react-jsxdev";
@@ -251,8 +251,6 @@ pub fn operate(
         StringInput::from(&*fm),
         Some(&comments),
     ));
-    let tokens = lexer.tokens().clone();
-
     let mut parser = Parser::new_from(lexer);
 
     let program = match options.module {
@@ -261,6 +259,7 @@ pub fn operate(
         None => parser.parse_program(),
     };
     let errors = parser.take_errors();
+    let mut tokens = parser.input_mut().iter_mut().take();
 
     let mut program = match program {
         Ok(program) => program,
@@ -301,8 +300,6 @@ pub fn operate(
 
     match options.mode {
         Mode::StripOnly => {
-            let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
-
             tokens.sort_by_key(|t| t.span);
 
             if deprecated_ts_module_as_error {
@@ -418,8 +415,6 @@ pub fn operate(
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
                 if deprecated_ts_module_as_error {
-                    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
-
                     tokens.sort_by_key(|t| t.span);
 
                     program.visit_with(&mut ErrorOnTsModule {
@@ -579,15 +574,17 @@ impl Visit for ErrorOnTsModule<'_> {
             return;
         }
 
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    span(pos, n.id.span().hi),
-                    "`module` keyword is not supported. Use `namespace` instead.",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        span(pos, n.id.span().hi),
+                        "`module` keyword is not supported. Use `namespace` instead.",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 }
 
@@ -688,7 +685,7 @@ impl TsStrip {
             | Token::NoSubstitutionTemplateLiteral
             | Token::Plus
             | Token::Minus
-            | Token::Slash => {
+            | Token::Regex => {
                 if prev_token == &Token::Semi {
                     self.add_overwrite(prev_span.lo, b';');
                     return;
@@ -734,7 +731,7 @@ impl TsStrip {
 
             // see ts_next_token_can_follow_modifier
             // class { public public() {} }
-            if !<Token as TokenFactory<'_, TokenAndSpan, Capturing<Lexer>>>::is_word(&next.token)
+            if !next.token.is_word()
                 && !matches!(
                     next.token,
                     Token::LBracket
@@ -1118,6 +1115,11 @@ impl Visit for TsStrip {
         debug_assert!(!n.is_override);
         debug_assert!(!n.is_abstract);
 
+        if n.function.body.is_none() {
+            self.add_replacement(n.span);
+            return;
+        }
+
         // Is `private #foo()` valid?
         if n.accessibility.is_some() {
             let start_pos = n
@@ -1337,15 +1339,17 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span,
-                    "TypeScript export assignment is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span,
+                        "TypeScript export assignment is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
@@ -1355,15 +1359,17 @@ impl Visit for TsStrip {
             return;
         }
 
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span,
-                    "TypeScript import equals declaration is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span,
+                        "TypeScript import equals declaration is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
@@ -1377,27 +1383,31 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    e.span,
-                    "TypeScript enum is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        e.span,
+                        "TypeScript enum is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span(),
-                    "TypeScript namespace declaration is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span(),
+                        "TypeScript namespace declaration is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) {
@@ -1407,15 +1417,17 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span(),
-                    "TypeScript parameter property is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span(),
+                        "TypeScript parameter property is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) {
@@ -1445,16 +1457,18 @@ impl Visit for TsStrip {
     ///
     /// See https://github.com/swc-project/swc/issues/9295
     fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span,
-                    "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
-                     type strip mode. Instead, use the 'as' syntax: `expr as T`.",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span,
+                        "The angle-bracket syntax for type assertions, `<T>expr`, is not \
+                         supported in type strip mode. Instead, use the 'as' syntax: `expr as T`.",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
 
         n.expr.visit_children_with(self);
     }
@@ -1589,6 +1603,8 @@ impl IsTsDecl for DefaultDecl {
             Self::Class(..) => false,
             Self::Fn(r#fn) => r#fn.function.body.is_none(),
             Self::TsInterfaceDecl(..) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -1604,6 +1620,8 @@ impl IsUninstantiated for TsNamespaceBody {
                 block.body.iter().all(IsUninstantiated::is_uninstantiated)
             }
             Self::TsNamespaceDecl(decl) => decl.body.is_uninstantiated(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

@@ -1,19 +1,19 @@
-function n(n, e, t, r, o, i, u) {
+function n(n, e, r, t, o, i, u) {
     try {
         var a = n[i](u);
         var c = a.value;
     } catch (n) {
-        t(n);
+        r(n);
         return;
     }
     if (a.done) e(c);
-    else Promise.resolve(c).then(r, o);
+    else Promise.resolve(c).then(t, o);
 }
 function e(e) {
     return function() {
-        var t = this, r = arguments;
+        var r = this, t = arguments;
         return new Promise(function(o, i) {
-            var u = e.apply(t, r);
+            var u = e.apply(r, t);
             function a(e) {
                 n(u, o, i, a, c, "next", e);
             }

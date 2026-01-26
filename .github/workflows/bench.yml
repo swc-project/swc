@@ -23,6 +23,8 @@ env:
   RUST_MIN_STACK: 4194304
   # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
   SKIP_YARN_COREPACK_CHECK: 1
+  CARGO_PROFILE_RELEASE_LTO: false
+  CARGO_PROFILE_BENCH_LTO: false
 
 jobs:
   list-crates:
@@ -65,7 +67,7 @@ jobs:
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-codspeed@2.8.1
+          tool: cargo-codspeed@3.0.2
 
       - name: Build the benchmark target(s)
         run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}

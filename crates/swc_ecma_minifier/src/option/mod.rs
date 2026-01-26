@@ -8,7 +8,8 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_config::{merge::Merge, regex::CachedRegex};
-use swc_ecma_ast::{EsVersion, Expr, Id};
+use swc_ecma_ast::{EsVersion, Expr};
+use swc_ecma_transforms_base::rename::RenameMap;
 use terser::TerserExperimentalOptions;
 
 /// Implement default using serde.
@@ -281,6 +282,10 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(alias = "loops"))]
     pub loops: bool,
 
+    #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
+    #[cfg_attr(feature = "extra-serde", serde(alias = "merge_imports"))]
+    pub merge_imports: bool,
+
     #[cfg_attr(feature = "extra-serde", serde(default))]
     pub module: bool,
 
@@ -302,7 +307,7 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(alias = "pure_getters"))]
     pub pure_getters: PureGetterOption,
 
-    #[cfg_attr(feature = "extra-serde", serde(default))]
+    #[cfg_attr(feature = "extra-serde", serde(skip))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "pure_funcs"))]
     pub pure_funcs: Vec<Box<Expr>>,
 
@@ -450,6 +455,7 @@ impl Default for CompressOptions {
             keep_fnames: false,
             keep_infinity: false,
             loops: true,
+            merge_imports: true,
             module: false,
             negate_iife: true,
             passes: default_passes(),
@@ -483,23 +489,23 @@ impl Default for CompressOptions {
 }
 
 pub trait MangleCache: Send + Sync {
-    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Id, Atom>));
+    fn vars_cache(&self, op: &mut dyn FnMut(&RenameMap));
 
     fn props_cache(&self, op: &mut dyn FnMut(&FxHashMap<Atom, Atom>));
 
-    fn update_vars_cache(&self, new_data: &FxHashMap<Id, Atom>);
+    fn update_vars_cache(&self, new_data: &RenameMap);
 
     fn update_props_cache(&self, new_data: &FxHashMap<Atom, Atom>);
 }
 
 #[derive(Debug, Default)]
 pub struct SimpleMangleCache {
-    pub vars: RwLock<FxHashMap<Id, Atom>>,
+    pub vars: RwLock<RenameMap>,
     pub props: RwLock<FxHashMap<Atom, Atom>>,
 }
 
 impl MangleCache for SimpleMangleCache {
-    fn vars_cache(&self, op: &mut dyn FnMut(&FxHashMap<Id, Atom>)) {
+    fn vars_cache(&self, op: &mut dyn FnMut(&RenameMap)) {
         let vars = self.vars.read();
         op(&vars);
     }
@@ -509,7 +515,7 @@ impl MangleCache for SimpleMangleCache {
         op(&props);
     }
 
-    fn update_vars_cache(&self, new_data: &FxHashMap<Id, Atom>) {
+    fn update_vars_cache(&self, new_data: &RenameMap) {
         let mut vars = self.vars.write();
         vars.extend(new_data.iter().map(|(k, v)| (k.clone(), v.clone())));
     }

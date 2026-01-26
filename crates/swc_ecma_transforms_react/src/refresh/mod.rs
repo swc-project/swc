@@ -5,8 +5,9 @@ use swc_common::{
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{visit_mut_pass, Visit, VisitMut, VisitMutWith};
+use swc_ecma_visit::{Visit, VisitMutWith, VisitWith};
 
 use self::{
     hook::HookRegister,
@@ -48,21 +49,21 @@ fn get_persistent_id(ident: &Ident) -> Persist {
 
 /// `react-refresh/babel`
 /// https://github.com/facebook/react/blob/main/packages/react-refresh/src/ReactFreshBabelPlugin.js
-pub fn refresh<C: Comments>(
+pub fn hook<C: Comments>(
     dev: bool,
     options: Option<RefreshOptions>,
     cm: Lrc<SourceMap>,
     comments: Option<C>,
     global_mark: Mark,
-) -> impl Pass {
-    visit_mut_pass(Refresh {
+) -> impl VisitMutHook<()> {
+    Refresh {
         enable: dev && options.is_some(),
         cm,
         comments,
         should_reset: false,
         options: options.unwrap_or_default(),
         global_mark,
-    })
+    }
 }
 
 struct Refresh<C: Comments> {
@@ -72,6 +73,24 @@ struct Refresh<C: Comments> {
     should_reset: bool,
     comments: Option<C>,
     global_mark: Mark,
+}
+
+// For tests
+#[cfg(test)]
+fn refresh<C: Comments>(
+    dev: bool,
+    options: Option<RefreshOptions>,
+    cm: Lrc<SourceMap>,
+    comments: Option<C>,
+    global_mark: Mark,
+) -> impl Pass {
+    use swc_ecma_hooks::VisitMutWithHook;
+    use swc_ecma_visit::visit_mut_pass;
+
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(dev, options, cm, comments, global_mark),
+        context: (),
+    })
 }
 
 impl<C: Comments> Refresh<C> {
@@ -232,60 +251,69 @@ impl<C: Comments> Refresh<C> {
     }
 }
 
-/// We let user do /* @refresh reset */ to reset state in the whole file.
-impl<C> Visit for Refresh<C>
-where
-    C: Comments,
-{
-    fn visit_span(&mut self, n: &Span) {
-        if self.should_reset {
-            return;
-        }
-
-        let mut should_refresh = self.should_reset;
-        if let Some(comments) = &self.comments {
-            if !n.hi.is_dummy() {
-                comments.with_leading(n.hi - BytePos(1), |comments| {
-                    if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                        should_refresh = true
-                    }
-                });
-            }
-
-            comments.with_leading(n.lo, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-
-            comments.with_trailing(n.lo, |comments| {
-                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
-                    should_refresh = true
-                }
-            });
-        }
-
-        self.should_reset = should_refresh;
-    }
-}
-
-// TODO: figure out if we can insert all registers at once
-impl<C: Comments> VisitMut for Refresh<C> {
-    // Does anyone write react without esmodule?
-    // fn visit_mut_script(&mut self, _: &mut Script) {}
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
+impl<C: Comments> VisitMutHook<()> for Refresh<C> {
+    fn enter_module_items(&mut self, module_items: &mut Vec<ModuleItem>, _ctx: &mut ()) {
         if !self.enable {
             return;
         }
 
-        // to collect comments
-        self.visit_module(n);
+        // First, visit all items to collect @refresh reset comments
+        self.visit_module(module_items);
 
-        self.visit_mut_module_items(&mut n.body);
+        self.handle_module_items(module_items);
     }
 
-    fn visit_mut_module_items(&mut self, module_items: &mut Vec<ModuleItem>) {
+    fn enter_ts_module_decl(&mut self, _: &mut TsModuleDecl, _ctx: &mut ()) {
+        // Skip processing TypeScript module declarations
+    }
+}
+
+impl<C: Comments> Refresh<C> {
+    fn visit_module(&mut self, module_items: &[ModuleItem]) {
+        struct SpanVisitor<'a, C: Comments> {
+            refresh: &'a mut Refresh<C>,
+        }
+
+        impl<C: Comments> Visit for SpanVisitor<'_, C> {
+            fn visit_span(&mut self, n: &Span) {
+                if self.refresh.should_reset {
+                    return;
+                }
+
+                let mut should_refresh = self.refresh.should_reset;
+                if let Some(comments) = &self.refresh.comments {
+                    if !n.hi.is_dummy() {
+                        comments.with_leading(n.hi - BytePos(1), |comments| {
+                            if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                                should_refresh = true
+                            }
+                        });
+                    }
+
+                    comments.with_leading(n.lo, |comments| {
+                        if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                            should_refresh = true
+                        }
+                    });
+
+                    comments.with_trailing(n.lo, |comments| {
+                        if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                            should_refresh = true
+                        }
+                    });
+                }
+
+                self.refresh.should_reset = should_refresh;
+            }
+        }
+
+        let mut visitor = SpanVisitor { refresh: self };
+        for item in module_items {
+            item.visit_with(&mut visitor);
+        }
+    }
+
+    fn handle_module_items(&mut self, module_items: &mut Vec<ModuleItem>) {
         let used_in_jsx = collect_ident_in_jsx(module_items);
 
         let mut items = Vec::with_capacity(module_items.len());
@@ -485,8 +513,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
 
         *module_items = items
     }
-
-    fn visit_mut_ts_module_decl(&mut self, _: &mut TsModuleDecl) {}
 }
 
 fn make_hook_reg(expr: &mut Expr, mut hook: HocHook) {

@@ -8,4 +8,4 @@ Object.defineProperty(exports, "default", {
         return _default;
     }
 });
-var _default = "\nvoid main() {\n	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n}\n";
+var _default = /* glsl */ "\nvoid main() {\n	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n}\n";

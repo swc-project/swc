@@ -6,7 +6,7 @@
 // You can find some technical background for some of the code below
 // at http://marijnhaverbeke.nl/blog/#cm-internals .
 function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define(factory) : (global = global || self).CodeMirror = factory();
+    "object" == typeof exports && "u" > typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define(factory) : (global = global || self).CodeMirror = factory();
 }(this, function() {
     "use strict";
     // Kludges for bugs and behavior differences that can't be feature
@@ -4150,8 +4150,7 @@ function(global, factory) {
                     return markAsReadAndPasteIfAllFilesAreRead();
                 }, reader.onload = function() {
                     var content = reader.result;
-                    if (/[\x00-\x08\x0e-\x1f]{2}/.test(content)) return void markAsReadAndPasteIfAllFilesAreRead();
-                    text[i] = content, markAsReadAndPasteIfAllFilesAreRead();
+                    /[\x00-\x08\x0e-\x1f]{2}/.test(content) || (text[i] = content), markAsReadAndPasteIfAllFilesAreRead();
                 }, reader.readAsText(file);
             }, i = 0; i < files.length; i++)readTextFromFile(files[i], i);
             else {
@@ -4968,7 +4967,7 @@ function(global, factory) {
     // textarea (making it as unobtrusive as possible) to let the
     // right-click take effect on it.
     function onContextMenu(cm, e) {
-        eventInWidget(cm.display, e) || hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1) || signalDOMEvent(cm, e, "contextmenu") || captureRightClick || cm.display.input.onContextMenu(e);
+        eventInWidget(cm.display, e) || hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1) || !signalDOMEvent(cm, e, "contextmenu") && (captureRightClick || cm.display.input.onContextMenu(e));
     }
     function themeChanged(cm) {
         cm.display.wrapper.className = cm.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + cm.options.theme.replace(/(^|\s)\s*/g, " cm-s-"), clearCaches(cm);

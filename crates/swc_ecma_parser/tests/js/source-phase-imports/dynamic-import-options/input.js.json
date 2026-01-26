@@ -1,0 +1,80 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 39
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 39
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 38
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 1,
+            "end": 14
+          },
+          "phase": "source"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 15,
+                "end": 20
+              },
+              "value": "foo",
+              "raw": "\"foo\""
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 22,
+                "end": 37
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 24,
+                      "end": 28
+                    },
+                    "value": "type"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 30,
+                      "end": 35
+                    },
+                    "value": "bar",
+                    "raw": "\"bar\""
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

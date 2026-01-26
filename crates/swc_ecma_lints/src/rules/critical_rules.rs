@@ -628,6 +628,8 @@ impl Visit for CriticalRules {
         let orig = match &s.orig {
             ModuleExportName::Ident(ident) => ident,
             ModuleExportName::Str(..) => return,
+            #[cfg(swc_ast_unknown)]
+            _ => return,
         };
         self.add_export(exported.as_ref().unwrap_or(&orig));
     }
@@ -636,6 +638,8 @@ impl Visit for CriticalRules {
         match &s.name {
             ModuleExportName::Ident(name) => self.add_export(name),
             ModuleExportName::Str(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         };
     }
 
@@ -689,6 +693,8 @@ impl Visit for ConstCollector<'_> {
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
                 self.import_binding.insert(local.to_id(), local.span);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
     }
 

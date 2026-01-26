@@ -21,6 +21,7 @@ pub mod rewriter;
 pub mod system_js;
 mod top_level_this;
 pub mod umd;
+pub(crate) mod wtf8;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

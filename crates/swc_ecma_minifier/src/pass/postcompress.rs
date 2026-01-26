@@ -1,160 +1,313 @@
-use swc_common::util::take::Take;
+use std::collections::VecDeque;
+
+use rustc_hash::FxHashMap;
+use swc_atoms::{Atom, Wtf8Atom};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{maybe_par, option::CompressOptions, LIGHT_TASK_PARALLELS};
+use crate::option::CompressOptions;
 
-pub fn postcompress_optimizer(options: &CompressOptions) -> impl '_ + VisitMut {
-    PostcompressOptimizer {
-        options,
-        ctx: Default::default(),
+/// Records all import specifiers for a single source module.
+#[derive(Default)]
+struct ImportRecord {
+    /// Default imports: stores local Id in order
+    /// e.g., `import A, { default as B, "default" as C } from 'm.js'`
+    /// stores A's Id, B's Id, C's Id
+    defaults: VecDeque<Ident>,
+
+    /// Namespace imports: stores local Id in order
+    /// e.g., `import * as X from 'm.js'` stores X's Id
+    namespaces: VecDeque<Ident>,
+
+    /// Named imports: stores (import_name, local_id) in order
+    /// e.g., `import { foo } from 'm.js'` stores ("foo", foo's Id)
+    /// e.g., `import { foo as bar } from 'm.js'` stores ("foo", bar's Id)
+    /// Note: import_name "default" cases are classified into defaults
+    named: VecDeque<(Atom, Ident)>,
+}
+
+impl ImportRecord {
+    fn is_empty(&self) -> bool {
+        self.defaults.is_empty() && self.namespaces.is_empty() && self.named.is_empty()
     }
 }
 
-struct PostcompressOptimizer<'a> {
-    options: &'a CompressOptions,
-
-    ctx: Ctx,
-}
-
-#[derive(Default, Clone, Copy)]
-struct Ctx {
-    is_module: bool,
-    is_top_level: bool,
-}
-
-impl Parallel for PostcompressOptimizer<'_> {
-    fn create(&self) -> Self {
-        Self {
-            options: self.options,
-            ctx: self.ctx,
-        }
+pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) {
+    if !options.merge_imports {
+        return;
     }
 
-    fn merge(&mut self, _: Self) {}
-}
+    let Some(module) = program.as_mut_module() else {
+        return;
+    };
 
-impl VisitMut for PostcompressOptimizer<'_> {
-    noop_visit_mut_type!();
+    // First pass: collect all imports and exports
+    let mut import_map = FxHashMap::<Wtf8Atom, ImportRecord>::default();
+    // Re-exports: only named re-exports can be merged
+    let mut reexport_map =
+        FxHashMap::<Wtf8Atom, VecDeque<(ModuleExportName, Option<ModuleExportName>)>>::default();
+    // Local exports without source: `export { foo, bar }`
+    let mut local_export_list = Vec::default();
 
-    fn visit_mut_export_decl(&mut self, export: &mut ExportDecl) {
-        match &mut export.decl {
-            Decl::Var(decl) => {
-                // Don't change constness of exported variables.
-                decl.visit_mut_children_with(self);
-            }
-            _ => {
-                export.decl.visit_mut_with(self);
-            }
-        }
-    }
+    for item in &module.body {
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                // Skip conditions
+                if import_decl.type_only {
+                    continue;
+                }
+                if import_decl.with.is_some() {
+                    continue;
+                }
+                if import_decl.phase != ImportPhase::Evaluation {
+                    continue;
+                }
 
-    fn visit_mut_module_decl(&mut self, m: &mut ModuleDecl) {
-        if let ModuleDecl::ExportDefaultExpr(e) = m {
-            match &mut *e.expr {
-                Expr::Fn(f) => {
-                    if f.ident.is_some() {
-                        if self.options.top_level() {
-                            *m = ExportDefaultDecl {
-                                span: e.span,
-                                decl: DefaultDecl::Fn(f.take()),
+                let src = import_decl.src.value.clone();
+                let record = import_map.entry(src).or_default();
+
+                for spec in &import_decl.specifiers {
+                    match spec {
+                        ImportSpecifier::Default(d) => {
+                            record.defaults.push_back(d.local.clone());
+                        }
+                        ImportSpecifier::Namespace(ns) => {
+                            record.namespaces.push_back(ns.local.clone());
+                        }
+                        ImportSpecifier::Named(n) => {
+                            debug_assert!(
+                                !n.is_type_only,
+                                "type-only imports/exports should be stripped earlier"
+                            );
+                            if n.is_type_only {
+                                continue;
                             }
-                            .into()
+                            let remote: Atom = n
+                                .imported
+                                .as_ref()
+                                .map(|i| match i {
+                                    ModuleExportName::Ident(id) => id.sym.clone(),
+                                    ModuleExportName::Str(s) => {
+                                        Atom::new(s.value.to_string_lossy())
+                                    }
+                                })
+                                .unwrap_or_else(|| n.local.sym.clone());
+                            let local_id = n.local.clone();
+
+                            // If remote is "default", classify as default import
+                            if &*remote == "default" {
+                                record.defaults.push_back(local_id);
+                            } else {
+                                record.named.push_back((remote, local_id));
+                            }
                         }
-                    } else {
-                        *m = ExportDefaultDecl {
-                            span: e.span,
-                            decl: DefaultDecl::Fn(f.take()),
-                        }
-                        .into()
                     }
                 }
-                Expr::Class(c) => {
-                    if c.ident.is_some() {
-                        if self.options.top_level() {
-                            *m = ExportDefaultDecl {
-                                span: e.span,
-                                decl: DefaultDecl::Class(c.take()),
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export_named)) => {
+                if export_named.type_only {
+                    continue;
+                }
+                if export_named.with.is_some() {
+                    continue;
+                }
+
+                if let Some(ref src) = export_named.src {
+                    // Re-export: `export { foo } from 'm.js'`
+                    // Only collect named specifiers; namespace/default can't be merged
+                    let has_non_named = export_named.specifiers.iter().any(|s| {
+                        matches!(
+                            s,
+                            ExportSpecifier::Namespace(_) | ExportSpecifier::Default(_)
+                        )
+                    });
+                    if has_non_named {
+                        // Keep as-is, don't collect
+                        continue;
+                    }
+
+                    let reexports = reexport_map.entry(src.value.clone()).or_default();
+
+                    for spec in &export_named.specifiers {
+                        if let ExportSpecifier::Named(n) = spec {
+                            debug_assert!(
+                                !n.is_type_only,
+                                "type-only imports/exports should be stripped earlier"
+                            );
+                            if n.is_type_only {
+                                continue;
                             }
-                            .into()
+                            let orig = n.orig.clone();
+                            let exported = n.exported.clone();
+                            reexports.push_back((orig, exported));
                         }
-                    } else {
-                        *m = ExportDefaultDecl {
-                            span: e.span,
-                            decl: DefaultDecl::Class(c.take()),
+                    }
+                } else {
+                    // Local export: `export { foo, bar }`
+                    for spec in &export_named.specifiers {
+                        if let ExportSpecifier::Named(..) = spec {
+                            local_export_list.push(spec.clone());
                         }
-                        .into()
                     }
                 }
-                _ => (),
             }
+            _ => {}
         }
-
-        m.visit_mut_children_with(self)
     }
 
-    fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
-        self.ctx.is_module = maybe_par!(
-            nodes
-                .iter()
-                .any(|s| matches!(s, ModuleItem::ModuleDecl(..))),
-            *crate::LIGHT_TASK_PARALLELS
-        );
-        self.ctx.is_top_level = true;
-
-        self.maybe_par(*crate::LIGHT_TASK_PARALLELS, nodes, |v, n| {
-            n.visit_mut_with(v);
-        });
+    if import_map.is_empty() && reexport_map.is_empty() && local_export_list.is_empty() {
+        return;
     }
 
-    fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
-        let old = self.ctx;
+    let mut run_once = false;
 
-        self.ctx.is_top_level = false;
+    module.body.retain_mut(|item| {
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+                // Don't process these, keep as-is
+                if import_decl.type_only {
+                    return true;
+                }
+                if import_decl.with.is_some() {
+                    return true;
+                }
+                if import_decl.phase != ImportPhase::Evaluation {
+                    return true;
+                }
 
-        self.maybe_par(*crate::LIGHT_TASK_PARALLELS, nodes, |v, n| {
-            n.visit_mut_with(v);
-        });
+                let src = &import_decl.src.value;
+                let Some(record) = import_map.get_mut(src) else {
+                    return false; // No record, remove
+                };
 
-        self.ctx = old;
-    }
+                let has_namespace = import_decl
+                    .specifiers
+                    .iter()
+                    .any(|s| matches!(s, ImportSpecifier::Namespace(_)));
 
-    fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
-        v.visit_mut_children_with(self);
+                let mut new_specs: Vec<ImportSpecifier> = Vec::new();
 
-        if self.options.const_to_let {
-            if self.ctx.is_module || !self.ctx.is_top_level {
-                // We don't change constness of top-level variables in a script
+                if has_namespace || (record.named.is_empty() && !record.namespaces.is_empty()) {
+                    // Has namespace: take one default + one namespace
+                    if let Some(local) = record.defaults.pop_front() {
+                        new_specs.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                        }));
+                    }
+                    if let Some(local) = record.namespaces.pop_front() {
+                        new_specs.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                        }));
+                    }
+                } else {
+                    // No namespace: take one default + remaining defaults as named + all named
+                    if let Some(local) = record.defaults.pop_front() {
+                        new_specs.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                        }));
+                    }
 
-                if let VarDeclKind::Const = v.kind {
-                    v.kind = VarDeclKind::Let;
+                    // Keep ns_count defaults for later namespace imports
+                    let ns_count = record.namespaces.len();
+                    let drain_count = record.defaults.len().saturating_sub(ns_count);
+
+                    // Remaining defaults become { default as X }
+                    for local in record.defaults.drain(..drain_count) {
+                        new_specs.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                            imported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
+                                "default".into(),
+                                DUMMY_SP,
+                            ))),
+                            is_type_only: false,
+                        }));
+                    }
+
+                    // All named imports
+                    for (remote, local) in record.named.drain(..) {
+                        let imported = if remote == local.sym {
+                            None
+                        } else {
+                            Some(ModuleExportName::Ident(Ident::new_no_ctxt(
+                                remote, DUMMY_SP,
+                            )))
+                        };
+                        new_specs.push(ImportSpecifier::Named(ImportNamedSpecifier {
+                            span: DUMMY_SP,
+                            local,
+                            imported,
+                            is_type_only: false,
+                        }));
+                    }
+                }
+
+                if record.is_empty() {
+                    import_map.remove(src);
+                }
+
+                import_decl.specifiers = new_specs;
+                true
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export_named)) => {
+                if export_named.type_only {
+                    return true;
+                }
+                if export_named.with.is_some() {
+                    return true;
+                }
+
+                if let Some(ref src) = export_named.src {
+                    // Re-export: `export { foo } from 'm.js'`
+                    // Statements with namespace/default specifiers are kept as-is
+                    let has_non_named = export_named.specifiers.iter().any(|s| {
+                        matches!(
+                            s,
+                            ExportSpecifier::Namespace(_) | ExportSpecifier::Default(_)
+                        )
+                    });
+                    if has_non_named {
+                        return true;
+                    }
+
+                    let Some(reexports) = reexport_map.get_mut(&src.value) else {
+                        return false;
+                    };
+
+                    let mut new_specs: Vec<ExportSpecifier> = Vec::new();
+
+                    // Take named exports
+                    for (orig, exported) in reexports.drain(..) {
+                        new_specs.push(ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig,
+                            exported,
+                            is_type_only: false,
+                        }));
+                    }
+
+                    if reexports.is_empty() {
+                        reexport_map.remove(&src.value);
+                    }
+
+                    export_named.specifiers = new_specs;
+
+                    true
+                } else {
+                    if run_once {
+                        return false;
+                    }
+
+                    export_named.specifiers = local_export_list.take();
+                    run_once = true;
+
+                    true
                 }
             }
+            _ => true,
         }
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
-        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
+    });
 }

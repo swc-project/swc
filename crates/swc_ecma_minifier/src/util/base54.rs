@@ -1,16 +1,12 @@
 use std::{cmp::Reverse, io, ops::AddAssign};
 
 use arrayvec::ArrayVec;
-use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{
     sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
-    SyntaxContext, GLOBALS,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
-use swc_ecma_utils::parallel::{cpu_count, Parallel, ParallelExt};
-use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
 
@@ -161,7 +157,12 @@ impl WriteJs for CharFreq {
     }
 
     #[inline(always)]
-    fn write_punct(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
+    fn write_punct(
+        &mut self,
+        _: Option<Span>,
+        s: &'static str,
+        _commit_pending_semi: bool,
+    ) -> io::Result<()> {
         self.write(s)?;
         Ok(())
     }
@@ -198,48 +199,36 @@ impl CharFreq {
         }
     }
 
-    pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
-        let (mut a, b) = GLOBALS.with(|globals| {
-            par_core::join(
-                || {
-                    GLOBALS.set(globals, || {
-                        let cm = Lrc::new(DummySourceMap);
-                        let mut freq = Self::default();
+    pub fn compute(p: &Program, idents: &Vec<Atom>) -> Self {
+        let mut a = {
+            let cm = Lrc::new(DummySourceMap);
+            let mut freq = Self::default();
 
-                        {
-                            let mut emitter = Emitter {
-                                cfg: swc_ecma_codegen::Config::default()
-                                    .with_target(EsVersion::latest())
-                                    .with_minify(true),
-                                cm,
-                                comments: None,
-                                wr: &mut freq,
-                            };
+            {
+                let mut emitter = Emitter {
+                    cfg: swc_ecma_codegen::Config::default()
+                        .with_target(EsVersion::latest())
+                        .with_minify(true),
+                    cm,
+                    comments: None,
+                    wr: &mut freq,
+                };
 
-                            emitter.emit_program(p).unwrap();
-                        }
+                emitter.emit_program(p).unwrap();
+            }
 
-                        freq
-                    })
-                },
-                || {
-                    GLOBALS.set(globals, || {
-                        let mut visitor = CharFreqAnalyzer {
-                            freq: Default::default(),
-                            preserved,
-                            unresolved_ctxt,
-                        };
+            freq
+        };
 
-                        // Subtract
-                        p.visit_with(&mut visitor);
+        let mut analyzer = CharFreqAnalyzer {
+            freq: Default::default(),
+        };
 
-                        visitor.freq
-                    })
-                },
-            )
-        });
+        for ident in idents {
+            analyzer.freq.scan(ident, -1);
+        }
 
-        a += b;
+        a += analyzer.freq;
 
         a
     }
@@ -279,97 +268,8 @@ impl CharFreq {
     }
 }
 
-struct CharFreqAnalyzer<'a> {
+struct CharFreqAnalyzer {
     freq: CharFreq,
-    preserved: &'a FxHashSet<Id>,
-    unresolved_ctxt: SyntaxContext,
-}
-
-impl Parallel for CharFreqAnalyzer<'_> {
-    fn create(&self) -> Self {
-        Self {
-            freq: Default::default(),
-            ..*self
-        }
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.freq += other.freq;
-    }
-}
-
-impl Visit for CharFreqAnalyzer<'_> {
-    noop_visit_type!();
-
-    visit_obj_and_computed!();
-
-    fn visit_class_members(&mut self, members: &[ClassMember]) {
-        self.maybe_par(cpu_count() * 8, members, |v, member| {
-            member.visit_with(v);
-        });
-    }
-
-    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
-        self.maybe_par(cpu_count() * 8, exprs, |v, expr| {
-            expr.visit_with(v);
-        });
-    }
-
-    fn visit_ident(&mut self, i: &Ident) {
-        if i.ctxt == self.unresolved_ctxt && i.sym != "arguments" {
-            return;
-        }
-
-        // It's not mangled
-        if self.preserved.contains(&i.to_id()) {
-            return;
-        }
-
-        self.freq.scan(&i.sym, -1);
-    }
-
-    /// This is preserved anyway
-    fn visit_module_export_name(&mut self, _: &ModuleExportName) {}
-
-    fn visit_module_items(&mut self, items: &[ModuleItem]) {
-        self.maybe_par(cpu_count() * 8, items, |v, item| {
-            item.visit_with(v);
-        });
-    }
-
-    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        match n {
-            PropName::Ident(_) => {}
-            PropName::Str(_) => {}
-            PropName::Num(_) => {}
-            PropName::Computed(e) => e.visit_with(self),
-            PropName::BigInt(_) => {}
-        }
-    }
-
-    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        self.maybe_par(cpu_count() * 8, stmts, |v, stmt| {
-            stmt.visit_with(v);
-        });
-    }
 }
 
 impl AddAssign for CharFreq {

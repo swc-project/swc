@@ -8,6 +8,6 @@
 //      Otherwise, no contextual signature can be extracted from T and S is undefined.
 var a0;
 var a1;
-a1 = function(foo, bar) {
+a1 = function a1(foo, bar) {
     return true;
 }; // Error

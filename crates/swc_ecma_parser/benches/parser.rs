@@ -28,7 +28,7 @@ fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
 fn bench_files(c: &mut Criterion) {
     c.bench_function("es/parser/colors", |b| {
         // Copied from ratel-rust
-        bench_module(b, Default::default(), include_str!("../colors.js"))
+        bench_module(b, Default::default(), include_str!("./files/colors.js"))
     });
 
     c.bench_function("es/parser/angular", |b| {

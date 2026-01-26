@@ -5776,8 +5776,8 @@
                     // prevent the event from propagating through the DOM and triggering Player
                     // hotkeys. We do not preventDefault here because we _want_ the browser to
                     // handle it.
-                    if (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Space") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Enter")) return void event.stopPropagation(); // Pass keypress handling up for unsupported keys
-                    _ClickableComponent.prototype.handleKeyDown.call(this, event);
+                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Space") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Enter") ? event.stopPropagation() : _ClickableComponent.prototype.handleKeyDown.call(this, event) // Pass keypress handling up for unsupported keys
+                    ;
                 }, Button);
             }(ClickableComponent);
             Component$1.registerComponent("Button", Button);
@@ -10844,8 +10844,7 @@
                 }, /**
                  * Request that the `HTML5` Tech exit fullscreen.
                  */ _proto.exitFullScreen = function() {
-                    if (!this.el_.webkitDisplayingFullscreen) return void this.trigger("fullscreenerror", Error("The video is not fullscreen"));
-                    this.el_.webkitExitFullScreen();
+                    this.el_.webkitDisplayingFullscreen ? this.el_.webkitExitFullScreen() : this.trigger("fullscreenerror", Error("The video is not fullscreen"));
                 }, /**
                  * Create a floating video window always on top of other windows so that users may
                  * continue consuming media while they interact with other content sites, or
@@ -12281,8 +12280,7 @@
                         return;
                     }
                     var parsedVal = parseFloat(value);
-                    if (isNaN(parsedVal)) return void log$1.error('Improper value "' + value + '" supplied for for ' + _dimension);
-                    this[privDimension] = parsedVal, this.updateStyleEl_();
+                    isNaN(parsedVal) ? log$1.error('Improper value "' + value + '" supplied for for ' + _dimension) : (this[privDimension] = parsedVal, this.updateStyleEl_());
                 }, /**
                  * A getter/setter/toggler for the vjs-fluid `className` on the `Player`.
                  *
@@ -12416,11 +12414,10 @@
                         });
                     }), Object.keys(TECH_EVENTS_QUEUE).forEach(function(event) {
                         _this4.on(_this4.tech_, event, function(eventObj) {
-                            if (0 === _this4.tech_.playbackRate() && _this4.tech_.seeking()) return void _this4.queuedCallbacks_.push({
+                            0 === _this4.tech_.playbackRate() && _this4.tech_.seeking() ? _this4.queuedCallbacks_.push({
                                 callback: _this4["handleTech" + TECH_EVENTS_QUEUE[event] + "_"].bind(_this4),
                                 event: eventObj
-                            });
-                            _this4["handleTech" + TECH_EVENTS_QUEUE[event] + "_"](eventObj);
+                            }) : _this4["handleTech" + TECH_EVENTS_QUEUE[event] + "_"](eventObj);
                         });
                     }), this.on(this.tech_, "loadstart", function(e) {
                         return _this4.handleTechLoadStart_(e);
@@ -14035,8 +14032,7 @@
                     // user interaction
                     if (hooks("beforeerror").forEach(function(hookFunction) {
                         var newErr = hookFunction(_this17, err);
-                        if (!(isObject(newErr) && !Array.isArray(newErr) || "string" == typeof newErr || "number" == typeof newErr || null === newErr)) return void _this17.log.error("please return a value that MediaError expects in beforeerror hooks");
-                        err = newErr;
+                        isObject(newErr) && !Array.isArray(newErr) || "string" == typeof newErr || "number" == typeof newErr || null === newErr ? err = newErr : _this17.log.error("please return a value that MediaError expects in beforeerror hooks");
                     }), this.options_.suppressNotSupportedError && err && 4 === err.code) {
                         var triggerSuppressedError = function() {
                             this.error(err);
@@ -14577,16 +14573,15 @@
                  *                   An empty array will hide the menu
                  * @return {number[]} When used as a getter will return the current playback rates
                  */ _proto.playbackRates = function(newRates) {
-                    if (void 0 === newRates) return this.cache_.playbackRates;
-                     // ignore any value that isn't an array
-                    Array.isArray(newRates) && newRates.every(function(rate) {
+                    return void 0 === newRates ? this.cache_.playbackRates : Array.isArray(newRates) ? void (newRates.every(function(rate) {
                         return "number" == typeof rate;
                     }) && (this.cache_.playbackRates = newRates, /**
                      * fires when the playback rates in a player are changed
                      *
                      * @event Player#playbackrateschange
                      * @type {EventTarget~Event}
-                     */ this.trigger("playbackrateschange")); // ignore any arrays that don't only contain numbers
+                     */ this.trigger("playbackrateschange"))) : void 0 // ignore any value that isn't an array
+                    ;
                 }, Player;
             }(Component$1);
             /**
@@ -15153,8 +15148,7 @@
                  // document.body.contains(el) will only check if el is contained within that one document.
                 return el.ownerDocument.defaultView && el.ownerDocument.body.contains(el) || log$1.warn("The element supplied is not included in the DOM"), options = options || {}, hooks("beforesetup").forEach(function(hookFunction) {
                     var opts = hookFunction(el, mergeOptions$3(options));
-                    if (!isObject(opts) || Array.isArray(opts)) return void log$1.error("please return an object in beforesetup hooks");
-                    options = mergeOptions$3(options, opts);
+                    !isObject(opts) || Array.isArray(opts) ? log$1.error("please return an object in beforesetup hooks") : options = mergeOptions$3(options, opts);
                 }), player = new (Component$1.getComponent("Player"))(el, options, ready), hooks("setup").forEach(function(hookFunction) {
                     return hookFunction(player);
                 }), player;
@@ -16179,8 +16173,7 @@
                         }, delay);
                         return;
                     }
-                    if (!this.started) return void this.start();
-                    media && !media.endList ? this.trigger("mediaupdatetimeout") : this.trigger("loadedplaylist");
+                    this.started ? media && !media.endList ? this.trigger("mediaupdatetimeout") : this.trigger("loadedplaylist") : this.start();
                 }, _proto.updateMediaUpdateTimeout_ = function(delay) {
                     var _this6 = this;
                     this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null), this.media() && !this.media().endList && (this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
@@ -16705,9 +16698,8 @@
                         return;
                     } // because the playlists are internal to the manifest, load should either load the
                     // main manifest, or do nothing but trigger an event
-                    if (!this.started) return void this.start();
-                    media && !media.endList ? (this.isMaster_ && !this.minimumUpdatePeriodTimeout_ && (// Trigger minimumUpdatePeriod to refresh the master manifest
-                    this.trigger("minimumUpdatePeriod"), this.updateMinimumUpdatePeriodTimeout_()), this.trigger("mediaupdatetimeout")) : this.trigger("loadedplaylist");
+                    this.started ? media && !media.endList ? (this.isMaster_ && !this.minimumUpdatePeriodTimeout_ && (// Trigger minimumUpdatePeriod to refresh the master manifest
+                    this.trigger("minimumUpdatePeriod"), this.updateMinimumUpdatePeriodTimeout_()), this.trigger("mediaupdatetimeout")) : this.trigger("loadedplaylist") : this.start();
                 }, _proto.start = function() {
                     var _this5 = this;
                     // Call this asynchronously to match the xhr request behavior below
@@ -16993,7 +16985,7 @@
                     trex: [],
                     tkhd: [],
                     vmhd: []
-                }, "undefined" != typeof Uint8Array) {
+                }, "u" > typeof Uint8Array) {
                     for(i in types)types.hasOwnProperty(i) && (types[i] = [
                         i.charCodeAt(0),
                         i.charCodeAt(1),
@@ -18160,9 +18152,7 @@
                         return "flush" === flushType ? cc.flush() : cc.partialFlush();
                     }, this);
                 }, CaptionStream$1.prototype.flushStream = function(flushType) {
-                    // make sure we actually parsed captions before proceeding
-                    if (!this.captionPackets_.length) return void this.flushCCStreams(flushType); // In Chrome, the Array#sort function is not stable so add a
-                    // presortIndex that we can use to ensure we get a stable-sort
+                    this.captionPackets_.length && (// presortIndex that we can use to ensure we get a stable-sort
                     this.captionPackets_.forEach(function(elem, idx) {
                         elem.presortIndex = idx;
                     }), this.captionPackets_.sort(function(a, b) {
@@ -18171,7 +18161,7 @@
                         packet.type < 2 ? // Dispatch packet to the right Cea608Stream
                         this.dispatchCea608Packet(packet) : // Dispatch packet to the Cea708Stream
                         this.dispatchCea708Packet(packet);
-                    }, this), this.captionPackets_.length = 0, this.flushCCStreams(flushType);
+                    }, this), this.captionPackets_.length = 0), this.flushCCStreams(flushType);
                 }, CaptionStream$1.prototype.flush = function() {
                     return this.flushStream("flush");
                 }, CaptionStream$1.prototype.partialFlush = function() {
@@ -18326,7 +18316,7 @@
                 }, /**
                      * Try to create a TextDecoder if it is natively supported
                      */ Cea708Service.prototype.createTextDecoder = function(encoding) {
-                    if ("undefined" == typeof TextDecoder) this.stream.trigger("log", {
+                    if ("u" < typeof TextDecoder) this.stream.trigger("log", {
                         level: "warn",
                         message: "The `encoding` option is unsupported without TextDecoder support"
                     });
@@ -20010,8 +20000,7 @@
                         audioAppendStartTs = timestamp;
                     }, this.flush = function() {
                         var frames, moof, mdat, boxes, frameDuration, segmentDuration, videoClockCyclesOfSilencePrefixed, adtsFrames1, earliestAllowedDts1;
-                        if (0 === adtsFrames.length) return void this.trigger("done", "AudioSegmentStream");
-                        adtsFrames1 = adtsFrames, earliestAllowedDts1 = earliestAllowedDts, frames = track.minSegmentDts >= earliestAllowedDts1 ? adtsFrames1 : (track.minSegmentDts = 1 / 0, adtsFrames1.filter(function(currentFrame) {
+                        0 === adtsFrames.length || (adtsFrames1 = adtsFrames, earliestAllowedDts1 = earliestAllowedDts, frames = track.minSegmentDts >= earliestAllowedDts1 ? adtsFrames1 : (track.minSegmentDts = 1 / 0, adtsFrames1.filter(function(currentFrame) {
                             return(// If this is an allowed frame, keep it and record it's Dts
                             currentFrame.dts >= earliestAllowedDts1 && (track.minSegmentDts = Math.min(track.minSegmentDts, currentFrame.dts), track.minSegmentPts = track.minSegmentDts, !0) // Otherwise, discard it
                             );
@@ -20028,7 +20017,7 @@
                         })), this.trigger("data", {
                             track: track,
                             boxes: boxes
-                        }), this.trigger("done", "AudioSegmentStream");
+                        })), this.trigger("done", "AudioSegmentStream");
                     }, this.reset = function() {
                         trackDecodeInfo_clearDtsInfo(track), adtsFrames = [], this.trigger("reset");
                     };
@@ -21172,12 +21161,12 @@
                     buffer: []
                 }, waitForEndedTimelineEvent = isEndOfTimeline;
                 if (transmuxer.onmessage = function(event) {
-                    transmuxer.currentTransmux === options && ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
+                    transmuxer.currentTransmux !== options || ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
                         event.data.id3Frame
-                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" === event.data.type && (waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
+                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" !== event.data.type || waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
                         transmuxedData: transmuxedData,
                         callback: onDone
-                    }), /* eslint-disable no-use-before-define */ dequeue(transmuxer))));
+                    }), /* eslint-disable no-use-before-define */ dequeue(transmuxer)));
                 /* eslint-enable */ }, audioAppendStart && transmuxer.postMessage({
                     action: "setAudioAppendStart",
                     appendStart: audioAppendStart
@@ -21453,8 +21442,7 @@
                         callback: function(_ref6) {
                             var data = _ref6.data, startTime = _ref6.startTime; // transfer bytes back to us
                             // Initialize CaptionParser if it hasn't been yet
-                            if (bytes = data.buffer, segment.bytes = bytesAsUint8Array = data, trackInfo.hasAudio && !trackInfo.isMuxed && timingInfoFn(segment, "audio", "start", startTime), trackInfo.hasVideo && timingInfoFn(segment, "video", "start", startTime), !tracks.video || !data.byteLength || !segment.transmuxer) return void finishLoading();
-                            workerCallback({
+                            (bytes = data.buffer, segment.bytes = bytesAsUint8Array = data, trackInfo.hasAudio && !trackInfo.isMuxed && timingInfoFn(segment, "audio", "start", startTime), trackInfo.hasVideo && timingInfoFn(segment, "video", "start", startTime), tracks.video && data.byteLength && segment.transmuxer) ? workerCallback({
                                 action: "pushMp4Captions",
                                 endAction: "mp4Captions",
                                 transmuxer: segment.transmuxer,
@@ -21471,7 +21459,7 @@
                                         }));
                                     }), finishLoading(message.captions);
                                 }
-                            });
+                            }) : finishLoading();
                         }
                     });
                     return;
@@ -22909,9 +22897,9 @@
                  * @private
                  */ _proto.loadSegment_ = function(segmentInfo) {
                     var _this4 = this;
-                    if (this.state = "WAITING", this.pendingSegment_ = segmentInfo, this.trimBackBuffer_(segmentInfo), "number" == typeof segmentInfo.timestampOffset && this.transmuxer_ && this.transmuxer_.postMessage({
+                    (this.state = "WAITING", this.pendingSegment_ = segmentInfo, this.trimBackBuffer_(segmentInfo), "number" == typeof segmentInfo.timestampOffset && this.transmuxer_ && this.transmuxer_.postMessage({
                         action: "clearAllMp4Captions"
-                    }), !this.hasEnoughInfoToLoad_()) return void this.loadQueue_.push(function() {
+                    }), this.hasEnoughInfoToLoad_()) ? this.updateTransmuxerAndRequestSegment_(segmentInfo) : this.loadQueue_.push(function() {
                         // regenerate the audioAppendStart, timestampOffset, etc as they
                         // may have changed since this function was added to the queue.
                         var options = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)({}, segmentInfo, {
@@ -22919,7 +22907,6 @@
                         });
                         (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__ /* ["default"] */ .Z)(segmentInfo, _this4.generateSegmentInfo_(options)), _this4.isPendingTimestampOffset_ = !1, _this4.updateTransmuxerAndRequestSegment_(segmentInfo);
                     });
-                    this.updateTransmuxerAndRequestSegment_(segmentInfo);
                 }, _proto.updateTransmuxerAndRequestSegment_ = function(segmentInfo) {
                     var _this5 = this; // We'll update the source buffer's timestamp offset once we have transmuxed data, but
                     this.shouldUpdateTransmuxerTimestampOffset_(segmentInfo.timestampOffset) && (this.gopBuffer_.length = 0, segmentInfo.gopsToAlignWith = [], this.timeMapping_ = 0, this.transmuxer_.postMessage({
@@ -23007,11 +22994,10 @@
                     // or canceled due to a timeout
                     this.mediaRequests += 1, stats && (this.mediaBytesTransferred += stats.bytesReceived, this.mediaTransferDuration += stats.roundTripTime);
                 }, _proto.saveBandwidthRelatedStats_ = function(duration, stats) {
-                    if (// byteLength will be used for throughput, and should be based on bytes receieved,
+                    (// byteLength will be used for throughput, and should be based on bytes receieved,
                     // which we only know at the end of the request and should reflect total bytes
                     // downloaded rather than just bytes processed from components of the segment
-                    this.pendingSegment_.byteLength = stats.bytesReceived, duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) return void this.logger_("Ignoring segment's bandwidth because its duration of " + duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
-                    this.bandwidth = stats.bandwidth, this.roundTrip = stats.roundTripTime;
+                    this.pendingSegment_.byteLength = stats.bytesReceived, duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) ? this.logger_("Ignoring segment's bandwidth because its duration of " + duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS) : (this.bandwidth = stats.bandwidth, this.roundTrip = stats.roundTripTime);
                 }, _proto.handleTimeout_ = function() {
                     // although the VTT segment loader bandwidth isn't really used, it's good to
                     // maintain functinality between segment loaders
@@ -23409,8 +23395,7 @@
                  * @param {string} type
                  *        The type of source buffer to remove.
                  */ _proto.removeSourceBuffer = function(type) {
-                    if (!this.canRemoveSourceBuffer()) return void videojs.log.error("removeSourceBuffer is not supported!");
-                    pushQueue({
+                    this.canRemoveSourceBuffer() ? pushQueue({
                         type: "mediaSource",
                         sourceUpdater: this,
                         action: function(sourceUpdater) {
@@ -23426,7 +23411,7 @@
                             }
                         },
                         name: "removeSourceBuffer"
-                    });
+                    }) : videojs.log.error("removeSourceBuffer is not supported!");
                 }, /**
                  * Whether or not the removeSourceBuffer function is supported
                  * on the mediaSource.
@@ -23464,17 +23449,17 @@
                  * @param {string} codec
                  *        The codec string to change type with on the source buffer.
                  */ _proto.changeType = function(type, codec) {
-                    if (!this.canChangeType()) return void videojs.log.error("changeType is not supported!");
-                    pushQueue({
+                    this.canChangeType() ? pushQueue({
                         type: type,
                         sourceUpdater: this,
                         action: function(type, sourceUpdater) {
                             var sourceBuffer = sourceUpdater[type + "Buffer"], mime = (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__ /* .getMimeForCodec */ ._5)(codec);
                             // or the media source does not contain this source buffer.
-                            inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer) && sourceUpdater.codecs[type] !== codec && (sourceUpdater.logger_("changing " + type + "Buffer codec from " + sourceUpdater.codecs[type] + " to " + codec), sourceBuffer.changeType(mime), sourceUpdater.codecs[type] = codec); // do not update codec if we don't need to.
+                            inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer) && sourceUpdater.codecs[type] !== codec && (sourceUpdater.logger_("changing " + type + "Buffer codec from " + sourceUpdater.codecs[type] + " to " + codec), sourceBuffer.changeType(mime), sourceUpdater.codecs[type] = codec) // do not update codec if we don't need to.
+                            ;
                         },
                         name: "changeType"
-                    });
+                    }) : videojs.log.error("changeType is not supported!");
                 }, /**
                  * Add source buffers with a codec or, if they are already created,
                  * call changeType on source buffers using changeType.
@@ -23617,14 +23602,13 @@
                  * operation is complete
                  * @see http://www.w3.org/TR/media-source/#widl-SourceBuffer-remove-void-double-start-unrestricted-double-end
                  */ _proto.removeAudio = function(start, end, done) {
-                    if (void 0 === done && (done = noop), !this.audioBuffered().length || 0 === this.audioBuffered().end(0)) return void done();
-                    pushQueue({
+                    (void 0 === done && (done = noop), this.audioBuffered().length && 0 !== this.audioBuffered().end(0)) ? pushQueue({
                         type: "audio",
                         sourceUpdater: this,
                         action: actions_remove(start, end),
                         doneFn: done,
                         name: "remove"
-                    });
+                    }) : done();
                 }, /**
                  * Queue an update to remove a time range from the buffer.
                  *
@@ -23634,14 +23618,13 @@
                  * operation is complete
                  * @see http://www.w3.org/TR/media-source/#widl-SourceBuffer-remove-void-double-start-unrestricted-double-end
                  */ _proto.removeVideo = function(start, end, done) {
-                    if (void 0 === done && (done = noop), !this.videoBuffered().length || 0 === this.videoBuffered().end(0)) return void done();
-                    pushQueue({
+                    (void 0 === done && (done = noop), this.videoBuffered().length && 0 !== this.videoBuffered().end(0)) ? pushQueue({
                         type: "video",
                         sourceUpdater: this,
                         action: actions_remove(start, end),
                         doneFn: done,
                         name: "remove"
-                    });
+                    }) : done();
                 }, /**
                  * Whether the underlying sourceBuffer is updating or not
                  *
@@ -25401,8 +25384,7 @@
                  * @private
                  */ _proto.fastQualityChange_ = function(media) {
                     var _this5 = this;
-                    if (void 0 === media && (media = this.selectPlaylist()), media === this.masterPlaylistLoader_.media()) return void this.logger_("skipping fastQualityChange because new media is same as old");
-                    this.switchMedia_(media, "fast-quality"), // the browser a kick to remove any cached frames from the previous rendtion (.04 seconds
+                    (void 0 === media && (media = this.selectPlaylist()), media === this.masterPlaylistLoader_.media()) ? this.logger_("skipping fastQualityChange because new media is same as old") : (this.switchMedia_(media, "fast-quality"), // the browser a kick to remove any cached frames from the previous rendtion (.04 seconds
                     // ahead is roughly the minimum that will accomplish this across a variety of content
                     // in IE and Edge, but seeking in place is sufficient on all other browsers)
                     // Edge/IE bug: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14600375/
@@ -25411,7 +25393,7 @@
                         // Since this is not a typical seek, we avoid the seekTo method which can cause segments
                         // from the previously enabled rendition to load before the new playlist has finished loading
                         videojs.browser.IE_VERSION || videojs.browser.IS_EDGE ? _this5.tech_.setCurrentTime(_this5.tech_.currentTime() + 0.04) : _this5.tech_.setCurrentTime(_this5.tech_.currentTime());
-                    });
+                    }));
                 }, /**
                  * Begin playback.
                  */ _proto.play = function() {
@@ -25656,7 +25638,7 @@
                             var expired = this.syncController_.getExpiredTime(media, this.duration());
                             if (null !== expired) {
                                 var master = this.masterPlaylistLoader_.master, mainSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media));
-                                0 !== mainSeekable.length && (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? // seekables are pretty far off, rely on main
+                                0 === mainSeekable.length || (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? // seekables are pretty far off, rely on main
                                 this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
                                     [
                                         audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
@@ -26016,8 +25998,7 @@
                     var mpc = this.masterPlaylistController_, loader = mpc[type + "SegmentLoader_"], buffered = loader.buffered_(), isBufferedDifferent = isRangeDifferent(this[type + "Buffered_"], buffered);
                     // the buffered value for this loader changed
                     // appends are working
-                    if (this[type + "Buffered_"] = buffered, isBufferedDifferent) return void this.resetSegmentDownloads_(type);
-                    this[type + "StalledDownloads_"]++, this.logger_("found #" + this[type + "StalledDownloads_"] + " " + type + " appends that did not increase buffer (possible stalled download)", {
+                    (this[type + "Buffered_"] = buffered, isBufferedDifferent) ? this.resetSegmentDownloads_(type) : (this[type + "StalledDownloads_"]++, this.logger_("found #" + this[type + "StalledDownloads_"] + " " + type + " appends that did not increase buffer (possible stalled download)", {
                         playlistId: loader.playlist_ && loader.playlist_.id,
                         buffered: timeRangesToArray(buffered)
                     }), this[type + "StalledDownloads_"] < 10 || (this.logger_(type + " loader stalled download exclusion"), this.resetSegmentDownloads_(type), this.tech_.trigger({
@@ -26026,7 +26007,7 @@
                     }), "subtitle" !== type && // when type is audio?
                     mpc.blacklistCurrentPlaylist({
                         message: "Excessive " + type + " segment downloading detected."
-                    }, 1 / 0));
+                    }, 1 / 0)));
                 }, /**
                  * The purpose of this function is to emulate the "waiting" event on
                  * browsers that do not emit it when they are waiting for more
@@ -26285,8 +26266,7 @@
                         return videojs.log.warn("using Vhs." + prop + " is UNSAFE be sure you know what you are doing"), Config[prop];
                     },
                     set: function(value) {
-                        if (videojs.log.warn("using Vhs." + prop + " is UNSAFE be sure you know what you are doing"), "number" != typeof value || value < 0) return void videojs.log.warn("value of Vhs." + prop + " must be greater than or equal to 0");
-                        Config[prop] = value;
+                        (videojs.log.warn("using Vhs." + prop + " is UNSAFE be sure you know what you are doing"), "number" != typeof value || value < 0) ? videojs.log.warn("value of Vhs." + prop + " must be greater than or equal to 0") : Config[prop] = value;
                     }
                 });
             });
@@ -26347,8 +26327,7 @@
                         player.eme.initializeMediaKeys({
                             keySystems: keySystemsOptions
                         }, function(err) {
-                            if (err) return void reject(err);
-                            resolve();
+                            err ? reject(err) : resolve();
                         });
                     }));
                 }), Promise.race([
@@ -26782,15 +26761,13 @@
                         audioMedia: audioPlaylistLoader && audioPlaylistLoader.media()
                     });
                     // promises.
-                    if (this.player_.tech_.on("keystatuschange", function(e) {
+                    (this.player_.tech_.on("keystatuschange", function(e) {
                         "output-restricted" === e.status && _this4.masterPlaylistController_.blacklistCurrentPlaylist({
                             playlist: _this4.masterPlaylistController_.media(),
                             message: "DRM keystatus changed to " + e.status + ". Playlist will fail to play. Check for HDCP content.",
                             blacklistDuration: 1 / 0
                         });
-                    }), 11 === videojs.browser.IE_VERSION || !didSetupEmeOptions) return void // If EME options were not set up, we've done all we could to initialize EME.
-                    this.masterPlaylistController_.sourceUpdater_.initializedEme();
-                    this.logger_("waiting for EME key session creation"), waitForKeySessionCreation({
+                    }), 11 !== videojs.browser.IE_VERSION && didSetupEmeOptions) ? (this.logger_("waiting for EME key session creation"), waitForKeySessionCreation({
                         player: this.player_,
                         sourceKeySystems: this.source_.keySystems,
                         audioMedia: audioPlaylistLoader && audioPlaylistLoader.media(),
@@ -26802,7 +26779,8 @@
                             message: "Failed to initialize media keys for EME",
                             code: 3
                         });
-                    });
+                    })) : // If EME options were not set up, we've done all we could to initialize EME.
+                    this.masterPlaylistController_.sourceUpdater_.initializedEme();
                 }, /**
                  * Initializes the quality levels and sets listeners to update them.
                  *

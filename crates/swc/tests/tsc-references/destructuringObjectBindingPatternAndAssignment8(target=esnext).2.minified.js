@@ -1,5 +1,5 @@
 //// [destructuringObjectBindingPatternAndAssignment8.ts]
-const { a: aVal, b: bVal } = {
+let { a: aVal, b: bVal } = {
     a: 1,
     b: 1
 };

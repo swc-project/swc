@@ -140,6 +140,8 @@ fn wrap_module(
                             unreachable!("module item found but is_es6 is false: {:?}", i)
                         }
                         ModuleItem::Stmt(s) => s,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     })
                     .collect(),
                 ..Default::default()
@@ -201,7 +203,8 @@ where
                 // TODO: Check for global mark
                 if i.sym == *"require" && node.args.len() == 1 {
                     if let Expr::Lit(Lit::Str(module_name)) = &*node.args[0].expr {
-                        if self.bundler.is_external(&module_name.value) {
+                        let module_atom = module_name.value.to_atom_lossy();
+                        if self.bundler.is_external(module_atom.as_ref()) {
                             return;
                         }
                         let load = CallExpr {
@@ -318,6 +321,8 @@ where
                         .into();
                         return;
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
 

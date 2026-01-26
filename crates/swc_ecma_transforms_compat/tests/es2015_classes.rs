@@ -25,7 +25,7 @@ fn spec_tr(_: &Tester) -> impl Pass {
     (
         resolver(unresolved_mark, Mark::new(), false),
         classes(Default::default()),
-        spread(Default::default()),
+        spread(Default::default(), unresolved_mark),
         block_scoping(unresolved_mark),
     )
 }

@@ -5,7 +5,7 @@ use syn::*;
 
 /// Derives [`From`] for all variants. This only supports an enum where every
 /// variant has a single field.
-#[proc_macro_derive(FromVariant)]
+#[proc_macro_derive(FromVariant, attributes(from_variant))]
 pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
@@ -17,6 +17,21 @@ pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenS
         });
 
     print("derive(FromVariant)", item)
+}
+
+fn is_ignored(attrs: &[syn::Attribute]) -> bool {
+    attrs
+        .iter()
+        .filter(|attr| attr.path().is_ident("from_variant"))
+        .any(|attr| {
+            let mut is_unknown = false;
+            attr.parse_nested_meta(|meta| {
+                is_unknown |= meta.path.is_ident("ignore");
+                Ok(())
+            })
+            .unwrap();
+            is_unknown
+        })
 }
 
 fn derive(
@@ -35,6 +50,10 @@ fn derive(
     let mut from_impls: Vec<ItemImpl> = Vec::new();
 
     for v in variants {
+        if is_ignored(&v.attrs) {
+            continue;
+        }
+
         let variant_name = v.ident;
         match v.fields {
             Fields::Unnamed(FieldsUnnamed { unnamed, .. }) => {

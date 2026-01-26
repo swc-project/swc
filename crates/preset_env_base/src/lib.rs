@@ -21,7 +21,7 @@ pub struct BrowserData<T: Default> {
     #[serde(default, rename = "chrome-android")]
     pub chrome_android: T,
     #[serde(default, rename = "firefox-android")]
-    pub firerfox_android: T,
+    pub firefox_android: T,
     #[serde(default, rename = "opera-android")]
     pub opera_android: T,
 

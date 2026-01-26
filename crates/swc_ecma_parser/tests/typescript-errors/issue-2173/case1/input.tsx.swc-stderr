@@ -1,4 +1,4 @@
-  x Unexpected eof
+  x Expected '</', got '<eof>'
    ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:5:9]
  5 |     });
    `----

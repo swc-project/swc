@@ -98,6 +98,8 @@ impl Babelify for Expr {
                         "illegal conversion: Cannot convert {:?} to ExprOutput",
                         &lit
                     ), // TODO(dwoznicki): is this really illegal?
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
             Expr::Tpl(t) => {
@@ -169,6 +171,8 @@ impl Babelify for Expr {
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -268,6 +272,8 @@ impl Babelify for PropOrSpread {
                     ObjectMember::Prop(p) => ObjectExprProp::Prop(p),
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -404,6 +410,8 @@ impl Babelify for MemberProp {
             Self::Computed(c) => MemberExprProp::Expr(c.babelify(ctx).into()),
             Self::Ident(i) => MemberExprProp::Id(i.babelify(ctx)),
             Self::PrivateName(p) => MemberExprProp::PrivateName(p.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -431,6 +439,8 @@ impl Babelify for SuperProp {
         match self {
             Self::Computed(c) => MemberExprProp::Expr(c.babelify(ctx).into()),
             Self::Ident(i) => MemberExprProp::Id(i.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -586,6 +596,8 @@ impl Babelify for MetaPropExpr {
                 }
                 .babelify(ctx),
             ),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         MetaProperty {
             base: ctx.base(self.span()),
@@ -671,6 +683,8 @@ impl Babelify for Callee {
             Callee::Expr(e) => e.babelify(ctx).into(),
             Callee::Super(s) => Expression::Super(s.babelify(ctx)),
             Callee::Import(i) => Expression::Import(i.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -718,6 +732,8 @@ impl Babelify for BlockStmtOrExpr {
             BlockStmtOrExpr::Expr(e) => {
                 ArrowFuncExprBody::Expr(Box::alloc().init(e.babelify(ctx).into()))
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -729,6 +745,8 @@ impl Babelify for AssignTarget {
         match self {
             AssignTarget::Simple(s) => s.babelify(ctx),
             AssignTarget::Pat(p) => p.babelify(ctx),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -754,6 +772,8 @@ impl Babelify for AssignTargetPat {
             AssignTargetPat::Array(a) => LVal::ArrayPat(a.babelify(ctx)),
             AssignTargetPat::Object(o) => LVal::ObjectPat(o.babelify(ctx)),
             AssignTargetPat::Invalid(_) => todo!(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

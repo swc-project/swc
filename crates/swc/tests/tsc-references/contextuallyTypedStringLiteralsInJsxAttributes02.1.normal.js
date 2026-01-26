@@ -33,13 +33,13 @@ define([
         return this._buildMainButton(props);
     }
     var b0 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function(k) {
+        onClick: function onClick(k) {
             console.log(k);
         },
         extra: true
     }); // k has type "left" | "right"
     var b2 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function(k) {
+        onClick: function onClick(k) {
             console.log(k);
         },
         extra: true
@@ -56,7 +56,7 @@ define([
         return undefined;
     }
     var c1 = /*#__PURE__*/ _react.createElement(NoOverload, {
-        onClick: function(k) {
+        onClick: function onClick(k) {
             console.log(k);
         },
         extra: true

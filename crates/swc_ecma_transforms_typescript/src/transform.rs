@@ -22,6 +22,16 @@ use crate::{
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
+#[inline]
+fn enum_member_id_atom(id: &TsEnumMemberId) -> Atom {
+    match id {
+        TsEnumMemberId::Ident(ident) => ident.sym.clone(),
+        TsEnumMemberId::Str(s) => s.value.to_atom_lossy().into_owned(),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    }
+}
+
 /// ## This Module will transform all TypeScript specific synatx
 ///
 /// - ### [namespace]/[modules]/[enums]
@@ -126,9 +136,10 @@ impl Visit for Transform {
 
             default_init = value.inc();
 
+            let member_name = enum_member_id_atom(&m.id);
             let key = TsEnumRecordKey {
                 enum_id: id.to_id(),
-                member_name: m.id.as_ref().clone(),
+                member_name: member_name.clone(),
             };
 
             self.enum_record.insert(key, value);
@@ -331,6 +342,8 @@ impl VisitMut for Transform {
                                 id,
                             )
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     };
 
                     self.in_class_prop.push(id);
@@ -344,6 +357,8 @@ impl VisitMut for Transform {
                     .into();
                 }
                 ParamOrTsParamProp::Param(..) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             });
 
         node.params.visit_mut_children_with(self);
@@ -696,7 +711,7 @@ impl Transform {
             .into_iter()
             .map(|m| {
                 let span = m.span;
-                let name = m.id.as_ref().clone();
+                let name = enum_member_id_atom(&m.id);
 
                 let key = TsEnumRecordKey {
                     enum_id: id.to_id(),
@@ -713,6 +728,10 @@ impl Transform {
         if member_list.is_empty() && is_const {
             return FoldedDecl::Empty;
         }
+
+        let opaque = member_list
+            .iter()
+            .any(|item| matches!(item.value, TsEnumRecordValue::Opaque(..)));
 
         let stmts = member_list
             .into_iter()
@@ -768,8 +787,10 @@ impl Transform {
             }
         };
 
-        let expr = Factory::function(vec![id.clone().into()], body)
-            .as_call(if iife { DUMMY_SP } else { PURE_SP }, vec![init_arg]);
+        let expr = Factory::function(vec![id.clone().into()], body).as_call(
+            if iife || opaque { DUMMY_SP } else { PURE_SP },
+            vec![init_arg],
+        );
 
         if iife {
             FoldedDecl::Expr(
@@ -863,6 +884,8 @@ impl Transform {
                 return Self::transform_ts_module_block(id, ts_module_block);
             }
             TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         debug_assert!(!declare);
@@ -1008,26 +1031,32 @@ impl Transform {
                         }
                         TsModuleRef::TsExternalModuleRef(..) => {
                             // TS1147
-                            HANDLER.with(|handler| {
-                                handler
-                                .struct_span_err(
-                                    decl.span,
-                                    r#"Import declarations in a namespace cannot reference a module."#,
-                                )
-                                .emit();
-                            });
+                            if HANDLER.is_set() {
+                                HANDLER.with(|handler| {
+                                    handler
+                                    .struct_span_err(
+                                        decl.span,
+                                        r#"Import declarations in a namespace cannot reference a module."#,
+                                    )
+                                    .emit();
+                                });
+                            }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
                 item => {
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                item.span(),
-                                r#"ESM-style module declarations are not permitted in a namespace."#,
-                            )
-                            .emit();
-                    });
+                    if HANDLER.is_set() {
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    item.span(),
+                                    r#"ESM-style module declarations are not permitted in a namespace."#,
+                                )
+                                .emit();
+                        });
+                    }
                 }
             }
         }
@@ -1187,6 +1216,8 @@ impl Transform {
                 }
                 .into()
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -1318,16 +1349,20 @@ impl Transform {
                                 }
                                 TsImportExportAssignConfig::EsNext => {
                                     // TS1202
-                                    HANDLER.with(|handler| {
-                                        handler.struct_span_err(
-                                            decl.span,
-                                            r#"Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead."#,
-                                        )
-                                        .emit();
-                                    });
+                                    if HANDLER.is_set() {
+                                        HANDLER.with(|handler| {
+                                            handler.struct_span_err(
+                                                decl.span,
+                                                r#"Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead."#,
+                                            )
+                                            .emit();
+                                        });
+                                    }
                                 }
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(..)) => {
@@ -1411,14 +1446,16 @@ impl Transform {
                 }
                 TsImportExportAssignConfig::NodeNext | TsImportExportAssignConfig::EsNext => {
                     // TS1203
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                cjs_export_assign.span,
-                                r#"Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead."#,
-                            )
-                            .emit()
-                    });
+                    if HANDLER.is_set() {
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    cjs_export_assign.span,
+                                    r#"Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead."#,
+                                )
+                                .emit()
+                        });
+                    }
                 }
             }
         }
@@ -1532,13 +1569,19 @@ fn get_member_key(prop: &MemberProp) -> Option<Atom> {
     match prop {
         MemberProp::Ident(ident) => Some(ident.sym.clone()),
         MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.clone()),
+            Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.to_atom_lossy().into_owned()),
             Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                (0, 1) => quasis[0].cooked.as_ref().map(|v| Atom::from(&**v)),
+                (0, 1) => quasis[0]
+                    .cooked
+                    .as_ref()
+                    .map(|cooked| cooked.to_atom_lossy().into_owned())
+                    .or_else(|| Some(quasis[0].raw.clone())),
                 _ => None,
             },
             _ => None,
         },
         MemberProp::PrivateName(_) => None,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }

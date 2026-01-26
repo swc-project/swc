@@ -164,6 +164,8 @@ where
                     let decl = match item {
                         ModuleItem::ModuleDecl(v) => v,
                         ModuleItem::Stmt(stmt) => return Some(stmt),
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     };
 
                     match decl {
@@ -224,6 +226,8 @@ where
                                                 ModuleExportName::Str(..) => unimplemented!(
                                                     "module string names unimplemented"
                                                 ),
+                                                #[cfg(swc_ast_unknown)]
+                                                _ => panic!("unable to access unknown nodes"),
                                             };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
@@ -235,18 +239,24 @@ where
                                         Some(ModuleExportName::Str(..)) => {
                                             unimplemented!("module string names unimplemented")
                                         }
+                                        #[cfg(swc_ast_unknown)]
+                                        Some(_) => panic!("unable to access unknown nodes"),
                                         None => {
                                             let orig = match s.orig {
                                                 ModuleExportName::Ident(ident) => ident,
                                                 ModuleExportName::Str(..) => unimplemented!(
                                                     "module string names unimplemented"
                                                 ),
+                                                #[cfg(swc_ast_unknown)]
+                                                _ => panic!("unable to access unknown nodes"),
                                             };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::Shorthand(orig),
                                             )));
                                         }
                                     },
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
                                 }
                             }
 
@@ -303,6 +313,8 @@ where
                                 )
                             }
                             DefaultDecl::TsInterfaceDecl(_) => None,
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                         ModuleDecl::ExportDefaultExpr(export) => {
                             let default_var = private_ident!("default");
@@ -328,6 +340,9 @@ where
                         }
 
                         ModuleDecl::ExportAll(_) => None,
+
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 })
                 .collect(),
@@ -396,10 +411,10 @@ where
     noop_fold_type!();
 
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
-        let resolved = match self
-            .resolver
-            .resolve(&FileName::Real(self.base.clone()), &import.src.value)
-        {
+        let resolved = match self.resolver.resolve(
+            &FileName::Real(self.base.clone()),
+            &import.src.value.to_string_lossy(),
+        ) {
             Ok(v) => match v.filename {
                 FileName::Real(v) => v,
                 _ => panic!("rename_bundles called with non-path module"),

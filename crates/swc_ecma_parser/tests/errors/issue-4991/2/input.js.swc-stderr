@@ -1,4 +1,4 @@
-  x Unexpected token `?`. Expected `.` or `(`
+  x Import is not allowed here
    ,-[$DIR/tests/errors/issue-4991/2/input.js:1:1]
  1 | console.log(import?.[meta]);
    :                   ^

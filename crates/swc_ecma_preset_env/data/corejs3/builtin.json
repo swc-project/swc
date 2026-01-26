@@ -1,0 +1,4914 @@
+{
+  "built_ins": {
+    "AsyncDisposableStack": {
+      "name": "es.async-disposable-stack.constructor",
+      "pure": "async-disposable-stack/index",
+      "global": [
+        "es.error.cause",
+        "es.error.to-string",
+        "es.suppressed-error.constructor",
+        "es.iterator.dispose",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.promise",
+        "es.async-disposable-stack.constructor",
+        "es.async-iterator.async-dispose"
+      ]
+    },
+    "AsyncIterator": {
+      "name": "esnext.async-iterator.constructor",
+      "pure": "async-iterator/index",
+      "global": [
+        "es.object.to-string",
+        "es.promise",
+        "esnext.async-iterator.constructor"
+      ]
+    },
+    "AggregateError": {
+      "name": "es.aggregate-error",
+      "pure": "aggregate-error",
+      "global": [
+        "es.error.cause",
+        "es.error.to-string",
+        "es.aggregate-error",
+        "es.aggregate-error.cause",
+        "es.array.iterator",
+        "es.object.to-string",
+        "es.string.iterator",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "ArrayBuffer": {
+      "name": "es.array-buffer.constructor",
+      "pure": null,
+      "global": [
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string"
+      ]
+    },
+    "DataView": {
+      "name": "es.data-view",
+      "pure": null,
+      "global": [
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string"
+      ]
+    },
+    "Date": {
+      "name": "es.date.to-string",
+      "pure": null,
+      "global": [
+        "es.date.to-string"
+      ]
+    },
+    "DOMException": {
+      "name": "web.dom-exception.constructor",
+      "pure": "dom-exception/index",
+      "global": [
+        "es.error.to-string",
+        "web.dom-exception.constructor",
+        "web.dom-exception.stack",
+        "web.dom-exception.to-string-tag"
+      ]
+    },
+    "DisposableStack": {
+      "name": "es.disposable-stack.constructor",
+      "pure": "disposable-stack/index",
+      "global": [
+        "es.error.cause",
+        "es.error.to-string",
+        "es.suppressed-error.constructor",
+        "es.disposable-stack.constructor",
+        "es.iterator.dispose",
+        "es.object.to-string"
+      ]
+    },
+    "Error": {
+      "name": "es.error.cause",
+      "pure": null,
+      "global": [
+        "es.error.cause",
+        "es.error.to-string"
+      ]
+    },
+    "EvalError": {
+      "name": "es.error.cause",
+      "pure": null,
+      "global": [
+        "es.error.cause",
+        "es.error.to-string"
+      ]
+    },
+    "Float32Array": {
+      "name": "es.typed-array.float32-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.float32-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Float64Array": {
+      "name": "es.typed-array.float64-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.float64-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Int8Array": {
+      "name": "es.typed-array.int8-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.int8-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Int16Array": {
+      "name": "es.typed-array.int16-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.int16-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Int32Array": {
+      "name": "es.typed-array.int32-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.int32-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Iterator": {
+      "name": "es.iterator.constructor",
+      "pure": "iterator/index",
+      "global": [
+        "es.iterator.constructor",
+        "es.object.to-string"
+      ]
+    },
+    "Uint8Array": {
+      "name": "es.typed-array.uint8-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.uint8-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by",
+        "esnext.uint8-array.set-from-base64",
+        "esnext.uint8-array.set-from-hex",
+        "esnext.uint8-array.to-base64",
+        "esnext.uint8-array.to-hex"
+      ]
+    },
+    "Uint8ClampedArray": {
+      "name": "es.typed-array.uint8-clamped-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.uint8-clamped-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Uint16Array": {
+      "name": "es.typed-array.uint16-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.uint16-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Uint32Array": {
+      "name": "es.typed-array.uint32-array",
+      "pure": null,
+      "global": [
+        "es.array.iterator",
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.typed-array.uint32-array",
+        "es.typed-array.at",
+        "es.typed-array.copy-within",
+        "es.typed-array.every",
+        "es.typed-array.fill",
+        "es.typed-array.filter",
+        "es.typed-array.find",
+        "es.typed-array.find-index",
+        "es.typed-array.find-last",
+        "es.typed-array.find-last-index",
+        "es.typed-array.for-each",
+        "es.typed-array.includes",
+        "es.typed-array.index-of",
+        "es.typed-array.iterator",
+        "es.typed-array.join",
+        "es.typed-array.last-index-of",
+        "es.typed-array.map",
+        "es.typed-array.reduce",
+        "es.typed-array.reduce-right",
+        "es.typed-array.reverse",
+        "es.typed-array.set",
+        "es.typed-array.slice",
+        "es.typed-array.some",
+        "es.typed-array.sort",
+        "es.typed-array.subarray",
+        "es.typed-array.to-locale-string",
+        "es.typed-array.to-reversed",
+        "es.typed-array.to-sorted",
+        "es.typed-array.to-string",
+        "es.typed-array.with",
+        "esnext.typed-array.filter-reject",
+        "esnext.typed-array.group-by",
+        "esnext.typed-array.to-spliced",
+        "esnext.typed-array.unique-by"
+      ]
+    },
+    "Map": {
+      "name": "es.map",
+      "pure": "map/index",
+      "global": [
+        "es.array.iterator",
+        "es.map",
+        "es.object.to-string",
+        "es.string.iterator",
+        "esnext.map.delete-all",
+        "esnext.map.emplace",
+        "esnext.map.every",
+        "esnext.map.filter",
+        "esnext.map.find",
+        "esnext.map.find-key",
+        "esnext.map.get-or-insert",
+        "esnext.map.get-or-insert-computed",
+        "esnext.map.includes",
+        "esnext.map.key-of",
+        "esnext.map.map-keys",
+        "esnext.map.map-values",
+        "esnext.map.merge",
+        "esnext.map.reduce",
+        "esnext.map.some",
+        "esnext.map.update",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "Number": {
+      "name": "es.number.constructor",
+      "pure": null,
+      "global": [
+        "es.number.constructor"
+      ]
+    },
+    "Observable": {
+      "name": "esnext.observable",
+      "pure": "observable/index",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.string.iterator",
+        "esnext.observable",
+        "esnext.symbol.observable",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "Promise": {
+      "name": "es.promise",
+      "pure": "promise/index",
+      "global": [
+        "es.object.to-string",
+        "es.promise"
+      ]
+    },
+    "RangeError": {
+      "name": "es.error.cause",
+      "pure": null,
+      "global": [
+        "es.error.cause",
+        "es.error.to-string"
+      ]
+    },
+    "ReferenceError": {
+      "name": "es.error.cause",
+      "pure": null,
+      "global": [
+        "es.error.cause",
+        "es.error.to-string"
+      ]
+    },
+    "Reflect": {
+      "name": "es.reflect.to-string-tag",
+      "pure": null,
+      "global": [
+        "es.object.to-string",
+        "es.reflect.to-string-tag"
+      ]
+    },
+    "RegExp": {
+      "name": "es.regexp.constructor",
+      "pure": null,
+      "global": [
+        "es.regexp.constructor",
+        "es.regexp.dot-all",
+        "es.regexp.exec",
+        "es.regexp.sticky",
+        "es.regexp.to-string"
+      ]
+    },
+    "Set": {
+      "name": "es.set",
+      "pure": "set/index",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "es.set",
+        "es.set.difference.v2",
+        "es.set.intersection.v2",
+        "es.set.is-disjoint-from.v2",
+        "es.set.is-subset-of.v2",
+        "es.set.is-superset-of.v2",
+        "es.set.symmetric-difference.v2",
+        "es.set.union.v2",
+        "es.string.iterator",
+        "esnext.set.add-all",
+        "esnext.set.delete-all",
+        "esnext.set.difference",
+        "esnext.set.every",
+        "esnext.set.filter",
+        "esnext.set.find",
+        "esnext.set.intersection",
+        "esnext.set.is-disjoint-from",
+        "esnext.set.is-subset-of",
+        "esnext.set.is-superset-of",
+        "esnext.set.join",
+        "esnext.set.map",
+        "esnext.set.reduce",
+        "esnext.set.some",
+        "esnext.set.symmetric-difference",
+        "esnext.set.union",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "SuppressedError": {
+      "name": "es.suppressed-error.constructor",
+      "pure": "suppressed-error",
+      "global": [
+        "es.error.cause",
+        "es.error.to-string",
+        "es.suppressed-error.constructor"
+      ]
+    },
+    "Symbol": {
+      "name": "es.symbol",
+      "pure": "symbol/index",
+      "global": [
+        "es.symbol",
+        "es.symbol.description",
+        "es.object.to-string"
+      ]
+    },
+    "SyntaxError": {
+      "name": "es.error.cause",
+      "pure": null,
+      "global": [
+        "es.error.cause",
+        "es.error.to-string"
+      ]
+    },
+    "TypeError": {
+      "name": "es.error.cause",
+      "pure": null,
+      "global": [
+        "es.error.cause",
+        "es.error.to-string"
+      ]
+    },
+    "URIError": {
+      "name": "es.error.cause",
+      "pure": null,
+      "global": [
+        "es.error.cause",
+        "es.error.to-string"
+      ]
+    },
+    "URL": {
+      "name": "web.url",
+      "pure": "url/index",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "es.string.iterator",
+        "web.dom-collections.iterator",
+        "web.url",
+        "web.url.to-json",
+        "web.url-search-params",
+        "web.url-search-params.delete",
+        "web.url-search-params.has",
+        "web.url-search-params.size"
+      ]
+    },
+    "URLSearchParams": {
+      "name": "web.url-search-params",
+      "pure": "url-search-params/index",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "es.string.iterator",
+        "web.dom-collections.iterator",
+        "web.url-search-params",
+        "web.url-search-params.delete",
+        "web.url-search-params.has",
+        "web.url-search-params.size"
+      ]
+    },
+    "WeakMap": {
+      "name": "es.weak-map",
+      "pure": "weak-map/index",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "es.string.iterator",
+        "es.weak-map",
+        "esnext.weak-map.delete-all",
+        "esnext.weak-map.emplace",
+        "esnext.weak-map.get-or-insert",
+        "esnext.weak-map.get-or-insert-computed",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "WeakSet": {
+      "name": "es.weak-set",
+      "pure": "weak-set/index",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "es.string.iterator",
+        "es.weak-set",
+        "esnext.weak-set.add-all",
+        "esnext.weak-set.delete-all",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "atob": {
+      "name": "web.atob",
+      "pure": "atob",
+      "global": [
+        "es.error.to-string",
+        "web.atob",
+        "web.dom-exception.constructor",
+        "web.dom-exception.stack",
+        "web.dom-exception.to-string-tag"
+      ]
+    },
+    "btoa": {
+      "name": "web.btoa",
+      "pure": "btoa",
+      "global": [
+        "es.error.to-string",
+        "web.btoa",
+        "web.dom-exception.constructor",
+        "web.dom-exception.stack",
+        "web.dom-exception.to-string-tag"
+      ]
+    },
+    "clearImmediate": {
+      "name": "web.immediate",
+      "pure": "clear-immediate",
+      "global": [
+        "web.immediate"
+      ]
+    },
+    "compositeKey": {
+      "name": "esnext.composite-key",
+      "pure": "composite-key",
+      "global": [
+        "esnext.composite-key"
+      ]
+    },
+    "compositeSymbol": {
+      "name": "esnext.composite-symbol",
+      "pure": "composite-symbol",
+      "global": [
+        "esnext.composite-symbol"
+      ]
+    },
+    "escape": {
+      "name": "es.escape",
+      "pure": "escape",
+      "global": [
+        "es.escape"
+      ]
+    },
+    "fetch": {
+      "name": "es.object.to-string",
+      "pure": null,
+      "global": [
+        "es.object.to-string",
+        "es.promise"
+      ]
+    },
+    "globalThis": {
+      "name": "es.global-this",
+      "pure": "global-this",
+      "global": [
+        "es.global-this"
+      ]
+    },
+    "parseFloat": {
+      "name": "es.parse-float",
+      "pure": "parse-float",
+      "global": [
+        "es.parse-float"
+      ]
+    },
+    "parseInt": {
+      "name": "es.parse-int",
+      "pure": "parse-int",
+      "global": [
+        "es.parse-int"
+      ]
+    },
+    "queueMicrotask": {
+      "name": "web.queue-microtask",
+      "pure": "queue-microtask",
+      "global": [
+        "web.queue-microtask"
+      ]
+    },
+    "self": {
+      "name": "web.self",
+      "pure": "self",
+      "global": [
+        "web.self"
+      ]
+    },
+    "setImmediate": {
+      "name": "web.immediate",
+      "pure": "set-immediate",
+      "global": [
+        "web.immediate"
+      ]
+    },
+    "setInterval": {
+      "name": "web.timers",
+      "pure": "set-interval",
+      "global": [
+        "web.timers"
+      ]
+    },
+    "setTimeout": {
+      "name": "web.timers",
+      "pure": "set-timeout",
+      "global": [
+        "web.timers"
+      ]
+    },
+    "structuredClone": {
+      "name": "web.structured-clone",
+      "pure": "structured-clone",
+      "global": [
+        "es.error.to-string",
+        "es.array.iterator",
+        "es.map",
+        "es.object.keys",
+        "es.object.to-string",
+        "es.set",
+        "web.dom-exception.constructor",
+        "web.dom-exception.stack",
+        "web.dom-exception.to-string-tag",
+        "web.structured-clone"
+      ]
+    },
+    "unescape": {
+      "name": "es.unescape",
+      "pure": "unescape",
+      "global": [
+        "es.unescape"
+      ]
+    }
+  },
+  "static_properties": {
+    "AsyncIterator": {
+      "from": {
+        "name": "esnext.async-iterator.from",
+        "pure": "async-iterator/from",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "esnext.async-iterator.constructor",
+          "esnext.async-iterator.every",
+          "esnext.async-iterator.filter",
+          "esnext.async-iterator.find",
+          "esnext.async-iterator.flat-map",
+          "esnext.async-iterator.for-each",
+          "esnext.async-iterator.from",
+          "esnext.async-iterator.map",
+          "esnext.async-iterator.reduce",
+          "esnext.async-iterator.some",
+          "web.dom-collections.iterator"
+        ]
+      }
+    },
+    "Array": {
+      "from": {
+        "name": "es.array.from",
+        "pure": "array/from",
+        "global": [
+          "es.array.from",
+          "es.string.iterator"
+        ]
+      },
+      "fromAsync": {
+        "name": "es.array.from-async",
+        "pure": "array/from-async",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.promise",
+          "es.array.from-async",
+          "es.string.iterator",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "isArray": {
+        "name": "es.array.is-array",
+        "pure": "array/is-array",
+        "global": [
+          "es.array.is-array"
+        ]
+      },
+      "isTemplateObject": {
+        "name": "esnext.array.is-template-object",
+        "pure": "array/is-template-object",
+        "global": [
+          "esnext.array.is-template-object"
+        ]
+      },
+      "of": {
+        "name": "es.array.of",
+        "pure": "array/of",
+        "global": [
+          "es.array.of"
+        ]
+      }
+    },
+    "ArrayBuffer": {
+      "isView": {
+        "name": "es.array-buffer.is-view",
+        "pure": null,
+        "global": [
+          "es.array-buffer.is-view"
+        ]
+      }
+    },
+    "BigInt": {
+      "range": {
+        "name": "esnext.bigint.range",
+        "pure": "bigint/range",
+        "global": [
+          "es.object.to-string",
+          "esnext.bigint.range"
+        ]
+      }
+    },
+    "Date": {
+      "now": {
+        "name": "es.date.now",
+        "pure": "date/now",
+        "global": [
+          "es.date.now"
+        ]
+      }
+    },
+    "Error": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "Function": {
+      "isCallable": {
+        "name": "esnext.function.is-callable",
+        "pure": "function/is-callable",
+        "global": [
+          "esnext.function.is-callable"
+        ]
+      },
+      "isConstructor": {
+        "name": "esnext.function.is-constructor",
+        "pure": "function/is-constructor",
+        "global": [
+          "esnext.function.is-constructor"
+        ]
+      }
+    },
+    "Iterator": {
+      "concat": {
+        "name": "esnext.iterator.concat",
+        "pure": "iterator/concat",
+        "global": [
+          "es.array.iterator",
+          "es.iterator.constructor",
+          "es.object.to-string",
+          "es.string.iterator",
+          "esnext.iterator.concat",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "from": {
+        "name": "es.iterator.from",
+        "pure": "iterator/from",
+        "global": [
+          "es.array.iterator",
+          "es.iterator.constructor",
+          "es.iterator.from",
+          "es.object.to-string",
+          "es.string.iterator",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "range": {
+        "name": "esnext.iterator.range",
+        "pure": "iterator/range",
+        "global": [
+          "es.iterator.constructor",
+          "es.object.to-string",
+          "esnext.iterator.range"
+        ]
+      },
+      "zip": {
+        "name": "esnext.iterator.zip",
+        "pure": "iterator/zip",
+        "global": [
+          "es.array.iterator",
+          "es.iterator.constructor",
+          "es.object.to-string",
+          "es.string.iterator",
+          "esnext.iterator.zip",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "zipKeyed": {
+        "name": "esnext.iterator.zip-keyed",
+        "pure": "iterator/zip-keyed",
+        "global": [
+          "es.array.iterator",
+          "es.iterator.constructor",
+          "es.object.create",
+          "es.object.to-string",
+          "es.reflect.own-keys",
+          "es.string.iterator",
+          "esnext.iterator.zip-keyed",
+          "web.dom-collections.iterator"
+        ]
+      }
+    },
+    "JSON": {
+      "isRawJSON": {
+        "name": "esnext.json.is-raw-json",
+        "pure": "json/is-raw-json",
+        "global": [
+          "esnext.json.is-raw-json"
+        ]
+      },
+      "parse": {
+        "name": "esnext.json.parse",
+        "pure": "json/parse",
+        "global": [
+          "es.object.keys",
+          "esnext.json.parse"
+        ]
+      },
+      "rawJSON": {
+        "name": "esnext.json.raw-json",
+        "pure": "json/raw-json",
+        "global": [
+          "es.object.create",
+          "es.object.freeze",
+          "esnext.json.raw-json"
+        ]
+      },
+      "stringify": {
+        "name": "es.symbol",
+        "pure": "json/stringify",
+        "global": [
+          "es.date.to-json",
+          "es.json.stringify"
+        ]
+      }
+    },
+    "Math": {
+      "DEG_PER_RAD": {
+        "name": "esnext.math.deg-per-rad",
+        "pure": "math/deg-per-rad",
+        "global": [
+          "esnext.math.deg-per-rad"
+        ]
+      },
+      "RAD_PER_DEG": {
+        "name": "esnext.math.rad-per-deg",
+        "pure": "math/rad-per-deg",
+        "global": [
+          "esnext.math.rad-per-deg"
+        ]
+      },
+      "acosh": {
+        "name": "es.math.acosh",
+        "pure": "math/acosh",
+        "global": [
+          "es.math.acosh"
+        ]
+      },
+      "asinh": {
+        "name": "es.math.asinh",
+        "pure": "math/asinh",
+        "global": [
+          "es.math.asinh"
+        ]
+      },
+      "atanh": {
+        "name": "es.math.atanh",
+        "pure": "math/atanh",
+        "global": [
+          "es.math.atanh"
+        ]
+      },
+      "cbrt": {
+        "name": "es.math.cbrt",
+        "pure": "math/cbrt",
+        "global": [
+          "es.math.cbrt"
+        ]
+      },
+      "clamp": {
+        "name": "esnext.math.clamp",
+        "pure": "math/clamp",
+        "global": [
+          "esnext.math.clamp"
+        ]
+      },
+      "clz32": {
+        "name": "es.math.clz32",
+        "pure": "math/clz32",
+        "global": [
+          "es.math.clz32"
+        ]
+      },
+      "cosh": {
+        "name": "es.math.cosh",
+        "pure": "math/cosh",
+        "global": [
+          "es.math.cosh"
+        ]
+      },
+      "degrees": {
+        "name": "esnext.math.degrees",
+        "pure": "math/degrees",
+        "global": [
+          "esnext.math.degrees"
+        ]
+      },
+      "expm1": {
+        "name": "es.math.expm1",
+        "pure": "math/expm1",
+        "global": [
+          "es.math.expm1"
+        ]
+      },
+      "fround": {
+        "name": "es.math.fround",
+        "pure": "math/fround",
+        "global": [
+          "es.math.fround"
+        ]
+      },
+      "f16round": {
+        "name": "es.math.f16round",
+        "pure": "math/f16round",
+        "global": [
+          "es.math.f16round"
+        ]
+      },
+      "fscale": {
+        "name": "esnext.math.fscale",
+        "pure": "math/fscale",
+        "global": [
+          "esnext.math.fscale"
+        ]
+      },
+      "hypot": {
+        "name": "es.math.hypot",
+        "pure": "math/hypot",
+        "global": [
+          "es.math.hypot"
+        ]
+      },
+      "iaddh": {
+        "name": "esnext.math.iaddh",
+        "pure": "math/iaddh",
+        "global": [
+          "esnext.math.iaddh"
+        ]
+      },
+      "imul": {
+        "name": "es.math.imul",
+        "pure": "math/imul",
+        "global": [
+          "es.math.imul"
+        ]
+      },
+      "imulh": {
+        "name": "esnext.math.imulh",
+        "pure": "math/imulh",
+        "global": [
+          "esnext.math.imulh"
+        ]
+      },
+      "isubh": {
+        "name": "esnext.math.isubh",
+        "pure": "math/isubh",
+        "global": [
+          "esnext.math.isubh"
+        ]
+      },
+      "log10": {
+        "name": "es.math.log10",
+        "pure": "math/log10",
+        "global": [
+          "es.math.log10"
+        ]
+      },
+      "log1p": {
+        "name": "es.math.log1p",
+        "pure": "math/log1p",
+        "global": [
+          "es.math.log1p"
+        ]
+      },
+      "log2": {
+        "name": "es.math.log2",
+        "pure": "math/log2",
+        "global": [
+          "es.math.log2"
+        ]
+      },
+      "radians": {
+        "name": "esnext.math.radians",
+        "pure": "math/radians",
+        "global": [
+          "esnext.math.radians"
+        ]
+      },
+      "scale": {
+        "name": "esnext.math.scale",
+        "pure": "math/scale",
+        "global": [
+          "esnext.math.scale"
+        ]
+      },
+      "seededPRNG": {
+        "name": "esnext.math.seeded-prng",
+        "pure": "math/seeded-prng",
+        "global": [
+          "esnext.math.seeded-prng"
+        ]
+      },
+      "sign": {
+        "name": "es.math.sign",
+        "pure": "math/sign",
+        "global": [
+          "es.math.sign"
+        ]
+      },
+      "signbit": {
+        "name": "esnext.math.signbit",
+        "pure": "math/signbit",
+        "global": [
+          "esnext.math.signbit"
+        ]
+      },
+      "sinh": {
+        "name": "es.math.sinh",
+        "pure": "math/sinh",
+        "global": [
+          "es.math.sinh"
+        ]
+      },
+      "sumPrecise": {
+        "name": "esnext.math.sum-precise",
+        "pure": "math/sum-precise",
+        "global": [
+          "es.array.iterator",
+          "esnext.math.sum-precise"
+        ]
+      },
+      "tanh": {
+        "name": "es.math.tanh",
+        "pure": "math/tanh",
+        "global": [
+          "es.math.tanh"
+        ]
+      },
+      "trunc": {
+        "name": "es.math.trunc",
+        "pure": "math/trunc",
+        "global": [
+          "es.math.trunc"
+        ]
+      },
+      "umulh": {
+        "name": "esnext.math.umulh",
+        "pure": "math/umulh",
+        "global": [
+          "esnext.math.umulh"
+        ]
+      }
+    },
+    "Map": {
+      "from": {
+        "name": "esnext.map.from",
+        "pure": "map/from",
+        "global": [
+          "es.array.iterator",
+          "es.map",
+          "es.object.to-string",
+          "es.string.iterator",
+          "esnext.map.delete-all",
+          "esnext.map.emplace",
+          "esnext.map.every",
+          "esnext.map.filter",
+          "esnext.map.find",
+          "esnext.map.find-key",
+          "esnext.map.from",
+          "esnext.map.get-or-insert",
+          "esnext.map.get-or-insert-computed",
+          "esnext.map.includes",
+          "esnext.map.key-of",
+          "esnext.map.map-keys",
+          "esnext.map.map-values",
+          "esnext.map.merge",
+          "esnext.map.reduce",
+          "esnext.map.some",
+          "esnext.map.update",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "groupBy": {
+        "name": "es.map.group-by",
+        "pure": "map/group-by",
+        "global": [
+          "es.array.iterator",
+          "es.map",
+          "es.map.group-by",
+          "es.object.to-string",
+          "es.string.iterator",
+          "esnext.map.delete-all",
+          "esnext.map.emplace",
+          "esnext.map.every",
+          "esnext.map.filter",
+          "esnext.map.find",
+          "esnext.map.find-key",
+          "esnext.map.get-or-insert",
+          "esnext.map.get-or-insert-computed",
+          "esnext.map.includes",
+          "esnext.map.key-of",
+          "esnext.map.map-keys",
+          "esnext.map.map-values",
+          "esnext.map.merge",
+          "esnext.map.reduce",
+          "esnext.map.some",
+          "esnext.map.update",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "keyBy": {
+        "name": "esnext.map.key-by",
+        "pure": "map/key-by",
+        "global": [
+          "es.array.iterator",
+          "es.map",
+          "es.object.to-string",
+          "es.string.iterator",
+          "esnext.map.delete-all",
+          "esnext.map.emplace",
+          "esnext.map.every",
+          "esnext.map.filter",
+          "esnext.map.find",
+          "esnext.map.find-key",
+          "esnext.map.get-or-insert",
+          "esnext.map.get-or-insert-computed",
+          "esnext.map.includes",
+          "esnext.map.key-by",
+          "esnext.map.key-of",
+          "esnext.map.map-keys",
+          "esnext.map.map-values",
+          "esnext.map.merge",
+          "esnext.map.reduce",
+          "esnext.map.some",
+          "esnext.map.update",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "esnext.map.of",
+        "pure": "map/of",
+        "global": [
+          "es.array.iterator",
+          "es.map",
+          "es.object.to-string",
+          "es.string.iterator",
+          "esnext.map.delete-all",
+          "esnext.map.emplace",
+          "esnext.map.every",
+          "esnext.map.filter",
+          "esnext.map.find",
+          "esnext.map.find-key",
+          "esnext.map.get-or-insert",
+          "esnext.map.get-or-insert-computed",
+          "esnext.map.includes",
+          "esnext.map.key-of",
+          "esnext.map.map-keys",
+          "esnext.map.map-values",
+          "esnext.map.merge",
+          "esnext.map.of",
+          "esnext.map.reduce",
+          "esnext.map.some",
+          "esnext.map.update",
+          "web.dom-collections.iterator"
+        ]
+      }
+    },
+    "Number": {
+      "EPSILON": {
+        "name": "es.number.epsilon",
+        "pure": "number/epsilon",
+        "global": [
+          "es.number.epsilon"
+        ]
+      },
+      "MAX_SAFE_INTEGER": {
+        "name": "es.number.max-safe-integer",
+        "pure": "number/max-safe-integer",
+        "global": [
+          "es.number.max-safe-integer"
+        ]
+      },
+      "MIN_SAFE_INTEGER": {
+        "name": "es.number.min-safe-integer",
+        "pure": "number/min-safe-integer",
+        "global": [
+          "es.number.min-safe-integer"
+        ]
+      },
+      "fromString": {
+        "name": "esnext.number.from-string",
+        "pure": "number/from-string",
+        "global": [
+          "esnext.number.from-string"
+        ]
+      },
+      "isFinite": {
+        "name": "es.number.is-finite",
+        "pure": "number/is-finite",
+        "global": [
+          "es.number.is-finite"
+        ]
+      },
+      "isInteger": {
+        "name": "es.number.is-integer",
+        "pure": "number/is-integer",
+        "global": [
+          "es.number.is-integer"
+        ]
+      },
+      "isNaN": {
+        "name": "es.number.is-nan",
+        "pure": "number/is-nan",
+        "global": [
+          "es.number.is-nan"
+        ]
+      },
+      "isSafeInteger": {
+        "name": "es.number.is-safe-integer",
+        "pure": "number/is-safe-integer",
+        "global": [
+          "es.number.is-safe-integer"
+        ]
+      },
+      "parseFloat": {
+        "name": "es.number.parse-float",
+        "pure": "number/parse-float",
+        "global": [
+          "es.number.parse-float"
+        ]
+      },
+      "parseInt": {
+        "name": "es.number.parse-int",
+        "pure": "number/parse-int",
+        "global": [
+          "es.number.parse-int"
+        ]
+      },
+      "range": {
+        "name": "esnext.number.range",
+        "pure": "number/range",
+        "global": [
+          "es.object.to-string",
+          "esnext.number.range"
+        ]
+      }
+    },
+    "Object": {
+      "assign": {
+        "name": "es.object.assign",
+        "pure": "object/assign",
+        "global": [
+          "es.object.assign"
+        ]
+      },
+      "create": {
+        "name": "es.object.create",
+        "pure": "object/create",
+        "global": [
+          "es.object.create"
+        ]
+      },
+      "defineProperties": {
+        "name": "es.object.define-properties",
+        "pure": "object/define-properties",
+        "global": [
+          "es.object.define-properties"
+        ]
+      },
+      "defineProperty": {
+        "name": "es.object.define-property",
+        "pure": "object/define-property",
+        "global": [
+          "es.object.define-property"
+        ]
+      },
+      "entries": {
+        "name": "es.object.entries",
+        "pure": "object/entries",
+        "global": [
+          "es.object.entries"
+        ]
+      },
+      "freeze": {
+        "name": "es.object.freeze",
+        "pure": "object/freeze",
+        "global": [
+          "es.object.freeze"
+        ]
+      },
+      "fromEntries": {
+        "name": "es.object.from-entries",
+        "pure": "object/from-entries",
+        "global": [
+          "es.array.iterator",
+          "es.object.from-entries"
+        ]
+      },
+      "getOwnPropertyDescriptor": {
+        "name": "es.object.get-own-property-descriptor",
+        "pure": "object/get-own-property-descriptor",
+        "global": [
+          "es.object.get-own-property-descriptor"
+        ]
+      },
+      "getOwnPropertyDescriptors": {
+        "name": "es.object.get-own-property-descriptors",
+        "pure": "object/get-own-property-descriptors",
+        "global": [
+          "es.object.get-own-property-descriptors"
+        ]
+      },
+      "getOwnPropertyNames": {
+        "name": "es.object.get-own-property-names",
+        "pure": "object/get-own-property-names",
+        "global": [
+          "es.object.get-own-property-names"
+        ]
+      },
+      "getOwnPropertySymbols": {
+        "name": "es.symbol",
+        "pure": "object/get-own-property-symbols",
+        "global": [
+          "es.symbol"
+        ]
+      },
+      "getPrototypeOf": {
+        "name": "es.object.get-prototype-of",
+        "pure": "object/get-prototype-of",
+        "global": [
+          "es.object.get-prototype-of"
+        ]
+      },
+      "groupBy": {
+        "name": "es.object.group-by",
+        "pure": "object/group-by",
+        "global": [
+          "es.object.create",
+          "es.object.group-by"
+        ]
+      },
+      "hasOwn": {
+        "name": "es.object.has-own",
+        "pure": "object/has-own",
+        "global": [
+          "es.object.has-own"
+        ]
+      },
+      "is": {
+        "name": "es.object.is",
+        "pure": "object/is",
+        "global": [
+          "es.object.is"
+        ]
+      },
+      "isExtensible": {
+        "name": "es.object.is-extensible",
+        "pure": "object/is-extensible",
+        "global": [
+          "es.object.is-extensible"
+        ]
+      },
+      "isFrozen": {
+        "name": "es.object.is-frozen",
+        "pure": "object/is-frozen",
+        "global": [
+          "es.object.is-frozen"
+        ]
+      },
+      "isSealed": {
+        "name": "es.object.is-sealed",
+        "pure": "object/is-sealed",
+        "global": [
+          "es.object.is-sealed"
+        ]
+      },
+      "keys": {
+        "name": "es.object.keys",
+        "pure": "object/keys",
+        "global": [
+          "es.object.keys"
+        ]
+      },
+      "preventExtensions": {
+        "name": "es.object.prevent-extensions",
+        "pure": "object/prevent-extensions",
+        "global": [
+          "es.object.prevent-extensions"
+        ]
+      },
+      "seal": {
+        "name": "es.object.seal",
+        "pure": "object/seal",
+        "global": [
+          "es.object.seal"
+        ]
+      },
+      "setPrototypeOf": {
+        "name": "es.object.set-prototype-of",
+        "pure": "object/set-prototype-of",
+        "global": [
+          "es.object.set-prototype-of"
+        ]
+      },
+      "values": {
+        "name": "es.object.values",
+        "pure": "object/values",
+        "global": [
+          "es.object.values"
+        ]
+      }
+    },
+    "Promise": {
+      "all": {
+        "name": "es.promise",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "allSettled": {
+        "name": "es.promise.all-settled",
+        "pure": "promise/all-settled",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.promise",
+          "es.promise.all-settled",
+          "es.string.iterator",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "any": {
+        "name": "es.promise.any",
+        "pure": "promise/any",
+        "global": [
+          "es.aggregate-error",
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.promise",
+          "es.promise.any",
+          "es.string.iterator",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "race": {
+        "name": "es.array.iterator",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "try": {
+        "name": "es.promise.try",
+        "pure": "promise/try",
+        "global": [
+          "es.object.to-string",
+          "es.promise",
+          "es.promise.try"
+        ]
+      },
+      "withResolvers": {
+        "name": "es.promise.with-resolvers",
+        "pure": "promise/with-resolvers",
+        "global": [
+          "es.object.to-string",
+          "es.promise",
+          "es.promise.with-resolvers"
+        ]
+      }
+    },
+    "Reflect": {
+      "apply": {
+        "name": "es.reflect.apply",
+        "pure": "reflect/apply",
+        "global": [
+          "es.reflect.apply"
+        ]
+      },
+      "construct": {
+        "name": "es.reflect.construct",
+        "pure": "reflect/construct",
+        "global": [
+          "es.reflect.construct"
+        ]
+      },
+      "defineMetadata": {
+        "name": "esnext.reflect.define-metadata",
+        "pure": "reflect/define-metadata",
+        "global": [
+          "esnext.reflect.define-metadata"
+        ]
+      },
+      "defineProperty": {
+        "name": "es.reflect.define-property",
+        "pure": "reflect/define-property",
+        "global": [
+          "es.reflect.define-property"
+        ]
+      },
+      "deleteMetadata": {
+        "name": "esnext.reflect.delete-metadata",
+        "pure": "reflect/delete-metadata",
+        "global": [
+          "esnext.reflect.delete-metadata"
+        ]
+      },
+      "deleteProperty": {
+        "name": "es.reflect.delete-property",
+        "pure": "reflect/delete-property",
+        "global": [
+          "es.reflect.delete-property"
+        ]
+      },
+      "get": {
+        "name": "es.reflect.get",
+        "pure": "reflect/get",
+        "global": [
+          "es.reflect.get"
+        ]
+      },
+      "getMetadata": {
+        "name": "esnext.reflect.get-metadata",
+        "pure": "reflect/get-metadata",
+        "global": [
+          "esnext.reflect.get-metadata"
+        ]
+      },
+      "getMetadataKeys": {
+        "name": "esnext.reflect.get-metadata-keys",
+        "pure": "reflect/get-metadata-keys",
+        "global": [
+          "esnext.reflect.get-metadata-keys"
+        ]
+      },
+      "getOwnMetadata": {
+        "name": "esnext.reflect.get-own-metadata",
+        "pure": "reflect/get-own-metadata",
+        "global": [
+          "esnext.reflect.get-own-metadata"
+        ]
+      },
+      "getOwnMetadataKeys": {
+        "name": "esnext.reflect.get-own-metadata-keys",
+        "pure": "reflect/get-own-metadata-keys",
+        "global": [
+          "esnext.reflect.get-own-metadata-keys"
+        ]
+      },
+      "getOwnPropertyDescriptor": {
+        "name": "es.reflect.get-own-property-descriptor",
+        "pure": "reflect/get-own-property-descriptor",
+        "global": [
+          "es.reflect.get-own-property-descriptor"
+        ]
+      },
+      "getPrototypeOf": {
+        "name": "es.reflect.get-prototype-of",
+        "pure": "reflect/get-prototype-of",
+        "global": [
+          "es.reflect.get-prototype-of"
+        ]
+      },
+      "has": {
+        "name": "es.reflect.has",
+        "pure": "reflect/has",
+        "global": [
+          "es.reflect.has"
+        ]
+      },
+      "hasMetadata": {
+        "name": "esnext.reflect.has-metadata",
+        "pure": "reflect/has-metadata",
+        "global": [
+          "esnext.reflect.has-metadata"
+        ]
+      },
+      "hasOwnMetadata": {
+        "name": "esnext.reflect.has-own-metadata",
+        "pure": "reflect/has-own-metadata",
+        "global": [
+          "esnext.reflect.has-own-metadata"
+        ]
+      },
+      "isExtensible": {
+        "name": "es.reflect.is-extensible",
+        "pure": "reflect/is-extensible",
+        "global": [
+          "es.reflect.is-extensible"
+        ]
+      },
+      "metadata": {
+        "name": "esnext.reflect.metadata",
+        "pure": "reflect/metadata",
+        "global": [
+          "esnext.reflect.metadata"
+        ]
+      },
+      "ownKeys": {
+        "name": "es.reflect.own-keys",
+        "pure": "reflect/own-keys",
+        "global": [
+          "es.reflect.own-keys"
+        ]
+      },
+      "preventExtensions": {
+        "name": "es.reflect.prevent-extensions",
+        "pure": "reflect/prevent-extensions",
+        "global": [
+          "es.reflect.prevent-extensions"
+        ]
+      },
+      "set": {
+        "name": "es.reflect.set",
+        "pure": "reflect/set",
+        "global": [
+          "es.reflect.set"
+        ]
+      },
+      "setPrototypeOf": {
+        "name": "es.reflect.set-prototype-of",
+        "pure": "reflect/set-prototype-of",
+        "global": [
+          "es.reflect.set-prototype-of"
+        ]
+      }
+    },
+    "RegExp": {
+      "escape": {
+        "name": "es.regexp.escape",
+        "pure": "regexp/escape",
+        "global": [
+          "es.regexp.escape"
+        ]
+      }
+    },
+    "Set": {
+      "from": {
+        "name": "esnext.set.from",
+        "pure": "set/from",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.set",
+          "es.set.difference.v2",
+          "es.set.intersection.v2",
+          "es.set.is-disjoint-from.v2",
+          "es.set.is-subset-of.v2",
+          "es.set.is-superset-of.v2",
+          "es.set.symmetric-difference.v2",
+          "es.set.union.v2",
+          "es.string.iterator",
+          "esnext.set.add-all",
+          "esnext.set.delete-all",
+          "esnext.set.difference",
+          "esnext.set.every",
+          "esnext.set.filter",
+          "esnext.set.find",
+          "esnext.set.from",
+          "esnext.set.intersection",
+          "esnext.set.is-disjoint-from",
+          "esnext.set.is-subset-of",
+          "esnext.set.is-superset-of",
+          "esnext.set.join",
+          "esnext.set.map",
+          "esnext.set.reduce",
+          "esnext.set.some",
+          "esnext.set.symmetric-difference",
+          "esnext.set.union",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "esnext.set.of",
+        "pure": "set/of",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.set",
+          "es.set.difference.v2",
+          "es.set.intersection.v2",
+          "es.set.is-disjoint-from.v2",
+          "es.set.is-subset-of.v2",
+          "es.set.is-superset-of.v2",
+          "es.set.symmetric-difference.v2",
+          "es.set.union.v2",
+          "es.string.iterator",
+          "esnext.set.add-all",
+          "esnext.set.delete-all",
+          "esnext.set.difference",
+          "esnext.set.every",
+          "esnext.set.filter",
+          "esnext.set.find",
+          "esnext.set.intersection",
+          "esnext.set.is-disjoint-from",
+          "esnext.set.is-subset-of",
+          "esnext.set.is-superset-of",
+          "esnext.set.join",
+          "esnext.set.map",
+          "esnext.set.of",
+          "esnext.set.reduce",
+          "esnext.set.some",
+          "esnext.set.symmetric-difference",
+          "esnext.set.union",
+          "web.dom-collections.iterator"
+        ]
+      }
+    },
+    "String": {
+      "cooked": {
+        "name": "esnext.string.cooked",
+        "pure": "string/cooked",
+        "global": [
+          "esnext.string.cooked"
+        ]
+      },
+      "dedent": {
+        "name": "esnext.string.dedent",
+        "pure": "string/dedent",
+        "global": [
+          "es.string.from-code-point",
+          "es.weak-map",
+          "esnext.string.dedent"
+        ]
+      },
+      "fromCodePoint": {
+        "name": "es.string.from-code-point",
+        "pure": "string/from-code-point",
+        "global": [
+          "es.string.from-code-point"
+        ]
+      },
+      "raw": {
+        "name": "es.string.raw",
+        "pure": "string/raw",
+        "global": [
+          "es.string.raw"
+        ]
+      }
+    },
+    "Symbol": {
+      "asyncDispose": {
+        "name": "es.symbol.async-dispose",
+        "pure": "symbol/async-dispose",
+        "global": [
+          "es.symbol.async-dispose",
+          "es.async-iterator.async-dispose"
+        ]
+      },
+      "asyncIterator": {
+        "name": "es.symbol.async-iterator",
+        "pure": "symbol/async-iterator",
+        "global": [
+          "es.symbol.async-iterator"
+        ]
+      },
+      "customMatcher": {
+        "name": "esnext.symbol.custom-matcher",
+        "pure": "symbol/custom-matcher",
+        "global": [
+          "esnext.symbol.custom-matcher"
+        ]
+      },
+      "dispose": {
+        "name": "es.symbol.dispose",
+        "pure": "symbol/dispose",
+        "global": [
+          "es.symbol.dispose",
+          "es.iterator.dispose"
+        ]
+      },
+      "for": {
+        "name": "es.symbol",
+        "pure": "symbol/for",
+        "global": []
+      },
+      "hasInstance": {
+        "name": "es.symbol.has-instance",
+        "pure": "symbol/has-instance",
+        "global": [
+          "es.symbol.has-instance",
+          "es.function.has-instance"
+        ]
+      },
+      "isConcatSpreadable": {
+        "name": "es.symbol.is-concat-spreadable",
+        "pure": "symbol/is-concat-spreadable",
+        "global": [
+          "es.symbol.is-concat-spreadable",
+          "es.array.concat"
+        ]
+      },
+      "isRegistered": {
+        "name": "esnext.symbol.is-registered",
+        "pure": "symbol/is-registered",
+        "global": [
+          "es.symbol",
+          "esnext.symbol.is-registered"
+        ]
+      },
+      "isRegisteredSymbol": {
+        "name": "esnext.symbol.is-registered-symbol",
+        "pure": "symbol/is-registered-symbol",
+        "global": [
+          "es.symbol",
+          "esnext.symbol.is-registered-symbol"
+        ]
+      },
+      "isWellKnown": {
+        "name": "esnext.symbol.is-well-known",
+        "pure": "symbol/is-well-known",
+        "global": [
+          "es.symbol",
+          "esnext.symbol.is-well-known"
+        ]
+      },
+      "isWellKnownSymbol": {
+        "name": "esnext.symbol.is-well-known-symbol",
+        "pure": "symbol/is-well-known-symbol",
+        "global": [
+          "es.symbol",
+          "esnext.symbol.is-well-known-symbol"
+        ]
+      },
+      "iterator": {
+        "name": "es.symbol.iterator",
+        "pure": "symbol/iterator",
+        "global": [
+          "es.symbol.iterator",
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.string.iterator",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "keyFor": {
+        "name": "es.symbol",
+        "pure": "symbol/key-for",
+        "global": []
+      },
+      "match": {
+        "name": "es.symbol.match",
+        "pure": "symbol/match",
+        "global": [
+          "es.symbol.match",
+          "es.string.match"
+        ]
+      },
+      "matcher": {
+        "name": "esnext.symbol.matcher",
+        "pure": "symbol/matcher",
+        "global": [
+          "esnext.symbol.matcher"
+        ]
+      },
+      "matchAll": {
+        "name": "es.symbol.match-all",
+        "pure": "symbol/match-all",
+        "global": [
+          "es.symbol.match-all",
+          "es.string.match-all"
+        ]
+      },
+      "metadata": {
+        "name": "esnext.symbol.metadata",
+        "pure": "symbol/metadata",
+        "global": [
+          "esnext.function.metadata",
+          "esnext.symbol.metadata"
+        ]
+      },
+      "metadataKey": {
+        "name": "esnext.symbol.metadata-key",
+        "pure": "symbol/metadata-key",
+        "global": [
+          "esnext.symbol.metadata-key"
+        ]
+      },
+      "observable": {
+        "name": "esnext.symbol.observable",
+        "pure": "symbol/observable",
+        "global": [
+          "esnext.symbol.observable"
+        ]
+      },
+      "patternMatch": {
+        "name": "esnext.symbol.pattern-match",
+        "pure": "symbol/pattern-match",
+        "global": [
+          "esnext.symbol.pattern-match"
+        ]
+      },
+      "replace": {
+        "name": "es.symbol.replace",
+        "pure": "symbol/replace",
+        "global": [
+          "es.symbol.replace",
+          "es.string.replace"
+        ]
+      },
+      "search": {
+        "name": "es.symbol.search",
+        "pure": "symbol/search",
+        "global": [
+          "es.symbol.search",
+          "es.string.search"
+        ]
+      },
+      "species": {
+        "name": "es.symbol.species",
+        "pure": "symbol/species",
+        "global": [
+          "es.symbol.species",
+          "es.array.species"
+        ]
+      },
+      "split": {
+        "name": "es.symbol.split",
+        "pure": "symbol/split",
+        "global": [
+          "es.symbol.split",
+          "es.string.split"
+        ]
+      },
+      "toPrimitive": {
+        "name": "es.symbol.to-primitive",
+        "pure": "symbol/to-primitive",
+        "global": [
+          "es.symbol.to-primitive",
+          "es.date.to-primitive"
+        ]
+      },
+      "toStringTag": {
+        "name": "es.symbol.to-string-tag",
+        "pure": "symbol/to-string-tag",
+        "global": [
+          "es.symbol.to-string-tag",
+          "es.json.to-string-tag",
+          "es.math.to-string-tag",
+          "es.object.to-string"
+        ]
+      },
+      "unscopables": {
+        "name": "es.symbol.unscopables",
+        "pure": "symbol/unscopables",
+        "global": [
+          "es.symbol.unscopables"
+        ]
+      }
+    },
+    "URL": {
+      "canParse": {
+        "name": "web.url.can-parse",
+        "pure": "url/can-parse",
+        "global": [
+          "web.url",
+          "web.url.can-parse"
+        ]
+      },
+      "parse": {
+        "name": "web.url.parse",
+        "pure": "url/parse",
+        "global": [
+          "web.url",
+          "web.url.parse"
+        ]
+      }
+    },
+    "WeakMap": {
+      "from": {
+        "name": "esnext.weak-map.from",
+        "pure": "weak-map/from",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.string.iterator",
+          "es.weak-map",
+          "esnext.weak-map.delete-all",
+          "esnext.weak-map.from",
+          "esnext.weak-map.emplace",
+          "esnext.weak-map.get-or-insert",
+          "esnext.weak-map.get-or-insert-computed",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "esnext.weak-map.of",
+        "pure": "weak-map/of",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.string.iterator",
+          "es.weak-map",
+          "esnext.weak-map.delete-all",
+          "esnext.weak-map.of",
+          "esnext.weak-map.emplace",
+          "esnext.weak-map.get-or-insert",
+          "esnext.weak-map.get-or-insert-computed",
+          "web.dom-collections.iterator"
+        ]
+      }
+    },
+    "WeakSet": {
+      "from": {
+        "name": "esnext.weak-set.from",
+        "pure": "weak-set/from",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.string.iterator",
+          "es.weak-set",
+          "esnext.weak-set.add-all",
+          "esnext.weak-set.delete-all",
+          "esnext.weak-set.from",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "esnext.weak-set.of",
+        "pure": "weak-set/of",
+        "global": [
+          "es.array.iterator",
+          "es.object.to-string",
+          "es.string.iterator",
+          "es.weak-set",
+          "esnext.weak-set.add-all",
+          "esnext.weak-set.delete-all",
+          "esnext.weak-set.of",
+          "web.dom-collections.iterator"
+        ]
+      }
+    },
+    "Int8Array": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.int8-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.int8-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.int8-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Uint8Array": {
+      "fromBase64": {
+        "name": "esnext.uint8-array.from-base64",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "esnext.uint8-array.from-base64"
+        ]
+      },
+      "fromHex": {
+        "name": "esnext.uint8-array.from-hex",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "esnext.uint8-array.from-hex"
+        ]
+      },
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint8-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.uint8-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint8-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Uint8ClampedArray": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint8-clamped-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.uint8-clamped-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint8-clamped-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Int16Array": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.int16-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.int16-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.int16-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Uint16Array": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint16-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.uint16-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint16-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Int32Array": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.int32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.int32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.int32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Uint32Array": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.uint32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.uint32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Float32Array": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.float32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.float32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.float32-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "Float64Array": {
+      "from": {
+        "name": "es.typed-array.from",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.float64-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.from",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      },
+      "fromAsync": {
+        "name": "esnext.typed-array.from-async",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.promise",
+          "es.string.iterator",
+          "es.typed-array.float64-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.from-async",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by",
+          "web.dom-collections.iterator"
+        ]
+      },
+      "of": {
+        "name": "es.typed-array.of",
+        "pure": null,
+        "global": [
+          "es.array.iterator",
+          "es.array-buffer.constructor",
+          "es.array-buffer.slice",
+          "es.data-view",
+          "es.array-buffer.detached",
+          "es.array-buffer.transfer",
+          "es.array-buffer.transfer-to-fixed-length",
+          "es.object.to-string",
+          "es.object.to-string",
+          "es.typed-array.float64-array",
+          "es.typed-array.at",
+          "es.typed-array.copy-within",
+          "es.typed-array.every",
+          "es.typed-array.fill",
+          "es.typed-array.filter",
+          "es.typed-array.find",
+          "es.typed-array.find-index",
+          "es.typed-array.find-last",
+          "es.typed-array.find-last-index",
+          "es.typed-array.for-each",
+          "es.typed-array.includes",
+          "es.typed-array.index-of",
+          "es.typed-array.iterator",
+          "es.typed-array.join",
+          "es.typed-array.last-index-of",
+          "es.typed-array.map",
+          "es.typed-array.of",
+          "es.typed-array.reduce",
+          "es.typed-array.reduce-right",
+          "es.typed-array.reverse",
+          "es.typed-array.set",
+          "es.typed-array.slice",
+          "es.typed-array.some",
+          "es.typed-array.sort",
+          "es.typed-array.subarray",
+          "es.typed-array.to-locale-string",
+          "es.typed-array.to-reversed",
+          "es.typed-array.to-sorted",
+          "es.typed-array.to-string",
+          "es.typed-array.with",
+          "esnext.typed-array.filter-reject",
+          "esnext.typed-array.group-by",
+          "esnext.typed-array.to-spliced",
+          "esnext.typed-array.unique-by"
+        ]
+      }
+    },
+    "WebAssembly": {
+      "CompileError": {
+        "name": "es.error.cause",
+        "pure": null,
+        "global": [
+          "es.error.cause",
+          "es.error.to-string"
+        ]
+      },
+      "LinkError": {
+        "name": "es.error.cause",
+        "pure": null,
+        "global": [
+          "es.error.cause",
+          "es.error.to-string"
+        ]
+      },
+      "RuntimeError": {
+        "name": "es.error.cause",
+        "pure": null,
+        "global": [
+          "es.error.cause",
+          "es.error.to-string"
+        ]
+      }
+    },
+    "AggregateError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "EvalError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "RangeError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "ReferenceError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "SuppressedError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "SyntaxError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "TypeError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    },
+    "URIError": {
+      "isError": {
+        "name": "es.error.is-error",
+        "pure": "error/is-error",
+        "global": [
+          "es.error.is-error",
+          "es.object.create"
+        ]
+      }
+    }
+  },
+  "instance_properties": {
+    "asIndexedPairs": {
+      "name": "esnext.async-iterator.as-indexed-pairs",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.promise",
+        "esnext.async-iterator.constructor",
+        "esnext.async-iterator.as-indexed-pairs",
+        "esnext.iterator.as-indexed-pairs"
+      ]
+    },
+    "at": {
+      "name": "esnext.string.at",
+      "pure": "instance/at",
+      "global": [
+        "es.array.at",
+        "es.string.at-alternative",
+        "esnext.string.at"
+      ]
+    },
+    "anchor": {
+      "name": "es.string.anchor",
+      "pure": null,
+      "global": [
+        "es.string.anchor"
+      ]
+    },
+    "big": {
+      "name": "es.string.big",
+      "pure": null,
+      "global": [
+        "es.string.big"
+      ]
+    },
+    "bind": {
+      "name": "es.function.bind",
+      "pure": "instance/bind",
+      "global": [
+        "es.function.bind"
+      ]
+    },
+    "blink": {
+      "name": "es.string.blink",
+      "pure": null,
+      "global": [
+        "es.string.blink"
+      ]
+    },
+    "bold": {
+      "name": "es.string.bold",
+      "pure": null,
+      "global": [
+        "es.string.bold"
+      ]
+    },
+    "chunks": {
+      "name": "esnext.iterator.chunks",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.object.to-string",
+        "esnext.iterator.chunks"
+      ]
+    },
+    "clamp": {
+      "name": "esnext.number.clamp",
+      "pure": null,
+      "global": [
+        "esnext.number.clamp"
+      ]
+    },
+    "codePointAt": {
+      "name": "es.string.code-point-at",
+      "pure": "instance/code-point-at",
+      "global": [
+        "es.string.code-point-at"
+      ]
+    },
+    "codePoints": {
+      "name": "esnext.string.code-points",
+      "pure": "instance/code-points",
+      "global": [
+        "esnext.string.code-points"
+      ]
+    },
+    "concat": {
+      "name": "es.array.concat",
+      "pure": "instance/concat",
+      "global": [
+        "es.array.concat"
+      ],
+      "exclude": [
+        "String"
+      ]
+    },
+    "copyWithin": {
+      "name": "es.array.copy-within",
+      "pure": "instance/copy-within",
+      "global": [
+        "es.array.copy-within"
+      ]
+    },
+    "demethodize": {
+      "name": "esnext.function.demethodize",
+      "pure": "instance/demethodize",
+      "global": [
+        "esnext.function.demethodize"
+      ]
+    },
+    "description": {
+      "name": "es.symbol",
+      "pure": null,
+      "global": [
+        "es.symbol",
+        "es.symbol.description"
+      ]
+    },
+    "dotAll": {
+      "name": "es.regexp.dot-all",
+      "pure": null,
+      "global": [
+        "es.regexp.dot-all"
+      ]
+    },
+    "drop": {
+      "name": "es.iterator.drop",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.iterator.drop",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.promise",
+        "esnext.async-iterator.constructor",
+        "esnext.async-iterator.drop"
+      ]
+    },
+    "endsWith": {
+      "name": "es.string.ends-with",
+      "pure": "instance/ends-with",
+      "global": [
+        "es.string.ends-with"
+      ]
+    },
+    "entries": {
+      "name": "es.object.to-string",
+      "pure": "instance/entries",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "every": {
+      "name": "es.array.every",
+      "pure": "instance/every",
+      "global": [
+        "es.array.every",
+        "es.iterator.constructor",
+        "es.iterator.every",
+        "es.object.to-string"
+      ]
+    },
+    "exec": {
+      "name": "es.regexp.exec",
+      "pure": null,
+      "global": [
+        "es.regexp.exec"
+      ]
+    },
+    "fill": {
+      "name": "es.array.fill",
+      "pure": "instance/fill",
+      "global": [
+        "es.array.fill"
+      ]
+    },
+    "filter": {
+      "name": "es.array.filter",
+      "pure": "instance/filter",
+      "global": [
+        "es.array.filter",
+        "es.iterator.constructor",
+        "es.iterator.filter",
+        "es.object.to-string"
+      ]
+    },
+    "filterReject": {
+      "name": "esnext.array.filter-reject",
+      "pure": "instance/filterReject",
+      "global": [
+        "esnext.array.filter-reject"
+      ]
+    },
+    "finally": {
+      "name": "es.promise.finally",
+      "pure": null,
+      "global": [
+        "es.object.to-string",
+        "es.promise",
+        "es.promise.finally"
+      ]
+    },
+    "find": {
+      "name": "es.array.find",
+      "pure": "instance/find",
+      "global": [
+        "es.array.find",
+        "es.iterator.constructor",
+        "es.iterator.find",
+        "es.object.to-string"
+      ]
+    },
+    "findIndex": {
+      "name": "es.array.find-index",
+      "pure": "instance/find-index",
+      "global": [
+        "es.array.find-index"
+      ]
+    },
+    "findLast": {
+      "name": "es.array.find-last",
+      "pure": "instance/find-last",
+      "global": [
+        "es.array.find-last"
+      ]
+    },
+    "findLastIndex": {
+      "name": "es.array.find-last-index",
+      "pure": "instance/find-last-index",
+      "global": [
+        "es.array.find-last-index"
+      ]
+    },
+    "fixed": {
+      "name": "es.string.fixed",
+      "pure": null,
+      "global": [
+        "es.string.fixed"
+      ]
+    },
+    "flags": {
+      "name": "es.regexp.flags",
+      "pure": "instance/flags",
+      "global": [
+        "es.regexp.flags"
+      ]
+    },
+    "flatMap": {
+      "name": "es.array.flat-map",
+      "pure": "instance/flat-map",
+      "global": [
+        "es.array.flat-map",
+        "es.array.unscopables.flat-map",
+        "es.iterator.constructor",
+        "es.iterator.flat-map",
+        "es.object.to-string"
+      ]
+    },
+    "flat": {
+      "name": "es.array.flat",
+      "pure": "instance/flat",
+      "global": [
+        "es.array.flat",
+        "es.array.unscopables.flat"
+      ]
+    },
+    "getFloat16": {
+      "name": "es.data-view.get-float16",
+      "pure": null,
+      "global": [
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.data-view",
+        "es.data-view.get-float16",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string"
+      ]
+    },
+    "getUint8Clamped": {
+      "name": "esnext.data-view.get-uint8-clamped",
+      "pure": null,
+      "global": [
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "esnext.data-view.get-uint8-clamped"
+      ]
+    },
+    "getYear": {
+      "name": "es.date.get-year",
+      "pure": null,
+      "global": [
+        "es.date.get-year"
+      ]
+    },
+    "group": {
+      "name": "esnext.array.group",
+      "pure": "instance/group",
+      "global": [
+        "esnext.array.group"
+      ]
+    },
+    "groupBy": {
+      "name": "esnext.array.group-by",
+      "pure": "instance/group-by",
+      "global": [
+        "esnext.array.group-by"
+      ]
+    },
+    "groupByToMap": {
+      "name": "esnext.array.group-by-to-map",
+      "pure": "instance/group-by-to-map",
+      "global": [
+        "es.map",
+        "es.object.to-string",
+        "esnext.array.group-by-to-map"
+      ]
+    },
+    "groupToMap": {
+      "name": "esnext.array.group-to-map",
+      "pure": "instance/group-to-map",
+      "global": [
+        "es.map",
+        "es.object.to-string",
+        "esnext.array.group-to-map"
+      ]
+    },
+    "fontcolor": {
+      "name": "es.string.fontcolor",
+      "pure": null,
+      "global": [
+        "es.string.fontcolor"
+      ]
+    },
+    "fontsize": {
+      "name": "es.string.fontsize",
+      "pure": null,
+      "global": [
+        "es.string.fontsize"
+      ]
+    },
+    "forEach": {
+      "name": "es.array.for-each",
+      "pure": "instance/for-each",
+      "global": [
+        "es.array.for-each",
+        "es.iterator.constructor",
+        "es.iterator.for-each",
+        "es.object.to-string",
+        "web.dom-collections.for-each"
+      ]
+    },
+    "includes": {
+      "name": "es.array.includes",
+      "pure": "instance/includes",
+      "global": [
+        "es.array.includes",
+        "es.string.includes"
+      ]
+    },
+    "indexed": {
+      "name": "esnext.async-iterator.indexed",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.promise",
+        "esnext.async-iterator.constructor",
+        "esnext.async-iterator.indexed",
+        "esnext.iterator.indexed"
+      ]
+    },
+    "indexOf": {
+      "name": "es.array.index-of",
+      "pure": "instance/index-of",
+      "global": [
+        "es.array.index-of"
+      ]
+    },
+    "isWellFormed": {
+      "name": "es.string.is-well-formed",
+      "pure": "instance/is-well-formed",
+      "global": [
+        "es.string.is-well-formed"
+      ]
+    },
+    "italic": {
+      "name": "es.string.italics",
+      "pure": null,
+      "global": [
+        "es.string.italics"
+      ]
+    },
+    "join": {
+      "name": "es.array.join",
+      "pure": null,
+      "global": [
+        "es.array.join"
+      ]
+    },
+    "keys": {
+      "name": "es.array.iterator",
+      "pure": "instance/keys",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "lastIndex": {
+      "name": "esnext.array.last-index",
+      "pure": null,
+      "global": [
+        "esnext.array.last-index"
+      ]
+    },
+    "lastIndexOf": {
+      "name": "es.array.last-index-of",
+      "pure": "instance/last-index-of",
+      "global": [
+        "es.array.last-index-of"
+      ]
+    },
+    "lastItem": {
+      "name": "esnext.array.last-item",
+      "pure": null,
+      "global": [
+        "esnext.array.last-item"
+      ]
+    },
+    "link": {
+      "name": "es.string.link",
+      "pure": null,
+      "global": [
+        "es.string.link"
+      ]
+    },
+    "map": {
+      "name": "es.array.map",
+      "pure": "instance/map",
+      "global": [
+        "es.array.map",
+        "es.iterator.constructor",
+        "es.iterator.map",
+        "es.object.to-string"
+      ]
+    },
+    "match": {
+      "name": "es.string.match",
+      "pure": null,
+      "global": [
+        "es.regexp.exec",
+        "es.string.match"
+      ]
+    },
+    "matchAll": {
+      "name": "es.string.match-all",
+      "pure": "instance/match-all",
+      "global": [
+        "es.regexp.exec",
+        "es.string.match-all"
+      ]
+    },
+    "name": {
+      "name": "es.function.name",
+      "pure": null,
+      "global": [
+        "es.function.name"
+      ]
+    },
+    "padEnd": {
+      "name": "es.string.pad-end",
+      "pure": "instance/pad-end",
+      "global": [
+        "es.string.pad-end"
+      ]
+    },
+    "padStart": {
+      "name": "es.string.pad-start",
+      "pure": "instance/pad-start",
+      "global": [
+        "es.string.pad-start"
+      ]
+    },
+    "push": {
+      "name": "es.array.push",
+      "pure": "instance/push",
+      "global": [
+        "es.array.push"
+      ]
+    },
+    "reduce": {
+      "name": "es.array.reduce",
+      "pure": "instance/reduce",
+      "global": [
+        "es.array.reduce",
+        "es.iterator.constructor",
+        "es.iterator.reduce",
+        "es.object.to-string"
+      ]
+    },
+    "reduceRight": {
+      "name": "es.array.reduce-right",
+      "pure": "instance/reduce-right",
+      "global": [
+        "es.array.reduce-right"
+      ]
+    },
+    "repeat": {
+      "name": "es.string.repeat",
+      "pure": "instance/repeat",
+      "global": [
+        "es.string.repeat"
+      ]
+    },
+    "replace": {
+      "name": "es.string.replace",
+      "pure": null,
+      "global": [
+        "es.regexp.exec",
+        "es.string.replace"
+      ]
+    },
+    "replaceAll": {
+      "name": "es.string.replace-all",
+      "pure": "instance/replace-all",
+      "global": [
+        "es.regexp.exec",
+        "es.string.replace",
+        "es.string.replace-all"
+      ]
+    },
+    "reverse": {
+      "name": "es.array.reverse",
+      "pure": "instance/reverse",
+      "global": [
+        "es.array.reverse"
+      ]
+    },
+    "search": {
+      "name": "es.string.search",
+      "pure": null,
+      "global": [
+        "es.regexp.exec",
+        "es.string.search"
+      ]
+    },
+    "setFloat16": {
+      "name": "es.data-view.set-float16",
+      "pure": null,
+      "global": [
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.data-view",
+        "es.data-view.set-float16",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string"
+      ]
+    },
+    "setUint8Clamped": {
+      "name": "esnext.data-view.set-uint8-clamped",
+      "pure": null,
+      "global": [
+        "es.array-buffer.constructor",
+        "es.array-buffer.slice",
+        "es.data-view",
+        "es.data-view",
+        "es.array-buffer.detached",
+        "es.array-buffer.transfer",
+        "es.array-buffer.transfer-to-fixed-length",
+        "es.object.to-string",
+        "esnext.data-view.set-uint8-clamped"
+      ]
+    },
+    "setYear": {
+      "name": "es.date.set-year",
+      "pure": null,
+      "global": [
+        "es.date.set-year"
+      ]
+    },
+    "slice": {
+      "name": "es.array.slice",
+      "pure": "instance/slice",
+      "global": [
+        "es.array.slice"
+      ]
+    },
+    "small": {
+      "name": "es.string.small",
+      "pure": null,
+      "global": [
+        "es.string.small"
+      ]
+    },
+    "some": {
+      "name": "es.array.some",
+      "pure": "instance/some",
+      "global": [
+        "es.array.some",
+        "es.iterator.constructor",
+        "es.iterator.some",
+        "es.object.to-string"
+      ]
+    },
+    "sort": {
+      "name": "es.array.sort",
+      "pure": "instance/sort",
+      "global": [
+        "es.array.sort"
+      ]
+    },
+    "splice": {
+      "name": "es.array.splice",
+      "pure": "instance/splice",
+      "global": [
+        "es.array.splice"
+      ]
+    },
+    "split": {
+      "name": "es.string.split",
+      "pure": null,
+      "global": [
+        "es.regexp.exec",
+        "es.string.split"
+      ]
+    },
+    "startsWith": {
+      "name": "es.string.starts-with",
+      "pure": "instance/starts-with",
+      "global": [
+        "es.string.starts-with"
+      ]
+    },
+    "sticky": {
+      "name": "es.regexp.sticky",
+      "pure": null,
+      "global": [
+        "es.regexp.sticky"
+      ]
+    },
+    "strike": {
+      "name": "es.string.strike",
+      "pure": null,
+      "global": [
+        "es.string.strike"
+      ]
+    },
+    "sub": {
+      "name": "es.string.sub",
+      "pure": null,
+      "global": [
+        "es.string.sub"
+      ]
+    },
+    "substr": {
+      "name": "es.string.substr",
+      "pure": null,
+      "global": [
+        "es.string.substr"
+      ]
+    },
+    "sup": {
+      "name": "es.string.sup",
+      "pure": null,
+      "global": [
+        "es.string.sup"
+      ]
+    },
+    "take": {
+      "name": "es.iterator.take",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.iterator.take",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.promise",
+        "esnext.async-iterator.constructor",
+        "esnext.async-iterator.take"
+      ]
+    },
+    "test": {
+      "name": "es.regexp.test",
+      "pure": null,
+      "global": [
+        "es.regexp.exec",
+        "es.regexp.test"
+      ]
+    },
+    "toArray": {
+      "name": "es.iterator.to-array",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.iterator.to-array",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.promise",
+        "esnext.async-iterator.constructor",
+        "esnext.async-iterator.to-array"
+      ]
+    },
+    "toAsync": {
+      "name": "esnext.iterator.to-async",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.object.to-string",
+        "es.object.to-string",
+        "es.promise",
+        "esnext.async-iterator.constructor",
+        "esnext.async-iterator.every",
+        "esnext.async-iterator.filter",
+        "esnext.async-iterator.find",
+        "esnext.async-iterator.flat-map",
+        "esnext.async-iterator.for-each",
+        "esnext.async-iterator.map",
+        "esnext.async-iterator.reduce",
+        "esnext.async-iterator.some",
+        "esnext.iterator.to-async"
+      ]
+    },
+    "toExponential": {
+      "name": "es.number.to-exponential",
+      "pure": null,
+      "global": [
+        "es.number.to-exponential"
+      ]
+    },
+    "toFixed": {
+      "name": "es.number.to-fixed",
+      "pure": null,
+      "global": [
+        "es.number.to-fixed"
+      ]
+    },
+    "toGMTString": {
+      "name": "es.date.to-gmt-string",
+      "pure": null,
+      "global": [
+        "es.date.to-gmt-string"
+      ]
+    },
+    "toISOString": {
+      "name": "es.date.to-iso-string",
+      "pure": null,
+      "global": [
+        "es.date.to-iso-string"
+      ]
+    },
+    "toJSON": {
+      "name": "es.date.to-json",
+      "pure": null,
+      "global": [
+        "es.date.to-json"
+      ]
+    },
+    "toPrecision": {
+      "name": "es.number.to-precision",
+      "pure": null,
+      "global": [
+        "es.number.to-precision"
+      ]
+    },
+    "toReversed": {
+      "name": "es.array.to-reversed",
+      "pure": "instance/to-reversed",
+      "global": [
+        "es.array.to-reversed"
+      ]
+    },
+    "toSorted": {
+      "name": "es.array.to-sorted",
+      "pure": "instance/to-sorted",
+      "global": [
+        "es.array.sort",
+        "es.array.to-sorted"
+      ]
+    },
+    "toSpliced": {
+      "name": "es.array.to-spliced",
+      "pure": "instance/to-spliced",
+      "global": [
+        "es.array.to-spliced"
+      ]
+    },
+    "toString": {
+      "name": "es.object.to-string",
+      "pure": null,
+      "global": [
+        "es.error.to-string",
+        "es.date.to-string",
+        "es.object.to-string",
+        "es.regexp.to-string"
+      ]
+    },
+    "toWellFormed": {
+      "name": "es.string.to-well-formed",
+      "pure": "instance/to-well-formed",
+      "global": [
+        "es.string.to-well-formed"
+      ]
+    },
+    "trim": {
+      "name": "es.string.trim",
+      "pure": "instance/trim",
+      "global": [
+        "es.string.trim"
+      ]
+    },
+    "trimEnd": {
+      "name": "es.string.trim-end",
+      "pure": "instance/trim-end",
+      "global": [
+        "es.string.trim-end"
+      ]
+    },
+    "trimLeft": {
+      "name": "es.string.trim-start",
+      "pure": "instance/trim-left",
+      "global": [
+        "es.string.trim-start"
+      ]
+    },
+    "trimRight": {
+      "name": "es.string.trim-end",
+      "pure": "instance/trim-right",
+      "global": [
+        "es.string.trim-end"
+      ]
+    },
+    "trimStart": {
+      "name": "es.string.trim-start",
+      "pure": "instance/trim-start",
+      "global": [
+        "es.string.trim-start"
+      ]
+    },
+    "uniqueBy": {
+      "name": "esnext.array.unique-by",
+      "pure": "instance/unique-by",
+      "global": [
+        "es.map",
+        "esnext.array.unique-by"
+      ]
+    },
+    "unshift": {
+      "name": "es.array.unshift",
+      "pure": "instance/unshift",
+      "global": [
+        "es.array.unshift"
+      ]
+    },
+    "unThis": {
+      "name": "esnext.function.un-this",
+      "pure": "instance/un-this",
+      "global": [
+        "esnext.function.un-this"
+      ]
+    },
+    "values": {
+      "name": "es.array.iterator",
+      "pure": "instance/values",
+      "global": [
+        "es.array.iterator",
+        "es.object.to-string",
+        "web.dom-collections.iterator"
+      ]
+    },
+    "windows": {
+      "name": "esnext.iterator.windows",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.object.to-string",
+        "esnext.iterator.windows"
+      ]
+    },
+    "with": {
+      "name": "es.array.with",
+      "pure": "instance/with",
+      "global": [
+        "es.array.with"
+      ]
+    },
+    "__defineGetter__": {
+      "name": "es.object.define-getter",
+      "pure": null,
+      "global": [
+        "es.object.define-getter"
+      ]
+    },
+    "__defineSetter__": {
+      "name": "es.object.define-setter",
+      "pure": null,
+      "global": [
+        "es.object.define-setter"
+      ]
+    },
+    "__lookupGetter__": {
+      "name": "es.object.lookup-getter",
+      "pure": null,
+      "global": [
+        "es.object.lookup-getter"
+      ]
+    },
+    "__lookupSetter__": {
+      "name": "es.object.lookup-setter",
+      "pure": null,
+      "global": [
+        "es.object.lookup-setter"
+      ]
+    },
+    "__proto__": {
+      "name": "es.object.proto",
+      "pure": null,
+      "global": [
+        "es.object.proto"
+      ]
+    }
+  }
+}

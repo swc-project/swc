@@ -1,6 +1,6 @@
-function fn(_param) {
-    var [{ foo }, { bar }] = _param, flags = _object_without_properties(_param[0], [
+function fn(_0) {
+    let [_ref, ..._rest] = _0, { foo } = _ref, flags = _object_without_properties(_ref, [
         "foo"
-    ]);
+    ]), [{ bar }] = _rest;
     console.log(flags.rangeChanged);
 }

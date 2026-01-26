@@ -148,7 +148,6 @@ impl Compressor<'_> {
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
-                    force_str_for_tpl: self.mode.force_str_for_tpl(),
                 },
             );
             n.visit_mut_with(&mut visitor);

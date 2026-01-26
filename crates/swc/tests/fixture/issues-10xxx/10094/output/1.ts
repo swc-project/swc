@@ -1,5 +1,5 @@
-var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
-var _ts_metadata = require("@swc/helpers/_/_ts_metadata");
+import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
+import { _ as _ts_metadata } from "@swc/helpers/_/_ts_metadata";
 var NegativeStatus = /*#__PURE__*/ function(NegativeStatus) {
     NegativeStatus[NegativeStatus["open"] = -1] = "open";
     NegativeStatus[NegativeStatus["close"] = 3] = "close";
@@ -15,11 +15,11 @@ class A {
     negativeStatus;
     status;
 }
-_ts_decorate._([
+_ts_decorate([
     prop(),
-    _ts_metadata._("design:type", Number)
+    _ts_metadata("design:type", Number)
 ], A.prototype, "negativeStatus", void 0);
-_ts_decorate._([
+_ts_decorate([
     prop(),
-    _ts_metadata._("design:type", Number)
+    _ts_metadata("design:type", Number)
 ], A.prototype, "status", void 0);

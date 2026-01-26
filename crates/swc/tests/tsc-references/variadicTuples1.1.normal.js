@@ -239,7 +239,7 @@ function curry(f) {
         return f.apply(void 0, _to_consumable_array(_$a).concat(_to_consumable_array(b)));
     };
 }
-var fn1 = function(a1, b, c, d) {
+var fn1 = function fn1(a1, b, c, d) {
     return 0;
 };
 var c0 = curry(fn1); // (a: number, b: string, c: boolean, d: string[]) => number
@@ -250,7 +250,7 @@ var c4 = curry(fn1, 1, 'abc', true, [
     'x',
     'y'
 ]); // () => number
-var fn2 = function(x, b) {
+var fn2 = function fn2(x, b) {
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         args[_key - 2] = arguments[_key];
     }
@@ -260,7 +260,7 @@ var c10 = curry(fn2); // (x: number, b: boolean, ...args: string[]) => number
 var c11 = curry(fn2, 1); // (b: boolean, ...args: string[]) => number
 var c12 = curry(fn2, 1, true); // (...args: string[]) => number
 var c13 = curry(fn2, 1, true, 'abc', 'def'); // (...args: string[]) => number
-var fn3 = function() {
+var fn3 = function fn3() {
     for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
         args[_key] = arguments[_key];
     }

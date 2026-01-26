@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.12.9",
+    "version": "1.15.10",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -20,7 +20,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
+        "url": "git+https://github.com/swc-project/swc.git",
+        "directory": "packages/core"
     },
     "bugs": {
         "url": "https://github.com/swc-project/swc/issues"
@@ -42,19 +43,20 @@
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
-        "access": "public"
+        "access": "public",
+        "provenance": true
     },
     "types": "./index.d.ts",
     "scripts": {
         "postinstall": "node postinstall.js",
         "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm && node scripts/copy-readme.js",
+        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish && node scripts/copy-readme.js",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_core_wasm --scope swc {1} -t {2} --features plugin\" --",
-        "build": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts --release -o .",
-        "build:dev": "tsc -d && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts -o .",
-        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules ${NODE_OPTIONS}' jest --config ./jest.config.js",
+        "build": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "tsc -d && napi build --manifest-path ../../Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts -o .",
+        "test": "rstest",
         "version": "napi version --npm-dir scripts/npm"
     },
     "peerDependencies": {
@@ -94,9 +96,9 @@
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.43",
+        "@napi-rs/cli": "^3.2.0",
+        "@rstest/core": "^0.7.8",
         "cross-env": "^7.0.3",
-        "jest": "^29.7.0",
         "typescript": "^5.3.3"
     }
 }

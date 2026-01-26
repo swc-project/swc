@@ -650,6 +650,8 @@ impl VisitMut for Params {
                         })],
                         ..Default::default()
                     },
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
 
                 self.visit_mut_fn_like(&mut params, &mut body, false);

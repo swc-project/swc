@@ -168,17 +168,16 @@
                 return {
                     mountedInstances: new Set(),
                     updateHead: (head)=>{
-                        const tags = {};
+                        let tags = {};
                         head.forEach((h)=>{
                             if ("link" === h.type && h.props["data-optimized-fonts"]) if (document.querySelector('style[data-href="'.concat(h.props["data-href"], '"]'))) return;
                             else h.props.href = h.props["data-href"], h.props["data-href"] = void 0;
-                            const components = tags[h.type] || [];
+                            let components = tags[h.type] || [];
                             components.push(h), tags[h.type] = components;
                         });
-                        const titleComponent = tags.title ? tags.title[0] : null;
-                        let title = "";
+                        let titleComponent = tags.title ? tags.title[0] : null, title = "";
                         if (titleComponent) {
-                            const { children } = titleComponent.props;
+                            let { children } = titleComponent.props;
                             title = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "";
                         }
                         title !== document.title && (document.title = title), [
@@ -189,12 +188,12 @@
                             "script"
                         ].forEach((type)=>{
                             !function(type, components) {
-                                const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
+                                let headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
                                 for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
                                     var ref;
                                     (null == j || null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
                                 }
-                                const newTags = components.map(reactElementToDOM).filter((newTag)=>{
+                                let newTags = components.map(reactElementToDOM).filter((newTag)=>{
                                     for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
                                     return !0;
                                 });
@@ -207,7 +206,7 @@
                     }
                 };
             }, exports.isEqualNode = isEqualNode, exports.DOMAttributeNames = void 0;
-            const DOMAttributeNames = {
+            let DOMAttributeNames = {
                 acceptCharset: "accept-charset",
                 className: "class",
                 htmlFor: "for",
@@ -215,23 +214,22 @@
                 noModule: "noModule"
             };
             function reactElementToDOM(param) {
-                let { type, props } = param;
-                const el = document.createElement(type);
-                for(const p in props){
+                let { type, props } = param, el = document.createElement(type);
+                for(let p in props){
                     if (!props.hasOwnProperty(p) || "children" === p || "dangerouslySetInnerHTML" === p || void 0 === props[p]) continue;
-                    const attr = DOMAttributeNames[p] || p.toLowerCase();
+                    let attr = DOMAttributeNames[p] || p.toLowerCase();
                     "script" === type && ("async" === attr || "defer" === attr || "noModule" === attr) ? el[attr] = !!props[p] : el.setAttribute(attr, props[p]);
                 }
-                const { children, dangerouslySetInnerHTML } = props;
+                let { children, dangerouslySetInnerHTML } = props;
                 return dangerouslySetInnerHTML ? el.innerHTML = dangerouslySetInnerHTML.__html || "" : children && (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : ""), el;
             }
             function isEqualNode(oldTag, newTag) {
                 if (oldTag instanceof HTMLElement && newTag instanceof HTMLElement) {
-                    const nonce = newTag.getAttribute("nonce");
+                    let nonce = newTag.getAttribute("nonce");
                     // Only strip the nonce if `oldTag` has had it stripped. An element's nonce attribute will not
                     // be stripped if there is no content security policy response header that includes a nonce.
                     if (nonce && !oldTag.getAttribute("nonce")) {
-                        const cloneTag = newTag.cloneNode(!0);
+                        let cloneTag = newTag.cloneNode(!0);
                         return cloneTag.setAttribute("nonce", ""), cloneTag.nonce = nonce, nonce === oldTag.nonce && oldTag.isEqualNode(cloneTag);
                     }
                 }
@@ -247,7 +245,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             });
-            const _interopRequireWildcard = __webpack_require__(1598)/* ["default"] */ .Z;
+            let _interopRequireWildcard = __webpack_require__(1598)/* ["default"] */ .Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.initialize = function() {
@@ -258,10 +256,9 @@
             var _async_to_generator = __webpack_require__(932)/* ["default"] */ .Z, _extends = __webpack_require__(6495)/* ["default"] */ .Z, _interop_require_default = __webpack_require__(2648)/* ["default"] */ .Z;
             __webpack_require__(1598)/* ["default"] */ .Z, __webpack_require__(37);
             var _react = _interop_require_default(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _mitt = _interop_require_default(__webpack_require__(5660)), _routerContext = __webpack_require__(3462), _isDynamic = __webpack_require__(8689), _querystring = __webpack_require__(466), _runtimeConfig = __webpack_require__(8027), _utils = __webpack_require__(3794), _portal = __webpack_require__(2207), _headManager = _interop_require_default(__webpack_require__(6007)), _pageLoader = _interop_require_default(__webpack_require__(5181)), _performanceRelayer = _interop_require_default(__webpack_require__(9302)), _routeAnnouncer = __webpack_require__(8982), _router = __webpack_require__(387), _isError = __webpack_require__(676), _imageConfigContext = __webpack_require__(9977), _removeBasePath = __webpack_require__(9320), _hasBasePath = __webpack_require__(4119);
-            const ReactDOM = __webpack_require__(745);
+            let ReactDOM = __webpack_require__(745);
             exports.version = "12.3.2-canary.13", exports.router = router, exports.emitter = _mitt.default();
-            const looseToArray = (input)=>[].slice.call(input);
-            let initialMatchesMiddleware = !1;
+            let looseToArray = (input)=>[].slice.call(input), initialMatchesMiddleware = !1;
             self.__next_require__ = __webpack_require__;
             class Container extends _react.default.Component {
                 componentDidCatch(componentErr, info) {
@@ -293,7 +290,7 @@
                 scrollToHash() {
                     let { hash } = location;
                     if (!(hash = hash && hash.substring(1))) return;
-                    const el = document.getElementById(hash);
+                    let el = document.getElementById(hash);
                     el && // If we call scrollIntoView() in here without a setTimeout
                     // it won't scroll properly.
                     setTimeout(()=>el.scrollIntoView(), 0);
@@ -305,7 +302,7 @@
             function _initialize() {
                 return (_initialize = _async_to_generator(function*() {
                     arguments.length > 0 && void 0 !== arguments[0] && arguments[0], initialData = JSON.parse(document.getElementById("__NEXT_DATA__").textContent), window.__NEXT_DATA__ = initialData, defaultLocale = initialData.defaultLocale;
-                    const prefix = initialData.assetPrefix || "";
+                    let prefix = initialData.assetPrefix || "";
                     if (// With dynamic assetPrefix it's no longer possible to set assetPrefix at the build time
                     // So, this is how we do it in the client side at runtime
                     __webpack_require__.p = "".concat(prefix, "/_next/") //eslint-disable-line
@@ -313,11 +310,11 @@
                         serverRuntimeConfig: {},
                         publicRuntimeConfig: initialData.runtimeConfig || {}
                     }), asPath = _utils.getURL(), _hasBasePath.hasBasePath(asPath) && (asPath = _removeBasePath.removeBasePath(asPath)), initialData.scriptLoader) {
-                        const { initScriptLoader } = __webpack_require__(699);
+                        let { initScriptLoader } = __webpack_require__(699);
                         initScriptLoader(initialData.scriptLoader);
                     }
                     pageLoader = new _pageLoader.default(initialData.buildId, prefix);
-                    const register = (param)=>{
+                    let register = (param)=>{
                         let [r, f] = param;
                         return pageLoader.routeLoader.onEntrypoint(r, f);
                     };
@@ -371,8 +368,8 @@
                     }
                 }, children))));
             }
-            const wrapApp = (App)=>(wrappedAppProps)=>{
-                    const appProps = _extends({}, wrappedAppProps, {
+            let wrapApp = (App)=>(wrappedAppProps)=>{
+                    let appProps = _extends({}, wrappedAppProps, {
                         Component: CachedComponent,
                         err: initialData.err,
                         router
@@ -396,11 +393,7 @@
                     };
                 }).then((param)=>{
                     var ref;
-                    let { ErrorComponent, styleSheets } = param;
-                    // In production we do a normal render with the `ErrorComponent` as component.
-                    // If we've gotten here upon initial render, we can use the props from the server.
-                    // Otherwise, we need to call `getInitialProps` on `App` before mounting.
-                    const AppTree = wrapApp(App), appCtx = {
+                    let { ErrorComponent, styleSheets } = param, AppTree = wrapApp(App), appCtx = {
                         Component: ErrorComponent,
                         AppTree,
                         router,
@@ -447,7 +440,7 @@
                 if (!_utils.ST) return;
                 performance.mark("afterRender") // mark end of render
                 ;
-                const navStartEntries = performance.getEntriesByName("routeChange", "mark");
+                let navStartEntries = performance.getEntriesByName("routeChange", "mark");
                 navStartEntries.length && (performance.measure("Next.js-route-change-to-render", navStartEntries[0].name, "beforeRender"), performance.measure("Next.js-render", "beforeRender", "afterRender"), onPerfEntry && (performance.getEntriesByName("Next.js-render").forEach(onPerfEntry), performance.getEntriesByName("Next.js-route-change-to-render").forEach(onPerfEntry)), clearMarks(), [
                     "Next.js-route-change-to-render",
                     "Next.js-render"
@@ -466,52 +459,54 @@
                 }, []), children);
             }
             function doRender(input) {
-                let callback, resolvePromise, { App, Component, props, err } = input, styleSheets = "initial" in input ? void 0 : input.styleSheets;
+                var domEl, fn;
+                let reactEl, resolvePromise, { App, Component, props, err } = input, styleSheets = "initial" in input ? void 0 : input.styleSheets;
                 Component = Component || lastAppProps.Component;
-                const appProps = _extends({}, props = props || lastAppProps.props, {
+                let appProps = _extends({}, props = props || lastAppProps.props, {
                     Component,
                     err,
                     router
                 });
                 // lastAppProps has to be set before ReactDom.render to account for ReactDom throwing an error.
                 lastAppProps = appProps;
-                let canceled = !1;
-                const renderPromise = new Promise((resolve, reject)=>{
+                let canceled = !1, renderPromise = new Promise((resolve, reject)=>{
                     lastRenderReject && lastRenderReject(), resolvePromise = ()=>{
                         lastRenderReject = null, resolve();
                     }, lastRenderReject = ()=>{
                         canceled = !0, lastRenderReject = null;
-                        const error = Error("Cancel rendering route");
+                        let error = Error("Cancel rendering route");
                         error.cancelled = !0, reject(error);
                     };
                 });
+                function onRootCommit() {
+                    resolvePromise();
+                }
                 !// This function has a return type to ensure it doesn't start returning a
                 // Promise. It should remain synchronous.
                 function() {
                     if (!styleSheets) return;
-                    const currentHrefs = new Set(looseToArray(document.querySelectorAll("style[data-n-href]")).map((tag)=>tag.getAttribute("data-n-href"))), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
+                    let currentHrefs = new Set(looseToArray(document.querySelectorAll("style[data-n-href]")).map((tag)=>tag.getAttribute("data-n-href"))), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
                     styleSheets.forEach((param)=>{
                         let { href, text } = param;
                         if (!currentHrefs.has(href)) {
-                            const styleTag = document.createElement("style");
+                            let styleTag = document.createElement("style");
                             styleTag.setAttribute("data-n-href", href), styleTag.setAttribute("media", "x"), nonce && styleTag.setAttribute("nonce", nonce), document.head.appendChild(styleTag), styleTag.appendChild(document.createTextNode(text));
                         }
                     });
                 }();
-                const elem = /*#__PURE__*/ _react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/ _react.default.createElement(Head, {
+                let elem = /*#__PURE__*/ _react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/ _react.default.createElement(Head, {
                     callback: function() {
                         if (// We can skip this during hydration. Running it wont cause any harm, but
                         // we may as well save the CPU cycles:
                         styleSheets && // Ensure this render was not canceled
                         !canceled) {
-                            const desiredHrefs = new Set(styleSheets.map((s)=>s.href)), currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]")), currentHrefs = currentStyleTags.map((tag)=>tag.getAttribute("data-n-href"));
+                            let desiredHrefs = new Set(styleSheets.map((s)=>s.href)), currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]")), currentHrefs = currentStyleTags.map((tag)=>tag.getAttribute("data-n-href"));
                             // Toggle `<style>` tags on or off depending on if they're needed:
                             for(let idx = 0; idx < currentHrefs.length; ++idx)desiredHrefs.has(currentHrefs[idx]) ? currentStyleTags[idx].removeAttribute("media") : currentStyleTags[idx].setAttribute("media", "x");
                             // Reorder styles into intended order:
                             let referenceNode = document.querySelector("noscript[data-n-css]");
                             referenceNode && styleSheets.forEach((param)=>{
-                                let { href } = param;
-                                const targetTag = document.querySelector('style[data-n-href="'.concat(href, '"]'));
+                                let { href } = param, targetTag = document.querySelector('style[data-n-href="'.concat(href, '"]'));
                                 targetTag && (referenceNode.parentNode.insertBefore(targetTag, referenceNode.nextSibling), referenceNode = targetTag);
                             }), // Finally, clean up server rendered stylesheets:
                             looseToArray(document.querySelectorAll("link[data-n-p]")).forEach((el)=>{
@@ -519,24 +514,19 @@
                             });
                         }
                         if (input.scroll) {
-                            const htmlElement = document.documentElement, existing = htmlElement.style.scrollBehavior;
+                            let htmlElement = document.documentElement, existing = htmlElement.style.scrollBehavior;
                             htmlElement.style.scrollBehavior = "auto", window.scrollTo(input.scroll.x, input.scroll.y), htmlElement.style.scrollBehavior = existing;
                         }
                     }
                 }), /*#__PURE__*/ _react.default.createElement(AppContainer, null, renderApp(App, appProps), /*#__PURE__*/ _react.default.createElement(_portal.Portal, {
                     type: "next-route-announcer"
                 }, /*#__PURE__*/ _react.default.createElement(_routeAnnouncer.RouteAnnouncer, null))));
-                var domEl = appElement;
-                _utils.ST && performance.mark("beforeRender");
-                const reactEl = (callback = shouldHydrate ? markHydrateComplete : markRenderComplete, /*#__PURE__*/ _react.default.createElement(Root, {
-                    callbacks: [
-                        callback,
-                        function() {
-                            resolvePromise();
-                        }
-                    ]
-                }, /*#__PURE__*/ _react.default.createElement(_react.default.StrictMode, null, elem)));
-                return reactRoot ? (0, _react.default.startTransition)(()=>{
+                return domEl = appElement, fn = (callback)=>/*#__PURE__*/ _react.default.createElement(Root, {
+                        callbacks: [
+                            callback,
+                            onRootCommit
+                        ]
+                    }, /*#__PURE__*/ _react.default.createElement(_react.default.StrictMode, null, elem)), _utils.ST && performance.mark("beforeRender"), reactEl = fn(shouldHydrate ? markHydrateComplete : markRenderComplete), reactRoot ? (0, _react.default.startTransition)(()=>{
                     reactRoot.render(reactEl);
                 }) : (// Unlike with createRoot, you don't need a separate root.render() call here
                 reactRoot = ReactDOM.hydrateRoot(domEl, reactEl), // TODO: Remove shouldHydrate variable when React 18 is stable as it can depend on `reactRoot` existing
@@ -551,7 +541,7 @@
                     try {
                         yield doRender(renderingProps);
                     } catch (err) {
-                        const renderErr = _isError.getProperError(err);
+                        let renderErr = _isError.getProperError(err);
                         // bubble up cancelation errors
                         if (renderErr.cancelled) throw renderErr;
                         yield renderError(_extends({}, renderingProps, {
@@ -564,15 +554,13 @@
                 return (_hydrate = _async_to_generator(function*(opts) {
                     let initialErr = initialData.err;
                     try {
-                        const appEntrypoint = yield pageLoader.routeLoader.whenEntrypoint("/_app");
+                        let appEntrypoint = yield pageLoader.routeLoader.whenEntrypoint("/_app");
                         if ("error" in appEntrypoint) throw appEntrypoint.error;
-                        const { component: app, exports: mod } = appEntrypoint;
+                        let { component: app, exports: mod } = appEntrypoint;
                         CachedApp = app, mod && mod.reportWebVitals && (onPerfEntry = (param)=>{
-                            let perfStartEntry, { id, name, startTime, value, duration, entryType, entries } = param;
-                            // Combines timestamp with random number for unique ID
-                            const uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12);
+                            let perfStartEntry, { id, name, startTime, value, duration, entryType, entries } = param, uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12);
                             entries && entries.length && (perfStartEntry = entries[0].startTime);
-                            const webVitals = {
+                            let webVitals = {
                                 id: id || uniqueID,
                                 name,
                                 startTime: startTime || perfStartEntry,
@@ -581,7 +569,7 @@
                             };
                             mod.reportWebVitals(webVitals);
                         });
-                        const pageEntrypoint = yield pageLoader.routeLoader.whenEntrypoint(initialData.page);
+                        let pageEntrypoint = yield pageLoader.routeLoader.whenEntrypoint(initialData.page);
                         if ("error" in pageEntrypoint) throw pageEntrypoint.error;
                         CachedComponent = pageEntrypoint.component;
                     } catch (error1) {
@@ -606,7 +594,7 @@
                         domainLocales: initialData.domainLocales,
                         isPreview: initialData.isPreview
                     }), initialMatchesMiddleware = yield router._initialMatchesMiddlewarePromise;
-                    const renderCtx = {
+                    let renderCtx = {
                         App: CachedApp,
                         initial: !0,
                         Component: CachedComponent,
@@ -642,7 +630,7 @@
             var _removeTrailingSlash = __webpack_require__(6316), _parsePath = __webpack_require__(4943);
             exports.normalizePathTrailingSlash = (path)=>{
                 if (!path.startsWith("/")) return path;
-                const { pathname, query, hash } = _parsePath.parsePath(path);
+                let { pathname, query, hash } = _parsePath.parsePath(path);
                 return "".concat(_removeTrailingSlash.removeTrailingSlash(pathname)).concat(query).concat(hash);
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
@@ -662,11 +650,10 @@
                     return window.__MIDDLEWARE_MATCHERS = [], window.__MIDDLEWARE_MATCHERS;
                 }
                 getDataHref(params) {
-                    const { asPath, href, locale } = params, { pathname: hrefPathname, query, search } = _parseRelativeUrl.parseRelativeUrl(href), { pathname: asPathname } = _parseRelativeUrl.parseRelativeUrl(asPath), route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
+                    var path;
+                    let dataRoute, { asPath, href, locale } = params, { pathname: hrefPathname, query, search } = _parseRelativeUrl.parseRelativeUrl(href), { pathname: asPathname } = _parseRelativeUrl.parseRelativeUrl(asPath), route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
                     if ("/" !== route[0]) throw Error('Route name should start with a "/", got "'.concat(route, '"'));
-                    var path = params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route;
-                    const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
-                    return _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
+                    return path = params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route, dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json"), _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
                 }
                 /**
    * @param {string} route - the route (file-system path)
@@ -726,10 +713,9 @@
             }), exports.Portal = void 0;
             var _react = __webpack_require__(7294), _reactDom = __webpack_require__(3935);
             exports.Portal = (param)=>{
-                let { children, type } = param;
-                const [portalNode, setPortalNode] = _react.useState(null);
+                let { children, type } = param, [portalNode, setPortalNode] = _react.useState(null);
                 return _react.useEffect(()=>{
-                    const element = document.createElement(type);
+                    let element = document.createElement(type);
                     return document.body.appendChild(element), setPortalNode(element), ()=>{
                         document.body.removeChild(element);
                     };
@@ -764,7 +750,7 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0, exports.requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
+            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0, exports.requestIdleCallback = "u" > typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
                 let start = Date.now();
                 return setTimeout(function() {
                     cb({
@@ -774,7 +760,7 @@
                         }
                     });
                 }, 1);
-            }, exports.cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
+            }, exports.cancelIdleCallback = "u" > typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
                 return clearTimeout(id);
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
@@ -786,7 +772,7 @@
                 value: !0
             }), exports.default = exports.RouteAnnouncer = void 0;
             var _react = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)), _router = __webpack_require__(387);
-            const nextjsRouteAnnouncerStyles = {
+            let nextjsRouteAnnouncerStyles = {
                 border: 0,
                 clip: "rect(0 0 0 0)",
                 height: "1px",
@@ -799,7 +785,7 @@
                 whiteSpace: "nowrap",
                 wordWrap: "normal"
             }, RouteAnnouncer = ()=>{
-                const { asPath } = _router.useRouter(), [routeAnnouncement, setRouteAnnouncement] = _react.default.useState(""), previouslyLoadedPath = _react.default.useRef(asPath);
+                let { asPath } = _router.useRouter(), [routeAnnouncement, setRouteAnnouncement] = _react.default.useState(""), previouslyLoadedPath = _react.default.useRef(asPath);
                 return(// Every time the path changes, announce the new page’s title following this
                 // priority: first the document title (from head), otherwise the first h1, or
                 // if none of these exist, then the pathname from the URL. This methodology is
@@ -811,7 +797,7 @@
                     if (previouslyLoadedPath.current !== asPath) if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
                     else {
                         var ref;
-                        const pageHeader = document.querySelector("h1");
+                        let pageHeader = document.querySelector("h1");
                         setRouteAnnouncement((null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent) || asPath);
                     }
                 }, [
@@ -835,7 +821,7 @@
             }), exports.markAssetError = markAssetError, exports.isAssetError = function(err) {
                 return err && ASSET_LOAD_ERROR in err;
             }, exports.getClientBuildManifest = getClientBuildManifest, exports.createRouteLoader = function(assetPrefix) {
-                const entrypoints = new Map(), loadedScripts = new Map(), styleSheets = new Map(), routes = new Map();
+                let entrypoints = new Map(), loadedScripts = new Map(), styleSheets = new Map(), routes = new Map();
                 function maybeExecuteScript(src) {
                     {
                         var script;
@@ -873,7 +859,7 @@
                             }), (err)=>({
                                 error: err
                             })) : Promise.resolve(void 0)).then((input)=>{
-                            const old = entrypoints.get(route);
+                            let old = entrypoints.get(route);
                             old && "resolve" in old ? input && (entrypoints.set(route, input), old.resolve(input)) : (input ? entrypoints.set(route, input) : entrypoints.delete(route), // when this entrypoint has been resolved before
                             // the route is outdated and we want to invalidate
                             // this cache entry
@@ -893,8 +879,7 @@
                                         entrypoint,
                                         styles: res[1]
                                     }))), 3800, markAssetError(Error("Route did not complete loading: ".concat(route)))).then((param)=>{
-                                let { entrypoint, styles } = param;
-                                const res = Object.assign({
+                                let { entrypoint, styles } = param, res = Object.assign({
                                     styles: styles
                                 }, entrypoint);
                                 return "error" in entrypoint ? entrypoint : res;
@@ -914,7 +899,7 @@
                         return (cn = navigator.connection) && (cn.saveData || /2g/.test(cn.effectiveType)) ? Promise.resolve() : getFilesForRoute(assetPrefix, route).then((output)=>Promise.all(canPrefetch ? output.scripts.map((script)=>{
                                 var href, as, link;
                                 return href = script.toString(), as = "script", new Promise((res, rej)=>{
-                                    const selector = `
+                                    let selector = `
       link[rel="prefetch"][href^="`.concat(href, `"],
       link[rel="preload"][href^="`).concat(href, `"],
       script[src^="`).concat(href, '"]');
@@ -932,7 +917,7 @@
             function withFuture(key, map, generator) {
                 let resolver, entry = map.get(key);
                 if (entry) return "future" in entry ? entry.future : Promise.resolve(entry);
-                const prom = new Promise((resolve)=>{
+                let prom = new Promise((resolve)=>{
                     resolver = resolve;
                 });
                 return map.set(key, entry = {
@@ -943,7 +928,7 @@
                     throw map.delete(key), err;
                 }) : prom;
             }
-            const canPrefetch = function(link) {
+            let canPrefetch = function(link) {
                 try {
                     return link = document.createElement("link"), !!window.MSInputMethodContext && !!document.documentMode || link.relList.supports("prefetch");
                 } catch (e) {
@@ -968,7 +953,7 @@
             function getClientBuildManifest() {
                 return self.__BUILD_MANIFEST ? Promise.resolve(self.__BUILD_MANIFEST) : resolvePromiseWithTimeout(new Promise((resolve)=>{
                     // Mandatory because this is not concurrent safe:
-                    const cb = self.__BUILD_MANIFEST_CB;
+                    let cb = self.__BUILD_MANIFEST_CB;
                     self.__BUILD_MANIFEST_CB = ()=>{
                         resolve(self.__BUILD_MANIFEST), cb && cb();
                     };
@@ -977,7 +962,7 @@
             function getFilesForRoute(assetPrefix, route) {
                 return getClientBuildManifest().then((manifest)=>{
                     if (!(route in manifest)) throw markAssetError(Error("Failed to lookup route: ".concat(route)));
-                    const allFiles = manifest[route].map((entry)=>assetPrefix + "/_next/" + encodeURI(entry));
+                    let allFiles = manifest[route].map((entry)=>assetPrefix + "/_next/" + encodeURI(entry));
                     return {
                         scripts: allFiles.filter((v)=>v.endsWith(".js")).map((v)=>_trustedTypes.__unsafeCreateTrustedScriptURL(v)),
                         css: allFiles.filter((v)=>v.endsWith(".css"))
@@ -1008,8 +993,8 @@
                 for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                 return singletonRouter.router = new _router.default(...args), singletonRouter.readyCallbacks.forEach((cb)=>cb()), singletonRouter.readyCallbacks = [], singletonRouter.router;
             }, exports.makePublicRouterInstance = function(router) {
-                const instance = {};
-                for (const property of urlPropertyFields){
+                let instance = {};
+                for (let property of urlPropertyFields){
                     if ("object" == typeof router[property]) {
                         instance[property] = Object.assign(Array.isArray(router[property]) ? [] : {}, router[property]) // makes sure query is not stateful
                         ;
@@ -1026,7 +1011,7 @@
                 }), instance);
             }, exports.default = void 0;
             var _interop_require_default = __webpack_require__(2648)/* ["default"] */ .Z, _react = _interop_require_default(__webpack_require__(7294)), _router = _interop_require_default(__webpack_require__(6273)), _routerContext = __webpack_require__(3462), _isError = _interop_require_default(__webpack_require__(676)), _withRouter = _interop_require_default(__webpack_require__(8981));
-            const singletonRouter = {
+            let singletonRouter = {
                 router: null,
                 readyCallbacks: [],
                 ready (cb) {
@@ -1089,7 +1074,7 @@ You should only use "next/router" on the client side of your app.
                 singletonRouter.ready(()=>{
                     _router.default.events.on(event, function() {
                         for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                        const eventField = "on".concat(event.charAt(0).toUpperCase()).concat(event.substring(1));
+                        let eventField = "on".concat(event.charAt(0).toUpperCase()).concat(event.substring(1));
                         if (singletonRouter[eventField]) try {
                             singletonRouter[eventField](...args);
                         } catch (err) {
@@ -1111,12 +1096,12 @@ You should only use "next/router" on the client side of your app.
                     ...document.querySelectorAll('[data-nscript="beforeInteractive"]'),
                     ...document.querySelectorAll('[data-nscript="beforePageRender"]')
                 ].forEach((script)=>{
-                    const cacheKey = script.id || script.getAttribute("src");
+                    let cacheKey = script.id || script.getAttribute("src");
                     LoadCache.add(cacheKey);
                 });
             }, exports.default = void 0;
             var _extends = __webpack_require__(6495)/* ["default"] */ .Z, _interop_require_wildcard = __webpack_require__(1598)/* ["default"] */ .Z, _object_without_properties_loose = __webpack_require__(7273)/* ["default"] */ .Z, _react = _interop_require_wildcard(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _headManager = __webpack_require__(6007), _requestIdleCallback = __webpack_require__(9311);
-            const ScriptCache = new Map(), LoadCache = new Set(), ignoreProps = [
+            let ScriptCache = new Map(), LoadCache = new Set(), ignoreProps = [
                 "onLoad",
                 "onReady",
                 "dangerouslySetInnerHTML",
@@ -1124,7 +1109,7 @@ You should only use "next/router" on the client side of your app.
                 "onError",
                 "strategy"
             ], loadScript = (props)=>{
-                const { src, id, onLoad = ()=>{}, onReady = null, dangerouslySetInnerHTML, children = "", strategy = "afterInteractive", onError } = props, cacheKey = id || src;
+                let { src, id, onLoad = ()=>{}, onReady = null, dangerouslySetInnerHTML, children = "", strategy = "afterInteractive", onError } = props, cacheKey = id || src;
                 // Script has already loaded
                 if (cacheKey && LoadCache.has(cacheKey)) return;
                 // Contents of this script are already loading/loaded
@@ -1134,7 +1119,7 @@ You should only use "next/router" on the client side of your app.
                     ScriptCache.get(src).then(onLoad, onError);
                     return;
                 }
-                /** Execute after the script first loaded */ const afterLoad = ()=>{
+                /** Execute after the script first loaded */ let afterLoad = ()=>{
                     onReady && onReady(), // add cacheKey to LoadCache when load successfully
                     LoadCache.add(cacheKey);
                 }, el = document.createElement("script"), loadPromise = new Promise((resolve, reject)=>{
@@ -1146,23 +1131,23 @@ You should only use "next/router" on the client side of your app.
                 }).catch(function(e) {
                     onError && onError(e);
                 });
-                for (const [k, value] of (dangerouslySetInnerHTML ? (el.innerHTML = dangerouslySetInnerHTML.__html || "", afterLoad()) : children ? (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "", afterLoad()) : src && (el.src = src, // do not add cacheKey into LoadCache for remote script here
+                for (let [k, value] of (dangerouslySetInnerHTML ? (el.innerHTML = dangerouslySetInnerHTML.__html || "", afterLoad()) : children ? (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "", afterLoad()) : src && (el.src = src, // do not add cacheKey into LoadCache for remote script here
                 // cacheKey will be added to LoadCache when it is actually loaded (see loadPromise above)
                 ScriptCache.set(src, loadPromise)), Object.entries(props))){
                     if (void 0 === value || ignoreProps.includes(k)) continue;
-                    const attr = _headManager.DOMAttributeNames[k] || k.toLowerCase();
+                    let attr = _headManager.DOMAttributeNames[k] || k.toLowerCase();
                     el.setAttribute(attr, value);
                 }
                 "worker" === strategy && el.setAttribute("type", "text/partytown"), el.setAttribute("data-nscript", strategy), document.body.appendChild(el);
             };
             function handleClientScriptLoad(props) {
-                const { strategy = "afterInteractive" } = props;
+                let { strategy = "afterInteractive" } = props;
                 "lazyOnload" === strategy ? window.addEventListener("load", ()=>{
                     _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
                 }) : loadScript(props);
             }
             function Script(props) {
-                const { id, src = "", onLoad = ()=>{}, onReady = null, strategy = "afterInteractive", onError } = props, restProps = _object_without_properties_loose(props, [
+                let { id, src = "", onLoad = ()=>{}, onReady = null, strategy = "afterInteractive", onError } = props, restProps = _object_without_properties_loose(props, [
                     "id",
                     "src",
                     "onLoad",
@@ -1171,14 +1156,14 @@ You should only use "next/router" on the client side of your app.
                     "onError"
                 ]), { updateScripts, scripts, getIsSsr } = _react.useContext(_headManagerContext.HeadManagerContext), hasOnReadyEffectCalled = _react.useRef(!1);
                 _react.useEffect(()=>{
-                    const cacheKey = id || src;
+                    let cacheKey = id || src;
                     hasOnReadyEffectCalled.current || (onReady && cacheKey && LoadCache.has(cacheKey) && onReady(), hasOnReadyEffectCalled.current = !0);
                 }, [
                     onReady,
                     id,
                     src
                 ]);
-                const hasLoadScriptEffectCalled = _react.useRef(!1);
+                let hasLoadScriptEffectCalled = _react.useRef(!1);
                 return _react.useEffect(()=>{
                     hasLoadScriptEffectCalled.current || ("afterInteractive" === strategy ? loadScript(props) : "lazyOnload" === strategy && ("complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(()=>loadScript(props)) : window.addEventListener("load", ()=>{
                         _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
@@ -1267,7 +1252,7 @@ You should only use "next/router" on the client side of your app.
             }
             class App extends (_Component = _react.default.Component) {
                 render() {
-                    const { Component, pageProps } = this.props;
+                    let { Component, pageProps } = this.props;
                     return /*#__PURE__*/ _react.default.createElement(Component, Object.assign({}, pageProps));
                 }
             }
@@ -1279,7 +1264,7 @@ You should only use "next/router" on the client side of your app.
                 value: !0
             }), exports.default = void 0;
             var _Component, _interop_require_default = __webpack_require__(2648)/* ["default"] */ .Z, _react = _interop_require_default(__webpack_require__(7294)), _head = _interop_require_default(__webpack_require__(5443));
-            const statusCodes = {
+            let statusCodes = {
                 400: "Bad Request",
                 404: "This page could not be found",
                 405: "Method Not Allowed",
@@ -1291,7 +1276,7 @@ You should only use "next/router" on the client side of your app.
                     statusCode: res && res.statusCode ? res.statusCode : err ? err.statusCode : 404
                 };
             }
-            const styles_error = {
+            let styles_error = {
                 fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif',
                 height: "100vh",
                 textAlign: "center",
@@ -1323,7 +1308,7 @@ You should only use "next/router" on the client side of your app.
             };
             class Error1 extends (_Component = _react.default.Component) {
                 render() {
-                    const { statusCode, withDarkMode = !0 } = this.props, title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
+                    let { statusCode, withDarkMode = !0 } = this.props, title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
                     return /*#__PURE__*/ _react.default.createElement("div", {
                         style: styles_error
                     }, /*#__PURE__*/ _react.default.createElement(_head.default, null, /*#__PURE__*/ _react.default.createElement("title", null, statusCode ? "".concat(statusCode, ": ").concat(title) : "Application error: a client-side exception has occurred")), /*#__PURE__*/ _react.default.createElement("div", null, /*#__PURE__*/ _react.default.createElement("style", {
@@ -1379,7 +1364,7 @@ You should only use "next/router" on the client side of your app.
             } //# sourceMappingURL=escape-regexp.js.map
             ;
             // regexp is based on https://github.com/sindresorhus/escape-string-regexp
-            const reHasRegExp = /[|\\{}()[\]^$+*?.-]/, reReplaceRegExp = /[|\\{}()[\]^$+*?.-]/g;
+            let reHasRegExp = /[|\\{}()[\]^$+*?.-]/, reReplaceRegExp = /[|\\{}()[\]^$+*?.-]/g;
         /***/ },
         /***/ 8404: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -1394,8 +1379,7 @@ You should only use "next/router" on the client side of your app.
             }), exports.defaultHead = defaultHead, exports.default = void 0;
             var _extends = __webpack_require__(6495)/* ["default"] */ .Z, _interop_require_default = __webpack_require__(2648)/* ["default"] */ .Z, _react = (0, __webpack_require__(1598)/* ["default"] */ .Z)(__webpack_require__(7294)), _sideEffect = _interop_require_default(__webpack_require__(5188)), _ampContext = __webpack_require__(2227), _headManagerContext = __webpack_require__(8404), _ampMode = __webpack_require__(7363);
             function defaultHead() {
-                let inAmpMode = arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-                const head = [
+                let inAmpMode = arguments.length > 0 && void 0 !== arguments[0] && arguments[0], head = [
                     /*#__PURE__*/ _react.default.createElement("meta", {
                         charSet: "utf-8"
                     })
@@ -1410,7 +1394,7 @@ You should only use "next/router" on the client side of your app.
                 "string" == typeof child || "number" == typeof child ? list : child.type === _react.default.Fragment ? list.concat(_react.default.Children.toArray(child.props.children).reduce((fragmentList, fragmentChild)=>"string" == typeof fragmentChild || "number" == typeof fragmentChild ? fragmentList : fragmentList.concat(fragmentChild), [])) : list.concat(child));
             }
             __webpack_require__(3794);
-            const METATYPES = [
+            let METATYPES = [
                 "name",
                 "httpEquiv",
                 "charSet",
@@ -1420,46 +1404,39 @@ You should only use "next/router" on the client side of your app.
  *
  * @param headChildrenElements List of children of <Head>
  */ function reduceComponents(headChildrenElements, props) {
-                const { inAmpMode } = props;
-                return headChildrenElements.reduce(onlyReactElement, []).reverse().concat(defaultHead(inAmpMode).reverse()).filter(/*
- returns a function for filtering head child elements
- which shouldn't be duplicated, like <title/>
- Also adds support for deduplicated `key` properties
-*/ function() {
-                    const keys = new Set(), tags = new Set(), metaTypes = new Set(), metaCategories = {};
-                    return (h)=>{
-                        let isUnique = !0, hasKey = !1;
-                        if (h.key && "number" != typeof h.key && h.key.indexOf("$") > 0) {
-                            hasKey = !0;
-                            const key = h.key.slice(h.key.indexOf("$") + 1);
-                            keys.has(key) ? isUnique = !1 : keys.add(key);
-                        }
-                        // eslint-disable-next-line default-case
-                        switch(h.type){
-                            case "title":
-                            case "base":
-                                tags.has(h.type) ? isUnique = !1 : tags.add(h.type);
-                                break;
-                            case "meta":
-                                for(let i = 0, len = METATYPES.length; i < len; i++){
-                                    const metatype = METATYPES[i];
-                                    if (h.props.hasOwnProperty(metatype)) if ("charSet" === metatype) metaTypes.has(metatype) ? isUnique = !1 : metaTypes.add(metatype);
-                                    else {
-                                        const category = h.props[metatype], categories = metaCategories[metatype] || new Set();
-                                        ("name" !== metatype || !hasKey) && categories.has(category) ? isUnique = !1 : (categories.add(category), metaCategories[metatype] = categories);
-                                    }
+                let keys, tags, metaTypes, metaCategories, { inAmpMode } = props;
+                return headChildrenElements.reduce(onlyReactElement, []).reverse().concat(defaultHead(inAmpMode).reverse()).filter((keys = new Set(), tags = new Set(), metaTypes = new Set(), metaCategories = {}, (h)=>{
+                    let isUnique = !0, hasKey = !1;
+                    if (h.key && "number" != typeof h.key && h.key.indexOf("$") > 0) {
+                        hasKey = !0;
+                        let key = h.key.slice(h.key.indexOf("$") + 1);
+                        keys.has(key) ? isUnique = !1 : keys.add(key);
+                    }
+                    // eslint-disable-next-line default-case
+                    switch(h.type){
+                        case "title":
+                        case "base":
+                            tags.has(h.type) ? isUnique = !1 : tags.add(h.type);
+                            break;
+                        case "meta":
+                            for(let i = 0, len = METATYPES.length; i < len; i++){
+                                let metatype = METATYPES[i];
+                                if (h.props.hasOwnProperty(metatype)) if ("charSet" === metatype) metaTypes.has(metatype) ? isUnique = !1 : metaTypes.add(metatype);
+                                else {
+                                    let category = h.props[metatype], categories = metaCategories[metatype] || new Set();
+                                    ("name" !== metatype || !hasKey) && categories.has(category) ? isUnique = !1 : (categories.add(category), metaCategories[metatype] = categories);
                                 }
-                        }
-                        return isUnique;
-                    };
-                }()).reverse().map((c, i)=>{
-                    const key = c.key || i;
+                            }
+                    }
+                    return isUnique;
+                })).reverse().map((c, i)=>{
+                    let key = c.key || i;
                     if (!inAmpMode && "link" === c.type && c.props.href && // TODO(prateekbh@): Replace this with const from `constants` when the tree shaking works.
                     [
                         "https://fonts.googleapis.com/css",
                         "https://use.typekit.net/"
                     ].some((url)=>c.props.href.startsWith(url))) {
-                        const newProps = _extends({}, c.props || {});
+                        let newProps = _extends({}, c.props || {});
                         return newProps["data-href"] = newProps.href, newProps.href = void 0, // Add this attribute to make it easy to identify optimized tags
                         newProps["data-optimized-fonts"] = !0, /*#__PURE__*/ _react.default.cloneElement(c, newProps);
                     }
@@ -1472,8 +1449,7 @@ You should only use "next/router" on the client side of your app.
  * This component injects elements to `<head>` of your page.
  * To avoid duplicated `tags` in `<head>` you can use the `key` property, which will make sure every tag is only rendered once.
  */ function(param) {
-                let { children } = param;
-                const ampState = _react.useContext(_ampContext.AmpStateContext), headManager = _react.useContext(_headManagerContext.HeadManagerContext);
+                let { children } = param, ampState = _react.useContext(_ampContext.AmpStateContext), headManager = _react.useContext(_headManagerContext.HeadManagerContext);
                 return /*#__PURE__*/ _react.default.createElement(_sideEffect.default, {
                     reduceComponentsToState: reduceComponents,
                     headManager: headManager,
@@ -1488,9 +1464,8 @@ You should only use "next/router" on the client side of your app.
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.normalizeLocalePath = function(pathname, locales) {
-                let detectedLocale;
                 // first item will be empty string from splitting at first char
-                const pathnameParts = pathname.split("/");
+                let detectedLocale, pathnameParts = pathname.split("/");
                 return (locales || []).some((locale)=>!!pathnameParts[1] && pathnameParts[1].toLowerCase() === locale.toLowerCase() && (detectedLocale = locale, pathnameParts.splice(1, 1), pathname = pathnameParts.join("/") || "/", !0)), {
                     pathname,
                     detectedLocale
@@ -1560,7 +1535,7 @@ You should only use "next/router" on the client side of your app.
                 value: !0
             }), exports.getObjectClassLabel = getObjectClassLabel, exports.isPlainObject = function(value) {
                 if ("[object Object]" !== getObjectClassLabel(value)) return !1;
-                const prototype = Object.getPrototypeOf(value);
+                let prototype = Object.getPrototypeOf(value);
                 /**
    * this used to be previously:
    *
@@ -1578,7 +1553,7 @@ You should only use "next/router" on the client side of your app.
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function() {
-                const all = Object.create(null);
+                let all = Object.create(null);
                 return {
                     on (type, handler) {
                         (all[type] || (all[type] = [])).push(handler);
@@ -1642,20 +1617,20 @@ You should only use "next/router" on the client side of your app.
             }
             function _matchesMiddleware() {
                 return (_matchesMiddleware = _async_to_generator(function*(options) {
-                    const matchers = yield Promise.resolve(options.router.pageLoader.getMiddleware());
+                    let matchers = yield Promise.resolve(options.router.pageLoader.getMiddleware());
                     if (!matchers) return !1;
-                    const { pathname: asPathname } = _parsePath.parsePath(options.asPath), cleanedAs = _hasBasePath.hasBasePath(asPathname) ? _removeBasePath.removeBasePath(asPathname) : asPathname, asWithBasePathAndLocale = _addBasePath.addBasePath(_addLocale.addLocale(cleanedAs, options.locale));
+                    let { pathname: asPathname } = _parsePath.parsePath(options.asPath), cleanedAs = _hasBasePath.hasBasePath(asPathname) ? _removeBasePath.removeBasePath(asPathname) : asPathname, asWithBasePathAndLocale = _addBasePath.addBasePath(_addLocale.addLocale(cleanedAs, options.locale));
                     // Check only path match on client. Matching "has" should be done on server
                     // where we can access more info such as headers, HttpOnly cookie, etc.
                     return matchers.some((m)=>new RegExp(m.regexp).test(asWithBasePathAndLocale));
                 })).apply(this, arguments);
             }
             function stripOrigin(url) {
-                const origin = _utils.getLocationOrigin();
+                let origin = _utils.getLocationOrigin();
                 return url.startsWith(origin) ? url.substring(origin.length) : url;
             }
             function omit(object, keys) {
-                const omitted = {};
+                let omitted = {};
                 return Object.keys(object).forEach((key)=>{
                     keys.includes(key) || (omitted[key] = object[key]);
                 }), omitted;
@@ -1665,25 +1640,20 @@ You should only use "next/router" on the client side of your app.
                 if (!_utils.isAbsoluteUrl(url)) return !0;
                 try {
                     // absolute urls can be local if they are on the same origin
-                    const locationOrigin = _utils.getLocationOrigin(), resolved = new URL(url, locationOrigin);
+                    let locationOrigin = _utils.getLocationOrigin(), resolved = new URL(url, locationOrigin);
                     return resolved.origin === locationOrigin && _hasBasePath.hasBasePath(resolved.pathname);
                 } catch (_) {
                     return !1;
                 }
             }
             function interpolateAs(route, asPathname, query) {
-                let interpolatedRoute = "";
-                const dynamicRegex = _routeRegex.getRouteRegex(route), dynamicGroups = dynamicRegex.groups, dynamicMatches = (asPathname !== route ? _routeMatcher.getRouteMatcher(dynamicRegex)(asPathname) : "") || // Fall back to reading the values from the href
+                let interpolatedRoute = "", dynamicRegex = _routeRegex.getRouteRegex(route), dynamicGroups = dynamicRegex.groups, dynamicMatches = (asPathname !== route ? _routeMatcher.getRouteMatcher(dynamicRegex)(asPathname) : "") || // Fall back to reading the values from the href
                 // TODO: should this take priority; also need to change in the router.
                 query;
                 interpolatedRoute = route;
-                const params = Object.keys(dynamicGroups);
+                let params = Object.keys(dynamicGroups);
                 return params.every((param)=>{
-                    let value = dynamicMatches[param] || "";
-                    const { repeat, optional } = dynamicGroups[param];
-                    // support single-level catch-all
-                    // TODO: more robust handling for user-error (passing `/`)
-                    let replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
+                    let value = dynamicMatches[param] || "", { repeat, optional } = dynamicGroups[param], replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
                     return optional && (replaced = "".concat(!value ? "/" : "", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
                         value
                     ]), (optional || param in dynamicMatches) && // Interpolate group into data URL if present
@@ -1697,13 +1667,10 @@ You should only use "next/router" on the client side of your app.
                 };
             }
             function resolveHref(router, href, resolveAs) {
-                let base, urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href);
-                // repeated slashes and backslashes in the URL are considered
-                // invalid and will never match a Next.js page/file
-                const urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString;
+                let base, urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href), urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString;
                 if ((urlAsStringNoProto.split("?")[0] || "").match(/(\/\/|\\)/)) {
                     console.error("Invalid href passed to next/router: ".concat(urlAsString, ", repeated forward-slashes (//) or backslashes \\ are not valid in the href"));
-                    const normalizedUrl = _utils.normalizeRepeatedSlashes(urlAsStringNoProto);
+                    let normalizedUrl = _utils.normalizeRepeatedSlashes(urlAsStringNoProto);
                     urlAsString = (urlProtoMatch ? urlProtoMatch[0] : "") + normalizedUrl;
                 }
                 // Return because it cannot be routed by the Next.js router
@@ -1717,11 +1684,11 @@ You should only use "next/router" on the client side of your app.
                     base = new URL("/", "http://n");
                 }
                 try {
-                    const finalUrl = new URL(urlAsString, base);
+                    let finalUrl = new URL(urlAsString, base);
                     finalUrl.pathname = _normalizeTrailingSlash.normalizePathTrailingSlash(finalUrl.pathname);
                     let interpolatedAs = "";
                     if (_isDynamic.isDynamicRoute(finalUrl.pathname) && finalUrl.searchParams && resolveAs) {
-                        const query = _querystring.searchParamsToUrlQuery(finalUrl.searchParams), { result, params } = interpolateAs(finalUrl.pathname, finalUrl.pathname, query);
+                        let query = _querystring.searchParamsToUrlQuery(finalUrl.searchParams), { result, params } = interpolateAs(finalUrl.pathname, finalUrl.pathname, query);
                         result && (interpolatedAs = _formatUrl.formatWithValidation({
                             pathname: result,
                             hash: finalUrl.hash,
@@ -1729,7 +1696,7 @@ You should only use "next/router" on the client side of your app.
                         }));
                     }
                     // if the origin didn't change, it means we received a relative href
-                    const resolvedHref = finalUrl.origin === base.origin ? finalUrl.href.slice(finalUrl.origin.length) : finalUrl.href;
+                    let resolvedHref = finalUrl.origin === base.origin ? finalUrl.href.slice(finalUrl.origin.length) : finalUrl.href;
                     return resolveAs ? [
                         resolvedHref,
                         interpolatedAs || resolvedHref
@@ -1743,25 +1710,24 @@ You should only use "next/router" on the client side of your app.
             function prepareUrlAs(router, url, as) {
                 // If url and as provided as an object representation,
                 // we'll format them into the string version here.
-                let [resolvedHref, resolvedAs] = resolveHref(router, url, !0);
-                const origin = _utils.getLocationOrigin(), hrefHadOrigin = resolvedHref.startsWith(origin), asHadOrigin = resolvedAs && resolvedAs.startsWith(origin);
+                let [resolvedHref, resolvedAs] = resolveHref(router, url, !0), origin = _utils.getLocationOrigin(), hrefHadOrigin = resolvedHref.startsWith(origin), asHadOrigin = resolvedAs && resolvedAs.startsWith(origin);
                 resolvedHref = stripOrigin(resolvedHref), resolvedAs = resolvedAs ? stripOrigin(resolvedAs) : resolvedAs;
-                const preparedUrl = hrefHadOrigin ? resolvedHref : _addBasePath.addBasePath(resolvedHref), preparedAs = as ? stripOrigin(resolveHref(router, as)) : resolvedAs || resolvedHref;
+                let preparedUrl = hrefHadOrigin ? resolvedHref : _addBasePath.addBasePath(resolvedHref), preparedAs = as ? stripOrigin(resolveHref(router, as)) : resolvedAs || resolvedHref;
                 return {
                     url: preparedUrl,
                     as: asHadOrigin ? preparedAs : _addBasePath.addBasePath(preparedAs)
                 };
             }
             function resolveDynamicRoute(pathname, pages) {
-                const cleanPathname = _removeTrailingSlash.removeTrailingSlash(_denormalizePagePath.denormalizePagePath(pathname));
+                let cleanPathname = _removeTrailingSlash.removeTrailingSlash(_denormalizePagePath.denormalizePagePath(pathname));
                 return "/404" === cleanPathname || "/_error" === cleanPathname ? pathname : (pages.includes(cleanPathname) || // eslint-disable-next-line array-callback-return
                 pages.some((page)=>{
                     if (_isDynamic.isDynamicRoute(page) && _routeRegex.getRouteRegex(page).re.test(cleanPathname)) return pathname = page, !0;
                 }), _removeTrailingSlash.removeTrailingSlash(pathname));
             }
-            const SSG_DATA_NOT_FOUND = Symbol("SSG_DATA_NOT_FOUND"), backgroundCache = {};
+            let SSG_DATA_NOT_FOUND = Symbol("SSG_DATA_NOT_FOUND"), backgroundCache = {};
             function handleSmoothScroll(fn) {
-                const htmlElement = document.documentElement, existing = htmlElement.style.scrollBehavior;
+                let htmlElement = document.documentElement, existing = htmlElement.style.scrollBehavior;
                 htmlElement.style.scrollBehavior = "auto", fn(), htmlElement.style.scrollBehavior = existing;
             }
             function tryToParseAsJSON(text) {
@@ -1773,8 +1739,7 @@ You should only use "next/router" on the client side of your app.
             }
             function fetchNextData(param) {
                 var ref1;
-                let { dataHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param;
-                const { href: cacheKey } = new URL(dataHref, window.location.href), getData = (params)=>(function fetchRetry(url, attempts, options) {
+                let { dataHref, inflightCache, isPrefetch, hasMiddleware, isServerRender, parseJSON, persistCache, isBackground, unstable_skipClientCache } = param, { href: cacheKey } = new URL(dataHref, window.location.href), getData = (params)=>(function fetchRetry(url, attempts, options) {
                         return fetch(url, {
                             // Cookies are required to be present for Next.js' SSG "Preview Mode".
                             // Cookies may also be required for `getServerSideProps`.
@@ -1835,7 +1800,7 @@ You should only use "next/router" on the client side of your app.
                                         cacheKey
                                     };
                                 }
-                                const error = Error("Failed to load static props");
+                                let error = Error("Failed to load static props");
                                 throw isServerRender || _routeLoader.markAssetError(error), error;
                             }
                             return {
@@ -1866,14 +1831,13 @@ You should only use "next/router" on the client side of your app.
                 if (url === _addBasePath.addBasePath(_addLocale.addLocale(router.asPath, router.locale))) throw Error("Invariant: attempted to hard navigate to the same URL ".concat(url, " ").concat(location.href));
                 window.location.href = url;
             }
-            const getCancelledHandler = (param)=>{
-                let { route, router } = param, cancelled = !1;
-                const cancel = router.clc = ()=>{
+            let getCancelledHandler = (param)=>{
+                let { route, router } = param, cancelled = !1, cancel = router.clc = ()=>{
                     cancelled = !0;
                 };
                 return ()=>{
                     if (cancelled) {
-                        const error = Error('Abort fetching component for route: "'.concat(route, '"'));
+                        let error = Error('Abort fetching component for route: "'.concat(route, '"'));
                         throw error.cancelled = !0, error;
                     }
                     cancel === router.clc && (router.clc = null);
@@ -1917,21 +1881,21 @@ You should only use "next/router" on the client side of your app.
                         // WARNING: `_h` is an internal option for handing Next.js client-side
                         // hydration. Your app should _never_ use this property. It may change at
                         // any time without notice.
-                        const isQueryUpdating = options._h, shouldResolveHref = isQueryUpdating || options._shouldResolveHref || _parsePath.parsePath(url).pathname === _parsePath.parsePath(as).pathname, nextState = _extends({}, _this.state), readyStateChange = !0 !== _this.isReady;
+                        let isQueryUpdating = options._h, shouldResolveHref = isQueryUpdating || options._shouldResolveHref || _parsePath.parsePath(url).pathname === _parsePath.parsePath(as).pathname, nextState = _extends({}, _this.state), readyStateChange = !0 !== _this.isReady;
                         _this.isReady = !0;
-                        const isSsr = _this.isSsr;
+                        let isSsr = _this.isSsr;
                         // if a route transition is already in progress before
                         // the query updating is triggered ignore query updating
                         if (isQueryUpdating || (_this.isSsr = !1), isQueryUpdating && _this.clc) return !1;
-                        const prevLocale = nextState.locale;
+                        let prevLocale = nextState.locale;
                         _utils.ST && performance.mark("routeChange");
-                        const { shallow = !1, scroll = !0 } = options, routeProps = {
+                        let { shallow = !1, scroll = !0 } = options, routeProps = {
                             shallow
                         };
                         _this._inFlightRoute && _this.clc && (isSsr || Router.events.emit("routeChangeError", buildCancellationError(), _this._inFlightRoute, routeProps), _this.clc(), _this.clc = null), as = _addBasePath.addBasePath(_addLocale.addLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, options.locale, _this.defaultLocale));
-                        const cleanedAs = _removeLocale.removeLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, nextState.locale);
+                        let cleanedAs = _removeLocale.removeLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, nextState.locale);
                         _this._inFlightRoute = as;
-                        const localeChange = prevLocale !== nextState.locale;
+                        let localeChange = prevLocale !== nextState.locale;
                         // If the url change is only related to a hash change
                         // We should not proceed. We should only change the state.
                         if (!isQueryUpdating && _this.onlyAHashChange(cleanedAs) && !localeChange) {
@@ -1971,7 +1935,7 @@ You should only use "next/router" on the client side of your app.
                         pathname = pathname ? _removeTrailingSlash.removeTrailingSlash(_removeBasePath.removeBasePath(pathname)) : pathname;
                         // we don't attempt resolve asPath when we need to execute
                         // middleware as the resolving will occur server-side
-                        const isMiddlewareMatch = yield matchesMiddleware({
+                        let isMiddlewareMatch = yield matchesMiddleware({
                             asPath: as,
                             locale: nextState.locale,
                             router: _this
@@ -1983,16 +1947,16 @@ You should only use "next/router" on the client side of your app.
                         resolvedAs = _removeLocale.removeLocale(_removeBasePath.removeBasePath(resolvedAs), nextState.locale);
                         let route = _removeTrailingSlash.removeTrailingSlash(pathname), routeMatch = !1;
                         if (_isDynamic.isDynamicRoute(route)) {
-                            const parsedAs1 = _parseRelativeUrl.parseRelativeUrl(resolvedAs), asPathname = parsedAs1.pathname, routeRegex = _routeRegex.getRouteRegex(route);
+                            let parsedAs1 = _parseRelativeUrl.parseRelativeUrl(resolvedAs), asPathname = parsedAs1.pathname, routeRegex = _routeRegex.getRouteRegex(route);
                             routeMatch = _routeMatcher.getRouteMatcher(routeRegex)(asPathname);
-                            const shouldInterpolate = route === asPathname, interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {};
+                            let shouldInterpolate = route === asPathname, interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {};
                             if (routeMatch && (!shouldInterpolate || interpolatedAs.result)) shouldInterpolate ? as = _formatUrl.formatWithValidation(Object.assign({}, parsedAs1, {
                                 pathname: interpolatedAs.result,
                                 query: omit(query, interpolatedAs.params)
                             })) : // Merge params into `query`, overwriting any specified in search
                             Object.assign(query, routeMatch);
                             else {
-                                const missingParams = Object.keys(routeRegex.groups).filter((param)=>!query[param]);
+                                let missingParams = Object.keys(routeRegex.groups).filter((param)=>!query[param]);
                                 if (missingParams.length > 0 && !isMiddlewareMatch) throw Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(", "), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? "href-interpolation-failed" : "incompatible-href-as"));
                             }
                         }
@@ -2014,13 +1978,13 @@ You should only use "next/router" on the client side of your app.
                             });
                             if ("route" in routeInfo && isMiddlewareMatch) {
                                 route = pathname = routeInfo.route || route, routeProps.shallow || (query = Object.assign({}, routeInfo.query || {}, query));
-                                const cleanedParsedPathname = _hasBasePath.hasBasePath(parsed.pathname) ? _removeBasePath.removeBasePath(parsed.pathname) : parsed.pathname;
+                                let cleanedParsedPathname = _hasBasePath.hasBasePath(parsed.pathname) ? _removeBasePath.removeBasePath(parsed.pathname) : parsed.pathname;
                                 if (routeMatch && pathname !== cleanedParsedPathname && Object.keys(routeMatch).forEach((key)=>{
                                     routeMatch && query[key] === routeMatch[key] && delete query[key];
                                 }), _isDynamic.isDynamicRoute(pathname)) {
                                     let rewriteAs = !routeProps.shallow && routeInfo.resolvedAs ? routeInfo.resolvedAs : _addBasePath.addBasePath(_addLocale.addLocale(new URL(as, location.href).pathname, nextState.locale), !0);
                                     _hasBasePath.hasBasePath(rewriteAs) && (rewriteAs = _removeBasePath.removeBasePath(rewriteAs));
-                                    const routeRegex1 = _routeRegex.getRouteRegex(pathname), curRouteMatch = _routeMatcher.getRouteMatcher(routeRegex1)(rewriteAs);
+                                    let routeRegex1 = _routeRegex.getRouteRegex(pathname), curRouteMatch = _routeMatcher.getRouteMatcher(routeRegex1)(rewriteAs);
                                     curRouteMatch && Object.assign(query, curRouteMatch);
                                 }
                             }
@@ -2030,8 +1994,7 @@ You should only use "next/router" on the client side of your app.
                                 url: routeInfo.destination,
                                 router: _this
                             }), new Promise(()=>{});
-                            let { error, props, __N_SSG, __N_SSP } = routeInfo;
-                            const component = routeInfo.Component;
+                            let { error, props, __N_SSG, __N_SSP } = routeInfo, component = routeInfo.Component;
                             // handle redirect on client-transition
                             if (component && component.unstable_scriptLoader && [].concat(component.unstable_scriptLoader()).forEach((script)=>{
                                 _script.handleClientScriptLoad(script.props);
@@ -2039,14 +2002,14 @@ You should only use "next/router" on the client side of your app.
                                 if (props.pageProps && props.pageProps.__N_REDIRECT) {
                                     // Use the destination from redirect without adding locale
                                     options.locale = !1;
-                                    const destination = props.pageProps.__N_REDIRECT;
+                                    let destination = props.pageProps.__N_REDIRECT;
                                     // check if destination is internal (resolves to a page) and attempt
                                     // client-navigation if it is falling back to hard navigation if
                                     // it's not
                                     if (destination.startsWith("/") && !1 !== props.pageProps.__N_REDIRECT_BASE_PATH) {
-                                        const parsedHref = _parseRelativeUrl.parseRelativeUrl(destination);
+                                        let parsedHref = _parseRelativeUrl.parseRelativeUrl(destination);
                                         parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
-                                        const { url: newUrl, as: newAs } = prepareUrlAs(_this, destination, destination);
+                                        let { url: newUrl, as: newAs } = prepareUrlAs(_this, destination, destination);
                                         return _this.change(method, newUrl, newAs, options);
                                     }
                                     return handleHardNavigation({
@@ -2080,7 +2043,7 @@ You should only use "next/router" on the client side of your app.
                             // when updating query information
                             (props.pageProps.statusCode = 500);
                             // shallow routing is only allowed for same page URL changes.
-                            const isValidShallowRoute = options.shallow && nextState.route === (null != (_route = routeInfo.route) ? _route : route), shouldScroll = null != (_scroll = options.scroll) ? _scroll : !options._h && !isValidShallowRoute, upcomingRouterState = _extends({}, nextState, {
+                            let isValidShallowRoute = options.shallow && nextState.route === (null != (_route = routeInfo.route) ? _route : route), shouldScroll = null != (_scroll = options.scroll) ? _scroll : !options._h && !isValidShallowRoute, upcomingRouterState = _extends({}, nextState, {
                                 route,
                                 pathname,
                                 query,
@@ -2132,8 +2095,7 @@ You should only use "next/router" on the client side of your app.
                             router: _this
                         }), buildCancellationError();
                         try {
-                            let props;
-                            const { page: Component, styleSheets } = yield _this.fetchComponent("/_error"), routeInfo = {
+                            let props, { page: Component, styleSheets } = yield _this.fetchComponent("/_error"), routeInfo = {
                                 props,
                                 Component,
                                 styleSheets,
@@ -2167,15 +2129,13 @@ You should only use "next/router" on the client side of your app.
      */ let route = requestedRoute;
                         try {
                             var ref, ref4, ref5, options;
-                            const handleCancelled = getCancelledHandler({
+                            let handleCancelled = getCancelledHandler({
                                 route,
                                 router: _this
-                            });
-                            let existingInfo = _this.components[route];
+                            }), existingInfo = _this.components[route];
                             if (routeProps.shallow && existingInfo && _this.route === route) return existingInfo;
                             hasMiddleware && (existingInfo = void 0);
-                            let cachedRouteInfo = !existingInfo || "initial" in existingInfo ? void 0 : existingInfo;
-                            const fetchNextDataParams = {
+                            let cachedRouteInfo = !existingInfo || "initial" in existingInfo ? void 0 : existingInfo, fetchNextDataParams = {
                                 dataHref: _this.pageLoader.getDataHref({
                                     href: _formatUrl.formatWithValidation({
                                         pathname,
@@ -2199,41 +2159,38 @@ You should only use "next/router" on the client side of your app.
                                 locale: locale,
                                 router: _this
                             }, matchesMiddleware(options).then((matches)=>matches && options.fetchData ? options.fetchData().then((data)=>(function(source, response, options) {
-                                        const nextConfig = {
+                                        let nextConfig = {
                                             basePath: options.router.basePath,
                                             i18n: {
                                                 locales: options.router.locales
                                             },
                                             trailingSlash: !1
-                                        }, rewriteHeader = response.headers.get("x-nextjs-rewrite");
-                                        let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
-                                        const matchedPath = response.headers.get("x-matched-path");
+                                        }, rewriteHeader = response.headers.get("x-nextjs-rewrite"), rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path"), matchedPath = response.headers.get("x-matched-path");
                                         if (!matchedPath || rewriteTarget || matchedPath.includes("__next_data_catchall") || matchedPath.includes("/_error") || matchedPath.includes("/404") || // leverage x-matched-path to detect next.config.js rewrites
                                         (rewriteTarget = matchedPath), rewriteTarget) {
                                             if (rewriteTarget.startsWith("/")) {
-                                                const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget), pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
+                                                let parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget), pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
                                                     nextConfig,
                                                     parseData: !0
-                                                });
-                                                let fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
+                                                }), fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
                                                 return Promise.all([
                                                     options.router.pageLoader.getPageList(),
                                                     _routeLoader.getClientBuildManifest()
                                                 ]).then((param)=>{
                                                     let [pages, { __rewrites: rewrites }] = param, as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
                                                     if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
-                                                        const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
+                                                        let parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
                                                             parseData: !0
                                                         });
                                                         parsedRewriteTarget.pathname = as = _addBasePath.addBasePath(parsedSource.pathname);
                                                     }
                                                     if (!pages.includes(fsPathname)) {
-                                                        const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
+                                                        let resolvedPathname = resolveDynamicRoute(fsPathname, pages);
                                                         resolvedPathname !== fsPathname && (fsPathname = resolvedPathname);
                                                     }
-                                                    const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
+                                                    let resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
                                                     if (_isDynamic.isDynamicRoute(resolvedHref)) {
-                                                        const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
+                                                        let matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
                                                         Object.assign(parsedRewriteTarget.query, matches || {});
                                                     }
                                                     return {
@@ -2243,7 +2200,7 @@ You should only use "next/router" on the client side of your app.
                                                     };
                                                 });
                                             }
-                                            const src = _parsePath.parsePath(source), pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
+                                            let src = _parsePath.parsePath(source), pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
                                                 nextConfig,
                                                 parseData: !0
                                             }), {
@@ -2255,10 +2212,10 @@ You should only use "next/router" on the client side of your app.
                                                 destination: "".concat(pathname).concat(src.query).concat(src.hash)
                                             });
                                         }
-                                        const redirectTarget = response.headers.get("x-nextjs-redirect");
+                                        let redirectTarget = response.headers.get("x-nextjs-redirect");
                                         if (redirectTarget) {
                                             if (redirectTarget.startsWith("/")) {
-                                                const src1 = _parsePath.parsePath(redirectTarget), pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
+                                                let src1 = _parsePath.parsePath(redirectTarget), pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
                                                     nextConfig,
                                                     parseData: !0
                                                 }), {
@@ -2299,14 +2256,14 @@ You should only use "next/router" on the client side of your app.
                                 url: as,
                                 router: _this
                             }), new Promise(()=>{});
-                            const routeInfo = cachedRouteInfo || (yield _this.fetchComponent(route).then((res)=>({
+                            let routeInfo = cachedRouteInfo || (yield _this.fetchComponent(route).then((res)=>({
                                     Component: res.page,
                                     styleSheets: res.styleSheets,
                                     __N_SSG: res.mod.__N_SSG,
                                     __N_SSP: res.mod.__N_SSP
                                 }))), shouldFetchData = routeInfo.__N_SSG || routeInfo.__N_SSP, { props, cacheKey } = yield _this._getData(_async_to_generator(function*() {
                                 if (shouldFetchData) {
-                                    const { json, cacheKey: _cacheKey } = (null == data ? void 0 : data.json) ? data : yield fetchNextData({
+                                    let { json, cacheKey: _cacheKey } = (null == data ? void 0 : data.json) ? data : yield fetchNextData({
                                         dataHref: _this.pageLoader.getDataHref({
                                             href: _formatUrl.formatWithValidation({
                                                 pathname,
@@ -2361,21 +2318,21 @@ You should only use "next/router" on the client side of your app.
                 }
                 onlyAHashChange(as) {
                     if (!this.asPath) return !1;
-                    const [oldUrlNoHash, oldHash] = this.asPath.split("#"), [newUrlNoHash, newHash] = as.split("#");
+                    let [oldUrlNoHash, oldHash] = this.asPath.split("#"), [newUrlNoHash, newHash] = as.split("#");
                     return(// Makes sure we scroll to the provided hash if the url/hash are the same
                     !!newHash && oldUrlNoHash === newUrlNoHash && oldHash === newHash || oldUrlNoHash === newUrlNoHash && oldHash !== newHash);
                 }
                 scrollToHash(as) {
-                    const [, hash = ""] = as.split("#");
+                    let [, hash = ""] = as.split("#");
                     // Scroll to top if the hash is just `#` with no value or `#top`
                     // To mirror browsers
                     if ("" === hash || "top" === hash) return void handleSmoothScroll(()=>window.scrollTo(0, 0));
                     // Decode hash to make non-latin anchor works.
-                    const rawHash = decodeURIComponent(hash), idEl = document.getElementById(rawHash);
+                    let rawHash = decodeURIComponent(hash), idEl = document.getElementById(rawHash);
                     if (idEl) return void handleSmoothScroll(()=>idEl.scrollIntoView());
                     // If there's no element with the id, we check the `name` property
                     // To mirror browsers
-                    const nameEl = document.getElementsByName(rawHash)[0];
+                    let nameEl = document.getElementsByName(rawHash)[0];
                     nameEl && handleSmoothScroll(()=>nameEl.scrollIntoView());
                 }
                 urlIsNew(asPath) {
@@ -2394,10 +2351,9 @@ You should only use "next/router" on the client side of your app.
                         // links via the equivalent of a hard navigation and hence never utilize these
                         // prefetches.
                         return;
-                        let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname, query } = parsed;
-                        const pages = yield _this.pageLoader.getPageList(), locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
+                        let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname, query } = parsed, pages = yield _this.pageLoader.getPageList(), locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
                         parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (pathname = parsed.pathname, parsed.pathname = pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
-                        const route = _removeTrailingSlash.removeTrailingSlash(pathname);
+                        let route = _removeTrailingSlash.removeTrailingSlash(pathname);
                         yield Promise.all([
                             _this.pageLoader._isSsg(route).then((isSsg)=>!!isSsg && fetchNextData({
                                     dataHref: _this.pageLoader.getDataHref({
@@ -2419,12 +2375,12 @@ You should only use "next/router" on the client side of your app.
                 fetchComponent(route) {
                     var _this = this;
                     return _async_to_generator(function*() {
-                        const handleCancelled = getCancelledHandler({
+                        let handleCancelled = getCancelledHandler({
                             route,
                             router: _this
                         });
                         try {
-                            const componentResult = yield _this.pageLoader.loadPage(route);
+                            let componentResult = yield _this.pageLoader.loadPage(route);
                             return handleCancelled(), componentResult;
                         } catch (err) {
                             throw handleCancelled(), err;
@@ -2432,13 +2388,12 @@ You should only use "next/router" on the client side of your app.
                     })();
                 }
                 _getData(fn) {
-                    let cancelled = !1;
-                    const cancel = ()=>{
+                    let cancelled = !1, cancel = ()=>{
                         cancelled = !0;
                     };
                     return this.clc = cancel, fn().then((data)=>{
                         if (cancel === this.clc && (this.clc = null), cancelled) {
-                            const err = Error("Loading initial props cancelled");
+                            let err = Error("Loading initial props cancelled");
                             throw err.cancelled = !0, err;
                         }
                         return data;
@@ -2461,7 +2416,7 @@ You should only use "next/router" on the client side of your app.
                     });
                 }
                 getInitialProps(Component, ctx) {
-                    const { Component: App } = this.components["/_app"], AppTree = this._wrapApp(App);
+                    let { Component: App } = this.components["/_app"], AppTree = this._wrapApp(App);
                     return ctx.AppTree = AppTree, _utils.loadGetInitialProps(App, {
                         AppTree,
                         Component,
@@ -2493,10 +2448,9 @@ You should only use "next/router" on the client side of your app.
                 constructor(pathname1, query1, as1, { initialProps, pageLoader, App, wrapApp, Component, err, subscription, isFallback, locale, locales, defaultLocale, domainLocales, isPreview }){
                     // Server Data Cache
                     this.sdc = {}, this.isFirstPopStateEvent = !0, this._key = createKey(), this.onPopState = (e)=>{
-                        let forcedScroll;
-                        const { isFirstPopStateEvent } = this;
+                        let forcedScroll, { isFirstPopStateEvent } = this;
                         this.isFirstPopStateEvent = !1;
-                        const state = e.state;
+                        let state = e.state;
                         if (!state) {
                             // We get state as undefined for two reasons.
                             //  1. With older safari (< 8) and older chrome (< 34)
@@ -2507,7 +2461,7 @@ You should only use "next/router" on the client side of your app.
                             // But we can simply replace the state with the new changes.
                             // Actually, for (1) we don't need to nothing. But it's hard to detect that event.
                             // So, doing the following for (1) does no harm.
-                            const { pathname, query } = this;
+                            let { pathname, query } = this;
                             this.changeState("replaceState", _formatUrl.formatWithValidation({
                                 pathname: _addBasePath.addBasePath(pathname),
                                 query
@@ -2517,12 +2471,12 @@ You should only use "next/router" on the client side of your app.
                         // __NA is used to identify if the history entry can be handled by the app-router.
                         if (state.__NA) return void window.location.reload();
                         if (!state.__N || isFirstPopStateEvent && this.locale === state.options.locale && state.as === this.asPath) return;
-                        const { url, as, options, key } = state;
+                        let { url, as, options, key } = state;
                         this._key = key;
-                        const { pathname: pathname1 } = _parseRelativeUrl.parseRelativeUrl(url);
+                        let { pathname: pathname1 } = _parseRelativeUrl.parseRelativeUrl(url);
                         // Make sure we don't re-render on initial load,
                         // can be caused by navigating back from an external site
-                        (!this.isSsr || as !== _addBasePath.addBasePath(this.asPath) || pathname1 !== _addBasePath.addBasePath(this.pathname)) && (!this._bps || this._bps(state)) && this.change("replaceState", url, as, Object.assign({}, options, {
+                        this.isSsr && as === _addBasePath.addBasePath(this.asPath) && pathname1 === _addBasePath.addBasePath(this.pathname) || (!this._bps || this._bps(state)) && this.change("replaceState", url, as, Object.assign({}, options, {
                             shallow: options.shallow && this._shallow,
                             locale: options.locale || this.defaultLocale,
                             // @ts-ignore internal value not exposed on types
@@ -2596,7 +2550,7 @@ You should only use "next/router" on the client side of your app.
                 value: !0
             }), exports.addPathPrefix = function(path, prefix) {
                 if (!path.startsWith("/") || !prefix) return path;
-                const { pathname, query, hash } = _parsePath.parsePath(path);
+                let { pathname, query, hash } = _parsePath.parsePath(path);
                 return "".concat(prefix).concat(pathname).concat(query).concat(hash);
             } //# sourceMappingURL=add-path-prefix.js.map
             ;
@@ -2608,7 +2562,7 @@ You should only use "next/router" on the client side of your app.
                 value: !0
             }), exports.addPathSuffix = function(path, suffix) {
                 if (!path.startsWith("/") || !suffix) return path;
-                const { pathname, query, hash } = _parsePath.parsePath(path);
+                let { pathname, query, hash } = _parsePath.parsePath(path);
                 return "".concat(pathname).concat(suffix).concat(query).concat(hash);
             } //# sourceMappingURL=add-path-suffix.js.map
             ;
@@ -2619,15 +2573,15 @@ You should only use "next/router" on the client side of your app.
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.compareRouterStates = function(a, b) {
-                const stateKeys = Object.keys(a);
+                let stateKeys = Object.keys(a);
                 if (stateKeys.length !== Object.keys(b).length) return !1;
                 for(let i = stateKeys.length; i--;){
-                    const key = stateKeys[i];
+                    let key = stateKeys[i];
                     if ("query" === key) {
-                        const queryKeys = Object.keys(a.query);
+                        let queryKeys = Object.keys(a.query);
                         if (queryKeys.length !== Object.keys(b.query).length) return !1;
                         for(let j = queryKeys.length; j--;){
-                            const queryKey = queryKeys[j];
+                            let queryKey = queryKeys[j];
                             if (!b.query.hasOwnProperty(queryKey) || a.query[queryKey] !== b.query[queryKey]) return !1;
                         }
                     } else if (!b.hasOwnProperty(key) || a[key] !== b[key]) return !1;
@@ -2656,7 +2610,7 @@ You should only use "next/router" on the client side of your app.
             } //# sourceMappingURL=format-url.js.map
             , exports.urlObjectKeys = void 0;
             var querystring = (0, __webpack_require__(1598)/* ["default"] */ .Z)(__webpack_require__(466));
-            const slashedProtocols = /https?|ftp|gopher|file/;
+            let slashedProtocols = /https?|ftp|gopher|file/;
             function formatUrl(urlObj) {
                 let { auth, hostname } = urlObj, protocol = urlObj.protocol || "", pathname = urlObj.pathname || "", hash = urlObj.hash || "", query = urlObj.query || "", host = !1;
                 auth = auth ? encodeURIComponent(auth).replace(/%3A/i, ":") + "@" : "", urlObj.host ? host = auth + urlObj.host : hostname && (host = auth + (~hostname.indexOf(":") ? "[".concat(hostname, "]") : hostname), urlObj.port && (host += ":" + urlObj.port)), query && "object" == typeof query && (query = String(querystring.urlQueryToSearchParams(query)));
@@ -2694,16 +2648,16 @@ You should only use "next/router" on the client side of your app.
                 value: !0
             }), exports.getNextPathnameInfo = function(pathname, options) {
                 var _nextConfig;
-                const { basePath, i18n, trailingSlash } = null != (_nextConfig = options.nextConfig) ? _nextConfig : {}, info = {
+                let { basePath, i18n, trailingSlash } = null != (_nextConfig = options.nextConfig) ? _nextConfig : {}, info = {
                     pathname: pathname,
                     trailingSlash: "/" !== pathname ? pathname.endsWith("/") : trailingSlash
                 };
                 if (basePath && _pathHasPrefix.pathHasPrefix(info.pathname, basePath) && (info.pathname = _removePathPrefix.removePathPrefix(info.pathname, basePath), info.basePath = basePath), !0 === options.parseData && info.pathname.startsWith("/_next/data/") && info.pathname.endsWith(".json")) {
-                    const paths = info.pathname.replace(/^\/_next\/data\//, "").replace(/\.json$/, "").split("/"), buildId = paths[0];
+                    let paths = info.pathname.replace(/^\/_next\/data\//, "").replace(/\.json$/, "").split("/"), buildId = paths[0];
                     info.pathname = "index" !== paths[1] ? "/".concat(paths.slice(1).join("/")) : "/", info.buildId = buildId;
                 }
                 if (i18n) {
-                    const pathLocale = _normalizeLocalePath.normalizeLocalePath(info.pathname, i18n.locales);
+                    let pathLocale = _normalizeLocalePath.normalizeLocalePath(info.pathname, i18n.locales);
                     info.locale = null == pathLocale ? void 0 : pathLocale.detectedLocale, info.pathname = (null == pathLocale ? void 0 : pathLocale.pathname) || info.pathname;
                 }
                 return info;
@@ -2746,14 +2700,14 @@ You should only use "next/router" on the client side of your app.
             } //# sourceMappingURL=is-dynamic.js.map
             ;
             // Identify /[param]/ in route string
-            const TEST_ROUTE = /\/\[[^/]+?\](?=\/|$)/;
+            let TEST_ROUTE = /\/\[[^/]+?\](?=\/|$)/;
         /***/ },
         /***/ 4943: /***/ function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.parsePath = function(path) {
-                const hashIndex = path.indexOf("#"), queryIndex = path.indexOf("?"), hasQuery = queryIndex > -1 && (hashIndex < 0 || queryIndex < hashIndex);
+                let hashIndex = path.indexOf("#"), queryIndex = path.indexOf("?"), hasQuery = queryIndex > -1 && (hashIndex < 0 || queryIndex < hashIndex);
                 return hasQuery || hashIndex > -1 ? {
                     pathname: path.substring(0, hasQuery ? queryIndex : hashIndex),
                     query: hasQuery ? path.substring(queryIndex, hashIndex > -1 ? hashIndex : void 0) : "",
@@ -2771,7 +2725,7 @@ You should only use "next/router" on the client side of your app.
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.parseRelativeUrl = function(url, base) {
-                const globalBase = new URL(_utils.getLocationOrigin()), resolvedBase = base ? new URL(base, globalBase) : url.startsWith(".") ? new URL(window.location.href) : globalBase, { pathname, searchParams, search, hash, href, origin } = new URL(url, resolvedBase);
+                let globalBase = new URL(_utils.getLocationOrigin()), resolvedBase = base ? new URL(base, globalBase) : url.startsWith(".") ? new URL(window.location.href) : globalBase, { pathname, searchParams, search, hash, href, origin } = new URL(url, resolvedBase);
                 if (origin !== globalBase.origin) throw Error("invariant: invalid relative URL, router received ".concat(url));
                 return {
                     pathname,
@@ -2790,7 +2744,7 @@ You should only use "next/router" on the client side of your app.
                 value: !0
             }), exports.pathHasPrefix = function(path, prefix) {
                 if ("string" != typeof path) return !1;
-                const { pathname } = _parsePath.parsePath(path);
+                let { pathname } = _parsePath.parsePath(path);
                 return pathname === prefix || pathname.startsWith(prefix + "/");
             } //# sourceMappingURL=path-has-prefix.js.map
             ;
@@ -2804,7 +2758,7 @@ You should only use "next/router" on the client side of your app.
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.searchParamsToUrlQuery = function(searchParams) {
-                const query = {};
+                let query = {};
                 return searchParams.forEach((value, key)=>{
                     void 0 === query[key] ? query[key] = value : Array.isArray(query[key]) ? query[key].push(value) : query[key] = [
                         query[key],
@@ -2812,7 +2766,7 @@ You should only use "next/router" on the client side of your app.
                     ];
                 }), query;
             }, exports.urlQueryToSearchParams = function(urlQuery) {
-                const result = new URLSearchParams();
+                let result = new URLSearchParams();
                 return Object.entries(urlQuery).forEach((param)=>{
                     let [key, value] = param;
                     Array.isArray(value) ? value.forEach((item)=>result.append(key, stringifyUrlQueryParam(item))) : result.set(key, stringifyUrlQueryParam(value));
@@ -2831,7 +2785,7 @@ You should only use "next/router" on the client side of your app.
                 value: !0
             }), exports.removePathPrefix = function(path, prefix) {
                 if (_pathHasPrefix.pathHasPrefix(path, prefix)) {
-                    const withoutPrefix = path.slice(prefix.length);
+                    let withoutPrefix = path.slice(prefix.length);
                     return withoutPrefix.startsWith("/") ? withoutPrefix : "/".concat(withoutPrefix);
                 }
                 return path;
@@ -2855,9 +2809,9 @@ You should only use "next/router" on the client side of your app.
             }), exports.getRouteMatcher = function(param) {
                 let { re, groups } = param;
                 return (pathname)=>{
-                    const routeMatch = re.exec(pathname);
+                    let routeMatch = re.exec(pathname);
                     if (!routeMatch) return !1;
-                    const decode = (param)=>{
+                    let decode = (param)=>{
                         try {
                             return decodeURIComponent(param);
                         } catch (_) {
@@ -2865,7 +2819,7 @@ You should only use "next/router" on the client side of your app.
                         }
                     }, params = {};
                     return Object.keys(groups).forEach((slugName)=>{
-                        const g = groups[slugName], m = routeMatch[g.pos];
+                        let g = groups[slugName], m = routeMatch[g.pos];
                         void 0 !== m && (params[slugName] = ~m.indexOf("/") ? m.split("/").map((entry)=>decode(entry)) : g.repeat ? [
                             decode(m)
                         ] : decode(m));
@@ -2880,17 +2834,17 @@ You should only use "next/router" on the client side of your app.
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.getRouteRegex = getRouteRegex, exports.getNamedRouteRegex = function(normalizedRoute) {
-                const result = getNamedParametrizedRoute(normalizedRoute);
+                let result = getNamedParametrizedRoute(normalizedRoute);
                 return _extends({}, getRouteRegex(normalizedRoute), {
                     namedRegex: "^".concat(result.namedParameterizedRoute, "(?:/)?$"),
                     routeKeys: result.routeKeys
                 });
             }, exports.getNamedMiddlewareRegex = function(normalizedRoute, options) {
-                const { parameterizedRoute } = getParametrizedRoute(normalizedRoute), { catchAll = !0 } = options;
+                let { parameterizedRoute } = getParametrizedRoute(normalizedRoute), { catchAll = !0 } = options;
                 if ("/" === parameterizedRoute) return {
                     namedRegex: "^/".concat(catchAll ? ".*" : "", "$")
                 };
-                const { namedParameterizedRoute } = getNamedParametrizedRoute(normalizedRoute);
+                let { namedParameterizedRoute } = getNamedParametrizedRoute(normalizedRoute);
                 return {
                     namedRegex: "^".concat(namedParameterizedRoute).concat(catchAll ? "(?:(/.*)?)" : "", "$")
                 };
@@ -2904,9 +2858,9 @@ You should only use "next/router" on the client side of your app.
  *   - `[foo]` -> `{ name: 'foo', repeat: false, optional: true }`
  *   - `bar` -> `{ name: 'bar', repeat: false, optional: false }`
  */ function parseParameter(param) {
-                const optional = param.startsWith("[") && param.endsWith("]");
+                let optional = param.startsWith("[") && param.endsWith("]");
                 optional && (param = param.slice(1, -1));
-                const repeat = param.startsWith("...");
+                let repeat = param.startsWith("...");
                 return repeat && (param = param.slice(3)), {
                     key: param,
                     repeat,
@@ -2914,13 +2868,12 @@ You should only use "next/router" on the client side of your app.
                 };
             }
             function getParametrizedRoute(route) {
-                const segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), groups = {};
-                let groupIndex = 1;
+                let segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), groups = {}, groupIndex = 1;
                 return {
                     parameterizedRoute: segments.map((segment)=>{
                         if (!(segment.startsWith("[") && segment.endsWith("]"))) return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
                         {
-                            const { key, optional, repeat } = parseParameter(segment.slice(1, -1));
+                            let { key, optional, repeat } = parseParameter(segment.slice(1, -1));
                             return groups[key] = {
                                 pos: groupIndex++,
                                 repeat,
@@ -2932,15 +2885,14 @@ You should only use "next/router" on the client side of your app.
                 };
             }
             function getRouteRegex(normalizedRoute) {
-                const { parameterizedRoute, groups } = getParametrizedRoute(normalizedRoute);
+                let { parameterizedRoute, groups } = getParametrizedRoute(normalizedRoute);
                 return {
                     re: new RegExp("^".concat(parameterizedRoute, "(?:/)?$")),
                     groups: groups
                 };
             }
             function getNamedParametrizedRoute(route) {
-                let routeKeyCharCode, routeKeyCharLength;
-                const segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), getSafeRouteKey = (routeKeyCharCode = 97, routeKeyCharLength = 1, ()=>{
+                let routeKeyCharCode, routeKeyCharLength, segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), getSafeRouteKey = (routeKeyCharCode = 97, routeKeyCharLength = 1, ()=>{
                     let routeKey = "";
                     for(let i = 0; i < routeKeyCharLength; i++)routeKey += String.fromCharCode(routeKeyCharCode), ++routeKeyCharCode > 122 && (routeKeyCharLength++, routeKeyCharCode = 97);
                     return routeKey;
@@ -2949,10 +2901,7 @@ You should only use "next/router" on the client side of your app.
                     namedParameterizedRoute: segments.map((segment)=>{
                         if (!(segment.startsWith("[") && segment.endsWith("]"))) return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
                         {
-                            const { key, optional, repeat } = parseParameter(segment.slice(1, -1));
-                            // replace any non-word characters since they can break
-                            // the named regex
-                            let cleanedKey = key.replace(/\W/g, ""), invalidKey = !1;
+                            let { key, optional, repeat } = parseParameter(segment.slice(1, -1)), cleanedKey = key.replace(/\W/g, ""), invalidKey = !1;
                             return (0 === cleanedKey.length || cleanedKey.length > 30) && (invalidKey = !0), isNaN(parseInt(cleanedKey.slice(0, 1))) || (invalidKey = !0), invalidKey && (cleanedKey = getSafeRouteKey()), routeKeys[cleanedKey] = key, repeat ? optional ? "(?:/(?<".concat(cleanedKey, ">.+?))?") : "/(?<".concat(cleanedKey, ">.+?)") : "/(?<".concat(cleanedKey, ">[^/]+?)");
                         }
                     }).join(""),
@@ -2975,7 +2924,7 @@ You should only use "next/router" on the client side of your app.
                 // So in this case `UrlNode` created here has `this.slugName === 'post'`
                 // And since your PR passed through `slugName` as an array basically it'd including it in too many possibilities
                 // Instead what has to be passed through is the upwards path's dynamic names
-                const root = new UrlNode();
+                let root = new UrlNode();
                 // Smoosh will then sort those sublevels up to the point where you get the correct route definition priority
                 return(// Here the `root` gets injected multiple paths, and insert will break them up into sublevels
                 normalizedPages.forEach((pagePath)=>root.insert(pagePath)), root.smoosh());
@@ -2989,17 +2938,16 @@ You should only use "next/router" on the client side of your app.
                     return this._smoosh();
                 }
                 _smoosh() {
-                    let prefix = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "/";
-                    const childrenPaths = [
+                    let prefix = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "/", childrenPaths = [
                         ...this.children.keys()
                     ].sort();
                     null !== this.slugName && childrenPaths.splice(childrenPaths.indexOf("[]"), 1), null !== this.restSlugName && childrenPaths.splice(childrenPaths.indexOf("[...]"), 1), null !== this.optionalRestSlugName && childrenPaths.splice(childrenPaths.indexOf("[[...]]"), 1);
-                    const routes = childrenPaths.map((c)=>this.children.get(c)._smoosh("".concat(prefix).concat(c, "/"))).reduce((prev, curr)=>[
+                    let routes = childrenPaths.map((c)=>this.children.get(c)._smoosh("".concat(prefix).concat(c, "/"))).reduce((prev, curr)=>[
                             ...prev,
                             ...curr
                         ], []);
                     if (null !== this.slugName && routes.push(...this.children.get("[]")._smoosh("".concat(prefix, "[").concat(this.slugName, "]/"))), !this.placeholder) {
-                        const r = "/" === prefix ? "/" : prefix.slice(0, -1);
+                        let r = "/" === prefix ? "/" : prefix.slice(0, -1);
                         if (null != this.optionalRestSlugName) throw Error('You cannot define a route with the same specificity as a optional catch-all route ("'.concat(r, '" and "').concat(r, "[[...").concat(this.optionalRestSlugName, ']]").'));
                         routes.unshift(r);
                     }
@@ -3070,10 +3018,10 @@ You should only use "next/router" on the client side of your app.
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(props) {
-                const { headManager, reduceComponentsToState } = props;
+                let { headManager, reduceComponentsToState } = props;
                 function emitChange() {
                     if (headManager && headManager.mountedInstances) {
-                        const headElements = _react.Children.toArray(Array.from(headManager.mountedInstances).filter(Boolean));
+                        let headElements = _react.Children.toArray(Array.from(headManager.mountedInstances).filter(Boolean));
                         headManager.updateHead(reduceComponentsToState(headElements, props));
                     }
                 }
@@ -3099,7 +3047,7 @@ You should only use "next/router" on the client side of your app.
                     })), null;
             };
             var _react = (0, __webpack_require__(1598)/* ["default"] */ .Z)(__webpack_require__(7294));
-            const isServer = !1, useClientOnlyLayoutEffect = _react.useLayoutEffect, useClientOnlyEffect = isServer ? ()=>{} : _react.useEffect;
+            let isServer = !1, useClientOnlyLayoutEffect = _react.useLayoutEffect, useClientOnlyEffect = isServer ? ()=>{} : _react.useEffect;
         /***/ },
         /***/ 3794: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -3112,19 +3060,19 @@ You should only use "next/router" on the client side of your app.
                     return used || (used = !0, result = fn(...args)), result;
                 };
             }, exports.getLocationOrigin = getLocationOrigin, exports.getURL = function() {
-                const { href } = window.location, origin = getLocationOrigin();
+                let { href } = window.location, origin = getLocationOrigin();
                 return href.substring(origin.length);
             }, exports.getDisplayName = getDisplayName, exports.isResSent = isResSent, exports.normalizeRepeatedSlashes = function(url) {
-                const urlParts = url.split("?");
+                let urlParts = url.split("?");
                 return urlParts[0]// then normalize repeated forward slashes
                 .replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
             }, exports.loadGetInitialProps = loadGetInitialProps, exports.ST = exports.SP = exports.warnOnce = exports.isAbsoluteUrl = void 0;
             var _async_to_generator = __webpack_require__(932)/* ["default"] */ .Z;
             // Scheme: https://tools.ietf.org/html/rfc3986#section-3.1
             // Absolute URL: https://tools.ietf.org/html/rfc3986#section-4.3
-            const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
+            let ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
             function getLocationOrigin() {
-                const { protocol, hostname, port } = window.location;
+                let { protocol, hostname, port } = window.location;
                 return "".concat(protocol, "//").concat(hostname).concat(port ? ":" + port : "");
             }
             function getDisplayName(Component) {
@@ -3139,18 +3087,18 @@ You should only use "next/router" on the client side of your app.
             function _loadGetInitialProps() {
                 return (_loadGetInitialProps = _async_to_generator(function*(App, ctx) {
                     // when called from _app `ctx` is nested in `ctx`
-                    const res = ctx.res || ctx.ctx && ctx.ctx.res;
+                    let res = ctx.res || ctx.ctx && ctx.ctx.res;
                     if (!App.getInitialProps) return ctx.ctx && ctx.Component ? {
                         pageProps: yield loadGetInitialProps(ctx.Component, ctx.ctx)
                     } : {};
-                    const props = yield App.getInitialProps(ctx);
+                    let props = yield App.getInitialProps(ctx);
                     if (res && isResSent(res)) return props;
                     if (!props) throw Error('"'.concat(getDisplayName(App), '.getInitialProps()" should resolve to an object. But found "').concat(props, '" instead.'));
                     return props;
                 })).apply(this, arguments);
             }
             exports.isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
-            const SP = "undefined" != typeof performance;
+            let SP = "u" > typeof performance;
             exports.SP = SP, exports.ST = SP && [
                 "mark",
                 "measure",
@@ -3183,7 +3131,7 @@ You should only use "next/router" on the client side of your app.
                 }, n.o = function(n, y) {
                     return Object.prototype.hasOwnProperty.call(n, y);
                 }, n.r = function(n) {
-                    "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
+                    "u" > typeof Symbol && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
                         value: "Module"
                     }), Object.defineProperty(n, "__esModule", {
                         value: !0

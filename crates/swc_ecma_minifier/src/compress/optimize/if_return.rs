@@ -1,14 +1,17 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::{ExprCtx, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::{optimize::BitCtx, util::is_pure_undefined},
+    compress::{
+        optimize::BitCtx,
+        util::{eval_to_undefined, is_pure_undefined},
+    },
     util::ExprOptExt,
 };
 
@@ -162,11 +165,28 @@ impl Optimizer<'_> {
                 })
                 .count();
 
+            fn is_return_undefined(expr_ctx: ExprCtx, s: &Stmt) -> bool {
+                let Stmt::Return(s) = s else {
+                    return false;
+                };
+
+                match &s.arg {
+                    None => true,
+                    Some(e) => eval_to_undefined(expr_ctx, e),
+                }
+            }
+
             if stmts.len() >= 2 {
                 match (
                     &stmts[stmts.len() - 2].as_stmt(),
                     &stmts[stmts.len() - 1].as_stmt(),
                 ) {
+                    (
+                        Some(Stmt::If(IfStmt {
+                            alt: None, cons, ..
+                        })),
+                        Some(Stmt::Expr(_)),
+                    ) if is_return_undefined(self.ctx.expr_ctx, cons) => {}
                     (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..)))
                         if if_return_count <= 1 =>
                     {
@@ -386,6 +406,25 @@ impl Optimizer<'_> {
                         trace_op!("if_return: Ignoring return value");
                     }
                 }
+                Expr::Cond(cond)
+                    if !should_preserve_last_return
+                        && eval_to_undefined(self.ctx.expr_ctx, &cond.cons)
+                        && eval_to_undefined(self.ctx.expr_ctx, &cond.alt) =>
+                {
+                    let expr = self.ignore_return_value(&mut cur);
+
+                    if let Some(cur) = expr {
+                        new.push(
+                            ExprStmt {
+                                span: DUMMY_SP,
+                                expr: Box::new(cur),
+                            }
+                            .into(),
+                        )
+                    } else {
+                        trace_op!("if_return: Ignoring return value");
+                    }
+                }
                 _ => {
                     new.push(
                         ReturnStmt {
@@ -512,7 +551,7 @@ pub(super) struct ReturnFinder {
 }
 
 impl Visit for ReturnFinder {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_return_stmt(&mut self, n: &ReturnStmt) {
         n.visit_children_with(self);

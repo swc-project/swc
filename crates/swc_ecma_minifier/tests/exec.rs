@@ -2740,7 +2740,7 @@ extract({
     b: 4,
 });"#;
     let config = r#"{
-    "pure_getters": true,
+    "pure_getters": false,
     "unused": true
 }"#;
 

@@ -237,7 +237,7 @@ where
                     self.run(|| {
                         let info = match src {
                             Some(src) => {
-                                let name = self.resolve(base, &src.value)?;
+                                let name = self.resolve(base, &src.value.to_string_lossy())?;
                                 let (id, local_mark, export_mark) =
                                     self.scope.module_id_gen.gen(&name);
                                 Some((id, local_mark, export_mark, name, src))
@@ -314,7 +314,7 @@ where
                 .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
                     self.run(|| {
                         //
-                        let file_name = self.resolve(base, &decl.src.value)?;
+                        let file_name = self.resolve(base, &decl.src.value.to_string_lossy())?;
                         let (id, local_mark, export_mark) =
                             self.scope.module_id_gen.gen(&file_name);
 
@@ -373,6 +373,8 @@ where
                                 all: forced_ns.contains(&src.src.value),
                             });
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -438,6 +440,8 @@ impl Visit for Es6ModuleDetector {
                 }
             }
             Callee::Super(_) | Callee::Import(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -480,6 +484,8 @@ impl Visit for Es6ModuleDetector {
             ModuleDecl::TsImportEquals(_) => {}
             ModuleDecl::TsExportAssignment(_) => {}
             ModuleDecl::TsNamespaceExport(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

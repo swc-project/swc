@@ -57,7 +57,7 @@ class C {
 }
 var E1 = ((E = {})[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", E), D1 = ((D = {})[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", D);
 M || (M = {});
-const a = M.x;
+let a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -98,7 +98,7 @@ for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
     get: Object.getOwnPropertyDescriptor(all, name).get
 });
-const _t1 = require("./t1");
+let _t1 = require("./t1");
 //// [t3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -139,4 +139,4 @@ for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
     get: Object.getOwnPropertyDescriptor(all, name).get
 });
-const _t1 = require("./t1");
+let _t1 = require("./t1");

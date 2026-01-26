@@ -6,11 +6,14 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_ecma_lints"
 repository  = { workspace = true }
-version     = "19.0.2"
+version     = "27.0.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
 bench = false
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
 auto_impl   = { workspace = true }
@@ -21,27 +24,26 @@ regex       = { workspace = true }
 rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
-swc_atoms = { version = "6.0.1", path = "../swc_atoms" }
-swc_common = { version = "13.0.4", path = "../swc_common", features = [
+swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_config = { version = "3.1.1", path = "../swc_config" }
-swc_ecma_ast = { version = "13.0.1", path = "../swc_ecma_ast", features = [
+swc_config = { version = "3.1.2", path = "../swc_config" }
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "18.0.3", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_parser           = { version = "18.0.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base  = { version = "19.0.2", path = "../swc_ecma_transforms_base" }
-swc_malloc                = { version = "1.2.3", path = "../swc_malloc" }
-testing                   = { version = "14.0.1", path = "../testing" }
+swc_ecma_parser           = { version = "33.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base  = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
+swc_malloc                = { version = "1.2.4", path = "../swc_malloc" }
+testing                   = { version = "19.0.0", path = "../testing" }
 
 [features]
 non_critical_lints = []
-
 
 [[bench]]
 harness = false

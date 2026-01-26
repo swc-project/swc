@@ -283,10 +283,8 @@ where
                     }
 
                     bail!(
-                        "`{}` matched `{}` (from tsconfig.paths) but failed to resolve:\n{:?}",
-                        module_specifier,
-                        prefix,
-                        errors
+                        "`{module_specifier}` matched `{prefix}` (from tsconfig.paths) but failed \
+                         to resolve:\n{errors:?}"
                     )
                 }
                 Pattern::Exact(from) => {

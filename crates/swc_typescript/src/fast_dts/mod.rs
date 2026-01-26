@@ -84,6 +84,8 @@ impl FastDts {
         match program {
             Program::Module(module) => self.transform_module_body(&mut module.body, false),
             Program::Script(script) => self.transform_script(script),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
         take(&mut self.diagnostics)
     }
@@ -287,6 +289,8 @@ impl FastDts {
                         _ => unreachable!(),
                     };
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
     }
@@ -498,6 +502,8 @@ impl FastDts {
                             .as_ident()
                             .map_or(true, |ident| used_refs.used_as_type(&ident.to_id()))
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
                 if import_decl.specifiers.is_empty() {
@@ -510,6 +516,8 @@ impl FastDts {
                     ImportSpecifier::Namespace(specifier) => {
                         used_refs.used(&specifier.local.to_id())
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 });
 
                 !import_decl.specifiers.is_empty()

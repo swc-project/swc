@@ -21,7 +21,7 @@ ExpandoExpr.m = function(n) {
     return n + 1;
 };
 var n = (ExpandoExpr.prop.x || 0) + ExpandoExpr.m(12) + ExpandoExpr(101).length;
-var ExpandoArrow = function(n) {
+var ExpandoArrow = function ExpandoArrow(n) {
     return n.toString();
 };
 ExpandoArrow.prop = 2;

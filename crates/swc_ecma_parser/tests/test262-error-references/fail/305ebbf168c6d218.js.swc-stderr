@@ -1,5 +1,4 @@
-  x Trailing comma is not allowed
-   ,-[$DIR/tests/test262-parser/fail/305ebbf168c6d218.js:1:1]
+  x Unexpected token `<eof>`. Expected yield, an identifier, [ or {
+   ,-[$DIR/tests/test262-parser/fail/305ebbf168c6d218.js:1:8]
  1 | let x,
-   :      ^
    `----

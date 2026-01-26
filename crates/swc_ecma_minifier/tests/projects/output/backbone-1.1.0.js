@@ -11,10 +11,10 @@
     // on the server).
     var Backbone, root = this, previousBackbone = root.Backbone, slice = [].slice;
     // Current version of the library. Keep in sync with `package.json`.
-    (Backbone = "undefined" != typeof exports ? exports : root.Backbone = {}).VERSION = "1.1.0";
+    (Backbone = "u" > typeof exports ? exports : root.Backbone = {}).VERSION = "1.1.0";
     // Require Underscore, if we're on the server, and it's not already present.
     var _ = root._;
-    _ || "undefined" == typeof require || (_ = require("underscore")), // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
+    !_ && "u" > typeof require && (_ = require("underscore")), // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
     // the `$` variable.
     Backbone.$ = root.jQuery || root.Zepto || root.ender || root.$, // Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
     // to its previous owner. Returns a reference to this Backbone object.
@@ -793,7 +793,7 @@
         var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
         return model.trigger("request", model, xhr, options), xhr;
     };
-    var noXhrPatch = "undefined" != typeof window && !!window.ActiveXObject && !(window.XMLHttpRequest && new XMLHttpRequest().dispatchEvent), methodMap = {
+    var noXhrPatch = "u" > typeof window && !!window.ActiveXObject && !(window.XMLHttpRequest && new XMLHttpRequest().dispatchEvent), methodMap = {
         create: "POST",
         update: "PUT",
         patch: "PATCH",
@@ -871,7 +871,7 @@
     // and URL fragments. If the browser supports neither (old IE, natch),
     // falls back to polling.
     var History = Backbone.History = function() {
-        this.handlers = [], _.bindAll(this, "checkUrl"), "undefined" != typeof window && (this.location = window.location, this.history = window.history);
+        this.handlers = [], _.bindAll(this, "checkUrl"), "u" > typeof window && (this.location = window.location, this.history = window.history);
     }, routeStripper = /^[#\/]|\s+$/g, rootStripper = /^\/+|\/+$/g, isExplorer = /msie [\w.]+/, trailingSlash = /\/$/, pathStripper = /[?#].*$/;
     // Has the history handling already been started?
     History.started = !1, // Set up all inheritable **Backbone.History** properties and methods.

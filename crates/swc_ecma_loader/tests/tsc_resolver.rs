@@ -296,6 +296,6 @@ impl Resolve for TestResolver {
                 filename: v,
                 slug: None,
             })
-            .ok_or_else(|| anyhow!("failed to resolve `{}`", src))
+            .ok_or_else(|| anyhow!("failed to resolve `{src}`"))
     }
 }

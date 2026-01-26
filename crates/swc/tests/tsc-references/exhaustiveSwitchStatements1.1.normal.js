@@ -139,7 +139,7 @@ var Level = /*#__PURE__*/ function(Level) {
     Level[Level["Two"] = 1] = "Two";
     return Level;
 }(Level || {});
-var doSomethingWithLevel = function(level) {
+var doSomethingWithLevel = function doSomethingWithLevel(level) {
     var next;
     switch(level){
         case 0:
@@ -199,8 +199,8 @@ var Animal = /*#__PURE__*/ function(Animal) {
     return Animal;
 }(Animal || {});
 function expression() {
-    var _zoo_animal;
-    switch((_zoo_animal = zoo === null || zoo === void 0 ? void 0 : zoo.animal) !== null && _zoo_animal !== void 0 ? _zoo_animal : 0){
+    var _ref;
+    switch((_ref = zoo === null || zoo === void 0 ? void 0 : zoo.animal) !== null && _ref !== void 0 ? _ref : 0){
         case 0:
             return 0;
         case 1:

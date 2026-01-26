@@ -246,7 +246,7 @@
                                   "end": 88
                                 },
                                 "tail": true,
-                                "cooked": "\\u{D800}",
+                                "cooked": "\\uD800",
                                 "raw": "\\u{D800}"
                               }
                             ]

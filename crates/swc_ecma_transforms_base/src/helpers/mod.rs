@@ -1,9 +1,7 @@
-use std::{cell::RefCell, mem::replace};
+use std::cell::RefCell;
 
-use once_cell::sync::Lazy;
-use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
-use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
+use swc_atoms::atom;
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -18,11 +16,12 @@ macro_rules! enable_helper {
     }};
 }
 
+#[cfg(feature = "inline-helpers")]
 fn parse(code: &str) -> Vec<Stmt> {
-    let cm = SourceMap::new(FilePathMapping::empty());
+    let cm = swc_common::SourceMap::default();
 
     let fm = cm.new_source_file(
-        FileName::Custom(stringify!($name).into()).into(),
+        swc_common::FileName::Custom(stringify!($name).into()).into(),
         code.to_string(),
     );
     swc_ecma_parser::parse_file_as_script(
@@ -42,9 +41,10 @@ fn parse(code: &str) -> Vec<Stmt> {
     .unwrap()
 }
 
+#[cfg(feature = "inline-helpers")]
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
+        static STMTS: once_cell::sync::Lazy<Vec<Stmt>> = once_cell::sync::Lazy::new(|| {
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
             parse(&code)
         });
@@ -203,11 +203,11 @@ macro_rules! define_helpers {
                 })
             }
 
+            #[cfg(feature = "inline-helpers")]
             fn build_helpers(&self) -> Vec<Stmt> {
                 let mut buf = Vec::new();
 
                 HELPERS.with(|helpers|{
-                    debug_assert!(!helpers.external);
                     let inner = helpers.inner.borrow();
                     $(
                             add_to!(buf, $name, inner.$name, helpers.mark.0);
@@ -222,7 +222,6 @@ macro_rules! define_helpers {
 
                 HELPERS.with(|helpers|{
                     let inner = helpers.inner.borrow();
-                    debug_assert!(helpers.external);
                     $(
                             add_import_to!(buf, $name, inner.$name, helpers.mark.0);
                     )*
@@ -234,7 +233,6 @@ macro_rules! define_helpers {
             fn build_requires(&self) -> Vec<Stmt>{
                 let mut buf = Vec::new();
                 HELPERS.with(|helpers|{
-                    debug_assert!(helpers.external);
                     let inner = helpers.inner.borrow();
                     $(
                         let enable = inner.$name;
@@ -413,6 +411,7 @@ define_helpers!(Helpers {
     ts_values: (),
     ts_add_disposable_resource: (),
     ts_dispose_resources: (),
+    ts_rewrite_relative_import_extension: (),
 
     apply_decs_2203_r: (),
     identity: (),
@@ -434,35 +433,41 @@ struct InjectHelpers {
 }
 
 impl InjectHelpers {
+    #[allow(unused_variables)]
     fn make_helpers_for_module(&mut self) -> Vec<ModuleItem> {
         let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
-        if external {
-            if self.is_helper_used() {
-                self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
-                self.build_imports()
-            } else {
-                Vec::new()
-            }
-        } else {
-            self.build_helpers()
+
+        #[cfg(feature = "inline-helpers")]
+        if !external {
+            return self
+                .build_helpers()
                 .into_iter()
                 .map(ModuleItem::Stmt)
-                .collect()
+                .collect();
+        }
+
+        if self.is_helper_used() {
+            self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
+            self.build_imports()
+        } else {
+            Vec::new()
         }
     }
 
+    #[allow(unused_variables)]
     fn make_helpers_for_script(&mut self) -> Vec<Stmt> {
         let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
 
-        if external {
-            if self.is_helper_used() {
-                self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
-                self.build_requires()
-            } else {
-                Default::default()
-            }
+        #[cfg(feature = "inline-helpers")]
+        if !external {
+            return self.build_helpers();
+        }
+
+        if self.is_helper_used() {
+            self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
+            self.build_requires()
         } else {
-            self.build_helpers()
+            Default::default()
         }
     }
 
@@ -547,18 +552,20 @@ impl VisitMut for InjectHelpers {
     }
 }
 
+#[cfg(feature = "inline-helpers")]
 struct Marker {
     base: SyntaxContext,
-    decls: FxHashMap<Atom, SyntaxContext>,
+    decls: rustc_hash::FxHashMap<swc_atoms::Atom, SyntaxContext>,
 
     decl_ctxt: SyntaxContext,
 }
 
+#[cfg(feature = "inline-helpers")]
 impl VisitMut for Marker {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        let old_decl_ctxt = replace(
+        let old_decl_ctxt = std::mem::replace(
             &mut self.decl_ctxt,
             SyntaxContext::empty().apply_mark(Mark::new()),
         );
@@ -571,7 +578,7 @@ impl VisitMut for Marker {
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        let old_decl_ctxt = replace(
+        let old_decl_ctxt = std::mem::replace(
             &mut self.decl_ctxt,
             SyntaxContext::empty().apply_mark(Mark::new()),
         );
@@ -680,6 +687,7 @@ _throw();",
     }
 
     #[test]
+    #[cfg(feature = "inline-helpers")]
     fn use_strict_before_helper() {
         crate::tests::test_transform(
             Default::default(),
@@ -699,6 +707,7 @@ function _throw(e) {
     }
 
     #[test]
+    #[cfg(feature = "inline-helpers")]
     fn name_conflict() {
         crate::tests::test_transform(
             Default::default(),
@@ -734,6 +743,7 @@ let x = 4;",
     }
 
     #[test]
+    #[cfg(feature = "inline-helpers")]
     fn issue_8871() {
         crate::tests::test_transform(
             Default::default(),

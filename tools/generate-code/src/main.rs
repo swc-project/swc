@@ -4,9 +4,8 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{bail, Context, Result};
 use clap::Parser;
-use proc_macro2::Span;
 use swc_config::regex::CachedRegex;
-use syn::{Ident, Item};
+use syn::Item;
 
 use crate::types::qualify_types;
 
@@ -41,10 +40,7 @@ fn main() -> Result<()> {
 }
 
 fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String]) -> Result<()> {
-    let crate_name = Ident::new(
-        input_dir.file_name().unwrap().to_str().unwrap(),
-        Span::call_site(),
-    );
+    let crate_name = input_dir.file_name().unwrap().to_str().unwrap();
 
     let input_dir = input_dir
         .canonicalize()
@@ -89,7 +85,7 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
         _ => None,
     });
 
-    let file = generators::visitor::generate(&crate_name, &all_type_defs, excluded_types);
+    let file = generators::visitor::generate(crate_name, &all_type_defs, excluded_types);
 
     let output_content = quote::quote!(#file).to_string();
 
@@ -118,11 +114,99 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
     Ok(())
 }
 
+#[cfg(test)]
+fn run_hooks_codegen(input_dir: &Path, output: &Path, excluded_types: &[String]) -> Result<()> {
+    let crate_name = input_dir.file_name().unwrap().to_str().unwrap();
+
+    let input_dir = input_dir
+        .canonicalize()
+        .context("failed to canonicalize input directory")?
+        .join("src");
+
+    eprintln!("Generating hooks for crate in directory: {input_dir:?}");
+    let input_files = collect_input_files(&input_dir)?;
+    eprintln!("Found {} input files", input_files.len());
+
+    eprintln!("Generating hooks in directory: {output:?}");
+
+    let inputs = input_files
+        .iter()
+        .map(|file| {
+            parse_rust_file(file).with_context(|| format!("failed to parse file: {file:?}"))
+        })
+        .map(|res| res.map(qualify_types))
+        .collect::<Result<Vec<_>>>()?;
+
+    let mut all_type_defs = inputs.iter().flat_map(get_type_defs).collect::<Vec<_>>();
+    all_type_defs.retain(|type_def| {
+        let ident = match type_def {
+            Item::Struct(data) => &data.ident,
+            Item::Enum(data) => &data.ident,
+            _ => return false,
+        };
+
+        for type_name in excluded_types {
+            let regex = CachedRegex::new(type_name).expect("failed to create regex");
+            if regex.is_match(&ident.to_string()) {
+                return false;
+            }
+        }
+
+        true
+    });
+
+    all_type_defs.sort_by_key(|item| match item {
+        Item::Enum(data) => Some(data.ident.clone()),
+        Item::Struct(data) => Some(data.ident.clone()),
+        _ => None,
+    });
+
+    let file = generators::visitor::generate_hooks(crate_name, &all_type_defs, excluded_types);
+
+    let output_content = quote::quote!(#file).to_string();
+
+    let original = std::fs::read_to_string(output).ok();
+
+    std::fs::write(output, output_content).context("failed to write the output file")?;
+
+    eprintln!("Generated hooks code in file: {output:?}");
+
+    run_cargo_fmt(output)?;
+
+    if std::env::var("CI").is_ok_and(|v| v == "1") {
+        if let Some(original) = original {
+            let output =
+                std::fs::read_to_string(output).context("failed to read the output file")?;
+
+            if original != output {
+                bail!(
+                    "The generated code is not up to date. Please run `cargo codegen` and commit \
+                     the changes."
+                );
+            }
+        }
+    }
+
+    Ok(())
+}
+
 #[test]
 fn test_ecmascript() {
     run_visitor_codegen(
         Path::new("../../crates/swc_ecma_ast"),
         Path::new("../../crates/swc_ecma_visit/src/generated.rs"),
+        &[
+            "Align64".into(),
+            "EncodeBigInt".into(),
+            "EsVersion".into(),
+            "FnPass".into(),
+        ],
+    )
+    .unwrap();
+
+    run_hooks_codegen(
+        Path::new("../../crates/swc_ecma_ast"),
+        Path::new("../../crates/swc_ecma_hooks/src/generated.rs"),
         &[
             "Align64".into(),
             "EncodeBigInt".into(),
@@ -212,7 +296,7 @@ fn run_cargo_fmt(file: &Path) -> Result<()> {
     let status = cmd.status().context("failed to run cargo fmt")?;
 
     if !status.success() {
-        bail!("cargo fmt failed with status: {:?}", status);
+        bail!("cargo fmt failed with status: {status:?}");
     }
 
     Ok(())

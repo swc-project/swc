@@ -6,7 +6,7 @@ use std::{
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Env, JsBuffer, JsBufferValue, Ref, Task,
+    Env, Task,
 };
 use path_clean::clean;
 use swc_core::{
@@ -33,7 +33,7 @@ pub enum Input {
 pub struct TransformTask {
     pub c: Arc<Compiler>,
     pub input: Input,
-    pub options: Ref<JsBufferValue>,
+    pub options: Buffer,
 }
 
 #[napi]
@@ -75,7 +75,7 @@ impl Task for TransformTask {
                             } else {
                                 FileName::Real(options.filename.clone().into()).into()
                             },
-                            src.to_string(),
+                            src.clone(),
                         );
 
                         self.c.process_js_file(fm, handler, &options)
@@ -89,11 +89,6 @@ impl Task for TransformTask {
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
         Ok(result)
     }
-
-    fn finally(&mut self, env: Env) -> napi::Result<()> {
-        self.options.unref(env)?;
-        Ok(())
-    }
 }
 
 #[napi]
@@ -101,7 +96,7 @@ impl Task for TransformTask {
 pub fn transform(
     src: String,
     is_module: bool,
-    options: JsBuffer,
+    options: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
     crate::util::init_default_trace_subscriber();
@@ -112,11 +107,7 @@ pub fn transform(
         (Input::Source { src }, get_fresh_compiler())
     };
 
-    let task = TransformTask {
-        c,
-        input,
-        options: options.into_ref()?,
-    };
+    let task = TransformTask { c, input, options };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }
 
@@ -171,7 +162,7 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
 pub fn transform_file(
     src: String,
     _is_module: bool,
-    options: JsBuffer,
+    options: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
     crate::util::init_default_trace_subscriber();
@@ -182,7 +173,7 @@ pub fn transform_file(
     let task = TransformTask {
         c,
         input: Input::File(path),
-        options: options.into_ref()?,
+        options,
     };
     Ok(AsyncTask::with_optional_signal(task, signal))
 }

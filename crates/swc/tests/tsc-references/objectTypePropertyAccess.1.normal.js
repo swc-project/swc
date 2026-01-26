@@ -1,6 +1,6 @@
 //// [objectTypePropertyAccess.ts]
-// Index notation should resolve to the type of a declared property with that same name
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// Index notation should resolve to the type of a declared property with that same name
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

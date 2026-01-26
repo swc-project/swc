@@ -1,5 +1,5 @@
 "use strict";
-let k = function() {
+const k = function() {
     (class {
     })();
 };

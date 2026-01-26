@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -267,7 +269,10 @@ where
                 args.get_mut(0).into_iter().for_each(|x| {
                     if let ExprOrSpread { spread: None, expr } = x {
                         if let Expr::Lit(Lit::Str(Str { value, raw, .. })) = &mut **expr {
-                            *value = self.resolver.resolve(value.clone());
+                            *value = self
+                                .resolver
+                                .resolve(value.to_atom_lossy().into_owned())
+                                .into();
                             *raw = None;
                         }
                     }
@@ -292,16 +297,18 @@ where
                         .unwrap_or_default() =>
             {
                 let p = match prop {
-                    MemberProp::Ident(IdentName { sym, .. }) => &**sym,
+                    MemberProp::Ident(IdentName { sym, .. }) => Cow::Borrowed(&**sym),
                     MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-                        Expr::Lit(Lit::Str(s)) => &s.value,
+                        Expr::Lit(Lit::Str(s)) => s.value.to_string_lossy(),
                         _ => return,
                     },
                     MemberProp::PrivateName(..) => return,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
                 self.found_import_meta = true;
 
-                match p {
+                match &*p {
                     // new URL(module.uri, document.baseURI).href
                     "url" => {
                         *n = amd_import_meta_url(*span, self.module());
@@ -317,13 +324,15 @@ where
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = atom!("toUrl");
+                                        s.value = atom!("toUrl").into();
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),
                                 }
                             }
                             MemberProp::PrivateName(..) => unreachable!(),
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
                     }
                     // module.uri.split("/").pop()
@@ -341,13 +350,15 @@ where
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = atom!("toUrl");
+                                        s.value = atom!("toUrl").into();
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),
                                 }
                             }
                             MemberProp::PrivateName(..) => unreachable!(),
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
 
                         *n = n.take().as_call(n.span(), vec![quote_str!(".").as_arg()]);
@@ -363,6 +374,21 @@ where
                     }
                     _ => {}
                 }
+            }
+            Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
+                if let OptChainBase::Member(member) = &mut **base {
+                    if member
+                        .obj
+                        .as_meta_prop()
+                        .is_some_and(|meta_prop| meta_prop.kind == MetaPropKind::ImportMeta)
+                    {
+                        *n = member.take().into();
+                        n.visit_mut_with(self);
+                        return;
+                    }
+                };
+
+                n.visit_mut_children_with(self);
             }
             _ => n.visit_mut_children_with(self),
         }

@@ -7,14 +7,17 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "24.0.3"
+version       = "43.0.2"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [features]
 # This enables global concurrent mode
@@ -23,7 +26,7 @@ concurrent = [
   "swc_ecma_transforms_base/concurrent-renamer",
   "swc_ecma_transforms_optimization/concurrent",
 ]
-debug = [ "swc_ecma_transforms_optimization/debug"]
+debug = ["swc_ecma_transforms_optimization/debug"]
 default = ["serde-impl"]
 # Implement serialize/deserialize for more types
 extra-serde = ["swc_ecma_ast/serde-impl", "serde-impl"]
@@ -31,41 +34,44 @@ serde-impl  = []
 trace-ast   = []
 
 [dependencies]
-arrayvec          = { workspace = true }
-bitflags          = { workspace = true }
-indexmap          = { workspace = true }
-num-bigint        = { workspace = true }
-num_cpus          = { workspace = true }
-once_cell         = { workspace = true }
-par-core          = { workspace = true }
-par-iter          = { workspace = true }
-parking_lot       = { workspace = true }
-phf               = { workspace = true }
+arrayvec = { workspace = true }
+bitflags = { workspace = true }
+indexmap = { workspace = true }
+num-bigint = { workspace = true }
+num_cpus = { workspace = true }
+once_cell = { workspace = true }
+par-core = { workspace = true }
+par-iter = { workspace = true }
+parking_lot = { workspace = true }
+phf = { workspace = true }
 pretty_assertions = { workspace = true, optional = true }
-radix_fmt         = { workspace = true }
-rustc-hash        = { workspace = true }
-ryu-js            = { workspace = true }
-serde             = { workspace = true, features = ["derive"] }
-serde_json        = { workspace = true }
-tracing           = { workspace = true }
-swc_atoms = { version = "6.0.1", path = "../swc_atoms" }
-swc_common = { version = "13.0.4", path = "../swc_common" }
-swc_config = { version = "3.1.1", path = "../swc_config", features = [
+radix_fmt = { workspace = true }
+rustc-hash = { workspace = true }
+ryu-js = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+swc_common = { version = "18.0.1", path = "../swc_common" }
+swc_config = { version = "3.1.2", path = "../swc_config", features = [
   "sourcemap",
   "file_pattern",
   "regex_js",
 ] }
-swc_ecma_ast = { version = "13.0.1", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_codegen = { version = "15.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "18.0.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "19.0.2", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "20.0.1", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_usage_analyzer = { version = "19.0.2", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils = { version = "18.0.3", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
+swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_hooks = { version = "0.4.0", path = "../swc_ecma_hooks" }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+  "typescript",
+] }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "38.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_usage_analyzer = { version = "28.0.0", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
+tracing = { workspace = true }
 
 [dev-dependencies]
 ansi_term                 = { workspace = true }
@@ -75,10 +81,10 @@ flate2                    = { workspace = true }
 humansize                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 pretty_assertions         = { workspace = true }
+swc_ecma_testing          = { version = "19.0.0", path = "../swc_ecma_testing" }
+swc_malloc                = { version = "1.2.4", path = "../swc_malloc" }
+testing                   = { version = "19.0.0", path = "../testing" }
 walkdir                   = { workspace = true }
-swc_ecma_testing = { version = "14.0.0", path = "../swc_ecma_testing" }
-swc_malloc       = { version = "1.2.3", path = "../swc_malloc" }
-testing          = { version = "14.0.1", path = "../testing" }
 
 [[bench]]
 harness = false

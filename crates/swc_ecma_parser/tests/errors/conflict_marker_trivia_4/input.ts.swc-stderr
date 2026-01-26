@@ -1,7 +1,8 @@
-  x Unexpected eof
+  x Expression expected
    ,-[$DIR/tests/errors/conflict_marker_trivia_4/input.ts:2:1]
  1 | const x = <div>
  2 | <<<<<<< HEAD
+   : ^^^^^^^^^^^^
    `----
   x Merge conflict marker encountered.
    ,-[$DIR/tests/errors/conflict_marker_trivia_4/input.ts:2:1]

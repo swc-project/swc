@@ -1,14 +1,15 @@
 use std::{
+    borrow::Borrow,
     mem::take,
     ops::{Deref, DerefMut},
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
+use swc_ecma_utils::{collect_decls, contains_this_expr, ExprCtx, ExprExt, Remapper};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
@@ -89,9 +90,9 @@ impl<'b> Optimizer<'b> {
 
             #[cfg(debug_assertions)]
             {
-                self.data.scopes.get(&scope_ctxt).unwrap_or_else(|| {
-                    panic!("scope not found: {:?}; {:#?}", scope_ctxt, self.data.scopes)
-                });
+                self.data
+                    .get_scope(scope_ctxt)
+                    .unwrap_or_else(|| panic!("scope not found: {scope_ctxt:?}"));
             }
         }
 
@@ -161,34 +162,40 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<Expr>> {
+pub(crate) fn extract_class_side_effect(
+    expr_ctx: ExprCtx,
+    c: &mut Class,
+) -> Option<Vec<&mut Box<Expr>>> {
     let mut res = Vec::new();
-    if let Some(e) = c.super_class {
+    if let Some(e) = &mut c.super_class {
         if e.may_have_side_effects(expr_ctx) {
             res.push(e);
         }
     }
 
-    for m in c.body {
+    for m in &mut c.body {
         match m {
             ClassMember::Method(ClassMethod {
                 key: PropName::Computed(key),
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
-                    res.push(key.expr);
+                    res.push(&mut key.expr);
                 }
             }
 
             ClassMember::ClassProp(p) => {
-                if let PropName::Computed(key) = p.key {
+                if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
-                        res.push(key.expr);
+                        res.push(&mut key.expr);
                     }
                 }
 
-                if let Some(v) = p.value {
+                if let Some(v) = &mut p.value {
                     if p.is_static && v.may_have_side_effects(expr_ctx) {
+                        if contains_this_expr(v) {
+                            return None;
+                        }
                         res.push(v);
                     }
                 }
@@ -199,6 +206,9 @@ pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<
                 ..
             }) => {
                 if v.may_have_side_effects(expr_ctx) {
+                    if contains_this_expr(v) {
+                        return None;
+                    }
                     res.push(v);
                 }
             }
@@ -207,7 +217,7 @@ pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<
         }
     }
 
-    res
+    Some(res)
 }
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
@@ -223,7 +233,7 @@ pub(crate) struct Finalizer<'a> {
     pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(Id, Atom), Ident>,
+    pub hoisted_props: &'a FxHashMap<(Id, Wtf8Atom), Ident>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
@@ -306,7 +316,7 @@ enum FinalizerMode {
 }
 
 impl VisitMut for Finalizer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
@@ -349,9 +359,9 @@ impl VisitMut for Finalizer<'_> {
             Expr::Member(e) => {
                 if let Expr::Ident(obj) = &*e.obj {
                     let sym = match &e.prop {
-                        MemberProp::Ident(i) => &i.sym,
+                        MemberProp::Ident(i) => i.sym.borrow(),
                         MemberProp::Computed(e) => match &*e.expr {
-                            Expr::Ident(ident) => &ident.sym,
+                            Expr::Ident(ident) => ident.sym.borrow(),
                             Expr::Lit(Lit::Str(s)) => &s.value,
                             _ => return,
                         },
@@ -460,8 +470,9 @@ impl VisitMut for Finalizer<'_> {
 
         if let Prop::Shorthand(i) = n {
             if let Some(expr) = self.lits.get(&i.to_id()) {
+                let key = prop_name_from_ident(i.take());
                 *n = Prop::KeyValue(KeyValueProp {
-                    key: i.take().into(),
+                    key,
                     value: expr.clone(),
                 });
                 self.changed = true;
@@ -473,13 +484,15 @@ impl VisitMut for Finalizer<'_> {
 pub(crate) struct NormalMultiReplacer<'a> {
     pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
+    should_consume: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>, should_consume: bool) -> Self {
         NormalMultiReplacer {
             vars,
+            should_consume,
             changed: false,
         }
     }
@@ -488,6 +501,15 @@ impl<'a> NormalMultiReplacer<'a> {
         let mut e = self.vars.remove(i)?;
 
         e.visit_mut_children_with(self);
+
+        let e = if self.should_consume {
+            e
+        } else {
+            let new_e = e.clone();
+            self.vars.insert(i.clone(), e);
+
+            new_e
+        };
 
         match &*e {
             Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(
@@ -503,7 +525,7 @@ impl<'a> NormalMultiReplacer<'a> {
 }
 
 impl VisitMut for NormalMultiReplacer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if self.vars.is_empty() {
@@ -546,10 +568,8 @@ impl VisitMut for NormalMultiReplacer<'_> {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 
-                *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(IdentName::new(i.sym.clone(), i.span)),
-                    value,
-                });
+                let key = prop_name_from_ident(i.take());
+                *p = Prop::KeyValue(KeyValueProp { key, value });
             }
         }
     }
@@ -596,7 +616,7 @@ impl ExprReplacer {
 }
 
 impl VisitMut for ExprReplacer {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -622,10 +642,8 @@ impl VisitMut for ExprReplacer {
                 } else {
                     unreachable!("`{}` is already taken", i)
                 };
-                *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone().into()),
-                    value,
-                });
+                let key = prop_name_from_ident(i.take());
+                *p = Prop::KeyValue(KeyValueProp { key, value });
             }
         }
     }
@@ -765,5 +783,60 @@ impl VisitMut for LabelAnalyzer {
                 }
             }
         }
+    }
+}
+
+pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
+    fn append(pat: &Pat, ids: &mut Vec<Id>) {
+        match pat {
+            Pat::Ident(binding_ident) => ids.push(binding_ident.id.to_id()),
+            Pat::Array(array_pat) => {
+                for pat in array_pat.elems.iter().flatten() {
+                    append(pat, ids);
+                }
+            }
+            Pat::Rest(rest_pat) => append(&rest_pat.arg, ids),
+            Pat::Object(object_pat) => {
+                for pat in &object_pat.props {
+                    match pat {
+                        ObjectPatProp::KeyValue(key_value_pat_prop) => {
+                            append(&key_value_pat_prop.value, ids)
+                        }
+                        ObjectPatProp::Assign(assign_pat_prop) => {
+                            ids.push(assign_pat_prop.key.to_id())
+                        }
+                        ObjectPatProp::Rest(rest_pat) => append(&rest_pat.arg, ids),
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
+                    }
+                }
+            }
+            Pat::Assign(assign_pat) => append(&assign_pat.left, ids),
+            Pat::Invalid(_) | Pat::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
+    }
+
+    let mut idents = vec![];
+    append(pat, &mut idents);
+    idents
+}
+
+/// Creates a PropName for a shorthand property, handling the special case of
+/// `__proto__`. When the property name is `__proto__`, it must be converted to
+/// a computed property to preserve JavaScript semantics.
+fn prop_name_from_ident(ident: Ident) -> PropName {
+    if ident.sym == "__proto__" {
+        PropName::Computed(ComputedPropName {
+            span: ident.span,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: ident.span,
+                value: ident.sym.clone().into(),
+                raw: None,
+            }))),
+        })
+    } else {
+        ident.into()
     }
 }

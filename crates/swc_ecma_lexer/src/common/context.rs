@@ -65,5 +65,7 @@ bitflags::bitflags! {
       const AllowUsingDecl = 1 << 28;
 
       const TopLevel = 1 << 29;
+
+      const TsModuleBlock = 1 << 30;
   }
 }

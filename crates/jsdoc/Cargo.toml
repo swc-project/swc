@@ -7,22 +7,28 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "jsdoc"
 repository    = { workspace = true }
-version       = "13.0.1"
+version       = "18.0.0"
 
 [lib]
 bench = false
 
 [features]
+encoding-impl = [
+  "cbor4ii",
+  "swc_atoms/encoding-impl",
+  "swc_common/encoding-impl",
+]
 serde-impl = ["serde"]
 
 [dependencies]
-nom   = { workspace = true }
-serde = { workspace = true, features = ["derive"], optional = true }
+cbor4ii = { workspace = true, features = ["use_std"], optional = true }
+nom     = { workspace = true }
+serde   = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms  = { version = "6.0.1", path = "../swc_atoms" }
-swc_common = { version = "13.0.4", path = "../swc_common" }
+swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
+swc_common = { version = "18.0.1", path = "../swc_common" }
 
 [dev-dependencies]
 dashmap         = { workspace = true }
-swc_ecma_parser = { version = "18.0.2", path = "../swc_ecma_parser" }
-testing         = { version = "14.0.1", path = "../testing" }
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser" }
+testing         = { version = "19.0.0", path = "../testing" }

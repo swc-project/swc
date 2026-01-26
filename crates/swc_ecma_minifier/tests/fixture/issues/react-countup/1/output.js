@@ -142,7 +142,7 @@
                 }(arr = _useIntersection.useIntersection({
                     rootMargin: void 0 === _lazyBoundary ? "200px" : _lazyBoundary,
                     disabled: !isLazy
-                })) || function(arr, i) {
+                })) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -156,7 +156,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
@@ -489,7 +489,7 @@
             }), exports.useIntersection = function(param) {
                 var arr, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr = _react.useState(!1)) || function(arr, i) {
+                }(arr = _react.useState(!1)) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -503,7 +503,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var ref, id, observer, elements;
@@ -550,7 +550,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "u" > typeof IntersectionObserver, observers = new Map();
         /***/ },
         /***/ 6978: /***/ function(__unused_webpack_module, exports) {
             "use strict";
@@ -669,7 +669,7 @@
                  * Borrowed from Formik v2.1.1, Licensed MIT.
                  *
                  * https://github.com/formium/formik/blob/9316a864478f8fcd4fa99a0735b1d37afdf507dc/LICENSE
-                 */ var useIsomorphicLayoutEffect = "undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement ? React.useLayoutEffect : React.useEffect;
+                 */ var useIsomorphicLayoutEffect = "u" > typeof window && void 0 !== window.document && void 0 !== window.document.createElement ? React.useLayoutEffect : React.useEffect;
             /* eslint-disable @typescript-eslint/no-explicit-any */ /**
                  * Create a stable reference to a callback which is updated after each render is committed.
                  * Typed version borrowed from Formik v2.2.1. Licensed MIT.
@@ -815,9 +815,8 @@
                 }), update = useEventCallback(function(end) {
                     props.preserveValue || reset(), updateCountUp(end);
                 }), initializeOnMount = useEventCallback(function() {
-                    if ("function" == typeof props.children && !(containerRef.current instanceof Element)) return void console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');
-                     // unlike the hook, the CountUp component initializes on mount
-                    getCountUp();
+                    "function" != typeof props.children || containerRef.current instanceof Element ? getCountUp() : console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.') // unlike the hook, the CountUp component initializes on mount
+                    ;
                 });
                 React.useEffect(function() {
                     initializeOnMount();

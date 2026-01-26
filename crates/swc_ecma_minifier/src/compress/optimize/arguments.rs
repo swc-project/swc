@@ -21,19 +21,26 @@ impl Optimizer<'_> {
             Expr::Member(MemberExpr { prop, .. }) => {
                 if let MemberProp::Computed(c) = prop {
                     if let Expr::Lit(Lit::Str(s)) = &mut *c.expr {
-                        if !s.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
+                        let Some(value) = s.value.as_str() else {
+                            return;
+                        };
+
+                        if !value.starts_with(|c: char| c.is_ascii_alphabetic()) {
                             return;
                         }
 
-                        if !is_valid_prop_ident(&s.value) {
+                        if !is_valid_prop_ident(value) {
                             return;
                         }
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
+
+                        let name = s.take().value;
                         *prop = MemberProp::Ident(IdentName {
                             span: s.span,
-                            sym: s.take().value,
+                            // SAFETY: s.value is guaranteed to be valid UTF-8 sequence from above.
+                            sym: name.try_into_atom().unwrap(),
                         })
                     }
                 }
@@ -42,19 +49,25 @@ impl Optimizer<'_> {
             Expr::SuperProp(SuperPropExpr { prop, .. }) => {
                 if let SuperProp::Computed(c) = prop {
                     if let Expr::Lit(Lit::Str(s)) = &mut *c.expr {
-                        if !s.value.starts_with(|c: char| c.is_ascii_alphabetic()) {
+                        let Some(value) = s.value.as_str() else {
+                            return;
+                        };
+                        if !value.starts_with(|c: char| c.is_ascii_alphabetic()) {
                             return;
                         }
 
-                        if !is_valid_prop_ident(&s.value) {
+                        if !is_valid_prop_ident(value) {
                             return;
                         }
 
                         self.changed = true;
                         report_change!("arguments: Optimizing computed access to arguments");
+
+                        let name = s.take().value;
                         *prop = SuperProp::Ident(IdentName {
                             span: s.span,
-                            sym: s.take().value,
+                            // SAFETY: s.value is guaranteed to be valid UTF-8 sequence from above.
+                            sym: name.try_into_atom().unwrap(),
                         })
                     }
                 }
@@ -146,7 +159,7 @@ impl ArgReplacer<'_> {
 }
 
 impl VisitMut for ArgReplacer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     /// Noop.
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
@@ -176,6 +189,9 @@ impl VisitMut for ArgReplacer<'_> {
                 Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
                     match &*c.expr {
                         Expr::Lit(Lit::Str(Str { value, .. })) => {
+                            let Some(value) = value.as_str() else {
+                                return;
+                            };
                             let idx = value.parse::<usize>();
                             let idx = match idx {
                                 Ok(v) => v,

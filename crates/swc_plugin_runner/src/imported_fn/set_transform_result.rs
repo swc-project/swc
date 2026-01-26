@@ -1,9 +1,8 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
-use wasmer::{FunctionEnvMut, Memory};
 
-use crate::memory_interop::copy_bytes_into_host;
+use crate::{memory_interop::copy_bytes_into_host, runtime};
 
 /// Environment states allow to return guest's transform result back to the
 /// host, using a buffer `transform_result` attached to the environment.
@@ -12,14 +11,12 @@ use crate::memory_interop::copy_bytes_into_host;
 /// serialized result. Host will reconstruct AST from those value.
 #[derive(Clone)]
 pub struct TransformResultHostEnvironment {
-    pub memory: Option<Memory>,
     pub transform_result: Arc<Mutex<Vec<u8>>>,
 }
 
 impl TransformResultHostEnvironment {
     pub fn new(transform_result: &Arc<Mutex<Vec<u8>>>) -> TransformResultHostEnvironment {
         TransformResultHostEnvironment {
-            memory: None,
             transform_result: transform_result.clone(),
         }
     }
@@ -31,16 +28,11 @@ impl TransformResultHostEnvironment {
 /// this to set its result back to host.
 #[tracing::instrument(level = "info", skip_all)]
 pub fn set_transform_result(
-    mut env: FunctionEnvMut<TransformResultHostEnvironment>,
+    caller: &mut dyn runtime::Caller<'_>,
+    env: &TransformResultHostEnvironment,
     bytes_ptr: i32,
     bytes_ptr_len: i32,
 ) {
-    let memory = env
-        .data()
-        .memory
-        .as_ref()
-        .expect("Memory instance should be available, check initialization");
-
-    (*env.data_mut().transform_result.lock()) =
-        copy_bytes_into_host(&memory.view(&env), bytes_ptr, bytes_ptr_len);
+    let mut buf = env.transform_result.lock();
+    copy_bytes_into_host(caller, bytes_ptr, bytes_ptr_len, &mut buf);
 }

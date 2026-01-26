@@ -1,13 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-import { groupBy } from '../../../base/common/arrays.js';
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/ import { groupBy } from '../../../base/common/arrays.js';
 import { dispose } from '../../../base/common/lifecycle.js';
 import { getLeadingWhitespace } from '../../../base/common/strings.js';
 import './snippetSession.css';
@@ -852,7 +852,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
                 var modelBasedVariableResolver = editor.invokeWithinContext(function(accessor) {
                     return new ModelBasedVariableResolver(accessor.get(ILabelService), model);
                 });
-                var readClipboardText = function() {
+                var readClipboardText = function readClipboardText() {
                     return clipboardText;
                 };
                 var delta = 0;

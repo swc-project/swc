@@ -3,4 +3,4 @@ export default function() {
     return t(Input, {
         pattern: ".*\\S+.*"
     });
-}
+};

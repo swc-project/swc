@@ -29,8 +29,7 @@ pub struct TagItem {
     pub tag: Tag,
 }
 
-#[ast_node]
-#[non_exhaustive]
+#[ast_node(no_unknown)]
 pub enum Tag {
     #[tag("Yield")]
     Yield(YieldTag),
@@ -206,7 +205,15 @@ pub struct JSDocClassDescTag {
 #[ast_node]
 pub struct ConstTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Text>,
 }
 
@@ -256,7 +263,15 @@ pub struct AuthorTag {
 #[derive(Eq)]
 pub struct ClassTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Text>,
 }
 
@@ -270,6 +285,10 @@ pub struct PublicTag {
 #[derive(Eq)]
 pub struct PrivateTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
 }
 
@@ -277,6 +296,10 @@ pub struct PrivateTag {
 #[derive(Eq)]
 pub struct ProtectedTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
 }
 
@@ -297,6 +320,10 @@ pub struct PropertyTag {
     pub span: Span,
 
     pub name_path: NamePath,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
     pub desc: Text,
 }
@@ -305,8 +332,16 @@ pub struct PropertyTag {
 pub struct ParameterTag {
     pub span: Span,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Text>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeExpression"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
 
     pub desc: Text,
@@ -322,6 +357,10 @@ pub struct EnumTag {
 #[ast_node]
 pub struct ReturnTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
     pub description: Text,
 }
@@ -341,6 +380,10 @@ pub struct TypeTag {
 #[ast_node]
 pub struct TemplateTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub constraint: Option<TypeExpr>,
 }
 
@@ -348,14 +391,26 @@ pub struct TemplateTag {
 pub struct TypedefTag {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "full_name"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub full_name: Option<NamespaceBody>,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Text>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeExpression"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_expr: Option<TypeExprOrTypeLit>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 pub enum Type {
     /// `*`
     #[tag("AllType")]
@@ -552,6 +607,10 @@ pub struct FileTag {
 #[ast_node]
 pub struct FunctionTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Text>,
 }
 
@@ -587,6 +646,10 @@ pub struct InstanceTag {
 #[ast_node]
 pub struct InterfaceTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Text>,
 }
 #[ast_node]
@@ -629,6 +692,10 @@ pub struct MemberOfTag {
 #[ast_node]
 pub struct TypeDefTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
     pub name_path: NamePath,
 }
@@ -661,7 +728,15 @@ pub struct NameTag {
 #[ast_node]
 pub struct NamespaceTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Text>,
 }
 
@@ -673,6 +748,10 @@ pub struct OverrideTag {
 #[ast_node]
 pub struct PackageTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub ty: Option<Text>,
 }
 
@@ -738,6 +817,10 @@ pub struct VersionTag {
 #[ast_node]
 pub struct YieldTag {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Text>,
     pub description: Text,
 }

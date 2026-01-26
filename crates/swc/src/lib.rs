@@ -113,7 +113,6 @@ pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
 
 use std::{
-    cell::RefCell,
     fs::{read_to_string, File},
     io::ErrorKind,
     path::{Path, PathBuf},
@@ -136,7 +135,7 @@ use swc_common::{
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
-use swc_ecma_codegen::{to_code_with_comments, Node};
+use swc_ecma_codegen::Node;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -146,7 +145,7 @@ use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
     hygiene,
-    modules::{path::NodeImportResolver, rewriter::import_rewriter},
+    modules::path::NodeImportResolver,
     resolver,
 };
 use swc_ecma_transforms_base::fixer::paren_remover;
@@ -155,7 +154,7 @@ pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 pub use swc_sourcemap as sourcemap;
 use swc_timer::timer;
-use swc_transform_common::output::experimental_emit;
+#[cfg(feature = "isolated-dts")]
 use swc_typescript::fast_dts::FastDts;
 use tracing::warn;
 use url::Url;
@@ -264,7 +263,7 @@ impl Compiler {
                     let idx = match url.path().find("base64,") {
                         Some(v) => v,
                         None => {
-                            bail!("failed to parse inline source map: not base64: {:?}", url)
+                            bail!("failed to parse inline source map: not base64: {url:?}")
                         }
                     };
 
@@ -566,7 +565,7 @@ impl Compiler {
             match config {
                 Some(config) => Ok(Some(config)),
                 None => {
-                    bail!("no config matched for file ({})", name)
+                    bail!("no config matched for file ({name})")
                 }
             }
         })
@@ -964,8 +963,8 @@ impl Compiler {
     fn apply_transforms(
         &self,
         handler: &Handler,
-        comments: SingleThreadedComments,
-        fm: Arc<SourceFile>,
+        #[allow(unused)] comments: SingleThreadedComments,
+        #[allow(unused)] fm: Arc<SourceFile>,
         orig: Option<sourcemap::SourceMap>,
         config: BuiltInput<impl Pass>,
     ) -> Result<TransformOutput, Error> {
@@ -978,7 +977,6 @@ impl Compiler {
                 );
             }
 
-            let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
             let source_map_names = if config.source_maps.enabled() {
                 let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
@@ -990,19 +988,25 @@ impl Compiler {
             } else {
                 Default::default()
             };
+            #[cfg(feature = "isolated-dts")]
+            let dts_code = if config.syntax.typescript() && config.emit_isolated_dts {
+                use std::cell::RefCell;
 
-            let dts_code = if emit_dts {
+                use swc_ecma_codegen::to_code_with_comments;
                 let (leading, trailing) = comments.borrow_all();
 
                 let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
                 let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
 
                 let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
+
                 let mut checker =
                     FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
                 let mut program = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
+                    use swc_ecma_transforms::modules::rewriter::import_rewriter;
+
                     program.mutate(import_rewriter(base, resolver));
                 }
 
@@ -1022,8 +1026,12 @@ impl Compiler {
 
             let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
-                if let Some(dts_code) = dts_code {
-                    experimental_emit("__swc_isolated_declarations__".into(), dts_code);
+                #[cfg(feature = "isolated-dts")]
+                {
+                    if let Some(dts_code) = dts_code {
+                        use swc_transform_common::output::experimental_emit;
+                        experimental_emit("__swc_isolated_declarations__".into(), dts_code);
+                    }
                 }
 
                 helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {

@@ -1,5 +1,5 @@
-var _tmp;
-const _ref = {}, { a = (_param)=>{
-    var rest = _extends({}, _object_destructuring_empty(_param));
-    let b = _extends({}, _object_destructuring_empty({}));
-}, c = (_tmp = {}, d = _extends({}, _object_destructuring_empty(_tmp)), _tmp) } = _ref;
+var _ref;
+const { a = (_0)=>{
+    let {} = _0, rest = _extends({}, _0);
+    let _ref = {}, {} = _ref, b = _extends({}, _ref);
+}, c = (_ref = {}, {} = _ref, d = _extends({}, _ref), _ref) } = {};

@@ -1,12 +1,12 @@
 //// [destructuringObjectAssignmentPatternWithNestedSpread.ts]
-var _c;
+var _ref;
 let a, d;
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
-_object_without_properties((_c = {
+({ x: _ref = d } = {
     x: {
         a: 1,
         y: 2
     }
-}).x, [
+}), ({ a } = _ref), _object_without_properties(_ref, [
     "a"
-]), { x: { a } = d } = _c;
+]);

@@ -16,7 +16,7 @@ pub struct Stylesheet {
     pub rules: Vec<Rule>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Rule {
     #[tag("QualifiedRule")]
@@ -53,7 +53,7 @@ impl Take for QualifiedRule {
     }
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum QualifiedRulePrelude {
     #[tag("SelectorList")]
@@ -70,7 +70,7 @@ impl Take for QualifiedRulePrelude {
     }
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum StyleBlock {
     #[tag("AtRule")]
@@ -101,7 +101,7 @@ impl Take for SimpleBlock {
     }
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum FunctionName {
     #[tag("Ident")]
@@ -162,7 +162,7 @@ pub struct ListOfComponentValues {
     pub children: Vec<ComponentValue>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ComponentValue {
     // No grammar
@@ -284,7 +284,7 @@ impl From<Rule> for ComponentValue {
     }
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationOrAtRule {
     #[tag("Declaration")]
@@ -303,10 +303,14 @@ pub struct Declaration {
     pub name: DeclarationName,
     pub value: Vec<ComponentValue>,
     /// The span includes `!`
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub important: Option<ImportantFlag>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationName {
     #[tag("Ident")]

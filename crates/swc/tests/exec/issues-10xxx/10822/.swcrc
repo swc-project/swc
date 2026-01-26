@@ -1,0 +1,27 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "env": {
+    "mode": "usage",
+    "coreJs": "3.41.0",
+    "targets": [
+      "last 10 Chrome versions",
+      "last 10 Firefox versions",
+      "last 4 Safari major versions",
+      "last 3 iOS major versions",
+      "Firefox ESR"
+    ],
+    "shippedProposals": true
+  },
+  "jsc": {
+    "minify": {
+      "compress": {
+        "reduce_vars": true,
+        "inline": 1,
+        "collapse_vars": true
+      }
+    },
+    "parser": {
+      "syntax": "typescript"
+    }
+  }
+}

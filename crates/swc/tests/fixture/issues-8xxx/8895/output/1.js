@@ -1,5 +1,9 @@
-var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
-var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+const _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
 class File {
     read() {
         return 'content';

@@ -8,10 +8,9 @@ use std::{
 use swc_ecma_codegen::{Config, Emitter};
 use swc_ecma_parser::{EsSyntax, Parser, StringInput};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
-use swc_ecma_transforms_compat::{
-    es2015::{arrow, classes},
-    es3::property_literals,
-};
+use swc_ecma_transforms_compat::es2015::{arrow, classes};
+#[cfg(feature = "es3")]
+use swc_ecma_transforms_compat::es3::property_literals;
 use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
 use testing::NormalizedOutput;
 
@@ -405,6 +404,7 @@ class App extends React.Component {
 "#
 );
 
+#[cfg(feature = "es3")]
 test!(
     module,
     ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
@@ -765,6 +765,47 @@ test!(
     r#"<div>&nbsp;</div>;"#
 );
 
+// See https://github.com/swc-project/swc/issues/11392
+// HTML entity-encoded whitespace should not be trimmed even in multiline JSX
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_not_strip_entity_encoded_whitespace_multiline,
+    r#"<example>
+  foo
+  <hr />&#32;
+  bar
+</example>;"#
+);
+
+// Numeric entity &#32; should be preserved as space
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_entity_encoded_space,
+    r#"<div>&#32;content</div>;"#
+);
+
+// Numeric entity &#32; at end of line should be preserved
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_trailing_entity_encoded_space,
+    r#"<div>content&#32;</div>;"#
+);
+
 test!(
     module,
     // Comments are currently stripped out
@@ -955,9 +996,48 @@ test!(
 
 #[test]
 fn jsx_text() {
-    assert_eq!(jsx_text_to_str(" ".into()), *" ");
-    assert_eq!(jsx_text_to_str("Hello world".into()), *"Hello world");
-    //    assert_eq!(jsx_text_to_str(" \n".into()), *" ");
+    // Basic cases
+    assert_eq!(jsx_text_to_str(" "), *" ");
+    assert_eq!(jsx_text_to_str("Hello world"), *"Hello world");
+
+    // Single line with whitespace at edges (should keep as-is)
+    assert_eq!(jsx_text_to_str("  Hello world  "), *"  Hello world  ");
+
+    // Empty string
+    assert_eq!(jsx_text_to_str(""), *"");
+
+    // Only whitespace (single line)
+    assert_eq!(jsx_text_to_str("   "), *"   ");
+    assert_eq!(jsx_text_to_str("\t\t"), *"\t\t");
+
+    // Multi-line cases
+    assert_eq!(jsx_text_to_str("Hello\nworld"), *"Hello world");
+    assert_eq!(jsx_text_to_str("  Hello  \n  world  "), *"  Hello world  ");
+
+    // Multi-line with empty lines
+    assert_eq!(jsx_text_to_str("Hello\n\nworld"), *"Hello world");
+    assert_eq!(jsx_text_to_str("Hello\n  \n  world"), *"Hello world");
+
+    // Leading/trailing whitespace on multiple lines
+    assert_eq!(
+        jsx_text_to_str("  Hello  \n  world  \n  test  "),
+        *"  Hello world test  "
+    );
+
+    // Only whitespace (multi-line) should return empty
+    assert_eq!(jsx_text_to_str(" \n "), *"");
+    assert_eq!(jsx_text_to_str("\n\n\n"), *"");
+    assert_eq!(jsx_text_to_str("  \n  \n  "), *"");
+
+    // Different line endings
+    assert_eq!(jsx_text_to_str("Hello\rworld"), *"Hello world");
+    assert_eq!(jsx_text_to_str("Hello\r\nworld"), *"Hello world");
+
+    // Mixed whitespace types
+    assert_eq!(
+        jsx_text_to_str("\t Hello \t\n\t world \t"),
+        *"\t Hello world \t"
+    );
 }
 
 // https://github.com/swc-project/swc/issues/542

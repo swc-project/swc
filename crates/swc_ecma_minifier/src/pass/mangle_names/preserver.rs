@@ -1,13 +1,20 @@
 use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::find_pat_ids;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 use crate::option::MangleOptions;
 
+pub(crate) struct PreversedIdents {
+    pub preserved: FxHashSet<Id>,
+    pub idents: Option<Vec<Atom>>,
+}
+
 /// Returns `(preserved, unresolved)`
-pub(crate) fn idents_to_preserve<N>(options: &MangleOptions, marks: Marks, n: &N) -> FxHashSet<Id>
+pub(crate) fn idents_to_preserve<N>(options: &MangleOptions, marks: Marks, n: &N) -> PreversedIdents
 where
     N: for<'a> VisitWith<Preserver<'a>>,
 {
@@ -16,6 +23,9 @@ where
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,
+
+        idents: Vec::new(),
+        unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
     };
     n.visit_with(&mut v);
 
@@ -27,8 +37,27 @@ where
         options.reserved.contains(&id.0) || id.1.outer().is_descendant_of(top_level_mark)
     });
 
-    v.preserved
+    let idents = v
+        .idents
+        .into_iter()
+        .filter_map(|id| {
+            if v.preserved.contains(&id) {
+                None
+            } else {
+                Some(id.0)
+            }
+        })
+        .collect();
+    PreversedIdents {
+        preserved: v.preserved,
+        idents: if options.disable_char_freq {
+            None
+        } else {
+            Some(idents)
+        },
+    }
 }
+
 pub(crate) struct Preserver<'a> {
     options: &'a MangleOptions,
 
@@ -36,16 +65,31 @@ pub(crate) struct Preserver<'a> {
 
     should_preserve: bool,
     in_top_level: bool,
+
+    idents: Vec<Id>,
+    unresolved_ctx: SyntaxContext,
 }
 
 impl Preserver<'_> {
     fn is_reserved(&self, ident: &Ident) -> bool {
         self.options.reserved.contains(&ident.sym)
     }
+
+    fn append_ident(&mut self, ident: &Ident) {
+        if self.options.disable_char_freq
+            || (ident.ctxt == self.unresolved_ctx && ident.sym != "arguments")
+        {
+            return;
+        }
+
+        self.idents.push(ident.to_id());
+    }
 }
 
 impl Visit for Preserver<'_> {
-    noop_visit_type!();
+    noop_visit_type!(fail);
+
+    visit_obj_and_computed!();
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         let old_top_level = self.in_top_level;
@@ -138,7 +182,9 @@ impl Visit for Preserver<'_> {
         }
     }
 
-    fn visit_ident(&mut self, _: &Ident) {}
+    fn visit_ident(&mut self, i: &Ident) {
+        self.append_ident(i);
+    }
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {
@@ -146,6 +192,8 @@ impl Visit for Preserver<'_> {
             n.visit_with(self);
         }
     }
+
+    fn visit_module_export_name(&mut self, _: &ModuleExportName) {}
 
     fn visit_pat(&mut self, n: &Pat) {
         n.visit_children_with(self);

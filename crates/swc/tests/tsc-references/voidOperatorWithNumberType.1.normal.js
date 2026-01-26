@@ -1,6 +1,6 @@
 //// [voidOperatorWithNumberType.ts]
-// void  operator on number type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// void  operator on number type
 var NUMBER;
 var NUMBER1 = [
     1,
@@ -32,7 +32,7 @@ var ResultIsAny4 = void {
 };
 var ResultIsAny5 = void {
     x: 1,
-    y: function(n) {
+    y: function y(n) {
         return n;
     }
 };

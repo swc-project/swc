@@ -71,10 +71,10 @@ impl VisitMut for Entry {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
-        let remove = i.specifiers.is_empty() && self.add_all(&i.src.value);
+        let remove = i.specifiers.is_empty() && self.add_all(&i.src.value.to_string_lossy());
 
         if remove {
-            i.src.value = atom!("");
+            i.src.value = atom!("").into();
             i.src.span = DUMMY_SP;
         }
     }

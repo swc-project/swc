@@ -13,6 +13,11 @@ env:
   # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
   SKIP_YARN_COREPACK_CHECK: 1
 
+permissions:
+  contents: write
+  id-token: write
+  issues: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -85,6 +90,7 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
     with:
+      buildType: "nightly"
       package: ${{ matrix.package }}
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
@@ -109,6 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.onlyNightly == false
     needs:
+      - git-tag-nightly
       - run-ecosystem-ci-with-nightly
     steps:
       - uses: actions/checkout@v4
@@ -117,6 +124,22 @@ jobs:
         with:
           version: ${{ inputs.version }}
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
+  manage-milestone:
+    name: "Manage milestone for ${{ inputs.version }}"
+    runs-on: ubuntu-latest
+    if: inputs.onlyNightly == false
+    needs:
+      - git-tag-stable
+      - publish-npm-stable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - name: Manage milestone
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx ts-node .github/bot/src/milestone-manager.ts ${{ inputs.version }}
 
   publish-npm-stable:
     name: "Publish ${{ matrix.package }}@${{ inputs.version || 'stable' }} to npm"
@@ -135,6 +158,7 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
     with:
+      buildType: "stable"
       package: ${{ matrix.package }}
       version: ${{ inputs.version }}
       buildCli: true

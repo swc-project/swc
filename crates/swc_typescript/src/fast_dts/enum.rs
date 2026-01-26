@@ -37,8 +37,14 @@ impl FastDts {
             prev_init_value = value.clone();
             if let Some(value) = &value {
                 let member_name = match &member.id {
-                    TsEnumMemberId::Ident(ident) => &ident.sym,
-                    TsEnumMemberId::Str(s) => &s.value,
+                    TsEnumMemberId::Ident(ident) => ident.sym.clone(),
+                    TsEnumMemberId::Str(s) => s
+                        .value
+                        .clone()
+                        .try_into_atom()
+                        .unwrap_or_else(|wtf8| Atom::from(&*wtf8.to_string_lossy())),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
                 prev_members.insert(member_name.clone(), value.clone());
             }
@@ -90,11 +96,13 @@ impl FastDts {
     ) -> Option<ConstantValue> {
         match expr {
             Expr::Lit(lit) => match lit {
-                Lit::Str(s) => Some(ConstantValue::String(s.value.to_string())),
+                Lit::Str(s) => Some(ConstantValue::String(s.value.to_string_lossy().to_string())),
                 Lit::Num(number) => Some(ConstantValue::Number(number.value)),
                 Lit::Null(_) | Lit::BigInt(_) | Lit::Bool(_) | Lit::Regex(_) | Lit::JSXText(_) => {
                     None
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Expr::Tpl(tpl) => {
                 let mut value = String::new();

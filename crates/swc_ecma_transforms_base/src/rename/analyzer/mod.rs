@@ -1,7 +1,5 @@
 use swc_common::Mark;
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::scope::{Scope, ScopeKind};
 
@@ -27,6 +25,10 @@ pub(super) struct Analyzer {
 
     pub(super) skip_first_fn_or_class_decl: bool,
     pub(super) is_first_node: bool,
+
+    /// Whether we're in mangle mode. Some Safari bug workarounds only apply
+    /// during mangling, not during normal hygiene.
+    pub(super) mangle: bool,
 }
 
 impl Analyzer {
@@ -34,6 +36,7 @@ impl Analyzer {
         has_eval: bool,
         top_level_mark: Mark,
         skip_first_fn_or_class_decl: bool,
+        mangle: bool,
     ) -> Self {
         Self {
             has_eval,
@@ -41,6 +44,7 @@ impl Analyzer {
             skip_first_fn_or_class_decl,
             is_first_node: true,
             hoisted_vars: Vec::with_capacity(32),
+            mangle,
             ..Default::default()
         }
     }
@@ -95,6 +99,7 @@ impl Analyzer {
             skip_first_fn_or_class_decl: false,
             is_first_node: false,
             hoisted_vars: Default::default(),
+            mangle: self.mangle,
         };
         std::mem::swap(self, &mut analyer);
         analyer // old analyzer
@@ -169,6 +174,8 @@ impl Analyzer {
                 self.add_usage(orig.to_id());
             }
             ModuleExportName::Str(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         };
     }
 

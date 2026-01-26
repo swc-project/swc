@@ -1,0 +1,6 @@
+```==================== .D.TS ====================
+
+declare const _default_1: () => number;
+/** comment should be a leading comment of the arrow function */ export default _default_1;
+
+

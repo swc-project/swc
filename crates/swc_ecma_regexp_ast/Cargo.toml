@@ -6,22 +6,28 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_regexp_ast"
 repository    = { workspace = true }
-version       = "0.2.1"
+version       = "0.7.0"
 
 [lib]
 bench = false
 
 [features]
-__rkyv     = []
-default    = []
-rkyv-impl  = []
+__rkyv = []
+default = []
+encoding-impl = [
+  "cbor4ii",
+  "swc_atoms/encoding-impl",
+  "swc_common/encoding-impl",
+]
+rkyv-impl = []
 serde-impl = ["serde"]
 
 [dependencies]
-bitflags  = { workspace = true }
-is-macro  = { workspace = true }
-serde     = { workspace = true, features = ["derive"], optional = true }
+bitflags = { workspace = true }
+cbor4ii  = { workspace = true, features = ["use_std"], optional = true }
+is-macro = { workspace = true }
+serde    = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms              = { version = "6.0.1", path = "../swc_atoms" }
-swc_common             = { version = "13.0.4", path = "../swc_common" }
+swc_atoms              = { version = "9.0.0", path = "../swc_atoms" }
+swc_common             = { version = "18.0.1", path = "../swc_common" }
 swc_ecma_regexp_common = { version = "0.0.1", path = "../swc_ecma_regexp_common" }
