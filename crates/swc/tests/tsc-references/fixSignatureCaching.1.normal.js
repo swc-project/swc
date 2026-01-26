@@ -288,10 +288,10 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         impl.FALLBACK_PHONE = 'UnknownPhone';
         impl.FALLBACK_TABLET = 'UnknownTablet';
         impl.FALLBACK_MOBILE = 'UnknownMobile';
-        isArray = 'isArray' in Array ? Array.isArray : function isArray(value) {
+        isArray = 'isArray' in Array ? Array.isArray : function(value) {
             return Object.prototype.toString.call(value) === '[object Array]';
         };
-        isArray = 'isArray' in Array ? function isArray(value) {
+        isArray = 'isArray' in Array ? function(value) {
             return Object.prototype.toString.call(value) === '[object Array]';
         } : Array.isArray;
         function equalIC(a, b) {

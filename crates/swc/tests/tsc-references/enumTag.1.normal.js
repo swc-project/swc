@@ -12,13 +12,13 @@
     /** @type {number} */ FINE: 2
 };
 /** @enum {function(number): number} */ var Fs = {
-    ADD1: function(n) {
+    ADD1: function ADD1(n) {
         return n + 1;
     },
-    ID: function(n) {
+    ID: function ID(n) {
         return n;
     },
-    SUB1: function(n) {
+    SUB1: function SUB1(n) {
         return n - 1;
     }
 };

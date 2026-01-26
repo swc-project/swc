@@ -8,16 +8,16 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    var Foo = function(props) {
+    var Foo = function Foo(props) {
         return /*#__PURE__*/ _react.createElement("div", null);
     };
     // Should be OK
     var foo = /*#__PURE__*/ _react.createElement(Foo, null);
     // Should be OK
-    var MainMenu = function(props) {
+    var MainMenu = function MainMenu(props) {
         return /*#__PURE__*/ _react.createElement("div", null, /*#__PURE__*/ _react.createElement("h3", null, "Main Menu"));
     };
-    var App = function(param) {
+    var App = function App(param) {
         var children = param.children;
         return /*#__PURE__*/ _react.createElement("div", null, /*#__PURE__*/ _react.createElement(MainMenu, null));
     };

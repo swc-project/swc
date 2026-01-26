@@ -43,10 +43,10 @@ M2.M3 = {
     x: ''
 }; // Error
 function fn() {}
-fn = function() {
+fn = function fn() {
     return 3;
 }; // Bug 823548: Should be error (fn is not a reference)
-fn = function() {
+fn = function fn() {
     return 3;
 }; // Should be error
 function fn2(x, y) {

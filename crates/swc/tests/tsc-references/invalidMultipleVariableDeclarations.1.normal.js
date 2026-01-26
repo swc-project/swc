@@ -44,7 +44,7 @@ var b;
 var b = new C();
 var b = new C2();
 var f = F;
-var f = function(x) {
+var f = function f(x) {
     return '';
 };
 var arr;

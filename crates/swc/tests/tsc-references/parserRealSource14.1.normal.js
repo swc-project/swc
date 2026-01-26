@@ -266,7 +266,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     })(TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}));
     function getAstPathToPosition(script, pos) {
         var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
-        var lookInComments = function(comments) {
+        var lookInComments = function lookInComments(comments) {
             if (comments && comments.length > 0) {
                 for(var i = 0; i < comments.length; i++){
                     var minChar = comments[i].minChar;
@@ -326,7 +326,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     TypeScript.getAstPathToPosition = getAstPathToPosition;
     function getTokenizationOffset(script, position) {
         var bestOffset = 0;
-        var pre = function(cur, parent, walker) {
+        var pre = function pre(cur, parent, walker) {
             if (TypeScript.isValidAstNode(cur)) {
                 // Did we find a closer offset?
                 if (cur.minChar <= position) {

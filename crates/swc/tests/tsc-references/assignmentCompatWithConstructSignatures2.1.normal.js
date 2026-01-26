@@ -11,13 +11,13 @@ t = a2;
 a = s;
 a = a2;
 // errors
-t = function() {
+t = function t() {
     return 1;
 };
 t = function t(x) {
     return '';
 };
-a = function() {
+a = function a() {
     return 1;
 };
 a = function a(x) {
@@ -28,7 +28,7 @@ var a3;
 // these are errors
 t = s2;
 t = a3;
-t = function(x) {
+t = function t(x) {
     return 1;
 };
 t = function t(x) {
@@ -36,7 +36,7 @@ t = function t(x) {
 };
 a = s2;
 a = a3;
-a = function(x) {
+a = function a(x) {
     return 1;
 };
 a = function a(x) {

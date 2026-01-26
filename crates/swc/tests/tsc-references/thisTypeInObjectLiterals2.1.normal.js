@@ -141,7 +141,7 @@ var p12 = defineProps(p1, {
 p12.foo = p12.foo + 1;
 p12.bar = p12.bar + 1;
 var vue = new Vue({
-    data: function() {
+    data: function data() {
         return {
             x: 1,
             y: 2

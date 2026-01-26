@@ -22,7 +22,7 @@ define([
     };
     var obj1;
     var obj2 = {
-        onClick: function() {}
+        onClick: function onClick() {}
     };
     function MainButton(props) {
         var linkProps = props;
@@ -36,7 +36,7 @@ define([
         to: "/some/path"
     }, "GO");
     var b1 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function(e) {}
+        onClick: function onClick(e) {}
     }, "Hello world");
     var b2 = /*#__PURE__*/ _react.createElement(MainButton, obj);
     var b3 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
@@ -48,7 +48,7 @@ define([
     })); // should pick the second overload
     var b6 = /*#__PURE__*/ _react.createElement(MainButton, obj2);
     var b7 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function() {
+        onClick: function onClick() {
             console.log("hi");
         }
     });
@@ -64,7 +64,7 @@ define([
         children: "hi"
     });
     var b11 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function(e) {},
+        onClick: function onClick(e) {},
         className: "hello",
         "data-format": true
     }, "Hello world");

@@ -8,7 +8,7 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    var Foo = function(props) {
+    var Foo = function Foo(props) {
         return null;
     };
     function Greet(x) {

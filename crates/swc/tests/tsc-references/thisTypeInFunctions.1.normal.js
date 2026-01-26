@@ -48,7 +48,7 @@ function implicitThis(n) {
 }
 var impl = {
     a: 12,
-    explicitVoid2: function() {
+    explicitVoid2: function explicitVoid2() {
         return _this.a;
     },
     explicitVoid1: function explicitVoid1() {
@@ -118,17 +118,17 @@ reconstructed.explicitProperty(11);
 var explicitVoid = reconstructed.explicitVoid;
 explicitVoid(12);
 // assignment checking
-var unboundToSpecified = function(x) {
+var unboundToSpecified = function unboundToSpecified(x) {
     return x + _this.y;
 }; // ok, this:any
 var specifiedToSpecified = explicitStructural;
 var anyToSpecified = function anyToSpecified(x) {
     return x + 12;
 };
-var unspecifiedLambda = function(x) {
+var unspecifiedLambda = function unspecifiedLambda(x) {
     return x + 12;
 };
-var specifiedLambda = function(x) {
+var specifiedLambda = function specifiedLambda(x) {
     return x + 12;
 };
 var unspecifiedLambdaToSpecified = unspecifiedLambda;

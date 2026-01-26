@@ -68,10 +68,10 @@ function f22(x) {
 function f23(x) {
     var e = x[0]; // string
 }
-var convert = function(value) {
+var convert = function convert(value) {
     return value;
 };
-var convert2 = function(value) {
+var convert2 = function convert2(value) {
     return value;
 };
 function f31() {
@@ -86,22 +86,22 @@ function f33() {
     var z;
     var z;
 }
-var f40 = function(a) {
+var f40 = function f40(a) {
     return a;
 };
-var f41 = function(a) {
+var f41 = function f41(a) {
     return a;
 };
-var f42 = function(a) {
+var f42 = function f42(a) {
     return a;
 };
-var f43 = function(a) {
+var f43 = function f43(a) {
     return a;
 };
-var f44 = function(value) {
+var f44 = function f44(value) {
     return value;
 };
-var f45 = function(value) {
+var f45 = function f45(value) {
     return value;
 }; // Error
 // Repro from #21863

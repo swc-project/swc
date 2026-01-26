@@ -52,7 +52,7 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 // Function expressions
-var x = function() {
+var x = function x() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b1, b1 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : c, c = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : d;
     var _$d;
 };

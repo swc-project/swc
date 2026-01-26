@@ -39,7 +39,7 @@ var obj = {
     z: {
         n: 'world',
         m: 15,
-        o: function() {
+        o: function o() {
             return false;
         }
     },

@@ -58,7 +58,7 @@ var r3b = a()['foo']();
 var r3c = a(new B()).foo(); // valid call to an invalid function, U is inferred as B, which has a foo
 var r3d = a(new B())['foo'](); // valid call to an invalid function, U is inferred as B, which has a foo
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
         // BUG 823818
         var a = x['foo'](); // should be string
         return a + x.foo();

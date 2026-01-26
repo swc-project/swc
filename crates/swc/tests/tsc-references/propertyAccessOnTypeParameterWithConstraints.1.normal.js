@@ -23,7 +23,7 @@ var a;
 var r3 = a().getDate();
 var r3b = a()['getDate']();
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
         var a = x['getDate'](); // number
         return a + x.getDate();
     }

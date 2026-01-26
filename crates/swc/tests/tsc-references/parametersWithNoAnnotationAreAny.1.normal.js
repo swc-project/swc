@@ -6,10 +6,10 @@ function foo(x) {
 var f = function foo(x) {
     return x;
 };
-var f2 = function(x) {
+var f2 = function f2(x) {
     return x;
 };
-var f3 = function(x) {
+var f3 = function f3(x) {
     return x;
 };
 var C = /*#__PURE__*/ function() {
@@ -31,7 +31,7 @@ var b = {
     a: function foo(x) {
         return x;
     },
-    b: function(x) {
+    b: function b(x) {
         return x;
     }
 };

@@ -20,7 +20,7 @@ var c = new C({
 var r = c.foo('');
 var r2 = r({
     length: 3,
-    charAt: function(x) {
+    charAt: function charAt(x) {
         '';
     }
 }); // error

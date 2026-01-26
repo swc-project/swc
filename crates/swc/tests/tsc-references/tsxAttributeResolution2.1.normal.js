@@ -1,7 +1,7 @@
 //// [file.tsx]
 // OK
 /*#__PURE__*/ React.createElement("test1", {
-    c1: function(x) {
+    c1: function c1(x) {
         return x.length;
     }
 }); // OK
@@ -12,7 +12,7 @@
 }); // OK
 // Errors
 /*#__PURE__*/ React.createElement("test1", {
-    c1: function(x) {
+    c1: function c1(x) {
         return x.leng;
     }
 }); // Error, no leng on 'string'

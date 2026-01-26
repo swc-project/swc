@@ -10,7 +10,7 @@ c = 1;
 c = {
     foo: ''
 };
-c = function() {};
+c = function c() {};
 var D = function D() {
     "use strict";
     _class_call_check(this, D);
@@ -22,4 +22,4 @@ d = 1;
 d = {
     foo: ''
 };
-d = function() {};
+d = function d() {};

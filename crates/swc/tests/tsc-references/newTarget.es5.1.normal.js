@@ -11,7 +11,7 @@ var A = function A() {
         return _instanceof(this, _target) ? this.constructor : void 0;
     };
     var a = _instanceof(this, A) ? this.constructor : void 0;
-    var b = function() {
+    var b = function b() {
         return _instanceof(_this, A) ? _this.constructor : void 0;
     };
 };
@@ -27,7 +27,7 @@ var B = /*#__PURE__*/ function _target(A) {
         var _this1;
         _this1 = _call_super(this, B);
         var e = _instanceof(this, B) ? this.constructor : void 0;
-        var f = function() {
+        var f = function f() {
             return _instanceof(_this, B) ? _this.constructor : void 0;
         };
         return _this1;
@@ -37,14 +37,14 @@ var B = /*#__PURE__*/ function _target(A) {
 function f1() {
     var _this = this;
     var g = _instanceof(this, f1) ? this.constructor : void 0;
-    var h = function() {
+    var h = function h() {
         return _instanceof(_this, f1) ? _this.constructor : void 0;
     };
 }
 var f2 = function _target() {
     var _this = this;
     var i = _instanceof(this, _target) ? this.constructor : void 0;
-    var j = function() {
+    var j = function j() {
         return _instanceof(_this, _target) ? _this.constructor : void 0;
     };
 };

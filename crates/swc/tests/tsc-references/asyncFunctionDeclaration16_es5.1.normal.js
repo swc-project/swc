@@ -18,7 +18,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
  */ /**
  * @param {string} str
  * @returns {string}
- */ var f1 = function(str) {
+ */ var f1 = function f1(str) {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -28,7 +28,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
         });
     })();
 };
-/** @type {T1} */ var f2 = function(str) {
+/** @type {T1} */ var f2 = function f2(str) {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -41,7 +41,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 /**
  * @param {string} str
  * @returns {Promise<string>}
- */ var f3 = function(str) {
+ */ var f3 = function f3(str) {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -51,7 +51,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
         });
     })();
 };
-/** @type {T2} */ var f4 = function(str) {
+/** @type {T2} */ var f4 = function f4(str) {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -61,7 +61,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
         });
     })();
 };
-/** @type {T3} */ var f5 = function(str) {
+/** @type {T3} */ var f5 = function f5(str) {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [

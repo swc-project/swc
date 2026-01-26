@@ -19,7 +19,7 @@ var c;
 o = c; // error
 c = o; // error
 var a = {
-    toString: function() {}
+    toString: function toString() {}
 };
 o = a; // error
 a = o; // ok

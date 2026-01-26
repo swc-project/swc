@@ -1,7 +1,7 @@
 //// [checkJsdocSatisfiesTag13.ts]
 //// [/a.js]
 /** @satisfies {{ f: (x: string) => string }} */ var t1 = {
-    f: function(s) {
+    f: function f(s) {
         return s.toLowerCase();
     }
 }; // should work

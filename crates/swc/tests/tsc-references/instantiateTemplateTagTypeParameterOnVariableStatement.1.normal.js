@@ -3,7 +3,7 @@
  * @template T
  * @param {T} a
  * @returns {(b: T) => T}
- */ var seq = function(a) {
+ */ var seq = function seq(a) {
     return function(b) {
         return b;
     };
