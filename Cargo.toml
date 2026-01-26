@@ -67,7 +67,11 @@ repository = "https://github.com/swc-project/swc.git"
   jsonc-parser = { version = "0.26.2", default-features = false }
   kstring = { version = "2.0.0", default-features = false, features = ["std"] }
   lazy_static = { version = "1.4.0", default-features = false }
-  lexical = { version = "6.1.0", default-features = false, features = ["parse"] }
+  lexical = { version = "6.1.0", default-features = false, features = [
+    "std",
+    "parse-integers",
+    "parse-floats",
+  ] }
   lightningcss = { version = "1.0.0-alpha.68", default-features = false }
   lru = { version = "0.16.1", default-features = false }
   memchr = { version = "2.6.1", default-features = false }
