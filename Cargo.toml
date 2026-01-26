@@ -89,7 +89,10 @@ repository = "https://github.com/swc-project/swc.git"
   parking_lot = { version = "0.12.1", default-features = false }
   path-absolutize = { version = "3.0.11", default-features = false }
   pathdiff = { version = "0.2.1", default-features = false }
-  petgraph = { version = "0.7.1", default-features = false }
+  petgraph = { version = "0.7.1", default-features = false, features = [
+    "graphmap",
+    "stable_graph",
+  ] }
   phf = { version = "0.11.2", default-features = false }
   pretty_assertions = { version = "1.3", default-features = false, features = [
     "std",
