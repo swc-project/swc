@@ -958,7 +958,7 @@ pub enum RootMode {
     UpwardOptional,
 }
 
-const fn default_swcrc() -> bool {
+pub const fn default_swcrc() -> bool {
     true
 }
 

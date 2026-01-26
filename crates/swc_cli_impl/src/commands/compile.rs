@@ -13,7 +13,9 @@ use path_absolutize::Absolutize;
 use relative_path::RelativePath;
 use swc_core::{
     base::{
-        config::{Config, ConfigFile, Options, PluginConfig, RootMode, SourceMapsConfig},
+        config::{
+            default_swcrc, Config, ConfigFile, Options, PluginConfig, RootMode, SourceMapsConfig,
+        },
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{
@@ -312,6 +314,7 @@ impl CompileOptions {
         let mut options = Options {
             config: self.config.to_owned().unwrap_or_default(),
             config_file,
+            swcrc: default_swcrc(),
             ..Options::default()
         };
 
@@ -349,10 +352,6 @@ impl CompileOptions {
 
         if let Some(root_mode) = self.root_mode {
             options.root_mode = root_mode;
-            // Enable .swcrc search for upward modes
-            if matches!(root_mode, RootMode::Upward | RootMode::UpwardOptional) {
-                options.swcrc = true;
-            }
         }
 
         if let Some(source_maps) = &self.source_maps {
