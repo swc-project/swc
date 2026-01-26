@@ -7,13 +7,20 @@ repository = { workspace = true }
 version    = "0.2.0"
 
 [dependencies]
-Inflector   = { workspace = true }
-anyhow      = { workspace = true }
-clap        = { version = "4.5.9", features = ["derive"] }
-proc-macro2 = { workspace = true }
-quote       = { workspace = true }
-syn         = { workspace = true, features = ["full", "visit-mut", "extra-traits"] }
-walkdir     = { workspace = true }
+Inflector = { workspace = true, default-features = false }
+
+anyhow = { workspace = true, default-features = false }
+
+clap = { version = "4.5.9", features = ["derive"], default-features = false }
+
+proc-macro2 = { workspace = true, default-features = false }
+
+quote = { workspace = true, default-features = false }
+
+syn = { workspace = true, features = ["full", "visit-mut", "extra-traits"], default-features = false }
+
+walkdir = { workspace = true, default-features = false }
+
 
 swc_config = { version = "3.1.2", path = "../../crates/swc_config", features = [
   "regex",

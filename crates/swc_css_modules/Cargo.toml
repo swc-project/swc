@@ -15,18 +15,29 @@ bench = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rustc-hash = { workspace = true }
-serde      = { workspace = true, features = ["derive"] }
+rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms       = { version = "9.0.0", path = "../swc_atoms" }
-swc_common      = { version = "18.0.1", path = "../swc_common" }
-swc_css_ast     = { version = "18.0.0", path = "../swc_css_ast" }
-swc_css_codegen = { version = "18.0.0", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "18.0.0", path = "../swc_css_parser" }
-swc_css_visit   = { version = "18.0.0", path = "../swc_css_visit" }
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
+
+swc_css_codegen = { version = "18.0.0", path = "../swc_css_codegen", default-features = false }
+
+swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", default-features = false }
+
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }
+
 
 [dev-dependencies]
-indexmap = { workspace = true, features = ["serde"] }
+indexmap = { workspace = true, features = ["serde"], default-features = false }
 
-swc_css_compat = { version = "18.0.0", path = "../swc_css_compat" }
-testing        = { version = "19.0.0", path = "../testing" }
+
+swc_css_compat = { version = "18.0.0", path = "../swc_css_compat", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+

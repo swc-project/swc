@@ -12,7 +12,9 @@ version       = "1.0.0"
 bench = false
 
 [dependencies]
-tracing = { workspace = true }
+tracing = { workspace = true, default-features = false }
+
 
 [dev-dependencies]
-testing = { version = "19.0.0", path = "../testing" }
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+

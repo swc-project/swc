@@ -23,11 +23,18 @@ rkyv-impl = []
 serde-impl = ["serde"]
 
 [dependencies]
-bitflags = { workspace = true }
-cbor4ii  = { workspace = true, features = ["use_std"], optional = true }
-is-macro = { workspace = true }
-serde    = { workspace = true, features = ["derive"], optional = true }
+bitflags = { workspace = true, default-features = false }
 
-swc_atoms              = { version = "9.0.0", path = "../swc_atoms" }
-swc_common             = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_regexp_common = { version = "0.0.1", path = "../swc_ecma_regexp_common" }
+cbor4ii = { workspace = true, features = ["use_std"], optional = true, default-features = false }
+
+is-macro = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_ecma_regexp_common = { version = "0.0.1", path = "../swc_ecma_regexp_common", default-features = false }
+

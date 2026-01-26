@@ -19,18 +19,26 @@ bench = false
 debug = []
 
 [dependencies]
-rustc-hash = { workspace = true }
+rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms   = { version = "9.0.0", path = "../swc_atoms" }
-swc_common  = { version = "18.0.1", path = "../swc_common" }
-swc_xml_ast = { version = "18.0.0", path = "../swc_xml_ast" }
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_xml_ast = { version = "18.0.0", path = "../swc_xml_ast", default-features = false }
+
 
 [dev-dependencies]
-serde      = { workspace = true }
-serde_json = { workspace = true }
+serde = { workspace = true, default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+
 
 swc_xml_ast = { version = "18.0.0", path = "../swc_xml_ast", features = [
   "serde-impl",
 ] }
-swc_xml_visit = { version = "18.0.0", path = "../swc_xml_visit" }
-testing = { version = "19.0.0", path = "../testing" }
+swc_xml_visit = { version = "18.0.0", path = "../swc_xml_visit", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+

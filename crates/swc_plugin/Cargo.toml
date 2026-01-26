@@ -16,4 +16,5 @@ rustdoc-args = ["--cfg", "docsrs"]
 bench = false
 
 [dependencies]
-once_cell = { workspace = true }
+once_cell = { workspace = true, default-features = false }
+

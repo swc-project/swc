@@ -8,8 +8,10 @@ repository = { workspace = true }
 version    = "1.15.10"
 
 [dependencies]
-anyhow       = { workspace = true }
-wasm-bindgen = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+
+wasm-bindgen = { workspace = true, default-features = false }
+
 
 [dependencies.swc_core]
 features = [

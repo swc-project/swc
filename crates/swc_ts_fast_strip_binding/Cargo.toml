@@ -13,16 +13,26 @@ bench = false
 [features]
 
 [dependencies]
-anyhow              = { workspace = true }
-miette              = { workspace = true }
-owo-colors          = { workspace = true }
-serde               = { workspace = true, features = ["derive"] }
-swc_common          = { version = "18.0.1", path = "../../crates/swc_common" }
-swc_error_reporters = { version = "20.0.0", path = "../../crates/swc_error_reporters" }
-swc_ts_fast_strip   = { version = "42.0.0", path = "../../crates/swc_ts_fast_strip" }
-tracing             = { workspace = true }
-unicode-width       = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+
+miette = { workspace = true, default-features = false }
+
+owo-colors = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+swc_common = { version = "18.0.1", path = "../../crates/swc_common", default-features = false }
+
+swc_error_reporters = { version = "20.0.0", path = "../../crates/swc_error_reporters", default-features = false }
+
+swc_ts_fast_strip = { version = "42.0.0", path = "../../crates/swc_ts_fast_strip", default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
+unicode-width = { workspace = true, default-features = false }
+
 
 [dev-dependencies]
 serde_json.workspace = true
-swc_ecma_parser = { version = "33.0.0", path = "../../crates/swc_ecma_parser" }
+swc_ecma_parser = { version = "33.0.0", path = "../../crates/swc_ecma_parser", default-features = false }
+

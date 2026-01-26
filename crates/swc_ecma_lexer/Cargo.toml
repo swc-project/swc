@@ -28,21 +28,35 @@ typescript    = []
 verify        = ["swc_ecma_visit"]
 
 [dependencies]
-bitflags    = { workspace = true }
-either      = { workspace = true }
-num-bigint  = { workspace = true }
-rustc-hash  = { workspace = true }
-seq-macro   = { workspace = true }
-serde       = { workspace = true, features = ["derive"] }
-smallvec    = { workspace = true }
-smartstring = { workspace = true }
-tracing     = { workspace = true }
+bitflags = { workspace = true, default-features = false }
 
-swc_atoms       = { version = "9.0.0", path = "../swc_atoms" }
-swc_common      = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast    = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser" }
-swc_ecma_visit  = { version = "20.0.0", path = "../swc_ecma_visit", optional = true }
+either = { workspace = true, default-features = false }
+
+num-bigint = { workspace = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+seq-macro = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+smallvec = { workspace = true, default-features = false }
+
+smartstring = { workspace = true, default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", optional = true, default-features = false }
+
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = { version = "0.1.15", optional = true }
@@ -52,8 +66,10 @@ stacker = { version = "0.1.15", optional = true }
 swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-testing = { version = "19.0.0", path = "../testing" }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+
 
 [[example]]
 name = "lexer"

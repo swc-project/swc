@@ -16,11 +16,17 @@ version       = "37.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-serde                    = { workspace = true, features = ["derive"] }
-swc_ecma_ast             = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_transformer     = { version = "7.0.0", path = "../swc_ecma_transformer" }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils           = { version = "26.0.1", path = "../swc_ecma_utils" }
-tracing                  = { workspace = true }
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_transformer = { version = "7.0.0", path = "../swc_ecma_transformer", default-features = false }
+
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
 
 [dev-dependencies]

@@ -12,23 +12,40 @@ version       = "39.0.0"
 bench = false
 
 [dependencies]
-ansi_term = { workspace = true }
-anyhow = { workspace = true }
-base64 = { workspace = true }
-hex = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-sha2 = { workspace = true }
+ansi_term = { workspace = true, default-features = false }
+
+anyhow = { workspace = true, default-features = false }
+
+base64 = { workspace = true, default-features = false }
+
+hex = { workspace = true, default-features = false }
+
+serde = { workspace = true, default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+
+sha2 = { workspace = true, default-features = false }
+
 swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser" }
-swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-swc_sourcemap = { workspace = true }
-tempfile = { workspace = true }
-testing = { version = "19.0.0", path = "../testing" }
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", default-features = false }
+
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+
+swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing", default-features = false }
+
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+
+swc_sourcemap = { workspace = true, default-features = false }
+
+tempfile = { workspace = true, default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+

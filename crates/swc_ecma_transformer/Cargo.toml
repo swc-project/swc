@@ -13,16 +13,26 @@ version       = "7.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-rustc-hash = { workspace = true }
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_compat_regexp = { version = "0.1.0", path = "../swc_ecma_compat_regexp" }
-swc_ecma_hooks = { version = "0.4.0", path = "../swc_ecma_hooks" }
-swc_ecma_regexp = { version = "0.7.0", path = "../swc_ecma_regexp" }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
+rustc-hash = { workspace = true, default-features = false }
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_compat_regexp = { version = "0.1.0", path = "../swc_ecma_compat_regexp", default-features = false }
+
+swc_ecma_hooks = { version = "0.4.0", path = "../swc_ecma_hooks", default-features = false }
+
+swc_ecma_regexp = { version = "0.7.0", path = "../swc_ecma_regexp", default-features = false }
+
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", features = [
     "path",
 ] }
-tracing = { workspace = true }
+tracing = { workspace = true, default-features = false }
+

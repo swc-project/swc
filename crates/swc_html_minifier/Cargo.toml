@@ -29,19 +29,31 @@ default-css-minifier = [
 ]
 
 [dependencies]
-once_cell  = { workspace = true }
-rustc-hash = { workspace = true }
-serde      = { workspace = true, features = ["derive"] }
-serde_json = { workspace = true }
+once_cell = { workspace = true, default-features = false }
 
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "18.0.1", path = "../swc_common" }
-swc_config = { version = "3.1.2", path = "../swc_config", features = ["regex"] }
-swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", optional = true }
-swc_css_codegen = { version = "18.0.0", path = "../swc_css_codegen", optional = true }
-swc_css_minifier = { version = "18.0.0", path = "../swc_css_minifier", optional = true }
-swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", optional = true }
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
+rustc-hash = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+serde_json = { workspace = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_config = { version = "3.1.2", path = "../swc_config", features = ["regex"], default-features = false }
+
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", optional = true, default-features = false }
+
+swc_css_codegen = { version = "18.0.0", path = "../swc_css_codegen", optional = true, default-features = false }
+
+swc_css_minifier = { version = "18.0.0", path = "../swc_css_minifier", optional = true, default-features = false }
+
+swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", optional = true, default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
 swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
@@ -51,19 +63,29 @@ swc_ecma_minifier = { version = "43.0.2", path = "../swc_ecma_minifier", feature
 swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-swc_html_ast = { version = "18.0.0", path = "../swc_html_ast" }
-swc_html_codegen = { version = "19.0.0", path = "../swc_html_codegen" }
-swc_html_parser = { version = "18.0.0", path = "../swc_html_parser" }
-swc_html_utils = { version = "16.0.0", path = "../swc_html_utils" }
-swc_html_visit = { version = "18.0.0", path = "../swc_html_visit" }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+
+swc_html_ast = { version = "18.0.0", path = "../swc_html_ast", default-features = false }
+
+swc_html_codegen = { version = "19.0.0", path = "../swc_html_codegen", default-features = false }
+
+swc_html_parser = { version = "18.0.0", path = "../swc_html_parser", default-features = false }
+
+swc_html_utils = { version = "16.0.0", path = "../swc_html_utils", default-features = false }
+
+swc_html_visit = { version = "18.0.0", path = "../swc_html_visit", default-features = false }
+
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true }
+codspeed-criterion-compat = { workspace = true, default-features = false }
 
-swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
-testing    = { version = "19.0.0", path = "../testing" }
+
+swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+
 
 [[bench]]
 harness = false

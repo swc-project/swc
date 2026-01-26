@@ -31,8 +31,10 @@ swc_v2  = []
 plugin = []
 
 [dependencies]
-getrandom = { workspace = true, features = ["wasm_js"] }
-serde = { workspace = true, features = ["derive"] }
+getrandom = { workspace = true, features = ["wasm_js"], default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
 swc_core = { path = "../../crates/swc_core", features = [
   "ecma_ast_serde",
   "ecma_codegen",
@@ -40,8 +42,10 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_transforms",
   "ecma_visit",
 ] }
-tracing = { workspace = true, features = ["max_level_off"] }
-wasm-bindgen = { workspace = true, features = ["enable-interning"] }
+tracing = { workspace = true, features = ["max_level_off"], default-features = false }
+
+wasm-bindgen = { workspace = true, features = ["enable-interning"], default-features = false }
+
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

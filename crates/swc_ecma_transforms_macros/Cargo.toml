@@ -13,8 +13,12 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-proc-macro2 = { workspace = true }
-quote       = { workspace = true }
-syn         = { workspace = true, features = ["fold", "parsing", "full"] }
+proc-macro2 = { workspace = true, default-features = false }
 
-swc_macros_common = { version = "1.0.1", path = "../swc_macros_common" }
+quote = { workspace = true, default-features = false }
+
+syn = { workspace = true, features = ["fold", "parsing", "full"], default-features = false }
+
+
+swc_macros_common = { version = "1.0.1", path = "../swc_macros_common", default-features = false }
+

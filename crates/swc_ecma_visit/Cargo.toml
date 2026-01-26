@@ -25,12 +25,20 @@ path       = []
 serde-impl = ["serde"]
 
 [dependencies]
-new_debug_unreachable = { workspace = true }
-num-bigint            = { workspace = true, features = ["serde"] }
-serde                 = { workspace = true, optional = true, features = ["derive"] }
-tracing               = { workspace = true }
+new_debug_unreachable = { workspace = true, default-features = false }
 
-swc_atoms    = { version = "9.0.0", path = "../swc_atoms" }
-swc_common   = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_visit    = { version = "2.0.1", path = "../swc_visit" }
+num-bigint = { workspace = true, features = ["serde"], default-features = false }
+
+serde = { workspace = true, optional = true, features = ["derive"], default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false }
+

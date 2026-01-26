@@ -21,14 +21,22 @@ encoding-impl = [
 serde-impl = ["serde"]
 
 [dependencies]
-cbor4ii = { workspace = true, features = ["use_std"], optional = true }
-nom     = { workspace = true }
-serde   = { workspace = true, features = ["derive"], optional = true }
+cbor4ii = { workspace = true, features = ["use_std"], optional = true, default-features = false }
 
-swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "18.0.1", path = "../swc_common" }
+nom = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
 
 [dev-dependencies]
-dashmap         = { workspace = true }
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser" }
-testing         = { version = "19.0.0", path = "../testing" }
+dashmap = { workspace = true, default-features = false }
+
+swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false }
+
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+

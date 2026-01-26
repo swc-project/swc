@@ -16,7 +16,11 @@ rustdoc-args = ["--cfg", "docsrs"]
 bench = false
 
 [dependencies]
-swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
-swc_common     = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast   = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
+swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
+
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+

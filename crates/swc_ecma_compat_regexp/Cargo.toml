@@ -15,8 +15,11 @@ bench = false
 [dependencies]
 icu_properties = { version = "2.0.0", default-features = false, features = ["compiled_data", "alloc"] }
 
-swc_ecma_regexp_ast   = { version = "0.7.0", path = "../swc_ecma_regexp_ast" }
-swc_ecma_regexp_visit = { version = "0.7.0", path = "../swc_ecma_regexp_visit" }
+swc_ecma_regexp_ast = { version = "0.7.0", path = "../swc_ecma_regexp_ast", default-features = false }
+
+swc_ecma_regexp_visit = { version = "0.7.0", path = "../swc_ecma_regexp_visit", default-features = false }
+
 
 [dev-dependencies]
-swc_ecma_regexp = { version = "0.7.0", path = "../swc_ecma_regexp" }
+swc_ecma_regexp = { version = "0.7.0", path = "../swc_ecma_regexp", default-features = false }
+

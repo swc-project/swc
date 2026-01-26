@@ -15,8 +15,12 @@ version = "18.0.0"
 bench = false
 
 [dependencies]
-dashmap    = { workspace = true }
-rustc-hash = { workspace = true }
+dashmap = { workspace = true, default-features = false }
 
-swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "18.0.1", path = "../swc_common" }
+rustc-hash = { workspace = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+

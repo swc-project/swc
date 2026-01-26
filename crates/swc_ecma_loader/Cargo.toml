@@ -25,23 +25,37 @@ node = ["normpath", "serde_json", "dashmap", "once_cell", "path-clean"]
 tsc = ["dashmap", "once_cell"]
 
 [dependencies]
-anyhow      = { workspace = true }
-dashmap     = { workspace = true, optional = true }
-lru         = { workspace = true, optional = true }
-once_cell   = { workspace = true, optional = true }
-parking_lot = { workspace = true, optional = true }
-path-clean  = { version = "=0.1.0", optional = true }
-pathdiff    = { workspace = true }
-rustc-hash  = { workspace = true }
-serde       = { workspace = true, features = ["derive"] }
-serde_json  = { workspace = true, optional = true }
-tracing     = { workspace = true }
+anyhow = { workspace = true, default-features = false }
 
-swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "18.0.1", path = "../swc_common" }
+dashmap = { workspace = true, optional = true, default-features = false }
+
+lru = { workspace = true, optional = true, default-features = false }
+
+once_cell = { workspace = true, optional = true, default-features = false }
+
+parking_lot = { workspace = true, optional = true, default-features = false }
+
+path-clean = { version = "=0.1.0", optional = true, default-features = false }
+
+pathdiff = { workspace = true, default-features = false }
+
+rustc-hash = { workspace = true, default-features = false }
+
+serde = { workspace = true, features = ["derive"], default-features = false }
+
+serde_json = { workspace = true, optional = true, default-features = false }
+
+tracing = { workspace = true, default-features = false }
+
+
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+
 
 [dev-dependencies]
-lazy_static = { workspace = true }
+lazy_static = { workspace = true, default-features = false }
+
 
 [target.'cfg(windows)'.dependencies]
 normpath = { version = "0.2", optional = true }
