@@ -34,6 +34,18 @@ pub struct Es2015Options {
     pub typeof_symbol: bool,
 }
 
+impl Es2015Options {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.shorthand
+            || self.function_name
+            || self.duplicate_keys
+            || self.sticky_regex
+            || self.instanceof
+            || self.typeof_symbol
+    }
+}
+
 pub fn hook(options: Es2015Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
 

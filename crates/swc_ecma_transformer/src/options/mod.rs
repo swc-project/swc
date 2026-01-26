@@ -36,3 +36,20 @@ pub struct EnvOptions {
     pub regexp: RegExpOptions,
     pub bugfix: BugfixOptions,
 }
+
+impl EnvOptions {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.es2026.is_enabled()
+            || self.es2022.is_enabled()
+            || self.es2021.is_enabled()
+            || self.es2020.is_enabled()
+            || self.es2019.is_enabled()
+            || self.es2018.is_enabled()
+            || self.es2017.is_enabled()
+            || self.es2016.is_enabled()
+            || self.es2015.is_enabled()
+            || self.regexp.is_enabled()
+            || self.bugfix.is_enabled()
+    }
+}

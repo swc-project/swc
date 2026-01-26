@@ -164,8 +164,9 @@ where
         options.env.es2016.exponentiation_operator = true;
     }
 
-    // Single-pass compiler
-    let pass = (pass, options.into_pass());
+    // Single-pass compiler - skip traversal when no transforms are enabled
+    let is_enabled = options.env.is_enabled();
+    let pass = (pass, Optional::new(options.into_pass(), is_enabled));
 
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
@@ -244,7 +245,9 @@ where
             options.env.es2015.typeof_symbol = true;
         }
 
-        (pass, options.into_pass())
+        // Skip traversal when no transforms are enabled
+        let is_enabled = options.env.is_enabled();
+        (pass, Optional::new(options.into_pass(), is_enabled))
     };
 
     let pass = add!(
