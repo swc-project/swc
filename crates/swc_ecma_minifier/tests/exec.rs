@@ -11533,3 +11533,86 @@ console.log(Array.isArray(_Object_assign));
 
     run_exec_test(src, config, false);
 }
+
+/// Test that `unsafe_hoist_global_objects_alias` hoists global constructors
+/// like Map, Set, Promise, etc. to local variables when used multiple times.
+#[test]
+fn issue_9741_global_objects() {
+    let src = r#"
+const a = new Map();
+a.set('foo', 1);
+const b = new Map();
+b.set('bar', 2);
+const c = new Map();
+c.set('baz', 3);
+
+console.log(a.get('foo'));
+console.log(b.get('bar'));
+console.log(c.get('baz'));
+console.log(a instanceof Map);
+console.log(b instanceof Map);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test that `unsafe_hoist_global_objects_alias` handles variable name
+/// collisions properly.
+#[test]
+fn issue_9741_global_objects_collision() {
+    let src = r#"
+const _Map = "not a map";
+
+const a = new Map();
+a.set('foo', 1);
+const b = new Map();
+b.set('bar', 2);
+
+console.log(_Map);
+console.log(a.get('foo'));
+console.log(b.get('bar'));
+console.log(a instanceof Map);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test both options working together.
+#[test]
+fn issue_9741_combined() {
+    let src = r#"
+const a = new Map();
+const b = new Map();
+const c = new Map();
+
+const obj1 = {};
+Object.assign(obj1, {});
+const obj2 = {};
+Object.assign(obj2, {});
+Object.assign(obj2, obj1);
+
+console.log(a instanceof Map);
+console.log(b instanceof Map);
+console.log(c instanceof Map);
+console.log(typeof obj1);
+console.log(typeof obj2);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}

@@ -383,6 +383,24 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(default))]
     pub unsafe_hoist_static_method_alias: bool,
 
+    /// Hoist global built-in constructors like `Map`, `Set`, `Promise` to local
+    /// variables when they are used multiple times. This can reduce code size
+    /// after mangling.
+    ///
+    /// For example:
+    /// ```js
+    /// new Map(); new Map(); new Map();
+    /// ```
+    /// Becomes:
+    /// ```js
+    /// var _Map = Map;
+    /// new _Map(); new _Map(); new _Map();
+    /// ```
+    ///
+    /// This is unsafe because user code may have overridden these constructors.
+    #[cfg_attr(feature = "extra-serde", serde(default))]
+    pub unsafe_hoist_global_objects_alias: bool,
+
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     pub unused: bool,
 
@@ -489,6 +507,7 @@ impl Default for CompressOptions {
             unsafe_symbols: false,
             unsafe_undefined: false,
             unsafe_hoist_static_method_alias: false,
+            unsafe_hoist_global_objects_alias: false,
             unused: true,
             const_to_let: true,
             pristine_globals: true,
