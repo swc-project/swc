@@ -22,7 +22,7 @@ repository = "https://github.com/swc-project/swc.git"
 
 
   Inflector = { version = "0.11.4", default-features = false }
-  allocator-api2 = { version = "0.2.18", default-features = false }
+  allocator-api2 = { version = "0.2.18", default-features = false, features = ["std"] }
   ansi_term = { version = "0.12.1", default-features = false }
   anyhow = { version = "1.0.81", default-features = false, features = ["std"] }
   arbitrary = { version = "1", default-features = false }
@@ -94,10 +94,15 @@ repository = "https://github.com/swc-project/swc.git"
   pretty_assertions = { version = "1.3", default-features = false, features = [
     "std",
   ] }
-  proc-macro2 = { version = "1.0.24", default-features = false }
-  quote = { version = "1.0.7", default-features = false }
+  proc-macro2 = { version = "1.0.24", default-features = false, features = [
+    "proc-macro",
+  ] }
+  quote = { version = "1.0.7", default-features = false, features = ["proc-macro"] }
   radix_fmt = { version = "1.0.0", default-features = false }
-  rand = { version = "0.8.5", default-features = false }
+  rand = { version = "0.8.5", default-features = false, features = [
+    "std",
+    "std_rng",
+  ] }
   rayon = { version = "1.7.0", default-features = false }
   regex = { version = "1.5.4" }
   regress = { version = "0.10.3", default-features = false, features = ["std", "backend-pikevm"] }
@@ -124,7 +129,13 @@ repository = "https://github.com/swc-project/swc.git"
   st-map = { version = "0.2.0", default-features = false }
   string_cache = { version = "0.8.7", default-features = false }
   swc_sourcemap = { version = "9.3.0", default-features = false }
-  syn = { version = "2", default-features = false }
+  syn = { version = "2", default-features = false, features = [
+    "derive",
+    "parsing",
+    "printing",
+    "clone-impls",
+    "proc-macro",
+  ] }
   tempfile = { version = "3.6.0", default-features = false }
   termcolor = { version = "1.0", default-features = false }
   thiserror = { version = "1.0.30", default-features = false }
