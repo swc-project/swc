@@ -5,6 +5,7 @@ use crate::{
     TraverseCtx,
 };
 
+mod block_scoped_fn;
 mod duplicate_keys;
 mod function_name;
 mod instanceof;
@@ -15,6 +16,9 @@ mod typeof_symbol;
 #[derive(Debug, Default)]
 #[non_exhaustive]
 pub struct Es2015Options {
+    /// Enable block scoped functions transformation
+    pub block_scoped_functions: bool,
+
     /// Enable shorthand properties transformation
     pub shorthand: bool,
 
@@ -37,7 +41,8 @@ pub struct Es2015Options {
 impl Es2015Options {
     /// Returns true if any transform is enabled.
     pub fn is_enabled(&self) -> bool {
-        self.shorthand
+        self.block_scoped_functions
+            || self.shorthand
             || self.function_name
             || self.duplicate_keys
             || self.sticky_regex
@@ -48,6 +53,13 @@ impl Es2015Options {
 
 pub fn hook(options: Es2015Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = HookBuilder::new(NoopHook);
+
+    // Block scoped functions: { function f() {} } -> { let f = function f() {} }
+    let hook = hook.chain(if options.block_scoped_functions {
+        Some(self::block_scoped_fn::hook())
+    } else {
+        None
+    });
 
     // Shorthand properties: { a } -> { a: a }
     let hook = hook.chain(if options.shorthand {

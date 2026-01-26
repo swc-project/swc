@@ -1,74 +1,44 @@
-use swc_common::{util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_utils::IdentUsageFinder;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
+use swc_ecma_ast::Pass;
 
+/// Compile ES2015 block scoped function declarations to ES5.
+///
+/// In ES5, function declarations are only hoisted to the top of the function
+/// scope. In ES2015, function declarations inside block statements have block
+/// scope.
+///
+/// This transform converts block-scoped function declarations to `let`
+/// declarations with function expressions.
+///
+/// # Example
+///
+/// ## In
+///
+/// ```js
+/// {
+///   function name(n) {
+///     return n;
+///   }
+/// }
+/// name("Steve");
+/// ```
+///
+/// ## Out
+///
+/// ```js
+/// {
+///   let name = function name(n) {
+///     return n;
+///   };
+/// }
+/// name("Steve");
+/// ```
+///
+/// Note: Function declarations directly inside function bodies are NOT
+/// transformed, only those inside block statements (e.g., if, for, etc.).
 pub fn block_scoped_functions() -> impl Pass {
-    visit_mut_pass(BlockScopedFns)
-}
-
-#[derive(Clone, Copy)]
-struct BlockScopedFns;
-
-#[swc_trace]
-impl VisitMut for BlockScopedFns {
-    noop_visit_mut_type!(fail);
-
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        let Some(body) = &mut n.body else { return };
-
-        n.params.visit_mut_with(self);
-
-        // skip function scope
-        body.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        n.visit_mut_children_with(self);
-
-        let mut stmts = Vec::with_capacity(n.stmts.len());
-        let mut extra_stmts = Vec::with_capacity(n.stmts.len());
-
-        for stmt in n.stmts.take() {
-            if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
-                if let Expr::Lit(Lit::Str(..)) = &**expr {
-                    stmts.push(stmt);
-                    continue;
-                }
-            }
-
-            if let Stmt::Decl(Decl::Fn(decl)) = stmt {
-                if IdentUsageFinder::find(&decl.ident, &decl.function) {
-                    extra_stmts.push(decl.into());
-                    continue;
-                }
-                stmts.push(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Let,
-                        decls: vec![VarDeclarator {
-                            span: DUMMY_SP,
-                            name: decl.ident.clone().into(),
-                            init: Some(Box::new(Expr::Fn(FnExpr {
-                                ident: Some(decl.ident),
-                                function: decl.function,
-                            }))),
-                            definite: false,
-                        }],
-                        ..Default::default()
-                    }
-                    .into(),
-                )
-            } else {
-                extra_stmts.push(stmt)
-            }
-        }
-
-        stmts.append(&mut extra_stmts);
-
-        n.stmts = stmts
-    }
+    let mut options = swc_ecma_transformer::Options::default();
+    options.env.es2015.block_scoped_functions = true;
+    options.into_pass()
 }
 
 #[cfg(test)]

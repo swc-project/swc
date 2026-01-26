@@ -50,6 +50,7 @@ where
 {
     let mut options = swc_ecma_transformer::Options::default();
     options.env.regexp.sticky_regex = true;
+    options.env.es2015.block_scoped_functions = true;
     options.env.es2015.shorthand = true;
     options.env.es2015.instanceof = true;
     options.env.es2015.duplicate_keys = true;
@@ -57,7 +58,6 @@ where
 
     (
         (
-            block_scoped_functions(),
             template_literal(c.template_literal),
             classes(c.classes),
             new_target(),
