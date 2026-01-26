@@ -156,6 +156,7 @@ repository = "https://github.com/swc-project/swc.git"
   tracing-chrome = { version = "0.5.0", default-features = false }
   tracing-subscriber = { version = "0.3.20", default-features = false, features = [
     "fmt",
+    "env-filter",
   ] }
   triomphe = { version = "0.1.13", default-features = false }
   unicode-id-start = { version = "1.2.0", default-features = false }
