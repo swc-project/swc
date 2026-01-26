@@ -7,7 +7,6 @@ use swc_ecma_utils::{
     alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 struct ObjectSuper {
     extra_vars: Vec<Ident>,
@@ -19,7 +18,6 @@ pub fn object_super() -> impl Pass {
     })
 }
 
-#[swc_trace]
 impl VisitMut for ObjectSuper {
     noop_visit_mut_type!(fail);
 
@@ -132,7 +130,6 @@ struct SuperReplacer {
     vars: Vec<Ident>,
 }
 
-#[swc_trace]
 impl VisitMut for SuperReplacer {
     noop_visit_mut_type!(fail);
 
@@ -166,7 +163,6 @@ impl VisitMut for SuperReplacer {
     }
 }
 
-#[swc_trace]
 impl SuperReplacer {
     fn get_obj_ref(&mut self) -> Ident {
         if let Some(obj) = &self.obj {

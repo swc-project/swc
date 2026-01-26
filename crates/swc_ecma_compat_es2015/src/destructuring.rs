@@ -13,7 +13,6 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-destructuring`
 ///
@@ -150,7 +149,6 @@ fn make_ref_ident_for_for_stmt() -> Ident {
     private_ident!("ref")
 }
 
-#[swc_trace]
 impl AssignFolder {
     fn visit_mut_var_decl(&mut self, decls: &mut Vec<VarDeclarator>, decl: VarDeclarator) {
         match decl.name {
@@ -474,7 +472,6 @@ impl AssignFolder {
     }
 }
 
-#[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for Destructuring {
     noop_visit_mut_type!(fail);
@@ -494,7 +491,6 @@ impl VisitMut for Destructuring {
     }
 }
 
-#[swc_trace]
 impl Destructuring {
     fn visit_mut_fn_like(
         &mut self,
@@ -606,7 +602,6 @@ impl AssignFolder {
     }
 }
 
-#[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for AssignFolder {
     noop_visit_mut_type!(fail);
@@ -1104,7 +1099,6 @@ impl VisitMut for AssignFolder {
     }
 }
 
-#[swc_trace]
 impl Destructuring {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where

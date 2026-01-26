@@ -13,7 +13,6 @@ use swc_common::{
 use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
 #[cfg(feature = "__plugin_mode")]
 use swc_ecma_ast::SourceMapperExt;
-use swc_trace_macro::swc_trace;
 
 #[cfg(all(
     feature = "encoding-impl",
@@ -63,7 +62,6 @@ pub struct PluginSourceMapProxy {
     feature = "__plugin_mode",
     target_arch = "wasm32"
 ))]
-#[swc_trace]
 impl PluginSourceMapProxy {
     pub fn span_to_source<F, Ret>(
         &self,

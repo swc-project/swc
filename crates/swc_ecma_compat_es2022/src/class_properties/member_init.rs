@@ -2,7 +2,6 @@ use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{prop_name_to_expr, prop_name_to_expr_value, quote_ident, ExprFactory};
-use swc_trace_macro::swc_trace;
 
 use super::Config;
 
@@ -45,7 +44,6 @@ pub(super) struct MemberInitRecord {
     pub record: Vec<MemberInit>,
 }
 
-#[swc_trace]
 impl MemberInitRecord {
     pub fn new(c: Config) -> Self {
         Self {

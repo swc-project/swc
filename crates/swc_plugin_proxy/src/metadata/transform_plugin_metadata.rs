@@ -1,8 +1,7 @@
 #[cfg(feature = "__plugin_mode")]
 use swc_common::Mark;
-#[cfg(feature = "__plugin_mode")]
-use swc_trace_macro::swc_trace;
 
+#[cfg(feature = "__plugin_mode")]
 #[cfg(all(
     feature = "encoding-impl",
     feature = "__plugin_mode",
@@ -40,7 +39,6 @@ extern "C" {
 }
 
 #[cfg(feature = "__plugin_mode")]
-#[swc_trace]
 impl TransformPluginProgramMetadata {
     /// Returns current plugin's configuration as a JSON string.
     /// Plugin may need to deserialize this string manually.

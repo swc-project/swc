@@ -13,7 +13,6 @@ use swc_ecma_utils::{
     alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -74,7 +73,6 @@ struct ForOf {
     top_level_vars: Vec<VarDeclarator>,
 }
 
-#[swc_trace]
 impl ForOf {
     fn fold_for_stmt(
         &mut self,
@@ -656,7 +654,6 @@ impl Parallel for ForOf {
     }
 }
 
-#[swc_trace]
 impl ParExplode for ForOf {
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
         // Add variable declaration
@@ -693,7 +690,6 @@ impl ParExplode for ForOf {
     }
 }
 
-#[swc_trace]
 #[parallel(explode)]
 impl VisitMut for ForOf {
     noop_visit_mut_type!(fail);

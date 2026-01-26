@@ -7,7 +7,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend_stmt, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 use super::Config;
 use crate::optional_chaining_impl::optional_chaining_impl;
@@ -20,7 +19,6 @@ pub(super) struct Private {
 
 pub(super) struct PrivateRecord(Vec<Private>);
 
-#[swc_trace]
 impl PrivateRecord {
     pub fn new() -> Self {
         PrivateRecord(Vec::new())
@@ -82,7 +80,6 @@ pub(super) struct BrandCheckHandler<'a> {
     pub private: &'a PrivateRecord,
 }
 
-#[swc_trace]
 impl VisitMut for BrandCheckHandler<'_> {
     noop_visit_mut_type!(fail);
 
@@ -201,7 +198,6 @@ macro_rules! take_vars {
 }
 
 // super.#sdsa is invalid
-#[swc_trace]
 impl VisitMut for PrivateAccessVisitor<'_> {
     noop_visit_mut_type!(fail);
 
@@ -584,7 +580,6 @@ pub(super) fn visit_private_in_expr(
     priv_visitor.vars
 }
 
-#[swc_trace]
 impl PrivateAccessVisitor<'_> {
     /// Returns `(expr, thisObject)`
     ///

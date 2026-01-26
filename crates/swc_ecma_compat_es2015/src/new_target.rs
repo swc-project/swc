@@ -7,7 +7,6 @@ use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
 };
-use swc_trace_macro::swc_trace;
 
 pub fn new_target() -> impl Pass {
     visit_mut_pass(NewTarget {
@@ -35,7 +34,6 @@ impl NewTarget {
     }
 }
 
-#[swc_trace]
 impl VisitMut for NewTarget {
     noop_visit_mut_type!(fail);
 

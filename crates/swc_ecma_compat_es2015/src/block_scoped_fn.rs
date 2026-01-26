@@ -2,7 +2,6 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::IdentUsageFinder;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn block_scoped_functions() -> impl Pass {
     visit_mut_pass(BlockScopedFns)
@@ -11,7 +10,6 @@ pub fn block_scoped_functions() -> impl Pass {
 #[derive(Clone, Copy)]
 struct BlockScopedFns;
 
-#[swc_trace]
 impl VisitMut for BlockScopedFns {
     noop_visit_mut_type!(fail);
 
