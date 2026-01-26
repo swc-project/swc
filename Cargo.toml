@@ -51,9 +51,11 @@ repository = "https://github.com/swc-project/swc.git"
   dashmap = { version = "5.5.3", default-features = false }
   dialoguer = { version = "0.10.2", default-features = false }
   difference = { version = "2", default-features = false }
+  dragonbox_ecma = { version = "0.1.0", default-features = false }
   either = { version = "1.10.0", default-features = false }
   enumset = { version = "1.1.2", default-features = false }
   flate2 = { version = "1.0", default-features = false, features = ["rust_backend"] }
+  getrandom = { version = "0.3.3", default-features = false }
   glob = { version = "0.3.0", default-features = false }
   globset = { version = "0.4.16", default-features = false }
   hashbrown = { version = "0.14.5", default-features = false }
@@ -66,6 +68,7 @@ repository = "https://github.com/swc-project/swc.git"
   kstring = { version = "2.0.0", default-features = false }
   lazy_static = { version = "1.4.0", default-features = false }
   lexical = { version = "6.1.0", default-features = false, features = ["parse"] }
+  lightningcss = { version = "1.0.0-alpha.68", default-features = false }
   lru = { version = "0.16.1", default-features = false }
   memchr = { version = "2.6.1", default-features = false }
   miette = { version = "7.2.0", default-features = false }
@@ -80,6 +83,7 @@ repository = "https://github.com/swc-project/swc.git"
   once_cell = { version = "1.19.0", default-features = false, features = [
     "std",
   ] }
+  owo-colors = { version = "4.2.1", default-features = false }
   par-core = { version = "2.0.0", default-features = false }
   par-iter = { version = "2.0.0", default-features = false }
   parking_lot = { version = "0.12.1", default-features = false }
@@ -142,6 +146,7 @@ repository = "https://github.com/swc-project/swc.git"
   wasmer-wasix = { version = "0.601.0-rc.2", default-features = false }
   wasmtime = { version = "35", default-features = false }
 
+  cbor4ii         = { version = "1.2", default-features = false }
   foldhash        = { version = "0.1", default-features = false }
   precomputed-map = { version = "0.2", default-features = false }
 
