@@ -25,7 +25,7 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["lint", "isolated-dts"]
+default = ["lint", "isolated-dts", "module"]
 es3 = ["swc_ecma_transforms_compat/es3", "swc_ecma_preset_env/es3"]
 isolated-dts = ["swc_typescript"]
 # Enable module transforms (CommonJS, AMD, UMD, SystemJS).
