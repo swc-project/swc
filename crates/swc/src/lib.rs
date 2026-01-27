@@ -136,6 +136,7 @@ pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
 use swc_ecma_codegen::Node;
+#[cfg(feature = "module")]
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -144,11 +145,11 @@ use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
-    hygiene,
-    modules::path::NodeImportResolver,
-    resolver,
+    hygiene, resolver,
 };
 use swc_ecma_transforms_base::fixer::paren_remover;
+#[cfg(feature = "module")]
+use swc_ecma_transforms_module::path::NodeImportResolver;
 use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
@@ -209,6 +210,7 @@ pub mod resolver {
     }
 }
 
+#[cfg(feature = "module")]
 type SwcImportResolver = Arc<
     NodeImportResolver<CachingResolver<TsConfigResolver<CachingResolver<NodeModulesResolver>>>>,
 >;
@@ -1021,8 +1023,9 @@ impl Compiler {
                     FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
                 let mut program = program.clone();
 
+                #[cfg(feature = "module")]
                 if let Some((base, resolver)) = config.resolver {
-                    use swc_ecma_transforms::modules::rewriter::import_rewriter;
+                    use swc_ecma_transforms_module::rewriter::import_rewriter;
 
                     program.mutate(import_rewriter(base, resolver));
                 }

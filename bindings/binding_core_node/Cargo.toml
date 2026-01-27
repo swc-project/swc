@@ -61,5 +61,6 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_visit",
   "base_node",
   "base_concurrent",
+  "base_module",
 ] }
 swc_malloc = { path = "../../crates/swc_malloc" }

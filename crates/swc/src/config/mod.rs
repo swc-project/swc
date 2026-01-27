@@ -5,7 +5,9 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Error};
+#[cfg(feature = "module")]
+use anyhow::Context;
+use anyhow::{bail, Error};
 use bytes_str::BytesStr;
 use dashmap::DashMap;
 use either::Either;
@@ -35,6 +37,7 @@ use swc_ecma_lints::{
     config::LintConfig,
     rules::{lint_pass, LintParams},
 };
+#[cfg(feature = "module")]
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -47,12 +50,6 @@ use swc_ecma_transforms::{
     fixer::{fixer, paren_remover},
     helpers,
     hygiene::{self, hygiene_with_config},
-    modules::{
-        self,
-        path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::{self, import_rewriter},
-        util, EsModuleConfig,
-    },
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
@@ -64,6 +61,13 @@ use swc_ecma_transforms::{
     Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
+#[cfg(feature = "module")]
+use swc_ecma_transforms_module::{
+    self as modules,
+    path::{ImportResolver, NodeImportResolver, Resolver},
+    rewriter::import_rewriter,
+    util, EsModuleConfig,
+};
 use swc_ecma_transforms_optimization::{
     inline_globals,
     simplify::{dce::Config as DceConfig, Config as SimplifyConfig},
@@ -74,10 +78,9 @@ use swc_ecma_visit::VisitMutWith;
 use swc_visit::Optional;
 
 pub use crate::plugin::PluginConfig;
-use crate::{
-    builder::MinifierPass, dropped_comments_preserver::dropped_comments_preserver,
-    SwcImportResolver,
-};
+#[cfg(feature = "module")]
+use crate::SwcImportResolver;
+use crate::{builder::MinifierPass, dropped_comments_preserver::dropped_comments_preserver};
 
 #[cfg(test)]
 mod tests;
@@ -600,6 +603,7 @@ impl Options {
         let env = cfg.env.map(Into::into);
 
         // Implementing finalize logic directly
+        #[cfg(feature = "module")]
         let (need_analyzer, import_interop, ignore_dynamic) = match cfg.module {
             Some(ModuleConfig::CommonJs(ref c)) => (true, c.import_interop(), c.ignore_dynamic),
             Some(ModuleConfig::Amd(ref c)) => {
@@ -643,11 +647,12 @@ impl Options {
             .map(|v| v.mangle.is_obj() || v.mangle.is_true())
             .unwrap_or(false);
 
-        let rewrite_import_pass = {
-            let swc_import_rewriter = match resolver.clone() {
+        #[cfg(feature = "module")]
+        let rewrite_import_pass: Box<dyn Pass> = {
+            let swc_import_rewriter: Box<dyn Pass> = match resolver.clone() {
                 Some((base, resolver)) => match cfg.module {
                     None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => {
-                        Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
+                        Box::new(import_rewriter(base, resolver))
                     }
                     _ => Box::new(noop_pass()),
                 },
@@ -655,23 +660,25 @@ impl Options {
             };
 
             let typescript_import_rewriter = Optional::new(
-                rewriter::typescript_import_rewriter(),
+                modules::rewriter::typescript_import_rewriter(),
                 rewrite_relative_import_extensions.into_bool(),
             );
 
             // swc_import_rewriter should be in front of typescript_import_rewriter
             // because path aliases should be resolved before rewriting relative import
             // extensions
-            (swc_import_rewriter, typescript_import_rewriter)
+            Box::new((swc_import_rewriter, typescript_import_rewriter))
+        };
+        #[cfg(not(feature = "module"))]
+        let rewrite_import_pass: Box<dyn Pass> = {
+            let _ = &resolver;
+            let _ = &cfg.module;
+            let _ = rewrite_relative_import_extensions;
+            Box::new(noop_pass())
         };
 
-        let built_pass = (
-            pass,
-            Optional::new(
-                paren_remover(comments.map(|v| v as &dyn Comments)),
-                fixer_enabled,
-            ),
-            compat_pass,
+        #[cfg(feature = "module")]
+        let module_pass: Box<dyn Pass> = Box::new((
             // module / helper
             Optional::new(
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
@@ -693,6 +700,33 @@ impl Options {
                         .map_or_else(|| target.caniuse(f), |env| env.caniuse(f))
                 },
             ),
+        ));
+        #[cfg(not(feature = "module"))]
+        let module_pass: Box<dyn Pass> = {
+            let _ = &cfg.module;
+            let _ = &resolver;
+            let _ = &feature_config;
+            Box::new((
+                rewrite_import_pass,
+                Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
+                ModuleConfig::build(
+                    cm.clone(),
+                    comments.map(|v| v as &dyn Comments),
+                    cfg.module,
+                    unresolved_mark,
+                    |_f| true,
+                ),
+            ))
+        };
+
+        let built_pass = (
+            pass,
+            Optional::new(
+                paren_remover(comments.map(|v| v as &dyn Comments)),
+                fixer_enabled,
+            ),
+            compat_pass,
+            module_pass,
             MinifierPass {
                 options: js_minify,
                 cm: cm.clone(),
@@ -942,6 +976,7 @@ impl Options {
             codegen_inline_script,
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
             unresolved_mark,
+            #[cfg(feature = "module")]
             resolver,
         })
     }
@@ -1261,6 +1296,7 @@ pub struct BuiltInput<P: Pass> {
 
     pub emit_isolated_dts: bool,
     pub unresolved_mark: Mark,
+    #[cfg(feature = "module")]
     pub resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
 }
 
@@ -1295,6 +1331,7 @@ where
             codegen_inline_script: self.codegen_inline_script,
             emit_isolated_dts: self.emit_isolated_dts,
             unresolved_mark: self.unresolved_mark,
+            #[cfg(feature = "module")]
             resolver: self.resolver,
         }
     }
@@ -1461,6 +1498,7 @@ impl Default for ErrorFormat {
 pub type Paths = IndexMap<String, Vec<String>, FxBuildHasher>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
+#[cfg(feature = "module")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 #[serde(tag = "type")]
@@ -1479,6 +1517,28 @@ pub enum ModuleConfig {
     NodeNext(EsModuleConfig),
 }
 
+/// Stub enum when module feature is disabled.
+/// Config will still deserialize but transforms won't run.
+#[cfg(not(feature = "module"))]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[serde(tag = "type")]
+pub enum ModuleConfig {
+    #[serde(rename = "commonjs")]
+    CommonJs(serde_json::Value),
+    #[serde(rename = "umd")]
+    Umd(serde_json::Value),
+    #[serde(rename = "amd")]
+    Amd(serde_json::Value),
+    #[serde(rename = "systemjs")]
+    SystemJs(serde_json::Value),
+    #[serde(rename = "es6")]
+    Es6(serde_json::Value),
+    #[serde(rename = "nodenext")]
+    NodeNext(serde_json::Value),
+}
+
+#[cfg(feature = "module")]
 impl ModuleConfig {
     pub fn build<'cmt>(
         cm: Arc<SourceMap>,
@@ -1594,6 +1654,32 @@ impl ModuleConfig {
         };
 
         Some((base, resolver))
+    }
+}
+
+/// Stub impl when module feature is disabled
+#[cfg(not(feature = "module"))]
+impl ModuleConfig {
+    /// Returns a noop pass when module feature is disabled.
+    pub fn build<'cmt>(
+        _cm: Arc<SourceMap>,
+        _comments: Option<&'cmt dyn Comments>,
+        _config: Option<ModuleConfig>,
+        _unresolved_mark: Mark,
+        _caniuse: impl Fn(Feature) -> bool,
+    ) -> Box<dyn Pass + 'cmt> {
+        Box::new(noop_pass())
+    }
+
+    /// Returns None when module feature is disabled.
+    #[allow(clippy::type_complexity)]
+    pub fn get_resolver(
+        _base_url: &Path,
+        _paths: CompiledPaths,
+        _base: &FileName,
+        _config: Option<&ModuleConfig>,
+    ) -> Option<(FileName, Arc<dyn swc_ecma_loader::resolve::Resolve>)> {
+        None
     }
 }
 
@@ -1903,6 +1989,7 @@ pub(crate) fn default_env_name() -> String {
     }
 }
 
+#[cfg(feature = "module")]
 fn build_resolver(
     mut base_url: PathBuf,
     paths: CompiledPaths,
@@ -1950,7 +2037,7 @@ fn build_resolver(
 
         let r = NodeImportResolver::with_config(
             r,
-            swc_ecma_transforms::modules::path::Config {
+            modules::path::Config {
                 base_dir: Some(base_url.clone()),
                 resolve_fully,
                 file_extension: file_extension.to_owned(),
