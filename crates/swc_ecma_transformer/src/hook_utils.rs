@@ -5,11 +5,13 @@ use crate::TraverseCtx;
 
 macro_rules! chained_method {
     ($enter_name:ident, $exit_name:ident, $T:ty) => {
+        #[inline]
         fn $enter_name(&mut self, node: &mut $T, ctx: &mut TraverseCtx) {
             self.0.$enter_name(node, ctx);
             self.1.$enter_name(node, ctx);
         }
 
+        #[inline]
         fn $exit_name(&mut self, node: &mut $T, ctx: &mut TraverseCtx) {
             self.0.$exit_name(node, ctx);
             self.1.$exit_name(node, ctx);
