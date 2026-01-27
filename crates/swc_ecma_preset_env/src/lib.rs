@@ -15,8 +15,6 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-#[cfg(feature = "es3")]
-use swc_ecma_transforms::compat::es3;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
@@ -296,9 +294,9 @@ where
     #[cfg(feature = "es3")]
     let pass = {
         let mut options = swc_ecma_transformer::Options::default();
-        options.env.es3.property_literals = caniuse(Feature::PropertyLiterals);
-        options.env.es3.member_expression_literals = caniuse(Feature::MemberExpressionLiterals);
-        options.env.es3.reserved_words = caniuse(Feature::ReservedWords);
+        options.env.es3.property_literals = !caniuse(Feature::PropertyLiterals);
+        options.env.es3.member_expression_literals = !caniuse(Feature::MemberExpressionLiterals);
+        options.env.es3.reserved_words = !caniuse(Feature::ReservedWords);
         options.env.es3.preserve_import = dynamic_import;
         // Skip traversal when no transforms are enabled
         let is_enabled = options.env.is_enabled();
