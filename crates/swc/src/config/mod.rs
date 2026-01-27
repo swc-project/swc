@@ -5,7 +5,10 @@ use std::{
     sync::Arc,
 };
 
-#[cfg(feature = "module")]
+#[cfg(any(
+    feature = "module",
+    all(feature = "plugin", not(target_arch = "wasm32"))
+))]
 use anyhow::Context;
 use anyhow::{bail, Error};
 use bytes_str::BytesStr;
