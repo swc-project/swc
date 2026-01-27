@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = { workspace = true }
 name          = "swc_css_prefixer"
 repository    = { workspace = true }
-version       = "21.0.0"
+version       = "22.0.0"
 
 [lib]
 bench = false
@@ -18,7 +18,7 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
-preset_env_base = { version = "6.0.0", path = "../preset_env_base" }
+preset_env_base = { version = "7.0.0", path = "../preset_env_base" }
 swc_atoms       = { version = "9.0.0", path = "../swc_atoms" }
 swc_common      = { version = "18.0.1", path = "../swc_common" }
 swc_css_ast     = { version = "18.0.0", path = "../swc_css_ast" }

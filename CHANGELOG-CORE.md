@@ -1,4 +1,132 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Emit leading comments for JSX elements, fragments, and empty expressions ([#11488](https://github.com/swc-project/swc/issues/11488)) ([1520633](https://github.com/swc-project/swc/commit/1520633549965eb6838c80d4389431074613bd0e))
+
+
+- **(es/decorators)** Invoke addInitializer callbacks for decorated fields ([#11495](https://github.com/swc-project/swc/issues/11495)) ([11cfe4d](https://github.com/swc-project/swc/commit/11cfe4deaea8c66cd1f78e8894b4df11ebdbe0f7))
+
+
+- **(es/es3)** Visit export decl body even if name is not reserved ([#11473](https://github.com/swc-project/swc/issues/11473)) ([9113fff](https://github.com/swc-project/swc/commit/9113fffc8cae6d379c5ce7bfd9f5373f6ee9a3aa))
+
+
+- **(es/es3)** Remove duplicate code ([#11499](https://github.com/swc-project/swc/issues/11499)) ([fbee775](https://github.com/swc-project/swc/commit/fbee7752443e491ce24b590e00d78677b7e4c8f4))
+
+
+- **(es/minifier)** Treat new expression with empty class as side-effect free ([#11455](https://github.com/swc-project/swc/issues/11455)) ([a33a45e](https://github.com/swc-project/swc/commit/a33a45e3bd4e6227d143174198d36f7cbc4b9f2b))
+
+
+- **(es/minifier)** Escape control characters when converting strings to template literals ([#11464](https://github.com/swc-project/swc/issues/11464)) ([028551f](https://github.com/swc-project/swc/commit/028551f4f0d00c3880df8af324d3b5eb2637cfb9))
+
+
+- **(es/minifier)** Handle unused parameters with default values ([#11494](https://github.com/swc-project/swc/issues/11494)) ([6ed1ee9](https://github.com/swc-project/swc/commit/6ed1ee9ca1e816aedfe0387d240479c1dbfcffef))
+
+
+- **(es/module)** Preserve ./ prefix for hidden directory imports ([#11489](https://github.com/swc-project/swc/issues/11489)) ([a005391](https://github.com/swc-project/swc/commit/a0053916e786711be01f73c767e3c2283c9fb4f6))
+
+
+- **(es/parser)** Validate dynamic import argument count ([#11462](https://github.com/swc-project/swc/issues/11462)) ([2f67591](https://github.com/swc-project/swc/commit/2f67591e2c9bb41a711d739e6bc81d20a673bfd6))
+
+
+- **(es/parser)** Allow compilation with --no-default-features ([#11460](https://github.com/swc-project/swc/issues/11460)) ([b70c5f8](https://github.com/swc-project/swc/commit/b70c5f8ade85c3e4a17e0fed61ce850ab6b1f53c))
+
+
+- **(es/parser)** Skip emitting TS1102 in TypeScript mode ([#11463](https://github.com/swc-project/swc/issues/11463)) ([e6f5b06](https://github.com/swc-project/swc/commit/e6f5b06561c1d87d0235aea5cfce9c253afdcc74))
+
+
+- **(es/parser)** Reject ambiguous generic arrow functions in TSX mode ([#11491](https://github.com/swc-project/swc/issues/11491)) ([ac00915](https://github.com/swc-project/swc/commit/ac00915ba027bbb2c805ad0abd8d945d7dcf4055))
+
+
+- **(es/parser)** Disallow NumericLiteralSeparator with BigInts ([#11510](https://github.com/swc-project/swc/issues/11510)) ([6b3644b](https://github.com/swc-project/swc/commit/6b3644b9ca58530a5e0bb92586bdf8210b89124f))
+
+
+- **(es/react)** Preserve HTML entity-encoded whitespace in JSX ([#11474](https://github.com/swc-project/swc/issues/11474)) ([7d433a9](https://github.com/swc-project/swc/commit/7d433a95ccc372535b4f5b9dc691cbd313c2f388))
+
+
+- **(es/renamer)** Prevent duplicate parameter names with destructuring patterns ([#11456](https://github.com/swc-project/swc/issues/11456)) ([e25a2c8](https://github.com/swc-project/swc/commit/e25a2c82db0e33c098a8ecd19bb933115e74ac1a))
+
+
+- **(es/testing)** Skip update when expected output has invalid code ([#11469](https://github.com/swc-project/swc/issues/11469)) ([2be6b8a](https://github.com/swc-project/swc/commit/2be6b8a1fe3f55c30655f82dcf0cf6c04aa9a331))
+
+
+- **(es/typescript)** Don't mark enums with opaque members as pure ([#11452](https://github.com/swc-project/swc/issues/11452)) ([b713fae](https://github.com/swc-project/swc/commit/b713fae8cc1b4fb7a45ffb4bf4a7e9d1facb651f))
+
+
+- **(preset-env)** Distinguish unknown browser vs empty config ([#11457](https://github.com/swc-project/swc/issues/11457)) ([1310957](https://github.com/swc-project/swc/commit/1310957bec15ce2352dcb2dde8adb77664625c69))
+
+### Documentation
+
+
+
+- Replace swc.config.js references with .swcrc ([#11485](https://github.com/swc-project/swc/issues/11485)) ([fec8d2c](https://github.com/swc-project/swc/commit/fec8d2cbb8e7f5eaaed369dd1b45347839fa0c18))
+
+### Features
+
+
+
+- **(cli)** Add --root-mode argument for .swcrc resolution ([#11501](https://github.com/swc-project/swc/issues/11501)) ([b53a0e2](https://github.com/swc-project/swc/commit/b53a0e2a98a7556c5f8a74270a717e4078793053))
+
+
+- **(es/module)** Make module transforms optional via `module` feature ([#11509](https://github.com/swc-project/swc/issues/11509)) ([b94a178](https://github.com/swc-project/swc/commit/b94a17851c9032e0e17c3c9912cfdb60d00722f4))
+
+
+- **(es/regexp)** Implement unicode property escape transpilation ([#11472](https://github.com/swc-project/swc/issues/11472)) ([a2e0ba0](https://github.com/swc-project/swc/commit/a2e0ba0151fdde2c11c093d3ab2960410f4ffb86))
+
+
+- **(es/transformer)** Merge ES3 hooks into swc_ecma_transformer ([#11503](https://github.com/swc-project/swc/issues/11503)) ([5efcac9](https://github.com/swc-project/swc/commit/5efcac946f5cf88e900da2867dc8b92c411bdd18))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/minifier)** Extend OrderedChain to support more node types ([#11477](https://github.com/swc-project/swc/issues/11477)) ([aa9d789](https://github.com/swc-project/swc/commit/aa9d789953fc8e62e07b91e25137573d3a4d70d7))
+
+### Performance
+
+
+
+- **(bindings)** Optimize string handling by avoiding unnecessary clones ([#11490](https://github.com/swc-project/swc/issues/11490)) ([81daaaa](https://github.com/swc-project/swc/commit/81daaaa054a579fd2b425c5362b33ffc90471e6f))
+
+
+- **(es/codegen)** Make `commit_pending_semi` explicit in `write_punct` ([#11492](https://github.com/swc-project/swc/issues/11492)) ([5a27fc0](https://github.com/swc-project/swc/commit/5a27fc0c49872098339bf897957af5a6b459abf9))
+
+
+- **(es/es2015)** Port ES2015 transforms to hook-based visitors ([#11484](https://github.com/swc-project/swc/issues/11484)) ([a54eb0e](https://github.com/swc-project/swc/commit/a54eb0ef7518f759e52636162870f90233ef8532))
+
+
+- **(es/es3)** Use hooks pattern for single AST traversal ([#11483](https://github.com/swc-project/swc/issues/11483)) ([a139fba](https://github.com/swc-project/swc/commit/a139fba3b9aca632e02e64333312c989f10e0ef8))
+
+
+- **(es/minifier)** Use combined AST traversal ([#11471](https://github.com/swc-project/swc/issues/11471)) ([c611663](https://github.com/swc-project/swc/commit/c611663e9f22293233d5bd8084c3de703dec8b14))
+
+
+- **(es/transformer)** Add inline hint ([#11508](https://github.com/swc-project/swc/issues/11508)) ([d72c9df](https://github.com/swc-project/swc/commit/d72c9df7e390389c3f9a2645341f920c5d42d0db))
+
+### Refactor
+
+
+
+- **(es/compat)** Put ES3 crates behind feature flag ([#11480](https://github.com/swc-project/swc/issues/11480)) ([d5a8d84](https://github.com/swc-project/swc/commit/d5a8d8447a6a4517372a5d52151e6732d74a1ade))
+
+### Testing
+
+
+
+- **(es/minifier)** Add test case for `merge_imports` order preservation ([#11458](https://github.com/swc-project/swc/issues/11458)) ([b874a05](https://github.com/swc-project/swc/commit/b874a05d5cde160c4d40f0d73f871fdb1746a753))
+
+
+- **(es/parser)** Add error tests for import.source and import.defer with too many args ([#11466](https://github.com/swc-project/swc/issues/11466)) ([7313462](https://github.com/swc-project/swc/commit/731346282ebdb11fd3a1fb6b558cc83982e4afcb))
+
+
+- **(es/parser)** Check `handler.has_errors()` in test error parsing ([#11487](https://github.com/swc-project/swc/issues/11487)) ([fade647](https://github.com/swc-project/swc/commit/fade647452ed288d42336a4c5580b49bd4953e23))
+
+
+- Replace deprecated `cargo_bin` function with `cargo_bin!` macro ([#11461](https://github.com/swc-project/swc/issues/11461)) ([73f77b6](https://github.com/swc-project/swc/commit/73f77b6331b1501592315b78babcc96d9ae9b483))
+
 ## [swc_core@v55.0.1] - 2026-01-19
 
 ### Features
@@ -2494,116 +2622,5 @@
 
 
 - **(es/transforms)** Unify `preset_env` and `es_version` transform ([#10451](https://github.com/swc-project/swc/issues/10451)) ([6546c27](https://github.com/swc-project/swc/commit/6546c27fab5a3bd3b1a114ccf35c5a5c725935fe))
-
-## [swc_core@v24.0.0] - 2025-05-12
-
-### Bug Fixes
-
-
-
-- **(es/jest)** Revert #10410 ([#10452](https://github.com/swc-project/swc/issues/10452)) ([bc756f8](https://github.com/swc-project/swc/commit/bc756f84c9b1c154fe7f00193066301658ef1484))
-
-### Features
-
-
-
-- **(common)** Add `ignoreList` support for sourcemap ([#10442](https://github.com/swc-project/swc/issues/10442)) ([6750459](https://github.com/swc-project/swc/commit/6750459d9180048a39c11e14b02c9bfed251a12e))
-
-
-- **(config)** Allow using glob in some places ([#10445](https://github.com/swc-project/swc/issues/10445)) ([f7a6359](https://github.com/swc-project/swc/commit/f7a635985e8bf9654ed999b3d4da72b4a27e7fda))
-
-
-- **(config)** Use `globset` instead ([#10446](https://github.com/swc-project/swc/issues/10446)) ([7bbaef8](https://github.com/swc-project/swc/commit/7bbaef8b170348839f1b43617244c1809896c094))
-
-### Performance
-
-
-
-- **(es/minifier)** Use fxhash for DCE ([#10440](https://github.com/swc-project/swc/issues/10440)) ([c0ddd96](https://github.com/swc-project/swc/commit/c0ddd96f694ca35825d7ca89a1bb318ffb23625c))
-
-
-- **(es/minifier)** Remove needless `collect_decls` call ([#10450](https://github.com/swc-project/swc/issues/10450)) ([8e4b6ce](https://github.com/swc-project/swc/commit/8e4b6ce881448813935e6ae68d16a838d7a01838))
-
-
-- **(es/optimization)** Rely on `resolver` from `inline_globals` ([#10449](https://github.com/swc-project/swc/issues/10449)) ([1978809](https://github.com/swc-project/swc/commit/197880946afb1eeea85520b83fa04a91fc1c6de4))
-
-
-- **(es/utils)** Make `IdentUsageFinder` parallel ([#10444](https://github.com/swc-project/swc/issues/10444)) ([d074bca](https://github.com/swc-project/swc/commit/d074bcaf201e26ce2973633f9ef9f142b74f8dc3))
-
-### Build
-
-
-
-- Update `rustc` to `nightly-2025-05-06` ([#10443](https://github.com/swc-project/swc/issues/10443)) ([a7cbde7](https://github.com/swc-project/swc/commit/a7cbde7fdbe17c12bd0c2b205f0349a21707ec65))
-
-## [swc_core@v23.2.0] - 2025-05-06
-
-### Build
-
-
-
-- **(plugin)** Update `wasmer` to `v6.0.0` ([#10439](https://github.com/swc-project/swc/issues/10439)) ([b9eff3c](https://github.com/swc-project/swc/commit/b9eff3c92b77cfd9b15b24d7e08614ac0c59f8fd))
-
-## [swc_core@v23.1.0] - 2025-05-06
-
-### Bug Fixes
-
-
-
-- **(es/react-compiler)** Mark function components declared as a var interesting ([#10437](https://github.com/swc-project/swc/issues/10437)) ([5eac076](https://github.com/swc-project/swc/commit/5eac076b77fa43649cde468deee49771a987781c))
-
-### Features
-
-
-
-- **(common)** Allow using `build_sourcemap` with multiple `SourceMap` ([#10438](https://github.com/swc-project/swc/issues/10438)) ([2a07c8a](https://github.com/swc-project/swc/commit/2a07c8a9c223cbb3862cf7aaafa7659667d13b6e))
-
-## [swc_core@v22.6.0] - 2025-05-02
-
-### Bug Fixes
-
-
-
-- **(@swc/types)** Add `transform.nativeClassProperties` ([#10418](https://github.com/swc-project/swc/issues/10418)) ([f3af44c](https://github.com/swc-project/swc/commit/f3af44c1540268c02c86b71796f1a0ac50594584))
-
-
-- **(@swc/types)** Add `resolveFully` to `BaseModuleConfig` ([#10426](https://github.com/swc-project/swc/issues/10426)) ([164cbaa](https://github.com/swc-project/swc/commit/164cbaa2c02a3216096fa7b969fcfa6575954892))
-
-
-- **(es/jest)** Hoisting vars with names starting with mock ([#10410](https://github.com/swc-project/swc/issues/10410)) ([a29eb29](https://github.com/swc-project/swc/commit/a29eb2973365ae22cae0fde6e20693b538962cf9))
-
-
-- **(es/module)** Handle `__proto__` export name ([#10420](https://github.com/swc-project/swc/issues/10420)) ([1b94c7a](https://github.com/swc-project/swc/commit/1b94c7a7fb8c55200faa474448f2cc29612f6aa0))
-
-
-- **(es/optimization)** Support decimal numbers in `jsonify` ([#10424](https://github.com/swc-project/swc/issues/10424)) ([affdec2](https://github.com/swc-project/swc/commit/affdec2be84d58ac30f91bf17325bd3095e1ce46))
-
-### Features
-
-
-
-- **(es/react-compiler)** Initialize support crate ([#10422](https://github.com/swc-project/swc/issues/10422)) ([1e88e6b](https://github.com/swc-project/swc/commit/1e88e6b4143ba450b80fedcf4bdd34aa0a990590))
-
-### Refactor
-
-
-
-- **(common)** Remove useless `&mut` ([#10405](https://github.com/swc-project/swc/issues/10405)) ([edbeb49](https://github.com/swc-project/swc/commit/edbeb4947a78d778de111c61f02edf0e8d3ce3ae))
-
-## [swc_core@v22.5.4] - 2025-04-29
-
-### Bug Fixes
-
-
-
-- **(es/compat)** Remove `PURE` mark from _async_to_generator ([#10414](https://github.com/swc-project/swc/issues/10414)) ([1c6f65c](https://github.com/swc-project/swc/commit/1c6f65cd5b2c742a41b35b8711af00eb61297f88))
-
-## [swc_core@v22.5.3] - 2025-04-29
-
-### Refactor
-
-
-
-- Use debug level tracing for ast related tracing ([#10411](https://github.com/swc-project/swc/issues/10411)) ([3a0fa99](https://github.com/swc-project/swc/commit/3a0fa9968ebce3f6ce46961fa539dbbb07d32658))
 
 <!-- generated by git-cliff -->

@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc"
 repository    = { workspace = true }
-version       = "53.0.0"
+version       = "54.0.0"
 
 [lib]
 bench = false
@@ -87,10 +87,10 @@ swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
-swc_compiler_base = { version = "46.0.0", path = "../swc_compiler_base" }
+swc_compiler_base = { version = "47.0.0", path = "../swc_compiler_base" }
 swc_config = { version = "3.1.2", path = "../swc_config" }
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "22.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "26.0.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "27.0.0", path = "../swc_ecma_lints", optional = true }
 swc_ecma_loader = { version = "18.0.0", path = "../swc_ecma_loader", features = [
@@ -98,21 +98,21 @@ swc_ecma_loader = { version = "18.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "43.0.2", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_minifier = { version = "44.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
-swc_ecma_transforms = { version = "45.0.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_preset_env = { version = "47.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
+swc_ecma_transforms = { version = "46.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "optimization",
   "proposal",
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_module = { version = "39.0.0", path = "../swc_ecma_transforms_module", optional = true }
+swc_ecma_transforms_module = { version = "40.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
+swc_ecma_transforms_compat = { version = "42.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
 swc_ecma_transforms_optimization = { version = "38.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
@@ -148,20 +148,20 @@ criterion                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 walkdir                   = { workspace = true }
 
-swc_ecma_ast = { version = "20.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
 swc_ecma_lints = { version = "27.0.0", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
-swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env", features = [
+swc_ecma_preset_env = { version = "47.0.0", path = "../swc_ecma_preset_env", features = [
   "es3",
 ] }
 swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat", features = [
+swc_ecma_transforms_compat = { version = "42.0.0", path = "../swc_ecma_transforms_compat", features = [
   "es3",
 ] }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
