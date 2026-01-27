@@ -25,9 +25,12 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["lint", "isolated-dts"]
+default = ["lint", "isolated-dts", "module"]
 es3 = ["swc_ecma_transforms_compat/es3", "swc_ecma_preset_env/es3"]
 isolated-dts = ["swc_typescript"]
+# Enable module transforms (CommonJS, AMD, UMD, SystemJS).
+# Bundlers typically don't need this as they handle module transforms themselves.
+module = ["swc_ecma_transforms/module", "swc_ecma_transforms_module"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
@@ -102,12 +105,12 @@ swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-fea
 swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
 swc_ecma_transforms = { version = "45.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
-  "module",
   "optimization",
   "proposal",
   "react",
   "typescript",
 ] }
+swc_ecma_transforms_module = { version = "39.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "41.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
 swc_ecma_transforms_optimization = { version = "38.0.0", path = "../swc_ecma_transforms_optimization" }
