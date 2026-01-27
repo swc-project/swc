@@ -15,8 +15,6 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-#[cfg(feature = "es3")]
-use swc_ecma_transforms::compat::es3;
 use swc_ecma_transforms::{
     compat::{
         bugfixes,
@@ -222,6 +220,7 @@ where
             unresolved_mark
         )
     );
+
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
     let pass = {
         // We use a separate options for es2015 transforms because of the pass order.
@@ -293,15 +292,16 @@ where
 
     // ES 3
     #[cfg(feature = "es3")]
-    let pass = add!(pass, PropertyLiterals, es3::property_literals());
-    #[cfg(feature = "es3")]
-    let pass = add!(
-        pass,
-        MemberExpressionLiterals,
-        es3::member_expression_literals()
-    );
-    #[cfg(feature = "es3")]
-    let pass = add!(pass, ReservedWords, es3::reserved_words(dynamic_import));
+    let pass = {
+        let mut options = swc_ecma_transformer::Options::default();
+        options.env.es3.property_literals = !caniuse(Feature::PropertyLiterals);
+        options.env.es3.member_expression_literals = !caniuse(Feature::MemberExpressionLiterals);
+        options.env.es3.reserved_words = !caniuse(Feature::ReservedWords);
+        options.env.es3.preserve_import = dynamic_import;
+        // Skip traversal when no transforms are enabled
+        let is_enabled = options.env.is_enabled();
+        (pass, Optional::new(options.into_pass(), is_enabled))
+    };
 
     // Bugfixes
     let pass = add!(pass, BugfixEdgeDefaultParam, bugfixes::edge_default_param());

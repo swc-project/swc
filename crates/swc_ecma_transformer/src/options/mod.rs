@@ -1,6 +1,8 @@
 use swc_common::SyntaxContext;
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
+#[cfg(feature = "es3")]
+pub use crate::es3::Es3Options;
 pub use crate::{
     bugfix::BugfixOptions, decorators::DecoratorOptions, es2015::Es2015Options,
     es2016::Es2016Options, es2017::Es2017Options, es2018::Es2018Options, es2019::Es2019Options,
@@ -35,12 +37,15 @@ pub struct EnvOptions {
     pub es2015: Es2015Options,
     pub regexp: RegExpOptions,
     pub bugfix: BugfixOptions,
+    #[cfg(feature = "es3")]
+    pub es3: Es3Options,
 }
 
 impl EnvOptions {
     /// Returns true if any transform is enabled.
     pub fn is_enabled(&self) -> bool {
-        self.es2026.is_enabled()
+        #[allow(unused_mut)]
+        let mut enabled = self.es2026.is_enabled()
             || self.es2022.is_enabled()
             || self.es2021.is_enabled()
             || self.es2020.is_enabled()
@@ -50,6 +55,13 @@ impl EnvOptions {
             || self.es2016.is_enabled()
             || self.es2015.is_enabled()
             || self.regexp.is_enabled()
-            || self.bugfix.is_enabled()
+            || self.bugfix.is_enabled();
+
+        #[cfg(feature = "es3")]
+        {
+            enabled = enabled || self.es3.is_enabled();
+        }
+
+        enabled
     }
 }
