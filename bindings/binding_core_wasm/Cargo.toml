@@ -41,6 +41,7 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_codegen",
   "binding_macro_wasm",
   "ecma_transforms",
+  "ecma_transforms_module",
   "ecma_visit",
   "ecma_helpers_inline",
   "ecma_lints",

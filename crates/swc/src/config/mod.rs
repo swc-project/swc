@@ -5,7 +5,9 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Error};
+use anyhow::{bail, Error};
+#[cfg(feature = "module")]
+use anyhow::Context;
 use bytes_str::BytesStr;
 use dashmap::DashMap;
 use either::Either;
@@ -35,6 +37,7 @@ use swc_ecma_lints::{
     config::LintConfig,
     rules::{lint_pass, LintParams},
 };
+#[cfg(feature = "module")]
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -47,12 +50,6 @@ use swc_ecma_transforms::{
     fixer::{fixer, paren_remover},
     helpers,
     hygiene::{self, hygiene_with_config},
-    modules::{
-        self,
-        path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::{self, import_rewriter},
-        util, EsModuleConfig,
-    },
     optimization::{const_modules, json_parse, simplifier},
     proposals::{
         decorators, explicit_resource_management::explicit_resource_management,
@@ -62,6 +59,13 @@ use swc_ecma_transforms::{
     resolver,
     typescript::{self, TsImportExportAssignConfig},
     Assumptions,
+};
+#[cfg(feature = "module")]
+use swc_ecma_transforms::modules::{
+    self,
+    path::{ImportResolver, NodeImportResolver, Resolver},
+    rewriter::{self, import_rewriter},
+    util, EsModuleConfig,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{
@@ -76,8 +80,9 @@ use swc_visit::Optional;
 pub use crate::plugin::PluginConfig;
 use crate::{
     builder::MinifierPass, dropped_comments_preserver::dropped_comments_preserver,
-    SwcImportResolver,
 };
+#[cfg(feature = "module")]
+use crate::SwcImportResolver;
 
 #[cfg(test)]
 mod tests;
@@ -292,13 +297,20 @@ impl Options {
             target,
             loose,
             keep_class_names,
+            #[cfg(feature = "module")]
             base_url,
+            #[cfg(not(feature = "module"))]
+            base_url: _,
+            #[cfg(feature = "module")]
             paths,
+            #[cfg(not(feature = "module"))]
+            paths: _,
             minify: mut js_minify,
             experimental,
             #[cfg(feature = "lint")]
             lints,
             preserve_all_comments,
+            #[cfg(feature = "module")]
             rewrite_relative_import_extensions,
             ..
         } = cfg.jsc;
@@ -360,10 +372,15 @@ impl Options {
                         c.toplevel = Some(TerserTopLevelOptions::Bool(default_top_level));
                     }
 
+                    #[cfg(feature = "module")]
                     if matches!(
                         cfg.module,
                         None | Some(ModuleConfig::Es6(..) | ModuleConfig::NodeNext(..))
                     ) {
+                        c.module = true;
+                    }
+                    #[cfg(not(feature = "module"))]
+                    {
                         c.module = true;
                     }
 
@@ -547,6 +564,7 @@ impl Options {
             json_parse_pass,
         );
 
+        #[cfg(feature = "module")]
         let import_export_assign_config = match cfg.module {
             Some(ModuleConfig::Es6(..)) => TsImportExportAssignConfig::EsNext,
             Some(ModuleConfig::CommonJs(..))
@@ -556,6 +574,8 @@ impl Options {
             // TODO: should Preserve for SystemJS
             _ => TsImportExportAssignConfig::Classic,
         };
+        #[cfg(not(feature = "module"))]
+        let import_export_assign_config = TsImportExportAssignConfig::Classic;
 
         let verbatim_module_syntax = transform.verbatim_module_syntax.into_bool();
         let ts_enum_is_mutable = transform.ts_enum_is_mutable.into_bool();
@@ -583,8 +603,12 @@ impl Options {
                 .unwrap_or_default()
         };
 
-        let paths = paths.into_iter().collect();
+        #[cfg(feature = "module")]
+        let paths: CompiledPaths = paths.into_iter().collect();
+        #[cfg(feature = "module")]
         let resolver = ModuleConfig::get_resolver(&base_url, paths, base, cfg.module.as_ref());
+        #[cfg(not(feature = "module"))]
+        let resolver = None;
 
         let target = es_version;
         let inject_helpers = !self.skip_helper_injection;
@@ -600,6 +624,7 @@ impl Options {
         let env = cfg.env.map(Into::into);
 
         // Implementing finalize logic directly
+        #[cfg(feature = "module")]
         let (need_analyzer, import_interop, ignore_dynamic) = match cfg.module {
             Some(ModuleConfig::CommonJs(ref c)) => (true, c.import_interop(), c.ignore_dynamic),
             Some(ModuleConfig::Amd(ref c)) => {
@@ -608,11 +633,13 @@ impl Options {
             Some(ModuleConfig::Umd(ref c)) => {
                 (true, c.config.import_interop(), c.config.ignore_dynamic)
             }
-            Some(ModuleConfig::SystemJs(_))
-            | Some(ModuleConfig::Es6(..))
+            Some(ModuleConfig::Es6(..))
             | Some(ModuleConfig::NodeNext(..))
+            | Some(ModuleConfig::SystemJs(_))
             | None => (false, true.into(), true),
         };
+        #[cfg(not(feature = "module"))]
+        let (_need_analyzer, _import_interop, _ignore_dynamic) = (false, true, true);
 
         let feature_config = env
             .as_ref()
@@ -644,6 +671,7 @@ impl Options {
             .unwrap_or(false);
 
         let rewrite_import_pass = {
+            #[cfg(feature = "module")]
             let swc_import_rewriter = match resolver.clone() {
                 Some((base, resolver)) => match cfg.module {
                     None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => {
@@ -653,11 +681,16 @@ impl Options {
                 },
                 None => Box::new(noop_pass()),
             };
+            #[cfg(not(feature = "module"))]
+            let swc_import_rewriter = Box::new(noop_pass()) as Box<dyn Pass>;
 
+            #[cfg(feature = "module")]
             let typescript_import_rewriter = Optional::new(
                 rewriter::typescript_import_rewriter(),
                 rewrite_relative_import_extensions.into_bool(),
             );
+            #[cfg(not(feature = "module"))]
+            let typescript_import_rewriter = noop_pass();
 
             // swc_import_rewriter should be in front of typescript_import_rewriter
             // because path aliases should be resolved before rewriting relative import
@@ -673,14 +706,18 @@ impl Options {
             ),
             compat_pass,
             // module / helper
+            #[cfg(feature = "module")]
             Optional::new(
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer,
             ),
+            #[cfg(not(feature = "module"))]
+            noop_pass(),
             // Rewrite import pass should be before inject_helpers pass because typescript import
             // rewriter may require ts_rewrite_relative_import_extension helper
             rewrite_import_pass,
             Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
+            #[cfg(feature = "module")]
             ModuleConfig::build(
                 cm.clone(),
                 comments.map(|v| v as &dyn Comments),
@@ -693,6 +730,8 @@ impl Options {
                         .map_or_else(|| target.caniuse(f), |env| env.caniuse(f))
                 },
             ),
+            #[cfg(not(feature = "module"))]
+            noop_pass(),
             MinifierPass {
                 options: js_minify,
                 cm: cm.clone(),
@@ -1109,8 +1148,13 @@ pub struct Config {
     #[serde(default)]
     pub jsc: JscConfig,
 
+    #[cfg(feature = "module")]
     #[serde(default)]
     pub module: Option<ModuleConfig>,
+
+    #[cfg(not(feature = "module"))]
+    #[serde(default, skip_serializing)]
+    pub module: Option<serde_json::Value>,
 
     #[serde(default)]
     pub minify: BoolConfig<false>,
@@ -1261,7 +1305,10 @@ pub struct BuiltInput<P: Pass> {
 
     pub emit_isolated_dts: bool,
     pub unresolved_mark: Mark,
+    #[cfg(feature = "module")]
     pub resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
+    #[cfg(not(feature = "module"))]
+    pub resolver: Option<()>,
 }
 
 impl<P> BuiltInput<P>
@@ -1461,6 +1508,7 @@ impl Default for ErrorFormat {
 pub type Paths = IndexMap<String, Vec<String>, FxBuildHasher>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
+#[cfg(feature = "module")]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 #[serde(tag = "type")]
@@ -1479,6 +1527,7 @@ pub enum ModuleConfig {
     NodeNext(EsModuleConfig),
 }
 
+#[cfg(feature = "module")]
 impl ModuleConfig {
     pub fn build<'cmt>(
         cm: Arc<SourceMap>,
@@ -1903,6 +1952,7 @@ pub(crate) fn default_env_name() -> String {
     }
 }
 
+#[cfg(feature = "module")]
 fn build_resolver(
     mut base_url: PathBuf,
     paths: CompiledPaths,

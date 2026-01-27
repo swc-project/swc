@@ -27,6 +27,7 @@ concurrent = [
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
 default = ["lint", "isolated-dts"]
 es3 = ["swc_ecma_transforms_compat/es3", "swc_ecma_preset_env/es3"]
+module = ["swc_ecma_transforms/module"]
 isolated-dts = ["swc_typescript"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
@@ -102,7 +103,6 @@ swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser", default-fea
 swc_ecma_preset_env = { version = "46.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
 swc_ecma_transforms = { version = "45.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
-  "module",
   "optimization",
   "proposal",
   "react",

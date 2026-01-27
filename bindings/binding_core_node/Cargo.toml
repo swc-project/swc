@@ -58,6 +58,7 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_loader",
   "ecma_helpers_inline",
   "ecma_transforms",
+  "ecma_transforms_module",
   "ecma_visit",
   "base_node",
   "base_concurrent",

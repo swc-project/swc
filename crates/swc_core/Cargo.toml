@@ -309,7 +309,7 @@ __plugin_transform_schema_test = [
 ]
 
 ## Common
-__base = ["swc"]
+__base = ["swc", "swc/module"]
 __binding_macros = [
   "__ecma",
   "common",
