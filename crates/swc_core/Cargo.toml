@@ -61,6 +61,9 @@ allocator_node = ["swc_malloc"]
 # it is named as 'base' instead.
 base            = ["__base"]
 base_concurrent = ["__base", "swc/concurrent"]
+# Enable module transforms (CommonJS, AMD, UMD, SystemJS).
+# Bundlers typically don't need this as they handle module transforms themselves.
+base_module = ["__base", "swc/module"]
 # Enables n-api related features.
 base_node = [
   "__base",

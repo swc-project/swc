@@ -42,6 +42,7 @@ swc_core = { version = "55.0.2", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",
+  "base_module",
 ], path = "../swc_core" }
 
 [dev-dependencies]
