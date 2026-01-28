@@ -1367,14 +1367,21 @@ impl<'a> ParamCollector<'a> {
                 }
             }
 
-            stmts.push(
-                VarDecl {
-                    kind: VarDeclKind::Let,
-                    decls,
-                    ..Default::default()
-                }
-                .into(),
-            );
+            // Safari 13.1/14.1 has a bug where comma-separated destructuring
+            // declarations that depend on variables from earlier declarations in the
+            // same statement fail. To work around this, we emit each declarator as
+            // a separate statement.
+            // See: https://github.com/swc-project/swc/issues/11513
+            for decl in decls {
+                stmts.push(
+                    VarDecl {
+                        kind: VarDeclKind::Let,
+                        decls: vec![decl],
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
         } else {
             // No rest - simple array destructuring
             let array_pat = Pat::Array(ArrayPat {
