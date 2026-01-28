@@ -126,6 +126,9 @@ where
         exit_module_export_name,
         ModuleExportName
     );
+
+    // Bugfix hooks: object pattern handling
+    chained_method!(enter_object_pat, exit_object_pat, ObjectPat);
 }
 
 pub(crate) struct NoopHook;
