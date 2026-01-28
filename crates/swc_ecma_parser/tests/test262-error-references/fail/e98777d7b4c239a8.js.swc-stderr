@@ -3,3 +3,15 @@
  1 | switch `test`
    :        ^^^^^^
    `----
+  x Expected ')', got '<eof>'
+   ,-[$DIR/tests/test262-parser/fail/e98777d7b4c239a8.js:1:1]
+ 1 | switch `test`
+   `----
+  x Expected '{', got '<eof>'
+   ,-[$DIR/tests/test262-parser/fail/e98777d7b4c239a8.js:1:1]
+ 1 | switch `test`
+   `----
+  x Expected '}', got '<eof>'
+   ,-[$DIR/tests/test262-parser/fail/e98777d7b4c239a8.js:1:1]
+ 1 | switch `test`
+   `----

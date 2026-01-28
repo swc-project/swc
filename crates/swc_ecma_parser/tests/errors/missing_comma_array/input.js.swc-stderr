@@ -1,0 +1,10 @@
+  x Expected ',', got 'numeric literal'
+   ,-[$DIR/tests/errors/missing_comma_array/input.js:1:1]
+ 1 | let arr = [1 2 3];
+   :              ^
+   `----
+  x Expected ',', got 'numeric literal'
+   ,-[$DIR/tests/errors/missing_comma_array/input.js:1:1]
+ 1 | let arr = [1 2 3];
+   :                ^
+   `----

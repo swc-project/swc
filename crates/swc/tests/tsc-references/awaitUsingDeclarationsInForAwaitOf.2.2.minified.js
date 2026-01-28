@@ -17,3 +17,13 @@
 //!    :                                ^^
 //!  6 | }
 //!    `----
+//!   x Expected ';', '}' or <eof>
+//!    ,-[5:1]
+//!  2 | // https://github.com/microsoft/TypeScript/issues/55555
+//!  3 | 
+//!  4 | async function test() {
+//!  5 |   for await (await using of of of) {};
+//!    :                                ^|^
+//!    :                                 `-- This is the expression part of an expression statement
+//!  6 | }
+//!    `----

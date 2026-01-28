@@ -1,4 +1,8 @@
-  x Expression expected
+  x Expected ']', got 'eof'
+   ,-[$DIR/tests/test262-parser/fail/4ee7b10cd97f554c.js:1:1]
+ 1 | [,
+   `----
+  x Expected ']', got '<eof>'
    ,-[$DIR/tests/test262-parser/fail/4ee7b10cd97f554c.js:1:1]
  1 | [,
    `----

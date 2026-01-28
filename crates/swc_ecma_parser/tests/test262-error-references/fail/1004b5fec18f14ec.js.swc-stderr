@@ -1,4 +1,4 @@
-  x Unexpected token `<eof>`. Expected identifier, string literal, numeric literal or [ for the computed key
+  x Expected '}', got 'eof'
    ,-[$DIR/tests/test262-parser/fail/1004b5fec18f14ec.js:1:1]
  1 | 1 + { t:t,
    `----

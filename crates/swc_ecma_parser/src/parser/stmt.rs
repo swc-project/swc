@@ -489,7 +489,8 @@ impl<I: Tokens> Parser<I> {
         } else {
             None
         };
-        expect!(self, Token::LParen);
+        // Recovery: use expect_or_recover for opening paren
+        expect_or_recover!(self, Token::LParen);
 
         let head = self.do_inside_of_context(Context::ForLoopInit, |p| {
             if await_token.is_some() {
@@ -499,7 +500,8 @@ impl<I: Tokens> Parser<I> {
             }
         })?;
 
-        expect!(self, Token::RParen);
+        // Recovery: use expect_or_recover for closing paren
+        expect_or_recover!(self, Token::RParen);
 
         let body = self
             .do_inside_of_context(
@@ -574,7 +576,8 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::If);
         let if_token = self.input().prev_span();
 
-        expect!(self, Token::LParen);
+        // Recovery: use expect_or_recover for opening paren
+        expect_or_recover!(self, Token::LParen);
 
         let test = self
             .do_outside_of_context(Context::IgnoreElseClause, |p| {
@@ -591,7 +594,8 @@ impl<I: Tokens> Parser<I> {
                 )
             })?;
 
-        expect!(self, Token::RParen);
+        // Recovery: use expect_or_recover for closing paren
+        expect_or_recover!(self, Token::RParen);
 
         let cons = {
             // Prevent stack overflow
@@ -717,9 +721,10 @@ impl<I: Tokens> Parser<I> {
 
         self.assert_and_bump(Token::While);
 
-        expect!(self, Token::LParen);
+        // Recovery: use expect_or_recover for parens
+        expect_or_recover!(self, Token::LParen);
         let test = self.allow_in_expr(|p| p.parse_expr())?;
-        expect!(self, Token::RParen);
+        expect_or_recover!(self, Token::RParen);
 
         let body = self
             .do_inside_of_context(
@@ -779,12 +784,13 @@ impl<I: Tokens> Parser<I> {
             )
             .map(Box::new)?;
 
-        expect!(self, Token::While);
-        expect!(self, Token::LParen);
+        // Recovery: use expect_or_recover for while and parens
+        expect_or_recover!(self, Token::While);
+        expect_or_recover!(self, Token::LParen);
 
         let test = self.allow_in_expr(|p| p.parse_expr())?;
 
-        expect!(self, Token::RParen);
+        expect_or_recover!(self, Token::RParen);
 
         // We *may* eat semicolon.
         let _ = self.eat_general_semi();
@@ -920,14 +926,16 @@ impl<I: Tokens> Parser<I> {
 
         self.assert_and_bump(Token::Switch);
 
-        expect!(self, Token::LParen);
+        // Recovery: use expect_or_recover for parens
+        expect_or_recover!(self, Token::LParen);
         let discriminant = self.allow_in_expr(|p| p.parse_expr())?;
-        expect!(self, Token::RParen);
+        expect_or_recover!(self, Token::RParen);
 
         let mut cases = Vec::new();
         let mut span_of_previous_default = None;
 
-        expect!(self, Token::LBrace);
+        // Recovery: use expect_or_recover for opening brace
+        expect_or_recover!(self, Token::LBrace);
 
         self.do_inside_of_context(Context::IsBreakAllowed, |p| {
             while {
@@ -948,11 +956,15 @@ impl<I: Tokens> Parser<I> {
 
                     None
                 };
-                expect!(p, Token::Colon);
+                // Recovery: use expect_or_recover for colon after case/default
+                expect_or_recover!(p, Token::Colon);
 
                 while {
                     let cur = p.input().cur();
-                    !(cur == Token::Case || cur == Token::Default || cur == Token::RBrace)
+                    !(cur == Token::Case
+                        || cur == Token::Default
+                        || cur == Token::RBrace
+                        || cur == Token::Eof)
                 } {
                     cons.push(
                         p.do_outside_of_context(Context::TopLevel, Self::parse_stmt_list_item)?,
@@ -969,8 +981,8 @@ impl<I: Tokens> Parser<I> {
             Ok(())
         })?;
 
-        // eof or rbrace
-        expect!(self, Token::RBrace);
+        // eof or rbrace - Recovery: use expect_or_recover
+        expect_or_recover!(self, Token::RBrace);
 
         Ok(SwitchStmt {
             span: self.span(switch_start),

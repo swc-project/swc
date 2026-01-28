@@ -46,6 +46,25 @@ macro_rules! expect {
     }};
 }
 
+/// Like `expect!`, but recovers from the error by emitting it and continuing.
+/// Returns `true` if the token was found and consumed, `false` if it was
+/// missing.
+macro_rules! expect_or_recover {
+    ($p:expr, $t:expr) => {{
+        if $p.input_mut().eat($t) {
+            true
+        } else {
+            let span = $p.input().cur_span();
+            let cur = $p.input_mut().dump_cur();
+            $p.emit_err(
+                span,
+                $crate::error::SyntaxError::Expected(format!("{:?}", $t), cur),
+            );
+            false
+        }
+    }};
+}
+
 macro_rules! unexpected {
     ($p:expr, $expected:literal) => {{
         let got = $p.input_mut().dump_cur();

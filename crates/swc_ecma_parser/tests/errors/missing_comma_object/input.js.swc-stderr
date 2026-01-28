@@ -1,0 +1,5 @@
+  x Expected ',', got 'ident'
+   ,-[$DIR/tests/errors/missing_comma_object/input.js:1:1]
+ 1 | let obj = {a: 1 b: 2};
+   :                 ^
+   `----
