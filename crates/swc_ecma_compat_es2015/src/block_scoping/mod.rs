@@ -14,7 +14,6 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
-use swc_trace_macro::swc_trace;
 
 mod vars;
 
@@ -429,7 +428,6 @@ impl BlockScoping {
     }
 }
 
-#[swc_trace]
 impl VisitMut for BlockScoping {
     noop_visit_mut_type!(fail);
 
@@ -679,7 +677,6 @@ impl FlowHelper<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for FlowHelper<'_> {
     noop_visit_mut_type!(fail);
 
@@ -912,7 +909,6 @@ impl MutationHandler<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for MutationHandler<'_> {
     noop_visit_mut_type!(fail);
 

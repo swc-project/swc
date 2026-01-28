@@ -12,7 +12,6 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use swc_trace_macro::swc_trace;
 
 pub fn spread(c: Config, unresolved_mark: Mark) -> impl Pass {
     let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
@@ -36,7 +35,6 @@ struct Spread {
     vars: Vec<VarDeclarator>,
 }
 
-#[swc_trace]
 #[fast_path(SpreadFinder)]
 impl VisitMut for Spread {
     noop_visit_mut_type!(fail);
@@ -198,7 +196,6 @@ impl VisitMut for Spread {
     }
 }
 
-#[swc_trace]
 impl Spread {
     fn visit_mut_stmt_like<T>(&mut self, items: &mut Vec<T>)
     where
@@ -227,7 +224,6 @@ impl Spread {
     }
 }
 
-#[swc_trace]
 impl Spread {
     fn concat_args(
         &self,

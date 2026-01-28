@@ -3,7 +3,6 @@ use swc_ecma_ast::*;
 use swc_ecma_compat_es2015::arrow;
 use swc_ecma_utils::prepend_stmt;
 use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith, InjectVars, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 /// A bugfix pass for Safari 10.3.
 ///
@@ -26,7 +25,6 @@ struct AsyncArrowsInClass {
 }
 
 /// TODO: VisitMut
-#[swc_trace]
 impl Fold for AsyncArrowsInClass {
     standard_only_fold!();
 

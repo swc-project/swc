@@ -7,7 +7,6 @@ use swc_ecma_utils::{
     prepend_stmt,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, InjectVars, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 /// Compile ES2015 arrow functions to ES5
 ///
@@ -70,7 +69,6 @@ struct Arrow {
     hoister: FnEnvHoister,
 }
 
-#[swc_trace]
 impl VisitMut for Arrow {
     noop_visit_mut_type!(fail);
 
