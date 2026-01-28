@@ -746,12 +746,24 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
-                            if f.function
-                                .params
-                                .iter()
-                                .any(|param| matches!(param.pat, Pat::Rest(..) | Pat::Assign(..)))
-                            {
-                                return;
+                            // Check for rest parameters (can't inline) and default
+                            // parameters with side effects (unsafe to inline)
+                            for param in f.function.params.iter() {
+                                match &param.pat {
+                                    Pat::Rest(..) => return,
+                                    Pat::Assign(assign) => {
+                                        // Only skip inlining if the default value has side
+                                        // effects. If the default has no side effects, it's
+                                        // safe to inline because:
+                                        // 1. If arg is provided, default is not evaluated
+                                        // 2. If arg is not provided, we'd evaluate a
+                                        //    side-effect-free expression
+                                        if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                            return;
+                                        }
+                                    }
+                                    _ => {}
+                                }
                             }
                             report_change!(
                                 "inline: Decided to inline function `{}{:?}` as it's very simple",
