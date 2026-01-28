@@ -11498,7 +11498,148 @@ function printError() {
 }
 
 printError()
-    
+
         ",
     );
+}
+
+/// Test that `unsafe_hoist_static_method_alias` properly handles variable name
+/// collisions. When a variable already exists with the same name as the alias
+/// would have, the hoisting should either use a different name or skip
+/// hoisting.
+#[test]
+fn issue_9741_collision() {
+    let src = r#"
+const _Object_assign = [];
+_Object_assign.push(1);
+_Object_assign.push(2);
+_Object_assign.push(3);
+
+const a = {};
+Object.assign(a, {});
+const b = {};
+Object.assign(b, {});
+Object.assign(b, a);
+
+console.log(_Object_assign.length);
+console.log(_Object_assign[0]);
+console.log(Array.isArray(_Object_assign));
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test that `unsafe_hoist_global_objects_alias` hoists global constructors
+/// like Map, Set, Promise, etc. to local variables when used multiple times.
+#[test]
+fn issue_9741_global_objects() {
+    let src = r#"
+const a = new Map();
+a.set('foo', 1);
+const b = new Map();
+b.set('bar', 2);
+const c = new Map();
+c.set('baz', 3);
+
+console.log(a.get('foo'));
+console.log(b.get('bar'));
+console.log(c.get('baz'));
+console.log(a instanceof Map);
+console.log(b instanceof Map);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test that `unsafe_hoist_global_objects_alias` handles variable name
+/// collisions properly.
+#[test]
+fn issue_9741_global_objects_collision() {
+    let src = r#"
+const _Map = "not a map";
+
+const a = new Map();
+a.set('foo', 1);
+const b = new Map();
+b.set('bar', 2);
+
+console.log(_Map);
+console.log(a.get('foo'));
+console.log(b.get('bar'));
+console.log(a instanceof Map);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test that `unsafe_hoist_static_method_alias` handles function name
+/// collisions properly when a user-defined function has the same name
+/// as the generated alias.
+#[test]
+fn issue_9741_collision_function() {
+    let src = r#"
+function _Object_assign(a, b) {
+    return a + b;
+}
+console.log(_Object_assign(4, 2));
+
+const a = {};
+Object.assign(a, { x: 1 });
+const b = {};
+Object.assign(b, { y: 2 });
+console.log(a.x);
+console.log(b.y);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test both options working together.
+#[test]
+fn issue_9741_combined() {
+    let src = r#"
+const a = new Map();
+const b = new Map();
+const c = new Map();
+
+const obj1 = {};
+Object.assign(obj1, {});
+const obj2 = {};
+Object.assign(obj2, {});
+Object.assign(obj2, obj1);
+
+console.log(a instanceof Map);
+console.log(b instanceof Map);
+console.log(c instanceof Map);
+console.log(typeof obj1);
+console.log(typeof obj2);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
 }
