@@ -214,7 +214,15 @@ impl VisitMut for TemplateLiteral {
                                 obj
                             } else {
                                 CallExpr {
-                                    span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                    span: {
+                                        let lo = span.lo;
+                                        let hi = expr_span.hi() + BytePos(1);
+                                        if lo < hi {
+                                            swc_common::Span::new(lo, hi)
+                                        } else {
+                                            swc_common::Span::new(hi, lo)
+                                        }
+                                    },
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
