@@ -11498,7 +11498,39 @@ function printError() {
 }
 
 printError()
-    
+
+        ",
+    );
+}
+
+#[test]
+fn issue_11517() {
+    // Test that the minifier does not incorrectly merge if statements with
+    // similar structures but different string literal values in local variables.
+    run_default_exec_test(
+        "
+const buildErrorLog = ({
+  errorType,
+  mode,
+}) => {
+  const isModeA = mode === 'modeA';
+  const isModeB = mode === 'modeB';
+
+  if (errorType === 'A_ERROR') {
+    const message = 'A error occured';
+    return { fieldX: true, fieldY: true, message };
+  }
+  if (errorType === 'B_ERROR') {
+    const message = 'B error occured';
+    return { fieldX: true, fieldY: true, message };
+  }
+  return { fieldX: true, fieldY: true, message: 'Invalid configuration' };
+};
+
+const resultA = buildErrorLog({ errorType: 'A_ERROR', mode: 'modeA' });
+const resultB = buildErrorLog({ errorType: 'B_ERROR', mode: 'modeB' });
+console.log('A:', resultA.message);
+console.log('B:', resultB.message);
         ",
     );
 }
