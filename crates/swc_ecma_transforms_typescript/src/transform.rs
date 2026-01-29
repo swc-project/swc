@@ -225,9 +225,23 @@ impl VisitMut for Transform {
         node.visit_with(self);
 
         if !self.exported_binding.is_empty() {
+            // Build the export_by_sym map for symbol-only lookups.
+            // This maps export symbol name to namespace id for exports inside namespaces.
+            let export_by_sym = self
+                .exported_binding
+                .iter()
+                .filter_map(|((sym, _ctxt), namespace_id)| {
+                    namespace_id
+                        .as_ref()
+                        .map(|ns_id| (sym.clone(), ns_id.clone()))
+                })
+                .collect();
+
             self.ref_rewriter = Some(RefRewriter {
                 query: ExportQuery {
                     export_name: self.exported_binding.clone(),
+                    export_by_sym,
+                    unresolved_ctxt: self.unresolved_ctxt,
                 },
             });
         }
@@ -1464,13 +1478,38 @@ impl Transform {
 
 struct ExportQuery {
     export_name: FxHashMap<Id, Option<Id>>,
+    /// Map from export symbol name to namespace id.
+    /// Used for looking up exports from merged namespace declarations
+    /// where the reference has unresolved context.
+    export_by_sym: FxHashMap<Atom, Id>,
+    unresolved_ctxt: SyntaxContext,
+}
+
+impl ExportQuery {
+    /// Look up namespace id for the given identifier.
+    /// First tries exact Id match, then falls back to symbol-only match
+    /// for identifiers with unresolved context (e.g., references to exports
+    /// from merged namespace declarations).
+    fn get_namespace_id(&self, ident: &Ident) -> Option<Id> {
+        // First try exact match by Id (symbol + context)
+        if let Some(namespace_id) = self.export_name.get(&ident.to_id()) {
+            return namespace_id.clone();
+        }
+
+        // Fall back to symbol-only match if the identifier has unresolved context.
+        // This handles references to exports from merged namespace declarations,
+        // where the reference cannot be resolved to the export's binding.
+        if ident.ctxt == self.unresolved_ctxt {
+            return self.export_by_sym.get(&ident.sym).cloned();
+        }
+
+        None
+    }
 }
 
 impl QueryRef for ExportQuery {
     fn query_ref(&self, export_name: &Ident) -> Option<Box<Expr>> {
-        self.export_name
-            .get(&export_name.to_id())?
-            .clone()
+        self.get_namespace_id(export_name)
             .map(|namespace_id| namespace_id.make_member(export_name.clone().into()).into())
     }
 
@@ -1479,17 +1518,14 @@ impl QueryRef for ExportQuery {
     }
 
     fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        self.export_name
-            .get(&ident.to_id())?
-            .clone()
-            .map(|namespace_id| {
-                JSXMemberExpr {
-                    span: DUMMY_SP,
-                    obj: JSXObject::Ident(namespace_id.into()),
-                    prop: ident.clone().into(),
-                }
-                .into()
-            })
+        self.get_namespace_id(ident).map(|namespace_id| {
+            JSXMemberExpr {
+                span: DUMMY_SP,
+                obj: JSXObject::Ident(namespace_id.into()),
+                prop: ident.clone().into(),
+            }
+            .into()
+        })
     }
 }
 
