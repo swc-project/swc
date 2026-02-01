@@ -3,7 +3,9 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
+use swc_ecma_utils::{
+    contains_arguments, contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
@@ -187,6 +189,24 @@ impl Optimizer<'_> {
         let params = find_params(callee);
         if let Some(mut params) = params {
             let mut vars = HashMap::default();
+
+            // Collect parameter identifiers upfront for reference checking in default
+            // values
+            let param_idents: Vec<Option<Ident>> = params
+                .iter()
+                .map(|p| match &**p {
+                    Pat::Ident(id) => Some(id.id.clone()),
+                    Pat::Assign(assign) => {
+                        if let Pat::Ident(id) = &*assign.left {
+                            Some(id.id.clone())
+                        } else {
+                            None
+                        }
+                    }
+                    _ => None,
+                })
+                .collect();
+
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
@@ -235,6 +255,76 @@ impl Optimizer<'_> {
                             let span = param.span();
 
                             vars.insert(param.take().to_id(), Expr::undefined(span));
+                        }
+                    }
+
+                    Pat::Assign(assign_pat) => {
+                        // Handle default parameters
+                        // If the left side is an identifier, we can potentially inline
+                        if let Pat::Ident(param_id) = &*assign_pat.left {
+                            if param_id.sym == "arguments" {
+                                continue;
+                            }
+                            if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
+                                if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                                    continue;
+                                }
+                            }
+
+                            let arg = e.args.get_mut(idx).map(|v| &mut v.expr);
+
+                            if let Some(arg) = arg {
+                                // Argument provided at call site - use the argument
+                                match &**arg {
+                                    Expr::Lit(Lit::Regex(..)) => continue,
+                                    Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
+                                    Expr::Lit(..) => {}
+                                    _ => continue,
+                                }
+
+                                let should_be_inlined = self.can_be_inlined_for_iife(arg);
+                                if should_be_inlined {
+                                    let id = param_id.to_id();
+                                    trace_op!(
+                                        "iife: Trying to inline default param argument ({}{:?})",
+                                        id.0,
+                                        id.1
+                                    );
+                                    vars.insert(id, arg.take());
+                                    // Take the whole param pattern
+                                    param.take();
+                                }
+                            } else {
+                                // No argument provided - use the default value if it has no
+                                // side effects AND doesn't reference earlier parameters
+                                if !assign_pat.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                    // Check if the default value references any earlier parameter
+                                    let references_earlier_param =
+                                        param_idents.iter().take(idx).any(|maybe_ident| {
+                                            match maybe_ident {
+                                                Some(ident) => {
+                                                    contains_ident_ref(&*assign_pat.right, ident)
+                                                }
+                                                // Complex pattern - be conservative
+                                                None => true,
+                                            }
+                                        });
+
+                                    if references_earlier_param {
+                                        continue;
+                                    }
+
+                                    let id = param_id.to_id();
+                                    trace_op!(
+                                        "iife: Trying to inline default param value ({}{:?})",
+                                        id.0,
+                                        id.1
+                                    );
+                                    vars.insert(id, Box::new((*assign_pat.right).clone()));
+                                    // Take the whole param pattern
+                                    param.take();
+                                }
+                            }
                         }
                     }
 
