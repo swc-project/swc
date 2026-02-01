@@ -806,6 +806,20 @@ test!(
     r#"<div>content&#32;</div>;"#
 );
 
+// See https://github.com/swc-project/swc/issues/11520
+// Whitespace before HTML entity should be preserved when preceded by expression
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_whitespace_before_entity,
+    r#"const variable = 'foo';
+const x = <div>{variable} &ndash; something</div>;"#
+);
+
 test!(
     module,
     // Comments are currently stripped out

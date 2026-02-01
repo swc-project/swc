@@ -1824,13 +1824,10 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
     let chars: Vec<char> = t.chars().collect();
     let has_line_terminator = chars.iter().any(|&c| is_line_terminator(c));
 
-    let has_trimmable_leading = chars
-        .first()
-        .is_some_and(|&c| is_white_space_single_line(c) && !entity_mask.first().unwrap_or(&false));
-
-    // For single-line text, we keep trailing whitespace (matching original
-    // behavior)
-    if !t.is_empty() && !has_line_terminator && !has_trimmable_leading {
+    // For single-line text, we keep all whitespace (matching original behavior)
+    // The original jsx_text_to_str_impl preserves leading/trailing whitespace on
+    // single-line text
+    if !t.is_empty() && !has_line_terminator {
         return t.into();
     }
 
@@ -1838,11 +1835,15 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
     let mut only_line: Option<String> = None;
     let mut line_start: Option<usize> = Some(0);
     let mut line_end: Option<usize> = None;
+    // Track if we've seen any line terminators - used to decide whether to trim
+    // leading whitespace on the final line
+    let mut seen_line_terminator = false;
 
     for (char_idx, c) in chars.iter().enumerate() {
         let is_from_entity = *entity_mask.get(char_idx).unwrap_or(&false);
 
         if is_line_terminator(*c) {
+            seen_line_terminator = true;
             // Process current line - trim both leading AND trailing (intermediate
             // line)
             if let (Some(start), Some(end)) = (line_start, line_end) {
@@ -1860,11 +1861,18 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
         }
     }
 
-    // Handle final line - only trim leading, keep trailing (matching original
-    // behavior)
+    // Handle final line - only trim leading if we've seen line terminators
+    // (matching original jsx_text_to_str_impl behavior where leading whitespace
+    // is preserved on single-line text)
     if let Some(start) = line_start {
-        // For final line, take from first non-whitespace (or entity) to end of string
-        let line_text = extract_line_content(&chars, start, chars.len(), entity_mask, true, false);
+        let line_text = extract_line_content(
+            &chars,
+            start,
+            chars.len(),
+            entity_mask,
+            seen_line_terminator,
+            false,
+        );
         add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
     }
 
