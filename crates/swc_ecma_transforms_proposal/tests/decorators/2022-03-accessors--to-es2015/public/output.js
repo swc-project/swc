@@ -25,7 +25,7 @@ class Foo {
     constructor(){
         _class_private_field_init(this, ____private_a_1, {
             writable: true,
-            value: (_initProto(this), _init_a(this))
+            value: _init_a(this)
         });
         _class_private_field_init(this, ____private_b_2, {
             writable: true,
@@ -35,6 +35,7 @@ class Foo {
             writable: true,
             value: _init_computedKey(this, 456)
         });
+        _initProto(this);
     }
 }
 ({ e: [_init_a, _init_b, _init_computedKey, _initProto] } = _apply_decs_2203_r(Foo, [

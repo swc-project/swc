@@ -93,12 +93,15 @@ new class extends _identity {
                 ]));
                 _initStatic(this);
             }
+            constructor(){
+                _initProto(this);
+            }
             a() {}
             static b() {}
             get #d() {
                 return _call_d;
             }
-            #___private_e_1 = (_initProto(this), _init_e(this));
+            #___private_e_1 = _init_e(this);
             get e() {
                 return this.#___private_e_1;
             }

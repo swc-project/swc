@@ -821,8 +821,12 @@ impl VisitMut for DecoratorPass {
                 ..Default::default()
             };
             // _initProto must run AFTER super() but BEFORE field initialization.
-            // We inject it into the first non-static field's initializer expression.
-            // If there are no fields with initializers, we inject into the constructor.
+            // We inject it into the first non-static PUBLIC field's initializer expression.
+            // IMPORTANT: We do NOT inject into private fields because accessing private
+            // fields from within the addInitializer callback would fail - private fields
+            // are not accessible until their initializer has completed.
+            // If there are no public fields with initializers, we inject into the
+            // constructor.
             let mut proto_inited = false;
             for member in n.body.iter_mut() {
                 if let ClassMember::ClassProp(prop) = member {
@@ -838,20 +842,11 @@ impl VisitMut for DecoratorPass {
                         proto_inited = true;
                         break;
                     }
-                } else if let ClassMember::PrivateProp(prop) = member {
-                    if prop.is_static {
-                        continue;
-                    }
-                    if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
-                            init_proto_expr.clone().into(),
-                            value,
-                        ]));
-
-                        proto_inited = true;
-                        break;
-                    }
                 }
+                // Note: We intentionally skip PrivateProp here - _initProto
+                // should not be called in private field
+                // initializers because accessing private fields
+                // from addInitializer callbacks would fail at that point.
             }
 
             if !proto_inited {
