@@ -21,7 +21,10 @@ class Foo {
             ]
         ], []));
     }
-    #___private_a_1 = (_initProto(this), _init_a(this));
+    constructor(){
+        _initProto(this);
+    }
+    #___private_a_1 = _init_a(this);
     get a() {
         return this.#___private_a_1;
     }
