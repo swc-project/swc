@@ -3,7 +3,9 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
+use swc_ecma_utils::{
+    contains_arguments, contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
@@ -187,6 +189,24 @@ impl Optimizer<'_> {
         let params = find_params(callee);
         if let Some(mut params) = params {
             let mut vars = HashMap::default();
+
+            // Collect parameter identifiers upfront for reference checking in default
+            // values
+            let param_idents: Vec<Option<Ident>> = params
+                .iter()
+                .map(|p| match &**p {
+                    Pat::Ident(id) => Some(id.id.clone()),
+                    Pat::Assign(assign) => {
+                        if let Pat::Ident(id) = &*assign.left {
+                            Some(id.id.clone())
+                        } else {
+                            None
+                        }
+                    }
+                    _ => None,
+                })
+                .collect();
+
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
@@ -276,8 +296,24 @@ impl Optimizer<'_> {
                                 }
                             } else {
                                 // No argument provided - use the default value if it has no
-                                // side effects
+                                // side effects AND doesn't reference earlier parameters
                                 if !assign_pat.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                    // Check if the default value references any earlier parameter
+                                    let references_earlier_param =
+                                        param_idents.iter().take(idx).any(|maybe_ident| {
+                                            match maybe_ident {
+                                                Some(ident) => {
+                                                    contains_ident_ref(&*assign_pat.right, ident)
+                                                }
+                                                // Complex pattern - be conservative
+                                                None => true,
+                                            }
+                                        });
+
+                                    if references_earlier_param {
+                                        continue;
+                                    }
+
                                     let id = param_id.to_id();
                                     trace_op!(
                                         "iife: Trying to inline default param value ({}{:?})",

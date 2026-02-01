@@ -6,7 +6,8 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
+    class_has_side_effect, collect_decls, contains_ident_ref, contains_this_expr, find_pat_ids,
+    ExprExt, Remapper,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -747,19 +748,44 @@ impl Optimizer<'_> {
                             )
                         {
                             // Check for rest parameters (can't inline) and default
-                            // parameters with side effects (unsafe to inline)
-                            for param in f.function.params.iter() {
+                            // parameters with side effects or that reference other
+                            // parameters (unsafe to inline)
+                            for (param_idx, param) in f.function.params.iter().enumerate() {
                                 match &param.pat {
                                     Pat::Rest(..) => return,
                                     Pat::Assign(assign) => {
-                                        // Only skip inlining if the default value has side
-                                        // effects. If the default has no side effects, it's
-                                        // safe to inline because:
-                                        // 1. If arg is provided, default is not evaluated
-                                        // 2. If arg is not provided, we'd evaluate a
-                                        //    side-effect-free expression
+                                        // Skip inlining if the default value has side effects
                                         if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
                                             return;
+                                        }
+
+                                        // Skip inlining if the default value references any
+                                        // earlier parameter. E.g., `function(a, b = a) {...}` -
+                                        // `b = a` references `a`, which makes inlining unsafe.
+                                        for earlier_param in
+                                            f.function.params.iter().take(param_idx)
+                                        {
+                                            let earlier_ident = match &earlier_param.pat {
+                                                Pat::Ident(id) => Some(&id.id),
+                                                Pat::Assign(a) => {
+                                                    if let Pat::Ident(id) = &*a.left {
+                                                        Some(&id.id)
+                                                    } else {
+                                                        // Complex pattern - be conservative
+                                                        return;
+                                                    }
+                                                }
+                                                _ => {
+                                                    // Complex pattern - be conservative
+                                                    return;
+                                                }
+                                            };
+
+                                            if let Some(ident) = earlier_ident {
+                                                if contains_ident_ref(&*assign.right, ident) {
+                                                    return;
+                                                }
+                                            }
                                         }
                                     }
                                     _ => {}
