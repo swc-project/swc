@@ -6889,8 +6889,13 @@
                         // last char was a lead
                         if (!leadSurrogate) {
                             // no lead yet
-                            if (codePoint > 0xdbff || i + 1 === length) {
+                            if (codePoint > 0xdbff) {
                                 // unexpected trail
+                                (units -= 3) > -1 && bytes.push(0xef, 0xbf, 0xbd);
+                                continue;
+                            }
+                            if (i + 1 === length) {
+                                // unpaired lead
                                 (units -= 3) > -1 && bytes.push(0xef, 0xbf, 0xbd);
                                 continue;
                             }
