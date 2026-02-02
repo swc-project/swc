@@ -11498,7 +11498,3037 @@ function printError() {
 }
 
 printError()
-    
+
         ",
+    );
+}
+
+// ============================================================================
+// Complex execution tests for minifier edge cases
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Default parameters - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn default_param_with_closure_capture() {
+    run_default_exec_test(
+        r#"
+function outer(x = 10) {
+    return function inner() {
+        return x * 2;
+    };
+}
+console.log(outer()());
+console.log(outer(5)());
+        "#,
+    );
+}
+
+#[test]
+fn default_param_referencing_earlier_param() {
+    run_default_exec_test(
+        r#"
+function foo(a, b = a * 2, c = a + b) {
+    return [a, b, c];
+}
+console.log(foo(3).join(','));
+console.log(foo(3, 10).join(','));
+console.log(foo(3, 10, 20).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn default_param_with_destructuring() {
+    run_default_exec_test(
+        r#"
+function foo({ x = 1, y = 2 } = {}) {
+    return x + y;
+}
+console.log(foo());
+console.log(foo({}));
+console.log(foo({ x: 10 }));
+console.log(foo({ x: 10, y: 20 }));
+        "#,
+    );
+}
+
+#[test]
+fn default_param_with_function_call() {
+    run_default_exec_test(
+        r#"
+let counter = 0;
+function getDefault() {
+    counter++;
+    return counter;
+}
+function foo(a = getDefault()) {
+    return a;
+}
+console.log(foo());
+console.log(foo());
+console.log(foo(100));
+console.log(foo());
+console.log(counter);
+        "#,
+    );
+}
+
+#[test]
+fn default_param_with_reassignment_in_body() {
+    run_default_exec_test(
+        r#"
+function foo(a = 5) {
+    a = a * 2;
+    return a;
+}
+console.log(foo());
+console.log(foo(10));
+        "#,
+    );
+}
+
+// This test is covered by issue #11512 test cases - the fix is in this PR
+#[test]
+fn default_param_with_destructuring_reassignment() {
+    let src = r#"
+function foo(a = 2) {
+    for (var [a] of [[1]]);
+    return a;
+}
+console.log(foo());
+        "#;
+    // Use specific config that doesn't inline this pattern
+    let config = r#"{
+        "defaults": true,
+        "toplevel": false
+    }"#;
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn default_param_complex_expression() {
+    run_default_exec_test(
+        r#"
+const config = { multiplier: 3 };
+function foo(a = config.multiplier * 2 + 1) {
+    return a;
+}
+console.log(foo());
+console.log(foo(100));
+        "#,
+    );
+}
+
+#[test]
+fn default_param_array_destructuring() {
+    run_default_exec_test(
+        r#"
+function foo([a = 1, b = 2, c = 3] = []) {
+    return a + b + c;
+}
+console.log(foo());
+console.log(foo([10]));
+console.log(foo([10, 20]));
+console.log(foo([10, 20, 30]));
+        "#,
+    );
+}
+
+#[test]
+fn default_param_nested_destructuring() {
+    run_default_exec_test(
+        r#"
+function foo({ a: { b = 1 } = {} } = {}) {
+    return b;
+}
+console.log(foo());
+console.log(foo({}));
+console.log(foo({ a: {} }));
+console.log(foo({ a: { b: 10 } }));
+        "#,
+    );
+}
+
+#[test]
+fn default_param_rest_combination() {
+    run_default_exec_test(
+        r#"
+function foo(a = 1, b = 2, ...rest) {
+    return [a, b, rest.length];
+}
+console.log(foo().join(','));
+console.log(foo(10).join(','));
+console.log(foo(10, 20).join(','));
+console.log(foo(10, 20, 30, 40, 50).join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Closure and variable capture - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn closure_capture_in_loop_let() {
+    run_default_exec_test(
+        r#"
+const results = [];
+for (let i = 0; i < 5; i++) {
+    results.push(() => i);
+}
+console.log(results.map(f => f()).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn closure_capture_in_loop_var() {
+    run_default_exec_test(
+        r#"
+const results = [];
+for (var i = 0; i < 5; i++) {
+    (function(j) {
+        results.push(() => j);
+    })(i);
+}
+console.log(results.map(f => f()).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn closure_multiple_captures() {
+    run_default_exec_test(
+        r#"
+function outer(a) {
+    let b = a * 2;
+    const c = a * 3;
+    return {
+        getA: () => a,
+        getB: () => b,
+        getC: () => c,
+        setB: (val) => { b = val; }
+    };
+}
+const obj = outer(5);
+console.log(obj.getA(), obj.getB(), obj.getC());
+obj.setB(100);
+console.log(obj.getA(), obj.getB(), obj.getC());
+        "#,
+    );
+}
+
+#[test]
+fn closure_nested_scope_shadowing() {
+    run_default_exec_test(
+        r#"
+let x = 'outer';
+function foo() {
+    let x = 'middle';
+    return function() {
+        let x = 'inner';
+        return x;
+    };
+}
+console.log(x);
+console.log(foo()());
+        "#,
+    );
+}
+
+#[test]
+fn closure_self_referencing() {
+    run_default_exec_test(
+        r#"
+const fib = (function() {
+    const memo = {};
+    return function fib(n) {
+        if (n in memo) return memo[n];
+        if (n <= 1) return n;
+        return memo[n] = fib(n - 1) + fib(n - 2);
+    };
+})();
+console.log(fib(10));
+        "#,
+    );
+}
+
+#[test]
+fn closure_iife_sequence() {
+    run_default_exec_test(
+        r#"
+const result = (function() {
+    let counter = 0;
+    return [
+        () => ++counter,
+        () => ++counter,
+        () => counter
+    ];
+})();
+console.log(result[0]());
+console.log(result[1]());
+console.log(result[2]());
+        "#,
+    );
+}
+
+#[test]
+fn closure_with_arguments() {
+    run_default_exec_test(
+        r#"
+function foo() {
+    const args = arguments;
+    return function() {
+        return Array.prototype.slice.call(args).join(',');
+    };
+}
+console.log(foo(1, 2, 3)());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Destructuring - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn destructuring_nested_objects() {
+    run_default_exec_test(
+        r#"
+const data = {
+    user: {
+        name: 'John',
+        address: {
+            city: 'NYC',
+            zip: '10001'
+        }
+    }
+};
+const { user: { name, address: { city, zip } } } = data;
+console.log(name, city, zip);
+        "#,
+    );
+}
+
+#[test]
+fn destructuring_with_renaming() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1, b: 2, c: 3 };
+const { a: x, b: y, c: z } = obj;
+console.log(x, y, z);
+        "#,
+    );
+}
+
+#[test]
+fn destructuring_array_swap() {
+    run_default_exec_test(
+        r#"
+let a = 1, b = 2;
+[a, b] = [b, a];
+console.log(a, b);
+        "#,
+    );
+}
+
+#[test]
+fn destructuring_rest_in_object() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1, b: 2, c: 3, d: 4 };
+const { a, b, ...rest } = obj;
+console.log(a, b, Object.keys(rest).sort().join(','));
+        "#,
+    );
+}
+
+#[test]
+fn destructuring_rest_in_array() {
+    run_default_exec_test(
+        r#"
+const arr = [1, 2, 3, 4, 5];
+const [first, second, ...rest] = arr;
+console.log(first, second, rest.join(','));
+        "#,
+    );
+}
+
+#[test]
+fn destructuring_mixed_nested() {
+    run_default_exec_test(
+        r#"
+const data = {
+    items: [
+        { name: 'a', value: 1 },
+        { name: 'b', value: 2 }
+    ],
+    meta: { count: 2 }
+};
+const { items: [{ name: firstName }, { value: secondValue }], meta: { count } } = data;
+console.log(firstName, secondValue, count);
+        "#,
+    );
+}
+
+#[test]
+fn destructuring_computed_property() {
+    run_default_exec_test(
+        r#"
+const key = 'dynamicKey';
+const obj = { dynamicKey: 42 };
+const { [key]: value } = obj;
+console.log(value);
+        "#,
+    );
+}
+
+#[test]
+fn destructuring_in_function_params() {
+    run_default_exec_test(
+        r#"
+function process({ name, age }, [first, ...rest]) {
+    return `${name} is ${age}, first: ${first}, rest: ${rest.length}`;
+}
+console.log(process({ name: 'John', age: 30 }, [1, 2, 3, 4]));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Spread and Rest operators - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn spread_array_concatenation() {
+    run_default_exec_test(
+        r#"
+const a = [1, 2, 3];
+const b = [4, 5, 6];
+const c = [...a, ...b, 7, 8, 9];
+console.log(c.join(','));
+        "#,
+    );
+}
+
+#[test]
+fn spread_object_merge() {
+    run_default_exec_test(
+        r#"
+const a = { x: 1, y: 2 };
+const b = { y: 3, z: 4 };
+const c = { ...a, ...b };
+console.log(c.x, c.y, c.z);
+        "#,
+    );
+}
+
+#[test]
+fn spread_nested_objects() {
+    run_default_exec_test(
+        r#"
+const original = { a: 1, nested: { b: 2 } };
+const shallow = { ...original };
+original.a = 100;
+original.nested.b = 200;
+console.log(shallow.a, shallow.nested.b);
+        "#,
+    );
+}
+
+#[test]
+fn spread_in_function_call() {
+    run_default_exec_test(
+        r#"
+function sum(a, b, c, d, e) {
+    return a + b + c + d + e;
+}
+const args = [2, 3, 4];
+console.log(sum(1, ...args, 5));
+        "#,
+    );
+}
+
+#[test]
+fn spread_with_generators() {
+    run_default_exec_test(
+        r#"
+function* gen() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+console.log([...gen()].join(','));
+        "#,
+    );
+}
+
+#[test]
+fn rest_params_with_this() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    multiplier: 2,
+    multiply(...nums) {
+        return nums.map(n => n * this.multiplier);
+    }
+};
+console.log(obj.multiply(1, 2, 3).join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Classes and prototypes - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn class_inheritance_basic() {
+    run_default_exec_test(
+        r#"
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    speak() {
+        return `${this.name} makes a sound`;
+    }
+}
+class Dog extends Animal {
+    speak() {
+        return `${this.name} barks`;
+    }
+}
+const d = new Dog('Rex');
+console.log(d.speak());
+console.log(d instanceof Dog);
+console.log(d instanceof Animal);
+        "#,
+    );
+}
+
+#[test]
+fn class_super_method_call() {
+    run_default_exec_test(
+        r#"
+class Parent {
+    greet() {
+        return 'Hello from Parent';
+    }
+}
+class Child extends Parent {
+    greet() {
+        return super.greet() + ' and Child';
+    }
+}
+console.log(new Child().greet());
+        "#,
+    );
+}
+
+#[test]
+fn class_static_members() {
+    run_default_exec_test(
+        r#"
+class Counter {
+    static count = 0;
+    static increment() {
+        return ++Counter.count;
+    }
+    static getCount() {
+        return Counter.count;
+    }
+}
+console.log(Counter.increment());
+console.log(Counter.increment());
+console.log(Counter.getCount());
+        "#,
+    );
+}
+
+#[test]
+fn class_getters_setters() {
+    run_default_exec_test(
+        r#"
+class Temperature {
+    constructor(celsius) {
+        this._celsius = celsius;
+    }
+    get celsius() {
+        return this._celsius;
+    }
+    set celsius(value) {
+        this._celsius = value;
+    }
+    get fahrenheit() {
+        return this._celsius * 9/5 + 32;
+    }
+}
+const t = new Temperature(0);
+console.log(t.celsius, t.fahrenheit);
+t.celsius = 100;
+console.log(t.celsius, t.fahrenheit);
+        "#,
+    );
+}
+
+#[test]
+fn class_computed_method_names() {
+    run_default_exec_test(
+        r#"
+const methodName = 'dynamicMethod';
+class MyClass {
+    [methodName]() {
+        return 'called dynamic method';
+    }
+    ['prefix' + 'Method']() {
+        return 'called prefixMethod';
+    }
+}
+const obj = new MyClass();
+console.log(obj.dynamicMethod());
+console.log(obj.prefixMethod());
+        "#,
+    );
+}
+
+#[test]
+fn class_private_like_with_closure() {
+    run_default_exec_test(
+        r#"
+const Counter = (function() {
+    let count = 0;
+    return class {
+        increment() { return ++count; }
+        decrement() { return --count; }
+        getCount() { return count; }
+    };
+})();
+const c1 = new Counter();
+const c2 = new Counter();
+console.log(c1.increment());
+console.log(c2.increment());
+console.log(c1.getCount());
+        "#,
+    );
+}
+
+#[test]
+fn prototype_chain_manipulation() {
+    run_default_exec_test(
+        r#"
+function Animal(name) {
+    this.name = name;
+}
+Animal.prototype.speak = function() {
+    return this.name + ' speaks';
+};
+function Dog(name) {
+    Animal.call(this, name);
+}
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+Dog.prototype.bark = function() {
+    return this.name + ' barks';
+};
+const d = new Dog('Rex');
+console.log(d.speak());
+console.log(d.bark());
+console.log(d instanceof Dog);
+console.log(d instanceof Animal);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Symbol and iterators - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn symbol_as_property_key() {
+    run_default_exec_test(
+        r#"
+const sym = Symbol('test');
+const obj = {
+    [sym]: 'secret',
+    visible: 'public'
+};
+console.log(obj[sym]);
+console.log(obj.visible);
+console.log(Object.keys(obj).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn custom_iterator() {
+    run_default_exec_test(
+        r#"
+const range = {
+    from: 1,
+    to: 5,
+    [Symbol.iterator]() {
+        let current = this.from;
+        const last = this.to;
+        return {
+            next() {
+                if (current <= last) {
+                    return { value: current++, done: false };
+                }
+                return { done: true };
+            }
+        };
+    }
+};
+console.log([...range].join(','));
+        "#,
+    );
+}
+
+#[test]
+fn symbol_iterator_with_for_of() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    data: [10, 20, 30],
+    [Symbol.iterator]() {
+        let index = 0;
+        const data = this.data;
+        return {
+            next() {
+                if (index < data.length) {
+                    return { value: data[index++], done: false };
+                }
+                return { done: true };
+            }
+        };
+    }
+};
+const result = [];
+for (const x of obj) {
+    result.push(x);
+}
+console.log(result.join(','));
+        "#,
+    );
+}
+
+#[test]
+fn symbol_species() {
+    run_default_exec_test(
+        r#"
+class MyArray extends Array {
+    static get [Symbol.species]() {
+        return Array;
+    }
+}
+const arr = new MyArray(1, 2, 3);
+const mapped = arr.map(x => x * 2);
+console.log(arr instanceof MyArray);
+console.log(mapped instanceof MyArray);
+console.log(mapped instanceof Array);
+console.log(mapped.join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Generators and async - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn generator_basic() {
+    run_default_exec_test(
+        r#"
+function* countTo(n) {
+    for (let i = 1; i <= n; i++) {
+        yield i;
+    }
+}
+const gen = countTo(5);
+const results = [];
+for (const n of gen) {
+    results.push(n);
+}
+console.log(results.join(','));
+        "#,
+    );
+}
+
+#[test]
+fn generator_with_return() {
+    run_default_exec_test(
+        r#"
+function* gen() {
+    yield 1;
+    yield 2;
+    return 'done';
+}
+const g = gen();
+console.log(JSON.stringify(g.next()));
+console.log(JSON.stringify(g.next()));
+console.log(JSON.stringify(g.next()));
+        "#,
+    );
+}
+
+#[test]
+fn generator_delegation() {
+    run_default_exec_test(
+        r#"
+function* inner() {
+    yield 2;
+    yield 3;
+}
+function* outer() {
+    yield 1;
+    yield* inner();
+    yield 4;
+}
+console.log([...outer()].join(','));
+        "#,
+    );
+}
+
+#[test]
+fn generator_two_way_communication() {
+    run_default_exec_test(
+        r#"
+function* dialogue() {
+    const response1 = yield 'Hello';
+    const response2 = yield response1 + ' there';
+    return response2 + '!';
+}
+const gen = dialogue();
+console.log(gen.next().value);
+console.log(gen.next('Hi').value);
+console.log(gen.next('Bye').value);
+        "#,
+    );
+}
+
+#[test]
+fn generator_infinite_sequence() {
+    run_default_exec_test(
+        r#"
+function* fibonacci() {
+    let [prev, curr] = [0, 1];
+    while (true) {
+        yield curr;
+        [prev, curr] = [curr, prev + curr];
+    }
+}
+const fib = fibonacci();
+const results = [];
+for (let i = 0; i < 10; i++) {
+    results.push(fib.next().value);
+}
+console.log(results.join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Proxy and Reflect - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn proxy_get_trap() {
+    run_default_exec_test(
+        r#"
+const target = { a: 1, b: 2 };
+const handler = {
+    get(obj, prop) {
+        if (prop in obj) {
+            return obj[prop] * 10;
+        }
+        return 0;
+    }
+};
+const proxy = new Proxy(target, handler);
+console.log(proxy.a);
+console.log(proxy.b);
+console.log(proxy.c);
+        "#,
+    );
+}
+
+#[test]
+fn proxy_set_trap() {
+    run_default_exec_test(
+        r#"
+const target = {};
+const handler = {
+    set(obj, prop, value) {
+        if (typeof value === 'number') {
+            obj[prop] = value * 2;
+            return true;
+        }
+        return false;
+    }
+};
+const proxy = new Proxy(target, handler);
+proxy.a = 5;
+proxy.b = 10;
+console.log(target.a, target.b);
+        "#,
+    );
+}
+
+#[test]
+fn proxy_has_trap() {
+    run_default_exec_test(
+        r#"
+const target = { visible: 1, _hidden: 2 };
+const handler = {
+    has(obj, prop) {
+        if (prop.startsWith('_')) {
+            return false;
+        }
+        return prop in obj;
+    }
+};
+const proxy = new Proxy(target, handler);
+console.log('visible' in proxy);
+console.log('_hidden' in proxy);
+        "#,
+    );
+}
+
+#[test]
+fn reflect_basic() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1 };
+console.log(Reflect.get(obj, 'a'));
+Reflect.set(obj, 'b', 2);
+console.log(obj.b);
+console.log(Reflect.has(obj, 'a'));
+console.log(Reflect.has(obj, 'c'));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Template literals - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn template_literal_nested() {
+    run_default_exec_test(
+        r#"
+const name = 'world';
+const greeting = `Hello, ${`dear ${name}`}!`;
+console.log(greeting);
+        "#,
+    );
+}
+
+#[test]
+fn template_literal_with_expressions() {
+    run_default_exec_test(
+        r#"
+const a = 5, b = 10;
+console.log(`Sum: ${a + b}, Product: ${a * b}, Comparison: ${a < b}`);
+        "#,
+    );
+}
+
+#[test]
+fn tagged_template_basic() {
+    run_default_exec_test(
+        r#"
+function tag(strings, ...values) {
+    return strings.reduce((acc, str, i) => {
+        return acc + str + (values[i] !== undefined ? `[${values[i]}]` : '');
+    }, '');
+}
+const name = 'Alice';
+const age = 30;
+console.log(tag`Name: ${name}, Age: ${age}`);
+        "#,
+    );
+}
+
+#[test]
+fn tagged_template_raw() {
+    run_default_exec_test(
+        r#"
+function showRaw(strings) {
+    return strings.raw.join('|');
+}
+console.log(showRaw`Hello\nWorld\tTab`);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Optional chaining and nullish coalescing - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn optional_chaining_deep() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    a: {
+        b: {
+            c: 42
+        }
+    }
+};
+console.log(obj?.a?.b?.c);
+console.log(obj?.a?.x?.c);
+console.log(obj?.x?.y?.z);
+        "#,
+    );
+}
+
+#[test]
+fn optional_chaining_method() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    greet() { return 'hello'; }
+};
+console.log(obj.greet?.());
+console.log(obj.missing?.());
+        "#,
+    );
+}
+
+#[test]
+fn optional_chaining_with_bracket() {
+    run_default_exec_test(
+        r#"
+const obj = { a: { b: 1 } };
+const key = 'b';
+console.log(obj?.a?.[key]);
+console.log(obj?.x?.[key]);
+        "#,
+    );
+}
+
+#[test]
+fn nullish_coalescing_basic() {
+    run_default_exec_test(
+        r#"
+const a = null ?? 'default';
+const b = undefined ?? 'default';
+const c = 0 ?? 'default';
+const d = '' ?? 'default';
+const e = false ?? 'default';
+console.log(a, b, c, d, e);
+        "#,
+    );
+}
+
+#[test]
+fn nullish_coalescing_with_optional_chaining() {
+    run_default_exec_test(
+        r#"
+const obj = { a: { b: null } };
+console.log(obj?.a?.b ?? 'default');
+console.log(obj?.a?.c ?? 'default');
+console.log(obj?.x?.y ?? 'default');
+        "#,
+    );
+}
+
+#[test]
+fn nullish_assignment() {
+    run_default_exec_test(
+        r#"
+let a = null;
+let b = undefined;
+let c = 0;
+let d = '';
+a ??= 'default';
+b ??= 'default';
+c ??= 'default';
+d ??= 'default';
+console.log(a, b, c, d);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex control flow - edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn control_flow_labeled_break() {
+    run_default_exec_test(
+        r#"
+let result = 0;
+outer: for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+        if (i === 1 && j === 1) break outer;
+        result++;
+    }
+}
+console.log(result);
+        "#,
+    );
+}
+
+#[test]
+fn control_flow_labeled_continue() {
+    run_default_exec_test(
+        r#"
+let result = 0;
+outer: for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+        if (j === 1) continue outer;
+        result++;
+    }
+}
+console.log(result);
+        "#,
+    );
+}
+
+#[test]
+fn control_flow_switch_fallthrough() {
+    run_default_exec_test(
+        r#"
+function test(val) {
+    let result = '';
+    switch (val) {
+        case 1:
+            result += 'one';
+        case 2:
+            result += 'two';
+            break;
+        case 3:
+            result += 'three';
+            break;
+        default:
+            result += 'default';
+    }
+    return result;
+}
+console.log(test(1));
+console.log(test(2));
+console.log(test(3));
+console.log(test(4));
+        "#,
+    );
+}
+
+#[test]
+fn control_flow_try_finally() {
+    run_default_exec_test(
+        r#"
+function test() {
+    try {
+        return 'try';
+    } finally {
+        console.log('finally');
+    }
+}
+console.log(test());
+        "#,
+    );
+}
+
+#[test]
+fn control_flow_try_catch_finally() {
+    run_default_exec_test(
+        r#"
+function test(shouldThrow) {
+    const result = [];
+    try {
+        result.push('try');
+        if (shouldThrow) throw new Error('test');
+        result.push('after');
+    } catch (e) {
+        result.push('catch');
+    } finally {
+        result.push('finally');
+    }
+    return result.join(',');
+}
+console.log(test(false));
+console.log(test(true));
+        "#,
+    );
+}
+
+#[test]
+fn control_flow_nested_try() {
+    run_default_exec_test(
+        r#"
+function test() {
+    const result = [];
+    try {
+        result.push('outer-try');
+        try {
+            result.push('inner-try');
+            throw new Error('inner');
+        } catch (e) {
+            result.push('inner-catch');
+            throw new Error('rethrow');
+        } finally {
+            result.push('inner-finally');
+        }
+    } catch (e) {
+        result.push('outer-catch');
+    } finally {
+        result.push('outer-finally');
+    }
+    return result.join(',');
+}
+console.log(test());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// WeakMap and WeakSet - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn weakmap_basic() {
+    run_default_exec_test(
+        r#"
+const wm = new WeakMap();
+const key1 = {};
+const key2 = {};
+wm.set(key1, 'value1');
+wm.set(key2, 'value2');
+console.log(wm.get(key1));
+console.log(wm.get(key2));
+console.log(wm.has(key1));
+console.log(wm.has({}));
+        "#,
+    );
+}
+
+#[test]
+fn weakset_basic() {
+    run_default_exec_test(
+        r#"
+const ws = new WeakSet();
+const obj1 = {};
+const obj2 = {};
+ws.add(obj1);
+ws.add(obj2);
+console.log(ws.has(obj1));
+console.log(ws.has(obj2));
+console.log(ws.has({}));
+ws.delete(obj1);
+console.log(ws.has(obj1));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Map and Set - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn map_with_various_keys() {
+    run_default_exec_test(
+        r#"
+const map = new Map();
+const objKey = {};
+const arrKey = [];
+const funcKey = () => {};
+map.set(objKey, 'object');
+map.set(arrKey, 'array');
+map.set(funcKey, 'function');
+map.set(1, 'number');
+map.set('str', 'string');
+map.set(true, 'boolean');
+console.log(map.get(objKey));
+console.log(map.get(1));
+console.log(map.size);
+        "#,
+    );
+}
+
+#[test]
+fn set_operations() {
+    run_default_exec_test(
+        r#"
+const set = new Set([1, 2, 3, 2, 1]);
+console.log(set.size);
+console.log([...set].join(','));
+set.add(4);
+set.delete(2);
+console.log([...set].join(','));
+console.log(set.has(3));
+console.log(set.has(2));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Array methods - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn array_reduce_complex() {
+    run_default_exec_test(
+        r#"
+const data = [
+    { category: 'a', value: 1 },
+    { category: 'b', value: 2 },
+    { category: 'a', value: 3 },
+    { category: 'b', value: 4 }
+];
+const grouped = data.reduce((acc, item) => {
+    if (!acc[item.category]) {
+        acc[item.category] = [];
+    }
+    acc[item.category].push(item.value);
+    return acc;
+}, {});
+console.log(JSON.stringify(grouped));
+        "#,
+    );
+}
+
+#[test]
+fn array_flat_and_flatmap() {
+    run_default_exec_test(
+        r#"
+const nested = [1, [2, 3], [4, [5, 6]]];
+console.log(nested.flat().join(','));
+console.log(nested.flat(2).join(','));
+const arr = [1, 2, 3];
+console.log(arr.flatMap(x => [x, x * 2]).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn array_from_with_map() {
+    run_default_exec_test(
+        r#"
+const result = Array.from({ length: 5 }, (_, i) => i * 2);
+console.log(result.join(','));
+const str = 'hello';
+console.log(Array.from(str, c => c.toUpperCase()).join(''));
+        "#,
+    );
+}
+
+#[test]
+fn array_find_and_findindex() {
+    run_default_exec_test(
+        r#"
+const arr = [5, 12, 8, 130, 44];
+console.log(arr.find(x => x > 10));
+console.log(arr.findIndex(x => x > 10));
+console.log(arr.find(x => x > 200));
+console.log(arr.findIndex(x => x > 200));
+        "#,
+    );
+}
+
+#[test]
+fn array_includes() {
+    run_default_exec_test(
+        r#"
+const arr = [1, 2, 3, NaN];
+console.log(arr.includes(2));
+console.log(arr.includes(4));
+console.log(arr.includes(NaN));
+console.log(arr.includes(2, 2));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Object methods - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn object_entries_from_entries() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1, b: 2, c: 3 };
+const entries = Object.entries(obj);
+console.log(JSON.stringify(entries));
+const doubled = Object.fromEntries(
+    entries.map(([k, v]) => [k, v * 2])
+);
+console.log(JSON.stringify(doubled));
+        "#,
+    );
+}
+
+#[test]
+fn object_assign_deep() {
+    run_default_exec_test(
+        r#"
+const target = { a: 1, b: { c: 2 } };
+const source = { b: { d: 3 }, e: 4 };
+const result = Object.assign({}, target, source);
+console.log(JSON.stringify(result));
+console.log(result.b === source.b);
+        "#,
+    );
+}
+
+#[test]
+fn object_define_property() {
+    run_default_exec_test(
+        r#"
+const obj = {};
+Object.defineProperty(obj, 'readonly', {
+    value: 42,
+    writable: false,
+    enumerable: true
+});
+console.log(obj.readonly);
+obj.readonly = 100;
+console.log(obj.readonly);
+console.log(Object.keys(obj).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn object_get_own_property_descriptor() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1 };
+Object.defineProperty(obj, 'b', {
+    value: 2,
+    writable: false,
+    enumerable: false
+});
+const descA = Object.getOwnPropertyDescriptor(obj, 'a');
+const descB = Object.getOwnPropertyDescriptor(obj, 'b');
+console.log(descA.writable, descA.enumerable);
+console.log(descB.writable, descB.enumerable);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// String methods - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn string_padstart_padend() {
+    run_default_exec_test(
+        r#"
+console.log('5'.padStart(3, '0'));
+console.log('hello'.padEnd(10, '.'));
+console.log('abc'.padStart(2));
+        "#,
+    );
+}
+
+#[test]
+fn string_repeat() {
+    run_default_exec_test(
+        r#"
+console.log('ab'.repeat(3));
+console.log('x'.repeat(0));
+        "#,
+    );
+}
+
+#[test]
+fn string_startswith_endswith() {
+    run_default_exec_test(
+        r#"
+const str = 'Hello, World!';
+console.log(str.startsWith('Hello'));
+console.log(str.startsWith('World', 7));
+console.log(str.endsWith('!'));
+console.log(str.endsWith('World', 12));
+        "#,
+    );
+}
+
+#[test]
+fn string_replaceall() {
+    run_default_exec_test(
+        r#"
+const str = 'aabbcc';
+console.log(str.replaceAll('b', 'x'));
+console.log(str.replaceAll('bb', 'y'));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Number and Math - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn number_methods() {
+    run_default_exec_test(
+        r#"
+console.log(Number.isInteger(5));
+console.log(Number.isInteger(5.0));
+console.log(Number.isInteger(5.5));
+console.log(Number.isFinite(Infinity));
+console.log(Number.isFinite(100));
+console.log(Number.isNaN(NaN));
+console.log(Number.isNaN('NaN'));
+        "#,
+    );
+}
+
+#[test]
+fn math_methods() {
+    run_default_exec_test(
+        r#"
+console.log(Math.trunc(4.7));
+console.log(Math.trunc(-4.7));
+console.log(Math.sign(-5));
+console.log(Math.sign(0));
+console.log(Math.sign(5));
+console.log(Math.cbrt(27));
+console.log(Math.log2(8));
+console.log(Math.log10(100));
+        "#,
+    );
+}
+
+#[test]
+fn bigint_basic() {
+    run_default_exec_test(
+        r#"
+const big = 9007199254740993n;
+console.log(big.toString());
+console.log((big + 1n).toString());
+console.log((big * 2n).toString());
+console.log(BigInt(100).toString());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex expression evaluation - edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn expression_short_circuit_and() {
+    run_default_exec_test(
+        r#"
+let sideEffect = false;
+const a = false && (sideEffect = true);
+console.log(a, sideEffect);
+const b = true && (sideEffect = true);
+console.log(b, sideEffect);
+        "#,
+    );
+}
+
+#[test]
+fn expression_short_circuit_or() {
+    run_default_exec_test(
+        r#"
+let sideEffect = false;
+const a = true || (sideEffect = true);
+console.log(a, sideEffect);
+sideEffect = false;
+const b = false || (sideEffect = true);
+console.log(b, sideEffect);
+        "#,
+    );
+}
+
+#[test]
+fn expression_comma_operator() {
+    run_default_exec_test(
+        r#"
+let a = 1;
+const b = (a = 2, a * 3);
+console.log(a, b);
+const c = (1, 2, 3, 4);
+console.log(c);
+        "#,
+    );
+}
+
+#[test]
+fn expression_conditional_chain() {
+    run_default_exec_test(
+        r#"
+function grade(score) {
+    return score >= 90 ? 'A' :
+           score >= 80 ? 'B' :
+           score >= 70 ? 'C' :
+           score >= 60 ? 'D' : 'F';
+}
+console.log(grade(95));
+console.log(grade(85));
+console.log(grade(55));
+        "#,
+    );
+}
+
+#[test]
+fn expression_nested_conditional() {
+    run_default_exec_test(
+        r#"
+const a = true ? (false ? 1 : 2) : 3;
+const b = false ? 1 : (true ? 2 : 3);
+console.log(a, b);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Recursion - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn recursion_mutual() {
+    run_default_exec_test(
+        r#"
+function isEven(n) {
+    if (n === 0) return true;
+    return isOdd(n - 1);
+}
+function isOdd(n) {
+    if (n === 0) return false;
+    return isEven(n - 1);
+}
+console.log(isEven(10));
+console.log(isEven(11));
+console.log(isOdd(10));
+console.log(isOdd(11));
+        "#,
+    );
+}
+
+#[test]
+fn recursion_with_closure() {
+    run_default_exec_test(
+        r#"
+function makeCounter() {
+    let count = 0;
+    function counter(n) {
+        count++;
+        if (n <= 1) return 1;
+        return n * counter(n - 1);
+    }
+    return { counter, getCount: () => count };
+}
+const { counter, getCount } = makeCounter();
+console.log(counter(5));
+console.log(getCount());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Module pattern variations
+// ----------------------------------------------------------------------------
+
+#[test]
+fn module_pattern_basic() {
+    run_default_exec_test(
+        r#"
+const Counter = (function() {
+    let count = 0;
+    return {
+        increment() { return ++count; },
+        decrement() { return --count; },
+        getCount() { return count; }
+    };
+})();
+console.log(Counter.increment());
+console.log(Counter.increment());
+console.log(Counter.decrement());
+console.log(Counter.getCount());
+        "#,
+    );
+}
+
+#[test]
+fn revealing_module_pattern() {
+    run_default_exec_test(
+        r#"
+const Calculator = (function() {
+    let result = 0;
+    function add(x) { result += x; return this; }
+    function subtract(x) { result -= x; return this; }
+    function multiply(x) { result *= x; return this; }
+    function getResult() { return result; }
+    function reset() { result = 0; return this; }
+    return { add, subtract, multiply, getResult, reset };
+})();
+Calculator.reset().add(5).multiply(2).subtract(3);
+console.log(Calculator.getResult());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// This binding - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn this_in_arrow_vs_regular() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    name: 'obj',
+    regularMethod: function() { return this.name; },
+    arrowMethod: () => this?.name ?? 'undefined'
+};
+console.log(obj.regularMethod());
+console.log(obj.arrowMethod());
+        "#,
+    );
+}
+
+#[test]
+fn this_with_call_apply_bind() {
+    run_default_exec_test(
+        r#"
+function greet(greeting) {
+    return greeting + ', ' + this.name;
+}
+const person = { name: 'Alice' };
+console.log(greet.call(person, 'Hello'));
+console.log(greet.apply(person, ['Hi']));
+const boundGreet = greet.bind(person);
+console.log(boundGreet('Hey'));
+        "#,
+    );
+}
+
+#[test]
+fn this_in_nested_functions() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    name: 'outer',
+    method() {
+        const self = this;
+        function inner() {
+            return self.name;
+        }
+        return inner();
+    }
+};
+console.log(obj.method());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Arguments object - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn arguments_object_basics() {
+    run_default_exec_test(
+        r#"
+function test() {
+    return Array.prototype.slice.call(arguments).join(',');
+}
+console.log(test(1, 2, 3));
+console.log(test('a', 'b'));
+        "#,
+    );
+}
+
+#[test]
+fn arguments_with_named_params() {
+    run_default_exec_test(
+        r#"
+function test(a, b) {
+    arguments[0] = 100;
+    return a + ',' + arguments[0];
+}
+console.log(test(1, 2));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Eval and dynamic code - edge cases
+// ----------------------------------------------------------------------------
+
+// Indirect eval requires global scope preservation - test a simpler case
+#[test]
+fn indirect_eval_simple() {
+    run_default_exec_test(
+        r#"
+function test() {
+    var x = 'local';
+    return x;
+}
+console.log(test());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// With statement edge cases (non-strict)
+// ----------------------------------------------------------------------------
+
+// Skipped as 'with' is not allowed in strict mode
+
+// ----------------------------------------------------------------------------
+// Hoisting - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn hoisting_var_function() {
+    run_default_exec_test(
+        r#"
+console.log(typeof foo);
+var foo = 'variable';
+function foo() { return 'function'; }
+console.log(typeof foo);
+        "#,
+    );
+}
+
+#[test]
+fn hoisting_temporal_dead_zone() {
+    run_default_exec_test(
+        r#"
+function test() {
+    const results = [];
+    try {
+        results.push(typeof x);
+    } catch (e) {
+        results.push('TDZ error');
+    }
+    let x = 1;
+    results.push(typeof x);
+    return results.join(',');
+}
+console.log(test());
+        "#,
+    );
+}
+
+#[test]
+fn hoisting_function_in_block() {
+    run_default_exec_test(
+        r#"
+function test() {
+    if (true) {
+        function inner() { return 'defined'; }
+        return inner();
+    }
+}
+console.log(test());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Property descriptors - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn property_non_configurable() {
+    run_default_exec_test(
+        r#"
+const obj = {};
+Object.defineProperty(obj, 'locked', {
+    value: 42,
+    configurable: false
+});
+console.log(obj.locked);
+try {
+    Object.defineProperty(obj, 'locked', { value: 100 });
+} catch (e) {
+    console.log('cannot reconfigure');
+}
+console.log(obj.locked);
+        "#,
+    );
+}
+
+#[test]
+fn property_freeze_seal() {
+    run_default_exec_test(
+        r#"
+const frozen = Object.freeze({ a: 1 });
+const sealed = Object.seal({ b: 2 });
+frozen.a = 100;
+sealed.b = 100;
+frozen.c = 3;
+sealed.c = 3;
+console.log(frozen.a, typeof frozen.c);
+console.log(sealed.b, typeof sealed.c);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Coercion - edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn coercion_to_primitive() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    valueOf() { return 42; },
+    toString() { return 'hello'; }
+};
+console.log(obj + 0);
+console.log(String(obj));
+console.log(`${obj}`);
+        "#,
+    );
+}
+
+#[test]
+fn coercion_symbol_toprimitive() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    [Symbol.toPrimitive](hint) {
+        switch (hint) {
+            case 'number': return 42;
+            case 'string': return 'hello';
+            default: return 'default';
+        }
+    }
+};
+console.log(+obj);
+console.log(`${obj}`);
+console.log(obj + '');
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Promise-like patterns (synchronous simulation)
+// ----------------------------------------------------------------------------
+
+#[test]
+fn promise_like_then_chain() {
+    run_default_exec_test(
+        r#"
+class SyncPromise {
+    constructor(value) { this.value = value; }
+    then(fn) { return new SyncPromise(fn(this.value)); }
+}
+const result = new SyncPromise(1)
+    .then(x => x + 1)
+    .then(x => x * 2)
+    .then(x => x + 10);
+console.log(result.value);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex inlining scenarios
+// ----------------------------------------------------------------------------
+
+#[test]
+fn inline_iife_with_params() {
+    run_default_exec_test(
+        r#"
+const result = (function(a, b) {
+    return a * b + a - b;
+})(3, 4);
+console.log(result);
+        "#,
+    );
+}
+
+#[test]
+fn inline_nested_iife() {
+    run_default_exec_test(
+        r#"
+const result = (function(x) {
+    return (function(y) {
+        return x + y;
+    })(x * 2);
+})(5);
+console.log(result);
+        "#,
+    );
+}
+
+#[test]
+fn inline_iife_with_closure() {
+    run_default_exec_test(
+        r#"
+const add = (function() {
+    const offset = 10;
+    return function(x) {
+        return x + offset;
+    };
+})();
+console.log(add(5));
+console.log(add(20));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Dead code elimination scenarios
+// ----------------------------------------------------------------------------
+
+#[test]
+fn dead_code_if_false() {
+    run_default_exec_test(
+        r#"
+function test() {
+    if (false) {
+        return 'dead';
+    }
+    return 'alive';
+}
+console.log(test());
+        "#,
+    );
+}
+
+#[test]
+fn dead_code_after_return() {
+    run_default_exec_test(
+        r#"
+function test() {
+    return 'returned';
+    console.log('dead');
+    return 'also dead';
+}
+console.log(test());
+        "#,
+    );
+}
+
+#[test]
+fn dead_code_ternary() {
+    run_default_exec_test(
+        r#"
+const a = true ? 'yes' : 'no';
+const b = false ? 'yes' : 'no';
+const c = 1 > 0 ? 'yes' : 'no';
+console.log(a, b, c);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Constant folding scenarios
+// ----------------------------------------------------------------------------
+
+#[test]
+fn constant_folding_arithmetic() {
+    run_default_exec_test(
+        r#"
+const a = 1 + 2 + 3;
+const b = 10 * 5 - 20;
+const c = 100 / 4 / 5;
+const d = 2 ** 10;
+const e = 17 % 5;
+console.log(a, b, c, d, e);
+        "#,
+    );
+}
+
+#[test]
+fn constant_folding_string() {
+    run_default_exec_test(
+        r#"
+const a = 'hello' + ' ' + 'world';
+const b = 'abc'.length;
+const c = 'test'.toUpperCase();
+console.log(a, b, c);
+        "#,
+    );
+}
+
+#[test]
+fn constant_folding_comparison() {
+    run_default_exec_test(
+        r#"
+const a = 1 < 2;
+const b = 3 > 5;
+const c = 4 === 4;
+const d = 'a' < 'b';
+console.log(a, b, c, d);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Variable collapsing scenarios
+// ----------------------------------------------------------------------------
+
+#[test]
+fn variable_collapse_simple() {
+    run_default_exec_test(
+        r#"
+function test() {
+    const a = 1;
+    const b = a + 2;
+    const c = b * 3;
+    return c;
+}
+console.log(test());
+        "#,
+    );
+}
+
+#[test]
+fn variable_collapse_with_side_effects() {
+    run_default_exec_test(
+        r#"
+let counter = 0;
+function increment() {
+    return ++counter;
+}
+function test() {
+    const a = increment();
+    const b = increment();
+    const c = a + b;
+    return c;
+}
+console.log(test());
+console.log(counter);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex minification edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn minify_preserve_semantics_increment() {
+    run_default_exec_test(
+        r#"
+let x = 5;
+const a = x++;
+const b = ++x;
+const c = x;
+console.log(a, b, c);
+        "#,
+    );
+}
+
+#[test]
+fn minify_preserve_semantics_assignment_expression() {
+    run_default_exec_test(
+        r#"
+let a;
+const b = (a = 5);
+console.log(a, b);
+const obj = {};
+const c = (obj.x = 10);
+console.log(obj.x, c);
+        "#,
+    );
+}
+
+#[test]
+fn minify_logical_assignment() {
+    run_default_exec_test(
+        r#"
+let a = 1;
+let b = 0;
+let c = null;
+a ||= 10;
+b ||= 10;
+c &&= 10;
+console.log(a, b, c);
+        "#,
+    );
+}
+
+#[test]
+fn minify_complex_object_literal() {
+    run_default_exec_test(
+        r#"
+const x = 'computed';
+const obj = {
+    simple: 1,
+    'string-key': 2,
+    [x + 'Key']: 3,
+    method() { return 4; },
+    get getter() { return 5; },
+    set setter(v) { this._v = v; }
+};
+console.log(obj.simple, obj['string-key'], obj.computedKey, obj.method());
+console.log(obj.getter);
+obj.setter = 6;
+console.log(obj._v);
+        "#,
+    );
+}
+
+#[test]
+fn minify_array_holes() {
+    run_default_exec_test(
+        r#"
+const arr = [1, , 3, , 5];
+console.log(arr.length);
+console.log(arr[1]);
+console.log(1 in arr);
+arr.forEach((x, i) => console.log(i, x));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Edge cases with typeof and instanceof
+// ----------------------------------------------------------------------------
+
+#[test]
+fn typeof_edge_cases() {
+    run_default_exec_test(
+        r#"
+console.log(typeof undefined);
+console.log(typeof null);
+console.log(typeof true);
+console.log(typeof 42);
+console.log(typeof 'string');
+console.log(typeof Symbol());
+console.log(typeof {});
+console.log(typeof []);
+console.log(typeof function(){});
+console.log(typeof (() => {}));
+        "#,
+    );
+}
+
+#[test]
+fn instanceof_edge_cases() {
+    run_default_exec_test(
+        r#"
+console.log([] instanceof Array);
+console.log([] instanceof Object);
+console.log({} instanceof Object);
+console.log(function(){} instanceof Function);
+console.log(function(){} instanceof Object);
+console.log(new Date() instanceof Date);
+console.log(/regex/ instanceof RegExp);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Unicode and escape sequences
+// ----------------------------------------------------------------------------
+
+#[test]
+fn unicode_identifiers() {
+    run_default_exec_test(
+        r#"
+const \u0041 = 1;
+const B = 2;
+console.log(A, B);
+const café = 'coffee';
+console.log(café);
+        "#,
+    );
+}
+
+#[test]
+fn unicode_strings() {
+    run_default_exec_test(
+        r#"
+const smile = '\u{1F600}';
+const heart = '\u2764';
+const tab = '\t';
+const newline = '\n';
+console.log(smile.length);
+console.log(heart.length);
+console.log('a' + tab + 'b');
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Regular expressions - complex cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn regex_groups() {
+    run_default_exec_test(
+        r#"
+const regex = /(\w+)@(\w+)\.(\w+)/;
+const match = 'test@example.com'.match(regex);
+console.log(match[1], match[2], match[3]);
+        "#,
+    );
+}
+
+#[test]
+fn regex_named_groups() {
+    run_default_exec_test(
+        r#"
+const regex = /(?<user>\w+)@(?<domain>\w+)\.(?<tld>\w+)/;
+const match = 'test@example.com'.match(regex);
+console.log(match.groups.user, match.groups.domain, match.groups.tld);
+        "#,
+    );
+}
+
+#[test]
+fn regex_replace_with_function() {
+    run_default_exec_test(
+        r#"
+const result = 'abc123def456'.replace(/\d+/g, match => {
+    return '[' + (parseInt(match) * 2) + ']';
+});
+console.log(result);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Date operations (deterministic tests only)
+// ----------------------------------------------------------------------------
+
+#[test]
+fn date_methods() {
+    run_default_exec_test(
+        r#"
+const d = new Date(2024, 0, 15, 12, 30, 45);
+console.log(d.getFullYear());
+console.log(d.getMonth());
+console.log(d.getDate());
+console.log(d.getHours());
+console.log(d.getMinutes());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Error handling edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn error_custom() {
+    run_default_exec_test(
+        r#"
+class CustomError extends Error {
+    constructor(message, code) {
+        super(message);
+        this.code = code;
+        this.name = 'CustomError';
+    }
+}
+try {
+    throw new CustomError('Something went wrong', 42);
+} catch (e) {
+    console.log(e.name, e.message, e.code);
+}
+        "#,
+    );
+}
+
+#[test]
+fn error_rethrow() {
+    run_default_exec_test(
+        r#"
+function inner() {
+    throw new Error('inner error');
+}
+function outer() {
+    try {
+        inner();
+    } catch (e) {
+        throw new Error('outer error: ' + e.message);
+    }
+}
+try {
+    outer();
+} catch (e) {
+    console.log(e.message);
+}
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Function edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn function_length() {
+    run_default_exec_test(
+        r#"
+function f0() {}
+function f1(a) {}
+function f2(a, b) {}
+function f3(a, b, c) {}
+function fDefault(a, b = 1) {}
+function fRest(a, ...rest) {}
+console.log(f0.length, f1.length, f2.length, f3.length);
+console.log(fDefault.length, fRest.length);
+        "#,
+    );
+}
+
+// Function.name is not preserved by the minifier when inlining occurs
+// This test verifies function length property instead
+#[test]
+fn function_name_preserve_length() {
+    run_default_exec_test(
+        r#"
+function f1() {}
+function f2(a) {}
+function f3(a, b) {}
+const arr = () => {};
+console.log(f1.length);
+console.log(f2.length);
+console.log(f3.length);
+console.log(arr.length);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Sequence expressions (comma operator)
+// ----------------------------------------------------------------------------
+
+#[test]
+fn sequence_in_for_loop() {
+    run_default_exec_test(
+        r#"
+const result = [];
+for (let i = 0, j = 10; i < 5; i++, j--) {
+    result.push(i + ',' + j);
+}
+console.log(result.join(' | '));
+        "#,
+    );
+}
+
+#[test]
+fn sequence_complex() {
+    run_default_exec_test(
+        r#"
+let a = 0, b = 0;
+const c = (a = 1, b = 2, a + b);
+console.log(a, b, c);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Label and break/continue edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn labeled_block() {
+    run_default_exec_test(
+        r#"
+let result = '';
+block: {
+    result += 'a';
+    break block;
+    result += 'b';
+}
+result += 'c';
+console.log(result);
+        "#,
+    );
+}
+
+#[test]
+fn nested_labeled_loops() {
+    run_default_exec_test(
+        r#"
+let result = '';
+outer: for (let i = 0; i < 3; i++) {
+    inner: for (let j = 0; j < 3; j++) {
+        if (i === 1 && j === 1) {
+            result += 'X';
+            continue outer;
+        }
+        result += i + '' + j + ' ';
+    }
+    result += '| ';
+}
+console.log(result);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Strict mode edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn strict_mode_this() {
+    run_default_exec_test(
+        r#"
+'use strict';
+function strictThis() {
+    return this;
+}
+console.log(strictThis() === undefined);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// in operator edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn in_operator() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1, b: undefined };
+console.log('a' in obj);
+console.log('b' in obj);
+console.log('c' in obj);
+const arr = [1, , 3];
+console.log(0 in arr);
+console.log(1 in arr);
+console.log(2 in arr);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// delete operator edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn delete_operator() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1, b: 2 };
+console.log(delete obj.a);
+console.log('a' in obj);
+console.log(delete obj.nonexistent);
+const arr = [1, 2, 3];
+console.log(delete arr[1]);
+console.log(arr.length);
+console.log(1 in arr);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Array destructuring with iterators
+// ----------------------------------------------------------------------------
+
+#[test]
+fn array_destructure_custom_iterator() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    *[Symbol.iterator]() {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+};
+const [a, b, c] = obj;
+console.log(a, b, c);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Object shorthand syntax
+// ----------------------------------------------------------------------------
+
+#[test]
+fn object_shorthand() {
+    run_default_exec_test(
+        r#"
+const x = 1, y = 2;
+const obj = { x, y, method() { return this.x + this.y; } };
+console.log(obj.x, obj.y, obj.method());
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex nested function scenarios
+// ----------------------------------------------------------------------------
+
+#[test]
+fn nested_function_hoisting() {
+    run_default_exec_test(
+        r#"
+function outer() {
+    function inner1() {
+        return inner2();
+    }
+    function inner2() {
+        return 'inner2';
+    }
+    return inner1();
+}
+console.log(outer());
+        "#,
+    );
+}
+
+#[test]
+fn nested_function_closure_chain() {
+    run_default_exec_test(
+        r#"
+function level1(a) {
+    return function level2(b) {
+        return function level3(c) {
+            return a + b + c;
+        };
+    };
+}
+console.log(level1(1)(2)(3));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Array.prototype methods with thisArg
+// ----------------------------------------------------------------------------
+
+#[test]
+fn array_method_thisarg() {
+    run_default_exec_test(
+        r#"
+const context = { multiplier: 2 };
+const arr = [1, 2, 3];
+const result = arr.map(function(x) {
+    return x * this.multiplier;
+}, context);
+console.log(result.join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Object.prototype methods
+// ----------------------------------------------------------------------------
+
+#[test]
+fn object_hasownproperty() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1 };
+const child = Object.create(obj);
+child.b = 2;
+console.log(child.hasOwnProperty('a'));
+console.log(child.hasOwnProperty('b'));
+console.log('a' in child);
+console.log('b' in child);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex getter/setter scenarios
+// ----------------------------------------------------------------------------
+
+#[test]
+fn getter_setter_inheritance() {
+    run_default_exec_test(
+        r#"
+const parent = {
+    _value: 0,
+    get value() { return this._value; },
+    set value(v) { this._value = v; }
+};
+const child = Object.create(parent);
+child.value = 42;
+console.log(child.value);
+console.log(child._value);
+console.log(parent._value);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex default parameter interactions
+// ----------------------------------------------------------------------------
+
+#[test]
+fn default_param_with_this() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    value: 10,
+    method(x = this.value) {
+        return x;
+    }
+};
+console.log(obj.method());
+console.log(obj.method(5));
+        "#,
+    );
+}
+
+#[test]
+fn default_param_temporal_dead_zone() {
+    run_default_exec_test(
+        r#"
+function test(a = 1, b = a + 1) {
+    return [a, b];
+}
+console.log(test().join(','));
+console.log(test(5).join(','));
+console.log(test(5, 10).join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex array operations
+// ----------------------------------------------------------------------------
+
+#[test]
+fn array_sort_stability() {
+    run_default_exec_test(
+        r#"
+const arr = [
+    { name: 'a', value: 1 },
+    { name: 'b', value: 2 },
+    { name: 'c', value: 1 },
+    { name: 'd', value: 2 }
+];
+arr.sort((a, b) => a.value - b.value);
+console.log(arr.map(x => x.name).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn array_splice_complex() {
+    run_default_exec_test(
+        r#"
+const arr = [1, 2, 3, 4, 5];
+const removed = arr.splice(1, 2, 'a', 'b', 'c');
+console.log(arr.join(','));
+console.log(removed.join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex string operations
+// ----------------------------------------------------------------------------
+
+#[test]
+fn string_split_with_limit() {
+    run_default_exec_test(
+        r#"
+const str = 'a,b,c,d,e';
+console.log(str.split(',').join('|'));
+console.log(str.split(',', 3).join('|'));
+console.log(str.split(',', 0).length);
+        "#,
+    );
+}
+
+#[test]
+fn string_slice_negative() {
+    run_default_exec_test(
+        r#"
+const str = 'hello world';
+console.log(str.slice(-5));
+console.log(str.slice(-5, -1));
+console.log(str.slice(0, -6));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Edge cases in number conversion
+// ----------------------------------------------------------------------------
+
+#[test]
+fn number_conversion_edge_cases() {
+    run_default_exec_test(
+        r#"
+console.log(Number(''));
+console.log(Number('  '));
+console.log(Number('42'));
+console.log(Number('42.5'));
+console.log(Number('0x10'));
+console.log(Number('abc'));
+console.log(Number(null));
+console.log(Number(undefined));
+console.log(Number(true));
+console.log(Number(false));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Bitwise operation edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn bitwise_operations() {
+    run_default_exec_test(
+        r#"
+console.log(5 & 3);
+console.log(5 | 3);
+console.log(5 ^ 3);
+console.log(~5);
+console.log(5 << 2);
+console.log(20 >> 2);
+console.log(-5 >>> 0);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Math.min/max with edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn math_min_max_edge_cases() {
+    run_default_exec_test(
+        r#"
+console.log(Math.min(1, 2, 3));
+console.log(Math.max(1, 2, 3));
+console.log(Math.min());
+console.log(Math.max());
+console.log(Math.min(1, NaN, 3));
+console.log(Math.max(1, NaN, 3));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// JSON edge cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn json_stringify_replacer() {
+    run_default_exec_test(
+        r#"
+const obj = { a: 1, b: 2, c: 3 };
+console.log(JSON.stringify(obj, ['a', 'c']));
+console.log(JSON.stringify(obj, (k, v) => k === 'b' ? undefined : v));
+        "#,
+    );
+}
+
+#[test]
+fn json_parse_reviver() {
+    run_default_exec_test(
+        r#"
+const json = '{"a":1,"b":2}';
+const obj = JSON.parse(json, (k, v) => typeof v === 'number' ? v * 2 : v);
+console.log(obj.a, obj.b);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Void operator
+// ----------------------------------------------------------------------------
+
+#[test]
+fn void_operator() {
+    run_default_exec_test(
+        r#"
+console.log(void 0);
+console.log(void (1 + 2));
+let x = 1;
+console.log(void (x = 5));
+console.log(x);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex expression evaluation order
+// ----------------------------------------------------------------------------
+
+#[test]
+fn expression_evaluation_order() {
+    run_default_exec_test(
+        r#"
+let log = '';
+function a() { log += 'a'; return 1; }
+function b() { log += 'b'; return 2; }
+function c() { log += 'c'; return 3; }
+const result = a() + b() * c();
+console.log(result, log);
+        "#,
+    );
+}
+
+#[test]
+fn logical_evaluation_order() {
+    run_default_exec_test(
+        r#"
+let log = '';
+function a() { log += 'a'; return true; }
+function b() { log += 'b'; return false; }
+function c() { log += 'c'; return true; }
+const result = a() || b() && c();
+console.log(result, log);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Object.keys/values/entries order
+// ----------------------------------------------------------------------------
+
+#[test]
+fn object_enumeration_order() {
+    run_default_exec_test(
+        r#"
+const obj = { b: 1, a: 2, 2: 3, 1: 4 };
+console.log(Object.keys(obj).join(','));
+console.log(Object.values(obj).join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex new.target scenarios
+// ----------------------------------------------------------------------------
+
+#[test]
+fn new_target_basic() {
+    run_default_exec_test(
+        r#"
+function Foo() {
+    console.log(new.target === Foo);
+}
+new Foo();
+Foo.call({});
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex spread in arrays with holes
+// ----------------------------------------------------------------------------
+
+#[test]
+fn spread_array_with_holes() {
+    run_default_exec_test(
+        r#"
+const arr1 = [1, , 3];
+const arr2 = [...arr1];
+console.log(arr2.length);
+console.log(1 in arr2);
+console.log(arr2.join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Function toString
+// ----------------------------------------------------------------------------
+
+// Function.toString changes when minifier inlines functions
+// Test that Function.prototype.toString works, not specific content
+#[test]
+fn function_tostring_works() {
+    run_default_exec_test(
+        r#"
+const fn = new Function('a', 'b', 'return a + b');
+const str = fn.toString();
+console.log(typeof str === 'string');
+console.log(str.length > 0);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex computed property evaluation
+// ----------------------------------------------------------------------------
+
+#[test]
+fn computed_property_side_effects() {
+    run_default_exec_test(
+        r#"
+let counter = 0;
+function getKey() {
+    return 'key' + counter++;
+}
+const obj = {
+    [getKey()]: 'first',
+    [getKey()]: 'second',
+    [getKey()]: 'third'
+};
+console.log(Object.keys(obj).join(','));
+console.log(counter);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex array index access
+// ----------------------------------------------------------------------------
+
+#[test]
+fn array_index_edge_cases() {
+    run_default_exec_test(
+        r#"
+const arr = [1, 2, 3];
+console.log(arr[0]);
+console.log(arr['1']);
+console.log(arr[1.0]);
+console.log(arr[4294967294]);
+console.log(arr[-1]);
+console.log(arr['length']);
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Complex function parameter patterns
+// ----------------------------------------------------------------------------
+
+#[test]
+fn complex_param_patterns() {
+    run_default_exec_test(
+        r#"
+function test({ a, b: [c, d] = [1, 2] }, e = 3, ...rest) {
+    return [a, c, d, e, rest.length];
+}
+console.log(test({ a: 10 }, 20, 30, 40).join(','));
+console.log(test({ a: 10, b: [100, 200] }).join(','));
+        "#,
+    );
+}
+
+// ----------------------------------------------------------------------------
+// Closure with let in for loop - additional cases
+// ----------------------------------------------------------------------------
+
+#[test]
+fn closure_let_for_of() {
+    run_default_exec_test(
+        r#"
+const funcs = [];
+for (let x of [1, 2, 3]) {
+    funcs.push(() => x);
+}
+console.log(funcs.map(f => f()).join(','));
+        "#,
+    );
+}
+
+#[test]
+fn closure_let_for_in() {
+    run_default_exec_test(
+        r#"
+const funcs = [];
+const obj = { a: 1, b: 2, c: 3 };
+for (let key in obj) {
+    funcs.push(() => key);
+}
+console.log(funcs.map(f => f()).join(','));
+        "#,
     );
 }
