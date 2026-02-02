@@ -14,7 +14,10 @@ use swc_timer::timer;
 use tracing::debug;
 
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
-use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
+use self::{
+    hoist_decls::DeclHoisterConfig,
+    optimize::{optimizer, StaticAliasState},
+};
 #[cfg(debug_assertions)]
 use crate::debug::AssertValid;
 use crate::{
@@ -47,6 +50,7 @@ where
         changed: false,
         pass: 1,
         mode,
+        static_alias_state: Default::default(),
     }
 }
 
@@ -58,6 +62,9 @@ struct Compressor<'a> {
     pass: usize,
 
     mode: &'a dyn Mode,
+
+    /// State for static alias optimization, shared across passes.
+    static_alias_state: StaticAliasState,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -184,6 +191,7 @@ impl Compressor<'_> {
                 self.mangle_options,
                 &mut data,
                 self.mode,
+                &mut self.static_alias_state,
             );
             n.visit_mut_with(&mut visitor);
 
