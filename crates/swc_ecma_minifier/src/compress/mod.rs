@@ -16,7 +16,7 @@ use tracing::debug;
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
 use self::{
     hoist_decls::DeclHoisterConfig,
-    optimize::{optimizer, static_alias_optimizer},
+    optimize::{optimizer, StaticAliasState},
 };
 #[cfg(debug_assertions)]
 use crate::debug::AssertValid;
@@ -50,6 +50,7 @@ where
         changed: false,
         pass: 1,
         mode,
+        static_alias_state: Default::default(),
     }
 }
 
@@ -61,6 +62,9 @@ struct Compressor<'a> {
     pass: usize,
 
     mode: &'a dyn Mode,
+
+    /// State for static alias optimization, shared across passes.
+    static_alias_state: StaticAliasState,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -80,14 +84,6 @@ impl Compressor<'_> {
         trace_op!(
             "Optimizing a compile unit within `{:?}`",
             thread::current().name()
-        );
-
-        // Run static alias optimization (static method and global object hoisting)
-        // This runs once before the optimization loop
-        static_alias_optimizer(
-            n,
-            self.options,
-            swc_common::SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
@@ -195,6 +191,7 @@ impl Compressor<'_> {
                 self.mangle_options,
                 &mut data,
                 self.mode,
+                &mut self.static_alias_state,
             );
             n.visit_mut_with(&mut visitor);
 

@@ -56,7 +56,7 @@ mod unsafes;
 mod unused;
 mod util;
 
-pub(crate) use static_alias::static_alias_optimizer;
+pub(crate) use static_alias::StaticAliasState;
 
 /// This pass is similar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
@@ -65,6 +65,7 @@ pub(super) fn optimizer<'a>(
     mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
+    static_alias_state: &'a mut StaticAliasState,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -96,6 +97,7 @@ pub(super) fn optimizer<'a>(
         ctx,
         mode,
         functions: Default::default(),
+        static_alias_state,
     }
 }
 
@@ -243,6 +245,10 @@ struct Optimizer<'a> {
     mode: &'a dyn Mode,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
+
+    /// State for static alias optimization (unsafe_hoist_static_method_alias
+    /// and unsafe_hoist_global_objects_alias options).
+    static_alias_state: &'a mut StaticAliasState,
 }
 
 #[derive(Default)]
@@ -1633,6 +1639,15 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
+        // Record static method usage for aliasing (before any transformations)
+        if let Callee::Expr(callee) = &e.callee {
+            self.static_alias_state.try_record_static_method_call(
+                callee,
+                self.ctx.expr_ctx.unresolved_ctxt,
+                self.options.unsafe_hoist_static_method_alias,
+            );
+        }
+
         let is_this_undefined = match &e.callee {
             Callee::Super(_) | Callee::Import(_) => false,
             Callee::Expr(e) => e.is_ident(),
@@ -1696,6 +1711,17 @@ impl VisitMut for Optimizer<'_> {
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
         self.drop_arguments_of_symbol_call(e);
+
+        // Try to replace static method call with alias (after other transformations)
+        if let Callee::Expr(callee) = &mut e.callee {
+            if self
+                .static_alias_state
+                .try_replace_static_method_call(callee, self.ctx.expr_ctx.unresolved_ctxt)
+            {
+                self.changed = true;
+                report_change!("Replacing static method call with alias");
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -2347,11 +2373,40 @@ impl VisitMut for Optimizer<'_> {
             self.changed = true;
         }
 
+        // Build aliases from counts and insert var declarations
+        if self
+            .static_alias_state
+            .build_aliases_from_counts(self.ctx.expr_ctx.unresolved_ctxt)
+        {
+            // Aliases were built, we need another pass to replace calls
+            self.changed = true;
+        }
+
+        // Insert var declarations for aliases (only after replacements have happened)
+        if self.static_alias_state.should_insert_var_decls() {
+            let var_decls = self.static_alias_state.take_var_decls();
+            let var_stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: var_decls,
+                ctxt: SyntaxContext::empty(),
+            })));
+            stmts.insert(0, ModuleItem::Stmt(var_stmt));
+        }
+
         drop_invalid_stmts(stmts);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        // Record global object usage for aliasing (before any transformations)
+        self.static_alias_state.try_record_global_object(
+            &n.callee,
+            self.ctx.expr_ctx.unresolved_ctxt,
+            self.options.unsafe_hoist_global_objects_alias,
+        );
+
         {
             let ctx = self
                 .ctx
@@ -2369,6 +2424,15 @@ impl VisitMut for Optimizer<'_> {
                 .with(BitCtx::IsExactLhsOfAssign, false)
                 .with(BitCtx::IsLhsOfAssign, false);
             n.args.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        // Try to replace global object with alias (after other transformations)
+        if self
+            .static_alias_state
+            .try_replace_global_object(&mut n.callee, self.ctx.expr_ctx.unresolved_ctxt)
+        {
+            self.changed = true;
+            report_change!("Replacing global object with alias");
         }
     }
 
@@ -2440,6 +2504,28 @@ impl VisitMut for Optimizer<'_> {
 
         if self.vars.inline_with_multi_replacer(s) {
             self.changed = true;
+        }
+
+        // Build aliases from counts and insert var declarations
+        if self
+            .static_alias_state
+            .build_aliases_from_counts(self.ctx.expr_ctx.unresolved_ctxt)
+        {
+            // Aliases were built, we need another pass to replace calls
+            self.changed = true;
+        }
+
+        // Insert var declarations for aliases (only after replacements have happened)
+        if self.static_alias_state.should_insert_var_decls() {
+            let var_decls = self.static_alias_state.take_var_decls();
+            let var_stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: var_decls,
+                ctxt: SyntaxContext::empty(),
+            })));
+            s.body.insert(0, var_stmt);
         }
 
         drop_invalid_stmts(&mut s.body);

@@ -34,13 +34,23 @@
 //! ```
 //!
 //! After mangling, this can result in smaller output.
+//!
+//! ## Integration with Optimizer
+//!
+//! This module integrates directly into the `Optimizer` rather than using
+//! separate visitors. The Optimizer calls helper methods during its traversal:
+//! - `try_record_static_method_call` during `visit_mut_call_expr`
+//! - `try_record_global_object` during `visit_mut_new_expr`
+//! - `try_replace_static_method_call` during `visit_mut_call_expr`
+//! - `try_replace_global_object` during `visit_mut_new_expr`
+//! - `build_aliases_from_counts` at the end of module/script processing
+//! - `take_alias_var_decls` to get var declarations for insertion
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 /// Calculate the minimum number of usages needed to save bytes after hoisting.
 ///
@@ -387,55 +397,61 @@ fn get_global_object_min_usages(name: &str) -> Option<usize> {
 /// Key for tracking static method usage: (object_name, method_name)
 pub type StaticMethodKey = (Atom, Atom);
 
-/// Counter for static method and global object usages.
-pub struct UsageCounter {
-    unresolved_ctxt: SyntaxContext,
+/// State for static alias optimization, stored in Optimizer.
+#[derive(Default)]
+pub struct StaticAliasState {
     /// Count of usages for each static method
-    static_method_counts: FxHashMap<StaticMethodKey, usize>,
+    pub static_method_counts: FxHashMap<StaticMethodKey, usize>,
     /// Count of usages for each global object
-    global_object_counts: FxHashMap<Atom, usize>,
-    /// Whether to count static methods
-    count_static_methods: bool,
-    /// Whether to count global objects
-    count_global_objects: bool,
+    pub global_object_counts: FxHashMap<Atom, usize>,
+    /// Aliases for static methods (built after counting)
+    pub static_method_aliases: FxHashMap<StaticMethodKey, Ident>,
+    /// Aliases for global objects (built after counting)
+    pub global_object_aliases: FxHashMap<Atom, Ident>,
+    /// Var declarations to prepend (built after counting)
+    pub var_decls: Vec<VarDeclarator>,
+    /// Whether aliases have been built (happens once per program)
+    pub aliases_built: bool,
+    /// Whether var declarations have been inserted
+    pub var_decls_inserted: bool,
+    /// Whether any replacements were made (in this pass)
+    pub replacements_made: bool,
 }
 
-impl UsageCounter {
-    fn new(
+impl StaticAliasState {
+    /// Record a static method call usage.
+    /// Called during Optimizer's visit_mut_call_expr.
+    pub fn try_record_static_method_call(
+        &mut self,
+        callee: &Expr,
         unresolved_ctxt: SyntaxContext,
-        count_static_methods: bool,
-        count_global_objects: bool,
-    ) -> Self {
-        Self {
-            unresolved_ctxt,
-            static_method_counts: Default::default(),
-            global_object_counts: Default::default(),
-            count_static_methods,
-            count_global_objects,
-        }
-    }
-
-    fn try_record_static_method_call(&mut self, callee: &Expr) {
-        if !self.count_static_methods {
+        enabled: bool,
+    ) {
+        if !enabled || self.aliases_built {
             return;
         }
-        if let Some((obj, prop)) = extract_static_method(callee, self.unresolved_ctxt) {
-            // Only record if this is a known static method (lookup returns Some)
+        if let Some((obj, prop)) = extract_static_method(callee, unresolved_ctxt) {
+            // Only record if this is a known static method
             if get_static_method_min_usages(&obj, &prop).is_some() {
                 *self.static_method_counts.entry((obj, prop)).or_insert(0) += 1;
             }
         }
     }
 
-    fn try_record_global_object(&mut self, callee: &Expr) {
-        if !self.count_global_objects {
+    /// Record a global object usage (from new expression).
+    /// Called during Optimizer's visit_mut_new_expr.
+    pub fn try_record_global_object(
+        &mut self,
+        callee: &Expr,
+        unresolved_ctxt: SyntaxContext,
+        enabled: bool,
+    ) {
+        if !enabled || self.aliases_built {
             return;
         }
         if let Some(ident) = callee.as_ident() {
-            // Only record if this is a known global object (lookup returns Some)
-            if ident.ctxt == self.unresolved_ctxt
-                && get_global_object_min_usages(&ident.sym).is_some()
-            {
+            // Only record if this is a known global object
+            if ident.ctxt == unresolved_ctxt && get_global_object_min_usages(&ident.sym).is_some() {
                 *self
                     .global_object_counts
                     .entry(ident.sym.clone())
@@ -443,22 +459,125 @@ impl UsageCounter {
             }
         }
     }
-}
 
-impl Visit for UsageCounter {
-    noop_visit_type!();
-
-    fn visit_call_expr(&mut self, e: &CallExpr) {
-        if let Callee::Expr(callee) = &e.callee {
-            self.try_record_static_method_call(callee);
+    /// Try to replace a static method call with its alias.
+    /// Returns true if replacement was made.
+    /// Called during Optimizer's visit_mut_call_expr.
+    pub fn try_replace_static_method_call(
+        &mut self,
+        callee: &mut Box<Expr>,
+        unresolved_ctxt: SyntaxContext,
+    ) -> bool {
+        if !self.aliases_built {
+            return false;
         }
-        e.visit_children_with(self);
+        if let Some((obj, prop)) = extract_static_method(callee, unresolved_ctxt) {
+            if let Some(alias) = self.static_method_aliases.get(&(obj, prop)) {
+                *callee = Box::new(alias.clone().into());
+                self.replacements_made = true;
+                return true;
+            }
+        }
+        false
     }
 
-    fn visit_new_expr(&mut self, e: &NewExpr) {
-        // For `new` expressions, we count constructor usages like `new Map()`
-        self.try_record_global_object(&e.callee);
-        e.visit_children_with(self);
+    /// Try to replace a global object in new expression with its alias.
+    /// Returns true if replacement was made.
+    /// Called during Optimizer's visit_mut_new_expr.
+    pub fn try_replace_global_object(
+        &mut self,
+        callee: &mut Box<Expr>,
+        unresolved_ctxt: SyntaxContext,
+    ) -> bool {
+        if !self.aliases_built {
+            return false;
+        }
+        if let Some(ident) = callee.as_ident() {
+            if ident.ctxt == unresolved_ctxt {
+                if let Some(alias) = self.global_object_aliases.get(&ident.sym) {
+                    *callee = Box::new(alias.clone().into());
+                    self.replacements_made = true;
+                    return true;
+                }
+            }
+        }
+        false
+    }
+
+    /// Build aliases from the collected counts.
+    /// Called at the end of module/script processing.
+    /// Returns true if any aliases were created.
+    pub fn build_aliases_from_counts(&mut self, unresolved_ctxt: SyntaxContext) -> bool {
+        if self.aliases_built {
+            return false;
+        }
+
+        self.aliases_built = true;
+
+        // Collect and sort static method keys for deterministic output
+        let mut static_method_keys: Vec<_> = self.static_method_counts.drain().collect();
+        static_method_keys.sort_by(|a, b| a.0.cmp(&b.0));
+
+        // Handle static method aliases
+        for ((obj, prop), count) in static_method_keys {
+            if let Some(min_usages) = get_static_method_min_usages(&obj, &prop) {
+                if count >= min_usages {
+                    let alias_ident = private_ident!(format!("_{}_{}", obj, prop));
+                    let init = MemberExpr {
+                        span: DUMMY_SP,
+                        obj: Box::new(Ident::new(obj.clone(), DUMMY_SP, unresolved_ctxt).into()),
+                        prop: MemberProp::Ident(IdentName::new(prop.clone(), DUMMY_SP)),
+                    };
+                    self.var_decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: alias_ident.clone().into(),
+                        init: Some(Box::new(init.into())),
+                        definite: false,
+                    });
+                    self.static_method_aliases.insert((obj, prop), alias_ident);
+                }
+            }
+        }
+
+        // Collect and sort global object names for deterministic output
+        let mut global_object_keys: Vec<_> = self.global_object_counts.drain().collect();
+        global_object_keys.sort_by(|a, b| a.0.cmp(&b.0));
+
+        // Handle global object aliases
+        for (name, count) in global_object_keys {
+            if let Some(min_usages) = get_global_object_min_usages(&name) {
+                if count >= min_usages {
+                    let alias_ident = private_ident!(format!("_{}", name));
+                    let init = Ident::new(name.clone(), DUMMY_SP, unresolved_ctxt);
+                    self.var_decls.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: alias_ident.clone().into(),
+                        init: Some(Box::new(init.into())),
+                        definite: false,
+                    });
+                    self.global_object_aliases.insert(name, alias_ident);
+                }
+            }
+        }
+
+        !self.static_method_aliases.is_empty() || !self.global_object_aliases.is_empty()
+    }
+
+    /// Check if there are pending var declarations to insert.
+    /// Returns true only if aliases have been built, replacements have been
+    /// done, and var declarations haven't been inserted yet.
+    pub fn should_insert_var_decls(&self) -> bool {
+        self.aliases_built
+            && self.replacements_made
+            && !self.var_decls_inserted
+            && !self.var_decls.is_empty()
+    }
+
+    /// Take the var declarations for insertion.
+    /// Marks them as inserted so they won't be inserted again.
+    pub fn take_var_decls(&mut self) -> Vec<VarDeclarator> {
+        self.var_decls_inserted = true;
+        std::mem::take(&mut self.var_decls)
     }
 }
 
@@ -483,170 +602,4 @@ fn extract_static_method(expr: &Expr, unresolved_ctxt: SyntaxContext) -> Option<
     let prop = member.prop.as_ident()?;
 
     Some((obj.sym.clone(), prop.sym.clone()))
-}
-
-use swc_common::util::take::Take;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-
-use crate::option::CompressOptions;
-
-/// Replacer visitor that replaces static method calls and global objects with
-/// aliases.
-struct AliasReplacer {
-    unresolved_ctxt: SyntaxContext,
-    static_method_aliases: FxHashMap<StaticMethodKey, Ident>,
-    global_object_aliases: FxHashMap<Atom, Ident>,
-    var_decls: Vec<VarDeclarator>,
-}
-
-impl AliasReplacer {
-    fn has_aliases(&self) -> bool {
-        !self.static_method_aliases.is_empty() || !self.global_object_aliases.is_empty()
-    }
-
-    fn take_var_decls(&mut self) -> Vec<VarDeclarator> {
-        self.var_decls.take()
-    }
-}
-
-impl VisitMut for AliasReplacer {
-    noop_visit_mut_type!();
-
-    fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
-        // Visit children first
-        e.visit_mut_children_with(self);
-
-        // Then try to replace the callee
-        if let Callee::Expr(callee) = &mut e.callee {
-            if let Some((obj, prop)) = extract_static_method(callee, self.unresolved_ctxt) {
-                if let Some(alias) = self.static_method_aliases.get(&(obj, prop)) {
-                    *callee = Box::new(alias.clone().into());
-                }
-            }
-        }
-    }
-
-    fn visit_mut_new_expr(&mut self, e: &mut NewExpr) {
-        // Visit children first
-        e.visit_mut_children_with(self);
-
-        // Then try to replace the callee
-        if let Some(ident) = e.callee.as_ident() {
-            if ident.ctxt == self.unresolved_ctxt {
-                if let Some(alias) = self.global_object_aliases.get(&ident.sym) {
-                    e.callee = Box::new(alias.clone().into());
-                }
-            }
-        }
-    }
-}
-
-/// Run the static alias optimization on a program.
-/// This counts usages, creates aliases, replaces calls, and inserts var
-/// declarations.
-pub fn static_alias_optimizer(
-    program: &mut Program,
-    options: &CompressOptions,
-    unresolved_ctxt: SyntaxContext,
-) {
-    let count_static_methods = options.unsafe_hoist_static_method_alias;
-    let count_global_objects = options.unsafe_hoist_global_objects_alias;
-
-    if !count_static_methods && !count_global_objects {
-        return;
-    }
-
-    // First pass: count usages
-    let mut counter =
-        UsageCounter::new(unresolved_ctxt, count_static_methods, count_global_objects);
-    program.visit_with(&mut counter);
-
-    // Build aliases from the counts
-    let mut static_method_aliases = FxHashMap::default();
-    let mut global_object_aliases = FxHashMap::default();
-    let mut var_decls = Vec::new();
-
-    // Collect and sort static method keys for deterministic output
-    let mut static_method_keys: Vec<_> = counter.static_method_counts.into_iter().collect();
-    static_method_keys.sort_by(|a, b| a.0.cmp(&b.0));
-
-    // Handle static method aliases
-    for ((obj, prop), count) in static_method_keys {
-        if let Some(min_usages) = get_static_method_min_usages(&obj, &prop) {
-            if count >= min_usages {
-                let alias_ident = private_ident!(format!("_{}_{}", obj, prop));
-                let init = MemberExpr {
-                    span: DUMMY_SP,
-                    obj: Box::new(Ident::new(obj.clone(), DUMMY_SP, unresolved_ctxt).into()),
-                    prop: MemberProp::Ident(IdentName::new(prop.clone(), DUMMY_SP)),
-                };
-                var_decls.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: alias_ident.clone().into(),
-                    init: Some(Box::new(init.into())),
-                    definite: false,
-                });
-                static_method_aliases.insert((obj, prop), alias_ident);
-            }
-        }
-    }
-
-    // Collect and sort global object names for deterministic output
-    let mut global_object_keys: Vec<_> = counter.global_object_counts.into_iter().collect();
-    global_object_keys.sort_by(|a, b| a.0.cmp(&b.0));
-
-    // Handle global object aliases
-    for (name, count) in global_object_keys {
-        if let Some(min_usages) = get_global_object_min_usages(&name) {
-            if count >= min_usages {
-                let alias_ident = private_ident!(format!("_{}", name));
-                let init = Ident::new(name.clone(), DUMMY_SP, unresolved_ctxt);
-                var_decls.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: alias_ident.clone().into(),
-                    init: Some(Box::new(init.into())),
-                    definite: false,
-                });
-                global_object_aliases.insert(name, alias_ident);
-            }
-        }
-    }
-
-    // Create replacer with aliases
-    let mut replacer = AliasReplacer {
-        unresolved_ctxt,
-        static_method_aliases,
-        global_object_aliases,
-        var_decls,
-    };
-
-    if !replacer.has_aliases() {
-        return;
-    }
-
-    // Second pass: replace calls with aliases
-    program.visit_mut_with(&mut replacer);
-
-    // Prepend variable declarations
-    let var_decls = replacer.take_var_decls();
-    if var_decls.is_empty() {
-        return;
-    }
-
-    let var_stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-        span: DUMMY_SP,
-        kind: VarDeclKind::Var,
-        declare: false,
-        decls: var_decls,
-        ctxt: SyntaxContext::empty(),
-    })));
-
-    match program {
-        Program::Module(module) => {
-            module.body.insert(0, ModuleItem::Stmt(var_stmt));
-        }
-        Program::Script(script) => {
-            script.body.insert(0, var_stmt);
-        }
-    }
 }
