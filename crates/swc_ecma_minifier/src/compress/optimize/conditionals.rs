@@ -1,6 +1,6 @@
 use std::mem::swap;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -119,9 +119,12 @@ impl Optimizer<'_> {
                     (
                         Some(Stmt::If(l @ IfStmt { alt: None, .. })),
                         Some(Stmt::If(r @ IfStmt { alt: None, .. })),
-                    ) => SyntaxContext::within_ignored_ctxt(|| {
+                    ) => {
+                        // We should NOT ignore syntax context here because the cons blocks
+                        // may contain references to local variables with the same name but
+                        // different values. See https://github.com/swc-project/swc/issues/11517
                         l.cons.eq_ignore_span(&r.cons) && l.cons.terminates()
-                    }),
+                    }
                     _ => false,
                 });
         if !has_work {
@@ -143,9 +146,11 @@ impl Optimizer<'_> {
                             match &mut cur {
                                 Some(cur_if) => {
                                     // If cons is same, we merge conditions.
-                                    if SyntaxContext::within_ignored_ctxt(|| {
-                                        cur_if.cons.eq_ignore_span(&stmt.cons)
-                                    }) {
+                                    // We should NOT ignore syntax context here because the cons
+                                    // blocks may contain references to local variables with the
+                                    // same name but different values.
+                                    // See https://github.com/swc-project/swc/issues/11517
+                                    if cur_if.cons.eq_ignore_span(&stmt.cons) {
                                         cur_if.test = BinExpr {
                                             span: DUMMY_SP,
                                             left: cur_if.test.take(),
