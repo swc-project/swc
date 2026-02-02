@@ -265,10 +265,21 @@ impl Optimizer<'_> {
                             if param_id.sym == "arguments" {
                                 continue;
                             }
-                            if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
-                                if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                            // Check if the parameter is reassigned. If we can't find usage
+                            // data, be conservative and skip inlining. This can happen when
+                            // a function declaration is inlined as an IIFE and the syntax
+                            // context no longer matches the original analysis.
+                            match self.data.vars.get(&param_id.to_id()) {
+                                Some(usage)
+                                    if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) =>
+                                {
                                     continue;
                                 }
+                                None => {
+                                    // No usage data found - skip inlining to be safe
+                                    continue;
+                                }
+                                _ => {}
                             }
 
                             let arg = e.args.get_mut(idx).map(|v| &mut v.expr);
