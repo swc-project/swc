@@ -68,7 +68,7 @@ shrink-to-fit = { workspace = true, optional = true, default-features = false }
 siphasher = { workspace = true, default-features = false }
 swc_sourcemap = { workspace = true, optional = true, default-features = false }
 termcolor = { workspace = true, optional = true, default-features = false }
-tracing = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false, features = ["attributes"] }
 unicode-width = { workspace = true, default-features = false }
 url = { workspace = true, default-features = false }
 

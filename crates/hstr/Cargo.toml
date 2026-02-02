@@ -23,7 +23,7 @@ new_debug_unreachable = { workspace = true, default-features = false }
 once_cell             = { workspace = true, default-features = false }
 rkyv                  = { workspace = true, optional = true, default-features = false }
 rustc-hash            = { workspace = true, default-features = false, features = ["std"] }
-serde                 = { workspace = true, optional = true, default-features = false }
+serde                 = { workspace = true, optional = true, default-features = false, features = ["std"] }
 triomphe              = { workspace = true, default-features = false }
 
 
