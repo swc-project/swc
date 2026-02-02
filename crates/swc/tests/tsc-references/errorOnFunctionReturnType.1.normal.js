@@ -1,10 +1,10 @@
 //// [foo.js]
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 /**
  * @callback FunctionReturningPromise
  * @returns {Promise<number>}
- */ /** @type {FunctionReturningPromise} */ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-function testPromise1() {
+ */ /** @type {FunctionReturningPromise} */ function testPromise1() {
     console.log("Nope");
 }
 /** @type {FunctionReturningPromise} */ function testPromise2() {

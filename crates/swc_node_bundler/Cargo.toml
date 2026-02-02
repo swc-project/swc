@@ -7,7 +7,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_node_bundler"
 repository    = { workspace = true }
-version       = "45.0.0"
+version       = "55.0.0"
 
 [lib]
 bench = false
@@ -21,33 +21,31 @@ swc_v2     = ["serde-impl"]
 [dependencies]
 anyhow = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = [
-  "derive",
-], optional = true, default-features = false }
+serde      = { workspace = true, features = ["derive"], optional = true }
 tracing = { workspace = true, default-features = false }
 
 string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
-swc = { version = "44.0.0", path = "../swc", default-features = false }
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_bundler = { version = "34.0.0", path = "../swc_bundler", features = [
+swc = { version = "54.0.0", path = "../swc", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_bundler = { version = "42.0.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen", default-features = false }
-swc_ecma_loader = { version = "16.0.0", path = "../swc_ecma_loader", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_loader = { version = "18.0.0", path = "../swc_ecma_loader", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms = { version = "37.0.0", path = "../swc_ecma_transforms", default-features = false }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_transforms = { version = "46.0.0", path = "../swc_ecma_transforms", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
 
 [dev-dependencies]
 
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

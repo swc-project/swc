@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "21.0.0"
+version       = "24.0.0"
 
 [lib]
 bench   = false
@@ -22,36 +22,29 @@ plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 # Enable ECMASCript support
-ecma = ["swc_ecma_ast/rkyv-impl"]
-# Enable CSS support
-css = ["swc_css_ast/rkyv-impl"]
+ecma = ["swc_ecma_ast/encoding-impl"]
 
-__rkyv    = []
-rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
+encoding-impl = ["swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [build-dependencies]
-vergen = { workspace = true, features = [
-  "build",
-  "cargo",
-], default-features = false }
+vergen = { workspace = true, features = ["build", "cargo"] }
 
 
 [dependencies]
-anyhow      = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
 parking_lot = { workspace = true, default-features = false }
-rustc-hash  = { workspace = true, default-features = false }
-serde       = { workspace = true, features = ["derive"], default-features = false }
-serde_json  = { workspace = true, default-features = false }
-tracing     = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+serde_json = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = '../swc_atoms', default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_atoms = { version = "9.0.0", path = '../swc_atoms', default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", optional = true, default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", optional = true, default-features = false }
-swc_plugin_proxy = { version = "17.0.0", path = "../swc_plugin_proxy", default-features = false }
-swc_transform_common = { version = "10.0.0", path = "../swc_transform_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", optional = true, default-features = false }
+swc_plugin_proxy = { version = "20.0.0", path = "../swc_plugin_proxy", default-features = false }
+swc_transform_common = { version = "12.0.0", path = "../swc_transform_common", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 blake3 = { workspace = true, optional = true, default-features = false }

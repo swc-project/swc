@@ -165,56 +165,82 @@ impl<I: Tokens> Parser<I> {
                 // Handle:
                 // `import { type xx } from 'mod'`
                 // `import { type xx as yy } from 'mod'`
+                // `import { type "xx" as yy } from 'mod'`
                 // `import { type as } from 'mod'`
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
-                if self.syntax().typescript()
-                    && orig_name.sym == "type"
-                    && self.input().cur().is_word()
-                {
-                    let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
-                    if possibly_orig_name.sym == "as" {
-                        // `import { type as } from 'mod'`
-                        if !self.input().cur().is_word() {
-                            if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
-                                syntax_error!(
-                                    self,
-                                    possibly_orig_name.span,
-                                    SyntaxError::ReservedWordInImport
-                                )
-                            }
+                if self.syntax().typescript() && orig_name.sym == "type" {
+                    // Handle `import { type "string" as foo }` case
+                    if self.input().cur() == Token::Str {
+                        let imported = self.parse_module_export_name()?;
+                        expect!(self, Token::As);
+                        let local: Ident = self.parse_binding_ident(false)?.into();
 
-                            if type_only {
-                                self.emit_err(orig_name.span, SyntaxError::TS2206);
-                            }
-
-                            return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: self.span(start),
-                                local: possibly_orig_name,
-                                imported: None,
-                                is_type_only: true,
-                            }));
+                        if type_only {
+                            self.emit_err(orig_name.span, SyntaxError::TS2206);
                         }
 
-                        let maybe_as: Ident = self.parse_binding_ident(false)?.into();
-                        if maybe_as.sym == "as" {
-                            if self.input().cur().is_word() {
-                                // `import { type as as as } from 'mod'`
-                                // `import { type as as foo } from 'mod'`
-                                let local: Ident = self.parse_binding_ident(false)?.into();
+                        return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                            span: Span::new_with_checked(start, local.span.hi()),
+                            local,
+                            imported: Some(imported),
+                            is_type_only: true,
+                        }));
+                    }
+
+                    if self.input().cur().is_word() {
+                        let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
+                        if possibly_orig_name.sym == "as" {
+                            // `import { type as } from 'mod'`
+                            if !self.input().cur().is_word() {
+                                if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
+                                    syntax_error!(
+                                        self,
+                                        possibly_orig_name.span,
+                                        SyntaxError::ReservedWordInImport
+                                    )
+                                }
 
                                 if type_only {
                                     self.emit_err(orig_name.span, SyntaxError::TS2206);
                                 }
 
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_name.span.hi()),
-                                    local,
-                                    imported: Some(ModuleExportName::Ident(possibly_orig_name)),
+                                    span: self.span(start),
+                                    local: possibly_orig_name,
+                                    imported: None,
                                     is_type_only: true,
                                 }));
+                            }
+
+                            let maybe_as: Ident = self.parse_binding_ident(false)?.into();
+                            if maybe_as.sym == "as" {
+                                if self.input().cur().is_word() {
+                                    // `import { type as as as } from 'mod'`
+                                    // `import { type as as foo } from 'mod'`
+                                    let local: Ident = self.parse_binding_ident(false)?.into();
+
+                                    if type_only {
+                                        self.emit_err(orig_name.span, SyntaxError::TS2206);
+                                    }
+
+                                    return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                        span: Span::new_with_checked(start, local.span.hi()),
+                                        local,
+                                        imported: Some(ModuleExportName::Ident(possibly_orig_name)),
+                                        is_type_only: true,
+                                    }));
+                                } else {
+                                    // `import { type as as } from 'mod'`
+                                    return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                                        span: Span::new_with_checked(start, maybe_as.span.hi()),
+                                        local: maybe_as,
+                                        imported: Some(ModuleExportName::Ident(orig_name)),
+                                        is_type_only: false,
+                                    }));
+                                }
                             } else {
-                                // `import { type as as } from 'mod'`
+                                // `import { type as xxx } from 'mod'`
                                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                                     span: Span::new_with_checked(start, maybe_as.span.hi()),
                                     local: maybe_as,
@@ -223,23 +249,15 @@ impl<I: Tokens> Parser<I> {
                                 }));
                             }
                         } else {
-                            // `import { type as xxx } from 'mod'`
-                            return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: Span::new_with_checked(start, orig_name.span.hi()),
-                                local: maybe_as,
-                                imported: Some(ModuleExportName::Ident(orig_name)),
-                                is_type_only: false,
-                            }));
-                        }
-                    } else {
-                        // `import { type xx } from 'mod'`
-                        // `import { type xx as yy } from 'mod'`
-                        if type_only {
-                            self.emit_err(orig_name.span, SyntaxError::TS2206);
-                        }
+                            // `import { type xx } from 'mod'`
+                            // `import { type xx as yy } from 'mod'`
+                            if type_only {
+                                self.emit_err(orig_name.span, SyntaxError::TS2206);
+                            }
 
-                        orig_name = possibly_orig_name;
-                        is_type_only = true;
+                            orig_name = possibly_orig_name;
+                            is_type_only = true;
+                        }
                     }
                 }
 
@@ -325,7 +343,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().syntax().typescript() {
             let cur = self.input().cur();
             if cur.is_word() {
-                let sym = cur.take_word(self.input()).unwrap();
+                let sym = cur.take_word(&self.input);
                 // TODO: remove clone
                 if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
                     return Ok(ExportDecl {

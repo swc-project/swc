@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_compat"
 repository    = { workspace = true }
-version       = "33.0.0"
+version       = "42.0.0"
 
 [lib]
 bench = false
@@ -16,42 +16,44 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [features]
+default = []
 concurrent = [
   "swc_ecma_transforms_base/concurrent",
   "swc_ecma_utils/concurrent",
 ]
+es3 = ["swc_ecma_compat_es3"]
 
 [dependencies]
 indexmap = { workspace = true, default-features = false }
 par-core = { workspace = true, default-features = false }
-serde    = { workspace = true, features = ["derive"], default-features = false }
-tracing  = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+tracing = { workspace = true, default-features = false }
 
-swc_atoms                = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common               = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast             = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_compat_bugfixes = { version = "32.0.0", path = "../swc_ecma_compat_bugfixes", default-features = false }
-swc_ecma_compat_common   = { version = "23.0.0", path = "../swc_ecma_compat_common", default-features = false }
-swc_ecma_compat_es2015   = { version = "32.0.0", path = "../swc_ecma_compat_es2015", default-features = false }
-swc_ecma_compat_es2016   = { version = "29.0.0", path = "../swc_ecma_compat_es2016", default-features = false }
-swc_ecma_compat_es2017   = { version = "29.0.0", path = "../swc_ecma_compat_es2017", default-features = false }
-swc_ecma_compat_es2018   = { version = "29.0.0", path = "../swc_ecma_compat_es2018", default-features = false }
-swc_ecma_compat_es2019   = { version = "29.0.0", path = "../swc_ecma_compat_es2019", default-features = false }
-swc_ecma_compat_es2020   = { version = "30.0.0", path = "../swc_ecma_compat_es2020", default-features = false }
-swc_ecma_compat_es2021   = { version = "29.0.0", path = "../swc_ecma_compat_es2021", default-features = false }
-swc_ecma_compat_es2022   = { version = "30.0.0", path = "../swc_ecma_compat_es2022", default-features = false }
-swc_ecma_compat_es3      = { version = "24.0.0", path = "../swc_ecma_compat_es3", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_utils           = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit           = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_compat_bugfixes = { version = "41.0.0", path = "../swc_ecma_compat_bugfixes", default-features = false }
+swc_ecma_compat_common = { version = "32.0.0", path = "../swc_ecma_compat_common", default-features = false }
+swc_ecma_compat_es2015 = { version = "41.0.0", path = "../swc_ecma_compat_es2015", default-features = false }
+swc_ecma_compat_es2016 = { version = "37.0.0", path = "../swc_ecma_compat_es2016", default-features = false }
+swc_ecma_compat_es2017 = { version = "37.0.0", path = "../swc_ecma_compat_es2017", default-features = false }
+swc_ecma_compat_es2018 = { version = "38.0.0", path = "../swc_ecma_compat_es2018", default-features = false }
+swc_ecma_compat_es2019 = { version = "37.0.0", path = "../swc_ecma_compat_es2019", default-features = false }
+swc_ecma_compat_es2020 = { version = "39.0.0", path = "../swc_ecma_compat_es2020", default-features = false }
+swc_ecma_compat_es2021 = { version = "37.0.0", path = "../swc_ecma_compat_es2021", default-features = false }
+swc_ecma_compat_es2022 = { version = "39.0.0", path = "../swc_ecma_compat_es2022", default-features = false }
+swc_ecma_compat_es3 = { version = "28.0.0", path = "../swc_ecma_compat_es3", optional = true, default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [dev-dependencies]
-par-core   = { workspace = true, features = ["chili"], default-features = false }
+par-core = { workspace = true, features = ["chili"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-swc_ecma_transforms_testing = { version = "32.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_ecma_transforms_testing = { version = "40.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

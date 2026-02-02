@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_compat_es3"
 repository    = { workspace = true }
-version       = "24.0.0"
+version       = "28.0.0"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -16,14 +16,11 @@ version       = "24.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-tracing = { workspace = true, default-features = true }
-
-swc_common      = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast    = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_utils  = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit  = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_trace_macro = { version = "2.0.2", path = "../swc_trace_macro", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_transformer = { version = "8.0.0", path = "../swc_ecma_transformer", features = [
+    "es3",
+] }
 
 [dev-dependencies]
-swc_ecma_parser             = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_transforms_testing = { version = "32.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_testing = { version = "40.0.0", path = "../swc_ecma_transforms_testing", default-features = false }

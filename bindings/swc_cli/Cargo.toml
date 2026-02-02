@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_cli"
 repository  = { workspace = true }
-version     = "0.91.634"
+version     = "0.101.2"
 
 [[bin]]
 bench = false
@@ -18,6 +18,6 @@ default = ["swc_cli_impl/default"]
 plugin  = ["swc_cli_impl/plugin"]
 
 [dependencies]
-anyhow       = { workspace = true, default-features = false }
-par-core     = { workspace = true, features = ["chili"], default-features = false }
-swc_cli_impl = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
+par-core = { workspace = true, features = ["chili"], default-features = false }
+swc_cli_impl = { version = "56.0.0", path = "../../crates/swc_cli_impl", default-features = false }

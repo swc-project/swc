@@ -1,5 +1,5 @@
-function a([a]) {
+function a([r]) {
     bar();
+    var n;
     var r;
-    var a;
 }

@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_optimization"
 repository    = { workspace = true }
-version       = "31.0.0"
+version       = "38.0.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -19,6 +19,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 [features]
 concurrent = ["swc_common/concurrent", "swc_ecma_transforms_base/concurrent"]
 debug      = []
+es3        = ["swc_ecma_transforms_compat/es3"]
 
 [dependencies]
 bytes-str = { workspace = true, default-features = false }
@@ -26,37 +27,32 @@ dashmap = { workspace = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
 par-core = { workspace = true, default-features = false }
-petgraph = { workspace = true, default-features = false, features = [
-  "graphmap",
-] }
+petgraph = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false, features = [
-  "std",
-  "attributes",
-] }
+tracing = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
 
 [dev-dependencies]
 par-core = { workspace = true, features = ["chili"], default-features = false }
 
 
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-swc_ecma_transforms_compat = { version = "33.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
-swc_ecma_transforms_module = { version = "32.0.0", path = "../swc_ecma_transforms_module", default-features = false }
-swc_ecma_transforms_proposal = { version = "29.0.0", path = "../swc_ecma_transforms_proposal", default-features = false }
-swc_ecma_transforms_testing = { version = "32.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
-swc_ecma_transforms_typescript = { version = "32.0.0", path = "../swc_ecma_transforms_typescript", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_ecma_transforms_compat = { version = "42.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
+swc_ecma_transforms_module = { version = "40.0.0", path = "../swc_ecma_transforms_module", default-features = false }
+swc_ecma_transforms_proposal = { version = "36.0.1", path = "../swc_ecma_transforms_proposal", default-features = false }
+swc_ecma_transforms_testing = { version = "40.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
+swc_ecma_transforms_typescript = { version = "40.0.0", path = "../swc_ecma_transforms_typescript", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

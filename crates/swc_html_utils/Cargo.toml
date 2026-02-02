@@ -10,15 +10,15 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = { workspace = true }
 name = "swc_html_utils"
 repository = "https://github.com/swc-project/swc.git"
-version = "15.0.0"
+version = "16.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-once_cell  = { workspace = true, default-features = false }
+once_cell = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde      = { workspace = true, features = ["derive"], default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }

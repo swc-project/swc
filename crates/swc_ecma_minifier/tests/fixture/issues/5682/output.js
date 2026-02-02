@@ -62,7 +62,7 @@ export default function(value, options) {
             return 'object' == typeof value && null !== value && 'message' in value;
         }(error) ? `${error.message}. value=${JSON.stringify(value)}` : 'An unknown error has occurred.');
     }
-}
+};
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? 's' : ''}`;
 }

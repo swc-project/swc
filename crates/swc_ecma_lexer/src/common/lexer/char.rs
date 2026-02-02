@@ -1,8 +1,8 @@
-/// Implemented for `char`.
+/// Implemented for `u8` - operates on bytes for performance.
 pub trait CharExt: Copy {
     fn to_char(self) -> Option<char>;
 
-    /// Test whether a given character code starts an identifier.
+    /// Test whether a given byte/character starts an identifier.
     ///
     /// https://tc39.github.io/ecma262/#prod-IdentifierStart
     #[inline]
@@ -14,7 +14,7 @@ pub trait CharExt: Copy {
         swc_ecma_ast::Ident::is_valid_start(c)
     }
 
-    /// Test whether a given character is part of an identifier.
+    /// Test whether a given byte/character is part of an identifier.
     #[inline]
     fn is_ident_part(self) -> bool {
         let c = match self.to_char() {
@@ -61,6 +61,20 @@ pub trait CharExt: Copy {
                     c.is_whitespace()
                 }
             }
+        }
+    }
+}
+
+impl CharExt for u8 {
+    #[inline(always)]
+    fn to_char(self) -> Option<char> {
+        // For ASCII bytes, this is a fast path
+        if self <= 0x7f {
+            Some(self as char)
+        } else {
+            // For non-ASCII bytes, we can't convert a single byte to a char
+            // The caller should use cur_as_char() on the Input trait instead
+            None
         }
     }
 }

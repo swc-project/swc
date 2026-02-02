@@ -1,6 +1,6 @@
 //// [genericContextualTypes1.ts]
 var f00 = list;
-var f01 = function(x) {
+var f01 = function f01(x) {
     return [
         x
     ];
@@ -23,12 +23,12 @@ var f12 = compose(function(a) {
     return unlist(b);
 });
 var f13 = compose(unbox, unlist);
-var arrayMap = function(f) {
+var arrayMap = function arrayMap(f) {
     return function(a) {
         return a.map(f);
     };
 };
-var arrayFilter = function(f) {
+var arrayFilter = function arrayFilter(f) {
     return function(a) {
         return a.filter(f);
     };
@@ -54,6 +54,6 @@ var f31 = arrayFilter(function(x) {
     return x.value > 10;
 });
 var f40 = flip(zip);
-var fn = function(a) {
+var fn = function fn(a) {
     return a;
 };

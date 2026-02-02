@@ -22,7 +22,7 @@ try {
             });
         })();
     }), true);
-    var a = function() {
+    var a = function a() {
         return _async_to_generator(function() {
             var env, d6, e, result;
             return _ts_generator(this, function(_state) {
@@ -430,7 +430,7 @@ try {
             var result4 = _ts_dispose_resources(env5);
             if (result4) await result4;
         }
-    } catch (e) {
+    } catch (unused) {
         var env6 = {
             stack: [],
             error: void 0,

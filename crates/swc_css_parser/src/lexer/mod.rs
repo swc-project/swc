@@ -26,7 +26,7 @@ where
     comments: Option<&'a dyn Comments>,
     pending_leading_comments: Vec<Comment>,
     input: I,
-    cur: Option<char>,
+    cur: Option<u8>,
     cur_pos: BytePos,
     start_pos: BytePos,
     /// Used to override last_pos
@@ -172,7 +172,11 @@ where
         loop {
             self.read_comments();
 
-            if self.input.uncons_while(is_whitespace).is_empty() {
+            if self
+                .input
+                .uncons_while(|c| is_whitespace(c as u8))
+                .is_empty()
+            {
                 break;
             }
         }
@@ -190,27 +194,27 @@ where
     I: Input<'a>,
 {
     #[inline(always)]
-    fn cur(&mut self) -> Option<char> {
+    fn cur(&mut self) -> Option<u8> {
         self.cur
     }
 
     #[inline(always)]
-    fn next(&mut self) -> Option<char> {
+    fn next(&mut self) -> Option<u8> {
         self.input.cur()
     }
 
     #[inline(always)]
-    fn next_next(&mut self) -> Option<char> {
+    fn next_next(&mut self) -> Option<u8> {
         self.input.peek()
     }
 
     #[inline(always)]
-    fn next_next_next(&mut self) -> Option<char> {
+    fn next_next_next(&mut self) -> Option<u8> {
         self.input.peek_ahead()
     }
 
     #[inline(always)]
-    fn consume(&mut self) -> Option<char> {
+    fn consume(&mut self, len: usize) -> Option<u8> {
         let cur = self.input.cur();
 
         self.cur = cur;
@@ -218,8 +222,7 @@ where
 
         if cur.is_some() {
             unsafe {
-                // Safety: cur is Some
-                self.input.bump();
+                self.input.bump_bytes(len);
             }
         }
 
@@ -254,20 +257,29 @@ where
         }
 
         // Consume the next input code point.
-        match self.consume() {
+        let byte_len = if let Some(b) = self.input.cur() {
+            if b < 0x80 {
+                1 // ASCII
+            } else {
+                self.input.cur_as_char().map(|c| c.len_utf8()).unwrap_or(1)
+            }
+        } else {
+            1
+        };
+        match self.consume(byte_len) {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
             Some(c) if is_whitespace(c) => self.with_buf(|l, buf| {
-                buf.push(c);
+                buf.push(c as char);
 
                 loop {
                     let c = l.next();
 
                     match c {
                         Some(c) if is_whitespace(c) => {
-                            l.consume();
+                            l.consume(1);
 
-                            buf.push(c);
+                            buf.push(c as char);
                         }
                         _ => {
                             break;
@@ -281,9 +293,9 @@ where
             }),
             // U+0022 QUOTATION MARK (")
             // Consume a string token and return it.
-            Some('"') => self.read_str(None),
+            Some(b'"') => self.read_str(None),
             // U+0023 NUMBER SIGN (#)
-            Some('#') => {
+            Some(b'#') => {
                 let first = self.next();
                 let second = self.next_next();
 
@@ -311,19 +323,21 @@ where
                     });
                 }
 
-                Ok(Token::Delim { value: '#' })
+                Ok(Token::Delim {
+                    value: b'#' as char,
+                })
             }
             // U+0027 APOSTROPHE (')
             // Consume a string token and return it.
-            Some('\'') => self.read_str(None),
+            Some(b'\'') => self.read_str(None),
             // U+0028 LEFT PARENTHESIS (()
             // Return a <(-token>.
-            Some('(') => Ok(tok!("(")),
+            Some(b'(') => Ok(tok!("(")),
             // U+0029 RIGHT PARENTHESIS ())
             // Return a <)-token>.
-            Some(')') => Ok(tok!(")")),
+            Some(b')') => Ok(tok!(")")),
             // U+002B PLUS SIGN (+)
-            Some('+') => {
+            Some(b'+') => {
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token and return it.
                 if self.would_start_number(None, None, None) {
@@ -338,9 +352,9 @@ where
             }
             // U+002C COMMA (,)
             // Return a <comma-token>.
-            Some(',') => Ok(tok!(",")),
+            Some(b',') => Ok(tok!(",")),
             // U+002D HYPHEN-MINUS (-)
-            Some('-') => {
+            Some(b'-') => {
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None) {
@@ -350,9 +364,9 @@ where
                 }
                 // Otherwise, if the next 2 input code points are U+002D HYPHEN-MINUS U+003E
                 // GREATER-THAN SIGN (->), consume them and return a <CDC-token>.
-                else if self.next() == Some('-') && self.next_next() == Some('>') {
-                    self.consume();
-                    self.consume();
+                else if self.next() == Some(b'-') && self.next_next() == Some(b'>') {
+                    self.consume(1); // -
+                    self.consume(1); // >
 
                     return Ok(Token::CDC);
                 }
@@ -369,7 +383,7 @@ where
                 Ok(tok!("-"))
             }
             // U+002E FULL STOP (.)
-            Some('.') => {
+            Some(b'.') => {
                 // If the input stream starts with a number, reconsume the current input code
                 // point, consume a numeric token, and return it.
                 if self.would_start_number(None, None, None) {
@@ -384,22 +398,22 @@ where
             }
             // U+003A COLON (:)
             // Return a <colon-token>.
-            Some(':') => Ok(tok!(":")),
+            Some(b':') => Ok(tok!(":")),
             // U+003B SEMICOLON (;)
             // Return a <semicolon-token>.
-            Some(';') => Ok(tok!(";")),
+            Some(b';') => Ok(tok!(";")),
             // U+003C LESS-THAN SIGN (<)
-            Some('<') => {
+            Some(b'<') => {
                 // If the next 3 input code points are U+0021 EXCLAMATION MARK U+002D
                 // HYPHEN-MINUS U+002D HYPHEN-MINUS (!--), consume them and return a
                 // <CDO-token>.
-                if self.next() == Some('!')
-                    && self.next_next() == Some('-')
-                    && self.next_next_next() == Some('-')
+                if self.next() == Some(b'!')
+                    && self.next_next() == Some(b'-')
+                    && self.next_next_next() == Some(b'-')
                 {
-                    self.consume(); // !
-                    self.consume(); // -
-                    self.consume(); // -
+                    self.consume(1); // !
+                    self.consume(1); // -
+                    self.consume(1); // -
 
                     return Ok(tok!("<!--"));
                 }
@@ -409,7 +423,7 @@ where
                 Ok(tok!("<"))
             }
             // U+0040 COMMERCIAL AT (@)
-            Some('@') => {
+            Some(b'@') => {
                 let first = self.next();
                 let second = self.next_next();
                 let third = self.next_next_next();
@@ -428,13 +442,15 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '@' })
+                Ok(Token::Delim {
+                    value: b'@' as char,
+                })
             }
             // U+005B LEFT SQUARE BRACKET ([)
             // Return a <[-token>.
-            Some('[') => Ok(tok!("[")),
+            Some(b'[') => Ok(tok!("[")),
             // U+005C REVERSE SOLIDUS (\)
-            Some('\\') => {
+            Some(b'\\') => {
                 // If the input stream starts with a valid escape, reconsume the current input
                 // code point, consume an ident-like token, and return it.
                 if self.is_valid_escape(None, None) {
@@ -447,20 +463,22 @@ where
                 // to the current input code point.
                 self.emit_error(ErrorKind::InvalidEscape);
 
-                Ok(Token::Delim { value: '\\' })
+                Ok(Token::Delim {
+                    value: b'\\' as char,
+                })
             }
             // U+005D RIGHT SQUARE BRACKET (])
             // Return a <]-token>.
-            Some(']') => Ok(tok!("]")),
+            Some(b']') => Ok(tok!("]")),
             // U+007B LEFT CURLY BRACKET ({)
             // Return a <{-token>.
-            Some('{') => Ok(tok!("{")),
+            Some(b'{') => Ok(tok!("{")),
             // U+007D RIGHT CURLY BRACKET (})
             // Return a <}-token>.
-            Some('}') => Ok(tok!("}")),
+            Some(b'}') => Ok(tok!("}")),
             // digit
             // Reconsume the current input code point, consume a numeric token, and return it.
-            Some('0'..='9') => {
+            Some(b'0'..=b'9') => {
                 self.reconsume();
 
                 self.read_numeric()
@@ -477,7 +495,7 @@ where
             None => Err(ErrorKind::Eof),
             // anything else
             // Return a <delim-token> with its value set to the current input code point.
-            Some(c) => Ok(Token::Delim { value: c }),
+            Some(c) => Ok(Token::Delim { value: c as char }),
         }
     }
 
@@ -490,17 +508,26 @@ where
         // the first U+002A ASTERISK (*) followed by a U+002F SOLIDUS (/), or up to an
         // EOF code point. Return to the start of this step.
         // NOTE: We allow to parse line comments under the option.
-        if self.next() == Some('/') && self.next_next() == Some('*') {
+        if self.next() == Some(b'/') && self.next_next() == Some(b'*') {
             let cmt_start = self.input.last_pos();
 
-            while self.next() == Some('/') && self.next_next() == Some('*') {
-                self.consume(); // '*'
-                self.consume(); // '/'
+            while self.next() == Some(b'/') && self.next_next() == Some(b'*') {
+                self.consume(1); // '/'
+                self.consume(1); // '*'
 
                 loop {
-                    match self.consume() {
-                        Some('*') if self.next() == Some('/') => {
-                            self.consume(); // '/'
+                    let byte_len = if let Some(b) = self.input.cur() {
+                        if b < 0x80 {
+                            1 // ASCII
+                        } else {
+                            self.input.cur_as_char().map(|c| c.len_utf8()).unwrap_or(1)
+                        }
+                    } else {
+                        1
+                    };
+                    match self.consume(byte_len) {
+                        Some(b'*') if self.next() == Some(b'/') => {
+                            self.consume(1); // '/'
 
                             if self.comments.is_some() {
                                 let last_pos = self.input.last_pos();
@@ -532,17 +559,26 @@ where
                 }
             }
         } else if self.config.allow_wrong_line_comments
-            && self.next() == Some('/')
-            && self.next_next() == Some('/')
+            && self.next() == Some(b'/')
+            && self.next_next() == Some(b'/')
         {
-            while self.next() == Some('/') && self.next_next() == Some('/') {
-                self.consume(); // '/'
-                self.consume(); // '/'
+            while self.next() == Some(b'/') && self.next_next() == Some(b'/') {
+                self.consume(1); // '/'
+                self.consume(1); // '/'
 
                 let start_of_content = self.input.last_pos();
 
                 loop {
-                    match self.consume() {
+                    let byte_len = if let Some(b) = self.input.cur() {
+                        if b < 0x80 {
+                            1 // ASCII
+                        } else {
+                            self.input.cur_as_char().map(|c| c.len_utf8()).unwrap_or(1)
+                        }
+                    } else {
+                        1
+                    };
+                    match self.consume(byte_len) {
                         Some(c) if is_newline(c) => {
                             if self.comments.is_some() {
                                 let last_pos = self.input.last_pos();
@@ -586,21 +622,22 @@ where
             let ident_sequence = self.read_ident_sequence()?;
             // Create a <dimension-token> with the same value and type flag as number, and a
             // unit set initially to the empty string.
-            let token = Token::Dimension(Box::new(DimensionToken {
+            let token = Box::new(DimensionToken {
                 value: number.0,
                 raw_value: number.1,
                 unit: ident_sequence.0,
                 raw_unit: ident_sequence.1,
                 type_flag: number.2,
-            }));
+            });
+            let token = Token::Dimension { dimension: token };
 
             // Return the <dimension-token>.
             return Ok(token);
         }
         // Otherwise, if the next input code point is U+0025 PERCENTAGE SIGN (%), consume it. Create
         // a <percentage-token> with the same value as number, and return it.
-        else if next_first == Some('%') {
-            self.consume();
+        else if next_first == Some(b'%') {
+            self.consume(1);
 
             return Ok(Token::Percentage {
                 value: number.0,
@@ -624,10 +661,10 @@ where
         // Consume a name, and let string be the result.
         let ident_sequence = self.read_ident_sequence()?;
 
-        // If string’s value is an ASCII case-insensitive match for "url", and the next
+        // If string's value is an ASCII case-insensitive match for "url", and the next
         // input code point is U+0028 LEFT PARENTHESIS ((), consume it.
-        if matches_eq_ignore_ascii_case!(ident_sequence.0, "url") && self.next() == Some('(') {
-            self.consume();
+        if matches_eq_ignore_ascii_case!(ident_sequence.0, "url") && self.next() == Some(b'(') {
+            self.consume(1);
 
             let start_whitespace = self.input.last_pos();
 
@@ -636,9 +673,9 @@ where
             let whitespaces = self.with_buf(|l, buf| {
                 while let (Some(next), Some(next_next)) = (l.next(), l.next_next()) {
                     if is_whitespace(next) && is_whitespace(next_next) {
-                        l.consume();
+                        l.consume(1);
 
-                        buf.push(next);
+                        buf.push(next as char);
                     } else {
                         break;
                     }
@@ -654,7 +691,7 @@ where
                 // return it.
                 Some(c)
                     if is_whitespace(c)
-                        && (self.next_next() == Some('"') || self.next_next() == Some('\'')) =>
+                        && (self.next_next() == Some(b'"') || self.next_next() == Some(b'\'')) =>
                 {
                     // Override last position because we consumed whitespaces, but they
                     // should not be part of token
@@ -665,7 +702,7 @@ where
                         raw: ident_sequence.1,
                     });
                 }
-                Some('"' | '\'') => {
+                Some(b'"' | b'\'') => {
                     return Ok(Token::Function {
                         value: ident_sequence.0,
                         raw: ident_sequence.1,
@@ -679,8 +716,8 @@ where
         }
         // Otherwise, if the next input code point is U+0028 LEFT PARENTHESIS ((), consume it.
         // Create a <function-token> with its value set to string and return it.
-        else if self.next() == Some('(') {
-            self.consume();
+        else if self.next() == Some(b'(') {
+            self.consume(1);
 
             return Ok(Token::Function {
                 value: ident_sequence.0,
@@ -698,7 +735,7 @@ where
 
     // This section describes how to consume a string token from a stream of code
     // points. It returns either a <string-token> or <bad-string-token>.
-    fn read_str(&mut self, maybe_ending_code_point: Option<char>) -> LexResult<Token> {
+    fn read_str(&mut self, maybe_ending_code_point: Option<u8>) -> LexResult<Token> {
         self.with_buf_and_raw_buf(|l, buf, raw| {
             // This algorithm may be called with an ending code point, which denotes the
             // code point that ends the string. If an ending code point is not specified,
@@ -708,15 +745,36 @@ where
             // Initially create a <string-token> with its value set to the empty string.
             // Done above
 
-            raw.push(ending_code_point.unwrap());
+            raw.push(ending_code_point.unwrap() as char);
 
             // Repeatedly consume the next input code point from the stream:
             loop {
-                match l.consume() {
+                // Get the full character before consuming (for non-ASCII)
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
+
+                match l.consume(byte_len) {
                     // ending code point
                     // Return the <string-token>.
                     Some(c) if c == ending_code_point.unwrap() => {
-                        raw.push(c);
+                        raw.push(c as char);
 
                         break;
                     }
@@ -745,7 +803,7 @@ where
                     }
 
                     // U+005C REVERSE SOLIDUS (\)
-                    Some(c) if c == '\\' => {
+                    Some(c) if c == b'\\' => {
                         let next = l.next();
 
                         // If the next input code point is EOF, do nothing.
@@ -754,28 +812,30 @@ where
                         }
                         // Otherwise, if the next input code point is a newline, consume it.
                         else if l.next().is_some() && is_newline(l.next().unwrap()) {
-                            l.consume();
+                            l.consume(1);
 
-                            raw.push(c);
-                            raw.push(next.unwrap());
+                            raw.push(c as char);
+                            raw.push(next.unwrap() as char);
                         }
                         // Otherwise, (the stream starts with a valid escape) consume an escaped
                         // code point and append the returned code point to
-                        // the <string-token>’s value.
+                        // the <string-token>'s value.
                         else if l.is_valid_escape(None, None) {
                             let escape = l.read_escape()?;
 
                             buf.push(escape.0);
-                            raw.push(c);
+                            raw.push(c as char);
                             raw.push_str(&escape.1);
                         }
                     }
 
                     // Anything else
-                    // Append the current input code point to the <string-token>’s value.
-                    Some(c) => {
-                        buf.push(c);
-                        raw.push(c);
+                    // Append the current input code point to the <string-token>'s value.
+                    Some(_) => {
+                        if let Some(ch) = cur_char {
+                            buf.push(ch);
+                            raw.push(ch);
+                        }
                     }
                 }
             }
@@ -797,9 +857,15 @@ where
             // Consume as much whitespace as possible.
             while let Some(c) = l.next() {
                 if is_whitespace(c) {
-                    l.consume();
+                    // Get char before consuming
+                    let ch = if is_non_ascii(c) {
+                        l.input.cur_as_char().unwrap_or(c as char)
+                    } else {
+                        c as char
+                    };
+                    l.consume(1);
 
-                    raw.push(c);
+                    raw.push(ch);
                 } else {
                     break;
                 }
@@ -807,10 +873,31 @@ where
 
             // Repeatedly consume the next input code point from the stream:
             loop {
-                match l.consume() {
+                // Get the full character before consuming (for non-ASCII)
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
+
+                match l.consume(byte_len) {
                     // U+0029 RIGHT PARENTHESIS ())
                     // Return the <url-token>.
-                    Some(')') => {
+                    Some(b')') => {
                         return Ok(Token::Url {
                             value: l.atoms.atom(&**out),
                             raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
@@ -832,13 +919,21 @@ where
                     Some(c) if is_whitespace(c) => {
                         // Consume as much whitespace as possible.
                         let whitespaces: String = l.with_sub_buf(|l, buf| {
-                            buf.push(c);
+                            if let Some(ch) = cur_char {
+                                buf.push(ch);
+                            }
 
                             while let Some(c) = l.next() {
                                 if is_whitespace(c) {
-                                    l.consume();
+                                    // Get char before consuming
+                                    let ch = if is_non_ascii(c) {
+                                        l.input.cur_as_char().unwrap_or(c as char)
+                                    } else {
+                                        c as char
+                                    };
+                                    l.consume(1);
 
-                                    buf.push(c);
+                                    buf.push(ch);
                                 } else {
                                     break;
                                 }
@@ -851,8 +946,8 @@ where
                         // consume it and return the <url-token> (if EOF was
                         // encountered, this is a parse error);
                         match l.next() {
-                            Some(')') => {
-                                l.consume();
+                            Some(b')') => {
+                                l.consume(1);
 
                                 raw.push_str(&whitespaces);
 
@@ -893,12 +988,12 @@ where
                     // non-printable code point
                     // This is a parse error. Consume the remnants of a bad url, create a
                     // <bad-url-token>, and return it.
-                    Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
+                    Some(c) if c == b'"' || c == b'\'' || c == b'(' || is_non_printable(c) => {
                         l.emit_error(ErrorKind::UnexpectedCharInUrl);
 
                         let remnants = l.read_bad_url_remnants()?;
 
-                        raw.push(c);
+                        raw.push(c as char);
                         raw.push_str(&remnants);
 
                         return Ok(Token::BadUrl {
@@ -907,15 +1002,15 @@ where
                     }
 
                     // U+005C REVERSE SOLIDUS (\)
-                    Some(c) if c == '\\' => {
+                    Some(c) if c == b'\\' => {
                         // If the stream starts with a valid escape, consume an escaped code point
                         // and append the returned code point to the
-                        // <url-token>’s value.
+                        // <url-token>'s value.
                         if l.is_valid_escape(None, None) {
                             let escaped = l.read_escape()?;
 
                             out.push(escaped.0);
-                            raw.push(c);
+                            raw.push(c as char);
                             raw.push_str(&escaped.1);
                         }
                         // Otherwise, this is a parse error. Consume the remnants of a bad url,
@@ -925,7 +1020,7 @@ where
 
                             let remnants = l.read_bad_url_remnants()?;
 
-                            raw.push(c);
+                            raw.push(c as char);
                             raw.push_str(&remnants);
 
                             return Ok(Token::BadUrl {
@@ -935,10 +1030,12 @@ where
                     }
 
                     // anything else
-                    // Append the current input code point to the <url-token>’s value.
-                    Some(c) => {
-                        out.push(c);
-                        raw.push(c);
+                    // Append the current input code point to the <url-token>'s value.
+                    Some(_) => {
+                        if let Some(ch) = cur_char {
+                            out.push(ch);
+                            raw.push(ch);
+                        }
                     }
                 }
             }
@@ -952,26 +1049,47 @@ where
     // will return a code point.
     fn read_escape(&mut self) -> LexResult<(char, String)> {
         self.with_sub_buf(|l, buf| {
+            // Get the full character before consuming (for non-ASCII)
+            let cur_byte = l.input.cur();
+            let cur_char = if let Some(b) = cur_byte {
+                if is_non_ascii(b) {
+                    l.input.cur_as_char()
+                } else {
+                    Some(b as char)
+                }
+            } else {
+                None
+            };
+            let byte_len = if let Some(b) = cur_byte {
+                if b < 0x80 {
+                    1 // ASCII
+                } else {
+                    cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                }
+            } else {
+                1
+            };
+
             // Consume the next input code point.
-            match l.consume() {
+            match l.consume(byte_len) {
                 // hex digit
                 Some(c) if is_hex_digit(c) => {
-                    let mut hex = c.to_digit(16).unwrap();
+                    let mut hex = (c as char).to_digit(16).unwrap();
 
-                    buf.push(c);
+                    buf.push(c as char);
 
                     // Consume as many hex digits as possible, but no more than 5.
                     // Note that this means 1-6 hex digits have been consumed in total.
                     for _ in 0..5 {
                         let next = l.next();
-                        let digit = match next.and_then(|c| c.to_digit(16)) {
+                        let digit = match next.and_then(|c| (c as char).to_digit(16)) {
                             Some(v) => v,
                             None => break,
                         };
 
-                        l.consume();
+                        l.consume(1);
 
-                        buf.push(next.unwrap());
+                        buf.push(next.unwrap() as char);
                         hex = hex * 16 + digit;
                     }
 
@@ -980,9 +1098,9 @@ where
 
                     if let Some(next) = next {
                         if is_whitespace(next) {
-                            l.consume();
+                            l.consume(1);
 
-                            buf.push(next);
+                            buf.push(next as char);
                         }
                     }
 
@@ -1016,9 +1134,10 @@ where
                 // anything else
                 // Return the current input code point.
                 Some(c) => {
-                    buf.push(c);
+                    let ch = cur_char.unwrap_or(c as char);
+                    buf.push(ch);
 
-                    Ok((c, (&**buf).into()))
+                    Ok((ch, (&**buf).into()))
                 }
             }
         })
@@ -1030,9 +1149,9 @@ where
     // or can be called with the input stream itself. In the latter case, the two
     // code points in question are the current input code point and the next input
     // code point, in that order.
-    fn is_valid_escape(&mut self, maybe_first: Option<char>, maybe_second: Option<char>) -> bool {
+    fn is_valid_escape(&mut self, maybe_first: Option<u8>, maybe_second: Option<u8>) -> bool {
         // If the first code point is not U+005C REVERSE SOLIDUS (\), return false.
-        if maybe_first.or_else(|| self.cur()) != Some('\\') {
+        if maybe_first.or_else(|| self.cur()) != Some(b'\\') {
             return false;
         }
 
@@ -1052,16 +1171,16 @@ where
     // the next two input code points, in that order.
     fn would_start_ident(
         &mut self,
-        maybe_first: Option<char>,
-        maybe_second: Option<char>,
-        maybe_third: Option<char>,
+        maybe_first: Option<u8>,
+        maybe_second: Option<u8>,
+        maybe_third: Option<u8>,
     ) -> bool {
         // Look at the first code point:
         let first = maybe_first.or_else(|| self.cur());
 
         match first {
             // U+002D HYPHEN-MINUS
-            Some('-') => {
+            Some(b'-') => {
                 let second = maybe_second.or_else(|| self.next());
 
                 match second {
@@ -1070,7 +1189,7 @@ where
                     Some(c) if is_name_start(c) => true,
                     // or a U+002D HYPHEN-MINUS,
                     // return true.
-                    Some('-') => true,
+                    Some(b'-') => true,
                     // or the second and third code points are a valid escape
                     // return true.
                     Some(_) => {
@@ -1088,7 +1207,7 @@ where
             // U+005C REVERSE SOLIDUS (\)
             // If the first and second code points are a valid escape, return true. Otherwise,
             // return false.
-            Some('\\') => {
+            Some(b'\\') => {
                 let second = maybe_second.or_else(|| self.next());
 
                 self.is_valid_escape(first, second)
@@ -1106,9 +1225,9 @@ where
     #[allow(clippy::needless_return)]
     fn would_start_number(
         &mut self,
-        maybe_first: Option<char>,
-        maybe_second: Option<char>,
-        maybe_third: Option<char>,
+        maybe_first: Option<u8>,
+        maybe_second: Option<u8>,
+        maybe_third: Option<u8>,
     ) -> bool {
         // Look at the first code point:
         let first = maybe_first.or_else(|| self.cur());
@@ -1116,13 +1235,13 @@ where
         match first {
             // U+002B PLUS SIGN (+)
             // U+002D HYPHEN-MINUS (-)
-            Some('+') | Some('-') => {
+            Some(b'+') | Some(b'-') => {
                 match maybe_second.or_else(|| self.next()) {
                     // If the second code point is a digit, return true.
                     Some(second) if second.is_ascii_digit() => return true,
                     // Otherwise, if the second code point is a U+002E FULL STOP (.) and the
                     // third code point is a digit, return true.
-                    Some('.') => {
+                    Some(b'.') => {
                         if let Some(third) = maybe_third.or_else(|| self.next_next()) {
                             if third.is_ascii_digit() {
                                 return true;
@@ -1136,7 +1255,7 @@ where
                 };
             }
             // U+002E FULL STOP (.)
-            Some('.') => {
+            Some(b'.') => {
                 // If the second code point is a digit, return true.
                 if let Some(second) = self.next() {
                     if second.is_ascii_digit() {
@@ -1167,20 +1286,46 @@ where
 
             // Repeatedly consume the next input code point from the stream:
             loop {
-                match l.consume() {
+                // For non-ASCII bytes, we need to get the full UTF-8 character before consuming
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
+
+                let c = l.consume(byte_len);
+
+                match c {
                     // name code point
                     // Append the code point to result.
-                    Some(c) if is_name(c) => {
-                        buf.push(c);
-                        raw.push(c);
+                    Some(byte) if is_name(byte) => {
+                        // Use the full character we got earlier
+                        if let Some(ch) = cur_char {
+                            buf.push(ch);
+                            raw.push(ch);
+                        }
                     }
                     // the stream starts with a valid escape
                     // Consume an escaped code point. Append the returned code point to result.
-                    Some(c) if l.is_valid_escape(None, None) => {
+                    Some(byte) if l.is_valid_escape(None, None) => {
                         let escaped = l.read_escape()?;
 
                         buf.push(escaped.0);
-                        raw.push(c);
+                        raw.push(byte as char);
                         raw.push_str(&escaped.1);
                     }
                     // anything else
@@ -1208,18 +1353,18 @@ where
             // (-), consume it and append it to repr.
             let next = l.next();
 
-            if next == Some('+') || next == Some('-') {
-                l.consume();
+            if next == Some(b'+') || next == Some(b'-') {
+                l.consume(1);
 
-                out.push(next.unwrap());
+                out.push(next.unwrap() as char);
             }
 
             // While the next input code point is a digit, consume it and append it to repr.
             while let Some(c) = l.next() {
                 if c.is_ascii_digit() {
-                    l.consume();
+                    l.consume(1);
 
-                    out.push(c);
+                    out.push(c as char);
                 } else {
                     break;
                 }
@@ -1229,16 +1374,16 @@ where
             // then:
             let next = l.next();
 
-            if next == Some('.') {
+            if next == Some(b'.') {
                 if let Some(n) = l.next_next() {
                     if n.is_ascii_digit() {
                         // Consume them.
-                        l.consume();
-                        l.consume();
+                        l.consume(1);
+                        l.consume(1);
 
                         // Append them to repr.
-                        out.push(next.unwrap());
-                        out.push(n);
+                        out.push(next.unwrap() as char);
+                        out.push(n as char);
 
                         // Set type to "number".
                         type_flag = NumberType::Number;
@@ -1247,9 +1392,9 @@ where
                         // repr.
                         while let Some(c) = l.next() {
                             if c.is_ascii_digit() {
-                                l.consume();
+                                l.consume(1);
 
-                                out.push(c);
+                                out.push(c as char);
                             } else {
                                 break;
                             }
@@ -1263,23 +1408,23 @@ where
             // (-) or U+002B PLUS SIGN (+), followed by a digit, then:
             let next = l.next();
 
-            if next == Some('E') || next == Some('e') {
+            if next == Some(b'E') || next == Some(b'e') {
                 let next_next = l.next_next();
                 let next_next_next = l.next_next_next();
 
-                if (next_next == Some('-')
-                    || next_next == Some('+')
+                if (next_next == Some(b'-')
+                    || next_next == Some(b'+')
                         && next_next_next.is_some()
                         && next_next_next.unwrap().is_ascii_digit())
                     || next_next.is_some() && next_next.unwrap().is_ascii_digit()
                 {
                     // Consume them.
-                    l.consume();
-                    l.consume();
+                    l.consume(1);
+                    l.consume(1);
 
                     // Append them to repr.
-                    out.push(next.unwrap());
-                    out.push(next_next.unwrap());
+                    out.push(next.unwrap() as char);
+                    out.push(next_next.unwrap() as char);
 
                     // Set type to "number".
                     type_flag = NumberType::Number;
@@ -1288,9 +1433,9 @@ where
                     // to repr.
                     while let Some(c) = l.next() {
                         if c.is_ascii_digit() {
-                            l.consume();
+                            l.consume(1);
 
-                            out.push(c);
+                            out.push(c as char);
                         } else {
                             break;
                         }
@@ -1321,12 +1466,33 @@ where
         self.with_sub_buf(|l, raw| {
             // Repeatedly consume the next input code point from the stream:
             loop {
-                match l.consume() {
+                // Get the full character before consuming (for non-ASCII)
+                let cur_byte = l.input.cur();
+                let cur_char = if let Some(b) = cur_byte {
+                    if is_non_ascii(b) {
+                        l.input.cur_as_char()
+                    } else {
+                        Some(b as char)
+                    }
+                } else {
+                    None
+                };
+                let byte_len = if let Some(b) = cur_byte {
+                    if b < 0x80 {
+                        1 // ASCII
+                    } else {
+                        cur_char.map(|c| c.len_utf8()).unwrap_or(1)
+                    }
+                } else {
+                    1
+                };
+
+                match l.consume(byte_len) {
                     // U+0029 RIGHT PARENTHESIS ())
                     // EOF
                     // Return.
-                    Some(c @ ')') => {
-                        raw.push(c);
+                    Some(c @ b')') => {
+                        raw.push(c as char);
 
                         break;
                     }
@@ -1339,13 +1505,15 @@ where
                         // ("\)") to be encountered without ending the <bad-url-token>.
                         let escaped = l.read_escape()?;
 
-                        raw.push(c);
+                        raw.push(c as char);
                         raw.push_str(&escaped.1);
                     }
                     // anything else
                     // Do nothing.
-                    Some(c) => {
-                        raw.push(c);
+                    Some(_) => {
+                        if let Some(ch) = cur_char {
+                            raw.push(ch);
+                        }
                     }
                 }
             }
@@ -1356,61 +1524,61 @@ where
 }
 
 #[inline(always)]
-fn is_digit(c: char) -> bool {
+fn is_digit(c: u8) -> bool {
     c.is_ascii_digit()
 }
 
 #[inline(always)]
-fn is_hex_digit(c: char) -> bool {
+fn is_hex_digit(c: u8) -> bool {
     match c {
         c if is_digit(c) => true,
-        'A'..='F' => true,
-        'a'..='f' => true,
+        b'A'..=b'F' => true,
+        b'a'..=b'f' => true,
         _ => false,
     }
 }
 
 #[inline(always)]
-fn is_uppercase_letter(c: char) -> bool {
+fn is_uppercase_letter(c: u8) -> bool {
     c.is_ascii_uppercase()
 }
 
 #[inline(always)]
-fn is_lowercase_letter(c: char) -> bool {
+fn is_lowercase_letter(c: u8) -> bool {
     c.is_ascii_lowercase()
 }
 
 #[inline(always)]
-fn is_letter(c: char) -> bool {
+fn is_letter(c: u8) -> bool {
     is_uppercase_letter(c) || is_lowercase_letter(c)
 }
 
 #[inline(always)]
-fn is_non_ascii(c: char) -> bool {
-    c as u32 >= 0x80
+fn is_non_ascii(c: u8) -> bool {
+    c >= 0x80
 }
 
 #[inline(always)]
-fn is_name_start(c: char) -> bool {
-    matches!(c, c if is_letter(c) || is_non_ascii(c) || c == '_' || c == '\x00')
+fn is_name_start(c: u8) -> bool {
+    matches!(c, c if is_letter(c) || is_non_ascii(c) || c == b'_' || c == 0x00)
 }
 
 #[inline(always)]
-fn is_name(c: char) -> bool {
-    is_name_start(c) || matches!(c, c if c.is_ascii_digit() || c == '-')
+fn is_name(c: u8) -> bool {
+    is_name_start(c) || matches!(c, c if c.is_ascii_digit() || c == b'-')
 }
 
 #[inline(always)]
-fn is_non_printable(c: char) -> bool {
-    matches!(c, '\x00'..='\x08' | '\x0B' | '\x0E'..='\x1F' | '\x7F')
+fn is_non_printable(c: u8) -> bool {
+    matches!(c, 0x00..=0x08 | 0x0B | 0x0E..=0x1F | 0x7F)
 }
 
 #[inline(always)]
-fn is_newline(c: char) -> bool {
-    matches!(c, '\n' | '\r' | '\x0C')
+fn is_newline(c: u8) -> bool {
+    matches!(c, b'\n' | b'\r' | 0x0c)
 }
 
 #[inline(always)]
-fn is_whitespace(c: char) -> bool {
-    matches!(c, c if c == ' ' || c == '\t' || is_newline(c))
+fn is_whitespace(c: u8) -> bool {
+    matches!(c, c if c == b' ' || c == b'\t' || is_newline(c))
 }

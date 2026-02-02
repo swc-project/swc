@@ -95,11 +95,13 @@
                 },
                 "token": {
                   "Dimension": {
-                    "value": 2.0,
-                    "raw_value": "2",
-                    "unit": "px",
-                    "type": "integer",
-                    "raw_unit": "px"
+                    "dimension": {
+                      "value": 2.0,
+                      "raw_value": "2",
+                      "unit": "px",
+                      "type": "integer",
+                      "raw_unit": "px"
+                    }
                   }
                 }
               }

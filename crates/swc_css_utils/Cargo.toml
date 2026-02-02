@@ -7,17 +7,17 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license       = { workspace = true }
 name          = "swc_css_utils"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "18.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-once_cell  = { workspace = true, default-features = false }
+once_cell = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde      = { workspace = true, features = ["derive"], default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
-swc_atoms     = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_css_ast   = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
-swc_css_visit = { version = "16.0.0", path = "../swc_css_visit", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }

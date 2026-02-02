@@ -6,15 +6,15 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_testing"
 repository    = { workspace = true }
-version       = "17.0.0"
+version       = "19.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-anyhow  = { workspace = true, default-features = false }
-hex     = { workspace = true, default-features = false, features = ["std"] }
-sha2    = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
+hex = { workspace = true, default-features = false }
+sha2 = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
 
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

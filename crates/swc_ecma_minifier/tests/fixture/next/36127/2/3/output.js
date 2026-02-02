@@ -1,7 +1,5 @@
 /// The data structure for documents. @nonabstract
 export class Text {
-    /// @internal
-    constructor(){}
     /// Get the line description around the given position.
     lineAt(t) {
         if (t < 0 || t > this.length) throw RangeError(`Invalid position ${t} in document of length ${this.length}`);
@@ -224,16 +222,16 @@ class e extends Text {
             for (let t of n)t.flatten(e);
             return new t(e, i);
         }
-        let h = Math.max(32 /* Tree.Branch */ , s >> 5 /* Tree.BranchShift */ ), l = h << 1, r = h >> 1, o = [], f = 0, c = -1, u = [];
-        function a() {
-            0 != f && (o.push(1 == u.length ? u[0] : e.from(u, c)), c = -1, f = u.length = 0);
+        let h = Math.max(32 /* Tree.Branch */ , s >> 5 /* Tree.BranchShift */ ), l = h << 1, r = h >> 1, o = [], f = 0, u = -1, a = [];
+        function c() {
+            0 != f && (o.push(1 == a.length ? a[0] : e.from(a, u)), u = -1, f = a.length = 0);
         }
         for (let i of n)!function n(i) {
             let s;
             if (i.lines > l && i instanceof e) for (let t of i.children)n(t);
-            else i.lines > r && (f > r || !f) ? (a(), o.push(i)) : i instanceof t && f && (s = u[u.length - 1]) instanceof t && i.lines + s.lines <= 32 /* Tree.Branch */  ? (f += i.lines, c += i.length + 1, u[u.length - 1] = new t(s.text.concat(i.text), s.length + 1 + i.length)) : (f + i.lines > h && a(), f += i.lines, c += i.length + 1, u.push(i));
+            else i.lines > r && (f > r || !f) ? (c(), o.push(i)) : i instanceof t && f && (s = a[a.length - 1]) instanceof t && i.lines + s.lines <= 32 /* Tree.Branch */  ? (f += i.lines, u += i.length + 1, a[a.length - 1] = new t(s.text.concat(i.text), s.length + 1 + i.length)) : (f + i.lines > h && c(), f += i.lines, u += i.length + 1, a.push(i));
         }(i);
-        return a(), 1 == o.length ? o[0] : new e(o, i);
+        return c(), 1 == o.length ? o[0] : new e(o, i);
     }
 }
 function n(t, e, i = 0, s = 1e9) {
@@ -309,7 +307,7 @@ class h {
         return !1;
     }
 }
-"undefined" != typeof Symbol && (Text.prototype[Symbol.iterator] = function() {
+"u" > typeof Symbol && (Text.prototype[Symbol.iterator] = function() {
     return this.iter();
 }, i.prototype[Symbol.iterator] = s.prototype[Symbol.iterator] = h.prototype[Symbol.iterator] = function() {
     return this;

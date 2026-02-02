@@ -1,5 +1,5 @@
 //// [errorIsolation.js]
 var async = {
-    doSomething: function(_) {}
+    doSomething: function doSomething(_) {}
 };
 async.doSomething(/***/ function() {});

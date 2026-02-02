@@ -58,6 +58,15 @@ macro_rules! safe_byte_match_table {
 }
 
 #[macro_export]
+/// Macro to search for first byte matching a `ByteMatchTable` or
+/// `SafeByteMatchTable`.
+///
+/// Search processes source in batches of `SEARCH_BATCH_SIZE` bytes for speed.
+/// When not enough bytes remaining in source for a batch, search source byte by
+/// byte.
+///
+/// The search process is pointer-based and bumps the lexer at the end. So pay
+/// attention not to change the pos of lexer in `continue_if`.
 macro_rules! byte_search {
     // Simple version without continue_if
     (
@@ -81,60 +90,70 @@ macro_rules! byte_search {
         handle_eof: $eof_handler:expr $(,)?
     ) => {{
         $table.use_table();
-        loop {
-            // Open a new scope so the immutable borrow (slice/bytes) ends before we
-            // call `bump_bytes`, which requires `&mut`.
-            let (found_idx, $byte) = {
-                let slice = $lexer.input().as_str();
-                if slice.is_empty() {
-                    $eof_handler
-                }
-                let bytes = slice.as_bytes();
-                let mut idx = 0usize;
-                let len = bytes.len();
-                let mut found: Option<(usize, u8)> = None;
-                while idx < len {
-                    let end = (idx + $crate::lexer::search::SEARCH_BATCH_SIZE).min(len);
-                    let mut i = idx;
-                    while i < end {
-                        let b = bytes[i];
-                        if $table.matches(b) {
-                            found = Some((i, b));
-                            break;
-                        }
-                        i += 1;
-                    }
-                    if found.is_some() {
-                        break;
-                    }
-                    idx = end;
-                }
-                match found {
-                    Some((i, b)) => (Some(i), b),
-                    None => (None, 0),
-                }
-            }; // immutable borrow ends here
+        let mut $pos = 0;
+        let bytes = $lexer.input().as_str().as_bytes();
+        let len = bytes.len();
+        let bytes = bytes.as_ptr();
 
-            match found_idx {
-                Some(i) => {
-                    // Check if we should continue searching
-                    let $pos = i; // Index within current slice
-                    if $should_continue {
-                        // Continue searching from next position
-                        $lexer.input_mut().bump_bytes(i + 1);
-                        continue;
-                    } else {
-                        $lexer.input_mut().bump_bytes(i);
-                        break $byte;
+        let $byte = 'outer: loop {
+            let batch_end = $pos + $crate::lexer::search::SEARCH_BATCH_SIZE;
+            let $byte = if batch_end < len {
+                // Safety: `batch_end < len`
+                let batch = unsafe {
+                    std::slice::from_raw_parts(
+                        bytes.add($pos),
+                        $crate::lexer::search::SEARCH_BATCH_SIZE,
+                    )
+                };
+                'inner: loop {
+                    for (i, &byte) in batch.iter().enumerate() {
+                        if $table.matches(byte) {
+                            // We find a matched byte, jump out to check with continue_if
+                            $pos += i;
+                            break 'inner byte;
+                        }
                     }
+
+                    // We don't find a matched byte in this batch,
+                    // So continue to try the next batch/remaining
+                    $pos = batch_end;
+                    continue 'outer;
                 }
-                None => {
-                    // Consume remainder then run handler.
-                    let len = $lexer.input().as_str().len();
-                    $lexer.input_mut().bump_bytes(len);
+            } else {
+                'inner: loop {
+                    // The remaining is shorter than batch size.
+                    let remaining =
+                        unsafe { std::slice::from_raw_parts(bytes.add($pos), len - $pos) };
+                    for (i, &byte) in remaining.iter().enumerate() {
+                        if $table.matches(byte) {
+                            // We find a matched byte, jump out to check with continue_if
+                            $pos += i;
+                            break 'inner byte;
+                        }
+                    }
+
+                    // We don't find a matched byte in the remaining,
+                    // which also means we have reached the end of the input.
+                    unsafe {
+                        $lexer.input_mut().bump_bytes(len);
+                    }
                     $eof_handler
                 }
+            };
+
+            // Check if we should continue searching
+            if $should_continue {
+                // Continue searching from next position
+                $pos += 1;
+                continue;
             }
+
+            break $byte;
+        };
+
+        unsafe {
+            $lexer.input_mut().bump_bytes($pos);
         }
+        $byte
     }};
 }

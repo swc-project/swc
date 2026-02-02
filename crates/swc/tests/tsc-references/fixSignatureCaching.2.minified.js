@@ -1,11 +1,11 @@
 //// [fixSignatureCaching.ts]
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-(function(undefined) {
-    if ('undefined' != typeof module && module.exports) return function(factory) {
+(function() {
+    if ("u" > typeof module && module.exports) return function(factory) {
         module.exports = factory();
     };
     if ('function' == typeof define && define.amd) return define;
-    if ('undefined' != typeof window) return function(factory) {
+    if ("u" > typeof window) return function(factory) {
         window.MobileDetect = factory();
     };
     throw Error('unknown environment');
@@ -401,7 +401,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         mobileGrade: function() {
             return void 0 === this._cache.grade && (this._cache.grade = impl.mobileGrade(this)), this._cache.grade;
         }
-    }, 'undefined' != typeof window && window.screen ? MobileDetect.isPhoneSized = function(maxPhoneWidth) {
+    }, "u" > typeof window && window.screen ? MobileDetect.isPhoneSized = function(maxPhoneWidth) {
         return maxPhoneWidth < 0 ? void 0 : impl.getDeviceSmallerSide() <= maxPhoneWidth;
     } : MobileDetect.isPhoneSized = function() {}, MobileDetect._impl = impl, MobileDetect.version = '1.3.3 2016-07-31', MobileDetect;
 });

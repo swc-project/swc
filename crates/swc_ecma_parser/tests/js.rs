@@ -63,11 +63,30 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
             is_test262: false,
         });
 
-        let json =
-            serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
+        // json
+        {
+            let json =
+                serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
 
-        if StdErr::from(json).compare_to_file(output_json).is_err() {
-            panic!()
+            if StdErr::from(json).compare_to_file(output_json).is_err() {
+                panic!()
+            }
+        }
+
+        // cbor
+        {
+            use cbor4ii::core::{
+                dec::Decode,
+                enc::Encode,
+                utils::{BufWriter, SliceReader},
+            };
+
+            let mut buf = BufWriter::new(Vec::new());
+            program.encode(&mut buf).unwrap();
+
+            let buf = buf.into_inner();
+            let mut buf = SliceReader::new(buf.as_slice());
+            let _program = Program::decode(&mut buf).unwrap();
         }
 
         Ok(())

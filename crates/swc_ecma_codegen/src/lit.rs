@@ -637,7 +637,7 @@ impl Print for f64 {
             return self.to_string();
         }
 
-        let mut buffer = ryu_js::Buffer::new();
+        let mut buffer = dragonbox_ecma::Buffer::new();
         buffer.format(*self).to_string()
     }
 }

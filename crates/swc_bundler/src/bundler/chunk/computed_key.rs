@@ -44,7 +44,7 @@ where
         let span = DUMMY_SP;
         let module_var_name = match self.scope.wrapped_esm_id(id) {
             Some(v) => v,
-            None => bail!("{:?} should not be wrapped with a function", id),
+            None => bail!("{id:?} should not be wrapped with a function"),
         };
 
         let is_async = module.iter().any(|m| contains_top_level_await(m.1));

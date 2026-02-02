@@ -750,7 +750,7 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0, exports.requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
+            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0, exports.requestIdleCallback = "u" > typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
                 let start = Date.now();
                 return setTimeout(function() {
                     cb({
@@ -760,7 +760,7 @@
                         }
                     });
                 }, 1);
-            }, exports.cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
+            }, exports.cancelIdleCallback = "u" > typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
                 return clearTimeout(id);
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
@@ -3098,7 +3098,7 @@ You should only use "next/router" on the client side of your app.
                 })).apply(this, arguments);
             }
             exports.isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
-            let SP = "undefined" != typeof performance;
+            let SP = "u" > typeof performance;
             exports.SP = SP, exports.ST = SP && [
                 "mark",
                 "measure",
@@ -3131,7 +3131,7 @@ You should only use "next/router" on the client side of your app.
                 }, n.o = function(n, y) {
                     return Object.prototype.hasOwnProperty.call(n, y);
                 }, n.r = function(n) {
-                    "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
+                    "u" > typeof Symbol && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
                         value: "Module"
                     }), Object.defineProperty(n, "__esModule", {
                         value: !0

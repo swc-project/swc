@@ -72,7 +72,7 @@ jobs:
       - name: Install cargo-deny
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-deny@0.14.15
+          tool: cargo-deny@0.18.9
 
       - name: Check licenses
         run: |
@@ -163,13 +163,6 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-
-      - name: Patch
-        shell: bash
-        run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
-          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -391,14 +384,6 @@ jobs:
           node-version: 18
           cache: "yarn"
 
-      - name: Patch
-        shell: bash
-        run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
-          ./scripts/cargo/patch-section.sh
-          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
-
       - name: Set platform name
         run: |
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
@@ -448,13 +433,6 @@ jobs:
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Patch
-        shell: bash
-        run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
-          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Prepare
         run: |

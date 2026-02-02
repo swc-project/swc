@@ -252,3 +252,104 @@ impl<I: Iterator<Item = u16>> Iterator for DecodeUtf16<I> {
         (low / 2, high)
     }
 }
+
+/// Check if a byte is a valid UTF-8 continuation byte.
+#[inline]
+fn is_continuation_byte(byte: u8) -> bool {
+    byte & 0xc0 == 0x80
+}
+
+/// Check if bytes at position form a surrogate pair. A surrogate pair should be
+/// encoded as 4-byte sequence in UTF-8 instead of two separate 3-byte
+/// sequences.
+#[inline]
+fn is_surrogate_pair(bytes: &[u8], pos: usize) -> bool {
+    if pos + 5 >= bytes.len() {
+        return false;
+    }
+    bytes[pos] == 0xed
+        && (0xa0..0xb0).contains(&bytes[pos + 1])
+        && is_continuation_byte(bytes[pos + 2])
+        && bytes[pos + 3] == 0xed
+        && (0xb0..0xc0).contains(&bytes[pos + 4])
+        && is_continuation_byte(bytes[pos + 5])
+}
+
+/// Validate that bytes represent well-formed WTF-8.
+///
+/// This checks that:
+/// - All bytes form valid UTF-8 sequences OR valid surrogate code point
+///   encodings
+/// - Surrogate pairs are not encoded as two separate 3-byte sequences
+pub fn validate_wtf8(bytes: &[u8]) -> bool {
+    let mut i = 0;
+    while i < bytes.len() {
+        let byte = bytes[i];
+
+        // ASCII range (1-byte sequence)
+        if byte < 0x80 {
+            i += 1;
+            continue;
+        }
+
+        // 2-byte sequence
+        if byte < 0xe0 {
+            if i + 1 >= bytes.len() || !is_continuation_byte(bytes[i + 1]) || byte < 0xc2 {
+                return false; // Truncated, invalid continuation, or overlong
+            }
+            i += 2;
+            continue;
+        }
+
+        // 3-byte sequence
+        if byte < 0xf0 {
+            if i + 2 >= bytes.len()
+                || !is_continuation_byte(bytes[i + 1])
+                || !is_continuation_byte(bytes[i + 2])
+            {
+                return false; // Truncated or invalid continuation bytes
+            }
+
+            let b2 = bytes[i + 1];
+
+            // Check for overlong encoding
+            if byte == 0xe0 && b2 < 0xa0 {
+                return false;
+            }
+
+            // Check for surrogate pair (lead + trail) - invalid in WTF-8
+            if is_surrogate_pair(bytes, i) {
+                return false;
+            }
+
+            i += 3;
+            continue;
+        }
+
+        // 4-byte sequence
+        if byte < 0xf8 {
+            if i + 3 >= bytes.len()
+                || !is_continuation_byte(bytes[i + 1])
+                || !is_continuation_byte(bytes[i + 2])
+                || !is_continuation_byte(bytes[i + 3])
+            {
+                return false; // Truncated or invalid continuation bytes
+            }
+
+            let b2 = bytes[i + 1];
+
+            // Check for overlong encoding and valid range
+            if (byte == 0xf0 && b2 < 0x90) || (byte == 0xf4 && b2 >= 0x90) || byte > 0xf4 {
+                return false;
+            }
+
+            i += 4;
+            continue;
+        }
+
+        // Invalid byte (>= 0xF8)
+        return false;
+    }
+
+    true
+}

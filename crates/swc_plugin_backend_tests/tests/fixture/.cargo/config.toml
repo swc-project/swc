@@ -1,0 +1,4 @@
+[target.'cfg(target_arch = "wasm32")']
+rustflags = [
+  "--cfg=swc_ast_unknown"
+]

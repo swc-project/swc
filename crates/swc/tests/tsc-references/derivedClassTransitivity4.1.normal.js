@@ -1,8 +1,8 @@
 //// [derivedClassTransitivity4.ts]
-// subclassing is not transitive when you can remove required parameters and add optional parameters on protected members
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// subclassing is not transitive when you can remove required parameters and add optional parameters on protected members
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

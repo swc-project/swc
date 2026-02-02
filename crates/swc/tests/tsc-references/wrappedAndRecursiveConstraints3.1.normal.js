@@ -1,6 +1,6 @@
 //// [wrappedAndRecursiveConstraints3.ts]
-// no errors expected
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// no errors expected
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x) {
@@ -20,7 +20,7 @@ var c = new C({
 });
 var r = c.foo({
     length: 3,
-    charAt: function(x) {
+    charAt: function charAt(x) {
         '';
     }
 });

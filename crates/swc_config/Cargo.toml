@@ -9,9 +9,9 @@ repository    = { workspace = true }
 version       = "3.1.2"
 
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 
 [features]
@@ -22,21 +22,16 @@ regex_js     = ["dep:regress"]
 sourcemap    = ["dep:swc_sourcemap"]
 
 [dependencies]
-anyhow = { workspace = true, default-features = false, features = ["std"] }
+anyhow = { workspace = true, default-features = false }
 bytes-str = { workspace = true, features = ["serde"], default-features = false }
 dashmap = { workspace = true, optional = true, default-features = false }
 globset = { workspace = true, optional = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, optional = true, default-features = false }
-regex = { workspace = true, optional = true }
-regress = { workspace = true, optional = true, default-features = false, features = [
-  "std",
-] }
+regex         = { workspace = true, optional = true }
+regress = { workspace = true, optional = true, default-features = false }
 rustc-hash = { workspace = true, optional = true, default-features = false }
-serde = { workspace = true, features = [
-  "derive",
-  "rc",
-], default-features = false }
+serde         = { workspace = true, features = ["derive", "rc"] }
 serde_json = { workspace = true, default-features = false }
 swc_sourcemap = { workspace = true, optional = true, default-features = false }
 

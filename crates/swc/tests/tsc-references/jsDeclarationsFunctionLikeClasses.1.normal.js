@@ -1,9 +1,9 @@
 //// [source.js]
+import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 /**
  * @param {number} x
  * @param {number} y
- */ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-export function Point(x, y) {
+ */ export function Point(x, y) {
     if (!_instanceof(this, Point)) {
         return new Point(x, y);
     }

@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = { workspace = true }
 name = "swc_xml_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "16.0.0"
+version = "18.0.0"
 
 [lib]
 bench = false
@@ -21,16 +21,16 @@ debug = []
 [dependencies]
 rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms   = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common  = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_xml_ast = { version = "16.0.0", path = "../swc_xml_ast", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_xml_ast = { version = "18.0.0", path = "../swc_xml_ast" }
 
 [dev-dependencies]
-serde      = { workspace = true, default-features = false }
+serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 
-swc_xml_ast = { version = "16.0.0", path = "../swc_xml_ast", features = [
+swc_xml_ast = { version = "18.0.0", path = "../swc_xml_ast", features = [
   "serde-impl",
 ] }
-swc_xml_visit = { version = "16.0.0", path = "../swc_xml_visit", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_xml_visit = { version = "18.0.0", path = "../swc_xml_visit", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

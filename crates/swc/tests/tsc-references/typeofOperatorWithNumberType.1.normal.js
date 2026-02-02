@@ -1,7 +1,7 @@
 //// [typeofOperatorWithNumberType.ts]
-// typeof  operator on number type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
+// typeof  operator on number type
 var NUMBER;
 var NUMBER1 = [
     1,
@@ -33,7 +33,7 @@ var ResultIsString4 = _type_of({
 });
 var ResultIsString5 = _type_of({
     x: 1,
-    y: function(n) {
+    y: function y(n) {
         return n;
     }
 });

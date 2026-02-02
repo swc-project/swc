@@ -820,6 +820,9 @@ impl VisitMut for DecoratorPass {
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                 ..Default::default()
             };
+            // _initProto must run AFTER super() but BEFORE field initialization.
+            // We inject it into the first non-static field's initializer expression.
+            // If there are no fields with initializers, we inject into the constructor.
             let mut proto_inited = false;
             for member in n.body.iter_mut() {
                 if let ClassMember::ClassProp(prop) = member {
@@ -1532,9 +1535,15 @@ impl VisitMut for DecoratorPass {
         if p.is_static {
             self.state.static_lhs.push(init);
             self.state.init_static_args.push(initialize_init);
+            self.state
+                .init_static
+                .get_or_insert_with(|| private_ident!("_initStatic"));
         } else {
             self.state.proto_lhs.push(init);
             self.state.init_proto_args.push(initialize_init);
+            self.state
+                .init_proto
+                .get_or_insert_with(|| private_ident!("_initProto"));
         }
     }
 
@@ -1796,9 +1805,15 @@ impl VisitMut for DecoratorPass {
         if p.is_static {
             self.state.static_lhs.push(init);
             self.state.init_static_args.push(Some(initialize_init));
+            self.state
+                .init_static
+                .get_or_insert_with(|| private_ident!("_initStatic"));
         } else {
             self.state.proto_lhs.push(init);
             self.state.init_proto_args.push(Some(initialize_init));
+            self.state
+                .init_proto
+                .get_or_insert_with(|| private_ident!("_initProto"));
         }
     }
 

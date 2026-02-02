@@ -7,10 +7,10 @@ var obj = {
     /** @type {function(number): number} */ method1: function method1(n1) {
         return "42";
     },
-    /** @type {function(number): number} */ method2: function(n1) {
+    /** @type {function(number): number} */ method2: function method2(n1) {
         return "lol";
     },
-    /** @type {function(number): number} */ arrowFunc: function() {
+    /** @type {function(number): number} */ arrowFunc: function arrowFunc() {
         var num = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "0";
         return num + 42;
     },

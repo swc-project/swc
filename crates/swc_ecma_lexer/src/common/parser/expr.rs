@@ -382,6 +382,23 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
                 }
 
                 let type_parameters = parse_ts_type_params(p, false, true)?;
+
+                // In TSX mode, type parameters that could be mistaken for JSX
+                // (single param without constraint and no trailing comma) are not
+                // allowed. e.g., `<T>() => {}` is invalid in TSX because `<T>`
+                // looks like JSX.
+                // Valid alternatives: `<T,>() => {}` or `<T extends unknown>() =>
+                // {}`
+                if p.input().syntax().jsx() && type_parameters.params.len() == 1 {
+                    let single_param = &type_parameters.params[0];
+                    let has_trailing_comma = type_parameters.span.hi.0 - single_param.span.hi.0 > 1;
+                    let dominated_by_jsx = single_param.constraint.is_none() && !has_trailing_comma;
+
+                    if dominated_by_jsx {
+                        return Ok(None);
+                    }
+                }
+
                 let mut arrow = parse_assignment_expr_base(p)?;
                 match *arrow {
                     Expr::Arrow(ArrowExpr {
@@ -1545,8 +1562,13 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         };
 
         if op == op!("delete") {
-            if let Expr::Ident(ref i) = *arg {
-                p.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+            // Skip emitting TS1102 in TypeScript mode because it's a semantic error
+            // that should be handled by the type checker, not the parser.
+            // See: https://github.com/swc-project/swc/issues/10558
+            if !p.input().syntax().typescript() {
+                if let Expr::Ident(ref i) = *arg {
+                    p.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                }
             }
         }
 

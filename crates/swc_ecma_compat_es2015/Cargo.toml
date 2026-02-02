@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_compat_es2015"
 repository    = { workspace = true }
-version       = "32.0.0"
+version       = "41.0.0"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -16,28 +16,29 @@ version       = "32.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-arrayvec     = { workspace = true, default-features = false }
-indexmap     = { workspace = true, default-features = false, features = ["std"] }
-is-macro     = { workspace = true, default-features = false }
-rustc-hash   = { workspace = true, default-features = false }
-serde        = { workspace = true, default-features = false }
+arrayvec = { workspace = true, default-features = false }
+indexmap = { workspace = true, default-features = false }
+is-macro = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, default-features = false }
 serde_derive = { workspace = true, default-features = false }
-smallvec     = { workspace = true, default-features = false }
-swc_atoms    = { version = "8.0.2", path = "../swc_atoms", default-features = false }
+smallvec = { workspace = true, default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
 
 
-swc_common                  = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_config                  = { version = "3.1.2", path = "../swc_config", default-features = false }
-swc_ecma_ast                = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_compat_common      = { version = "23.0.0", path = "../swc_ecma_compat_common", default-features = false }
-swc_ecma_transforms_base    = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_transforms_classes = { version = "29.0.0", path = "../swc_ecma_transforms_classes", default-features = false }
-swc_ecma_transforms_macros  = { version = "1.0.1", path = "../swc_ecma_transforms_macros", default-features = false }
-swc_ecma_utils              = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit              = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_trace_macro             = { version = "2.0.2", path = "../swc_trace_macro", default-features = false }
-tracing                     = { workspace = true, default-features = true }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_config = { version = "3.1.2", path = "../swc_config", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_compat_common = { version = "32.0.0", path = "../swc_ecma_compat_common", default-features = false }
+swc_ecma_transformer        = { version = "8.0.0", path = "../swc_ecma_transformer" }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_transforms_classes = { version = "36.0.0", path = "../swc_ecma_transforms_classes", default-features = false }
+swc_ecma_transforms_macros = { version = "1.0.1", path = "../swc_ecma_transforms_macros", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_trace_macro = { version = "2.0.2", path = "../swc_trace_macro", default-features = false }
+tracing                     = { workspace = true }
 
 [dev-dependencies]
-swc_ecma_parser             = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_transforms_testing = { version = "32.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_testing = { version = "40.0.0", path = "../swc_ecma_transforms_testing", default-features = false }

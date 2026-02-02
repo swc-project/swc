@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_transforms_testing"
 repository    = { workspace = true }
-version       = "32.0.0"
+version       = "40.0.0"
 
 [lib]
 bench = false
@@ -14,21 +14,21 @@ bench = false
 [dependencies]
 ansi_term = { workspace = true, default-features = false }
 anyhow = { workspace = true, default-features = false }
-base64 = { workspace = true, default-features = false, features = ["std"] }
-hex = { workspace = true, default-features = false, features = ["std"] }
+base64 = { workspace = true, default-features = false }
+hex = { workspace = true, default-features = false }
 serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 sha2 = { workspace = true, default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_testing = { version = "17.0.0", path = "../swc_ecma_testing", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 swc_sourcemap = { workspace = true, default-features = false }
 tempfile = { workspace = true, default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

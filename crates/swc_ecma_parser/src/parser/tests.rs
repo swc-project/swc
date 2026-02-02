@@ -277,8 +277,9 @@ fn issue_2264_3() {
 #[test]
 fn issue_2339_1() {
     let c = SingleThreadedComments::default();
+    // Use `<T,>` instead of `<T>` because `<T>` is ambiguous with JSX in TSX mode
     let s = "
-        const t = <T>() => {
+        const t = <T,>() => {
             // 1
             /* 2 */
             test;
@@ -296,8 +297,77 @@ fn issue_2339_1() {
 
     let (leading, trailing) = c.take_all();
     assert_eq!(leading.borrow().len(), 1);
-    assert_eq!(leading.borrow().get(&BytePos(80)).unwrap().len(), 2);
+    // Adjusted byte position due to trailing comma in `<T,>`
+    assert_eq!(leading.borrow().get(&BytePos(81)).unwrap().len(), 2);
     assert!(trailing.borrow().is_empty());
+}
+
+/// Test that `<T>() => {}` is invalid in TSX mode (issue #10598)
+/// TypeScript treats `<T>` as JSX in .tsx files, so this syntax should fail.
+#[test]
+fn issue_10598() {
+    // In TSX mode, `<T>() => {}` should fail because `<T>` looks like JSX
+    let s = "const t = <T>() => { test; };";
+    let result = std::panic::catch_unwind(|| {
+        test_parser(
+            s,
+            Syntax::Typescript(TsSyntax {
+                tsx: true,
+                ..Default::default()
+            }),
+            |p| p.parse_typescript_module(),
+        )
+    });
+    // The parsing should fail (panic in test_parser or return an error)
+    assert!(
+        result.is_err(),
+        "Expected parsing to fail for <T>() => {{}} in TSX mode"
+    );
+}
+
+/// Verify that `<T,>() => {}` is valid in TSX mode (workaround syntax)
+#[test]
+fn issue_10598_valid_tsx_syntax() {
+    // `<T,>` with trailing comma is unambiguous and should parse successfully
+    let s = "const t = <T,>() => { test; };";
+    test_parser(
+        s,
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+}
+
+/// Verify that `<T extends unknown>() => {}` is valid in TSX mode
+#[test]
+fn issue_10598_valid_tsx_syntax_with_constraint() {
+    // `<T extends unknown>` is unambiguous and should parse successfully
+    let s = "const t = <T extends unknown>() => { test; };";
+    test_parser(
+        s,
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+}
+
+/// Verify that `<T>() => {}` is still valid in non-TSX TypeScript mode
+#[test]
+fn issue_10598_valid_non_tsx() {
+    // In regular .ts mode (not TSX), `<T>() => {}` should work
+    let s = "const t = <T>() => { test; };";
+    test_parser(
+        s,
+        Syntax::Typescript(TsSyntax {
+            tsx: false,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
 }
 
 #[test]

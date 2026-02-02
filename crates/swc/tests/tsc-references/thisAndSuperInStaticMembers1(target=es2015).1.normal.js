@@ -3,9 +3,9 @@ import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _update } from "@swc/helpers/_/_update";
+var _ref;
 class C extends B {
     constructor(...args){
         super(...args), // these should be unaffected
@@ -42,10 +42,9 @@ _define_property(C, "z11", { x: _update(_get_prototype_of(C), "a", C, true)._ } 
 _define_property(C, "z12", { x: _update(_get_prototype_of(C), "a", C, true)._ = 0 } = {
     x: 0
 });
-var _tmp;
-_define_property(C, "z13", (_tmp = {
+_define_property(C, "z13", (_ref = {
     x: 0
-}, _update(_get_prototype_of(C), "a", C, true)._ = _extends({}, _object_destructuring_empty(_tmp)), _tmp));
+}, {} = _ref, _update(_get_prototype_of(C), "a", C, true)._ = _extends({}, _ref), _ref));
 _define_property(C, "z14", ++_update(_get_prototype_of(C), "a", C, true)._);
 _define_property(C, "z15", --_update(_get_prototype_of(C), "a", C, true)._);
 _define_property(C, "z16", ++_update(_get_prototype_of(C), "a", C, true)._);

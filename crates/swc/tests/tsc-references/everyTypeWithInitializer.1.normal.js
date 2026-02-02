@@ -35,7 +35,7 @@ var anObjectLiteral = {
     id: 12
 };
 var aFunction = F;
-var aLambda = function(x) {
+var aLambda = function aLambda(x) {
     return 2;
 };
 var aModule = M;

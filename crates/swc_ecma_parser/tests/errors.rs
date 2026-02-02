@@ -64,6 +64,10 @@ where
         e.into_diagnostic(handler).emit();
     }
 
+    if handler.has_errors() {
+        return Err(());
+    }
+
     res
 }
 

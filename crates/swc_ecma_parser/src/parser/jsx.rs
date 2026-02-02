@@ -57,10 +57,13 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_jsx_text(&mut self) -> JSXText {
         debug_assert!(self.input().syntax().jsx());
-        let cur = self.input_mut().cur();
+        let cur = self.input.cur();
         debug_assert!(cur == Token::JSXText);
-        let (value, raw) = cur.take_jsx_text(self.input_mut());
-        self.input_mut().scan_jsx_token(true);
+
+        let value = self.input.expect_jsx_text_token_value();
+        let raw = Atom::new(self.input.cur_string());
+
+        self.input.scan_jsx_token();
         let span = self.input().prev_span();
         JSXText { span, value, raw }
     }
@@ -151,7 +154,7 @@ impl<I: Tokens> Parser<I> {
         if in_expr_context {
             self.bump();
         } else {
-            self.input_mut().scan_jsx_token(true);
+            self.input_mut().scan_jsx_token();
         }
 
         if get_qualified_jsx_name(open_name) != get_qualified_jsx_name(&tagname) {
@@ -184,7 +187,7 @@ impl<I: Tokens> Parser<I> {
         if in_expr_context {
             self.bump();
         } else {
-            self.input_mut().scan_jsx_token(true);
+            self.input_mut().scan_jsx_token();
         }
         let span = self.span(start);
         Ok(JSXClosingFragment { span })
@@ -193,7 +196,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_children(&mut self) -> Vec<JSXElementChild> {
         let mut list = Vec::with_capacity(8);
         loop {
-            self.input_mut().rescan_jsx_token(true);
+            self.input_mut().rescan_jsx_token();
             let Ok(Some(child)) = self.parse_jsx_child(self.input().get_cur().token) else {
                 break;
             };
@@ -217,7 +220,7 @@ impl<I: Tokens> Parser<I> {
                             p.bump(); // bump "..."
                             let expr = p.parse_expr()?;
                             p.expect_without_advance(Token::RBrace)?;
-                            p.input_mut().scan_jsx_token(true);
+                            p.input_mut().scan_jsx_token();
                             JSXElementChild::JSXSpreadChild(JSXSpreadChild {
                                 span: p.span(start),
                                 expr,
@@ -229,7 +232,7 @@ impl<I: Tokens> Parser<I> {
                                 p.parse_expr().map(JSXExpr::Expr)?
                             };
                             p.expect_without_advance(Token::RBrace)?;
-                            p.input_mut().scan_jsx_token(true);
+                            p.input_mut().scan_jsx_token();
                             JSXElementChild::JSXExprContainer(JSXExprContainer {
                                 span: p.span(start),
                                 expr,
@@ -371,7 +374,7 @@ impl<I: Tokens> Parser<I> {
 
             if p.input().cur() == Token::Gt {
                 // <>xxxxxx</>
-                p.input_mut().scan_jsx_token(true);
+                p.input_mut().scan_jsx_token();
                 let opening = JSXOpeningFragment {
                     span: p.span(start),
                 };
@@ -400,7 +403,7 @@ impl<I: Tokens> Parser<I> {
                 let attrs = p.parse_jsx_attrs()?;
                 if p.input().cur() == Token::Gt {
                     // <xxxxx>xxxxx</xxxxx>
-                    p.input_mut().scan_jsx_token(true);
+                    p.input_mut().scan_jsx_token();
                     let span = Span::new_with_checked(start, p.input.get_cur().span.lo);
                     let opening = JSXOpeningElement {
                         span,
@@ -435,7 +438,7 @@ impl<I: Tokens> Parser<I> {
                     if in_expr_context {
                         p.bump();
                     } else {
-                        p.input_mut().scan_jsx_token(true);
+                        p.input_mut().scan_jsx_token();
                     }
                     let span = if in_expr_context {
                         p.span(start)

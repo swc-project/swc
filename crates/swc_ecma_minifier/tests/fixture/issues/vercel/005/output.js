@@ -57,7 +57,7 @@ export default function(value, options) {
     } catch (error) {
         throw Error("object" == typeof error && null !== error && "message" in error ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.");
     }
-}
+};
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? "s" : ""}`;
 }

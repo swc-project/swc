@@ -1,9 +1,9 @@
 //// [thisTypeInFunctions.ts]
-// body checking
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 var _this = this;
+// body checking
 var B = function B() {
     "use strict";
     _class_call_check(this, B);
@@ -48,7 +48,7 @@ function implicitThis(n) {
 }
 var impl = {
     a: 12,
-    explicitVoid2: function() {
+    explicitVoid2: function explicitVoid2() {
         return _this.a;
     },
     explicitVoid1: function explicitVoid1() {
@@ -118,17 +118,17 @@ reconstructed.explicitProperty(11);
 var explicitVoid = reconstructed.explicitVoid;
 explicitVoid(12);
 // assignment checking
-var unboundToSpecified = function(x) {
+var unboundToSpecified = function unboundToSpecified(x) {
     return x + _this.y;
 }; // ok, this:any
 var specifiedToSpecified = explicitStructural;
 var anyToSpecified = function anyToSpecified(x) {
     return x + 12;
 };
-var unspecifiedLambda = function(x) {
+var unspecifiedLambda = function unspecifiedLambda(x) {
     return x + 12;
 };
-var specifiedLambda = function(x) {
+var specifiedLambda = function specifiedLambda(x) {
     return x + 12;
 };
 var unspecifiedLambdaToSpecified = unspecifiedLambda;

@@ -1,9 +1,9 @@
 //// [strictPropertyInitialization.ts]
-// Properties with non-undefined types require initialization
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 var _f = /*#__PURE__*/ new WeakMap(), _g = /*#__PURE__*/ new WeakMap(), _h = /*#__PURE__*/ new WeakMap(), _i = /*#__PURE__*/ new WeakMap();
+// Properties with non-undefined types require initialization
 class C1 {
     constructor(){
         _class_private_field_init(this, _f, {

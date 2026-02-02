@@ -50,10 +50,7 @@ fn get_name(option: &PluginScaffoldOptions) -> Result<&str> {
     })?;
 
     file_name.to_str().ok_or_else(|| {
-        anyhow::format_err!(
-            "cannot create package with a non-unicode name: {:?}",
-            file_name
-        )
+        anyhow::format_err!("cannot create package with a non-unicode name: {file_name:?}")
     })
 }
 
@@ -194,6 +191,11 @@ swc_core = {{ version = "{swc_core_version}", features = ["ecma_plugin_transform
 # Alias to build actual plugin binary for the specified target.
 build-wasip1 = "build --target wasm32-wasip1"
 build-wasm32 = "build --target wasm32-unknown-unknown"
+
+[target.'cfg(target_arch = "wasm32")']
+rustflags = [
+  "--cfg=swc_ast_unknown"
+]
 "#
             .as_bytes(),
         )
@@ -236,7 +238,7 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
             r##"use swc_core::ecma::{
     ast::Program,
     transforms::testing::test_inline,
-    visit::{visit_mut_pass, FoldWith, VisitMut},
+    visit::{visit_mut_pass, VisitMut},
 };
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
@@ -264,8 +266,9 @@ impl VisitMut for TransformVisitor {
 /// This requires manual handling of serialization / deserialization from ptrs.
 /// Refer swc_plugin_macro to see how does it work internally.
 #[plugin_transform]
-pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
-    program.fold_with(&mut visit_mut_pass(TransformVisitor))
+pub fn process_transform(mut program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
+    program.visit_mut_with(&mut TransformVisitor);
+    program
 }
 
 // An example to test plugin transform.

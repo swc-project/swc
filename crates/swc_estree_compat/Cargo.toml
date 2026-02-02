@@ -7,10 +7,10 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_estree_compat"
 repository    = { workspace = true }
-version       = "28.0.0"
+version       = "35.0.0"
 
-  [package.metadata.docs.rs]
-  all-features = true
+[package.metadata.docs.rs]
+all-features = true
 
 [lib]
 bench = false
@@ -21,35 +21,35 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 [features]
 
 [dependencies]
-anyhow     = { workspace = true, default-features = false }
-copyless   = { workspace = true, default-features = false }
-serde      = { workspace = true, features = ["derive"], default-features = false }
+anyhow = { workspace = true, default-features = false }
+copyless = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_estree_ast = { version = "16.0.0", path = "../swc_estree_ast", default-features = false }
-swc_node_comments = { version = "16.0.0", path = "../swc_node_comments/", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_estree_ast = { version = "18.0.0", path = "../swc_estree_ast", default-features = false }
+swc_node_comments = { version = "18.0.0", path = "../swc_node_comments/", default-features = false }
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true, default-features = true }
-pretty_assertions         = { workspace = true, default-features = false }
+codspeed-criterion-compat = { workspace = true }
+pretty_assertions = { workspace = true, default-features = false }
 
-swc                 = { version = "44.0.0", path = "../swc", default-features = false }
-swc_ecma_ast        = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_parser     = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_transforms = { version = "37.0.0", path = "../swc_ecma_transforms/", default-features = false }
-testing             = { version = "17.0.0", path = "../testing", default-features = false }
-walkdir             = { workspace = true, default-features = false }
+swc = { version = "54.0.0", path = "../swc", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms = { version = "46.0.0", path = "../swc_ecma_transforms/", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+walkdir = { workspace = true, default-features = false }
 
 [[bench]]
 harness = false

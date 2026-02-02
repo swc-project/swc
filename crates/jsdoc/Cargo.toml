@@ -7,26 +7,28 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "jsdoc"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "18.0.0"
 
 [lib]
 bench = false
 
 [features]
+encoding-impl = [
+  "cbor4ii",
+  "swc_atoms/encoding-impl",
+  "swc_common/encoding-impl",
+]
 serde-impl = ["serde"]
 
 [dependencies]
+cbor4ii = { workspace = true, features = ["use_std"], optional = true }
 nom = { workspace = true, default-features = false }
-serde = { workspace = true, features = [
-  "derive",
-], optional = true, default-features = false }
+serde   = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms  = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
 
 [dev-dependencies]
 dashmap = { workspace = true, default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
-  "typescript",
-] }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

@@ -136,6 +136,7 @@ pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
 use swc_ecma_codegen::Node;
+#[cfg(feature = "module")]
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -144,11 +145,11 @@ use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
-    hygiene,
-    modules::path::NodeImportResolver,
-    resolver,
+    hygiene, resolver,
 };
 use swc_ecma_transforms_base::fixer::paren_remover;
+#[cfg(feature = "module")]
+use swc_ecma_transforms_module::path::NodeImportResolver;
 use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
@@ -209,6 +210,7 @@ pub mod resolver {
     }
 }
 
+#[cfg(feature = "module")]
 type SwcImportResolver = Arc<
     NodeImportResolver<CachingResolver<TsConfigResolver<CachingResolver<NodeModulesResolver>>>>,
 >;
@@ -263,7 +265,7 @@ impl Compiler {
                     let idx = match url.path().find("base64,") {
                         Some(v) => v,
                         None => {
-                            bail!("failed to parse inline source map: not base64: {:?}", url)
+                            bail!("failed to parse inline source map: not base64: {url:?}")
                         }
                     };
 
@@ -491,7 +493,24 @@ impl Compiler {
                 _ => {
                     if *swcrc {
                         if let FileName::Real(ref path) = name {
-                            find_swcrc(path, root, *root_mode)
+                            // Canonicalize relative paths for proper parent traversal
+                            let abs_path = if path.is_relative() {
+                                root.join(path).canonicalize().ok()
+                            } else {
+                                path.canonicalize().ok()
+                            };
+                            let found = abs_path.and_then(|p| find_swcrc(&p, root, *root_mode));
+
+                            // "upward" mode requires a .swcrc to be found
+                            if found.is_none() && *root_mode == RootMode::Upward {
+                                bail!(
+                                    "Could not find .swcrc file while using rootMode \
+                                     \"upward\".\nSearched from: {}",
+                                    path.display()
+                                );
+                            }
+
+                            found
                         } else {
                             None
                         }
@@ -565,7 +584,7 @@ impl Compiler {
             match config {
                 Some(config) => Ok(Some(config)),
                 None => {
-                    bail!("no config matched for file ({})", name)
+                    bail!("no config matched for file ({name})")
                 }
             }
         })
@@ -1004,8 +1023,9 @@ impl Compiler {
                     FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
                 let mut program = program.clone();
 
+                #[cfg(feature = "module")]
                 if let Some((base, resolver)) = config.resolver {
-                    use swc_ecma_transforms::modules::rewriter::import_rewriter;
+                    use swc_ecma_transforms_module::rewriter::import_rewriter;
 
                     program.mutate(import_rewriter(base, resolver));
                 }

@@ -5,29 +5,26 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "swc_plugin_proxy"
 repository  = { workspace = true }
-version     = "17.0.0"
+version     = "20.0.0"
 
 [lib]
 bench = false
 
 [features]
-__rkyv    = []
-rkyv-impl = ["__rkyv", "rkyv", "bytecheck", "rancor"]
+encoding-impl = ["cbor4ii", "swc_common/encoding-impl"]
 
 __plugin_mode = []
 __plugin_rt   = []
 # swc/core, which runs plugin
-plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "rkyv-impl"]
-plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
+plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "encoding-impl"]
+plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "encoding-impl"]
 
 [dependencies]
-bytecheck  = { workspace = true, optional = true, default-features = false }
-rancor     = { workspace = true, optional = true, default-features = false }
-rkyv       = { workspace = true, optional = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-tracing    = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
+cbor4ii    = { workspace = true, features = [ "use_std" ], optional = true }
 
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
-swc_common        = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast      = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_trace_macro   = { version = "2.0.2", path = "../swc_trace_macro", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_trace_macro = { version = "2.0.2", path = "../swc_trace_macro", default-features = false }

@@ -30,15 +30,27 @@ pub struct Class {
     pub body: Vec<ClassMember>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub super_class: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_abstract: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
 
     /// Typescript extension.
@@ -102,9 +114,17 @@ pub struct ClassProp {
     pub key: PropName,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -115,6 +135,10 @@ pub struct ClassProp {
 
     /// Typescript extension.
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub accessibility: Option<Accessibility>,
 
     /// Typescript extension.
@@ -151,9 +175,17 @@ pub struct PrivateProp {
     pub key: PrivateName,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -164,6 +196,10 @@ pub struct PrivateProp {
 
     /// Typescript extension.
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub accessibility: Option<Accessibility>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -193,6 +229,10 @@ pub struct ClassMethod {
     pub is_static: bool,
     #[doc = r" Typescript extension."]
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub accessibility: Option<Accessibility>,
     #[doc = r" Typescript extension."]
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -217,6 +257,10 @@ pub struct PrivateMethod {
     pub is_static: bool,
     #[doc = r" Typescript extension."]
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub accessibility: Option<Accessibility>,
     #[doc = r" Typescript extension."]
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -241,9 +285,17 @@ pub struct Constructor {
     pub params: Vec<ParamOrTsParamProp>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub body: Option<BlockStmt>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub accessibility: Option<Accessibility>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -271,6 +323,10 @@ pub struct Decorator {
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 #[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum MethodKind {
     #[default]
@@ -346,9 +402,17 @@ pub struct AutoAccessor {
     pub key: Key,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -359,6 +423,10 @@ pub struct AutoAccessor {
 
     /// Typescript extension.
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub accessibility: Option<Accessibility>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]

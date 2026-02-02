@@ -1,6 +1,6 @@
 //// [contextualTypeWithTuple.ts]
-// no error
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// no error
 var numStrTuple = [
     5,
     "hello"

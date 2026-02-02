@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "swc_plugin_backend_wasmer"
 repository  = { workspace = true }
-version     = "4.0.0"
+version     = "7.0.0"
 
 [lib]
 bench   = false
@@ -27,16 +27,16 @@ plugin_transform_host_native = [
 ]
 
 [dependencies]
-anyhow       = { workspace = true, default-features = false }
-enumset      = { workspace = true, default-features = false }
-parking_lot  = { workspace = true, default-features = false }
-wasmer       = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
+enumset = { workspace = true, default-features = false }
+parking_lot = { workspace = true, default-features = false }
+wasmer = { workspace = true, default-features = false }
 wasmer-wasix = { workspace = true, default-features = false }
 
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }

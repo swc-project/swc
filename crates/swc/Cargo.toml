@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc"
 repository    = { workspace = true }
-version       = "44.0.0"
+version       = "54.0.0"
 
 [lib]
 bench = false
@@ -25,13 +25,16 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["es3", "lint", "isolated-dts"]
-es3 = []
+default = ["lint", "isolated-dts", "module"]
+es3 = ["swc_ecma_transforms_compat/es3", "swc_ecma_preset_env/es3"]
 isolated-dts = ["swc_typescript"]
+# Enable module transforms (CommonJS, AMD, UMD, SystemJS).
+# Bundlers typically don't need this as they handle module transforms themselves.
+module = ["swc_ecma_transforms/module", "swc_ecma_transforms_module"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
-  "swc_plugin_runner/rkyv-impl",
+  "swc_plugin_runner/encoding-impl",
   "swc_plugin_proxy/plugin-rt",
   "tokio",
 ]
@@ -65,14 +68,12 @@ bytes-str = { workspace = true, default-features = false }
 dashmap = { workspace = true, default-features = false }
 either = { workspace = true, default-features = false }
 indexmap = { workspace = true, features = ["serde"], default-features = false }
-jsonc-parser = { workspace = true, features = [
-  "serde",
-], default-features = false }
+jsonc-parser  = { workspace = true, features = ["serde"] }
 once_cell = { workspace = true, default-features = false }
 par-core = { workspace = true, default-features = false }
 par-iter = { workspace = true, default-features = false }
 parking_lot = { workspace = true, default-features = false }
-regex = { workspace = true }
+regex         = { workspace = true }
 rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
@@ -81,86 +82,90 @@ tracing = { workspace = true, default-features = false }
 url = { workspace = true, default-features = false }
 
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
-swc_compiler_base = { version = "38.0.0", path = "../swc_compiler_base", default-features = false }
+swc_compiler_base = { version = "47.0.0", path = "../swc_compiler_base", default-features = false }
 swc_config = { version = "3.1.2", path = "../swc_config", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen", default-features = false }
-swc_ecma_ext_transforms = { version = "23.0.0", path = "../swc_ecma_ext_transforms", default-features = false }
-swc_ecma_lints = { version = "24.0.0", path = "../swc_ecma_lints", optional = true, default-features = false }
-swc_ecma_loader = { version = "16.0.0", path = "../swc_ecma_loader", features = [
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_ext_transforms = { version = "26.0.0", path = "../swc_ecma_ext_transforms", default-features = false }
+swc_ecma_lints = { version = "27.0.0", path = "../swc_ecma_lints", optional = true }
+swc_ecma_loader = { version = "18.0.0", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "35.0.0", path = "../swc_ecma_minifier", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_minifier = { version = "44.0.0", path = "../swc_ecma_minifier", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_preset_env = { version = "38.0.0", path = "../swc_ecma_preset_env", default-features = false, features = [
-  "serde-impl",
-] }
-swc_ecma_transforms = { version = "37.0.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_preset_env = { version = "47.0.0", path = "../swc_ecma_preset_env", default-features = false, features = ["serde-impl"] }
+swc_ecma_transforms = { version = "46.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
-  "module",
   "optimization",
   "proposal",
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_transforms_compat = { version = "33.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
-swc_ecma_transforms_optimization = { version = "31.0.0", path = "../swc_ecma_transforms_optimization", default-features = false }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_error_reporters = { version = "18.0.0", path = "../swc_error_reporters", default-features = false }
-swc_node_comments = { version = "16.0.0", path = "../swc_node_comments", default-features = false }
-swc_plugin_backend_wasmer = { version = "4.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
-swc_plugin_proxy = { version = "17.0.0", path = "../swc_plugin_proxy", optional = true, default-features = false }
-swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_ecma_transforms_module = { version = "40.0.0", path = "../swc_ecma_transforms_module", optional = true }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_compat = { version = "42.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
+swc_ecma_transforms_optimization = { version = "38.0.0", path = "../swc_ecma_transforms_optimization", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters", default-features = false }
+swc_node_comments = { version = "18.0.0", path = "../swc_node_comments", default-features = false }
+swc_plugin_backend_wasmer = { version = "7.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
+swc_plugin_proxy = { version = "20.0.0", path = "../swc_plugin_proxy", optional = true, default-features = false }
+swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false }
-swc_transform_common = { version = "10.0.0", path = "../swc_transform_common", default-features = false }
-swc_typescript = { version = "22.0.0", path = "../swc_typescript", optional = true, default-features = false }
+swc_transform_common = { version = "12.0.0", path = "../swc_transform_common", default-features = false }
+swc_typescript = { version = "25.0.0", path = "../swc_typescript", optional = true, default-features = false }
 swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false }
 
-  [dependencies.tokio]
-  features  = ["rt", "rt-multi-thread"]
-  optional  = true
-  workspace = true
+[dependencies.tokio]
+features  = ["rt", "rt-multi-thread"]
+optional  = true
+workspace = true
 
-  [dependencies.napi]
-  features  = ["napi3"]
-  optional  = true
-  workspace = true
+[dependencies.napi]
+features  = ["napi3"]
+optional  = true
+workspace = true
 
-  [dependencies.napi-derive]
-  features  = ["type-def"]
-  optional  = true
-  workspace = true
+[dependencies.napi-derive]
+features  = ["type-def"]
+optional  = true
+workspace = true
 
 [dev-dependencies]
-ansi_term                 = { workspace = true, default-features = false }
-codspeed-criterion-compat = { workspace = true, default-features = true }
-criterion                 = { workspace = true, default-features = false }
-par-core                  = { workspace = true, features = ["chili"], default-features = false }
-walkdir                   = { workspace = true, default-features = false }
+ansi_term = { workspace = true, default-features = false }
+codspeed-criterion-compat = { workspace = true }
+criterion = { workspace = true, default-features = false }
+par-core = { workspace = true, features = ["chili"], default-features = false }
+walkdir = { workspace = true, default-features = false }
 
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
-swc_ecma_lints = { version = "24.0.0", path = "../swc_ecma_lints", features = [
+swc_ecma_lints = { version = "27.0.0", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
-swc_ecma_testing = { version = "17.0.0", path = "../swc_ecma_testing", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_preset_env = { version = "47.0.0", path = "../swc_ecma_preset_env", features = [
+  "es3",
+] }
+swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
+swc_ecma_transforms_compat = { version = "42.0.0", path = "../swc_ecma_transforms_compat", features = [
+  "es3",
+] }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }
 
 [[example]]
 name = "transform"

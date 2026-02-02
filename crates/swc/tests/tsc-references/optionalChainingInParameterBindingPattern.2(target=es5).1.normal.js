@@ -1,7 +1,7 @@
 //// [optionalChainingInParameterBindingPattern.2.ts]
-// https://github.com/microsoft/TypeScript/issues/36295
 var _a, _a1;
-var a = function() {
+// https://github.com/microsoft/TypeScript/issues/36295
+var a = function a() {
     return undefined;
 };
 (function(param) {

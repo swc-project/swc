@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-linux-arm-gnueabihf",
-  "version": "1.14.0",
+  "version": "1.15.11",
   "os": [
     "linux"
   ],
@@ -26,7 +26,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "repository": {
     "type": "git",

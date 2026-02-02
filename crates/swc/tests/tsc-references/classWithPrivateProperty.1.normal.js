@@ -1,6 +1,6 @@
 //// [classWithPrivateProperty.ts]
-// accessing any private outside the class is an error
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// accessing any private outside the class is an error
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {

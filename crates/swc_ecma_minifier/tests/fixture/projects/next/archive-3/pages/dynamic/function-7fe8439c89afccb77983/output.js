@@ -205,9 +205,9 @@
                     if (!initialized && "function" == typeof opts.webpack) {
                         var moduleIds = opts.webpack();
                         READY_INITIALIZERS.push(function(ids) {
-                            var _step, _iterator = function(o, allowArrayLike) {
-                                if ("undefined" == typeof Symbol || null == o[Symbol.iterator]) {
-                                    if (Array.isArray(o) || (it = function(o, minLen) {
+                            var _step, _iterator = function(o) {
+                                if ("u" < typeof Symbol || null == o[Symbol.iterator]) {
+                                    if (Array.isArray(o) || (it = function(o) {
                                         if (o) {
                                             if ("string" == typeof o) return _arrayLikeToArray(o, void 0);
                                             var n = Object.prototype.toString.call(o).slice(8, -1);

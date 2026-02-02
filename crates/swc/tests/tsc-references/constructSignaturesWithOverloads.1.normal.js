@@ -1,6 +1,6 @@
 //// [constructSignaturesWithOverloads.ts]
-// No errors expected for basic overloads of construct signatures
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// No errors expected for basic overloads of construct signatures
 var C = function C(x) {
     "use strict";
     _class_call_check(this, C);

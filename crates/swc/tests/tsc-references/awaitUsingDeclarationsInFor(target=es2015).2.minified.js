@@ -1,5 +1,5 @@
 //// [awaitUsingDeclarationsInFor.ts]
-//!   x Expected ';', got 'd1'
+//!   x Expected ';', got 'ident'
 //!    ,-[2:1]
 //!  1 | async function main() {
 //!  2 |     for (await using d1 = { [Symbol.dispose]() {} },

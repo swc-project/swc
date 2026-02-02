@@ -6,16 +6,17 @@ license     = { workspace = true }
 name        = "binding_core_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.14.0"
+version     = "1.15.11"
 
 [lib]
 bench      = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1"]
-swc_v1  = []
-swc_v2  = []
+__plugin = []
+default  = ["swc_v1"]
+swc_v1   = []
+swc_v2   = []
 # This feature exists to allow cargo operations
 # [TODO]: this is disabled due to signature mismatch between host_native and host_js,
 # which causes build errors like
@@ -32,25 +33,25 @@ plugin = []
 
 [dependencies]
 anyhow = { workspace = true, default-features = false }
-getrandom = { workspace = true, features = [
-  "wasm_js",
-], default-features = false }
+getrandom = { workspace = true, features = ["wasm_js"] }
 serde = { workspace = true, features = ["derive"], default-features = false }
 serde-wasm-bindgen = { workspace = true, default-features = false }
-swc_core = { workspace = true, features = [
+swc_core = { path = "../../crates/swc_core", features = [
   "ecma_ast_serde",
   "ecma_codegen",
   "binding_macro_wasm",
   "ecma_transforms",
   "ecma_visit",
   "ecma_helpers_inline",
+  "ecma_lints",
+  "base_module",
 ] }
-tracing = { workspace = true, features = [
-  "max_level_off",
-], default-features = false }
-wasm-bindgen = { workspace = true, features = [
-  "enable-interning",
-], default-features = false }
+tracing = { workspace = true, features = ["max_level_off"] }
+wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false
+
+[package.metadata.cargo-shear]
+# ignored, as they are only used to enable features
+ignored = ["getrandom", "anyhow", "serde-wasm-bindgen"]

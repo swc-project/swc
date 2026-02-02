@@ -10,26 +10,26 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = { workspace = true }
 name = "swc_html_codegen"
 repository = "https://github.com/swc-project/swc.git"
-version = "17.0.0"
+version = "19.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-auto_impl  = { workspace = true, default-features = false }
-bitflags   = { workspace = true, default-features = false }
+auto_impl = { workspace = true, default-features = false }
+bitflags = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms               = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common              = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_html_ast            = { version = "16.0.0", path = "../swc_html_ast", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common              = { version = "18.0.1", path = "../swc_common" }
+swc_html_ast = { version = "18.0.0", path = "../swc_html_ast", default-features = false }
 swc_html_codegen_macros = { version = "1.0.1", path = "../swc_html_codegen_macros", default-features = false }
-swc_html_utils          = { version = "15.0.0", path = "../swc_html_utils", default-features = false }
+swc_html_utils = { version = "16.0.0", path = "../swc_html_utils", default-features = false }
 
 [dev-dependencies]
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_html_parser = { version = "16.0.0", path = "../swc_html_parser", default-features = false }
-swc_html_visit = { version = "16.0.0", path = "../swc_html_visit", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_html_parser = { version = "18.0.0", path = "../swc_html_parser", default-features = false }
+swc_html_visit = { version = "18.0.0", path = "../swc_html_visit", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

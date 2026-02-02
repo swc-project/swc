@@ -133,6 +133,7 @@ pub fn span_to_lines_proxy(
             },
             lines: lines.lines,
         });
+    let ret = swc_common::plugin::serialized::ResultValue(ret);
 
     let serialized_loc_bytes =
         PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
@@ -195,7 +196,7 @@ pub fn span_to_filename_proxy(
     };
     let ret = env.source_map.lock().span_to_filename(span);
     let serialized_loc_bytes =
-        PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
+        PluginSerializedBytes::try_serialize(&VersionedSerializable::new(&*ret))
             .expect("Should be serializable");
 
     allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized_loc_bytes);
@@ -215,6 +216,7 @@ pub fn span_to_source_proxy(
         hi: BytePos(span_hi),
     };
     let ret = env.source_map.lock().span_to_snippet(span);
+    let ret = swc_common::plugin::serialized::ResultValue(ret);
     let serialized_loc_bytes =
         PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
             .expect("Should be serializable");

@@ -6,7 +6,7 @@ exclude = ["artifacts.json", "index.node"]
 license = "Apache-2.0"
 name    = "binding_minifier_node"
 publish = false
-version = "0.1.0"
+version = "0.2.0"
 
 [lib]
 bench      = false
@@ -18,39 +18,20 @@ napi-build = { workspace = true, default-features = false }
 [dependencies]
 anyhow = { workspace = true, default-features = false }
 backtrace = { workspace = true, default-features = false }
-napi = { workspace = true, features = [
-  "napi3",
-  "serde-json",
-], default-features = false }
-napi-derive = { workspace = true, features = [
-  "type-def",
-], default-features = false }
-node_macro_deps = { path = "../node_macro_deps", default-features = false }
+napi               = { workspace = true, features = ["napi3", "serde-json"] }
+napi-derive        = { workspace = true, features = ["type-def"] }
 par-core = { workspace = true, features = ["chili"], default-features = false }
-path-clean = { workspace = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
-serde_json = { workspace = true, features = [
-  "unbounded_depth",
-], default-features = false }
-swc_sourcemap = { workspace = true, default-features = false }
-tracing = { workspace = true, features = [
-  "release_max_level_info",
-], default-features = false }
+tracing            = { workspace = true, features = ["release_max_level_info"] }
 tracing-chrome = { workspace = true, default-features = false }
-tracing-futures = { workspace = true, default-features = false }
-tracing-subscriber = { workspace = true, features = [
-  "env-filter",
-], default-features = false }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 
-swc_compiler_base = { workspace = true, features = [
+swc_compiler_base = { path = "../../crates/swc_compiler_base", features = [
   "node",
-], default-features = false }
-swc_config = { workspace = true, features = [
-  "regex",
-], default-features = false }
-swc_core = { workspace = true, features = [
+] }
+swc_config = { path = "../../crates/swc_config", features = ["regex"] }
+swc_core = { path = "../../crates/swc_core", features = [
   "allocator_node",
   "common_concurrent",
   "common_sourcemap",
@@ -62,6 +43,6 @@ swc_core = { workspace = true, features = [
   "ecma_transforms",
   "ecma_visit",
 ] }
-swc_error_reporters = { workspace = true, default-features = false }
-swc_malloc = { workspace = true, default-features = false }
-swc_nodejs_common = { workspace = true, default-features = false }
+swc_error_reporters = { path = "../../crates/swc_error_reporters", default-features = false }
+swc_malloc = { path = "../../crates/swc_malloc", default-features = false }
+swc_nodejs_common = { path = "../../crates/swc_nodejs_common", default-features = false }

@@ -1,5 +1,5 @@
-function a9(_param) {
-    var [{ a1 }] = _param, a2 = _object_without_properties(_param[0], [
+function a9(_0) {
+    let [_ref] = _0, { a1 } = _ref, a2 = _object_without_properties(_ref, [
         "a1"
     ]);
 }

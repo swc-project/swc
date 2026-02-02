@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_transforms_classes"
 repository    = { workspace = true }
-version       = "29.0.0"
+version       = "36.0.0"
 
 [lib]
 bench = false
@@ -15,8 +15,8 @@ bench = false
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-swc_common               = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast             = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_utils           = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit           = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }

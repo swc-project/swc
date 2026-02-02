@@ -41,21 +41,24 @@ pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
 const ___: ByteHandler = None;
 
 const EOF: ByteHandler = Some(|lexer| {
-    lexer.input.bump_bytes(1);
+    unsafe {
+        lexer.input.bump_bytes(1);
+    }
 
     Ok(Token::Eof)
 });
 
 const ERR: ByteHandler = Some(|lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // Get the char representation for error messages
+        lexer.cur_as_char().unwrap_unchecked()
     };
 
     let start = lexer.cur_pos();
     unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.bump();
+        // Safety: Byte handler is only called for non-last characters
+        lexer.input.bump_bytes(c.len_utf8());
     }
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 });
@@ -351,7 +354,7 @@ const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero());
 
 /// Numbers
 const DIG: ByteHandler = Some(|lexer| {
-    debug_assert!(lexer.cur().is_some_and(|cur| cur != '0'));
+    debug_assert!(lexer.cur().is_some_and(|cur| cur != b'0'));
     lexer.read_number::<false, false>().map(|v| match v {
         Either::Left((value, raw)) => Token::Num { value, raw },
         Either::Right((value, raw)) => Token::BigInt { value, raw },
@@ -361,11 +364,12 @@ const DIG: ByteHandler = Some(|lexer| {
 /// String literals with `'` or `"`
 const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit());
 
-/// Unicode
+/// Unicode - handles multi-byte UTF-8 sequences
 const UNI: ByteHandler = Some(|lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // For non-ASCII bytes, we need the full char
+        lexer.cur_as_char().unwrap_unchecked()
     };
 
     // Identifier or keyword. '\uXXXX' sequences are allowed in
@@ -376,8 +380,8 @@ const UNI: ByteHandler = Some(|lexer| {
 
     let start = lexer.cur_pos();
     unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.bump();
+        // Safety: Byte handler is only called for non-last characters
+        lexer.input.bump_bytes(c.len_utf8());
     }
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 });
@@ -403,7 +407,9 @@ const PIP: ByteHandler = Some(|lexer| lexer.read_token_logical::<b'|'>());
 macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
         const $name: ByteHandler = Some(|lexer| {
-            lexer.input.bump_bytes(1);
+            unsafe {
+                lexer.input.bump_bytes(1);
+            }
             Ok(Token::$token)
         });
     };
@@ -427,9 +433,13 @@ single_char!(BEC, b'}', RBrace);
 /// `^`
 const CRT: ByteHandler = Some(|lexer| {
     // Bitwise xor
-    lexer.input.bump_bytes(1);
-    Ok(if lexer.input.cur_as_ascii() == Some(b'=') {
+    unsafe {
         lexer.input.bump_bytes(1);
+    }
+    Ok(if lexer.input.cur_as_ascii() == Some(b'=') {
+        unsafe {
+            lexer.input.bump_bytes(1);
+        }
         Token::AssignOp(AssignOp::BitXorAssign)
     } else {
         Token::BinOp(BinOpToken::BitXor)

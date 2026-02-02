@@ -16,7 +16,7 @@ function f3(param) {
 }
 function ff(param) {
     var _param_nested = param.nested, nested = _param_nested === void 0 ? {
-        show: function(v) {
+        show: function show(v) {
             return v.toString();
         }
     } : _param_nested;
@@ -31,7 +31,7 @@ function h(param) {
     var _param_prop = param.prop, prop = _param_prop === void 0 ? "foo" : _param_prop;
 }
 var _ref = {
-    stringIdentity: function(x) {
+    stringIdentity: function stringIdentity(x) {
         return x;
     }
 }, tmp = _ref.stringIdentity, id = tmp === void 0 ? function(arg) {

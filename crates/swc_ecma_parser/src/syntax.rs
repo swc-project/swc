@@ -188,6 +188,7 @@ pub struct TsSyntax {
     pub disallow_ambiguous_jsx_like: bool,
 }
 
+#[cfg(feature = "typescript")]
 impl TsSyntax {
     fn into_flags(self) -> SyntaxFlags {
         let mut flags = SyntaxFlags::TS

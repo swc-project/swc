@@ -132,7 +132,7 @@ impl SwcLoader {
             .cm
             .load_file(match name {
                 FileName::Real(v) => v,
-                _ => bail!("swc-loader only accepts path. Got `{}`", name),
+                _ => bail!("swc-loader only accepts path. Got `{name}`"),
             })
             .with_context(|| format!("failed to load file `{name}`"))?;
 

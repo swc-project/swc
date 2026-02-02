@@ -5,25 +5,24 @@ license    = { workspace = true }
 name       = "binding_es_ast_viewer"
 publish    = false
 repository = { workspace = true }
-version    = "1.14.0"
+version    = "1.15.11"
 
 [dependencies]
-anyhow       = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
 wasm-bindgen = { workspace = true, default-features = false }
 
-  [dependencies.swc_core]
-  features = [
-    "ecma_ast",
-    "common",
-    "ecma_visit",
-    "ecma_transforms",
-    "ecma_parser_unstable",
-  ]
-  workspace = true
+[dependencies.swc_core]
+features = [
+  "ecma_ast",
+  "common",
+  "ecma_visit",
+  "ecma_transforms",
+  "ecma_parser_unstable",
+]
+path = "../../crates/swc_core"
 
-  [dependencies.swc_error_reporters]
-  workspace = true
-
+[dependencies.swc_error_reporters]
+path = "../../crates/swc_error_reporters"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

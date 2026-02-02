@@ -24,7 +24,7 @@ define([
         to: "boo"
     };
     var obj2 = {
-        onClick: function() {}
+        onClick: function onClick() {}
     };
     var obj3;
     function MainButton(props) {
@@ -37,17 +37,17 @@ define([
     // Error
     var b0 = /*#__PURE__*/ _react.createElement(MainButton, {
         to: "/some/path",
-        onClick: function(e) {}
+        onClick: function onClick(e) {}
     }, "GO"); // extra property;
     var b1 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
-        onClick: function(e) {}
+        onClick: function onClick(e) {}
     }, obj0), "Hello world"); // extra property;
     var b2 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
         to: "10000"
     }, obj2)); // extra property
     var b3 = /*#__PURE__*/ _react.createElement(MainButton, {
         to: "10000",
-        onClick: function(k) {}
+        onClick: function onClick(k) {}
     }); // extra property
     var b4 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread_props._(_object_spread._({}, obj3), {
         to: true

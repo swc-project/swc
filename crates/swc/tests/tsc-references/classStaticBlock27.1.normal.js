@@ -1,7 +1,7 @@
 //// [classStaticBlock27.ts]
-// https://github.com/microsoft/TypeScript/issues/44872
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var _Foo;
+// https://github.com/microsoft/TypeScript/issues/44872
 void (_Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);

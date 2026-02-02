@@ -9,7 +9,6 @@ export class Base {
             inheritance: void 0
         };
     }
-    constructor(){}
 }
 //// [argument.js]
 import { Base } from "./base.js";

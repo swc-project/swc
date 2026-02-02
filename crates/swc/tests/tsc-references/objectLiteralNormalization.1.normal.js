@@ -1,7 +1,7 @@
 //// [objectLiteralNormalization.ts]
-// Object literals in unions are normalized upon widening
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
+// Object literals in unions are normalized upon widening
 var a1 = [
     {
         a: 0

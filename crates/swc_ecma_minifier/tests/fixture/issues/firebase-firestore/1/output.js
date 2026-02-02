@@ -483,14 +483,14 @@
                  * Generates `nBytes` of random bytes.
                  *
                  * If `nBytes < 0` , an error will be thrown.
-                 */ function(t) {
+                 */ function() {
                             // Polyfills for IE and WebWorker by using `self` and `msCrypto` when `crypto` is not available.
                             let e = // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
+                            "u" > typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
                             if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
                             else for(let e = 0; e < 40; e++)n[e] = Math.floor(256 * Math.random());
                             return n;
-                        }(0);
+                        }();
                         for(let i = 0; i < s.length; ++i)// Only accept values that are [0, maxMultiple), this ensures they can
                         // be evenly mapped to indices of `chars` via a modulo operation.
                         n.length < 20 && s[i] < e && (n += t.charAt(s[i] % t.length));
@@ -2071,10 +2071,10 @@
                  * @param serverTransformResults - The transform results received by the server.
                  * @returns The transform results list.
                  */ function rn(t, e, n) {
-                var n1;
                 let s = new Map();
                 t.length === n.length || L();
                 for(let i = 0; i < n.length; i++){
+                    var n1;
                     let r = t[i], o = r.transform, c = e.data.field(r.field);
                     s.set(r.field, (n1 = n[i], o instanceof Fe ? Me(o, c) : o instanceof Le ? Be(o, c) : n1));
                 }
@@ -3352,7 +3352,6 @@
                  * document key. The rows in this table are references based on the contents of
                  * DbMutationBatch.mutations.
                  */ class Ss {
-                constructor(){}
                 /**
                      * Creates a [userId] key for use in the DbDocumentMutations index to iterate
                      * over all of a user's document mutations.
@@ -5476,7 +5475,7 @@
                 // TODO(chenbrian): Consider passing in window either into this component or
                 // here for testing via FakeWindow.
                 /** Checks that all used attributes of window are available. */ static bt() {
-                    return "undefined" != typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
+                    return "u" > typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
                 }
             }
             /**
@@ -5758,7 +5757,7 @@
             /** The Platform's 'document' implementation or null if not available. */ function Jr() {
                 // `document` is not always available, e.g. in ReactNative and WebWorkers.
                 // eslint-disable-next-line no-restricted-globals
-                return "undefined" != typeof document ? document : null;
+                return "u" > typeof document ? document : null;
             }
             /**
                  * An instance of the Platform's 'TextEncoder' implementation.
@@ -6200,7 +6199,7 @@
                         seconds: "" + e2.seconds,
                         nanos: e2.nanoseconds
                     }), e3.addTarget = n;
-                    let n3 = (this.N, null == (n2 = function(t, e) {
+                    let n3 = (this.N, null == (n2 = function(e) {
                         switch(e){
                             case 0 /* Listen */ :
                                 return null;
@@ -6211,7 +6210,7 @@
                             default:
                                 return L();
                         }
-                    }(0, t.purpose)) ? null : {
+                    }(t.purpose)) ? null : {
                         "goog-listen-tags": n2
                     });
                     n3 && (e3.labels = n3), this.mr(e3);
@@ -7326,8 +7325,8 @@
                  * changes, and releasing any pending mutation batches that would become
                  * visible because of the snapshot version the remote event contains.
                  */ async function oc(t, e) {
-                var t1;
                 try {
+                    var t1;
                     let s, i, t2 = await (t1 = t.localStore, s = e.snapshotVersion, i = t1.Un, t1.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
                         var n, // TODO(wuandy): We could add `readTime` to MaybeDocument instead to remove
                         // this parameter.
@@ -7398,12 +7397,12 @@
                  * Applies an OnlineState change to the sync engine and notifies any views of
                  * the change.
                  */ function cc(t, e, n) {
-                var t1;
                 // If we are the secondary client, we explicitly ignore the remote store's
                 // online state (the local client may go offline, even though the primary
                 // tab remains online) and only apply the primary tab's online state from
                 // SharedClientState.
                 if (t.isPrimaryClient && 0 /* RemoteStore */  === n || !t.isPrimaryClient && 1 /* SharedClientState */  === n) {
+                    var t1;
                     let s, t2 = [];
                     t.Oo.forEach((n, s)=>{
                         let i = s.view.io(e);
@@ -8618,7 +8617,7 @@
                  * split on dots.
                  * @param targetDoc - The document against which the field path will be
                  * evaluated.
-                 */ function(t, e, n) {
+                 */ function(t, e) {
                     if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, /* hasConverter= */ !1, /* path= */ void 0, void 0);
                     try {
                         return new Ja(...e.split("."))._internalPath;
@@ -8989,7 +8988,7 @@
                  * Cloud Firestore
                  *
                  * @packageDocumentation
-                 */ !function(t, e = !0) {
+                 */ !function(e = !0) {
                 C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .SDK_VERSION */ .Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* ._registerComponent */ .Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__ /* .Component */ .wA("firestore", (t, { options: n })=>{
                     let i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
                     return n = Object.assign({

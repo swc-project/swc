@@ -1,9 +1,11 @@
 use std::mem;
 
+use swc_common::Span;
+
 use crate::{
     error::Error,
     input::Tokens,
-    lexer::{token::TokenAndSpan, TokenFlags},
+    lexer::{token::TokenAndSpan, Token, TokenFlags},
     syntax::SyntaxFlags,
     Context,
 };
@@ -61,22 +63,6 @@ impl<I> Capturing<I> {
     }
 }
 
-impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
-    type Item = TokenAndSpan;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let next = self.inner.next();
-
-        match next {
-            Some(ts) => {
-                self.capture(ts);
-                Some(ts)
-            }
-            None => None,
-        }
-    }
-}
-
 impl<I: Tokens> Tokens for Capturing<I> {
     type Checkpoint = CapturingCheckpoint<I>;
 
@@ -90,6 +76,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
         self.captured.truncate(checkpoint.pos);
         self.inner.checkpoint_load(checkpoint.inner);
+    }
+
+    fn read_string(&self, span: Span) -> &str {
+        self.inner.read_string(span)
     }
 
     fn set_ctx(&mut self, ctx: Context) {
@@ -160,12 +150,28 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.get_token_value()
     }
 
+    fn first_token(&mut self) -> TokenAndSpan {
+        let next = self.inner.first_token();
+        if next.token != Token::Eof {
+            self.capture(next);
+        }
+        next
+    }
+
+    fn next_token(&mut self) -> TokenAndSpan {
+        let next = self.inner.next_token();
+        if next.token != Token::Eof {
+            self.capture(next);
+        }
+        next
+    }
+
     fn set_token_value(&mut self, token_value: Option<super::TokenValue>) {
         self.inner.set_token_value(token_value);
     }
 
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan {
-        self.inner.scan_jsx_token(allow_multiline_jsx_text)
+    fn scan_jsx_token(&mut self) -> TokenAndSpan {
+        self.inner.scan_jsx_token()
     }
 
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
@@ -178,12 +184,8 @@ impl<I: Tokens> Tokens for Capturing<I> {
         ts
     }
 
-    fn rescan_jsx_token(
-        &mut self,
-        allow_multiline_jsx_text: bool,
-        reset: swc_common::BytePos,
-    ) -> TokenAndSpan {
-        let ts = self.inner.rescan_jsx_token(allow_multiline_jsx_text, reset);
+    fn rescan_jsx_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
+        let ts = self.inner.rescan_jsx_token(reset);
         self.capture(ts);
         ts
     }

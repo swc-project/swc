@@ -14,7 +14,15 @@ use crate::{
 pub struct AtRule {
     pub span: Span,
     pub name: AtRuleName,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub prelude: Option<Box<AtRulePrelude>>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub block: Option<SimpleBlock>,
 }
 
@@ -94,8 +102,16 @@ pub enum AtRulePrelude {
 pub struct ScopeRange {
     pub span: Span,
     /// https://drafts.csswg.org/css-cascade-6/#typedef-scope-start
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub scope_start: Option<ForgivingSelectorList>,
     /// https://drafts.csswg.org/css-cascade-6/#typedef-scope-end
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub scope_end: Option<ForgivingSelectorList>,
 }
 
@@ -184,7 +200,15 @@ pub enum KeyframeSelector {
 pub struct ImportPrelude {
     pub span: Span,
     pub href: Box<ImportHref>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub layer_name: Option<Box<ImportLayerName>>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub import_conditions: Option<Box<ImportConditions>>,
 }
 
@@ -210,7 +234,15 @@ pub enum ImportLayerName {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ImportConditions {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub supports: Option<Box<Function>>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub media: Option<Box<MediaQueryList>>,
 }
 
@@ -218,6 +250,10 @@ pub struct ImportConditions {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct NamespacePrelude {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub prefix: Option<Ident>,
     pub uri: Box<NamespacePreludeUri>,
 }
@@ -242,9 +278,25 @@ pub struct MediaQueryList {
 #[derive(Eq, Hash)]
 pub struct MediaQuery {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub modifier: Option<Ident>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub media_type: Option<MediaType>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub condition: Option<Box<MediaConditionType>>,
 }
 
@@ -333,6 +385,10 @@ pub enum MediaConditionWithoutOrType {
 #[derive(Eq, Hash)]
 pub struct MediaNot {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub condition: MediaInParens,
 }
@@ -347,6 +403,10 @@ impl EqIgnoreSpan for MediaNot {
 #[derive(Eq, Hash)]
 pub struct MediaAnd {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub condition: MediaInParens,
 }
@@ -361,6 +421,10 @@ impl EqIgnoreSpan for MediaAnd {
 #[derive(Eq, Hash)]
 pub struct MediaOr {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub condition: MediaInParens,
 }
@@ -451,6 +515,10 @@ pub struct MediaFeatureBoolean {
 )]
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 //#[cfg_attr(
 //    feature = "rkyv",
 //    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace +
@@ -522,6 +590,10 @@ pub enum SupportsConditionType {
 #[derive(Eq, Hash)]
 pub struct SupportsNot {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub condition: Box<SupportsInParens>,
 }
@@ -536,6 +608,10 @@ impl EqIgnoreSpan for SupportsNot {
 #[derive(Eq, Hash)]
 pub struct SupportsAnd {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub condition: Box<SupportsInParens>,
 }
@@ -550,6 +626,10 @@ impl EqIgnoreSpan for SupportsAnd {
 #[derive(Eq, Hash)]
 pub struct SupportsOr {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub condition: Box<SupportsInParens>,
 }
@@ -602,7 +682,15 @@ pub struct PageSelectorList {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct PageSelector {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub page_type: Option<PageSelectorType>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub pseudos: Option<Vec<PageSelectorPseudo>>,
 }
 
@@ -647,6 +735,10 @@ pub struct LayerNameList {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ContainerCondition {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<ContainerName>,
     pub query: ContainerQuery,
 }
@@ -685,6 +777,10 @@ pub enum ContainerQueryType {
 #[derive(Eq, Hash)]
 pub struct ContainerQueryNot {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub query: QueryInParens,
 }
@@ -699,6 +795,10 @@ impl EqIgnoreSpan for ContainerQueryNot {
 #[derive(Eq, Hash)]
 pub struct ContainerQueryAnd {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub query: QueryInParens,
 }
@@ -713,6 +813,10 @@ impl EqIgnoreSpan for ContainerQueryAnd {
 #[derive(Eq, Hash)]
 pub struct ContainerQueryOr {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub keyword: Option<Ident>,
     pub query: QueryInParens,
 }
@@ -783,6 +887,10 @@ pub struct SizeFeatureBoolean {
 //    archive(bound(serialize = "__S: rkyv::ser::ScratchSpace +
 // rkyv::ser::Serializer"))
 //)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum SizeFeatureRangeComparison {
     /// `<`
     Lt,
@@ -853,6 +961,10 @@ pub enum SizeFeatureName {
 pub struct ExtensionName {
     pub span: Span,
     pub value: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 

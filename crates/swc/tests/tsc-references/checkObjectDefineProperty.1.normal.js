@@ -39,10 +39,10 @@ takeName(x);
 /**
  * @type {number}
  */ var b = x.houseNumber;
-var returnExemplar = function() {
+var returnExemplar = function returnExemplar() {
     return x;
 };
-var needsExemplar = function() {
+var needsExemplar = function needsExemplar() {
     var _ = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : x;
     return void 0;
 };

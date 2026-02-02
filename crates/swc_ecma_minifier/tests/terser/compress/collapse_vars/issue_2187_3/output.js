@@ -1,2 +1,4 @@
 var b = 1;
-console.log(b-- && ++b);
+console.log(function(a) {
+    return a && ++b;
+}(b--));

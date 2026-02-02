@@ -9,11 +9,11 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_html"
 repository = "https://github.com/swc-project/swc.git"
-version = "28.0.0"
+version = "30.0.0"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
@@ -22,7 +22,7 @@ bench = false
 minifier = []
 
 [dependencies]
-swc_html_ast     = { version = "16.0.0", path = "../swc_html_ast", default-features = false }
-swc_html_codegen = { version = "17.0.0", path = "../swc_html_codegen", default-features = false }
-swc_html_parser  = { version = "16.0.0", path = "../swc_html_parser", default-features = false }
-swc_html_visit   = { version = "16.0.0", path = "../swc_html_visit", default-features = false }
+swc_html_ast = { version = "18.0.0", path = "../swc_html_ast", default-features = false }
+swc_html_codegen = { version = "19.0.0", path = "../swc_html_codegen", default-features = false }
+swc_html_parser = { version = "18.0.0", path = "../swc_html_parser", default-features = false }
+swc_html_visit = { version = "18.0.0", path = "../swc_html_visit", default-features = false }

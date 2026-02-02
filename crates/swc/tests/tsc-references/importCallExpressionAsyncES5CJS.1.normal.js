@@ -81,7 +81,7 @@ var cl1 = /*#__PURE__*/ function() {
     return cl1;
 }();
 var obj = {
-    m: function() {
+    m: function m() {
         return _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
@@ -107,7 +107,7 @@ var cl2 = function cl2() {
     "use strict";
     _class_call_check._(this, cl2);
     this.p = {
-        m: function() {
+        m: function m() {
             return _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
@@ -130,7 +130,7 @@ var cl2 = function cl2() {
         }
     };
 };
-var l = function() {
+var l = function l() {
     return _async_to_generator._(function() {
         var req;
         return _ts_generator._(this, function(_state) {

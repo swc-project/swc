@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler-win32-arm64-msvc",
-  "version": "1.14.0",
+  "version": "1.15.11",
   "os": [
     "win32"
   ],
@@ -30,7 +30,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "repository": {
     "type": "git",

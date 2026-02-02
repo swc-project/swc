@@ -2,7 +2,7 @@ use std::{env, sync::Arc};
 
 use anyhow::{anyhow, Context, Error};
 use parking_lot::Mutex;
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 use swc_common::plugin::serialized::{PluginError, PluginSerializedBytes};
 #[cfg(any(
     feature = "plugin_transform_schema_v1",
@@ -14,7 +14,7 @@ use swc_common::{
     SourceMap,
 };
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 use crate::{
     host_environment::BaseHostEnvironment,
     imported_fn::{
@@ -35,10 +35,10 @@ struct PluginTransformState {
     plugin_core_diag: PluginCorePkgDiagnostics,
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 impl PluginTransformState {
     fn run(
-        &mut self,
+        mut self,
         program: &PluginSerializedBytes,
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: Option<bool>,
@@ -67,10 +67,21 @@ impl PluginTransformState {
             should_enable_comments_proxy,
         )?;
 
-        // Copy guest's memory into host, construct serialized struct from raw
-        // bytes.
-        let transformed_result = &(*self.transform_result.lock());
-        let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
+        self.instance
+            .caller()?
+            .free(guest_program_ptr.0, guest_program_ptr.1)?;
+        self.instance.cleanup()?;
+
+        // Construct serialized struct from raw bytes.
+        // Since we have finished transformation, it's safe to fetch the data from
+        // Arc<Mutex<T>>
+        drop(self.instance);
+        let transformed_result = Arc::try_unwrap(self.transform_result)
+            .map_err(|_| {
+                anyhow!("Failed to unwrap Arc: other references to transform_result exist")
+            })?
+            .into_inner();
+        let ret = PluginSerializedBytes::from_bytes(transformed_result);
 
         let ret = if returned_ptr_result == 0 {
             Ok(ret)
@@ -78,22 +89,16 @@ impl PluginTransformState {
             let err: PluginError = ret.deserialize()?.into_inner();
             match err {
                 PluginError::SizeInteropFailure(msg) => Err(anyhow!(
-                    "Failed to convert pointer size to calculate: {}",
-                    msg
+                    "Failed to convert pointer size to calculate: {msg}"
                 )),
                 PluginError::Deserialize(msg) | PluginError::Serialize(msg) => {
-                    Err(anyhow!("{}", msg))
+                    Err(anyhow!("{msg}"))
                 }
                 _ => Err(anyhow!(
                     "Unexpected error occurred while running plugin transform"
                 )),
             }
         };
-
-        self.instance
-            .caller()?
-            .free(guest_program_ptr.0, guest_program_ptr.1)?;
-        self.instance.cleanup()?;
 
         ret
     }
@@ -149,7 +154,7 @@ pub struct TransformExecutor {
     runtime: Arc<dyn runtime::Runtime>,
 }
 
-#[cfg(feature = "__rkyv")]
+#[cfg(feature = "encoding-impl")]
 impl TransformExecutor {
     #[tracing::instrument(
         level = "info",
@@ -231,7 +236,7 @@ impl TransformExecutor {
             .init(module_name, import_object, envs, module)?;
 
         let diag_result: PluginCorePkgDiagnostics =
-            PluginSerializedBytes::from_slice(&(&(*diagnostics_buffer.lock()))[..])
+            PluginSerializedBytes::from_bytes(diagnostics_buffer.lock().clone())
                 .deserialize()?
                 .into_inner();
 

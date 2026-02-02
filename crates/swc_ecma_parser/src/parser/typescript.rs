@@ -124,7 +124,7 @@ impl<I: Tokens> Parser<I> {
             if kind == ParsingContext::EnumMembers {
                 let expect = Token::Comma;
                 let cur = self.input().cur();
-                let cur = cur.to_string(self.input().get_token_value());
+                let cur = cur.to_string();
                 self.emit_err(
                     self.input().cur_span(),
                     SyntaxError::Expected(format!("{expect:?}"), cur),
@@ -341,7 +341,7 @@ impl<I: Tokens> Parser<I> {
             let modifier = if cur == Token::Ident {
                 cur.clone().take_unknown_ident_ref(self.input()).clone()
             } else if cur.is_known_ident() {
-                cur.take_known_ident()
+                cur.take_known_ident(&self.input)
             } else if cur == Token::In {
                 atom!("in")
             } else if cur == Token::Const {
@@ -962,15 +962,18 @@ impl<I: Tokens> Parser<I> {
         let id = if cur == Token::Str {
             TsEnumMemberId::Str(self.parse_str_lit())
         } else if cur == Token::Num {
-            let (value, raw) = self.input_mut().expect_number_token_and_bump();
-            let mut new_raw = String::new();
+            let token_span = self.input.cur_span();
+            let value = self.input_mut().expect_number_token_value();
+            self.bump();
+
+            let raw = self.input.iter.read_string(token_span);
+            let mut new_raw = String::with_capacity(raw.len() + 2);
 
             new_raw.push('"');
-            new_raw.push_str(raw.as_str());
+            new_raw.push_str(raw);
             new_raw.push('"');
 
             let span = self.span(start);
-
             // Recover from error
             self.emit_err(span, SyntaxError::TS2452);
 
@@ -2766,7 +2769,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if p.input().cur().is_word() {
-                let value = p.input_mut().cur().take_word(p.input_mut()).unwrap();
+                let value = p.input().cur().take_word(&p.input);
                 return p
                     .parse_ts_decl(start, decorators, value, /* next */ true)
                     .map(|v| v.map(make_decl_declare));
@@ -2915,6 +2918,20 @@ impl<I: Tokens> Parser<I> {
         let res = if cur == Token::Lt || cur == Token::JSXTagStart {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
+
+                // In TSX mode, type parameters that could be mistaken for JSX
+                // (single param without constraint and no trailing comma) are not
+                // allowed.
+                if p.input().syntax().jsx() && type_params.params.len() == 1 {
+                    let single_param = &type_params.params[0];
+                    let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
+                    let dominated_by_jsx = single_param.constraint.is_none() && !has_trailing_comma;
+
+                    if dominated_by_jsx {
+                        return Ok(None);
+                    }
+                }
+
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, Token::LParen);
                 let params: Vec<Pat> = p

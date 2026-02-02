@@ -73,6 +73,18 @@ impl Pure<'_> {
             return;
         }
 
+        // Don't optimize arrays used as assignment targets in destructuring
+        // assignments, as delete operands, or as arguments to update operators
+        // (++/--). This prevents invalid transformations like: [obj.prop] =
+        // [true] => [!0] = [!0]
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
+            return;
+        }
+
         let Expr::Array(ArrayLit { elems, .. }) = e else {
             return;
         };
@@ -582,7 +594,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision()` as `{}`",
+                    "evaluate: Evaluating `{}.toPrecision()` as `{:?}`",
                     num,
                     value
                 );
@@ -630,7 +642,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toExponential()` as `{}`",
+                    "evaluate: Evaluating `{}.toExponential()` as `{:?}`",
                     num,
                     value
                 );
@@ -656,7 +668,7 @@ impl Pure<'_> {
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision({})` as `{}`",
+                    "evaluate: Evaluating `{}.toPrecision({})` as `{:?}`",
                     num,
                     precision,
                     value

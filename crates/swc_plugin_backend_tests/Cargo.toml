@@ -12,38 +12,49 @@ version     = "0.0.0"
 bench   = false
 doctest = false
 
-[dev-dependencies]
-anyhow                    = { workspace = true, default-features = false }
-codspeed-criterion-compat = { workspace = true, default-features = true }
-rustc-hash                = { workspace = true, default-features = false }
-serde                     = { workspace = true, features = ["derive"], default-features = false }
-serde_json                = { workspace = true, default-features = false }
-tokio                     = { workspace = true, features = ["rt"], default-features = false }
-tracing                   = { workspace = true, default-features = false }
+[features]
+# for ast_node macro
+default = ["encoding-impl"]
+__rkyv = []
+rkyv-impl = []
+serde-impl = []
+encoding-impl = []
 
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
+[dev-dependencies]
+anyhow = { workspace = true, default-features = false }
+codspeed-criterion-compat = { workspace = true }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+serde_json = { workspace = true, default-features = false }
+tokio = { workspace = true, features = ["rt"], default-features = false }
+tracing = { workspace = true, default-features = false }
+cbor4ii                   = { workspace = true, features = [ "use_std" ] }
+
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", features = [
-  "rkyv-impl",
+swc_plugin_runner = { version = "24.0.0", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", features = [
+  "encoding-impl",
 ] }
-swc_css_parser = { version = "16.0.0", path = "../swc_css_parser", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", features = [
-  "rkyv-impl",
-] }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_transform_common = { version = "12.0.0", path = "../swc_transform_common", default-features = false }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
-swc_plugin_runner = { version = "21.0.0", path = "../swc_plugin_runner", features = [
-  "rkyv-impl",
-  "plugin_transform_schema_v1",
-], default-features = false }
-swc_transform_common = { version = "10.0.0", path = "../swc_transform_common", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }
 
-swc_plugin_backend_wasmer   = { version = "4.0", path = "../swc_plugin_backend_wasmer", default-features = false }
-swc_plugin_backend_wasmtime = { version = "3.0", path = "../swc_plugin_backend_wasmtime", default-features = false }
+swc_plugin_backend_wasmer = { version = "7.0", path = "../swc_plugin_backend_wasmer", default-features = false }
+swc_plugin_backend_wasmtime = { version = "6.0", path = "../swc_plugin_backend_wasmtime", default-features = false }
 
 [[bench]]
 harness = false
 name    = "ecma_invoke"
+
+[package.metadata.cargo-shear]
+ignored = [
+  # false positive, use by ast_node macro
+  "cbor4ii",
+]

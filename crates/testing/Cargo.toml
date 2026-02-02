@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "testing"
 repository    = { workspace = true }
-version       = "17.0.0"
+version       = "19.0.0"
 
 [lib]
 bench = false
@@ -16,19 +16,15 @@ cargo_metadata = { workspace = true, default-features = false }
 difference = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
 pretty_assertions = { workspace = true, default-features = false }
-regex = { workspace = true }
+regex              = { workspace = true }
 rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false, features = ["std"] }
-tracing-subscriber = { workspace = true, features = [
-  "ansi",
-  "env-filter",
-  "fmt",
-], default-features = false }
+tracing = { workspace = true, default-features = false }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "tty-emitter",
 ] }
-swc_error_reporters = { version = "18.0.0", path = "../swc_error_reporters", default-features = false }
+swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters", default-features = false }
 testing_macros = { version = "1.0.1", path = "../testing_macros", default-features = false }

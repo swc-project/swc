@@ -1,5 +1,5 @@
 class Foo {
-    constructor(_param){
-        var bar = _extends({}, _object_destructuring_empty(_param));
+    constructor(_0){
+        let {} = _0, bar = _extends({}, _0);
     }
 }

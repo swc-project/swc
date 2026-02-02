@@ -17,6 +17,7 @@ where
 #[node_impl]
 impl MacroNode for JSXElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
         emit!(self.opening);
         emitter.emit_list(
             self.span(),
@@ -194,6 +195,7 @@ impl MacroNode for JSXClosingElement {
 #[node_impl]
 impl MacroNode for JSXFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
         emit!(self.opening);
 
         emitter.emit_list(
@@ -236,6 +238,7 @@ impl MacroNode for JSXNamespacedName {
 #[node_impl]
 impl MacroNode for JSXEmptyExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span, false)?;
         Ok(())
     }
 }

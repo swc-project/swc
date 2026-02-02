@@ -5,6 +5,6 @@ export var Preferences = function Preferences() {
     _class_call_check(this, Preferences);
     this.assignability = "no";
 };
-/** @type {ValueGetter_2} */ var ooscope2 = function(s) {
+/** @type {ValueGetter_2} */ var ooscope2 = function ooscope2(s) {
     return s.length > 0;
 };

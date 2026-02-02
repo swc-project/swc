@@ -1,164 +1,186 @@
 [workspace]
-members  = ["xtask", "crates/*", "tools/generate-code", "tools/swc-releaser"]
+members = [
+  "xtask",
+  "bindings/*",
+  "crates/*",
+  "tools/generate-code",
+  "tools/swc-releaser",
+]
 resolver = "2"
 
-  [workspace.package]
-  edition    = "2021"
-  license    = "Apache-2.0"
-  repository = "https://github.com/swc-project/swc.git"
+[workspace.package]
+edition    = "2021"
+license    = "Apache-2.0"
+repository = "https://github.com/swc-project/swc.git"
 
 
-  [workspace.dependencies]
-  # bytecheck version should be in sync with rkyv version. Do not bump individually.
-  bytecheck = { version = "0.8.0", default-features = false }
-  rancor    = { version = "0.1.0", default-features = false }
-  rkyv      = { version = "0.8.8", default-features = false }
+[workspace.dependencies]
+# bytecheck version should be in sync with rkyv version. Do not bump individually.
+bytecheck = { version = "0.8.0", default-features = false }
+rancor    = { version = "0.1.0", default-features = false }
+rkyv      = { version = "0.8.8", default-features = false }
 
 
-  Inflector = { version = "0.11.4", default-features = false }
-  allocator-api2 = { version = "0.2.18", default-features = false }
-  ansi_term = { version = "0.12.1", default-features = false }
-  anyhow = { version = "1.0.81", default-features = false }
-  arbitrary = { version = "1", default-features = false }
-  arrayvec = { version = "0.7.4", default-features = false }
-  ascii = { version = "1.1.0", default-features = false }
-  assert_cmd = { version = "2.0.12", default-features = false }
-  assert_fs = { version = "1.0.13", default-features = false }
-  auto_impl = { version = "1.2.0", default-features = false }
-  base64 = { version = "0.22.1", default-features = false }
-  bitflags = { version = "2.5.0", default-features = false }
-  blake3 = { version = "1.5.4", default-features = false }
-  browserslist-rs = { version = "0.19.0", default-features = false }
-  bumpalo = { version = "3.16.0", default-features = false }
-  bytes-str = { version = "0.2.5", default-features = false }
-  cargo_metadata = { version = "0.18.1", default-features = false }
-  changesets = { version = "0.2.2", default-features = false }
-  chrono = { version = "0.4.38", default-features = false }
-  codspeed-criterion-compat = { version = "3.0.4", default-features = true }
-  compact_str = { version = "0.7.1", default-features = false }
-  console_error_panic_hook = { version = "0.1.7", default-features = false }
-  copyless = { version = "0.1.5", default-features = false }
-  crc = { version = "2.1.0", default-features = false }
-  criterion = { version = "0.5.1", default-features = false }
-  dashmap = { version = "5.5.3", default-features = false }
-  dialoguer = { version = "0.10.2", default-features = false }
-  difference = { version = "2", default-features = false }
-  either = { version = "1.10.0", default-features = false }
-  enumset = { version = "1.1.2", default-features = false }
-  flate2 = { version = "1.0", default-features = false }
-  glob = { version = "0.3.0", default-features = false }
-  globset = { version = "0.4.16", default-features = false }
-  hashbrown = { version = "0.14.5", default-features = false }
-  hex = { version = "0.4.3", default-features = false }
-  humansize = { version = "2.1.3", default-features = false }
-  indexmap = { version = "2.0.0", default-features = false }
-  is-macro = { version = "0.3.5", default-features = false }
-  js-sys = { version = "0.3.59", default-features = false }
-  jsonc-parser = { version = "0.26.2", default-features = false }
-  kstring = { version = "2.0.0", default-features = false }
-  lazy_static = { version = "1.4.0", default-features = false }
-  lexical = { version = "6.1.0", default-features = false }
-  lru = { version = "0.16.1", default-features = false }
-  memchr = { version = "2.6.1", default-features = false }
-  miette = { version = "7.2.0", default-features = false }
-  napi = { version = "3", default-features = false }
-  napi-derive = { version = "3", default-features = false }
-  new_debug_unreachable = { version = "1.0.6", default-features = false }
-  nom = { version = "7.1.3", default-features = false }
-  ntest = { version = "0.7.2", default-features = false }
-  num-bigint = { version = "0.4.3", default-features = false }
-  num_cpus = { version = "1.13.1", default-features = false }
-  once_cell = { version = "1.19.0", default-features = false, features = [
-    "std",
-  ] }
-  par-core = { version = "2.0.0", default-features = false }
-  par-iter = { version = "2.0.0", default-features = false }
-  parking_lot = { version = "0.12.1", default-features = false }
-  path-absolutize = { version = "3.0.11", default-features = false }
-  pathdiff = { version = "0.2.1", default-features = false }
-  petgraph = { version = "0.7.1", default-features = false }
-  phf = { version = "0.11.2", default-features = false }
-  pretty_assertions = { version = "1.3", default-features = false, features = [
-    "std",
-  ] }
-  proc-macro2 = { version = "1.0.24", default-features = false }
-  quote = { version = "1.0.7", default-features = false }
-  radix_fmt = { version = "1.0.0", default-features = false }
-  rand = { version = "0.8.5", default-features = false }
-  rayon = { version = "1.7.0", default-features = false }
-  regex = { version = "1.5.4" }
-  regress = { version = "0.10.3", default-features = false }
-  relative-path = { version = "1.6.1", default-features = false }
-  reqwest = { version = "0.11.14", default-features = false }
-  rustc-hash = { version = "2", default-features = false }
-  ryu-js = { version = "1.0.0", default-features = false }
-  scoped-tls = { version = "1.0.1", default-features = false }
-  semver = { version = "1.0.20", default-features = false }
-  seq-macro = { version = "0.3", default-features = false }
-  serde = { version = "1.0.225", default-features = false }
-  serde-wasm-bindgen = { version = "0.4.5", default-features = false }
-  serde_derive = { version = "1.0.225", default-features = false }
-  serde_json = { version = "1.0.115", default-features = false, features = [
-    "alloc",
-  ] }
-  sha1 = { version = "0.10.6", default-features = false }
-  sha2 = { version = "0.10.8", default-features = false }
-  shrink-to-fit = { version = "0.2.1", default-features = false }
-  siphasher = { version = "0.3.9", default-features = false }
-  smallvec = { version = "1.8.0", default-features = false }
-  smartstring = { version = "1.0.1", default-features = false }
-  smol_str = { version = "0.2.0", default-features = false }
-  st-map = { version = "0.2.0", default-features = false }
-  string_cache = { version = "0.8.7", default-features = false }
-  swc_sourcemap = { version = "9.3.0", default-features = false }
-  syn = { version = "2", default-features = false }
-  tempfile = { version = "3.6.0", default-features = false }
-  termcolor = { version = "1.0", default-features = false }
-  thiserror = { version = "1.0.30", default-features = false }
-  tokio = { version = "1", default-features = false }
-  toml = { version = "0.8.2", default-features = false }
-  tracing = { version = "0.1.40", default-features = false }
-  tracing-chrome = { version = "0.5.0", default-features = false }
-  tracing-subscriber = { version = "0.3.20", default-features = false }
-  triomphe = { version = "0.1.13", default-features = false }
-  unicode-id-start = { version = "1.2.0", default-features = false }
-  unicode-width = { version = "0.1.4", default-features = false }
-  url = { version = "2.5.4", default-features = false }
-  vergen = { version = "9.0.0", default-features = false }
-  walkdir = { version = "2.4.0", default-features = false }
-  wasi-common = { version = "35", default-features = false }
-  wasm-bindgen = { version = "0.2.91", default-features = false }
-  wasm-bindgen-futures = { version = "0.4.41", default-features = false }
-  wasmer = { version = "6.1.0-rc.2", default-features = false }
-  wasmer-wasix = { version = "0.601.0-rc.2", default-features = false }
-  wasmtime = { version = "35", default-features = false }
+Inflector                 = { version = "0.11.4", default-features = false }
+allocator-api2            = { version = "0.2.18", default-features = false }
+ansi_term                 = { version = "0.12.1", default-features = false }
+anyhow                    = { version = "1.0.98", default-features = false }
+arbitrary                 = { version = "1", default-features = false }
+arrayvec                  = { version = "0.7.4", default-features = false }
+ascii                     = { version = "1.1.0", default-features = false }
+assert_cmd                = { version = "2.0.17", default-features = false }
+assert_fs                 = { version = "1.0.13", default-features = false }
+auto_impl                 = { version = "1.2.0", default-features = false }
+backtrace                 = { version = "0.3", default-features = false }
+base64                    = { version = "0.22.1", default-features = false }
+bitflags                  = { version = "2.5.0", default-features = false }
+blake3                    = { version = "1.5.4", default-features = false }
+browserslist-rs           = { version = "0.19.0", default-features = false }
+bumpalo                   = { version = "3.16.0", default-features = false }
+bytes-str                 = { version = "0.2.5", default-features = false }
+cargo_metadata            = { version = "0.18.1", default-features = false }
+changesets                = { version = "0.2.2", default-features = false }
+chrono                    = { version = "0.4.38", default-features = false }
+codspeed-criterion-compat = { version = "3.0.4", default-features = true }
+compact_str               = { version = "0.7.1", default-features = false }
+console_error_panic_hook  = { version = "0.1.7", default-features = false }
+copyless                  = { version = "0.1.5", default-features = false }
+crc                       = { version = "2.1.0", default-features = false }
+criterion                 = { version = "0.5.1", default-features = false }
+dashmap                   = { version = "5.5.3", default-features = false }
+dialoguer                 = { version = "0.10.2", default-features = false }
+difference                = { version = "2", default-features = false }
+dragonbox_ecma            = { version = "0.1.0", default-features = false }
+either                    = { version = "1.10.0", default-features = false }
+enumset                   = { version = "1.1.2", default-features = false }
+flate2                    = { version = "1.0", default-features = false }
+getrandom                 = { version = "0.3.3", default-features = false }
+glob                      = { version = "0.3.0", default-features = false }
+globset                   = { version = "0.4.16", default-features = false }
+hashbrown                 = { version = "0.14.5", default-features = false }
+hex                       = { version = "0.4.3", default-features = false }
+humansize                 = { version = "2.1.3", default-features = false }
+indexmap                  = { version = "2.0.0", default-features = false }
+is-macro                  = { version = "0.3.5", default-features = false }
+js-sys                    = { version = "0.3.77", default-features = false }
+jsonc-parser              = { version = "0.26.2", default-features = false }
+kstring                   = { version = "2.0.0", default-features = false }
+lazy_static               = { version = "1.4.0", default-features = false }
+lexical                   = { version = "6.1.0", default-features = false, features = ["std", "parse-floats", "parse-integers"] }
+lightningcss              = { version = "1.0.0-alpha.68", default-features = false }
+lru                       = { version = "0.16.1", default-features = false }
+memchr                    = { version = "2.6.1", default-features = false }
+miette                    = { version = "7.6.0", default-features = false }
+napi                      = { version = "3", default-features = false }
+napi-build                = { version = "2", default-features = false }
+napi-derive               = { version = "3", default-features = false }
+new_debug_unreachable     = { version = "1.0.6", default-features = false }
+nom                       = { version = "7.1.3", default-features = false }
+ntest                     = { version = "0.7.2", default-features = false }
+num-bigint                = { version = "0.4.3", default-features = false }
+num_cpus                  = { version = "1.13.1", default-features = false }
+once_cell                 = { version = "1.19.0", default-features = false, features = [
+  "std",
+] }
+owo-colors                = { version = "4.2.1", default-features = false }
+par-core                  = { version = "2.0.0", default-features = false }
+par-iter                  = { version = "2.0.0", default-features = false }
+parking_lot               = { version = "0.12.1", default-features = false }
+path-absolutize           = { version = "3.0.11", default-features = false }
+path-clean                = { version = "1.0", default-features = false }
+pathdiff                  = { version = "0.2.1", default-features = false }
+petgraph                  = { version = "0.7.1", default-features = false }
+phf                       = { version = "0.11.2", default-features = false }
+pretty_assertions         = { version = "1.3", default-features = false, features = [
+  "std",
+] }
+proc-macro2               = { version = "1.0.24", default-features = false }
+quote                     = { version = "1.0.7", default-features = false }
+radix_fmt                 = { version = "1.0.0", default-features = false }
+rand                      = { version = "0.8.5", default-features = false }
+rayon                     = { version = "1.7.0", default-features = false }
+regex                     = { version = "1.5.4", default-features = false }
+regress                   = { version = "0.10.3", default-features = false, features = ["std"] }
+relative-path             = { version = "1.6.1", default-features = false }
+reqwest                   = { version = "0.11.14", default-features = false }
+rustc-hash                = { version = "2", default-features = false }
+ryu-js                    = { version = "1.0.0", default-features = false }
+scoped-tls                = { version = "1.0.1", default-features = false }
+semver                    = { version = "1.0.20", default-features = false }
+seq-macro                 = { version = "0.3", default-features = false }
+serde                     = { version = "1.0.225", default-features = false }
+serde-wasm-bindgen        = { version = "0.6.5", default-features = false }
+serde_derive              = { version = "1.0.225", default-features = false }
+serde_json                = { version = "1.0.140", default-features = false, features = [
+  "alloc",
+] }
+sha1                      = { version = "0.10.6", default-features = false }
+sha2                      = { version = "0.10.8", default-features = false }
+shrink-to-fit             = { version = "0.2.1", default-features = false }
+siphasher                 = { version = "0.3.9", default-features = false }
+smallvec                  = { version = "1.8.0", default-features = false }
+smartstring               = { version = "1.0.1", default-features = false }
+smol_str                  = { version = "0.2.0", default-features = false }
+st-map                    = { version = "0.2.0", default-features = false }
+string_cache              = { version = "0.8.7", default-features = false }
+swc_sourcemap             = { version = "9.3.4", default-features = false }
+syn                       = { version = "2", default-features = false, features = ["derive", "parsing", "printing", "clone-impls", "proc-macro"] }
+tempfile                  = { version = "3.6.0", default-features = false }
+termcolor                 = { version = "1.0", default-features = false }
+thiserror                 = { version = "1.0.30", default-features = false }
+tokio                     = { version = "1", default-features = false }
+toml                      = { version = "0.8.2", default-features = false }
+tracing                   = { version = "0.1.41", default-features = false }
+tracing-chrome            = { version = "0.7.2", default-features = false }
+tracing-subscriber        = { version = "0.3.20", default-features = false }
+triomphe                  = { version = "0.1.13", default-features = false }
+unicode-id-start          = { version = "1.2.0", default-features = false }
+unicode-width             = { version = "0.2.1", default-features = false }
+url                       = { version = "2.5.4", default-features = false }
+vergen                    = { version = "9.0.0", default-features = false }
+walkdir                   = { version = "2.4.0", default-features = false }
+wasi-common               = { version = "38", default-features = false }
+wasm-bindgen              = { version = "0.2.100", default-features = false }
+wasm-bindgen-futures      = { version = "0.4.50", default-features = false }
+wasmer                    = { version = "6.1.0-rc.2", default-features = false }
+wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
+wasmtime                  = { version = "38", default-features = false }
 
-  foldhash        = { version = "0.1", default-features = false }
-  precomputed-map = { version = "0.2", default-features = false }
 
-  [workspace.metadata.cargo-shear]
-  # `serde` is used when #[ast_node] is expanded
-  # the rests are used for enabling features
-  ignored = [
-    "par-core",
-    "serde",
-    "napi",
-    "napi-derive",
-    "indexmap",
-    "tracing",
-    "num-bigint",
-    "swc_ecma_utils",
-    "swc_ecma_transforms_base",
-  ]
+cbor4ii         = { version = "1.2", default-features = false }
+foldhash        = { version = "0.1", default-features = false }
+precomputed-map = { version = "0.2", default-features = false }
+
+[workspace.metadata.cargo-shear]
+# `serde` is used when #[ast_node] is expanded
+# the rests are used for enabling features
+ignored = [
+  "par-core",
+  "serde",
+  "napi",
+  "napi-derive",
+  "indexmap",
+  "tracing",
+  "num-bigint",
+  "swc_ecma_utils",
+  "swc_ecma_transforms_base",
+  "getrandom",
+]
 
 [profile.release]
-lto = true
-
-# We use CARGO_PROFILE_RELEASE_LTO for production builds
-# lto = "fat"
+lto = "fat"
 
 # debug = true
 # opt-level = 'z'
+
+# Strip debug symbols
+strip = "symbols"
+
+# Reduce binary size
+codegen-units = 1
+
+# Abort on panic to remove unwinding code
+panic = "abort"
 
 [profile.bench]
 debug = true
@@ -180,3 +202,163 @@ opt-level = 3
 
 [profile.test.package.swc_ecma_usage_analyzer]
 opt-level = 3
+
+
+[profile.release.package]
+
+[profile.release.package.wasmer-wasix]
+opt-level = "s"
+
+[profile.release.package.cranelift-codegen]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_minifier]
+opt-level = 3
+
+[profile.release.package.swc]
+opt-level = 3
+
+[profile.release.package.swc_ecma_compat_es2015]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_parser]
+opt-level = 3
+
+[profile.release.package.wast]
+opt-level = "s"
+
+[profile.release.package.wasmparser]
+opt-level = "s"
+
+[profile.release.package.browserslist-rs]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_transforms_module]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_transforms_proposal]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_transforms_optimization]
+opt-level = 3
+
+[profile.release.package.swc_ecma_ast]
+opt-level = 3
+
+[profile.release.package.swc_ecma_transforms_base]
+opt-level = 3
+
+[profile.release.package.webc]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_compat_es2022]
+opt-level = "s"
+
+[profile.release.package.regex-automata]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_transforms_typescript]
+opt-level = 3
+
+[profile.release.package.clap]
+opt-level = "s"
+
+[profile.release.package.swc_cli_impl]
+opt-level = "s"
+
+# ICU and internationalization crates (not performance critical)
+[profile.release.package.zerovec]
+opt-level = "s"
+
+[profile.release.package.icu_locid]
+opt-level = "s"
+
+[profile.release.package.icu_properties]
+opt-level = "s"
+
+[profile.release.package.icu_normalizer]
+opt-level = "s"
+
+[profile.release.package.icu_provider]
+opt-level = "s"
+
+[profile.release.package.icu_collections]
+opt-level = "s"
+
+[profile.release.package.icu_locid_transform]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_visit]
+opt-level = "s"
+
+[profile.release.package.swc_sourcemap]
+opt-level = "s"
+
+[profile.release.package.wasmer-config]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_utils]
+opt-level = 3
+
+[profile.release.package.wasmer-compiler]
+opt-level = "s"
+
+[profile.release.package.wasmer]
+opt-level = "s"
+
+[profile.release.package.wasmer-vm]
+opt-level = "s"
+
+[profile.release.package.wasmer-compiler-cranelift]
+opt-level = "s"
+
+[profile.release.package.regalloc2]
+opt-level = "s"
+
+[profile.release.package.swc_plugin_backend_wasmer]
+opt-level = "s"
+
+[profile.release.package.swc_plugin_runner]
+opt-level = "s"
+
+[profile.release.package.globset]
+opt-level = "s"
+
+[profile.release.package.toml_edit]
+opt-level = "s"
+
+[profile.release.package.miette]
+opt-level = "s"
+
+[profile.release.package.swc_bundler]
+opt-level = "s"
+
+[profile.release.package.swc_ecma_compat_es3]
+opt-level = "s"
+
+[profile.release.package.serde]
+opt-level = "s"
+
+[profile.release.package.regex-syntax]
+opt-level = "s"
+
+[profile.release.package.virtual-fs]
+opt-level = "s"
+
+[profile.release.package.swc_typescript]
+opt-level = "s"
+
+[profile.release.package.wasmer-package]
+opt-level = "s"
+
+[profile.release.package.aho-corasick]
+opt-level = "s"
+
+[profile.release.package.backtrace]
+opt-level = "s"
+
+[profile.release.package.tokio]
+opt-level = "s"
+
+[profile.release.package.napi]
+opt-level = "s"

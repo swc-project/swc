@@ -7,30 +7,28 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_css_lints"
 repository    = { workspace = true }
-version       = "17.0.0"
+version       = "19.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-anyhow      = { workspace = true, default-features = false }
-auto_impl   = { workspace = true, default-features = false }
-par-iter    = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
+auto_impl = { workspace = true, default-features = false }
+par-iter = { workspace = true, default-features = false }
 parking_lot = { workspace = true, default-features = false }
-rustc-hash  = { workspace = true, default-features = false }
-serde       = { workspace = true, features = ["derive"], default-features = false }
-thiserror   = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+thiserror = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_config = { version = "3.1.2", path = "../swc_config", features = [
-  "regex",
-], default-features = false }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
-swc_css_visit = { version = "16.0.0", path = "../swc_css_visit", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_config    = { version = "3.1.2", path = "../swc_config", features = ["regex"] }
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }
 
 [dev-dependencies]
 serde_json = { workspace = true, default-features = false }
 
-swc_css_parser = { version = "16.0.0", path = "../swc_css_parser", default-features = false }
-testing        = { version = "17.0.0", path = "../testing", default-features = false }
+swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

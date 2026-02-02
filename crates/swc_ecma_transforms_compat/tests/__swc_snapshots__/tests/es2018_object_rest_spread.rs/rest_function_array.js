@@ -1,3 +1,3 @@
-function foo(_param) {
-    var bar = _extends({}, _object_destructuring_empty(_param[0]));
+function foo(_0) {
+    let [_ref] = _0, {} = _ref, bar = _extends({}, _ref);
 }

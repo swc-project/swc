@@ -1,0 +1,28 @@
+[package]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Binding module for swc_ts_fast_strip"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_ts_fast_strip_binding"
+repository  = { workspace = true }
+version     = "0.8.0"
+
+[lib]
+bench = false
+
+[features]
+
+[dependencies]
+anyhow              = { workspace = true }
+miette              = { workspace = true }
+owo-colors          = { workspace = true }
+serde               = { workspace = true, features = ["derive"] }
+swc_common          = { version = "18.0.1", path = "../../crates/swc_common" }
+swc_error_reporters = { version = "20.0.0", path = "../../crates/swc_error_reporters" }
+swc_ts_fast_strip   = { version = "43.0.0", path = "../../crates/swc_ts_fast_strip" }
+tracing             = { workspace = true }
+unicode-width       = { workspace = true }
+
+[dev-dependencies]
+serde_json.workspace = true
+swc_ecma_parser = { version = "33.0.1", path = "../../crates/swc_ecma_parser" }

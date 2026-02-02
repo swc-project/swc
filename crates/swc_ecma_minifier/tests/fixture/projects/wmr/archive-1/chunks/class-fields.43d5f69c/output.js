@@ -11,4 +11,4 @@ export default class extends _ {
     render() {
         return m`<div><p> State: <span>${this.state.value}</span></p><button onClick=${this.onClick}>click me</button></div>`;
     }
-}
+};

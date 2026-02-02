@@ -8,7 +8,7 @@ export var Foo = /*#__PURE__*/ function(Foo) {
 }({});
 //// [bar.ts]
 import { Foo } from './foo.js';
-export var Bar = /*#__PURE__*/ function(Bar) {
+export var Bar = function(Bar) {
     Bar[Bar["a"] = Foo.a] = "a";
     Bar[Bar["c"] = Foo.c] = "c";
     Bar[Bar["e"] = 5] = "e";

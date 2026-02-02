@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_quote_macros"
 repository    = { workspace = true }
-version       = "26.0.1"
+version       = "33.0.0"
 
 [lib]
 bench      = false
@@ -16,16 +16,16 @@ proc-macro = true
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-anyhow      = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
 proc-macro2 = { workspace = true, default-features = false }
-quote       = { workspace = true, default-features = false }
-rustc-hash  = { workspace = true, default-features = false }
-syn         = { workspace = true, default-features = false }
+quote = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+syn = { workspace = true, default-features = false }
 
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_macros_common = { version = "1.0.1", path = "../swc_macros_common", default-features = false }

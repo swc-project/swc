@@ -262,7 +262,7 @@ impl Optimizer<'_> {
                             self.changed = true;
                             report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
-                                exp.value
+                                value
                             );
 
                             *e = Lit::Regex(Regex {
@@ -287,8 +287,8 @@ impl Optimizer<'_> {
                             self.changed = true;
                             report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
-                                exp.value,
-                                flags.value
+                                value,
+                                flags
                             );
 
                             *e = Lit::Regex(Regex {

@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_codegen"
 repository    = { workspace = true }
-version       = "19.0.0"
+version       = "23.0.0"
 
 [features]
 # This does not enable serde for ast nodes.
@@ -22,41 +22,37 @@ bench = false
 [dependencies]
 ascii = { workspace = true, default-features = false }
 compact_str = { workspace = true, default-features = false }
+dragonbox_ecma  = { workspace = true }
 memchr = { workspace = true, default-features = false }
-num-bigint = { workspace = true, features = [
-  "serde",
-], default-features = false }
+num-bigint      = { workspace = true, features = ["serde"] }
 once_cell = { workspace = true, default-features = false }
-regex = { workspace = true }
+regex           = { workspace = true }
 rustc-hash = { workspace = true, default-features = false }
-ryu-js = { workspace = true, default-features = false }
 serde = { workspace = true, default-features = false }
-swc_sourcemap = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
 
 swc_allocator = { version = "4.0.1", path = "../swc_allocator", default-features = false, features = [
   "hashbrown",
 ] }
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common" }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_codegen_macros = { version = "2.0.2", path = "../swc_ecma_codegen_macros", default-features = false }
 
 [dev-dependencies]
-base64                    = { workspace = true, default-features = false, features = ["std"] }
-codspeed-criterion-compat = { workspace = true, default-features = true }
-serde_json                = { workspace = true, default-features = false }
+base64 = { workspace = true, default-features = false }
+codspeed-criterion-compat = { workspace = true }
+serde_json = { workspace = true, default-features = false }
 
 swc_allocator = { version = "4.0.1", path = "../swc_allocator", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false, features = [
-  "typescript",
-] }
-swc_ecma_testing = { version = "17.0.0", path = "../swc_ecma_testing", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_testing = { version = "19.0.0", path = "../swc_ecma_testing", default-features = false }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }
+swc_sourcemap = { workspace = true, default-features = false }
 
 [[bench]]
 harness = false

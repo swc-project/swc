@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.14.0",
+    "version": "1.15.11",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -16,7 +16,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
+        "url": "git+https://github.com/swc-project/swc.git",
+        "directory": "packages/minifier"
     },
     "bugs": {
         "url": "https://github.com/swc-project/swc/issues"
@@ -38,7 +39,8 @@
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
-        "access": "public"
+        "access": "public",
+        "provenance": true
     },
     "types": "./index.d.ts",
     "scripts": {
@@ -47,8 +49,8 @@
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_minifier_wasm --scope swc {1} -t {2}\" --",
-        "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_minifier_node --output-dir . --release",
-        "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_minifier_node --output-dir .",
+        "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_minifier_node --output-dir . --release",
+        "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_minifier_node --output-dir .",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
         "version": "napi version --npm-dir scripts/npm"
     },

@@ -3,11 +3,11 @@ export { };
 //// [renderer2.d.ts]
 export { };
 //// [component.tsx]
-/** @jsx predom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var _this = this;
-import { predom } from "./renderer2";
-export var MySFC = function(props) {
+/** @jsx predom */ import { predom } from "./renderer2";
+export var MySFC = function MySFC(props) {
     return /*#__PURE__*/ predom.apply(void 0, [
         "p",
         null,
@@ -50,13 +50,13 @@ export var tree = /*#__PURE__*/ predom(MySFC, {
 }));
 export default /*#__PURE__*/ predom("h", null);
 //// [index.tsx]
-/** @jsx dom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-import { dom } from "./renderer";
+/** @jsx dom */ import { dom } from "./renderer";
 import prerendered, { MySFC, MyClass, tree } from "./component";
 var elem = prerendered;
 elem = /*#__PURE__*/ dom("h", null); // Expect assignability error here
-var DOMSFC = function(props) {
+var DOMSFC = function DOMSFC(props) {
     return /*#__PURE__*/ dom("p", null, props.x, " + ", props.y, " = ", props.x + props.y, props.children);
 };
 var DOMClass = /*#__PURE__*/ function() {

@@ -1,4 +1,4 @@
-use std::{borrow::Cow, mem::take};
+use std::{borrow::Cow, iter::zip, mem::take};
 
 use swc_atoms::{
     wtf8::{Wtf8, Wtf8Buf},
@@ -126,74 +126,79 @@ impl Pure<'_> {
         };
         let mut cur_cooked_str = Wtf8Buf::new();
         let mut cur_raw_str = String::new();
+        let mut q_iter = tpl.quasis.take().into_iter();
+        let e_iter = tpl.exprs.take().into_iter();
 
-        for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
-            if idx % 2 == 0 {
-                let q = tpl.quasis[idx / 2].take();
-
-                cur_cooked_str.push_str(&Str::from_tpl_raw(&q.raw));
-                cur_raw_str.push_str(&q.raw);
-            } else {
-                let mut e = tpl.exprs[idx / 2].take();
-                self.eval_nested_tpl(&mut e);
-
-                match *e {
-                    Expr::Tpl(mut e) => {
-                        // We loop again
-                        //
-                        // I think we can merge this code...
-                        for idx in 0..(e.quasis.len() + e.exprs.len()) {
-                            if idx % 2 == 0 {
-                                let q = e.quasis[idx / 2].take();
-
-                                cur_cooked_str.push_str(Str::from_tpl_raw(&q.raw).as_ref());
-                                cur_raw_str.push_str(&q.raw);
-                            } else {
-                                let cooked = Wtf8Atom::from(&*cur_cooked_str);
-                                let raw = Atom::from(&*cur_raw_str);
-                                cur_cooked_str.clear();
-                                cur_raw_str.clear();
-
-                                new_tpl.quasis.push(TplElement {
-                                    span: DUMMY_SP,
-                                    tail: false,
-                                    cooked: Some(cooked),
-                                    raw,
-                                });
-
-                                let e = e.exprs[idx / 2].take();
-
-                                new_tpl.exprs.push(e);
-                            }
-                        }
-                    }
-                    _ => {
-                        let cooked = Wtf8Atom::from(&*cur_cooked_str);
-                        let raw = Atom::from(&*cur_raw_str);
-                        cur_cooked_str.clear();
-                        cur_raw_str.clear();
-
-                        new_tpl.quasis.push(TplElement {
-                            span: DUMMY_SP,
-                            tail: false,
-                            cooked: Some(cooked),
-                            raw,
-                        });
-
-                        new_tpl.exprs.push(e);
-                    }
+        macro_rules! push_str {
+            ($e:expr) => {
+                if let Some(cooked) = $e.cooked {
+                    cur_cooked_str.push_wtf8(&cooked);
+                } else {
+                    cur_cooked_str.push_wtf8(&Str::from_tpl_raw(&$e));
                 }
-            }
+                cur_raw_str.push_str(&$e.raw);
+            };
         }
 
-        let cooked = Wtf8Atom::from(&*cur_cooked_str);
-        let raw = Atom::from(&*cur_raw_str);
-        new_tpl.quasis.push(TplElement {
-            span: DUMMY_SP,
-            tail: false,
-            cooked: Some(cooked),
-            raw,
-        });
+        macro_rules! end_str {
+            () => {
+                let cooked = Wtf8Atom::from(&*cur_cooked_str);
+                let raw = Atom::from(&*cur_raw_str);
+                cur_cooked_str.clear();
+                cur_raw_str.clear();
+                new_tpl.quasis.push(TplElement {
+                    span: DUMMY_SP,
+                    tail: false,
+                    cooked: Some(cooked),
+                    raw,
+                });
+            };
+        }
+
+        // Consume quasis first to make sure it align with exprs
+        // quasis.len() == exprs.len() + 1
+        if let Some(q) = q_iter.next() {
+            push_str!(q);
+        }
+
+        for (q, mut e) in zip(q_iter, e_iter) {
+            self.eval_nested_tpl(&mut e);
+            match *e {
+                Expr::Tpl(mut tpl) => {
+                    // For evaluated template only the first
+                    // and the last quasi could be concat with
+                    // outside quasis.
+                    let mut quasis_taken = tpl.quasis.take();
+                    let l = quasis_taken.len();
+
+                    // Store the first quasi for later concat
+                    let first = quasis_taken[0].take();
+                    push_str!(first);
+
+                    if l > 1 {
+                        // If there are more than one quasi
+                        // Concat first with outside quasis
+                        end_str!();
+
+                        // Store the last quasi for later concat
+                        let last = quasis_taken.pop().unwrap();
+                        push_str!(last);
+
+                        // Append the rest of quasis and exprs to new_tpl
+                        new_tpl.quasis.extend(quasis_taken.into_iter().skip(1));
+                        new_tpl.exprs.extend(tpl.exprs.into_iter());
+                    }
+                }
+                _ => {
+                    end_str!();
+
+                    new_tpl.exprs.push(e);
+                }
+            }
+            push_str!(q);
+        }
+
+        end_str!();
 
         *e = new_tpl.into();
     }
@@ -202,51 +207,67 @@ impl Pure<'_> {
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
-                if let Some(value) = &t.quasis[0].cooked {
-                    if let Some(value) = value.as_str() {
-                        if value.chars().all(|c| match c {
-                            '\\' => false,
-                            '\u{0020}'..='\u{007e}' => true,
-                            '\n' | '\r' => self.config.force_str_for_tpl,
-                            _ => false,
-                        }) {
-                            report_change!("converting a template literal to a string literal");
-
-                            *e = Lit::Str(Str {
-                                span: t.span,
-                                raw: None,
-                                value: t.quasis[0].cooked.clone().unwrap(),
-                            })
-                            .into();
-                            return;
+                let c = &t.quasis[0].raw;
+                let mut template_longer_count = 0;
+                let mut iter = c.chars().peekable();
+                while let Some(ch) = iter.next() {
+                    match ch {
+                        '\\' => {
+                            if let Some(next_ch) = iter.next() {
+                                match next_ch {
+                                    c @ '\n' | c @ '\r' => {
+                                        if c == '\r' && iter.peek() == Some(&'\n') {
+                                            iter.next();
+                                        }
+                                    }
+                                    'n' | 'r' => {
+                                        template_longer_count -= 1;
+                                    }
+                                    '`' => {
+                                        template_longer_count += 1;
+                                    }
+                                    _ => {}
+                                }
+                            }
                         }
+                        c @ '\n' | c @ '\r' => {
+                            template_longer_count -= 1;
+                            if c == '\r' && iter.peek() == Some(&'\n') {
+                                iter.next();
+                            }
+                        }
+                        _ => {}
                     }
                 }
 
-                let c = &t.quasis[0].raw;
+                if template_longer_count < 0 {
+                    return;
+                }
 
-                if c.chars().all(|c| match c {
-                    '\u{0020}'..='\u{007e}' => true,
-                    '\n' | '\r' => self.config.force_str_for_tpl,
-                    _ => false,
-                }) && (self.config.force_str_for_tpl
-                    || c.contains("\\`")
-                    || (!c.contains("\\n") && !c.contains("\\r")))
-                    && !c.contains("\\0")
-                    && !c.contains("\\x")
-                    && !c.contains("\\u")
-                {
-                    let value = Str::from_tpl_raw(c);
-
+                if let Some(cooked) = &t.quasis[0].cooked {
                     report_change!("converting a template literal to a string literal");
 
                     *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
-                        value: value.into(),
+                        value: cooked.clone(),
                     })
                     .into();
+                    return;
                 }
+
+                let value = Str::from_tpl_raw(&t.quasis[0]);
+
+                report_change!(
+                    "converting a template literal to a string literal by Str::from_tpl_raw"
+                );
+
+                *e = Lit::Str(Str {
+                    span: t.span,
+                    raw: None,
+                    value,
+                })
+                .into();
             }
             _ => {}
         }
@@ -333,7 +354,7 @@ impl Pure<'_> {
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
                         if let Some(cur_cooked) = &mut cur_cooked {
-                            cur_cooked.push_wtf8(&convert_str_value_to_tpl_cooked(&s.value));
+                            cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                         }
 
                         if let Some(raw) = &s.raw {
@@ -391,13 +412,13 @@ impl Pure<'_> {
                     self.changed = true;
 
                     report_change!(
-                        "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
+                        "template: Concatted a string (`{:?}`) on rhs of `+` to a template literal",
                         rs.value
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
                         let mut c = Wtf8Buf::from(&*cooked);
-                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&rs.value));
+                        c.push_wtf8(&Cow::Borrowed(&rs.value));
                         *cooked = c.into();
                     }
 
@@ -427,13 +448,13 @@ impl Pure<'_> {
                     self.changed = true;
 
                     report_change!(
-                        "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
+                        "template: Prepended a string (`{:?}`) on lhs of `+` to a template literal",
                         ls.value
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
                         let mut c = Wtf8Buf::new();
-                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&ls.value));
+                        c.push_wtf8(&Cow::Borrowed(&ls.value));
                         c.push_wtf8(&*cooked);
                         *cooked = c.into();
                     }
@@ -500,13 +521,16 @@ impl Pure<'_> {
                     if let Value::Known(Type::Str) = type_of_third {
                         if let Value::Known(second_str) = left.right.as_pure_wtf8(self.expr_ctx) {
                             if let Value::Known(third_str) = bin.right.as_pure_wtf8(self.expr_ctx) {
+                                #[cfg(feature = "debug")]
+                                let debug_second_str = second_str.clone();
+
                                 let new_str = second_str.into_owned() + &*third_str;
                                 let left_span = left.span;
 
                                 self.changed = true;
                                 report_change!(
-                                    "strings: Concatting `{} + {}` to `{}`",
-                                    second_str,
+                                    "strings: Concatting `{:?} + {:?}` to `{:?}`",
+                                    debug_second_str,
                                     third_str,
                                     new_str
                                 );
@@ -572,53 +596,6 @@ impl Pure<'_> {
                 }
             }
         }
-    }
-}
-
-pub(super) fn convert_str_value_to_tpl_cooked(value: &Wtf8) -> Cow<Wtf8> {
-    let mut result = Wtf8Buf::default();
-    let mut need_replace = false;
-
-    let mut iter = value.code_points().peekable();
-    while let Some(code_point) = iter.next() {
-        if let Some(ch) = code_point.to_char() {
-            match ch {
-                '\\' => {
-                    if let Some(next) = iter.peek().and_then(|c| c.to_char()) {
-                        match next {
-                            '\\' => {
-                                need_replace = true;
-                                result.push_char('\\');
-                                iter.next();
-                            }
-                            '`' => {
-                                need_replace = true;
-                                result.push_char('`');
-                                iter.next();
-                            }
-                            '$' => {
-                                need_replace = true;
-                                result.push_char('$');
-                                iter.next();
-                            }
-                            _ => result.push_char(ch),
-                        }
-                    } else {
-                        result.push_char(ch);
-                    }
-                }
-                _ => result.push_char(ch),
-            }
-        } else {
-            need_replace = true;
-            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
-        }
-    }
-
-    if need_replace {
-        result.into()
-    } else {
-        Cow::Borrowed(value)
     }
 }
 

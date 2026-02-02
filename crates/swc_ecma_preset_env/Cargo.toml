@@ -13,7 +13,7 @@ include = [
 license = { workspace = true }
 name = "swc_ecma_preset_env"
 repository = { workspace = true }
-version = "38.0.0"
+version = "47.0.0"
 
 [lib]
 bench = false
@@ -21,50 +21,47 @@ bench = false
 [features]
 default    = ["serde-impl"]
 serde-impl = ["serde"]
+es3 = ["swc_ecma_transforms/es3"]
 
 [dependencies]
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
-serde = { workspace = true, features = [
-  "derive",
-], optional = true, default-features = false }
+serde = { workspace = true, features = ["derive"], optional = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 
-preset_env_base = { version = "5.0.0", path = "../preset_env_base", default-features = false }
+preset_env_base = { version = "7.0.0", path = "../preset_env_base", default-features = false }
 
-foldhash        = { workspace = true, default-features = false }
-precomputed-map = { workspace = true, default-features = false }
+foldhash = { workspace = true, default-features = false }
+precomputed-map = { workspace = true }
 
-rustc-hash = { workspace = true, default-features = false, features = ["std"] }
+rustc-hash = { workspace = true, default-features = false }
 string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
-swc_atoms = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_compiler = { version = "7.0.0", path = "../swc_ecma_compiler", default-features = false }
-swc_ecma_transforms = { version = "37.0.0", path = "../swc_ecma_transforms", features = [
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_transformer = { version = "8.0.0", path = "../swc_ecma_transformer" }
+swc_ecma_transforms = { version = "46.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",
 ] }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [build-dependencies]
 anyhow = { workspace = true, default-features = false }
 foldhash = { workspace = true, default-features = false }
-precomputed-map = { workspace = true, features = [
-  "builder",
-], default-features = false }
-rustc-hash = { workspace = true, default-features = false, features = ["std"] }
+precomputed-map = { workspace = true, features = ["builder"] }
+rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true, default-features = true }
-pretty_assertions         = { workspace = true, default-features = false }
+codspeed-criterion-compat = { workspace = true }
+pretty_assertions = { workspace = true, default-features = false }
 
-swc_ecma_codegen = { version = "19.0.0", path = "../swc_ecma_codegen", default-features = false }
-swc_ecma_parser  = { version = "26.0.1", path = "../swc_ecma_parser", default-features = false }
-testing          = { version = "17.0.0", path = "../testing", default-features = false }
+swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }
 
 [[bench]]
 harness = false

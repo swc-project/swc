@@ -3472,6 +3472,67 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     }
 }
 
+/// Check if a class expression is pure when used with `new`.
+/// This is different from `is_pure_callee` because:
+/// - Calling a class as a function (`(class {})()`) throws TypeError
+/// - But `new (class {})()` can be pure if the class has no side effects
+fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
+    match expr {
+        // An empty function expression is also pure for `new`
+        Expr::Fn(FnExpr { function: f, .. })
+            if f.params.iter().all(|p| p.pat.is_ident())
+                && f.body.is_some()
+                && f.body.as_ref().unwrap().stmts.is_empty() =>
+        {
+            true
+        }
+
+        // A class expression is pure for `new` if:
+        // 1. It has no side effects from definition (computed keys, property initializers, static
+        //    blocks)
+        // 2. It has no super class (calling super() may have side effects)
+        // 3. Either has no constructor, or constructor body is empty
+        // 4. Has no instance properties (they are initialized in the constructor)
+        Expr::Class(c) => {
+            let class = &c.class;
+
+            // Check for super class - calling super() may have side effects
+            if class.super_class.is_some() {
+                return false;
+            }
+
+            // Check for side effects from class definition
+            if class_has_side_effect(ctx, class) {
+                return false;
+            }
+
+            // Check for instance properties (non-static) - they run during construction
+            for member in &class.body {
+                match member {
+                    ClassMember::ClassProp(p) if !p.is_static => return false,
+                    ClassMember::PrivateProp(p) if !p.is_static => return false,
+                    _ => {}
+                }
+            }
+
+            // Check constructor - must be empty or not present
+            for member in &class.body {
+                if let ClassMember::Constructor(ctor) = member {
+                    if let Some(body) = &ctor.body {
+                        if !body.stmts.is_empty() {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            true
+        }
+
+        _ => false,
+    }
+}
+
 fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
     let Some(ctx) = ctx.consume_depth() else {
         return true;
@@ -3612,7 +3673,14 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             true
         }
 
-        // TODO
+        // A new expression is side-effect free if callee is pure for `new` and args are
+        // side-effect free. Note: we use is_pure_new_callee instead of is_pure_callee because
+        // class expressions are valid for `new` but calling them throws TypeError.
+        Expr::New(NewExpr { callee, args, .. }) if is_pure_new_callee(callee, ctx) => args
+            .iter()
+            .flatten()
+            .any(|arg| arg.expr.may_have_side_effects(ctx)),
+
         Expr::New(_) => true,
 
         Expr::Call(CallExpr {

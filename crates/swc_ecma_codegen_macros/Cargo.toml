@@ -17,6 +17,6 @@ proc-macro2 = { workspace = true, default-features = false }
 
 swc_macros_common = { version = "1.0.1", path = "../swc_macros_common", default-features = false }
 
-  [dependencies.syn]
-  features  = ["fold"]
-  workspace = true
+[dependencies.syn]
+features  = ["fold"]
+workspace = true

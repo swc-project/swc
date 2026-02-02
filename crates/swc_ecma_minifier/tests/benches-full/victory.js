@@ -11244,7 +11244,7 @@
             }
             printWarning = function(text) {
                 var message = 'Warning: ' + text;
-                'undefined' != typeof console && console.error(message);
+                "u" > typeof console && console.error(message);
                 try {
                     // --- Welcome to debugging React ---
                     // This error was thrown as a convenience so that you can use this stack
@@ -11274,7 +11274,7 @@
             }
             printWarning = function(text) {
                 var message = 'Warning: ' + text;
-                'undefined' != typeof console && console.error(message);
+                "u" > typeof console && console.error(message);
                 try {
                     // --- Welcome to debugging React ---
                     // This error was thrown as a convenience so that you can use this stack
@@ -11460,7 +11460,7 @@
                                 // New behavior only for users of `prop-types` package
                                 var err = Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");
                                 throw err.name = 'Invariant Violation', err;
-                            } else if ('undefined' != typeof console) {
+                            } else if ("u" > typeof console) {
                                 // Old behavior for people using React.PropTypes
                                 var cacheKey = componentName + ':' + propName;
                                 !manualPropTypeCallCache[cacheKey] && // Avoid spamming the console because they are often not actionable except for lib authors
@@ -11515,7 +11515,7 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-fast-compare/index.js ***!
   \************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
-            var isArray = Array.isArray, keyList = Object.keys, hasProp = Object.prototype.hasOwnProperty, hasElementType = 'undefined' != typeof Element;
+            var isArray = Array.isArray, keyList = Object.keys, hasProp = Object.prototype.hasOwnProperty, hasElementType = "u" > typeof Element;
             // end fast-deep-equal
             module1.exports = function(a, b) {
                 try {
@@ -26488,7 +26488,7 @@
                 return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
                     var _ref2 = function(arr) {
                         if (Array.isArray(arr)) return arr;
-                    }(_ref) || function(arr, i) {
+                    }(_ref) || function(arr) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
                         try {
                             for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -26502,7 +26502,7 @@
                             }
                         }
                         return _arr;
-                    }(_ref, 0) || function() {
+                    }(_ref) || function() {
                         throw TypeError("Invalid attempt to destructure non-iterable instance");
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
@@ -27524,12 +27524,12 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var range, angularRange, r, props1, calculatedProps1, props2, calculatedProps2, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
+                    var range, angularRange, r, props1, calculatedProps1, props2, calculatedProps2, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, calculatedProps) {
                         if (!props.offset) return 0;
                         var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis("x", props.horizontal), domain = calculatedProps.domain.x, range = calculatedProps.range[currentAxis];
                         return (Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain))) / (Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range))) * props.offset;
                     } // eslint-disable-next-line max-params
-                    (props2, 0, calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
+                    (props2, calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
                         if (props.labels) return Math.floor(datasets.length / 2) === index ? props.labels : void 0;
                     }(props, datasets, index) : child.props.labels, name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index);
                     return react__WEBPACK_IMPORTED_MODULE_1___default.a.cloneElement(child, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -31876,7 +31876,7 @@
                         value: function(name, cacheValues) {
                             var arr, _ref2 = function(arr) {
                                 if (Array.isArray(arr)) return arr;
-                            }(arr = this.sharedEventsCache[name] || []) || function(arr, i) {
+                            }(arr = this.sharedEventsCache[name] || []) || function(arr) {
                                 var _arr = [], _n = !0, _d = !1, _e = void 0;
                                 try {
                                     for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -31890,7 +31890,7 @@
                                     }
                                 }
                                 return _arr;
-                            }(arr, 0) || function() {
+                            }(arr) || function() {
                                 throw TypeError("Invalid attempt to destructure non-iterable instance");
                             }(), sharedEvents = _ref2[0], prevCacheValues = _ref2[1];
                             if (sharedEvents && react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default()(cacheValues, prevCacheValues)) return sharedEvents;
@@ -34719,7 +34719,7 @@
         });
     /******/ }, /******/ /******/ // define __esModule on exports
     /******/ __webpack_require__.r = function(exports1) {
-        'undefined' != typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
+        "u" > typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
             value: 'Module'
         }), /******/ Object.defineProperty(exports1, '__esModule', {
             value: !0

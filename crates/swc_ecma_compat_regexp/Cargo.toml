@@ -1,0 +1,22 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Transpiles modern RegExp features to ES5-compatible patterns"
+documentation = "https://rustdoc.swc.rs/swc_ecma_compat_regexp/"
+edition       = "2021"
+include       = ["Cargo.toml", "src/**/*.rs"]
+license       = { workspace = true }
+name          = "swc_ecma_compat_regexp"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "1.0.0"
+
+[lib]
+bench = false
+
+[dependencies]
+icu_properties = { version = "2.0.0", default-features = false, features = ["compiled_data", "alloc"] }
+
+swc_ecma_regexp_ast   = { version = "0.7.0", path = "../swc_ecma_regexp_ast" }
+swc_ecma_regexp_visit = { version = "0.7.0", path = "../swc_ecma_regexp_visit" }
+
+[dev-dependencies]
+swc_ecma_regexp = { version = "0.7.0", path = "../swc_ecma_regexp" }

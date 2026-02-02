@@ -1,4 +1,4 @@
-use std::{fmt::Write, num::FpCategory};
+use std::{borrow::Cow, fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{
@@ -14,10 +14,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Valu
 
 use super::Pure;
 use crate::compress::{
-    pure::{
-        strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
-        Ctx,
-    },
+    pure::{strings::convert_str_value_to_tpl_raw, Ctx},
     util::is_pure_undefined,
 };
 
@@ -1426,7 +1423,7 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Str(s)) => {
-                    cur_cooked.push_wtf8(&convert_str_value_to_tpl_cooked(&s.value));
+                    cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                     cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                 }
                 _ => {

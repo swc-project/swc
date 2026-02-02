@@ -1,9 +1,9 @@
 //// [index.js]
-// Pretty much all of this should be an error, (since index signatures and generics are forbidden in js),
-// but we should be able to synthesize declarations from the symbols regardless
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// Pretty much all of this should be an error, (since index signatures and generics are forbidden in js),
+// but we should be able to synthesize declarations from the symbols regardless
 export var M = function M() {
     "use strict";
     _class_call_check(this, M);

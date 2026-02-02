@@ -97,10 +97,10 @@ fn minify(
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
-    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
+    let options = String::from_utf8_lossy(opts.as_ref()).into_owned();
     let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().map(|s| (*s).clone()));
+        .with_mangle_name_cache(extras.mangle_name_cache.map(|s| (*s).clone()));
 
     let c = get_fresh_compiler();
 
@@ -126,7 +126,7 @@ pub fn minify_sync(
     extras: NapiMinifyExtra,
 ) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
     let input = if is_json {
         MinifyTarget::Json(code)
     } else {
@@ -134,7 +134,7 @@ pub fn minify_sync(
     };
     let opts = get_deserialized(opts)?;
     let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().map(|s| (*s).clone()));
+        .with_mangle_name_cache(extras.mangle_name_cache.map(|s| (*s).clone()));
 
     let c = get_fresh_compiler();
 

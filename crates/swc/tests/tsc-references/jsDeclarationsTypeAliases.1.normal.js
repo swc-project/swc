@@ -20,13 +20,13 @@ export { }; // flag file as module
  * @returns {T}
  */ 
 //// [mixed.js]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /**
  * @typedef {{x: string} | number | LocalThing | ExportedThing} SomeType
  */ /**
  * @param {number} x
  * @returns {SomeType}
- */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-function doTheThing(x) {
+ */ function doTheThing(x) {
     return {
         x: "" + x
     };

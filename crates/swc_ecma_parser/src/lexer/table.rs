@@ -19,8 +19,9 @@ use crate::{
 pub(super) type ByteHandler = fn(&mut Lexer<'_>) -> LexResult<Token>;
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
+#[rustfmt::skip]
 pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
-    //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
+//   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
     ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, // 0
     ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, ERR, // 1
     ERR, EXL, QOT, HSH, IDN, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
@@ -41,15 +42,13 @@ pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
 
 const ERR: ByteHandler = |lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // Get the char representation for error messages
+        lexer.input.cur_as_char().unwrap_unchecked()
     };
 
     let start = lexer.cur_pos();
-    unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.bump();
-    }
+    lexer.bump(c.len_utf8());
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 };
 
@@ -280,16 +279,14 @@ const ZER: ByteHandler = |lexer| lexer.read_token_zero();
 
 /// Numbers
 const DIG: ByteHandler = |lexer| {
-    debug_assert!(lexer.cur().is_some_and(|cur| cur != '0'));
+    debug_assert!(lexer.cur().is_some_and(|cur| cur != b'0'));
     lexer.read_number::<false, false>().map(|v| match v {
-        Either::Left((value, raw)) => {
-            lexer.state.set_token_value(TokenValue::Num { value, raw });
+        Either::Left(value) => {
+            lexer.state.set_token_value(TokenValue::Num(value));
             Token::Num
         }
-        Either::Right((value, raw)) => {
-            lexer
-                .state
-                .set_token_value(TokenValue::BigInt { value, raw });
+        Either::Right(value) => {
+            lexer.state.set_token_value(TokenValue::BigInt(value));
             Token::BigInt
         }
     })
@@ -298,11 +295,12 @@ const DIG: ByteHandler = |lexer| {
 /// String literals with `'` or `"`
 const QOT: ByteHandler = |lexer| lexer.read_str_lit();
 
-/// Unicode
+/// Unicode - handles multi-byte UTF-8 sequences
 const UNI: ByteHandler = |lexer| {
     let c = unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.cur().unwrap_unchecked()
+        // Safety: Byte handler is only called for non-last characters
+        // For non-ASCII bytes, we need the full char
+        lexer.input.cur_as_char().unwrap_unchecked()
     };
 
     // Identifier or keyword. '\uXXXX' sequences are allowed in
@@ -312,10 +310,7 @@ const UNI: ByteHandler = |lexer| {
     }
 
     let start = lexer.cur_pos();
-    unsafe {
-        // Safety: Byte handler is only called for non-last chracters
-        lexer.input.bump();
-    }
+    lexer.bump(c.len_utf8());
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 };
 
@@ -340,7 +335,9 @@ const PIP: ByteHandler = |lexer| lexer.read_token_logical::<b'|'>();
 macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
         const $name: ByteHandler = |lexer| {
-            lexer.input.bump_bytes(1);
+            unsafe {
+                lexer.input.bump_bytes(1);
+            }
             Ok(Token::$token)
         };
     };
@@ -367,9 +364,13 @@ single_char!(BEC, b'}', RBrace);
 /// `^`
 const CRT: ByteHandler = |lexer| {
     // Bitwise xor
-    lexer.input.bump_bytes(1);
-    Ok(if lexer.input.cur_as_ascii() == Some(b'=') {
+    unsafe {
         lexer.input.bump_bytes(1);
+    }
+    Ok(if lexer.input.cur() == Some(b'=') {
+        unsafe {
+            lexer.input.bump_bytes(1);
+        }
         Token::BitXorEq
     } else {
         Token::Caret

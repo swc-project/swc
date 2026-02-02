@@ -1,6 +1,7 @@
   > Leading (lo)
 
-Advice:   > !
+Advice: 
+  > !
   | 
   |  something v5.1.0
   | 
@@ -16,7 +17,8 @@ Advice:   > !
     `----
   > Leading (lo)
 
-Advice:   >  a
+Advice: 
+  >  a
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
@@ -25,7 +27,8 @@ Advice:   >  a
     `----
   > Trailing (hi)
 
-Advice:   >  b
+Advice: 
+  >  b
     ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);

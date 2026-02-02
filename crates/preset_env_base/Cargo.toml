@@ -6,20 +6,20 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "preset_env_base"
 repository    = { workspace = true }
-version       = "5.0.0"
+version       = "7.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-anyhow          = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false }
 browserslist-rs = { workspace = true, default-features = false }
-dashmap         = { workspace = true, default-features = false }
-once_cell       = { workspace = true, default-features = false }
-rustc-hash      = { workspace = true, default-features = false }
-semver          = { workspace = true, features = ["serde"], default-features = false }
-serde           = { workspace = true, features = ["derive"], default-features = false }
-st-map          = { workspace = true, default-features = false }
-tracing         = { workspace = true, default-features = false }
+dashmap = { workspace = true, default-features = false }
+once_cell = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+semver = { workspace = true, features = ["serde"], default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+st-map = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 
-from_variant = { version = "2.0.2", path = "../from_variant", default-features = false }
+from_variant = { version = "3.0.0", path = "../from_variant", default-features = false }

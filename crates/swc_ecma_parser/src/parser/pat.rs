@@ -142,7 +142,11 @@ impl<I: Tokens> Parser<I> {
                 | Expr::Class(..)
                 | Expr::Paren(..)
                 | Expr::Tpl(..)
-                | Expr::TsAs(..) => {
+                | Expr::TsAs(..)
+                | Expr::TsNonNull(..)
+                | Expr::TsTypeAssertion(..)
+                | Expr::TsInstantiation(..)
+                | Expr::TsSatisfies(..) => {
                     if !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict))
                     {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)

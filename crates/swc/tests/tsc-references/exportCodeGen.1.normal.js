@@ -1,7 +1,7 @@
 //// [exportCodeGen.ts]
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 // should replace all refs to 'x' in the body,
 // with fully qualified
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(A) {
     A.x = 12;
     function lt12() {

@@ -1,15 +1,14 @@
 use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
 
 /// `@babel/plugin-transform-react-jsx-source`
-pub fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Pass {
-    visit_mut_pass(JsxSrc { cm, dev })
+pub fn hook(dev: bool, cm: Lrc<SourceMap>) -> impl VisitMutHook<()> {
+    JsxSrc { cm, dev }
 }
 
 #[derive(Clone)]
@@ -18,23 +17,23 @@ struct JsxSrc {
     dev: bool,
 }
 
-impl Parallel for JsxSrc {
-    fn create(&self) -> Self {
-        self.clone()
-    }
+// For tests
+#[cfg(test)]
+fn jsx_src(dev: bool, cm: Lrc<SourceMap>) -> impl Pass {
+    use swc_ecma_hooks::VisitMutWithHook;
+    use swc_ecma_visit::visit_mut_pass;
 
-    fn merge(&mut self, _: Self) {}
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(dev, cm),
+        context: (),
+    })
 }
 
-impl VisitMut for JsxSrc {
-    noop_visit_mut_type!();
-
-    fn visit_mut_jsx_opening_element(&mut self, e: &mut JSXOpeningElement) {
+impl VisitMutHook<()> for JsxSrc {
+    fn enter_jsx_opening_element(&mut self, e: &mut JSXOpeningElement, _ctx: &mut ()) {
         if !self.dev || e.span == DUMMY_SP {
             return;
         }
-
-        e.visit_mut_children_with(self);
 
         let loc = self.cm.lookup_char_pos(e.span.lo);
         let file_name = loc.file.name.to_string();

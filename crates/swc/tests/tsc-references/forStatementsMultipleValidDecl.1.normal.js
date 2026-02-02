@@ -32,7 +32,7 @@ for(var p;;){}
 for(var fn = function fn(s) {
     return 42;
 };;){}
-for(var fn = function(s) {
+for(var fn = function fn(s) {
     return 3;
 };;){}
 for(var fn;;){}

@@ -27,7 +27,6 @@ use alloc::{
     vec::Vec,
 };
 use core::{
-    cmp::Ordering,
     fmt, hash,
     iter::{FromIterator, IntoIterator},
     mem::transmute,
@@ -384,19 +383,34 @@ impl Wtf8Buf {
 
     /// Create a [Wtf8Buf] from a WTF-8 encoded byte vector.
     ///
-    /// # Safety
+    /// Returns `Ok(Wtf8Buf)` if the bytes are well-formed WTF-8, or
+    /// `Err(bytes)` with the original bytes if validation fails.
     ///
-    /// The caller must ensure that `bytes` is a well-formed WTF-8 byte
-    /// sequence.
-    ///
-    /// This means that:
-    /// - All bytes must form valid UTF-8 sequences OR valid surrogate code
-    ///   point encodings
+    /// This validates that:
+    /// - All bytes form valid UTF-8 sequences OR valid surrogate code point
+    ///   encodings
     /// - Surrogate code points may appear unpaired and be encoded separately,
-    ///   but if they are paired, it should be encoded as a single 4-byte UTF-8
-    ///   sequence.  For example, the byte sequence `[0xED, 0xA0, 0x80, 0xED,
+    ///   but if they are paired, they must be encoded as a single 4-byte UTF-8
+    ///   sequence. For example, the byte sequence `[0xED, 0xA0, 0x80, 0xED,
     ///   0xB0, 0x80]` is not valid WTF-8 because WTF-8 forbids encoding a
     ///   surrogate pair as two separate 3-byte sequences.
+    pub fn from_bytes(bytes: Vec<u8>) -> Result<Self, Vec<u8>> {
+        if not_quite_std::validate_wtf8(&bytes) {
+            Ok(Self { bytes })
+        } else {
+            Err(bytes)
+        }
+    }
+
+    /// Create a [Wtf8Buf] from a WTF-8 encoded byte vector without checking
+    /// that the bytes contain valid WTF-8.
+    ///
+    /// For the safe version, see [Wtf8Buf::from_bytes].
+    ///
+    /// # Safety
+    ///
+    /// The bytes passed in must be valid WTF-8. See [Wtf8Buf::from_bytes] for
+    /// the requirements.
     #[inline]
     pub unsafe fn from_bytes_unchecked(bytes: Vec<u8>) -> Self {
         Self { bytes }
@@ -436,54 +450,9 @@ impl Extend<CodePoint> for Wtf8Buf {
 /// Similar to `&str`, but can additionally contain surrogate code points
 /// if they're not in a surrogate pair.
 #[repr(transparent)]
+#[derive(PartialEq, Eq, PartialOrd, Ord)]
 pub struct Wtf8 {
     bytes: [u8],
-}
-
-// FIXME: https://github.com/rust-lang/rust/issues/18805
-impl PartialEq for Wtf8 {
-    fn eq(&self, other: &Wtf8) -> bool {
-        self.bytes.eq(&other.bytes)
-    }
-}
-
-// FIXME: https://github.com/rust-lang/rust/issues/18805
-impl Eq for Wtf8 {}
-
-// FIXME: https://github.com/rust-lang/rust/issues/18738
-impl PartialOrd for Wtf8 {
-    #[inline]
-    fn partial_cmp(&self, other: &Wtf8) -> Option<Ordering> {
-        Some(self.bytes.cmp(&other.bytes))
-    }
-
-    #[inline]
-    fn lt(&self, other: &Wtf8) -> bool {
-        self.bytes.lt(&other.bytes)
-    }
-
-    #[inline]
-    fn le(&self, other: &Wtf8) -> bool {
-        self.bytes.le(&other.bytes)
-    }
-
-    #[inline]
-    fn gt(&self, other: &Wtf8) -> bool {
-        self.bytes.gt(&other.bytes)
-    }
-
-    #[inline]
-    fn ge(&self, other: &Wtf8) -> bool {
-        self.bytes.ge(&other.bytes)
-    }
-}
-
-// FIXME: https://github.com/rust-lang/rust/issues/18738
-impl Ord for Wtf8 {
-    #[inline]
-    fn cmp(&self, other: &Wtf8) -> Ordering {
-        self.bytes.cmp(&other.bytes)
-    }
 }
 
 /// Format the slice with double quotes,
@@ -745,21 +714,36 @@ impl Wtf8 {
         result
     }
 
-    /// Create a WTF-8 from a WTF-8 encoded byte slice.
+    /// Create a WTF-8 slice from a WTF-8 encoded byte slice.
+    ///
+    /// Returns `Ok(&Wtf8)` if the bytes are well-formed WTF-8, or
+    /// `Err(bytes)` with the original byte slice if validation fails.
+    ///
+    /// This validates that:
+    /// - All bytes form valid UTF-8 sequences OR valid surrogate code point
+    ///   encodings
+    /// - Surrogate code points may appear unpaired and be encoded separately,
+    ///   but if they are paired, they must be encoded as a single 4-byte UTF-8
+    ///   sequence. For example, the byte sequence `[0xED, 0xA0, 0x80, 0xED,
+    ///   0xB0, 0x80]` is not valid WTF-8 because WTF-8 forbids encoding a
+    ///   surrogate pair as two separate 3-byte sequences.
+    pub fn from_bytes(bytes: &[u8]) -> Result<&Wtf8, &[u8]> {
+        if not_quite_std::validate_wtf8(bytes) {
+            Ok(unsafe { transmute::<&[u8], &Wtf8>(bytes) })
+        } else {
+            Err(bytes)
+        }
+    }
+
+    /// Create a WTF-8 slice from a WTF-8 encoded byte slice without checking
+    /// that the bytes contain valid WTF-8.
+    ///
+    /// For the safe version, see [Wtf8::from_bytes].
     ///
     /// # Safety
     ///
-    /// The caller must ensure that `bytes` is a well-formed WTF-8 byte
-    /// sequence.
-    ///
-    /// This means that:
-    /// - All bytes must form valid UTF-8 sequences OR valid surrogate code
-    ///   point encodings
-    /// - Surrogate code points may appear unpaired and be encoded separately,
-    ///   but if they are paired, it should be encoded as a single 4-byte UTF-8
-    ///   sequence.  For example, the byte sequence `[0xED, 0xA0, 0x80, 0xED,
-    ///   0xB0, 0x80]` is not valid WTF-8 because WTF-8 forbids encoding a
-    ///   surrogate pair as two separate 3-byte sequences.
+    /// The bytes passed in must be valid WTF-8. See [Wtf8::from_bytes] for
+    /// the requirements.
     #[inline]
     pub const unsafe fn from_bytes_unchecked(bytes: &[u8]) -> &Wtf8 {
         unsafe { transmute(bytes) }
@@ -1434,5 +1418,45 @@ mod tests {
             string.to_ill_formed_utf16().collect::<Vec<_>>(),
             vec![0x61, 0xe9, 0x20, 0xd83d, 0xd83d, 0xdca9]
         );
+    }
+
+    #[test]
+    fn wtf8buf_wtf8_from_bytes_valid() {
+        // Valid UTF-8
+        assert!(Wtf8Buf::from_bytes(b"hello".to_vec()).is_ok());
+        assert!(Wtf8Buf::from_bytes(b"a\xC3\xA9 \xF0\x9F\x92\xA9".to_vec()).is_ok());
+        assert!(Wtf8::from_bytes(b"hello").is_ok());
+        assert!(Wtf8::from_bytes(b"a\xC3\xA9 \xF0\x9F\x92\xA9").is_ok());
+
+        // Valid WTF-8 with unpaired surrogates
+        assert!(Wtf8Buf::from_bytes(b"\xED\xA0\x80".to_vec()).is_ok()); // lead surrogate
+        assert!(Wtf8Buf::from_bytes(b"\xED\xB0\x80".to_vec()).is_ok()); // trail surrogate
+        assert!(Wtf8Buf::from_bytes(b"a\xED\xA0\xBD".to_vec()).is_ok()); // text + lead
+        assert!(Wtf8Buf::from_bytes(b"\xED\xB2\xA9z".to_vec()).is_ok()); // trail + text
+        assert!(Wtf8Buf::from_bytes(b"\xED\xB2\xA9\xED\xA0\xBD".to_vec()).is_ok());
+        // trail + lead
+    }
+
+    #[test]
+    fn wtf8buf_wtf8_from_bytes_invalid() {
+        // Invalid: surrogate pair encoded as two 3-byte sequences
+        assert!(Wtf8Buf::from_bytes(b"\xED\xA0\x80\xED\xB0\x80".to_vec()).is_err());
+        assert!(Wtf8Buf::from_bytes(b"\xED\xA0\xBD\xED\xB2\xA9".to_vec()).is_err());
+        assert!(Wtf8::from_bytes(b"\xED\xA0\x80\xED\xB0\x80").is_err());
+        assert!(Wtf8::from_bytes(b"\xED\xA0\xBD\xED\xB2\xA9").is_err());
+
+        // Invalid UTF-8
+        assert!(Wtf8Buf::from_bytes(vec![0xff]).is_err());
+        assert!(Wtf8Buf::from_bytes(vec![0xc0, 0x80]).is_err()); // overlong
+        assert!(Wtf8Buf::from_bytes(vec![0xed, 0xa0]).is_err()); // truncated lead surrogate
+        assert!(Wtf8Buf::from_bytes(vec![0xf4, 0x90, 0x80, 0x80]).is_err()); // > U+10FFFF
+
+        // Verify we can recover the original bytes on failure
+        let original = vec![0xff, 0xfe];
+        let result = Wtf8Buf::from_bytes(original.clone());
+        assert_eq!(result.unwrap_err(), original);
+
+        let result = Wtf8::from_bytes(&original);
+        assert_eq!(result.unwrap_err(), original);
     }
 }

@@ -205,11 +205,13 @@
                     },
                     "token": {
                       "Dimension": {
-                        "value": 1.0,
-                        "raw_value": "1",
-                        "unit": "em",
-                        "type": "integer",
-                        "raw_unit": "em"
+                        "dimension": {
+                          "value": 1.0,
+                          "raw_value": "1",
+                          "unit": "em",
+                          "type": "integer",
+                          "raw_unit": "em"
+                        }
                       }
                     }
                   },

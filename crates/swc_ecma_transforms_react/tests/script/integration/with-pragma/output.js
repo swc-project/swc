@@ -1,5 +1,5 @@
-/**@jsxRuntime automatic */ const { jsxDEV: _jsxDEV, Fragment: _Fragment } = require("react/jsx-dev-runtime");
-const App = /*#__PURE__*/ _jsxDEV("div", {
+const { jsxDEV: _jsxDEV, Fragment: _Fragment } = require("react/jsx-dev-runtime");
+/**@jsxRuntime automatic */ const App = /*#__PURE__*/ _jsxDEV("div", {
     children: [
         /*#__PURE__*/ _jsxDEV("div", {}, void 0, false, {
             fileName: "input.js",

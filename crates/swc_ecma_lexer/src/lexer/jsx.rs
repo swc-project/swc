@@ -12,7 +12,7 @@ impl Lexer<'_> {
 
         loop {
             let cur = match self.input.cur() {
-                Some(c) => c,
+                Some(c) => c as char,
                 None => {
                     let start = self.state.start;
                     self.error(start, SyntaxError::UnterminatedJSXContents)?
@@ -35,7 +35,7 @@ impl Lexer<'_> {
                         if cur == '<' && self.state.is_expr_allowed {
                             unsafe {
                                 // Safety: cur() was Some('<')
-                                self.input.bump();
+                                self.input.bump_bytes(1);
                             }
                             return Ok(Token::JSXTagStart);
                         }
@@ -73,7 +73,7 @@ impl Lexer<'_> {
                     );
                     unsafe {
                         // Safety: cur() was Some('>')
-                        self.input.bump()
+                        self.input.bump_bytes(1)
                     }
                 }
                 '}' => {
@@ -85,7 +85,7 @@ impl Lexer<'_> {
                     );
                     unsafe {
                         // Safety: cur() was Some('}')
-                        self.input.bump()
+                        self.input.bump_bytes(1)
                     }
                 }
                 '&' => {
@@ -114,7 +114,7 @@ impl Lexer<'_> {
                     } else {
                         unsafe {
                             // Safety: cur() was Some(c)
-                            self.input.bump()
+                            self.input.bump_bytes(1)
                         }
                     }
                 }

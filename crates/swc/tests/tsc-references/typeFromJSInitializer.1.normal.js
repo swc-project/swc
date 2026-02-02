@@ -46,7 +46,7 @@ u = true;
 u = {};
 u = 'ok';
 l.push('ok');
-/** @type {(v: unknown) => v is undefined} */ var isUndef = function(v) {
+/** @type {(v: unknown) => v is undefined} */ var isUndef = function isUndef(v) {
     return v === undefined;
 };
 var e = [

@@ -16,4 +16,4 @@ serde = { version = "1.0.140", default-features = false }
 # do not change.
 swc_core = { path = "../../../../../crates/swc_core", features = [
   "ecma_plugin_transform",
-], default-features = false }
+] }

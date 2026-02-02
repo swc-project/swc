@@ -92,7 +92,7 @@ var ItemsList = function(_Component) {
     var protoProps, _super = function() {
         var self, call, result, Super = _getPrototypeOf(ItemsList);
         return result = !function() {
-            if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+            if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
             if ("function" == typeof Proxy) return !0;
             try {
                 return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;

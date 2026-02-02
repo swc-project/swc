@@ -3,7 +3,7 @@
  * (c) 2014-2020 Evan You
  * Released under the MIT License.
  */ function(global1, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : (global1 = global1 || self).Vue = factory();
+    'object' == typeof exports && "u" > typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : (global1 = global1 || self).Vue = factory();
 }(this, function() {
     'use strict';
     /*  */ var dataDef, propsDef, hookRE, cid, baseCompile, _isServer, _Set, timerFunc, mark, measure, initProxy, target, len, str, chr, index$1, expressionPos, expressionEndPos, warn$1, target$1, svgContainer, emptyStyle, decoder, warn$2, delimiters, transforms, preTransforms, postTransforms, platformIsPreTag, platformMustUseProp, platformGetTagNamespace, maybeComponent, isStaticKey, isPlatformReservedTag, div, emptyObject = Object.freeze({});
@@ -292,7 +292,7 @@
     }
     /**
    * Parse simple path.
-   */ var bailRE = RegExp("[^" + unicodeRegExp.source + ".$_\\d]"), hasProto = '__proto__' in {}, inBrowser = 'undefined' != typeof window, inWeex = 'undefined' != typeof WXEnvironment && !!WXEnvironment.platform, weexPlatform = inWeex && WXEnvironment.platform.toLowerCase(), UA = inBrowser && window.navigator.userAgent.toLowerCase(), isIE = UA && /msie|trident/.test(UA), isIE9 = UA && UA.indexOf('msie 9.0') > 0, isEdge = UA && UA.indexOf('edge/') > 0;
+   */ var bailRE = RegExp("[^" + unicodeRegExp.source + ".$_\\d]"), hasProto = '__proto__' in {}, inBrowser = "u" > typeof window, inWeex = "u" > typeof WXEnvironment && !!WXEnvironment.platform, weexPlatform = inWeex && WXEnvironment.platform.toLowerCase(), UA = inBrowser && window.navigator.userAgent.toLowerCase(), isIE = UA && /msie|trident/.test(UA), isIE9 = UA && UA.indexOf('msie 9.0') > 0, isEdge = UA && UA.indexOf('edge/') > 0;
     UA && UA.indexOf('android');
     var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA) || 'ios' === weexPlatform;
     UA && /chrome\/\d+/.test(UA), UA && /phantomjs/.test(UA);
@@ -306,14 +306,16 @@
         }), window.addEventListener('test-passive', null, opts);
     } catch (e) {}
     var isServerRendering = function() {
-        return void 0 === _isServer && (_isServer = !inBrowser && !inWeex && 'undefined' != typeof global && global.process && 'server' === global.process.env.VUE_ENV), _isServer;
+        return void 0 === _isServer && (// detect presence of vue-server-renderer and avoid
+        // Webpack shimming the process
+        _isServer = !!(!inBrowser && !inWeex && "u" > typeof global) && global.process && 'server' === global.process.env.VUE_ENV), _isServer;
     }, devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
     /* istanbul ignore next */ function isNative(Ctor) {
         return 'function' == typeof Ctor && /native code/.test(Ctor.toString());
     }
-    var hasSymbol = 'undefined' != typeof Symbol && isNative(Symbol) && 'undefined' != typeof Reflect && isNative(Reflect.ownKeys);
+    var hasSymbol = "u" > typeof Symbol && isNative(Symbol) && "u" > typeof Reflect && isNative(Reflect.ownKeys);
     // use native Set when available.
-    _Set = 'undefined' != typeof Set && isNative(Set) ? Set : /*@__PURE__*/ function() {
+    _Set = "u" > typeof Set && isNative(Set) ? Set : /*@__PURE__*/ function() {
         function Set1() {
             this.set = Object.create(null);
         }
@@ -325,7 +327,7 @@
             this.set = Object.create(null);
         }, Set1;
     }();
-    /*  */ var warn = noop, tip = noop, generateComponentTrace = noop, formatComponentName = noop, hasConsole = 'undefined' != typeof console, classifyRE = /(?:^|[-_])(\w)/g;
+    /*  */ var warn = noop, tip = noop, generateComponentTrace = noop, formatComponentName = noop, hasConsole = "u" > typeof console, classifyRE = /(?:^|[-_])(\w)/g;
     warn = function(msg, vm) {
         var trace = vm ? generateComponentTrace(vm) : '';
         config.warnHandler ? config.warnHandler.call(null, msg, vm, trace) : hasConsole && !config.silent && console.error("[Vue warn]: " + msg + trace);
@@ -836,7 +838,7 @@
         logError(err, vm, info);
     }
     function logError(err, vm, info) {
-        /* istanbul ignore else */ if (warn("Error in " + info + ": \"" + err.toString() + "\"", vm), (inBrowser || inWeex) && 'undefined' != typeof console) console.error(err);
+        /* istanbul ignore else */ if (warn("Error in " + info + ": \"" + err.toString() + "\"", vm), (inBrowser || inWeex) && "u" > typeof console) console.error(err);
         else throw err;
     }
     /*  */ var isUsingMicroTask = !1, callbacks = [], pending = !1;
@@ -852,12 +854,12 @@
     // UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
     // completely stops working after triggering a few times... so, if native
     // Promise is available, we will use it:
-    /* istanbul ignore next, $flow-disable-line */ if ('undefined' != typeof Promise && isNative(Promise)) {
+    /* istanbul ignore next, $flow-disable-line */ if ("u" > typeof Promise && isNative(Promise)) {
         var p = Promise.resolve();
         timerFunc = function() {
             p.then(flushCallbacks), isIOS && setTimeout(noop);
         }, isUsingMicroTask = !0;
-    } else if (!isIE && 'undefined' != typeof MutationObserver && (isNative(MutationObserver) || // PhantomJS and iOS 7.x
+    } else if (!isIE && "u" > typeof MutationObserver && (isNative(MutationObserver) || // PhantomJS and iOS 7.x
     '[object MutationObserverConstructor]' === MutationObserver.toString())) {
         // Use MutationObserver where native Promise is not available,
         // e.g. PhantomJS, iOS7, Android 4.4
@@ -871,7 +873,7 @@
     } else // Fallback to setImmediate.
     // Technically it leverages the (macro) task queue,
     // but it is still a better choice than setTimeout.
-    timerFunc = 'undefined' != typeof setImmediate && isNative(setImmediate) ? function() {
+    timerFunc = "u" > typeof setImmediate && isNative(setImmediate) ? function() {
         setImmediate(flushCallbacks);
     } : function() {
         setTimeout(flushCallbacks, 0);
@@ -886,7 +888,7 @@
                 handleError(e, ctx, 'nextTick');
             }
             else _resolve && _resolve(ctx);
-        }), pending || (pending = !0, timerFunc()), !cb && 'undefined' != typeof Promise) return new Promise(function(resolve) {
+        }), pending || (pending = !0, timerFunc()), !cb && "u" > typeof Promise) return new Promise(function(resolve) {
             _resolve = resolve;
         });
     }
@@ -902,7 +904,7 @@
         warn("Property or method \"" + key + '" is not defined on the instance but referenced during render. Make sure that this property is reactive, either in the data option, or for class-based components, by initializing the property. See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.', target);
     }, warnReservedPrefix = function(target, key) {
         warn("Property \"" + key + "\" must be accessed with \"$data." + key + '" because properties starting with "$" or "_" are not proxied in the Vue instance to prevent conflicts with Vue internals. See: https://vuejs.org/v2/api/#data', target);
-    }, hasProxy = 'undefined' != typeof Proxy && isNative(Proxy);
+    }, hasProxy = "u" > typeof Proxy && isNative(Proxy);
     if (hasProxy) {
         var isBuiltInModifier = makeMap('stop,prevent,self,ctrl,shift,alt,meta,exact');
         config.keyCodes = new Proxy(config.keyCodes, {
@@ -2935,7 +2937,7 @@
                 if (isDef(children)) // empty element, allow client to pick up and populate children
                 if (elm.hasChildNodes()) // v-html and domProps: innerHTML
                 if (isDef(i = data) && isDef(i = i.domProps) && isDef(i = i.innerHTML)) {
-                    if (i !== elm.innerHTML) return 'undefined' == typeof console || hydrationBailed || (hydrationBailed = !0, console.warn('Parent: ', elm), console.warn('server innerHTML: ', i), console.warn('client innerHTML: ', elm.innerHTML)), !1;
+                    if (i !== elm.innerHTML) return "u" > typeof console && !hydrationBailed && (hydrationBailed = !0, console.warn('Parent: ', elm), console.warn('server innerHTML: ', i), console.warn('client innerHTML: ', elm.innerHTML)), !1;
                 } else {
                     for(var childrenMatch = !0, childNode = elm.firstChild, i$1 = 0; i$1 < children.length; i$1++){
                         if (!childNode || !hydrate(childNode, children[i$1], insertedVnodeQueue, inVPre)) {
@@ -2946,7 +2948,7 @@
                     }
                     // if childNode is not null, it means the actual childNodes list is
                     // longer than the virtual children list.
-                    if (!childrenMatch || childNode) return 'undefined' == typeof console || hydrationBailed || (hydrationBailed = !0, console.warn('Parent: ', elm), console.warn('Mismatching childNodes vs. VNodes: ', elm.childNodes, children)), !1;
+                    if (!childrenMatch || childNode) return "u" > typeof console && !hydrationBailed && (hydrationBailed = !0, console.warn('Parent: ', elm), console.warn('Mismatching childNodes vs. VNodes: ', elm.childNodes, children)), !1;
                 }
                 else createChildren(vnode, children, insertedVnodeQueue);
                 if (isDef(data)) {
@@ -3375,7 +3377,7 @@
             }
         }, !0), hydrating1 = !1, null == vm.$vnode && (vm._isMounted = !0, callHook(vm, 'mounted')), vm;
     }, inBrowser && setTimeout(function() {
-        config.devtools && (devtools ? devtools.emit('init', Vue) : console[console.info ? 'info' : 'log']("Download the Vue Devtools extension for a better development experience:\nhttps://github.com/vuejs/vue-devtools")), !1 !== config.productionTip && 'undefined' != typeof console && console[console.info ? 'info' : 'log']("You are running Vue in development mode.\nMake sure to turn on production mode when deploying for production.\nSee more tips at https://vuejs.org/guide/deployment.html");
+        config.devtools && (devtools ? devtools.emit('init', Vue) : console[console.info ? 'info' : 'log']("Download the Vue Devtools extension for a better development experience:\nhttps://github.com/vuejs/vue-devtools")), !1 !== config.productionTip && "u" > typeof console && console[console.info ? 'info' : 'log']("You are running Vue in development mode.\nMake sure to turn on production mode when deploying for production.\nSee more tips at https://vuejs.org/guide/deployment.html");
     }, 0);
     /*  */ var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g, regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g, buildRegex = cached(function(delimiters) {
         return RegExp(delimiters[0].replace(regexEscapeRE, '\\$&') + '((?:.|\\n)+?)' + delimiters[1].replace(regexEscapeRE, '\\$&'), 'g');

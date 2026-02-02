@@ -1,16 +1,16 @@
-var dummyTsFunction = function() {
+var dummyTsFunction = function dummyTsFunction() {
     var dummyArray = [
         0,
         1,
         2
     ];
-    var func1 = function(array) {
+    var func1 = function func1(array) {
         return(// Mapping array
         array === null || array === void 0 ? void 0 : array.map(function(i) {
             return i;
         }));
     };
-    var func2 = function(array) {
+    var func2 = function func2(array) {
         return array === null || array === void 0 ? void 0 : array.map(function(i) {
             return i;
         });

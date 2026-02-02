@@ -1,6 +1,6 @@
 {
     "name": "@swc/html",
-    "version": "1.14.0",
+    "version": "1.15.11",
     "description": "Super-fast HTML minifier",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -15,7 +15,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
+        "url": "git+https://github.com/swc-project/swc.git",
+        "directory": "packages/html"
     },
     "bugs": {
         "url": "https://github.com/swc-project/swc/issues"
@@ -37,14 +38,15 @@
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
-        "access": "public"
+        "access": "public",
+        "provenance": true
     },
     "scripts": {
         "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
         "build:ts": "tsc -d",
-        "build": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
-        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
+        "build": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
+        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
         "test": "echo 'done!'",
         "version": "napi version --npm-dir scripts/npm"
     },

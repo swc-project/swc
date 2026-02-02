@@ -51,7 +51,7 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
 
     let cm: Arc<SourceMap> = Default::default();
     let fm = cm.new_source_file(
-        Arc::new(FileName::Real(file_name.into()).into()),
+        Arc::new(FileName::Real(file_name.into())),
         input.to_string(),
     );
 

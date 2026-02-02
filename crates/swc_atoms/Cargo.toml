@@ -6,26 +6,26 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_atoms"
 repository    = { workspace = true }
-version       = "8.0.2"
+version       = "9.0.0"
 
 [lib]
 bench = false
 
 [features]
 __rkyv        = []
+encoding-impl = ["cbor4ii"]
 rkyv-impl     = ["__rkyv", "rkyv", "bytecheck", "rancor"]
 shrink-to-fit = ["dep:shrink-to-fit"]
 
 [dependencies]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-arbitrary     = { workspace = true, optional = true, default-features = false }
-bytecheck     = { workspace = true, optional = true, default-features = false }
-once_cell     = { workspace = true, default-features = false }
-rancor        = { workspace = true, optional = true, default-features = false }
-rkyv          = { workspace = true, optional = true, default-features = false }
-serde         = { workspace = true, default-features = false }
+arbitrary = { workspace = true, optional = true, default-features = false }
+bytecheck = { workspace = true, optional = true, default-features = false }
+cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
+once_cell = { workspace = true, default-features = false }
+rancor = { workspace = true, optional = true, default-features = false }
+rkyv = { workspace = true, optional = true, default-features = false }
+serde = { workspace = true, default-features = false }
 shrink-to-fit = { workspace = true, optional = true, default-features = false }
 
-hstr = { version = "3.0.1", path = "../hstr", features = [
-  "serde",
-], default-features = false }
+hstr = { version = "3.0.4", path = "../hstr", features = ["serde"] }

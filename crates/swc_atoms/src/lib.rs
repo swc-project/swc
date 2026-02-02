@@ -38,6 +38,28 @@ mod wtf8_atom;
 #[repr(transparent)]
 pub struct Atom(hstr::Atom);
 
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for Atom {
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        self.as_str().encode(writer)
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for Atom {
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        let s = <&str>::decode(reader)?;
+        Ok(Atom::new(s))
+    }
+}
+
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for Atom {

@@ -89,12 +89,22 @@ fn simple() {
     );
     assert_eq!(eval("const high = '\\uD83D';", "high").unwrap(), "\\uD83D");
     assert_eq!(eval("const low = '\\uDCA9';", "low").unwrap(), "\\uDCA9");
+    assert_eq!(eval("const crab = '🦀';", "`${crab}`").unwrap(), "🦀");
+    assert_eq!(eval("const rocket = '🚀';", "`${rocket}`").unwrap(), "🚀");
+}
+
+#[test]
+fn eval_bin() {
+    assert_eq!(eval("", "'1' + '2'").unwrap(), "12");
+    assert_eq!(eval("", "'1' + `2` + \"3\"").unwrap(), "123");
 }
 
 #[test]
 fn eval_lit() {
     assert_eq!(eval("", "true").unwrap(), "true");
     assert_eq!(eval("", "false").unwrap(), "false");
+    assert_eq!(eval("", "null").unwrap(), "null");
+    assert_eq!(eval("", "`🦀`").unwrap(), "🦀");
 }
 
 struct PartialInliner {

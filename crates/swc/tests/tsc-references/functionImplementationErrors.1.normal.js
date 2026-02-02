@@ -1,8 +1,8 @@
 //// [functionImplementationErrors.ts]
-// FunctionExpression with no return type annotation with multiple return statements with unrelated types
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
+// FunctionExpression with no return type annotation with multiple return statements with unrelated types
 var f1 = function f1() {
     return '';
     return 3;
@@ -11,7 +11,7 @@ var f2 = function x() {
     return '';
     return 3;
 };
-var f3 = function() {
+var f3 = function f3() {
     return '';
     return 3;
 };
@@ -79,7 +79,7 @@ var f9 = function f9() {
     return new Derived1();
     return new Derived2();
 };
-var f10 = function() {
+var f10 = function f10() {
     return new Derived1();
     return new Derived2();
 };
@@ -91,7 +91,7 @@ var f12 = function f12() {
     return new Base();
     return new AnotherClass();
 };
-var f13 = function() {
+var f13 = function f13() {
     return new Base();
     return new AnotherClass();
 };

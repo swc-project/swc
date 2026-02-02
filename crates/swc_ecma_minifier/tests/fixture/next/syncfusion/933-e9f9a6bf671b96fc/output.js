@@ -221,7 +221,7 @@
             }
             /**
  *@private
- */ var containerObject = "undefined" != typeof window ? window : {};
+ */ var containerObject = "u" > typeof window ? window : {};
             /**
  * Check weather the given argument is only object.
  *
@@ -4351,7 +4351,7 @@
                 MSIE: /(msie|trident) ([\w.]+)/i,
                 MOZILLA: /(mozilla)(?:.*? rv:([\w.]+)|)/i
             };
-            'undefined' != typeof window && (window.browserDetails = window.browserDetails || {});
+            "u" > typeof window && (window.browserDetails = window.browserDetails || {});
             /**
  * Get configuration details for Browser
  *
@@ -4604,7 +4604,7 @@
                     },
                     enumerable: !0,
                     configurable: !0
-                }), /* istanbul ignore next */ Browser.uA = 'undefined' != typeof navigator ? navigator.userAgent : '', Browser;
+                }), /* istanbul ignore next */ Browser.uA = "u" > typeof navigator ? navigator.userAgent : '', Browser;
             }(), EventHandler = /** @class */ function() {
                 function EventHandler() {}
                 return(// to get the event data based on element
@@ -5811,7 +5811,7 @@
                             }
                             else validateMsg = this.errors.invalidKey;
                         } else validateMsg = this.errors.noLicense;
-                        if (validateMsg && 'undefined' != typeof document && !util_isNullOrUndefined(document)) {
+                        if (validateMsg && "u" > typeof document && !util_isNullOrUndefined(document)) {
                             var errorDiv = createElement('div', {
                                 innerHTML: validateMsg + '<span id="license-banner-error" class=".e-license-banner"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><line x1="5" y1="5" x2="15" y2="15" stroke="yellow" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round"></line><line x1="15" y1="5" x2="5" y2="15" stroke="yellow" stroke-width="2.5" stroke-linecap="round" stroke-miterlimit="10"></line></svg></span>',
                                 styles: 'position:fixed;top:0;left:0;right:0;font-family:"Segoe UI";font-size:16px;background:repeating-linear-gradient(45deg,#d70f0f,#d70f0f 10px,#e12121 10px,#e12121 17px);color:#ffffff;z-index:999999999;text-align:center;padding:10px 50px 10px 25px;'
@@ -5926,7 +5926,7 @@
  * @private
  */ // eslint-disable-next-line
                     function() {
-                        if ('undefined' != typeof window) {
+                        if ("u" > typeof window) {
                             // eslint-disable-next-line
                             var num = new Uint16Array(5);
                             return (window.msCrypto || window.crypto).getRandomValues(num);
@@ -6151,7 +6151,7 @@
                     NotifyPropertyChanges
                 ], Component);
             }(Base);
-            'undefined' != typeof window && window.addEventListener('popstate', /* istanbul ignore next */ function() {
+            "u" > typeof window && window.addEventListener('popstate', /* istanbul ignore next */ function() {
                 componentCount = 0;
             });
             var draggable_extends = (extendStatics2 = function(d, b) {
@@ -19684,14 +19684,14 @@
  * @param {createElementParams} makeElement - specifies the element
  * @returns {void}
  */ // eslint-disable-next-line
-                                    function(innerContainer, uniqueID, makeElement) {
+                                    function(innerContainer, uniqueID) {
                                         var svgBoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                                         svgBoot.setAttribute('id', uniqueID), svgBoot.setAttribute('class', 'e-spin-bootstrap'), svgBoot.setAttribute('viewBox', "0 0 64 64"), innerContainer.insertBefore(svgBoot, innerContainer.firstChild);
                                         for(var item = 0; item <= 7; item++){
                                             var bootCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                                             bootCircle.setAttribute('class', CLS_SPINCIRCLE + '_' + item), bootCircle.setAttribute('r', "2"), bootCircle.setAttribute('transform', "translate(32,32)"), svgBoot.appendChild(bootCircle);
                                         }
-                                    }(innerContainer, uniqueID, 0), /**
+                                    }(innerContainer, uniqueID), /**
  *
  * @param {HTMLElement} innerContainer - specifies the element
  * @param {number} radius - specifies the radius
@@ -19916,14 +19916,14 @@
      * @param {number} series - specifies the series
      * @param {string} id - specifies the id
      * @returns {void}
-     */ function(circle, start, end, series, id) {
+     */ function(circle, start, series, id) {
                                         var count = 0;
                                         !// eslint-disable-next-line
                                         function boot_animate(radius) {
                                             globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), // eslint-disable-next-line
                                             globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
-                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, 0, /**
+                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, /**
  *
  * @param {number} begin - specifies the number
  * @param {number} stop  - specifirs the number

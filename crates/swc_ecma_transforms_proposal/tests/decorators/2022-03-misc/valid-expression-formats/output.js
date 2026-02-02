@@ -30,11 +30,11 @@ class Foo {
     #a;
     method() {}
     makeClass() {
-        var _dec, _init_bar;
+        var _dec, _init_bar, _initProto;
         _dec = this.#a;
         return class Nested {
             static{
-                ({ e: [_init_bar] } = _apply_decs_2203_r(this, [
+                ({ e: [_init_bar, _initProto] } = _apply_decs_2203_r(this, [
                     [
                         _dec,
                         0,
@@ -42,7 +42,7 @@ class Foo {
                     ]
                 ], []));
             }
-            bar = _init_bar(this);
+            bar = (_initProto(this), _init_bar(this));
         };
     }
     static{

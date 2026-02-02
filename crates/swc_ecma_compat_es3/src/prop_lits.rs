@@ -1,78 +1,38 @@
+//! babel: `transform-property-literals`
+//!
+//! # Input
+//! ```js
+//! var foo = {
+//!   // changed
+//!   "bar": function () {},
+//!   "1": function () {},
+//!
+//!   // not changed
+//!   "default": 1,
+//!   [a]: 2,
+//!   foo: 1
+//! };
+//! ```
+//!
+//! # Output
+//! ```js
+//! var foo = {
+//!   bar: function () {},
+//!   1: function () {},
+//!
+//!   "default": 1,
+//!   [a]: 2,
+//!   foo: 1
+//! };
+//! ```
+
 use swc_ecma_ast::*;
-use swc_ecma_utils::{is_valid_ident, swc_atoms::Atom};
-use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
-use swc_trace_macro::swc_trace;
 
 /// babel: `transform-property-literals`
-///
-/// # Input
-/// ```js
-/// var foo = {
-///   // changed
-///   "bar": function () {},
-///   "1": function () {},
-///
-///   // not changed
-///   "default": 1,
-///   [a]: 2,
-///   foo: 1
-/// };
-/// ```
-///
-/// # Output
-/// ```js
-/// var foo = {
-///   bar: function () {},
-///   1: function () {},
-///
-///   "default": 1,
-///   [a]: 2,
-///   foo: 1
-/// };
-/// ```
 pub fn property_literals() -> impl Pass {
-    fold_pass(PropertyLiteral)
-}
-
-struct PropertyLiteral;
-
-#[swc_trace]
-impl Fold for PropertyLiteral {
-    standard_only_fold!();
-
-    fn fold_prop_name(&mut self, n: PropName) -> PropName {
-        let n = n.fold_children_with(self);
-
-        match n {
-            PropName::Str(Str {
-                raw, value, span, ..
-            }) if value.as_str().is_some() => {
-                let v = value.as_str().unwrap();
-                if v.is_reserved() || !is_valid_ident(v) {
-                    PropName::Str(Str { span, raw, value })
-                } else {
-                    PropName::Ident(IdentName::new(
-                        // SAFETY: checked above
-                        unsafe { Atom::from_wtf8_unchecked(value.clone()) },
-                        span,
-                    ))
-                }
-            }
-            PropName::Ident(i) => {
-                let IdentName { sym, span, .. } = i;
-                if sym.is_reserved() || sym.contains('-') || sym.contains('.') {
-                    PropName::Str(Str {
-                        span,
-                        raw: None,
-                        value: sym.into(),
-                    })
-                } else {
-                    PropName::Ident(IdentName { span, sym })
-                }
-            }
-            _ => n,
-        }
-    }
+    let mut options = swc_ecma_transformer::Options::default();
+    options.env.es3.property_literals = true;
+    options.into_pass()
 }
 
 #[cfg(test)]
@@ -83,7 +43,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| fold_pass(PropertyLiteral),
+        |_| property_literals(),
         babel_basic,
         r#"var foo = {
   // changed
@@ -100,7 +60,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| fold_pass(PropertyLiteral),
+        |_| property_literals(),
         str_lit,
         r#"'use strict';
 var x = {

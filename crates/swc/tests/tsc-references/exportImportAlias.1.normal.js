@@ -1,6 +1,6 @@
 //// [exportImportAlias.ts]
-// expect no errors here
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// expect no errors here
 (function(A) {
     A.x = 'hello world';
     var Point = function Point(x, y) {

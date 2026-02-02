@@ -9,14 +9,14 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_node_comments"
 repository = "https://github.com/swc-project/swc.git"
-version = "16.0.0"
+version = "18.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-dashmap    = { workspace = true, default-features = false }
+dashmap = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms  = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }

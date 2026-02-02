@@ -6,13 +6,14 @@ use swc_common::Mark;
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
+#[cfg(feature = "es3")]
+use swc_ecma_transforms_compat::es3::reserved_words;
 use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentiation,
     es2017::async_to_generator,
     es2020::optional_chaining,
     es2022::class_properties,
-    es3::reserved_words,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
 
@@ -20,6 +21,7 @@ fn syntax() -> Syntax {
     Syntax::Es(Default::default())
 }
 
+#[cfg(feature = "es3")]
 fn tr(_: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
@@ -31,6 +33,20 @@ fn tr(_: &Tester) -> impl Pass {
         classes(Default::default()),
         block_scoping(unresolved_mark),
         reserved_words(false),
+    )
+}
+
+#[cfg(not(feature = "es3"))]
+fn tr(_: &Tester) -> impl Pass {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
+    (
+        resolver(unresolved_mark, top_level_mark, false),
+        function_name(),
+        class_properties(Default::default(), unresolved_mark),
+        classes(Default::default()),
+        block_scoping(unresolved_mark),
     )
 }
 
@@ -4617,4 +4633,73 @@ class Foo {
 }
 
 console.log(new Foo().search())"
+);
+
+// Test for issue 11422: nested arrow functions should preserve `this` context
+test!(
+    syntax(),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(Default::default(), unresolved_mark),
+            arrow(unresolved_mark),
+            classes(Default::default()),
+            block_scoping(unresolved_mark),
+        )
+    },
+    issue_11422,
+    r#"
+class Sub {
+
+}
+
+class Test extends Sub {
+  isWaitContentRender = false
+  renderOverlay = async () => {
+    (() => {
+      return this;
+    })()
+  }
+}
+
+const test = new Test()
+const render = test.renderOverlay
+"#
+);
+
+test!(
+    syntax(),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(Default::default(), unresolved_mark),
+            arrow(unresolved_mark),
+            classes(Default::default()),
+            block_scoping(unresolved_mark),
+        )
+    },
+    issue_11422_a,
+    r#"
+class Sub {}
+
+class Test extends Sub {
+  isWaitContentRender = false;
+  renderOverlay = async () => {
+    (() => {
+      console.log(this, "__123___");
+    })();
+  };
+}
+
+const test = new Test();
+const render = test.renderOverlay;
+
+render();
+"#
 );

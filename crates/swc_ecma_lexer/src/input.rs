@@ -426,7 +426,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     }
 
     fn bump(&mut self) {
-        self.bump();
+        let _ = Buffer::bump(self);
     }
 
     fn expect_word_token_and_bump(&mut self) -> swc_atoms::Atom {

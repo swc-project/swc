@@ -58,38 +58,37 @@ it("should work with outFileExtension (commonjs)", async () => {
 });
 
 // ESM Types
-it.each([
-    ['es6'],
-    ['nodenext']
-])("should work with outFileExtension (%s)", async (type) => {
-    if (process.platform === "win32") {
-        expect(true).toBeTruthy();
-        return;
-    }
+it.each([["es6"], ["nodenext"]])(
+    "should work with outFileExtension (%s)",
+    async (type) => {
+        if (process.platform === "win32") {
+            expect(true).toBeTruthy();
+            return;
+        }
 
-    const dir = join(__dirname, "..", "..", "tests", "issue-3067");
-    const filename = join(dir, "src", "index.ts");
-    console.log(filename);
-    const { code } = await swc.transformFile(filename, {
-        jsc: {
-            parser: {
-                syntax: "typescript",
-                dynamicImport: true,
+        const dir = join(__dirname, "..", "..", "tests", "issue-3067");
+        const filename = join(dir, "src", "index.ts");
+        console.log(filename);
+        const { code } = await swc.transformFile(filename, {
+            jsc: {
+                parser: {
+                    syntax: "typescript",
+                    dynamicImport: true,
+                },
+                target: "es2020",
+                baseUrl: resolve("."),
+                paths: {
+                    "@print/c": [join(dir, "./packages/c/src/index.js")],
+                },
+                externalHelpers: true,
             },
-            target: "es2020",
-            baseUrl: resolve("."),
-            paths: {
-                "@print/c": [join(dir, "./packages/c/src/index.js")],
+            module: {
+                type,
+                resolveFully: true,
+                outFileExtension: "mjs",
             },
-            externalHelpers: true,
-        },
-        module: {
-            type,
-            resolveFully: true,
-            outFileExtension: "mjs",
-        },
-    });
-    expect(code).toMatchInlineSnapshot(`
+        });
+        expect(code).toMatchInlineSnapshot(`
         "import { displayB } from "./inner/b/index.mjs";
         import { displayC } from "../packages/c/src/index.mjs";
         import { merge } from "lodash";
@@ -105,7 +104,8 @@ it.each([
         display();
         "
     `);
-});
+    }
+);
 
 it("should work with outFileExtension (umd)", async () => {
     if (process.platform === "win32") {
@@ -253,7 +253,7 @@ it("should work with outFileExtension (systemjs)", async () => {
             outFileExtension: "mjs",
         },
     });
-    writeFileSync('foo2.txt', code)
+
     // TODO: it seems like dynamic import does not do a full resolve - this might be a fix for a different PR
     expect(code).toMatchInlineSnapshot(`
 "System.register([

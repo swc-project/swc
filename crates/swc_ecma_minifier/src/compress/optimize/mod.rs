@@ -40,6 +40,7 @@ mod arguments;
 mod bools;
 mod conditionals;
 mod dead_code;
+mod drop_console;
 mod evaluate;
 mod if_return;
 mod iife;
@@ -50,6 +51,7 @@ mod props;
 mod rest_params;
 mod sequences;
 mod strings;
+mod unsafes;
 mod unused;
 mod util;
 
@@ -179,14 +181,12 @@ bitflags! {
 
         const IsNestedIfReturnMerging = 1 << 24;
 
-        const DontInvokeIife = 1 << 25;
+        const InWithStmt = 1 << 25;
 
-        const InWithStmt = 1 << 26;
-
-        const InParam = 1 << 27;
+        const InParam = 1 << 26;
 
         /// `true` while we are inside a class body.
-        const InClass = 1 << 28;
+        const InClass = 1 << 27;
     }
 }
 
@@ -384,8 +384,7 @@ impl Optimizer<'_> {
 
         if self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL)
         {
@@ -652,6 +651,16 @@ impl Optimizer<'_> {
             Expr::Fn(_) => {
                 report_change!(
                     "ignore_return_value: Dropping unused fn expr as it does not have any side \
+                     effect"
+                );
+                self.changed = true;
+                return None;
+            }
+
+            // Arrow function expression cannot have a side effect.
+            Expr::Arrow(_) => {
+                report_change!(
+                    "ignore_return_value: Dropping unused arrow expr as it does not have any side \
                      effect"
                 );
                 self.changed = true;
@@ -1683,6 +1692,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
+        self.drop_arguments_of_symbol_call(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
@@ -1690,11 +1700,7 @@ impl VisitMut for Optimizer<'_> {
         n.decorators.visit_mut_with(self);
 
         {
-            let ctx = self
-                .ctx
-                .clone()
-                .with(BitCtx::DontInvokeIife, true)
-                .with(BitCtx::IsUpdateArg, false);
+            let ctx = self.ctx.clone().with(BitCtx::IsUpdateArg, false);
             n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
@@ -1708,6 +1714,12 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        {
+            if n.super_class.is_none() {
+                self.drop_empty_constructors(n);
+            }
         }
     }
 
@@ -1918,6 +1930,12 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.compress_typeofs(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
+        self.drop_console(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -2984,8 +3002,7 @@ impl VisitMut for Optimizer<'_> {
 
         let uses_eval = self
             .data
-            .scopes
-            .get(&self.ctx.scope)
+            .get_scope(self.ctx.scope)
             .unwrap()
             .contains(ScopeData::HAS_EVAL_CALL);
 

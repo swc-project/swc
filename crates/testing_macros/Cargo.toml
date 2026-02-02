@@ -25,6 +25,6 @@ quote         = { workspace = true, default-features = false }
 regex         = { workspace = true }
 relative-path = { workspace = true, default-features = false }
 
-  [dependencies.syn]
-  features  = ["fold", "parsing", "full", "extra-traits"]
-  workspace = true
+[dependencies.syn]
+features  = ["fold", "parsing", "full", "extra-traits"]
+workspace = true

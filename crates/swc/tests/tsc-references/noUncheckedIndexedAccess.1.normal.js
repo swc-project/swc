@@ -71,13 +71,13 @@ var e15 = symbolMap[s]; // Should OK
 symbolMap[s] = undefined; // Should error
 var variadicOk1 = nonEmptyStringArray[0]; // Should OK
 var variadicError1 = nonEmptyStringArray[1]; // Should error
-var fn1 = function(key) {
+var fn1 = function fn1(key) {
     return myRecord1[key];
 }; // Should OK
-var fn2 = function(key) {
+var fn2 = function fn2(key) {
     return myRecord2[key];
 }; // Should OK
-var fn3 = function(key) {
+var fn3 = function fn3(key) {
     myRecord2[key] = undefined; // Should error
     var v = myRecord2[key]; // Should error
 };

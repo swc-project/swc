@@ -13,10 +13,7 @@ version     = "0.1.0"
 [dependencies]
 anyhow = { workspace = true, default-features = false }
 chrono = { workspace = true, default-features = false }
-clap = { version = "4.4.6", features = [
-    "derive",
-    "std",
-], default-features = false }
+clap         = { version = "4.4.6", features = ["derive"] }
 semver = { workspace = true, default-features = false }
 serde = { workspace = true, default-features = false }
 serde_derive = { workspace = true, default-features = false }

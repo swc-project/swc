@@ -3,18 +3,18 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 callIt({
-    produce: function() {
+    produce: function produce() {
         return 0;
     },
-    consume: function(n) {
+    consume: function consume(n) {
         return n.toFixed();
     }
 });
 callIt({
-    produce: function(_a) {
+    produce: function produce(_a) {
         return 0;
     },
-    consume: function(n) {
+    consume: function consume(n) {
         return n.toFixed();
     }
 });
@@ -22,7 +22,7 @@ callIt({
     produce: function produce() {
         return 0;
     },
-    consume: function(n) {
+    consume: function consume(n) {
         return n.toFixed();
     }
 });
@@ -42,14 +42,14 @@ callItT([
         return n.toFixed();
     }
 ]);
-var inferTypeFn = function(generic) {
+var inferTypeFn = function inferTypeFn(generic) {
     return generic;
 };
 var myGeneric = inferTypeFn({
-    retrieveGeneric: function(parameter) {
+    retrieveGeneric: function retrieveGeneric(parameter) {
         return 5;
     },
-    operateWithGeneric: function(generic) {
+    operateWithGeneric: function operateWithGeneric(generic) {
         return generic.toFixed();
     }
 });
@@ -59,12 +59,12 @@ make({
     mutations: {
         foo: function foo1() {}
     },
-    action: function(a) {
+    action: function action(a) {
         a.foo();
     }
 });
 foo({
-    a: function() {
+    a: function a() {
         return 42;
     },
     b: function b(a) {}
@@ -83,24 +83,24 @@ foo({
 });
 function test(foo1) {}
 test({
-    a: function() {
+    a: function a() {
         return 0;
     },
-    b: function(a) {
+    b: function b(a) {
         return 'a';
     },
-    c: function(b) {
+    c: function c(b) {
         var _$x = b;
     }
 });
 test({
-    a: function() {
+    a: function a() {
         return 0;
     },
-    b: function(a) {
+    b: function b(a) {
         return a;
     },
-    c: function(b) {
+    c: function c(b) {
         var _$x = b;
     }
 });
@@ -134,18 +134,18 @@ function simplified(props) {}
 function whatIWant(props) {}
 function nonObject(generator, receiver) {}
 simplified({
-    generator: function() {
+    generator: function generator() {
         return 123;
     },
-    receiver: function(t) {
+    receiver: function receiver(t) {
         return console.log(t + 2);
     }
 });
 whatIWant({
-    generator: function(bob) {
+    generator: function generator(bob) {
         return bob ? 1 : 2;
     },
-    receiver: function(t) {
+    receiver: function receiver(t) {
         return console.log(t + 2);
     }
 });
@@ -161,81 +161,81 @@ function example(options) {
     };
 }
 example({
-    fetch: function(params) {
+    fetch: function fetch(params) {
         return 123;
     },
-    map: function(number) {
+    map: function map(number) {
         return String(number);
     }
 });
 example({
-    fetch: function(params, foo1) {
+    fetch: function fetch(params, foo1) {
         return 123;
     },
-    map: function(number) {
+    map: function map(number) {
         return String(number);
     }
 });
 example({
-    fetch: function(params, foo1) {
+    fetch: function fetch(params, foo1) {
         return 123;
     },
-    map: function(number) {
+    map: function map(number) {
         return String(number);
     }
 });
 branch({
     test: x,
-    if: function(t) {
+    if: function _if(t) {
         return t === "a";
     },
-    then: function(u) {
+    then: function then(u) {
         var test1 = u;
     }
 });
 Foo(_object_spread({}, {
-    a: function(x1) {
+    a: function a(x1) {
         return 10;
     },
-    b: function(arg) {
+    b: function b(arg) {
         arg.toString();
     }
 }));
 var resNested = nested({
     prop: {
-        produce: function(a) {
+        produce: function produce(a) {
             return [
                 a
             ];
         },
-        consume: function(arg) {
+        consume: function consume(arg) {
             return arg.join(",");
         }
     }
 });
 var resTwoConsumers = twoConsumers({
-    a: function(arg) {
+    a: function a(arg) {
         return [
             arg
         ];
     },
-    consume1: function(arg1) {},
-    consume2: function(arg2) {}
+    consume1: function consume1(arg1) {},
+    consume2: function consume2(arg2) {}
 });
 var resMultipleProducersBeforeConsumers = multipleProducersBeforeConsumers({
-    a: function(arg) {
+    a: function a(arg) {
         return [
             arg
         ];
     },
-    b: function(arg) {
+    b: function b(arg) {
         return Number(arg);
     },
-    consume1: function(arg1) {},
-    consume2: function(arg2) {}
+    consume1: function consume1(arg1) {},
+    consume2: function consume2(arg2) {}
 });
 var resWithConditionalExpression = withConditionalExpression({
-    a: function(arg) {
+    a: function a(arg) {
         return [
             arg
         ];
@@ -245,42 +245,42 @@ var resWithConditionalExpression = withConditionalExpression({
     } : function(arg) {
         return "two";
     },
-    c: function(arg) {
+    c: function c(arg) {
         return Boolean(arg);
     }
 });
 var resOnion = onion({
-    a: function(arg) {
+    a: function a(arg) {
         return [
             arg
         ];
     },
     nested: {
-        b: function(arg) {
+        b: function b(arg) {
             return arg.join(",");
         },
         nested2: {
-            c: function(arg) {
+            c: function c(arg) {
                 return Boolean(arg);
             }
         }
     }
 });
 var resOnion2 = onion2({
-    a: function(arg) {
+    a: function a(arg) {
         return [
             arg
         ];
     },
     nested: {
-        b: function(arg) {
+        b: function b(arg) {
             return arg.join(",");
         },
-        c: function(arg) {
+        c: function c(arg) {
             return Number(arg);
         },
         nested2: {
-            d: function(arg) {
+            d: function d(arg) {
                 return Boolean(arg);
             }
         }
@@ -290,11 +290,11 @@ var distantRes = distant({
     foo: {
         bar: {
             baz: {
-                producer: function(arg) {
+                producer: function producer(arg) {
                     return 1;
                 }
             }
         }
     },
-    consumer: function(val) {}
+    consumer: function consumer(val) {}
 });

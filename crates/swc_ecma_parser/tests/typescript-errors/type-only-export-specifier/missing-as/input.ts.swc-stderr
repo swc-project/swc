@@ -1,4 +1,4 @@
-  x Expected ',', got 'bar'
+  x Expected ',', got 'ident'
    ,-[$DIR/tests/typescript-errors/type-only-export-specifier/missing-as/input.ts:1:1]
  1 | export { type foo bar }
    :                   ^^^

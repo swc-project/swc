@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_css_parser"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "18.0.0"
 
 [lib]
 bench = false
@@ -16,23 +16,23 @@ bench = false
 debug = []
 
 [dependencies]
-lexical = { workspace = true, default-features = true }
-serde   = { workspace = true, default-features = false }
+lexical = { workspace = true }
+serde = { workspace = true, default-features = false }
 
-swc_atoms   = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common  = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast" }
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true, default-features = true }
-serde_json                = { workspace = true, default-features = false }
+codspeed-criterion-compat = { workspace = true }
+serde_json = { workspace = true, default-features = false }
 
-swc_css_ast = { version = "16.0.0", path = "../swc_css_ast", features = [
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", features = [
   "serde-impl",
 ] }
-swc_css_visit = { version = "16.0.0", path = "../swc_css_visit", default-features = false }
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }
 swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }
 
 [[bench]]
 harness = false

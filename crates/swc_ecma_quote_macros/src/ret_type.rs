@@ -51,7 +51,7 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
         }
     }
 
-    bail!("Unknown quote type: {:?}", ty);
+    bail!("Unknown quote type: {ty:?}");
 }
 
 fn parse<T>(
@@ -72,7 +72,7 @@ where
     );
     let mut parser = Parser::new_from(lexer);
     op(&mut parser)
-        .map_err(|err| anyhow!("{:?}", err))
+        .map_err(|err| anyhow!("{err:?}"))
         .with_context(|| format!("failed to parse input as `{}`", type_name::<T>()))
         .map(|val| BoxWrapper(Box::new(val)))
 }

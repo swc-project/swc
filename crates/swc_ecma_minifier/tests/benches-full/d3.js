@@ -1,8 +1,8 @@
 !// https://d3js.org v6.3.1 Copyright 2020 Mike Bostock
 function(global, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
+    'object' == typeof exports && "u" > typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
         'exports'
-    ], factory) : factory((global = 'undefined' != typeof globalThis ? globalThis : global || self).d3 = global.d3 || {});
+    ], factory) : factory((global = "u" > typeof globalThis ? globalThis : global || self).d3 = global.d3 || {});
 }(this, function(exports1) {
     'use strict';
     function ascending(a, b) {

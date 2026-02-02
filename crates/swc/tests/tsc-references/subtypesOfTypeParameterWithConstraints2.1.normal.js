@@ -1,6 +1,6 @@
 //// [subtypesOfTypeParameterWithConstraints2.ts]
-// checking whether other types are subtypes of type parameters with constraints
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// checking whether other types are subtypes of type parameters with constraints
 function f1(x, y) {
     var r = true ? x : y;
     var r = true ? y : x;

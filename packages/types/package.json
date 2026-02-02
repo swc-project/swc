@@ -10,7 +10,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
+        "url": "git+https://github.com/swc-project/swc.git",
+        "directory": "packages/types"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",

@@ -31,7 +31,7 @@
             });
         /******/ }, /******/ /******/ // define __esModule on exports
         /******/ __webpack_require__.r = function(exports1) {
-            "undefined" != typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
+            "u" > typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
                 value: "Module"
             }), /******/ Object.defineProperty(exports1, "__esModule", {
                 value: !0
@@ -650,7 +650,7 @@
         /* 13 */ /***/ function(module1, exports1, __webpack_require__) {
             var superPropBase = __webpack_require__(227);
             function _get(target, property, receiver) {
-                return "undefined" != typeof Reflect && Reflect.get ? module1.exports = _get = Reflect.get : module1.exports = _get = function(target, property, receiver) {
+                return "u" > typeof Reflect && Reflect.get ? module1.exports = _get = Reflect.get : module1.exports = _get = function(target, property, receiver) {
                     var base = superPropBase(target, property);
                     if (base) {
                         var desc = Object.getOwnPropertyDescriptor(base, property);
@@ -878,14 +878,14 @@
                             x: _inputImageWrapper.size.x / 2 | 0,
                             // eslint-disable-next-line no-bitwise
                             y: _inputImageWrapper.size.y / 2 | 0
-                        }) : _inputImageWrapper, _patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* calculatePatchSize */ a)(_config.patchSize, _currentImageWrapper.size), _numPatches.x = _currentImageWrapper.size.x / _patchSize.x | 0, _numPatches.y = _currentImageWrapper.size.y / _patchSize.y | 0, _binaryImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_currentImageWrapper.size, void 0, Uint8Array, !1), _labelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_patchSize, void 0, Array, !0), skeletonImageData = new ArrayBuffer(65536), _subImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_patchSize, new Uint8Array(skeletonImageData, 0, _patchSize.x * _patchSize.y)), _skelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_patchSize, new Uint8Array(skeletonImageData, _patchSize.x * _patchSize.y * 3, _patchSize.x * _patchSize.y), void 0, !0), _skeletonizer = Object(_skeletonizer__WEBPACK_IMPORTED_MODULE_8__./* default */ a)("undefined" != typeof window ? window : "undefined" != typeof self ? self : global, {
+                        }) : _inputImageWrapper, _patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* calculatePatchSize */ a)(_config.patchSize, _currentImageWrapper.size), _numPatches.x = _currentImageWrapper.size.x / _patchSize.x | 0, _numPatches.y = _currentImageWrapper.size.y / _patchSize.y | 0, _binaryImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_currentImageWrapper.size, void 0, Uint8Array, !1), _labelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_patchSize, void 0, Array, !0), skeletonImageData = new ArrayBuffer(65536), _subImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_patchSize, new Uint8Array(skeletonImageData, 0, _patchSize.x * _patchSize.y)), _skelImageWrapper = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_patchSize, new Uint8Array(skeletonImageData, _patchSize.x * _patchSize.y * 3, _patchSize.x * _patchSize.y), void 0, !0), _skeletonizer = Object(_skeletonizer__WEBPACK_IMPORTED_MODULE_8__./* default */ a)("u" > typeof window ? window : "u" > typeof self ? self : global, {
                             size: _patchSize.x
                         }, skeletonImageData), _imageToPatchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a({
                             // eslint-disable-next-line no-bitwise
                             x: _currentImageWrapper.size.x / _subImageWrapper.size.x | 0,
                             // eslint-disable-next-line no-bitwise
                             y: _currentImageWrapper.size.y / _subImageWrapper.size.y | 0
-                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, Int32Array, !0), _config.useWorker || "undefined" == typeof document || (_canvasContainer_dom.binary = document.createElement("canvas"), _canvasContainer_dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer_dom.binary), _canvasContainer_ctx.binary = _canvasContainer_dom.binary.getContext("2d"), _canvasContainer_dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer_dom.binary.height = _binaryImageWrapper.size.y);
+                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, Int32Array, !0), !_config.useWorker && "u" > typeof document && (_canvasContainer_dom.binary = document.createElement("canvas"), _canvasContainer_dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer_dom.binary), _canvasContainer_ctx.binary = _canvasContainer_dom.binary.getContext("2d"), _canvasContainer_dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer_dom.binary.height = _binaryImageWrapper.size.y);
                     },
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* halfSample */ f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* otsuThreshold */ i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer_dom.binary, 255);
@@ -3188,7 +3188,7 @@
             };
         /***/ },
         /* 152 */ /***/ function(module1, exports1) {
-            "undefined" == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(/* function FrameRequestCallback */ callback) {
+            "u" > typeof window && !window.requestAnimationFrame && (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(/* function FrameRequestCallback */ callback) {
                 window.setTimeout(callback, 1000 / 60);
             }), "function" != typeof Math.imul && /* eslint-disable no-bitwise */ (Math.imul = function(a, b) {
                 var al = 0xffff & a, bl = 0xffff & b;
@@ -3217,7 +3217,7 @@
         /***/ },
         /* 154 */ /***/ function(module1, exports1) {
             module1.exports = function(arr, i) {
-                var _s, _e, _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+                var _s, _e, _i = null == arr ? null : "u" > typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
                 if (null != _i) {
                     var _arr = [], _n = !0, _d = !1;
                     try {
@@ -3973,7 +3973,7 @@
         /***/ },
         /* 225 */ /***/ function(module1, exports1) {
             module1.exports = function(iter) {
-                if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
+                if ("u" > typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
             }, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
         /***/ },
         /* 226 */ /***/ function(module1, exports1) {
@@ -4755,7 +4755,7 @@
         /***/ },
         /* 250 */ /***/ function(module1, exports1) {
             module1.exports = function() {
-                if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
                     return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5134,7 +5134,7 @@
             }(), code_128_reader = /*#__PURE__*/ function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -6389,7 +6389,7 @@
             ], ean_reader = /*#__PURE__*/ function(_BarcodeReader) {
                 inherits_default()(EANReader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -6662,7 +6662,7 @@
             ]), code_39_reader = /*#__PURE__*/ function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -6786,7 +6786,7 @@
             }(barcode_reader), get = __webpack_require__(13), get_default = /*#__PURE__*/ __webpack_require__.n(get), patterns_IOQ = /[IOQ]/g, patterns_AZ09 = /[A-Z0-9]{17}/, code_39_vin_reader = /*#__PURE__*/ function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -6873,7 +6873,7 @@
             ], codabar_reader = /*#__PURE__*/ function(_BarcodeReader) {
                 inherits_default()(NewCodabarReader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7059,7 +7059,7 @@
             }(barcode_reader), upc_reader = /*#__PURE__*/ function(_EANReader) {
                 inherits_default()(UPCReader, _EANReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7090,7 +7090,7 @@
             }(ean_reader), ean_8_reader = /*#__PURE__*/ function(_EANReader) {
                 inherits_default()(EAN8Reader, _EANReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7130,7 +7130,7 @@
             }(ean_reader), ean_2_reader = /*#__PURE__*/ function(_EANReader) {
                 inherits_default()(EAN2Reader, _EANReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7187,7 +7187,7 @@
             ], ean_5_reader = /*#__PURE__*/ function(_EANReader) {
                 inherits_default()(EAN5Reader, _EANReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7252,7 +7252,7 @@
             /* harmony default export */ var upc_e_reader = /*#__PURE__*/ function(_EANReader) {
                 inherits_default()(UPCEReader, _EANReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7388,7 +7388,7 @@
             }(ean_reader), i2of5_reader = /*#__PURE__*/ function(_BarcodeReader) {
                 inherits_default()(I2of5Reader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7729,7 +7729,7 @@
             }, 0), _2of5_reader = /*#__PURE__*/ function(_BarcodeReader) {
                 inherits_default()(TwoOfFiveReader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -7923,7 +7923,7 @@
             ]), code_93_reader = /*#__PURE__*/ function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -8090,7 +8090,7 @@
             }(barcode_reader), code_32_reader_patterns_AEIO = /[AEIO]/g, code_32_reader = /*#__PURE__*/ function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -8268,12 +8268,12 @@
                         });
                     }
                     return function() {
-                        if ("undefined" != typeof document) {
+                        if ("u" > typeof document) {
                             var $debug = document.querySelector("#debug.detection");
                             _canvas_dom.frequency = document.querySelector("canvas.frequency"), !_canvas_dom.frequency && (_canvas_dom.frequency = document.createElement("canvas"), _canvas_dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas_dom.frequency)), _canvas_ctx.frequency = _canvas_dom.frequency.getContext("2d"), _canvas_dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas_dom.pattern && (_canvas_dom.pattern = document.createElement("canvas"), _canvas_dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas_dom.pattern)), _canvas_ctx.pattern = _canvas_dom.pattern.getContext("2d"), _canvas_dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas_dom.overlay && (_canvas_ctx.overlay = _canvas_dom.overlay.getContext("2d"));
                         }
                     }(), initReaders(), function() {
-                        if ("undefined" != typeof document) {
+                        if ("u" > typeof document) {
                             var i, vis = [
                                 {
                                     node: _canvas_dom.frequency,
@@ -8372,7 +8372,7 @@
             }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = /*#__PURE__*/ __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = /*#__PURE__*/ __webpack_require__.n(regenerator), pick = __webpack_require__(85), pick_default = /*#__PURE__*/ __webpack_require__.n(pick), wrapNativeSuper = __webpack_require__(86), Exception_Exception = /*#__PURE__*/ function(_Error) {
                 inherits_default()(Exception, _Error);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("u" < typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -8587,7 +8587,7 @@
             }, barcode_locator = __webpack_require__(23);
             // CONCATENATED MODULE: ./src/quagga/getViewPort.ts
             function getViewPort_getViewPort(target) {
-                if ("undefined" == typeof document) return null;
+                if ("u" < typeof document) return null;
                  // Check if target is already a DOM element
                 if (target instanceof HTMLElement && target.nodeName && 1 === target.nodeType) return target;
                  // Use '#interactive.viewport' as a fallback selector (backwards compatibility)
@@ -8659,10 +8659,10 @@
                                 if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
                                 for(; offset < length && 0xff === dataView.getUint8(offset);){
                                     if (0xe1 === dataView.getUint8(offset + 1)) return function(file, start, exifTags) {
-                                        if ("Exif" !== function(buffer, start, length) {
+                                        if ("Exif" !== function(buffer, start) {
                                             for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
                                             return outstr;
-                                        }(file, start, 0)) return !1;
+                                        }(file, start)) return !1;
                                         var bigEnd, tiffOffset = start + 6;
                                         if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
                                         else {
@@ -8671,16 +8671,16 @@
                                         }
                                         if (0x002a !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
                                         var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
-                                        return !(firstIFDOffset < 0x00000008) && function(file, tiffStart, dirStart, strings, bigEnd) {
+                                        return !(firstIFDOffset < 0x00000008) && function(file, dirStart, strings, bigEnd) {
                                             for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
                                                 var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
-                                                tag && (tags[tag] = function(file, entryOffset, tiffStart, dirStart, bigEnd) {
+                                                tag && (tags[tag] = function(file, entryOffset, bigEnd) {
                                                     var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
                                                     return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
-                                                }(file, entryOffset, 0, 0, bigEnd));
+                                                }(file, entryOffset, bigEnd));
                                             }
                                             return tags;
-                                        }(file, 0, tiffOffset + firstIFDOffset, exifTags, bigEnd);
+                                        }(file, tiffOffset + firstIFDOffset, exifTags, bigEnd);
                                     }(dataView, offset + 4, exifTags);
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }
@@ -9021,7 +9021,7 @@
                         workerPool.push(workerThread), workerPool.length >= capacity && cb && cb();
                     };
                     if (config) for(var i = 0; i < increaseBy; i++)!function(config, inputStream, cb) {
-                        var blob, factorySource, blobURL = ("undefined" != typeof __factorySource__ && // @ts-ignore
+                        var blob, factorySource, blobURL = ("u" > typeof __factorySource__ && // @ts-ignore
                         (factorySource = __factorySource__), /* jshint ignore:end */ blob = new Blob([
                             "(" + workerInterface.toString() + ")(" + factorySource + ");"
                         ], {
@@ -9139,7 +9139,7 @@
                                 var _context$config, _context$config$input, _context$config2, _context$config2$inpu, viewport = getViewPort_getViewPort(null == context || null == (_context$config = context.config) || null == (_context$config$input = _context$config.inputStream) ? void 0 : _context$config$input.target), type = null == context || null == (_context$config2 = context.config) || null == (_context$config2$inpu = _context$config2.inputStream) ? void 0 : _context$config2$inpu.type;
                                 if (!type) return null;
                                 var container = function(canvasSize) {
-                                    if ("undefined" != typeof document) {
+                                    if ("u" > typeof document) {
                                         var image = getCanvasAndContext("canvas.imgBuffer", "imgBuffer"), overlay = getCanvasAndContext("canvas.drawingBuffer", "drawingBuffer");
                                         return image.canvas.width = overlay.canvas.width = canvasSize.x, image.canvas.height = overlay.canvas.height = canvasSize.y, {
                                             dom: {
@@ -9165,7 +9165,7 @@
                                     }
                                 };
                                 var dom = container.dom;
-                                return "undefined" != typeof document && viewport && ("ImageStream" !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image), viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay)), container;
+                                return "u" > typeof document && viewport && ("ImageStream" !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image), viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay)), container;
                             }(this.context);
                             if (container) {
                                 var ctx = container.ctx, dom = container.dom;
@@ -9396,7 +9396,7 @@
                         locator: {
                             halfSample: !1
                         }
-                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("undefined" == typeof Blob || "undefined" == typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
+                    }, config)).numOfWorkers > 0 && (config.numOfWorkers = 0), config.numOfWorkers > 0 && ("u" < typeof Blob || "u" < typeof Worker) && (console.warn("* no Worker and/or Blob support - forcing numOfWorkers to 0"), config.numOfWorkers = 0), new Promise(function(resolve, reject) {
                         try {
                             _this.init(config, function() {
                                 events.once("processed", function(result) {

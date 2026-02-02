@@ -25,7 +25,6 @@
     "eslint.enable": false,
     // Rust analyzer has a weird bug related to features of cargo, but if we enable workspace check, it will be fixed.
     "rust-analyzer.check.workspace": true,
-    "rust-analyzer.check.features": ["plugin"],
     "rust-analyzer.check.command": "clippy",
     // SWC project is too complex to use rust-analyzer
     "rust-analyzer.diagnostics.enable": false,

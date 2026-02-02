@@ -6,14 +6,14 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_ext_transforms"
 repository    = { workspace = true }
-version       = "23.0.0"
+version       = "26.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-phf            = { workspace = true, features = ["macros"], default-features = false }
-swc_common     = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast   = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_utils = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+phf = { workspace = true, features = ["macros"], default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }

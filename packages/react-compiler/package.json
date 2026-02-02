@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler",
-  "version": "1.14.0",
+  "version": "1.15.11",
   "description": "SWC support for React Compiler",
   "homepage": "https://swc.rs",
   "main": "./index.js",
@@ -16,7 +16,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/swc-project/swc.git"
+    "url": "git+https://github.com/swc-project/swc.git",
+    "directory": "packages/react-compiler"
   },
   "bugs": {
     "url": "https://github.com/swc-project/swc/issues"
@@ -38,7 +39,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "types": "./index.d.ts",
   "scripts": {
@@ -46,8 +48,8 @@
     "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
     "pack": "wasm-pack",
     "build:ts": "tsc -d",
-    "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_react_compiler_node --output-dir . --release",
-    "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_react_compiler_node --output-dir .",
+    "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir . --release",
+    "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../Cargo.toml -p binding_react_compiler_node --output-dir .",
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
     "version": "napi version --npm-dir scripts/npm"
   },

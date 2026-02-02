@@ -1,5 +1,4 @@
-use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
-use swc_plugin_proxy::AllocatedBytesPtr;
+use swc_common::plugin::serialized::PluginSerializedBytes;
 
 use crate::runtime;
 
@@ -27,7 +26,7 @@ pub fn write_into_memory_view<F>(
 where
     F: Fn(&mut dyn runtime::Caller<'_>, usize) -> u32,
 {
-    let serialized_len = serialized_bytes.as_ptr().1;
+    let serialized_len = serialized_bytes.as_slice().len();
 
     let ptr_start = get_allocated_ptr(view, serialized_len);
     let serialized_size = serialized_len
@@ -51,7 +50,7 @@ pub fn allocate_return_values_into_guest(
     allocated_ret_ptr: u32,
     serialized_bytes: &PluginSerializedBytes,
 ) {
-    let serialized_bytes_len: usize = serialized_bytes.as_ptr().1;
+    let serialized_bytes_len: usize = serialized_bytes.as_slice().len();
     let serialized_bytes_len = serialized_bytes_len
         .try_into()
         .expect("Should be able to convert size");
@@ -70,11 +69,22 @@ pub fn allocate_return_values_into_guest(
     let (allocated_ptr, allocated_ptr_len) =
         write_into_memory_view(caller, serialized_bytes, |_, _| guest_memory_ptr);
 
-    let allocated_bytes =
-        VersionedSerializable::new(AllocatedBytesPtr(allocated_ptr, allocated_ptr_len));
-    // Retuning (allocated_ptr, len) into caller (plugin)
-    let comment_ptr_serialized =
-        PluginSerializedBytes::try_serialize(&allocated_bytes).expect("Should be serializable");
-
-    write_into_memory_view(caller, &comment_ptr_serialized, |_, _| allocated_ret_ptr);
+    // We cannot use cbor serialization because it is a variable-length encoding.
+    let allocated_fatptr = {
+        let allocated_ptr = allocated_ptr.to_le_bytes();
+        let allocated_ptr_len = allocated_ptr_len.to_le_bytes();
+        [
+            allocated_ptr[0],
+            allocated_ptr[1],
+            allocated_ptr[2],
+            allocated_ptr[3],
+            allocated_ptr_len[0],
+            allocated_ptr_len[1],
+            allocated_ptr_len[2],
+            allocated_ptr_len[3],
+        ]
+    };
+    caller
+        .write_buf(allocated_ret_ptr, &allocated_fatptr)
+        .expect("Should able to write into memory view");
 }

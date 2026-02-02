@@ -1,9 +1,6 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{
-    iter::{self, once},
-    sync::RwLock,
-};
+use std::sync::RwLock;
 
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
@@ -24,12 +21,13 @@ use swc_common::{
 };
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
+use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_utils::{
     drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
     StmtLike,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::VisitMut;
 
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
@@ -208,17 +206,17 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 /// ```js
 /// import React from 'react';
 /// ```
-pub fn jsx<C>(
+pub fn hook<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
     options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
-) -> impl Pass + VisitMut
+) -> impl VisitMutHook<()>
 where
     C: Comments,
 {
-    visit_mut_pass(Jsx {
+    Jsx {
         cm: cm.clone(),
         top_level_mark,
         unresolved_mark,
@@ -247,6 +245,26 @@ where
             .throw_if_namespace
             .unwrap_or_else(default_throw_if_namespace),
         top_level_node: true,
+    }
+}
+
+// Re-export for compatibility
+pub fn jsx<C>(
+    cm: Lrc<SourceMap>,
+    comments: Option<C>,
+    options: Options,
+    top_level_mark: Mark,
+    unresolved_mark: Mark,
+) -> impl Pass + VisitMut
+where
+    C: Comments,
+{
+    use swc_ecma_hooks::VisitMutWithHook;
+    use swc_ecma_visit::visit_mut_pass;
+
+    visit_mut_pass(VisitMutWithHook {
+        hook: hook(cm, comments, options, top_level_mark, unresolved_mark),
+        context: (),
     })
 }
 
@@ -471,6 +489,22 @@ impl<C> Jsx<C>
 where
     C: Comments,
 {
+    /// Process JSX attribute value, handling JSXElements and JSXFragments
+    fn process_attr_value(&mut self, value: Option<JSXAttrValue>) -> Box<Expr> {
+        match value {
+            Some(JSXAttrValue::JSXElement(el)) => Box::new(self.jsx_elem_to_expr(*el)),
+            Some(JSXAttrValue::JSXFragment(frag)) => Box::new(self.jsx_frag_to_expr(frag)),
+            Some(JSXAttrValue::JSXExprContainer(container)) => match container.expr {
+                JSXExpr::Expr(e) => e,
+                JSXExpr::JSXEmptyExpr(_) => panic!("empty expression container"),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            },
+            Some(v) => jsx_attr_value_to_expr(v).expect("empty expression container?"),
+            None => true.into(),
+        }
+    }
+
     fn inject_runtime<T, F>(&mut self, body: &mut Vec<T>, inject: F)
     where
         T: StmtLike,
@@ -595,14 +629,16 @@ where
                         .clone()
                 };
 
-                let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
-
+                // Build args Vec directly
                 let args = if self.development {
-                    args.chain(once(Expr::undefined(DUMMY_SP).as_arg()))
-                        .chain(once(use_jsxs.as_arg()))
-                        .collect()
+                    vec![
+                        fragment.as_arg(),
+                        props_obj.as_arg(),
+                        Expr::undefined(DUMMY_SP).as_arg(),
+                        use_jsxs.as_arg(),
+                    ]
                 } else {
-                    args.collect()
+                    vec![fragment.as_arg(), props_obj.as_arg()]
                 };
 
                 CallExpr {
@@ -614,19 +650,24 @@ where
                 .into()
             }
             Runtime::Classic => {
+                // Build args Vec directly for better performance
+                let children_capacity = el.children.len();
+                let mut args = Vec::with_capacity(2 + children_capacity);
+
+                args.push((*self.pragma_frag).clone().as_arg());
+                args.push(Lit::Null(Null { span: DUMMY_SP }).as_arg());
+
+                // Add children
+                for child in el.children {
+                    if let Some(expr) = self.jsx_elem_child_to_expr(child) {
+                        args.push(expr);
+                    }
+                }
+
                 CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
-                    args: iter::once((*self.pragma_frag).clone().as_arg())
-                        // attribute: null
-                        .chain(iter::once(Lit::Null(Null { span: DUMMY_SP }).as_arg()))
-                        .chain({
-                            // Children
-                            el.children
-                                .into_iter()
-                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
-                        })
-                        .collect(),
+                    args,
                     ..Default::default()
                 }
                 .into()
@@ -662,9 +703,11 @@ where
             Runtime::Automatic => {
                 // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
 
+                // Pre-allocate with estimated capacity
+                let estimated_props_capacity = el.opening.attrs.len() + 1; // attrs + potential children
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
-                    props: Vec::new(),
+                    props: Vec::with_capacity(estimated_props_capacity),
                 };
 
                 let mut key = None;
@@ -734,11 +777,7 @@ where
                                         continue;
                                     }
 
-                                    let value = match attr.value {
-                                        Some(v) => jsx_attr_value_to_expr(v)
-                                            .expect("empty expression container?"),
-                                        None => true.into(),
-                                    };
+                                    let value = self.process_attr_value(attr.value);
 
                                     // TODO: Check if `i` is a valid identifier.
                                     let key = if i.sym.contains('-') {
@@ -773,11 +812,7 @@ where
                                         });
                                     }
 
-                                    let value = match attr.value {
-                                        Some(v) => jsx_attr_value_to_expr(v)
-                                            .expect("empty expression container?"),
-                                        None => true.into(),
-                                    };
+                                    let value = self.process_attr_value(attr.value);
 
                                     let str_value = format!("{}:{}", ns.sym, name.sym);
                                     let key = Str {
@@ -867,34 +902,43 @@ where
 
                 self.top_level_node = top_level_node;
 
-                let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
+                // Build args Vec directly instead of using iterator chains
                 let args = if use_create_element {
-                    args.chain(children.into_iter().flatten()).collect()
+                    let mut args = Vec::with_capacity(2 + children.len());
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+                    args.extend(children.into_iter().flatten());
+                    args
                 } else if self.development {
+                    let mut args = Vec::with_capacity(6);
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+
                     // set undefined literal to key if key is None
-                    let key = match key {
-                        Some(key) => key,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
+                    let key = key.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(key);
+
+                    args.push(use_jsxs.as_arg());
 
                     // set undefined literal to __source if __source is None
-                    let source_props = match source_props {
-                        Some(source_props) => source_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
+                    let source_props =
+                        source_props.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(source_props);
 
                     // set undefined literal to __self if __self is None
-                    let self_props = match self_props {
-                        Some(self_props) => self_props,
-                        None => Expr::undefined(DUMMY_SP).as_arg(),
-                    };
-                    args.chain(once(key))
-                        .chain(once(use_jsxs.as_arg()))
-                        .chain(once(source_props))
-                        .chain(once(self_props))
-                        .collect()
+                    let self_props =
+                        self_props.unwrap_or_else(|| Expr::undefined(DUMMY_SP).as_arg());
+                    args.push(self_props);
+
+                    args
                 } else {
-                    args.chain(key).collect()
+                    let mut args = Vec::with_capacity(if key.is_some() { 3 } else { 2 });
+                    args.push(name.as_arg());
+                    args.push(props_obj.as_arg());
+                    if let Some(key) = key {
+                        args.push(key);
+                    }
+                    args
                 };
                 CallExpr {
                     span,
@@ -905,21 +949,24 @@ where
                 .into()
             }
             Runtime::Classic => {
+                // Build args Vec directly for better performance
+                let children_capacity = el.children.len();
+                let mut args = Vec::with_capacity(2 + children_capacity);
+
+                args.push(name.as_arg());
+                args.push(self.fold_attrs_for_classic(el.opening.attrs).as_arg());
+
+                // Add children
+                for child in el.children {
+                    if let Some(expr) = self.jsx_elem_child_to_expr(child) {
+                        args.push(expr);
+                    }
+                }
+
                 CallExpr {
                     span,
                     callee: (*self.pragma).clone().as_callee(),
-                    args: iter::once(name.as_arg())
-                        .chain(iter::once({
-                            // Attributes
-                            self.fold_attrs_for_classic(el.opening.attrs).as_arg()
-                        }))
-                        .chain({
-                            // Children
-                            el.children
-                                .into_iter()
-                                .filter_map(|c| self.jsx_elem_child_to_expr(c))
-                        })
-                        .collect(),
+                    args,
                     ..Default::default()
                 }
                 .into()
@@ -934,7 +981,7 @@ where
         Some(match c {
             JSXElementChild::JSXText(text) => {
                 // TODO(kdy1): Optimize
-                let value = jsx_text_to_str(&*text.value);
+                let value = jsx_text_to_str_with_raw(&text.value, &text.raw);
                 let s = Str {
                     span: text.span,
                     raw: None,
@@ -1109,13 +1156,17 @@ where
     }
 }
 
-impl<C> VisitMut for Jsx<C>
+impl<C> VisitMutHook<()> for Jsx<C>
 where
     C: Comments,
 {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+    /// Called after visiting children of an expression.
+    ///
+    /// This is where we transform JSX syntax to JavaScript function calls.
+    /// By doing this in exit_expr (after children are visited), we ensure that
+    /// jsx_src and jsx_self have already added their __source and __self
+    /// attributes.
+    fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut ()) {
         let top_level_node = self.top_level_node;
         let mut did_work = false;
 
@@ -1145,12 +1196,10 @@ where
             self.top_level_node = false;
         }
 
-        expr.visit_mut_children_with(self);
-
         self.top_level_node = top_level_node;
     }
 
-    fn visit_mut_module(&mut self, module: &mut Module) {
+    fn enter_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         self.parse_directives(module.span);
 
         for item in &module.body {
@@ -1159,9 +1208,9 @@ where
                 break;
             }
         }
+    }
 
-        module.visit_mut_children_with(self);
-
+    fn exit_module(&mut self, module: &mut Module, _ctx: &mut ()) {
         if self.runtime == Runtime::Automatic {
             self.inject_runtime(&mut module.body, |imports, src, stmts| {
                 let specifiers = imports
@@ -1197,7 +1246,7 @@ where
         }
     }
 
-    fn visit_mut_script(&mut self, script: &mut Script) {
+    fn enter_script(&mut self, script: &mut Script, _ctx: &mut ()) {
         self.parse_directives(script.span);
 
         for item in &script.body {
@@ -1206,9 +1255,9 @@ where
                 break;
             }
         }
+    }
 
-        script.visit_mut_children_with(self);
-
+    fn exit_script(&mut self, script: &mut Script, _ctx: &mut ()) {
         if self.runtime == Runtime::Automatic {
             let mark = self.unresolved_mark;
             self.inject_runtime(&mut script.body, |imports, src, stmts| {
@@ -1405,6 +1454,495 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 /// - 'trimRight' the first line, 'trimLeft' the last line, 'trim' middle lines.
 /// - Decode entities on each line (individually).
 /// - Remove empty lines and join the rest with " ".
+///
+/// This version takes both `value` (decoded) and `raw` (original source) to
+/// preserve whitespace that was explicitly encoded as HTML entities like
+/// `&#32;`, `&#9;`, `&#10;`, `&#13;`.
+#[inline]
+fn jsx_text_to_str_with_raw(value: &Atom, raw: &Atom) -> Wtf8Atom {
+    // Fast path: if no HTML entities (raw == value), use the simple algorithm
+    if value.as_str() == raw.as_str() {
+        return jsx_text_to_str_impl(value).into();
+    }
+
+    // Build a mask of which byte positions in value came from HTML entities
+    let entity_mask = build_entity_mask(value, raw);
+
+    jsx_text_to_str_with_entity_mask(value, &entity_mask).into()
+}
+
+/// Build a mask indicating which character positions in `value` came from HTML
+/// entities in `raw`.
+///
+/// Returns a Vec<bool> where true means the character at that index was from an
+/// entity.
+fn build_entity_mask(value: &str, raw: &str) -> Vec<bool> {
+    let mut mask = vec![false; value.chars().count()];
+    let mut value_char_idx = 0;
+    let mut raw_chars = raw.chars().peekable();
+
+    while let Some(raw_c) = raw_chars.next() {
+        if raw_c == '&' {
+            // Possible HTML entity
+            let mut entity_chars: Vec<char> = vec!['&'];
+            let mut found_semicolon = false;
+
+            // Collect up to 10 characters to match entity pattern
+            for _ in 0..10 {
+                if let Some(&next_c) = raw_chars.peek() {
+                    entity_chars.push(next_c);
+                    raw_chars.next();
+                    if next_c == ';' {
+                        found_semicolon = true;
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            if found_semicolon && is_valid_entity(&entity_chars) {
+                // This was a valid entity - mark this position in value as from
+                // entity
+                if value_char_idx < mask.len() {
+                    mask[value_char_idx] = true;
+                }
+                value_char_idx += 1;
+            } else {
+                // Not a valid entity, the '&' is literal
+                value_char_idx += 1;
+                // The other characters we consumed are also literal
+                for _ in 1..entity_chars.len() {
+                    value_char_idx += 1;
+                }
+            }
+        } else {
+            // Regular character
+            value_char_idx += 1;
+        }
+    }
+
+    mask
+}
+
+/// Check if the collected characters form a valid HTML entity
+fn is_valid_entity(chars: &[char]) -> bool {
+    if chars.len() < 3 {
+        return false;
+    }
+    if chars[0] != '&' || chars[chars.len() - 1] != ';' {
+        return false;
+    }
+
+    let inner: String = chars[1..chars.len() - 1].iter().collect();
+
+    if let Some(stripped) = inner.strip_prefix('#') {
+        // Numeric entity
+        if let Some(hex) = stripped
+            .strip_prefix('x')
+            .or_else(|| stripped.strip_prefix('X'))
+        {
+            // Hex: &#xHHHH;
+            !hex.is_empty() && hex.chars().all(|c| c.is_ascii_hexdigit())
+        } else {
+            // Decimal: &#DDDD;
+            !stripped.is_empty() && stripped.chars().all(|c| c.is_ascii_digit())
+        }
+    } else {
+        // Named entity - check against known entities
+        is_known_html_entity(&inner)
+    }
+}
+
+/// Check if name is a known HTML entity
+fn is_known_html_entity(name: &str) -> bool {
+    // Common HTML entities that decode to whitespace or other characters
+    // This list matches the entities defined in swc_ecma_lexer jsx.rs xhtml!
+    // macro
+    matches!(
+        name,
+        "nbsp"
+            | "iexcl"
+            | "cent"
+            | "pound"
+            | "curren"
+            | "yen"
+            | "brvbar"
+            | "sect"
+            | "uml"
+            | "copy"
+            | "ordf"
+            | "laquo"
+            | "not"
+            | "shy"
+            | "reg"
+            | "macr"
+            | "deg"
+            | "plusmn"
+            | "sup2"
+            | "sup3"
+            | "acute"
+            | "micro"
+            | "para"
+            | "middot"
+            | "cedil"
+            | "sup1"
+            | "ordm"
+            | "raquo"
+            | "frac14"
+            | "frac12"
+            | "frac34"
+            | "iquest"
+            | "Agrave"
+            | "Aacute"
+            | "Acirc"
+            | "Atilde"
+            | "Auml"
+            | "Aring"
+            | "AElig"
+            | "Ccedil"
+            | "Egrave"
+            | "Eacute"
+            | "Ecirc"
+            | "Euml"
+            | "Igrave"
+            | "Iacute"
+            | "Icirc"
+            | "Iuml"
+            | "ETH"
+            | "Ntilde"
+            | "Ograve"
+            | "Oacute"
+            | "Ocirc"
+            | "Otilde"
+            | "Ouml"
+            | "times"
+            | "Oslash"
+            | "Ugrave"
+            | "Uacute"
+            | "Ucirc"
+            | "Uuml"
+            | "Yacute"
+            | "THORN"
+            | "szlig"
+            | "agrave"
+            | "aacute"
+            | "acirc"
+            | "atilde"
+            | "auml"
+            | "aring"
+            | "aelig"
+            | "ccedil"
+            | "egrave"
+            | "eacute"
+            | "ecirc"
+            | "euml"
+            | "igrave"
+            | "iacute"
+            | "icirc"
+            | "iuml"
+            | "eth"
+            | "ntilde"
+            | "ograve"
+            | "oacute"
+            | "ocirc"
+            | "otilde"
+            | "ouml"
+            | "divide"
+            | "oslash"
+            | "ugrave"
+            | "uacute"
+            | "ucirc"
+            | "uuml"
+            | "yacute"
+            | "thorn"
+            | "yuml"
+            | "OElig"
+            | "oelig"
+            | "Scaron"
+            | "scaron"
+            | "Yuml"
+            | "fnof"
+            | "circ"
+            | "tilde"
+            | "Alpha"
+            | "Beta"
+            | "Gamma"
+            | "Delta"
+            | "Epsilon"
+            | "Zeta"
+            | "Eta"
+            | "Theta"
+            | "Iota"
+            | "Kappa"
+            | "Lambda"
+            | "Mu"
+            | "Nu"
+            | "Xi"
+            | "Omicron"
+            | "Pi"
+            | "Rho"
+            | "Sigma"
+            | "Tau"
+            | "Upsilon"
+            | "Phi"
+            | "Chi"
+            | "Psi"
+            | "Omega"
+            | "alpha"
+            | "beta"
+            | "gamma"
+            | "delta"
+            | "epsilon"
+            | "zeta"
+            | "eta"
+            | "theta"
+            | "iota"
+            | "kappa"
+            | "lambda"
+            | "mu"
+            | "nu"
+            | "xi"
+            | "omicron"
+            | "pi"
+            | "rho"
+            | "sigmaf"
+            | "sigma"
+            | "tau"
+            | "upsilon"
+            | "phi"
+            | "chi"
+            | "psi"
+            | "omega"
+            | "thetasym"
+            | "upsih"
+            | "piv"
+            | "ensp"
+            | "emsp"
+            | "thinsp"
+            | "zwnj"
+            | "zwj"
+            | "lrm"
+            | "rlm"
+            | "ndash"
+            | "mdash"
+            | "lsquo"
+            | "rsquo"
+            | "sbquo"
+            | "ldquo"
+            | "rdquo"
+            | "bdquo"
+            | "dagger"
+            | "Dagger"
+            | "bull"
+            | "hellip"
+            | "permil"
+            | "prime"
+            | "Prime"
+            | "lsaquo"
+            | "rsaquo"
+            | "oline"
+            | "frasl"
+            | "euro"
+            | "image"
+            | "weierp"
+            | "real"
+            | "trade"
+            | "alefsym"
+            | "larr"
+            | "uarr"
+            | "rarr"
+            | "darr"
+            | "harr"
+            | "crarr"
+            | "lArr"
+            | "uArr"
+            | "rArr"
+            | "dArr"
+            | "hArr"
+            | "forall"
+            | "part"
+            | "exist"
+            | "empty"
+            | "nabla"
+            | "isin"
+            | "notin"
+            | "ni"
+            | "prod"
+            | "sum"
+            | "minus"
+            | "lowast"
+            | "radic"
+            | "prop"
+            | "infin"
+            | "ang"
+            | "and"
+            | "or"
+            | "cap"
+            | "cup"
+            | "int"
+            | "there4"
+            | "sim"
+            | "cong"
+            | "asymp"
+            | "ne"
+            | "equiv"
+            | "le"
+            | "ge"
+            | "sub"
+            | "sup"
+            | "nsub"
+            | "sube"
+            | "supe"
+            | "oplus"
+            | "otimes"
+            | "perp"
+            | "sdot"
+            | "lceil"
+            | "rceil"
+            | "lfloor"
+            | "rfloor"
+            | "lang"
+            | "rang"
+            | "loz"
+            | "spades"
+            | "clubs"
+            | "hearts"
+            | "diams"
+            | "quot"
+            | "amp"
+            | "lt"
+            | "gt"
+    )
+}
+
+/// JSX text processing with entity mask - preserves whitespace from HTML
+/// entities
+fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
+    // Fast path: if no line terminators and no trimmable whitespace
+    // (whitespace that's not from entities at the leading edge)
+    let chars: Vec<char> = t.chars().collect();
+    let has_line_terminator = chars.iter().any(|&c| is_line_terminator(c));
+
+    let has_trimmable_leading = chars
+        .first()
+        .is_some_and(|&c| is_white_space_single_line(c) && !entity_mask.first().unwrap_or(&false));
+
+    // For single-line text, we keep trailing whitespace (matching original
+    // behavior)
+    if !t.is_empty() && !has_line_terminator && !has_trimmable_leading {
+        return t.into();
+    }
+
+    let mut acc: Option<String> = None;
+    let mut only_line: Option<String> = None;
+    let mut line_start: Option<usize> = Some(0);
+    let mut line_end: Option<usize> = None;
+
+    for (char_idx, c) in chars.iter().enumerate() {
+        let is_from_entity = *entity_mask.get(char_idx).unwrap_or(&false);
+
+        if is_line_terminator(*c) {
+            // Process current line - trim both leading AND trailing (intermediate
+            // line)
+            if let (Some(start), Some(end)) = (line_start, line_end) {
+                let line_text = extract_line_content(&chars, start, end, entity_mask, true, true);
+                add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+            }
+            line_start = None;
+            line_end = None;
+        } else if !is_white_space_single_line(*c) || is_from_entity {
+            // Non-whitespace or entity-derived whitespace - counts as content
+            line_end = Some(char_idx + 1);
+            if line_start.is_none() {
+                line_start = Some(char_idx);
+            }
+        }
+    }
+
+    // Handle final line - only trim leading, keep trailing (matching original
+    // behavior)
+    if let Some(start) = line_start {
+        // For final line, take from first non-whitespace (or entity) to end of string
+        let line_text = extract_line_content(&chars, start, chars.len(), entity_mask, true, false);
+        add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
+    }
+
+    if let Some(acc) = acc {
+        acc.into()
+    } else if let Some(only_line) = only_line {
+        only_line.into()
+    } else {
+        "".into()
+    }
+}
+
+/// Extract line content, optionally trimming non-entity whitespace from edges
+///
+/// - `trim_leading`: if true, trim leading non-entity whitespace
+/// - `trim_trailing`: if true, trim trailing non-entity whitespace
+fn extract_line_content(
+    chars: &[char],
+    start: usize,
+    end: usize,
+    entity_mask: &[bool],
+    trim_leading: bool,
+    trim_trailing: bool,
+) -> String {
+    // Find first non-trimmable position (if trim_leading is true)
+    let mut actual_start = start;
+    if trim_leading {
+        while actual_start < end {
+            let c = chars[actual_start];
+            let is_from_entity = *entity_mask.get(actual_start).unwrap_or(&false);
+            if !is_white_space_single_line(c) || is_from_entity {
+                break;
+            }
+            actual_start += 1;
+        }
+    }
+
+    // Find last non-trimmable position (if trim_trailing is true)
+    let mut actual_end = end;
+    if trim_trailing {
+        while actual_end > actual_start {
+            let c = chars[actual_end - 1];
+            let is_from_entity = *entity_mask.get(actual_end - 1).unwrap_or(&false);
+            if !is_white_space_single_line(c) || is_from_entity {
+                break;
+            }
+            actual_end -= 1;
+        }
+    }
+
+    chars[actual_start..actual_end].iter().collect()
+}
+
+/// Owned version of add_line_of_jsx_text for use with entity mask processing
+fn add_line_of_jsx_text_owned(
+    line: String,
+    acc: &mut Option<String>,
+    only_line: &mut Option<String>,
+) {
+    if line.is_empty() {
+        return;
+    }
+
+    if let Some(buffer) = acc.as_mut() {
+        buffer.push(' ');
+        buffer.push_str(&line);
+    } else if let Some(only_line_content) = only_line.take() {
+        let mut buffer = String::with_capacity(line.len() * 2);
+        buffer.push_str(&only_line_content);
+        buffer.push(' ');
+        buffer.push_str(&line);
+        *acc = Some(buffer);
+    } else {
+        *only_line = Some(line);
+    }
+}
+
+#[allow(dead_code)]
 #[inline]
 fn jsx_text_to_str<'a, T>(t: &'a T) -> Wtf8Atom
 where
@@ -1501,6 +2039,15 @@ fn add_line_of_jsx_text_wtf8(
 /// Internal implementation that works with &str
 #[inline]
 fn jsx_text_to_str_impl(t: &str) -> Atom {
+    // Fast path: if no line terminators and no leading/trailing whitespace
+    if !t.is_empty()
+        && !t.chars().any(is_line_terminator)
+        && !t.starts_with(is_white_space_single_line)
+        && !t.ends_with(is_white_space_single_line)
+    {
+        return t.into();
+    }
+
     let mut acc: Option<String> = None;
     let mut only_line: Option<&str> = None;
     let mut first_non_whitespace: Option<usize> = Some(0);
@@ -1611,6 +2158,22 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
 }
 
 fn transform_jsx_attr_str(v: &Wtf8) -> Wtf8Buf {
+    // Fast path: check if transformation is needed
+    let needs_transform = v.code_points().any(|cp| {
+        if let Some(c) = cp.to_char() {
+            matches!(
+                c,
+                '\u{0008}' | '\u{000c}' | '\n' | '\r' | '\t' | '\u{000b}' | '\0'
+            )
+        } else {
+            false
+        }
+    });
+
+    if !needs_transform {
+        return v.to_owned();
+    }
+
     let single_quote = false;
     let mut buf = Wtf8Buf::with_capacity(v.len());
     let mut iter = v.code_points().peekable();

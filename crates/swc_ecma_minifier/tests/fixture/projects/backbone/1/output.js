@@ -1,2 +1,2 @@
 var _ = root._;
-_ || "undefined" == typeof require || (_ = require("underscore"));
+!_ && "u" > typeof require && (_ = require("underscore"));

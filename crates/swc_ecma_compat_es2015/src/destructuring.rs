@@ -592,7 +592,10 @@ impl AssignFolder {
         }
         .into();
 
+        // The return value of intermediate expressions is not used
+        let ignore_return_value = self.ignore_return_value.replace(());
         assign_cond_expr.visit_mut_with(self);
+        self.ignore_return_value = ignore_return_value;
         exprs.push(Box::new(assign_cond_expr));
 
         SeqExpr {
@@ -639,7 +642,30 @@ impl VisitMut for AssignFolder {
         self.exporting = exporting;
     }
 
+    fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
+        // In a sequence expression like (a, b, c), only the last expression's
+        // return value matters. All previous expressions should ignore their
+        // return value.
+        let ignore_return_value = self.ignore_return_value.take();
+
+        if let Some((last, rest)) = seq.exprs.split_last_mut() {
+            for expr in rest {
+                self.ignore_return_value = Some(());
+                expr.visit_mut_with(self);
+            }
+            self.ignore_return_value = ignore_return_value;
+            last.visit_mut_with(self);
+        }
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        // For transparent wrapper expressions, pass through ignore_return_value
+        // to the inner expression without consuming it.
+        if let Expr::Paren(..) = expr {
+            expr.visit_mut_children_with(self);
+            return;
+        }
+
         let ignore_return_value = self.ignore_return_value.take().is_some();
 
         match expr {
@@ -903,7 +929,7 @@ impl VisitMut for AssignFolder {
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
                 AssignTargetPat::Object(ObjectPat { span, props, .. }) => {
-                    if props.len() == 1 {
+                    if ignore_return_value && props.len() == 1 {
                         if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
                             &props[0]
                         {
@@ -952,7 +978,10 @@ impl VisitMut for AssignFolder {
                                     .into()
                                 };
 
+                                // The return value of intermediate expressions is not used
+                                let ignore_return_value = self.ignore_return_value.replace(());
                                 expr.visit_mut_with(self);
+                                self.ignore_return_value = ignore_return_value;
                                 exprs.push(Box::new(expr));
                             }
                             ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {

@@ -24,7 +24,7 @@
              * Returns navigator.userAgent string or '' if it's not defined.
              * @return user agent string
              */ function getUA() {
-                return "undefined" != typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
+                return "u" > typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
             }
             /**
              * Detect Cordova / PhoneGap / Ionic frameworks on a mobile device.
@@ -33,7 +33,7 @@
              * in the Ripple emulator) nor Cordova `onDeviceReady`, which would normally
              * wait for a callback.
              */ function isMobileCordova() {
-                return "undefined" != typeof window && // @ts-ignore Setting up an broadly applicable index signature for Window
+                return "u" > typeof window && // @ts-ignore Setting up an broadly applicable index signature for Window
                 // just to deal with this case would probably be a bad idea.
                 !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
             }
@@ -157,7 +157,7 @@
                     return /* binding */ getStatEventTarget;
                 }
             });
-            /* unused harmony export default */ var a, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
+            /* unused harmony export default */ var a, x, Na, Ab, cc, k, commonjsGlobal = "u" > typeof globalThis ? globalThis : "u" > typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "u" > typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
             function aa() {}
             function ba(a) {
                 var b = typeof a;
@@ -889,7 +889,7 @@
                                 a = "";
                                 var e = d.length, f = 4 == O(this.g);
                                 if (!this.h.i) {
-                                    if ("undefined" == typeof TextDecoder) {
+                                    if ("u" < typeof TextDecoder) {
                                         P(this), rc(this);
                                         var h = "";
                                         break b;
@@ -1781,7 +1781,7 @@
                 }(arr = _useIntersection.useIntersection({
                     rootMargin: void 0 === _lazyBoundary ? "200px" : _lazyBoundary,
                     disabled: !isLazy
-                })) || function(arr, i) {
+                })) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -1795,7 +1795,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
@@ -2128,7 +2128,7 @@
             }), exports.useIntersection = function(param) {
                 var arr, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr = _react.useState(!1)) || function(arr, i) {
+                }(arr = _react.useState(!1)) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
                         for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
@@ -2142,7 +2142,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var ref, id, observer, elements;
@@ -2189,7 +2189,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "u" > typeof IntersectionObserver, observers = new Map();
         /***/ },
         /***/ 6978: /***/ function(__unused_webpack_module, exports) {
             "use strict";

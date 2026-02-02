@@ -2,6 +2,7 @@
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+var _ref;
 let array;
 for (let _ref of array){
     let { x } = _ref, restOf = _object_without_properties(_ref, [
@@ -14,11 +15,10 @@ for (let _ref of array){
 }
 let xx;
 let rrestOff;
-for (var _ref of array){
-    var _ref1;
-    _ref1 = _ref, rrestOff = _object_without_properties(_ref1, [
+for (_ref of array){
+    ({ x: xx } = _ref), rrestOff = _object_without_properties(_ref, [
         "x"
-    ]), ({ x: xx } = _ref1), _ref1;
+    ]), _ref;
     [
         xx,
         rrestOff

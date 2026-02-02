@@ -4,7 +4,7 @@
 //! license : MIT
 //! momentjs.com
 !function(global, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : global.moment = factory();
+    'object' == typeof exports && "u" > typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : global.moment = factory();
 }(this, function() {
     'use strict';
     function hooks() {
@@ -103,7 +103,7 @@
         return obj instanceof Moment || null != obj && null != obj._isAMomentObject;
     }
     function warn(msg) {
-        !1 === hooks.suppressDeprecationWarnings && 'undefined' != typeof console && console.warn && console.warn('Deprecation warning: ' + msg);
+        !1 === hooks.suppressDeprecationWarnings && "u" > typeof console && console.warn && console.warn('Deprecation warning: ' + msg);
     }
     function deprecate(msg, fn) {
         var firstTime = !0;
@@ -127,7 +127,7 @@
         null != hooks.deprecationHandler && hooks.deprecationHandler(name, msg), deprecations[name] || (warn(msg), deprecations[name] = !0);
     }
     function isFunction(input) {
-        return 'undefined' != typeof Function && input instanceof Function || '[object Function]' === Object.prototype.toString.call(input);
+        return "u" > typeof Function && input instanceof Function || '[object Function]' === Object.prototype.toString.call(input);
     }
     function mergeConfigs(parentConfig, childConfig) {
         var prop, res = extend({}, parentConfig);
@@ -603,7 +603,7 @@
     function loadLocale(name) {
         var oldLocale = null;
         // TODO: Find a better way to register and load all the locales in Node
-        if (void 0 === locales[name] && 'undefined' != typeof module && module && module.exports) try {
+        if (void 0 === locales[name] && "u" > typeof module && module && module.exports) try {
             oldLocale = globalLocale._abbr, require('./locale/' + name), getSetGlobalLocale(oldLocale);
         } catch (e) {
             // mark as not found to avoid repeating expensive file require call causing high CPU
@@ -618,7 +618,7 @@
     function getSetGlobalLocale(key, values) {
         var data;
         return key && ((data = isUndefined(values) ? getLocale(key) : defineLocale(key, values)) ? // moment.duration._locale = moment._locale = data;
-        globalLocale = data : 'undefined' != typeof console && console.warn && //warn user if arguments are passed but the locale could not be set
+        globalLocale = data : "u" > typeof console && console.warn && //warn user if arguments are passed but the locale could not be set
         console.warn('Locale ' + key + ' not found. Did you forget to load it?')), globalLocale._abbr;
     }
     function defineLocale(name, config) {
@@ -1603,7 +1603,7 @@
         if (!this.isValid()) return 'moment.invalid(/* ' + this._i + ' */)';
         var prefix, year, suffix, func = 'moment', zone = '';
         return this.isLocal() || (func = 0 === this.utcOffset() ? 'moment.utc' : 'moment.parseZone', zone = 'Z'), prefix = '[' + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? 'YYYY' : 'YYYYYY', suffix = zone + '[")]', this.format(prefix + year + '-MM-DD[T]HH:mm:ss.SSS' + suffix);
-    }, 'undefined' != typeof Symbol && null != Symbol.for && (proto[Symbol.for('nodejs.util.inspect.custom')] = function() {
+    }, "u" > typeof Symbol && null != Symbol.for && (proto[Symbol.for('nodejs.util.inspect.custom')] = function() {
         return 'Moment<' + this.format() + '>';
     }), proto.toJSON = function() {
         // new Date(NaN).toJSON() === null
@@ -1742,7 +1742,7 @@
         if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
         var other, c = {};
         return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && // compare two arrays, return the number of differences
-        function(array1, array2, dontConvert) {
+        function(array1, array2) {
             var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
             for(i = 0; i < len; i++)toInt(array1[i]) !== toInt(array2[i]) && diffs++;
             return diffs + lengthDiff;

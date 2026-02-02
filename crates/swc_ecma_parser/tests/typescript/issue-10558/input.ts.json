@@ -1,0 +1,35 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 148,
+    "end": 157
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 148,
+        "end": 157
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 148,
+          "end": 156
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "Identifier",
+          "span": {
+            "start": 155,
+            "end": 156
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

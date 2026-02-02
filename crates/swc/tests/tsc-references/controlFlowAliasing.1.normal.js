@@ -1,6 +1,6 @@
 //// [controlFlowAliasing.ts]
-// Narrowing by aliased conditional expressions
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// Narrowing by aliased conditional expressions
 function f10(x) {
     var isString = typeof x === "string";
     if (isString) {
@@ -234,7 +234,7 @@ function foo(param) {
 }
 // Repro from #45830
 var obj = {
-    fn: function() {
+    fn: function fn() {
         return true;
     }
 };

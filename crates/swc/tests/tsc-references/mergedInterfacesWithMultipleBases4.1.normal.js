@@ -1,6 +1,6 @@
 //// [mergedInterfacesWithMultipleBases4.ts]
-// merged interfaces behave as if all extends clauses from each declaration are merged together
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// merged interfaces behave as if all extends clauses from each declaration are merged together
 var C = function C() {
     "use strict";
     _class_call_check(this, C);

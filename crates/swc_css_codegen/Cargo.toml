@@ -7,27 +7,27 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_css_codegen"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "18.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-auto_impl  = { workspace = true, default-features = false }
-bitflags   = { workspace = true, default-features = false }
+auto_impl = { workspace = true, default-features = false }
+bitflags = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-serde      = { workspace = true, default-features = false }
+serde = { workspace = true, default-features = false }
 
-swc_atoms              = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common             = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_css_ast            = { version = "16.0.0", path = "../swc_css_ast", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common             = { version = "18.0.1", path = "../swc_common" }
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
 swc_css_codegen_macros = { version = "1.0.2", path = "../swc_css_codegen_macros", default-features = false }
-swc_css_utils          = { version = "16.0.0", path = "../swc_css_utils", default-features = false }
+swc_css_utils = { version = "18.0.0", path = "../swc_css_utils", default-features = false }
 
 [dev-dependencies]
-swc_common = { version = "16.0.0", path = "../swc_common", features = [
+swc_common = { version = "18.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_css_parser = { version = "16.0.0", path = "../swc_css_parser", default-features = false }
-swc_css_visit = { version = "16.0.0", path = "../swc_css_visit", default-features = false }
-testing = { version = "17.0.0", path = "../testing", default-features = false }
+swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", default-features = false }
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

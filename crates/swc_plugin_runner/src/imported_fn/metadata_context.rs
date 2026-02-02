@@ -77,11 +77,13 @@ pub fn get_transform_context(
     key: u32,
     allocated_ret_ptr: u32,
 ) -> i32 {
-    let value = VersionedSerializable::new(
-        env.metadata_context
-            .get(&TransformPluginMetadataContextKind::from(key)),
-    );
-
+    let Some(value) = env
+        .metadata_context
+        .get(&TransformPluginMetadataContextKind::from(key))
+    else {
+        return 0;
+    };
+    let value = VersionedSerializable::new(value);
     let serialized = PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
 
     allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized);
@@ -96,7 +98,7 @@ pub fn get_experimental_transform_context(
     allocated_ret_ptr: u32,
 ) -> i32 {
     let context_key_buffer = env.mutable_context_key_buffer.lock();
-    let key: String = PluginSerializedBytes::from_slice(&context_key_buffer[..])
+    let key: String = PluginSerializedBytes::from_bytes(context_key_buffer.clone())
         .deserialize()
         .expect("Should able to deserialize")
         .into_inner();
@@ -126,7 +128,8 @@ pub fn get_raw_experiemtal_transform_context(
     allocated_ret_ptr: u32,
 ) -> i32 {
     let experimental_context =
-        VersionedSerializable::new(env.metadata_context.experimental.clone());
+        swc_common::plugin::metadata::Context(env.metadata_context.experimental.clone());
+    let experimental_context = VersionedSerializable::new(experimental_context);
     let serialized_experimental_context_bytes =
         PluginSerializedBytes::try_serialize(&experimental_context)
             .expect("Should be serializable");

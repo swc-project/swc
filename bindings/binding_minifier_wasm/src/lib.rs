@@ -10,5 +10,5 @@ export function minify(src: string, opts?: JsMinifyOptions): Promise<Output>;
 export function minifySync(code: string, opts?: JsMinifyOptions): Output;
 "#;
 
-build_minify_sync!(#[wasm_bindgen(js_name = "minifySync", typescript_type = "minifySync",skip_typescript)]);
-build_minify!(#[wasm_bindgen(js_name = "minify", typescript_type = "minify",skip_typescript)]);
+build_minify_sync!(#[wasm_bindgen(js_name = "minifySync", skip_typescript)]);
+build_minify!(#[wasm_bindgen(js_name = "minify", skip_typescript)]);

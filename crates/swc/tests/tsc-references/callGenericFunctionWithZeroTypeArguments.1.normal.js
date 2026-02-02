@@ -1,11 +1,11 @@
 //// [callGenericFunctionWithZeroTypeArguments.ts]
-// valid invocations of generic functions with no explicit type arguments provided 
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+// valid invocations of generic functions with no explicit type arguments provided 
 function f(x) {
     return null;
 }
 var r = f(1);
-var f2 = function(x) {
+var f2 = function f2(x) {
     return null;
 };
 var r2 = f2(1);

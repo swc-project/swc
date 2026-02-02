@@ -5,8 +5,6 @@ use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
     Task,
 };
-use rustc_hash::FxHashMap;
-use serde::Deserialize;
 use swc_compiler_base::{
     minify_file_comments, parse_js, IdentCollector, PrintArgs, SourceMapsConfig, TransformOutput,
 };
@@ -15,7 +13,7 @@ use swc_core::{
     common::{
         comments::{Comments, SingleThreadedComments},
         sync::Lrc,
-        FileName, Mark, SourceFile, SourceMap,
+        FileName, Mark, SourceMap,
     },
     ecma::{
         minifier::{
@@ -166,7 +164,7 @@ fn do_work(
                 &swc_core::ecma::minifier::option::ExtraOptions {
                     unresolved_mark,
                     top_level_mark,
-                    mangle_name_cache: extras.mangle_name_cache.as_deref().map(|s| (*s).clone()),
+                    mangle_name_cache: extras.mangle_name_cache.map(|s| (*s).clone()),
                 },
             );
 
@@ -267,7 +265,7 @@ pub fn minify_sync(
     extras: NapiMinifyExtra,
 ) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
     let opts = get_deserialized(opts)?;
 
     let cm = Lrc::new(SourceMap::default());

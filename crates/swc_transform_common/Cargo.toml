@@ -6,18 +6,18 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_transform_common"
 repository    = { workspace = true }
-version       = "10.0.0"
+version       = "12.0.0"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 plugin-mode = []
 
 [dependencies]
 rustc-hash = { workspace = true, default-features = false }
-serde      = { workspace = true, default-features = false }
+serde = { workspace = true, default-features = false }
 
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
-swc_common        = { version = "16.0.0", path = "../swc_common", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }

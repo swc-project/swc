@@ -41,7 +41,7 @@ impl ToCode for Atom {
 impl ToCode for Wtf8Atom {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
         let bytes_literal = LitByteStr::new(self.as_bytes(), Span::call_site());
-        parse_quote!(unsafe { swc_atoms::Wtf8Atom::from_bytes_unchecked(#bytes_literal) })
+        parse_quote!(unsafe { swc_core::atoms::Wtf8Atom::from_bytes_unchecked(#bytes_literal) })
     }
 }
 

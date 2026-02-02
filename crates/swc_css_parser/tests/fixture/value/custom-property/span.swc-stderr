@@ -899,7 +899,7 @@
     :             ^^^^^
  19 |     --color: #06c;
     `----
-  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "vw", type_flag: Integer, raw_unit: "vw" })
+  x Dimension { dimension: DimensionToken { value: 100.0, raw_value: "100", unit: "vw", type_flag: Integer, raw_unit: "vw" } }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
@@ -3390,7 +3390,7 @@
     :                ^^^^
  54 |         height: 16px;
     `----
-  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
+  x Dimension { dimension: DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" } }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -3474,7 +3474,7 @@
     :                 ^^^^
  55 |     }
     `----
-  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
+  x Dimension { dimension: DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" } }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:54:1]
  53 |         width: 16px;
  54 |         height: 16px;

@@ -91,7 +91,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -102,6 +102,14 @@ impl Optimizer<'_> {
             if pat.is_ident() {
                 return;
             }
+        }
+
+        // When keep_fargs is true, we should only optimize within destructuring
+        // patterns (arrays/objects) but not remove the entire parameter.
+        // For Pat::Assign (default parameters), we should not remove them if
+        // keep_fargs is true, as that would change the function signature.
+        if self.options.keep_fargs && matches!(pat, Pat::Assign(_)) {
+            return;
         }
 
         self.take_pat_if_unused(pat, None, false)
@@ -127,7 +135,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 log_abort!(
                     "unused: Preserving `{}` because of usages",
@@ -355,23 +363,30 @@ impl Optimizer<'_> {
         };
 
         if !name.is_ident() {
-            // TODO: Use smart logic
-            if self.options.pure_getters != PureGetterOption::Bool(true) && !has_pure_ann {
-                return;
-            }
+            // For Pat::Assign (default parameters), we can skip the pure_getters check
+            // when there's no init expression, because the default value is part of the
+            // pattern itself and doesn't involve property access on an external value.
+            let is_assign_pat_without_init = matches!(name, Pat::Assign(_)) && init.is_none();
 
-            if !has_pure_ann {
-                if let Some(init) = init.as_mut() {
-                    if !matches!(init, Expr::Ident(_))
-                        && self.should_preserve_property_access(
-                            init,
-                            PropertyAccessOpts {
-                                allow_getter: false,
-                                only_ident: false,
-                            },
-                        )
-                    {
-                        return;
+            if !is_assign_pat_without_init {
+                // TODO: Use smart logic
+                if self.options.pure_getters != PureGetterOption::Bool(true) && !has_pure_ann {
+                    return;
+                }
+
+                if !has_pure_ann {
+                    if let Some(init) = init.as_mut() {
+                        if !matches!(init, Expr::Ident(_))
+                            && self.should_preserve_property_access(
+                                init,
+                                PropertyAccessOpts {
+                                    allow_getter: false,
+                                    only_ident: false,
+                                },
+                            )
+                        {
+                            return;
+                        }
                     }
                 }
             }
@@ -467,8 +482,29 @@ impl Optimizer<'_> {
             }
 
             Pat::Rest(_) => {}
-            Pat::Assign(_) => {
-                // TODO
+            Pat::Assign(assign) => {
+                // First check if the default value has side effects using
+                // may_have_side_effects which doesn't mutate optimizer state.
+                // If it does, we cannot remove this pattern at all.
+                if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
+                    // The default value has side effects, so we cannot remove
+                    // this assignment pattern. We must preserve it as-is.
+                    return;
+                }
+
+                // Now check if the left side of the assignment pattern is unused
+                self.take_pat_if_unused(&mut assign.left, None, is_var_decl);
+
+                // If the left side is now invalid (unused), we can remove the
+                // entire pattern since we already know the default has no side
+                // effects
+                if assign.left.is_invalid() {
+                    report_change!(
+                        "unused: Dropping assign pattern as left is unused and right has no side \
+                         effects"
+                    );
+                    name.take();
+                }
             }
             _ => {}
         }
@@ -489,7 +525,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -724,14 +760,8 @@ impl Optimizer<'_> {
 
         let used_arguments = self
             .data
-            .scopes
-            .get(&self.ctx.scope)
-            .unwrap_or_else(|| {
-                unreachable!(
-                    "scope should exist\nScopes: {:?};\nCtxt: {:?}",
-                    self.data.scopes, self.ctx.scope
-                )
-            })
+            .get_scope(self.ctx.scope)
+            .unwrap_or_else(|| unreachable!("scope should exist\nCtxt: {:?}", self.ctx.scope))
             .contains(ScopeData::USED_ARGUMENTS);
 
         trace_op!(
@@ -777,6 +807,40 @@ impl Optimizer<'_> {
                     )
                 }
             }
+        }
+    }
+
+    pub(super) fn drop_empty_constructors(&self, n: &mut Class) {
+        let mut empty_constructor_indices = Vec::new();
+
+        for (index, member) in n.body.iter().enumerate() {
+            if let ClassMember::Constructor(constructor) = member {
+                if self.is_constructor_empty(constructor) {
+                    empty_constructor_indices.push(index);
+                }
+            }
+        }
+
+        if !empty_constructor_indices.is_empty() {
+            report_change!("Removing an empty constructor");
+            for index in empty_constructor_indices.into_iter().rev() {
+                n.body.remove(index);
+            }
+        }
+    }
+
+    fn is_constructor_empty(&self, constructor: &Constructor) -> bool {
+        if !constructor.params.is_empty() {
+            return false;
+        }
+
+        match &constructor.body {
+            None => true,
+            Some(body) => match body.stmts.as_slice() {
+                [] => true,
+                [Stmt::Empty(_)] => true,
+                _ => false,
+            },
         }
     }
 

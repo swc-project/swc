@@ -1,6 +1,6 @@
 var e = 1;
 try {
     throw 2;
-} catch (e1) {
+} catch (unused) {
     console.log(e);
 }

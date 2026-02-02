@@ -1,15 +1,16 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
+#[cfg(feature = "typescript")]
+use crate::lexer::TokenAndSpan;
 use crate::{
     error::SyntaxError,
     input::Buffer,
-    lexer::{Token, TokenAndSpan},
+    lexer::Token,
     parser::{
         input::Tokens,
         state::{State, WithState},
@@ -41,12 +42,15 @@ mod stmt;
 mod tests;
 #[cfg(feature = "typescript")]
 mod typescript;
+#[cfg(not(feature = "typescript"))]
+mod typescript_stubs;
 mod util;
 #[cfg(feature = "verify")]
 mod verifier;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
+#[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
     buffer_prev_span: Span,
@@ -83,6 +87,7 @@ impl<I: Tokens> Parser<I> {
         &mut self.state
     }
 
+    #[cfg(feature = "typescript")]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
@@ -92,6 +97,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    #[cfg(feature = "typescript")]
     fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
@@ -119,12 +125,21 @@ impl<I: Tokens> Parser<I> {
         ctx.set(Context::InDeclare, in_declare);
         input.set_ctx(ctx);
 
+        let start_pos = input.start_pos();
         let mut p = Parser {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             found_module_item: false,
         };
-        p.input.bump(); // consume EOF
+
+        // consume EOF
+        p.input.first_bump();
+        // This is a workaround to make comments work when there are only comments in a
+        // source file.
+        if p.input.cur.token == Token::Eof {
+            p.input.cur.span = Span::new_with_checked(start_pos, start_pos);
+        }
+
         p
     }
 
@@ -329,32 +344,25 @@ impl<I: Tokens> Parser<I> {
         f: impl FnOnce(&mut Self) -> T,
     ) -> T {
         let ctx = self.ctx();
-        let inserted = ctx.complement().intersection(context);
-        if inserted.is_empty() {
-            f(self)
-        } else {
-            self.input_mut().update_ctx(|ctx| ctx.insert(inserted));
-            let result = f(self);
-            self.input_mut().update_ctx(|ctx| ctx.remove(inserted));
-            result
-        }
+        let new_ctx = ctx.union(context);
+        self.set_ctx(new_ctx);
+        let result = f(self);
+        self.set_ctx(ctx);
+        result
     }
 
+    #[inline]
     pub fn do_outside_of_context<T>(
         &mut self,
         context: Context,
         f: impl FnOnce(&mut Self) -> T,
     ) -> T {
         let ctx = self.ctx();
-        let removed = ctx.intersection(context);
-        if !removed.is_empty() {
-            self.input_mut().update_ctx(|ctx| ctx.remove(removed));
-            let result = f(self);
-            self.input_mut().update_ctx(|ctx| ctx.insert(removed));
-            result
-        } else {
-            f(self)
-        }
+        let new_ctx = ctx.difference(context);
+        self.set_ctx(new_ctx);
+        let result = f(self);
+        self.set_ctx(ctx);
+        result
     }
 
     #[inline(always)]
@@ -569,18 +577,26 @@ impl<I: Tokens> Parser<I> {
             let v = if cur == Token::Str {
                 PropName::Str(p.parse_str_lit())
             } else if cur == Token::Num {
-                let (value, raw) = p.input_mut().expect_number_token_and_bump();
+                let token_span = p.input.cur_span();
+                let value = p.input_mut().expect_number_token_value();
+                p.bump();
+
+                let raw = p.input.iter.read_string(token_span);
                 PropName::Num(Number {
                     span: p.span(start),
                     value,
-                    raw: Some(raw),
+                    raw: Some(Atom::new(raw)),
                 })
             } else if cur == Token::BigInt {
-                let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
+                let token_span = p.input.cur_span();
+                let value = p.input_mut().expect_bigint_token_value();
+                p.bump();
+
+                let raw = p.input.iter.read_string(token_span);
                 PropName::BigInt(BigInt {
                     span: p.span(start),
                     value,
-                    raw: Some(raw),
+                    raw: Some(Atom::new(raw)),
                 })
             } else if cur.is_word() {
                 let w = p.input_mut().expect_word_token_and_bump();
