@@ -263,9 +263,7 @@ fn assert_props_preserved_and_mangled(
         for prop in preserved_props {
             assert!(
                 mangled.contains(prop),
-                "Property '{}' should be preserved but was not found in output:\n{}",
-                prop,
-                mangled
+                "Property '{prop}' should be preserved but was not found in output:\n{mangled}",
             );
         }
 
@@ -273,16 +271,14 @@ fn assert_props_preserved_and_mangled(
         for prop in mangled_props {
             // Check that the original property name doesn't appear as a property
             // (it might appear in strings, so we look for property access patterns)
-            let prop_access = format!(".{}", prop);
-            let prop_def = format!("{}: ", prop);
-            let prop_def2 = format!("{}(", prop);
+            let prop_access = format!(".{prop}");
+            let prop_def = format!("{prop}: ");
+            let prop_def2 = format!("{prop}(");
             assert!(
                 !mangled.contains(&prop_access)
                     && !mangled.contains(&prop_def)
                     && !mangled.contains(&prop_def2),
-                "Property '{}' should be mangled but was found in output:\n{}",
-                prop,
-                mangled
+                "Property '{prop}' should be mangled but was found in output:\n{mangled}",
             );
         }
 
