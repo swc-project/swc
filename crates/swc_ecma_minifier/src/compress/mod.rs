@@ -28,6 +28,7 @@ use crate::{
 
 mod hoist_decls;
 mod optimize;
+mod precompress;
 mod pure;
 mod util;
 
@@ -78,6 +79,10 @@ impl Compressor<'_> {
             "Optimizing a compile unit within `{:?}`",
             thread::current().name()
         );
+
+        // Run precompress optimization (static method aliasing)
+        // This runs once before the optimization loop
+        precompress::precompress_optimizer(n, self.options, self.marks.unresolved_mark);
 
         if self.options.hoist_vars || self.options.hoist_fns {
             let data = analyze(&*n, Some(self.marks), false);

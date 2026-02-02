@@ -12,10 +12,10 @@
 //!
 //! Becomes:
 //! ```js
-//! var _ObjectAssign = Object.assign;
-//! _ObjectAssign(a, {});
-//! _ObjectAssign(b, {});
-//! _ObjectAssign(c, {});
+//! var _Object_assign = Object.assign;
+//! _Object_assign(a, {});
+//! _Object_assign(b, {});
+//! _Object_assign(c, {});
 //! ```
 //!
 //! ## Global Object Hoisting
@@ -449,9 +449,6 @@ impl Visit for UsageCounter {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         if let Callee::Expr(callee) = &e.callee {
             self.try_record_static_method_call(callee);
-            // Also count direct calls to global objects like
-            // `Promise.resolve()` target But for direct calls like
-            // `Map()` (without new), we don't count
         }
         e.visit_children_with(self);
     }
@@ -508,8 +505,12 @@ impl AliasReplacer {
         let mut global_object_aliases = FxHashMap::default();
         let mut var_decls = Vec::new();
 
+        // Collect and sort static method keys for deterministic output
+        let mut static_method_keys: Vec<_> = static_method_counts.into_iter().collect();
+        static_method_keys.sort_by(|a, b| a.0.cmp(&b.0));
+
         // Handle static method aliases
-        for ((obj, prop), count) in static_method_counts {
+        for ((obj, prop), count) in static_method_keys {
             // Use pre-computed threshold from lookup table
             if let Some(min_usages) = get_static_method_min_usages(&obj, &prop) {
                 if count >= min_usages {
@@ -535,8 +536,12 @@ impl AliasReplacer {
             }
         }
 
+        // Collect and sort global object names for deterministic output
+        let mut global_object_keys: Vec<_> = global_object_counts.into_iter().collect();
+        global_object_keys.sort_by(|a, b| a.0.cmp(&b.0));
+
         // Handle global object aliases
-        for (name, count) in global_object_counts {
+        for (name, count) in global_object_keys {
             // Use pre-computed threshold from lookup table
             if let Some(min_usages) = get_global_object_min_usages(&name) {
                 if count >= min_usages {

@@ -1,5 +1,5 @@
 // Test multiple different methods being hoisted
-var _Object_keys = Object.keys, _Object_assign = Object.assign, _Array_isArray = Array.isArray;
+var _Array_isArray = Array.isArray, _Object_assign = Object.assign, _Object_keys = Object.keys;
 console.log(_Object_assign({}, {}), _Object_assign({}, {}), _Object_keys({
     a: 1
 }), _Object_keys({

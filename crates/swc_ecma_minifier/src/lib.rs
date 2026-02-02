@@ -56,7 +56,6 @@ use crate::{
     pass::{
         global_defs, mangle_names::idents_to_preserve, mangle_props::mangle_properties,
         merge_exports::merge_exports, postcompress::postcompress_optimizer,
-        precompress::precompress_optimizer,
     },
     // program_data::ModuleInfo,
     timing::Timings,
@@ -158,9 +157,6 @@ pub fn optimize(
     if let Some(c) = &options.compress {
         {
             let _timer = timer!("compress ast");
-
-            // Run precompress optimization (static method aliasing)
-            precompress_optimizer(&mut n, c, extra.unresolved_mark);
 
             perform_dce(&mut n, c, marks);
 
