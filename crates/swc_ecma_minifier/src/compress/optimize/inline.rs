@@ -759,6 +759,26 @@ impl Optimizer<'_> {
                                             return;
                                         }
 
+                                        // Skip inlining if the parameter is reassigned.
+                                        // E.g., `function(a = 2) { for (var [a] of [[1]]); }` -
+                                        // `a` is reassigned through destructuring, so
+                                        // inlining the default value would be incorrect.
+                                        if let Pat::Ident(param_id) = &*assign.left {
+                                            if let Some(param_usage) =
+                                                self.data.vars.get(&param_id.to_id())
+                                            {
+                                                if param_usage
+                                                    .flags
+                                                    .contains(VarUsageInfoFlags::REASSIGNED)
+                                                {
+                                                    return;
+                                                }
+                                            } else {
+                                                // No usage data - be conservative
+                                                return;
+                                            }
+                                        }
+
                                         // Skip inlining if the default value references any
                                         // earlier parameter. E.g., `function(a, b = a) {...}` -
                                         // `b = a` references `a`, which makes inlining unsafe.
