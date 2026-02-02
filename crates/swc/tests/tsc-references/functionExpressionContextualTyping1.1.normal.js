@@ -9,7 +9,7 @@ var E = /*#__PURE__*/ function(E) {
 }(E || {});
 // A contextual signature S is extracted from a function type T as follows:
 //      If T is a function type with exactly one call signature, and if that call signature is non- generic, S is that signature.
-var a0 = function(num, str) {
+var a0 = function a0(num, str) {
     num.toExponential();
     return 0;
 };
@@ -22,7 +22,7 @@ var Class = /*#__PURE__*/ function() {
     _proto.foo = function foo() {};
     return Class;
 }();
-var a1 = function(a1) {
+var a1 = function a1(a1) {
     a1.foo();
     return 1;
 };
@@ -32,21 +32,21 @@ var a1 = function(a1) {
 //        and if all of the signatures are identical ignoring return types,
 //        then S is a signature with the same parameters and a union of the return types.
 var b1;
-b1 = function(k, h) {};
+b1 = function b1(k, h) {};
 var b2;
-b2 = function(foo, bar) {
+b2 = function b2(foo, bar) {
     return foo + 1;
 };
-b2 = function(foo, bar) {
+b2 = function b2(foo, bar) {
     return "hello";
 };
 var b3;
-b3 = function(name, number) {};
-var b4 = function() {
+b3 = function b3(name, number) {};
+var b4 = function b4() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
     return "hello";
 };
-var b5 = function() {
+var b5 = function b5() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "string";
     return "hello";
 };
@@ -54,18 +54,18 @@ var b5 = function() {
 //      Otherwise, no contextual signature can be extracted from T and S is undefined.
 var b6;
 var b7;
-b6 = function(k) {
+b6 = function b6(k) {
     k.toLowerCase();
 };
-b6 = function(i) {
+b6 = function b6(i) {
     i.toExponential();
     return i;
 }; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
-b7 = function(j, m) {}; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
+b7 = function b7(j, m) {}; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
-    var k = function(j, k) {
+    var k = function k(j, k) {
         return [
             j,
             k

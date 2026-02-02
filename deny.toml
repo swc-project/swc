@@ -44,6 +44,7 @@ ignore = [
   "RUSTSEC-2025-0067", # libyml is unsound and unmaintained
   "RUSTSEC-2025-0068", # serde_yml is unsound and unmaintained
   "RUSTSEC-2026-0001", # rkyv 0.7.45 OOM issue (transitive dep via parcel_sourcemap)
+  "RUSTSEC-2026-0006", # wasmtime f64.copysign segfault (transitive dep via swc_plugin_runner)
 ]
 # Threshold for security vulnerabilities, any vulnerability with a CVSS score
 # lower than the range specified will be ignored. Note that ignored advisories

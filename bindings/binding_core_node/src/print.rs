@@ -70,7 +70,7 @@ pub fn print(
     crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
-    let options = String::from_utf8_lossy(&options).to_string();
+    let options = String::from_utf8_lossy(&options).into_owned();
 
     Ok(AsyncTask::with_optional_signal(
         PrintTask {

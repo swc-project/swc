@@ -1,16 +1,13 @@
 use serde::Deserialize;
-use swc_common::{util::take::Take, DUMMY_SP};
-use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Parallel};
-use swc_ecma_utils::{quote_str, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
+use swc_ecma_ast::Pass;
 
 pub fn typeof_symbol(c: Config) -> impl Pass {
     if c.loose {
         None
     } else {
-        Some(visit_mut_pass(TypeOfSymbol))
+        let mut options = swc_ecma_transformer::Options::default();
+        options.env.es2015.typeof_symbol = true;
+        Some(options.into_pass())
     }
 }
 
@@ -18,151 +15,6 @@ pub fn typeof_symbol(c: Config) -> impl Pass {
 #[serde(rename_all = "camelCase")]
 pub struct Config {
     pub loose: bool,
-}
-
-#[derive(Clone, Copy)]
-struct TypeOfSymbol;
-
-#[swc_trace]
-impl Parallel for TypeOfSymbol {
-    fn merge(&mut self, _: Self) {}
-
-    fn create(&self) -> Self {
-        TypeOfSymbol
-    }
-}
-
-#[swc_trace]
-impl VisitMut for TypeOfSymbol {
-    noop_visit_mut_type!(fail);
-
-    fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
-        match expr.op {
-            op!("==") | op!("!=") | op!("===") | op!("!==") => {}
-            _ => {
-                expr.visit_mut_children_with(self);
-                return;
-            }
-        }
-
-        if let Expr::Unary(UnaryExpr {
-            op: op!("typeof"), ..
-        }) = *expr.left
-        {
-            if is_non_symbol_literal(&expr.right) {
-                return;
-            }
-        }
-        if let Expr::Unary(UnaryExpr {
-            op: op!("typeof"), ..
-        }) = *expr.right
-        {
-            if is_non_symbol_literal(&expr.left) {
-                return;
-            }
-        }
-
-        expr.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        expr.visit_mut_children_with(self);
-
-        if let Expr::Unary(UnaryExpr {
-            span,
-            op: op!("typeof"),
-            arg,
-        }) = expr
-        {
-            match &**arg {
-                Expr::Ident(..) => {
-                    let undefined_str: Box<Expr> = quote_str!("undefined").into();
-
-                    let test = BinExpr {
-                        span: DUMMY_SP,
-                        op: op!("==="),
-                        left: Box::new(
-                            UnaryExpr {
-                                span: DUMMY_SP,
-                                op: op!("typeof"),
-                                arg: arg.clone(),
-                            }
-                            .into(),
-                        ),
-                        right: undefined_str.clone(),
-                    }
-                    .into();
-
-                    let call = CallExpr {
-                        span: *span,
-                        callee: helper!(*span, type_of),
-                        args: vec![arg.take().as_arg()],
-                        ..Default::default()
-                    }
-                    .into();
-
-                    *expr = CondExpr {
-                        span: *span,
-                        test,
-                        cons: undefined_str,
-                        alt: Box::new(call),
-                    }
-                    .into();
-                }
-                _ => {
-                    let call = CallExpr {
-                        span: *span,
-                        callee: helper!(*span, type_of),
-                        args: vec![arg.take().as_arg()],
-
-                        ..Default::default()
-                    }
-                    .into();
-
-                    *expr = call;
-                }
-            }
-        }
-    }
-
-    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        if &f.ident.sym == "_type_of" {
-            return;
-        }
-
-        f.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_function(&mut self, f: &mut Function) {
-        if let Some(body) = &f.body {
-            if let Some(Stmt::Expr(first)) = body.stmts.first() {
-                if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    if let Some(text) = s.value.as_str() {
-                        if matches!(text, "@swc/helpers - typeof" | "@babel/helpers - typeof") {
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
-        f.visit_mut_children_with(self);
-    }
-}
-
-#[tracing::instrument(level = "debug", skip_all)]
-fn is_non_symbol_literal(e: &Expr) -> bool {
-    match e {
-        Expr::Lit(Lit::Str(Str { value, .. })) => matches!(
-            value.as_str(),
-            Some("undefined")
-                | Some("boolean")
-                | Some("number")
-                | Some("string")
-                | Some("function")
-        ),
-        _ => false,
-    }
 }
 
 #[cfg(test)]

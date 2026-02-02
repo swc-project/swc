@@ -1,4 +1,4 @@
-var myFunction = function() {
+var myFunction = function myFunction() {
     var _loop = function(j) {
         for(var _i = 0, _iter = []; _i < _iter.length; _i++){
             var _ = _iter[_i];

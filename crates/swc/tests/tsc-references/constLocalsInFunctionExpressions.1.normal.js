@@ -2,7 +2,7 @@
 function f1() {
     var x = getStringOrNumber();
     if (typeof x === "string") {
-        var f = function() {
+        var f = function f() {
             return x.length;
         };
     }
@@ -12,7 +12,7 @@ function f2() {
     if (typeof x !== "string") {
         return;
     }
-    var f = function() {
+    var f = function f() {
         return x.length;
     };
 }
@@ -36,7 +36,7 @@ function f4() {
 function f5() {
     var x = getStringOrNumber();
     if (typeof x === "string") {
-        var f = function() {
+        var f = function f() {
             return function() {
                 return x.length;
             };

@@ -139,7 +139,7 @@ var Level = /*#__PURE__*/ function(Level) {
     Level[Level["Two"] = 1] = "Two";
     return Level;
 }(Level || {});
-var doSomethingWithLevel = function(level) {
+var doSomethingWithLevel = function doSomethingWithLevel(level) {
     var next;
     switch(level){
         case 0:

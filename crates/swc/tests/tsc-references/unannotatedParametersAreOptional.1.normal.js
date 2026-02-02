@@ -18,7 +18,7 @@ new C().m(); // Regression #39261
 new C().p(); // Regression #39261
 var obj = {
     m: function m(x) {},
-    p: function(x) {}
+    p: function p(x) {}
 };
 obj.m(); // Always been ok
 obj.p(); // Always been ok

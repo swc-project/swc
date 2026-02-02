@@ -33,7 +33,7 @@ var ResultIsString4 = _type_of({
 });
 var ResultIsString5 = _type_of({
     x: "",
-    y: function(s) {
+    y: function y(s) {
         return s;
     }
 });

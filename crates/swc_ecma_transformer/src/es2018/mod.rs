@@ -11,6 +11,13 @@ pub struct Es2018Options {
     pub object_rest_spread: bool,
 }
 
+impl Es2018Options {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.object_rest_spread
+    }
+}
+
 pub(crate) fn hook(
     options: Es2018Options,
     assumptions: Assumptions,

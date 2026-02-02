@@ -65,7 +65,7 @@ var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement) {
     }
     return ColouredSquare;
 }(ColouredCanvasElement);
-var bugExample = function() {
+var bugExample = function bugExample() {
     var colouredSquare = new ColouredSquare(), hidden = false;
     colouredSquare.createFacets(hidden);
 };

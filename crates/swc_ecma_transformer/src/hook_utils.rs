@@ -5,11 +5,13 @@ use crate::TraverseCtx;
 
 macro_rules! chained_method {
     ($enter_name:ident, $exit_name:ident, $T:ty) => {
+        #[inline]
         fn $enter_name(&mut self, node: &mut $T, ctx: &mut TraverseCtx) {
             self.0.$enter_name(node, ctx);
             self.1.$enter_name(node, ctx);
         }
 
+        #[inline]
         fn $exit_name(&mut self, node: &mut $T, ctx: &mut TraverseCtx) {
             self.0.$exit_name(node, ctx);
             self.1.$exit_name(node, ctx);
@@ -79,6 +81,51 @@ where
     chained_method!(enter_assign_pat, exit_assign_pat, AssignPat);
 
     chained_method!(enter_private_prop, exit_private_prop, PrivateProp);
+
+    chained_method!(enter_prop, exit_prop, Prop);
+
+    chained_method!(enter_assign_expr, exit_assign_expr, AssignExpr);
+
+    chained_method!(enter_key_value_prop, exit_key_value_prop, KeyValueProp);
+
+    chained_method!(enter_var_declarator, exit_var_declarator, VarDeclarator);
+
+    chained_method!(enter_bin_expr, exit_bin_expr, BinExpr);
+
+    chained_method!(enter_fn_decl, exit_fn_decl, FnDecl);
+
+    // ES3 hooks: member expression literals
+    chained_method!(enter_member_expr, exit_member_expr, MemberExpr);
+
+    // ES3 hooks: property literals
+    chained_method!(enter_prop_name, exit_prop_name, PropName);
+
+    // ES3 hooks: reserved words - identifier handling
+    chained_method!(enter_ident, exit_ident, Ident);
+
+    // ES3 hooks: reserved words - member property handling
+    chained_method!(enter_member_prop, exit_member_prop, MemberProp);
+
+    // ES3 hooks: reserved words - export/import handling
+    chained_method!(enter_named_export, exit_named_export, NamedExport);
+
+    chained_method!(
+        enter_import_named_specifier,
+        exit_import_named_specifier,
+        ImportNamedSpecifier
+    );
+
+    chained_method!(
+        enter_export_named_specifier,
+        exit_export_named_specifier,
+        ExportNamedSpecifier
+    );
+
+    chained_method!(
+        enter_module_export_name,
+        exit_module_export_name,
+        ModuleExportName
+    );
 }
 
 pub(crate) struct NoopHook;

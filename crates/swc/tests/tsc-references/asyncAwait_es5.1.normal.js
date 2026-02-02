@@ -56,7 +56,7 @@ var f6 = function f6() {
         });
     })();
 };
-var f7 = function() {
+var f7 = function f7() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -65,7 +65,7 @@ var f7 = function() {
         });
     })();
 };
-var f8 = function() {
+var f8 = function f8() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -74,7 +74,7 @@ var f8 = function() {
         });
     })();
 };
-var f9 = function() {
+var f9 = function f9() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -83,7 +83,7 @@ var f9 = function() {
         });
     })();
 };
-var f10 = function() {
+var f10 = function f10() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -93,7 +93,7 @@ var f10 = function() {
         });
     })();
 };
-var f11 = function() {
+var f11 = function f11() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -103,7 +103,7 @@ var f11 = function() {
         });
     })();
 };
-var f12 = function() {
+var f12 = function f12() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
@@ -113,7 +113,7 @@ var f12 = function() {
         });
     })();
 };
-var f13 = function() {
+var f13 = function f13() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [

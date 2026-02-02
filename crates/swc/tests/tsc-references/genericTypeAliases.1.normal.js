@@ -11,7 +11,7 @@ var tree = {
 };
 var ls;
 ls = "eager";
-ls = function() {
+ls = function ls() {
     return "lazy";
 };
 // Deeply instantiated generics

@@ -158,6 +158,184 @@ fn issue_9559() -> Result<()> {
     Ok(())
 }
 
+/// Tests that `--root-mode upward` finds a `.swcrc` in a parent directory.
+#[test]
+fn root_mode_upward_finds_parent_config() -> Result<()> {
+    let tmp = TempDir::new()?;
+
+    let subdir = tmp.path().join("subdir");
+    create_dir_all(&subdir)?;
+
+    // target: es2022 keeps arrow functions (unlike default es5)
+    fs::write(
+        tmp.path().join(".swcrc"),
+        r#"{
+            "jsc": {
+                "parser": { "syntax": "ecmascript" },
+                "target": "es2022"
+            }
+        }"#,
+    )?;
+
+    fs::write(subdir.join("input.js"), "const arrow = () => 'hello';")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&subdir)
+        .arg("compile")
+        .arg("--root-mode")
+        .arg("upward")
+        .arg("--out-file")
+        .arg("output.js")
+        .arg("input.js");
+
+    cmd.assert().success();
+
+    // Verify the config was found: es2022 keeps arrow functions
+    let output = fs::read_to_string(subdir.join("output.js"))?;
+    assert!(
+        output.contains("=>"),
+        "Arrow should be kept with es2022 target from parent .swcrc. Got: {output}"
+    );
+
+    Ok(())
+}
+
+/// Tests that `--root-mode root` does NOT search parent directories for
+/// `.swcrc`.
+#[test]
+fn root_mode_root_ignores_parent_config() -> Result<()> {
+    let tmp = TempDir::new()?;
+
+    let subdir = tmp.path().join("subdir");
+    create_dir_all(&subdir)?;
+
+    // Parent has .swcrc with es2022 (keeps arrows)
+    fs::write(
+        tmp.path().join(".swcrc"),
+        r#"{
+            "jsc": {
+                "parser": { "syntax": "ecmascript" },
+                "target": "es2022"
+            }
+        }"#,
+    )?;
+
+    fs::write(subdir.join("input.js"), "const arrow = () => 'hello';")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&subdir)
+        .arg("compile")
+        .arg("--root-mode")
+        .arg("root")
+        .arg("--out-file")
+        .arg("output.js")
+        .arg("input.js");
+
+    cmd.assert().success();
+
+    // Parent .swcrc should be ignored, so default es5 transforms arrow to function
+    let output = fs::read_to_string(subdir.join("output.js"))?;
+    assert!(
+        output.contains("function"),
+        "Parent .swcrc should be ignored with root mode. Got: {output}"
+    );
+
+    Ok(())
+}
+
+/// Tests that `--root-mode upward` fails when no `.swcrc` is found.
+#[test]
+fn root_mode_upward_fails_without_config() -> Result<()> {
+    let tmp = TempDir::new()?;
+
+    // No .swcrc anywhere
+    fs::write(tmp.path().join("input.js"), "const arrow = () => 'hello';")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&tmp)
+        .arg("compile")
+        .arg("--root-mode")
+        .arg("upward")
+        .arg("--out-file")
+        .arg("output.js")
+        .arg("input.js");
+
+    cmd.assert().failure();
+
+    Ok(())
+}
+
+/// Tests that `--root-mode upward-optional` succeeds even without a `.swcrc`.
+#[test]
+fn root_mode_upward_optional_succeeds_without_config() -> Result<()> {
+    let tmp = TempDir::new()?;
+
+    // No .swcrc anywhere
+    fs::write(tmp.path().join("input.js"), "const arrow = () => 'hello';")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&tmp)
+        .arg("compile")
+        .arg("--root-mode")
+        .arg("upward-optional")
+        .arg("--out-file")
+        .arg("output.js")
+        .arg("input.js");
+
+    cmd.assert().success();
+
+    // Should compile with defaults (es5 transforms arrow to function)
+    let output = fs::read_to_string(tmp.path().join("output.js"))?;
+    assert!(
+        output.contains("function"),
+        "Should use default es5 target without .swcrc. Got: {output}"
+    );
+
+    Ok(())
+}
+
+/// Tests that `--root-mode upward-optional` uses parent `.swcrc` when found.
+#[test]
+fn root_mode_upward_optional_finds_parent_config() -> Result<()> {
+    let tmp = TempDir::new()?;
+
+    let subdir = tmp.path().join("subdir");
+    create_dir_all(&subdir)?;
+
+    // target: es2022 keeps arrow functions
+    fs::write(
+        tmp.path().join(".swcrc"),
+        r#"{
+            "jsc": {
+                "parser": { "syntax": "ecmascript" },
+                "target": "es2022"
+            }
+        }"#,
+    )?;
+
+    fs::write(subdir.join("input.js"), "const arrow = () => 'hello';")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&subdir)
+        .arg("compile")
+        .arg("--root-mode")
+        .arg("upward-optional")
+        .arg("--out-file")
+        .arg("output.js")
+        .arg("input.js");
+
+    cmd.assert().success();
+
+    // Verify the config was found: es2022 keeps arrow functions
+    let output = fs::read_to_string(subdir.join("output.js"))?;
+    assert!(
+        output.contains("=>"),
+        "Arrow should be kept with es2022 target from parent .swcrc. Got: {output}"
+    );
+
+    Ok(())
+}
+
 /// ln -s $a $b
 fn symlink(a: &Path, b: &Path) {
     #[cfg(unix)]

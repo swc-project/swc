@@ -17,6 +17,7 @@ permissions:
   contents: write
   id-token: write
   issues: write
+  pull-requests: write
 
 on:
   workflow_dispatch:

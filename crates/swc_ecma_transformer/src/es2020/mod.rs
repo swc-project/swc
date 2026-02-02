@@ -20,6 +20,13 @@ pub struct Es2020Options {
     pub optional_chaining: bool,
 }
 
+impl Es2020Options {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.export_namespace_from || self.nullish_coalescing || self.optional_chaining
+    }
+}
+
 pub(crate) fn hook(
     options: Es2020Options,
     assumptions: Assumptions,

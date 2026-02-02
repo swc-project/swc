@@ -1,6 +1,6 @@
 //// [file.tsx]
 // A simple render function with nesting and control statements
-var render = function(ctrl, model) {
+var render = function render(ctrl, model) {
     return /*#__PURE__*/ React.createElement("section", {
         class: "todoapp"
     }, /*#__PURE__*/ React.createElement("header", {
@@ -36,7 +36,7 @@ var render = function(ctrl, model) {
             class: "toggle",
             type: "checkbox"
         }) : null, /*#__PURE__*/ React.createElement("label", {
-            onDoubleClick: function() {
+            onDoubleClick: function onDoubleClick() {
                 ctrl.editTodo(todo);
             }
         }, todo.title), /*#__PURE__*/ React.createElement("button", {

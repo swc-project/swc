@@ -19,6 +19,8 @@ mod es2020;
 mod es2021;
 mod es2022;
 mod es2026;
+#[cfg(feature = "es3")]
+mod es3;
 mod hook_utils;
 mod jsx;
 mod options;
@@ -30,6 +32,8 @@ mod utils;
 pub struct TraverseCtx {
     pub(crate) statement_injector: common::StmtInjectorStore,
     pub(crate) var_declarations: common::VarDeclarationsStore,
+    #[cfg(feature = "es3")]
+    pub(crate) es3: es3::ReservedWordContext,
 }
 
 pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
@@ -54,6 +58,10 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     let hook = hook.chain(crate::es2015::hook(options.env.es2015));
     let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
     let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
+
+    // ES3 transforms should run after all higher ES versions
+    #[cfg(feature = "es3")]
+    let hook = hook.chain(crate::es3::hook(options.env.es3));
 
     // VarDeclarations must run after all other transforms to collect all variable
     // declarations

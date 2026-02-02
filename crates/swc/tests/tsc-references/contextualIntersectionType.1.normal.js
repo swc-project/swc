@@ -1,10 +1,10 @@
 //// [contextualIntersectionType.ts]
 var x;
 x = {
-    a: function(s) {
+    a: function a(s) {
         return s;
     },
-    b: function(n) {
+    b: function b(n) {
         return n;
     }
 };

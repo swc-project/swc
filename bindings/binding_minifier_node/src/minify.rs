@@ -265,7 +265,7 @@ pub fn minify_sync(
     extras: NapiMinifyExtra,
 ) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
     let opts = get_deserialized(opts)?;
 
     let cm = Lrc::new(SourceMap::default());

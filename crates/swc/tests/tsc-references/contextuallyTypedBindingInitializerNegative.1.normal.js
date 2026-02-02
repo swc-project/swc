@@ -16,13 +16,13 @@ function f3(param) {
 }
 function ff(param) {
     var tmp = param.nested, nestedRename = tmp === void 0 ? {
-        show: function(v) {
+        show: function show(v) {
             return v;
         }
     } : tmp;
 }
 var _ref = {
-    stringIdentity: function(x) {
+    stringIdentity: function stringIdentity(x) {
         return x;
     }
 }, tmp = _ref.stringIdentity, id = tmp === void 0 ? function(arg) {

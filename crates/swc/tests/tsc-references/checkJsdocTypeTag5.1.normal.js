@@ -3,7 +3,7 @@
 /** @type {(x: number) => string} */ function h(x) {
     return x;
 }
-/** @type {(x: number) => string} */ var f = function(x) {
+/** @type {(x: number) => string} */ var f = function f(x) {
     return x;
 };
 /** @type {(x: number) => string} */ var g = function g(x) {
@@ -12,7 +12,7 @@
 /** @type {{ (x: number): string }} */ function i(x) {
     return x;
 }
-/** @type {{ (x: number): string }} */ var j = function(x) {
+/** @type {{ (x: number): string }} */ var j = function j(x) {
     return x;
 };
 /** @type {{ (x: number): string }} */ var k = function k(x) {

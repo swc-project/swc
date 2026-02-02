@@ -12,12 +12,12 @@
 // If S is not empty, U has a string index signature of a union type of 
 // the types of the string index signatures from each type in S.
 var x = {
-    z: function(a) {
+    z: function z(a) {
         return a;
     }
 }; // a should be number
 var x = {
-    foo: function(a) {
+    foo: function foo(a) {
         return a;
     }
 }; // a should be number (because of index signature of IWithStringIndexSignature1)
@@ -25,12 +25,12 @@ var x = {
     foo: "hello"
 };
 var x2 = {
-    z: function(a) {
+    z: function z(a) {
         return a.toString();
     }
 }; // a should be number
 var x2 = {
-    z: function(a) {
+    z: function z(a) {
         return a;
     }
 }; // a should be number

@@ -14,9 +14,9 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 swc_common     = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast   = { version = "20.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast   = { version = "20.0.1", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_parser = { version = "33.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser" }
 testing         = { version = "19.0.0", path = "../testing" }

@@ -48,7 +48,7 @@ var a;
 var r3 = a().notHere();
 var r3b = a()['foo']();
 var b = {
-    foo: function(x) {
+    foo: function foo(x) {
         var a = x['foo'](); // should be string
         return a + x.notHere();
     },

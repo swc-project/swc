@@ -4,7 +4,7 @@ createMachine({
         count: 0
     },
     entry: assign({
-        count: function(ctx) {
+        count: function count(ctx) {
             return ++ctx.count;
         }
     })

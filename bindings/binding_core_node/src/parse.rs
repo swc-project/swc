@@ -154,7 +154,7 @@ pub fn parse(
 
     let c = get_compiler();
     let src = stringify(src);
-    let options = String::from_utf8_lossy(options.as_ref()).to_string();
+    let options = String::from_utf8_lossy(options.as_ref()).into_owned();
     let filename = if let Some(value) = filename {
         FileName::Real(value.into())
     } else {
@@ -272,7 +272,7 @@ pub fn parse_file(
 
     let c = get_compiler();
     let path = PathBuf::from(&path);
-    let options = String::from_utf8_lossy(options.as_ref()).to_string();
+    let options = String::from_utf8_lossy(options.as_ref()).into_owned();
 
     AsyncTask::with_optional_signal(ParseFileTask { c, path, options }, signal)
 }

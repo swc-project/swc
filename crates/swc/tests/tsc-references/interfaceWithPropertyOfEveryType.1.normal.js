@@ -22,10 +22,10 @@ var a = {
         1
     ],
     g: {},
-    h: function(x) {
+    h: function h(x) {
         return 1;
     },
-    i: function(x) {
+    i: function i(x) {
         return x;
     },
     j: null,

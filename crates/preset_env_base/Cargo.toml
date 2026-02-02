@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "preset_env_base"
 repository    = { workspace = true }
-version       = "6.0.0"
+version       = "7.0.0"
 
 [lib]
 bench = false

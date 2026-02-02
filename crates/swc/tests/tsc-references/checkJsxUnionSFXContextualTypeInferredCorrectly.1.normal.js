@@ -9,7 +9,7 @@ export function HereIsTheError() {
     return /*#__PURE__*/ React.createElement(ComponentWithUnion, {
         multi: false,
         value: 's',
-        onChange: function(val) {
+        onChange: function onChange(val) {
             return console.log(val);
         }
     });
@@ -18,7 +18,7 @@ export function HereIsTheError() {
 ComponentWithUnion({
     multi: false,
     value: 's',
-    onChange: function(val) {
+    onChange: function onChange(val) {
         return console.log(val) // <- this works fine
         ;
     }

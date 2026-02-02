@@ -49,7 +49,7 @@ var anObjectLiteral = {
 var anOtherObjectLiteral = new C();
 var aFunction = F2;
 var anOtherFunction = F2;
-var aLambda = function(x) {
+var aLambda = function aLambda(x) {
     return 'a string';
 };
 var aModule = N;

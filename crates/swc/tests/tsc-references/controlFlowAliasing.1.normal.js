@@ -234,7 +234,7 @@ function foo(param) {
 }
 // Repro from #45830
 var obj = {
-    fn: function() {
+    fn: function fn() {
         return true;
     }
 };

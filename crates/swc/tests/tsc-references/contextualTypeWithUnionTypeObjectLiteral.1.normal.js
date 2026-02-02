@@ -39,20 +39,20 @@ var i21;
 var i11Ori21 = i11;
 var i11Ori21 = i21;
 var i11Ori21 = {
-    commonMethodDifferentReturnType: function(a, b) {
+    commonMethodDifferentReturnType: function commonMethodDifferentReturnType(a, b) {
         var z = a.charAt(b);
         return z;
     }
 };
 var i11Ori21 = {
-    commonMethodDifferentReturnType: function(a, b) {
+    commonMethodDifferentReturnType: function commonMethodDifferentReturnType(a, b) {
         var z = a.charCodeAt(b);
         return z;
     }
 };
 var strOrNumber;
 var i11Ori21 = {
-    commonMethodDifferentReturnType: function(a, b) {
+    commonMethodDifferentReturnType: function commonMethodDifferentReturnType(a, b) {
         return strOrNumber;
     }
 };

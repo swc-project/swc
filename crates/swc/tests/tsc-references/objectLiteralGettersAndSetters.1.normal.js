@@ -68,7 +68,7 @@ var callSig2 = {
 };
 var callSig2;
 var callSig3 = {
-    num: function(n1) {
+    num: function num(n1) {
         return '';
     }
 };

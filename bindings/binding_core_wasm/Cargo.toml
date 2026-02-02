@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_core_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.15.10"
+version     = "1.15.11"
 
 [lib]
 bench      = false
@@ -44,6 +44,7 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_visit",
   "ecma_helpers_inline",
   "ecma_lints",
+  "base_module",
 ] }
 tracing = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }

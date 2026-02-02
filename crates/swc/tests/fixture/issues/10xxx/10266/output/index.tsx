@@ -14,14 +14,14 @@ var test = {
     validationSchema: (0, _yup.object)({
         isAgent: (0, _yup.boolean)().required()
     }),
-    handleSubmit: function() {}
+    handleSubmit: function handleSubmit() {}
 };
 console.log(test);
 var DealRentModalWithFormik = (0, _formik.withFormik)({
     validationSchema: (0, _yup.object)({
         isAgent: (0, _yup.boolean)().required()
     }),
-    handleSubmit: function() {}
+    handleSubmit: function handleSubmit() {}
 })(function() {
     return React.createElement("span", null);
 });

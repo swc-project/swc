@@ -52,7 +52,7 @@ export function bounceAndTakeIfA(value) {
         return value;
     }
 }
-var fn = function(value) {
+var fn = function fn(value) {
     value.foo; // Error
     if ('foo' in value) {
         value.foo;
@@ -61,7 +61,7 @@ var fn = function(value) {
         value.foo;
     }
 };
-var fn2 = function(value) {
+var fn2 = function fn2(value) {
     value.foo; // Error
     if ('foo' in value) {
         value.foo;

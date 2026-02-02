@@ -11,7 +11,7 @@ var c = {
 var d = {
     foo: '',
     bar: 3,
-    baz: function() {
+    baz: function baz() {
         return '';
     }
 };

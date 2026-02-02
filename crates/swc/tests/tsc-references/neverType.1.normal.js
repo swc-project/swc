@@ -72,7 +72,7 @@ function test(cb) {
     var s = cb();
     return s;
 }
-var errorCallback = function() {
+var errorCallback = function errorCallback() {
     return error("Error callback");
 };
 test(function() {

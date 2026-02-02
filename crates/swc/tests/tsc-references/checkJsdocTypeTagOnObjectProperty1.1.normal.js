@@ -11,7 +11,7 @@ var obj = (_obj = {
         return n1 + 42;
     },
     /** @type {string} */ lol: lol
-}, /** @type {number} */ _define_property(_obj, 'b' + 'ar1', 42), /** @type {function(number): number} */ _define_property(_obj, "arrowFunc", function(num) {
+}, /** @type {number} */ _define_property(_obj, 'b' + 'ar1', 42), /** @type {function(number): number} */ _define_property(_obj, "arrowFunc", function arrowFunc(num) {
     return num + 42;
 }), _obj);
 obj.foo = 'string';

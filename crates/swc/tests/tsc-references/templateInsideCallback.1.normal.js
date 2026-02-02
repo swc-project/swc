@@ -13,7 +13,7 @@ import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
  */ /**
  * @template T
  * @type {Call<T>}
- */ var identity = function(x) {
+ */ var identity = function identity(x) {
     return x;
 };
 /**

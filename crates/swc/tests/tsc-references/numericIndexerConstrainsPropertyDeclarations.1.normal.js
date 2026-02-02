@@ -35,7 +35,7 @@ var a;
 var b = {
     a: '',
     b: 1,
-    c: function() {},
+    c: function c() {},
     "d": '',
     "e": 1,
     1.0: '',

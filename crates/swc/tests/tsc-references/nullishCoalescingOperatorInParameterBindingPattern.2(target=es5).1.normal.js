@@ -1,7 +1,7 @@
 //// [nullishCoalescingOperatorInParameterBindingPattern.2.ts]
 var _a, _a1;
 // https://github.com/microsoft/TypeScript/issues/36295
-var a = function() {
+var a = function a() {
     return undefined;
 };
 (function(param) {

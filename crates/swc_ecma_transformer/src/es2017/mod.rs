@@ -11,6 +11,13 @@ pub struct Es2017Options {
     pub async_to_generator: bool,
 }
 
+impl Es2017Options {
+    /// Returns true if any transform is enabled.
+    pub fn is_enabled(&self) -> bool {
+        self.async_to_generator
+    }
+}
+
 pub fn hook(
     options: Es2017Options,
     unresolved_ctxt: SyntaxContext,

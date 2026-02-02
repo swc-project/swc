@@ -1,12 +1,12 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _to_array } from "@swc/helpers/_/_to_array";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-var timeoutPromise = function(timeout) {
+var timeoutPromise = function timeoutPromise(timeout) {
     return new Promise(function(resolve) {
         return setTimeout(resolve, timeout);
     });
 };
-var processArray = function(array) {
+var processArray = function processArray(array) {
     return _async_to_generator(function() {
         var _array, first, tmp, third, rest;
         return _ts_generator(this, function(_state) {
@@ -36,7 +36,7 @@ var processArray = function(array) {
         });
     })();
 };
-var func1 = function() {
+var func1 = function func1() {
     return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -62,7 +62,7 @@ var func1 = function() {
         });
     })();
 };
-var main = function() {
+var main = function main() {
     return _async_to_generator(function() {
         var res;
         return _ts_generator(this, function(_state) {

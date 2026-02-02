@@ -38,12 +38,12 @@ var anObjectLiteral = {
 var anOtherObjectLiteral = new C();
 var aFunction = F;
 var anOtherFunction = F;
-var aLambda = function(x) {
+var aLambda = function aLambda(x) {
     return 2;
 };
 var aModule = M;
 var aClassInModule = new M.A();
-var aFunctionInModule = function(x) {
+var aFunctionInModule = function aFunctionInModule(x) {
     return 'this is a string';
 };
 var M;

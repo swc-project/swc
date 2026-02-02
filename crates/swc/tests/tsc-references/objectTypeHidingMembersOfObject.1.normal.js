@@ -15,7 +15,7 @@ var r1 = c.valueOf();
 var i;
 var r2 = i.valueOf();
 var a = {
-    valueOf: function() {}
+    valueOf: function valueOf() {}
 };
 var r3 = a.valueOf();
 var b;

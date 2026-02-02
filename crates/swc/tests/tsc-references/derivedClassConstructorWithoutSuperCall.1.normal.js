@@ -28,7 +28,7 @@ var Derived2 = /*#__PURE__*/ function(Base2) {
         var _this = this;
         _class_call_check(this, Derived2);
         var _this1;
-        var r2 = function() {
+        var r2 = function r2() {
             return _this1 = _call_super(_this, Derived2);
         }; // error for misplaced super call (nested function)
         return _assert_this_initialized(_this1);

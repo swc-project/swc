@@ -94,11 +94,11 @@ function f10(foo) {
 }
 // Infers g1: (...args: any[]) => { sum: number, nested: { mul: string } }
 var g1 = applySpec({
-    sum: function(a) {
+    sum: function sum(a) {
         return 3;
     },
     nested: {
-        mul: function(b) {
+        mul: function mul(b) {
             return "n";
         }
     }
@@ -107,14 +107,14 @@ var g1 = applySpec({
 var g2 = applySpec({
     foo: {
         bar: {
-            baz: function(x) {
+            baz: function baz(x) {
                 return true;
             }
         }
     }
 });
 // Repro from #12633
-var foo = function(object, partial) {
+var foo = function foo(object, partial) {
     return object;
 };
 var o = {

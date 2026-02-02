@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "binding_macros"
 repository  = { workspace = true }
-version     = "53.0.0"
+version     = "54.0.0"
 
 [lib]
 bench = false
@@ -33,10 +33,10 @@ binding_wasm = [
 
 [dependencies]
 # Common deps for the SWC imports
-swc                 = { optional = true, version = "53.0.0", path = "../swc", default-features = false }
+swc                 = { optional = true, version = "54.0.0", path = "../swc", default-features = false }
 swc_common          = { optional = true, version = "18.0.1", path = "../swc_common", default-features = false }
-swc_ecma_ast        = { optional = true, version = "20.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_transforms = { optional = true, version = "45.0.0", path = "../swc_ecma_transforms", default-features = false }
+swc_ecma_ast        = { optional = true, version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_transforms = { optional = true, version = "46.0.0", path = "../swc_ecma_transforms", default-features = false }
 swc_ecma_visit      = { optional = true, version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
 # Optional deps for the wasm binding macro

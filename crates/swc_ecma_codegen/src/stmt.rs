@@ -60,7 +60,7 @@ impl MacroNode for EmptyStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emitter.wr.write_punct(None, ";")?;
+        emitter.wr.write_punct(None, ";", false)?;
 
         Ok(())
     }
@@ -405,9 +405,9 @@ impl MacroNode for ForStmt {
 
         punct!(emitter, "(");
         opt!(emitter, self.init);
-        emitter.wr.write_punct(None, ";")?;
+        emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.test);
-        emitter.wr.write_punct(None, ";")?;
+        emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.update);
         punct!(emitter, ")");
 

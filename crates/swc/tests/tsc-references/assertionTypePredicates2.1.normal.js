@@ -6,11 +6,11 @@
  */ /**
  * @param {A} a
  * @returns { asserts a is B }
- */ var foo = function(a) {
+ */ var foo = function foo(a) {
     if (/** @type { B } */ a.y !== 0) throw TypeError();
     return undefined;
 };
-export var main = function() {
+export var main = function main() {
     /** @type { A } */ var a = {
         x: 1
     };

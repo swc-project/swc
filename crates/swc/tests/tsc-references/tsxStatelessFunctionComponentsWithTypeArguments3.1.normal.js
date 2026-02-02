@@ -36,7 +36,7 @@ define([
             func: func
         });
         var o1 = /*#__PURE__*/ _react.createElement(Link, {
-            func: function(a, b) {}
+            func: function func(a, b) {}
         });
     }
 });

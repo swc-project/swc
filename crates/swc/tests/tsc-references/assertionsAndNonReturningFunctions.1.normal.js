@@ -1,5 +1,5 @@
 //// [assertionsAndNonReturningFunctions.js]
-/** @typedef {(check: boolean) => asserts check} AssertFunc */ /** @type {AssertFunc} */ var assert = function(check) {
+/** @typedef {(check: boolean) => asserts check} AssertFunc */ /** @type {AssertFunc} */ var assert = function assert(check) {
     if (!check) throw new Error();
 };
 /** @type {(x: unknown) => asserts x is string } */ function assertIsString(x) {

@@ -75,7 +75,7 @@ impl Task for TransformTask {
                             } else {
                                 FileName::Real(options.filename.clone().into()).into()
                             },
-                            src.to_string(),
+                            src.clone(),
                         );
 
                         self.c.process_js_file(fm, handler, &options)

@@ -58,7 +58,7 @@ var SomeClass = /*#__PURE__*/ function() {
             p: p
         });
         var rewrites4 = /*#__PURE__*/ React.createElement("div", {
-            a: function() {
+            a: function a() {
                 return _this;
             }
         });

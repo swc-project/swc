@@ -1,5 +1,5 @@
 //// [unknownType2.ts]
-var validate = function(x) {
+var validate = function validate(x) {
     return x === 'yes' || x === 'no' ? x : 'idk';
 }; // No error
 var u = undefined;

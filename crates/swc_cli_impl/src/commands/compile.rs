@@ -13,7 +13,9 @@ use path_absolutize::Absolutize;
 use relative_path::RelativePath;
 use swc_core::{
     base::{
-        config::{Config, ConfigFile, Options, PluginConfig, SourceMapsConfig},
+        config::{
+            default_swcrc, Config, ConfigFile, Options, PluginConfig, RootMode, SourceMapsConfig,
+        },
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{
@@ -38,6 +40,11 @@ pub struct CompileOptions {
     /// Path to a .swcrc file to use
     #[clap(long)]
     config_file: Option<PathBuf>,
+
+    /// The mode to use for resolving the project root and .swcrc file.
+    /// Values: root (default), upward, upward-optional
+    #[clap(long, value_parser = parse_root_mode)]
+    root_mode: Option<RootMode>,
 
     /// Filename to use when reading from stdin - this will be used in
     /// source-maps, errors etc
@@ -112,6 +119,17 @@ pub struct CompileOptions {
 
 fn parse_config(s: &str) -> Result<Config, serde_json::Error> {
     serde_json::from_str(s)
+}
+
+fn parse_root_mode(s: &str) -> Result<RootMode, String> {
+    match s {
+        "root" => Ok(RootMode::Root),
+        "upward" => Ok(RootMode::Upward),
+        "upward-optional" => Ok(RootMode::UpwardOptional),
+        _ => Err(format!(
+            "Invalid root mode '{s}'. Valid values are: root, upward, upward-optional"
+        )),
+    }
 }
 
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
@@ -296,6 +314,7 @@ impl CompileOptions {
         let mut options = Options {
             config: self.config.to_owned().unwrap_or_default(),
             config_file,
+            swcrc: default_swcrc(),
             ..Options::default()
         };
 
@@ -329,6 +348,10 @@ impl CompileOptions {
 
         if let Some(env_name) = &self.env_name {
             options.env_name = env_name.to_string();
+        }
+
+        if let Some(root_mode) = self.root_mode {
+            options.root_mode = root_mode;
         }
 
         if let Some(source_maps) = &self.source_maps {

@@ -45,7 +45,7 @@ var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
         var _this = this;
         var x = _get(_get_prototype_of(SomeDerivedClass.prototype), "func", this).call(this);
         var x;
-        var y = function() {
+        var y = function y() {
             return _get(_get_prototype_of(SomeDerivedClass.prototype), "func", _this).call(_this);
         };
     };

@@ -32,7 +32,7 @@ var ResultIsAny4 = void {
 };
 var ResultIsAny5 = void {
     x: "",
-    y: function(s) {
+    y: function y(s) {
         return s;
     }
 };
