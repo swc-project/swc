@@ -22,7 +22,7 @@ es3        = ["swc_ecma_transforms_compat/es3"]
 serde-impl = ["serde"]
 
 [dependencies]
-base64 = { workspace = true, default-features = false }
+base64 = { workspace = true, default-features = false, features = ["alloc"] }
 bytes-str = { workspace = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }

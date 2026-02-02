@@ -71,7 +71,7 @@ swc_ecma_usage_analyzer = { version = "28.0.0", path = "../swc_ecma_usage_analyz
 swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false }
-tracing = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false, features = ["std"] }
 
 [dev-dependencies]
 ansi_term = { workspace = true, default-features = false }

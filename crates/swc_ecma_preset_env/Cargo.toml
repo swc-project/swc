@@ -48,10 +48,10 @@ swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-featu
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [build-dependencies]
-anyhow = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false, features = ["std"] }
 foldhash = { workspace = true, default-features = false }
 precomputed-map = { workspace = true, features = ["builder"] }
-rustc-hash = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false, features = ["std"] }
 serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 

@@ -62,8 +62,8 @@ manual-tokio-runtime = []
 lint = ["swc_ecma_lints"]
 
 [dependencies]
-anyhow = { workspace = true, default-features = false }
-base64 = { workspace = true, default-features = false }
+anyhow = { workspace = true, default-features = false, features = ["std"] }
+base64 = { workspace = true, default-features = false, features = ["std"] }
 bytes-str = { workspace = true, default-features = false }
 dashmap = { workspace = true, default-features = false }
 either = { workspace = true, default-features = false }

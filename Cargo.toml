@@ -99,7 +99,7 @@ quote                     = { version = "1.0.7", default-features = false }
 radix_fmt                 = { version = "1.0.0", default-features = false }
 rand                      = { version = "0.8.5", default-features = false }
 rayon                     = { version = "1.7.0", default-features = false }
-regex                     = { version = "1.5.4", default-features = false }
+regex                     = { version = "1.5.4", default-features = false, features = ["std", "unicode"] }
 regress                   = { version = "0.10.3", default-features = false, features = ["std"] }
 relative-path             = { version = "1.6.1", default-features = false }
 reqwest                   = { version = "0.11.14", default-features = false }

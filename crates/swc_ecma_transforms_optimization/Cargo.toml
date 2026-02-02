@@ -27,7 +27,7 @@ dashmap = { workspace = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
 par-core = { workspace = true, default-features = false }
-petgraph = { workspace = true, default-features = false }
+petgraph = { workspace = true, default-features = false, features = ["graphmap"] }
 rustc-hash = { workspace = true, default-features = false }
 serde_json = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }

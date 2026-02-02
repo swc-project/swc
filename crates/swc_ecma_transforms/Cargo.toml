@@ -45,7 +45,7 @@ swc_ecma_transforms_compat = { version = "42.0.0", path = "../swc_ecma_transform
 swc_ecma_transforms_module = { version = "40.0.0", path = "../swc_ecma_transforms_module", optional = true, default-features = false }
 swc_ecma_transforms_optimization = { version = "38.0.0", path = "../swc_ecma_transforms_optimization", optional = true, default-features = false }
 swc_ecma_transforms_proposal = { version = "36.0.1", path = "../swc_ecma_transforms_proposal", optional = true, default-features = false }
-swc_ecma_transforms_react = { version = "40.0.0", path = "../swc_ecma_transforms_react", optional = true, default-features = false }
+swc_ecma_transforms_react = { version = "40.0.0", path = "../swc_ecma_transforms_react", optional = true, default-features = false, features = ["serde-impl"] }
 swc_ecma_transforms_typescript = { version = "40.0.0", path = "../swc_ecma_transforms_typescript", optional = true, default-features = false }
 swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
 
