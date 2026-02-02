@@ -171,19 +171,29 @@ impl Optimizer<'_> {
             }
         }
 
+        // Check if the named function references itself, either directly or with
+        // property access. If it references itself with property access (e.g.,
+        // f.length, f.name), we cannot inline parameters because it would
+        // change the function's observable properties.
         if let Expr::Fn(FnExpr {
-            ident: Some(ident), ..
+            ident: Some(ident),
+            function,
         }) = callee
         {
-            if self
-                .data
-                .vars
-                .get(&ident.to_id())
-                .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
-                .is_some()
-            {
-                log_abort!("iife: used recursively");
-                return;
+            if let Some(usage) = self.data.vars.get(&ident.to_id()) {
+                if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
+                    log_abort!("iife: used recursively");
+                    return;
+                }
+            }
+            // Also check directly if the function body references itself with property
+            // access, as the usage flags may not be accurate after multiple
+            // optimization passes.
+            if let Some(body) = &function.body {
+                if contains_ident_ref_with_property_access(body, ident) {
+                    log_abort!("iife: function references itself with property access");
+                    return;
+                }
             }
         }
 
@@ -1742,6 +1752,51 @@ impl ConflictingVarFinder<'_> {
 /// declarations hoist to function scope and can shadow/reassign parameters.
 pub fn has_conflicting_var_decl(body: &BlockStmt, param_names: &FxHashSet<Atom>) -> bool {
     let mut visitor = ConflictingVarFinder::new(param_names);
+    body.visit_with(&mut visitor);
+    visitor.found
+}
+
+/// Visitor to find if an identifier is used with property access (e.g.,
+/// `f.length`, `f.name`). This is needed because when a named function
+/// references itself with property access, we cannot inline its parameters as
+/// that would change the function's observable properties.
+struct IdentWithPropertyAccessFinder<'a> {
+    /// The identifier to look for
+    ident: &'a Ident,
+    /// Set to true if the identifier is accessed with a property
+    pub found: bool,
+}
+
+impl<'a> IdentWithPropertyAccessFinder<'a> {
+    fn new(ident: &'a Ident) -> Self {
+        Self {
+            ident,
+            found: false,
+        }
+    }
+}
+
+impl Visit for IdentWithPropertyAccessFinder<'_> {
+    noop_visit_type!(fail);
+
+    fn visit_member_expr(&mut self, n: &MemberExpr) {
+        // Check if the object is the identifier we're looking for
+        if let Expr::Ident(obj_ident) = &*n.obj {
+            if obj_ident.sym == self.ident.sym {
+                self.found = true;
+                return;
+            }
+        }
+        // Continue visiting children
+        n.visit_children_with(self);
+    }
+}
+
+/// Checks if a function body contains any property access on the given
+/// identifier. For example, `f.length` or `f.name` where `f` is the function
+/// name.
+pub fn contains_ident_ref_with_property_access(body: &BlockStmt, ident: &Ident) -> bool {
+    let mut visitor = IdentWithPropertyAccessFinder::new(ident);
     body.visit_with(&mut visitor);
     visitor.found
 }

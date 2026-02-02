@@ -1,3 +1,1 @@
-expect(function(b = 3, c = b) {
-    return c;
-}()).toBe(3);
+expect(3).toBe(3);
