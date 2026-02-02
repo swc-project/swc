@@ -16479,7 +16479,9 @@
                         var type = (0, _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__ /* .detectContainerForBytes */ .Xm)(bytes); // if this looks like a ts segment but we don't have enough data
                         return(// to see the second sync byte, wait until we have enough data
                         // before declaring it ts
-                        "ts" === type && bytes.length < 188 || !type && bytes.length < 376 ? callbackOnCompleted(request, function() {
+                        "ts" === type && bytes.length < 188 ? callbackOnCompleted(request, function() {
+                            return endRequestAndCallback(error, request, "", bytes);
+                        }) : !type && bytes.length < 376 ? callbackOnCompleted(request, function() {
                             return endRequestAndCallback(error, request, "", bytes);
                         }) : endRequestAndCallback(null, request, type, bytes) // this may be an unsynced ts segment
                         );
@@ -20853,7 +20855,12 @@
                             case "timed-metadata":
                                 // Exit early because we don't have enough to parse
                                 // the ID3 tag header
-                                if (bytes.length - byteIndex < 10 || (frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
+                                if (bytes.length - byteIndex < 10) {
+                                    endLoop = !0;
+                                    break;
+                                }
+                                // to emit a full packet
+                                if ((frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
                                     endLoop = !0;
                                     break;
                                 }
@@ -20862,7 +20869,12 @@
                             case "audio":
                                 // Exit early because we don't have enough to parse
                                 // the ADTS frame header
-                                if (bytes.length - byteIndex < 7 || (frameSize = probe.aac.parseAdtsSize(bytes, byteIndex)) > bytes.length) {
+                                if (bytes.length - byteIndex < 7) {
+                                    endLoop = !0;
+                                    break;
+                                }
+                                // to emit a full packet
+                                if ((frameSize = probe.aac.parseAdtsSize(bytes, byteIndex)) > bytes.length) {
                                     endLoop = !0;
                                     break;
                                 }
