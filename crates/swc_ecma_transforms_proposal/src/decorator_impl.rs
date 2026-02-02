@@ -821,32 +821,80 @@ impl VisitMut for DecoratorPass {
                 ..Default::default()
             };
             // _initProto must run AFTER super() but BEFORE field initialization.
-            // We inject it into the first non-static PUBLIC field's initializer expression.
-            // IMPORTANT: We do NOT inject into private fields because accessing private
-            // fields from within the addInitializer callback would fail - private fields
-            // are not accessible until their initializer has completed.
-            // If there are no public fields with initializers, we inject into the
+            // We inject it into the first non-static field's initializer expression that
+            // is:
+            // 1. A public field (ClassProp), OR
+            // 2. The storage field for a PUBLIC accessor (PrivateProp followed by public
+            //    ClassMethod getter)
+            //
+            // IMPORTANT: We do NOT inject into truly private fields or storage for private
+            // accessors because accessing private fields from within the addInitializer
+            // callback would fail - private fields are not accessible until their
+            // initializer has completed.
+            //
+            // If there are no suitable fields with initializers, we inject into the
             // constructor.
             let mut proto_inited = false;
-            for member in n.body.iter_mut() {
-                if let ClassMember::ClassProp(prop) = member {
-                    if prop.is_static {
-                        continue;
+            let body_len = n.body.len();
+            for i in 0..body_len {
+                match &n.body[i] {
+                    ClassMember::ClassProp(prop) => {
+                        if prop.is_static {
+                            continue;
+                        }
+                        if prop.value.is_some() {
+                            // Safe to inject into public field
+                            if let ClassMember::ClassProp(prop) = &mut n.body[i] {
+                                if let Some(value) = prop.value.clone() {
+                                    prop.value = Some(Expr::from_exprs(vec![
+                                        init_proto_expr.clone().into(),
+                                        value,
+                                    ]));
+                                    proto_inited = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
-                            init_proto_expr.clone().into(),
-                            value,
-                        ]));
+                    ClassMember::PrivateProp(prop) => {
+                        if prop.is_static {
+                            continue;
+                        }
+                        if prop.value.is_none() {
+                            continue;
+                        }
+                        // Check if this PrivateProp is storage for a PUBLIC accessor.
+                        // If the next member is a public ClassMethod getter, then this
+                        // is storage for a public accessor and we can inject _initProto.
+                        // If the next member is a PrivateMethod getter, then this is
+                        // storage for a private accessor and we should NOT inject.
+                        let is_public_accessor_storage = if i + 1 < body_len {
+                            matches!(
+                                &n.body[i + 1],
+                                ClassMember::Method(m) if m.kind == MethodKind::Getter
+                            )
+                        } else {
+                            false
+                        };
 
-                        proto_inited = true;
-                        break;
+                        if is_public_accessor_storage {
+                            // Safe to inject into public accessor storage
+                            if let ClassMember::PrivateProp(prop) = &mut n.body[i] {
+                                if let Some(value) = prop.value.clone() {
+                                    prop.value = Some(Expr::from_exprs(vec![
+                                        init_proto_expr.clone().into(),
+                                        value,
+                                    ]));
+                                    proto_inited = true;
+                                    break;
+                                }
+                            }
+                        }
+                        // Skip truly private fields and private accessor
+                        // storage
                     }
+                    _ => {}
                 }
-                // Note: We intentionally skip PrivateProp here - _initProto
-                // should not be called in private field
-                // initializers because accessing private fields
-                // from addInitializer callbacks would fail at that point.
             }
 
             if !proto_inited {

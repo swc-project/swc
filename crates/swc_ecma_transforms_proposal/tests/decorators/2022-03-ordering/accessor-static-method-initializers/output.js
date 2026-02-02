@@ -56,7 +56,7 @@ new class extends _identity {
                 ]));
                 _initStatic(this);
             }
-            #___private_a_1 = _init_a(this);
+            #___private_a_1 = (_initProto(this), _init_a(this));
             get a() {
                 return this.#___private_a_1;
             }
@@ -72,7 +72,6 @@ new class extends _identity {
                 _set___d(this, _v);
             }
             constructor(){
-                _initProto(this);
                 this.a = this.#d = null;
             }
         }
