@@ -11,7 +11,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::VisitMutWith;
 
-use super::Optimizer;
+use super::{iife::has_conflicting_var_decl, Optimizer};
 use crate::{
     compress::{
         optimize::{util::is_valid_for_lhs, BitCtx},
@@ -747,6 +747,29 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
+                            // Collect parameter names for checking conflicting var
+                            // declarations
+                            let param_names: FxHashSet<_> = f
+                                .function
+                                .params
+                                .iter()
+                                .filter_map(|p| match &p.pat {
+                                    Pat::Ident(id) => Some(id.sym.clone()),
+                                    Pat::Assign(a) => {
+                                        if let Pat::Ident(id) = &*a.left {
+                                            Some(id.sym.clone())
+                                        } else {
+                                            None
+                                        }
+                                    }
+                                    _ => None,
+                                })
+                                .collect();
+
+                            // Check if the function body contains any var declarations that
+                            // conflict with parameter names
+                            let has_conflicting_vars = has_conflicting_var_decl(body, &param_names);
+
                             // Check for rest parameters (can't inline) and default
                             // parameters with side effects or that reference other
                             // parameters (unsafe to inline)
@@ -757,6 +780,19 @@ impl Optimizer<'_> {
                                         // Skip inlining if the default value has side effects
                                         if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
                                             return;
+                                        }
+
+                                        // Skip inlining if there's a conflicting var declaration
+                                        // in the function body that has the same name as this
+                                        // parameter. Due to var hoisting, such declarations
+                                        // effectively reassign the parameter, but they may have
+                                        // different SyntaxContext values.
+                                        if let Pat::Ident(param_id) = &*assign.left {
+                                            if has_conflicting_vars
+                                                && param_names.contains(&param_id.sym)
+                                            {
+                                                return;
+                                            }
                                         }
 
                                         // Skip inlining if the parameter is reassigned.

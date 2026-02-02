@@ -1,6 +1,7 @@
 use std::{collections::HashMap, mem::swap};
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -186,26 +187,78 @@ impl Optimizer<'_> {
             }
         }
 
+        // First collect param info and check for conflicting vars using immutable
+        // borrows, before taking mutable params reference
+        let (param_idents, param_names, has_conflicting_vars): (
+            Vec<Option<Ident>>,
+            FxHashSet<Atom>,
+            bool,
+        ) = {
+            // Temporarily get immutable param references
+            let params_ref: Option<Vec<&Pat>> = match callee {
+                Expr::Arrow(callee) => Some(callee.params.iter().collect()),
+                Expr::Fn(callee) => Some(
+                    callee
+                        .function
+                        .params
+                        .iter()
+                        .map(|param| &param.pat)
+                        .collect(),
+                ),
+                _ => None,
+            };
+
+            if let Some(params_ref) = params_ref {
+                // Collect parameter identifiers
+                let param_idents: Vec<Option<Ident>> = params_ref
+                    .iter()
+                    .map(|p| match *p {
+                        Pat::Ident(id) => Some(id.id.clone()),
+                        Pat::Assign(assign) => {
+                            if let Pat::Ident(id) = &*assign.left {
+                                Some(id.id.clone())
+                            } else {
+                                None
+                            }
+                        }
+                        _ => None,
+                    })
+                    .collect();
+
+                // Collect parameter names
+                let param_names: FxHashSet<Atom> = param_idents
+                    .iter()
+                    .filter_map(|opt| opt.as_ref().map(|id| id.sym.clone()))
+                    .collect();
+
+                // Check for conflicting var declarations
+                let has_conflicting_vars = match callee {
+                    Expr::Fn(f) => {
+                        if let Some(body) = &f.function.body {
+                            has_conflicting_var_decl(body, &param_names)
+                        } else {
+                            false
+                        }
+                    }
+                    Expr::Arrow(a) => {
+                        if let BlockStmtOrExpr::BlockStmt(body) = &*a.body {
+                            has_conflicting_var_decl(body, &param_names)
+                        } else {
+                            false
+                        }
+                    }
+                    _ => false,
+                };
+
+                (param_idents, param_names, has_conflicting_vars)
+            } else {
+                return;
+            }
+        };
+
         let params = find_params(callee);
         if let Some(mut params) = params {
             let mut vars = HashMap::default();
-
-            // Collect parameter identifiers upfront for reference checking in default
-            // values
-            let param_idents: Vec<Option<Ident>> = params
-                .iter()
-                .map(|p| match &**p {
-                    Pat::Ident(id) => Some(id.id.clone()),
-                    Pat::Assign(assign) => {
-                        if let Pat::Ident(id) = &*assign.left {
-                            Some(id.id.clone())
-                        } else {
-                            None
-                        }
-                    }
-                    _ => None,
-                })
-                .collect();
 
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
@@ -265,6 +318,15 @@ impl Optimizer<'_> {
                             if param_id.sym == "arguments" {
                                 continue;
                             }
+
+                            // Check if there's a conflicting var declaration in the function
+                            // body that has the same name as this parameter. Due to var
+                            // hoisting, such declarations effectively reassign the parameter,
+                            // but they may have different SyntaxContext values.
+                            if has_conflicting_vars && param_names.contains(&param_id.sym) {
+                                continue;
+                            }
+
                             // Check if the parameter is reassigned. If we can't find usage
                             // data, be conservative and skip inlining. This can happen when
                             // a function declaration is inlined as an IIFE and the syntax
@@ -1566,6 +1628,122 @@ impl Visit for DeclVisitor {
             self.count += v.decls.len()
         }
     }
+}
+
+/// Visitor to find `var` declarations that have the same symbol name as given
+/// parameter names. This is needed because `var` declarations hoist to function
+/// scope and can shadow/reassign parameters, but they may have different
+/// SyntaxContext values, making them appear as different variables.
+pub struct ConflictingVarFinder<'a> {
+    /// The parameter symbol names to check for conflicts
+    param_names: &'a FxHashSet<Atom>,
+    /// Set to true if a conflicting `var` declaration is found
+    pub found: bool,
+}
+
+impl<'a> ConflictingVarFinder<'a> {
+    pub fn new(param_names: &'a FxHashSet<Atom>) -> Self {
+        Self {
+            param_names,
+            found: false,
+        }
+    }
+}
+
+impl Visit for ConflictingVarFinder<'_> {
+    noop_visit_type!(fail);
+
+    /// Don't recurse into nested functions - var declarations there don't hoist
+    /// to the outer function
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        n.key.visit_with(self);
+    }
+
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.key.visit_with(self);
+    }
+
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        n.key.visit_with(self);
+    }
+
+    fn visit_var_decl(&mut self, decl: &VarDecl) {
+        // Only check `var` declarations - `let` and `const` don't hoist to
+        // function scope
+        if decl.kind != VarDeclKind::Var {
+            return;
+        }
+
+        for declarator in &decl.decls {
+            self.check_pat_for_conflict(&declarator.name);
+        }
+    }
+
+    fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
+        if let VarDeclOrExpr::VarDecl(decl) = node {
+            self.visit_var_decl(decl);
+        }
+    }
+}
+
+impl ConflictingVarFinder<'_> {
+    fn check_pat_for_conflict(&mut self, pat: &Pat) {
+        match pat {
+            Pat::Ident(ident) => {
+                if self.param_names.contains(&ident.sym) {
+                    self.found = true;
+                }
+            }
+            Pat::Array(arr) => {
+                for elem in arr.elems.iter().flatten() {
+                    self.check_pat_for_conflict(elem);
+                }
+            }
+            Pat::Object(obj) => {
+                for prop in &obj.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(kv) => {
+                            self.check_pat_for_conflict(&kv.value);
+                        }
+                        ObjectPatProp::Assign(assign) => {
+                            if self.param_names.contains(&assign.key.sym) {
+                                self.found = true;
+                            }
+                        }
+                        ObjectPatProp::Rest(rest) => {
+                            self.check_pat_for_conflict(&rest.arg);
+                        }
+                    }
+                }
+            }
+            Pat::Rest(rest) => {
+                self.check_pat_for_conflict(&rest.arg);
+            }
+            Pat::Assign(assign) => {
+                self.check_pat_for_conflict(&assign.left);
+            }
+            Pat::Expr(_) | Pat::Invalid(_) => {}
+        }
+    }
+}
+
+/// Checks if a function body contains any `var` declarations that would
+/// conflict with the given parameter names. This is needed because `var`
+/// declarations hoist to function scope and can shadow/reassign parameters.
+pub fn has_conflicting_var_decl(body: &BlockStmt, param_names: &FxHashSet<Atom>) -> bool {
+    let mut visitor = ConflictingVarFinder::new(param_names);
+    body.visit_with(&mut visitor);
+    visitor.found
 }
 
 /// Enhanced IIFE invocation for sequence expressions
