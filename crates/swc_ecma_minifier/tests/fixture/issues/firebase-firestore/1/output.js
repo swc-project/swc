@@ -1531,16 +1531,6 @@
                     this.path = t, this.collectionGroup = e, this.orderBy = n, this.filters = s, this.limit = i, this.startAt = r, this.endAt = o, this.A = null;
                 }
             }
-            /**
-                 * Initializes a Target with a path and optional additional query constraints.
-                 * Path must currently be empty if this is a collection group query.
-                 *
-                 * NOTE: you should always construct `Target` from `Query.toTarget` instead of
-                 * using this factory method, because `Query` provides an implicit `orderBy`
-                 * property.
-                 */ function Qt(t, e = null, n = [], s = [], i = null, r = null, o = null) {
-                return new jt(t, e, n, s, i, r, o);
-            }
             function Wt(t) {
                 if (null === t.A) {
                     let t1 = t.path.canonicalString();
@@ -1793,7 +1783,16 @@
             /**
                  * Converts this `Query` instance to it's corresponding `Target` representation.
                  */ function Ee(t) {
-                if (!t.S) if ("F" /* First */  === t.limitType) t.S = Qt(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
+                if (!t.S) if ("F" /* First */  === t.limitType) t.S = /**
+                 * Initializes a Target with a path and optional additional query constraints.
+                 * Path must currently be empty if this is a collection group query.
+                 *
+                 * NOTE: you should always construct `Target` from `Query.toTarget` instead of
+                 * using this factory method, because `Query` provides an implicit `orderBy`
+                 * property.
+                 */ function(t, e = null, n = [], s = [], i = null, r = null, o = null) {
+                    return new jt(t, e, n, s, i, r, o);
+                }(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
                 else {
                     // Flip the orderBy directions since we want the last results
                     let t1 = [];
@@ -1804,7 +1803,9 @@
                     // We need to swap the cursors to match the now-flipped query ordering.
                     let n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
                     // Now return as a LimitType.First query.
-                    t.S = Qt(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
+                    t.S = function(t, e = null, n = [], s = [], i = null, r = null, o = null) {
+                        return new jt(t, e, n, s, i, r, o);
+                    }(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
                 }
                 return t.S;
             }
@@ -8946,8 +8947,10 @@
                  *
                  * @returns A `Promise` that will be resolved with the results of the query.
                  */ function lh(t) {
+                var e;
+                let s;
                 t = ga(t, Aa);
-                let e = ga(t.firestore, ka), n = (e._firestoreClient || Ma(e), e._firestoreClient.verifyNotTerminated(), e._firestoreClient), s = new ah(e);
+                let e1 = ga(t.firestore, ka), n = (e1._firestoreClient || Ma(e1), e1._firestoreClient.verifyNotTerminated(), e1._firestoreClient), s1 = new ah(e1);
                 return(/**
                  * @license
                  * Copyright 2020 Google LLC
@@ -8965,38 +8968,29 @@
                  * limitations under the License.
                  */ function(t) {
                     if (me(t) && 0 === t.explicitOrderBy.length) throw new j(K.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
-                }(t._query), (function(t, e, n = {}) {
-                    let s = new Q();
-                    return t.asyncQueue.enqueueAndForget(async ()=>{
-                        var t1, e1;
-                        let o;
-                        return t1 = await Xc(t), e1 = t.asyncQueue, o = new Qo(e, new Lc({
-                            next: (n1)=>{
-                                // Remove query first before passing event to user to avoid
-                                // user actions affecting the now stale query.
-                                e1.enqueueAndForget(()=>Uo(t1, o)), n1.fromCache && "server" === n.source ? s.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : s.resolve(n1);
-                            },
-                            error: (t)=>s.reject(t)
-                        }), {
-                            includeMetadataChanges: !0,
-                            fo: !0
-                        }), Bo(t1, o);
-                    }), s.promise;
-                })(n, t._query).then((n)=>new xu(e, s, t, n)));
+                }(t._query), (e = t._query, s = new Q(), n.asyncQueue.enqueueAndForget(async ()=>{
+                    var t, e1, s1;
+                    let o;
+                    return t = await Xc(n), e1 = n.asyncQueue, s1 = {}, o = new Qo(e, new Lc({
+                        next: (n)=>{
+                            // Remove query first before passing event to user to avoid
+                            // user actions affecting the now stale query.
+                            e1.enqueueAndForget(()=>Uo(t, o)), n.fromCache && "server" === s1.source ? s.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : s.resolve(n);
+                        },
+                        error: (t)=>s.reject(t)
+                    }), {
+                        includeMetadataChanges: !0,
+                        fo: !0
+                    }), Bo(t, o);
+                }), s.promise).then((n)=>new xu(e1, s1, t, n)));
             }
-            /**
-                 * Cloud Firestore
-                 *
-                 * @packageDocumentation
-                 */ !function(e = !0) {
-                C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .SDK_VERSION */ .Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* ._registerComponent */ .Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__ /* .Component */ .wA("firestore", (t, { options: n })=>{
-                    let i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
-                    return n = Object.assign({
-                        useFetchStreams: e
-                    }, n), i._setSettings(n), i;
-                }, "PUBLIC" /* PUBLIC */ )), (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN)(S, "3.3.0", void 0), // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-                (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN)(S, "3.3.0", "esm2017");
-            }();
+            C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .SDK_VERSION */ .Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* ._registerComponent */ .Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__ /* .Component */ .wA("firestore", (t, { options: n })=>{
+                let i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
+                return n = Object.assign({
+                    useFetchStreams: !0
+                }, n), i._setSettings(n), i;
+            }, "PUBLIC" /* PUBLIC */ )), (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN)(S, "3.3.0", void 0), // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+            (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__ /* .registerVersion */ .KN)(S, "3.3.0", "esm2017");
         //# sourceMappingURL=index.esm2017.js.map
         /***/ }
     }

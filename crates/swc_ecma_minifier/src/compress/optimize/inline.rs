@@ -6,11 +6,12 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
+    class_has_side_effect, collect_decls, contains_ident_ref, contains_this_expr, find_pat_ids,
+    ExprExt, Remapper,
 };
 use swc_ecma_visit::VisitMutWith;
 
-use super::Optimizer;
+use super::{iife::has_conflicting_var_decl, Optimizer};
 use crate::{
     compress::{
         optimize::{util::is_valid_for_lhs, BitCtx},
@@ -746,12 +747,105 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
-                            if f.function
+                            // Collect parameter names for checking conflicting var
+                            // declarations
+                            let param_names: FxHashSet<_> = f
+                                .function
                                 .params
                                 .iter()
-                                .any(|param| matches!(param.pat, Pat::Rest(..) | Pat::Assign(..)))
-                            {
-                                return;
+                                .filter_map(|p| match &p.pat {
+                                    Pat::Ident(id) => Some(id.sym.clone()),
+                                    Pat::Assign(a) => {
+                                        if let Pat::Ident(id) = &*a.left {
+                                            Some(id.sym.clone())
+                                        } else {
+                                            None
+                                        }
+                                    }
+                                    _ => None,
+                                })
+                                .collect();
+
+                            // Check if the function body contains any var declarations that
+                            // conflict with parameter names
+                            let has_conflicting_vars = has_conflicting_var_decl(body, &param_names);
+
+                            // Check for rest parameters (can't inline) and default
+                            // parameters with side effects or that reference other
+                            // parameters (unsafe to inline)
+                            for (param_idx, param) in f.function.params.iter().enumerate() {
+                                match &param.pat {
+                                    Pat::Rest(..) => return,
+                                    Pat::Assign(assign) => {
+                                        // Skip inlining if the default value has side effects
+                                        if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                            return;
+                                        }
+
+                                        // Skip inlining if there's a conflicting var declaration
+                                        // in the function body that has the same name as this
+                                        // parameter. Due to var hoisting, such declarations
+                                        // effectively reassign the parameter, but they may have
+                                        // different SyntaxContext values.
+                                        if let Pat::Ident(param_id) = &*assign.left {
+                                            if has_conflicting_vars
+                                                && param_names.contains(&param_id.sym)
+                                            {
+                                                return;
+                                            }
+                                        }
+
+                                        // Skip inlining if the parameter is reassigned.
+                                        // E.g., `function(a = 2) { for (var [a] of [[1]]); }` -
+                                        // `a` is reassigned through destructuring, so
+                                        // inlining the default value would be incorrect.
+                                        if let Pat::Ident(param_id) = &*assign.left {
+                                            if let Some(param_usage) =
+                                                self.data.vars.get(&param_id.to_id())
+                                            {
+                                                if param_usage
+                                                    .flags
+                                                    .contains(VarUsageInfoFlags::REASSIGNED)
+                                                {
+                                                    return;
+                                                }
+                                            } else {
+                                                // No usage data - be conservative
+                                                return;
+                                            }
+                                        }
+
+                                        // Skip inlining if the default value references any
+                                        // earlier parameter. E.g., `function(a, b = a) {...}` -
+                                        // `b = a` references `a`, which makes inlining unsafe.
+                                        for earlier_param in
+                                            f.function.params.iter().take(param_idx)
+                                        {
+                                            let earlier_ident = match &earlier_param.pat {
+                                                Pat::Ident(id) => Some(&id.id),
+                                                Pat::Assign(a) => {
+                                                    if let Pat::Ident(id) = &*a.left {
+                                                        Some(&id.id)
+                                                    } else {
+                                                        // Complex pattern - be conservative
+                                                        return;
+                                                    }
+                                                }
+                                                _ => {
+                                                    // Complex pattern - be conservative
+                                                    return;
+                                                }
+                                            };
+
+                                            if let Some(ident) = earlier_ident {
+                                                if contains_ident_ref(&*assign.right, ident) {
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    _ => {}
+                                }
                             }
                             report_change!(
                                 "inline: Decided to inline function `{}{:?}` as it's very simple",

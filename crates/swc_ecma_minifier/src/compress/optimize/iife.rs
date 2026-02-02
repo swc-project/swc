@@ -1,9 +1,12 @@
 use std::{collections::HashMap, mem::swap};
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
+use swc_ecma_utils::{
+    contains_arguments, contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
@@ -168,25 +171,105 @@ impl Optimizer<'_> {
             }
         }
 
+        // Check if the named function references itself, either directly or with
+        // property access. If it references itself with property access (e.g.,
+        // f.length, f.name), we cannot inline parameters because it would
+        // change the function's observable properties.
         if let Expr::Fn(FnExpr {
-            ident: Some(ident), ..
+            ident: Some(ident),
+            function,
         }) = callee
         {
-            if self
-                .data
-                .vars
-                .get(&ident.to_id())
-                .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
-                .is_some()
-            {
-                log_abort!("iife: used recursively");
-                return;
+            if let Some(usage) = self.data.vars.get(&ident.to_id()) {
+                if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
+                    log_abort!("iife: used recursively");
+                    return;
+                }
+            }
+            // Also check directly if the function body references itself with property
+            // access, as the usage flags may not be accurate after multiple
+            // optimization passes.
+            if let Some(body) = &function.body {
+                if contains_ident_ref_with_property_access(body, ident) {
+                    log_abort!("iife: function references itself with property access");
+                    return;
+                }
             }
         }
+
+        // First collect param info and check for conflicting vars using immutable
+        // borrows, before taking mutable params reference
+        let (param_idents, param_names, has_conflicting_vars): (
+            Vec<Option<Ident>>,
+            FxHashSet<Atom>,
+            bool,
+        ) = {
+            // Temporarily get immutable param references
+            let params_ref: Option<Vec<&Pat>> = match callee {
+                Expr::Arrow(callee) => Some(callee.params.iter().collect()),
+                Expr::Fn(callee) => Some(
+                    callee
+                        .function
+                        .params
+                        .iter()
+                        .map(|param| &param.pat)
+                        .collect(),
+                ),
+                _ => None,
+            };
+
+            if let Some(params_ref) = params_ref {
+                // Collect parameter identifiers
+                let param_idents: Vec<Option<Ident>> = params_ref
+                    .iter()
+                    .map(|p| match *p {
+                        Pat::Ident(id) => Some(id.id.clone()),
+                        Pat::Assign(assign) => {
+                            if let Pat::Ident(id) = &*assign.left {
+                                Some(id.id.clone())
+                            } else {
+                                None
+                            }
+                        }
+                        _ => None,
+                    })
+                    .collect();
+
+                // Collect parameter names
+                let param_names: FxHashSet<Atom> = param_idents
+                    .iter()
+                    .filter_map(|opt| opt.as_ref().map(|id| id.sym.clone()))
+                    .collect();
+
+                // Check for conflicting var declarations
+                let has_conflicting_vars = match callee {
+                    Expr::Fn(f) => {
+                        if let Some(body) = &f.function.body {
+                            has_conflicting_var_decl(body, &param_names)
+                        } else {
+                            false
+                        }
+                    }
+                    Expr::Arrow(a) => {
+                        if let BlockStmtOrExpr::BlockStmt(body) = &*a.body {
+                            has_conflicting_var_decl(body, &param_names)
+                        } else {
+                            false
+                        }
+                    }
+                    _ => false,
+                };
+
+                (param_idents, param_names, has_conflicting_vars)
+            } else {
+                return;
+            }
+        };
 
         let params = find_params(callee);
         if let Some(mut params) = params {
             let mut vars = HashMap::default();
+
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
@@ -235,6 +318,96 @@ impl Optimizer<'_> {
                             let span = param.span();
 
                             vars.insert(param.take().to_id(), Expr::undefined(span));
+                        }
+                    }
+
+                    Pat::Assign(assign_pat) => {
+                        // Handle default parameters
+                        // If the left side is an identifier, we can potentially inline
+                        if let Pat::Ident(param_id) = &*assign_pat.left {
+                            if param_id.sym == "arguments" {
+                                continue;
+                            }
+
+                            // Check if there's a conflicting var declaration in the function
+                            // body that has the same name as this parameter. Due to var
+                            // hoisting, such declarations effectively reassign the parameter,
+                            // but they may have different SyntaxContext values.
+                            if has_conflicting_vars && param_names.contains(&param_id.sym) {
+                                continue;
+                            }
+
+                            // Check if the parameter is reassigned. If we can't find usage
+                            // data, be conservative and skip inlining. This can happen when
+                            // a function declaration is inlined as an IIFE and the syntax
+                            // context no longer matches the original analysis.
+                            match self.data.vars.get(&param_id.to_id()) {
+                                Some(usage)
+                                    if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) =>
+                                {
+                                    continue;
+                                }
+                                None => {
+                                    // No usage data found - skip inlining to be safe
+                                    continue;
+                                }
+                                _ => {}
+                            }
+
+                            let arg = e.args.get_mut(idx).map(|v| &mut v.expr);
+
+                            if let Some(arg) = arg {
+                                // Argument provided at call site - use the argument
+                                match &**arg {
+                                    Expr::Lit(Lit::Regex(..)) => continue,
+                                    Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
+                                    Expr::Lit(..) => {}
+                                    _ => continue,
+                                }
+
+                                let should_be_inlined = self.can_be_inlined_for_iife(arg);
+                                if should_be_inlined {
+                                    let id = param_id.to_id();
+                                    trace_op!(
+                                        "iife: Trying to inline default param argument ({}{:?})",
+                                        id.0,
+                                        id.1
+                                    );
+                                    vars.insert(id, arg.take());
+                                    // Take the whole param pattern
+                                    param.take();
+                                }
+                            } else {
+                                // No argument provided - use the default value if it has no
+                                // side effects AND doesn't reference earlier parameters
+                                if !assign_pat.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                    // Check if the default value references any earlier parameter
+                                    let references_earlier_param =
+                                        param_idents.iter().take(idx).any(|maybe_ident| {
+                                            match maybe_ident {
+                                                Some(ident) => {
+                                                    contains_ident_ref(&*assign_pat.right, ident)
+                                                }
+                                                // Complex pattern - be conservative
+                                                None => true,
+                                            }
+                                        });
+
+                                    if references_earlier_param {
+                                        continue;
+                                    }
+
+                                    let id = param_id.to_id();
+                                    trace_op!(
+                                        "iife: Trying to inline default param value ({}{:?})",
+                                        id.0,
+                                        id.1
+                                    );
+                                    vars.insert(id, Box::new((*assign_pat.right).clone()));
+                                    // Take the whole param pattern
+                                    param.take();
+                                }
+                            }
                         }
                     }
 
@@ -1464,6 +1637,382 @@ impl Visit for DeclVisitor {
         if let VarDeclOrExpr::VarDecl(v) = node {
             self.count += v.decls.len()
         }
+    }
+}
+
+/// Checks if a function body contains any `var` declarations that would
+/// conflict with the given parameter names. This is needed because `var`
+/// declarations hoist to function scope and can shadow/reassign parameters.
+///
+/// Note: This function uses simple iteration instead of a Visitor to check
+/// for conflicting var declarations. It only looks at `var` declarations
+/// (not `let`/`const`) since only `var` hoists to function scope.
+pub fn has_conflicting_var_decl(body: &BlockStmt, param_names: &FxHashSet<Atom>) -> bool {
+    has_conflicting_var_decl_in_stmts(&body.stmts, param_names)
+}
+
+/// Helper function to check statements for conflicting var declarations.
+fn has_conflicting_var_decl_in_stmts(stmts: &[Stmt], param_names: &FxHashSet<Atom>) -> bool {
+    for stmt in stmts {
+        if has_conflicting_var_decl_in_stmt(stmt, param_names) {
+            return true;
+        }
+    }
+    false
+}
+
+/// Check a single statement for conflicting var declarations.
+/// Does not recurse into nested functions (var declarations there don't hoist).
+fn has_conflicting_var_decl_in_stmt(stmt: &Stmt, param_names: &FxHashSet<Atom>) -> bool {
+    match stmt {
+        Stmt::Decl(Decl::Var(var)) if var.kind == VarDeclKind::Var => {
+            // Check each declarator's pattern for conflicting names
+            for decl in &var.decls {
+                let ids: Vec<Ident> = find_pat_ids(&decl.name);
+                for id in ids {
+                    if param_names.contains(&id.sym) {
+                        return true;
+                    }
+                }
+            }
+            false
+        }
+        // Recurse into block statements
+        Stmt::Block(block) => has_conflicting_var_decl_in_stmts(&block.stmts, param_names),
+        // Recurse into if statements (but not into nested functions)
+        Stmt::If(if_stmt) => {
+            has_conflicting_var_decl_in_stmt(&if_stmt.cons, param_names)
+                || if_stmt
+                    .alt
+                    .as_ref()
+                    .is_some_and(|alt| has_conflicting_var_decl_in_stmt(alt, param_names))
+        }
+        // Recurse into while/do-while loops
+        Stmt::While(while_stmt) => has_conflicting_var_decl_in_stmt(&while_stmt.body, param_names),
+        Stmt::DoWhile(do_while) => has_conflicting_var_decl_in_stmt(&do_while.body, param_names),
+        // Recurse into for loops (check init, and body)
+        Stmt::For(for_stmt) => {
+            // Check for var declarations in init
+            if let Some(VarDeclOrExpr::VarDecl(var)) = &for_stmt.init {
+                if var.kind == VarDeclKind::Var {
+                    for decl in &var.decls {
+                        let ids: Vec<Ident> = find_pat_ids(&decl.name);
+                        for id in ids {
+                            if param_names.contains(&id.sym) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            has_conflicting_var_decl_in_stmt(&for_stmt.body, param_names)
+        }
+        // Recurse into for-in loops
+        Stmt::ForIn(for_in) => {
+            if let ForHead::VarDecl(var) = &for_in.left {
+                if var.kind == VarDeclKind::Var {
+                    for decl in &var.decls {
+                        let ids: Vec<Ident> = find_pat_ids(&decl.name);
+                        for id in ids {
+                            if param_names.contains(&id.sym) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            has_conflicting_var_decl_in_stmt(&for_in.body, param_names)
+        }
+        // Recurse into for-of loops
+        Stmt::ForOf(for_of) => {
+            if let ForHead::VarDecl(var) = &for_of.left {
+                if var.kind == VarDeclKind::Var {
+                    for decl in &var.decls {
+                        let ids: Vec<Ident> = find_pat_ids(&decl.name);
+                        for id in ids {
+                            if param_names.contains(&id.sym) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            has_conflicting_var_decl_in_stmt(&for_of.body, param_names)
+        }
+        // Recurse into switch cases
+        Stmt::Switch(switch) => {
+            for case in &switch.cases {
+                if has_conflicting_var_decl_in_stmts(&case.cons, param_names) {
+                    return true;
+                }
+            }
+            false
+        }
+        // Recurse into try/catch/finally
+        Stmt::Try(try_stmt) => {
+            if has_conflicting_var_decl_in_stmts(&try_stmt.block.stmts, param_names) {
+                return true;
+            }
+            if let Some(handler) = &try_stmt.handler {
+                if has_conflicting_var_decl_in_stmts(&handler.body.stmts, param_names) {
+                    return true;
+                }
+            }
+            if let Some(finalizer) = &try_stmt.finalizer {
+                if has_conflicting_var_decl_in_stmts(&finalizer.stmts, param_names) {
+                    return true;
+                }
+            }
+            false
+        }
+        // Recurse into with statements
+        Stmt::With(with_stmt) => has_conflicting_var_decl_in_stmt(&with_stmt.body, param_names),
+        // Recurse into labeled statements
+        Stmt::Labeled(labeled) => has_conflicting_var_decl_in_stmt(&labeled.body, param_names),
+        // Don't recurse into function declarations - var declarations there
+        // don't hoist to the outer function. Also skip expression statements
+        // since they can't contain var declarations at the statement level.
+        _ => false,
+    }
+}
+
+/// Checks if a function body contains any property access on the given
+/// identifier. For example, `f.length` or `f.name` where `f` is the function
+/// name.
+///
+/// Note: This function uses simple recursion instead of a Visitor.
+pub fn contains_ident_ref_with_property_access(body: &BlockStmt, ident: &Ident) -> bool {
+    contains_ident_ref_with_property_access_in_stmts(&body.stmts, ident)
+}
+
+/// Helper to check statements for property access on an identifier.
+fn contains_ident_ref_with_property_access_in_stmts(stmts: &[Stmt], ident: &Ident) -> bool {
+    for stmt in stmts {
+        if contains_ident_ref_with_property_access_in_stmt(stmt, ident) {
+            return true;
+        }
+    }
+    false
+}
+
+/// Check a statement for property access on an identifier.
+fn contains_ident_ref_with_property_access_in_stmt(stmt: &Stmt, ident: &Ident) -> bool {
+    match stmt {
+        Stmt::Expr(expr_stmt) => {
+            contains_ident_ref_with_property_access_in_expr(&expr_stmt.expr, ident)
+        }
+        Stmt::Return(ret) => ret
+            .arg
+            .as_ref()
+            .is_some_and(|arg| contains_ident_ref_with_property_access_in_expr(arg, ident)),
+        Stmt::Block(block) => contains_ident_ref_with_property_access_in_stmts(&block.stmts, ident),
+        Stmt::If(if_stmt) => {
+            contains_ident_ref_with_property_access_in_expr(&if_stmt.test, ident)
+                || contains_ident_ref_with_property_access_in_stmt(&if_stmt.cons, ident)
+                || if_stmt
+                    .alt
+                    .as_ref()
+                    .is_some_and(|alt| contains_ident_ref_with_property_access_in_stmt(alt, ident))
+        }
+        Stmt::While(while_stmt) => {
+            contains_ident_ref_with_property_access_in_expr(&while_stmt.test, ident)
+                || contains_ident_ref_with_property_access_in_stmt(&while_stmt.body, ident)
+        }
+        Stmt::DoWhile(do_while) => {
+            contains_ident_ref_with_property_access_in_expr(&do_while.test, ident)
+                || contains_ident_ref_with_property_access_in_stmt(&do_while.body, ident)
+        }
+        Stmt::For(for_stmt) => {
+            let in_init = match &for_stmt.init {
+                Some(VarDeclOrExpr::Expr(e)) => {
+                    contains_ident_ref_with_property_access_in_expr(e, ident)
+                }
+                Some(VarDeclOrExpr::VarDecl(var)) => var.decls.iter().any(|decl| {
+                    decl.init.as_ref().is_some_and(|init| {
+                        contains_ident_ref_with_property_access_in_expr(init, ident)
+                    })
+                }),
+                None => false,
+            };
+            in_init
+                || for_stmt.test.as_ref().is_some_and(|test| {
+                    contains_ident_ref_with_property_access_in_expr(test, ident)
+                })
+                || for_stmt.update.as_ref().is_some_and(|update| {
+                    contains_ident_ref_with_property_access_in_expr(update, ident)
+                })
+                || contains_ident_ref_with_property_access_in_stmt(&for_stmt.body, ident)
+        }
+        Stmt::ForIn(for_in) => {
+            contains_ident_ref_with_property_access_in_expr(&for_in.right, ident)
+                || contains_ident_ref_with_property_access_in_stmt(&for_in.body, ident)
+        }
+        Stmt::ForOf(for_of) => {
+            contains_ident_ref_with_property_access_in_expr(&for_of.right, ident)
+                || contains_ident_ref_with_property_access_in_stmt(&for_of.body, ident)
+        }
+        Stmt::Switch(switch) => {
+            contains_ident_ref_with_property_access_in_expr(&switch.discriminant, ident)
+                || switch.cases.iter().any(|case| {
+                    case.test.as_ref().is_some_and(|test| {
+                        contains_ident_ref_with_property_access_in_expr(test, ident)
+                    }) || contains_ident_ref_with_property_access_in_stmts(&case.cons, ident)
+                })
+        }
+        Stmt::Try(try_stmt) => {
+            contains_ident_ref_with_property_access_in_stmts(&try_stmt.block.stmts, ident)
+                || try_stmt.handler.as_ref().is_some_and(|handler| {
+                    contains_ident_ref_with_property_access_in_stmts(&handler.body.stmts, ident)
+                })
+                || try_stmt.finalizer.as_ref().is_some_and(|finalizer| {
+                    contains_ident_ref_with_property_access_in_stmts(&finalizer.stmts, ident)
+                })
+        }
+        Stmt::Throw(throw) => contains_ident_ref_with_property_access_in_expr(&throw.arg, ident),
+        Stmt::Decl(Decl::Var(var)) => var.decls.iter().any(|decl| {
+            decl.init
+                .as_ref()
+                .is_some_and(|init| contains_ident_ref_with_property_access_in_expr(init, ident))
+        }),
+        Stmt::Labeled(labeled) => {
+            contains_ident_ref_with_property_access_in_stmt(&labeled.body, ident)
+        }
+        Stmt::With(with_stmt) => {
+            contains_ident_ref_with_property_access_in_expr(&with_stmt.obj, ident)
+                || contains_ident_ref_with_property_access_in_stmt(&with_stmt.body, ident)
+        }
+        _ => false,
+    }
+}
+
+/// Check an expression for property access on an identifier.
+fn contains_ident_ref_with_property_access_in_expr(expr: &Expr, ident: &Ident) -> bool {
+    match expr {
+        // Check if this is a member expression with the target ident as object
+        Expr::Member(member) => {
+            if let Expr::Ident(obj_ident) = &*member.obj {
+                if obj_ident.sym == ident.sym {
+                    return true;
+                }
+            }
+            // Recurse into object and computed property
+            contains_ident_ref_with_property_access_in_expr(&member.obj, ident)
+                || matches!(&member.prop, MemberProp::Computed(computed) if contains_ident_ref_with_property_access_in_expr(&computed.expr, ident))
+        }
+        // Recurse into other expression types
+        Expr::Call(call) => {
+            let in_callee = match &call.callee {
+                Callee::Expr(e) => contains_ident_ref_with_property_access_in_expr(e, ident),
+                _ => false,
+            };
+            in_callee
+                || call
+                    .args
+                    .iter()
+                    .any(|arg| contains_ident_ref_with_property_access_in_expr(&arg.expr, ident))
+        }
+        Expr::New(new) => {
+            contains_ident_ref_with_property_access_in_expr(&new.callee, ident)
+                || new.args.as_ref().is_some_and(|args| {
+                    args.iter().any(|arg| {
+                        contains_ident_ref_with_property_access_in_expr(&arg.expr, ident)
+                    })
+                })
+        }
+        Expr::Seq(seq) => seq
+            .exprs
+            .iter()
+            .any(|e| contains_ident_ref_with_property_access_in_expr(e, ident)),
+        Expr::Cond(cond) => {
+            contains_ident_ref_with_property_access_in_expr(&cond.test, ident)
+                || contains_ident_ref_with_property_access_in_expr(&cond.cons, ident)
+                || contains_ident_ref_with_property_access_in_expr(&cond.alt, ident)
+        }
+        Expr::Bin(bin) => {
+            contains_ident_ref_with_property_access_in_expr(&bin.left, ident)
+                || contains_ident_ref_with_property_access_in_expr(&bin.right, ident)
+        }
+        Expr::Unary(unary) => contains_ident_ref_with_property_access_in_expr(&unary.arg, ident),
+        Expr::Update(update) => contains_ident_ref_with_property_access_in_expr(&update.arg, ident),
+        Expr::Assign(assign) => {
+            let in_left = match &assign.left {
+                AssignTarget::Simple(simple) => match simple {
+                    SimpleAssignTarget::Ident(_) => false,
+                    SimpleAssignTarget::Member(m) => {
+                        if let Expr::Ident(obj_ident) = &*m.obj {
+                            if obj_ident.sym == ident.sym {
+                                return true;
+                            }
+                        }
+                        contains_ident_ref_with_property_access_in_expr(&m.obj, ident)
+                    }
+                    _ => false,
+                },
+                _ => false,
+            };
+            in_left || contains_ident_ref_with_property_access_in_expr(&assign.right, ident)
+        }
+        Expr::Array(arr) => arr.elems.iter().any(|elem| {
+            elem.as_ref()
+                .is_some_and(|e| contains_ident_ref_with_property_access_in_expr(&e.expr, ident))
+        }),
+        Expr::Object(obj) => obj.props.iter().any(|prop| match prop {
+            PropOrSpread::Prop(p) => match &**p {
+                Prop::KeyValue(kv) => {
+                    contains_ident_ref_with_property_access_in_expr(&kv.value, ident)
+                }
+                Prop::Getter(g) => g.body.as_ref().is_some_and(|body| {
+                    contains_ident_ref_with_property_access_in_stmts(&body.stmts, ident)
+                }),
+                Prop::Setter(s) => s.body.as_ref().is_some_and(|body| {
+                    contains_ident_ref_with_property_access_in_stmts(&body.stmts, ident)
+                }),
+                Prop::Method(m) => m.function.body.as_ref().is_some_and(|body| {
+                    contains_ident_ref_with_property_access_in_stmts(&body.stmts, ident)
+                }),
+                _ => false,
+            },
+            PropOrSpread::Spread(spread) => {
+                contains_ident_ref_with_property_access_in_expr(&spread.expr, ident)
+            }
+        }),
+        Expr::Paren(paren) => contains_ident_ref_with_property_access_in_expr(&paren.expr, ident),
+        Expr::Tpl(tpl) => tpl
+            .exprs
+            .iter()
+            .any(|e| contains_ident_ref_with_property_access_in_expr(e, ident)),
+        Expr::TaggedTpl(tagged) => {
+            contains_ident_ref_with_property_access_in_expr(&tagged.tag, ident)
+                || tagged
+                    .tpl
+                    .exprs
+                    .iter()
+                    .any(|e| contains_ident_ref_with_property_access_in_expr(e, ident))
+        }
+        Expr::Yield(y) => y
+            .arg
+            .as_ref()
+            .is_some_and(|arg| contains_ident_ref_with_property_access_in_expr(arg, ident)),
+        Expr::Await(a) => contains_ident_ref_with_property_access_in_expr(&a.arg, ident),
+        Expr::OptChain(opt) => match &*opt.base {
+            OptChainBase::Member(m) => {
+                if let Expr::Ident(obj_ident) = &*m.obj {
+                    if obj_ident.sym == ident.sym {
+                        return true;
+                    }
+                }
+                contains_ident_ref_with_property_access_in_expr(&m.obj, ident)
+            }
+            OptChainBase::Call(c) => {
+                contains_ident_ref_with_property_access_in_expr(&c.callee, ident)
+                    || c.args.iter().any(|arg| {
+                        contains_ident_ref_with_property_access_in_expr(&arg.expr, ident)
+                    })
+            }
+        },
+        // Don't recurse into arrow/function expressions - they have their own scope
+        // for the function name
+        _ => false,
     }
 }
 
