@@ -5,11 +5,13 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::get_mut_object_define_property_name_arg;
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{option::ManglePropertiesOptions, program_data::analyze, util::base54::Base54Chars};
+use crate::{
+    option::ManglePropertiesOptions,
+    program_data::{analyze, ProgramData, VarUsageInfoFlags},
+    util::base54::Base54Chars,
+};
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
     let domprops: Vec<Atom> = serde_json::from_str(include_str!("../lists/domprops.json"))
@@ -109,48 +111,6 @@ impl<'a> ManglePropertiesState<'a> {
     }
 }
 
-/// Collects properties that are potentially accessed dynamically.
-///
-/// A property should NOT be mangled if:
-/// 1. It's on an exported variable
-/// 2. It could be accessed via a dynamic key (e.g., `obj[variable]`)
-/// 3. The object containing it is passed to external code that could access
-///    properties dynamically
-struct UnsafePropertyCollector {
-    /// Properties that should NOT be mangled because they may be accessed
-    /// dynamically
-    unsafe_props: FxHashSet<Wtf8Atom>,
-
-    /// Variables that are exported or otherwise exposed
-    exported_vars: FxHashSet<Id>,
-
-    /// Variables that are accessed with dynamic keys
-    dynamic_access_vars: FxHashSet<Id>,
-}
-
-impl UnsafePropertyCollector {
-    fn new() -> Self {
-        Self {
-            unsafe_props: Default::default(),
-            exported_vars: Default::default(),
-            dynamic_access_vars: Default::default(),
-        }
-    }
-
-    /// Mark all properties of a variable as unsafe (not mangleable)
-    fn mark_var_props_unsafe(&mut self, id: &Id, obj: &ObjectLit) {
-        if self.exported_vars.contains(id) || self.dynamic_access_vars.contains(id) {
-            for prop in &obj.props {
-                if let PropOrSpread::Prop(prop) = prop {
-                    if let Some(name) = get_prop_name(prop) {
-                        self.unsafe_props.insert(name);
-                    }
-                }
-            }
-        }
-    }
-}
-
 /// Extract property name from a Prop
 fn get_prop_name(prop: &Prop) -> Option<Wtf8Atom> {
     match prop {
@@ -171,128 +131,171 @@ fn get_prop_name_from_key(key: &PropName) -> Option<Wtf8Atom> {
     }
 }
 
-impl Visit for UnsafePropertyCollector {
-    noop_visit_type!();
+/// Collect top-level property names from an object literal
+fn collect_obj_lit_props(obj: &ObjectLit, props: &mut FxHashSet<Wtf8Atom>) {
+    for prop in &obj.props {
+        if let PropOrSpread::Prop(prop) = prop {
+            if let Some(name) = get_prop_name(prop) {
+                props.insert(name);
+            }
+        }
+    }
+}
 
-    fn visit_export_decl(&mut self, n: &ExportDecl) {
-        // Track exported variables
-        match &n.decl {
-            Decl::Var(var) => {
+/// Collect unsafe properties from statements.
+/// This finds object literals assigned to variables that are accessed with
+/// dynamic keys or are exported.
+fn collect_unsafe_props_from_stmts(stmts: &[Stmt], data: &ProgramData) -> FxHashSet<Wtf8Atom> {
+    let mut unsafe_props = FxHashSet::default();
+
+    for stmt in stmts {
+        collect_unsafe_props_from_stmt(stmt, data, &mut unsafe_props);
+    }
+
+    unsafe_props
+}
+
+fn collect_unsafe_props_from_stmt(
+    stmt: &Stmt,
+    data: &ProgramData,
+    props: &mut FxHashSet<Wtf8Atom>,
+) {
+    match stmt {
+        Stmt::Decl(Decl::Var(var)) => {
+            for decl in &var.decls {
+                collect_unsafe_props_from_var_decl(decl, data, props);
+            }
+        }
+        Stmt::Block(block) => {
+            for stmt in &block.stmts {
+                collect_unsafe_props_from_stmt(stmt, data, props);
+            }
+        }
+        Stmt::If(if_stmt) => {
+            collect_unsafe_props_from_stmt(&if_stmt.cons, data, props);
+            if let Some(alt) = &if_stmt.alt {
+                collect_unsafe_props_from_stmt(alt, data, props);
+            }
+        }
+        Stmt::While(while_stmt) => {
+            collect_unsafe_props_from_stmt(&while_stmt.body, data, props);
+        }
+        Stmt::DoWhile(do_while) => {
+            collect_unsafe_props_from_stmt(&do_while.body, data, props);
+        }
+        Stmt::For(for_stmt) => {
+            if let Some(VarDeclOrExpr::VarDecl(var)) = &for_stmt.init {
                 for decl in &var.decls {
-                    if let Pat::Ident(ident) = &decl.name {
-                        self.exported_vars.insert(ident.to_id());
-                    }
+                    collect_unsafe_props_from_var_decl(decl, data, props);
                 }
             }
-            Decl::Fn(f) => {
-                self.exported_vars.insert(f.ident.to_id());
-            }
-            Decl::Class(c) => {
-                self.exported_vars.insert(c.ident.to_id());
-            }
-            _ => {}
+            collect_unsafe_props_from_stmt(&for_stmt.body, data, props);
         }
-        n.visit_children_with(self);
-    }
-
-    fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
-        // For default exports, we can't easily track the variable, but we need
-        // to be conservative about object literals in default exports
-        if let Expr::Object(obj) = &*n.expr {
-            for prop in &obj.props {
-                if let PropOrSpread::Prop(prop) = prop {
-                    if let Some(name) = get_prop_name(prop) {
-                        self.unsafe_props.insert(name);
-                    }
+        Stmt::ForIn(for_in) => {
+            if let ForHead::VarDecl(var) = &for_in.left {
+                for decl in &var.decls {
+                    collect_unsafe_props_from_var_decl(decl, data, props);
                 }
             }
+            collect_unsafe_props_from_stmt(&for_in.body, data, props);
         }
-        n.visit_children_with(self);
-    }
-
-    fn visit_member_expr(&mut self, n: &MemberExpr) {
-        n.visit_children_with(self);
-
-        // Check for dynamic property access: obj[variable] where variable is not
-        // a constant
-        if let MemberProp::Computed(computed) = &n.prop {
-            match &*computed.expr {
-                // Static string access like obj["prop"] is fine
-                Expr::Lit(Lit::Str(_)) => {}
-                // Numeric access like obj[0] is fine
-                Expr::Lit(Lit::Num(_)) => {}
-                // Any other computed access is potentially dynamic
-                _ => {
-                    // Mark the object being accessed as having dynamic access
-                    if let Expr::Ident(ident) = &*n.obj {
-                        self.dynamic_access_vars.insert(ident.to_id());
-                    }
+        Stmt::ForOf(for_of) => {
+            if let ForHead::VarDecl(var) = &for_of.left {
+                for decl in &var.decls {
+                    collect_unsafe_props_from_var_decl(decl, data, props);
+                }
+            }
+            collect_unsafe_props_from_stmt(&for_of.body, data, props);
+        }
+        Stmt::Switch(switch) => {
+            for case in &switch.cases {
+                for stmt in &case.cons {
+                    collect_unsafe_props_from_stmt(stmt, data, props);
                 }
             }
         }
-    }
-
-    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
-        n.visit_children_with(self);
-
-        // Track object literal assignments to variables
-        if let Pat::Ident(ident) = &n.name {
-            if let Some(init) = &n.init {
-                if let Expr::Object(obj) = &**init {
-                    self.mark_var_props_unsafe(&ident.to_id(), obj);
+        Stmt::Try(try_stmt) => {
+            for stmt in &try_stmt.block.stmts {
+                collect_unsafe_props_from_stmt(stmt, data, props);
+            }
+            if let Some(catch) = &try_stmt.handler {
+                for stmt in &catch.body.stmts {
+                    collect_unsafe_props_from_stmt(stmt, data, props);
+                }
+            }
+            if let Some(finally) = &try_stmt.finalizer {
+                for stmt in &finally.stmts {
+                    collect_unsafe_props_from_stmt(stmt, data, props);
                 }
             }
         }
+        Stmt::With(with) => {
+            collect_unsafe_props_from_stmt(&with.body, data, props);
+        }
+        Stmt::Labeled(labeled) => {
+            collect_unsafe_props_from_stmt(&labeled.body, data, props);
+        }
+        _ => {}
     }
 }
 
-/// Second pass: collect properties from objects that are accessed dynamically
-/// at a deeper level (nested objects).
-struct NestedUnsafePropertyCollector<'a> {
-    unsafe_props: &'a mut FxHashSet<Wtf8Atom>,
-    dynamic_access_vars: &'a FxHashSet<Id>,
-}
-
-impl Visit for NestedUnsafePropertyCollector<'_> {
-    noop_visit_type!();
-
-    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
-        n.visit_children_with(self);
-
-        // If a variable is accessed dynamically, mark all top-level properties
-        // of its object literal value as unsafe
-        if let Pat::Ident(ident) = &n.name {
-            if self.dynamic_access_vars.contains(&ident.to_id()) {
-                if let Some(init) = &n.init {
+fn collect_unsafe_props_from_var_decl(
+    decl: &VarDeclarator,
+    data: &ProgramData,
+    props: &mut FxHashSet<Wtf8Atom>,
+) {
+    if let Pat::Ident(ident) = &decl.name {
+        let id = ident.to_id();
+        // Check if this variable is accessed with dynamic keys or exported
+        if let Some(var_info) = data.vars.get(&id) {
+            if var_info.flags.intersects(
+                VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY | VarUsageInfoFlags::EXPORTED,
+            ) {
+                // Collect top-level properties from the object literal
+                if let Some(init) = &decl.init {
                     if let Expr::Object(obj) = &**init {
-                        for prop in &obj.props {
-                            if let PropOrSpread::Prop(prop) = prop {
-                                if let Some(name) = get_prop_name(prop) {
-                                    self.unsafe_props.insert(name);
-                                }
+                        collect_obj_lit_props(obj, props);
+                    }
+                }
+            }
+        }
+    }
+}
+
+fn collect_unsafe_props_from_module_items(
+    items: &[ModuleItem],
+    data: &ProgramData,
+) -> FxHashSet<Wtf8Atom> {
+    let mut unsafe_props = FxHashSet::default();
+
+    for item in items {
+        match item {
+            ModuleItem::Stmt(stmt) => {
+                collect_unsafe_props_from_stmt(stmt, data, &mut unsafe_props);
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
+                if let Decl::Var(var) = &export.decl {
+                    for decl in &var.decls {
+                        // Exported variables - collect all object literal properties
+                        if let Some(init) = &decl.init {
+                            if let Expr::Object(obj) = &**init {
+                                collect_obj_lit_props(obj, &mut unsafe_props);
                             }
                         }
                     }
                 }
             }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                // For default exports of object literals, collect all properties
+                if let Expr::Object(obj) = &*export.expr {
+                    collect_obj_lit_props(obj, &mut unsafe_props);
+                }
+            }
+            _ => {}
         }
     }
-}
 
-/// Collect properties that should not be mangled due to potential dynamic
-/// access.
-fn collect_unsafe_properties(m: &Program) -> FxHashSet<Wtf8Atom> {
-    let mut collector = UnsafePropertyCollector::new();
-    m.visit_with(&mut collector);
-
-    // Second pass to collect nested unsafe properties
-    let mut nested_collector = NestedUnsafePropertyCollector {
-        unsafe_props: &mut collector.unsafe_props,
-        dynamic_access_vars: &collector.dynamic_access_vars,
-    };
-    m.visit_with(&mut nested_collector);
-
-    collector.unsafe_props
+    unsafe_props
 }
 
 pub(crate) fn mangle_properties(
@@ -309,16 +312,19 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
-    // Collect properties that should NOT be mangled due to dynamic access
-    // This analyzes the AST to find:
-    // 1. Properties of exported objects
-    // 2. Top-level properties of objects accessed with dynamic keys (e.g.,
-    //    obj[var])
-    // Nested properties accessed with static keys (e.g., obj[var].width) remain
-    // safe
-    let unsafe_props = collect_unsafe_properties(m);
-
     let mut data = analyze(&*m, None, true);
+
+    // Collect properties that should NOT be mangled.
+    // These are top-level properties of object literals assigned to variables
+    // that are either:
+    // 1. Accessed with dynamic keys (e.g., obj[variable])
+    // 2. Spread into another object (which could then be accessed dynamically)
+    // 3. Exported
+    // Nested properties accessed with static keys remain safe to mangle.
+    let unsafe_props = match m {
+        Program::Module(module) => collect_unsafe_props_from_module_items(&module.body, &data),
+        Program::Script(script) => collect_unsafe_props_from_stmts(&script.body, &data),
+    };
 
     for prop in std::mem::take(data.property_atoms.as_mut().unwrap()) {
         // Skip properties that could be accessed dynamically

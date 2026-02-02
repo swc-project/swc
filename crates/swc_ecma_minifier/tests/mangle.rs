@@ -940,6 +940,11 @@ console.log(obj.staticKey);"#;
 }
 
 /// Test object spread with dynamic access
+/// When an object is spread into another and that target is accessed
+/// dynamically, both the spread source and target properties should be
+/// preserved. This is because the spread effectively copies properties, and
+/// those properties could then be accessed dynamically through the target
+/// object.
 #[test]
 fn object_spread_dynamic_access() {
     let src = r#"const base = { xfoo: 1 };
@@ -948,11 +953,15 @@ function get(key) {
     return extended[key];
 }"#;
 
-    // extended properties should NOT be mangled (dynamic access)
+    // Both xfoo and xbar should NOT be mangled because:
+    // - xbar: direct property of extended which is accessed dynamically
+    // - xfoo: property of base which is spread into extended (treated as
+    //   potentially dynamically accessed since spread copies properties to a
+    //   dynamically-accessed object)
     assert_props_preserved_and_mangled(
         src,
-        &["xbar"], // preserved (dynamic access on extended)
-        &["xfoo"], // mangled (base is not accessed dynamically)
+        &["xbar", "xfoo"], // preserved (spread source is treated as dynamically accessed)
+        &[],               // nothing should be mangled
         MangleOptions {
             top_level: Some(true),
             props: Some(ManglePropertiesOptions {

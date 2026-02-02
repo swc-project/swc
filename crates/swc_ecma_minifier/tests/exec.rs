@@ -11642,6 +11642,8 @@ console.log(typeof obj2);
 }"#;
 
     run_exec_test(src, config, false);
+}
+
 // ==================== Safe Property Mangling Execution Tests
 // ==================== These tests verify that the minified code produces the
 // same output as the original when property mangling is applied with safe
