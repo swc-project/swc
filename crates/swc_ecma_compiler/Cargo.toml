@@ -15,12 +15,12 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 [dependencies]
 bitflags   = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
-tracing    = { workspace = true, default-features = false }
+tracing    = { workspace = true, default-features = false, features = ["attributes"] }
 
-swc_atoms                = { version = "8.0.2", path = "../swc_atoms", default-features = false }
-swc_common               = { version = "16.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast             = { version = "17.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_transforms_base = { version = "29.0.0", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_utils           = { version = "23.0.0", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit           = { version = "17.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_atoms                = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common               = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast             = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_utils           = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit           = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 swc_trace_macro          = { version = "2.0.2", path = "../swc_trace_macro", default-features = false }
