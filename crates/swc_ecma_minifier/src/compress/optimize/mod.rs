@@ -50,10 +50,13 @@ mod ops;
 mod props;
 mod rest_params;
 mod sequences;
+mod static_alias;
 mod strings;
 mod unsafes;
 mod unused;
 mod util;
+
+pub(crate) use static_alias::static_alias_optimizer;
 
 /// This pass is similar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(

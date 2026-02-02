@@ -14,7 +14,10 @@ use swc_timer::timer;
 use tracing::debug;
 
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
-use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
+use self::{
+    hoist_decls::DeclHoisterConfig,
+    optimize::{optimizer, static_alias_optimizer},
+};
 #[cfg(debug_assertions)]
 use crate::debug::AssertValid;
 use crate::{
@@ -28,7 +31,6 @@ use crate::{
 
 mod hoist_decls;
 mod optimize;
-mod precompress;
 mod pure;
 mod util;
 
@@ -80,9 +82,13 @@ impl Compressor<'_> {
             thread::current().name()
         );
 
-        // Run precompress optimization (static method aliasing)
+        // Run static alias optimization (static method and global object hoisting)
         // This runs once before the optimization loop
-        precompress::precompress_optimizer(n, self.options, self.marks.unresolved_mark);
+        static_alias_optimizer(
+            n,
+            self.options,
+            swc_common::SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+        );
 
         if self.options.hoist_vars || self.options.hoist_fns {
             let data = analyze(&*n, Some(self.marks), false);
