@@ -18,6 +18,6 @@ default = ["swc_cli_impl/default"]
 plugin  = ["swc_cli_impl/plugin"]
 
 [dependencies]
-anyhow       = { workspace = true }
-par-core     = { workspace = true, features = ["chili"] }
-swc_cli_impl = { version = "56.0.0", path = "../../crates/swc_cli_impl" }
+anyhow = { workspace = true, default-features = false }
+par-core = { workspace = true, features = ["chili"], default-features = false }
+swc_cli_impl = { version = "56.0.0", path = "../../crates/swc_cli_impl", default-features = false }

@@ -13,13 +13,13 @@ bench      = false
 crate-type = ["cdylib"]
 
 [build-dependencies]
-napi-build = { workspace = true }
+napi-build = { workspace = true, default-features = false }
 
 [dependencies]
-backtrace     = { workspace = true }
+backtrace = { workspace = true, default-features = false }
 napi          = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive   = { workspace = true, features = ["type-def"] }
-serde         = { workspace = true, features = ["derive"] }
+serde = { workspace = true, features = ["derive"], default-features = false }
 tracing       = { workspace = true, features = ["release_max_level_info"] }
 
 
@@ -29,5 +29,5 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_ast",
   "ecma_parser",
 ] }
-swc_ecma_react_compiler = { path = "../../crates/swc_ecma_react_compiler" }
-swc_malloc = { path = "../../crates/swc_malloc" }
+swc_ecma_react_compiler = { path = "../../crates/swc_ecma_react_compiler", default-features = false }
+swc_malloc = { path = "../../crates/swc_malloc", default-features = false }

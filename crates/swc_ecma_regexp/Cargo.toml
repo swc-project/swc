@@ -16,16 +16,16 @@ bench = false
 debug = []
 
 [dependencies]
-phf              = { workspace = true, features = ["macros"] }
-rustc-hash       = { workspace = true }
-unicode-id-start = { workspace = true }
+phf = { workspace = true, features = ["macros"], default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+unicode-id-start = { workspace = true, default-features = false }
 
-swc_atoms              = { version = "9.0.0", path = "../swc_atoms" }
-swc_common             = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_regexp_ast    = { version = "0.7.0", path = "../swc_ecma_regexp_ast" }
-swc_ecma_regexp_common = { version = "0.0.1", path = "../swc_ecma_regexp_common" }
-swc_ecma_regexp_visit  = { version = "0.7.0", path = "../swc_ecma_regexp_visit" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_regexp_ast = { version = "0.7.0", path = "../swc_ecma_regexp_ast", default-features = false }
+swc_ecma_regexp_common = { version = "0.0.1", path = "../swc_ecma_regexp_common", default-features = false }
+swc_ecma_regexp_visit = { version = "0.7.0", path = "../swc_ecma_regexp_visit", default-features = false }
 
 
 [dev-dependencies]
-serde = { workspace = true }
+serde = { workspace = true, default-features = false }

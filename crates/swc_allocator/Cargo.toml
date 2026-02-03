@@ -30,17 +30,19 @@ skip-warning = []
 
 
 [dependencies]
-allocator-api2 = { workspace = true }
-bumpalo        = { workspace = true, features = ["allocator-api2"] }
-hashbrown      = { workspace = true, optional = true }
-rustc-hash     = { workspace = true }
+allocator-api2 = { workspace = true, default-features = true }
+bumpalo = { workspace = true, features = [
+  "allocator-api2",
+], default-features = false }
+hashbrown = { workspace = true, optional = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
 
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true }
-criterion                 = { workspace = true }
+codspeed-criterion-compat = { workspace = true, default-features = true }
+criterion                 = { workspace = true, default-features = false }
 
-swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
+swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
 
 
 [[bench]]

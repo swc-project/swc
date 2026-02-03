@@ -17,13 +17,13 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-anyhow        = { workspace = true }
-glob          = { workspace = true }
-once_cell     = { workspace = true }
-proc-macro2   = { workspace = true }
-quote         = { workspace = true }
+anyhow        = { workspace = true, default-features = false }
+glob          = { workspace = true, default-features = false }
+once_cell     = { workspace = true, default-features = false }
+proc-macro2   = { workspace = true, default-features = false }
+quote         = { workspace = true, default-features = false }
 regex         = { workspace = true }
-relative-path = { workspace = true }
+relative-path = { workspace = true, default-features = false }
 
 [dependencies.syn]
 features  = ["fold", "parsing", "full", "extra-traits"]

@@ -12,19 +12,19 @@ version       = "25.0.0"
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
-bitflags   = { workspace = true }
-petgraph   = { workspace = true }
-rustc-hash = { workspace = true }
+bitflags = { workspace = true, default-features = false }
+petgraph = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
-swc_common     = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast   = { version = "20.0.1", path = "../swc_ecma_ast" }
-swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
 
 [dev-dependencies]
-swc_ecma_codegen         = { version = "23.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser          = { version = "33.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-testing                  = { version = "19.0.0", path = "../testing" }
+swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

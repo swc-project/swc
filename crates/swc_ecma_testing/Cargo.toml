@@ -12,9 +12,9 @@ version       = "19.0.0"
 bench = false
 
 [dependencies]
-anyhow  = { workspace = true }
-hex     = { workspace = true }
-sha2    = { workspace = true }
-tracing = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+hex = { workspace = true, default-features = false }
+sha2 = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 
-testing = { version = "19.0.0", path = "../testing" }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

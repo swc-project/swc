@@ -25,18 +25,28 @@ plugin = [
 ]
 
 [dependencies]
-anyhow             = { workspace = true }
-clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
-glob               = { workspace = true }
-par-core           = { workspace = true, features = ["chili"] }
-par-iter           = { workspace = true }
-path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
-relative-path      = { workspace = true }
-serde_json         = { workspace = true, features = ["unbounded_depth"] }
-tracing            = { workspace = true }
-tracing-chrome     = { workspace = true }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
-walkdir            = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+clap = { version = "3.2.25", features = [
+  "derive",
+  "wrap_help",
+  "std",
+], default-features = false }
+glob = { workspace = true, default-features = false }
+par-core = { workspace = true, features = ["chili"], default-features = false }
+par-iter = { workspace = true, default-features = false }
+path-absolutize = { workspace = true, features = [
+  "once_cell_cache",
+], default-features = false }
+relative-path = { workspace = true, default-features = false }
+serde_json = { workspace = true, features = [
+  "unbounded_depth",
+], default-features = false }
+tracing = { workspace = true, default-features = false }
+tracing-chrome = { workspace = true, default-features = false }
+tracing-subscriber = { workspace = true, features = [
+  "env-filter",
+], default-features = false }
+walkdir = { workspace = true, default-features = false }
 
 swc_core = { version = "56.0.0", features = [
   "trace_macro",
@@ -46,5 +56,5 @@ swc_core = { version = "56.0.0", features = [
 ], path = "../swc_core" }
 
 [dev-dependencies]
-assert_cmd = { workspace = true }
-assert_fs  = { workspace = true }
+assert_cmd = { workspace = true, default-features = false }
+assert_fs  = { workspace = true, default-features = false }

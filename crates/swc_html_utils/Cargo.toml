@@ -16,9 +16,9 @@ version = "16.0.0"
 bench = false
 
 [dependencies]
-once_cell  = { workspace = true }
-rustc-hash = { workspace = true }
-serde      = { workspace = true, features = ["derive"] }
-serde_json = { workspace = true }
+once_cell = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+serde_json = { workspace = true, default-features = false }
 
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }

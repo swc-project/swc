@@ -12,10 +12,10 @@ version     = "14.0.1"
 bench = false
 
 [dependencies]
-auto_impl  = { workspace = true }
-petgraph   = { workspace = true }
-rustc-hash = { workspace = true }
-tracing    = { workspace = true }
+auto_impl = { workspace = true, default-features = false }
+petgraph = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 
 [dev-dependencies]
-testing = { version = "19.0.0", path = "../testing" }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

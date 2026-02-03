@@ -12,14 +12,14 @@ version       = "7.0.0"
 bench = false
 
 [dependencies]
-anyhow          = { workspace = true }
-browserslist-rs = { workspace = true }
-dashmap         = { workspace = true }
-once_cell       = { workspace = true }
-rustc-hash      = { workspace = true }
-semver          = { workspace = true, features = ["serde"] }
-serde           = { workspace = true, features = ["derive"] }
-st-map          = { workspace = true }
-tracing         = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+browserslist-rs = { workspace = true, default-features = false }
+dashmap = { workspace = true, default-features = false }
+once_cell = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+semver = { workspace = true, features = ["serde"], default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+st-map = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 
-from_variant = { version = "3.0.0", path = "../from_variant" }
+from_variant = { version = "3.0.0", path = "../from_variant", default-features = false }

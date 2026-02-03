@@ -11,12 +11,12 @@ version     = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow       = { workspace = true }
-chrono       = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+chrono = { workspace = true, default-features = false }
 clap         = { version = "4.4.6", features = ["derive"] }
-semver       = { workspace = true }
-serde        = { workspace = true }
-serde_derive = { workspace = true }
-serde_json   = { workspace = true }
-toml         = { workspace = true }
-walkdir      = { workspace = true }
+semver = { workspace = true, default-features = false }
+serde = { workspace = true, default-features = false }
+serde_derive = { workspace = true, default-features = false }
+serde_json = { workspace = true, default-features = false }
+toml = { workspace = true, default-features = false }
+walkdir = { workspace = true, default-features = false }

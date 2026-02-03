@@ -19,13 +19,13 @@ shrink-to-fit = ["dep:shrink-to-fit"]
 
 [dependencies]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-arbitrary     = { workspace = true, optional = true }
-bytecheck     = { workspace = true, optional = true }
+arbitrary = { workspace = true, optional = true, default-features = false }
+bytecheck = { workspace = true, optional = true, default-features = false }
 cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
-once_cell     = { workspace = true }
-rancor        = { workspace = true, optional = true }
-rkyv          = { workspace = true, optional = true }
-serde         = { workspace = true }
-shrink-to-fit = { workspace = true, optional = true }
+once_cell = { workspace = true, default-features = false }
+rancor = { workspace = true, optional = true, default-features = false }
+rkyv = { workspace = true, optional = true, default-features = false }
+serde = { workspace = true, default-features = false }
+shrink-to-fit = { workspace = true, optional = true, default-features = false }
 
 hstr = { version = "3.0.4", path = "../hstr", features = ["serde"] }

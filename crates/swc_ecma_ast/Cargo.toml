@@ -44,25 +44,25 @@ shrink-to-fit = [
 
 [dependencies]
 arbitrary        = { workspace = true, features = ["derive"], optional = true }
-bitflags         = { workspace = true }
-bytecheck        = { workspace = true, optional = true }
-is-macro         = { workspace = true }
+bitflags = { workspace = true, default-features = false }
+bytecheck = { workspace = true, optional = true, default-features = false }
+is-macro = { workspace = true, default-features = false }
 num-bigint       = { workspace = true, features = ["serde"] }
-once_cell        = { workspace = true }
-phf              = { workspace = true, features = ["macros"] }
-rancor           = { workspace = true, optional = true }
-rkyv             = { workspace = true, optional = true }
-rustc-hash       = { workspace = true }
+once_cell = { workspace = true, default-features = false }
+phf = { workspace = true, features = ["macros"], default-features = false }
+rancor = { workspace = true, optional = true, default-features = false }
+rkyv = { workspace = true, optional = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
 serde            = { workspace = true, features = ["derive"], optional = true }
-shrink-to-fit    = { workspace = true, optional = true }
-unicode-id-start = { workspace = true }
+shrink-to-fit = { workspace = true, optional = true, default-features = false }
+unicode-id-start = { workspace = true, default-features = false }
 
-string_enum = { version = "1.0.2", path = "../string_enum" }
-swc_atoms   = { version = "9.0.0", path = "../swc_atoms" }
-swc_common  = { version = "18.0.1", path = "../swc_common" }
-swc_visit   = { version = "2.0.1", path = "../swc_visit" }
+string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false }
 
 cbor4ii = { workspace = true, features = ["use_std"], optional = true }
 
 [dev-dependencies]
-serde_json = { workspace = true }
+serde_json = { workspace = true, default-features = false }

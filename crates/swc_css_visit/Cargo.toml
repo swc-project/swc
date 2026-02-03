@@ -23,7 +23,7 @@ serde-impl = ["serde"]
 [dependencies]
 serde = { workspace = true, optional = true, features = ["derive"] }
 
-swc_atoms   = { version = "9.0.0", path = "../swc_atoms" }
-swc_common  = { version = "18.0.1", path = "../swc_common" }
-swc_css_ast = { version = "18.0.0", path = "../swc_css_ast" }
-swc_visit   = { version = "2.0.1", path = "../swc_visit" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
+swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false }

@@ -9,16 +9,20 @@ version = "0.0.0"
 cargo-fuzz = true
 
 [dependencies]
-libfuzzer-sys            = "0.4"
-swc_common               = { path = "../../swc_common", features = ["arbitrary"] }
-swc_ecma_ast             = { path = "../../swc_ecma_ast", features = ["arbitrary"] }
-swc_ecma_codegen         = { path = "../../swc_ecma_codegen" }
-swc_ecma_minifier        = { path = ".." }
-swc_ecma_parser          = { path = "../../swc_ecma_parser" }
-swc_ecma_testing         = { path = "../../swc_ecma_testing" }
-swc_ecma_transforms_base = { path = "../../swc_ecma_transforms_base" }
-swc_ecma_visit           = { path = "../../swc_ecma_visit" }
-testing                  = { path = "../../testing" }
+libfuzzer-sys = { version = "0.4", default-features = false }
+swc_common = { path = "../../swc_common", features = [
+  "arbitrary",
+], default-features = false }
+swc_ecma_ast = { path = "../../swc_ecma_ast", features = [
+  "arbitrary",
+], default-features = false }
+swc_ecma_codegen = { path = "../../swc_ecma_codegen", default-features = false }
+swc_ecma_minifier = { path = "..", default-features = false }
+swc_ecma_parser = { path = "../../swc_ecma_parser", default-features = false }
+swc_ecma_testing = { path = "../../swc_ecma_testing", default-features = false }
+swc_ecma_transforms_base = { path = "../../swc_ecma_transforms_base", default-features = false }
+swc_ecma_visit = { path = "../../swc_ecma_visit", default-features = false }
+testing = { path = "../../testing", default-features = false }
 
 # Prevent this from interfering with workspaces
 [workspace]

@@ -32,10 +32,10 @@ swc_v2   = []
 plugin = []
 
 [dependencies]
-anyhow = { workspace = true }
+anyhow = { workspace = true, default-features = false }
 getrandom = { workspace = true, features = ["wasm_js"] }
-serde = { workspace = true, features = ["derive"] }
-serde-wasm-bindgen = { workspace = true }
+serde = { workspace = true, features = ["derive"], default-features = false }
+serde-wasm-bindgen = { workspace = true, default-features = false }
 swc_core = { path = "../../crates/swc_core", features = [
   "ecma_ast_serde",
   "ecma_codegen",

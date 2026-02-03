@@ -24,21 +24,21 @@ concurrent = ["swc_common/concurrent", "par-core/parallel"]
 
 [dependencies]
 dragonbox_ecma = { workspace = true }
-indexmap       = { workspace = true }
-num_cpus       = { workspace = true }
-once_cell      = { workspace = true }
-par-core       = { workspace = true }
-rustc-hash     = { workspace = true }
-tracing        = { workspace = true }
+indexmap = { workspace = true, default-features = false }
+num_cpus = { workspace = true, default-features = false }
+once_cell = { workspace = true, default-features = false }
+par-core = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 
-swc_atoms      = { version = "9.0.0", path = "../swc_atoms" }
-swc_common     = { version = "18.0.1", path = "../swc_common" }
-swc_ecma_ast   = { version = "20.0.1", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
-stacker = { version = "0.1.15", optional = true }
+stacker = { version = "0.1.15", optional = true, default-features = false }
 
 [dev-dependencies]
-par-core        = { workspace = true, features = ["chili"] }
-swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser" }
+par-core = { workspace = true, features = ["chili"], default-features = false }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }

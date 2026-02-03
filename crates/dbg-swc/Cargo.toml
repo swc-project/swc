@@ -12,30 +12,30 @@ bench = false
 name  = "dbg-swc"
 
 [dependencies]
-anyhow = { workspace = true }
-clap = { version = "3", features = ["derive"] }
-dialoguer = { workspace = true }
-flate2 = { workspace = true }
-par-core = { workspace = true, features = ["chili"] }
-par-iter = { workspace = true }
-rayon = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-sha1 = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+clap = { version = "3", features = ["derive"], default-features = false }
+dialoguer = { workspace = true, default-features = false }
+flate2 = { workspace = true, default-features = false }
+par-core = { workspace = true, features = ["chili"], default-features = false }
+par-iter = { workspace = true, default-features = false }
+rayon = { workspace = true, default-features = false }
+serde = { workspace = true, default-features = false }
+serde_json = { workspace = true, default-features = false }
+sha1 = { workspace = true, default-features = false }
 swc_common = { version = "18.0.1", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }
-swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
 swc_ecma_minifier = { version = "44.0.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters" }
-swc_timer = { version = "1.0.0", path = "../swc_timer" }
-tempfile = { workspace = true }
-tracing = { workspace = true }
+swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters", default-features = false }
+swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false }
+tempfile = { workspace = true, default-features = false }
+tracing = { workspace = true, default-features = false }
 tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }

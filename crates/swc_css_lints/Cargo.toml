@@ -13,22 +13,22 @@ version       = "19.0.0"
 bench = false
 
 [dependencies]
-anyhow      = { workspace = true }
-auto_impl   = { workspace = true }
-par-iter    = { workspace = true }
-parking_lot = { workspace = true }
-rustc-hash  = { workspace = true }
-serde       = { workspace = true, features = ["derive"] }
-thiserror   = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+auto_impl = { workspace = true, default-features = false }
+par-iter = { workspace = true, default-features = false }
+parking_lot = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+thiserror = { workspace = true, default-features = false }
 
-swc_atoms     = { version = "9.0.0", path = "../swc_atoms" }
-swc_common    = { version = "18.0.1", path = "../swc_common" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
 swc_config    = { version = "3.1.2", path = "../swc_config", features = ["regex"] }
-swc_css_ast   = { version = "18.0.0", path = "../swc_css_ast" }
-swc_css_visit = { version = "18.0.0", path = "../swc_css_visit" }
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }
 
 [dev-dependencies]
-serde_json = { workspace = true }
+serde_json = { workspace = true, default-features = false }
 
-swc_css_parser = { version = "18.0.0", path = "../swc_css_parser" }
-testing        = { version = "19.0.0", path = "../testing" }
+swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", default-features = false }
+testing = { version = "19.0.0", path = "../testing", default-features = false }

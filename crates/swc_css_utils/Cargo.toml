@@ -13,11 +13,11 @@ version       = "18.0.0"
 bench = false
 
 [dependencies]
-once_cell  = { workspace = true }
-rustc-hash = { workspace = true }
-serde      = { workspace = true, features = ["derive"] }
-serde_json = { workspace = true }
+once_cell = { workspace = true, default-features = false }
+rustc-hash = { workspace = true, default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
+serde_json = { workspace = true, default-features = false }
 
-swc_atoms     = { version = "9.0.0", path = "../swc_atoms" }
-swc_css_ast   = { version = "18.0.0", path = "../swc_css_ast" }
-swc_css_visit = { version = "18.0.0", path = "../swc_css_visit" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
+swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }

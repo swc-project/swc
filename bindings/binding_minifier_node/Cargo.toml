@@ -13,17 +13,17 @@ bench      = false
 crate-type = ["cdylib"]
 
 [build-dependencies]
-napi-build = { workspace = true }
+napi-build = { workspace = true, default-features = false }
 
 [dependencies]
-anyhow             = { workspace = true }
-backtrace          = { workspace = true }
+anyhow = { workspace = true, default-features = false }
+backtrace = { workspace = true, default-features = false }
 napi               = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive        = { workspace = true, features = ["type-def"] }
-par-core           = { workspace = true, features = ["chili"] }
-serde              = { workspace = true, features = ["derive"] }
+par-core = { workspace = true, features = ["chili"], default-features = false }
+serde = { workspace = true, features = ["derive"], default-features = false }
 tracing            = { workspace = true, features = ["release_max_level_info"] }
-tracing-chrome     = { workspace = true }
+tracing-chrome = { workspace = true, default-features = false }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 
@@ -43,6 +43,6 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_transforms",
   "ecma_visit",
 ] }
-swc_error_reporters = { path = "../../crates/swc_error_reporters" }
-swc_malloc = { path = "../../crates/swc_malloc" }
-swc_nodejs_common = { path = "../../crates/swc_nodejs_common" }
+swc_error_reporters = { path = "../../crates/swc_error_reporters", default-features = false }
+swc_malloc = { path = "../../crates/swc_malloc", default-features = false }
+swc_nodejs_common = { path = "../../crates/swc_nodejs_common", default-features = false }
