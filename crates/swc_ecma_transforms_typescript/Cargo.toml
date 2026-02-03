@@ -28,7 +28,7 @@ swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false
 swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
 swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_transforms_react = { version = "40.0.0", path = "../swc_ecma_transforms_react", default-features = false }
+swc_ecma_transforms_react = { version = "40.0.0", path = "../swc_ecma_transforms_react", default-features = false, features = ["serde-impl"] }
 swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
 
