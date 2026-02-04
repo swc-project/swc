@@ -202,8 +202,9 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if self.input().is(Token::Hash) {
+            let token = self.input().cur();
             let name = self.parse_private_name()?;
-            if name.name == "constructor" {
+            if token == Token::Constructor {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
             }
             Ok(Key::Private(name))
@@ -977,8 +978,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
-        let key = if readonly.is_some() && matches!(self.input().cur(), Token::Bang | Token::Colon)
-        {
+        let key_token = self.input.cur();
+        let key = if readonly.is_some() && matches!(key_token, Token::Bang | Token::Colon) {
             Key::Public(PropName::Ident(IdentName::new(
                 atom!("readonly"),
                 readonly.unwrap(),
@@ -1149,11 +1150,7 @@ impl<I: Tokens> Parser<I> {
             );
         }
 
-        if match key {
-            Key::Public(PropName::Ident(ref i)) => i.sym == "async",
-            _ => false,
-        } && !self.input_mut().had_line_break_before_cur()
-        {
+        if key_token == Token::Async && !self.input_mut().had_line_break_before_cur() {
             // handle async foo(){}
 
             if self.input().syntax().typescript()

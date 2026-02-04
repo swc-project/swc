@@ -404,8 +404,9 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
         trace_cur!(self, parse_ts_entity_name);
         let start = self.input().cur_pos();
+        let init_token = self.input().cur();
         let init = self.parse_ident_name()?;
-        if &*init.sym == "void" {
+        if init_token == Token::Void {
             let dot_start = self.input().cur_pos();
             let dot_span = self.span(dot_start);
             self.emit_err(dot_span, SyntaxError::TS1005)

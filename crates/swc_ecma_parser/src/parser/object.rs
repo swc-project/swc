@@ -181,6 +181,7 @@ impl<I: Tokens> Parser<I> {
         let has_modifiers = self.eat_any_ts_modifier()?;
         let modifiers_span = self.input().prev_span();
 
+        let key_token = self.input().cur();
         let key = self.parse_prop_name()?;
 
         let cur = self.input().cur();
@@ -280,21 +281,22 @@ impl<I: Tokens> Parser<I> {
         // set a(v){}
         // async a(){}
 
-        match &*ident.sym {
-            "get" | "set" | "async" => {
+        match key_token {
+            Token::Get | Token::Set | Token::Async => {
                 trace_cur!(self, parse_object_prop__after_accessor);
 
                 if has_modifiers {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
 
-                let is_generator = ident.sym == "async" && self.input_mut().eat(Token::Asterisk);
+                let is_generator =
+                    key_token == Token::Async && self.input_mut().eat(Token::Asterisk);
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
                 self.do_inside_of_context(Context::AllowDirectSuper, |p| {
                     p.do_outside_of_context(Context::InClassField, |p| {
-                        match &*ident.sym {
-                            "get" => p
+                        match key_token {
+                            Token::Get => p
                                 .parse_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),
@@ -330,7 +332,7 @@ impl<I: Tokens> Parser<I> {
                                         })))
                                     },
                                 ),
-                            "set" => {
+                            Token::Set => {
                                 p.parse_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),
@@ -395,7 +397,7 @@ impl<I: Tokens> Parser<I> {
                                     },
                                 )
                             }
-                            "async" => p
+                            Token::Async => p
                                 .parse_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),

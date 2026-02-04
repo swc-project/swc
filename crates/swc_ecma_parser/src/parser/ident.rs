@@ -97,10 +97,11 @@ impl<I: Tokens> Parser<I> {
         }
 
         // "yield" and "await" is **lexically** accepted.
+        let token = self.input().cur();
         let ident = self.parse_ident(true, true)?;
         let ctx = self.ctx();
-        if (ctx.intersects(Context::InAsync.union(Context::InStaticBlock)) && ident.sym == "await")
-            || (ctx.contains(Context::InGenerator) && ident.sym == "yield")
+        if (ctx.intersects(Context::InAsync.union(Context::InStaticBlock)) && token == Token::Await)
+            || (ctx.contains(Context::InGenerator) && token == Token::Yield)
         {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
