@@ -202,9 +202,8 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if self.input().is(Token::Hash) {
-            let token = self.input().cur();
             let name = self.parse_private_name()?;
-            if token == Token::Constructor {
+            if name.name == atom!("constructor") {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
             }
             Ok(Key::Private(name))

@@ -349,6 +349,15 @@ impl<I: Tokens> Parser<I> {
         // Check if current token is in the allowed modifiers list
         let pos = allowed_modifiers.iter().position(|&t| t == cur);
 
+        if cur == Token::Error {
+            let err = self.input_mut().expect_error_token_and_bump();
+            return Err(err);
+        }
+
+        if cur == Token::Eof {
+            return Err(self.eof_error());
+        }
+
         if let Some(pos) = pos {
             if stop_on_start_of_class_static_blocks
                 && self.input().is(Token::Static)
