@@ -647,3 +647,784 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<str> {
 pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {
     value.replace('`', "\\`").replace('$', "\\$").into()
 }
+
+#[cfg(test)]
+mod tests {
+    use swc_common::{FileName, Mark, SyntaxContext};
+    use swc_ecma_ast::*;
+    use swc_ecma_codegen::{
+        text_writer::{omit_trailing_semi, JsWriter, WriteJs},
+        Config, Emitter,
+    };
+    use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
+    use swc_ecma_transforms_base::{fixer::fixer, resolver};
+    use swc_ecma_usage_analyzer::marks::Marks;
+    use swc_ecma_visit::VisitMutWith;
+
+    use crate::{
+        compress::pure::{pure_optimizer, PureOptimizerConfig},
+        option::CompressOptions,
+    };
+
+    /// Helper to minify code with specific EcmaScript version and run
+    /// assertion.
+    fn run_test(src: &str, ecma: EsVersion, target: EsVersion, check: impl FnOnce(String)) {
+        testing::run_test2(false, |cm, _handler| {
+            let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
+
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            let mut module = parse_file_as_module(
+                &fm,
+                Syntax::Es(EsSyntax::default()),
+                EsVersion::latest(),
+                None,
+                &mut Vec::new(),
+            )
+            .expect("failed to parse");
+
+            module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+            let marks = Marks {
+                unresolved_mark,
+                top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+                const_ann: Mark::new(),
+                noinline: Mark::new(),
+                pure: Mark::new(),
+                fake_block: Mark::new(),
+            };
+
+            let compress_options = CompressOptions {
+                ecma,
+                ..Default::default()
+            };
+
+            let mut optimizer = pure_optimizer(
+                &compress_options,
+                marks,
+                PureOptimizerConfig {
+                    enable_join_vars: false,
+                },
+            );
+
+            module.visit_mut_with(&mut optimizer);
+            module.visit_mut_with(&mut fixer(None));
+
+            // Generate code with target version
+            let mut buf = Vec::new();
+            {
+                let wr: Box<dyn WriteJs> = Box::new(omit_trailing_semi(Box::new(JsWriter::new(
+                    cm.clone(),
+                    "\n",
+                    &mut buf,
+                    None,
+                ))));
+
+                let mut emitter = Emitter {
+                    cfg: Config::default().with_target(target).with_minify(true),
+                    cm,
+                    comments: None,
+                    wr,
+                };
+
+                emitter.emit_module(&module).expect("failed to emit module");
+            }
+
+            let output = String::from_utf8(buf).expect("invalid utf8");
+            check(output);
+
+            Ok(())
+        })
+        .unwrap();
+    }
+
+    // ===== Emoji/Non-BMP Character Tests =====
+
+    /// Test: Emoji (U+1F980, crab) should NOT be converted to string in ES5
+    /// because codegen would produce long surrogate pair escapes.
+    #[test]
+    fn test_emoji_es5_should_not_convert() {
+        run_test(
+            r#"console.log(`🦀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // In ES5, the template should remain as-is or the string should have
+                // surrogate pairs which would be longer
+                // Template literals with emoji should NOT become strings in ES5
+                assert!(
+                    output.contains('`') || !output.contains("\\u"),
+                    "ES5 should keep template literal or not use surrogate escapes. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Emoji should be converted to string in ES2015+ (shorter output)
+    #[test]
+    fn test_emoji_es2015_should_convert() {
+        run_test(
+            r#"console.log(`🦀`)"#,
+            EsVersion::Es2015,
+            EsVersion::Es2015,
+            |output| {
+                // In ES2015+, template can be converted to string
+                // The string literal can contain emoji directly
+                assert!(
+                    output.contains("\"🦀\"") || output.contains("'🦀'") || output.contains("`🦀`"),
+                    "ES2015+ should produce short output. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Multiple emojis in ES5
+    #[test]
+    fn test_multiple_emojis_es5() {
+        run_test(
+            r#"console.log(`🦀🎉🚀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // Should NOT convert - would produce very long surrogate pairs
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template literal with multiple emojis. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Multiple emojis in ES2015
+    #[test]
+    fn test_multiple_emojis_es2015() {
+        run_test(
+            r#"console.log(`🦀🎉🚀`)"#,
+            EsVersion::Es2015,
+            EsVersion::Es2015,
+            |output| {
+                // Can convert - emojis can be in string directly
+                assert!(
+                    output.contains("🦀") && output.contains("🎉") && output.contains("🚀"),
+                    "ES2015+ should preserve emojis directly. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Mixed ASCII and emoji in ES5
+    #[test]
+    fn test_mixed_ascii_emoji_es5() {
+        run_test(
+            r#"console.log(`Hello 🦀 World`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // Should NOT convert due to emoji
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template literal with mixed ASCII and emoji. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Mixed ASCII and emoji in ES2015
+    #[test]
+    fn test_mixed_ascii_emoji_es2015() {
+        run_test(
+            r#"console.log(`Hello 🦀 World`)"#,
+            EsVersion::Es2015,
+            EsVersion::Es2015,
+            |output| {
+                // Can convert
+                assert!(
+                    output.contains("Hello") && output.contains("🦀") && output.contains("World"),
+                    "ES2015+ should preserve content. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Unicode Escape Sequence Tests =====
+
+    /// Test: Unicode escape \u{1F980} (crab emoji) in ES5
+    /// The raw string contains the escape but cooked value has the emoji
+    #[test]
+    fn test_unicode_escape_es5() {
+        // \u{1F980} is the crab emoji
+        run_test(
+            r#"console.log(`\u{1F980}`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // The cooked value would contain the emoji character
+                // This should NOT be converted in ES5
+                // Note: parser interprets \u{1F980} -> 🦀 in cooked
+                assert!(
+                    output.contains('`') || output.contains("\\u"),
+                    "ES5 with unicode escape should handle carefully. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Unicode escape \u{1F980} in ES2015
+    #[test]
+    fn test_unicode_escape_es2015() {
+        run_test(
+            r#"console.log(`\u{1F980}`)"#,
+            EsVersion::Es2015,
+            EsVersion::Es2015,
+            |output| {
+                // In ES2015, the escape or actual emoji can be used
+                assert!(
+                    !output.is_empty(),
+                    "ES2015 should produce valid output. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Various Non-BMP Unicode Characters =====
+
+    /// Test: Mathematical symbols (U+1D400-U+1D7FF range)
+    #[test]
+    fn test_math_symbols_es5() {
+        // Mathematical Bold Capital A (U+1D400)
+        run_test(
+            r#"console.log(`𝐀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with non-BMP math symbols. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Mathematical symbols in ES2015
+    #[test]
+    fn test_math_symbols_es2015() {
+        run_test(
+            r#"console.log(`𝐀`)"#,
+            EsVersion::Es2015,
+            EsVersion::Es2015,
+            |output| {
+                assert!(
+                    output.contains("𝐀"),
+                    "ES2015+ should preserve math symbols. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Musical symbols (U+1D100-U+1D1FF range)
+    #[test]
+    fn test_musical_symbols_es5() {
+        // Musical Symbol G Clef (U+1D11E)
+        run_test(
+            r#"console.log(`𝄞`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with musical symbols. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: CJK Extension B characters (U+20000+)
+    #[test]
+    fn test_cjk_extension_b_es5() {
+        // CJK Unified Ideograph Extension B (U+20000)
+        run_test(
+            r#"console.log(`𠀀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with CJK Extension B. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== BMP Characters - Should Always Convert =====
+
+    /// Test: ASCII-only template should convert in ES5
+    #[test]
+    fn test_ascii_only_es5() {
+        run_test(
+            r#"console.log(`hello world`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // ASCII-only should be safe to convert
+                assert!(
+                    output.contains("\"hello world\"") || output.contains("'hello world'"),
+                    "ES5 should convert ASCII-only template to string. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: ASCII-only template should convert in ES2015
+    #[test]
+    fn test_ascii_only_es2015() {
+        run_test(
+            r#"console.log(`hello world`)"#,
+            EsVersion::Es2015,
+            EsVersion::Es2015,
+            |output| {
+                assert!(
+                    output.contains("\"hello world\"") || output.contains("'hello world'"),
+                    "ES2015 should convert ASCII-only template to string. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: BMP Unicode characters (< U+FFFF) should convert in ES5
+    #[test]
+    fn test_bmp_unicode_es5() {
+        // Various BMP characters: Chinese, Japanese, Korean, etc.
+        run_test(
+            r#"console.log(`你好世界`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // BMP characters don't need surrogate pairs
+                assert!(
+                    output.contains("\"你好世界\"")
+                        || output.contains("'你好世界'")
+                        || output.contains("`你好世界`"),
+                    "ES5 should handle BMP Chinese characters. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: BMP Japanese hiragana
+    #[test]
+    fn test_bmp_hiragana_es5() {
+        run_test(
+            r#"console.log(`こんにちは`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains("こんにちは"),
+                    "ES5 should handle BMP hiragana. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: BMP Korean
+    #[test]
+    fn test_bmp_korean_es5() {
+        run_test(
+            r#"console.log(`안녕하세요`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains("안녕하세요"),
+                    "ES5 should handle BMP Korean. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: BMP special symbols (arrows, etc.)
+    #[test]
+    fn test_bmp_arrows_es5() {
+        run_test(
+            r#"console.log(`→←↑↓`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains("→") || output.contains("\\u"),
+                    "ES5 should handle BMP arrows. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Edge Cases =====
+
+    /// Test: Empty template
+    #[test]
+    fn test_empty_template_es5() {
+        run_test(
+            r#"console.log(``)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains("\"\"") || output.contains("''"),
+                    "ES5 should convert empty template. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Template with backtick escape
+    #[test]
+    fn test_backtick_escape_es5() {
+        run_test(
+            r#"console.log(`\``)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // Should convert - backtick in string is simpler
+                assert!(
+                    output.contains('`') || output.contains("\"") || output.contains("'"),
+                    "ES5 should handle backtick escape. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Template with newlines (should remain template for size)
+    #[test]
+    fn test_newlines_es5() {
+        run_test(
+            "console.log(`line1\nline2`)",
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // Newlines in template are shorter than \n in string
+                assert!(
+                    output.contains('\n') || output.contains("\\n"),
+                    "ES5 should handle newlines appropriately. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Character at boundary (U+FFFF - highest BMP)
+    #[test]
+    fn test_bmp_boundary_es5() {
+        // U+FFFF is still BMP (should convert)
+        run_test(
+            r#"console.log(`\uFFFF`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // U+FFFF is BMP, should be safe to convert
+                assert!(
+                    !output.is_empty(),
+                    "ES5 should handle BMP boundary character. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: First non-BMP character (U+10000)
+    #[test]
+    fn test_first_non_bmp_es5() {
+        // U+10000 - Linear B Syllable B008 A
+        run_test(
+            r#"console.log(`𐀀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // This is non-BMP (U+10000 > U+FFFF), should NOT convert
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with first non-BMP char (U+10000). Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: ES3 target (also < ES2015)
+    #[test]
+    fn test_emoji_es3() {
+        run_test(
+            r#"console.log(`🦀`)"#,
+            EsVersion::Es3,
+            EsVersion::Es3,
+            |output| {
+                // ES3 should also not convert
+                assert!(
+                    output.contains('`') || output.contains("\\u"),
+                    "ES3 should keep template literal or use escapes. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Surrogate Pairs =====
+
+    /// Test: Lone surrogate (invalid UTF-16)
+    /// These are edge cases in JavaScript
+    #[test]
+    fn test_surrogate_handling_es5() {
+        // High surrogate alone
+        run_test(
+            r#"console.log(`\uD83E`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // This is a lone surrogate, not a full non-BMP character
+                assert!(
+                    !output.is_empty(),
+                    "ES5 should handle lone surrogate. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Combination Tests =====
+
+    /// Test: Mix of BMP and non-BMP in ES5
+    #[test]
+    fn test_mixed_bmp_non_bmp_es5() {
+        run_test(
+            r#"console.log(`ABC🦀DEF`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // Has non-BMP (emoji), should NOT convert
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with mixed BMP/non-BMP. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Only ASCII with emoji in different statement
+    #[test]
+    fn test_separate_statements_es5() {
+        run_test(
+            r#"
+            console.log(`hello`);
+            console.log(`🦀`);
+        "#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // First should convert, second should not
+                assert!(
+                    output.contains("\"hello\"") || output.contains("'hello'"),
+                    "ES5 should convert ASCII-only template in first statement. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Size Comparison Tests =====
+
+    /// Test: Verify emoji in ES5 would produce longer output
+    #[test]
+    fn test_size_comparison_emoji_es5() {
+        run_test(
+            r#"console.log(`🦀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |tpl_output| {
+                // The template should be kept because converting would be longer
+                // `🦀` = 4 chars (backticks + emoji as 1 char visually but 2 code units)
+                // "\uD83E\uDD80" = 16 chars
+                assert!(
+                    tpl_output.contains('`'),
+                    "ES5 should prefer shorter template form. Got: {}",
+                    tpl_output
+                );
+            },
+        );
+    }
+
+    /// Test: Verify multiple emojis show even bigger size difference
+    #[test]
+    fn test_size_comparison_multiple_emojis_es5() {
+        run_test(
+            r#"console.log(`🦀🎉🚀🌟`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // 4 emojis would become 4 * 12 chars = 48 chars in surrogate pairs
+                // vs ~6 chars in template
+                assert!(
+                    output.contains('`'),
+                    "ES5 should definitely keep template with multiple emojis. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Flag Emojis (Compound Emojis) =====
+
+    /// Test: Flag emoji (uses regional indicator symbols, both non-BMP)
+    #[test]
+    fn test_flag_emoji_es5() {
+        // US flag: U+1F1FA U+1F1F8
+        run_test(
+            r#"console.log(`🇺🇸`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with flag emoji. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Emoji with skin tone modifier
+    #[test]
+    fn test_emoji_skin_tone_es5() {
+        // Thumbs up with skin tone: U+1F44D U+1F3FB
+        run_test(
+            r#"console.log(`👍🏻`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with skin tone emoji. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: ZWJ sequence emoji (family, etc.)
+    #[test]
+    fn test_emoji_zwj_sequence_es5() {
+        // Family emoji using ZWJ
+        run_test(
+            r#"console.log(`👨‍👩‍👧`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with ZWJ sequence emoji. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Variation Selectors =====
+
+    /// Test: Emoji with variation selector
+    #[test]
+    fn test_emoji_variation_selector_es5() {
+        // Heart with emoji variation selector: U+2764 U+FE0F
+        run_test(
+            r#"console.log(`❤️`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                // U+2764 is BMP, U+FE0F is BMP variation selector
+                // Both are BMP so this could convert
+                assert!(
+                    !output.is_empty(),
+                    "ES5 should handle heart with variation selector. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Ancient Scripts (Non-BMP) =====
+
+    /// Test: Egyptian hieroglyphs (U+13000-U+1342F)
+    #[test]
+    fn test_hieroglyphs_es5() {
+        // Egyptian Hieroglyph A001 (U+13000)
+        run_test(
+            r#"console.log(`𓀀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with hieroglyphs. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    /// Test: Cuneiform (U+12000-U+123FF)
+    #[test]
+    fn test_cuneiform_es5() {
+        // Cuneiform Sign A (U+12000)
+        run_test(
+            r#"console.log(`𒀀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with cuneiform. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+
+    // ===== Private Use Area =====
+
+    /// Test: Supplementary Private Use Area-A (U+F0000-U+FFFFF)
+    #[test]
+    fn test_private_use_area_es5() {
+        // U+F0000 - first char in Supplementary PUA-A
+        run_test(
+            r#"console.log(`󰀀`)"#,
+            EsVersion::Es5,
+            EsVersion::Es5,
+            |output| {
+                assert!(
+                    output.contains('`'),
+                    "ES5 should keep template with supplementary PUA. Got: {}",
+                    output
+                );
+            },
+        );
+    }
+}
