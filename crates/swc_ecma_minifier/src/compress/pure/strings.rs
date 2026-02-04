@@ -236,7 +236,20 @@ impl Pure<'_> {
                                 iter.next();
                             }
                         }
-                        _ => {}
+                        _ => {
+                            // When the target environment is below ES2015
+                            // and non-BMP characters (like emojis) are encountered,
+                            // we stop the conversion.
+                            //
+                            // This is because:
+                            // 1. Tpl: `🦀` (may output directly in source code or require minimal
+                            //    escaping) -> shorter
+                            // 2. Str (in ES5 mode): `\uD83E\uDD80` (escape sequence for surrogate
+                            //    pair) -> extremely long
+                            if self.options.ecma < EsVersion::Es2015 && ch > '\u{ffff}' {
+                                return;
+                            }
+                        }
                     }
                 }
 
