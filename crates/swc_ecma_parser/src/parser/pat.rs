@@ -607,8 +607,8 @@ impl<I: Tokens> Parser<I> {
             let accessibility = self.parse_access_modifier()?;
             (
                 accessibility,
-                self.parse_ts_modifier(&["override"], false)?.is_some(),
-                self.parse_ts_modifier(&["readonly"], false)?.is_some(),
+                self.parse_ts_modifier(&[Token::Override], false)?.is_some(),
+                self.parse_ts_modifier(&[Token::Readonly], false)?.is_some(),
             )
         } else {
             (None, false, false)
