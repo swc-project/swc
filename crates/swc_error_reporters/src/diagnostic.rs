@@ -1,4 +1,4 @@
-use std::{fmt, mem::transmute};
+use std::{fmt, mem::transmute, panic::AssertUnwindSafe};
 
 use miette::{GraphicalReportHandler, Severity, SourceOffset, SourceSpan};
 use swc_common::{
@@ -90,8 +90,30 @@ impl miette::Diagnostic for PrettyDiagnostic<'_> {
 impl<'a> PrettyDiagnostic<'a> {
     pub fn to_pretty_string(&self, handler: &'a GraphicalReportHandler) -> String {
         let mut wr = String::new();
-        handler.render_report(&mut wr, self).unwrap();
-        wr
+        // Note: miette's GraphicalReportHandler can panic when rendering errors on
+        // very long lines (>65535 characters) due to Rust's format! width
+        // parameter limit. We catch this panic and fall back to a simple
+        // display format. See: https://github.com/swc-project/swc/issues/10518
+        let result =
+            std::panic::catch_unwind(AssertUnwindSafe(|| handler.render_report(&mut wr, self)));
+        match result {
+            Ok(Ok(())) => wr,
+            Ok(Err(_)) | Err(_) => {
+                // Fallback to simple display format if miette panics or errors
+                format!("{}: {}", self.severity_str(), self)
+            }
+        }
+    }
+
+    fn severity_str(&self) -> &'static str {
+        match self.d.level {
+            Level::Bug | Level::Fatal | Level::PhaseFatal | Level::Error => "error",
+            Level::Warning => "warning",
+            Level::Note => "note",
+            Level::Help => "help",
+            Level::FailureNote => "failure-note",
+            Level::Cancelled => "cancelled",
+        }
     }
 }
 
