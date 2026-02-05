@@ -134,15 +134,29 @@ impl<I: Tokens> Parser<I> {
 
     pub(crate) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
-            .parse_ts_modifier(&["public", "protected", "private", "in", "out"], false)?
-            .and_then(|s| match s {
-                "public" => Some(Accessibility::Public),
-                "protected" => Some(Accessibility::Protected),
-                "private" => Some(Accessibility::Private),
-                other => {
-                    self.emit_err(self.input().prev_span(), SyntaxError::TS1274(other.into()));
+            .parse_ts_modifier(
+                &[
+                    Token::Public,
+                    Token::Protected,
+                    Token::Private,
+                    Token::In,
+                    Token::Out,
+                ],
+                false,
+            )?
+            .and_then(|t| match t {
+                Token::Public => Some(Accessibility::Public),
+                Token::Protected => Some(Accessibility::Protected),
+                Token::Private => Some(Accessibility::Private),
+                Token::In | Token::Out => {
+                    let modifier_str = if t == Token::In { "in" } else { "out" };
+                    self.emit_err(
+                        self.input().prev_span(),
+                        SyntaxError::TS1274(modifier_str.into()),
+                    );
                     None
                 }
+                _ => None,
             }))
     }
 
@@ -189,7 +203,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if self.input().is(Token::Hash) {
             let name = self.parse_private_name()?;
-            if name.name == "constructor" {
+            if name.name == atom!("constructor") {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
             }
             Ok(Key::Private(name))
@@ -816,13 +830,21 @@ impl<I: Tokens> Parser<I> {
         let mut modifier_span = None;
         let declare = declare_token.is_some();
         while let Some(modifier) = if self.input().syntax().typescript() {
-            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"], true)?
+            self.parse_ts_modifier(
+                &[
+                    Token::Abstract,
+                    Token::Readonly,
+                    Token::Override,
+                    Token::Static,
+                ],
+                true,
+            )?
         } else {
             None
         } {
             modifier_span = Some(self.input().prev_span());
             match modifier {
-                "abstract" => {
+                Token::Abstract => {
                     if is_abstract {
                         self.emit_err(
                             self.input().prev_span(),
@@ -836,7 +858,7 @@ impl<I: Tokens> Parser<I> {
                     }
                     is_abstract = true;
                 }
-                "override" => {
+                Token::Override => {
                     if is_override {
                         self.emit_err(
                             self.input().prev_span(),
@@ -857,7 +879,7 @@ impl<I: Tokens> Parser<I> {
                     }
                     is_override = true;
                 }
-                "readonly" => {
+                Token::Readonly => {
                     let readonly_span = self.input().prev_span();
                     if readonly.is_some() {
                         self.emit_err(readonly_span, SyntaxError::TS1030(atom!("readonly")));
@@ -865,7 +887,7 @@ impl<I: Tokens> Parser<I> {
                         readonly = Some(readonly_span);
                     }
                 }
-                "static" => {
+                Token::Static => {
                     if is_override {
                         self.emit_err(
                             self.input().prev_span(),
@@ -955,8 +977,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
-        let key = if readonly.is_some() && matches!(self.input().cur(), Token::Bang | Token::Colon)
-        {
+        let key_token = self.input.cur();
+        let key = if readonly.is_some() && matches!(key_token, Token::Bang | Token::Colon) {
             Key::Public(PropName::Ident(IdentName::new(
                 atom!("readonly"),
                 readonly.unwrap(),
@@ -1099,19 +1121,15 @@ impl<I: Tokens> Parser<I> {
 
         let is_next_line_generator =
             self.input_mut().had_line_break_before_cur() && self.input().is(Token::Asterisk);
-        let getter_or_setter_ident = match key {
+        let getter_or_setter_ident = match key_token {
             // `get\n*` is an uninitialized property named 'get' followed by a generator.
-            Key::Public(PropName::Ident(ref i))
-                if (i.sym == "get" || i.sym == "set")
-                    && !self.is_class_property(/* asi */ false)
-                    && !is_next_line_generator =>
-            {
-                Some(i)
+            Token::Get | Token::Set => {
+                !self.is_class_property(/* asi */ false) && !is_next_line_generator
             }
-            _ => None,
+            _ => false,
         };
 
-        if getter_or_setter_ident.is_none() && self.is_class_property(/* asi */ true) {
+        if !getter_or_setter_ident && self.is_class_property(/* asi */ true) {
             return self.make_property(
                 start,
                 decorators,
@@ -1127,15 +1145,11 @@ impl<I: Tokens> Parser<I> {
             );
         }
 
-        if match key {
-            Key::Public(PropName::Ident(ref i)) => i.sym == "async",
-            _ => false,
-        } && !self.input_mut().had_line_break_before_cur()
-        {
+        if key_token == Token::Async && !self.input_mut().had_line_break_before_cur() {
             // handle async foo(){}
 
             if self.input().syntax().typescript()
-                && self.parse_ts_modifier(&["override"], false)?.is_some()
+                && self.parse_ts_modifier(&[Token::Override], false)?.is_some()
             {
                 is_override = true;
                 self.emit_err(
@@ -1174,7 +1188,7 @@ impl<I: Tokens> Parser<I> {
             );
         }
 
-        if let Some(i) = getter_or_setter_ident {
+        if getter_or_setter_ident {
             let key_span = key.span();
 
             // handle get foo(){} / set foo(v){}
@@ -1188,8 +1202,8 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::ConstructorAccessor);
             }
 
-            return match &*i.sym {
-                "get" => self.make_method(
+            return match key_token {
+                Token::Get => self.make_method(
                     |p| {
                         let params = p.parse_formal_params()?;
 
@@ -1213,7 +1227,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Getter,
                     },
                 ),
-                "set" => self.make_method(
+                Token::Set => self.make_method(
                     |p| {
                         let params = p.parse_formal_params()?;
 

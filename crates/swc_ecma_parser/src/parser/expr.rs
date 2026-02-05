@@ -2521,9 +2521,10 @@ impl<I: Tokens> Parser<I> {
                         return Ok(id.into());
                     }
 
+                    let token = p.input().cur();
                     let ident = p.parse_binding_ident(false)?;
                     if p.input().syntax().typescript()
-                        && ident.sym == "as"
+                        && token == Token::As
                         && !p.input().is(Token::Arrow)
                     {
                         // async as type
