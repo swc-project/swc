@@ -1121,19 +1121,15 @@ impl<I: Tokens> Parser<I> {
 
         let is_next_line_generator =
             self.input_mut().had_line_break_before_cur() && self.input().is(Token::Asterisk);
-        let getter_or_setter_ident = match key {
+        let getter_or_setter_ident = match key_token {
             // `get\n*` is an uninitialized property named 'get' followed by a generator.
-            Key::Public(PropName::Ident(ref i))
-                if (i.sym == "get" || i.sym == "set")
-                    && !self.is_class_property(/* asi */ false)
-                    && !is_next_line_generator =>
-            {
-                Some(i)
+            Token::Get | Token::Set => {
+                !self.is_class_property(/* asi */ false) && !is_next_line_generator
             }
-            _ => None,
+            _ => false,
         };
 
-        if getter_or_setter_ident.is_none() && self.is_class_property(/* asi */ true) {
+        if !getter_or_setter_ident && self.is_class_property(/* asi */ true) {
             return self.make_property(
                 start,
                 decorators,
@@ -1192,7 +1188,7 @@ impl<I: Tokens> Parser<I> {
             );
         }
 
-        if let Some(i) = getter_or_setter_ident {
+        if getter_or_setter_ident {
             let key_span = key.span();
 
             // handle get foo(){} / set foo(v){}
@@ -1206,8 +1202,8 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::ConstructorAccessor);
             }
 
-            return match &*i.sym {
-                "get" => self.make_method(
+            return match key_token {
+                Token::Get => self.make_method(
                     |p| {
                         let params = p.parse_formal_params()?;
 
@@ -1231,7 +1227,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Getter,
                     },
                 ),
-                "set" => self.make_method(
+                Token::Set => self.make_method(
                     |p| {
                         let params = p.parse_formal_params()?;
 
