@@ -11675,3 +11675,1513 @@ console.log(typeof obj2);
 
     run_exec_test(src, config, false);
 }
+
+// ==================== Safe Property Mangling Execution Tests
+// ==================== These tests verify that the minified code produces the
+// same output as the original when property mangling is applied with safe
+// property mangling (issue #10332).
+
+/// Test basic dynamic property access - properties accessed dynamically must be
+/// preserved
+#[test]
+fn safe_mangle_props_basic_dynamic_access() {
+    run_default_exec_test(
+        r#"
+const obj = { foo: 1, bar: 2, baz: 3 };
+function getValue(key) {
+    return obj[key];
+}
+console.log(getValue('foo'));
+console.log(getValue('bar'));
+console.log(getValue('baz'));
+console.log(obj.foo + obj.bar + obj.baz);
+        "#,
+    );
+}
+
+/// Test nested object with dynamic access at top level - nested props should be
+/// mangleable
+#[test]
+fn safe_mangle_props_nested_dynamic_access() {
+    run_default_exec_test(
+        r#"
+const sizes = {
+    A4: { width: 210, height: 297 },
+    Letter: { width: 216, height: 279 },
+    Legal: { width: 216, height: 356 }
+};
+function getSize(paperType) {
+    const size = sizes[paperType];
+    return size.width + 'x' + size.height;
+}
+console.log(getSize('A4'));
+console.log(getSize('Letter'));
+console.log(getSize('Legal'));
+        "#,
+    );
+}
+
+/// Test deeply nested objects with mixed access patterns
+#[test]
+fn safe_mangle_props_deeply_nested() {
+    run_default_exec_test(
+        r#"
+const config = {
+    database: {
+        host: 'localhost',
+        port: 5432,
+        credentials: {
+            username: 'admin',
+            password: 'secret'
+        }
+    },
+    cache: {
+        host: 'redis',
+        port: 6379,
+        ttl: 3600
+    }
+};
+function getServiceConfig(serviceName) {
+    const service = config[serviceName];
+    return service.host + ':' + service.port;
+}
+console.log(getServiceConfig('database'));
+console.log(getServiceConfig('cache'));
+console.log(config.database.credentials.username);
+console.log(config.cache.ttl);
+        "#,
+    );
+}
+
+/// Test object with methods accessed dynamically
+#[test]
+fn safe_mangle_props_method_handlers() {
+    run_default_exec_test(
+        r#"
+const handlers = {
+    onClick: function(target) { return 'clicked ' + target; },
+    onHover: function(target) { return 'hovered ' + target; },
+    onFocus: function(target) { return 'focused ' + target; }
+};
+function trigger(event, target) {
+    const handler = handlers[event];
+    if (handler) {
+        return handler(target);
+    }
+    return 'unknown event';
+}
+console.log(trigger('onClick', 'button'));
+console.log(trigger('onHover', 'link'));
+console.log(trigger('onFocus', 'input'));
+console.log(trigger('onBlur', 'field'));
+        "#,
+    );
+}
+
+/// Test for-in loop dynamic access
+#[test]
+fn safe_mangle_props_for_in_loop() {
+    run_default_exec_test(
+        r#"
+const stats = {
+    users: 100,
+    sessions: 250,
+    pageViews: 1500,
+    bounceRate: 0.35
+};
+const results = [];
+for (const key in stats) {
+    results.push(key + ': ' + stats[key]);
+}
+console.log(results.join(', '));
+        "#,
+    );
+}
+
+/// Test Object.keys with dynamic access
+#[test]
+fn safe_mangle_props_object_keys() {
+    run_default_exec_test(
+        r#"
+const translations = {
+    hello: 'Bonjour',
+    goodbye: 'Au revoir',
+    thanks: 'Merci',
+    please: "S'il vous plaît"
+};
+const pairs = Object.keys(translations).map(key => {
+    return key + ' = ' + translations[key];
+});
+console.log(pairs.join(' | '));
+        "#,
+    );
+}
+
+/// Test Object.entries iteration
+#[test]
+fn safe_mangle_props_object_entries() {
+    run_default_exec_test(
+        r#"
+const prices = {
+    apple: 1.5,
+    banana: 0.75,
+    orange: 2.0,
+    grape: 3.5
+};
+let total = 0;
+const entries = Object.entries(prices);
+for (const [fruit, price] of entries) {
+    console.log(fruit + ': $' + price);
+    total += price;
+}
+console.log('Total: $' + total);
+        "#,
+    );
+}
+
+/// Test class with dynamically accessed static properties
+#[test]
+fn safe_mangle_props_class_static_dynamic() {
+    run_default_exec_test(
+        r#"
+class Constants {
+    static ERROR_NOT_FOUND = 404;
+    static ERROR_FORBIDDEN = 403;
+    static ERROR_SERVER = 500;
+    static SUCCESS_OK = 200;
+}
+function getStatusCode(name) {
+    return Constants[name];
+}
+console.log(getStatusCode('ERROR_NOT_FOUND'));
+console.log(getStatusCode('SUCCESS_OK'));
+console.log(Constants.ERROR_FORBIDDEN);
+        "#,
+    );
+}
+
+/// Test class instances with computed property access
+#[test]
+fn safe_mangle_props_class_instance_computed() {
+    run_default_exec_test(
+        r#"
+class User {
+    constructor(data) {
+        this.name = data.name;
+        this.email = data.email;
+        this.age = data.age;
+    }
+    getField(field) {
+        return this[field];
+    }
+}
+const user = new User({ name: 'Alice', email: 'alice@example.com', age: 30 });
+console.log(user.getField('name'));
+console.log(user.getField('email'));
+console.log(user.getField('age'));
+        "#,
+    );
+}
+
+/// Test object destructuring with dynamic access
+#[test]
+fn safe_mangle_props_destructuring_dynamic() {
+    run_default_exec_test(
+        r#"
+const users = {
+    user1: { name: 'Alice', score: 95 },
+    user2: { name: 'Bob', score: 87 },
+    user3: { name: 'Charlie', score: 92 }
+};
+function getUserInfo(userId) {
+    const { name, score } = users[userId];
+    return name + ': ' + score;
+}
+console.log(getUserInfo('user1'));
+console.log(getUserInfo('user2'));
+console.log(getUserInfo('user3'));
+        "#,
+    );
+}
+
+/// Test object spread with dynamic access
+#[test]
+fn safe_mangle_props_spread_dynamic() {
+    run_default_exec_test(
+        r#"
+const defaults = {
+    theme: 'light',
+    language: 'en',
+    notifications: true
+};
+const overrides = {
+    theme: 'dark',
+    fontSize: 14
+};
+function getSetting(key) {
+    const merged = { ...defaults, ...overrides };
+    return merged[key];
+}
+console.log(getSetting('theme'));
+console.log(getSetting('language'));
+console.log(getSetting('notifications'));
+console.log(getSetting('fontSize'));
+        "#,
+    );
+}
+
+/// Test ternary-based dynamic key selection
+#[test]
+fn safe_mangle_props_ternary_key() {
+    run_default_exec_test(
+        r#"
+const messages = {
+    success: 'Operation completed successfully',
+    failure: 'Operation failed'
+};
+function getMessage(isSuccess) {
+    const key = isSuccess ? 'success' : 'failure';
+    return messages[key];
+}
+console.log(getMessage(true));
+console.log(getMessage(false));
+        "#,
+    );
+}
+
+/// Test template literal key access
+#[test]
+fn safe_mangle_props_template_literal_key() {
+    run_default_exec_test(
+        r#"
+const eventHandlers = {
+    onMouseEnter: () => 'entered',
+    onMouseLeave: () => 'left',
+    onMouseMove: () => 'moved'
+};
+function handleMouse(action) {
+    const handler = eventHandlers['onMouse' + action];
+    return handler ? handler() : 'unknown';
+}
+console.log(handleMouse('Enter'));
+console.log(handleMouse('Leave'));
+console.log(handleMouse('Move'));
+console.log(handleMouse('Click'));
+        "#,
+    );
+}
+
+/// Test function call result as key
+#[test]
+fn safe_mangle_props_function_call_key() {
+    run_default_exec_test(
+        r#"
+const data = {
+    first: 'one',
+    second: 'two',
+    third: 'three'
+};
+function getKey(index) {
+    const keys = ['first', 'second', 'third'];
+    return keys[index];
+}
+function getValue(index) {
+    return data[getKey(index)];
+}
+console.log(getValue(0));
+console.log(getValue(1));
+console.log(getValue(2));
+        "#,
+    );
+}
+
+/// Test multiple objects with different access patterns
+#[test]
+fn safe_mangle_props_multiple_objects_mixed() {
+    run_default_exec_test(
+        r#"
+const staticObj = {
+    propA: 'static-a',
+    propB: 'static-b'
+};
+const dynamicObj = {
+    propC: 'dynamic-c',
+    propD: 'dynamic-d'
+};
+function getDynamic(key) {
+    return dynamicObj[key];
+}
+console.log(staticObj.propA);
+console.log(staticObj.propB);
+console.log(getDynamic('propC'));
+console.log(getDynamic('propD'));
+        "#,
+    );
+}
+
+/// Test nested dynamic access with array indices
+#[test]
+fn safe_mangle_props_nested_array_indices() {
+    run_default_exec_test(
+        r#"
+const matrix = {
+    row0: { col0: 1, col1: 2, col2: 3 },
+    row1: { col0: 4, col1: 5, col2: 6 },
+    row2: { col0: 7, col1: 8, col2: 9 }
+};
+function getCell(row, col) {
+    return matrix['row' + row]['col' + col];
+}
+console.log(getCell(0, 0));
+console.log(getCell(1, 1));
+console.log(getCell(2, 2));
+console.log(getCell(0, 2));
+        "#,
+    );
+}
+
+/// Test recursive object traversal
+#[test]
+fn safe_mangle_props_recursive_traversal() {
+    run_default_exec_test(
+        r#"
+const tree = {
+    value: 'root',
+    left: {
+        value: 'left',
+        left: { value: 'left-left', left: null, right: null },
+        right: { value: 'left-right', left: null, right: null }
+    },
+    right: {
+        value: 'right',
+        left: { value: 'right-left', left: null, right: null },
+        right: null
+    }
+};
+function traverse(node, path) {
+    if (!node) return [];
+    let results = [node.value];
+    if (path.length > 0) {
+        const direction = path[0];
+        const child = node[direction];
+        results = results.concat(traverse(child, path.slice(1)));
+    }
+    return results;
+}
+console.log(traverse(tree, ['left', 'left']).join(' -> '));
+console.log(traverse(tree, ['left', 'right']).join(' -> '));
+console.log(traverse(tree, ['right', 'left']).join(' -> '));
+        "#,
+    );
+}
+
+/// Test getter/setter with dynamic access
+#[test]
+fn safe_mangle_props_getters_setters_dynamic() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    _value: 0,
+    get value() { return this._value; },
+    set value(v) { this._value = v; },
+    _count: 0,
+    get count() { return this._count; },
+    set count(c) { this._count = c; }
+};
+function setProperty(name, val) {
+    obj[name] = val;
+}
+function getProperty(name) {
+    return obj[name];
+}
+setProperty('value', 42);
+setProperty('count', 10);
+console.log(getProperty('value'));
+console.log(getProperty('count'));
+        "#,
+    );
+}
+
+/// Test prototype chain with dynamic access
+#[test]
+fn safe_mangle_props_prototype_chain() {
+    run_default_exec_test(
+        r#"
+function Parent() {
+    this.parentProp = 'parent';
+}
+Parent.prototype.parentMethod = function() {
+    return 'from parent';
+};
+function Child() {
+    Parent.call(this);
+    this.childProp = 'child';
+}
+Child.prototype = Object.create(Parent.prototype);
+Child.prototype.childMethod = function() {
+    return 'from child';
+};
+const instance = new Child();
+function getProperty(obj, name) {
+    return obj[name];
+}
+console.log(getProperty(instance, 'parentProp'));
+console.log(getProperty(instance, 'childProp'));
+console.log(instance.parentMethod());
+console.log(instance.childMethod());
+        "#,
+    );
+}
+
+/// Test Map-like usage pattern with Object
+#[test]
+fn safe_mangle_props_map_like_pattern() {
+    run_default_exec_test(
+        r#"
+const cache = {};
+function setCache(key, value) {
+    cache[key] = value;
+}
+function getCache(key) {
+    return cache[key];
+}
+function hasCache(key) {
+    return key in cache;
+}
+setCache('user:1', { name: 'Alice', age: 30 });
+setCache('user:2', { name: 'Bob', age: 25 });
+console.log(hasCache('user:1'));
+console.log(hasCache('user:3'));
+console.log(JSON.stringify(getCache('user:1')));
+console.log(JSON.stringify(getCache('user:2')));
+        "#,
+    );
+}
+
+/// Test state management pattern
+#[test]
+fn safe_mangle_props_state_management() {
+    run_default_exec_test(
+        r#"
+const state = {
+    count: 0,
+    name: 'initial',
+    items: []
+};
+const mutations = {
+    increment: (state) => { state.count++; },
+    setName: (state, name) => { state.name = name; },
+    addItem: (state, item) => { state.items.push(item); }
+};
+function commit(mutation, payload) {
+    const handler = mutations[mutation];
+    if (handler) {
+        handler(state, payload);
+    }
+}
+commit('increment');
+commit('increment');
+commit('setName', 'updated');
+commit('addItem', 'first');
+commit('addItem', 'second');
+console.log(state.count);
+console.log(state.name);
+console.log(state.items.join(', '));
+        "#,
+    );
+}
+
+/// Test event emitter pattern
+#[test]
+fn safe_mangle_props_event_emitter() {
+    run_default_exec_test(
+        r#"
+const emitter = {
+    listeners: {},
+    on(event, handler) {
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
+        }
+        this.listeners[event].push(handler);
+    },
+    emit(event, data) {
+        const handlers = this.listeners[event];
+        if (handlers) {
+            handlers.forEach(h => h(data));
+        }
+    }
+};
+const results = [];
+emitter.on('click', (data) => results.push('click: ' + data));
+emitter.on('hover', (data) => results.push('hover: ' + data));
+emitter.on('click', (data) => results.push('click2: ' + data));
+emitter.emit('click', 'button');
+emitter.emit('hover', 'link');
+console.log(results.join(' | '));
+        "#,
+    );
+}
+
+/// Test i18n pattern with nested translations
+#[test]
+fn safe_mangle_props_i18n_pattern() {
+    run_default_exec_test(
+        r#"
+const translations = {
+    en: {
+        greeting: 'Hello',
+        farewell: 'Goodbye',
+        thanks: 'Thank you'
+    },
+    es: {
+        greeting: 'Hola',
+        farewell: 'Adiós',
+        thanks: 'Gracias'
+    },
+    fr: {
+        greeting: 'Bonjour',
+        farewell: 'Au revoir',
+        thanks: 'Merci'
+    }
+};
+function translate(lang, key) {
+    const langData = translations[lang];
+    return langData ? langData[key] : key;
+}
+console.log(translate('en', 'greeting'));
+console.log(translate('es', 'farewell'));
+console.log(translate('fr', 'thanks'));
+console.log(translate('de', 'greeting'));
+        "#,
+    );
+}
+
+/// Test plugin system pattern
+#[test]
+fn safe_mangle_props_plugin_system() {
+    run_default_exec_test(
+        r#"
+const plugins = {
+    logger: {
+        init() { return 'logger initialized'; },
+        process(data) { return 'logged: ' + data; }
+    },
+    validator: {
+        init() { return 'validator initialized'; },
+        process(data) { return 'validated: ' + data; }
+    },
+    formatter: {
+        init() { return 'formatter initialized'; },
+        process(data) { return 'formatted: ' + data; }
+    }
+};
+function loadPlugin(name) {
+    const plugin = plugins[name];
+    if (plugin) {
+        console.log(plugin.init());
+        return (data) => plugin.process(data);
+    }
+    return null;
+}
+const loggerProcess = loadPlugin('logger');
+const validatorProcess = loadPlugin('validator');
+console.log(loggerProcess('test data'));
+console.log(validatorProcess('user input'));
+        "#,
+    );
+}
+
+/// Test dependency injection pattern
+#[test]
+fn safe_mangle_props_dependency_injection() {
+    run_default_exec_test(
+        r#"
+const services = {
+    database: {
+        query(sql) { return 'DB: ' + sql; }
+    },
+    cache: {
+        get(key) { return 'Cache: ' + key; }
+    },
+    logger: {
+        log(msg) { return 'Log: ' + msg; }
+    }
+};
+function inject(serviceNames) {
+    const injected = {};
+    for (const name of serviceNames) {
+        injected[name] = services[name];
+    }
+    return injected;
+}
+const deps = inject(['database', 'logger']);
+console.log(deps.database.query('SELECT * FROM users'));
+console.log(deps.logger.log('Application started'));
+        "#,
+    );
+}
+
+/// Test computed property names with dynamic values
+#[test]
+fn safe_mangle_props_computed_property_names() {
+    run_default_exec_test(
+        r#"
+const PREFIX = 'prop_';
+const obj = {
+    [PREFIX + 'a']: 1,
+    [PREFIX + 'b']: 2,
+    staticProp: 3
+};
+function getValue(suffix) {
+    return obj[PREFIX + suffix];
+}
+console.log(getValue('a'));
+console.log(getValue('b'));
+console.log(obj.staticProp);
+        "#,
+    );
+}
+
+/// Test object with Symbol keys and string keys mixed
+#[test]
+fn safe_mangle_props_mixed_key_types() {
+    run_default_exec_test(
+        r#"
+const obj = {
+    stringProp: 'string value',
+    numericProp: 42,
+    boolProp: true
+};
+const keys = ['stringProp', 'numericProp', 'boolProp'];
+function getByIndex(index) {
+    return obj[keys[index]];
+}
+console.log(getByIndex(0));
+console.log(getByIndex(1));
+console.log(getByIndex(2));
+        "#,
+    );
+}
+
+/// Test async-like callback pattern with dynamic handlers
+#[test]
+fn safe_mangle_props_callback_pattern() {
+    run_default_exec_test(
+        r#"
+const callbacks = {
+    onSuccess: [],
+    onError: [],
+    onComplete: []
+};
+function addCallback(type, fn) {
+    if (callbacks[type]) {
+        callbacks[type].push(fn);
+    }
+}
+function runCallbacks(type, data) {
+    const fns = callbacks[type];
+    if (fns) {
+        return fns.map(fn => fn(data)).join(', ');
+    }
+    return '';
+}
+addCallback('onSuccess', (d) => 'success1: ' + d);
+addCallback('onSuccess', (d) => 'success2: ' + d);
+addCallback('onError', (d) => 'error: ' + d);
+console.log(runCallbacks('onSuccess', 'data'));
+console.log(runCallbacks('onError', 'oops'));
+        "#,
+    );
+}
+
+/// Test form validation pattern
+#[test]
+fn safe_mangle_props_form_validation() {
+    run_default_exec_test(
+        r#"
+const validators = {
+    required: (value) => value !== '' ? null : 'Field is required',
+    minLength: (value, min) => value.length >= min ? null : 'Minimum length is ' + min,
+    email: (value) => value.includes('@') ? null : 'Invalid email'
+};
+function validate(value, rules) {
+    const errors = [];
+    for (const rule of rules) {
+        const validator = validators[rule.type];
+        if (validator) {
+            const error = validator(value, rule.param);
+            if (error) errors.push(error);
+        }
+    }
+    return errors;
+}
+console.log(validate('', [{ type: 'required' }]).join('; '));
+console.log(validate('ab', [{ type: 'minLength', param: 5 }]).join('; '));
+console.log(validate('notanemail', [{ type: 'email' }]).join('; '));
+console.log(validate('test@example.com', [{ type: 'required' }, { type: 'email' }]).join('; ') || 'valid');
+        "#,
+    );
+}
+
+/// Test router-like pattern
+#[test]
+fn safe_mangle_props_router_pattern() {
+    run_default_exec_test(
+        r#"
+const routes = {
+    '/home': { component: 'HomePage', title: 'Home' },
+    '/about': { component: 'AboutPage', title: 'About Us' },
+    '/contact': { component: 'ContactPage', title: 'Contact' },
+    '/404': { component: 'NotFound', title: 'Page Not Found' }
+};
+function navigate(path) {
+    const route = routes[path] || routes['/404'];
+    return route.component + ' - ' + route.title;
+}
+console.log(navigate('/home'));
+console.log(navigate('/about'));
+console.log(navigate('/unknown'));
+        "#,
+    );
+}
+
+/// Test color theme pattern
+#[test]
+fn safe_mangle_props_theme_pattern() {
+    run_default_exec_test(
+        r#"
+const themes = {
+    light: {
+        background: '#ffffff',
+        text: '#000000',
+        primary: '#007bff',
+        secondary: '#6c757d'
+    },
+    dark: {
+        background: '#1a1a1a',
+        text: '#ffffff',
+        primary: '#0d6efd',
+        secondary: '#6c757d'
+    }
+};
+function getThemeColor(themeName, colorKey) {
+    const theme = themes[themeName];
+    return theme ? theme[colorKey] : null;
+}
+console.log(getThemeColor('light', 'background'));
+console.log(getThemeColor('dark', 'text'));
+console.log(getThemeColor('light', 'primary'));
+console.log(themes.dark.secondary);
+        "#,
+    );
+}
+
+/// Test reducer pattern (Redux-like)
+#[test]
+fn safe_mangle_props_reducer_pattern() {
+    run_default_exec_test(
+        r#"
+const initialState = { count: 0, items: [] };
+const reducers = {
+    INCREMENT: (state) => ({ ...state, count: state.count + 1 }),
+    DECREMENT: (state) => ({ ...state, count: state.count - 1 }),
+    ADD_ITEM: (state, payload) => ({ ...state, items: [...state.items, payload] }),
+    RESET: () => initialState
+};
+function dispatch(state, action) {
+    const reducer = reducers[action.type];
+    if (reducer) {
+        return reducer(state, action.payload);
+    }
+    return state;
+}
+let state = initialState;
+state = dispatch(state, { type: 'INCREMENT' });
+state = dispatch(state, { type: 'INCREMENT' });
+state = dispatch(state, { type: 'ADD_ITEM', payload: 'item1' });
+state = dispatch(state, { type: 'ADD_ITEM', payload: 'item2' });
+console.log(state.count);
+console.log(state.items.join(', '));
+        "#,
+    );
+}
+
+/// Test middleware chain pattern
+#[test]
+fn safe_mangle_props_middleware_chain() {
+    run_default_exec_test(
+        r#"
+const middlewares = {
+    auth: (req, next) => {
+        req.authed = true;
+        return next(req);
+    },
+    logger: (req, next) => {
+        req.logged = true;
+        return next(req);
+    },
+    validator: (req, next) => {
+        req.validated = true;
+        return next(req);
+    }
+};
+function runMiddleware(names, req) {
+    function execute(index) {
+        if (index >= names.length) {
+            return req;
+        }
+        const middleware = middlewares[names[index]];
+        return middleware(req, (r) => execute(index + 1));
+    }
+    return execute(0);
+}
+const result = runMiddleware(['auth', 'logger', 'validator'], { data: 'test' });
+console.log(result.authed);
+console.log(result.logged);
+console.log(result.validated);
+console.log(result.data);
+        "#,
+    );
+}
+
+/// Test factory pattern with dynamic types
+#[test]
+fn safe_mangle_props_factory_pattern() {
+    run_default_exec_test(
+        r#"
+const factories = {
+    circle: (params) => ({
+        type: 'circle',
+        area: Math.PI * params.radius * params.radius,
+        perimeter: 2 * Math.PI * params.radius
+    }),
+    rectangle: (params) => ({
+        type: 'rectangle',
+        area: params.width * params.height,
+        perimeter: 2 * (params.width + params.height)
+    }),
+    triangle: (params) => ({
+        type: 'triangle',
+        area: 0.5 * params.base * params.height,
+        perimeter: params.a + params.b + params.c
+    })
+};
+function createShape(type, params) {
+    const factory = factories[type];
+    return factory ? factory(params) : null;
+}
+const circle = createShape('circle', { radius: 5 });
+const rect = createShape('rectangle', { width: 4, height: 6 });
+console.log(circle.type + ': area=' + circle.area.toFixed(2));
+console.log(rect.type + ': area=' + rect.area);
+        "#,
+    );
+}
+
+/// Test observable pattern
+#[test]
+fn safe_mangle_props_observable_pattern() {
+    run_default_exec_test(
+        r#"
+const observable = {
+    state: { value: 0 },
+    subscribers: {},
+    subscribe(prop, callback) {
+        if (!this.subscribers[prop]) {
+            this.subscribers[prop] = [];
+        }
+        this.subscribers[prop].push(callback);
+    },
+    set(prop, value) {
+        this.state[prop] = value;
+        const callbacks = this.subscribers[prop];
+        if (callbacks) {
+            callbacks.forEach(cb => cb(value));
+        }
+    },
+    get(prop) {
+        return this.state[prop];
+    }
+};
+const log = [];
+observable.subscribe('value', (v) => log.push('subscriber1: ' + v));
+observable.subscribe('value', (v) => log.push('subscriber2: ' + v));
+observable.set('value', 42);
+observable.set('value', 100);
+console.log(log.join(' | '));
+console.log(observable.get('value'));
+        "#,
+    );
+}
+
+/// Test query builder pattern
+#[test]
+fn safe_mangle_props_query_builder() {
+    run_default_exec_test(
+        r#"
+const operators = {
+    eq: (field, value) => field + ' = ' + value,
+    ne: (field, value) => field + ' != ' + value,
+    gt: (field, value) => field + ' > ' + value,
+    lt: (field, value) => field + ' < ' + value,
+    like: (field, value) => field + " LIKE '%" + value + "%'"
+};
+function buildWhere(conditions) {
+    return conditions.map(cond => {
+        const op = operators[cond.op];
+        return op ? op(cond.field, cond.value) : '';
+    }).filter(x => x).join(' AND ');
+}
+const query = buildWhere([
+    { field: 'age', op: 'gt', value: 18 },
+    { field: 'status', op: 'eq', value: "'active'" },
+    { field: 'name', op: 'like', value: 'John' }
+]);
+console.log(query);
+        "#,
+    );
+}
+
+/// Test deep object clone with dynamic access
+#[test]
+fn safe_mangle_props_deep_clone() {
+    run_default_exec_test(
+        r#"
+const original = {
+    name: 'original',
+    nested: {
+        value: 42,
+        deep: {
+            data: 'deep data'
+        }
+    },
+    items: [1, 2, 3]
+};
+function deepGet(obj, path) {
+    return path.split('.').reduce((o, key) => o && o[key], obj);
+}
+console.log(deepGet(original, 'name'));
+console.log(deepGet(original, 'nested.value'));
+console.log(deepGet(original, 'nested.deep.data'));
+console.log(deepGet(original, 'items.1'));
+        "#,
+    );
+}
+
+/// Test memoization pattern
+#[test]
+fn safe_mangle_props_memoization() {
+    run_default_exec_test(
+        r#"
+const memo = {
+    cache: {},
+    get(key) {
+        return this.cache[key];
+    },
+    set(key, value) {
+        this.cache[key] = value;
+    },
+    has(key) {
+        return key in this.cache;
+    }
+};
+function memoizedFib(n) {
+    const key = 'fib_' + n;
+    if (memo.has(key)) {
+        return memo.get(key);
+    }
+    let result;
+    if (n <= 1) {
+        result = n;
+    } else {
+        result = memoizedFib(n - 1) + memoizedFib(n - 2);
+    }
+    memo.set(key, result);
+    return result;
+}
+console.log(memoizedFib(10));
+console.log(memoizedFib(15));
+console.log(memoizedFib(20));
+        "#,
+    );
+}
+
+/// Test configuration merging with dynamic keys
+#[test]
+fn safe_mangle_props_config_merge() {
+    run_default_exec_test(
+        r#"
+const defaults = {
+    host: 'localhost',
+    port: 3000,
+    debug: false,
+    timeout: 5000
+};
+function mergeConfig(overrides) {
+    const result = { ...defaults };
+    for (const key in overrides) {
+        if (key in defaults) {
+            result[key] = overrides[key];
+        }
+    }
+    return result;
+}
+const config1 = mergeConfig({ port: 8080, debug: true });
+const config2 = mergeConfig({ host: '0.0.0.0', timeout: 10000 });
+console.log(config1.host + ':' + config1.port + ' debug=' + config1.debug);
+console.log(config2.host + ':' + config2.port + ' timeout=' + config2.timeout);
+        "#,
+    );
+}
+
+/// Test enum-like pattern with reverse lookup
+#[test]
+fn safe_mangle_props_enum_reverse_lookup() {
+    run_default_exec_test(
+        r#"
+const Status = {
+    PENDING: 0,
+    ACTIVE: 1,
+    COMPLETED: 2,
+    CANCELLED: 3
+};
+const StatusNames = {
+    0: 'PENDING',
+    1: 'ACTIVE',
+    2: 'COMPLETED',
+    3: 'CANCELLED'
+};
+function getStatusName(code) {
+    return StatusNames[code];
+}
+function getStatusCode(name) {
+    return Status[name];
+}
+console.log(getStatusCode('ACTIVE'));
+console.log(getStatusName(2));
+console.log(getStatusCode('PENDING') + ' -> ' + getStatusName(0));
+        "#,
+    );
+}
+
+/// Test proxy-like property forwarding
+#[test]
+fn safe_mangle_props_property_forwarding() {
+    run_default_exec_test(
+        r#"
+const target = {
+    firstName: 'John',
+    lastName: 'Doe',
+    age: 30
+};
+const aliases = {
+    first: 'firstName',
+    last: 'lastName',
+    years: 'age'
+};
+function getAliased(alias) {
+    const realProp = aliases[alias];
+    return realProp ? target[realProp] : undefined;
+}
+console.log(getAliased('first'));
+console.log(getAliased('last'));
+console.log(getAliased('years'));
+console.log(target.firstName);
+        "#,
+    );
+}
+
+/// Test batch operations on objects
+#[test]
+fn safe_mangle_props_batch_operations() {
+    run_default_exec_test(
+        r#"
+const records = {
+    rec1: { value: 10, active: true },
+    rec2: { value: 20, active: false },
+    rec3: { value: 30, active: true },
+    rec4: { value: 40, active: true }
+};
+function sumActiveRecords(ids) {
+    let sum = 0;
+    for (const id of ids) {
+        const record = records[id];
+        if (record && record.active) {
+            sum += record.value;
+        }
+    }
+    return sum;
+}
+console.log(sumActiveRecords(['rec1', 'rec2', 'rec3']));
+console.log(sumActiveRecords(['rec1', 'rec4']));
+console.log(sumActiveRecords(['rec2']));
+        "#,
+    );
+}
+
+/// Test complex real-world scenario: shopping cart
+#[test]
+fn safe_mangle_props_shopping_cart() {
+    run_default_exec_test(
+        r#"
+const products = {
+    SKU001: { name: 'Laptop', price: 999.99, stock: 10 },
+    SKU002: { name: 'Mouse', price: 29.99, stock: 50 },
+    SKU003: { name: 'Keyboard', price: 79.99, stock: 30 },
+    SKU004: { name: 'Monitor', price: 299.99, stock: 15 }
+};
+const cart = {
+    items: {},
+    add(sku, qty) {
+        const product = products[sku];
+        if (product && product.stock >= qty) {
+            this.items[sku] = (this.items[sku] || 0) + qty;
+            return true;
+        }
+        return false;
+    },
+    getTotal() {
+        let total = 0;
+        for (const sku in this.items) {
+            const qty = this.items[sku];
+            const product = products[sku];
+            total += product.price * qty;
+        }
+        return total;
+    },
+    getItemCount() {
+        let count = 0;
+        for (const sku in this.items) {
+            count += this.items[sku];
+        }
+        return count;
+    }
+};
+cart.add('SKU001', 1);
+cart.add('SKU002', 2);
+cart.add('SKU003', 1);
+console.log('Items: ' + cart.getItemCount());
+console.log('Total: $' + cart.getTotal().toFixed(2));
+console.log(products.SKU004.name + ' available: ' + products.SKU004.stock);
+        "#,
+    );
+}
+
+/// Test complex real-world scenario: user permissions
+#[test]
+fn safe_mangle_props_user_permissions() {
+    run_default_exec_test(
+        r#"
+const roles = {
+    admin: {
+        permissions: ['read', 'write', 'delete', 'admin'],
+        level: 100
+    },
+    editor: {
+        permissions: ['read', 'write'],
+        level: 50
+    },
+    viewer: {
+        permissions: ['read'],
+        level: 10
+    }
+};
+const users = {
+    user1: { name: 'Admin User', role: 'admin' },
+    user2: { name: 'Editor User', role: 'editor' },
+    user3: { name: 'Viewer User', role: 'viewer' }
+};
+function hasPermission(userId, permission) {
+    const user = users[userId];
+    if (!user) return false;
+    const role = roles[user.role];
+    return role && role.permissions.includes(permission);
+}
+function getUserLevel(userId) {
+    const user = users[userId];
+    if (!user) return 0;
+    const role = roles[user.role];
+    return role ? role.level : 0;
+}
+console.log('user1 can delete: ' + hasPermission('user1', 'delete'));
+console.log('user2 can delete: ' + hasPermission('user2', 'delete'));
+console.log('user3 can read: ' + hasPermission('user3', 'read'));
+console.log('user1 level: ' + getUserLevel('user1'));
+console.log('user2 level: ' + getUserLevel('user2'));
+        "#,
+    );
+}
+
+/// Test complex real-world scenario: API response handler
+#[test]
+fn safe_mangle_props_api_response() {
+    run_default_exec_test(
+        r#"
+const handlers = {
+    200: (data) => ({ success: true, data: data, error: null }),
+    400: (data) => ({ success: false, data: null, error: 'Bad Request: ' + data }),
+    401: (data) => ({ success: false, data: null, error: 'Unauthorized' }),
+    404: (data) => ({ success: false, data: null, error: 'Not Found' }),
+    500: (data) => ({ success: false, data: null, error: 'Server Error' })
+};
+function handleResponse(status, data) {
+    const handler = handlers[status] || handlers[500];
+    return handler(data);
+}
+const res1 = handleResponse(200, { items: [1, 2, 3] });
+const res2 = handleResponse(404, null);
+const res3 = handleResponse(400, 'Invalid input');
+console.log('200: success=' + res1.success + ', data=' + JSON.stringify(res1.data));
+console.log('404: success=' + res2.success + ', error=' + res2.error);
+console.log('400: error=' + res3.error);
+        "#,
+    );
+}
+
+/// Test complex real-world scenario: workflow engine
+#[test]
+fn safe_mangle_props_workflow_engine() {
+    run_default_exec_test(
+        r#"
+const states = {
+    draft: {
+        next: ['review'],
+        canEdit: true,
+        label: 'Draft'
+    },
+    review: {
+        next: ['approved', 'rejected'],
+        canEdit: false,
+        label: 'Under Review'
+    },
+    approved: {
+        next: ['published'],
+        canEdit: false,
+        label: 'Approved'
+    },
+    rejected: {
+        next: ['draft'],
+        canEdit: true,
+        label: 'Rejected'
+    },
+    published: {
+        next: [],
+        canEdit: false,
+        label: 'Published'
+    }
+};
+function canTransition(currentState, targetState) {
+    const state = states[currentState];
+    return state && state.next.includes(targetState);
+}
+function getStateLabel(stateName) {
+    const state = states[stateName];
+    return state ? state.label : 'Unknown';
+}
+console.log('draft->review: ' + canTransition('draft', 'review'));
+console.log('review->published: ' + canTransition('review', 'published'));
+console.log('review->approved: ' + canTransition('review', 'approved'));
+console.log('Label for approved: ' + getStateLabel('approved'));
+console.log('Can edit in review: ' + states.review.canEdit);
+        "#,
+    );
+}
+
+/// Test with WeakMap-like behavior using Objects
+#[test]
+fn safe_mangle_props_weakmap_like() {
+    run_default_exec_test(
+        r#"
+const privateData = {};
+let counter = 0;
+function setPrivate(obj, key, value) {
+    const id = obj.__privateId || (obj.__privateId = ++counter);
+    if (!privateData[id]) {
+        privateData[id] = {};
+    }
+    privateData[id][key] = value;
+}
+function getPrivate(obj, key) {
+    const id = obj.__privateId;
+    return id && privateData[id] ? privateData[id][key] : undefined;
+}
+const obj1 = { name: 'object1' };
+const obj2 = { name: 'object2' };
+setPrivate(obj1, 'secret', 'value1');
+setPrivate(obj1, 'other', 'value2');
+setPrivate(obj2, 'secret', 'value3');
+console.log(getPrivate(obj1, 'secret'));
+console.log(getPrivate(obj1, 'other'));
+console.log(getPrivate(obj2, 'secret'));
+console.log(obj1.name);
+console.log(obj2.name);
+        "#,
+    );
+}
+
+/// Test JSON schema validation-like pattern
+#[test]
+fn safe_mangle_props_schema_validation() {
+    run_default_exec_test(
+        r#"
+const schema = {
+    name: { type: 'string', required: true },
+    age: { type: 'number', required: true, min: 0 },
+    email: { type: 'string', required: false },
+    role: { type: 'string', required: true, values: ['admin', 'user'] }
+};
+function validateField(field, value) {
+    const rules = schema[field];
+    if (!rules) return 'Unknown field';
+    if (rules.required && (value === undefined || value === null)) {
+        return 'Required';
+    }
+    if (value !== undefined && value !== null) {
+        if (rules.type === 'number' && typeof value !== 'number') {
+            return 'Must be a number';
+        }
+        if (rules.type === 'string' && typeof value !== 'string') {
+            return 'Must be a string';
+        }
+        if (rules.min !== undefined && value < rules.min) {
+            return 'Must be at least ' + rules.min;
+        }
+        if (rules.values && !rules.values.includes(value)) {
+            return 'Invalid value';
+        }
+    }
+    return null;
+}
+console.log(validateField('name', null) || 'valid');
+console.log(validateField('age', -5) || 'valid');
+console.log(validateField('role', 'guest') || 'valid');
+console.log(validateField('email', 'test@test.com') || 'valid');
+console.log(validateField('role', 'admin') || 'valid');
+        "#,
+    );
+}
+
+/// Test registry pattern with self-registration
+#[test]
+fn safe_mangle_props_registry_pattern() {
+    run_default_exec_test(
+        r#"
+const registry = {
+    components: {},
+    register(name, component) {
+        this.components[name] = component;
+    },
+    get(name) {
+        return this.components[name];
+    },
+    list() {
+        return Object.keys(this.components);
+    }
+};
+registry.register('Button', { render: () => '<button/>' });
+registry.register('Input', { render: () => '<input/>' });
+registry.register('Label', { render: () => '<label/>' });
+console.log('Registered: ' + registry.list().join(', '));
+console.log('Button: ' + registry.get('Button').render());
+console.log('Input: ' + registry.get('Input').render());
+        "#,
+    );
+}
+
+/// Test feature flag pattern
+#[test]
+fn safe_mangle_props_feature_flags() {
+    run_default_exec_test(
+        r#"
+const features = {
+    darkMode: true,
+    newUI: false,
+    betaFeatures: true,
+    analytics: true,
+    debugMode: false
+};
+function isEnabled(featureName) {
+    return features[featureName] === true;
+}
+function enableFeature(featureName) {
+    if (featureName in features) {
+        features[featureName] = true;
+    }
+}
+console.log('darkMode: ' + isEnabled('darkMode'));
+console.log('newUI: ' + isEnabled('newUI'));
+enableFeature('newUI');
+console.log('newUI after enable: ' + isEnabled('newUI'));
+console.log('unknown: ' + isEnabled('unknown'));
+        "#,
+    );
+}
+
+/// Test cursor-based pagination pattern
+#[test]
+fn safe_mangle_props_pagination() {
+    run_default_exec_test(
+        r#"
+const data = {
+    page1: { items: ['a', 'b', 'c'], next: 'page2' },
+    page2: { items: ['d', 'e', 'f'], next: 'page3' },
+    page3: { items: ['g', 'h'], next: null }
+};
+function getPage(cursor) {
+    return data[cursor] || null;
+}
+function getAllItems() {
+    let items = [];
+    let cursor = 'page1';
+    while (cursor) {
+        const page = getPage(cursor);
+        if (!page) break;
+        items = items.concat(page.items);
+        cursor = page.next;
+    }
+    return items;
+}
+console.log(getAllItems().join(', '));
+console.log(getPage('page2').items.join(', '));
+        "#,
+    );
+}
+
+/// Test graph traversal with dynamic adjacency
+#[test]
+fn safe_mangle_props_graph_traversal() {
+    run_default_exec_test(
+        r#"
+const graph = {
+    A: { neighbors: ['B', 'C'], value: 1 },
+    B: { neighbors: ['D', 'E'], value: 2 },
+    C: { neighbors: ['F'], value: 3 },
+    D: { neighbors: [], value: 4 },
+    E: { neighbors: ['F'], value: 5 },
+    F: { neighbors: [], value: 6 }
+};
+function bfs(start) {
+    const visited = {};
+    const queue = [start];
+    const values = [];
+    while (queue.length > 0) {
+        const current = queue.shift();
+        if (visited[current]) continue;
+        visited[current] = true;
+        const node = graph[current];
+        if (node) {
+            values.push(node.value);
+            for (const neighbor of node.neighbors) {
+                if (!visited[neighbor]) {
+                    queue.push(neighbor);
+                }
+            }
+        }
+    }
+    return values;
+}
+console.log('BFS from A: ' + bfs('A').join(', '));
+console.log('BFS from B: ' + bfs('B').join(', '));
+        "#,
+    );
+}
