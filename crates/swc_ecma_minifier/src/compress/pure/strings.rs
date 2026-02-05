@@ -755,8 +755,7 @@ mod tests {
                 // Template literals with emoji should NOT become strings in ES5
                 assert!(
                     output.contains('`') || !output.contains("\\u"),
-                    "ES5 should keep template literal or not use surrogate escapes. Got: {}",
-                    output
+                    "ES5 should keep template literal or not use surrogate escapes. Got: {output}",
                 );
             },
         );
@@ -774,8 +773,7 @@ mod tests {
                 // The string literal can contain emoji directly
                 assert!(
                     output.contains("\"🦀\"") || output.contains("'🦀'") || output.contains("`🦀`"),
-                    "ES2015+ should produce short output. Got: {}",
-                    output
+                    "ES2015+ should produce short output. Got: {output}",
                 );
             },
         );
@@ -792,8 +790,7 @@ mod tests {
                 // Should NOT convert - would produce very long surrogate pairs
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template literal with multiple emojis. Got: {}",
-                    output
+                    "ES5 should keep template literal with multiple emojis. Got: {output}",
                 );
             },
         );
@@ -810,8 +807,7 @@ mod tests {
                 // Can convert - emojis can be in string directly
                 assert!(
                     output.contains("🦀") && output.contains("🎉") && output.contains("🚀"),
-                    "ES2015+ should preserve emojis directly. Got: {}",
-                    output
+                    "ES2015+ should preserve emojis directly. Got: {output}",
                 );
             },
         );
@@ -828,8 +824,7 @@ mod tests {
                 // Should NOT convert due to emoji
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template literal with mixed ASCII and emoji. Got: {}",
-                    output
+                    "ES5 should keep template literal with mixed ASCII and emoji. Got: {output}",
                 );
             },
         );
@@ -846,8 +841,7 @@ mod tests {
                 // Can convert
                 assert!(
                     output.contains("Hello") && output.contains("🦀") && output.contains("World"),
-                    "ES2015+ should preserve content. Got: {}",
-                    output
+                    "ES2015+ should preserve content. Got: {output}",
                 );
             },
         );
@@ -870,8 +864,7 @@ mod tests {
                 // Note: parser interprets \u{1F980} -> 🦀 in cooked
                 assert!(
                     output.contains('`') || output.contains("\\u"),
-                    "ES5 with unicode escape should handle carefully. Got: {}",
-                    output
+                    "ES5 with unicode escape should handle carefully. Got: {output}",
                 );
             },
         );
@@ -888,8 +881,7 @@ mod tests {
                 // In ES2015, the escape or actual emoji can be used
                 assert!(
                     !output.is_empty(),
-                    "ES2015 should produce valid output. Got: {}",
-                    output
+                    "ES2015 should produce valid output. Got: {output}",
                 );
             },
         );
@@ -908,8 +900,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with non-BMP math symbols. Got: {}",
-                    output
+                    "ES5 should keep template with non-BMP math symbols. Got: {output}",
                 );
             },
         );
@@ -925,8 +916,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains("𝐀"),
-                    "ES2015+ should preserve math symbols. Got: {}",
-                    output
+                    "ES2015+ should preserve math symbols. Got: {output}",
                 );
             },
         );
@@ -943,8 +933,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with musical symbols. Got: {}",
-                    output
+                    "ES5 should keep template with musical symbols. Got: {output}",
                 );
             },
         );
@@ -961,8 +950,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with CJK Extension B. Got: {}",
-                    output
+                    "ES5 should keep template with CJK Extension B. Got: {output}",
                 );
             },
         );
@@ -981,8 +969,7 @@ mod tests {
                 // ASCII-only should be safe to convert
                 assert!(
                     output.contains("\"hello world\"") || output.contains("'hello world'"),
-                    "ES5 should convert ASCII-only template to string. Got: {}",
-                    output
+                    "ES5 should convert ASCII-only template to string. Got: {output}",
                 );
             },
         );
@@ -998,8 +985,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains("\"hello world\"") || output.contains("'hello world'"),
-                    "ES2015 should convert ASCII-only template to string. Got: {}",
-                    output
+                    "ES2015 should convert ASCII-only template to string. Got: {output}",
                 );
             },
         );
@@ -1019,8 +1005,7 @@ mod tests {
                     output.contains("\"你好世界\"")
                         || output.contains("'你好世界'")
                         || output.contains("`你好世界`"),
-                    "ES5 should handle BMP Chinese characters. Got: {}",
-                    output
+                    "ES5 should handle BMP Chinese characters. Got: {output}",
                 );
             },
         );
@@ -1036,8 +1021,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains("こんにちは"),
-                    "ES5 should handle BMP hiragana. Got: {}",
-                    output
+                    "ES5 should handle BMP hiragana. Got: {output}",
                 );
             },
         );
@@ -1053,8 +1037,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains("안녕하세요"),
-                    "ES5 should handle BMP Korean. Got: {}",
-                    output
+                    "ES5 should handle BMP Korean. Got: {output}",
                 );
             },
         );
@@ -1070,8 +1053,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains("→") || output.contains("\\u"),
-                    "ES5 should handle BMP arrows. Got: {}",
-                    output
+                    "ES5 should handle BMP arrows. Got: {output}",
                 );
             },
         );
@@ -1089,8 +1071,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains("\"\"") || output.contains("''"),
-                    "ES5 should convert empty template. Got: {}",
-                    output
+                    "ES5 should convert empty template. Got: {output}",
                 );
             },
         );
@@ -1107,8 +1088,7 @@ mod tests {
                 // Should convert - backtick in string is simpler
                 assert!(
                     output.contains('`') || output.contains("\"") || output.contains("'"),
-                    "ES5 should handle backtick escape. Got: {}",
-                    output
+                    "ES5 should handle backtick escape. Got: {output}",
                 );
             },
         );
@@ -1125,8 +1105,7 @@ mod tests {
                 // Newlines in template are shorter than \n in string
                 assert!(
                     output.contains('\n') || output.contains("\\n"),
-                    "ES5 should handle newlines appropriately. Got: {}",
-                    output
+                    "ES5 should handle newlines appropriately. Got: {output}",
                 );
             },
         );
@@ -1144,8 +1123,7 @@ mod tests {
                 // U+FFFF is BMP, should be safe to convert
                 assert!(
                     !output.is_empty(),
-                    "ES5 should handle BMP boundary character. Got: {}",
-                    output
+                    "ES5 should handle BMP boundary character. Got: {output}",
                 );
             },
         );
@@ -1163,8 +1141,7 @@ mod tests {
                 // This is non-BMP (U+10000 > U+FFFF), should NOT convert
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with first non-BMP char (U+10000). Got: {}",
-                    output
+                    "ES5 should keep template with first non-BMP char (U+10000). Got: {output}",
                 );
             },
         );
@@ -1181,8 +1158,7 @@ mod tests {
                 // ES3 should also not convert
                 assert!(
                     output.contains('`') || output.contains("\\u"),
-                    "ES3 should keep template literal or use escapes. Got: {}",
-                    output
+                    "ES3 should keep template literal or use escapes. Got: {output}",
                 );
             },
         );
@@ -1203,8 +1179,7 @@ mod tests {
                 // This is a lone surrogate, not a full non-BMP character
                 assert!(
                     !output.is_empty(),
-                    "ES5 should handle lone surrogate. Got: {}",
-                    output
+                    "ES5 should handle lone surrogate. Got: {output}",
                 );
             },
         );
@@ -1223,8 +1198,7 @@ mod tests {
                 // Has non-BMP (emoji), should NOT convert
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with mixed BMP/non-BMP. Got: {}",
-                    output
+                    "ES5 should keep template with mixed BMP/non-BMP. Got: {output}",
                 );
             },
         );
@@ -1244,8 +1218,7 @@ mod tests {
                 // First should convert, second should not
                 assert!(
                     output.contains("\"hello\"") || output.contains("'hello'"),
-                    "ES5 should convert ASCII-only template in first statement. Got: {}",
-                    output
+                    "ES5 should convert ASCII-only template in first statement. Got: {output}",
                 );
             },
         );
@@ -1266,8 +1239,7 @@ mod tests {
                 // "\uD83E\uDD80" = 16 chars
                 assert!(
                     tpl_output.contains('`'),
-                    "ES5 should prefer shorter template form. Got: {}",
-                    tpl_output
+                    "ES5 should prefer shorter template form. Got: {tpl_output}",
                 );
             },
         );
@@ -1285,8 +1257,7 @@ mod tests {
                 // vs ~6 chars in template
                 assert!(
                     output.contains('`'),
-                    "ES5 should definitely keep template with multiple emojis. Got: {}",
-                    output
+                    "ES5 should definitely keep template with multiple emojis. Got: {output}",
                 );
             },
         );
@@ -1305,8 +1276,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with flag emoji. Got: {}",
-                    output
+                    "ES5 should keep template with flag emoji. Got: {output}",
                 );
             },
         );
@@ -1323,8 +1293,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with skin tone emoji. Got: {}",
-                    output
+                    "ES5 should keep template with skin tone emoji. Got: {output}",
                 );
             },
         );
@@ -1341,8 +1310,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with ZWJ sequence emoji. Got: {}",
-                    output
+                    "ES5 should keep template with ZWJ sequence emoji. Got: {output}",
                 );
             },
         );
@@ -1363,8 +1331,7 @@ mod tests {
                 // Both are BMP so this could convert
                 assert!(
                     !output.is_empty(),
-                    "ES5 should handle heart with variation selector. Got: {}",
-                    output
+                    "ES5 should handle heart with variation selector. Got: {output}",
                 );
             },
         );
@@ -1383,8 +1350,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with hieroglyphs. Got: {}",
-                    output
+                    "ES5 should keep template with hieroglyphs. Got: {output}",
                 );
             },
         );
@@ -1401,8 +1367,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with cuneiform. Got: {}",
-                    output
+                    "ES5 should keep template with cuneiform. Got: {output}",
                 );
             },
         );
@@ -1421,8 +1386,7 @@ mod tests {
             |output| {
                 assert!(
                     output.contains('`'),
-                    "ES5 should keep template with supplementary PUA. Got: {}",
-                    output
+                    "ES5 should keep template with supplementary PUA. Got: {output}",
                 );
             },
         );
