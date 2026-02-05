@@ -699,21 +699,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     is_out = true;
                 }
-                other => {
-                    let modifier_str = match other {
-                        Token::Public => "public",
-                        Token::Private => "private",
-                        Token::Protected => "protected",
-                        Token::Readonly => "readonly",
-                        Token::Abstract => "abstract",
-                        Token::Override => "override",
-                        _ => "unknown",
-                    };
-                    self.emit_err(
-                        self.input().prev_span(),
-                        SyntaxError::TS1273(modifier_str.into()),
-                    )
-                }
+                other => self.emit_err(
+                    self.input().prev_span(),
+                    SyntaxError::TS1273(other.to_string().into()),
+                ),
             };
         }
 
