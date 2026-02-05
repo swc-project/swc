@@ -1,6 +1,5 @@
 ---
-swc_ecma_parser: patch
-swc_core: patch
+swc_ecma_parser: major
 ---
 
 refactor(es/parser): Compare token kind rather than strings
