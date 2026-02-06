@@ -8,7 +8,7 @@ use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
-use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
+use crate::{semantic::analyze_program, transform::transform};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -42,20 +42,13 @@ pub(crate) struct TypeScript {
 impl Pass for TypeScript {
     fn process(&mut self, n: &mut Program) {
         let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
-
-        if !self.config.verbatim_module_syntax {
-            n.visit_mut_with(&mut StripImportExport {
-                import_not_used_as_values: self.config.import_not_used_as_values,
-                usage_info: mem::take(&mut self.id_usage).into(),
-                ..Default::default()
-            });
-        }
-
-        n.visit_mut_with(&mut StripType::default());
+        let semantic = analyze_program(n, self.unresolved_mark, mem::take(&mut self.id_usage));
 
         n.mutate(transform(
             self.unresolved_mark,
             self.top_level_mark,
+            semantic,
+            self.config.import_not_used_as_values,
             self.config.import_export_assign_config,
             self.config.ts_enum_is_mutable,
             self.config.verbatim_module_syntax,
