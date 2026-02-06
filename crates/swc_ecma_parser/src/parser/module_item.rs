@@ -49,6 +49,7 @@ impl<I: Tokens> Parser<I> {
 
         let mut is_type_only = false;
 
+        let orig_token = self.input().cur();
         let orig = match self.parse_module_export_name()? {
             ModuleExportName::Ident(orig_ident) => {
                 // Handle:
@@ -58,11 +59,12 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as as }`
                 // `export { type as as as }`
                 if self.syntax().typescript()
-                    && orig_ident.sym == "type"
+                    && orig_token == Token::Type
                     && self.input().cur().is_word()
                 {
+                    let possibly_orig_token = self.input().cur();
                     let possibly_orig = self.parse_ident_name().map(Ident::from)?;
-                    if possibly_orig.sym == "as" {
+                    if possibly_orig_token == Token::As {
                         // `export { type as }`
                         if !self.input().cur().is_word() {
                             if type_only {
@@ -77,8 +79,9 @@ impl<I: Tokens> Parser<I> {
                             });
                         }
 
+                        let maybe_as_token = self.input().cur();
                         let maybe_as = self.parse_ident_name().map(Ident::from)?;
-                        if maybe_as.sym == "as" {
+                        if maybe_as_token == Token::As {
                             if self.input().cur().is_word() {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`
@@ -159,6 +162,7 @@ impl<I: Tokens> Parser<I> {
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
         let start = self.cur_pos();
+        let orig_token = self.input().cur();
         match self.parse_module_export_name()? {
             ModuleExportName::Ident(mut orig_name) => {
                 let mut is_type_only = false;
@@ -169,7 +173,7 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as } from 'mod'`
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
-                if self.syntax().typescript() && orig_name.sym == "type" {
+                if self.syntax().typescript() && orig_token == Token::Type {
                     // Handle `import { type "string" as foo }` case
                     if self.input().cur() == Token::Str {
                         let imported = self.parse_module_export_name()?;
@@ -189,8 +193,9 @@ impl<I: Tokens> Parser<I> {
                     }
 
                     if self.input().cur().is_word() {
+                        let possibly_orig_token = self.input().cur();
                         let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
-                        if possibly_orig_name.sym == "as" {
+                        if possibly_orig_token == Token::As {
                             // `import { type as } from 'mod'`
                             if !self.input().cur().is_word() {
                                 if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
@@ -213,8 +218,9 @@ impl<I: Tokens> Parser<I> {
                                 }));
                             }
 
+                            let maybe_as_token = self.input().cur();
                             let maybe_as: Ident = self.parse_binding_ident(false)?.into();
-                            if maybe_as.sym == "as" {
+                            if maybe_as_token == Token::As {
                                 if self.input().cur().is_word() {
                                     // `import { type as as as } from 'mod'`
                                     // `import { type as as foo } from 'mod'`
@@ -789,9 +795,10 @@ impl<I: Tokens> Parser<I> {
 
         'import_maybe_ident: {
             if self.is_ident_ref() {
+                let local_token = self.input().cur();
                 let mut local = self.parse_imported_default_binding()?;
 
-                if self.input().syntax().typescript() && local.sym == "type" {
+                if self.input().syntax().typescript() && local_token == Token::Type {
                     let cur = self.input().cur();
                     if cur == Token::LBrace || cur == Token::Asterisk {
                         type_only = true;

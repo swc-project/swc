@@ -1225,6 +1225,7 @@ impl<I: Tokens> Parser<I> {
         // simply start parsing an expression, and afterwards, if the
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
+        let expr_token = self.input().cur();
         let expr = self.allow_in_expr(|p| p.parse_expr())?;
 
         let expr = match *expr {
@@ -1236,22 +1237,23 @@ impl<I: Tokens> Parser<I> {
             }
             _ => self.verify_expr(expr)?,
         };
-        if let Expr::Ident(ref ident) = *expr {
-            if &*ident.sym == "interface" && self.input().had_line_break_before_cur() {
-                self.emit_strict_mode_err(
-                    ident.span,
-                    SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
-                );
 
-                self.eat_general_semi();
+        if expr_token == Token::Interface && self.input().had_line_break_before_cur() {
+            self.emit_strict_mode_err(
+                expr.span(),
+                SyntaxError::InvalidIdentInStrict(Atom::from("interface")),
+            );
 
-                return Ok(ExprStmt {
-                    span: self.span(start),
-                    expr,
-                }
-                .into());
+            self.eat_general_semi();
+
+            return Ok(ExprStmt {
+                span: self.span(start),
+                expr,
             }
+            .into());
+        }
 
+        if let Expr::Ident(ident) = expr.as_ref() {
             if self.input().syntax().typescript() {
                 if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
                     return Ok(decl.into());
@@ -1259,21 +1261,15 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.syntax().typescript() {
-            if let Expr::Ident(ref i) = *expr {
-                match &*i.sym {
-                    "public" | "static" | "abstract" => {
-                        if self.input_mut().eat(Token::Interface) {
-                            self.emit_err(i.span, SyntaxError::TS2427);
-                            return self
-                                .parse_ts_interface_decl(start)
-                                .map(Decl::from)
-                                .map(Stmt::from);
-                        }
-                    }
-                    _ => {}
-                }
-            }
+        if self.syntax().typescript()
+            && matches!(expr_token, Token::Public | Token::Static | Token::Abstract)
+            && self.input_mut().eat(Token::Interface)
+        {
+            self.emit_err(expr.span(), SyntaxError::TS2427);
+            return self
+                .parse_ts_interface_decl(start)
+                .map(Decl::from)
+                .map(Stmt::from);
         }
 
         if self.eat_general_semi() {

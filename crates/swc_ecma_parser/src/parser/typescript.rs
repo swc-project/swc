@@ -320,7 +320,15 @@ impl<I: Tokens> Parser<I> {
             && peek!(self)
                 .is_some_and(|t| t.is_word() || matches!(t, Token::LBrace | Token::LBracket))
         {
-            let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
+            let _ = self.parse_ts_modifier(
+                &[
+                    Token::Public,
+                    Token::Protected,
+                    Token::Private,
+                    Token::Readonly,
+                ],
+                false,
+            );
             Ok(true)
         } else {
             Ok(false)
@@ -332,33 +340,24 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseModifier`
     pub(crate) fn parse_ts_modifier(
         &mut self,
-        allowed_modifiers: &[&'static str],
+        allowed_modifiers: &[Token],
         stop_on_start_of_class_static_blocks: bool,
-    ) -> PResult<Option<&'static str>> {
+    ) -> PResult<Option<Token>> {
         debug_assert!(self.input().syntax().typescript());
-        let pos = {
-            let cur = self.input().cur();
-            let modifier = if cur == Token::Ident {
-                cur.clone().take_unknown_ident_ref(self.input()).clone()
-            } else if cur.is_known_ident() {
-                cur.take_known_ident(&self.input)
-            } else if cur == Token::In {
-                atom!("in")
-            } else if cur == Token::Const {
-                atom!("const")
-            } else if cur == Token::Error {
-                let err = self.input_mut().expect_error_token_and_bump();
-                return Err(err);
-            } else if cur == Token::Eof {
-                return Err(self.eof_error());
-            } else {
-                return Ok(None);
-            };
-            // TODO: compare atom rather than string.
-            allowed_modifiers
-                .iter()
-                .position(|s| **s == *modifier.as_str())
-        };
+        let cur = self.input().cur();
+
+        // Check if current token is in the allowed modifiers list
+        let pos = allowed_modifiers.iter().position(|&t| t == cur);
+
+        if cur == Token::Error {
+            let err = self.input_mut().expect_error_token_and_bump();
+            return Err(err);
+        }
+
+        if cur == Token::Eof {
+            return Err(self.eof_error());
+        }
+
         if let Some(pos) = pos {
             if stop_on_start_of_class_static_blocks
                 && self.input().is(Token::Static)
@@ -414,8 +413,9 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
         trace_cur!(self, parse_ts_entity_name);
         let start = self.input().cur_pos();
+        let init_token = self.input().cur();
         let init = self.parse_ident_name()?;
-        if &*init.sym == "void" {
+        if init_token == Token::Void {
             let dot_start = self.input().cur_pos();
             let dot_span = self.span(dot_start);
             self.emit_err(dot_span, SyntaxError::TS1005)
@@ -654,22 +654,22 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.input().cur_pos();
 
-        while let Some(modifer) = self.parse_ts_modifier(
+        while let Some(modifier) = self.parse_ts_modifier(
             &[
-                "public",
-                "private",
-                "protected",
-                "readonly",
-                "abstract",
-                "const",
-                "override",
-                "in",
-                "out",
+                Token::Public,
+                Token::Private,
+                Token::Protected,
+                Token::Readonly,
+                Token::Abstract,
+                Token::Const,
+                Token::Override,
+                Token::In,
+                Token::Out,
             ],
             false,
         )? {
-            match modifer {
-                "const" => {
+            match modifier {
+                Token::Const => {
                     is_const = true;
                     if !permit_const {
                         self.emit_err(
@@ -678,7 +678,7 @@ impl<I: Tokens> Parser<I> {
                         );
                     }
                 }
-                "in" => {
+                Token::In => {
                     if !permit_in_out {
                         self.emit_err(self.input().prev_span(), SyntaxError::TS1274(atom!("in")));
                     } else if is_in {
@@ -691,7 +691,7 @@ impl<I: Tokens> Parser<I> {
                     }
                     is_in = true;
                 }
-                "out" => {
+                Token::Out => {
                     if !permit_in_out {
                         self.emit_err(self.input().prev_span(), SyntaxError::TS1274(atom!("out")));
                     } else if is_out {
@@ -699,7 +699,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     is_out = true;
                 }
-                other => self.emit_err(self.input().prev_span(), SyntaxError::TS1273(other.into())),
+                other => self.emit_err(
+                    self.input().prev_span(),
+                    SyntaxError::TS1273(other.to_string().into()),
+                ),
             };
         }
 
@@ -1795,7 +1798,7 @@ impl<I: Tokens> Parser<I> {
                 if self.input().is(Token::Infer) {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
-                    let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
+                    let readonly = self.parse_ts_modifier(&[Token::Readonly], false)?.is_some();
                     self.parse_ts_array_type_or_higher(readonly)
                 }
             }
@@ -2068,7 +2071,7 @@ impl<I: Tokens> Parser<I> {
         }
         // Instead of fullStart, we create a node here.
         let start = self.cur_pos();
-        let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
+        let readonly = self.parse_ts_modifier(&[Token::Readonly], false)?.is_some();
 
         let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
         if let Some(idx) = idx {

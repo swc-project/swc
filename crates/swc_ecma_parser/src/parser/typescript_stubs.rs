@@ -24,9 +24,9 @@ impl<I: Tokens> Parser<I> {
 
     pub(crate) fn parse_ts_modifier(
         &mut self,
-        _allowed_modifiers: &[&'static str],
+        _allowed_modifiers: &[Token],
         _stop_on_start_of_class_static_blocks: bool,
-    ) -> PResult<Option<&'static str>> {
+    ) -> PResult<Option<Token>> {
         unreachable!("parse_ts_modifier should not be called without typescript feature")
     }
 

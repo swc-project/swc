@@ -11675,3 +11675,301 @@ console.log(typeof obj2);
 
     run_exec_test(src, config, false);
 }
+
+/// Issue #11517: Minifier incorrectly merges if statements with different local
+/// variable values. Original reproduction case.
+#[test]
+fn issue_11517_original() {
+    let src = r#"
+const buildErrorLog = ({
+  errorType,
+  mode,
+}) => {
+  const isModeA = mode === 'modeA';
+  const isModeB = mode === 'modeB';
+
+  if (errorType === 'A_ERROR') {
+    const message = 'A error occurred';
+    return { fieldX: true, fieldY: true, message };
+  }
+  if (errorType === 'B_ERROR') {
+    const message = 'B error occurred';
+    return { fieldX: true, fieldY: true, message };
+  }
+  return { fieldX: true, fieldY: true, message: 'Invalid configuration' };
+};
+
+console.log(buildErrorLog({ errorType: 'A_ERROR', mode: 'modeA' }).message);
+console.log(buildErrorLog({ errorType: 'B_ERROR', mode: 'modeB' }).message);
+console.log(buildErrorLog({ errorType: 'C_ERROR', mode: 'modeA' }).message);
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Simplified version with two if statements having different
+/// const values.
+#[test]
+fn issue_11517_simplified() {
+    let src = r#"
+function test(type) {
+  if (type === 'A') {
+    const msg = 'Message A';
+    return msg;
+  }
+  if (type === 'B') {
+    const msg = 'Message B';
+    return msg;
+  }
+  return 'Default';
+}
+
+console.log(test('A'));
+console.log(test('B'));
+console.log(test('C'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Correct merging when values are the same.
+/// This tests that merging still works correctly when it should.
+#[test]
+fn issue_11517_same_values_should_merge() {
+    let src = r#"
+function test(x) {
+  if (x === 'A') {
+    const msg = 'same';
+    return msg;
+  }
+  if (x === 'B') {
+    const msg = 'same';
+    return msg;
+  }
+  return 'default';
+}
+
+console.log(test('A'));
+console.log(test('B'));
+console.log(test('C'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Using let instead of const for local variable.
+#[test]
+fn issue_11517_let_variable() {
+    let src = r#"
+function process(x) {
+  if (x === 'foo') {
+    let val = 100;
+    return val + 1;
+  }
+  if (x === 'bar') {
+    let val = 200;
+    return val + 1;
+  }
+  return 0;
+}
+
+console.log(process('foo'));
+console.log(process('bar'));
+console.log(process('baz'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Using var instead of const for local variable.
+#[test]
+fn issue_11517_var_variable() {
+    let src = r#"
+function compute(n) {
+  if (n === 1) {
+    var x = 'first';
+    return x;
+  }
+  if (n === 2) {
+    var x = 'second';
+    return x;
+  }
+  return 'other';
+}
+
+console.log(compute(1));
+console.log(compute(2));
+console.log(compute(3));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With continue statements instead of return.
+#[test]
+fn issue_11517_continue() {
+    let src = r#"
+function sumWithLabels(arr) {
+  let result = [];
+  for (let i = 0; i < arr.length; i++) {
+    const val = arr[i];
+    if (val === 1) {
+      const label = 'one';
+      result.push(label);
+      continue;
+    }
+    if (val === 2) {
+      const label = 'two';
+      result.push(label);
+      continue;
+    }
+    result.push('other');
+  }
+  return result;
+}
+
+console.log(sumWithLabels([1, 2, 3, 1, 2]).join(','));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With break statements.
+#[test]
+fn issue_11517_break() {
+    let src = r#"
+function findLabel(arr) {
+  let found = 'none';
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === 'x') {
+      const label = 'found x';
+      found = label;
+      break;
+    }
+    if (arr[i] === 'y') {
+      const label = 'found y';
+      found = label;
+      break;
+    }
+  }
+  return found;
+}
+
+console.log(findLabel(['a', 'b', 'x', 'y']));
+console.log(findLabel(['a', 'y', 'x']));
+console.log(findLabel(['a', 'b', 'c']));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With throw statements.
+#[test]
+fn issue_11517_throw() {
+    let src = r#"
+function validate(type) {
+  try {
+    if (type === 'invalid1') {
+      const err = 'Error type 1';
+      throw new Error(err);
+    }
+    if (type === 'invalid2') {
+      const err = 'Error type 2';
+      throw new Error(err);
+    }
+    return 'valid';
+  } catch (e) {
+    return e.message;
+  }
+}
+
+console.log(validate('invalid1'));
+console.log(validate('invalid2'));
+console.log(validate('valid'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Class method.
+#[test]
+fn issue_11517_class_method() {
+    let src = r#"
+class Handler {
+  process(type) {
+    if (type === 'alpha') {
+      const code = 'A';
+      return code;
+    }
+    if (type === 'beta') {
+      const code = 'B';
+      return code;
+    }
+    return 'X';
+  }
+}
+
+const h = new Handler();
+console.log(h.process('alpha'));
+console.log(h.process('beta'));
+console.log(h.process('gamma'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With closure returning function that uses local variable.
+#[test]
+fn issue_11517_closure() {
+    let src = r#"
+function createHandler(type) {
+  if (type === 'A') {
+    const prefix = 'handler-a:';
+    return (x) => prefix + x;
+  }
+  if (type === 'B') {
+    const prefix = 'handler-b:';
+    return (x) => prefix + x;
+  }
+  return (x) => 'default:' + x;
+}
+
+const hA = createHandler('A');
+const hB = createHandler('B');
+const hC = createHandler('C');
+
+console.log(hA('test'));
+console.log(hB('test'));
+console.log(hC('test'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Real-world HTTP status pattern with multiple branches.
+#[test]
+fn issue_11517_http_status() {
+    let src = r#"
+function getStatusMessage(status) {
+  if (status === 200) {
+    const message = 'OK';
+    return { status, message, success: true };
+  }
+  if (status === 201) {
+    const message = 'Created';
+    return { status, message, success: true };
+  }
+  if (status === 400) {
+    const message = 'Bad Request';
+    return { status, message, success: true };
+  }
+  if (status === 404) {
+    const message = 'Not Found';
+    return { status, message, success: true };
+  }
+  if (status === 500) {
+    const message = 'Internal Server Error';
+    return { status, message, success: true };
+  }
+  return { status, message: 'Unknown', success: false };
+}
+
+console.log(getStatusMessage(200).message);
+console.log(getStatusMessage(201).message);
+console.log(getStatusMessage(400).message);
+console.log(getStatusMessage(404).message);
+console.log(getStatusMessage(500).message);
+console.log(getStatusMessage(999).message);
+"#;
+    run_default_exec_test(src);
+}
