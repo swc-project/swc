@@ -12,15 +12,13 @@ use swc_ecma_utils::{
     private_ident, quote_ident, quote_str, stack_size::maybe_grow_default, ExprFactory, QueryRef,
     RefRewriter, StmtLikeInjector,
 };
-use swc_ecma_visit::{
-    noop_visit_mut_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::{
     config::TsImportExportAssignConfig,
     retain::{should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
-    shared::{enum_member_id_atom, get_module_ident},
+    shared::enum_member_id_atom,
     ts_enum::{TsEnumRecordKey, TsEnumRecordValue},
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
@@ -593,7 +591,7 @@ impl VisitMut for Transform {
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
         if !self.verbatim_module_syntax {
-            self.strip_unused_ts_import_equals_in_namespace(&mut node.body);
+            self.strip_namespace_module_items_with_semantic(&mut node.body);
         }
 
         let in_namespace = mem::replace(&mut self.in_namespace, true);
@@ -758,7 +756,7 @@ impl Transform {
             }
             ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) if ts_module.body.is_some() => {
                 if let Some(body) = &mut ts_module.body {
-                    self.strip_unused_ts_import_equals_in_namespace_body(body);
+                    self.strip_namespace_body_with_semantic(body);
                 }
 
                 true
@@ -767,64 +765,41 @@ impl Transform {
         });
     }
 
-    fn strip_unused_ts_import_equals_in_namespace_body(&self, body: &mut TsNamespaceBody) {
+    fn strip_namespace_body_with_semantic(&self, body: &mut TsNamespaceBody) {
         match body {
             TsNamespaceBody::TsModuleBlock(block) => {
-                self.strip_unused_ts_import_equals_in_namespace(&mut block.body);
+                self.strip_namespace_module_items_with_semantic(&mut block.body);
+
+                for module_item in &mut block.body {
+                    if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) = module_item {
+                        if let Some(body) = &mut ts_module.body {
+                            self.strip_namespace_body_with_semantic(body);
+                        }
+                    }
+                }
             }
             TsNamespaceBody::TsNamespaceDecl(namespace_decl) => {
-                self.strip_unused_ts_import_equals_in_namespace_body(&mut namespace_decl.body);
+                self.strip_namespace_body_with_semantic(&mut namespace_decl.body);
             }
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
     }
 
-    fn strip_unused_ts_import_equals_in_namespace(&self, items: &mut Vec<ModuleItem>) {
-        let has_ts_import_equals = items.iter().any(|module_item| {
-            matches!(
-                module_item,
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..))
-            )
-        });
-
-        let has_ts_module = items.iter().any(|module_item| {
-            matches!(
-                module_item,
-                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(..)))
-            )
-        });
-
-        if has_ts_import_equals {
-            let mut usage_info = NamespaceUsageCollect::default();
-            items.visit_with(&mut usage_info);
-            usage_info.analyze_import_chain();
-
-            items.retain(|module_item| match module_item {
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
-                    if ts_import_equals_decl.is_type_only {
-                        return false;
-                    }
-
-                    if ts_import_equals_decl.is_export {
-                        return true;
-                    }
-
-                    usage_info.has_usage(&ts_import_equals_decl.id.to_id())
+    fn strip_namespace_module_items_with_semantic(&self, items: &mut Vec<ModuleItem>) {
+        items.retain(|module_item| match module_item {
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
+                if ts_import_equals_decl.is_type_only {
+                    return false;
                 }
-                _ => true,
-            });
-        }
 
-        if has_ts_module {
-            for module_item in items.iter_mut() {
-                if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) = module_item {
-                    if let Some(body) = &mut ts_module.body {
-                        self.strip_unused_ts_import_equals_in_namespace_body(body);
-                    }
-                }
+                ts_import_equals_decl.is_export
+                    || self
+                        .semantic
+                        .has_namespace_import_equals_usage(ts_import_equals_decl.span)
             }
-        }
+            _ => true,
+        });
     }
 
     fn fold_decl(&mut self, node: Decl, is_export: bool) -> FoldedDecl {
@@ -1813,121 +1788,5 @@ fn get_member_key(prop: &MemberProp) -> Option<Atom> {
         MemberProp::PrivateName(_) => None,
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
-    }
-}
-
-#[derive(Debug, Default)]
-struct NamespaceUsageCollect {
-    id_usage: FxHashSet<Id>,
-    import_chain: FxHashMap<Id, Id>,
-}
-
-impl NamespaceUsageCollect {
-    fn has_usage(&self, id: &Id) -> bool {
-        self.id_usage.contains(id)
-    }
-
-    fn analyze_import_chain(&mut self) {
-        if self.import_chain.is_empty() {
-            return;
-        }
-
-        let mut new_usage = FxHashSet::default();
-        for id in &self.id_usage {
-            let mut next = self.import_chain.remove(id);
-            while let Some(id) = next {
-                next = self.import_chain.remove(&id);
-                new_usage.insert(id);
-            }
-
-            if self.import_chain.is_empty() {
-                break;
-            }
-        }
-
-        self.id_usage.extend(new_usage);
-    }
-}
-
-impl Visit for NamespaceUsageCollect {
-    fn visit_ident(&mut self, node: &Ident) {
-        self.id_usage.insert(node.to_id());
-    }
-
-    fn visit_expr(&mut self, node: &Expr) {
-        maybe_grow_default(|| node.visit_children_with(self));
-    }
-
-    fn visit_binding_ident(&mut self, _: &BindingIdent) {
-        // skip
-    }
-
-    fn visit_fn_decl(&mut self, node: &FnDecl) {
-        // skip function identifier
-        node.function.visit_with(self);
-    }
-
-    fn visit_fn_expr(&mut self, node: &FnExpr) {
-        // skip function identifier
-        node.function.visit_with(self);
-    }
-
-    fn visit_class_decl(&mut self, node: &ClassDecl) {
-        // skip class identifier
-        node.class.visit_with(self);
-    }
-
-    fn visit_class_expr(&mut self, node: &ClassExpr) {
-        // skip class identifier
-        node.class.visit_with(self);
-    }
-
-    fn visit_import_decl(&mut self, _: &ImportDecl) {
-        // skip
-    }
-
-    fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
-        if node.is_type_only {
-            return;
-        }
-
-        let TsModuleRef::TsEntityName(ts_entity_name) = &node.module_ref else {
-            return;
-        };
-
-        let id = get_module_ident(ts_entity_name);
-
-        if node.is_export {
-            id.visit_with(self);
-            node.id.visit_with(self);
-            return;
-        }
-
-        self.import_chain.insert(node.id.to_id(), id.to_id());
-    }
-
-    fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
-        if node.is_type_only {
-            return;
-        }
-
-        node.orig.visit_with(self);
-    }
-
-    fn visit_named_export(&mut self, node: &NamedExport) {
-        if node.type_only || node.src.is_some() {
-            return;
-        }
-
-        node.visit_children_with(self);
-    }
-
-    fn visit_jsx_element_name(&mut self, node: &JSXElementName) {
-        if matches!(node, JSXElementName::Ident(i) if i.sym.starts_with(|c: char| c.is_ascii_lowercase()))
-        {
-            return;
-        }
-
-        node.visit_children_with(self);
     }
 }
