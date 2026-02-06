@@ -105,3 +105,52 @@ fn browser_overwrite() {
         );
     });
 }
+
+#[test]
+fn pnpm_scoped_package() {
+    inside_directory("/tests/pnpm_virtual_store", || {
+        // Given: a scoped package only in pnpm's .pnpm virtual store
+        let node_resolver = NodeModulesResolver::new(TargetEnv::Node, Default::default(), true);
+
+        // When
+        let resolved = node_resolver
+            .resolve(
+                &FileName::Real(PathBuf::from("@swc/plugin-example")),
+                "@swc/plugin-example",
+            )
+            .expect("should resolve scoped package from pnpm virtual store");
+
+        // Expect
+        assert_eq!(
+            resolved.filename,
+            FileName::Real(PathBuf::from(
+                "node_modules/.pnpm/@swc+plugin-example@1.0.0/node_modules/@swc/plugin-example/\
+                 index.js"
+            ))
+        );
+    });
+}
+
+#[test]
+fn pnpm_non_scoped_package() {
+    inside_directory("/tests/pnpm_virtual_store", || {
+        // Given: a non-scoped package only in pnpm's .pnpm virtual store
+        let node_resolver = NodeModulesResolver::new(TargetEnv::Node, Default::default(), true);
+
+        // When
+        let resolved = node_resolver
+            .resolve(
+                &FileName::Real(PathBuf::from("example-plugin")),
+                "example-plugin",
+            )
+            .expect("should resolve non-scoped package from pnpm virtual store");
+
+        // Expect
+        assert_eq!(
+            resolved.filename,
+            FileName::Real(PathBuf::from(
+                "node_modules/.pnpm/example-plugin@2.0.0/node_modules/example-plugin/index.js"
+            ))
+        );
+    });
+}

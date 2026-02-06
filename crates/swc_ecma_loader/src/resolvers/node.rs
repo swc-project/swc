@@ -404,11 +404,63 @@ impl NodeModulesResolver {
                 {
                     return Ok(Some(result));
                 }
+
+                // Fallback: search pnpm's .pnpm virtual store.
+                // pnpm stores packages in:
+                //   node_modules/.pnpm/<name>@<version>/node_modules/<name>/
+                // For scoped packages (@scope/pkg), the directory name uses
+                // '+' in place of '/': @scope+pkg@<version>
+                if let Some(result) = self.resolve_in_pnpm_virtual_store(&node_modules, target) {
+                    return Ok(Some(result));
+                }
             }
             path = dir.parent();
         }
 
         Ok(None)
+    }
+
+    /// Search pnpm's `.pnpm` virtual store for a package.
+    ///
+    /// pnpm stores all packages in a content-addressable store at
+    /// `node_modules/.pnpm/<encoded-name>@<version>/node_modules/<name>/`.
+    /// For scoped packages like `@swc/core`, the directory name encodes
+    /// the scope separator as `+`: `@swc+core@1.0.0`.
+    fn resolve_in_pnpm_virtual_store(&self, node_modules: &Path, target: &str) -> Option<PathBuf> {
+        let pnpm_dir = node_modules.join(".pnpm");
+        if !pnpm_dir.is_dir() {
+            return None;
+        }
+
+        // Encode the target name for pnpm directory matching.
+        // Scoped packages: @scope/name -> @scope+name
+        let encoded_target = target.replace('/', "+");
+
+        // Read the .pnpm directory entries and look for directories
+        // that start with the encoded target name followed by '@' (version).
+        let entries = std::fs::read_dir(&pnpm_dir).ok()?;
+        for entry in entries.flatten() {
+            let dir_name = entry.file_name();
+            let dir_name = dir_name.to_string_lossy();
+
+            // Match pattern: <encoded_target>@<version>
+            // e.g., "@swc+plugin-styled-jsx@1.0.0" for target "@swc/plugin-styled-jsx"
+            if dir_name.starts_with(&*encoded_target)
+                && dir_name[encoded_target.len()..].starts_with('@')
+            {
+                let candidate = entry.path().join("node_modules").join(target);
+                if let Some(result) = self
+                    .resolve_as_file(&candidate)
+                    .ok()
+                    .or_else(|| self.resolve_as_directory(&candidate, true).ok())
+                    .flatten()
+                {
+                    return Some(result);
+                }
+            }
+        }
+
+        None
     }
 
     fn resolve_filename(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
