@@ -2383,11 +2383,7 @@
             var keyframes = this.keyframes, len = keyframes.length;
             if (this.interpolable) if (isArrayLike(value)) {
                 var value1, arrayDim = isArrayLike((value1 = value) && value1[0]) ? 2 : 1;
-                if (len > 0 && this.arrDim !== arrayDim) {
-                    this.interpolable = !1;
-                    return;
-                }
-                if (1 === arrayDim && 'number' != typeof value[0] || 2 === arrayDim && 'number' != typeof value[0][0]) {
+                if (len > 0 && this.arrDim !== arrayDim || 1 === arrayDim && 'number' != typeof value[0] || 2 === arrayDim && 'number' != typeof value[0][0]) {
                     this.interpolable = !1;
                     return;
                 }
@@ -13076,18 +13072,12 @@
                     globalRect.copy(labelItem.rect), globalRect.width -= 0.1, globalRect.height -= 0.1, globalRect.x += 0.05, globalRect.y += 0.05;
                     for(var obb = labelItem.obb, overlapped = !1, j = 0; j < displayedLabels.length; j++){
                         var existsTextCfg = displayedLabels[j]; // Fast rejection.
-                        if (globalRect.intersect(existsTextCfg.rect)) {
-                            if (isAxisAligned && existsTextCfg.axisAligned) {
-                                // Is overlapped
-                                overlapped = !0;
-                                break;
-                            }
-                            if (existsTextCfg.obb || // If self is not axis aligned. But other is.
-                            (existsTextCfg.obb = new OrientedBoundingRect(existsTextCfg.localRect, existsTextCfg.transform)), obb || // If self is axis aligned. But other is not.
-                            (obb = new OrientedBoundingRect(localRect, transform)), obb.intersect(existsTextCfg.obb)) {
-                                overlapped = !0;
-                                break;
-                            }
+                        if (globalRect.intersect(existsTextCfg.rect) && (isAxisAligned && existsTextCfg.axisAligned || (existsTextCfg.obb || // If self is not axis aligned. But other is.
+                        (existsTextCfg.obb = new OrientedBoundingRect(existsTextCfg.localRect, existsTextCfg.transform)), obb || // If self is axis aligned. But other is not.
+                        (obb = new OrientedBoundingRect(localRect, transform)), obb.intersect(existsTextCfg.obb)))) {
+                            // Is overlapped
+                            overlapped = !0;
+                            break;
                         }
                     } // TODO Callback to determine if this overlap should be handled?
                     overlapped ? (hideEl(label), labelLine && hideEl(labelLine)) : (label.attr('ignore', labelItem.defaultAttr.ignore), labelLine && labelLine.attr('ignore', labelItem.defaultAttr.labelGuideIgnore), displayedLabels.push(labelItem));

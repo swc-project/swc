@@ -665,11 +665,7 @@
                         for(var t, f = e.length, n = null, i = [], o = 0; o < f; ++o){
                             if ((t = e.charCodeAt(o)) > 55295 && t < 57344) {
                                 if (!n) {
-                                    if (t > 56319) {
-                                        (r -= 3) > -1 && i.push(239, 191, 189);
-                                        continue;
-                                    }
-                                    if (o + 1 === f) {
+                                    if (t > 56319 || o + 1 === f) {
                                         (r -= 3) > -1 && i.push(239, 191, 189);
                                         continue;
                                     }
