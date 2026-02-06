@@ -5,7 +5,7 @@
 pub use self::{strip_type::*, typescript::*};
 mod config;
 mod macros;
-mod strip_import_export;
+mod semantic;
 mod strip_type;
 mod transform;
 mod ts_enum;
