@@ -1,12 +1,12 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
-    strip_type::IsConcrete,
+    retain::{should_retain_decl, IsConcrete},
+    shared::{enum_member_id_atom, get_module_ident},
     ts_enum::{EnumValueComputer, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
 };
 
@@ -239,7 +239,7 @@ impl Visit for SemanticAnalyzer {
     fn visit_decl(&mut self, node: &Decl) {
         let prev = self.skip_transform_info;
 
-        if !should_retain_decl_for_transform(node) {
+        if !should_retain_decl(node) {
             self.skip_transform_info = true;
         }
 
@@ -467,48 +467,5 @@ impl Visit for SemanticAnalyzer {
         }
 
         node.visit_children_with(self);
-    }
-}
-
-fn should_retain_decl_for_transform(decl: &Decl) -> bool {
-    if is_declare_decl(decl) {
-        return false;
-    }
-
-    decl.is_concrete()
-}
-
-fn is_declare_decl(decl: &Decl) -> bool {
-    match decl {
-        Decl::Class(class_decl) => class_decl.declare,
-        Decl::Fn(function_decl) => function_decl.declare,
-        Decl::Var(var_decl) => var_decl.declare,
-        Decl::Using(..) => false,
-        Decl::TsInterface(..) | Decl::TsTypeAlias(..) => true,
-        Decl::TsEnum(ts_enum_decl) => ts_enum_decl.declare,
-        Decl::TsModule(ts_module_decl) => ts_module_decl.declare || ts_module_decl.global,
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
-    }
-}
-
-#[inline]
-fn enum_member_id_atom(id: &TsEnumMemberId) -> Atom {
-    match id {
-        TsEnumMemberId::Ident(ident) => ident.sym.clone(),
-        TsEnumMemberId::Str(str_lit) => str_lit.value.to_atom_lossy().into_owned(),
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
-    }
-}
-
-fn get_module_ident(ts_entity_name: &TsEntityName) -> &Ident {
-    match ts_entity_name {
-        TsEntityName::TsQualifiedName(ts_qualified_name) => {
-            get_module_ident(&ts_qualified_name.left)
-        }
-        TsEntityName::Ident(ident) => ident,
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
     }
 }
