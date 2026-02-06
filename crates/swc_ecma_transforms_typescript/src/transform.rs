@@ -77,6 +77,7 @@ pub(crate) struct Transform {
     in_class_prop_init: Vec<Box<Expr>>,
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn transform(
     unresolved_mark: Mark,
     top_level_mark: Mark,
