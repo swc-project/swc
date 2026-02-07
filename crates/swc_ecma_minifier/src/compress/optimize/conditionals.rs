@@ -1,4 +1,4 @@
-use std::mem::swap;
+use std::mem::{swap, take};
 
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -191,6 +191,49 @@ impl Optimizer<'_> {
         *stmts = new;
     }
 
+    pub(super) fn expand_if_stmt_from_cond(&mut self, s: &mut Stmt) {
+        // let mut changed = false;
+        if self.options.conditionals {
+            if let Stmt::Return(r) = s {
+                if let Some(Expr::Cond(c)) = r.arg.as_deref_mut() {
+                    // changed = true;
+                    *s = Stmt::If(IfStmt {
+                        span: c.span,
+                        test: take(&mut c.test),
+                        cons: Box::new(Stmt::Return(ReturnStmt {
+                            span: r.span,
+                            arg: Some(take(&mut c.cons)),
+                        })),
+                        alt: Some(Box::new(Stmt::Return(ReturnStmt {
+                            span: r.span,
+                            arg: Some(take(&mut c.alt)),
+                        }))),
+                    });
+                    // continue;
+                }
+            }
+            if let Stmt::Expr(e) = s {
+                if let Expr::Cond(c) = &mut *e.expr {
+                    // changed = true;
+                    *s = Stmt::If(IfStmt {
+                        span: c.span,
+                        test: take(&mut c.test),
+                        cons: Box::new(Stmt::Expr(ExprStmt {
+                            span: e.span,
+                            expr: take(&mut c.cons),
+                        })),
+                        alt: Some(Box::new(Stmt::Expr(ExprStmt {
+                            span: e.span,
+                            expr: take(&mut c.alt),
+                        }))),
+                    });
+                    // continue;
+                }
+            }
+        }
+        // changed
+    }
+
     ///
     /// # Examples
     ///
@@ -371,6 +414,7 @@ impl Optimizer<'_> {
         cons: &mut Expr,
         alt: &mut Expr,
         is_for_if_stmt: bool,
+        // change: bool,
     ) -> Option<Expr> {
         debug_assert_valid(cons);
         debug_assert_valid(alt);
