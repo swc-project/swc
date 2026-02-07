@@ -590,10 +590,6 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
-        if !self.verbatim_module_syntax {
-            self.strip_namespace_module_items_with_semantic(&mut node.body);
-        }
-
         let in_namespace = mem::replace(&mut self.in_namespace, true);
         node.visit_mut_children_with(self);
         self.in_namespace = in_namespace;
@@ -1788,5 +1784,29 @@ fn get_member_key(prop: &MemberProp) -> Option<Atom> {
         MemberProp::PrivateName(_) => None,
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn get_member_key_resolves_template_literal_without_expressions() {
+        let member_prop = MemberProp::Computed(ComputedPropName {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Tpl(Tpl {
+                span: DUMMY_SP,
+                exprs: vec![],
+                quasis: vec![TplElement {
+                    span: DUMMY_SP,
+                    tail: true,
+                    cooked: Some("foo".into()),
+                    raw: "foo".into(),
+                }],
+            })),
+        });
+
+        assert_eq!(get_member_key(&member_prop), Some("foo".into()));
     }
 }
