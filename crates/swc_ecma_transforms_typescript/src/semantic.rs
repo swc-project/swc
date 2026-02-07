@@ -1,5 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_common::{Mark, SyntaxContext};
+use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -18,6 +18,7 @@ pub(crate) struct SemanticInfo {
     pub exported_binding: FxHashMap<Id, Option<Id>>,
     pub enum_record: TsEnumRecord,
     pub const_enum: FxHashSet<Id>,
+    pub namespace_import_equals_usage: FxHashSet<Span>,
 }
 
 impl SemanticInfo {
@@ -35,6 +36,11 @@ impl SemanticInfo {
     pub fn has_pure_type(&self, id: &Id) -> bool {
         self.id_type.contains(id) && !self.id_value.contains(id)
     }
+
+    #[inline]
+    pub fn has_namespace_import_equals_usage(&self, span: Span) -> bool {
+        self.namespace_import_equals_usage.contains(&span)
+    }
 }
 
 pub(crate) fn analyze_program(
@@ -49,6 +55,7 @@ pub(crate) fn analyze_program(
             ..Default::default()
         },
         import_chain: Default::default(),
+        namespace_block_stack: Default::default(),
         namespace_id: None,
         skip_transform_info: false,
     };
@@ -62,8 +69,47 @@ struct SemanticAnalyzer {
     unresolved_ctxt: SyntaxContext,
     info: SemanticInfo,
     import_chain: FxHashMap<Id, Id>,
+    namespace_block_stack: Vec<NamespaceBlock>,
     namespace_id: Option<Id>,
     skip_transform_info: bool,
+}
+
+#[derive(Default)]
+struct NamespaceBlock {
+    usage: FxHashSet<Id>,
+    import_chain: FxHashMap<Id, Id>,
+    import_equals: Vec<NamespaceImportEquals>,
+}
+
+struct NamespaceImportEquals {
+    id: Id,
+    span: Span,
+    is_export: bool,
+    is_type_only: bool,
+}
+
+impl NamespaceBlock {
+    fn analyze_import_chain(&mut self) {
+        if self.import_chain.is_empty() {
+            return;
+        }
+
+        let mut new_usage = FxHashSet::default();
+        for id in &self.usage {
+            let mut next = self.import_chain.remove(id);
+
+            while let Some(id) = next {
+                next = self.import_chain.remove(&id);
+                new_usage.insert(id);
+            }
+
+            if self.import_chain.is_empty() {
+                break;
+            }
+        }
+
+        self.usage.extend(new_usage);
+    }
 }
 
 impl SemanticAnalyzer {
@@ -248,7 +294,12 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_ident(&mut self, node: &Ident) {
-        self.info.usage.insert(node.to_id());
+        let id = node.to_id();
+        self.info.usage.insert(id.clone());
+
+        if let Some(namespace_block) = self.namespace_block_stack.last_mut() {
+            namespace_block.usage.insert(id);
+        }
     }
 
     fn visit_expr(&mut self, node: &Expr) {
@@ -284,6 +335,15 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
+        if let Some(namespace_block) = self.namespace_block_stack.last_mut() {
+            namespace_block.import_equals.push(NamespaceImportEquals {
+                id: node.id.to_id(),
+                span: node.span,
+                is_export: node.is_export,
+                is_type_only: node.is_type_only,
+            });
+        }
+
         if !self.skip_transform_info && node.is_export {
             self.info
                 .exported_binding
@@ -299,6 +359,17 @@ impl Visit for SemanticAnalyzer {
         };
 
         let id = get_module_ident(ts_entity_name);
+
+        if let Some(namespace_block) = self.namespace_block_stack.last_mut() {
+            if node.is_export {
+                namespace_block.usage.insert(id.to_id());
+                namespace_block.usage.insert(node.id.to_id());
+            } else {
+                namespace_block
+                    .import_chain
+                    .insert(node.id.to_id(), id.to_id());
+            }
+        }
 
         if node.is_export {
             id.visit_with(self);
@@ -419,6 +490,38 @@ impl Visit for SemanticAnalyzer {
         self.namespace_id = namespace_id;
     }
 
+    fn visit_ts_module_block(&mut self, node: &TsModuleBlock) {
+        self.namespace_block_stack.push(NamespaceBlock::default());
+
+        node.visit_children_with(self);
+
+        let mut namespace_block = self
+            .namespace_block_stack
+            .pop()
+            .expect("namespace block stack should contain current block");
+
+        namespace_block.analyze_import_chain();
+
+        for import_equals in &namespace_block.import_equals {
+            if import_equals.is_type_only {
+                continue;
+            }
+
+            if import_equals.is_export || namespace_block.usage.contains(&import_equals.id) {
+                self.info
+                    .namespace_import_equals_usage
+                    .insert(import_equals.span);
+            }
+        }
+
+        if let Some(parent_block) = self.namespace_block_stack.last_mut() {
+            parent_block.usage.extend(namespace_block.usage);
+            parent_block
+                .import_chain
+                .extend(namespace_block.import_chain);
+        }
+    }
+
     fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
         node.visit_children_with(self);
 
@@ -467,5 +570,53 @@ impl Visit for SemanticAnalyzer {
         }
 
         node.visit_children_with(self);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::SyntaxContext;
+
+    use super::*;
+
+    fn id(sym: &str) -> Id {
+        (sym.into(), SyntaxContext::empty())
+    }
+
+    #[test]
+    fn namespace_block_analyze_import_chain_marks_transitive_usage() {
+        let mut namespace_block = NamespaceBlock {
+            usage: [id("a")].into_iter().collect(),
+            import_chain: [(id("a"), id("b")), (id("b"), id("c"))]
+                .into_iter()
+                .collect(),
+            ..Default::default()
+        };
+
+        namespace_block.analyze_import_chain();
+
+        assert!(namespace_block.usage.contains(&id("b")));
+        assert!(namespace_block.usage.contains(&id("c")));
+    }
+
+    #[test]
+    fn namespace_block_merge_from_child_keeps_parent_alias_used() {
+        let mut parent = NamespaceBlock {
+            import_chain: [(id("a"), id("n"))].into_iter().collect(),
+            ..Default::default()
+        };
+
+        let mut child = NamespaceBlock {
+            usage: [id("b")].into_iter().collect(),
+            import_chain: [(id("b"), id("a"))].into_iter().collect(),
+            ..Default::default()
+        };
+
+        child.analyze_import_chain();
+        parent.usage.extend(child.usage);
+        parent.import_chain.extend(child.import_chain);
+        parent.analyze_import_chain();
+
+        assert!(parent.usage.contains(&id("a")));
     }
 }
