@@ -3,6 +3,7 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
@@ -344,21 +345,6 @@ impl Optimizer<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
-        if let Expr::Fn(FnExpr {
-            ident: Some(ident), ..
-        }) = callee
-        {
-            if self
-                .data
-                .vars
-                .get(&ident.to_id())
-                .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
-                .is_some()
-            {
-                return;
-            }
-        }
-
         if let Expr::Fn(FnExpr { function, .. }) = callee {
             if let Some(body) = function.body.as_ref() {
                 if contains_arguments(body) {
@@ -367,9 +353,14 @@ impl Optimizer<'_> {
             }
         }
 
+        if contains_eval(callee, false) {
+            return;
+        }
+
         let mut removed = Vec::new();
         let params = find_params(callee);
-        if let Some(mut params) = params {
+
+        let params = if let Some(mut params) = params {
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 if let Pat::Ident(param) = &mut **param {
@@ -381,13 +372,10 @@ impl Optimizer<'_> {
                 }
             }
 
-            if removed.is_empty() {
-                log_abort!("`removed` is empty");
-                return;
-            }
+            params
         } else {
             return;
-        }
+        };
 
         for idx in removed {
             if let Some(arg) = e.args.get_mut(idx) {
@@ -411,6 +399,20 @@ impl Optimizer<'_> {
                 }
             } else {
                 break;
+            }
+        }
+
+        if e.args.len() > params.len() {
+            for i in (params.len()..e.args.len()).rev() {
+                if let Some(arg) = e.args.get_mut(i) {
+                    let new = self.ignore_return_value(&mut arg.expr);
+
+                    if let Some(new) = new {
+                        arg.expr = Box::new(new);
+                    } else {
+                        e.args.remove(i);
+                    }
+                }
             }
         }
     }

@@ -20139,7 +20139,7 @@
                     if (tickFormat && Array.isArray(tickFormat)) return _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickFormat) ? tickFormat.map(function(t, i) {
                         return i;
                     }) : tickFormat;
-                }(props);
+                }();
                 return Array.isArray(tickArray) && tickArray.length ? (newTickArray = [], domain = props.domain && props.domain[axis1] || props.domain, tickArray ? (tickArray.forEach(function(t, index) {
                     Array.isArray(domain) ? t >= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMinValue(domain) && t <= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMaxValue(domain) && newTickArray.push({
                         value: t,
