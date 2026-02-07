@@ -1,0 +1,12 @@
+  x Expected '(', got 'let'
+   ,-[$DIR/tests/errors/missing_paren_for/input.js:1:1]
+ 1 | for let i = 0; i < 10; i++ {
+   :     ^^^
+ 2 |     console.log(i);
+   `----
+  x Expected ')', got '{'
+   ,-[$DIR/tests/errors/missing_paren_for/input.js:1:1]
+ 1 | for let i = 0; i < 10; i++ {
+   :                            ^
+ 2 |     console.log(i);
+   `----

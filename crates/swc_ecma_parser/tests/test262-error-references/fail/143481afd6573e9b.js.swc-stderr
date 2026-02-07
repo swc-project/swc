@@ -1,3 +1,8 @@
+  x Unexpected token `.`. Expected identifier, string literal, numeric literal or [ for the computed key
+   ,-[$DIR/tests/test262-parser/fail/143481afd6573e9b.js:1:1]
+ 1 | function* a({e: a.b}) {}
+   :                  ^
+   `----
   x Expected ',', got '.'
    ,-[$DIR/tests/test262-parser/fail/143481afd6573e9b.js:1:1]
  1 | function* a({e: a.b}) {}

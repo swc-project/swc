@@ -1,3 +1,8 @@
+  x Unexpected token `}`. Expected an identifier
+   ,-[$DIR/tests/test262-parser/fail/3425ca087ec1adb1.js:1:1]
+ 1 | var {x: y = yield 3} = z;
+   :                    ^
+   `----
   x Expected ',', got 'numeric literal'
    ,-[$DIR/tests/test262-parser/fail/3425ca087ec1adb1.js:1:1]
  1 | var {x: y = yield 3} = z;

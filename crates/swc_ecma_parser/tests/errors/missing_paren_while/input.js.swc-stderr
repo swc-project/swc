@@ -1,0 +1,12 @@
+  x Expected '(', got 'true'
+   ,-[$DIR/tests/errors/missing_paren_while/input.js:1:1]
+ 1 | while true {
+   :       ^^^^
+ 2 |     console.log("test");
+   `----
+  x Expected ')', got '{'
+   ,-[$DIR/tests/errors/missing_paren_while/input.js:1:1]
+ 1 | while true {
+   :            ^
+ 2 |     console.log("test");
+   `----

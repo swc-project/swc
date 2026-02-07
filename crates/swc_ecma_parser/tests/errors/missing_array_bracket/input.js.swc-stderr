@@ -1,0 +1,30 @@
+  x Expression expected
+   ,-[$DIR/tests/errors/missing_array_bracket/input.js:2:1]
+ 1 | let arr = [1, 2, 3
+ 2 | let x = 1;
+   :          ^
+   `----
+  x Expected ',', got 'let'
+   ,-[$DIR/tests/errors/missing_array_bracket/input.js:2:1]
+ 1 | let arr = [1, 2, 3
+ 2 | let x = 1;
+   : ^^^
+   `----
+  x `let` cannot be used as an identifier in strict mode
+   ,-[$DIR/tests/errors/missing_array_bracket/input.js:2:1]
+ 1 | let arr = [1, 2, 3
+ 2 | let x = 1;
+   : ^^^
+   `----
+  x Expected ',', got 'ident'
+   ,-[$DIR/tests/errors/missing_array_bracket/input.js:2:1]
+ 1 | let arr = [1, 2, 3
+ 2 | let x = 1;
+   :     ^
+   `----
+  x Expected ',', got ';'
+   ,-[$DIR/tests/errors/missing_array_bracket/input.js:2:1]
+ 1 | let arr = [1, 2, 3
+ 2 | let x = 1;
+   :          ^
+   `----

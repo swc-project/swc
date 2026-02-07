@@ -22,10 +22,30 @@ impl<I: Tokens> Parser<I> {
             let mut props = Vec::with_capacity(8);
 
             while !p.input_mut().eat(Token::RBrace) {
+                // Recovery: check for EOF to prevent infinite loop
+                if p.input().is(Token::Eof) {
+                    p.emit_err(
+                        p.input().cur_span(),
+                        SyntaxError::Expected("}".into(), "eof".into()),
+                    );
+                    break;
+                }
+
                 props.push(parse_prop(p)?);
 
                 if !p.input().is(Token::RBrace) {
-                    expect!(p, Token::Comma);
+                    // Recovery: if not a comma, emit error but continue
+                    if !p.input_mut().eat(Token::Comma) {
+                        // Check if we're at a closing brace or EOF
+                        if p.input().is(Token::RBrace) || p.input().is(Token::Eof) {
+                            continue;
+                        }
+                        // Emit error for missing comma
+                        let span = p.input().cur_span();
+                        let cur = p.input_mut().dump_cur();
+                        p.emit_err(span, SyntaxError::Expected(",".into(), cur));
+                    }
+
                     if p.input().is(Token::RBrace) {
                         trailing_comma = Some(p.input().prev_span());
                     }
