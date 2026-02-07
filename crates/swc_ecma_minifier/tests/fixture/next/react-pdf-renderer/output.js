@@ -26912,7 +26912,7 @@
                                     default:
                                         return null;
                                 }
-                            }(nS, nA))) return e.effectTag &= 2047, e;
+                            }(nS))) return e.effectTag &= 2047, e;
                             null !== t && (t.firstEffect = t.lastEffect = null, t.effectTag |= 2048);
                         }
                         if (null !== (e = nS.sibling)) return e;
