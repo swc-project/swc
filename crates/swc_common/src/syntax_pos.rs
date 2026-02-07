@@ -508,11 +508,8 @@ impl Span {
     }
 
     #[inline]
-    pub fn new(mut lo: BytePos, mut hi: BytePos) -> Self {
-        if lo > hi {
-            std::mem::swap(&mut lo, &mut hi);
-        }
-
+    pub const fn new(lo: BytePos, hi: BytePos) -> Self {
+        debug_assert!(lo.0 <= hi.0);
         Span { lo, hi }
     }
 
