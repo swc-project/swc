@@ -115,10 +115,7 @@ impl RegexpPass {
         // Extract flags from the second argument, if present
         let flags_str = if args.len() >= 2 {
             match &*args[1].expr {
-                Expr::Lit(Lit::Str(s)) => match s.value.as_str() {
-                    Some(s) => s,
-                    None => "",
-                },
+                Expr::Lit(Lit::Str(s)) => s.value.as_str().unwrap_or_default(),
                 _ => "",
             }
         } else {
