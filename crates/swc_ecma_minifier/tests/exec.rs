@@ -11973,3 +11973,40 @@ console.log(getStatusMessage(999).message);
 "#;
     run_default_exec_test(src);
 }
+
+#[test]
+fn issue_11545() {
+    let src = r#"
+function joinArrayWithUndefined(bool) {
+  return ["abc", bool ? undefined : "def"].join("");
+}
+
+console.log(joinArrayWithUndefined(true));
+console.log(joinArrayWithUndefined(false));
+
+const x = ["abc", undefined].join("");
+console.log(x);
+"#;
+    let config = r#"{
+    "evaluate": true
+}"#;
+
+    run_exec_test(src, config, true);
+}
+
+#[test]
+fn issue_11545_with_separator() {
+    let src = r#"
+function joinWithSep(bool) {
+  return ["abc", bool ? null : "def"].join(",");
+}
+
+console.log(joinWithSep(true));
+console.log(joinWithSep(false));
+"#;
+    let config = r#"{
+    "evaluate": true
+}"#;
+
+    run_exec_test(src, config, true);
+}

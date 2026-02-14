@@ -767,6 +767,30 @@ impl Pure<'_> {
         let is_string_concat = separator.is_empty();
 
         if is_string_concat {
+            // Converting array.join("") to string concatenation with `+` changes
+            // semantics for expressions that could evaluate to `undefined` or `null`:
+            //   - Array.join("") converts null/undefined elements to "" (empty string)
+            //   - String concatenation with `+` converts them to "null"/"undefined"
+            //
+            // For example:
+            //   [\"abc\", cond ? undefined : \"def\"].join(\"\") => \"abc\" when cond is
+            // true   \"abc\" + (cond ? void 0 : \"def\")             =>
+            // \"abcundefined\" when cond is true
+            //
+            // Bail out if any expression could potentially be null/undefined.
+            let has_unsafe_exprs = groups.iter().any(|g| {
+                if let GroupType::Expression(expr) = g {
+                    // Only expressions that are guaranteed to produce a string are safe
+                    !is_definitely_string(&expr.expr)
+                } else {
+                    false
+                }
+            });
+
+            if has_unsafe_exprs {
+                return None;
+            }
+
             // Convert to string concatenation
             let mut result_parts = Vec::new();
 
