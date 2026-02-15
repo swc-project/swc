@@ -12,6 +12,10 @@ export const test7 = "1" + obj.method() + "2";
 // Identifiers can be null/undefined  
 export const test8 = "1" + unknownVar + "2";
 // Other expressions that can be null/undefined
-export const test9 = "1" + (condition ? null : 'x') + "2";
+export const test9 = [
+    1,
+    condition ? null : 'x',
+    2
+].join('');
 export const test10 = "1" + await promise + "2";
 export const test11 = "1" + new Constructor() + "2";

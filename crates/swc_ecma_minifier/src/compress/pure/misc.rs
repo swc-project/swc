@@ -15,7 +15,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Valu
 use super::Pure;
 use crate::compress::{
     pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-    util::is_pure_undefined,
+    util::{is_pure_undefined, is_pure_undefined_or_null},
 };
 
 fn is_definitely_string(expr: &Expr) -> bool {
@@ -29,6 +29,26 @@ fn is_definitely_string(expr: &Expr) -> bool {
             ..
         }) => is_definitely_string(left) || is_definitely_string(right),
         Expr::Paren(ParenExpr { expr, .. }) => is_definitely_string(expr),
+        _ => false,
+    }
+}
+
+/// Check whether an expression may obviously produce `null` or `undefined`.
+/// This catches direct references (void 0, undefined, null) and conditional
+/// expressions where either branch may produce null/undefined.
+fn may_produce_null_or_undefined(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    if is_pure_undefined_or_null(expr_ctx, expr) {
+        return true;
+    }
+    match expr {
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_produce_null_or_undefined(expr_ctx, cons)
+                || may_produce_null_or_undefined(expr_ctx, alt)
+        }
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .map_or(false, |e| may_produce_null_or_undefined(expr_ctx, e)),
+        Expr::Paren(ParenExpr { expr, .. }) => may_produce_null_or_undefined(expr_ctx, expr),
         _ => false,
     }
 }
@@ -777,17 +797,19 @@ impl Pure<'_> {
             // true   \"abc\" + (cond ? void 0 : \"def\")             =>
             // \"abcundefined\" when cond is true
             //
-            // Bail out if any expression could potentially be null/undefined.
-            let has_unsafe_exprs = groups.iter().any(|g| {
+            // Bail out if any expression could obviously produce null/undefined.
+            // We only check for direct null/undefined values and conditionals
+            // with null/undefined branches, not arbitrary expressions like
+            // function calls (which matches terser's behavior).
+            let has_nullable_exprs = groups.iter().any(|g| {
                 if let GroupType::Expression(expr) = g {
-                    // Only expressions that are guaranteed to produce a string are safe
-                    !is_definitely_string(&expr.expr)
+                    may_produce_null_or_undefined(self.expr_ctx, &expr.expr)
                 } else {
                     false
                 }
             });
 
-            if has_unsafe_exprs {
+            if has_nullable_exprs {
                 return None;
             }
 
