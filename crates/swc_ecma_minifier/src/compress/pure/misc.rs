@@ -47,7 +47,7 @@ fn may_produce_null_or_undefined(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         }
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
             .last()
-            .map_or(false, |e| may_produce_null_or_undefined(expr_ctx, e)),
+            .is_some_and(|e| may_produce_null_or_undefined(expr_ctx, e)),
         Expr::Paren(ParenExpr { expr, .. }) => may_produce_null_or_undefined(expr_ctx, expr),
         _ => false,
     }
