@@ -2887,7 +2887,9 @@ pub fn try_parse_ts_generic_async_arrow_fn<'a, P: Parser<'a>>(
             if p.input().syntax().jsx() && type_params.params.len() == 1 {
                 let single_param = &type_params.params[0];
                 let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
-                let dominated_by_jsx = single_param.constraint.is_none() && !has_trailing_comma;
+                let dominated_by_jsx = single_param.constraint.is_none()
+                    && single_param.default.is_none()
+                    && !has_trailing_comma;
 
                 if dominated_by_jsx {
                     return Ok(None);
