@@ -392,7 +392,9 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
                 if p.input().syntax().jsx() && type_parameters.params.len() == 1 {
                     let single_param = &type_parameters.params[0];
                     let has_trailing_comma = type_parameters.span.hi.0 - single_param.span.hi.0 > 1;
-                    let dominated_by_jsx = single_param.constraint.is_none() && !has_trailing_comma;
+                    let dominated_by_jsx = single_param.constraint.is_none()
+                        && single_param.default.is_none()
+                        && !has_trailing_comma;
 
                     if dominated_by_jsx {
                         return Ok(None);
