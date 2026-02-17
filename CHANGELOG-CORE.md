@@ -1,4 +1,51 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/jsx)** Preserve whitespace before HTML entities ([#11521](https://github.com/swc-project/swc/issues/11521)) ([64be077](https://github.com/swc-project/swc/commit/64be077515ee15501b179ebe523fa68d2c29f905))
+
+
+- **(es/minifier)** Do not merge if statements with different local variable values ([#11518](https://github.com/swc-project/swc/issues/11518)) ([3e63627](https://github.com/swc-project/swc/commit/3e636273d4ba0563c9fa15736cfa4c57d80c943d))
+
+
+- **(es/minifier)** Prevent convert_tpl_to_str when there's emoji under es5 ([#11529](https://github.com/swc-project/swc/issues/11529)) ([ff6cf88](https://github.com/swc-project/swc/commit/ff6cf88c88497881839ccb40fa18d33225971203))
+
+
+- **(es/minifier)** Inline before merge if ([#11526](https://github.com/swc-project/swc/issues/11526)) ([aa5a9ac](https://github.com/swc-project/swc/commit/aa5a9ac3ebae1f2a5775d980da65bc6a1c2574d7))
+
+
+- **(es/parser)** Fix generic arrow function in TSX mode ([#11549](https://github.com/swc-project/swc/issues/11549)) ([366a16b](https://github.com/swc-project/swc/commit/366a16b4a469d61ca816ec8187d3d476a57860d7))
+
+### Features
+
+
+
+- **(es/minifier)** Add `unsafe_hoist_static_method_alias` option ([#11493](https://github.com/swc-project/swc/issues/11493)) ([6e7dbe2](https://github.com/swc-project/swc/commit/6e7dbe234555f926f98d8714789b5cd4a5e65b3d))
+
+
+- **(es/minifier)** Remove unused args for IIFE ([#11536](https://github.com/swc-project/swc/issues/11536)) ([3cc286b](https://github.com/swc-project/swc/commit/3cc286b2f16489c8175faf5a72601c5be1376bdc))
+
+### Refactor
+
+
+
+- **(es/parser)** Compare token kind rather than strings ([#11531](https://github.com/swc-project/swc/issues/11531)) ([5872ffa](https://github.com/swc-project/swc/commit/5872ffa74a5b214bd6fd03732a26479118c41011))
+
+
+- **(es/typescript)** Run typescript transform in two passes ([#11532](https://github.com/swc-project/swc/issues/11532)) ([b069558](https://github.com/swc-project/swc/commit/b06955813af93cd784aad90e7e98ab06fb648438))
+
+
+- **(es/typescript)** Precompute namespace import-equals usage in semantic pass ([#11534](https://github.com/swc-project/swc/issues/11534)) ([b7e87c7](https://github.com/swc-project/swc/commit/b7e87c7b951cb8f62d6b22a5cfa2105310a91ccc))
+
+### Testing
+
+
+
+- **(es/minifier)** Add execution tests for issue #11517 ([#11530](https://github.com/swc-project/swc/issues/11530)) ([01b3b64](https://github.com/swc-project/swc/commit/01b3b648114ddb2e1e5ded32856397b996cb9fc2))
+
 ## [swc_core@v56.0.0] - 2026-01-27
 
 ### Bug Fixes
@@ -2553,62 +2600,6 @@
 
 
 
-- **(es/minifier)** Merge label/private name renamer ([#10480](https://github.com/swc-project/swc/issues/10480)) ([5add84d](https://github.com/swc-project/swc/commit/5add84dffcc4c03ed79e4aa29ded3fc1bfa70a7d))
-
-
-- **(es/parser)** Split parser into also-lex/parse-only ([#10399](https://github.com/swc-project/swc/issues/10399)) ([26289ab](https://github.com/swc-project/swc/commit/26289ab766230a896da6c3a2d95a157ce3793eee))
-
-
-- **(es/parser)** Parse shebang and cleanup ([#10481](https://github.com/swc-project/swc/issues/10481)) ([619873a](https://github.com/swc-project/swc/commit/619873a2cf7d5ddb1ce1aa59123371127dc9f2f6))
-
-
 - **(es/parser)** Cleanup usage of `is!` and `bump!` ([#10490](https://github.com/swc-project/swc/issues/10490)) ([b695b68](https://github.com/swc-project/swc/commit/b695b6830e2e7a4d1922fa455d94fe4d912effa4))
-
-## [swc_core@v25.0.0] - 2025-05-16
-
-### Bug Fixes
-
-
-
-- **(ci)** Remove wasmer override ([425eeb9](https://github.com/swc-project/swc/commit/425eeb905656cede2e67cdd114beb5bc2fc6699d))
-
-
-- **(es/minifier)** Properly handle object shorthand syntax during compression ([#10467](https://github.com/swc-project/swc/issues/10467)) ([bae4940](https://github.com/swc-project/swc/commit/bae494039d49967c05c6d34645de25ade13aac33))
-
-
-- **(es/renamer)** Fix (broken) identifier preserving API ([#10474](https://github.com/swc-project/swc/issues/10474)) ([06c64cf](https://github.com/swc-project/swc/commit/06c64cf9ed0e84891daf102f8756fcb1ee516527))
-
-### Miscellaneous Tasks
-
-
-
-- **(es/minifier)** Remove useless check ([#10471](https://github.com/swc-project/swc/issues/10471)) ([ca85958](https://github.com/swc-project/swc/commit/ca859584036b2fb2e8a9398e602e2a7f42e36a07))
-
-### Performance
-
-
-
-- **(common)** Accept owned instance of `sourcemap::SourceMap` ([#10463](https://github.com/swc-project/swc/issues/10463)) ([6ee439a](https://github.com/swc-project/swc/commit/6ee439aa7a96f99524c2aaee88d200e301ae611c))
-
-
-- **(es/minifier)** Perform full analysis only once for DCE ([#10454](https://github.com/swc-project/swc/issues/10454)) ([61baf84](https://github.com/swc-project/swc/commit/61baf849424a4f430f584b90a3a797578f316693))
-
-
-- **(es/minifier)** Use `bitflags` for var info ([#10459](https://github.com/swc-project/swc/issues/10459)) ([36f8385](https://github.com/swc-project/swc/commit/36f8385256caca7efa42fb5a8e129d51df9df226))
-
-### Refactor
-
-
-
-- **(common)** Remove unused methods ([#10469](https://github.com/swc-project/swc/issues/10469)) ([b77311a](https://github.com/swc-project/swc/commit/b77311adfc19fa41c2b316e37ef3832c9ffaede8))
-
-
-- **(es)** Remove unused code ([#10460](https://github.com/swc-project/swc/issues/10460)) ([d344133](https://github.com/swc-project/swc/commit/d34413338b387e58c3ea998ca05f26bac81fbe6f))
-
-
-- **(es)** Deduplicate `EvalFinder` ([#10472](https://github.com/swc-project/swc/issues/10472)) ([9f104af](https://github.com/swc-project/swc/commit/9f104af5089b34f0ffccf29d5f77c2abdfc83066))
-
-
-- **(es/minifier)** Remove unused file ([#10465](https://github.com/swc-project/swc/issues/10465)) ([7d49097](https://github.com/swc-project/swc/commit/7d490978251d85696e0279298a736ebd286c5685))
 
 <!-- generated by git-cliff -->
