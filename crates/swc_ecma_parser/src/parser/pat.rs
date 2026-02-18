@@ -269,7 +269,8 @@ impl<I: Tokens> Parser<I> {
                                             }
                                         }
                                         _ => unreachable!(
-                                            "object rest element must be binding/assignment element"
+                                            "object rest element must be binding/assignment \
+                                             element"
                                         ),
                                     };
                                     if let Pat::Assign(_) = pat {
