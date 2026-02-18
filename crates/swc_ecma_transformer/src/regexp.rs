@@ -65,6 +65,14 @@ struct RegexpPass {
 }
 
 impl RegexpPass {
+    fn is_regexp_callee(callee: &Callee) -> bool {
+        matches!(callee, Callee::Expr(expr) if expr.is_ident_ref_to("RegExp"))
+    }
+
+    fn is_regexp_constructor(expr: &Expr) -> bool {
+        expr.is_ident_ref_to("RegExp")
+    }
+
     /// Transform the regex pattern if it contains unicode property escapes.
     /// Returns the transformed pattern string.
     fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
@@ -88,46 +96,110 @@ impl RegexpPass {
         // Serialize back to string
         Some(ast.to_string())
     }
+
+    /// Transform `RegExp(pattern, flags)`/`new RegExp(pattern, flags)`
+    /// arguments when both are static string literals.
+    fn transform_constructor_args(&self, args: &mut [ExprOrSpread]) -> bool {
+        if !self.options.unicode_property_regex || args.is_empty() {
+            return false;
+        }
+
+        let flags = match args.get(1) {
+            Some(ExprOrSpread { spread: None, expr }) => {
+                let Expr::Lit(Lit::Str(flags)) = &**expr else {
+                    return false;
+                };
+                let Some(flags) = flags.value.as_str() else {
+                    return false;
+                };
+                flags.to_string()
+            }
+            Some(_) => return false,
+            None => String::new(),
+        };
+
+        let Some(ExprOrSpread { spread: None, .. }) = args.first() else {
+            return false;
+        };
+
+        let (span, transformed_pattern) = {
+            let Expr::Lit(Lit::Str(pattern_lit)) = &*args[0].expr else {
+                return false;
+            };
+            let Some(pattern) = pattern_lit.value.as_str() else {
+                return false;
+            };
+
+            let Some(transformed_pattern) = self.transform_pattern(pattern, &flags) else {
+                return false;
+            };
+
+            if transformed_pattern == pattern {
+                return false;
+            }
+
+            (pattern_lit.span, transformed_pattern)
+        };
+
+        args[0].expr = Box::new(Expr::Lit(Lit::Str(Str {
+            span,
+            value: transformed_pattern.into(),
+            raw: None,
+        })));
+
+        true
+    }
 }
 
 impl VisitMutHook<TraverseCtx> for RegexpPass {
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
-        if let Expr::Lit(Lit::Regex(regex)) = expr {
-            let needs_transform = (self.options.dot_all_regex && regex.flags.contains('s'))
-                || (self.options.sticky_regex && regex.flags.contains('y'))
-                || (self.options.unicode_regex && regex.flags.contains('u'))
-                || (self.options.unicode_sets_regex && regex.flags.contains('v'))
-                || (self.options.has_indices && regex.flags.contains('d'))
-                || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
-                || (self.options.lookbehind_assertion
-                    && (regex.exp.contains("(?<=") || regex.exp.contains("(?<!")))
-                || (self.options.unicode_property_regex
-                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")));
+        match expr {
+            Expr::Lit(Lit::Regex(regex)) => {
+                let needs_transform = (self.options.dot_all_regex && regex.flags.contains('s'))
+                    || (self.options.sticky_regex && regex.flags.contains('y'))
+                    || (self.options.unicode_regex && regex.flags.contains('u'))
+                    || (self.options.unicode_sets_regex && regex.flags.contains('v'))
+                    || (self.options.has_indices && regex.flags.contains('d'))
+                    || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
+                    || (self.options.lookbehind_assertion
+                        && (regex.exp.contains("(?<=") || regex.exp.contains("(?<!")))
+                    || (self.options.unicode_property_regex
+                        && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")));
 
-            if needs_transform {
-                let Regex { exp, flags, span } = regex.take();
+                if needs_transform {
+                    let Regex { exp, flags, span } = regex.take();
 
-                // Transform the pattern if it contains unicode property escapes
-                let transformed_pattern = self
-                    .transform_pattern(&exp, &flags)
-                    .unwrap_or_else(|| exp.to_string());
+                    // Transform the pattern if it contains unicode property escapes
+                    let transformed_pattern = self
+                        .transform_pattern(&exp, &flags)
+                        .unwrap_or_else(|| exp.to_string());
 
-                let exp: Expr = Atom::from(transformed_pattern).into();
-                let mut args = vec![exp.into()];
+                    let exp: Expr = Atom::from(transformed_pattern).into();
+                    let mut args = vec![exp.into()];
 
-                if !flags.is_empty() {
-                    let flags: Expr = flags.into();
-                    args.push(flags.into());
+                    if !flags.is_empty() {
+                        let flags: Expr = flags.into();
+                        args.push(flags.into());
+                    }
+
+                    *expr = CallExpr {
+                        span,
+                        callee: quote_ident!("RegExp").as_callee(),
+                        args,
+                        ..Default::default()
+                    }
+                    .into()
                 }
-
-                *expr = CallExpr {
-                    span,
-                    callee: quote_ident!("RegExp").as_callee(),
-                    args,
-                    ..Default::default()
-                }
-                .into()
             }
+            Expr::Call(call) if Self::is_regexp_callee(&call.callee) => {
+                self.transform_constructor_args(&mut call.args);
+            }
+            Expr::New(new_expr) if Self::is_regexp_constructor(&new_expr.callee) => {
+                if let Some(args) = &mut new_expr.args {
+                    self.transform_constructor_args(args);
+                }
+            }
+            _ => {}
         }
     }
 }

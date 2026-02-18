@@ -232,3 +232,51 @@ fn test_unicode_property_regex_letter() {
     // Should NOT contain the original \p{L} escape
     assert!(!compiled.contains("\\p{L}"));
 }
+
+#[test]
+fn test_unicode_property_regex_constructor_new() {
+    let source = r#"const re = new RegExp("\\p{ASCII}", "u");"#;
+
+    let compiled = compile(
+        source,
+        Options {
+            swcrc: false,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2017),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    );
+
+    assert!(compiled.contains("new RegExp"));
+    assert!(compiled.contains("[\\\\u0000-\\\\u007F]"));
+    assert!(!compiled.contains("\\\\p{ASCII}"));
+}
+
+#[test]
+fn test_unicode_property_regex_constructor_call() {
+    let source = r#"const re = RegExp("\\p{ASCII}", "u");"#;
+
+    let compiled = compile(
+        source,
+        Options {
+            swcrc: false,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2017),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    );
+
+    assert!(compiled.contains("RegExp"));
+    assert!(compiled.contains("[\\\\u0000-\\\\u007F]"));
+    assert!(!compiled.contains("\\\\p{ASCII}"));
+}
