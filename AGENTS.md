@@ -25,6 +25,44 @@
 -   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
 -   When instructed to fix tests, do not remove or modify existing tests.
 
+## PR / CI rule
+
+-   Do not use commit messages starting with `chore:` for PR work. CI jobs are skipped by message filter, and we want full CI coverage.
+-   Before opening or updating a PR, always run this baseline locally.
+    -   `cargo fmt --all`
+    -   `cargo clippy --all --all-targets -- -D warnings`
+    -   `cargo deny check`
+    -   `cargo shear --fix`
+    -   `cargo check --all --all-targets`
+-   If JavaScript / wasm / bindings are involved, run node setup used by CI before tests.
+    -   `corepack enable`
+    -   `yarn`
+    -   `rustup target add wasm32-wasip1`
+-   For each touched Rust crate, run crate-level verification locally.
+    -   `cargo test -p <crate>`
+    -   `./scripts/github/test-concurrent.sh <crate>`
+    -   `./scripts/github/run-cargo-hack.sh <crate>`
+-   Mirror CI's special test commands for affected crates.
+    -   `swc_core`: `cargo test -p swc_core --features ecma_quote --features common --features ecma_utils`
+    -   `binding_core_wasm`: `cargo test --manifest-path ./bindings/binding_core_wasm/Cargo.toml`
+    -   `swc_cli`: `cargo test --manifest-path ./bindings/swc_cli/Cargo.toml --features plugin`
+    -   `swc_plugin_backend_tests`: `cargo test -p swc_plugin_backend_tests --release`
+    -   `hstr`: `cargo test -p hstr --features serde`
+    -   `swc_ecma_minifier`: `cargo test -p swc_ecma_minifier --features concurrent --features par-core/chili`
+    -   `swc_ecma_parser`: `cargo test -p swc_ecma_parser --features verify` and `cargo test -p swc_ecma_parser --all-features`
+    -   `swc_ecma_loader`: `cargo test -p swc_ecma_loader --all-features`
+    -   `swc_ecma_transforms`: `cargo test -p swc_ecma_transforms --all-features --features swc_ecma_utils/stacker`
+    -   `swc_ecma_transforms`: `RUSTFLAGS="--cfg swc_ast_unknown" cargo check -p swc_ecma_transforms --features typescript,react,proposal,optimization,module,compat`
+-   If wasm binding packages are touched, run:
+    -   `(cd bindings/binding_core_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_minifier_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_typescript_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_es_ast_viewer && ./scripts/test.sh)`
+-   If node bindings or integration paths are touched, run:
+    -   `(cd packages/core && yarn build:dev && yarn test)`
+    -   `npm install -g @swc/cli@0.1.56 && npm link && npm install -g file:$PWD`
+    -   `(cd crates/swc_node_bundler/tests/integration/react && npm install && npx spack)`
+
 ## Compatibility rule
 
 -   Do not use unstable, nightly only features of rustc.
