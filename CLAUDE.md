@@ -29,7 +29,8 @@ When working in a specific directory, apply the rules from that directory and al
 ## Testing
 
 -   Write unit tests for your code.
--   You can do `UPDATE=1 cargo test` to get test outputs updated.
+-   Prefer fixture tests over inline (`#[test]`) tests.
+-   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
 -   When instructed to fix tests, do not remove or modify existing tests.
 
 ## Compatibility rule
