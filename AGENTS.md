@@ -25,6 +25,21 @@
 -   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
 -   When instructed to fix tests, do not remove or modify existing tests.
 
+## PR / CI rule
+
+-   Before opening or updating a PR, always run this baseline locally.
+    -   `cargo fmt --all`
+    -   `cargo clippy --all --all-targets -- -D warnings`
+-   For each touched Rust crate, run crate-level verification locally.
+    -   `cargo test -p <crate>`
+-   If wasm binding packages are touched, run:
+    -   `(cd bindings/binding_core_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_minifier_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_typescript_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_es_ast_viewer && ./scripts/test.sh)`
+-   If node bindings or integration paths are touched, run:
+    -   `(cd packages/core && yarn build:dev && yarn test)`
+
 ## Compatibility rule
 
 -   Do not use unstable, nightly only features of rustc.
