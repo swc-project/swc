@@ -33,9 +33,9 @@ When working in a specific directory, apply the rules from that directory and al
 -   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
 -   When instructed to fix tests, do not remove or modify existing tests.
 
-## PR / CI rule
+## Verification
 
--   Before opening or updating a PR, always run this baseline locally.
+-   Before finishing a task, always run this baseline locally.
     -   `cargo fmt --all`
     -   `cargo clippy --all --all-targets -- -D warnings`
 -   For each touched Rust crate, run crate-level verification locally.
