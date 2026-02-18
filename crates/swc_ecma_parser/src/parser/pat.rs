@@ -246,15 +246,31 @@ impl<I: Tokens> Parser<I> {
                                     };
 
                                     let element_pat_ty = pat_ty.element();
-                                    let pat = if let PatType::BindingElement = element_pat_ty {
-                                        if let Expr::Ident(i) = *expr {
-                                            i.into()
-                                        } else {
-                                            self.emit_err(span, SyntaxError::DotsWithoutIdentifier);
-                                            Pat::Invalid(Invalid { span })
+                                    let pat = match element_pat_ty {
+                                        PatType::BindingElement => {
+                                            if let Expr::Ident(i) = *expr {
+                                                i.into()
+                                            } else {
+                                                self.emit_err(
+                                                    span,
+                                                    SyntaxError::DotsWithoutIdentifier,
+                                                );
+                                                Pat::Invalid(Invalid { span })
+                                            }
                                         }
-                                    } else {
-                                        self.reparse_expr_as_pat(element_pat_ty, expr)?
+                                        PatType::AssignElement => {
+                                            if !expr.is_valid_simple_assignment_target(
+                                                self.ctx().contains(Context::Strict),
+                                            ) {
+                                                self.emit_err(span, SyntaxError::NotSimpleAssign);
+                                                expr.into()
+                                            } else {
+                                                self.reparse_expr_as_pat(element_pat_ty, expr)?
+                                            }
+                                        }
+                                        _ => unreachable!(
+                                            "object rest element must be binding/assignment element"
+                                        ),
                                     };
                                     if let Pat::Assign(_) = pat {
                                         self.emit_err(span, SyntaxError::TS1048)
