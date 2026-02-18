@@ -54,6 +54,7 @@ fn is_enabled_feature(options: &RegExpOptions, regex_exp: &str, regex_flags: &st
         || (options.lookbehind_assertion
             && (regex_exp.contains("(?<=") || regex_exp.contains("(?<!")))
         || (options.unicode_property_regex
+            && (regex_flags.contains('u') || regex_flags.contains('v'))
             && (regex_exp.contains("\\p{") || regex_exp.contains("\\P{")))
 }
 
