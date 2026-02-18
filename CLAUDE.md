@@ -12,6 +12,7 @@ When working in a specific directory, apply the rules from that directory and al
 
 -   Read the codebase - the codebase is source of truth, and you should prefer reading lots of source code over searching.
 -   Write performant code. Always prefer performance over other things.
+-   Use `gh` CLI tool for fetching data from `github.com`.
 
 ## Code style
 
