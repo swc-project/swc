@@ -1,3 +1,4 @@
+use swc_atoms::Wtf8Atom;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
@@ -43,6 +44,61 @@ pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseC
     }
 }
 
+fn is_enabled_feature(options: &RegExpOptions, regex_exp: &str, regex_flags: &str) -> bool {
+    (options.dot_all_regex && regex_flags.contains('s'))
+        || (options.sticky_regex && regex_flags.contains('y'))
+        || (options.unicode_regex && regex_flags.contains('u'))
+        || (options.unicode_sets_regex && regex_flags.contains('v'))
+        || (options.has_indices && regex_flags.contains('d'))
+        || (options.named_capturing_groups_regex && regex_exp.contains("(?<"))
+        || (options.lookbehind_assertion
+            && (regex_exp.contains("(?<=") || regex_exp.contains("(?<!")))
+        || (options.unicode_property_regex
+            && (regex_exp.contains("\\p{") || regex_exp.contains("\\P{")))
+}
+
+fn as_string(expr: &Expr) -> Option<Wtf8Atom> {
+    match expr {
+        Expr::Lit(Lit::Str(str)) => Some(str.value.clone()),
+        // Preserve raw template text for invalid cooked values so feature checks
+        // still work with escaped pattern/flag literals.
+        Expr::Tpl(Tpl { exprs, quasis, .. }) if exprs.is_empty() && quasis.len() == 1 => quasis[0]
+            .cooked
+            .clone()
+            .or_else(|| Some(quasis[0].raw.clone().into())),
+        _ => None,
+    }
+}
+
+fn is_regexp_constructor_with_feature(
+    callee: &Expr,
+    args: &[ExprOrSpread],
+    options: &RegExpOptions,
+) -> bool {
+    let is_regexp_constructor = matches!(callee, Expr::Ident(Ident { sym, .. }) if sym == "RegExp");
+
+    if !is_regexp_constructor || args.is_empty() || args.len() > 2 {
+        return false;
+    }
+
+    let pattern = as_string(&args[0].expr);
+
+    let flags = if args.len() == 2 {
+        as_string(&args[1].expr).unwrap_or_default()
+    } else {
+        Default::default()
+    };
+
+    if let Some(pattern) = pattern.as_ref() {
+        let pattern = pattern.to_string_lossy();
+        let flags = flags.to_string_lossy();
+
+        return is_enabled_feature(options, &pattern, &flags);
+    }
+
+    false
+}
+
 struct RegexpPass {
     options: RegExpOptions,
 }
@@ -50,17 +106,7 @@ struct RegexpPass {
 impl VisitMutHook<TraverseCtx> for RegexpPass {
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
         if let Expr::Lit(Lit::Regex(regex)) = expr {
-            if (self.options.dot_all_regex && regex.flags.contains('s'))
-                || (self.options.sticky_regex && regex.flags.contains('y'))
-                || (self.options.unicode_regex && regex.flags.contains('u'))
-                || (self.options.unicode_sets_regex && regex.flags.contains('v'))
-                || (self.options.has_indices && regex.flags.contains('d'))
-                || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
-                || (self.options.lookbehind_assertion && regex.exp.contains("(?<=")
-                    || regex.exp.contains("(?<!"))
-                || (self.options.unicode_property_regex
-                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")))
-            {
+            if is_enabled_feature(&self.options, &regex.exp, &regex.flags) {
                 let Regex { exp, flags, span } = regex.take();
 
                 let exp: Expr = exp.into();
@@ -78,6 +124,43 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                     ..Default::default()
                 }
                 .into()
+            }
+
+            return;
+        }
+
+        if let Expr::New(new_expr) = expr {
+            if let Some(args) = new_expr.args.as_ref() {
+                if is_regexp_constructor_with_feature(&new_expr.callee, args, &self.options) {
+                    let NewExpr {
+                        span,
+                        ctxt,
+                        callee,
+                        args,
+                        type_args,
+                    } = new_expr.take();
+
+                    *expr = CallExpr {
+                        span,
+                        ctxt,
+                        callee: Callee::Expr(callee),
+                        args: args.unwrap_or_default(),
+                        type_args,
+                    }
+                    .into();
+                }
+            }
+
+            return;
+        }
+
+        if let Expr::Call(call) = expr {
+            if let Callee::Expr(callee) = &mut call.callee {
+                if is_regexp_constructor_with_feature(callee, &call.args, &self.options) {
+                    if let Expr::Ident(Ident { sym, .. }) = &mut **callee {
+                        *sym = "RegExp".into();
+                    }
+                }
             }
         }
     }
