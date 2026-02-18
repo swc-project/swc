@@ -189,10 +189,12 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
             }) if callee.is_ident_ref_to("RegExp") => {
                 self.transform_regexp_args(args);
             }
-            Expr::New(NewExpr { callee, args, .. }) if callee.is_ident_ref_to("RegExp") => {
-                if let Some(args) = args {
-                    self.transform_regexp_args(args);
-                }
+            Expr::New(NewExpr {
+                callee,
+                args: Some(args),
+                ..
+            }) if callee.is_ident_ref_to("RegExp") => {
+                self.transform_regexp_args(args);
             }
             _ => {}
         }
