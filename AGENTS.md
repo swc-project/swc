@@ -3,6 +3,7 @@
 ## General rule
 
 -   Read the codebase - the codebase is source of truth, and you should prefer reading lots of source code over searching.
+-   Do not search web unless explicitly asked to do so. Web search does not help in general for our project.
 -   Write performant code. Always prefer performance over other things.
 -   Use `gh` CLI tool for fetching data from `github.com`.
 
