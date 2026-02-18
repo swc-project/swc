@@ -1,0 +1,71 @@
+name: "Reset milestone to Planned"
+
+on:
+  issues:
+    types: [closed]
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  issues: write
+
+jobs:
+  reset-milestone:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'swc-project'
+    steps:
+      - name: Set milestone to Planned
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          # Closed pull requests are updated through the issues API as well.
+          if [ "${{ github.event_name }}" = "issues" ]; then
+            ITEM_NUMBER="${{ github.event.issue.number }}"
+            ITEM_TYPE="issue"
+          else
+            ITEM_NUMBER="${{ github.event.pull_request.number }}"
+            ITEM_TYPE="pull request"
+          fi
+
+          echo "Processing closed ${ITEM_TYPE} #${ITEM_NUMBER}"
+
+          PLANNED_MILESTONE_NUMBER="$(gh api \
+            --method GET \
+            --paginate \
+            "/repos/${REPOSITORY}/milestones?state=open&per_page=100" \
+            --jq '.[] | select(.title == "Planned") | .number' \
+            | head -n 1 || true)"
+
+          if [ -z "${PLANNED_MILESTONE_NUMBER}" ]; then
+            echo '"Planned" milestone does not exist. Creating it.'
+            gh api \
+              --method POST \
+              "/repos/${REPOSITORY}/milestones" \
+              -f title='Planned' >/dev/null || true
+
+            PLANNED_MILESTONE_NUMBER="$(gh api \
+              --method GET \
+              --paginate \
+              "/repos/${REPOSITORY}/milestones?state=open&per_page=100" \
+              --jq '.[] | select(.title == "Planned") | .number' \
+              | head -n 1 || true)"
+
+            if [ -z "${PLANNED_MILESTONE_NUMBER}" ]; then
+              echo 'Failed to find or create "Planned" milestone'
+              exit 1
+            fi
+
+            echo "Using Planned milestone #${PLANNED_MILESTONE_NUMBER}"
+          else
+            echo "Found Planned milestone #${PLANNED_MILESTONE_NUMBER}"
+          fi
+
+          gh api \
+            --method PATCH \
+            "/repos/${REPOSITORY}/issues/${ITEM_NUMBER}" \
+            -f milestone="${PLANNED_MILESTONE_NUMBER}" >/dev/null
+
+          echo "Updated #${ITEM_NUMBER} milestone to Planned"
