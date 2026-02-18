@@ -49,6 +49,7 @@ fn may_produce_null_or_undefined(expr_ctx: ExprCtx, expr: &Expr) -> bool {
             .last()
             .is_some_and(|e| may_produce_null_or_undefined(expr_ctx, e)),
         Expr::Paren(ParenExpr { expr, .. }) => may_produce_null_or_undefined(expr_ctx, expr),
+        Expr::Await(AwaitExpr { arg, .. }) => may_produce_null_or_undefined(expr_ctx, arg),
         _ => false,
     }
 }
