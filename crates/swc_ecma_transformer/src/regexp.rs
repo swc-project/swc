@@ -1,4 +1,4 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, Span};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -47,20 +47,73 @@ struct RegexpPass {
     options: RegExpOptions,
 }
 
+impl RegexpPass {
+    #[inline]
+    fn is_regexp_constructor(callee: &Expr) -> bool {
+        matches!(callee, Expr::Ident(Ident { sym, .. }) if sym == "RegExp")
+    }
+
+    #[inline]
+    fn arg_string(arg: &ExprOrSpread) -> Option<&str> {
+        if arg.spread.is_some() {
+            return None;
+        }
+
+        match arg.expr.as_ref() {
+            Expr::Lit(Lit::Str(Str { value, .. })) => value.as_str(),
+            _ => None,
+        }
+    }
+
+    fn pattern_and_flags<'a>(args: &'a [ExprOrSpread]) -> Option<(&'a str, &'a str)> {
+        let pattern = Self::arg_string(args.first()?)?;
+        let flags = args.get(1).and_then(Self::arg_string).unwrap_or("");
+
+        Some((pattern, flags))
+    }
+
+    #[inline]
+    fn should_transform_pattern(&self, exp: &str, flags: &str) -> bool {
+        (self.options.dot_all_regex && flags.contains('s'))
+            || (self.options.sticky_regex && flags.contains('y'))
+            || (self.options.unicode_regex && flags.contains('u'))
+            || (self.options.unicode_sets_regex && flags.contains('v'))
+            || (self.options.has_indices && flags.contains('d'))
+            || (self.options.named_capturing_groups_regex && exp.contains("(?<"))
+            || (self.options.lookbehind_assertion && exp.contains("(?<=") || exp.contains("(?<!"))
+            || (self.options.unicode_property_regex
+                && (exp.contains("\\p{") || exp.contains("\\P{")))
+    }
+
+    #[inline]
+    fn should_transform_constructor_args(&self, args: &[ExprOrSpread]) -> bool {
+        let Some((exp, flags)) = Self::pattern_and_flags(args) else {
+            return false;
+        };
+
+        self.should_transform_pattern(exp, flags)
+    }
+
+    #[inline]
+    fn to_regexp_call(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+        CallExpr {
+            span,
+            callee: quote_ident!("RegExp").as_callee(),
+            args,
+            ..Default::default()
+        }
+        .into()
+    }
+}
+
 impl VisitMutHook<TraverseCtx> for RegexpPass {
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
-        if let Expr::Lit(Lit::Regex(regex)) = expr {
-            if (self.options.dot_all_regex && regex.flags.contains('s'))
-                || (self.options.sticky_regex && regex.flags.contains('y'))
-                || (self.options.unicode_regex && regex.flags.contains('u'))
-                || (self.options.unicode_sets_regex && regex.flags.contains('v'))
-                || (self.options.has_indices && regex.flags.contains('d'))
-                || (self.options.named_capturing_groups_regex && regex.exp.contains("(?<"))
-                || (self.options.lookbehind_assertion && regex.exp.contains("(?<=")
-                    || regex.exp.contains("(?<!"))
-                || (self.options.unicode_property_regex
-                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{")))
-            {
+        match expr {
+            Expr::Lit(Lit::Regex(regex)) => {
+                if !self.should_transform_pattern(regex.exp.as_ref(), regex.flags.as_ref()) {
+                    return;
+                }
+
                 let Regex { exp, flags, span } = regex.take();
 
                 let exp: Expr = exp.into();
@@ -71,14 +124,23 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
                     args.push(flags.into());
                 }
 
-                *expr = CallExpr {
-                    span,
-                    callee: quote_ident!("RegExp").as_callee(),
-                    args,
-                    ..Default::default()
-                }
-                .into()
+                *expr = Self::to_regexp_call(span, args);
             }
+            Expr::New(new_expr) if Self::is_regexp_constructor(&new_expr.callee) => {
+                let Some(args) = new_expr.args.as_deref() else {
+                    return;
+                };
+
+                if !self.should_transform_constructor_args(args) {
+                    return;
+                }
+
+                let span = new_expr.span;
+                let args = new_expr.args.take().unwrap_or_default();
+
+                *expr = Self::to_regexp_call(span, args);
+            }
+            _ => {}
         }
     }
 }
