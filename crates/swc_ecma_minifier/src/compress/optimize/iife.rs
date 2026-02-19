@@ -187,6 +187,8 @@ impl Optimizer<'_> {
             }
         }
 
+        let has_named_fn = matches!(&*callee, Expr::Fn(FnExpr { ident: Some(_), .. }));
+
         let params = find_params(callee);
         if let Some(mut params) = params {
             let mut vars = HashMap::default();
@@ -262,12 +264,18 @@ impl Optimizer<'_> {
                             continue;
                         }
 
-                        match self.data.vars.get(&param_id.to_id()) {
-                            Some(usage) if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) => {
-                                continue;
-                            }
-                            None => continue,
-                            _ => {}
+                        let Some(usage) = self.data.vars.get(&param_id.to_id()) else {
+                            continue;
+                        };
+                        if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                            || usage.ref_count != 0
+                        {
+                            continue;
+                        }
+
+                        // Removing default parameters can change `.length` for named functions.
+                        if has_named_fn {
+                            continue;
                         }
 
                         if let Some(arg) = e.args.get_mut(idx).map(|v| &mut v.expr) {

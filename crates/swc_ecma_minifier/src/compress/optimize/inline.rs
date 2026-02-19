@@ -751,11 +751,20 @@ impl Optimizer<'_> {
                                 match &param.pat {
                                     Pat::Rest(..) => return,
                                     Pat::Assign(assign) => {
-                                        // We only inline defaults that can be modeled by IIFE
-                                        // argument inlining without changing observable behavior.
-                                        let Pat::Ident(_) = &*assign.left else {
+                                        // Multi-use function inlining with default params is only
+                                        // safe for defaults that are never observed directly.
+                                        let Pat::Ident(param) = &*assign.left else {
                                             return;
                                         };
+                                        let Some(usage) = self.data.vars.get(&param.id.to_id())
+                                        else {
+                                            return;
+                                        };
+                                        if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                            || usage.ref_count != 0
+                                        {
+                                            return;
+                                        }
 
                                         if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
                                             return;
