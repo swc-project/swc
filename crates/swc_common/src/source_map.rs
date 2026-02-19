@@ -1425,7 +1425,7 @@ pub fn build_source_map(
 }
 
 #[cfg(feature = "sourcemap")]
-fn stabilize_mappings_with_same_dst(mut map: swc_sourcemap::SourceMap) -> swc_sourcemap::SourceMap {
+fn stabilize_mappings_with_same_dst(map: swc_sourcemap::SourceMap) -> swc_sourcemap::SourceMap {
     let mut tokens = map
         .tokens()
         .map(|token| token.get_raw_token())
