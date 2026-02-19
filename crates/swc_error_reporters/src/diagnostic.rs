@@ -57,11 +57,9 @@ impl miette::Diagnostic for PrettyDiagnostic<'_> {
     }
 
     fn source_code(&self) -> Option<&dyn miette::SourceCode> {
-        if let Some(span) = self.d.span.primary_span() {
-            if span.lo.is_dummy() || span.hi.is_dummy() {
-                return None;
-            }
-        } else {
+        let span = self.d.span.primary_span()?;
+
+        if !self.source_code.is_valid_span(span) {
             return None;
         }
 
@@ -69,9 +67,21 @@ impl miette::Diagnostic for PrettyDiagnostic<'_> {
     }
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
-        let iter = self.d.span.span_labels().into_iter().map(|span_label| {
-            miette::LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
-        });
+        let iter = self
+            .d
+            .span
+            .span_labels()
+            .into_iter()
+            .filter_map(|span_label| {
+                if !self.source_code.is_valid_span(span_label.span) {
+                    return None;
+                }
+
+                Some(miette::LabeledSpan::new_with_span(
+                    span_label.label,
+                    convert_span(span_label.span),
+                ))
+            });
 
         Some(Box::new(iter))
     }
@@ -116,6 +126,13 @@ pub struct PrettySourceCode<'a> {
     skip_filename: bool,
 }
 
+impl PrettySourceCode<'_> {
+    #[inline]
+    fn is_valid_span(&self, span: Span) -> bool {
+        !span.is_dummy() && self.cm.with_snippet_of_span(span, |_| ()).is_ok()
+    }
+}
+
 impl miette::SourceCode for PrettySourceCode<'_> {
     fn read_span<'a>(
         &'a self,
@@ -124,9 +141,18 @@ impl miette::SourceCode for PrettySourceCode<'_> {
         context_lines_after: usize,
     ) -> Result<Box<dyn miette::SpanContents<'a> + 'a>, miette::MietteError> {
         let lo = span.offset();
-        let hi = lo + span.len();
+        let hi = lo
+            .checked_add(span.len())
+            .ok_or(miette::MietteError::OutOfBounds)?;
 
-        let mut span = Span::new(BytePos(lo as _), BytePos(hi as _));
+        let lo = u32::try_from(lo).map_err(|_| miette::MietteError::OutOfBounds)?;
+        let hi = u32::try_from(hi).map_err(|_| miette::MietteError::OutOfBounds)?;
+
+        let mut span = Span::new(BytePos(lo), BytePos(hi));
+
+        if !self.is_valid_span(span) {
+            return Err(miette::MietteError::OutOfBounds);
+        }
 
         span = self
             .cm
@@ -175,13 +201,16 @@ impl miette::SourceCode for PrettySourceCode<'_> {
         let mut src = self
             .cm
             .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
-            .unwrap_or(" ");
+            .map_err(|_| miette::MietteError::OutOfBounds)?;
 
         if span.lo == span.hi {
             src = " ";
         }
 
-        let loc = self.cm.lookup_char_pos(span.lo());
+        let loc = self
+            .cm
+            .try_lookup_char_pos(span.lo())
+            .map_err(|_| miette::MietteError::OutOfBounds)?;
         let line_count = loc.file.analyze().lines.len();
 
         let name = if self.skip_filename {
@@ -240,9 +269,21 @@ impl miette::Diagnostic for PrettySubDiagnostic<'_> {
     }
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
-        let iter = self.d.span.span_labels().into_iter().map(|span_label| {
-            miette::LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
-        });
+        let iter = self
+            .d
+            .span
+            .span_labels()
+            .into_iter()
+            .filter_map(|span_label| {
+                if !self.source_code.is_valid_span(span_label.span) {
+                    return None;
+                }
+
+                Some(miette::LabeledSpan::new_with_span(
+                    span_label.label,
+                    convert_span(span_label.span),
+                ))
+            });
 
         Some(Box::new(iter))
     }
@@ -304,9 +345,10 @@ fn level_to_severity(level: Level) -> Option<Severity> {
 }
 
 pub fn convert_span(span: Span) -> SourceSpan {
-    let len = span.hi - span.lo;
-    let start = SourceOffset::from(span.lo.0 as usize);
-    SourceSpan::new(start, len.0 as usize)
+    let start = span.lo.0 as usize;
+    let end = span.hi.0 as usize;
+
+    SourceSpan::new(SourceOffset::from(start), end.saturating_sub(start))
 }
 
 pub trait ToPrettyDiagnostic {
