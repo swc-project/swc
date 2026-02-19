@@ -6,7 +6,8 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
+    class_has_side_effect, collect_decls, contains_ident_ref, contains_this_expr, find_pat_ids,
+    ExprExt, Remapper,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -746,13 +747,51 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
-                            if f.function
-                                .params
-                                .iter()
-                                .any(|param| matches!(param.pat, Pat::Rest(..) | Pat::Assign(..)))
-                            {
-                                return;
+                            for (idx, param) in f.function.params.iter().enumerate() {
+                                match &param.pat {
+                                    Pat::Rest(..) => return,
+                                    Pat::Assign(assign) => {
+                                        // Multi-use function inlining with default params is only
+                                        // safe for defaults that are never observed directly.
+                                        let Pat::Ident(param) = &*assign.left else {
+                                            return;
+                                        };
+                                        let Some(usage) = self.data.vars.get(&param.id.to_id())
+                                        else {
+                                            return;
+                                        };
+                                        if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                            || usage.ref_count != 0
+                                        {
+                                            return;
+                                        }
+
+                                        if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                            return;
+                                        }
+
+                                        for earlier_param in f.function.params.iter().take(idx) {
+                                            let earlier_ident = match &earlier_param.pat {
+                                                Pat::Ident(id) => Some(&id.id),
+                                                Pat::Assign(assign) => match &*assign.left {
+                                                    Pat::Ident(id) => Some(&id.id),
+                                                    _ => None,
+                                                },
+                                                _ => None,
+                                            };
+
+                                            let Some(earlier_ident) = earlier_ident else {
+                                                return;
+                                            };
+                                            if contains_ident_ref(&assign.right, earlier_ident) {
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    _ => {}
+                                }
                             }
+
                             report_change!(
                                 "inline: Decided to inline function `{}{:?}` as it's very simple",
                                 id.0,
