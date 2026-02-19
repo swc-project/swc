@@ -1835,21 +1835,21 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
     let mut only_line: Option<String> = None;
     let mut line_start: Option<usize> = Some(0);
     let mut line_end: Option<usize> = None;
-    // Track if we've seen any line terminators - used to decide whether to trim
-    // leading whitespace on the final line
-    let mut seen_line_terminator = false;
+    // The first line preserves leading whitespace; subsequent lines trim it.
+    let mut is_first_line = true;
 
     for (char_idx, c) in chars.iter().enumerate() {
         let is_from_entity = *entity_mask.get(char_idx).unwrap_or(&false);
 
         if is_line_terminator(*c) {
-            seen_line_terminator = true;
             // Process current line - trim both leading AND trailing (intermediate
             // line)
             if let (Some(start), Some(end)) = (line_start, line_end) {
-                let line_text = extract_line_content(&chars, start, end, entity_mask, true, true);
+                let line_text =
+                    extract_line_content(&chars, start, end, entity_mask, !is_first_line, true);
                 add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);
             }
+            is_first_line = false;
             line_start = None;
             line_end = None;
         } else if !is_white_space_single_line(*c) || is_from_entity {
@@ -1861,16 +1861,15 @@ fn jsx_text_to_str_with_entity_mask(t: &str, entity_mask: &[bool]) -> Atom {
         }
     }
 
-    // Handle final line - only trim leading if we've seen line terminators
-    // (matching original jsx_text_to_str_impl behavior where leading whitespace
-    // is preserved on single-line text)
+    // Handle final line. Leading whitespace is preserved only if this is still
+    // the first line (single-line input).
     if let Some(start) = line_start {
         let line_text = extract_line_content(
             &chars,
             start,
             chars.len(),
             entity_mask,
-            seen_line_terminator,
+            !is_first_line,
             false,
         );
         add_line_of_jsx_text_owned(line_text, &mut acc, &mut only_line);

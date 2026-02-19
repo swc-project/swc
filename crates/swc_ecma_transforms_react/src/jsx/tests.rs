@@ -820,6 +820,20 @@ test!(
 const x = <div>{variable} &ndash; something</div>;"#
 );
 
+// See https://github.com/swc-project/swc/issues/11541
+// First-line leading whitespace should be preserved for entity-aware JSX text.
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_first_line_leading_whitespace_before_entity,
+    r#"const x = <span> &#8226;
+text</span>;"#
+);
+
 test!(
     module,
     // Comments are currently stripped out
