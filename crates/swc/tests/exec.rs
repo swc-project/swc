@@ -9,14 +9,14 @@ use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use swc::{
     config::{
-        Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig,
-        TransformConfig,
+        Config, DecoratorVersion, JsMinifyOptions, JscConfig, ModuleConfig, Options,
+        SourceMapsConfig, TransformConfig,
     },
     try_with_handler, BoolOrDataConfig, Compiler, HandlerOpts,
 };
-use swc_common::{errors::ColorConfig, SourceMap, GLOBALS};
+use swc_common::{errors::ColorConfig, FileName, SourceMap, GLOBALS};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{Syntax, TsSyntax};
+use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::{assert_eq, find_executable, unignore_fixture};
 use tracing::{span, Level};
@@ -421,4 +421,129 @@ fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
     )?;
 
     Ok(s)
+}
+
+fn compile_and_exec(code: &str, options: &Options) -> Result<String, Error> {
+    let cm = Arc::new(SourceMap::default());
+    let c = Compiler::new(cm.clone());
+
+    GLOBALS.set(&Default::default(), || {
+        try_with_handler(
+            cm.clone(),
+            HandlerOpts {
+                color: ColorConfig::Always,
+                ..Default::default()
+            },
+            |handler| {
+                let fm = cm.new_source_file(FileName::Anon.into(), code.to_string());
+
+                let output = c
+                    .process_js_file(fm, handler, options)
+                    .context("failed to process source")?;
+
+                stdout_of(&output.code, NodeModuleType::CommonJs)
+            },
+        )
+        .map_err(|e| e.to_pretty_error())
+    })
+}
+
+fn issue_9565_options() -> Options {
+    Options {
+        config: Config {
+            jsc: JscConfig {
+                syntax: Some(Syntax::Es(EsSyntax {
+                    decorators: true,
+                    ..Default::default()
+                })),
+                transform: Some(TransformConfig {
+                    decorator_version: Some(DecoratorVersion::V202203),
+                    ..Default::default()
+                })
+                .into(),
+                target: Some(EsVersion::Es5),
+                external_helpers: false.into(),
+                ..Default::default()
+            },
+            module: Some(ModuleConfig::CommonJs(Default::default())),
+            ..Default::default()
+        },
+        ..Default::default()
+    }
+}
+
+#[test]
+fn issue_9565_bug1_private_name_in_decorator_expression() {
+    let src = r#"
+let logs = [];
+
+function effect(getDep) {
+    return function (_, context) {
+        context.addInitializer(function () {
+            logs.push("init");
+        });
+    }
+}
+
+class A {
+    #log = 1;
+
+    @effect((a) => a.#log)
+    #effect() {}
+}
+
+new A();
+expect(logs).toEqual(["init"]);
+"#;
+
+    compile_and_exec(src, &issue_9565_options()).unwrap();
+}
+
+#[test]
+fn issue_9565_bug2_decorated_private_field_initializer_order() {
+    let src = r#"
+let observed = 0;
+
+function effect(_, context) {
+    context.addInitializer(function () {
+        observed = context.access.get.call(this);
+    });
+}
+
+class A {
+    @effect
+    #value = 123;
+}
+
+new A();
+expect(observed).toBe(123);
+"#;
+
+    compile_and_exec(src, &issue_9565_options()).unwrap();
+}
+
+#[test]
+fn issue_9565_bug3_getter_access_uses_instance_this() {
+    let src = r#"
+let values = [];
+
+function captureAccess(_, context) {
+    const get = context.access.get;
+    context.addInitializer(function () {
+        values.push(get.call(this));
+    });
+}
+
+class A {
+    @captureAccess
+    get value() {
+        return "ok";
+    }
+}
+
+new A();
+expect(values).toEqual(["ok"]);
+"#;
+
+    compile_and_exec(src, &issue_9565_options()).unwrap();
 }

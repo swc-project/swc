@@ -10,7 +10,9 @@ use swc_ecma_utils::{
     is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
     stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
 };
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use crate::DecoratorVersion;
 
@@ -76,7 +78,8 @@ impl DecoratorPass {
     }
 
     fn preserve_side_effect_of_decorator(&mut self, dec: Box<Expr>) -> Box<Expr> {
-        if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() {
+        if dec.is_ident() || dec.is_arrow() || dec.is_fn_expr() || has_private_name_reference(&dec)
+        {
             return dec;
         }
 
@@ -803,6 +806,25 @@ impl DecoratorPass {
             }
         }
     }
+}
+
+#[derive(Default)]
+struct PrivateNameUsageFinder {
+    found: bool,
+}
+
+impl Visit for PrivateNameUsageFinder {
+    noop_visit_type!(fail);
+
+    fn visit_private_name(&mut self, _: &PrivateName) {
+        self.found = true;
+    }
+}
+
+fn has_private_name_reference(expr: &Expr) -> bool {
+    let mut visitor = PrivateNameUsageFinder::default();
+    expr.visit_with(&mut visitor);
+    visitor.found
 }
 
 impl VisitMut for DecoratorPass {
