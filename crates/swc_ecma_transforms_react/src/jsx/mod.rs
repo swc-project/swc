@@ -2184,26 +2184,15 @@ fn transform_jsx_attr_str(v: &Wtf8) -> Wtf8Buf {
 
     let single_quote = false;
     let mut buf = Wtf8Buf::with_capacity(v.len());
-    let mut iter = v.code_points().peekable();
-
-    while let Some(code_point) = iter.next() {
+    for code_point in v.code_points() {
         if let Some(c) = code_point.to_char() {
             match c {
                 '\u{0008}' => buf.push_str("\\b"),
                 '\u{000c}' => buf.push_str("\\f"),
                 ' ' => buf.push_char(' '),
-
-                '\n' | '\r' | '\t' => {
-                    buf.push_char(' ');
-
-                    while let Some(next) = iter.peek() {
-                        if next.to_char() == Some(' ') {
-                            iter.next();
-                        } else {
-                            break;
-                        }
-                    }
-                }
+                '\n' => buf.push_char('\n'),
+                '\r' => buf.push_char('\r'),
+                '\t' => buf.push_char('\t'),
                 '\u{000b}' => buf.push_str("\\v"),
                 '\0' => buf.push_str("\\x00"),
 
