@@ -138,6 +138,7 @@ impl Load for Loader {
                 .apply(decorators(decorators::Config {
                     legacy: true,
                     emit_metadata: Default::default(),
+                    emit_coverage_ignores: false,
                     use_define_for_class_fields: false,
                 }))
                 .apply(strip(unresolved_mark, top_level_mark))

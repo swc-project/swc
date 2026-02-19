@@ -386,6 +386,7 @@ test!(
             decorators(decorators::Config {
                 legacy: true,
                 emit_metadata: false,
+                emit_coverage_ignores: false,
                 use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),
@@ -418,6 +419,7 @@ test!(
             decorators(decorators::Config {
                 legacy: true,
                 emit_metadata: false,
+                emit_coverage_ignores: false,
                 use_define_for_class_fields: false,
             }),
             resolver(unresolved_mark, top_level_mark, false),

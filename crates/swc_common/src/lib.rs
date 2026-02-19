@@ -42,7 +42,7 @@ pub use self::{
     pos::{
         hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
         SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, Spanned, SyntaxContext,
-        DUMMY_SP, GLOBALS, NO_EXPANSION,
+        COVERAGE_IGNORE_SP, DUMMY_SP, GLOBALS, NO_EXPANSION,
     },
     source_map::{FileLines, FileLoader, FilePathMapping, SourceMap, SpanSnippetError},
     syntax_pos::LineCol,

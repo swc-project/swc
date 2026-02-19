@@ -21,9 +21,10 @@ enum EnumKind {
     Num,
 }
 
-pub(super) fn new(metadata: bool) -> TscDecorator {
+pub(super) fn new(metadata: bool, emit_coverage_ignores: bool) -> TscDecorator {
     TscDecorator {
         metadata,
+        emit_coverage_ignores,
         enums: Default::default(),
         vars: Default::default(),
         appended_exprs: Default::default(),
@@ -37,6 +38,7 @@ pub(super) fn new(metadata: bool) -> TscDecorator {
 
 pub(super) struct TscDecorator {
     metadata: bool,
+    emit_coverage_ignores: bool,
 
     enums: FxHashMap<Atom, EnumKind>,
 
@@ -270,7 +272,11 @@ impl VisitMut for TscDecorator {
         if self.metadata {
             let i = self.class_name.clone();
 
-            n.visit_mut_with(&mut Metadata::new(&self.enums, i.as_ref()));
+            n.visit_mut_with(&mut Metadata::new(
+                &self.enums,
+                i.as_ref(),
+                self.emit_coverage_ignores,
+            ));
         }
 
         n.visit_mut_children_with(self);

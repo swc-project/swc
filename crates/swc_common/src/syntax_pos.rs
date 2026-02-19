@@ -93,6 +93,12 @@ pub const PURE_SP: Span = Span {
     hi: BytePos::PURE,
 };
 
+/// Coverage-ignore span, will emit `/* istanbul ignore next */` in codegen.
+pub const COVERAGE_IGNORE_SP: Span = Span {
+    lo: BytePos::COVERAGE_IGNORE,
+    hi: BytePos::COVERAGE_IGNORE,
+};
+
 /// Used for some special cases. e.g. mark the generated AST.
 pub const PLACEHOLDER_SP: Span = Span {
     lo: BytePos::PLACEHOLDER,
@@ -547,6 +553,11 @@ impl Span {
     #[inline]
     pub fn is_pure(self) -> bool {
         self.lo.is_pure()
+    }
+
+    #[inline]
+    pub fn is_coverage_ignore(self) -> bool {
+        self.lo.is_coverage_ignore()
     }
 
     #[inline]
@@ -1155,6 +1166,8 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for BytePos {
 }
 
 impl BytePos {
+    /// Reserved for coverage ignore comments. e.g. `/* istanbul ignore next */`
+    pub const COVERAGE_IGNORE: Self = BytePos(u32::MAX - 3);
     /// Dummy position. This is reserved for synthesized spans.
     pub const DUMMY: Self = BytePos(0);
     const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
@@ -1178,6 +1191,10 @@ impl BytePos {
 
     pub const fn is_pure(self) -> bool {
         self.0 == Self::PURE.0
+    }
+
+    pub const fn is_coverage_ignore(self) -> bool {
+        self.0 == Self::COVERAGE_IGNORE.0
     }
 
     pub const fn is_placeholder(self) -> bool {

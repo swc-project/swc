@@ -59,7 +59,10 @@ mod legacy;
 /// ```
 pub fn decorators(c: Config) -> impl Pass {
     if c.legacy {
-        Either::Left(visit_mut_pass(self::legacy::new(c.emit_metadata)))
+        Either::Left(visit_mut_pass(self::legacy::new(
+            c.emit_metadata,
+            c.emit_coverage_ignores,
+        )))
     } else {
         if c.emit_metadata {
             unimplemented!("emitting decorator metadata while using new proposal")
@@ -77,6 +80,8 @@ pub struct Config {
     pub legacy: bool,
     #[serde(default)]
     pub emit_metadata: bool,
+    #[serde(default)]
+    pub emit_coverage_ignores: bool,
 
     pub use_define_for_class_fields: bool,
 }

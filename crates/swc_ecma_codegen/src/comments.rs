@@ -114,6 +114,18 @@ where
             );
         }
 
+        if pos.is_coverage_ignore() {
+            write_comments!(
+                self,
+                false,
+                Some(vec![Comment {
+                    kind: CommentKind::Block,
+                    span: DUMMY_SP,
+                    text: atom!("istanbul ignore next"),
+                }])
+            );
+        }
+
         let comments = match self.comments {
             Some(ref comments) => comments,
             None => return Ok(()),

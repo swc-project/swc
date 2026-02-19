@@ -834,6 +834,7 @@ impl Options {
                     DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
                         legacy: transform.legacy_decorator.into_bool(),
                         emit_metadata: transform.decorator_metadata.into_bool(),
+                        emit_coverage_ignores: transform.hidden.jest.into_bool(),
                         use_define_for_class_fields: !assumptions.set_public_class_fields,
                     })),
                     DecoratorVersion::V202203 => Box::new(

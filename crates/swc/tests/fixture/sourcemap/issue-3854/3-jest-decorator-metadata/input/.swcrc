@@ -1,0 +1,22 @@
+{
+    "test": ".*.ts$",
+    "jsc": {
+        "target": "es2020",
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "externalHelpers": true,
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true,
+            "hidden": {
+                "jest": true
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "sourceMaps": true
+}

@@ -4,7 +4,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
 use swc_common::{
     util::{move_map::MoveMap, take::Take},
-    BytePos, Spanned, DUMMY_SP,
+    BytePos, Spanned, COVERAGE_IGNORE_SP, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -134,6 +134,7 @@ pub(super) struct Metadata<'a> {
     pub(super) enums: EnumMap<'a>,
 
     pub(super) class_name: Option<&'a Ident>,
+    pub(super) emit_coverage_ignores: bool,
 }
 
 impl VisitMut for Metadata<'_> {
@@ -178,7 +179,8 @@ impl VisitMut for Metadata<'_> {
                                 Some(if let Some(kind) = self.enums.get_kind_as_str(ann) {
                                     quote_ident!(kind).as_arg()
                                 } else {
-                                    serialize_type(self.class_name, ann).as_arg()
+                                    serialize_type(self.class_name, ann, self.emit_coverage_ignores)
+                                        .as_arg()
                                 })
                             }
                             ParamOrTsParamProp::Param(p) => {
@@ -186,7 +188,12 @@ impl VisitMut for Metadata<'_> {
                                 Some(if let Some(kind) = self.enums.get_kind_as_str(param_type) {
                                     quote_ident!(kind).as_arg()
                                 } else {
-                                    serialize_type(self.class_name, param_type).as_arg()
+                                    serialize_type(
+                                        self.class_name,
+                                        param_type,
+                                        self.emit_coverage_ignores,
+                                    )
+                                    .as_arg()
                                 })
                             }
                             #[cfg(swc_ast_unknown)]
@@ -214,12 +221,14 @@ impl VisitMut for Metadata<'_> {
                     if let Some(kind) = self.enums.get_kind_as_str(return_type) {
                         quote_ident!(kind).as_arg()
                     } else {
-                        serialize_type(self.class_name, return_type).as_arg()
+                        serialize_type(self.class_name, return_type, self.emit_coverage_ignores)
+                            .as_arg()
                     }
                 }
                 MethodKind::Setter => serialize_type(
                     self.class_name,
                     get_type_ann_of_pat(&m.function.params[0].pat),
+                    self.emit_coverage_ignores,
                 )
                 .as_arg(),
                 #[cfg(swc_ast_unknown)]
@@ -243,7 +252,12 @@ impl VisitMut for Metadata<'_> {
                             Some(if let Some(kind) = self.enums.get_kind_as_str(param_type) {
                                 quote_ident!(kind).as_arg()
                             } else {
-                                serialize_type(self.class_name, param_type).as_arg()
+                                serialize_type(
+                                    self.class_name,
+                                    param_type,
+                                    self.emit_coverage_ignores,
+                                )
+                                .as_arg()
                             })
                         })
                         .collect(),
@@ -267,7 +281,8 @@ impl VisitMut for Metadata<'_> {
                     if let Some(kind) = self.enums.get_kind_as_str(return_type) {
                         quote_ident!(kind).as_arg()
                     } else {
-                        serialize_type(self.class_name, return_type).as_arg()
+                        serialize_type(self.class_name, return_type, self.emit_coverage_ignores)
+                            .as_arg()
                     }
                 },
             );
@@ -286,7 +301,7 @@ impl VisitMut for Metadata<'_> {
             if let Some(kind) = self.enums.get_kind_as_str(prop_type) {
                 quote_ident!(kind).as_arg()
             } else {
-                serialize_type(self.class_name, prop_type).as_arg()
+                serialize_type(self.class_name, prop_type, self.emit_coverage_ignores).as_arg()
             }
         });
         p.decorators.push(dec);
@@ -294,10 +309,15 @@ impl VisitMut for Metadata<'_> {
 }
 
 impl<'a> Metadata<'a> {
-    pub(super) fn new(enums: &'a EnumMapType, class_name: Option<&'a Ident>) -> Self {
+    pub(super) fn new(
+        enums: &'a EnumMapType,
+        class_name: Option<&'a Ident>,
+        emit_coverage_ignores: bool,
+    ) -> Self {
         Self {
             enums: EnumMap(enums),
             class_name,
+            emit_coverage_ignores,
         }
     }
 
@@ -315,7 +335,11 @@ impl<'a> Metadata<'a> {
     }
 }
 
-fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr {
+fn serialize_type(
+    class_name: Option<&Ident>,
+    param: Option<&TsTypeAnn>,
+    emit_coverage_ignores: bool,
+) -> Expr {
     fn check_object_existed(expr: Box<Expr>) -> Box<Expr> {
         match *expr {
             Expr::Member(ref member_expr) => {
@@ -368,7 +392,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         }
     }
 
-    fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {
+    fn serialize_type_ref(class_name: &str, ty: &TsTypeRef, emit_coverage_ignores: bool) -> Expr {
         match &ty.type_name {
             // We should omit references to self (class) since it will throw a ReferenceError at
             // runtime due to babel transpile output.
@@ -387,7 +411,11 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         // fallback is just `Object`.
 
         CondExpr {
-            span: DUMMY_SP,
+            span: if emit_coverage_ignores {
+                COVERAGE_IGNORE_SP
+            } else {
+                DUMMY_SP
+            },
             test: check_object_existed(Box::new(member_expr.clone())),
             cons: Box::new(quote_ident!("Object").into()),
             alt: Box::new(member_expr),
@@ -395,7 +423,11 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         .into()
     }
 
-    fn serialize_type_list(class_name: &str, types: &[Box<TsType>]) -> Expr {
+    fn serialize_type_list(
+        class_name: &str,
+        types: &[Box<TsType>],
+        emit_coverage_ignores: bool,
+    ) -> Expr {
         let mut u = None;
         for ty in types {
             // Skip parens if need be
@@ -428,7 +460,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 _ => {}
             }
 
-            let item = serialize_type_node(class_name, ty);
+            let item = serialize_type_node(class_name, ty, emit_coverage_ignores);
 
             // One of the individual is global object, return immediately
             if item.is_ident_ref_to("Object") {
@@ -465,7 +497,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         }
     }
 
-    fn serialize_type_node(class_name: &str, ty: &TsType) -> Expr {
+    fn serialize_type_node(class_name: &str, ty: &TsType, emit_coverage_ignores: bool) -> Expr {
         let span = ty.span();
         match ty {
             TsType::TsKeywordType(TsKeywordType {
@@ -485,7 +517,9 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 ..
             }) => *Expr::undefined(span),
 
-            TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &ty.type_ann),
+            TsType::TsParenthesizedType(ty) => {
+                serialize_type_node(class_name, &ty.type_ann, emit_coverage_ignores)
+            }
 
             TsType::TsFnOrConstructorType(_) => quote_ident!("Function").into(),
 
@@ -521,7 +555,11 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 kind: TsKeywordTypeKind::TsBigIntKeyword,
                 ..
             }) => CondExpr {
-                span: DUMMY_SP,
+                span: if emit_coverage_ignores {
+                    COVERAGE_IGNORE_SP
+                } else {
+                    DUMMY_SP
+                },
                 test: check_object_existed(quote_ident!("BigInt").into()),
                 cons: quote_ident!("Object").into(),
                 alt: quote_ident!("BigInt").into(),
@@ -555,20 +593,22 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
             TsType::TsUnionOrIntersectionType(ty) => match ty {
                 TsUnionOrIntersectionType::TsUnionType(ty) => {
-                    serialize_type_list(class_name, &ty.types)
+                    serialize_type_list(class_name, &ty.types, emit_coverage_ignores)
                 }
                 TsUnionOrIntersectionType::TsIntersectionType(ty) => {
-                    serialize_type_list(class_name, &ty.types)
+                    serialize_type_list(class_name, &ty.types, emit_coverage_ignores)
                 }
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
 
-            TsType::TsConditionalType(ty) => {
-                serialize_type_list(class_name, &[ty.true_type.clone(), ty.false_type.clone()])
-            }
+            TsType::TsConditionalType(ty) => serialize_type_list(
+                class_name,
+                &[ty.true_type.clone(), ty.false_type.clone()],
+                emit_coverage_ignores,
+            ),
 
-            TsType::TsTypeRef(ty) => serialize_type_ref(class_name, ty),
+            TsType::TsTypeRef(ty) => serialize_type_ref(class_name, ty, emit_coverage_ignores),
 
             _ => panic!("Bad type for decorator: {ty:?}"),
         }
@@ -579,7 +619,11 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
         None => return *Expr::undefined(DUMMY_SP),
     };
 
-    serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), param)
+    serialize_type_node(
+        class_name.map(|v| &*v.sym).unwrap_or(""),
+        param,
+        emit_coverage_ignores,
+    )
 }
 
 fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {

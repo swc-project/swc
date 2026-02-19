@@ -3925,6 +3925,7 @@ test_exec!(
         Config {
             legacy: true,
             emit_metadata: true,
+            emit_coverage_ignores: false,
             use_define_for_class_fields: false,
         }
     ),
@@ -3958,6 +3959,7 @@ fn fixture_exec(input: PathBuf) {
                 decorators(Config {
                     legacy: true,
                     emit_metadata: true,
+                    emit_coverage_ignores: false,
                     use_define_for_class_fields: false,
                 }),
                 strip(unresolved_mark, top_level_mark),
@@ -3983,6 +3985,7 @@ fn legacy_only(input: PathBuf) {
                 decorators(Config {
                     legacy: true,
                     emit_metadata: false,
+                    emit_coverage_ignores: false,
                     use_define_for_class_fields: false,
                 }),
             )
@@ -4008,6 +4011,7 @@ fn legacy_metadata(input: PathBuf) {
                 decorators(Config {
                     legacy: true,
                     emit_metadata: true,
+                    emit_coverage_ignores: false,
                     use_define_for_class_fields: false,
                 }),
             )

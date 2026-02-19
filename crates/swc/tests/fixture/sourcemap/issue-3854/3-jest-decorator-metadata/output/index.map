@@ -1,0 +1,14 @@
+{
+  "mappings": ";;;;+BAGaA;;;eAAAA;;;;;;;wBAHU;4BACI;AAEpB,MAAMA;IACT,YACI,AACiBC,UAAsB,CACzC;;aADmBA,aAAAA;IAClB;AACP",
+  "names": [
+    "AppController",
+    "appService"
+  ],
+  "sources": [
+    "../input/index.ts"
+  ],
+  "sourcesContent": [
+    "import { Inject } from \"@nestjs/common\";\nimport { AppService } from \"./app.service\";\n\nexport class AppController {\n    constructor(\n        @Inject(AppService)\n        private readonly appService: AppService\n    ) {}\n}\n"
+  ],
+  "version": 3
+}

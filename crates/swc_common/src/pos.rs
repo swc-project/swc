@@ -2,8 +2,8 @@ use std::{borrow::Cow, rc::Rc, sync::Arc};
 
 pub use crate::syntax_pos::{
     hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
-    SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, SyntaxContext, DUMMY_SP,
-    GLOBALS, NO_EXPANSION,
+    SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, SyntaxContext,
+    COVERAGE_IGNORE_SP, DUMMY_SP, GLOBALS, NO_EXPANSION,
 };
 
 ///
