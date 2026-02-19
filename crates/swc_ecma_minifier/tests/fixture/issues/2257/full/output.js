@@ -12064,24 +12064,46 @@
                                 let index = result.length;
                                 return void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                     ...result,
-                                    encode(key, options) + "[" + index + "]"
+                                    [
+                                        encode(key, options),
+                                        "[",
+                                        index,
+                                        "]"
+                                    ].join("")
                                 ] : [
                                     ...result,
-                                    encode(key, options) + "[" + encode(index, options) + "]=" + encode(value, options)
+                                    [
+                                        encode(key, options),
+                                        "[",
+                                        encode(index, options),
+                                        "]=",
+                                        encode(value, options)
+                                    ].join("")
                                 ];
                             };
                     case "bracket":
                         return (key)=>(result, value)=>void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                     ...result,
-                                    encode(key, options) + "[]"
+                                    [
+                                        encode(key, options),
+                                        "[]"
+                                    ].join("")
                                 ] : [
                                     ...result,
-                                    encode(key, options) + "[]=" + encode(value, options)
+                                    [
+                                        encode(key, options),
+                                        "[]=",
+                                        encode(value, options)
+                                    ].join("")
                                 ];
                     case "comma":
                     case "separator":
                         return (key)=>(result, value)=>null == value || 0 === value.length ? result : 0 === result.length ? [
-                                    encode(key, options) + "=" + encode(value, options)
+                                    [
+                                        encode(key, options),
+                                        "=",
+                                        encode(value, options)
+                                    ].join("")
                                 ] : [
                                     [
                                         result,
@@ -12094,7 +12116,11 @@
                                     encode(key, options)
                                 ] : [
                                     ...result,
-                                    encode(key, options) + "=" + encode(value, options)
+                                    [
+                                        encode(key, options),
+                                        "=",
+                                        encode(value, options)
+                                    ].join("")
                                 ];
                 }
             }(options), objectCopy = {};

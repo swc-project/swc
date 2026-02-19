@@ -57,6 +57,27 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
     }
 }
 
+fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    if is_pure_undefined(expr_ctx, expr) || matches!(expr, Expr::Lit(Lit::Null(..))) {
+        return true;
+    }
+
+    match expr {
+        Expr::Paren(ParenExpr { expr, .. }) => may_evaluate_to_nullish(expr_ctx, expr),
+        Expr::Seq(SeqExpr { exprs, .. }) => match exprs.last() {
+            Some(last) => may_evaluate_to_nullish(expr_ctx, last),
+            None => false,
+        },
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_evaluate_to_nullish(expr_ctx, cons) || may_evaluate_to_nullish(expr_ctx, alt)
+        }
+        _ => matches!(
+            expr.get_type(expr_ctx),
+            Value::Known(Type::Undefined | Type::Null) | Value::Unknown
+        ),
+    }
+}
+
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
     let mut exprs = Vec::new();
 
@@ -767,6 +788,17 @@ impl Pure<'_> {
         let is_string_concat = separator.is_empty();
 
         if is_string_concat {
+            if !self.options.unsafe_passes
+                && groups.iter().any(|group| match group {
+                    GroupType::Literals(_) => false,
+                    GroupType::Expression(expr) => {
+                        may_evaluate_to_nullish(self.expr_ctx, &expr.expr)
+                    }
+                })
+            {
+                return None;
+            }
+
             // Convert to string concatenation
             let mut result_parts = Vec::new();
 
