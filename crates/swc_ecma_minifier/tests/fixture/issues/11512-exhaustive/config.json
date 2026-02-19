@@ -1,0 +1,10 @@
+{
+    "inline": 3,
+    "unused": false,
+    "side_effects": false,
+    "reduce_vars": false,
+    "evaluate": false,
+    "collapse_vars": false,
+    "keep_fargs": false,
+    "passes": 1
+}
