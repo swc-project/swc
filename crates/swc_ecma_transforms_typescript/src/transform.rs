@@ -64,6 +64,7 @@ pub(crate) struct Transform {
     is_lhs: bool,
 
     ref_rewriter: Option<RefRewriter<ExportQuery>>,
+    namespace_exported_symbols: FxHashMap<Id, FxHashSet<Atom>>,
 
     decl_id_record: FxHashSet<Id>,
     namespace_id: Option<Id>,
@@ -114,6 +115,17 @@ impl VisitMut for Transform {
     );
 
     fn visit_mut_program(&mut self, node: &mut Program) {
+        if !self.semantic.exported_binding.is_empty() {
+            for (id, namespace_id) in &self.semantic.exported_binding {
+                if let Some(namespace_id) = namespace_id {
+                    self.namespace_exported_symbols
+                        .entry(namespace_id.clone())
+                        .or_default()
+                        .insert(id.0.clone());
+                }
+            }
+        }
+
         if !self.semantic.exported_binding.is_empty() {
             self.ref_rewriter = Some(RefRewriter {
                 query: ExportQuery {
@@ -1062,7 +1074,7 @@ impl Transform {
             unreachable!();
         };
 
-        let body = Self::transform_ts_namespace_body(module_ident.to_id(), body);
+        let body = self.transform_ts_namespace_body(module_ident.to_id(), body);
 
         let init_arg = InitArg {
             id: &module_ident,
@@ -1077,7 +1089,7 @@ impl Transform {
         FoldedDecl::Expr(ExprStmt { span, expr }.into())
     }
 
-    fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
+    fn transform_ts_namespace_body(&self, id: Id, body: TsNamespaceBody) -> BlockStmt {
         let TsNamespaceDecl {
             span,
             declare,
@@ -1086,7 +1098,7 @@ impl Transform {
             body,
         } = match body {
             TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-                return Self::transform_ts_module_block(id, ts_module_block);
+                return self.transform_ts_module_block(id, ts_module_block);
             }
             TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
             #[cfg(swc_ast_unknown)]
@@ -1096,7 +1108,7 @@ impl Transform {
         debug_assert!(!declare);
         debug_assert!(!global);
 
-        let body = Self::transform_ts_namespace_body(local_name.to_id(), *body);
+        let body = self.transform_ts_namespace_body(local_name.to_id(), *body);
 
         let init_arg = InitArg {
             id: &local_name,
@@ -1143,7 +1155,10 @@ impl Transform {
     ///
     /// NS.b = init;
     /// ```
-    fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock) -> BlockStmt {
+    fn transform_ts_module_block(&self, id: Id, mut ts_module_block: TsModuleBlock) -> BlockStmt {
+        self.rewrite_namespace_export_ref(&id, &mut ts_module_block);
+
+        let TsModuleBlock { span, body } = ts_module_block;
         let mut stmts = Vec::new();
 
         for module_item in body {
@@ -1271,6 +1286,20 @@ impl Transform {
             stmts,
             ..Default::default()
         }
+    }
+
+    fn rewrite_namespace_export_ref(&self, namespace_id: &Id, module_block: &mut TsModuleBlock) {
+        let Some(exported_symbols) = self.namespace_exported_symbols.get(namespace_id) else {
+            return;
+        };
+
+        module_block.visit_mut_with(&mut RefRewriter {
+            query: NamespaceExportQuery {
+                exported_symbols,
+                namespace_id,
+                unresolved_ctxt: self.unresolved_ctxt,
+            },
+        });
     }
 }
 
@@ -1695,6 +1724,46 @@ impl QueryRef for ExportQuery {
                 }
                 .into()
             })
+    }
+}
+
+struct NamespaceExportQuery<'a> {
+    exported_symbols: &'a FxHashSet<Atom>,
+    namespace_id: &'a Id,
+    unresolved_ctxt: SyntaxContext,
+}
+
+impl QueryRef for NamespaceExportQuery<'_> {
+    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
+        if ident.ctxt == self.unresolved_ctxt && self.exported_symbols.contains(&ident.sym) {
+            return Some(
+                self.namespace_id
+                    .clone()
+                    .make_member(ident.clone().into())
+                    .into(),
+            );
+        }
+
+        None
+    }
+
+    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
+        self.query_ref(ident)
+    }
+
+    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
+        if self.query_ref(ident).is_some() {
+            return Some(
+                JSXMemberExpr {
+                    span: DUMMY_SP,
+                    obj: JSXObject::Ident(self.namespace_id.clone().into()),
+                    prop: ident.clone().into(),
+                }
+                .into(),
+            );
+        }
+
+        None
     }
 }
 
