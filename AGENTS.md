@@ -25,6 +25,14 @@
 -   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
 -   When instructed to fix tests, do not remove or modify existing tests.
 
+### Fixture Test Common Guide
+
+- Add new coverage by extending existing fixture suites instead of adding ad-hoc inline tests.
+- Find the exact fixture harness before adding files with: `rg -n "#\[(testing::)?fixture\(" tests src --glob "*.rs"`.
+- Keep each suite's naming conventions (for example: input.*, output.*, exec.*, .ans).
+- For snapshot-style tests, update expected outputs with `UPDATE=1 cargo test -p ...` using the exact crate command documented in each crate's AGENTS.md.
+- Always rerun the same crate tests without `UPDATE` before finishing.
+
 ## Verification
 
 -   Before finishing a task, always run this baseline locally.
