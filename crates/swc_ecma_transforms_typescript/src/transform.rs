@@ -1752,6 +1752,10 @@ impl QueryRef for NamespaceExportQuery<'_> {
     }
 
     fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
+        if ident.sym.starts_with(|c: char| c.is_ascii_lowercase()) {
+            return None;
+        }
+
         if self.query_ref(ident).is_some() {
             return Some(
                 JSXMemberExpr {
