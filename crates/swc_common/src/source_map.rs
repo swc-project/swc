@@ -1418,10 +1418,102 @@ pub fn build_source_map(
 
     if let Some(mut orig) = orig {
         orig.adjust_mappings(&map);
-        return orig;
+        return stabilize_mappings_with_same_dst(orig);
     }
 
     map
+}
+
+#[cfg(feature = "sourcemap")]
+fn stabilize_mappings_with_same_dst(mut map: swc_sourcemap::SourceMap) -> swc_sourcemap::SourceMap {
+    let mut tokens = map
+        .tokens()
+        .map(|token| token.get_raw_token())
+        .collect::<Vec<_>>();
+
+    if tokens.len() < 2 {
+        return map;
+    }
+
+    let has_duplicate_dst = tokens.windows(2).any(|window| {
+        let a = window[0];
+        let b = window[1];
+        a.dst_line == b.dst_line && a.dst_col == b.dst_col
+    });
+    if !has_duplicate_dst {
+        return map;
+    }
+
+    let mut start = 0;
+    while start < tokens.len() {
+        let mut end = start + 1;
+        while end < tokens.len()
+            && tokens[start].dst_line == tokens[end].dst_line
+            && tokens[start].dst_col == tokens[end].dst_col
+        {
+            end += 1;
+        }
+
+        if end - start > 1 {
+            tokens[start..end].sort_unstable_by(|a, b| {
+                b.src_line
+                    .cmp(&a.src_line)
+                    .then_with(|| b.src_col.cmp(&a.src_col))
+                    .then_with(|| b.src_id.cmp(&a.src_id))
+                    .then_with(|| b.name_id.cmp(&a.name_id))
+            });
+        }
+
+        start = end;
+    }
+
+    let mut builder = SourceMapBuilder::new(map.get_file().cloned());
+
+    let mut source_id_map = Vec::with_capacity(map.get_source_count() as usize);
+    for source in map.sources() {
+        source_id_map.push(builder.add_source(source.clone()));
+    }
+    for (old_source_id, source_content) in map.source_contents().enumerate() {
+        let Some(&new_source_id) = source_id_map.get(old_source_id) else {
+            continue;
+        };
+        builder.set_source_contents(new_source_id, source_content.cloned());
+    }
+    for old_source_id in map.ignore_list() {
+        if let Some(&new_source_id) = source_id_map.get(*old_source_id as usize) {
+            builder.add_to_ignore_list(new_source_id);
+        }
+    }
+
+    let mut name_id_map = Vec::with_capacity(map.names().count());
+    for name in map.names() {
+        name_id_map.push(builder.add_name(name.clone()));
+    }
+
+    for token in tokens {
+        let source_id = if token.src_id == !0 {
+            None
+        } else {
+            source_id_map.get(token.src_id as usize).copied()
+        };
+        let name_id = if token.name_id == !0 {
+            None
+        } else {
+            name_id_map.get(token.name_id as usize).copied()
+        };
+
+        builder.add_raw(
+            token.dst_line,
+            token.dst_col,
+            token.src_line,
+            token.src_col,
+            source_id,
+            name_id,
+            token.is_range,
+        );
+    }
+
+    builder.into_sourcemap()
 }
 
 impl SourceMapper for SourceMap {

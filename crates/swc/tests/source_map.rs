@@ -16,6 +16,7 @@ use swc::{
     },
     Compiler,
 };
+use swc_ecma_minifier::js::JsMinifyOptions;
 use swc_ecma_parser::Syntax;
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
@@ -534,4 +535,99 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
 
         Ok(())
     });
+}
+
+#[test]
+fn issue_10504() {
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let input = r#""use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+let foo = 'foo';
+let boo = 'boo';
+let bar = 'bar';
+let baz = 'baz';
+foo += bar;
+eval("function hi(name) { return `Hi ${name}` } hi('world!')");
+const key = 'key';
+const obj = Object.create(null);
+const dynamic = 'somedynamickey';
+switch (key) {
+    case obj[dynamic]:
+    case dynamic:
+    case 'literal':
+}
+const abc = boo + baz;
+const def = boo == baz;
+const ghi = boo === baz;
+const jkl = boo != baz;
+const mno = boo !== baz;
+const word = 'world';
+const str = `hello ${word}`;
+"#;
+        let mappings = ";;AAIA,IAAI,GAAG,GAAG,KAAK,CAAC;AAChB,IAAI,GAAG,GAAG,KAAK,CAAC;AAChB,IAAI,\
+                        GAAG,GAAG,KAAK,CAAC;AAChB,IAAI,GAAG,GAAG,KAAK,CAAC;AAEhB,GAAG,IAAI,GAAG,\
+                        CAAC;AAEX,IAAI,CAAC,wDAAwD,CAAC,CAAC;AAE/D,MAAM,GAAG,GAAW,KAAK,CAAC;AAC1B,\
+                        MAAM,GAAG,GAAa,MAAM,CAAC,MAAM,CAAC,IAAI,CAAC,CAAA;AACzC,MAAM,OAAO,GAAG,\
+                        gBAAgB,CAAC;AAEjC,QAAQ,GAAG,EAAE,CAAC;IACZ,KAAK,GAAG,CAAC,OAAO,CAAC,CAAC;\
+                        IAClB,KAAK,OAAO,CAAC;IACb,KAAK,SAAS,CAAC;AACjB,CAAC;AAED,MAAM,GAAG,GAAG,\
+                        GAAG,GAAG,GAAG,CAAC;AACtB,MAAM,GAAG,GAAG,GAAG,IAAI,GAAG,CAAC;AACvB,MAAM,\
+                        GAAG,GAAG,GAAG,KAAK,GAAG,CAAC;AACxB,MAAM,GAAG,GAAG,GAAG,IAAI,GAAG,CAAC;\
+                        AACvB,MAAM,GAAG,GAAG,GAAG,KAAK,GAAG,CAAC;AAExB,MAAM,IAAI,GAAG,OAAO,CAAC;\
+                        AACrB,MAAM,GAAG,GAAG,SAAS,IAAI,EAAE,CAAC";
+
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./typescript.js".into()).into(),
+            input,
+        );
+
+        let config: JsMinifyOptions = serde_json::from_value(serde_json::json!({
+            "compress": {
+                "defaults": false
+            },
+            "sourceMap": {
+                "content": {
+                    "version": 3,
+                    "file": "typescript.js",
+                    "sourceRoot": "",
+                    "sources": ["../src/typescript.ts"],
+                    "names": [],
+                    "mappings": mappings
+                }
+            }
+        }))
+        .unwrap();
+
+        let output = c.minify(fm, &handler, &config, Default::default()).unwrap();
+        let map = output.map.expect("minify should emit source map");
+        let source_map =
+            swc_sourcemap::SourceMap::from_slice(map.as_bytes()).expect("invalid source map");
+
+        let foo_col = output.code.find("foo+=bar").expect("missing `foo+=bar`") as u32;
+        let foo_token = source_map
+            .lookup_token(0, foo_col)
+            .expect("missing `foo+=bar` token");
+        assert_eq!(foo_token.get_src(), (9, 0));
+
+        let key_col = output
+            .code
+            .find("const key=")
+            .expect("missing `const key=`") as u32;
+        let key_token = source_map
+            .lookup_token(0, key_col)
+            .expect("missing `const key=` token");
+        assert_eq!(key_token.get_src(), (13, 0));
+
+        let abc_col = output
+            .code
+            .find("const abc=")
+            .expect("missing `const abc=`") as u32;
+        let abc_token = source_map
+            .lookup_token(0, abc_col)
+            .expect("missing `const abc=` token");
+        assert_eq!(abc_token.get_src(), (23, 0));
+
+        Ok(())
+    })
+    .unwrap();
 }
