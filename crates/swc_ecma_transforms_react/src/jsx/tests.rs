@@ -834,6 +834,92 @@ test!(
 text</span>;"#
 );
 
+// Non-first lines should still trim plain leading whitespace.
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_trim_non_first_line_leading_whitespace_before_entity,
+    r#"const x = <span>
+ &#8226; text
+</span>;"#
+);
+
+// Non-first lines should preserve leading whitespace if it comes from entities.
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_non_first_line_entity_leading_whitespace,
+    r#"const x = <span>
+&#32;&#8226; text
+</span>;"#
+);
+
+// Intermediate lines should trim plain trailing whitespace.
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_trim_intermediate_line_trailing_plain_whitespace_after_entity,
+    r#"const x = <span>
+&#8226; 
+text
+</span>;"#
+);
+
+// Intermediate lines should preserve trailing whitespace from entities.
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_intermediate_line_trailing_entity_whitespace,
+    r#"const x = <span>
+&#8226;&#32;
+text
+</span>;"#
+);
+
+// Final lines should trim plain leading whitespace.
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_trim_final_line_leading_plain_whitespace_before_entity,
+    r#"const x = <span>
+foo
+ &#8226;</span>;"#
+);
+
+// Final lines should preserve leading whitespace when it comes from entities.
+test!(
+    module,
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
+    react_should_preserve_final_line_leading_entity_whitespace_before_entity_char,
+    r#"const x = <span>
+foo
+&#32;&#8226;</span>;"#
+);
+
 test!(
     module,
     // Comments are currently stripped out
@@ -1065,6 +1151,71 @@ fn jsx_text() {
     assert_eq!(
         jsx_text_to_str("\t Hello \t\n\t world \t"),
         *"\t Hello world \t"
+    );
+}
+
+#[test]
+fn jsx_text_with_raw_entity_whitespace_matrix() {
+    fn convert(value: &str, raw: &str) -> String {
+        let value: Atom = value.into();
+        let raw: Atom = raw.into();
+
+        jsx_text_to_str_with_raw(&value, &raw)
+            .to_string_lossy()
+            .into_owned()
+    }
+
+    let cases = [
+        // Single line keeps all whitespace.
+        (" • ", " &#8226; ", " • "),
+        // First line keeps plain leading whitespace (issue #11541).
+        (" •\ntext", " &#8226;\ntext", " • text"),
+        (" •\rtext", " &#8226;\rtext", " • text"),
+        (" •\r\ntext", " &#8226;\r\ntext", " • text"),
+        // Non-first line trims plain leading whitespace.
+        ("\n • text", "\n &#8226; text", "• text"),
+        // Non-first line keeps leading whitespace from entity.
+        ("\n • text", "\n&#32;&#8226; text", " • text"),
+        // Intermediate line trims plain trailing whitespace.
+        ("• \ntext", "&#8226; \ntext", "• text"),
+        // Intermediate line keeps trailing whitespace from entity.
+        ("• \ntext", "&#8226;&#32;\ntext", "•  text"),
+        // Final line trims plain leading whitespace in multiline input.
+        ("foo\n •", "foo\n &#8226;", "foo •"),
+        // Final line keeps leading whitespace from entity in multiline input.
+        ("foo\n •", "foo\n&#32;&#8226;", "foo  •"),
+        // Entity-only middle line should be preserved.
+        ("\n \n", "\n&#32;\n", " "),
+    ];
+
+    for (value, raw, expected) in cases {
+        assert_eq!(
+            convert(value, raw),
+            expected,
+            "value={value:?}, raw={raw:?}"
+        );
+    }
+}
+
+#[test]
+fn build_entity_mask_valid_invalid_and_numeric_entities() {
+    assert_eq!(
+        build_entity_mask("a • b", "a &#8226; b"),
+        vec![false, false, true, false, false]
+    );
+    assert_eq!(
+        build_entity_mask("A A A", "A&#32;A&#x20;A"),
+        vec![false, true, false, true, false]
+    );
+    assert_eq!(
+        build_entity_mask("\u{00a0}", "&nbsp;"),
+        vec![true],
+        "named entities should be marked"
+    );
+    assert_eq!(
+        build_entity_mask("&bogus;", "&bogus;"),
+        vec![false; "&bogus;".chars().count()],
+        "invalid entities must not be marked"
     );
 }
 
