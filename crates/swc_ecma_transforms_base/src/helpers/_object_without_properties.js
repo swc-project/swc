@@ -3,7 +3,7 @@ function _object_without_properties(source, excluded) {
 
     var target = {}, sourceKeys, key, i;
     if (typeof Reflect !== "undefined" && Reflect.ownKeys) {
-        sourceKeys = Reflect.ownKeys(source);
+        sourceKeys = Reflect.ownKeys(Object(source));
         for (i = 0; i < sourceKeys.length; i++) {
             key = sourceKeys[i];
             if (excluded.indexOf(key) >= 0) continue;
