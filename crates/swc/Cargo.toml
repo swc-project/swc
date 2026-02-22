@@ -98,7 +98,7 @@ swc_ecma_loader = { version = "18.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "45.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "45.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "34.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
@@ -116,7 +116,7 @@ swc_ecma_transforms_compat = { version = "43.0.0", path = "../swc_ecma_transform
 swc_ecma_transforms_optimization = { version = "39.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
-swc_error_reporters = { version = "20.0.0", path = "../swc_error_reporters" }
+swc_error_reporters = { version = "20.0.1", path = "../swc_error_reporters" }
 swc_node_comments = { version = "18.0.0", path = "../swc_node_comments" }
 swc_plugin_backend_wasmer = { version = "7.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
 swc_plugin_proxy = { version = "20.0.0", path = "../swc_plugin_proxy", optional = true }

@@ -5,6 +5,12 @@
 
 
 
+- **(errors)** Avoid panic on invalid diagnostic spans ([#11561](https://github.com/swc-project/swc/issues/11561)) ([b24b8e0](https://github.com/swc-project/swc/commit/b24b8e0253e4e2db4a36a2180906d65ee89495da))
+
+
+- **(es/helpers)** Fix `_object_without_properties` crash on primitive values ([#11571](https://github.com/swc-project/swc/issues/11571)) ([4f35904](https://github.com/swc-project/swc/commit/4f35904ebfc7d924b75635af4166dd8e2b26c069))
+
+
 - **(es/jsx)** Preserve whitespace before HTML entities ([#11521](https://github.com/swc-project/swc/issues/11521)) ([64be077](https://github.com/swc-project/swc/commit/64be077515ee15501b179ebe523fa68d2c29f905))
 
 
@@ -17,7 +23,19 @@
 - **(es/minifier)** Inline before merge if ([#11526](https://github.com/swc-project/swc/issues/11526)) ([aa5a9ac](https://github.com/swc-project/swc/commit/aa5a9ac3ebae1f2a5775d980da65bc6a1c2574d7))
 
 
+- **(es/minifier)** Preserve array join("") nullish semantics ([#11558](https://github.com/swc-project/swc/issues/11558)) ([d477f61](https://github.com/swc-project/swc/commit/d477f61d85de8d88113e886f5e5d8076192ca76a))
+
+
+- **(es/minifier)** Inline side-effect-free default params ([#11564](https://github.com/swc-project/swc/issues/11564)) ([1babda7](https://github.com/swc-project/swc/commit/1babda721a42de7a85cd0da6f6231f9a67c54bfa))
+
+
 - **(es/parser)** Fix generic arrow function in TSX mode ([#11549](https://github.com/swc-project/swc/issues/11549)) ([366a16b](https://github.com/swc-project/swc/commit/366a16b4a469d61ca816ec8187d3d476a57860d7))
+
+
+- **(es/react)** Preserve first-line leading whitespace with entities ([#11568](https://github.com/swc-project/swc/issues/11568)) ([fc62617](https://github.com/swc-project/swc/commit/fc62617f31707bb464dc167d3317dcc705aecd4c))
+
+
+- **(es/regexp)** Transpile unicode property escapes in RegExp constructor ([#11554](https://github.com/swc-project/swc/issues/11554)) ([476d544](https://github.com/swc-project/swc/commit/476d544f911ea643fcc8434e46aaddd344fa49f8))
 
 ### Features
 
@@ -45,6 +63,15 @@
 
 
 - **(es/minifier)** Add execution tests for issue #11517 ([#11530](https://github.com/swc-project/swc/issues/11530)) ([01b3b64](https://github.com/swc-project/swc/commit/01b3b648114ddb2e1e5ded32856397b996cb9fc2))
+
+### Ci
+
+
+
+- Reset closed issue and PR milestone to Planned ([#11559](https://github.com/swc-project/swc/issues/11559)) ([d5c4ebe](https://github.com/swc-project/swc/commit/d5c4ebe3d991b05697f01d8fb67efe7ad708a1f8))
+
+
+- Add permission ([431c576](https://github.com/swc-project/swc/commit/431c5764b84d43fad0e30d25dcc0a8e049e8beae))
 
 ## [1.15.11] - 2026-01-27
 
@@ -2016,37 +2043,16 @@
 
 
 
-- **(es/compat)** Properly handle rest assignment in for-in/of head ([#10489](https://github.com/swc-project/swc/issues/10489)) ([b9c0446](https://github.com/swc-project/swc/commit/b9c04468f17f0583a132f00daf9d138ce38a9d8b))
-
-
 - **(ts/fast-dts)** Emit `readonly` for Object getter prop ([#10492](https://github.com/swc-project/swc/issues/10492)) ([6c03e20](https://github.com/swc-project/swc/commit/6c03e20a98b239572c29424165d6031207a7340d))
 
 
 - **(ts/fast-dts)** Align object getter/setter emit behavior with TypeScript ([#10502](https://github.com/swc-project/swc/issues/10502)) ([78c754e](https://github.com/swc-project/swc/commit/78c754e7a6057c07db077f2954a11d0eb7eb7276))
-
-### Features
-
-
-
-- Initialize `@swc/react-compiler` ([#10475](https://github.com/swc-project/swc/issues/10475)) ([883b24c](https://github.com/swc-project/swc/commit/883b24c6248fecb223693974951080889bd8827a))
-
-### Performance
-
-
-
-- **(es/renamer)** Merge Id/Def collector ([#10487](https://github.com/swc-project/swc/issues/10487)) ([73377f0](https://github.com/swc-project/swc/commit/73377f09dc83624559f7d1539de59922c42836c9))
-
-
-- **(es/utils)** Stop visiting once found in `EvalFinder` ([#10483](https://github.com/swc-project/swc/issues/10483)) ([3402270](https://github.com/swc-project/swc/commit/3402270edc81838451c7ce3a5cc93ba205d076d6))
 
 ### Refactor
 
 
 
 - **(ecma/transform)** Cleanup rename analyzer ([#10500](https://github.com/swc-project/swc/issues/10500)) ([de51be1](https://github.com/swc-project/swc/commit/de51be1a782af1f22c2ca5ab3ddc5fa187872281))
-
-
-- **(es/parser)** Cleanup usage of `is!` and `bump!` ([#10490](https://github.com/swc-project/swc/issues/10490)) ([b695b68](https://github.com/swc-project/swc/commit/b695b6830e2e7a4d1922fa455d94fe4d912effa4))
 
 
 - **(es/renamer)** Inline `get_unresolved` ([#10493](https://github.com/swc-project/swc/issues/10493)) ([0f5d9c1](https://github.com/swc-project/swc/commit/0f5d9c1ac780b8db83dcaf108aef499157b084c3))

@@ -5661,7 +5661,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "57.0.0"
+version = "57.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6224,7 +6224,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "45.0.0"
+version = "45.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6609,7 +6609,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "41.0.0"
+version = "41.0.1"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",
@@ -6757,7 +6757,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "20.0.0"
+version = "20.0.1"
 dependencies = [
  "anyhow",
  "miette",
