@@ -4,3 +4,5 @@ console.log((1.23).toExponential(undefined));
 console.log((1.23).toPrecision(undefined));
 console.log((1.23).toExponential(...undefined));
 console.log((1.23).toPrecision(...undefined));
+console.log((1.23).toExponential(undefined, ...undefined));
+console.log((1.23).toPrecision(undefined, ...undefined));
