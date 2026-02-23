@@ -10,11 +10,14 @@ use std::{
 };
 
 use anyhow::{Context, Error};
+use base64::prelude::{Engine, BASE64_STANDARD};
+use serde_json::Value;
 use swc::{
     config::{
-        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        Config, InputSourceMap, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options,
+        SourceMapsConfig,
     },
-    Compiler,
+    BoolOrDataConfig, Compiler,
 };
 use swc_ecma_parser::Syntax;
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
@@ -531,6 +534,205 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
                 panic!("Error: {err:#?}");
             }
         }
+
+        Ok(())
+    });
+}
+
+#[test]
+fn source_map_scopes_off_by_default() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./scopes-off.js".into()).into(),
+            "function keep(v) { return v + 1; }",
+        );
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process file");
+
+        let map = output.map.expect("source map should be emitted");
+        let json: Value = serde_json::from_str(&map).expect("invalid source map json");
+        assert!(json.get("scopes").is_none());
+
+        Ok(())
+    });
+}
+
+#[test]
+fn source_map_scopes_enabled_emits_scopes_field() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./scopes-on.js".into()).into(),
+            "function scoped(value) { return value * 2; }",
+        );
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    config: Config {
+                        emit_source_map_scopes: true.into(),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process file");
+
+        let map = output.map.expect("source map should be emitted");
+        let json: Value = serde_json::from_str(&map).expect("invalid source map json");
+        let scopes = json
+            .get("scopes")
+            .and_then(Value::as_str)
+            .expect("source map should include scopes");
+        assert!(!scopes.is_empty());
+
+        swc_sourcemap::SourceMap::from_slice(map.as_bytes())
+            .expect("source map should remain parseable");
+
+        Ok(())
+    });
+}
+
+#[test]
+fn source_map_scopes_are_skipped_for_input_source_maps() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let input_map = r#"{"version":3,"sources":["input.js"],"names":[],"mappings":"AAAA"}"#;
+        let encoded_input_map = BASE64_STANDARD.encode(input_map.as_bytes());
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./scopes-input-map.js".into()).into(),
+            format!(
+                "const value = 1;\n//# \
+                 sourceMappingURL=data:application/json;base64,{encoded_input_map}"
+            ),
+        );
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    config: Config {
+                        emit_source_map_scopes: true.into(),
+                        input_source_map: Some(InputSourceMap::Str("inline".into())),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process file");
+
+        let map = output.map.expect("source map should be emitted");
+        let json: Value = serde_json::from_str(&map).expect("invalid source map json");
+        assert!(json.get("scopes").is_none());
+
+        Ok(())
+    });
+}
+
+#[test]
+fn source_map_scopes_are_emitted_for_inline_source_maps() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./scopes-inline.js".into()).into(),
+            "function wrap(arg) { return arg; }",
+        );
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Str("inline".to_string())),
+                    config: Config {
+                        emit_source_map_scopes: true.into(),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process file");
+
+        assert!(
+            output.map.is_none(),
+            "inline map should be embedded in output code"
+        );
+
+        let marker = "sourceMappingURL=data:application/json;base64,";
+        let encoded = output
+            .code
+            .split_once(marker)
+            .map(|(_, v)| v.trim())
+            .expect("inline source map should be present");
+        let decoded = BASE64_STANDARD
+            .decode(encoded.as_bytes())
+            .expect("inline source map should decode");
+        let json: Value = serde_json::from_slice(&decoded).expect("inline map should be json");
+
+        let scopes = json
+            .get("scopes")
+            .and_then(Value::as_str)
+            .expect("inline source map should include scopes");
+        assert!(!scopes.is_empty());
+
+        Ok(())
+    });
+}
+
+#[test]
+fn source_map_scopes_minify_emits_binding_sections() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./scopes-minify.js".into()).into(),
+            "function add(longName) { return longName + 1; } add(1);",
+        );
+
+        let output = c
+            .minify(
+                fm,
+                &handler,
+                &JsMinifyOptions {
+                    compress: BoolOrDataConfig::from_bool(false),
+                    mangle: BoolOrDataConfig::from_bool(true),
+                    source_map: BoolOrDataConfig::from_bool(true),
+                    emit_source_map_scopes: true,
+                    ..Default::default()
+                },
+                Default::default(),
+            )
+            .expect("failed to minify file");
+
+        let map = output.map.expect("source map should be emitted");
+        let json: Value = serde_json::from_str(&map).expect("invalid source map json");
+        let scopes = json
+            .get("scopes")
+            .and_then(Value::as_str)
+            .expect("minify source map should include scopes");
+
+        assert!(
+            scopes.contains('G'),
+            "scopes should include binding records in minify mode"
+        );
 
         Ok(())
     });

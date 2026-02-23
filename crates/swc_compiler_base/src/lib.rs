@@ -29,6 +29,8 @@ use swc_ecma_parser::{
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
+mod source_map_scopes;
+
 #[cfg(feature = "node")]
 #[napi_derive::napi(object)]
 #[derive(Debug, Serialize)]
@@ -123,6 +125,7 @@ pub struct PrintArgs<'a> {
     pub orig: Option<swc_sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
+    pub emit_source_map_scopes: bool,
     pub preamble: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
     pub output: Option<FxHashMap<String, String>>,
@@ -144,6 +147,7 @@ impl Default for PrintArgs<'_> {
             orig: None,
             comments: None,
             emit_source_map_columns: false,
+            emit_source_map_scopes: false,
             preamble: "",
             codegen_config: Default::default(),
             output: None,
@@ -176,6 +180,7 @@ pub fn print<T>(
         orig,
         comments,
         emit_source_map_columns,
+        emit_source_map_scopes,
         preamble,
         codegen_config,
         output,
@@ -184,7 +189,7 @@ pub fn print<T>(
     }: PrintArgs,
 ) -> Result<TransformOutput, Error>
 where
-    T: Node + VisitWith<IdentCollector>,
+    T: Node + VisitWith<IdentCollector> + 'static,
 {
     let _timer = timer!("Compiler::print");
 
@@ -233,6 +238,8 @@ where
         panic!("The module contains only dummy spans\n{src}");
     }
 
+    let should_emit_source_map_scopes = emit_source_map_scopes && orig.is_none();
+
     let mut map = if source_map.enabled() {
         Some(cm.build_source_map(
             &src_map_buf,
@@ -256,15 +263,40 @@ where
         }
     }
 
+    let mut serialized_map = if source_map.enabled() {
+        let map_ref = map
+            .as_ref()
+            .expect("source map should be present if source map output is enabled");
+
+        let mut map_buf = std::vec::Vec::new();
+        map_ref
+            .to_writer(&mut map_buf)
+            .context("failed to write source map")?;
+        let mut serialized = String::from_utf8(map_buf).context("source map is not utf-8")?;
+
+        if should_emit_source_map_scopes {
+            serialized = source_map_scopes::augment_source_map_with_scopes(
+                cm.clone(),
+                node as &dyn std::any::Any,
+                map_ref,
+                &serialized,
+                source_file_name,
+                output_path.as_deref(),
+            )
+            .context("failed to augment source map with scopes")?;
+        }
+
+        Some(serialized)
+    } else {
+        None
+    };
+
     let (code, map) = match source_map {
         SourceMapsConfig::Bool(v) => {
             if v {
-                let mut buf = std::vec::Vec::new();
-
-                map.unwrap()
-                    .to_writer(&mut buf)
-                    .context("failed to write source map")?;
-                let map = String::from_utf8(buf).context("source map is not utf-8")?;
+                let map = serialized_map
+                    .take()
+                    .expect("source map should be serialized if source maps are enabled");
 
                 if let Some(source_map_url) = source_map_url {
                     src.push_str("\n//# sourceMappingURL=");
@@ -277,12 +309,9 @@ where
             }
         }
         SourceMapsConfig::Str(_) => {
-            let mut buf = std::vec::Vec::new();
-
-            map.unwrap()
-                .to_writer(&mut buf)
-                .context("failed to write source map file")?;
-            let map = String::from_utf8(buf).context("source map is not utf-8")?;
+            let map = serialized_map
+                .take()
+                .expect("source map should be serialized if source maps are enabled");
 
             src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
             BASE64_STANDARD.encode_string(map.as_bytes(), &mut src);

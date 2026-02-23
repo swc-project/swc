@@ -260,6 +260,7 @@ macro_rules! build_print_sync {
                               .clone()
                               .unwrap_or($crate::wasm::SourceMapsConfig::Bool(false)),
                           emit_source_map_columns: opts.config.emit_source_map_columns.into_bool(),
+                          emit_source_map_scopes: opts.config.emit_source_map_scopes.into_bool(),
                           codegen_config: swc_core::ecma::codegen::Config::default()
                               .with_target(opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020))
                               .with_minify(opts.config.minify.into()),

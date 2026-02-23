@@ -40,6 +40,8 @@ export interface JsMinifyOptions {
     outputPath?: string;
 
     inlineSourcesContent?: boolean;
+
+    emitSourceMapScopes?: boolean;
 }
 
 /**
@@ -563,6 +565,8 @@ export interface Config {
     sourceMaps?: boolean | "inline";
 
     inlineSourcesContent?: boolean;
+
+    emitSourceMapScopes?: boolean;
 }
 
 /**

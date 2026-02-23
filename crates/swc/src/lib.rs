@@ -452,7 +452,7 @@ impl Compiler {
     #[allow(clippy::too_many_arguments)]
     pub fn print<T>(&self, node: &T, args: PrintArgs) -> Result<TransformOutput, Error>
     where
-        T: Node + VisitWith<swc_compiler_base::IdentCollector>,
+        T: Node + VisitWith<swc_compiler_base::IdentCollector> + 'static,
     {
         swc_compiler_base::print(self.cm.clone(), node, args)
     }
@@ -925,6 +925,7 @@ impl Compiler {
                     orig,
                     comments: Some(&comments),
                     emit_source_map_columns: opts.emit_source_map_columns,
+                    emit_source_map_scopes: opts.emit_source_map_scopes,
                     preamble: &opts.format.preamble,
                     codegen_config: swc_ecma_codegen::Config::default()
                         .with_target(target)
@@ -1083,6 +1084,7 @@ impl Compiler {
                     orig,
                     comments: config.comments.as_ref().map(|v| v as _),
                     emit_source_map_columns: config.emit_source_map_columns,
+                    emit_source_map_scopes: config.emit_source_map_scopes,
                     preamble: &config.output.preamble,
                     codegen_config: swc_ecma_codegen::Config::default()
                         .with_target(config.target)

@@ -59,6 +59,9 @@ pub struct JsMinifyOptions {
 
     #[serde(default = "true_by_default")]
     pub emit_source_map_columns: bool,
+
+    #[serde(default)]
+    pub emit_source_map_scopes: bool,
 }
 
 fn true_by_default() -> bool {

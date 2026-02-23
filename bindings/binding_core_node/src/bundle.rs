@@ -131,6 +131,7 @@ impl Task for BundleTask {
                                     inline_sources_content: true,
                                     source_map: SourceMapsConfig::Bool(true),
                                     emit_source_map_columns: true,
+                                    emit_source_map_scopes: false,
                                     codegen_config: swc_core::ecma::codegen::Config::default()
                                         .with_target(codegen_target)
                                         .with_minify(minify),

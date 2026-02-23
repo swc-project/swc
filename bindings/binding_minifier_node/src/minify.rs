@@ -199,6 +199,7 @@ fn do_work(
                 orig,
                 comments: Some(&comments),
                 emit_source_map_columns: options.emit_source_map_columns,
+                emit_source_map_scopes: options.emit_source_map_scopes,
                 preamble: &options.format.preamble,
                 codegen_config: swc_core::ecma::codegen::Config::default()
                     .with_target(target)

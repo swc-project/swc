@@ -45,6 +45,7 @@ impl Task for PrintTask {
                             .clone()
                             .unwrap_or(SourceMapsConfig::Bool(false)),
                         emit_source_map_columns: options.config.emit_source_map_columns.into_bool(),
+                        emit_source_map_scopes: options.config.emit_source_map_scopes.into_bool(),
                         codegen_config: swc_core::ecma::codegen::Config::default()
                             .with_target(options.config.jsc.target.unwrap_or(EsVersion::Es2020))
                             .with_minify(options.config.minify.into_bool()),
@@ -106,6 +107,7 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
                     .clone()
                     .unwrap_or(SourceMapsConfig::Bool(false)),
                 emit_source_map_columns: options.config.emit_source_map_columns.into_bool(),
+                emit_source_map_scopes: options.config.emit_source_map_scopes.into_bool(),
                 codegen_config: swc_core::ecma::codegen::Config::default()
                     .with_target(codegen_target)
                     .with_minify(options.config.minify.into_bool()),

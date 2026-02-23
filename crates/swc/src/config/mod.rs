@@ -968,6 +968,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
+            emit_source_map_scopes: cfg.emit_source_map_scopes.into_bool(),
             output: JscOutputConfig {
                 charset,
                 preamble,
@@ -1170,6 +1171,9 @@ pub struct Config {
     pub emit_source_map_columns: BoolConfig<true>,
 
     #[serde(default)]
+    pub emit_source_map_scopes: BoolConfig<false>,
+
+    #[serde(default)]
     pub error: ErrorConfig,
 
     #[serde(default)]
@@ -1292,6 +1296,7 @@ pub struct BuiltInput<P: Pass> {
 
     pub inline_sources_content: bool,
     pub emit_source_map_columns: bool,
+    pub emit_source_map_scopes: bool,
 
     pub output: JscOutputConfig,
     pub emit_assert_for_import_attributes: bool,
@@ -1329,6 +1334,7 @@ where
             preserve_comments: self.preserve_comments,
             inline_sources_content: self.inline_sources_content,
             emit_source_map_columns: self.emit_source_map_columns,
+            emit_source_map_scopes: self.emit_source_map_scopes,
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
             codegen_inline_script: self.codegen_inline_script,
