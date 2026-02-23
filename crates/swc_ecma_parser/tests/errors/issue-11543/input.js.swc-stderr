@@ -1,0 +1,5 @@
+  x Cannot assign to this
+   ,-[$DIR/tests/errors/issue-11543/input.js:1:1]
+ 1 | ({...{}} = {});
+   :   ^^^^^
+   `----

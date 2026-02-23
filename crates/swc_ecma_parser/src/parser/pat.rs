@@ -253,6 +253,13 @@ impl<I: Tokens> Parser<I> {
                                             self.emit_err(span, SyntaxError::DotsWithoutIdentifier);
                                             Pat::Invalid(Invalid { span })
                                         }
+                                    } else if matches!(element_pat_ty, PatType::AssignElement)
+                                        && matches!(&*expr, Expr::Array(..) | Expr::Object(..))
+                                    {
+                                        // Object rest in assignment context requires an assignable
+                                        // reference.
+                                        self.emit_err(span, SyntaxError::NotSimpleAssign);
+                                        Pat::Invalid(Invalid { span })
                                     } else {
                                         self.reparse_expr_as_pat(element_pat_ty, expr)?
                                     };
