@@ -23,6 +23,7 @@
 
 -   Write unit tests for your code.
 -   Prefer fixture tests over inline (`#[test]`) tests.
+-   Before running tests, run `git submodule update --init --recursive` to initialize and update all submodules.
 -   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
 -   When instructed to fix tests, do not remove or modify existing tests.
 
