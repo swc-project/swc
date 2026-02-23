@@ -12,9 +12,10 @@ use std::{
 use anyhow::{Context, Error};
 use swc::{
     config::{
-        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        Config, InputSourceMap, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options,
+        SourceMapsConfig,
     },
-    Compiler,
+    BoolOrDataConfig, Compiler,
 };
 use swc_ecma_parser::Syntax;
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
@@ -451,6 +452,83 @@ fn issue_4578() {
         },
     )
     .unwrap();
+}
+
+#[test]
+fn issue_10504() {
+    fn line_col(needle: &str, haystack: &str) -> Option<(u32, u32)> {
+        let lines = haystack.lines().enumerate();
+        for (i, line) in lines {
+            if let Some(c) = line.find(needle) {
+                return Some((i as _, c as _));
+            }
+        }
+
+        None
+    }
+
+    let path = canonicalize("tests/srcmap/issue-10504/input.js").expect("failed to canonicalize");
+    let input = fs::read_to_string(&path).expect("failed to read input");
+    let input_map = swc_sourcemap::SourceMap::from_slice(
+        &fs::read(path.with_extension("js.map")).expect("failed to read input sourcemap"),
+    )
+    .expect("failed to deserialize input sourcemap");
+    let input_line_col =
+        line_col("let boo = 'boo';", &input).expect("failed to find `let boo = 'boo';` in input");
+    let expected_src = input_map
+        .lookup_token(input_line_col.0, input_line_col.1)
+        .expect("failed to find token in input sourcemap")
+        .get_src();
+
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone());
+
+            let fm = cm.load_file(&path).expect("failed to load file");
+            let result = c.process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    config: Config {
+                        input_source_map: Some(InputSourceMap::Bool(true)),
+                        jsc: JscConfig {
+                            minify: Some(JsMinifyOptions {
+                                compress: BoolOrDataConfig::from_bool(false),
+                                ..Default::default()
+                            }),
+                            ..Default::default()
+                        },
+                        minify: true.into(),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            );
+
+            match result {
+                Ok(result) => {
+                    let map = result.map.expect("missing sourcemap");
+                    let source_map = swc_sourcemap::SourceMap::from_slice(map.as_bytes())
+                        .expect("failed to deserialize output sourcemap");
+                    let output_line_col = line_col("let boo=", &result.code)
+                        .or_else(|| line_col("var boo=", &result.code))
+                        .expect("failed to find `boo` declaration in output");
+
+                    let token = source_map
+                        .lookup_token(output_line_col.0, output_line_col.1)
+                        .expect("failed to find token in output sourcemap");
+                    assert_eq!(token.get_src(), expected_src);
+                }
+                Err(err) => {
+                    panic!("Error: {err:#?}");
+                }
+            }
+
+            Ok(())
+        })
+        .unwrap();
 }
 
 #[test]

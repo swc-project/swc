@@ -1283,7 +1283,84 @@ impl Files for SourceMap {
     }
 }
 
-#[allow(clippy::ptr_arg)]
+#[cfg(feature = "sourcemap")]
+#[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
+fn should_prefer_duplicate_mapping(
+    previous: &swc_sourcemap::RawToken,
+    candidate: &swc_sourcemap::RawToken,
+) -> bool {
+    let previous_is_mapped = previous.src_id != !0;
+    let candidate_is_mapped = candidate.src_id != !0;
+
+    if previous_is_mapped != candidate_is_mapped {
+        return candidate_is_mapped;
+    }
+
+    if (previous.src_line, previous.src_col) != (candidate.src_line, candidate.src_col) {
+        return (candidate.src_line, candidate.src_col) > (previous.src_line, previous.src_col);
+    }
+
+    previous.name_id == !0 && candidate.name_id != !0
+}
+
+#[cfg(feature = "sourcemap")]
+fn dedupe_mappings_with_same_destination(
+    map: swc_sourcemap::SourceMap,
+) -> swc_sourcemap::SourceMap {
+    // Some input source maps (e.g. from tsc) can contain end-of-line markers.
+    // After minification those can collide with the next token start and produce
+    // duplicate destination positions. `lookup_token` returns a single token, so
+    // keep one deterministic winner per destination position.
+    let mut deduped_tokens: Vec<swc_sourcemap::RawToken> =
+        Vec::with_capacity(map.get_token_count() as usize);
+    let mut had_duplicates = false;
+
+    for token in map.tokens() {
+        let raw = token.get_raw_token();
+
+        match deduped_tokens.last_mut() {
+            Some(previous)
+                if previous.dst_line == raw.dst_line && previous.dst_col == raw.dst_col =>
+            {
+                had_duplicates = true;
+
+                if should_prefer_duplicate_mapping(previous, &raw) {
+                    *previous = raw;
+                }
+            }
+            _ => deduped_tokens.push(raw),
+        }
+    }
+
+    if !had_duplicates {
+        return map;
+    }
+
+    let names = map.names().cloned().collect();
+    let sources = map.sources().cloned().collect();
+    let source_contents = map
+        .source_contents()
+        .map(|source| source.cloned())
+        .collect::<Vec<_>>();
+    let source_contents = (!source_contents.is_empty()).then_some(source_contents);
+
+    let mut deduped_map = swc_sourcemap::SourceMap::new(
+        map.get_file().cloned(),
+        deduped_tokens,
+        names,
+        sources,
+        source_contents,
+    );
+
+    deduped_map.set_debug_id(map.get_debug_id());
+
+    for &source_id in map.ignore_list() {
+        deduped_map.add_to_ignore_list(source_id);
+    }
+
+    deduped_map
+}
+
 #[cfg(feature = "sourcemap")]
 #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
 pub fn build_source_map(
@@ -1418,7 +1495,7 @@ pub fn build_source_map(
 
     if let Some(mut orig) = orig {
         orig.adjust_mappings(&map);
-        return orig;
+        return dedupe_mappings_with_same_destination(orig);
     }
 
     map
