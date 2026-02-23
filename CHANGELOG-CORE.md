@@ -2605,9 +2605,6 @@
 
 
 
-- **(ts/fast-dts)** Emit `readonly` for Object getter prop ([#10492](https://github.com/swc-project/swc/issues/10492)) ([6c03e20](https://github.com/swc-project/swc/commit/6c03e20a98b239572c29424165d6031207a7340d))
-
-
 - **(ts/fast-dts)** Align object getter/setter emit behavior with TypeScript ([#10502](https://github.com/swc-project/swc/issues/10502)) ([78c754e](https://github.com/swc-project/swc/commit/78c754e7a6057c07db077f2954a11d0eb7eb7276))
 
 ### Refactor
