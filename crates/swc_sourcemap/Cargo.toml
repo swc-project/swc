@@ -28,3 +28,7 @@ bytes-str = { version = "0.2.4", features = ["serde"] }
 
 [features]
 ram_bundle = ["scroll"]
+
+[dev-dependencies]
+magic_string = "0.3.4"
+proptest = "1.2.0"

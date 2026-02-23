@@ -359,9 +359,11 @@ impl<'a> Iterator for TokenIter<'a> {
     type Item = Token<'a>;
 
     fn next(&mut self) -> Option<Token<'a>> {
-        self.i.get_token(self.next_idx).inspect(|_| {
+        let rv = self.i.get_token(self.next_idx);
+        if rv.is_some() {
             self.next_idx += 1;
-        })
+        }
+        rv
     }
 }
 
@@ -375,9 +377,11 @@ impl<'a> Iterator for SourceIter<'a> {
     type Item = &'a BytesStr;
 
     fn next(&mut self) -> Option<&'a BytesStr> {
-        self.i.get_source(self.next_idx).inspect(|_| {
+        let rv = self.i.get_source(self.next_idx);
+        if rv.is_some() {
             self.next_idx += 1;
-        })
+        }
+        rv
     }
 }
 
@@ -411,9 +415,11 @@ impl<'a> Iterator for NameIter<'a> {
     type Item = &'a BytesStr;
 
     fn next(&mut self) -> Option<&'a BytesStr> {
-        self.i.get_name(self.next_idx).inspect(|_| {
+        let rv = self.i.get_name(self.next_idx);
+        if rv.is_some() {
             self.next_idx += 1;
-        })
+        }
+        rv
     }
 }
 
@@ -466,9 +472,11 @@ impl<'a> Iterator for SourceMapSectionIter<'a> {
     type Item = &'a SourceMapSection;
 
     fn next(&mut self) -> Option<&'a SourceMapSection> {
-        self.i.get_section(self.next_idx).inspect(|_| {
+        let rv = self.i.get_section(self.next_idx);
+        if rv.is_some() {
             self.next_idx += 1;
-        })
+        }
+        rv
     }
 }
 
@@ -1233,17 +1241,19 @@ pub fn adjust_mappings_from_multiple(
         }
         // At this point `self_range.end` > `input_range.start`
 
-        if input_range.is_none_or(|input_range| {
+        if input_range.map_or(true, |input_range| {
             self_range.start >= input_range.end
-                || this.get_source(self_range.value.src_id).is_none_or(|src| {
-                    Some(src) != input_maps[(input_range.map_idx - 1) as usize].file()
-                })
+                || this
+                    .get_source(self_range.value.src_id)
+                    .map_or(true, |src| {
+                        Some(src) != input_maps[(input_range.map_idx - 1) as usize].file()
+                    })
         }) {
             // No input range matches this range, keep the mapping though if this file isn't
             // covered by any input sourcemap
             if this
                 .get_source(self_range.value.src_id)
-                .is_none_or(|f| !covered_input_files.contains(f))
+                .map_or(true, |f| !covered_input_files.contains(f))
             {
                 add_mapping(
                     &mut input_maps,
