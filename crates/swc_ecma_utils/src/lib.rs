@@ -2717,6 +2717,42 @@ fn is_number(expr: &Expr) -> bool {
     matches!(*expr, Expr::Lit(Lit::Num(..)))
 }
 
+fn is_original_big_int_zero(expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { ref expr, .. }) => is_original_big_int_zero(expr),
+        Expr::Lit(Lit::BigInt(BigInt { value, .. })) => value.is_zero(),
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "+"),
+            ref arg,
+            ..
+        }) => is_original_big_int_zero(arg),
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "-"),
+            ref arg,
+            ..
+        }) => is_original_big_int_zero(arg),
+        _ => false,
+    }
+}
+
+fn is_original_big_int(expr: &Expr) -> bool {
+    match *expr {
+        Expr::Paren(ParenExpr { ref expr, .. }) => is_original_big_int(expr),
+        Expr::Lit(Lit::BigInt(..)) => true,
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "+"),
+            ref arg,
+            ..
+        }) => is_original_big_int(arg),
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "-"),
+            ref arg,
+            ..
+        }) => is_original_big_int(arg),
+        _ => false,
+    }
+}
+
 fn is_big_int(expr: &Expr) -> bool {
     matches!(*expr, Expr::Lit(Lit::BigInt(..)))
 }
@@ -3604,22 +3640,19 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Bin(BinExpr {
             left, right, op, ..
         }) => {
-            left.may_have_side_effects(ctx)
-                || right.may_have_side_effects(ctx)
+            left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
                 // Shift operators may have side effects if one of the operands is BigInt.
                 || matches!(
                     op,
-                    op!(">>>") if left.is_big_int() || right.is_big_int()
+                    op!(">>>") if is_original_big_int(left) || is_original_big_int(right)
                 )
                 // Division and remainder may have side effects
                 // if one of the operands is BigInt and the other is not, or if right is zero. 
                 || matches!(
                     op,
-                    op!("/") | op!("%") if left.is_big_int() != right.is_big_int()
-                        || matches!(
-                            right.as_expr(),
-                            Expr::Lit(Lit::BigInt(BigInt{ value, .. })) if value.is_zero()
-                        )
+                    op!("/") | op!("%")
+                        if is_original_big_int(left) != is_original_big_int(right)
+                            || is_original_big_int_zero(right)
                 )
                 // Arithmetic and Bitwise operators may have side effects
                 // if one of the operands is BigInt and the other is not.
@@ -3633,7 +3666,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                         | op!(">>")
                         | op!("^")
                         | op!("&")
-                        | op!("|") if left.is_big_int() != right.is_big_int()
+                        | op!("|") if is_original_big_int(left) != is_original_big_int(right)
                 )
         }
 
