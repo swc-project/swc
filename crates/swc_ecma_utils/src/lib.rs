@@ -735,6 +735,11 @@ pub trait ExprExt {
         is_number(self.as_expr())
     }
 
+    #[inline(always)]
+    fn is_big_int(&self) -> bool {
+        is_big_int(self.as_expr())
+    }
+
     // TODO: remove this after a proper evaluator
     #[inline(always)]
     fn is_str(&self) -> bool {
@@ -2711,6 +2716,10 @@ fn is_number(expr: &Expr) -> bool {
     matches!(*expr, Expr::Lit(Lit::Num(..)))
 }
 
+fn is_big_int(expr: &Expr) -> bool {
+    matches!(*expr, Expr::Lit(Lit::BigInt(..)))
+}
+
 fn is_str(expr: &Expr) -> bool {
     match expr {
         Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
@@ -3591,8 +3600,26 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             op: op!("delete"), ..
         }) => true,
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
-        Expr::Bin(BinExpr { left, right, .. }) => {
-            left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
+        Expr::Bin(BinExpr {
+            left, right, op, ..
+        }) => {
+            left.may_have_side_effects(ctx)
+                || right.may_have_side_effects(ctx)
+                // Arithmetic and Bitwise operators may have side effects if one of the operands is BigInt and the other is not.
+                || (matches!(
+                    op,
+                    op!(bin, "+")
+                        | op!(bin, "-")
+                        | op!("*")
+                        | op!("/")
+                        | op!("%")
+                        | op!("**")
+                        | op!("<<")
+                        | op!(">>")
+                        | op!(">>>")
+                        | op!("&")
+                        | op!("|"),
+                ) && left.is_big_int() != right.is_big_int())
         }
 
         Expr::Member(MemberExpr { obj, prop, .. })
