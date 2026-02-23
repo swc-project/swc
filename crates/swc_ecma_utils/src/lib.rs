@@ -3636,7 +3636,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Bin(BinExpr {
             left, right, op, ..
         }) => {
-            left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
+            (left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
                 // Shift operators may have side effects if one of the operands is BigInt.
                 || matches!(
                     op,
@@ -3663,7 +3663,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                         | op!("^")
                         | op!("&")
                         | op!("|") if is_original_big_int(left) != is_original_big_int(right)
-                )
+                ))
+                || matches!(op, op!("instanceof") | op!("in"))
         }
 
         Expr::Member(MemberExpr { obj, prop, .. })

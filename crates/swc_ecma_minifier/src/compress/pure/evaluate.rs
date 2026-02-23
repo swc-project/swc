@@ -1185,12 +1185,12 @@ fn get_first_arg(args: &Vec<Option<ExprOrSpread>>, expr_ctx: &ExprCtx) -> Option
         .find_map(|arg| {
             if let Some(arg) = arg {
                 if arg.spread.is_some() {
-                    match arg.expr.as_array() {
+                    return match arg.expr.as_array() {
                         Some(args) => {
                             if args.elems.is_empty() {
                                 // next argument is used if the first spread argument is empty
                                 // so we can't evaluate the call.
-                                return None;
+                                None
                             } else {
                                 Some(get_first_arg(&args.elems, expr_ctx))
                             }
