@@ -14,6 +14,7 @@ pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
+use num_traits::identities::Zero;
 use number::ToJsString;
 use once_cell::sync::Lazy;
 use parallel::{Parallel, ParallelExt};
@@ -3610,17 +3611,27 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                     op,
                     op!(">>>") if left.is_big_int() || right.is_big_int()
                 )
-                // Arithmetic and Bitwise operators may have side effects if one of the operands is BigInt and the other is not.
+                // Division and remainder may have side effects
+                // if one of the operands is BigInt and the other is not, or if right is zero. 
+                || matches!(
+                    op,
+                    op!("/") | op!("%") if left.is_big_int() != right.is_big_int()
+                        || matches!(
+                            right.as_expr(),
+                            Expr::Lit(Lit::BigInt(BigInt{ value, .. })) if value.is_zero()
+                        )
+                )
+                // Arithmetic and Bitwise operators may have side effects
+                // if one of the operands is BigInt and the other is not.
                 || matches!(
                     op,
                     op!(bin, "+")
                         | op!(bin, "-")
                         | op!("*")
-                        | op!("/")
-                        | op!("%")
                         | op!("**")
                         | op!("<<")
                         | op!(">>")
+                        | op!("^")
                         | op!("&")
                         | op!("|") if left.is_big_int() != right.is_big_int()
                 )

@@ -25,6 +25,7 @@ concurrent = ["swc_common/concurrent", "par-core/parallel"]
 [dependencies]
 dragonbox_ecma = { workspace = true }
 indexmap       = { workspace = true }
+num-traits     = { workspace = true }
 num_cpus       = { workspace = true }
 once_cell      = { workspace = true }
 par-core       = { workspace = true }
