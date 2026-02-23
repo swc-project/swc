@@ -2722,11 +2722,6 @@ fn is_original_big_int_zero(expr: &Expr) -> bool {
         Expr::Paren(ParenExpr { ref expr, .. }) => is_original_big_int_zero(expr),
         Expr::Lit(Lit::BigInt(BigInt { value, .. })) => value.is_zero(),
         Expr::Unary(UnaryExpr {
-            op: op!(unary, "+"),
-            ref arg,
-            ..
-        }) => is_original_big_int_zero(arg),
-        Expr::Unary(UnaryExpr {
             op: op!(unary, "-"),
             ref arg,
             ..
@@ -2739,11 +2734,7 @@ fn is_original_big_int(expr: &Expr) -> bool {
     match *expr {
         Expr::Paren(ParenExpr { ref expr, .. }) => is_original_big_int(expr),
         Expr::Lit(Lit::BigInt(..)) => true,
-        Expr::Unary(UnaryExpr {
-            op: op!(unary, "+"),
-            ref arg,
-            ..
-        }) => is_original_big_int(arg),
+        // note that +0n is not a big int literal, but -0n is a big int literal.
         Expr::Unary(UnaryExpr {
             op: op!(unary, "-"),
             ref arg,
@@ -3636,6 +3627,11 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Unary(UnaryExpr {
             op: op!("delete"), ..
         }) => true,
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "+"),
+            arg,
+            ..
+        }) if is_original_big_int(arg) => true,
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
         Expr::Bin(BinExpr {
             left, right, op, ..
