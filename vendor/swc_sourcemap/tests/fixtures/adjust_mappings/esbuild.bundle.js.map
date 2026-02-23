@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/bar.js", "../src/foo.js", "../src/index.js"],
+  "sourcesContent": ["export function bar(fn, msg) {\n  fn(msg);\n}\n", "import { bar } from './bar.js';\n\nexport function foo(fn, msg) {\n  bar(fn, msg);\n}\n", "import { foo } from './foo.js';\n\nfunction wat(fn, msg) {\n  foo(fn, msg);\n}\n\nwat(function hello(msg) {\n  throw new Error(msg);\n}, 'boop');\n"],
+  "mappings": "MAAO,SAASA,EAAIC,EAAIC,EAAK,CAC3BD,EAAGC,CAAG,CACR,CCAO,SAASC,EAAIC,EAAIC,EAAK,CAC3BC,EAAIF,EAAIC,CAAG,CACb,CCFA,SAASE,EAAIC,EAAIC,EAAK,CACpBC,EAAIF,EAAIC,CAAG,CACb,CAEAF,EAAI,SAAeE,EAAK,CACtB,MAAM,IAAI,MAAMA,CAAG,CACrB,EAAG,MAAM",
+  "names": ["bar", "fn", "msg", "foo", "fn", "msg", "bar", "wat", "fn", "msg", "foo"]
+}

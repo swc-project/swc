@@ -145,6 +145,11 @@ cbor4ii         = "1.2"
 foldhash        = "0.1"
 precomputed-map = "0.2"
 
+[patch.crates-io]
+# Use inlined swc-sourcemap sources from this repository.
+# Synced from https://github.com/swc-project/swc-sourcemap @ 64fcb47.
+swc_sourcemap = { path = "vendor/swc_sourcemap" }
+
 [workspace.metadata.cargo-shear]
 # `serde` is used when #[ast_node] is expanded
 # the rests are used for enabling features

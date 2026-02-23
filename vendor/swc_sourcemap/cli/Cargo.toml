@@ -1,0 +1,9 @@
+[package]
+name = "cli"
+version = "9.2.2"
+authors = ["Armin Ronacher <armin.ronacher@active-4.com>"]
+edition = "2018"
+
+[dependencies]
+sourcemap = { path = "../" }
+argh = "0.1.3"

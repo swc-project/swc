@@ -1,0 +1,66 @@
+name: CI
+
+
+on:
+  merge_group:
+  pull_request:
+    types: ["opened", "reopened", "synchronize"]
+  push:
+    branches:
+      - main
+
+env:
+  RUSTFLAGS: -Dwarnings
+
+jobs:
+  lints:
+    name: Lints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: rustup toolchain install stable --profile minimal --component rustfmt --component clippy --no-self-update
+
+      - uses: Swatinem/rust-cache@v2
+
+      - run: cargo fmt --all -- --check
+
+      - run: cargo clippy --all-features --workspace --tests --examples -- -D clippy::all
+
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: rustup toolchain install stable --profile minimal --no-self-update
+
+      - uses: Swatinem/rust-cache@v2
+
+      - run: cargo test --workspace
+
+  unit-test-all-features:
+    name: "Unit Tests - all features"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: rustup toolchain install stable --profile minimal --no-self-update
+
+      - uses: Swatinem/rust-cache@v2
+
+      - run: cargo test --workspace --all-features --all-targets
+
+  doc-comments:
+    name: Rust doc comments
+    runs-on: ubuntu-latest
+    env:
+      RUSTDOCFLAGS: -Dwarnings
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: rustup toolchain install stable --profile minimal --component rust-docs --no-self-update
+
+      - uses: Swatinem/rust-cache@v2
+
+      - run: cargo doc --workspace --all-features --document-private-items --no-deps

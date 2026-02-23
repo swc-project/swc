@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {
+      "offset": {
+        "line": 5,
+        "column": 0
+      },
+      "map": {
+        "version": 3,
+        "sources": [
+          "turbopack:///[project]/turbopack/crates/turbopack-tests/tests/snapshot/source_maps/input-source-map-merged/input/sourcemapped.js",
+          "turbopack:///[project]/turbopack/crates/turbopack-tests/tests/snapshot/source_maps/input-source-map-merged/input/index.js"
+        ],
+        "sourcesContent": [
+          "export function runExternalSourceMapped(fn) {\n    return fn();\n}\n//# sourceMappingURL=sourcemapped.js.map",
+          "import { runExternalSourceMapped } from './sourcemapped.js'\n\nrunExternalSourceMapped()\n"
+        ],
+        "names": [],
+        "mappings": ";;;;;AAAO,SAAS,wBAAwB,EAAE;IACtC,OAAO;AACX,EACA,wCAAwC;;ACDxC"
+      }
+    }
+  ]
+}
