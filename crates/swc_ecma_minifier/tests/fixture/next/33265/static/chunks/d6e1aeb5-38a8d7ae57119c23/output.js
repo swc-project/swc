@@ -11097,7 +11097,7 @@
                 try {
                     var muted = Html5.TEST_VID.muted; // in some versions of iOS muted property doesn't always
                     return(// work, so we want to set both property and attribute
-                    Html5.TEST_VID.muted = !muted, Html5.TEST_VID.muted ? setAttribute(Html5.TEST_VID, "muted", "muted") : removeAttribute(Html5.TEST_VID, "muted", "muted"), muted !== Html5.TEST_VID.muted);
+                    Html5.TEST_VID.muted = !muted, Html5.TEST_VID.muted ? setAttribute(Html5.TEST_VID, "muted", "muted") : removeAttribute(Html5.TEST_VID, "muted"), muted !== Html5.TEST_VID.muted);
                 } catch (e) {
                     return !1;
                 }
