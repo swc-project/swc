@@ -21,6 +21,7 @@ console.log(1.23.toPrecision(void 0, 1n / 0n));
 console.log(1.23.toPrecision(void 0, this instanceof 1));
 console.log(1.23.toPrecision(void 0, 1 in 1));
 console.log(1.23.toPrecision(void 0, 1n ** -1n));
+console.log(1.23.toPrecision(void 0, +(1n + 1n)));
 console.log("1.23");
 console.log("1.2");
 console.log("1.23");

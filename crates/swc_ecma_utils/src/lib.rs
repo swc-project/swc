@@ -2755,6 +2755,11 @@ fn is_original_big_int(expr: &Expr) -> bool {
             ref arg,
             ..
         }) => is_original_big_int(arg),
+        Expr::Bin(BinExpr {
+            ref left,
+            ref right,
+            ..
+        }) => is_original_big_int(left) && is_original_big_int(right),
         _ => false,
     }
 }
