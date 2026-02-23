@@ -1181,17 +1181,27 @@ fn may_have_side_effects(args: &Vec<Option<ExprOrSpread>>, expr_ctx: &ExprCtx) -
 }
 
 fn get_first_arg(args: &Vec<Option<ExprOrSpread>>, expr_ctx: &ExprCtx) -> Option<Option<f64>> {
-    args.first().and_then(|arg| {
-        if let Some(arg) = arg {
-            if arg.spread.is_some() {
-                match arg.expr.as_array() {
-                    Some(args) => get_first_arg(&args.elems, expr_ctx),
-                    None => None,
-                };
-            } else if !arg.expr.is_undefined(*expr_ctx) {
-                return Some(eval_as_number(*expr_ctx, &arg.expr));
+    args.iter()
+        .find_map(|arg| {
+            if let Some(arg) = arg {
+                if arg.spread.is_some() {
+                    match arg.expr.as_array() {
+                        Some(args) => {
+                            if args.elems.is_empty() {
+                                // next argument is used if the first spread argument is empty
+                                // so we can't evaluate the call.
+                                return None;
+                            } else {
+                                Some(get_first_arg(&args.elems, expr_ctx))
+                            }
+                        }
+                        None => Some(None),
+                    };
+                } else if !arg.expr.is_undefined(*expr_ctx) {
+                    return Some(Some(eval_as_number(*expr_ctx, &arg.expr)));
+                }
             }
-        }
-        None
-    })
+            Some(None)
+        })
+        .unwrap_or(None)
 }

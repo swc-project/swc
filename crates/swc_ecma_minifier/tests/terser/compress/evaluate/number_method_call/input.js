@@ -12,3 +12,8 @@ console.log((1.23).toPrecision(...undefined));
 console.log((1.23).toExponential(undefined, ...undefined));
 console.log((1.23).toPrecision(undefined, ...undefined));
 console.log((1.23).toPrecision(undefined, 1n + 1));
+console.log((1.23).toPrecision(undefined, 1n >>> 1n));
+console.log((1.23).toFixed(...[2]));
+console.log((1.23).toPrecision(...[2]));
+console.log((1.23).toFixed(...[], 2));
+console.log((1.23).toPrecision(...[], 2));

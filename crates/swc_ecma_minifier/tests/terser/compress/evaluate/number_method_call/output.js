@@ -12,3 +12,8 @@ console.log(1.23.toPrecision(...void 0));
 console.log(1.23.toExponential(void 0, ...void 0));
 console.log(1.23.toPrecision(void 0, ...void 0));
 console.log(1.23.toPrecision(void 0, 1n + 1));
+console.log((1.23).toPrecision(void 0, 1n >>> 1n));
+console.log("1.23");
+console.log("1.2");
+console.log("1.23");
+console.log("1.2");

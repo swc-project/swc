@@ -3605,8 +3605,13 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         }) => {
             left.may_have_side_effects(ctx)
                 || right.may_have_side_effects(ctx)
+                // Shift operators may have side effects if one of the operands is BigInt.
+                || matches!(
+                    op,
+                    op!(">>>") if left.is_big_int() || right.is_big_int()
+                )
                 // Arithmetic and Bitwise operators may have side effects if one of the operands is BigInt and the other is not.
-                || (matches!(
+                || matches!(
                     op,
                     op!(bin, "+")
                         | op!(bin, "-")
@@ -3616,10 +3621,9 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                         | op!("**")
                         | op!("<<")
                         | op!(">>")
-                        | op!(">>>")
                         | op!("&")
-                        | op!("|"),
-                ) && left.is_big_int() != right.is_big_int())
+                        | op!("|") if left.is_big_int() != right.is_big_int()
+                )
         }
 
         Expr::Member(MemberExpr { obj, prop, .. })
