@@ -117,7 +117,7 @@ smartstring               = "1.0.1"
 smol_str                  = "0.2.0"
 st-map                    = "0.2.0"
 string_cache              = "0.8.7"
-swc_sourcemap             = "9.3.4"
+swc_sourcemap             = { version = "9.3.4", path = "crates/swc_sourcemap" }
 syn                       = "2"
 tempfile                  = "3.6.0"
 termcolor                 = "1.0"
@@ -144,11 +144,6 @@ wasmtime                  = { version = "38", default-features = false }
 cbor4ii         = "1.2"
 foldhash        = "0.1"
 precomputed-map = "0.2"
-
-[patch.crates-io]
-# Use inlined swc-sourcemap sources from this repository.
-# Synced from https://github.com/swc-project/swc-sourcemap @ 64fcb47.
-swc_sourcemap = { path = "vendor/swc_sourcemap" }
 
 [workspace.metadata.cargo-shear]
 # `serde` is used when #[ast_node] is expanded

@@ -1,9 +1,0 @@
----
-minVersion: "0.21.0"
-changelogPolicy: auto
-artifactProvider:
-  name: none
-preReleaseCommand: bash scripts/bump-version
-targets:
-  - name: crates
-  - name: github
