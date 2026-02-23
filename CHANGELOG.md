@@ -37,6 +37,12 @@
 
 - **(es/regexp)** Transpile unicode property escapes in RegExp constructor ([#11554](https://github.com/swc-project/swc/issues/11554)) ([476d544](https://github.com/swc-project/swc/commit/476d544f911ea643fcc8434e46aaddd344fa49f8))
 
+### Documentation
+
+
+
+- **(agents)** Clarify sandbox escalation for progress ([#11574](https://github.com/swc-project/swc/issues/11574)) ([cb31d0d](https://github.com/swc-project/swc/commit/cb31d0da37b35858986ba63e0dab300555f8ec82))
+
 ### Features
 
 
@@ -63,6 +69,9 @@
 
 
 - **(es/minifier)** Add execution tests for issue #11517 ([#11530](https://github.com/swc-project/swc/issues/11530)) ([01b3b64](https://github.com/swc-project/swc/commit/01b3b648114ddb2e1e5ded32856397b996cb9fc2))
+
+
+- Disable `cva` ecosystem ci temporariliy ([55bc966](https://github.com/swc-project/swc/commit/55bc966be4e2a393b926317e228f6d33eacb7715))
 
 ### Ci
 

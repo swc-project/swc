@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Documentation
+
+
+
+- **(agents)** Clarify sandbox escalation for progress ([#11574](https://github.com/swc-project/swc/issues/11574)) ([cb31d0d](https://github.com/swc-project/swc/commit/cb31d0da37b35858986ba63e0dab300555f8ec82))
+
+### Testing
+
+
+
+- Disable `cva` ecosystem ci temporariliy ([55bc966](https://github.com/swc-project/swc/commit/55bc966be4e2a393b926317e228f6d33eacb7715))
+
 ## [swc_core@v57.0.1] - 2026-02-22
 
 ### Bug Fixes
