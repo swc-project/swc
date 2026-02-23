@@ -14,7 +14,7 @@ pub extern crate swc_ecma_ast;
 
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
-use num_traits::identities::Zero;
+use num_traits::{identities::Zero, Signed};
 use number::ToJsString;
 use once_cell::sync::Lazy;
 use parallel::{Parallel, ParallelExt};
@@ -2717,6 +2717,21 @@ fn is_number(expr: &Expr) -> bool {
     matches!(*expr, Expr::Lit(Lit::Num(..)))
 }
 
+/// use `is_original_big_int` to check if it's a big int literal, and use this
+/// function
+fn is_negative_big_int(expr: &Expr) -> bool {
+    match expr {
+        Expr::Paren(ParenExpr { ref expr, .. }) => is_negative_big_int(expr),
+        Expr::Lit(Lit::BigInt(BigInt { value, .. })) => value.is_negative(),
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "-"),
+            ref arg,
+            ..
+        }) => !is_negative_big_int(arg),
+        _ => panic!("use is_original_big_int to check if it's a big int literal"),
+    }
+}
+
 fn is_original_big_int_zero(expr: &Expr) -> bool {
     match expr {
         Expr::Paren(ParenExpr { ref expr, .. }) => is_original_big_int_zero(expr),
@@ -3650,6 +3665,13 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                         if is_original_big_int(left) != is_original_big_int(right)
                             || is_original_big_int_zero(right)
                 )
+                || matches!(
+                    op,
+                    op!("**")
+                        if is_original_big_int(left) != is_original_big_int(right)
+                            || left.is_unary()
+                            || (is_original_big_int(right) && is_negative_big_int(right))
+                )
                 // Arithmetic and Bitwise operators may have side effects
                 // if one of the operands is BigInt and the other is not.
                 || matches!(
@@ -3657,7 +3679,6 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                     op!(bin, "+")
                         | op!(bin, "-")
                         | op!("*")
-                        | op!("**")
                         | op!("<<")
                         | op!(">>")
                         | op!("^")

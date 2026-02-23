@@ -20,6 +20,7 @@ console.log((1.23).toPrecision(undefined, 1n >>> 1n));
 console.log((1.23).toPrecision(undefined, 1n / 0n));
 console.log((1.23).toPrecision(undefined, this instanceof 1));
 console.log((1.23).toPrecision(undefined, 1 in 1));
+console.log((1.23).toPrecision(undefined, 1n ** -1n));
 console.log((1.23).toFixed(...[2]));
 console.log((1.23).toPrecision(...[2]));
 console.log((1.23).toFixed(...[], 2));
