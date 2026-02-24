@@ -62,3 +62,20 @@ fn test_empty_range() {
     let out = String::from_utf8(out).unwrap();
     assert!(!out.contains("rangeMappings"));
 }
+
+#[test]
+fn test_scopes_roundtrip() {
+    let input: &[_] = br#"{
+        "version": 3,
+        "sources": ["coolstuff.js"],
+        "names": [],
+        "mappings": "AAAA",
+        "scopes": "B,A,A,C,A,A"
+    }"#;
+    let sm = SourceMap::from_reader(input).unwrap();
+    let mut out: Vec<u8> = vec![];
+    sm.to_writer(&mut out).unwrap();
+
+    let sm2 = SourceMap::from_reader(&out[..]).unwrap();
+    assert_eq!(sm2.get_scopes().map(|v| &**v), Some("B,A,A,C,A,A"));
+}

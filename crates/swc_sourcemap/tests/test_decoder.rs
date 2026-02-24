@@ -178,3 +178,16 @@ fn test_sourcemap_range_mappings() {
     assert_eq!(iter.next().unwrap().to_tuple(), ("", 6, 0, Some("console")));
     assert!(iter.next().is_none());
 }
+
+#[test]
+fn test_sourcemap_scopes() {
+    let input: &[_] = br#"{
+        "version": 3,
+        "sources": ["coolstuff.js"],
+        "names": [],
+        "mappings": "AAAA",
+        "scopes": "B,A,A,C,A,A"
+    }"#;
+    let sm = SourceMap::from_reader(input).unwrap();
+    assert_eq!(sm.get_scopes().map(|v| &**v), Some("B,A,A,C,A,A"));
+}

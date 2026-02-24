@@ -36,6 +36,8 @@ pub struct RawSourceMap<'a> {
     pub(crate) sections: Option<Vec<RawSection<'a>>>,
     #[serde(default, borrow)]
     pub(crate) names: MaybeRawValue<'a, Vec<StrValue<'a>>>,
+    #[serde(default, borrow, skip_serializing_if = "Option::is_none")]
+    pub(crate) scopes: Option<StrValue<'a>>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub(crate) range_mappings: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -165,6 +167,7 @@ pub struct SourceMap<'a> {
     pub(crate) file: Option<StrValue<'a>>,
     pub(crate) tokens: Vec<RawToken>,
     pub(crate) names: MaybeRawValue<'a, Vec<StrValue<'a>>>,
+    pub(crate) scopes: Option<StrValue<'a>>,
     pub(crate) source_root: Option<StrValue<'a>>,
     pub(crate) sources: MaybeRawValue<'a, Vec<StrValue<'a>>>,
     pub(crate) sources_content: MaybeRawValue<'a, Vec<Option<StrValue<'a>>>>,
@@ -244,6 +247,7 @@ impl<'a> SourceMapBuilder<'a> {
             file: self.file,
             tokens: self.tokens,
             names: MaybeRawValue::Data(self.names),
+            scopes: None,
             source_root: self.source_root,
             sources: MaybeRawValue::Data(self.sources),
             sources_content: MaybeRawValue::Data(self.source_contents),
@@ -437,6 +441,7 @@ pub fn decode_regular(rsm: RawSourceMap) -> Result<SourceMap> {
         file: rsm.file,
         tokens,
         names: rsm.names,
+        scopes: rsm.scopes,
         source_root: rsm.source_root,
         sources: rsm.sources,
         sources_content: rsm.sources_content,
@@ -453,6 +458,7 @@ impl<'a> SourceMap<'a> {
             std::mem::take(&mut self.tokens),
             Cow::Owned(adjustment.tokens),
         );
+        self.scopes = None;
     }
 
     pub fn into_raw_sourcemap(self) -> RawSourceMap<'a> {
@@ -466,6 +472,7 @@ impl<'a> SourceMap<'a> {
             sources_content: self.sources_content,
             sections: None,
             names: self.names,
+            scopes: self.scopes,
             ignore_list: self.ignore_list,
         }
     }
@@ -683,4 +690,60 @@ fn serialize_mappings(sm: &SourceMap) -> String {
     }
 
     rv
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_scopes_roundtrip() {
+        let map = decode(
+            br#"{
+                "version": 3,
+                "sources": ["coolstuff.js"],
+                "names": [],
+                "mappings": "AAAA",
+                "scopes": "B,A,A,C,A,A"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let raw = map.into_raw_sourcemap();
+        let scopes = raw.scopes.map(|v| v.into_data().to_string());
+        assert_eq!(scopes.as_deref(), Some("B,A,A,C,A,A"));
+    }
+
+    #[test]
+    fn test_adjust_mappings_drops_scopes() {
+        let mut map = decode(
+            br#"{
+                "version": 3,
+                "sources": ["coolstuff.js"],
+                "names": [],
+                "mappings": "AAAA",
+                "scopes": "B,A,A,C,A,A"
+            }"#,
+        )
+        .unwrap()
+        .into_source_map()
+        .unwrap();
+
+        let adjustment = crate::SourceMap::from_slice(
+            br#"{
+                "version": 3,
+                "sources": ["coolstuff.js"],
+                "names": [],
+                "mappings": "AAAA"
+            }"#,
+        )
+        .unwrap();
+
+        map.adjust_mappings(adjustment);
+
+        let raw = map.into_raw_sourcemap();
+        assert!(raw.scopes.is_none());
+    }
 }
