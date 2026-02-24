@@ -6684,6 +6684,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "tempfile",
  "testing",
  "tracing",
 ]

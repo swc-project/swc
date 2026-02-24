@@ -101,6 +101,14 @@ pub struct Config {
     pub base_dir: Option<PathBuf>,
     pub resolve_fully: bool,
     pub file_extension: String,
+    /// When true, do not resolve symlinks via `canonicalize()`.
+    ///
+    /// This is needed when a bundler sets `resolve.symlinks: false` so that
+    /// imports from symlinked source files resolve relative to the symlink
+    /// location rather than the real file location.
+    ///
+    /// See https://github.com/swc-project/swc/issues/11584
+    pub preserve_symlinks: bool,
 }
 
 impl Default for Config {
@@ -109,6 +117,7 @@ impl Default for Config {
             file_extension: crate::util::Config::default_js_ext(),
             resolve_fully: bool::default(),
             base_dir: Option::default(),
+            preserve_symlinks: bool::default(),
         }
     }
 }
