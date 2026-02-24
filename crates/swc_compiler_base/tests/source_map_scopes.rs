@@ -61,6 +61,34 @@ fn emits_scopes_when_enabled() {
 }
 
 #[test]
+fn registers_scope_related_names_when_enabled() {
+    let (map_json, _map) = print_map(true, None);
+    let names = map_json
+        .get("names")
+        .and_then(|v| v.as_array())
+        .expect("names array should exist")
+        .iter()
+        .filter_map(|v| v.as_str())
+        .collect::<Vec<_>>();
+
+    assert!(names.contains(&"module"));
+    assert!(names.contains(&"function"));
+}
+
+#[test]
+fn scopes_round_trip_matches_json_field() {
+    let (map_json, map) = print_map(true, None);
+    let from_json = map_json
+        .get("scopes")
+        .and_then(|v| v.as_str())
+        .expect("scopes should exist in json");
+    let from_map = map
+        .get_scopes()
+        .expect("scopes should exist in decoded map");
+    assert_eq!(from_json, from_map);
+}
+
+#[test]
 fn skips_scopes_when_disabled() {
     let (map_json, map) = print_map(false, None);
     assert!(map_json.get("scopes").is_none());

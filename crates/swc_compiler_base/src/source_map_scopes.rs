@@ -784,4 +784,153 @@ mod tests {
         assert!(names.contains(&"foo".to_string()));
         assert!(names.contains(&"a".to_string()));
     }
+
+    #[test]
+    fn emits_generated_ranges_without_original_scope_definition() {
+        let cm = SourceMap::new(FilePathMapping::empty());
+        cm.new_source_file(FileName::Real("input.js".into()).into(), "let x = 1;");
+
+        let scope = ScopeRecord {
+            parent: None,
+            generated_start: LineCol { line: 0, col: 0 },
+            generated_end: Some(LineCol { line: 0, col: 10 }),
+            original_span: Some(DUMMY_SP),
+            kind: ScopeKind::Global,
+            is_stack_frame: false,
+            is_hidden: false,
+            name: None,
+            bindings: vec![ScopeBindingRecord {
+                name: "x".to_string(),
+                expression: Some("x".to_string()),
+                storage: BindingStorage::Lexical,
+            }],
+        };
+
+        let map = swc_sourcemap::SourceMap::from_slice(
+            br#"{
+                "version": 3,
+                "sources": ["input.js"],
+                "names": [],
+                "mappings": "AAAA"
+            }"#,
+        )
+        .unwrap();
+
+        let encoded =
+            encode_scopes(&[scope], &cm, &map, |file_name| file_name.to_string()).unwrap();
+        assert!(encoded.starts_with('E'));
+        assert!(!encoded.contains('B'));
+        assert!(!encoded.contains('G'));
+    }
+
+    #[test]
+    fn keeps_empty_original_scope_slot_for_source_without_scopes() {
+        let cm = SourceMap::new(FilePathMapping::empty());
+        let fm = cm.new_source_file(FileName::Real("a.js".into()).into(), "let a = 1;");
+        let scope = make_scope(
+            None,
+            ScopeKind::Global,
+            None,
+            Span::new(fm.start_pos, fm.end_pos),
+            0,
+            10,
+            &[],
+        );
+
+        let map = swc_sourcemap::SourceMap::from_slice(
+            br#"{
+                "version": 3,
+                "sources": ["a.js", "b.js"],
+                "names": ["global"],
+                "mappings": "AAAA"
+            }"#,
+        )
+        .unwrap();
+
+        let encoded =
+            encode_scopes(&[scope], &cm, &map, |file_name| file_name.to_string()).unwrap();
+        assert!(encoded.contains(",,E"));
+    }
+
+    #[test]
+    fn encoding_is_deterministic_for_same_input() {
+        let cm = SourceMap::new(FilePathMapping::empty());
+        let fm = cm.new_source_file(
+            FileName::Real("input.js".into()).into(),
+            "function foo(a){return a;}",
+        );
+
+        let scopes = vec![
+            make_scope(
+                None,
+                ScopeKind::Global,
+                Some("global"),
+                Span::new(fm.start_pos, fm.end_pos),
+                0,
+                24,
+                &[("foo", Some("foo"), BindingStorage::Lexical)],
+            ),
+            make_scope(
+                Some(0),
+                ScopeKind::Function,
+                Some("foo"),
+                Span::new(fm.start_pos, fm.end_pos),
+                0,
+                24,
+                &[("a", Some("a"), BindingStorage::Lexical)],
+            ),
+        ];
+
+        let map = swc_sourcemap::SourceMap::from_slice(
+            br#"{
+                "version": 3,
+                "sources": ["input.js"],
+                "names": ["global", "function", "foo", "a"],
+                "mappings": "AAAA"
+            }"#,
+        )
+        .unwrap();
+
+        let first = encode_scopes(&scopes, &cm, &map, |file_name| file_name.to_string()).unwrap();
+        let second = encode_scopes(&scopes, &cm, &map, |file_name| file_name.to_string()).unwrap();
+        assert_eq!(first, second);
+    }
+
+    #[test]
+    fn collects_additional_names_in_stable_order() {
+        let scope = ScopeRecord {
+            parent: None,
+            generated_start: LineCol { line: 0, col: 0 },
+            generated_end: Some(LineCol { line: 0, col: 1 }),
+            original_span: Some(DUMMY_SP),
+            kind: ScopeKind::Function,
+            is_stack_frame: true,
+            is_hidden: false,
+            name: Some("fn".to_string()),
+            bindings: vec![
+                ScopeBindingRecord {
+                    name: "b".to_string(),
+                    expression: Some("expr".to_string()),
+                    storage: BindingStorage::Lexical,
+                },
+                ScopeBindingRecord {
+                    name: "a".to_string(),
+                    expression: Some("expr".to_string()),
+                    storage: BindingStorage::Lexical,
+                },
+            ],
+        };
+
+        let names = collect_additional_names(&[scope]);
+        assert_eq!(
+            names,
+            vec![
+                "function".to_string(),
+                "fn".to_string(),
+                "b".to_string(),
+                "expr".to_string(),
+                "a".to_string(),
+            ]
+        );
+    }
 }

@@ -502,4 +502,65 @@ mod test {
         assert_eq!(scopes[1].bindings[1].name, "v");
         assert_eq!(scopes[2].bindings.len(), 0);
     }
+
+    #[test]
+    fn hoisted_binding_targets_nearest_hoist_scope() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut scopes = vec![];
+        let mut writer =
+            JsWriter::new_with_scopes(source_map, "\n", &mut output, None, Some(&mut scopes));
+
+        writer
+            .start_scope(Some("global"), ScopeKind::Global, false, false, None)
+            .unwrap();
+        writer
+            .start_scope(Some("fn"), ScopeKind::Function, true, false, None)
+            .unwrap();
+        writer
+            .start_scope(None, ScopeKind::Block, false, false, None)
+            .unwrap();
+
+        writer
+            .add_scope_variable("h", Some("h"), BindingStorage::Hoisted)
+            .unwrap();
+        writer
+            .add_scope_variable("l", Some("l"), BindingStorage::Lexical)
+            .unwrap();
+
+        writer.end_scope().unwrap();
+        writer.end_scope().unwrap();
+        writer.end_scope().unwrap();
+
+        assert_eq!(scopes.len(), 3);
+        assert_eq!(scopes[1].bindings.len(), 1);
+        assert_eq!(scopes[1].bindings[0].name, "h");
+        assert_eq!(scopes[2].bindings.len(), 1);
+        assert_eq!(scopes[2].bindings[0].name, "l");
+    }
+
+    #[test]
+    fn deduplicates_scope_variables_by_name() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut scopes = vec![];
+        let mut writer =
+            JsWriter::new_with_scopes(source_map, "\n", &mut output, None, Some(&mut scopes));
+
+        writer
+            .start_scope(Some("global"), ScopeKind::Global, false, false, None)
+            .unwrap();
+        writer
+            .add_scope_variable("dup", Some("first"), BindingStorage::Lexical)
+            .unwrap();
+        writer
+            .add_scope_variable("dup", Some("second"), BindingStorage::Lexical)
+            .unwrap();
+        writer.end_scope().unwrap();
+
+        assert_eq!(scopes.len(), 1);
+        assert_eq!(scopes[0].bindings.len(), 1);
+        assert_eq!(scopes[0].bindings[0].name, "dup");
+        assert_eq!(scopes[0].bindings[0].expression.as_deref(), Some("first"));
+    }
 }

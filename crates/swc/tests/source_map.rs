@@ -487,6 +487,39 @@ fn issue_11424_emit_source_map_scopes_opt_in() {
 }
 
 #[test]
+fn issue_11424_emit_source_map_scopes_default_off() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let path = canonicalize("tests/srcmap/issue-11424-scopes/input.js")
+            .expect("failed to canonicalize fixture");
+        let fm = cm.load_file(&path).expect("failed to load fixture");
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    config: Config {
+                        inline_sources_content: true.into(),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process fixture");
+
+        let map_text = output.map.expect("source map should be emitted");
+        let map = swc_sourcemap::SourceMap::from_slice(map_text.as_bytes())
+            .expect("failed to deserialize sourcemap");
+        assert!(map.get_scopes().is_none());
+
+        Ok(())
+    });
+}
+
+#[test]
 fn issue_4578() {
     file(
         "tests/srcmap/issue-4578/after-babel.js",
