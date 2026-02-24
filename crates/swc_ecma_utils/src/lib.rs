@@ -3662,39 +3662,29 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Bin(BinExpr {
             left, right, op, ..
         }) => {
-            (left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
-                // Shift operators may have side effects if one of the operands is BigInt.
-                || matches!(
-                    op,
-                    op!(">>>") if is_original_big_int(left) || is_original_big_int(right)
-                )
-                // Division and remainder may have side effects
-                // if one of the operands is BigInt and the other is not, or if right is zero. 
-                || matches!(
-                    op,
-                    op!("/") | op!("%")
-                        if is_original_big_int(left) != is_original_big_int(right)
+            (left.may_have_side_effects(ctx)
+                || right.may_have_side_effects(ctx)
+                || match op {
+                    // Shift operators may have side effects if one of the operands is BigInt.
+                    op!(">>>") => is_original_big_int(left) || is_original_big_int(right),
+                    // Division and remainder may have side effects
+                    // if one of the operands is BigInt and the other is not, or if right is zero.
+                    op!("/") | op!("%") => {
+                        is_original_big_int(left) != is_original_big_int(right)
                             || is_original_big_int_zero(right)
-                )
-                || matches!(
-                    op,
-                    op!("**")
-                        if is_original_big_int(left) || is_original_big_int(right)
-                )
-                // Arithmetic and Bitwise operators may have side effects
-                // if one of the operands is BigInt and the other is not.
-                || matches!(
-                    op,
+                    }
+                    // Arithmetic and Bitwise operators may have side effects
+                    // if one of the operands is BigInt and the other is not.
                     op!(bin, "+")
-                        | op!(bin, "-")
-                        | op!("*")
-                        | op!("<<")
-                        | op!(">>")
-                        | op!("^")
-                        | op!("&")
-                        | op!("|") if is_original_big_int(left) != is_original_big_int(right)
-                ))
-                || matches!(op, op!("instanceof") | op!("in"))
+                    | op!(bin, "-")
+                    | op!("*")
+                    | op!("<<")
+                    | op!(">>")
+                    | op!("^")
+                    | op!("&")
+                    | op!("|") => is_original_big_int(left) != is_original_big_int(right),
+                    _ => true,
+                })
         }
 
         Expr::Member(MemberExpr { obj, prop, .. })
