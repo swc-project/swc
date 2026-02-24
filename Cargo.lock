@@ -6703,7 +6703,6 @@ version = "26.0.1"
 dependencies = [
  "dragonbox_ecma",
  "indexmap 2.12.0",
- "num-traits",
  "num_cpus",
  "once_cell",
  "par-core",

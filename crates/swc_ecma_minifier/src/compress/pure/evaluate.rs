@@ -523,11 +523,19 @@ impl Pure<'_> {
             },
             _ => return,
         };
-        let args = args.iter().map(|i| Some(i.clone())).collect::<Vec<_>>();
-        if may_have_side_effects(&args, &self.expr_ctx) {
+        if args.len() > 1
+            || args.first().is_some_and(|arg| {
+                if arg.spread.is_some() {
+                    true
+                } else {
+                    arg.expr.may_have_side_effects(self.expr_ctx)
+                }
+            })
+        {
             return;
         }
 
+        let args = args.iter().map(|i| Some(i.clone())).collect::<Vec<_>>();
         let first_arg = get_first_arg(&args, &self.expr_ctx);
 
         if &*method.sym == "toFixed" {
@@ -1165,19 +1173,6 @@ fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
         res.insert(idx + 1, '+');
     }
     res
-}
-
-fn may_have_side_effects(args: &Vec<Option<ExprOrSpread>>, expr_ctx: &ExprCtx) -> bool {
-    args.iter().flatten().any(|arg: &ExprOrSpread| {
-        if arg.spread.is_some() {
-            match arg.expr.as_array() {
-                Some(args) => may_have_side_effects(&args.elems, expr_ctx),
-                None => true,
-            }
-        } else {
-            arg.expr.may_have_side_effects(*expr_ctx)
-        }
-    })
 }
 
 fn get_first_arg(args: &Vec<Option<ExprOrSpread>>, expr_ctx: &ExprCtx) -> Option<Option<f64>> {

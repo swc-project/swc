@@ -12,16 +12,8 @@ pub extern crate swc_common;
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;
 
-use std::{
-    any::{type_name, Any},
-    borrow::Cow,
-    fmt::Debug,
-    hash::Hash,
-    num::FpCategory,
-    ops::Add,
-};
+use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
-use num_traits::{identities::Zero, Signed};
 use number::ToJsString;
 use once_cell::sync::Lazy;
 use parallel::{Parallel, ParallelExt};
@@ -741,11 +733,6 @@ pub trait ExprExt {
     #[inline(always)]
     fn is_number(&self) -> bool {
         is_number(self.as_expr())
-    }
-
-    #[inline(always)]
-    fn is_big_int(&self) -> bool {
-        is_big_int(self.as_expr())
     }
 
     // TODO: remove this after a proper evaluator
@@ -2724,56 +2711,6 @@ fn is_number(expr: &Expr) -> bool {
     matches!(*expr, Expr::Lit(Lit::Num(..)))
 }
 
-fn is_original_big_int_zero(expr: &Expr) -> bool {
-    match expr {
-        Expr::Paren(ParenExpr { ref expr, .. }) => is_original_big_int_zero(expr),
-        Expr::Lit(Lit::BigInt(BigInt { value, .. })) => value.is_zero(),
-        Expr::Unary(UnaryExpr {
-            op: op!(unary, "-"),
-            ref arg,
-            ..
-        }) => is_original_big_int_zero(arg),
-        _ => false,
-    }
-}
-
-fn is_original_big_int(expr: &Expr) -> bool {
-    match *expr {
-        Expr::Paren(ParenExpr { ref expr, .. }) => is_original_big_int(expr),
-        Expr::Lit(Lit::BigInt(..)) => true,
-        // note that +0n is not a big int literal, but -0n is a big int literal.
-        Expr::Unary(UnaryExpr {
-            op: op!(unary, "-"),
-            ref arg,
-            ..
-        }) => is_original_big_int(arg),
-        Expr::Bin(BinExpr {
-            op,
-            ref left,
-            ref right,
-            ..
-        }) if // We only support binary expressions which can be evaluated at compile time, and we can be sure that the result is a big int literal.
-                matches!(
-                    op,
-                    op!("/") | op!("%")
-                        if is_original_big_int(left) && is_original_big_int(right) && !is_original_big_int_zero(right)
-                )
-                || matches!(
-                    op,
-                    op!(bin, "+")
-                        | op!(bin, "-")
-                        | op!("*")
-                        | op!("<<")
-                        | op!(">>") if is_original_big_int(left) && is_original_big_int(right)
-                ) => true,
-        _ => false,
-    }
-}
-
-fn is_big_int(expr: &Expr) -> bool {
-    matches!(*expr, Expr::Lit(Lit::BigInt(..)))
-}
-
 fn is_str(expr: &Expr) -> bool {
     match expr {
         Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
@@ -3653,38 +3590,9 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Unary(UnaryExpr {
             op: op!("delete"), ..
         }) => true,
-        Expr::Unary(UnaryExpr {
-            op: op!(unary, "+"),
-            arg,
-            ..
-        }) if is_original_big_int(arg) => true,
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
-        Expr::Bin(BinExpr {
-            left, right, op, ..
-        }) => {
-            (left.may_have_side_effects(ctx)
-                || right.may_have_side_effects(ctx)
-                || match op {
-                    // Shift operators may have side effects if one of the operands is BigInt.
-                    op!(">>>") => is_original_big_int(left) || is_original_big_int(right),
-                    // Division and remainder may have side effects
-                    // if one of the operands is BigInt and the other is not, or if right is zero.
-                    op!("/") | op!("%") => {
-                        is_original_big_int(left) != is_original_big_int(right)
-                            || is_original_big_int_zero(right)
-                    }
-                    // Arithmetic and Bitwise operators may have side effects
-                    // if one of the operands is BigInt and the other is not.
-                    op!(bin, "+")
-                    | op!(bin, "-")
-                    | op!("*")
-                    | op!("<<")
-                    | op!(">>")
-                    | op!("^")
-                    | op!("&")
-                    | op!("|") => is_original_big_int(left) != is_original_big_int(right),
-                    _ => true,
-                })
+        Expr::Bin(BinExpr { left, right, .. }) => {
+            left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
         }
 
         Expr::Member(MemberExpr { obj, prop, .. })
