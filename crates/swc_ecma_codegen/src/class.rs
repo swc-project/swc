@@ -5,7 +5,10 @@ use swc_ecma_codegen_macros::node_impl;
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 use crate::{
-    text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
+    scope_helpers::{for_each_constructor_param_binding, for_each_param_binding},
+    text_writer::{BindingStorage, ScopeKind, WriteJs},
+    util::StartsWithAlphaNum,
+    Emitter, ListFormat, Result, SourceMapperExt,
 };
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
@@ -225,6 +228,24 @@ impl MacroNode for PrivateMethod {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.wr.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter
+                    .wr
+                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         if self.is_static {
             keyword!(emitter, "static");
@@ -259,6 +280,7 @@ impl MacroNode for PrivateMethod {
         }
 
         emitter.emit_fn_trailing(&self.function)?;
+        emitter.wr.end_scope()?;
 
         Ok(())
     }
@@ -272,6 +294,24 @@ impl MacroNode for ClassMethod {
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.wr.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter
+                    .wr
+                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         for d in &self.function.decorators {
             emit!(d);
@@ -382,6 +422,7 @@ impl MacroNode for ClassMethod {
         } else {
             formatting_semi!(emitter)
         }
+        emitter.wr.end_scope()?;
 
         Ok(())
     }
@@ -530,6 +571,24 @@ impl MacroNode for Constructor {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.wr.start_scope(
+            Some("constructor"),
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.span()),
+        )?;
+        {
+            let mut names = vec![];
+            for_each_constructor_param_binding(&self.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter
+                    .wr
+                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -543,6 +602,7 @@ impl MacroNode for Constructor {
         } else {
             formatting_semi!(emitter);
         }
+        emitter.wr.end_scope()?;
 
         Ok(())
     }

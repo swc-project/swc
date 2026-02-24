@@ -20,7 +20,10 @@ use swc_common::{
 };
 use swc_config::{file_pattern::FilePattern, is_module::IsModule, types::BoolOr};
 use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
+use swc_ecma_codegen::{
+    text_writer::{ScopeRecord, WriteJs},
+    Emitter, Node,
+};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
 use swc_ecma_parser::{
     parse_file_as_commonjs, parse_file_as_module, parse_file_as_program, parse_file_as_script,
@@ -28,6 +31,8 @@ use swc_ecma_parser::{
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
+
+mod source_map_scopes;
 
 #[cfg(feature = "node")]
 #[napi_derive::napi(object)]
@@ -123,6 +128,7 @@ pub struct PrintArgs<'a> {
     pub orig: Option<swc_sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
+    pub emit_source_map_scopes: bool,
     pub preamble: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
     pub output: Option<FxHashMap<String, String>>,
@@ -144,6 +150,7 @@ impl Default for PrintArgs<'_> {
             orig: None,
             comments: None,
             emit_source_map_columns: false,
+            emit_source_map_scopes: false,
             preamble: "",
             codegen_config: Default::default(),
             output: None,
@@ -176,6 +183,7 @@ pub fn print<T>(
         orig,
         comments,
         emit_source_map_columns,
+        emit_source_map_scopes,
         preamble,
         codegen_config,
         output,
@@ -189,11 +197,13 @@ where
     let _timer = timer!("Compiler::print");
 
     let mut src_map_buf = Vec::new();
+    let should_emit_scope_map = source_map.enabled() && emit_source_map_scopes && orig.is_none();
+    let mut scope_buf = should_emit_scope_map.then(Vec::<ScopeRecord>::new);
 
     let mut src = {
         let mut buf = std::vec::Vec::new();
         {
-            let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
+            let mut w = swc_ecma_codegen::text_writer::JsWriter::new_with_scopes(
                 cm.clone(),
                 "\n",
                 &mut buf,
@@ -202,6 +212,7 @@ where
                 } else {
                     None
                 },
+                scope_buf.as_mut(),
             );
             w.preamble(preamble).unwrap();
             let mut wr = Box::new(w) as Box<dyn WriteJs>;
@@ -233,6 +244,11 @@ where
         panic!("The module contains only dummy spans\n{src}");
     }
 
+    let additional_scope_names = scope_buf
+        .as_deref()
+        .map(source_map_scopes::collect_additional_names)
+        .unwrap_or_default();
+
     let mut map = if source_map.enabled() {
         Some(cm.build_source_map(
             &src_map_buf,
@@ -241,6 +257,7 @@ where
                 source_file_name,
                 output_path: output_path.as_deref(),
                 names: source_map_names,
+                additional_names: &additional_scope_names,
                 inline_sources_content,
                 emit_columns: emit_source_map_columns,
                 ignore_list: source_map_ignore_list,
@@ -251,6 +268,19 @@ where
     };
 
     if let Some(map) = &mut map {
+        if should_emit_scope_map {
+            if let Some(scope_buf) = scope_buf.as_deref() {
+                let encoded_scopes =
+                    source_map_scopes::encode_scopes(scope_buf, &cm, map, |file_name| {
+                        map_file_name_to_source(source_file_name, output_path.as_deref(), file_name)
+                    });
+
+                if let Some(scopes) = encoded_scopes {
+                    map.set_scopes(Some(scopes));
+                }
+            }
+        }
+
         if let Some(source_root) = source_root {
             map.set_source_root(Some(BytesStr::from_str_slice(source_root)))
         }
@@ -306,6 +336,7 @@ struct SwcSourceMapConfig<'a> {
     output_path: Option<&'a Path>,
 
     names: &'a FxHashMap<BytePos, Atom>,
+    additional_names: &'a [String],
 
     inline_sources_content: bool,
 
@@ -314,36 +345,50 @@ struct SwcSourceMapConfig<'a> {
     ignore_list: Option<FilePattern>,
 }
 
+fn map_file_name_to_source(
+    source_file_name: Option<&str>,
+    output_path: Option<&Path>,
+    f: &FileName,
+) -> String {
+    if let Some(file_name) = source_file_name {
+        return file_name.to_string();
+    }
+
+    let Some(base_path) = output_path.and_then(|v| v.parent()) else {
+        return f.to_string();
+    };
+    let target = match f {
+        FileName::Real(v) => v,
+        _ => return f.to_string(),
+    };
+
+    let rel = pathdiff::diff_paths(target, base_path);
+    match rel {
+        Some(v) => {
+            let s = v.to_string_lossy().to_string();
+            if cfg!(target_os = "windows") {
+                s.replace('\\', "/")
+            } else {
+                s
+            }
+        }
+        None => f.to_string(),
+    }
+}
+
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     fn file_name_to_source(&self, f: &FileName) -> String {
-        if let Some(file_name) = self.source_file_name {
-            return file_name.to_string();
-        }
-
-        let Some(base_path) = self.output_path.as_ref().and_then(|v| v.parent()) else {
-            return f.to_string();
-        };
-        let target = match f {
-            FileName::Real(v) => v,
-            _ => return f.to_string(),
-        };
-
-        let rel = pathdiff::diff_paths(target, base_path);
-        match rel {
-            Some(v) => {
-                let s = v.to_string_lossy().to_string();
-                if cfg!(target_os = "windows") {
-                    s.replace('\\', "/")
-                } else {
-                    s
-                }
-            }
-            None => f.to_string(),
-        }
+        map_file_name_to_source(self.source_file_name, self.output_path, f)
     }
 
     fn name_for_bytepos(&self, pos: BytePos) -> Option<&str> {
         self.names.get(&pos).map(|v| &**v)
+    }
+
+    fn for_each_additional_name(&self, op: &mut dyn FnMut(&str)) {
+        for name in self.additional_names {
+            op(name);
+        }
     }
 
     fn inline_sources_content(&self, _: &FileName) -> bool {

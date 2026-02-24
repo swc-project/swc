@@ -4,7 +4,12 @@ use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
-use crate::{is_empty_comments, ListFormat};
+use crate::{
+    is_empty_comments,
+    scope_helpers::{for_each_param_binding, for_each_pat_binding},
+    text_writer::{BindingStorage, ScopeKind},
+    ListFormat,
+};
 
 #[node_impl]
 impl MacroNode for ObjectLit {
@@ -105,6 +110,9 @@ impl MacroNode for GetterProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter
+            .wr
+            .start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
 
         keyword!(emitter, "get");
 
@@ -123,6 +131,7 @@ impl MacroNode for GetterProp {
         punct!(emitter, ")");
         formatting_space!(emitter);
         emit!(self.body);
+        emitter.wr.end_scope()?;
 
         Ok(())
     }
@@ -134,6 +143,18 @@ impl MacroNode for SetterProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter
+            .wr
+            .start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
+        {
+            let mut names = vec![];
+            for_each_pat_binding(&self.param, &mut |name| names.push(name.to_string()));
+            for name in names {
+                emitter
+                    .wr
+                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         keyword!(emitter, "set");
 
@@ -164,6 +185,7 @@ impl MacroNode for SetterProp {
         punct!(emitter, ")");
 
         emit!(self.body);
+        emitter.wr.end_scope()?;
 
         Ok(())
     }
@@ -175,6 +197,24 @@ impl MacroNode for MethodProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.wr.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter
+                    .wr
+                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         if self.function.is_async {
             keyword!(emitter, "async");
@@ -189,6 +229,7 @@ impl MacroNode for MethodProp {
         formatting_space!(emitter);
         // TODO
         emitter.emit_fn_trailing(&self.function)?;
+        emitter.wr.end_scope()?;
 
         Ok(())
     }

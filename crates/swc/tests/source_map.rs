@@ -12,7 +12,8 @@ use std::{
 use anyhow::{Context, Error};
 use swc::{
     config::{
-        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        Config, InputSourceMap, IsModule, JscConfig, JscExperimental, ModuleConfig, Options,
+        SourceMapsConfig,
     },
     Compiler,
 };
@@ -436,6 +437,50 @@ fn should_work_with_emit_source_map_columns() {
                 panic!("Error: {err:#?}");
             }
         }
+
+        Ok(())
+    });
+}
+
+#[test]
+fn issue_11424_emit_source_map_scopes_opt_in() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let path = canonicalize("tests/srcmap/issue-11424-scopes/input.js")
+            .expect("failed to canonicalize fixture");
+        let fm = cm.load_file(&path).expect("failed to load fixture");
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    config: Config {
+                        inline_sources_content: true.into(),
+                        jsc: JscConfig {
+                            experimental: JscExperimental {
+                                emit_source_map_scopes: true.into(),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process fixture");
+
+        let map_text = output.map.expect("source map should be emitted");
+        let map = swc_sourcemap::SourceMap::from_slice(map_text.as_bytes())
+            .expect("failed to deserialize sourcemap");
+        let scopes = map.get_scopes().expect("scopes should be emitted");
+        assert!(!scopes.is_empty());
+        assert!(scopes.contains('B'));
+        assert!(scopes.contains('E'));
+        assert!(scopes.contains('G'));
 
         Ok(())
     });

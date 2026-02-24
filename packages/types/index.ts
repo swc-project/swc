@@ -654,6 +654,11 @@ export interface JscConfig {
         emitAssertForImportAttributes?: boolean;
 
         /**
+         * Emit ECMA-426 source-map scopes metadata.
+         */
+        emitSourceMapScopes?: boolean;
+
+        /**
          * Specify the location where SWC stores its intermediate cache files.
          * Currently only transform plugin uses this. If not specified, SWC will
          * create `.swc` directories.
