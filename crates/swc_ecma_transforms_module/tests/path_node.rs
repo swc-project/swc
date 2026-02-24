@@ -184,8 +184,7 @@ fn fixture(input_dir: PathBuf) {
 #[cfg(unix)]
 #[test]
 fn issue_11584_preserve_symlinks() {
-    use std::fs;
-    use std::os::unix::fs as unix_fs;
+    use std::{fs, os::unix::fs as unix_fs};
 
     let tmpdir = TempDir::new().unwrap();
     let base_dir = tmpdir.path().canonicalize().unwrap();
@@ -235,9 +234,9 @@ fn issue_11584_preserve_symlinks() {
         .unwrap();
     // This demonstrates the bug: canonicalization resolves the symlink,
     // producing a path through the real directory instead of the symlink.
-    assert_ne!(
-        &*result_no_preserve, "../lib/dep",
-        "Without preserve_symlinks, canonicalization should change the path"
+    assert_eq!(
+        &*result_no_preserve, "../../real/lib/dep.js",
+        "Without preserve_symlinks, canonicalization resolves the symlink to the real path"
     );
 
     // With preserve_symlinks, the symlink path should be preserved.
@@ -253,8 +252,11 @@ fn issue_11584_preserve_symlinks() {
     let result_preserve = resolver_preserve
         .resolve_import(&base, "../lib/dep")
         .unwrap();
+    // The resolver appends .js since it resolves to dep.js on disk, but
+    // the path should stay relative to the symlink location (project/lib/)
+    // instead of resolving through to the real location (real/lib/).
     assert_eq!(
-        &*result_preserve, "../lib/dep",
-        "With preserve_symlinks, ../lib/dep should be preserved without resolving symlinks"
+        &*result_preserve, "../lib/dep.js",
+        "With preserve_symlinks, the path should stay relative to the symlink location"
     );
 }

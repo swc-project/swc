@@ -2035,11 +2035,7 @@ fn build_resolver(
     preserve_symlinks: bool,
 ) -> SwcImportResolver {
     static CACHE: Lazy<
-        DashMap<
-            (PathBuf, CompiledPaths, bool, String, bool),
-            SwcImportResolver,
-            FxBuildHasher,
-        >,
+        DashMap<(PathBuf, CompiledPaths, bool, String, bool), SwcImportResolver, FxBuildHasher>,
     > = Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.

@@ -266,9 +266,17 @@ where
         // Bazel uses symlink
         //
         // https://github.com/swc-project/swc/issues/8265
-        if let FileName::Real(resolved) = &target.filename {
-            if let Ok(orig) = canonicalize(resolved) {
-                target.filename = FileName::Real(orig);
+        //
+        // When `preserve_symlinks` is true, skip canonicalization so that
+        // symlinked paths are preserved. This is needed when a bundler sets
+        // `resolve.symlinks: false`.
+        //
+        // https://github.com/swc-project/swc/issues/11584
+        if !self.config.preserve_symlinks {
+            if let FileName::Real(resolved) = &target.filename {
+                if let Ok(orig) = canonicalize(resolved) {
+                    target.filename = FileName::Real(orig);
+                }
             }
         }
 
