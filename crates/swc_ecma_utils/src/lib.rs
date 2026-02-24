@@ -2756,10 +2756,29 @@ fn is_original_big_int(expr: &Expr) -> bool {
             ..
         }) => is_original_big_int(arg),
         Expr::Bin(BinExpr {
+            op,
             ref left,
             ref right,
             ..
-        }) => is_original_big_int(left) && is_original_big_int(right),
+        }) if // We only support binary expressions which can be evaluated at compile time, and we can be sure that the result is a big int literal.
+                matches!(
+                    op,
+                    op!("/") | op!("%")
+                        if is_original_big_int(left) && is_original_big_int(right) && !is_original_big_int_zero(right)
+                )
+                || matches!(
+                    op,
+                    op!("**")
+                        if !left.is_unary() && is_original_big_int(left) && is_original_big_int(right) && !is_negative_big_int(right)
+                )
+                || matches!(
+                    op,
+                    op!(bin, "+")
+                        | op!(bin, "-")
+                        | op!("*")
+                        | op!("<<")
+                        | op!(">>") if is_original_big_int(left) && is_original_big_int(right)
+                ) => true,
         _ => false,
     }
 }
