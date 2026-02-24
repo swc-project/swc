@@ -103,6 +103,11 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
         self.inner.can_ignore_invalid_unicodes()
     }
 
+    #[inline(always)]
+    fn has_scope_tracking(&self) -> bool {
+        self.inner.has_scope_tracking()
+    }
+
     #[inline]
     fn start_scope(
         &mut self,

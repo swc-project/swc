@@ -228,22 +228,20 @@ impl MacroNode for PrivateMethod {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter.wr.start_scope(
+        emitter.start_scope(
             None,
             ScopeKind::Function,
             true,
             false,
             Some(self.function.span),
         )?;
-        {
+        if emitter.scope_tracking_enabled() {
             let mut names = vec![];
             for_each_param_binding(&self.function.params, &mut |name| {
                 names.push(name.to_string())
             });
             for name in names {
-                emitter
-                    .wr
-                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
             }
         }
 
@@ -280,7 +278,7 @@ impl MacroNode for PrivateMethod {
         }
 
         emitter.emit_fn_trailing(&self.function)?;
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -294,22 +292,20 @@ impl MacroNode for ClassMethod {
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter.wr.start_scope(
+        emitter.start_scope(
             None,
             ScopeKind::Function,
             true,
             false,
             Some(self.function.span),
         )?;
-        {
+        if emitter.scope_tracking_enabled() {
             let mut names = vec![];
             for_each_param_binding(&self.function.params, &mut |name| {
                 names.push(name.to_string())
             });
             for name in names {
-                emitter
-                    .wr
-                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
             }
         }
 
@@ -422,7 +418,7 @@ impl MacroNode for ClassMethod {
         } else {
             formatting_semi!(emitter)
         }
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -571,22 +567,20 @@ impl MacroNode for Constructor {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter.wr.start_scope(
+        emitter.start_scope(
             Some("constructor"),
             ScopeKind::Function,
             true,
             false,
             Some(self.span()),
         )?;
-        {
+        if emitter.scope_tracking_enabled() {
             let mut names = vec![];
             for_each_constructor_param_binding(&self.params, &mut |name| {
                 names.push(name.to_string())
             });
             for name in names {
-                emitter
-                    .wr
-                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
             }
         }
 
@@ -602,7 +596,7 @@ impl MacroNode for Constructor {
         } else {
             formatting_semi!(emitter);
         }
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }

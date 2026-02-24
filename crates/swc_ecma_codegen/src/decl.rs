@@ -57,15 +57,17 @@ where
 
         srcmap!(self, node, true);
 
-        let storage = if matches!(node.kind, VarDeclKind::Var) {
-            BindingStorage::Hoisted
-        } else {
-            BindingStorage::Lexical
-        };
-        let mut names = vec![];
-        for_each_var_decl_binding(node, &mut |name| names.push(name.to_string()));
-        for name in names {
-            self.wr.add_scope_variable(&name, Some(&name), storage)?;
+        if self.scope_tracking_enabled() {
+            let storage = if matches!(node.kind, VarDeclKind::Var) {
+                BindingStorage::Hoisted
+            } else {
+                BindingStorage::Lexical
+            };
+            let mut names = vec![];
+            for_each_var_decl_binding(node, &mut |name| names.push(name.to_string()));
+            for name in names {
+                self.add_scope_variable(&name, Some(&name), storage)?;
+            }
         }
 
         if node.declare {
@@ -126,9 +128,7 @@ impl MacroNode for Decl {
 impl MacroNode for ClassDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         let name = self.ident.sym.as_ref();
-        emitter
-            .wr
-            .add_scope_variable(name, Some(name), BindingStorage::Lexical)?;
+        emitter.add_scope_variable(name, Some(name), BindingStorage::Lexical)?;
         emitter.emit_class_decl_inner(self, false)?;
         Ok(())
     }
@@ -166,25 +166,21 @@ impl MacroNode for FnDecl {
 
         srcmap!(emitter, self, true);
         let fn_name = self.ident.sym.as_ref();
-        emitter
-            .wr
-            .add_scope_variable(fn_name, Some(fn_name), BindingStorage::Hoisted)?;
-        emitter.wr.start_scope(
+        emitter.add_scope_variable(fn_name, Some(fn_name), BindingStorage::Hoisted)?;
+        emitter.start_scope(
             Some(fn_name),
             ScopeKind::Function,
             true,
             false,
             Some(self.function.span),
         )?;
-        {
+        if emitter.scope_tracking_enabled() {
             let mut names = vec![];
             for_each_param_binding(&self.function.params, &mut |name| {
                 names.push(name.to_string())
             });
             for name in names {
-                emitter
-                    .wr
-                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
             }
         }
 
@@ -209,7 +205,7 @@ impl MacroNode for FnDecl {
         emit!(self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }

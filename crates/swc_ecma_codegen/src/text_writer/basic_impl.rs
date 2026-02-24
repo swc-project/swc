@@ -310,6 +310,11 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
         false
     }
 
+    #[inline(always)]
+    fn has_scope_tracking(&self) -> bool {
+        self.scopes.is_some()
+    }
+
     #[inline]
     fn start_scope(
         &mut self,

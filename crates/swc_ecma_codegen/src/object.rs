@@ -110,9 +110,7 @@ impl MacroNode for GetterProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter
-            .wr
-            .start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
+        emitter.start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
 
         keyword!(emitter, "get");
 
@@ -131,7 +129,7 @@ impl MacroNode for GetterProp {
         punct!(emitter, ")");
         formatting_space!(emitter);
         emit!(self.body);
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -143,16 +141,12 @@ impl MacroNode for SetterProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter
-            .wr
-            .start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
-        {
+        emitter.start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
+        if emitter.scope_tracking_enabled() {
             let mut names = vec![];
             for_each_pat_binding(&self.param, &mut |name| names.push(name.to_string()));
             for name in names {
-                emitter
-                    .wr
-                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
             }
         }
 
@@ -185,7 +179,7 @@ impl MacroNode for SetterProp {
         punct!(emitter, ")");
 
         emit!(self.body);
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -197,22 +191,20 @@ impl MacroNode for MethodProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter.wr.start_scope(
+        emitter.start_scope(
             None,
             ScopeKind::Function,
             true,
             false,
             Some(self.function.span),
         )?;
-        {
+        if emitter.scope_tracking_enabled() {
             let mut names = vec![];
             for_each_param_binding(&self.function.params, &mut |name| {
                 names.push(name.to_string())
             });
             for name in names {
-                emitter
-                    .wr
-                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
             }
         }
 
@@ -229,7 +221,7 @@ impl MacroNode for MethodProp {
         formatting_space!(emitter);
         // TODO
         emitter.emit_fn_trailing(&self.function)?;
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }

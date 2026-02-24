@@ -215,21 +215,19 @@ impl MacroNode for CatchClause {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
-        emitter
-            .wr
-            .start_scope(None, ScopeKind::Catch, false, false, Some(self.span()))?;
+        emitter.start_scope(None, ScopeKind::Catch, false, false, Some(self.span()))?;
 
         keyword!(emitter, "catch");
 
         formatting_space!(emitter);
 
         if let Some(param) = &self.param {
-            let mut names = vec![];
-            for_each_pat_binding(param, &mut |name| names.push(name.to_string()));
-            for name in names {
-                emitter
-                    .wr
-                    .add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            if emitter.scope_tracking_enabled() {
+                let mut names = vec![];
+                for_each_pat_binding(param, &mut |name| names.push(name.to_string()));
+                for name in names {
+                    emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                }
             }
 
             punct!(emitter, "(");
@@ -240,7 +238,7 @@ impl MacroNode for CatchClause {
         formatting_space!(emitter);
 
         emit!(self.body);
-        emitter.wr.end_scope()?;
+        emitter.end_scope()?;
 
         Ok(())
     }

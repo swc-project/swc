@@ -114,6 +114,14 @@ pub trait WriteJs {
         false
     }
 
+    /// Returns true if scope tracking hooks should be emitted.
+    ///
+    /// This is used to avoid scope-tracking overhead on the hot codegen path
+    /// when source map scopes are disabled.
+    fn has_scope_tracking(&self) -> bool {
+        false
+    }
+
     /// Starts a new scope in the generated output.
     ///
     /// This is used for source map scope tracking (ECMA-426).
@@ -251,6 +259,11 @@ where
         (**self).can_ignore_invalid_unicodes()
     }
 
+    #[inline(always)]
+    fn has_scope_tracking(&self) -> bool {
+        (**self).has_scope_tracking()
+    }
+
     #[inline]
     fn start_scope(
         &mut self,
@@ -381,6 +394,11 @@ where
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
+    }
+
+    #[inline(always)]
+    fn has_scope_tracking(&self) -> bool {
+        (**self).has_scope_tracking()
     }
 
     #[inline]
