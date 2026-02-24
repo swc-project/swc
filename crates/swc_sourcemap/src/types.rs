@@ -500,6 +500,7 @@ pub struct SourceMap {
     pub(crate) file: Option<BytesStr>,
     pub(crate) tokens: Vec<RawToken>,
     pub(crate) names: Vec<BytesStr>,
+    pub(crate) scopes: Option<BytesStr>,
     pub(crate) source_root: Option<BytesStr>,
     pub(crate) sources: Vec<BytesStr>,
     pub(crate) sources_prefixed: Option<Vec<BytesStr>>,
@@ -622,6 +623,7 @@ impl SourceMap {
             file,
             tokens,
             names,
+            scopes: None,
             source_root: None,
             sources,
             sources_prefixed: None,
@@ -643,6 +645,16 @@ impl SourceMap {
     /// Sets a new value for the debug id.
     pub fn set_debug_id(&mut self, debug_id: Option<DebugId>) {
         self.debug_id = debug_id
+    }
+
+    /// Returns the embedded scopes metadata in case there is one.
+    pub fn get_scopes(&self) -> Option<&BytesStr> {
+        self.scopes.as_ref()
+    }
+
+    /// Sets a new value for the scopes metadata.
+    pub fn set_scopes<T: Into<BytesStr>>(&mut self, value: Option<T>) {
+        self.scopes = value.map(Into::into);
     }
 
     /// Returns the embedded filename in case there is one.
@@ -850,6 +862,7 @@ impl SourceMap {
     /// Removes all names from the sourcemap.
     pub fn remove_names(&mut self) {
         self.names.clear();
+        self.scopes = None;
     }
 
     /// This rewrites the sourcemap according to the provided rewrite
@@ -926,7 +939,8 @@ impl SourceMap {
 
         let mapping = builder.take_mapping();
 
-        let sm = builder.into_sourcemap();
+        let mut sm = builder.into_sourcemap();
+        sm.scopes = None;
 
         Ok((sm, mapping))
     }
@@ -956,6 +970,7 @@ impl SourceMap {
             std::mem::take(&mut self.tokens),
             Cow::Borrowed(&adjustment.tokens),
         );
+        self.scopes = None;
     }
 
     /// Perform a similar operation as [`Self::adjust_mappings`], but by
@@ -1665,6 +1680,19 @@ mod tests {
     use super::{DecodedMap, RewriteOptions, SourceMap, SourceMapIndex, SourceMapSection};
     use crate::lazy::MaybeRawValue;
 
+    fn map_with_scopes() -> SourceMap {
+        SourceMap::from_slice(
+            br#"{
+                "version": 3,
+                "sources": ["coolstuff.js"],
+                "names": [],
+                "mappings": "AAAA",
+                "scopes": "B,A,A,C,A,A"
+            }"#,
+        )
+        .unwrap()
+    }
+
     #[test]
     fn test_rewrite_debugid() {
         let input: &[_] = br#"{
@@ -1820,6 +1848,36 @@ mod tests {
     }
 
     #[test]
+    fn test_rewrite_drops_scopes() {
+        let sm = map_with_scopes();
+        let rewritten = sm.rewrite(&RewriteOptions::default()).unwrap();
+        assert!(rewritten.get_scopes().is_none());
+    }
+
+    #[test]
+    fn test_adjust_mappings_drops_scopes() {
+        let mut sm = map_with_scopes();
+        let adjustment = SourceMap::from_slice(
+            br#"{
+                "version": 3,
+                "sources": ["coolstuff.js"],
+                "names": [],
+                "mappings": "AAAA"
+            }"#,
+        )
+        .unwrap();
+        sm.adjust_mappings(&adjustment);
+        assert!(sm.get_scopes().is_none());
+    }
+
+    #[test]
+    fn test_remove_names_drops_scopes() {
+        let mut sm = map_with_scopes();
+        sm.remove_names();
+        assert!(sm.get_scopes().is_none());
+    }
+
+    #[test]
     fn test_sourcemap_index_default_debug_id() {
         let sm = SourceMapIndex::new(None, vec![]);
         assert!(sm.debug_id().is_none());
@@ -1846,6 +1904,7 @@ mod tests {
             file: None,
             tokens: vec![],
             names: vec![],
+            scopes: None,
             source_root: None,
             sources: vec![],
             sources_prefixed: None,
@@ -1864,6 +1923,7 @@ mod tests {
                 file: None,
                 tokens: vec![],
                 names: vec![],
+                scopes: None,
                 source_root: None,
                 sources: vec![],
                 sources_prefixed: None,

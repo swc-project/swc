@@ -268,6 +268,7 @@ pub fn decode_regular(rsm: RawSourceMap) -> Result<SourceMap> {
         .map(|x| x.into_iter().map(|v| v.map(Into::into)).collect::<Vec<_>>());
 
     let mut sm = SourceMap::new(file, tokens, names, sources, source_content);
+    sm.set_scopes(rsm.scopes);
     sm.set_source_root(rsm.source_root);
     // Use _debug_id_new (from "debugId" key) only if debug_id
     // from ( "debug_id" key) is unset
@@ -416,6 +417,7 @@ mod tests {
             sources_content: None,
             sections: Some(vec![]),
             names: None,
+            scopes: None,
             range_mappings: None,
             mappings: None,
             ignore_list: None,
@@ -445,6 +447,7 @@ mod tests {
             sources_content: None,
             sections: Some(vec![]),
             names: None,
+            scopes: None,
             range_mappings: None,
             mappings: None,
             ignore_list: None,
@@ -477,6 +480,7 @@ mod tests {
             sources_content: None,
             sections: Some(vec![]),
             names: None,
+            scopes: None,
             range_mappings: None,
             mappings: None,
             ignore_list: None,
