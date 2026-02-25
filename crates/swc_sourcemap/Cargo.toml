@@ -1,34 +1,34 @@
 [package]
-name = "swc_sourcemap"
-version = "10.0.0"
-authors = ["Sentry <hello@sentry.io>", "swc-project <https://swc.rs>"]
-keywords = ["javascript", "sourcemap", "sourcemaps"]
+authors     = ["Sentry <hello@sentry.io>", "swc-project <https://swc.rs>"]
 description = "Forked from https://github.com/getsentry/rust-sourcemap"
-homepage = "https://github.com/swc-project/swc-sourcemap"
-repository = "https://github.com/swc-project/swc-sourcemap"
-license = "BSD-3-Clause"
-edition = "2018"
+edition     = "2018"
+homepage    = "https://github.com/swc-project/swc-sourcemap"
+keywords    = ["javascript", "sourcemap", "sourcemaps"]
+license     = "BSD-3-Clause"
+name        = "swc_sourcemap"
+repository  = { workspace = true }
+version     = "10.0.1"
 
 [package.metadata.docs.rs]
 all-features = true
 
 [dependencies]
-url = "2.1.1"
-serde = { version = "1.0.104", features = ["derive", "rc"] }
-serde_json = { version = "1.0.48", features = ["raw_value"] }
+base64-simd      = { version = "0.8" }
+bitvec           = "1.0.1"
+bytes-str        = { version = "0.2.4", features = ["serde"] }
+data-encoding    = "2.3.3"
+debugid          = { version = "0.8.0", features = ["serde"] }
+if_chain         = "1.0.0"
+rustc-hash       = "2.1.1"
+scroll           = { version = "0.12.0", features = ["derive"], optional = true }
+serde            = { version = "1.0.104", features = ["derive", "rc"] }
+serde_json       = { version = "1.0.48", features = ["raw_value"] }
 unicode-id-start = "1"
-if_chain = "1.0.0"
-scroll = { version = "0.12.0", features = ["derive"], optional = true }
-data-encoding = "2.3.3"
-debugid = {version = "0.8.0", features = ["serde"] }
-base64-simd = { version = "0.8" }
-bitvec = "1.0.1"
-rustc-hash = "2.1.1"
-bytes-str = { version = "0.2.4", features = ["serde"] }
+url              = "2.1.1"
 
 [features]
 ram_bundle = ["scroll"]
 
 [dev-dependencies]
 magic_string = "0.3.4"
-proptest = "1.2.0"
+proptest     = "1.2.0"

@@ -7247,7 +7247,7 @@ dependencies = [
 
 [[package]]
 name = "swc_sourcemap"
-version = "10.0.0"
+version = "10.0.1"
 dependencies = [
  "base64-simd 0.8.0",
  "bitvec",
