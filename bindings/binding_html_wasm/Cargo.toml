@@ -1,0 +1,42 @@
+[package]
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "wasm module for swc html"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "binding_html_wasm"
+publish     = false
+repository  = { workspace = true }
+version     = "1.15.13"
+
+[lib]
+bench      = false
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = { workspace = true }
+getrandom = { workspace = true, features = ["wasm_js"] }
+lightningcss = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true }
+serde_json = { workspace = true }
+swc_atoms = { path = "../../crates/swc_atoms" }
+swc_common = { path = "../../crates/swc_common", features = ["diagnostic-serde"] }
+swc_config = { path = "../../crates/swc_config", features = ["regex"] }
+swc_css_ast = { path = "../../crates/swc_css_ast" }
+swc_css_codegen = { path = "../../crates/swc_css_codegen" }
+swc_css_minifier = { path = "../../crates/swc_css_minifier" }
+swc_css_parser = { path = "../../crates/swc_css_parser" }
+swc_error_reporters = { path = "../../crates/swc_error_reporters" }
+swc_html = { path = "../../crates/swc_html" }
+swc_html_ast = { path = "../../crates/swc_html_ast", features = ["serde"] }
+swc_html_minifier = { path = "../../crates/swc_html_minifier", features = ["custom-css-minifier"] }
+tracing = { workspace = true, features = ["max_level_off"] }
+wasm-bindgen = { workspace = true, features = ["enable-interning"] }
+wasm-bindgen-futures = { workspace = true }
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
+[package.metadata.cargo-shear]
+# ignored, as they are only used to enable features
+ignored = ["anyhow", "getrandom", "serde-wasm-bindgen"]

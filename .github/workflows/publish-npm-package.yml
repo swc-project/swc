@@ -41,6 +41,9 @@ on:
       skipBuild:
         type: boolean
         required: true
+      publishWasm:
+        type: boolean
+        required: true
       skipPublishing:
         type: boolean
         required: true
@@ -606,7 +609,7 @@ jobs:
   publish-wasm:
     environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
-    if: ${{ inputs.package == 'core' }}
+    if: ${{ inputs.publishWasm && inputs.package == matrix.settings.package }}
     runs-on: ubuntu-latest
     needs:
       - publish
@@ -614,22 +617,31 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - crate: "binding_core_wasm"
+          - package: "core"
+            crate: "binding_core_wasm"
             npm: "@swc\\/wasm"
             target: nodejs
             out: "pkg"
-          - crate: "binding_core_wasm"
+          - package: "core"
+            crate: "binding_core_wasm"
             npm: "@swc\\/wasm-web"
             target: web
             out: "pkg"
-          - crate: "binding_typescript_wasm"
+          - package: "core"
+            crate: "binding_typescript_wasm"
             npm: "@swc\\/wasm-typescript"
             build: "./scripts/build.sh"
             out: "pkg"
-          - crate: "binding_typescript_wasm"
+          - package: "core"
+            crate: "binding_typescript_wasm"
             npm: "@swc\\/wasm-typescript-esm"
             build: "./scripts/esm.sh"
             out: "esm"
+          - package: "html"
+            crate: "binding_html_wasm"
+            npm: "@swc\\/wasm-html"
+            target: web
+            out: "pkg"
           # - crate: "binding_es_ast_viewer"
           #   npm: "@swc\\/es-ast-viewer"
           #   build: "./scripts/build.sh"
