@@ -2595,15 +2595,6 @@
 
 ## [swc_core@v26.1.0] - 2025-05-22
 
-### Bug Fixes
-
-
-
-- **(es/react-compiler)** Fix usefulness detection ([#10506](https://github.com/swc-project/swc/issues/10506)) ([41075a1](https://github.com/swc-project/swc/commit/41075a1c8776b62d7c2fc6436677d5d6b083a2f8))
-
-
-- **(ts/fast-dts)** Correctly emit Symbol-keyed accessors in declarations ([#10508](https://github.com/swc-project/swc/issues/10508)) ([1298e76](https://github.com/swc-project/swc/commit/1298e767e78d69ba02efb1cb3260266b5a2812c2))
-
 ### Performance
 
 
@@ -2612,9 +2603,6 @@
 
 ### Refactor
 
-
-
-- **(es/codegen)** Migrate to `ryu-js` for numeric literal codegen ([#10503](https://github.com/swc-project/swc/issues/10503)) ([4bc4244](https://github.com/swc-project/swc/commit/4bc4244c195d3a364b588348657fd8a3d8c22079))
 
 
 - **(ts/fast-dts)** Derive computed flags from source code ([#10510](https://github.com/swc-project/swc/issues/10510)) ([a2d5664](https://github.com/swc-project/swc/commit/a2d56645cbf753770a2634e23423a59acaae6b84))

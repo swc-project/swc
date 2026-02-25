@@ -1980,9 +1980,6 @@
 - **(es/parser)** Emit syntax errors for strict mode in non-module or scripts ([#10545](https://github.com/swc-project/swc/issues/10545)) ([1291b4a](https://github.com/swc-project/swc/commit/1291b4a78c51512fb0c699f3409275f4065bbc0b))
 
 
-- **(es/react-compiler)** Fix usefulness detection ([#10506](https://github.com/swc-project/swc/issues/10506)) ([41075a1](https://github.com/swc-project/swc/commit/41075a1c8776b62d7c2fc6436677d5d6b083a2f8))
-
-
 - **(es/utils)** Fix `extract_var_ids` ([#10511](https://github.com/swc-project/swc/issues/10511)) ([5644372](https://github.com/swc-project/swc/commit/56443727dd195a2a3500014b8f54b9a18e14e484))
 
 
@@ -1999,9 +1996,6 @@
 
 
 - **(swc_common)** Revert skip condition patch ([#10564](https://github.com/swc-project/swc/issues/10564)) ([2a2b284](https://github.com/swc-project/swc/commit/2a2b284f2522ee1bb04033a4aa787b853617823f))
-
-
-- **(ts/fast-dts)** Correctly emit Symbol-keyed accessors in declarations ([#10508](https://github.com/swc-project/swc/issues/10508)) ([1298e76](https://github.com/swc-project/swc/commit/1298e767e78d69ba02efb1cb3260266b5a2812c2))
 
 
 - **(ts/fast-dts)** Ensure correct emission of template literals and symbol-keyed properties ([#10530](https://github.com/swc-project/swc/issues/10530)) ([8dbdbef](https://github.com/swc-project/swc/commit/8dbdbef266f508e09f52ffe1cbe2e953e5039a3d))
@@ -2047,9 +2041,6 @@
 
 ### Refactor
 
-
-
-- **(es/codegen)** Migrate to `ryu-js` for numeric literal codegen ([#10503](https://github.com/swc-project/swc/issues/10503)) ([4bc4244](https://github.com/swc-project/swc/commit/4bc4244c195d3a364b588348657fd8a3d8c22079))
 
 
 - **(es/lexer)** Cleanup code for reading tokens ([#10533](https://github.com/swc-project/swc/issues/10533)) ([a72092c](https://github.com/swc-project/swc/commit/a72092c13166fe80d494e49cf0c5ec04e93ee4eb))
