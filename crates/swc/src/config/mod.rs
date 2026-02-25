@@ -16,6 +16,7 @@ use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
+#[cfg(feature = "module")]
 use path_clean::PathClean;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
