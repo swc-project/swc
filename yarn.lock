@@ -6232,6 +6232,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"binding_html_wasm-f9b7bc@workspace:bindings/binding_html_wasm":
+  version: 0.0.0-use.local
+  resolution: "binding_html_wasm-f9b7bc@workspace:bindings/binding_html_wasm"
+  dependencies:
+    "@rstest/core": "npm:^0.7.8"
+  languageName: unknown
+  linkType: soft
+
 "binding_minifier_wasm-5059cc@workspace:bindings/binding_minifier_wasm":
   version: 0.0.0-use.local
   resolution: "binding_minifier_wasm-5059cc@workspace:bindings/binding_minifier_wasm"

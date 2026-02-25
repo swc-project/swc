@@ -445,6 +445,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "binding_html_wasm"
+version = "1.15.13"
+dependencies = [
+ "anyhow",
+ "getrandom 0.3.4",
+ "lightningcss",
+ "serde",
+ "serde-wasm-bindgen",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_config",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_minifier",
+ "swc_css_parser",
+ "swc_error_reporters",
+ "swc_html",
+ "swc_html_ast",
+ "swc_html_minifier",
+ "tracing",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+]
+
+[[package]]
 name = "binding_macros"
 version = "55.0.0"
 dependencies = [
