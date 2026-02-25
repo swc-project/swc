@@ -5816,7 +5816,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "57.0.1"
+version = "57.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -7247,7 +7247,7 @@ dependencies = [
 
 [[package]]
 name = "swc_sourcemap"
-version = "9.3.4"
+version = "9.4.0"
 dependencies = [
  "base64-simd 0.8.0",
  "bitvec",

@@ -1,6 +1,6 @@
 [package]
 name = "swc_sourcemap"
-version = "9.3.4"
+version = "9.4.0"
 authors = ["Sentry <hello@sentry.io>", "swc-project <https://swc.rs>"]
 keywords = ["javascript", "sourcemap", "sourcemaps"]
 description = "Forked from https://github.com/getsentry/rust-sourcemap"
