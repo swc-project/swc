@@ -16,6 +16,7 @@ use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
+use path_clean::PathClean;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
@@ -1612,9 +1613,24 @@ impl ModuleConfig {
             return None;
         }
 
+        // Normalize the base path without resolving symlinks.
+        // Using `.clean()` instead of `.canonicalize()` keeps symlinked
+        // paths intact, which is required for correct relative-path
+        // computation in `diff_paths` (both base and target must live
+        // in the same "path space").
+        //
+        // https://github.com/swc-project/swc/issues/8265
+        // https://github.com/swc-project/swc/issues/11584
         let base = match base {
             FileName::Real(v) if !skip_resolver => {
-                FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
+                let cleaned = if v.is_absolute() {
+                    v.clean()
+                } else {
+                    env::current_dir()
+                        .map(|cwd| cwd.join(v).clean())
+                        .unwrap_or_else(|_| v.to_path_buf())
+                };
+                FileName::Real(cleaned)
             }
             _ => base.clone(),
         };

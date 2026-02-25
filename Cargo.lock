@@ -5545,6 +5545,7 @@ dependencies = [
  "par-core",
  "par-iter",
  "parking_lot",
+ "path-clean 1.0.1",
  "regex",
  "rustc-hash 2.1.1",
  "serde",
