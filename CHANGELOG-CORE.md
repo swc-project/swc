@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- Emit ECMA-426 source map scopes behind experimental flag ([#11582](https://github.com/swc-project/swc/issues/11582)) ([2385a22](https://github.com/swc-project/swc/commit/2385a2279ee71abca3ae485d04a800e24bf55bae))
+
+## [swc_core@v57.1.0] - 2026-02-25
+
 ### Documentation
 
 

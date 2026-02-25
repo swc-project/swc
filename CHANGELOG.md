@@ -16,6 +16,9 @@
 
 - **(sourcemap)** Support safe scopes round-trip metadata ([#11581](https://github.com/swc-project/swc/issues/11581)) ([de2a348](https://github.com/swc-project/swc/commit/de2a348daed80e47c75dabaf2f0ce945d850210a))
 
+
+- Emit ECMA-426 source map scopes behind experimental flag ([#11582](https://github.com/swc-project/swc/issues/11582)) ([2385a22](https://github.com/swc-project/swc/commit/2385a2279ee71abca3ae485d04a800e24bf55bae))
+
 ## [1.15.13] - 2026-02-23
 
 ### Bug Fixes

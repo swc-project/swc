@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "45.0.1"
+version       = "46.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -51,25 +51,25 @@ ryu-js = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
-swc_common = { version = "18.0.1", path = "../swc_common" }
-swc_config = { version = "3.1.2", path = "../swc_config", features = [
+swc_common = { version = "19.0.0", path = "../swc_common" }
+swc_config = { version = "4.0.0", path = "../swc_config", features = [
   "sourcemap",
   "file_pattern",
   "regex_js",
 ] }
-swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "21.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_hooks = { version = "0.4.0", path = "../swc_ecma_hooks" }
-swc_ecma_parser = { version = "34.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_codegen = { version = "24.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_hooks = { version = "0.5.0", path = "../swc_ecma_hooks" }
+swc_ecma_parser = { version = "35.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "37.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "39.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_usage_analyzer = { version = "28.0.0", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit" }
+swc_ecma_transforms_base = { version = "38.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "40.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_usage_analyzer = { version = "29.0.0", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_utils = { version = "27.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 tracing = { workspace = true }
 
@@ -81,9 +81,9 @@ flate2                    = { workspace = true }
 humansize                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 pretty_assertions         = { workspace = true }
-swc_ecma_testing          = { version = "19.0.0", path = "../swc_ecma_testing" }
+swc_ecma_testing          = { version = "20.0.0", path = "../swc_ecma_testing" }
 swc_malloc                = { version = "1.2.4", path = "../swc_malloc" }
-testing                   = { version = "19.0.0", path = "../testing" }
+testing                   = { version = "20.0.0", path = "../testing" }
 walkdir                   = { workspace = true }
 
 [[bench]]
