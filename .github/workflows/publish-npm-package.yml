@@ -609,7 +609,7 @@ jobs:
   publish-wasm:
     environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
-    if: ${{ inputs.publishWasm && inputs.package == matrix.settings.package }}
+    if: ${{ inputs.publishWasm }}
     runs-on: ubuntu-latest
     needs:
       - publish
