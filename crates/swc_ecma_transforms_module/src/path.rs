@@ -1,7 +1,6 @@
 use std::{
     borrow::Cow,
     env::current_dir,
-    fs::canonicalize,
     io,
     path::{Component, Path, PathBuf},
     sync::Arc,
@@ -101,14 +100,6 @@ pub struct Config {
     pub base_dir: Option<PathBuf>,
     pub resolve_fully: bool,
     pub file_extension: String,
-    /// When true, do not resolve symlinks via `canonicalize()`.
-    ///
-    /// This is needed when a bundler sets `resolve.symlinks: false` so that
-    /// imports from symlinked source files resolve relative to the symlink
-    /// location rather than the real file location.
-    ///
-    /// See https://github.com/swc-project/swc/issues/11584
-    pub preserve_symlinks: bool,
 }
 
 impl Default for Config {
@@ -117,7 +108,6 @@ impl Default for Config {
             file_extension: crate::util::Config::default_js_ext(),
             resolve_fully: bool::default(),
             base_dir: Option::default(),
-            preserve_symlinks: bool::default(),
         }
     }
 }
@@ -263,21 +253,15 @@ where
             }
         };
 
-        // Bazel uses symlink
+        // Clean the resolved path to normalize `.` and `..` components
+        // without resolving symlinks. Previously this used `canonicalize()`
+        // which resolved symlinks, breaking setups where symlinked source
+        // files need imports resolved relative to the symlink location.
         //
         // https://github.com/swc-project/swc/issues/8265
-        //
-        // When `preserve_symlinks` is true, skip canonicalization so that
-        // symlinked paths are preserved. This is needed when a bundler sets
-        // `resolve.symlinks: false`.
-        //
         // https://github.com/swc-project/swc/issues/11584
-        if !self.config.preserve_symlinks {
-            if let FileName::Real(resolved) = &target.filename {
-                if let Ok(orig) = canonicalize(resolved) {
-                    target.filename = FileName::Real(orig);
-                }
-            }
+        if let FileName::Real(resolved) = &mut target.filename {
+            *resolved = resolved.clean();
         }
 
         let Resolution {

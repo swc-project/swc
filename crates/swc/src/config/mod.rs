@@ -300,7 +300,6 @@ impl Options {
             keep_class_names,
             base_url,
             paths,
-            preserve_symlinks,
             minify: mut js_minify,
             experimental,
             #[cfg(feature = "lint")]
@@ -311,7 +310,6 @@ impl Options {
         } = cfg.jsc;
         let loose = loose.into_bool();
         let preserve_all_comments = preserve_all_comments.into_bool();
-        let preserve_symlinks = preserve_symlinks.into_bool();
         let keep_class_names = keep_class_names.into_bool();
         let external_helpers = external_helpers.into_bool();
 
@@ -592,13 +590,7 @@ impl Options {
         };
 
         let paths = paths.into_iter().collect();
-        let resolver = ModuleConfig::get_resolver(
-            &base_url,
-            paths,
-            base,
-            cfg.module.as_ref(),
-            preserve_symlinks,
-        );
+        let resolver = ModuleConfig::get_resolver(&base_url, paths, base, cfg.module.as_ref());
 
         let target = es_version;
         let inject_helpers = !self.skip_helper_injection;
@@ -1379,15 +1371,6 @@ pub struct JscConfig {
     #[serde(default)]
     pub paths: Paths,
 
-    /// When true, do not resolve symlinks via `canonicalize()` during module
-    /// resolution. This is needed when a bundler sets `resolve.symlinks: false`
-    /// so that imports from symlinked source files resolve relative to the
-    /// symlink location rather than the real file location.
-    ///
-    /// See https://github.com/swc-project/swc/issues/11584
-    #[serde(default)]
-    pub preserve_symlinks: BoolConfig<false>,
-
     #[serde(default)]
     pub minify: Option<JsMinifyOptions>,
 
@@ -1622,7 +1605,6 @@ impl ModuleConfig {
         paths: CompiledPaths,
         base: &FileName,
         config: Option<&ModuleConfig>,
-        preserve_symlinks: bool,
     ) -> Option<(FileName, Arc<dyn ImportResolver>)> {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
@@ -1630,33 +1612,22 @@ impl ModuleConfig {
             return None;
         }
 
-        let base = if preserve_symlinks {
-            base.clone()
-        } else {
-            match base {
-                FileName::Real(v) if !skip_resolver => {
-                    FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
-                }
-                _ => base.clone(),
+        let base = match base {
+            FileName::Real(v) if !skip_resolver => {
+                FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
             }
+            _ => base.clone(),
         };
 
         let base_url = base_url.to_path_buf();
         let resolver = match config {
-            None => build_resolver(
-                base_url,
-                paths,
-                false,
-                &util::Config::default_js_ext(),
-                preserve_symlinks,
-            ),
+            None => build_resolver(base_url, paths, false, &util::Config::default_js_ext()),
             Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
                 build_resolver(
                     base_url,
                     paths,
                     config.config.resolve_fully,
                     &config.config.out_file_extension,
-                    preserve_symlinks,
                 )
             }
             Some(ModuleConfig::CommonJs(config)) => build_resolver(
@@ -1664,28 +1635,24 @@ impl ModuleConfig {
                 paths,
                 config.resolve_fully,
                 &config.out_file_extension,
-                preserve_symlinks,
             ),
             Some(ModuleConfig::Umd(config)) => build_resolver(
                 base_url,
                 paths,
                 config.config.resolve_fully,
                 &config.config.out_file_extension,
-                preserve_symlinks,
             ),
             Some(ModuleConfig::Amd(config)) => build_resolver(
                 base_url,
                 paths,
                 config.config.resolve_fully,
                 &config.config.out_file_extension,
-                preserve_symlinks,
             ),
             Some(ModuleConfig::SystemJs(config)) => build_resolver(
                 base_url,
                 paths,
                 config.config.resolve_fully,
                 &config.config.out_file_extension,
-                preserve_symlinks,
             ),
         };
 
@@ -1714,7 +1681,6 @@ impl ModuleConfig {
         _paths: CompiledPaths,
         _base: &FileName,
         _config: Option<&ModuleConfig>,
-        _preserve_symlinks: bool,
     ) -> Option<(FileName, Arc<dyn swc_ecma_loader::resolve::Resolve>)> {
         None
     }
@@ -2032,10 +1998,9 @@ fn build_resolver(
     paths: CompiledPaths,
     resolve_fully: bool,
     file_extension: &str,
-    preserve_symlinks: bool,
 ) -> SwcImportResolver {
     static CACHE: Lazy<
-        DashMap<(PathBuf, CompiledPaths, bool, String, bool), SwcImportResolver, FxBuildHasher>,
+        DashMap<(PathBuf, CompiledPaths, bool, String), SwcImportResolver, FxBuildHasher>,
     > = Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.
@@ -2057,7 +2022,6 @@ fn build_resolver(
         paths.clone(),
         resolve_fully,
         file_extension.to_owned(),
-        preserve_symlinks,
     )) {
         return cached.clone();
     }
@@ -2080,20 +2044,13 @@ fn build_resolver(
                 base_dir: Some(base_url.clone()),
                 resolve_fully,
                 file_extension: file_extension.to_owned(),
-                preserve_symlinks,
             },
         );
         Arc::new(r)
     };
 
     CACHE.insert(
-        (
-            base_url,
-            paths,
-            resolve_fully,
-            file_extension.to_owned(),
-            preserve_symlinks,
-        ),
+        (base_url, paths, resolve_fully, file_extension.to_owned()),
         r.clone(),
     );
 

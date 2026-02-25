@@ -1,7 +1,5 @@
 ---
-swc_ecma_transforms_module: minor
-swc: minor
-swc_core: minor
+swc_ecma_transforms_module: patch
 ---
 
-fix(transforms/module): add `preserveSymlinks` option to skip canonicalization of symlinked paths during module resolution
+fix(transforms/module): replace `canonicalize()` with `path_clean` to avoid resolving symlinks during module resolution

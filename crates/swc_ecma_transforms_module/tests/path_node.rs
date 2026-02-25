@@ -108,7 +108,6 @@ fn paths_resolver(base_dir: &Path, rules: Vec<(String, Vec<String>)>) -> JscPath
             base_dir: Some(base_dir),
             resolve_fully: true,
             file_extension: swc_ecma_transforms_module::util::Config::default_js_ext(),
-            ..Default::default()
         },
     )
 }
@@ -162,9 +161,9 @@ fn fixture(input_dir: PathBuf) {
 
 /// Test for https://github.com/swc-project/swc/issues/11584
 ///
-/// When `preserve_symlinks` is true, `NodeImportResolver` should not
-/// canonicalize resolved target paths. This ensures that symlinked source
-/// files resolve imports relative to the symlink location, not the real
+/// `NodeImportResolver` should not resolve symlinks when computing
+/// relative import paths. This ensures that symlinked source files
+/// resolve imports relative to the symlink location, not the real
 /// file location.
 ///
 /// Directory structure:
@@ -176,14 +175,9 @@ fn fixture(input_dir: PathBuf) {
 ///       lib/           <- symlink -> ../../real/lib
 ///       src/
 ///         index.js     <- real file, imports ../lib/dep
-///
-/// Without preserve_symlinks, the resolved path `project/lib/dep.js` gets
-/// canonicalized to `real/lib/dep.js`, and the relative path from
-/// `project/src/` to `real/lib/dep.js` becomes `../../real/lib/dep`
-/// instead of the correct `../lib/dep`.
 #[cfg(unix)]
 #[test]
-fn issue_11584_preserve_symlinks() {
+fn issue_11584_symlink_not_canonicalized() {
     use std::{fs, os::unix::fs as unix_fs};
 
     let tmpdir = TempDir::new().unwrap();
@@ -214,49 +208,23 @@ fn issue_11584_preserve_symlinks() {
     unix_fs::symlink(&real_lib, project_dir.join("lib")).unwrap();
 
     // The base filename is in project/src/ (a real file, not a symlink).
-    // The import ../lib/dep resolves to project/lib/dep.js which is a symlink.
+    // The import ../lib/dep resolves to project/lib/dep.js through the symlink.
     let base = FileName::Real(project_src.join("index.js"));
 
-    // Without preserve_symlinks (default), the resolved path
-    // project/lib/dep.js gets canonicalized to real/lib/dep.js and the
-    // relative path becomes ../../real/lib/dep instead of ../lib/dep.
-    let resolver_no_preserve = NodeImportResolver::with_config(
+    let resolver = NodeImportResolver::with_config(
         NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
         swc_ecma_transforms_module::path::Config {
             base_dir: Some(base_dir.clone()),
-            preserve_symlinks: false,
             ..Default::default()
         },
     );
 
-    let result_no_preserve = resolver_no_preserve
-        .resolve_import(&base, "../lib/dep")
-        .unwrap();
-    // This demonstrates the bug: canonicalization resolves the symlink,
-    // producing a path through the real directory instead of the symlink.
+    let result = resolver.resolve_import(&base, "../lib/dep").unwrap();
+    // The resolved path should stay relative to the symlink location
+    // (project/lib/) instead of being canonicalized to the real location
+    // (real/lib/), which would produce ../../real/lib/dep.js.
     assert_eq!(
-        &*result_no_preserve, "../../real/lib/dep.js",
-        "Without preserve_symlinks, canonicalization resolves the symlink to the real path"
-    );
-
-    // With preserve_symlinks, the symlink path should be preserved.
-    let resolver_preserve = NodeImportResolver::with_config(
-        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
-        swc_ecma_transforms_module::path::Config {
-            base_dir: Some(base_dir.clone()),
-            preserve_symlinks: true,
-            ..Default::default()
-        },
-    );
-
-    let result_preserve = resolver_preserve
-        .resolve_import(&base, "../lib/dep")
-        .unwrap();
-    // The resolver appends .js since it resolves to dep.js on disk, but
-    // the path should stay relative to the symlink location (project/lib/)
-    // instead of resolving through to the real location (real/lib/).
-    assert_eq!(
-        &*result_preserve, "../lib/dep.js",
-        "With preserve_symlinks, the path should stay relative to the symlink location"
+        &*result, "../lib/dep.js",
+        "Symlink path should be preserved, not canonicalized to real path"
     );
 }
