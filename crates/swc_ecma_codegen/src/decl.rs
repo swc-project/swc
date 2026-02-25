@@ -3,9 +3,12 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
 use super::{Emitter, Result};
-use crate::text_writer::WriteJs;
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
+use crate::{
+    scope_helpers::{for_each_param_binding, for_each_var_decl_binding},
+    text_writer::{BindingStorage, ScopeKind, WriteJs},
+};
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
@@ -53,6 +56,19 @@ where
         self.wr.commit_pending_semi()?;
 
         srcmap!(self, node, true);
+
+        if self.scope_tracking_enabled() {
+            let storage = if matches!(node.kind, VarDeclKind::Var) {
+                BindingStorage::Hoisted
+            } else {
+                BindingStorage::Lexical
+            };
+            let mut names = vec![];
+            for_each_var_decl_binding(node, &mut |name| names.push(name.to_string()));
+            for name in names {
+                self.add_scope_variable(&name, Some(&name), storage)?;
+            }
+        }
 
         if node.declare {
             keyword!(self, "declare");
@@ -111,6 +127,8 @@ impl MacroNode for Decl {
 #[node_impl]
 impl MacroNode for ClassDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let name = self.ident.sym.as_ref();
+        emitter.add_scope_variable(name, Some(name), BindingStorage::Lexical)?;
         emitter.emit_class_decl_inner(self, false)?;
         Ok(())
     }
@@ -147,6 +165,24 @@ impl MacroNode for FnDecl {
         emitter.wr.commit_pending_semi()?;
 
         srcmap!(emitter, self, true);
+        let fn_name = self.ident.sym.as_ref();
+        emitter.add_scope_variable(fn_name, Some(fn_name), BindingStorage::Hoisted)?;
+        emitter.start_scope(
+            Some(fn_name),
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -169,6 +205,7 @@ impl MacroNode for FnDecl {
         emit!(self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
+        emitter.end_scope()?;
 
         Ok(())
     }

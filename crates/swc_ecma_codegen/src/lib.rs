@@ -20,8 +20,14 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
 pub use self::config::Config;
-use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
-use crate::util::EndsWithAlphaNum;
+use self::{
+    text_writer::{BindingStorage, ScopeKind, WriteJs},
+    util::StartsWithAlphaNum,
+};
+use crate::{
+    scope_helpers::{for_each_param_binding, for_each_pat_binding},
+    util::EndsWithAlphaNum,
+};
 
 #[macro_use]
 pub mod macros;
@@ -35,6 +41,7 @@ mod lit;
 mod module_decls;
 mod object;
 mod pat;
+mod scope_helpers;
 mod stmt;
 #[cfg(test)]
 mod tests;
@@ -145,6 +152,51 @@ where
 
     pub fn emit_script(&mut self, node: &Script) -> Result {
         node.emit_with(self)
+    }
+
+    #[inline(always)]
+    fn scope_tracking_enabled(&self) -> bool {
+        self.wr.has_scope_tracking()
+    }
+
+    #[inline(always)]
+    fn start_scope(
+        &mut self,
+        name: Option<&str>,
+        kind: ScopeKind,
+        is_stack_frame: bool,
+        is_hidden: bool,
+        original_span: Option<Span>,
+    ) -> Result {
+        if self.scope_tracking_enabled() {
+            self.wr
+                .start_scope(name, kind, is_stack_frame, is_hidden, original_span)?;
+        }
+
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn end_scope(&mut self) -> Result {
+        if self.scope_tracking_enabled() {
+            self.wr.end_scope()?;
+        }
+
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn add_scope_variable(
+        &mut self,
+        name: &str,
+        expression: Option<&str>,
+        storage: BindingStorage,
+    ) -> Result {
+        if self.scope_tracking_enabled() {
+            self.wr.add_scope_variable(name, expression, storage)?;
+        }
+
+        Ok(())
     }
 
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
@@ -721,6 +773,8 @@ where
     fn emit_block_stmt_inner(&mut self, node: &BlockStmt, skip_first_src_map: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        self.start_scope(None, ScopeKind::Block, false, false, Some(node.span))?;
+
         if !skip_first_src_map {
             srcmap!(self, node, true);
         }
@@ -741,6 +795,7 @@ where
 
         srcmap!(self, node, false, true);
         punct!(self, "}");
+        self.end_scope()?;
 
         Ok(())
     }
@@ -1439,6 +1494,8 @@ impl MacroNode for Module {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
 
+        emitter.start_scope(None, ScopeKind::Module, false, false, Some(self.span))?;
+
         if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
@@ -1460,6 +1517,7 @@ impl MacroNode for Module {
         if !emitter.cfg.omit_last_semi {
             emitter.wr.commit_pending_semi()?;
         }
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -1471,6 +1529,8 @@ impl MacroNode for Script {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         let should_skip_leading_comments = self.body.iter().any(|s| s.span().lo == self.span.lo);
 
+        emitter.start_scope(None, ScopeKind::Global, false, false, Some(self.span))?;
+
         if !should_skip_leading_comments {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
@@ -1492,6 +1552,7 @@ impl MacroNode for Script {
         if !emitter.cfg.omit_last_semi {
             emitter.wr.commit_pending_semi()?;
         }
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -1812,6 +1873,17 @@ impl MacroNode for ArrowExpr {
 
         srcmap!(emitter, self, true);
 
+        emitter.start_scope(None, ScopeKind::Function, true, false, Some(self.span()))?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for pat in &self.params {
+                for_each_pat_binding(pat, &mut |name| names.push(name.to_string()));
+            }
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
+
         let space = !emitter.cfg.minify
             || match self.params.as_slice() {
                 [Pat::Ident(_)] => true,
@@ -1856,6 +1928,7 @@ impl MacroNode for ArrowExpr {
 
         punct!(emitter, "=>");
         emit!(self.body);
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -2008,6 +2081,22 @@ impl MacroNode for FnExpr {
         emitter.wr.commit_pending_semi()?;
 
         srcmap!(emitter, self, true);
+        emitter.start_scope(
+            self.ident.as_ref().map(|i| i.sym.as_ref()),
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         if self.function.is_async {
             keyword!(emitter, "async");
@@ -2026,6 +2115,7 @@ impl MacroNode for FnExpr {
         }
 
         emitter.emit_fn_trailing(&self.function)?;
+        emitter.end_scope()?;
 
         Ok(())
     }

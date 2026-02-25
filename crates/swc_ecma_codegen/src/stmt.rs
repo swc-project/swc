@@ -4,7 +4,11 @@ use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
-use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
+use crate::{
+    scope_helpers::for_each_pat_binding,
+    text_writer::{BindingStorage, ScopeKind},
+    util::{EndsWithAlphaNum, StartsWithAlphaNum},
+};
 
 #[node_impl]
 impl MacroNode for Stmt {
@@ -211,12 +215,21 @@ impl MacroNode for CatchClause {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.start_scope(None, ScopeKind::Catch, false, false, Some(self.span()))?;
 
         keyword!(emitter, "catch");
 
         formatting_space!(emitter);
 
         if let Some(param) = &self.param {
+            if emitter.scope_tracking_enabled() {
+                let mut names = vec![];
+                for_each_pat_binding(param, &mut |name| names.push(name.to_string()));
+                for name in names {
+                    emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+                }
+            }
+
             punct!(emitter, "(");
             emit!(param);
             punct!(emitter, ")");
@@ -225,6 +238,7 @@ impl MacroNode for CatchClause {
         formatting_space!(emitter);
 
         emit!(self.body);
+        emitter.end_scope()?;
 
         Ok(())
     }

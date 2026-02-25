@@ -4,7 +4,7 @@ use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
-use super::{Result, WriteJs};
+use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
 
 ///
 /// -----
@@ -24,14 +24,26 @@ pub struct JsWriter<'a, W: Write> {
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
+    scopes: Option<&'a mut Vec<ScopeRecord>>,
+    scope_stack: Vec<u32>,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
     pub fn new(
+        cm: Lrc<SourceMap>,
+        new_line: &'a str,
+        wr: W,
+        srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+    ) -> Self {
+        Self::new_with_scopes(cm, new_line, wr, srcmap, None)
+    }
+
+    pub fn new_with_scopes(
         _: Lrc<SourceMap>,
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
+        scopes: Option<&'a mut Vec<ScopeRecord>>,
     ) -> Self {
         JsWriter {
             indent: Default::default(),
@@ -44,6 +56,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
             wr,
             pending_srcmap: Default::default(),
             srcmap_done: Default::default(),
+            scopes,
+            scope_stack: Default::default(),
         }
     }
 
@@ -138,6 +152,14 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
                 srcmap.push((byte_pos, loc));
             }
+        }
+    }
+
+    #[inline]
+    fn generated_pos(&self) -> LineCol {
+        LineCol {
+            line: self.line_count as u32,
+            col: self.line_pos as u32,
         }
     }
 }
@@ -287,6 +309,102 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         false
     }
+
+    #[inline(always)]
+    fn has_scope_tracking(&self) -> bool {
+        self.scopes.is_some()
+    }
+
+    #[inline]
+    fn start_scope(
+        &mut self,
+        name: Option<&str>,
+        kind: super::ScopeKind,
+        is_stack_frame: bool,
+        is_hidden: bool,
+        original_span: Option<Span>,
+    ) -> Result {
+        let start = self.generated_pos();
+        let Some(scopes) = self.scopes.as_deref_mut() else {
+            return Ok(());
+        };
+
+        let idx = scopes.len() as u32;
+        let parent = self.scope_stack.last().copied();
+        scopes.push(ScopeRecord {
+            parent,
+            generated_start: start,
+            generated_end: None,
+            original_span,
+            kind,
+            is_stack_frame,
+            is_hidden,
+            name: name.map(str::to_owned),
+            bindings: vec![],
+        });
+        self.scope_stack.push(idx);
+
+        Ok(())
+    }
+
+    #[inline]
+    fn end_scope(&mut self) -> Result {
+        let Some(idx) = self.scope_stack.pop() else {
+            return Ok(());
+        };
+
+        let end = self.generated_pos();
+        if let Some(scopes) = self.scopes.as_deref_mut() {
+            if let Some(scope) = scopes.get_mut(idx as usize) {
+                scope.generated_end = Some(end);
+            }
+        }
+
+        Ok(())
+    }
+
+    #[inline]
+    fn add_scope_variable(
+        &mut self,
+        name: &str,
+        expression: Option<&str>,
+        storage: BindingStorage,
+    ) -> Result {
+        let Some(scopes) = self.scopes.as_deref() else {
+            return Ok(());
+        };
+
+        let target_scope = match storage {
+            BindingStorage::Hoisted => self
+                .scope_stack
+                .iter()
+                .rev()
+                .copied()
+                .find(|idx| scopes[*idx as usize].kind.is_hoist_target())
+                .or_else(|| self.scope_stack.last().copied()),
+            BindingStorage::Lexical => self.scope_stack.last().copied(),
+        };
+
+        let Some(target_scope) = target_scope else {
+            return Ok(());
+        };
+
+        let Some(scopes) = self.scopes.as_deref_mut() else {
+            return Ok(());
+        };
+        let scope = &mut scopes[target_scope as usize];
+        if scope.bindings.iter().any(|binding| binding.name == name) {
+            return Ok(());
+        }
+
+        scope.bindings.push(ScopeBindingRecord {
+            name: name.to_string(),
+            expression: expression.map(str::to_owned),
+            storage,
+        });
+
+        Ok(())
+    }
 }
 
 #[derive(Debug)]
@@ -334,7 +452,7 @@ mod test {
     use swc_common::SourceMap;
 
     use super::JsWriter;
-    use crate::text_writer::WriteJs;
+    use crate::text_writer::{BindingStorage, ScopeKind, WriteJs};
 
     #[test]
     fn changes_indent_str() {
@@ -347,5 +465,107 @@ mod test {
         writer.increase_indent().unwrap();
         writer.write_indent_string().unwrap();
         assert_eq!(output, "\t\t\t".as_bytes());
+    }
+
+    #[test]
+    fn collects_scopes_and_bindings() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut scopes = vec![];
+        let mut writer =
+            JsWriter::new_with_scopes(source_map, "\n", &mut output, None, Some(&mut scopes));
+
+        writer
+            .start_scope(Some("global"), ScopeKind::Global, false, false, None)
+            .unwrap();
+        writer
+            .add_scope_variable("g", Some("g"), BindingStorage::Hoisted)
+            .unwrap();
+
+        writer
+            .start_scope(Some("f"), ScopeKind::Function, true, false, None)
+            .unwrap();
+        writer
+            .add_scope_variable("p", Some("p"), BindingStorage::Lexical)
+            .unwrap();
+        writer
+            .start_scope(None, ScopeKind::Block, false, false, None)
+            .unwrap();
+        writer
+            .add_scope_variable("v", Some("v"), BindingStorage::Hoisted)
+            .unwrap();
+
+        writer.end_scope().unwrap();
+        writer.end_scope().unwrap();
+        writer.end_scope().unwrap();
+
+        assert_eq!(scopes.len(), 3);
+        assert_eq!(scopes[0].name.as_deref(), Some("global"));
+        assert_eq!(scopes[1].name.as_deref(), Some("f"));
+        assert_eq!(scopes[1].bindings.len(), 2);
+        assert_eq!(scopes[1].bindings[0].name, "p");
+        assert_eq!(scopes[1].bindings[1].name, "v");
+        assert_eq!(scopes[2].bindings.len(), 0);
+    }
+
+    #[test]
+    fn hoisted_binding_targets_nearest_hoist_scope() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut scopes = vec![];
+        let mut writer =
+            JsWriter::new_with_scopes(source_map, "\n", &mut output, None, Some(&mut scopes));
+
+        writer
+            .start_scope(Some("global"), ScopeKind::Global, false, false, None)
+            .unwrap();
+        writer
+            .start_scope(Some("fn"), ScopeKind::Function, true, false, None)
+            .unwrap();
+        writer
+            .start_scope(None, ScopeKind::Block, false, false, None)
+            .unwrap();
+
+        writer
+            .add_scope_variable("h", Some("h"), BindingStorage::Hoisted)
+            .unwrap();
+        writer
+            .add_scope_variable("l", Some("l"), BindingStorage::Lexical)
+            .unwrap();
+
+        writer.end_scope().unwrap();
+        writer.end_scope().unwrap();
+        writer.end_scope().unwrap();
+
+        assert_eq!(scopes.len(), 3);
+        assert_eq!(scopes[1].bindings.len(), 1);
+        assert_eq!(scopes[1].bindings[0].name, "h");
+        assert_eq!(scopes[2].bindings.len(), 1);
+        assert_eq!(scopes[2].bindings[0].name, "l");
+    }
+
+    #[test]
+    fn deduplicates_scope_variables_by_name() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut output = Vec::new();
+        let mut scopes = vec![];
+        let mut writer =
+            JsWriter::new_with_scopes(source_map, "\n", &mut output, None, Some(&mut scopes));
+
+        writer
+            .start_scope(Some("global"), ScopeKind::Global, false, false, None)
+            .unwrap();
+        writer
+            .add_scope_variable("dup", Some("first"), BindingStorage::Lexical)
+            .unwrap();
+        writer
+            .add_scope_variable("dup", Some("second"), BindingStorage::Lexical)
+            .unwrap();
+        writer.end_scope().unwrap();
+
+        assert_eq!(scopes.len(), 1);
+        assert_eq!(scopes[0].bindings.len(), 1);
+        assert_eq!(scopes[0].bindings[0].name, "dup");
+        assert_eq!(scopes[0].bindings[0].expression.as_deref(), Some("first"));
     }
 }

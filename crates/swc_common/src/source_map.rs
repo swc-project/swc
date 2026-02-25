@@ -1293,6 +1293,14 @@ pub fn build_source_map(
     config: &impl SourceMapGenConfig,
 ) -> swc_sourcemap::SourceMap {
     let mut builder = SourceMapBuilder::new(None);
+    if orig.is_none() {
+        config.for_each_additional_name(&mut |name| {
+            builder.add_name(unsafe {
+                // Safety: `name` is `&str`, so it's valid UTF-8.
+                BytesStr::from_utf8_slice_unchecked(name.as_bytes())
+            });
+        });
+    }
 
     let mut src_id = 0u32;
 
@@ -1506,6 +1514,11 @@ pub trait SourceMapGenConfig {
     fn name_for_bytepos(&self, _bpos: BytePos) -> Option<&str> {
         None
     }
+
+    /// Iterates over additional names that should be inserted into
+    /// `SourceMap.names` even if they are not directly referenced by mapping
+    /// tokens.
+    fn for_each_additional_name(&self, _op: &mut dyn FnMut(&str)) {}
 
     /// You can override this to control `sourceContents`.
     fn inline_sources_content(&self, f: &FileName) -> bool {

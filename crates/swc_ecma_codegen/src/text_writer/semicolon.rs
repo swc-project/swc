@@ -1,6 +1,6 @@
 use swc_common::{BytePos, Span, DUMMY_SP};
 
-use super::{Result, WriteJs};
+use super::{BindingStorage, Result, ScopeKind, WriteJs};
 
 pub fn omit_trailing_semi<W: WriteJs>(w: W) -> impl WriteJs {
     OmitTrailingSemi {
@@ -101,5 +101,71 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         self.inner.can_ignore_invalid_unicodes()
+    }
+
+    #[inline(always)]
+    fn has_scope_tracking(&self) -> bool {
+        self.inner.has_scope_tracking()
+    }
+
+    #[inline]
+    fn start_scope(
+        &mut self,
+        name: Option<&str>,
+        kind: ScopeKind,
+        is_stack_frame: bool,
+        is_hidden: bool,
+        original_span: Option<Span>,
+    ) -> Result {
+        self.inner
+            .start_scope(name, kind, is_stack_frame, is_hidden, original_span)
+    }
+
+    #[inline]
+    fn end_scope(&mut self) -> Result {
+        self.inner.end_scope()
+    }
+
+    #[inline]
+    fn add_scope_variable(
+        &mut self,
+        name: &str,
+        expression: Option<&str>,
+        storage: BindingStorage,
+    ) -> Result {
+        self.inner.add_scope_variable(name, expression, storage)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::sync::Arc;
+
+    use swc_common::SourceMap;
+
+    use crate::text_writer::{basic_impl::JsWriter, BindingStorage, ScopeKind, WriteJs};
+
+    #[test]
+    fn forwards_scope_operations() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut scopes = vec![];
+        {
+            let writer =
+                JsWriter::new_with_scopes(source_map, "\n", &mut out, None, Some(&mut scopes));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer
+                .start_scope(None, ScopeKind::Function, true, false, None)
+                .unwrap();
+            writer
+                .add_scope_variable("x", Some("x"), BindingStorage::Lexical)
+                .unwrap();
+            writer.end_scope().unwrap();
+        }
+
+        assert_eq!(scopes.len(), 1);
+        assert_eq!(scopes[0].bindings.len(), 1);
+        assert_eq!(scopes[0].bindings[0].name, "x");
     }
 }
