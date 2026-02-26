@@ -639,7 +639,7 @@ jobs:
             out: "esm"
           - package: "html"
             crate: "binding_html_wasm"
-            npm: "@swc\\/wasm-html"
+            npm: "@swc\\/html-wasm"
             target: web
             out: "pkg"
           # - crate: "binding_es_ast_viewer"
