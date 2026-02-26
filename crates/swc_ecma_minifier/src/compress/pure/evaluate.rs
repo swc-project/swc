@@ -523,6 +523,7 @@ impl Pure<'_> {
             },
             _ => return,
         };
+
         if args.len() > 1
             || args.first().is_some_and(|arg| {
                 if arg.spread.is_some() {
@@ -535,8 +536,7 @@ impl Pure<'_> {
             return;
         }
 
-        let args = args.iter().map(|i| Some(i.clone())).collect::<Vec<_>>();
-        let first_arg = get_first_arg(&args, &self.expr_ctx);
+        let first_arg = get_first_arg(args.iter().map(Some), &self.expr_ctx);
 
         if &*method.sym == "toFixed" {
             // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
@@ -1175,28 +1175,51 @@ fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
     res
 }
 
-fn get_first_arg(args: &Vec<Option<ExprOrSpread>>, expr_ctx: &ExprCtx) -> Option<Option<f64>> {
-    args.iter()
-        .find_map(|arg| {
-            if let Some(arg) = arg {
-                if arg.spread.is_some() {
-                    return match arg.expr.as_array() {
-                        Some(args) => {
-                            if args.elems.is_empty() {
-                                // next argument is used if the first spread argument is empty
-                                // so we can't evaluate the call.
-                                None
-                            } else {
-                                Some(get_first_arg(&args.elems, expr_ctx))
-                            }
-                        }
-                        None => Some(None),
-                    };
-                } else if !arg.expr.is_undefined(*expr_ctx) {
-                    return Some(Some(eval_as_number(*expr_ctx, &arg.expr)));
+/// Helper function to get the first argument of a call expression,
+///  taking into account spread elements.
+///
+/// `Some(None)` means that the first argument is a spread element, but we can't
+/// evaluate it.
+///
+/// `None` means that there is no argument.
+fn get_first_arg<'a>(
+    args: impl IntoIterator<Item = Option<&'a ExprOrSpread>>,
+    expr_ctx: &ExprCtx,
+) -> Option<Option<f64>> {
+    // A stack of iterators to process
+    let mut stack: Vec<Box<dyn Iterator<Item = Option<&'a ExprOrSpread>>>> =
+        vec![Box::new(args.into_iter())];
+
+    while let Some(current_iter) = stack.last_mut() {
+        // Get the next item from the top-most iterator
+        let Some(arg_opt) = current_iter.next() else {
+            // This iterator is exhausted, pop it and continue with the previous one
+            stack.pop();
+            continue;
+        };
+
+        if let Some(arg) = arg_opt {
+            if arg.spread.is_some() {
+                let Some(args_array) = arg.expr.as_array() else {
+                    // It's a spread we can't evaluate (like ...x)
+                    return Some(None);
+                };
+                if args_array.elems.is_empty() {
+                    // next argument is used if the first spread argument is empty
+                    // so we can't evaluate the call.
+                    continue;
+                } else {
+                    // Instead of recursing, push a new iterator onto the stack
+                    stack.push(Box::new(args_array.elems.iter().map(Option::as_ref)));
+                    continue;
                 }
+            } else if !arg.expr.is_undefined(*expr_ctx) {
+                // We found our first concrete argument!
+                return Some(eval_as_number(*expr_ctx, &arg.expr));
             }
-            Some(None)
-        })
-        .unwrap_or(None)
+        }
+    }
+
+    // If we exhausted all iterators and found nothing
+    None
 }
