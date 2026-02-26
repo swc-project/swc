@@ -5639,6 +5639,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_arena"
+version = "0.1.0"
+
+[[package]]
 name = "swc_atoms"
 version = "9.0.0"
 dependencies = [
@@ -6918,6 +6922,15 @@ dependencies = [
  "miette",
  "once_cell",
  "serde",
+ "swc_common",
+]
+
+[[package]]
+name = "swc_es_ast"
+version = "0.1.0"
+dependencies = [
+ "swc_arena",
+ "swc_atoms",
  "swc_common",
 ]
 
