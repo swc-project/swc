@@ -14,3 +14,11 @@ bench = false
 [features]
 
 [dependencies]
+
+[dev-dependencies]
+codspeed-criterion-compat = { workspace = true }
+swc_malloc                = { version = "1.2.4", path = "../swc_malloc" }
+
+[[bench]]
+harness = false
+name    = "bench"

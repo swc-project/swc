@@ -5641,6 +5641,10 @@ dependencies = [
 [[package]]
 name = "swc_arena"
 version = "0.1.0"
+dependencies = [
+ "codspeed-criterion-compat",
+ "swc_malloc",
+]
 
 [[package]]
 name = "swc_atoms"
