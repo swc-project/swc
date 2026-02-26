@@ -2010,16 +2010,10 @@
 
 
 
-- **(bindings)** Use published versions of crates ([#10513](https://github.com/swc-project/swc/issues/10513)) ([f65f028](https://github.com/swc-project/swc/commit/f65f02831cb68245d5790a6c867ac3e997eedbfd))
-
-
 - **(ecosystem-ci)** Exclude `ts-node` ([2b284e1](https://github.com/swc-project/swc/commit/2b284e1930bd9aab88d74bef0f7453bf23e2ddfe))
 
 ### Performance
 
-
-
-- **(es/minifier)** Merge `PropertyCollector` into usage analyzer ([#10514](https://github.com/swc-project/swc/issues/10514)) ([505bf54](https://github.com/swc-project/swc/commit/505bf542cd197afb2a5a5f7cd89ed97ac681a923))
 
 
 - **(es/minifier)** Remove needless clone ([#10523](https://github.com/swc-project/swc/issues/10523)) ([1c02ef6](https://github.com/swc-project/swc/commit/1c02ef63aa48b239a43f359991af736071634a21))
