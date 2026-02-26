@@ -283,6 +283,18 @@ function requireNative() {
       }
 
       }
+    } else if (process.arch === 'ppc64') {
+      try {
+        return require('./swc.linux-ppc64-gnu.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-linux-ppc64-gnu')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+
     } else if (process.arch === 's390x') {
       try {
         return require('./swc.linux-s390x-gnu.node')
@@ -297,6 +309,22 @@ function requireNative() {
 
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Linux: ${process.arch}`))
+    }
+  } else if (process.platform === 'aix') {
+    if (process.arch === 'ppc64') {
+      try {
+        return require('./swc.aix-ppc64.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-aix-ppc64')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+
+    } else {
+      loadErrors.push(new Error(`Unsupported architecture on AIX: ${process.arch}`))
     }
   } else {
     loadErrors.push(new Error(`Unsupported OS: ${process.platform}, architecture: ${process.arch}`))
