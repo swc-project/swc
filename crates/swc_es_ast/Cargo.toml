@@ -1,0 +1,19 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Arena-based ES AST definitions."
+documentation = "https://rustdoc.swc.rs/swc_es_ast/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_es_ast"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+[lib]
+bench = false
+
+[features]
+
+[dependencies]
+swc_arena = { version = "0.1.0", path = "../swc_arena" }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+swc_common = { version = "19.0.0", path = "../swc_common" }
