@@ -13,7 +13,9 @@
 - Script/module/program entry points are available.
 - Core statements and expression parsing are implemented.
 - `import`/`export` bootstrap parsing is included.
-- Bootstrap support for `for`, array/object literals, JSX elements, and TypeScript `type`/`as` is available.
+- Structured `for` head parsing is available (`classic`, `for..in`, `for..of`).
+- JSX parsing supports qualified tag names and reports opening/closing tag mismatches.
+- TypeScript parsing builds structured type nodes (function/union/intersection/tuple/array/type-literal/type-args) for `type` aliases and `as` assertions.
 
 ## Fixture Harness
 

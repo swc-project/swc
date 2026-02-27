@@ -2,11 +2,13 @@ use swc_atoms::Atom;
 use swc_common::{Span, DUMMY_SP};
 use swc_es_ast::{
     ArrayExpr, ArrayPat, AssignExpr, AssignOp, AstStore, BinaryExpr, BinaryOp, BlockStmt, BoolLit,
-    CallExpr, Decl, EmptyStmt, Expr, ExprOrSpread, ExprStmt, FnDecl, ForStmt, Function, Ident,
-    IfStmt, KeyValueProp, Lit, MemberExpr, MemberProp, ModuleDecl, NullLit, NumberLit, ObjectExpr,
-    Pat, Program, ProgramId, ProgramKind, PropName, RestPat, ReturnStmt, Stmt, StrLit,
-    TsKeywordType, TsType, TsTypeAliasDecl, TsTypeRef, UnaryExpr, UnaryOp, VarDecl, VarDeclKind,
-    VarDeclarator, WhileStmt,
+    CallExpr, Decl, EmptyStmt, Expr, ExprOrSpread, ExprStmt, FnDecl, ForBinding, ForClassicHead,
+    ForHead, ForInHead, ForInit, ForOfHead, ForStmt, Function, Ident, IfStmt, KeyValueProp, Lit,
+    MemberExpr, MemberProp, ModuleDecl, NullLit, NumberLit, ObjectExpr, Pat, Program, ProgramId,
+    ProgramKind, PropName, RestPat, ReturnStmt, Stmt, StrLit, TsArrayType, TsFnParam, TsFnType,
+    TsIntersectionType, TsKeywordType, TsParenthesizedType, TsTupleType, TsType, TsTypeAliasDecl,
+    TsTypeLit, TsTypeRef, TsUnionType, UnaryExpr, UnaryOp, VarDecl, VarDeclKind, VarDeclarator,
+    WhileStmt,
 };
 
 use crate::{
@@ -433,23 +435,86 @@ impl<'a> Parser<'a> {
     fn parse_for_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
         let start = self.cur.span.lo;
         self.bump();
+        let is_await = if self.cur.kind == TokenKind::Keyword(Keyword::Await) {
+            self.bump();
+            true
+        } else {
+            false
+        };
         let _ = self.expect(TokenKind::LParen, "(")?;
 
-        let mut depth = 1usize;
-        while depth > 0 && self.cur.kind != TokenKind::Eof {
-            match self.cur.kind {
-                TokenKind::LParen => depth += 1,
-                TokenKind::RParen => {
-                    depth -= 1;
-                    if depth == 0 {
-                        self.bump();
-                        break;
-                    }
-                }
-                _ => {}
-            }
+        let head = if self.cur.kind == TokenKind::Semi {
             self.bump();
-        }
+            let test = if self.cur.kind == TokenKind::Semi {
+                None
+            } else {
+                Some(self.parse_expr()?)
+            };
+            let _ = self.expect(TokenKind::Semi, ";")?;
+            let update = if self.cur.kind == TokenKind::RParen {
+                None
+            } else {
+                let expr = self.parse_expr()?;
+                if matches!(self.cur.kind, TokenKind::PlusPlus | TokenKind::MinusMinus) {
+                    self.bump();
+                }
+                Some(expr)
+            };
+            ForHead::Classic(ForClassicHead {
+                init: None,
+                test,
+                update,
+            })
+        } else {
+            let init = self.parse_for_init()?;
+            if self.cur.kind == TokenKind::Keyword(Keyword::In) {
+                self.bump();
+                let right = self.parse_expr()?;
+                ForHead::In(ForInHead {
+                    left: self.for_init_to_binding(init),
+                    right,
+                })
+            } else if self.cur_ident_is("of") {
+                self.bump();
+                let right = self.parse_expr()?;
+                ForHead::Of(ForOfHead {
+                    is_await,
+                    left: self.for_init_to_binding(init),
+                    right,
+                })
+            } else {
+                if is_await {
+                    self.errors.push(Error::new(
+                        self.cur.span,
+                        Severity::Error,
+                        ErrorCode::UnexpectedToken,
+                        "for await requires an of-clause",
+                    ));
+                }
+                let _ = self.expect(TokenKind::Semi, ";")?;
+                let test = if self.cur.kind == TokenKind::Semi {
+                    None
+                } else {
+                    Some(self.parse_expr()?)
+                };
+                let _ = self.expect(TokenKind::Semi, ";")?;
+                let update = if self.cur.kind == TokenKind::RParen {
+                    None
+                } else {
+                    let expr = self.parse_expr()?;
+                    if matches!(self.cur.kind, TokenKind::PlusPlus | TokenKind::MinusMinus) {
+                        self.bump();
+                    }
+                    Some(expr)
+                };
+                ForHead::Classic(ForClassicHead {
+                    init: Some(init),
+                    test,
+                    update,
+                })
+            }
+        };
+        let _ = self.expect(TokenKind::RParen, ")")?;
 
         let old_ctx = self.ctx;
         self.ctx.insert(Context::IN_LOOP);
@@ -458,6 +523,7 @@ impl<'a> Parser<'a> {
 
         Ok(self.store.alloc_stmt(Stmt::For(ForStmt {
             span: Span::new_with_checked(start, self.last_pos()),
+            head,
             body,
         })))
     }
@@ -555,27 +621,7 @@ impl<'a> Parser<'a> {
         };
         self.bump();
 
-        let mut declarators = Vec::new();
-        while self.cur.kind != TokenKind::Semi && self.cur.kind != TokenKind::Eof {
-            let pat = self.parse_binding_pat()?;
-            let init = if self.cur.kind == TokenKind::Eq {
-                self.bump();
-                Some(self.parse_expr()?)
-            } else {
-                None
-            };
-
-            declarators.push(VarDeclarator {
-                span: Span::new_with_checked(start, self.last_pos()),
-                name: pat,
-                init,
-            });
-
-            if self.cur.kind != TokenKind::Comma {
-                break;
-            }
-            self.bump();
-        }
+        let declarators = self.parse_var_declarators(start, false)?;
         self.eat_semi();
 
         let decl = self.store.alloc_decl(Decl::Var(VarDecl {
@@ -597,26 +643,7 @@ impl<'a> Parser<'a> {
         }
         self.bump();
 
-        let mut declarators = Vec::new();
-        while self.cur.kind != TokenKind::Semi && self.cur.kind != TokenKind::Eof {
-            let pat = self.parse_binding_pat()?;
-            let init = if self.cur.kind == TokenKind::Eq {
-                self.bump();
-                Some(self.parse_expr()?)
-            } else {
-                None
-            };
-            declarators.push(VarDeclarator {
-                span: Span::new_with_checked(start, self.last_pos()),
-                name: pat,
-                init,
-            });
-
-            if self.cur.kind != TokenKind::Comma {
-                break;
-            }
-            self.bump();
-        }
+        let declarators = self.parse_var_declarators(start, false)?;
         self.eat_semi();
 
         let decl = self.store.alloc_decl(Decl::Var(VarDecl {
@@ -632,13 +659,146 @@ impl<'a> Parser<'a> {
         Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
     }
 
+    fn parse_for_init(&mut self) -> PResult<ForInit> {
+        if matches!(
+            self.cur.kind,
+            TokenKind::Keyword(Keyword::Var | Keyword::Let | Keyword::Const)
+        ) {
+            let decl = self.parse_var_decl_for_head()?;
+            return Ok(ForInit::Decl(decl));
+        }
+
+        if self.syntax().explicit_resource_management() {
+            if self.cur.kind == TokenKind::Keyword(Keyword::Await) && self.peek_ident_is("using") {
+                let decl = self.parse_using_decl_for_head(true)?;
+                return Ok(ForInit::Decl(decl));
+            }
+            if self.cur.kind == TokenKind::Ident && self.cur_ident_is("using") {
+                let decl = self.parse_using_decl_for_head(false)?;
+                return Ok(ForInit::Decl(decl));
+            }
+        }
+
+        let expr = self.parse_expr()?;
+        Ok(ForInit::Expr(expr))
+    }
+
+    fn for_init_to_binding(&mut self, init: ForInit) -> ForBinding {
+        match init {
+            ForInit::Decl(decl) => ForBinding::Decl(decl),
+            ForInit::Expr(expr) => match self.store.expr(expr).cloned() {
+                Some(Expr::Ident(_)) => ForBinding::Pat(self.expr_to_assign_pat(expr)),
+                _ => ForBinding::Expr(expr),
+            },
+        }
+    }
+
+    fn parse_var_decl_for_head(&mut self) -> PResult<swc_es_ast::DeclId> {
+        let start = self.cur.span.lo;
+        let kind = match self.cur.kind {
+            TokenKind::Keyword(Keyword::Var) => VarDeclKind::Var,
+            TokenKind::Keyword(Keyword::Let) => VarDeclKind::Let,
+            TokenKind::Keyword(Keyword::Const) => VarDeclKind::Const,
+            _ => {
+                return Err(Error::new(
+                    self.cur.span,
+                    Severity::Fatal,
+                    ErrorCode::InvalidStatement,
+                    "expected variable declaration",
+                ));
+            }
+        };
+        self.bump();
+
+        let declarators = self.parse_var_declarators(start, true)?;
+        Ok(self.store.alloc_decl(Decl::Var(VarDecl {
+            span: Span::new_with_checked(start, self.last_pos()),
+            kind,
+            declarators,
+        })))
+    }
+
+    fn parse_using_decl_for_head(&mut self, has_await: bool) -> PResult<swc_es_ast::DeclId> {
+        let start = self.cur.span.lo;
+        if has_await {
+            self.bump();
+        }
+        if self.cur.kind != TokenKind::Ident || !self.cur_ident_is("using") {
+            return Err(self.expected("using"));
+        }
+        self.bump();
+
+        let kind = if has_await {
+            VarDeclKind::AwaitUsing
+        } else {
+            VarDeclKind::Using
+        };
+        let declarators = self.parse_var_declarators(start, true)?;
+        Ok(self.store.alloc_decl(Decl::Var(VarDecl {
+            span: Span::new_with_checked(start, self.last_pos()),
+            kind,
+            declarators,
+        })))
+    }
+
+    fn parse_var_declarators(
+        &mut self,
+        start: swc_common::BytePos,
+        for_head: bool,
+    ) -> PResult<Vec<VarDeclarator>> {
+        let mut declarators = Vec::new();
+        while self.cur.kind != TokenKind::Eof {
+            if self.cur.kind == TokenKind::Semi || self.cur.kind == TokenKind::RParen {
+                break;
+            }
+            if for_head
+                && (self.cur.kind == TokenKind::Keyword(Keyword::In)
+                    || (self.cur.kind == TokenKind::Ident && self.cur_ident_is("of")))
+            {
+                break;
+            }
+
+            let pat = self.parse_binding_pat()?;
+            let init = if self.cur.kind == TokenKind::Eq {
+                self.bump();
+                Some(self.parse_expr()?)
+            } else {
+                None
+            };
+
+            declarators.push(VarDeclarator {
+                span: Span::new_with_checked(start, self.last_pos()),
+                name: pat,
+                init,
+            });
+
+            if self.cur.kind != TokenKind::Comma {
+                break;
+            }
+            self.bump();
+        }
+
+        if declarators.is_empty() {
+            return Err(Error::new(
+                self.cur.span,
+                Severity::Fatal,
+                ErrorCode::InvalidStatement,
+                "expected at least one declarator",
+            ));
+        }
+
+        Ok(declarators)
+    }
+
     fn parse_ts_type_alias_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
         let start = self.cur.span.lo;
         self.bump(); // type
         let ident = self.expect_ident()?;
-        if self.cur.kind == TokenKind::Lt {
-            self.skip_balanced(TokenKind::Lt, TokenKind::Gt);
-        }
+        let type_params = if self.cur.kind == TokenKind::Lt {
+            self.parse_ts_type_params()?
+        } else {
+            Vec::new()
+        };
         let _ = self.expect(TokenKind::Eq, "=")?;
         let ty = self.parse_ts_type()?;
         self.eat_semi();
@@ -646,6 +806,7 @@ impl<'a> Parser<'a> {
         let decl = self.store.alloc_decl(Decl::TsTypeAlias(TsTypeAliasDecl {
             span: Span::new_with_checked(start, self.last_pos()),
             ident,
+            type_params,
             ty,
         }));
 
@@ -1432,6 +1593,14 @@ impl<'a> Parser<'a> {
             self.bump();
             let name = self.parse_jsx_name()?;
             let _ = self.expect(TokenKind::Gt, ">")?;
+            if !self.jsx_names_match(&opening_name, &name) {
+                self.errors.push(Error::new(
+                    self.cur.span,
+                    Severity::Error,
+                    ErrorCode::UnexpectedToken,
+                    "jsx closing tag does not match opening tag",
+                ));
+            }
             Some(name)
         } else {
             None
@@ -1453,53 +1622,123 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_jsx_name(&mut self) -> PResult<swc_es_ast::JSXElementName> {
-        if let Some(atom) = self.cur_name_atom() {
+        let start = self.cur.span.lo;
+        let Some(first) = self.cur_name_atom() else {
+            return Err(self.expected("jsx name"));
+        };
+        self.bump();
+
+        let mut text = first.to_string();
+        let mut has_separator = false;
+
+        while matches!(self.cur.kind, TokenKind::Dot | TokenKind::Colon) {
+            has_separator = true;
+            let sep = if self.cur.kind == TokenKind::Dot {
+                '.'
+            } else {
+                ':'
+            };
             self.bump();
-            Ok(swc_es_ast::JSXElementName::Qualified(atom))
+            let Some(segment) = self.cur_name_atom() else {
+                return Err(self.expected("jsx name segment"));
+            };
+            text.push(sep);
+            text.push_str(segment.as_ref());
+            self.bump();
+        }
+
+        if has_separator {
+            Ok(swc_es_ast::JSXElementName::Qualified(Atom::new(text)))
         } else {
-            Err(self.expected("jsx name"))
+            Ok(swc_es_ast::JSXElementName::Ident(Ident {
+                span: Span::new_with_checked(start, self.last_pos()),
+                sym: Atom::new(text),
+            }))
         }
     }
 
+    fn parse_ts_type_params(&mut self) -> PResult<Vec<Ident>> {
+        let _ = self.expect(TokenKind::Lt, "<")?;
+        let mut params = Vec::new();
+
+        while self.cur.kind != TokenKind::Gt && self.cur.kind != TokenKind::Eof {
+            params.push(self.expect_ident()?);
+
+            if self.cur.kind == TokenKind::Keyword(Keyword::Extends) {
+                self.bump();
+                let _ = self.parse_ts_type()?;
+            }
+            if self.cur.kind == TokenKind::Eq {
+                self.bump();
+                let _ = self.parse_ts_type()?;
+            }
+
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+            } else {
+                break;
+            }
+        }
+
+        let _ = self.expect(TokenKind::Gt, ">")?;
+        Ok(params)
+    }
+
     fn parse_ts_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        self.parse_ts_union_type()
+    }
+
+    fn parse_ts_union_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        let start = self.cur.span.lo;
+        let mut types = vec![self.parse_ts_intersection_type()?];
+
+        while self.cur.kind == TokenKind::Pipe {
+            self.bump();
+            types.push(self.parse_ts_intersection_type()?);
+        }
+
+        if types.len() == 1 {
+            return Ok(types[0]);
+        }
+
+        Ok(self.store.alloc_ts_type(TsType::Union(TsUnionType {
+            span: Span::new_with_checked(start, self.last_pos()),
+            types,
+        })))
+    }
+
+    fn parse_ts_intersection_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        let start = self.cur.span.lo;
+        let mut types = vec![self.parse_ts_postfix_type()?];
+
+        while self.cur.kind == TokenKind::Amp {
+            self.bump();
+            types.push(self.parse_ts_postfix_type()?);
+        }
+
+        if types.len() == 1 {
+            return Ok(types[0]);
+        }
+
+        Ok(self
+            .store
+            .alloc_ts_type(TsType::Intersection(TsIntersectionType {
+                span: Span::new_with_checked(start, self.last_pos()),
+                types,
+            })))
+    }
+
+    fn parse_ts_postfix_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
         let start = self.cur.span.lo;
         let mut ty = self.parse_ts_primary_type()?;
-        let mut complex = false;
-
-        if self.cur.kind == TokenKind::Lt {
-            complex = true;
-            self.skip_balanced(TokenKind::Lt, TokenKind::Gt);
-        }
 
         while self.cur.kind == TokenKind::LBracket && self.peek_kind() == TokenKind::RBracket {
-            complex = true;
             self.bump();
             self.bump();
-        }
-
-        while matches!(self.cur.kind, TokenKind::Pipe | TokenKind::Amp) {
-            complex = true;
-            self.bump();
-            let _ = self.parse_ts_primary_type()?;
-
-            if self.cur.kind == TokenKind::Lt {
-                self.skip_balanced(TokenKind::Lt, TokenKind::Gt);
-            }
-
-            while self.cur.kind == TokenKind::LBracket && self.peek_kind() == TokenKind::RBracket {
-                self.bump();
-                self.bump();
-            }
-        }
-
-        if self.cur.kind == TokenKind::Arrow {
-            complex = true;
-            self.bump();
-            let _ = self.parse_ts_type()?;
-        }
-
-        if complex {
-            ty = self.alloc_ts_type_ref(start, "__complex");
+            ty = self.store.alloc_ts_type(TsType::Array(TsArrayType {
+                span: Span::new_with_checked(start, self.last_pos()),
+                elem_type: ty,
+            }));
         }
 
         Ok(ty)
@@ -1562,24 +1801,44 @@ impl<'a> Parser<'a> {
                 self.bump();
                 TsType::Lit(swc_es_ast::TsLitType::Bool(lit))
             }
-            TokenKind::Ident | TokenKind::Keyword(_) => {
-                let name = self.parse_ts_type_name();
-                TsType::TypeRef(TsTypeRef {
-                    span: Span::new_with_checked(start, self.last_pos()),
-                    name,
-                })
+            TokenKind::Ident | TokenKind::Keyword(_) => self.parse_ts_type_ref(start)?,
+            TokenKind::LParen if self.ts_paren_followed_by_arrow() => {
+                return self.parse_ts_function_type();
             }
             TokenKind::LParen => {
-                self.skip_balanced(TokenKind::LParen, TokenKind::RParen);
-                return Ok(self.alloc_ts_type_ref(start, "__group"));
+                self.bump();
+                let inner = self.parse_ts_type()?;
+                let _ = self.expect(TokenKind::RParen, ")")?;
+                TsType::Parenthesized(TsParenthesizedType {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    ty: inner,
+                })
             }
-            TokenKind::LBrace => {
-                self.skip_balanced(TokenKind::LBrace, TokenKind::RBrace);
-                return Ok(self.alloc_ts_type_ref(start, "__object"));
-            }
+            TokenKind::LBrace => return self.parse_ts_type_lit(),
             TokenKind::LBracket => {
-                self.skip_balanced(TokenKind::LBracket, TokenKind::RBracket);
-                return Ok(self.alloc_ts_type_ref(start, "__tuple"));
+                self.bump();
+                let mut elem_types = Vec::new();
+                while self.cur.kind != TokenKind::RBracket && self.cur.kind != TokenKind::Eof {
+                    if self.cur.kind == TokenKind::Comma {
+                        self.bump();
+                        continue;
+                    }
+                    if self.cur.kind == TokenKind::DotDotDot {
+                        self.bump();
+                    }
+                    let elem = self.parse_ts_type()?;
+                    elem_types.push(elem);
+                    if self.cur.kind == TokenKind::Comma {
+                        self.bump();
+                    } else {
+                        break;
+                    }
+                }
+                let _ = self.expect(TokenKind::RBracket, "]")?;
+                TsType::Tuple(TsTupleType {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    elem_types,
+                })
             }
             _ => {
                 self.errors.push(Error::new(
@@ -1591,11 +1850,206 @@ impl<'a> Parser<'a> {
                 if self.cur.kind != TokenKind::Eof {
                     self.bump();
                 }
-                return Ok(self.alloc_ts_type_ref(start, "any"));
+                TsType::Keyword(TsKeywordType::Any)
             }
         };
 
         Ok(self.store.alloc_ts_type(ty))
+    }
+
+    fn parse_ts_function_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        let start = self.cur.span.lo;
+        let _ = self.expect(TokenKind::LParen, "(")?;
+        let mut params = Vec::new();
+
+        while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
+            let param_start = self.cur.span.lo;
+            let is_rest = if self.cur.kind == TokenKind::DotDotDot {
+                self.bump();
+                true
+            } else {
+                false
+            };
+
+            let mut name = None;
+            let mut optional = false;
+            let ty = if self.cur.kind == TokenKind::Ident {
+                let param_name = self.cur_ident_value();
+                self.bump();
+                optional = if self.cur.kind == TokenKind::Question {
+                    self.bump();
+                    true
+                } else {
+                    false
+                };
+
+                if self.cur.kind == TokenKind::Colon {
+                    self.bump();
+                    name = Some(param_name);
+                    Some(self.parse_ts_type()?)
+                } else {
+                    name = Some(param_name);
+                    None
+                }
+            } else if self.cur.kind == TokenKind::LBrace {
+                self.skip_balanced(TokenKind::LBrace, TokenKind::RBrace);
+                if self.cur.kind == TokenKind::Colon {
+                    self.bump();
+                    Some(self.parse_ts_type()?)
+                } else {
+                    None
+                }
+            } else if self.cur.kind == TokenKind::LBracket {
+                self.skip_balanced(TokenKind::LBracket, TokenKind::RBracket);
+                if self.cur.kind == TokenKind::Colon {
+                    self.bump();
+                    Some(self.parse_ts_type()?)
+                } else {
+                    None
+                }
+            } else {
+                Some(self.parse_ts_type()?)
+            };
+
+            if self.cur.kind == TokenKind::Eq {
+                self.bump();
+                while self.cur.kind != TokenKind::Comma
+                    && self.cur.kind != TokenKind::RParen
+                    && self.cur.kind != TokenKind::Eof
+                {
+                    self.bump();
+                }
+            }
+
+            params.push(TsFnParam {
+                span: Span::new_with_checked(param_start, self.last_pos()),
+                name,
+                ty,
+                is_rest,
+                optional,
+            });
+
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+            } else {
+                break;
+            }
+        }
+
+        let _ = self.expect(TokenKind::RParen, ")")?;
+        let _ = self.expect(TokenKind::Arrow, "=>")?;
+        let return_type = self.parse_ts_type()?;
+
+        Ok(self.store.alloc_ts_type(TsType::Fn(TsFnType {
+            span: Span::new_with_checked(start, self.last_pos()),
+            params,
+            return_type,
+        })))
+    }
+
+    fn ts_paren_followed_by_arrow(&self) -> bool {
+        if self.cur.kind != TokenKind::LParen {
+            return false;
+        }
+
+        let mut lexer = self.lexer.clone();
+        let mut cur = self.cur.clone();
+        let mut next = self.next.clone();
+        let mut depth = 0usize;
+
+        let bump =
+            |cur: &mut Token, next: &mut Option<Token>, lexer: &mut Lexer<'a>| -> TokenKind {
+                *cur = next.take().unwrap_or_else(|| lexer.next_token());
+                cur.kind
+            };
+
+        while cur.kind != TokenKind::Eof {
+            match cur.kind {
+                TokenKind::LParen => depth += 1,
+                TokenKind::RParen => {
+                    depth = depth.saturating_sub(1);
+                    if depth == 0 {
+                        bump(&mut cur, &mut next, &mut lexer);
+                        break;
+                    }
+                }
+                _ => {}
+            }
+            bump(&mut cur, &mut next, &mut lexer);
+        }
+
+        cur.kind == TokenKind::Arrow
+    }
+
+    fn parse_ts_type_ref(&mut self, start: swc_common::BytePos) -> PResult<TsType> {
+        let name = self.parse_ts_type_name();
+        let type_args = if self.cur.kind == TokenKind::Lt {
+            self.parse_ts_type_args()?
+        } else {
+            Vec::new()
+        };
+
+        Ok(TsType::TypeRef(TsTypeRef {
+            span: Span::new_with_checked(start, self.last_pos()),
+            name,
+            type_args,
+        }))
+    }
+
+    fn parse_ts_type_args(&mut self) -> PResult<Vec<swc_es_ast::TsTypeId>> {
+        let _ = self.expect(TokenKind::Lt, "<")?;
+        let mut args = Vec::new();
+
+        while self.cur.kind != TokenKind::Gt && self.cur.kind != TokenKind::Eof {
+            args.push(self.parse_ts_type()?);
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+            } else {
+                break;
+            }
+        }
+
+        let _ = self.expect(TokenKind::Gt, ">")?;
+        Ok(args)
+    }
+
+    fn parse_ts_type_lit(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        let start = self.cur.span.lo;
+        let _ = self.expect(TokenKind::LBrace, "{")?;
+        let mut member_count = 0usize;
+
+        while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+            member_count += 1;
+            let mut nested = 0usize;
+            while self.cur.kind != TokenKind::Eof {
+                match self.cur.kind {
+                    TokenKind::LParen | TokenKind::LBracket | TokenKind::LBrace => {
+                        nested += 1;
+                        self.bump();
+                    }
+                    TokenKind::RParen | TokenKind::RBracket if nested > 0 => {
+                        nested -= 1;
+                        self.bump();
+                    }
+                    TokenKind::RBrace if nested > 0 => {
+                        nested -= 1;
+                        self.bump();
+                    }
+                    TokenKind::RBrace => break,
+                    TokenKind::Semi | TokenKind::Comma if nested == 0 => {
+                        self.bump();
+                        break;
+                    }
+                    _ => self.bump(),
+                }
+            }
+        }
+
+        let _ = self.expect(TokenKind::RBrace, "}")?;
+        Ok(self.store.alloc_ts_type(TsType::TypeLit(TsTypeLit {
+            span: Span::new_with_checked(start, self.last_pos()),
+            member_count,
+        })))
     }
 
     fn parse_ts_type_name(&mut self) -> Ident {
@@ -1626,21 +2080,6 @@ impl<'a> Parser<'a> {
             span: Span::new_with_checked(start, self.last_pos()),
             sym: Atom::new(name),
         }
-    }
-
-    fn alloc_ts_type_ref(
-        &mut self,
-        start: swc_common::BytePos,
-        name: &str,
-    ) -> swc_es_ast::TsTypeId {
-        let span = Span::new_with_checked(start, self.last_pos());
-        self.store.alloc_ts_type(TsType::TypeRef(TsTypeRef {
-            span,
-            name: Ident {
-                span,
-                sym: Atom::new(name),
-            },
-        }))
     }
 
     fn recover_stmt(&mut self) {
@@ -1761,6 +2200,21 @@ impl<'a> Parser<'a> {
                 _ => None,
             },
             _ => None,
+        }
+    }
+
+    fn jsx_names_match(
+        &self,
+        left: &swc_es_ast::JSXElementName,
+        right: &swc_es_ast::JSXElementName,
+    ) -> bool {
+        self.jsx_name_text(left) == self.jsx_name_text(right)
+    }
+
+    fn jsx_name_text(&self, name: &swc_es_ast::JSXElementName) -> Atom {
+        match name {
+            swc_es_ast::JSXElementName::Ident(ident) => ident.sym.clone(),
+            swc_es_ast::JSXElementName::Qualified(atom) => atom.clone(),
         }
     }
 
@@ -2010,6 +2464,73 @@ mod tests {
         assert_eq!(program.body.len(), 1);
     }
 
+    #[test]
+    fn parses_for_in_and_for_of_heads() {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(
+            FileName::Custom("for-heads.js".into()).into(),
+            "for (let k in obj) {} for (item of items) {}",
+        );
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsSyntax::default()),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let parsed = parser.parse_script().expect("script should parse");
+        let program = parsed
+            .store
+            .program(parsed.program)
+            .expect("program should exist");
+
+        assert_eq!(program.body.len(), 2);
+        let Some(Stmt::For(first)) = parsed.store.stmt(program.body[0]) else {
+            panic!("first statement should be for");
+        };
+        let Some(Stmt::For(second)) = parsed.store.stmt(program.body[1]) else {
+            panic!("second statement should be for");
+        };
+
+        assert!(matches!(first.head, ForHead::In(..)));
+        assert!(matches!(second.head, ForHead::Of(..)));
+    }
+
+    #[test]
+    fn parses_jsx_qualified_names_and_reports_mismatch() {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(
+            FileName::Custom("jsx-names.jsx".into()).into(),
+            "<Foo.Bar />; <Baz></Qux>;",
+        );
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let parsed = parser.parse_script().expect("jsx should parse");
+        let program = parsed
+            .store
+            .program(parsed.program)
+            .expect("program should exist");
+        assert_eq!(program.body.len(), 2);
+
+        let errors = parser.take_errors();
+        assert!(
+            errors
+                .iter()
+                .any(|error| error.message().contains("closing tag")),
+            "expected mismatch closing tag error"
+        );
+    }
+
     #[cfg(feature = "typescript")]
     #[test]
     fn parses_typescript_type_alias_and_as_expression() {
@@ -2033,5 +2554,40 @@ mod tests {
             .expect("program should exist");
 
         assert_eq!(program.body.len(), 2);
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_function_and_generic_types() {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(
+            FileName::Custom("types-complex.ts".into()).into(),
+            "type Fn<T> = (arg: T) => T[] | [number, string]; type Box = Promise<string>;",
+        );
+
+        let lexer = Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let parsed = parser.parse_program().expect("typescript should parse");
+        let program = parsed
+            .store
+            .program(parsed.program)
+            .expect("program should exist");
+        assert_eq!(program.body.len(), 2);
+
+        let Some(Stmt::Decl(first_decl)) = parsed.store.stmt(program.body[0]) else {
+            panic!("first statement should be declaration");
+        };
+        let Some(Decl::TsTypeAlias(alias)) = parsed.store.decl(*first_decl) else {
+            panic!("first declaration should be type alias");
+        };
+        assert_eq!(alias.type_params.len(), 1);
+
+        let ty = parsed.store.ts_type(alias.ty).expect("type should exist");
+        assert!(matches!(ty, TsType::Fn(..)));
     }
 }

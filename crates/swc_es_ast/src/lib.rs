@@ -27,9 +27,15 @@ pub use crate::{
     pat::{ArrayPat, AssignPat, Pat, RestPat},
     program::{Program, ProgramKind},
     prop::{KeyValueProp, PropName},
-    stmt::{BlockStmt, EmptyStmt, ExprStmt, ForStmt, IfStmt, ReturnStmt, Stmt, WhileStmt},
+    stmt::{
+        BlockStmt, EmptyStmt, ExprStmt, ForBinding, ForClassicHead, ForHead, ForInHead, ForInit,
+        ForOfHead, ForStmt, IfStmt, ReturnStmt, Stmt, WhileStmt,
+    },
     store::AstStore,
-    typescript::{TsAsExpr, TsKeywordType, TsLitType, TsType, TsTypeAnn, TsTypeRef},
+    typescript::{
+        TsArrayType, TsAsExpr, TsFnParam, TsFnType, TsIntersectionType, TsKeywordType, TsLitType,
+        TsParenthesizedType, TsTupleType, TsType, TsTypeAnn, TsTypeLit, TsTypeRef, TsUnionType,
+    },
 };
 
 mod class;

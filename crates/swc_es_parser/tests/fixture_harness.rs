@@ -129,10 +129,25 @@ fn ts_type_shape(store: &AstStore, ty: swc_es_ast::TsTypeId) -> String {
 
     match node {
         TsType::Keyword(keyword) => format!("Keyword({keyword:?})"),
-        TsType::TypeRef(reference) => format!("TypeRef({})", reference.name.sym),
+        TsType::TypeRef(reference) => format!(
+            "TypeRef({}, args={})",
+            reference.name.sym,
+            reference.type_args.len()
+        ),
         TsType::Lit(TsLitType::Str(_)) => "Lit(Str)".to_string(),
         TsType::Lit(TsLitType::Num(_)) => "Lit(Num)".to_string(),
         TsType::Lit(TsLitType::Bool(_)) => "Lit(Bool)".to_string(),
+        TsType::Array(array) => format!("Array({})", ts_type_shape(store, array.elem_type)),
+        TsType::Tuple(tuple) => format!("Tuple({})", tuple.elem_types.len()),
+        TsType::Union(union) => format!("Union({})", union.types.len()),
+        TsType::Intersection(intersection) => {
+            format!("Intersection({})", intersection.types.len())
+        }
+        TsType::Parenthesized(parenthesized) => {
+            format!("Parenthesized({})", ts_type_shape(store, parenthesized.ty))
+        }
+        TsType::TypeLit(type_lit) => format!("TypeLit(members={})", type_lit.member_count),
+        TsType::Fn(function) => format!("Fn(params={})", function.params.len()),
     }
 }
 
@@ -151,7 +166,16 @@ fn stmt_shape(store: &AstStore, stmt: swc_es_ast::StmtId) -> String {
         },
         Stmt::If(if_stmt) => format!("If(test={})", expr_shape(store, if_stmt.test)),
         Stmt::While(while_stmt) => format!("While(test={})", expr_shape(store, while_stmt.test)),
-        Stmt::For(_) => "For".to_string(),
+        Stmt::For(for_stmt) => match &for_stmt.head {
+            swc_es_ast::ForHead::Classic(head) => format!(
+                "For(Classic(init={}, test={}, update={}))",
+                head.init.is_some(),
+                head.test.is_some(),
+                head.update.is_some()
+            ),
+            swc_es_ast::ForHead::In(_) => "For(In)".to_string(),
+            swc_es_ast::ForHead::Of(head) => format!("For(Of(await={}))", head.is_await),
+        },
         Stmt::Decl(decl) => match store.decl(*decl) {
             Some(Decl::Var(var)) => format!("Decl(Var({:?}, {}))", var.kind, var.declarators.len()),
             Some(Decl::Fn(function)) => {
@@ -163,8 +187,9 @@ fn stmt_shape(store: &AstStore, stmt: swc_es_ast::StmtId) -> String {
             }
             Some(Decl::TsTypeAlias(alias)) => {
                 format!(
-                    "Decl(TsTypeAlias({}, {}))",
+                    "Decl(TsTypeAlias({}, params={}, {}))",
                     alias.ident.sym,
+                    alias.type_params.len(),
                     ts_type_shape(store, alias.ty)
                 )
             }

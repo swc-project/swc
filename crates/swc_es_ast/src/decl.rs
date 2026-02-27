@@ -76,6 +76,8 @@ pub struct TsTypeAliasDecl {
     pub span: Span,
     /// Alias identifier.
     pub ident: Ident,
+    /// Generic type parameters.
+    pub type_params: Vec<Ident>,
     /// Type definition.
     pub ty: TsTypeId,
 }

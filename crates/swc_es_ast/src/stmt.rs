@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{DeclId, ExprId, ModuleDeclId, StmtId};
+use crate::{DeclId, ExprId, ModuleDeclId, PatId, StmtId};
 
 /// Statement node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -96,6 +96,76 @@ pub struct WhileStmt {
 pub struct ForStmt {
     /// Original source span.
     pub span: Span,
+    /// Loop head.
+    pub head: ForHead,
     /// Loop body.
     pub body: StmtId,
+}
+
+/// `for` statement head.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum ForHead {
+    /// Classic `for (init; test; update)`.
+    Classic(ForClassicHead),
+    /// `for (left in right)`.
+    In(ForInHead),
+    /// `for (left of right)` or `for await (left of right)`.
+    Of(ForOfHead),
+}
+
+/// Classic `for` head.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ForClassicHead {
+    /// Optional initializer.
+    pub init: Option<ForInit>,
+    /// Optional loop test.
+    pub test: Option<ExprId>,
+    /// Optional update expression.
+    pub update: Option<ExprId>,
+}
+
+/// Classic `for` initializer.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum ForInit {
+    /// Variable declaration.
+    Decl(DeclId),
+    /// Expression initializer.
+    Expr(ExprId),
+}
+
+/// `for..in` head.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ForInHead {
+    /// Left binding.
+    pub left: ForBinding,
+    /// Right-hand iterable expression.
+    pub right: ExprId,
+}
+
+/// `for..of` head.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ForOfHead {
+    /// Whether this is `for await`.
+    pub is_await: bool,
+    /// Left binding.
+    pub left: ForBinding,
+    /// Right-hand iterable expression.
+    pub right: ExprId,
+}
+
+/// Left-hand side binding for `for..in/of`.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum ForBinding {
+    /// Declaration binding.
+    Decl(DeclId),
+    /// Pattern binding.
+    Pat(PatId),
+    /// Expression binding.
+    Expr(ExprId),
 }

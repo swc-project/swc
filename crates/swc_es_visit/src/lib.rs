@@ -255,6 +255,38 @@ where
             visitor.visit_stmt(store, while_stmt.body);
         }
         Stmt::For(for_stmt) => {
+            match &for_stmt.head {
+                swc_es_ast::ForHead::Classic(head) => {
+                    if let Some(init) = &head.init {
+                        match init {
+                            swc_es_ast::ForInit::Decl(decl) => visitor.visit_decl(store, *decl),
+                            swc_es_ast::ForInit::Expr(expr) => visitor.visit_expr(store, *expr),
+                        }
+                    }
+                    if let Some(test) = head.test {
+                        visitor.visit_expr(store, test);
+                    }
+                    if let Some(update) = head.update {
+                        visitor.visit_expr(store, update);
+                    }
+                }
+                swc_es_ast::ForHead::In(head) => {
+                    match &head.left {
+                        swc_es_ast::ForBinding::Decl(decl) => visitor.visit_decl(store, *decl),
+                        swc_es_ast::ForBinding::Pat(pat) => visitor.visit_pat(store, *pat),
+                        swc_es_ast::ForBinding::Expr(expr) => visitor.visit_expr(store, *expr),
+                    }
+                    visitor.visit_expr(store, head.right);
+                }
+                swc_es_ast::ForHead::Of(head) => {
+                    match &head.left {
+                        swc_es_ast::ForBinding::Decl(decl) => visitor.visit_decl(store, *decl),
+                        swc_es_ast::ForBinding::Pat(pat) => visitor.visit_pat(store, *pat),
+                        swc_es_ast::ForBinding::Expr(expr) => visitor.visit_expr(store, *expr),
+                    }
+                    visitor.visit_expr(store, head.right);
+                }
+            }
             visitor.visit_stmt(store, for_stmt.body);
         }
         Stmt::Decl(decl) => visitor.visit_decl(store, *decl),
@@ -483,4 +515,38 @@ where
         return;
     };
     visitor.visit_ts_type_node(store, node);
+
+    match node {
+        TsType::Keyword(_) | TsType::Lit(_) | TsType::TypeLit(_) => {}
+        TsType::TypeRef(reference) => {
+            for arg in &reference.type_args {
+                visitor.visit_ts_type(store, *arg);
+            }
+        }
+        TsType::Array(array) => visitor.visit_ts_type(store, array.elem_type),
+        TsType::Tuple(tuple) => {
+            for elem in &tuple.elem_types {
+                visitor.visit_ts_type(store, *elem);
+            }
+        }
+        TsType::Union(union) => {
+            for elem in &union.types {
+                visitor.visit_ts_type(store, *elem);
+            }
+        }
+        TsType::Intersection(intersection) => {
+            for elem in &intersection.types {
+                visitor.visit_ts_type(store, *elem);
+            }
+        }
+        TsType::Parenthesized(parenthesized) => visitor.visit_ts_type(store, parenthesized.ty),
+        TsType::Fn(function) => {
+            for param in &function.params {
+                if let Some(ty) = param.ty {
+                    visitor.visit_ts_type(store, ty);
+                }
+            }
+            visitor.visit_ts_type(store, function.return_type);
+        }
+    }
 }
