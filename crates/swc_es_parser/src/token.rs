@@ -149,6 +149,8 @@ pub struct Token {
     pub had_line_break_before: bool,
     /// Optional token payload.
     pub value: Option<TokenValue>,
+    /// Whether identifier text used unicode escape.
+    pub escaped: bool,
 }
 
 impl Token {
@@ -159,6 +161,7 @@ impl Token {
             span,
             had_line_break_before,
             value: None,
+            escaped: false,
         }
     }
 }

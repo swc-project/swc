@@ -184,6 +184,8 @@ impl<'a> Lexer<'a> {
             _ => {
                 if self.is_ident_start() {
                     self.read_word(had_line_break_before)
+                } else if self.syntax.jsx() {
+                    self.read_jsx_text(had_line_break_before)
                 } else {
                     self.bump_char();
                     let span = Span::new_with_checked(start, self.input.cur_pos());
@@ -438,6 +440,7 @@ impl<'a> Lexer<'a> {
             span: Span::new_with_checked(start, end),
             had_line_break_before,
             value: Some(TokenValue::Num(value)),
+            escaped: false,
         }
     }
 
@@ -515,33 +518,78 @@ impl<'a> Lexer<'a> {
             span: Span::new_with_checked(start, end),
             had_line_break_before,
             value: Some(TokenValue::Str(Atom::new(out))),
+            escaped: false,
         }
     }
 
     fn read_word(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
-        self.bump_char();
+        let mut out = String::new();
 
-        while self.is_ident_continue() {
+        if let Some(ch) = self.read_ident_unit(true) {
+            out.push(ch);
+        } else {
             self.bump_char();
+            out.push('_');
+        }
+
+        while let Some(ch) = self.read_ident_unit(false) {
+            out.push(ch);
         }
 
         let end = self.input.cur_pos();
         let raw = unsafe { self.input.slice_str(start, end) };
+        let had_escape = raw.contains('\\');
 
-        if let Some(keyword) = keyword_from_str(raw) {
-            return Token::simple(
-                TokenKind::Keyword(keyword),
-                Span::new_with_checked(start, end),
-                had_line_break_before,
-            );
+        if !had_escape {
+            if let Some(keyword) = keyword_from_str(out.as_str()) {
+                return Token::simple(
+                    TokenKind::Keyword(keyword),
+                    Span::new_with_checked(start, end),
+                    had_line_break_before,
+                );
+            }
+        }
+
+        if out.is_empty() {
+            out.push_str(raw);
         }
 
         Token {
             kind: TokenKind::Ident,
             span: Span::new_with_checked(start, end),
             had_line_break_before,
-            value: Some(TokenValue::Ident(Atom::new(raw))),
+            value: Some(TokenValue::Ident(Atom::new(out))),
+            escaped: had_escape,
+        }
+    }
+
+    fn read_jsx_text(&mut self, had_line_break_before: bool) -> Token {
+        let start = self.input.cur_pos();
+        let mut out = String::new();
+
+        while let Some(ch) = self.input.cur_as_char() {
+            if matches!(ch, '<' | '{' | '}') || ch.is_whitespace() {
+                break;
+            }
+            self.bump_char();
+            out.push(ch);
+        }
+
+        if out.is_empty() {
+            if let Some(ch) = self.input.cur_as_char() {
+                self.bump_char();
+                out.push(ch);
+            }
+        }
+
+        let end = self.input.cur_pos();
+        Token {
+            kind: TokenKind::Ident,
+            span: Span::new_with_checked(start, end),
+            had_line_break_before,
+            value: Some(TokenValue::Ident(Atom::new(out))),
+            escaped: false,
         }
     }
 
@@ -603,18 +651,110 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn is_ident_start(&self) -> bool {
-        match self.input.cur_as_char() {
-            Some('$' | '_' | 'a'..='z' | 'A'..='Z') => true,
-            Some(ch) => ch.is_alphabetic(),
-            None => false,
+    fn read_ident_unit(&mut self, is_start: bool) -> Option<char> {
+        if let Some(ch) = self.input.cur_as_char() {
+            if (is_start && self.is_ident_start_char(ch))
+                || (!is_start && self.is_ident_continue_char(ch))
+            {
+                self.bump_char();
+                return Some(ch);
+            }
+        }
+
+        let checkpoint = self.input.clone();
+        if self.input.cur_as_ascii() != Some(b'\\') {
+            return None;
+        }
+        self.bump_ascii();
+        if self.input.cur_as_ascii() != Some(b'u') {
+            self.input = checkpoint;
+            return None;
+        }
+        self.bump_ascii();
+
+        let value = if self.input.cur_as_ascii() == Some(b'{') {
+            self.bump_ascii();
+            let mut digits = 0usize;
+            let mut value = 0u32;
+            while let Some(cur) = self.input.cur_as_ascii() {
+                if cur == b'}' {
+                    break;
+                }
+                let Some(digit) = hex_value(cur) else {
+                    self.input = checkpoint;
+                    return None;
+                };
+                value = value.saturating_mul(16).saturating_add(u32::from(digit));
+                digits += 1;
+                self.bump_ascii();
+            }
+            if digits == 0 || self.input.cur_as_ascii() != Some(b'}') {
+                self.input = checkpoint;
+                return None;
+            }
+            self.bump_ascii();
+            value
+        } else {
+            let mut value = 0u32;
+            for _ in 0..4 {
+                let Some(cur) = self.input.cur_as_ascii() else {
+                    self.input = checkpoint;
+                    return None;
+                };
+                let Some(digit) = hex_value(cur) else {
+                    self.input = checkpoint;
+                    return None;
+                };
+                value = value.saturating_mul(16).saturating_add(u32::from(digit));
+                self.bump_ascii();
+            }
+            value
+        };
+
+        let Some(ch) = char::from_u32(value) else {
+            self.input = checkpoint;
+            return None;
+        };
+        if (is_start && !self.is_ident_start_char(ch))
+            || (!is_start && !self.is_ident_continue_char(ch))
+        {
+            self.input = checkpoint;
+            return None;
+        }
+
+        Some(ch)
+    }
+
+    fn is_ident_start_char(&self, ch: char) -> bool {
+        let allow_at = self.syntax.jsx() || self.syntax.decorators();
+        match ch {
+            '$' | '_' | 'a'..='z' | 'A'..='Z' => true,
+            '@' => allow_at,
+            _ => ch.is_alphabetic(),
         }
     }
 
-    fn is_ident_continue(&self) -> bool {
+    fn is_ident_continue_char(&self, ch: char) -> bool {
+        let allow_at = self.syntax.jsx() || self.syntax.decorators();
+        match ch {
+            '$' | '_' | 'a'..='z' | 'A'..='Z' | '0'..='9' => true,
+            '@' => allow_at,
+            _ => ch.is_alphanumeric(),
+        }
+    }
+
+    fn is_ident_start(&self) -> bool {
         match self.input.cur_as_char() {
-            Some('$' | '_' | 'a'..='z' | 'A'..='Z' | '0'..='9') => true,
-            Some(ch) => ch.is_alphanumeric(),
+            Some(ch) => {
+                if self.is_ident_start_char(ch) {
+                    return true;
+                }
+                if ch == '\\' {
+                    let mut cloned = self.clone();
+                    return cloned.read_ident_unit(true).is_some();
+                }
+                false
+            }
             None => false,
         }
     }
@@ -632,6 +772,15 @@ impl<'a> Lexer<'a> {
         unsafe {
             self.input.bump_bytes(ch.len_utf8());
         }
+    }
+}
+
+fn hex_value(byte: u8) -> Option<u8> {
+    match byte {
+        b'0'..=b'9' => Some(byte - b'0'),
+        b'a'..=b'f' => Some(10 + (byte - b'a')),
+        b'A'..=b'F' => Some(10 + (byte - b'A')),
+        _ => None,
     }
 }
 

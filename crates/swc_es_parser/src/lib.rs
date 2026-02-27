@@ -61,3 +61,31 @@ pub fn parse_file_as_script(
     recovered_errors.extend(parser.take_errors());
     result
 }
+
+/// Parses a file as commonjs script.
+pub fn parse_file_as_commonjs(
+    fm: &SourceFile,
+    syntax: Syntax,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<ParsedProgram> {
+    let lexer = Lexer::new(syntax, SourceFileInput::from(fm), comments);
+    let mut parser = Parser::new_from(lexer);
+    let result = parser.parse_commonjs();
+    recovered_errors.extend(parser.take_errors());
+    result
+}
+
+/// Parses a file as TypeScript module.
+pub fn parse_file_as_typescript_module(
+    fm: &SourceFile,
+    syntax: Syntax,
+    comments: Option<&dyn Comments>,
+    recovered_errors: &mut Vec<Error>,
+) -> PResult<ParsedProgram> {
+    let lexer = Lexer::new(syntax, SourceFileInput::from(fm), comments);
+    let mut parser = Parser::new_from(lexer);
+    let result = parser.parse_typescript_module();
+    recovered_errors.extend(parser.take_errors());
+    result
+}

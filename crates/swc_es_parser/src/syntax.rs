@@ -101,8 +101,12 @@ pub struct EsSyntax {
     pub decorators_before_export: bool,
     #[serde(default)]
     pub export_default_from: bool,
-    #[serde(default, alias = "importAssertions")]
+    #[serde(default, alias = "importAttributes")]
     pub import_attributes: bool,
+    #[serde(default, alias = "importAssertions")]
+    pub import_assertions: bool,
+    #[serde(default)]
+    pub deprecated_assert_syntax: bool,
     #[serde(default)]
     pub allow_super_outside_method: bool,
     #[serde(default)]

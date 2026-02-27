@@ -19,8 +19,10 @@
 
 ## Fixture Reuse
 
-- `swc_es_parser/tests/smoke.rs` consumes fixture inputs from `swc_ecma_parser/tests`.
-- Fixture output is intentionally parser-local and does not target `swc_ecma_parser` snapshot parity.
+- `swc_es_parser/tests/fixture_harness.rs` consumes fixture inputs from
+  `swc_ecma_parser/tests`.
+- Harness mode is pass/fail parity (not JSON snapshot parity), including
+  `options.json` / `config.json` parser option inputs.
 
 ## Performance Notes
 

@@ -152,6 +152,10 @@ pub enum UnaryOp {
     TypeOf,
     /// `void`.
     Void,
+    /// `await`.
+    Await,
+    /// `yield`.
+    Yield,
 }
 
 /// Binary operator.
@@ -184,6 +188,10 @@ pub enum BinaryOp {
     Gt,
     /// `>=`
     GtEq,
+    /// `in`
+    In,
+    /// `instanceof`
+    InstanceOf,
     /// `&&`
     LogicalAnd,
     /// `||`

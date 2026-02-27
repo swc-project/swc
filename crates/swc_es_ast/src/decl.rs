@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{BindingIdent, ExprId, Ident, PatId, StmtId, TsTypeId};
+use crate::{BindingIdent, ClassId, ExprId, Ident, PatId, StmtId, TsTypeId};
 
 /// Declaration node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -10,6 +10,8 @@ pub enum Decl {
     Var(VarDecl),
     /// Function declaration.
     Fn(FnDecl),
+    /// Class declaration.
+    Class(ClassId),
     /// TypeScript type alias declaration.
     TsTypeAlias(TsTypeAliasDecl),
 }

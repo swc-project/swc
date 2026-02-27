@@ -1,7 +1,10 @@
 use std::path::Path;
 
 use swc_common::{comments::SingleThreadedComments, input::StringInput, FileName, SourceMap};
-use swc_es_parser::{lexer::Lexer, parse_file_as_program, EsSyntax, Parser, Syntax, TsSyntax};
+use swc_es_parser::{
+    lexer::Lexer, parse_file_as_commonjs, parse_file_as_program, parse_file_as_typescript_module,
+    EsSyntax, Parser, Syntax, TsSyntax,
+};
 
 fn parse_fixture(path: &Path, syntax: Syntax) {
     testing::run_test(false, |cm, _handler| {
@@ -73,4 +76,32 @@ fn lexer_and_parser_api_bootstrap() {
             .len(),
         1
     );
+}
+
+#[test]
+fn commonjs_and_typescript_module_api_bootstrap() {
+    testing::run_test(false, |cm, _handler| {
+        let cjs = cm.new_source_file(
+            FileName::Custom("api.cjs".into()).into(),
+            "module.exports = 1;",
+        );
+        let mut recovered = Vec::new();
+        let _ = parse_file_as_commonjs(&cjs, Syntax::Es(EsSyntax::default()), None, &mut recovered)
+            .expect("commonjs should parse");
+
+        let ts = cm.new_source_file(
+            FileName::Custom("api.ts".into()).into(),
+            "export type Box<T> = T;",
+        );
+        let _ = parse_file_as_typescript_module(
+            &ts,
+            Syntax::Typescript(TsSyntax::default()),
+            None,
+            &mut recovered,
+        )
+        .expect("typescript module should parse");
+
+        Ok(())
+    })
+    .unwrap();
 }

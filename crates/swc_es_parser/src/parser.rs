@@ -103,6 +103,20 @@ impl<'a> Parser<'a> {
         })
     }
 
+    /// Parses source as commonjs script.
+    pub fn parse_commonjs(&mut self) -> PResult<ParsedProgram> {
+        self.ctx.insert(Context::IN_FUNCTION | Context::TOP_LEVEL);
+        self.ctx.remove(Context::MODULE);
+        self.parse_script()
+    }
+
+    /// Parses source as TypeScript module.
+    pub fn parse_typescript_module(&mut self) -> PResult<ParsedProgram> {
+        self.ctx.insert(Context::TOP_LEVEL | Context::MODULE);
+        self.ctx.remove(Context::STRICT);
+        self.parse_module()
+    }
+
     /// Parses source as script-or-module.
     pub fn parse_program(&mut self) -> PResult<ParsedProgram> {
         let start = self.cur.span.lo;
@@ -166,7 +180,11 @@ impl<'a> Parser<'a> {
             && self.peek_ident_is("using");
         let is_using = self.cur.kind == TokenKind::Ident
             && explicit_resource_management
-            && self.cur_ident_is("using");
+            && self.cur_ident_is("using")
+            && self.peek_can_start_binding();
+        let is_async_fn_decl = self.cur.kind == TokenKind::Ident
+            && self.cur_ident_is("async")
+            && self.peek_kind() == TokenKind::Keyword(Keyword::Function);
 
         match self.cur.kind {
             TokenKind::Semi => {
@@ -180,6 +198,8 @@ impl<'a> Parser<'a> {
             TokenKind::Keyword(Keyword::For) => self.parse_for_stmt(),
             TokenKind::Keyword(Keyword::Return) => self.parse_return_stmt(),
             TokenKind::Keyword(Keyword::Function) => self.parse_function_decl_stmt(),
+            TokenKind::Keyword(Keyword::Class) => self.parse_class_decl_stmt(),
+            TokenKind::Ident if is_async_fn_decl => self.parse_function_decl_stmt_with_flags(true),
             TokenKind::Keyword(Keyword::Var | Keyword::Let | Keyword::Const) => {
                 self.parse_var_decl_stmt()
             }
@@ -268,6 +288,40 @@ impl<'a> Parser<'a> {
             ));
         }
 
+        if self.cur.kind == TokenKind::Star {
+            self.bump();
+
+            let specifiers = if self.cur.kind == TokenKind::Keyword(Keyword::As) {
+                self.bump();
+                let exported = self.expect_ident()?;
+                vec![swc_es_ast::ExportSpecifier {
+                    local: exported.clone(),
+                    exported: Some(exported),
+                }]
+            } else {
+                Vec::new()
+            };
+
+            let src = if self.cur.kind == TokenKind::Keyword(Keyword::From) {
+                self.bump();
+                Some(self.expect_string()?)
+            } else {
+                None
+            };
+
+            while self.cur.kind != TokenKind::Semi && self.cur.kind != TokenKind::Eof {
+                self.bump();
+            }
+            self.eat_semi();
+
+            return Ok(ModuleDecl::ExportNamed(swc_es_ast::ExportNamedDecl {
+                span: Span::new_with_checked(start, self.last_pos()),
+                src,
+                specifiers,
+                decl: None,
+            }));
+        }
+
         if self.cur.kind == TokenKind::LBrace {
             self.bump();
             let mut specifiers = Vec::new();
@@ -293,6 +347,9 @@ impl<'a> Parser<'a> {
             } else {
                 None
             };
+            while self.cur.kind != TokenKind::Semi && self.cur.kind != TokenKind::Eof {
+                self.bump();
+            }
             self.eat_semi();
 
             return Ok(ModuleDecl::ExportNamed(swc_es_ast::ExportNamedDecl {
@@ -359,6 +416,23 @@ impl<'a> Parser<'a> {
                         Severity::Fatal,
                         ErrorCode::InvalidStatement,
                         "expected declaration",
+                    ));
+                };
+                Ok(decl)
+            }
+            TokenKind::Keyword(Keyword::Class) => {
+                let stmt = self.parse_class_decl_stmt()?;
+                let Stmt::Decl(decl) = self
+                    .store
+                    .stmt(stmt)
+                    .cloned()
+                    .ok_or_else(|| self.expected("class declaration"))?
+                else {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "expected class declaration",
                     ));
                 };
                 Ok(decl)
@@ -475,8 +549,12 @@ impl<'a> Parser<'a> {
                     right,
                 })
             } else if self.cur_ident_is("of") {
-                self.bump();
-                let right = self.parse_expr()?;
+                let right = if self.peek_kind() == TokenKind::RParen {
+                    self.parse_expr()?
+                } else {
+                    self.bump();
+                    self.parse_expr()?
+                };
                 ForHead::Of(ForOfHead {
                     is_await,
                     left: self.for_init_to_binding(init),
@@ -561,8 +639,25 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_function_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        self.parse_function_decl_stmt_with_flags(false)
+    }
+
+    fn parse_function_decl_stmt_with_flags(
+        &mut self,
+        is_async: bool,
+    ) -> PResult<swc_es_ast::StmtId> {
         let start = self.cur.span.lo;
+        if is_async {
+            self.bump();
+        }
+        if self.cur.kind != TokenKind::Keyword(Keyword::Function) {
+            return Err(self.expected("function"));
+        }
         self.bump();
+
+        if self.cur.kind == TokenKind::Star {
+            self.bump();
+        }
 
         let ident = self.expect_ident()?;
         let (params, body) = self.parse_function_parts()?;
@@ -602,6 +697,24 @@ impl<'a> Parser<'a> {
         };
 
         Ok((params, body))
+    }
+
+    fn parse_class_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let expr = self.parse_class_expr()?;
+        let class_id = match self.store.expr(expr).cloned() {
+            Some(Expr::Class(class_id)) => class_id,
+            _ => {
+                return Err(Error::new(
+                    self.cur.span,
+                    Severity::Fatal,
+                    ErrorCode::InvalidDeclaration,
+                    "expected class declaration",
+                ));
+            }
+        };
+
+        let decl = self.store.alloc_decl(Decl::Class(class_id));
+        Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
     }
 
     fn parse_var_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
@@ -673,13 +786,19 @@ impl<'a> Parser<'a> {
                 let decl = self.parse_using_decl_for_head(true)?;
                 return Ok(ForInit::Decl(decl));
             }
-            if self.cur.kind == TokenKind::Ident && self.cur_ident_is("using") {
+            if self.cur.kind == TokenKind::Ident
+                && self.cur_ident_is("using")
+                && self.peek_can_start_binding()
+            {
                 let decl = self.parse_using_decl_for_head(false)?;
                 return Ok(ForInit::Decl(decl));
             }
         }
 
+        let old_ctx = self.ctx;
+        self.ctx.insert(Context::DISALLOW_IN);
         let expr = self.parse_expr()?;
+        self.ctx = old_ctx;
         Ok(ForInit::Expr(expr))
     }
 
@@ -752,6 +871,7 @@ impl<'a> Parser<'a> {
                 break;
             }
             if for_head
+                && !declarators.is_empty()
                 && (self.cur.kind == TokenKind::Keyword(Keyword::In)
                     || (self.cur.kind == TokenKind::Ident && self.cur_ident_is("of")))
             {
@@ -933,7 +1053,7 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_assignment_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let left = self.parse_logical_or_expr()?;
+        let left = self.parse_conditional_expr()?;
         let op = match self.cur.kind {
             TokenKind::Eq => Some(AssignOp::Assign),
             TokenKind::PlusEq => Some(AssignOp::AddAssign),
@@ -969,6 +1089,19 @@ impl<'a> Parser<'a> {
         }
 
         Ok(left)
+    }
+
+    fn parse_conditional_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let test = self.parse_logical_or_expr()?;
+        if self.cur.kind != TokenKind::Question {
+            return Ok(test);
+        }
+
+        self.bump();
+        let _cons = self.parse_assignment_expr()?;
+        let _ = self.expect(TokenKind::Colon, ":")?;
+        let alt = self.parse_assignment_expr()?;
+        Ok(alt)
     }
 
     fn parse_logical_or_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
@@ -1043,17 +1176,18 @@ impl<'a> Parser<'a> {
     fn parse_relational_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         let mut expr = self.parse_additive_expr()?;
 
-        while matches!(
-            self.cur.kind,
-            TokenKind::Lt | TokenKind::Gt | TokenKind::LtEq | TokenKind::GtEq
-        ) {
+        loop {
             let start = self.cur.span.lo;
             let op = match self.cur.kind {
                 TokenKind::Lt => BinaryOp::Lt,
                 TokenKind::Gt => BinaryOp::Gt,
                 TokenKind::LtEq => BinaryOp::LtEq,
                 TokenKind::GtEq => BinaryOp::GtEq,
-                _ => unreachable!(),
+                TokenKind::Keyword(Keyword::In) if !self.ctx.contains(Context::DISALLOW_IN) => {
+                    BinaryOp::In
+                }
+                TokenKind::Keyword(Keyword::InstanceOf) => BinaryOp::InstanceOf,
+                _ => break,
             };
             self.bump();
             let right = self.parse_additive_expr()?;
@@ -1125,6 +1259,8 @@ impl<'a> Parser<'a> {
             TokenKind::Plus => Some(UnaryOp::Plus),
             TokenKind::Minus => Some(UnaryOp::Minus),
             TokenKind::Bang => Some(UnaryOp::Bang),
+            TokenKind::Keyword(Keyword::Await) => Some(UnaryOp::Await),
+            TokenKind::Keyword(Keyword::Yield) => Some(UnaryOp::Yield),
             TokenKind::Keyword(Keyword::TypeOf) => Some(UnaryOp::TypeOf),
             TokenKind::Keyword(Keyword::Void) => Some(UnaryOp::Void),
             _ => None,
@@ -1191,6 +1327,15 @@ impl<'a> Parser<'a> {
                         args,
                     }));
                 }
+                TokenKind::BackQuote => {
+                    self.bump();
+                    while self.cur.kind != TokenKind::BackQuote && self.cur.kind != TokenKind::Eof {
+                        self.bump();
+                    }
+                    if self.cur.kind == TokenKind::BackQuote {
+                        self.bump();
+                    }
+                }
                 _ => break,
             }
         }
@@ -1201,6 +1346,13 @@ impl<'a> Parser<'a> {
     fn parse_primary_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         match self.cur.kind {
             TokenKind::Ident => {
+                if self.cur_ident_is("async")
+                    && self.peek_kind() == TokenKind::Keyword(Keyword::Function)
+                {
+                    let start = self.cur.span.lo;
+                    self.bump();
+                    return self.parse_function_expr_with_flags(true, start);
+                }
                 let ident = self.cur_ident_value();
                 self.bump();
                 Ok(self.store.alloc_expr(Expr::Ident(ident)))
@@ -1249,6 +1401,7 @@ impl<'a> Parser<'a> {
             TokenKind::Keyword(Keyword::Class) => self.parse_class_expr(),
             TokenKind::LBracket => self.parse_array_expr(),
             TokenKind::LBrace => self.parse_object_expr(),
+            TokenKind::BackQuote => self.parse_template_expr(),
             TokenKind::Lt if self.syntax().jsx() => self.parse_jsx_element_expr(),
             TokenKind::LParen => {
                 self.bump();
@@ -1280,9 +1433,43 @@ impl<'a> Parser<'a> {
         }
     }
 
+    fn parse_template_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        let _ = self.expect(TokenKind::BackQuote, "`")?;
+        while self.cur.kind != TokenKind::BackQuote && self.cur.kind != TokenKind::Eof {
+            self.bump();
+        }
+        if self.cur.kind == TokenKind::BackQuote {
+            self.bump();
+        }
+
+        Ok(self.store.alloc_expr(Expr::Lit(Lit::Str(StrLit {
+            span: Span::new_with_checked(start, self.last_pos()),
+            value: Atom::new(""),
+        }))))
+    }
+
     fn parse_function_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         let start = self.cur.span.lo;
+        self.parse_function_expr_with_flags(false, start)
+    }
+
+    fn parse_function_expr_with_flags(
+        &mut self,
+        is_async: bool,
+        start: swc_common::BytePos,
+    ) -> PResult<swc_es_ast::ExprId> {
+        if self.cur.kind != TokenKind::Keyword(Keyword::Function) {
+            return Err(self.expected("function"));
+        }
         self.bump();
+
+        let is_generator = if self.cur.kind == TokenKind::Star {
+            self.bump();
+            true
+        } else {
+            false
+        };
 
         let _ident = if self.cur.kind == TokenKind::Ident {
             let ident = self.cur_ident_value();
@@ -1303,8 +1490,8 @@ impl<'a> Parser<'a> {
                 })
                 .collect(),
             body,
-            is_async: false,
-            is_generator: false,
+            is_async,
+            is_generator,
         });
 
         Ok(self.store.alloc_expr(Expr::Function(function)))
@@ -1484,56 +1671,73 @@ impl<'a> Parser<'a> {
     fn parse_jsx_element_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         let start = self.cur.span.lo;
         let _ = self.expect(TokenKind::Lt, "<")?;
-        let opening_name = self.parse_jsx_name()?;
+        let fragment = self.cur.kind == TokenKind::Gt;
+        let opening_name = if fragment {
+            self.bump();
+            swc_es_ast::JSXElementName::Ident(Ident {
+                span: Span::new_with_checked(start, self.last_pos()),
+                sym: Atom::new("Fragment"),
+            })
+        } else {
+            self.parse_jsx_name()?
+        };
         let mut attrs = Vec::new();
 
-        while self.cur.kind != TokenKind::Gt
-            && self.cur.kind != TokenKind::Eof
-            && !(self.cur.kind == TokenKind::Slash && self.peek_kind() == TokenKind::Gt)
-        {
-            if let Some(name) = self.cur_name_atom() {
-                let attr_span_lo = self.cur.span.lo;
-                self.bump();
-                let value = if self.cur.kind == TokenKind::Eq {
+        if !fragment {
+            while self.cur.kind != TokenKind::Gt
+                && self.cur.kind != TokenKind::Eof
+                && !(self.cur.kind == TokenKind::Slash && self.peek_kind() == TokenKind::Gt)
+            {
+                if let Some(name) = self.cur_name_atom() {
+                    let attr_span_lo = self.cur.span.lo;
                     self.bump();
-                    if self.cur.kind == TokenKind::Str {
-                        let str_lit = self.cur_string_value();
+                    let value = if self.cur.kind == TokenKind::Eq {
                         self.bump();
-                        Some(self.store.alloc_expr(Expr::Lit(Lit::Str(str_lit))))
-                    } else if self.cur.kind == TokenKind::LBrace {
-                        self.bump();
-                        let expr = if self.cur.kind == TokenKind::RBrace {
-                            self.store.alloc_expr(Expr::Lit(Lit::Null(NullLit {
-                                span: self.cur.span,
-                            })))
+                        if self.cur.kind == TokenKind::Str {
+                            let str_lit = self.cur_string_value();
+                            self.bump();
+                            Some(self.store.alloc_expr(Expr::Lit(Lit::Str(str_lit))))
+                        } else if self.cur.kind == TokenKind::LBrace {
+                            self.bump();
+                            let expr = if self.cur.kind == TokenKind::RBrace {
+                                self.store.alloc_expr(Expr::Lit(Lit::Null(NullLit {
+                                    span: self.cur.span,
+                                })))
+                            } else if self.cur.kind == TokenKind::DotDotDot {
+                                self.bump();
+                                self.parse_expr()?
+                            } else {
+                                self.parse_expr()?
+                            };
+                            let _ = self.expect(TokenKind::RBrace, "}")?;
+                            Some(expr)
                         } else {
-                            self.parse_expr()?
-                        };
-                        let _ = self.expect(TokenKind::RBrace, "}")?;
-                        Some(expr)
+                            Some(self.parse_primary_expr()?)
+                        }
                     } else {
-                        Some(self.parse_primary_expr()?)
-                    }
+                        None
+                    };
+                    attrs.push(swc_es_ast::JSXAttr {
+                        span: Span::new_with_checked(attr_span_lo, self.last_pos()),
+                        name,
+                        value,
+                    });
                 } else {
-                    None
-                };
-                attrs.push(swc_es_ast::JSXAttr {
-                    span: Span::new_with_checked(attr_span_lo, self.last_pos()),
-                    name,
-                    value,
-                });
-            } else {
-                self.bump();
+                    self.bump();
+                }
             }
         }
 
-        let self_closing = if self.cur.kind == TokenKind::Slash && self.peek_kind() == TokenKind::Gt
-        {
+        let self_closing =
+            !fragment && self.cur.kind == TokenKind::Slash && self.peek_kind() == TokenKind::Gt;
+        let self_closing = if self_closing {
             self.bump();
             let _ = self.expect(TokenKind::Gt, ">")?;
             true
-        } else {
+        } else if !fragment {
             let _ = self.expect(TokenKind::Gt, ">")?;
+            false
+        } else {
             false
         };
 
@@ -1572,6 +1776,9 @@ impl<'a> Parser<'a> {
                     self.store.alloc_expr(Expr::Lit(Lit::Null(NullLit {
                         span: self.cur.span,
                     })))
+                } else if self.cur.kind == TokenKind::DotDotDot {
+                    self.bump();
+                    self.parse_expr()?
                 } else {
                     self.parse_expr()?
                 };
@@ -1591,9 +1798,13 @@ impl<'a> Parser<'a> {
         let closing = if self.cur.kind == TokenKind::Lt && self.peek_kind() == TokenKind::Slash {
             self.bump();
             self.bump();
-            let name = self.parse_jsx_name()?;
+            let name = if fragment && self.cur.kind == TokenKind::Gt {
+                opening_name.clone()
+            } else {
+                self.parse_jsx_name()?
+            };
             let _ = self.expect(TokenKind::Gt, ">")?;
-            if !self.jsx_names_match(&opening_name, &name) {
+            if !fragment && !self.jsx_names_match(&opening_name, &name) {
                 self.errors.push(Error::new(
                     self.cur.span,
                     Severity::Error,
@@ -1629,15 +1840,19 @@ impl<'a> Parser<'a> {
         self.bump();
 
         let mut text = first.to_string();
-        let mut has_separator = false;
+        let mut qualified = false;
 
-        while matches!(self.cur.kind, TokenKind::Dot | TokenKind::Colon) {
-            has_separator = true;
-            let sep = if self.cur.kind == TokenKind::Dot {
-                '.'
-            } else {
-                ':'
+        while matches!(
+            self.cur.kind,
+            TokenKind::Dot | TokenKind::Colon | TokenKind::Minus
+        ) {
+            let (sep, is_qualified_sep) = match self.cur.kind {
+                TokenKind::Dot => ('.', true),
+                TokenKind::Colon => (':', true),
+                TokenKind::Minus => ('-', false),
+                _ => unreachable!(),
             };
+            qualified |= is_qualified_sep;
             self.bump();
             let Some(segment) = self.cur_name_atom() else {
                 return Err(self.expected("jsx name segment"));
@@ -1647,7 +1862,7 @@ impl<'a> Parser<'a> {
             self.bump();
         }
 
-        if has_separator {
+        if qualified {
             Ok(swc_es_ast::JSXElementName::Qualified(Atom::new(text)))
         } else {
             Ok(swc_es_ast::JSXElementName::Ident(Ident {
@@ -2175,7 +2390,7 @@ impl<'a> Parser<'a> {
     }
 
     fn cur_ident_is(&self, value: &str) -> bool {
-        if self.cur.kind != TokenKind::Ident {
+        if self.cur.kind != TokenKind::Ident || self.cur.escaped {
             return false;
         }
         match &self.cur.value {
@@ -2231,13 +2446,20 @@ impl<'a> Parser<'a> {
 
     fn peek_ident_is(&mut self, value: &str) -> bool {
         let token = self.peek_token();
-        if token.kind != TokenKind::Ident {
+        if token.kind != TokenKind::Ident || token.escaped {
             return false;
         }
         match &token.value {
             Some(TokenValue::Ident(sym)) => sym.as_ref() == value,
             _ => false,
         }
+    }
+
+    fn peek_can_start_binding(&mut self) -> bool {
+        matches!(
+            self.peek_kind(),
+            TokenKind::Ident | TokenKind::LBracket | TokenKind::LBrace
+        )
     }
 
     fn expect_ident(&mut self) -> PResult<Ident> {

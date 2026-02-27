@@ -321,6 +321,7 @@ where
                 visitor.visit_stmt(store, *stmt);
             }
         }
+        Decl::Class(class) => visitor.visit_class(store, *class),
         Decl::TsTypeAlias(alias) => visitor.visit_ts_type(store, alias.ty),
     }
 }

@@ -23,16 +23,60 @@ pub enum ErrorCode {
     Eof,
     /// Unexpected token.
     UnexpectedToken,
+    /// Invalid syntax in expression.
+    InvalidExpression,
+    /// Invalid syntax in declaration.
+    InvalidDeclaration,
+    /// Invalid module declaration syntax.
+    InvalidModuleDeclaration,
     /// Invalid or unsupported assignment target.
     InvalidAssignTarget,
     /// Invalid statement in the current context.
     InvalidStatement,
     /// Import/export used in script context.
     ImportExportInScript,
+    /// Invalid loop control statement.
+    InvalidLoopControl,
+    /// Invalid `break` statement target.
+    InvalidBreak,
+    /// Invalid `continue` statement target.
+    InvalidContinue,
+    /// Invalid `await` usage.
+    InvalidAwait,
+    /// Invalid `yield` usage.
+    InvalidYield,
+    /// Invalid use of `super`.
+    InvalidSuper,
+    /// Invalid use of `new.target`.
+    InvalidNewTarget,
+    /// Invalid class member syntax.
+    InvalidClassMember,
+    /// Invalid object literal syntax.
+    InvalidObjectLiteral,
+    /// Invalid pattern syntax.
+    InvalidPattern,
+    /// Invalid TypeScript syntax.
+    InvalidTypeScriptSyntax,
+    /// Syntax is not enabled by parser options.
+    SyntaxNotEnabled,
+    /// Duplicate declaration.
+    DuplicateBinding,
+    /// Duplicate export.
+    DuplicateExport,
+    /// Duplicate default export.
+    DuplicateDefaultExport,
+    /// Use of reserved keyword in invalid position.
+    ReservedWordInStrictMode,
+    /// Labelled function is not allowed in strict mode.
+    LabelledFunctionInStrictMode,
     /// Unterminated string literal.
     UnterminatedString,
+    /// Unterminated template literal.
+    UnterminatedTemplate,
     /// Unterminated block comment.
     UnterminatedBlockComment,
+    /// Unterminated regular expression literal.
+    UnterminatedRegex,
     /// Invalid numeric literal.
     InvalidNumber,
     /// Invalid escape sequence.

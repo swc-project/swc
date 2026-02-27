@@ -20,11 +20,14 @@
 ## Fixture Harness
 
 - `swc_ecma_parser` inputs are reused from `crates/swc_ecma_parser/tests`.
-- `swc_es_parser` snapshots are stored under `crates/swc_es_parser/tests/fixtures`.
-- Generate or refresh snapshots with:
+- The harness validates parser behavior as pass/fail against the same fixture
+  categories (`js`, `jsx`, `typescript`, `typescript-errors`, `errors`,
+  `comments`, `span`, `shifted`, `tsc`, `test262-parser`).
+- `options.json` / `config.json` parser options are consumed where present.
+- Run the fixture harness with:
 
 ```bash
-UPDATE=1 cargo test -p swc_es_parser --test fixture_harness
+cargo test -p swc_es_parser --test fixture_harness
 ```
 
 ## API Sketch
