@@ -12,8 +12,10 @@ version       = "0.1.0"
 bench = false
 
 [features]
+serde-impl = ["dep:serde"]
 
 [dependencies]
+serde = { workspace = true, features = ["derive"], optional = true }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }

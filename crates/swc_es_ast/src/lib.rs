@@ -10,27 +10,43 @@
 pub use swc_arena::Id;
 
 pub use crate::{
+    class::{Class, ClassMember, ClassMethod, ClassProp, MethodKind},
     decl::{Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{
         AssignExpr, AssignOp, BinaryExpr, BinaryOp, CallExpr, Expr, ExprOrSpread, MemberExpr,
         MemberProp, UnaryExpr, UnaryOp,
     },
+    function::{Function, Param},
     ident::{BindingIdent, Ident},
+    jsx::{JSXAttr, JSXElement, JSXElementChild, JSXElementName, JSXOpeningElement},
     lit::{BoolLit, Lit, NullLit, NumberLit, StrLit},
+    module_decl::{
+        ExportDecl, ExportDefaultExprDecl, ExportNamedDecl, ExportSpecifier, ImportDecl, ModuleDecl,
+    },
+    operator::UpdateOp,
     pat::{ArrayPat, AssignPat, Pat, RestPat},
     program::{Program, ProgramKind},
+    prop::{KeyValueProp, PropName},
     stmt::{BlockStmt, EmptyStmt, ExprStmt, IfStmt, ReturnStmt, Stmt, WhileStmt},
     store::AstStore,
+    typescript::{TsAsExpr, TsKeywordType, TsLitType, TsType, TsTypeAnn, TsTypeRef},
 };
 
+mod class;
 mod decl;
 mod expr;
+mod function;
 mod ident;
+mod jsx;
 mod lit;
+mod module_decl;
+mod operator;
 mod pat;
 mod program;
+mod prop;
 mod stmt;
 mod store;
+mod typescript;
 
 /// Id for [`Program`].
 pub type ProgramId = Id<Program>;
@@ -42,3 +58,15 @@ pub type DeclId = Id<Decl>;
 pub type PatId = Id<Pat>;
 /// Id for [`Expr`].
 pub type ExprId = Id<Expr>;
+/// Id for [`ModuleDecl`].
+pub type ModuleDeclId = Id<ModuleDecl>;
+/// Id for [`Class`].
+pub type ClassId = Id<Class>;
+/// Id for [`ClassMember`].
+pub type ClassMemberId = Id<ClassMember>;
+/// Id for [`Function`].
+pub type FunctionId = Id<Function>;
+/// Id for [`JSXElement`].
+pub type JSXElementId = Id<JSXElement>;
+/// Id for [`TsType`].
+pub type TsTypeId = Id<TsType>;

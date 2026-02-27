@@ -3,10 +3,13 @@ use swc_common::Span;
 use crate::{BindingIdent, ExprId, PatId};
 
 /// Pattern node.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub enum Pat {
     /// Identifier pattern.
     Ident(BindingIdent),
+    /// Expression pattern used by assignment targets.
+    Expr(ExprId),
     /// Array pattern.
     Array(ArrayPat),
     /// Rest pattern.
@@ -16,6 +19,7 @@ pub enum Pat {
 }
 
 /// Array destructuring pattern.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct ArrayPat {
     /// Original source span.
@@ -25,6 +29,7 @@ pub struct ArrayPat {
 }
 
 /// Rest pattern.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct RestPat {
     /// Original source span.
@@ -34,6 +39,7 @@ pub struct RestPat {
 }
 
 /// Assignment pattern.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct AssignPat {
     /// Original source span.

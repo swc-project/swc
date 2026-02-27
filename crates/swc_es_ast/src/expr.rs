@@ -1,14 +1,23 @@
 use swc_common::Span;
 
-use crate::{ExprId, Ident, Lit, PatId};
+use crate::{ClassId, ExprId, FunctionId, Ident, JSXElementId, Lit, PatId, TsAsExpr};
 
 /// Expression node.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub enum Expr {
     /// Identifier expression.
     Ident(Ident),
     /// Literal expression.
     Lit(Lit),
+    /// Function expression.
+    Function(FunctionId),
+    /// Class expression.
+    Class(ClassId),
+    /// JSX element expression.
+    JSXElement(JSXElementId),
+    /// Type assertion expression.
+    TsAs(TsAsExpr),
     /// Unary expression.
     Unary(UnaryExpr),
     /// Binary expression.
@@ -22,6 +31,7 @@ pub enum Expr {
 }
 
 /// Unary expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct UnaryExpr {
     /// Original source span.
@@ -33,6 +43,7 @@ pub struct UnaryExpr {
 }
 
 /// Binary expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct BinaryExpr {
     /// Original source span.
@@ -46,6 +57,7 @@ pub struct BinaryExpr {
 }
 
 /// Assignment expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct AssignExpr {
     /// Original source span.
@@ -59,6 +71,7 @@ pub struct AssignExpr {
 }
 
 /// Function call expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct CallExpr {
     /// Original source span.
@@ -70,6 +83,7 @@ pub struct CallExpr {
 }
 
 /// Call argument.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct ExprOrSpread {
     /// Whether this argument is spread.
@@ -79,6 +93,7 @@ pub struct ExprOrSpread {
 }
 
 /// Member access expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct MemberExpr {
     /// Original source span.
@@ -90,6 +105,7 @@ pub struct MemberExpr {
 }
 
 /// Member property.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub enum MemberProp {
     /// Dot access by identifier.
@@ -99,6 +115,7 @@ pub enum MemberProp {
 }
 
 /// Unary operator.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum UnaryOp {
     /// Unary `+`.
@@ -114,6 +131,7 @@ pub enum UnaryOp {
 }
 
 /// Binary operator.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum BinaryOp {
     /// `+`
@@ -134,6 +152,14 @@ pub enum BinaryOp {
     NotEq,
     /// `!==`
     NotEqEq,
+    /// `<`
+    Lt,
+    /// `<=`
+    LtEq,
+    /// `>`
+    Gt,
+    /// `>=`
+    GtEq,
     /// `&&`
     LogicalAnd,
     /// `||`
@@ -141,6 +167,7 @@ pub enum BinaryOp {
 }
 
 /// Assignment operator.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum AssignOp {
     /// `=`

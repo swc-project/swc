@@ -17,6 +17,9 @@ use std::{
     ops::{Index, IndexMut},
 };
 
+#[cfg(feature = "serde-impl")]
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+
 const INVALID_INDEX: u32 = u32::MAX;
 const INITIAL_GENERATION: u32 = 1;
 const MAX_SLOTS: usize = u32::MAX as usize;
@@ -95,6 +98,27 @@ impl<T> fmt::Debug for Id<T> {
             .field("index", &self.index())
             .field("generation", &self.generation())
             .finish()
+    }
+}
+
+#[cfg(feature = "serde-impl")]
+impl<T> Serialize for Id<T> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_u64(self.as_raw())
+    }
+}
+
+#[cfg(feature = "serde-impl")]
+impl<'de, T> Deserialize<'de> for Id<T> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let raw = u64::deserialize(deserializer)?;
+        Id::try_from_raw(raw).ok_or_else(|| serde::de::Error::custom("invalid arena id"))
     }
 }
 

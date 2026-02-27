@@ -3,6 +3,7 @@ use swc_common::Span;
 use crate::{BindingIdent, ExprId, PatId, StmtId};
 
 /// Declaration node.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub enum Decl {
     /// Variable declaration.
@@ -12,6 +13,7 @@ pub enum Decl {
 }
 
 /// Variable declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct VarDecl {
     /// Original source span.
@@ -23,6 +25,7 @@ pub struct VarDecl {
 }
 
 /// Variable declaration kind.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum VarDeclKind {
     /// `var`
@@ -38,6 +41,7 @@ pub enum VarDeclKind {
 }
 
 /// One variable declarator.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct VarDeclarator {
     /// Original source span.
@@ -49,6 +53,7 @@ pub struct VarDeclarator {
 }
 
 /// Function declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct FnDecl {
     /// Original source span.

@@ -5643,6 +5643,7 @@ name = "swc_arena"
 version = "0.1.0"
 dependencies = [
  "codspeed-criterion-compat",
+ "serde",
  "swc_malloc",
 ]
 
@@ -6933,9 +6934,35 @@ dependencies = [
 name = "swc_es_ast"
 version = "0.1.0"
 dependencies = [
+ "cbor4ii",
+ "serde",
+ "serde_json",
  "swc_arena",
  "swc_atoms",
  "swc_common",
+]
+
+[[package]]
+name = "swc_es_parser"
+version = "0.1.0"
+dependencies = [
+ "bitflags 2.10.0",
+ "codspeed-criterion-compat",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_es_ast",
+ "swc_malloc",
+ "testing",
+ "walkdir",
+]
+
+[[package]]
+name = "swc_es_visit"
+version = "0.1.0"
+dependencies = [
+ "swc_es_ast",
 ]
 
 [[package]]

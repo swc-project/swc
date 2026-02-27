@@ -1,8 +1,9 @@
 use swc_common::Span;
 
-use crate::{DeclId, ExprId, StmtId};
+use crate::{DeclId, ExprId, ModuleDeclId, StmtId};
 
 /// Statement node.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub enum Stmt {
     /// Empty statement.
@@ -19,9 +20,12 @@ pub enum Stmt {
     While(WhileStmt),
     /// Declaration statement.
     Decl(DeclId),
+    /// Module declaration pseudo-statement.
+    ModuleDecl(ModuleDeclId),
 }
 
 /// Empty statement (`;`).
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct EmptyStmt {
     /// Original source span.
@@ -29,6 +33,7 @@ pub struct EmptyStmt {
 }
 
 /// Block statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct BlockStmt {
     /// Original source span.
@@ -38,6 +43,7 @@ pub struct BlockStmt {
 }
 
 /// Expression statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct ExprStmt {
     /// Original source span.
@@ -47,6 +53,7 @@ pub struct ExprStmt {
 }
 
 /// Return statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct ReturnStmt {
     /// Original source span.
@@ -56,6 +63,7 @@ pub struct ReturnStmt {
 }
 
 /// If statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct IfStmt {
     /// Original source span.
@@ -69,6 +77,7 @@ pub struct IfStmt {
 }
 
 /// While statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct WhileStmt {
     /// Original source span.
