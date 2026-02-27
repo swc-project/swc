@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{FileName, StringInput};
+use swc_common::{input::StringInput, FileName};
 use swc_es_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
 
 fn bench_parse_program(b: &mut Bencher, syntax: Syntax, src: &'static str) {

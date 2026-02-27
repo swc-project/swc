@@ -1,4 +1,4 @@
-use swc_common::{FileName, SourceMap, StringInput};
+use swc_common::{input::StringInput, FileName, SourceMap};
 use swc_es_parser::{lexer::Lexer, Parser, Syntax};
 
 fn main() {

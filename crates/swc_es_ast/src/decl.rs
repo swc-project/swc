@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{BindingIdent, ExprId, PatId, StmtId};
+use crate::{BindingIdent, ExprId, Ident, PatId, StmtId, TsTypeId};
 
 /// Declaration node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -10,6 +10,8 @@ pub enum Decl {
     Var(VarDecl),
     /// Function declaration.
     Fn(FnDecl),
+    /// TypeScript type alias declaration.
+    TsTypeAlias(TsTypeAliasDecl),
 }
 
 /// Variable declaration.
@@ -64,4 +66,16 @@ pub struct FnDecl {
     pub params: Vec<PatId>,
     /// Function body statements.
     pub body: Vec<StmtId>,
+}
+
+/// TypeScript type alias declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsTypeAliasDecl {
+    /// Original source span.
+    pub span: Span,
+    /// Alias identifier.
+    pub ident: Ident,
+    /// Type definition.
+    pub ty: TsTypeId,
 }

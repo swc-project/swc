@@ -16,3 +16,6 @@ default = []
 
 [dependencies]
 swc_es_ast = { version = "0.1.0", path = "../swc_es_ast" }
+
+[dev-dependencies]
+swc_common = { version = "19.0.0", path = "../swc_common" }

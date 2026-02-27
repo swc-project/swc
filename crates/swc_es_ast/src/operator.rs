@@ -1,5 +1,6 @@
 //! Operator aliases and additional operator nodes.
 
+#[allow(unused_imports)]
 pub use crate::expr::{AssignOp, BinaryOp, UnaryOp};
 
 /// Update operator.

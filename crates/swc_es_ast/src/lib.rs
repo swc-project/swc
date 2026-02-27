@@ -11,10 +11,10 @@ pub use swc_arena::Id;
 
 pub use crate::{
     class::{Class, ClassMember, ClassMethod, ClassProp, MethodKind},
-    decl::{Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator},
+    decl::{Decl, FnDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclarator},
     expr::{
-        AssignExpr, AssignOp, BinaryExpr, BinaryOp, CallExpr, Expr, ExprOrSpread, MemberExpr,
-        MemberProp, UnaryExpr, UnaryOp,
+        ArrayExpr, AssignExpr, AssignOp, BinaryExpr, BinaryOp, CallExpr, Expr, ExprOrSpread,
+        MemberExpr, MemberProp, ObjectExpr, UnaryExpr, UnaryOp,
     },
     function::{Function, Param},
     ident::{BindingIdent, Ident},
@@ -27,7 +27,7 @@ pub use crate::{
     pat::{ArrayPat, AssignPat, Pat, RestPat},
     program::{Program, ProgramKind},
     prop::{KeyValueProp, PropName},
-    stmt::{BlockStmt, EmptyStmt, ExprStmt, IfStmt, ReturnStmt, Stmt, WhileStmt},
+    stmt::{BlockStmt, EmptyStmt, ExprStmt, ForStmt, IfStmt, ReturnStmt, Stmt, WhileStmt},
     store::AstStore,
     typescript::{TsAsExpr, TsKeywordType, TsLitType, TsType, TsTypeAnn, TsTypeRef},
 };

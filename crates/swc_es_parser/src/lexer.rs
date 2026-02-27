@@ -1,5 +1,9 @@
 use swc_atoms::Atom;
-use swc_common::{comments::Comments, input::Input, BytePos, Span, StringInput};
+use swc_common::{
+    comments::Comments,
+    input::{Input, StringInput},
+    Span,
+};
 
 use crate::{
     error::{Error, ErrorCode, Severity},

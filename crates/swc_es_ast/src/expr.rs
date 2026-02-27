@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{ClassId, ExprId, FunctionId, Ident, JSXElementId, Lit, PatId, TsAsExpr};
+use crate::{ClassId, ExprId, FunctionId, Ident, JSXElementId, KeyValueProp, Lit, PatId, TsAsExpr};
 
 /// Expression node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -18,6 +18,10 @@ pub enum Expr {
     JSXElement(JSXElementId),
     /// Type assertion expression.
     TsAs(TsAsExpr),
+    /// Array literal expression.
+    Array(ArrayExpr),
+    /// Object literal expression.
+    Object(ObjectExpr),
     /// Unary expression.
     Unary(UnaryExpr),
     /// Binary expression.
@@ -28,6 +32,26 @@ pub enum Expr {
     Call(CallExpr),
     /// Member access expression.
     Member(MemberExpr),
+}
+
+/// Array literal expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ArrayExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Array elements.
+    pub elems: Vec<Option<ExprOrSpread>>,
+}
+
+/// Object literal expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ObjectExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Object properties.
+    pub props: Vec<KeyValueProp>,
 }
 
 /// Unary expression.

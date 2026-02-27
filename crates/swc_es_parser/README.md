@@ -13,12 +13,22 @@
 - Script/module/program entry points are available.
 - Core statements and expression parsing are implemented.
 - `import`/`export` bootstrap parsing is included.
-- TypeScript and JSX support is intentionally partial in this initial implementation.
+- Bootstrap support for `for`, array/object literals, JSX elements, and TypeScript `type`/`as` is available.
+
+## Fixture Harness
+
+- `swc_ecma_parser` inputs are reused from `crates/swc_ecma_parser/tests`.
+- `swc_es_parser` snapshots are stored under `crates/swc_es_parser/tests/fixtures`.
+- Generate or refresh snapshots with:
+
+```bash
+UPDATE=1 cargo test -p swc_es_parser --test fixture_harness
+```
 
 ## API Sketch
 
 ```rust
-use swc_common::{FileName, SourceMap, StringInput};
+use swc_common::{input::StringInput, FileName, SourceMap};
 use swc_es_parser::{lexer::Lexer, Parser, Syntax};
 
 let cm = SourceMap::default();

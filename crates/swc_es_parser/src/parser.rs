@@ -1,11 +1,12 @@
 use swc_atoms::Atom;
 use swc_common::{Span, DUMMY_SP};
 use swc_es_ast::{
-    ArrayPat, AssignExpr, AssignOp, AstStore, BinaryExpr, BinaryOp, BlockStmt, BoolLit, CallExpr,
-    Decl, EmptyStmt, Expr, ExprOrSpread, ExprStmt, FnDecl, Function, Ident, IfStmt, Lit,
-    MemberExpr, MemberProp, ModuleDecl, NullLit, NumberLit, Pat, Program, ProgramId, ProgramKind,
-    RestPat, ReturnStmt, Stmt, StrLit, UnaryExpr, UnaryOp, VarDecl, VarDeclKind, VarDeclarator,
-    WhileStmt,
+    ArrayExpr, ArrayPat, AssignExpr, AssignOp, AstStore, BinaryExpr, BinaryOp, BlockStmt, BoolLit,
+    CallExpr, Decl, EmptyStmt, Expr, ExprOrSpread, ExprStmt, FnDecl, ForStmt, Function, Ident,
+    IfStmt, KeyValueProp, Lit, MemberExpr, MemberProp, ModuleDecl, NullLit, NumberLit, ObjectExpr,
+    Pat, Program, ProgramId, ProgramKind, PropName, RestPat, ReturnStmt, Stmt, StrLit,
+    TsKeywordType, TsType, TsTypeAliasDecl, TsTypeRef, UnaryExpr, UnaryOp, VarDecl, VarDeclKind,
+    VarDeclarator, WhileStmt,
 };
 
 use crate::{
@@ -138,10 +139,18 @@ impl<'a> Parser<'a> {
         let mut body = Vec::new();
 
         while self.cur.kind != TokenKind::Eof {
-            if allow_module && self.is_module_start() {
-                body.push(self.parse_module_decl_stmt()?);
+            let parsed = if allow_module && self.is_module_start() {
+                self.parse_module_decl_stmt()
             } else {
-                body.push(self.parse_stmt()?);
+                self.parse_stmt()
+            };
+
+            match parsed {
+                Ok(stmt) => body.push(stmt),
+                Err(err) => {
+                    self.errors.push(err);
+                    self.recover_stmt();
+                }
             }
         }
 
@@ -149,6 +158,14 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let explicit_resource_management = self.syntax().explicit_resource_management();
+        let is_await_using = self.cur.kind == TokenKind::Keyword(Keyword::Await)
+            && explicit_resource_management
+            && self.peek_ident_is("using");
+        let is_using = self.cur.kind == TokenKind::Ident
+            && explicit_resource_management
+            && self.cur_ident_is("using");
+
         match self.cur.kind {
             TokenKind::Semi => {
                 let span = self.cur.span;
@@ -158,11 +175,26 @@ impl<'a> Parser<'a> {
             TokenKind::LBrace => self.parse_block_stmt(),
             TokenKind::Keyword(Keyword::If) => self.parse_if_stmt(),
             TokenKind::Keyword(Keyword::While) => self.parse_while_stmt(),
+            TokenKind::Keyword(Keyword::For) => self.parse_for_stmt(),
             TokenKind::Keyword(Keyword::Return) => self.parse_return_stmt(),
             TokenKind::Keyword(Keyword::Function) => self.parse_function_decl_stmt(),
             TokenKind::Keyword(Keyword::Var | Keyword::Let | Keyword::Const) => {
                 self.parse_var_decl_stmt()
             }
+            TokenKind::Keyword(Keyword::Await) if is_await_using => {
+                self.parse_using_decl_stmt(true)
+            }
+            TokenKind::Ident if is_using => self.parse_using_decl_stmt(false),
+            TokenKind::Keyword(Keyword::Type) if self.syntax().typescript() => {
+                self.parse_ts_type_alias_decl_stmt()
+            }
+            TokenKind::Keyword(
+                Keyword::Interface
+                | Keyword::Enum
+                | Keyword::Namespace
+                | Keyword::Module
+                | Keyword::Declare,
+            ) if self.syntax().typescript() => self.parse_ts_skip_decl_stmt(),
             TokenKind::Keyword(Keyword::Import | Keyword::Export)
                 if !self.ctx.contains(Context::MODULE) =>
             {
@@ -312,6 +344,23 @@ impl<'a> Parser<'a> {
                 };
                 Ok(decl)
             }
+            TokenKind::Keyword(Keyword::Type) if self.syntax().typescript() => {
+                let stmt = self.parse_ts_type_alias_decl_stmt()?;
+                let Stmt::Decl(decl) = self
+                    .store
+                    .stmt(stmt)
+                    .cloned()
+                    .unwrap_or(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                else {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "expected declaration",
+                    ));
+                };
+                Ok(decl)
+            }
             _ => Err(Error::new(
                 self.cur.span,
                 Severity::Fatal,
@@ -377,6 +426,38 @@ impl<'a> Parser<'a> {
         Ok(self.store.alloc_stmt(Stmt::While(WhileStmt {
             span: Span::new_with_checked(start, self.last_pos()),
             test,
+            body,
+        })))
+    }
+
+    fn parse_for_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+        let _ = self.expect(TokenKind::LParen, "(")?;
+
+        let mut depth = 1usize;
+        while depth > 0 && self.cur.kind != TokenKind::Eof {
+            match self.cur.kind {
+                TokenKind::LParen => depth += 1,
+                TokenKind::RParen => {
+                    depth -= 1;
+                    if depth == 0 {
+                        self.bump();
+                        break;
+                    }
+                }
+                _ => {}
+            }
+            self.bump();
+        }
+
+        let old_ctx = self.ctx;
+        self.ctx.insert(Context::IN_LOOP);
+        let body = self.parse_stmt()?;
+        self.ctx = old_ctx;
+
+        Ok(self.store.alloc_stmt(Stmt::For(ForStmt {
+            span: Span::new_with_checked(start, self.last_pos()),
             body,
         })))
     }
@@ -506,6 +587,107 @@ impl<'a> Parser<'a> {
         Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
     }
 
+    fn parse_using_decl_stmt(&mut self, has_await: bool) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        if has_await {
+            self.bump();
+        }
+        if self.cur.kind != TokenKind::Ident || !self.cur_ident_is("using") {
+            return Err(self.expected("using"));
+        }
+        self.bump();
+
+        let mut declarators = Vec::new();
+        while self.cur.kind != TokenKind::Semi && self.cur.kind != TokenKind::Eof {
+            let pat = self.parse_binding_pat()?;
+            let init = if self.cur.kind == TokenKind::Eq {
+                self.bump();
+                Some(self.parse_expr()?)
+            } else {
+                None
+            };
+            declarators.push(VarDeclarator {
+                span: Span::new_with_checked(start, self.last_pos()),
+                name: pat,
+                init,
+            });
+
+            if self.cur.kind != TokenKind::Comma {
+                break;
+            }
+            self.bump();
+        }
+        self.eat_semi();
+
+        let decl = self.store.alloc_decl(Decl::Var(VarDecl {
+            span: Span::new_with_checked(start, self.last_pos()),
+            kind: if has_await {
+                VarDeclKind::AwaitUsing
+            } else {
+                VarDeclKind::Using
+            },
+            declarators,
+        }));
+
+        Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
+    }
+
+    fn parse_ts_type_alias_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump(); // type
+        let ident = self.expect_ident()?;
+        if self.cur.kind == TokenKind::Lt {
+            self.skip_balanced(TokenKind::Lt, TokenKind::Gt);
+        }
+        let _ = self.expect(TokenKind::Eq, "=")?;
+        let ty = self.parse_ts_type()?;
+        self.eat_semi();
+
+        let decl = self.store.alloc_decl(Decl::TsTypeAlias(TsTypeAliasDecl {
+            span: Span::new_with_checked(start, self.last_pos()),
+            ident,
+            ty,
+        }));
+
+        Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
+    }
+
+    fn parse_ts_skip_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+
+        let mut depth = 0usize;
+        loop {
+            match self.cur.kind {
+                TokenKind::Eof => break,
+                TokenKind::LBrace => {
+                    depth += 1;
+                    self.bump();
+                }
+                TokenKind::RBrace => {
+                    if depth == 0 {
+                        break;
+                    }
+                    depth -= 1;
+                    self.bump();
+                    if depth == 0 {
+                        break;
+                    }
+                }
+                TokenKind::Semi if depth == 0 => {
+                    self.bump();
+                    break;
+                }
+                _ if depth == 0 && self.cur.had_line_break_before => break,
+                _ => self.bump(),
+            }
+        }
+
+        Ok(self.store.alloc_stmt(Stmt::Empty(EmptyStmt {
+            span: Span::new_with_checked(start, self.last_pos()),
+        })))
+    }
+
     fn parse_binding_pat(&mut self) -> PResult<swc_es_ast::PatId> {
         match self.cur.kind {
             TokenKind::Ident => {
@@ -611,6 +793,17 @@ impl<'a> Parser<'a> {
                 left: left_pat,
                 op,
                 right,
+            })));
+        }
+
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Keyword(Keyword::As) {
+            let start = self.cur.span.lo;
+            self.bump();
+            let ty = self.parse_ts_type()?;
+            return Ok(self.store.alloc_expr(Expr::TsAs(swc_es_ast::TsAsExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                expr: left,
+                ty,
             })));
         }
 
@@ -893,6 +1086,9 @@ impl<'a> Parser<'a> {
             }
             TokenKind::Keyword(Keyword::Function) => self.parse_function_expr(),
             TokenKind::Keyword(Keyword::Class) => self.parse_class_expr(),
+            TokenKind::LBracket => self.parse_array_expr(),
+            TokenKind::LBrace => self.parse_object_expr(),
+            TokenKind::Lt if self.syntax().jsx() => self.parse_jsx_element_expr(),
             TokenKind::LParen => {
                 self.bump();
                 let expr = self.parse_expr()?;
@@ -1016,6 +1212,476 @@ impl<'a> Parser<'a> {
         Ok(self.store.alloc_expr(Expr::Class(class)))
     }
 
+    fn parse_array_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        let _ = self.expect(TokenKind::LBracket, "[")?;
+        let mut elems = Vec::new();
+
+        while self.cur.kind != TokenKind::RBracket && self.cur.kind != TokenKind::Eof {
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+                elems.push(None);
+                continue;
+            }
+
+            let spread = self.cur.kind == TokenKind::DotDotDot;
+            if spread {
+                self.bump();
+            }
+            let expr = self.parse_expr()?;
+            elems.push(Some(ExprOrSpread { spread, expr }));
+
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+            } else {
+                break;
+            }
+        }
+        let _ = self.expect(TokenKind::RBracket, "]")?;
+
+        Ok(self.store.alloc_expr(Expr::Array(ArrayExpr {
+            span: Span::new_with_checked(start, self.last_pos()),
+            elems,
+        })))
+    }
+
+    fn parse_object_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        let _ = self.expect(TokenKind::LBrace, "{")?;
+        let mut props = Vec::new();
+
+        while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+            let key = match self.cur.kind {
+                TokenKind::Ident => {
+                    let ident = self.cur_ident_value();
+                    self.bump();
+                    PropName::Ident(ident)
+                }
+                TokenKind::Str => {
+                    let str_lit = self.cur_string_value();
+                    self.bump();
+                    PropName::Str(str_lit)
+                }
+                TokenKind::Num => {
+                    let num_lit = self.cur_number_value();
+                    self.bump();
+                    PropName::Num(num_lit)
+                }
+                TokenKind::LBracket => {
+                    self.bump();
+                    let expr = self.parse_expr()?;
+                    let _ = self.expect(TokenKind::RBracket, "]")?;
+                    PropName::Computed(expr)
+                }
+                _ => {
+                    let err = Error::new(
+                        self.cur.span,
+                        Severity::Error,
+                        ErrorCode::UnexpectedToken,
+                        "invalid object key",
+                    );
+                    self.errors.push(err);
+                    self.bump();
+                    continue;
+                }
+            };
+
+            let value = if self.cur.kind == TokenKind::Colon {
+                self.bump();
+                self.parse_expr()?
+            } else {
+                match &key {
+                    PropName::Ident(ident) => self.store.alloc_expr(Expr::Ident(ident.clone())),
+                    PropName::Str(str_lit) => {
+                        self.store.alloc_expr(Expr::Lit(Lit::Str(str_lit.clone())))
+                    }
+                    PropName::Num(num_lit) => self.store.alloc_expr(Expr::Lit(Lit::Num(*num_lit))),
+                    PropName::Computed(expr) => *expr,
+                }
+            };
+
+            props.push(KeyValueProp {
+                span: Span::new_with_checked(start, self.last_pos()),
+                key,
+                value,
+            });
+
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+            } else {
+                break;
+            }
+        }
+        let _ = self.expect(TokenKind::RBrace, "}")?;
+
+        Ok(self.store.alloc_expr(Expr::Object(ObjectExpr {
+            span: Span::new_with_checked(start, self.last_pos()),
+            props,
+        })))
+    }
+
+    fn parse_jsx_element_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        let _ = self.expect(TokenKind::Lt, "<")?;
+        let opening_name = self.parse_jsx_name()?;
+        let mut attrs = Vec::new();
+
+        while self.cur.kind != TokenKind::Gt
+            && self.cur.kind != TokenKind::Eof
+            && !(self.cur.kind == TokenKind::Slash && self.peek_kind() == TokenKind::Gt)
+        {
+            if let Some(name) = self.cur_name_atom() {
+                let attr_span_lo = self.cur.span.lo;
+                self.bump();
+                let value = if self.cur.kind == TokenKind::Eq {
+                    self.bump();
+                    if self.cur.kind == TokenKind::Str {
+                        let str_lit = self.cur_string_value();
+                        self.bump();
+                        Some(self.store.alloc_expr(Expr::Lit(Lit::Str(str_lit))))
+                    } else if self.cur.kind == TokenKind::LBrace {
+                        self.bump();
+                        let expr = if self.cur.kind == TokenKind::RBrace {
+                            self.store.alloc_expr(Expr::Lit(Lit::Null(NullLit {
+                                span: self.cur.span,
+                            })))
+                        } else {
+                            self.parse_expr()?
+                        };
+                        let _ = self.expect(TokenKind::RBrace, "}")?;
+                        Some(expr)
+                    } else {
+                        Some(self.parse_primary_expr()?)
+                    }
+                } else {
+                    None
+                };
+                attrs.push(swc_es_ast::JSXAttr {
+                    span: Span::new_with_checked(attr_span_lo, self.last_pos()),
+                    name,
+                    value,
+                });
+            } else {
+                self.bump();
+            }
+        }
+
+        let self_closing = if self.cur.kind == TokenKind::Slash && self.peek_kind() == TokenKind::Gt
+        {
+            self.bump();
+            let _ = self.expect(TokenKind::Gt, ">")?;
+            true
+        } else {
+            let _ = self.expect(TokenKind::Gt, ">")?;
+            false
+        };
+
+        if self_closing {
+            let jsx_element = self.store.alloc_jsx_element(swc_es_ast::JSXElement {
+                span: Span::new_with_checked(start, self.last_pos()),
+                opening: swc_es_ast::JSXOpeningElement {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    name: opening_name,
+                    attrs,
+                    self_closing: true,
+                },
+                children: Vec::new(),
+                closing: None,
+            });
+            return Ok(self.store.alloc_expr(Expr::JSXElement(jsx_element)));
+        }
+
+        let mut children = Vec::new();
+        while self.cur.kind != TokenKind::Eof {
+            if self.cur.kind == TokenKind::Lt && self.peek_kind() == TokenKind::Slash {
+                break;
+            }
+            if self.cur.kind == TokenKind::Lt {
+                let child = self.parse_jsx_element_expr()?;
+                if let Some(Expr::JSXElement(id)) = self.store.expr(child).cloned() {
+                    children.push(swc_es_ast::JSXElementChild::Element(id));
+                } else {
+                    children.push(swc_es_ast::JSXElementChild::Expr(child));
+                }
+                continue;
+            }
+            if self.cur.kind == TokenKind::LBrace {
+                self.bump();
+                let expr = if self.cur.kind == TokenKind::RBrace {
+                    self.store.alloc_expr(Expr::Lit(Lit::Null(NullLit {
+                        span: self.cur.span,
+                    })))
+                } else {
+                    self.parse_expr()?
+                };
+                let _ = self.expect(TokenKind::RBrace, "}")?;
+                children.push(swc_es_ast::JSXElementChild::Expr(expr));
+                continue;
+            }
+
+            if let Some(text) = self.cur_name_atom() {
+                children.push(swc_es_ast::JSXElementChild::Text(text));
+                self.bump();
+            } else {
+                self.bump();
+            }
+        }
+
+        let closing = if self.cur.kind == TokenKind::Lt && self.peek_kind() == TokenKind::Slash {
+            self.bump();
+            self.bump();
+            let name = self.parse_jsx_name()?;
+            let _ = self.expect(TokenKind::Gt, ">")?;
+            Some(name)
+        } else {
+            None
+        };
+
+        let jsx_element = self.store.alloc_jsx_element(swc_es_ast::JSXElement {
+            span: Span::new_with_checked(start, self.last_pos()),
+            opening: swc_es_ast::JSXOpeningElement {
+                span: Span::new_with_checked(start, self.last_pos()),
+                name: opening_name,
+                attrs,
+                self_closing: false,
+            },
+            children,
+            closing,
+        });
+
+        Ok(self.store.alloc_expr(Expr::JSXElement(jsx_element)))
+    }
+
+    fn parse_jsx_name(&mut self) -> PResult<swc_es_ast::JSXElementName> {
+        if let Some(atom) = self.cur_name_atom() {
+            self.bump();
+            Ok(swc_es_ast::JSXElementName::Qualified(atom))
+        } else {
+            Err(self.expected("jsx name"))
+        }
+    }
+
+    fn parse_ts_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        let start = self.cur.span.lo;
+        let mut ty = self.parse_ts_primary_type()?;
+        let mut complex = false;
+
+        if self.cur.kind == TokenKind::Lt {
+            complex = true;
+            self.skip_balanced(TokenKind::Lt, TokenKind::Gt);
+        }
+
+        while self.cur.kind == TokenKind::LBracket && self.peek_kind() == TokenKind::RBracket {
+            complex = true;
+            self.bump();
+            self.bump();
+        }
+
+        while matches!(self.cur.kind, TokenKind::Pipe | TokenKind::Amp) {
+            complex = true;
+            self.bump();
+            let _ = self.parse_ts_primary_type()?;
+
+            if self.cur.kind == TokenKind::Lt {
+                self.skip_balanced(TokenKind::Lt, TokenKind::Gt);
+            }
+
+            while self.cur.kind == TokenKind::LBracket && self.peek_kind() == TokenKind::RBracket {
+                self.bump();
+                self.bump();
+            }
+        }
+
+        if self.cur.kind == TokenKind::Arrow {
+            complex = true;
+            self.bump();
+            let _ = self.parse_ts_type()?;
+        }
+
+        if complex {
+            ty = self.alloc_ts_type_ref(start, "__complex");
+        }
+
+        Ok(ty)
+    }
+
+    fn parse_ts_primary_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        let start = self.cur.span.lo;
+        let ty = match self.cur.kind {
+            TokenKind::Keyword(Keyword::Any) => {
+                self.bump();
+                TsType::Keyword(TsKeywordType::Any)
+            }
+            TokenKind::Keyword(Keyword::Unknown) => {
+                self.bump();
+                TsType::Keyword(TsKeywordType::Unknown)
+            }
+            TokenKind::Keyword(Keyword::Never) => {
+                self.bump();
+                TsType::Keyword(TsKeywordType::Never)
+            }
+            TokenKind::Keyword(Keyword::Void) => {
+                self.bump();
+                TsType::Keyword(TsKeywordType::Void)
+            }
+            TokenKind::Keyword(Keyword::String) => {
+                self.bump();
+                TsType::Keyword(TsKeywordType::String)
+            }
+            TokenKind::Keyword(Keyword::Number) => {
+                self.bump();
+                TsType::Keyword(TsKeywordType::Number)
+            }
+            TokenKind::Keyword(Keyword::Boolean) => {
+                self.bump();
+                TsType::Keyword(TsKeywordType::Boolean)
+            }
+            TokenKind::Str => {
+                let lit = self.cur_string_value();
+                self.bump();
+                TsType::Lit(swc_es_ast::TsLitType::Str(lit))
+            }
+            TokenKind::Num => {
+                let lit = self.cur_number_value();
+                self.bump();
+                TsType::Lit(swc_es_ast::TsLitType::Num(lit))
+            }
+            TokenKind::Keyword(Keyword::True) => {
+                let lit = BoolLit {
+                    span: self.cur.span,
+                    value: true,
+                };
+                self.bump();
+                TsType::Lit(swc_es_ast::TsLitType::Bool(lit))
+            }
+            TokenKind::Keyword(Keyword::False) => {
+                let lit = BoolLit {
+                    span: self.cur.span,
+                    value: false,
+                };
+                self.bump();
+                TsType::Lit(swc_es_ast::TsLitType::Bool(lit))
+            }
+            TokenKind::Ident | TokenKind::Keyword(_) => {
+                let name = self.parse_ts_type_name();
+                TsType::TypeRef(TsTypeRef {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    name,
+                })
+            }
+            TokenKind::LParen => {
+                self.skip_balanced(TokenKind::LParen, TokenKind::RParen);
+                return Ok(self.alloc_ts_type_ref(start, "__group"));
+            }
+            TokenKind::LBrace => {
+                self.skip_balanced(TokenKind::LBrace, TokenKind::RBrace);
+                return Ok(self.alloc_ts_type_ref(start, "__object"));
+            }
+            TokenKind::LBracket => {
+                self.skip_balanced(TokenKind::LBracket, TokenKind::RBracket);
+                return Ok(self.alloc_ts_type_ref(start, "__tuple"));
+            }
+            _ => {
+                self.errors.push(Error::new(
+                    self.cur.span,
+                    Severity::Error,
+                    ErrorCode::UnexpectedToken,
+                    "unexpected token in TypeScript type",
+                ));
+                if self.cur.kind != TokenKind::Eof {
+                    self.bump();
+                }
+                return Ok(self.alloc_ts_type_ref(start, "any"));
+            }
+        };
+
+        Ok(self.store.alloc_ts_type(ty))
+    }
+
+    fn parse_ts_type_name(&mut self) -> Ident {
+        let start = self.cur.span.lo;
+        let mut name = String::new();
+
+        loop {
+            let Some(segment) = self.cur_name_atom() else {
+                break;
+            };
+            if !name.is_empty() {
+                name.push('.');
+            }
+            name.push_str(segment.as_ref());
+            self.bump();
+
+            if self.cur.kind != TokenKind::Dot {
+                break;
+            }
+            self.bump();
+        }
+
+        if name.is_empty() {
+            name.push('_');
+        }
+
+        Ident {
+            span: Span::new_with_checked(start, self.last_pos()),
+            sym: Atom::new(name),
+        }
+    }
+
+    fn alloc_ts_type_ref(
+        &mut self,
+        start: swc_common::BytePos,
+        name: &str,
+    ) -> swc_es_ast::TsTypeId {
+        let span = Span::new_with_checked(start, self.last_pos());
+        self.store.alloc_ts_type(TsType::TypeRef(TsTypeRef {
+            span,
+            name: Ident {
+                span,
+                sym: Atom::new(name),
+            },
+        }))
+    }
+
+    fn recover_stmt(&mut self) {
+        while self.cur.kind != TokenKind::Eof {
+            match self.cur.kind {
+                TokenKind::Semi => {
+                    self.bump();
+                    break;
+                }
+                TokenKind::RBrace => break,
+                _ => self.bump(),
+            }
+        }
+    }
+
+    fn skip_balanced(&mut self, open: TokenKind, close: TokenKind) {
+        if self.cur.kind != open {
+            return;
+        }
+
+        let mut depth = 0usize;
+        while self.cur.kind != TokenKind::Eof {
+            if self.cur.kind == open {
+                depth += 1;
+                self.bump();
+                continue;
+            }
+
+            if self.cur.kind == close {
+                depth = depth.saturating_sub(1);
+                self.bump();
+                if depth == 0 {
+                    break;
+                }
+                continue;
+            }
+
+            self.bump();
+        }
+    }
+
     fn expr_to_assign_pat(&mut self, expr: swc_es_ast::ExprId) -> swc_es_ast::PatId {
         match self.store.expr(expr).cloned() {
             Some(Expr::Ident(ident)) => self.store.alloc_pat(Pat::Ident(ident)),
@@ -1069,6 +1735,57 @@ impl<'a> Parser<'a> {
         }
     }
 
+    fn cur_ident_is(&self, value: &str) -> bool {
+        if self.cur.kind != TokenKind::Ident {
+            return false;
+        }
+        match &self.cur.value {
+            Some(TokenValue::Ident(sym)) => sym.as_ref() == value,
+            _ => false,
+        }
+    }
+
+    fn cur_name_atom(&self) -> Option<Atom> {
+        match self.cur.kind {
+            TokenKind::Ident => match &self.cur.value {
+                Some(TokenValue::Ident(sym)) => Some(sym.clone()),
+                _ => None,
+            },
+            TokenKind::Keyword(keyword) => Some(Atom::new(Self::keyword_text(keyword))),
+            TokenKind::Str => match &self.cur.value {
+                Some(TokenValue::Str(value)) => Some(value.clone()),
+                _ => None,
+            },
+            TokenKind::Num => match self.cur.value {
+                Some(TokenValue::Num(value)) => Some(Atom::new(value.to_string())),
+                _ => None,
+            },
+            _ => None,
+        }
+    }
+
+    fn peek_token(&mut self) -> &Token {
+        if self.next.is_none() {
+            self.next = Some(self.lexer.next_token());
+        }
+        self.next.as_ref().expect("peek token should exist")
+    }
+
+    fn peek_kind(&mut self) -> TokenKind {
+        self.peek_token().kind
+    }
+
+    fn peek_ident_is(&mut self, value: &str) -> bool {
+        let token = self.peek_token();
+        if token.kind != TokenKind::Ident {
+            return false;
+        }
+        match &token.value {
+            Some(TokenValue::Ident(sym)) => sym.as_ref() == value,
+            _ => false,
+        }
+    }
+
     fn expect_ident(&mut self) -> PResult<Ident> {
         if self.cur.kind != TokenKind::Ident {
             return Err(self.expected("identifier"));
@@ -1118,13 +1835,77 @@ impl<'a> Parser<'a> {
     fn last_pos(&self) -> swc_common::BytePos {
         self.cur.span.hi
     }
+
+    fn keyword_text(keyword: Keyword) -> &'static str {
+        match keyword {
+            Keyword::Await => "await",
+            Keyword::Break => "break",
+            Keyword::Case => "case",
+            Keyword::Catch => "catch",
+            Keyword::Class => "class",
+            Keyword::Const => "const",
+            Keyword::Continue => "continue",
+            Keyword::Debugger => "debugger",
+            Keyword::Default => "default",
+            Keyword::Delete => "delete",
+            Keyword::Do => "do",
+            Keyword::Else => "else",
+            Keyword::Export => "export",
+            Keyword::Extends => "extends",
+            Keyword::False => "false",
+            Keyword::Finally => "finally",
+            Keyword::For => "for",
+            Keyword::From => "from",
+            Keyword::Function => "function",
+            Keyword::If => "if",
+            Keyword::Import => "import",
+            Keyword::In => "in",
+            Keyword::InstanceOf => "instanceof",
+            Keyword::Let => "let",
+            Keyword::New => "new",
+            Keyword::Null => "null",
+            Keyword::Return => "return",
+            Keyword::Super => "super",
+            Keyword::Switch => "switch",
+            Keyword::This => "this",
+            Keyword::Throw => "throw",
+            Keyword::True => "true",
+            Keyword::Try => "try",
+            Keyword::TypeOf => "typeof",
+            Keyword::Var => "var",
+            Keyword::Void => "void",
+            Keyword::While => "while",
+            Keyword::With => "with",
+            Keyword::Yield => "yield",
+            Keyword::As => "as",
+            Keyword::Interface => "interface",
+            Keyword::Type => "type",
+            Keyword::Enum => "enum",
+            Keyword::Implements => "implements",
+            Keyword::Public => "public",
+            Keyword::Private => "private",
+            Keyword::Protected => "protected",
+            Keyword::Static => "static",
+            Keyword::Declare => "declare",
+            Keyword::Namespace => "namespace",
+            Keyword::Module => "module",
+            Keyword::Any => "any",
+            Keyword::Number => "number",
+            Keyword::String => "string",
+            Keyword::Boolean => "boolean",
+            Keyword::Unknown => "unknown",
+            Keyword::Never => "never",
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{FileName, SourceMap, StringInput};
+    use swc_common::{input::StringInput, FileName, SourceMap};
 
     use super::*;
+    #[cfg(feature = "typescript")]
+    use crate::syntax::TsSyntax;
     use crate::syntax::{EsSyntax, Syntax};
 
     #[test]
@@ -1170,6 +1951,87 @@ mod tests {
             .expect("program should exist");
 
         assert_eq!(program.kind, ProgramKind::Module);
+        assert_eq!(program.body.len(), 2);
+    }
+
+    #[test]
+    fn parses_for_array_and_object_literals() {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(
+            FileName::Custom("for.js".into()).into(),
+            "for (let i = 0; i < 3; i++) { const arr = [1, 2]; const obj = { arr }; }",
+        );
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsSyntax::default()),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let parsed = parser.parse_script().expect("script should parse");
+        let program = parsed
+            .store
+            .program(parsed.program)
+            .expect("program should exist");
+
+        assert_eq!(program.body.len(), 1);
+        let stmt = parsed
+            .store
+            .stmt(program.body[0])
+            .expect("for statement should exist");
+        assert!(matches!(stmt, Stmt::For(..)));
+    }
+
+    #[test]
+    fn parses_jsx_element_expression() {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(
+            FileName::Custom("component.jsx".into()).into(),
+            "<Button disabled>{label}</Button>;",
+        );
+
+        let lexer = Lexer::new(
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                ..Default::default()
+            }),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let parsed = parser.parse_script().expect("jsx should parse");
+        let program = parsed
+            .store
+            .program(parsed.program)
+            .expect("program should exist");
+
+        assert_eq!(program.body.len(), 1);
+    }
+
+    #[cfg(feature = "typescript")]
+    #[test]
+    fn parses_typescript_type_alias_and_as_expression() {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(
+            FileName::Custom("types.ts".into()).into(),
+            "type Box<T> = string | number; const value = input as Box;",
+        );
+
+        let lexer = Lexer::new(
+            Syntax::Typescript(TsSyntax::default()),
+            StringInput::from(&*fm),
+            None,
+        );
+        let mut parser = Parser::new_from(lexer);
+
+        let parsed = parser.parse_program().expect("typescript should parse");
+        let program = parsed
+            .store
+            .program(parsed.program)
+            .expect("program should exist");
+
         assert_eq!(program.body.len(), 2);
     }
 }

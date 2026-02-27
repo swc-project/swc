@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use swc_common::{comments::SingleThreadedComments, FileName, SourceMap, StringInput};
+use swc_common::{comments::SingleThreadedComments, input::StringInput, FileName, SourceMap};
 use swc_es_parser::{lexer::Lexer, parse_file_as_program, EsSyntax, Parser, Syntax, TsSyntax};
 
 fn parse_fixture(path: &Path, syntax: Syntax) {

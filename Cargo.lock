@@ -6962,6 +6962,7 @@ dependencies = [
 name = "swc_es_visit"
 version = "0.1.0"
 dependencies = [
+ "swc_common",
  "swc_es_ast",
 ]
 

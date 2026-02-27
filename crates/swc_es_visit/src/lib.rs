@@ -254,6 +254,9 @@ where
             visitor.visit_expr(store, while_stmt.test);
             visitor.visit_stmt(store, while_stmt.body);
         }
+        Stmt::For(for_stmt) => {
+            visitor.visit_stmt(store, for_stmt.body);
+        }
         Stmt::Decl(decl) => visitor.visit_decl(store, *decl),
         Stmt::ModuleDecl(module_decl) => visitor.visit_module_decl(store, *module_decl),
     }
@@ -286,6 +289,7 @@ where
                 visitor.visit_stmt(store, *stmt);
             }
         }
+        Decl::TsTypeAlias(alias) => visitor.visit_ts_type(store, alias.ty),
     }
 }
 
@@ -303,10 +307,8 @@ where
         Pat::Ident(_) => {}
         Pat::Expr(expr) => visitor.visit_expr(store, *expr),
         Pat::Array(array_pat) => {
-            for elem in &array_pat.elems {
-                if let Some(elem) = elem {
-                    visitor.visit_pat(store, *elem);
-                }
+            for elem in array_pat.elems.iter().flatten() {
+                visitor.visit_pat(store, *elem);
             }
         }
         Pat::Rest(rest) => visitor.visit_pat(store, rest.arg),
@@ -336,6 +338,19 @@ where
             visitor.visit_expr(store, ts_as.expr);
             visitor.visit_ts_type(store, ts_as.ty);
         }
+        Expr::Array(array) => {
+            for elem in array.elems.iter().flatten() {
+                visitor.visit_expr(store, elem.expr);
+            }
+        }
+        Expr::Object(obj) => {
+            for prop in &obj.props {
+                visitor.visit_expr(store, prop.value);
+                if let swc_es_ast::PropName::Computed(expr) = &prop.key {
+                    visitor.visit_expr(store, *expr);
+                }
+            }
+        }
         Expr::Unary(unary) => visitor.visit_expr(store, unary.arg),
         Expr::Binary(binary) => {
             visitor.visit_expr(store, binary.left);
@@ -353,8 +368,8 @@ where
         }
         Expr::Member(member) => {
             visitor.visit_expr(store, member.obj);
-            if let swc_es_ast::MemberProp::Computed(prop) = member.prop {
-                visitor.visit_expr(store, prop);
+            if let swc_es_ast::MemberProp::Computed(prop) = &member.prop {
+                visitor.visit_expr(store, *prop);
             }
         }
     }

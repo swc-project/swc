@@ -100,7 +100,7 @@ impl Error {
             },
             &self.message,
         );
-        diagnostic.span(self.span);
+        diagnostic.set_span(self.span);
         diagnostic.note(&format!("code: {:?}", self.code));
         diagnostic
     }
