@@ -7,6 +7,9 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(clippy::all)]
 
+#[cfg(feature = "encoding-impl")]
+pub extern crate cbor4ii;
+
 pub use swc_arena::Id;
 
 pub use crate::{

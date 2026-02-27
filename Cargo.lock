@@ -6949,7 +6949,6 @@ dependencies = [
  "bitflags 2.10.0",
  "codspeed-criterion-compat",
  "serde",
- "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_es_ast",
