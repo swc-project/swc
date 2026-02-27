@@ -28,7 +28,7 @@ pub use crate::{
     },
     operator::UpdateOp,
     pat::{ArrayPat, AssignPat, Pat, RestPat},
-    program::{Program, ProgramKind},
+    program::{Directive, Program, ProgramKind},
     prop::{KeyValueProp, PropName},
     stmt::{
         BlockStmt, EmptyStmt, ExprStmt, ForBinding, ForClassicHead, ForHead, ForInHead, ForInit,

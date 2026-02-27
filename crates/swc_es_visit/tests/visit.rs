@@ -45,6 +45,8 @@ fn walks_program_nodes() {
         span: DUMMY_SP,
         kind: ProgramKind::Script,
         body: vec![stmt],
+        shebang: None,
+        directives: Vec::new(),
     });
 
     let mut counter = Counter::default();

@@ -31,6 +31,8 @@ fn builds_program_with_arena_handles() {
         span: DUMMY_SP,
         kind: ProgramKind::Script,
         body: vec![stmt],
+        shebang: None,
+        directives: Vec::new(),
     });
 
     assert!(matches!(store.expr(sum), Some(Expr::Binary(_))));

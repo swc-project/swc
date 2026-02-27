@@ -32,6 +32,8 @@ fn roundtrip_store_ids_with_serde() {
         span: DUMMY_SP,
         kind: ProgramKind::Script,
         body: vec![stmt],
+        shebang: None,
+        directives: Vec::new(),
     };
 
     let json = serde_json::to_string(&program).expect("program should serialize");

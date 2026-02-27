@@ -77,6 +77,8 @@ impl<'a> Parser<'a> {
             span: Span::new_with_checked(start, self.last_pos()),
             kind: ProgramKind::Script,
             body,
+            shebang: None,
+            directives: Vec::new(),
         });
 
         Ok(ParsedProgram {
@@ -95,6 +97,8 @@ impl<'a> Parser<'a> {
             span: Span::new_with_checked(start, self.last_pos()),
             kind: ProgramKind::Module,
             body,
+            shebang: None,
+            directives: Vec::new(),
         });
 
         Ok(ParsedProgram {
@@ -129,6 +133,8 @@ impl<'a> Parser<'a> {
             span: Span::new_with_checked(start, self.last_pos()),
             kind,
             body,
+            shebang: None,
+            directives: Vec::new(),
         });
 
         Ok(ParsedProgram {

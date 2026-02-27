@@ -52,6 +52,24 @@ impl Syntax {
         }
     }
 
+    /// Returns `true` if function bind syntax is enabled.
+    pub fn fn_bind(self) -> bool {
+        match self {
+            Syntax::Es(es) => es.fn_bind,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(_) => false,
+        }
+    }
+
+    /// Returns `true` if auto-accessors syntax is enabled.
+    pub fn auto_accessors(self) -> bool {
+        match self {
+            Syntax::Es(es) => es.auto_accessors,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(_) => true,
+        }
+    }
+
     /// Returns `true` if resource declarations are enabled.
     pub fn explicit_resource_management(self) -> bool {
         match self {
@@ -95,6 +113,10 @@ impl Syntax {
 pub struct EsSyntax {
     #[serde(default)]
     pub jsx: bool,
+    /// Support function bind expression.
+    #[serde(rename = "functionBind")]
+    #[serde(default)]
+    pub fn_bind: bool,
     #[serde(default)]
     pub decorators: bool,
     #[serde(default)]
@@ -107,6 +129,8 @@ pub struct EsSyntax {
     pub allow_super_outside_method: bool,
     #[serde(default)]
     pub allow_return_outside_function: bool,
+    #[serde(default)]
+    pub auto_accessors: bool,
     #[serde(default)]
     pub explicit_resource_management: bool,
 }

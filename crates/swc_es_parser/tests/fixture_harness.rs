@@ -1,21 +1,16 @@
 use std::{
-    fmt::Write as _,
     fs,
     path::{Path, PathBuf},
 };
 
 use swc_common::{comments::SingleThreadedComments, SourceMap};
-use swc_es_ast::{AstStore, Decl, Expr, Lit, ModuleDecl, Program, Stmt, TsLitType, TsType};
-use swc_es_parser::{parse_file_as_program, Error, EsSyntax, Syntax, TsSyntax};
-use testing::StdErr;
+use swc_ecma_ast::Program as EcmaProgram;
+use swc_ecma_parser::{Parser as EcmaParser, Syntax as EcmaSyntax};
+use swc_es_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
 use walkdir::WalkDir;
 
 fn ecma_fixture_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../swc_ecma_parser/tests")
-}
-
-fn snapshot_root() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures")
 }
 
 fn collect_fixture_files(category: &str, exts: &[&str]) -> Vec<PathBuf> {
@@ -38,6 +33,36 @@ fn collect_fixture_files(category: &str, exts: &[&str]) -> Vec<PathBuf> {
     files
 }
 
+#[derive(Debug, Clone, Copy)]
+struct ParseSummary {
+    ok: bool,
+    body_len: usize,
+}
+
+fn convert_syntax_to_ecma(syntax: Syntax) -> EcmaSyntax {
+    match syntax {
+        Syntax::Es(es) => EcmaSyntax::Es(swc_ecma_parser::EsSyntax {
+            jsx: es.jsx,
+            fn_bind: es.fn_bind,
+            decorators: es.decorators,
+            decorators_before_export: es.decorators_before_export,
+            export_default_from: es.export_default_from,
+            import_attributes: es.import_attributes,
+            allow_super_outside_method: es.allow_super_outside_method,
+            allow_return_outside_function: es.allow_return_outside_function,
+            auto_accessors: es.auto_accessors,
+            explicit_resource_management: es.explicit_resource_management,
+        }),
+        Syntax::Typescript(ts) => EcmaSyntax::Typescript(swc_ecma_parser::TsSyntax {
+            tsx: ts.tsx,
+            decorators: ts.decorators,
+            dts: ts.dts,
+            no_early_errors: ts.no_early_errors,
+            disallow_ambiguous_jsx_like: ts.disallow_ambiguous_jsx_like,
+        }),
+    }
+}
+
 fn syntax_for_file(path: &Path) -> Syntax {
     let ext = path.extension().and_then(|ext| ext.to_str()).unwrap_or("");
     let file_name = path.to_string_lossy().replace('\\', "/");
@@ -45,7 +70,7 @@ fn syntax_for_file(path: &Path) -> Syntax {
     let is_tsx = ext == "tsx";
     let is_jsx = ext == "jsx" || is_tsx || file_name.contains("/jsx/");
 
-    if is_ts {
+    let default = if is_ts {
         Syntax::Typescript(TsSyntax {
             tsx: is_tsx,
             decorators: true,
@@ -60,200 +85,54 @@ fn syntax_for_file(path: &Path) -> Syntax {
             explicit_resource_management: true,
             ..Default::default()
         })
-    }
-}
-
-fn snapshot_path_for_input(input: &Path) -> PathBuf {
-    let root = ecma_fixture_root();
-    let rel = input.strip_prefix(root).unwrap_or(input);
-    let mut out = snapshot_root().join(rel);
-    let file_name = out
-        .file_name()
-        .expect("fixture path should have a file name")
-        .to_string_lossy();
-    out.set_file_name(format!("{file_name}.swc-es-parser"));
-    out
-}
-
-fn expr_shape(store: &AstStore, expr: swc_es_ast::ExprId) -> String {
-    let Some(node) = store.expr(expr) else {
-        return "MissingExpr".to_string();
     };
 
-    match node {
-        Expr::Ident(ident) => format!("Ident({})", ident.sym),
-        Expr::Lit(Lit::Str(_)) => "Lit(Str)".to_string(),
-        Expr::Lit(Lit::Bool(_)) => "Lit(Bool)".to_string(),
-        Expr::Lit(Lit::Null(_)) => "Lit(Null)".to_string(),
-        Expr::Lit(Lit::Num(_)) => "Lit(Num)".to_string(),
-        Expr::Function(function) => {
-            if let Some(function) = store.function(*function) {
-                format!(
-                    "Function(params={}, body={})",
-                    function.params.len(),
-                    function.body.len()
-                )
-            } else {
-                "Function(Missing)".to_string()
+    let config_path = path.parent().map(|parent| parent.join("config.json"));
+    if let Some(config_path) = config_path {
+        if let Ok(config_str) = fs::read_to_string(config_path) {
+            if let Ok(config) = serde_json::from_str::<Syntax>(&config_str) {
+                return config;
             }
         }
-        Expr::Class(class) => {
-            if let Some(class) = store.class(*class) {
-                format!("Class(members={})", class.body.len())
-            } else {
-                "Class(Missing)".to_string()
-            }
-        }
-        Expr::JSXElement(jsx) => {
-            if let Some(jsx) = store.jsx_element(*jsx) {
-                format!("JSX(children={})", jsx.children.len())
-            } else {
-                "JSX(Missing)".to_string()
-            }
-        }
-        Expr::TsAs(ts_as) => format!("TsAs({})", expr_shape(store, ts_as.expr)),
-        Expr::Array(array) => format!("Array(elems={})", array.elems.len()),
-        Expr::Object(object) => format!("Object(props={})", object.props.len()),
-        Expr::Unary(unary) => format!("Unary({:?})", unary.op),
-        Expr::Binary(binary) => format!("Binary({:?})", binary.op),
-        Expr::Assign(assign) => format!("Assign({:?})", assign.op),
-        Expr::Call(call) => format!("Call(args={})", call.args.len()),
-        Expr::Member(_) => "Member".to_string(),
     }
+
+    default
 }
 
-fn ts_type_shape(store: &AstStore, ty: swc_es_ast::TsTypeId) -> String {
-    let Some(node) = store.ts_type(ty) else {
-        return "MissingType".to_string();
-    };
+fn parse_with_oracle(path: &Path, syntax: Syntax) -> ParseSummary {
+    let cm = SourceMap::default();
+    let fm = cm
+        .load_file(path)
+        .unwrap_or_else(|err| panic!("failed to load fixture {}: {err}", path.display()));
 
-    match node {
-        TsType::Keyword(keyword) => format!("Keyword({keyword:?})"),
-        TsType::TypeRef(reference) => format!(
-            "TypeRef({}, args={})",
-            reference.name.sym,
-            reference.type_args.len()
-        ),
-        TsType::Lit(TsLitType::Str(_)) => "Lit(Str)".to_string(),
-        TsType::Lit(TsLitType::Num(_)) => "Lit(Num)".to_string(),
-        TsType::Lit(TsLitType::Bool(_)) => "Lit(Bool)".to_string(),
-        TsType::Array(array) => format!("Array({})", ts_type_shape(store, array.elem_type)),
-        TsType::Tuple(tuple) => format!("Tuple({})", tuple.elem_types.len()),
-        TsType::Union(union) => format!("Union({})", union.types.len()),
-        TsType::Intersection(intersection) => {
-            format!("Intersection({})", intersection.types.len())
-        }
-        TsType::Parenthesized(parenthesized) => {
-            format!("Parenthesized({})", ts_type_shape(store, parenthesized.ty))
-        }
-        TsType::TypeLit(type_lit) => format!("TypeLit(members={})", type_lit.member_count),
-        TsType::Fn(function) => format!("Fn(params={})", function.params.len()),
-    }
-}
+    let comments = SingleThreadedComments::default();
+    let mut parser = EcmaParser::new(
+        convert_syntax_to_ecma(syntax),
+        (&*fm).into(),
+        Some(&comments),
+    );
 
-fn stmt_shape(store: &AstStore, stmt: swc_es_ast::StmtId) -> String {
-    let Some(node) = store.stmt(stmt) else {
-        return "MissingStmt".to_string();
-    };
-
-    match node {
-        Stmt::Empty(_) => "Empty".to_string(),
-        Stmt::Block(block) => format!("Block(stmts={})", block.stmts.len()),
-        Stmt::Expr(expr) => format!("Expr({})", expr_shape(store, expr.expr)),
-        Stmt::Return(ret) => match ret.arg {
-            Some(arg) => format!("Return({})", expr_shape(store, arg)),
-            None => "Return(None)".to_string(),
+    let result = parser.parse_program();
+    match result {
+        Ok(program) => ParseSummary {
+            ok: true,
+            body_len: ecma_program_len(&program),
         },
-        Stmt::If(if_stmt) => format!("If(test={})", expr_shape(store, if_stmt.test)),
-        Stmt::While(while_stmt) => format!("While(test={})", expr_shape(store, while_stmt.test)),
-        Stmt::For(for_stmt) => match &for_stmt.head {
-            swc_es_ast::ForHead::Classic(head) => format!(
-                "For(Classic(init={}, test={}, update={}))",
-                head.init.is_some(),
-                head.test.is_some(),
-                head.update.is_some()
-            ),
-            swc_es_ast::ForHead::In(_) => "For(In)".to_string(),
-            swc_es_ast::ForHead::Of(head) => format!("For(Of(await={}))", head.is_await),
-        },
-        Stmt::Decl(decl) => match store.decl(*decl) {
-            Some(Decl::Var(var)) => format!("Decl(Var({:?}, {}))", var.kind, var.declarators.len()),
-            Some(Decl::Fn(function)) => {
-                format!(
-                    "Decl(Fn({}, {}))",
-                    function.ident.sym,
-                    function.params.len()
-                )
-            }
-            Some(Decl::TsTypeAlias(alias)) => {
-                format!(
-                    "Decl(TsTypeAlias({}, params={}, {}))",
-                    alias.ident.sym,
-                    alias.type_params.len(),
-                    ts_type_shape(store, alias.ty)
-                )
-            }
-            None => "Decl(Missing)".to_string(),
-        },
-        Stmt::ModuleDecl(module_decl) => match store.module_decl(*module_decl) {
-            Some(ModuleDecl::Import(import)) => format!("ModuleDecl(Import({}))", import.src.value),
-            Some(ModuleDecl::ExportNamed(named)) => {
-                format!(
-                    "ModuleDecl(ExportNamed(specifiers={}, has_src={}, has_decl={}))",
-                    named.specifiers.len(),
-                    named.src.is_some(),
-                    named.decl.is_some()
-                )
-            }
-            Some(ModuleDecl::ExportDefaultExpr(_)) => "ModuleDecl(ExportDefaultExpr)".to_string(),
-            Some(ModuleDecl::ExportDecl(_)) => "ModuleDecl(ExportDecl)".to_string(),
-            None => "ModuleDecl(Missing)".to_string(),
+        Err(_) => ParseSummary {
+            ok: false,
+            body_len: 0,
         },
     }
 }
 
-fn render_error(error: &Error) -> String {
-    format!(
-        "[{:?}] {:?}: {}",
-        error.severity(),
-        error.code(),
-        error.message()
-    )
+fn ecma_program_len(program: &EcmaProgram) -> usize {
+    match program {
+        EcmaProgram::Script(script) => script.body.len(),
+        EcmaProgram::Module(module) => module.body.len(),
+    }
 }
 
-fn render_program_snapshot(store: &AstStore, program: &Program, errors: &[Error]) -> String {
-    let mut out = String::new();
-
-    writeln!(&mut out, "status: ok").expect("write should not fail");
-    writeln!(&mut out, "kind: {:?}", program.kind).expect("write should not fail");
-    writeln!(&mut out, "body_len: {}", program.body.len()).expect("write should not fail");
-
-    for (index, stmt) in program.body.iter().enumerate() {
-        writeln!(&mut out, "stmt[{index}]: {}", stmt_shape(store, *stmt))
-            .expect("write should not fail");
-    }
-
-    writeln!(&mut out, "recovered_errors: {}", errors.len()).expect("write should not fail");
-    for error in errors {
-        writeln!(&mut out, "error: {}", render_error(error)).expect("write should not fail");
-    }
-
-    out
-}
-
-fn render_fatal_snapshot(fatal: Error, recovered_errors: &[Error]) -> String {
-    let mut out = String::new();
-    writeln!(&mut out, "status: fatal").expect("write should not fail");
-    writeln!(&mut out, "fatal: {}", render_error(&fatal)).expect("write should not fail");
-    writeln!(&mut out, "recovered_errors: {}", recovered_errors.len())
-        .expect("write should not fail");
-    for error in recovered_errors {
-        writeln!(&mut out, "error: {}", render_error(error)).expect("write should not fail");
-    }
-    out
-}
-
-fn run_fixture(path: &Path) {
+fn parse_with_swc_es(path: &Path, syntax: Syntax) -> ParseSummary {
     let cm = SourceMap::default();
     let fm = cm
         .load_file(path)
@@ -261,43 +140,48 @@ fn run_fixture(path: &Path) {
 
     let comments = SingleThreadedComments::default();
     let mut recovered_errors = Vec::new();
-    let syntax = syntax_for_file(path);
-    let output = match parse_file_as_program(&fm, syntax, Some(&comments), &mut recovered_errors) {
+    match parse_file_as_program(&fm, syntax, Some(&comments), &mut recovered_errors) {
         Ok(parsed) => {
             let program = parsed
                 .store
                 .program(parsed.program)
                 .expect("program should exist");
-            render_program_snapshot(&parsed.store, program, &recovered_errors)
+            ParseSummary {
+                ok: true,
+                body_len: program.body.len(),
+            }
         }
-        Err(fatal) => render_fatal_snapshot(fatal, &recovered_errors),
-    };
-
-    let snapshot = snapshot_path_for_input(path);
-    let should_compare = snapshot.exists() || std::env::var_os("UPDATE").is_some();
-    if !should_compare {
-        return;
+        Err(_) => ParseSummary {
+            ok: false,
+            body_len: 0,
+        },
     }
+}
 
-    let parent = snapshot
-        .parent()
-        .expect("snapshot path should have a parent directory");
-    fs::create_dir_all(parent).expect("failed to create snapshot directory");
+fn run_fixture(path: &Path) {
+    let syntax = syntax_for_file(path);
 
-    if StdErr::from(output).compare_to_file(&snapshot).is_err() {
-        panic!();
+    let oracle = parse_with_oracle(path, syntax);
+    let swc_es = parse_with_swc_es(path, syntax);
+
+    assert_eq!(
+        swc_es.ok,
+        oracle.ok,
+        "parse success mismatch for fixture {}\nsyntax={syntax:?}",
+        path.display()
+    );
+
+    if oracle.ok {
+        assert_eq!(
+            swc_es.body_len,
+            oracle.body_len,
+            "top-level body length mismatch for fixture {}\nsyntax={syntax:?}",
+            path.display()
+        );
     }
 }
 
 fn run_category(category: &str, exts: &[&str]) {
-    if std::env::var_os("UPDATE").is_none() && !snapshot_root().join(category).exists() {
-        eprintln!(
-            "skipping {category} fixtures because no snapshots exist yet; run with UPDATE=1 to \
-             generate them"
-        );
-        return;
-    }
-
     let fixtures = collect_fixture_files(category, exts);
     assert!(
         !fixtures.is_empty(),

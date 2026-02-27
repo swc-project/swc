@@ -23,9 +23,12 @@ serde      = { workspace = true, features = ["derive"] }
 swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
 swc_common = { version = "19.0.0", path = "../swc_common" }
 swc_es_ast = { version = "0.1.0", path = "../swc_es_ast" }
+swc_ecma_ast = { version = "21.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "35.0.0", path = "../swc_ecma_parser" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
+serde_json = { workspace = true }
 swc_es_ast = { version = "0.1.0", path = "../swc_es_ast", features = ["serde-impl"] }
 testing = { version = "20.0.0", path = "../testing" }
 walkdir = { workspace = true }
