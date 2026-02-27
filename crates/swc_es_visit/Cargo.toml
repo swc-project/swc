@@ -1,0 +1,21 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Visitor interfaces for swc_es_ast"
+documentation = "https://rustdoc.swc.rs/swc_es_visit/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_es_visit"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+[lib]
+bench = false
+
+[features]
+default = []
+
+[dependencies]
+swc_es_ast = { version = "0.1.0", path = "../swc_es_ast" }
+
+[dev-dependencies]
+swc_common = { version = "19.0.0", path = "../swc_common" }

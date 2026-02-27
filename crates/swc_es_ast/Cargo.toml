@@ -12,8 +12,20 @@ version       = "0.1.0"
 bench = false
 
 [features]
+default = []
+encoding-impl = ["dep:cbor4ii"]
+serde-impl = [
+  "dep:serde",
+  "swc_arena/serde-impl",
+]
 
 [dependencies]
-swc_arena = { version = "0.1.0", path = "../swc_arena" }
-swc_atoms = { version = "9.0.0", path = "../swc_atoms" }
+serde = { workspace = true, features = ["derive"], optional = true }
+
+cbor4ii = { workspace = true, features = ["use_std"], optional = true }
+swc_arena = { version = "0.1.0", path = "../swc_arena", default-features = false }
+swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
 swc_common = { version = "19.0.0", path = "../swc_common" }
+
+[dev-dependencies]
+serde_json = { workspace = true }

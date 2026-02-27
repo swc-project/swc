@@ -1,0 +1,37 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "High-performance ECMAScript parser backed by swc_es_ast"
+documentation = "https://rustdoc.swc.rs/swc_es_parser/"
+edition       = { workspace = true }
+include       = ["Cargo.toml", "src/**/*.rs", "tests/**/*.rs", "examples/**/*.rs"]
+license       = { workspace = true }
+name          = "swc_es_parser"
+repository    = { workspace = true }
+version       = "0.1.0"
+
+[lib]
+bench = false
+
+[features]
+default = ["typescript"]
+typescript = []
+
+[dependencies]
+bitflags   = { workspace = true }
+serde      = { workspace = true, features = ["derive"] }
+
+swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
+swc_common = { version = "19.0.0", path = "../swc_common" }
+swc_es_ast = { version = "0.1.0", path = "../swc_es_ast" }
+
+[dev-dependencies]
+codspeed-criterion-compat = { workspace = true }
+swc_es_ast = { version = "0.1.0", path = "../swc_es_ast", features = ["serde-impl"] }
+testing = { version = "20.0.0", path = "../testing" }
+walkdir = { workspace = true }
+
+swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
+
+[[bench]]
+harness = false
+name    = "parser"

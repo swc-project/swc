@@ -1,17 +1,21 @@
 use swc_common::Span;
 
-use crate::{BindingIdent, ExprId, PatId, StmtId};
+use crate::{BindingIdent, ExprId, Ident, PatId, StmtId, TsTypeId};
 
 /// Declaration node.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub enum Decl {
     /// Variable declaration.
     Var(VarDecl),
     /// Function declaration.
     Fn(FnDecl),
+    /// TypeScript type alias declaration.
+    TsTypeAlias(TsTypeAliasDecl),
 }
 
 /// Variable declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct VarDecl {
     /// Original source span.
@@ -23,6 +27,7 @@ pub struct VarDecl {
 }
 
 /// Variable declaration kind.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum VarDeclKind {
     /// `var`
@@ -38,6 +43,7 @@ pub enum VarDeclKind {
 }
 
 /// One variable declarator.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct VarDeclarator {
     /// Original source span.
@@ -49,6 +55,7 @@ pub struct VarDeclarator {
 }
 
 /// Function declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct FnDecl {
     /// Original source span.
@@ -59,4 +66,18 @@ pub struct FnDecl {
     pub params: Vec<PatId>,
     /// Function body statements.
     pub body: Vec<StmtId>,
+}
+
+/// TypeScript type alias declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsTypeAliasDecl {
+    /// Original source span.
+    pub span: Span,
+    /// Alias identifier.
+    pub ident: Ident,
+    /// Generic type parameters.
+    pub type_params: Vec<Ident>,
+    /// Type definition.
+    pub ty: TsTypeId,
 }
