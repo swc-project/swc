@@ -213,6 +213,12 @@ where
             } else if is_resolved_as_non_js && is_resolved_as_index {
                 if orig_filename == "index" {
                     target_path.set_extension("");
+                } else if Path::new(orig_filename).file_stem()
+                    == Some(std::ffi::OsStr::new("index"))
+                {
+                    // User explicitly imported an index file with extension
+                    // (e.g. "./plugins/index.js"), so preserve it.
+                    target_path.set_file_name(orig_filename);
                 } else {
                     target_path.pop();
                 }
