@@ -640,7 +640,7 @@ jobs:
           - package: "html"
             crate: "binding_html_wasm"
             npm: "@swc\\/html-wasm"
-            target: web
+            target: nodejs
             out: "pkg"
           # - crate: "binding_es_ast_viewer"
           #   npm: "@swc\\/es-ast-viewer"
