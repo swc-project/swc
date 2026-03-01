@@ -1,28 +1,30 @@
 # swc_es_parser
 
-`swc_es_parser` is a high-throughput ECMAScript parser that builds arena-backed nodes from `swc_es_ast`.
+`swc_es_parser` is a bootstrap ECMAScript parser that builds arena-backed nodes from `swc_es_ast`.
 
 ## Goals
 
 - Parse source directly into `swc_es_ast` handles.
 - Expose a small parser API (`Lexer`, `Parser`, `parse_file_as_*`).
-- Match `swc_ecma_parser` fixture success/failure outcomes for the shared test corpus.
 - Keep parser errors in a crate-local error model while integrating with `swc_common` diagnostics.
 
 ## Current Status
 
 - Script/module/program entry points are available.
-- The parser has a parity mode for the shared fixture corpus.
-- Full-suite pass/fail parity is asserted by an integration suite.
-- Existing parser API and direct `Parser` entrypoints remain available.
+- Core statements and expression parsing are implemented.
+- `import`/`export` bootstrap parsing is included.
+- Structured `for` head parsing is available (`classic`, `for..in`, `for..of`).
+- JSX parsing supports qualified tag names and reports opening/closing tag mismatches.
+- TypeScript parsing builds structured type nodes (function/union/intersection/tuple/array/type-literal/type-args) for `type` aliases and `as` assertions.
 
-## Parity Harness
+## Fixture Harness
 
 - `swc_ecma_parser` inputs are reused from `crates/swc_ecma_parser/tests`.
-- Run the parity contract suite with:
+- `swc_es_parser` snapshots are stored under `crates/swc_es_parser/tests/fixtures`.
+- Generate or refresh snapshots with:
 
 ```bash
-cargo test -p swc_es_parser --test parity_suite
+UPDATE=1 cargo test -p swc_es_parser --test fixture_harness
 ```
 
 ## API Sketch
