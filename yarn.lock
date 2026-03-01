@@ -4457,6 +4457,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@swc/core-linux-ppc64-gnu@workspace:packages/core/scripts/npm/linux-ppc64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-linux-ppc64-gnu@workspace:packages/core/scripts/npm/linux-ppc64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-linux-s390x-gnu@workspace:packages/core/scripts/npm/linux-s390x-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-linux-s390x-gnu@workspace:packages/core/scripts/npm/linux-s390x-gnu"
+  languageName: unknown
+  linkType: soft
+
 "@swc/core-linux-x64-gnu@workspace:packages/core/scripts/npm/linux-x64-gnu":
   version: 0.0.0-use.local
   resolution: "@swc/core-linux-x64-gnu@workspace:packages/core/scripts/npm/linux-x64-gnu"
@@ -4578,6 +4590,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@swc/html-linux-ppc64-gnu@workspace:packages/html/scripts/npm/linux-ppc64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-linux-ppc64-gnu@workspace:packages/html/scripts/npm/linux-ppc64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-linux-s390x-gnu@workspace:packages/html/scripts/npm/linux-s390x-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-linux-s390x-gnu@workspace:packages/html/scripts/npm/linux-s390x-gnu"
+  languageName: unknown
+  linkType: soft
+
 "@swc/html-linux-x64-gnu@workspace:packages/html/scripts/npm/linux-x64-gnu":
   version: 0.0.0-use.local
   resolution: "@swc/html-linux-x64-gnu@workspace:packages/html/scripts/npm/linux-x64-gnu"
@@ -4645,6 +4669,18 @@ __metadata:
 "@swc/minifier-linux-arm64-musl@workspace:packages/minifier/scripts/npm/linux-arm64-musl":
   version: 0.0.0-use.local
   resolution: "@swc/minifier-linux-arm64-musl@workspace:packages/minifier/scripts/npm/linux-arm64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-linux-ppc64-gnu@workspace:packages/minifier/scripts/npm/linux-ppc64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-linux-ppc64-gnu@workspace:packages/minifier/scripts/npm/linux-ppc64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-linux-s390x-gnu@workspace:packages/minifier/scripts/npm/linux-s390x-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-linux-s390x-gnu@workspace:packages/minifier/scripts/npm/linux-s390x-gnu"
   languageName: unknown
   linkType: soft
 
@@ -4727,6 +4763,18 @@ __metadata:
 "@swc/react-compiler-linux-arm64-musl@workspace:packages/react-compiler/scripts/npm/linux-arm64-musl":
   version: 0.0.0-use.local
   resolution: "@swc/react-compiler-linux-arm64-musl@workspace:packages/react-compiler/scripts/npm/linux-arm64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-linux-ppc64-gnu@workspace:packages/react-compiler/scripts/npm/linux-ppc64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-linux-ppc64-gnu@workspace:packages/react-compiler/scripts/npm/linux-ppc64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-linux-s390x-gnu@workspace:packages/react-compiler/scripts/npm/linux-s390x-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-linux-s390x-gnu@workspace:packages/react-compiler/scripts/npm/linux-s390x-gnu"
   languageName: unknown
   linkType: soft
 

@@ -179,6 +179,28 @@ jobs:
                 yarn build --target armv7-unknown-linux-gnueabihf --use-napi-cross
               fi
           - host: ubuntu-latest
+            target: powerpc64le-unknown-linux-gnu
+            build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                yarn napi build --bin swc --release --target powerpc64le-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+                chmod +x ./swc
+                yarn build --target powerpc64le-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
+              else
+                yarn build --target powerpc64le-unknown-linux-gnu --use-napi-cross
+              fi
+          - host: ubuntu-latest
+            target: s390x-unknown-linux-gnu
+            build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
+              if [[ ${{ inputs.package }} == "core" ]]; then
+                yarn napi build --bin swc --release --target s390x-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+                chmod +x ./swc
+                yarn build --target s390x-unknown-linux-gnu --no-default-features --features swc_v1 --use-napi-cross
+              else
+                yarn build --target s390x-unknown-linux-gnu --use-napi-cross
+              fi
+          - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
