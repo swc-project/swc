@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.15.18] - 2026-03-01
 
 ### Bug Fixes
 
@@ -1986,9 +1986,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/codegen)** Improve comments handling ([#10534](https://github.com/swc-project/swc/issues/10534)) ([d9ba838](https://github.com/swc-project/swc/commit/d9ba838df9b88d6c4108bc21dd9d6eebd406aacd))
 
 
 - **(es/codegen)** Exclude `constructor` from source map names ([#10551](https://github.com/swc-project/swc/issues/10551)) ([ef85640](https://github.com/swc-project/swc/commit/ef856402515758196f5d925bcfb8213bf0ca18fd))
