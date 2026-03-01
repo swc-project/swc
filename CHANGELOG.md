@@ -1,4 +1,36 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(html/wasm)** Publish @swc/html-wasm for nodejs ([#11601](https://github.com/swc-project/swc/issues/11601)) ([bd443f5](https://github.com/swc-project/swc/commit/bd443f582c553e9d898a1d5e7395abaad60b26d2))
+
+### Documentation
+
+
+
+- Add AGENTS note about next-gen ast ([#11592](https://github.com/swc-project/swc/issues/11592)) ([80b4be8](https://github.com/swc-project/swc/commit/80b4be872d85dc82cbb6e84c91fe102d807a2780))
+
+
+- Add typescript-eslint AST compatibility note ([#11598](https://github.com/swc-project/swc/issues/11598)) ([c7bfebe](https://github.com/swc-project/swc/commit/c7bfebec4fb691e6e49f3c3b7b257be178e7f238))
+
+### Features
+
+
+
+- **(es/ast)** Add runtime arena crate and bootstrap swc_es_ast ([#11588](https://github.com/swc-project/swc/issues/11588)) ([7a06d96](https://github.com/swc-project/swc/commit/7a06d967e43fe2f84078fc241bc655b41450d2c1))
+
+
+- **(es/parser)** Add `swc_es_parser` ([#11593](https://github.com/swc-project/swc/issues/11593)) ([f11fd70](https://github.com/swc-project/swc/commit/f11fd705ee84909f6b0f984b1b5fc35abf73ec05))
+
+### Ci
+
+
+
+- Triage main CI breakage ([#11589](https://github.com/swc-project/swc/issues/11589)) ([075af57](https://github.com/swc-project/swc/commit/075af578c46c0bfdb74c450c157d0e1753024a36))
+
 ## [1.15.17] - 2026-02-26
 
 ### Documentation
@@ -1991,14 +2023,8 @@
 
 - **(swc_common)** Revert skip condition patch ([#10564](https://github.com/swc-project/swc/issues/10564)) ([2a2b284](https://github.com/swc-project/swc/commit/2a2b284f2522ee1bb04033a4aa787b853617823f))
 
-
-- **(ts/fast-dts)** Ensure correct emission of template literals and symbol-keyed properties ([#10530](https://github.com/swc-project/swc/issues/10530)) ([8dbdbef](https://github.com/swc-project/swc/commit/8dbdbef266f508e09f52ffe1cbe2e953e5039a3d))
-
 ### Features
 
-
-
-- **(es/regexp)** Add crates for RegExp ([#10525](https://github.com/swc-project/swc/issues/10525)) ([4b3f924](https://github.com/swc-project/swc/commit/4b3f924edf996983e2a61cc29eb0c552cf71af7a))
 
 
 - **(swc_common)** Add `Globals::clone_data` ([#10543](https://github.com/swc-project/swc/issues/10543)) ([39f30b0](https://github.com/swc-project/swc/commit/39f30b066fe4d91f8df641fe59aba86acb10d645))
@@ -2016,16 +2042,10 @@
 
 
 
-- **(es/parser)** Reduce comparison while reading logical ([#10526](https://github.com/swc-project/swc/issues/10526)) ([2bc551c](https://github.com/swc-project/swc/commit/2bc551cb39d99ecebd5d6f10fc94a93173b2aefa))
-
-
 - **(swc_common)** Remove `char_indices` calls ([#10541](https://github.com/swc-project/swc/issues/10541)) ([51507bc](https://github.com/swc-project/swc/commit/51507bcfa24fcdc202e5bbf255a24feb1665a395))
 
 ### Refactor
 
-
-
-- **(es/lexer)** Cleanup code for reading tokens ([#10533](https://github.com/swc-project/swc/issues/10533)) ([a72092c](https://github.com/swc-project/swc/commit/a72092c13166fe80d494e49cf0c5ec04e93ee4eb))
 
 
 - **(es/lexer)** Share `skip_block_comment` ([#10549](https://github.com/swc-project/swc/issues/10549)) ([b101a87](https://github.com/swc-project/swc/commit/b101a87771d287b8e3bd9ae60a94b39de192718b))
