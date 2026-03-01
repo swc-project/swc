@@ -72,7 +72,7 @@ fn issue_4730() {
 
             let rules = paths.into_iter().collect();
 
-            let resolver = paths_resolver(&input_dir, rules);
+            let resolver = paths_resolver(&input_dir, rules, true);
 
             import_rewriter(
                 FileName::Real(input_dir.join("src").join("index.js")),
@@ -90,7 +90,11 @@ fn issue_4730() {
 
 type JscPathsProvider = NodeImportResolver<TsConfigResolver<NodeModulesResolver>>;
 
-fn paths_resolver(base_dir: &Path, rules: Vec<(String, Vec<String>)>) -> JscPathsProvider {
+fn paths_resolver(
+    base_dir: &Path,
+    rules: Vec<(String, Vec<String>)>,
+    resolve_fully: bool,
+) -> JscPathsProvider {
     let base_dir = base_dir
         .to_path_buf()
         .canonicalize()
@@ -105,7 +109,7 @@ fn paths_resolver(base_dir: &Path, rules: Vec<(String, Vec<String>)>) -> JscPath
         ),
         swc_ecma_transforms_module::path::Config {
             base_dir: Some(base_dir),
-            resolve_fully: true,
+            resolve_fully,
             file_extension: swc_ecma_transforms_module::util::Config::default_js_ext(),
         },
     )
@@ -122,6 +126,13 @@ struct TestConfig {
 
     #[serde(default)]
     paths: IndexMap<String, Vec<String>>,
+
+    #[serde(default = "default_resolve_fully")]
+    resolve_fully: bool,
+}
+
+fn default_resolve_fully() -> bool {
+    true
 }
 
 #[testing::fixture("tests/paths/**/input")]
@@ -145,7 +156,7 @@ fn fixture(input_dir: PathBuf) {
         &|_| {
             let rules = config.paths.clone().into_iter().collect();
 
-            let resolver = paths_resolver(&base_dir, rules);
+            let resolver = paths_resolver(&base_dir, rules, config.resolve_fully);
 
             import_rewriter(FileName::Real(index_path.clone()), Arc::new(resolver))
         },
