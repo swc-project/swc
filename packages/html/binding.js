@@ -284,6 +284,17 @@ function requireNative() {
                     loadErrors.push(e);
                 }
             }
+        } else if (process.arch === "ppc64") {
+            try {
+                return require("./swc-html.linux-ppc64-gnu.node");
+            } catch (e) {
+                loadErrors.push(e);
+            }
+            try {
+                return require("@swc/html-linux-ppc64-gnu");
+            } catch (e) {
+                loadErrors.push(e);
+            }
         } else if (process.arch === "s390x") {
             try {
                 return require("./swc-html.linux-s390x-gnu.node");
