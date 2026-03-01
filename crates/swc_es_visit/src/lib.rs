@@ -289,6 +289,36 @@ where
             }
             visitor.visit_stmt(store, for_stmt.body);
         }
+        Stmt::DoWhile(do_while) => {
+            visitor.visit_stmt(store, do_while.body);
+            visitor.visit_expr(store, do_while.test);
+        }
+        Stmt::Switch(switch_stmt) => {
+            visitor.visit_expr(store, switch_stmt.discriminant);
+            for case in &switch_stmt.cases {
+                if let Some(test) = case.test {
+                    visitor.visit_expr(store, test);
+                }
+                for stmt in &case.cons {
+                    visitor.visit_stmt(store, *stmt);
+                }
+            }
+        }
+        Stmt::Try(try_stmt) => {
+            visitor.visit_stmt(store, try_stmt.block);
+            if let Some(handler) = &try_stmt.handler {
+                if let Some(param) = handler.param {
+                    visitor.visit_pat(store, param);
+                }
+                visitor.visit_stmt(store, handler.body);
+            }
+            if let Some(finalizer) = try_stmt.finalizer {
+                visitor.visit_stmt(store, finalizer);
+            }
+        }
+        Stmt::Throw(throw_stmt) => visitor.visit_expr(store, throw_stmt.arg),
+        Stmt::Break(_) | Stmt::Continue(_) | Stmt::Debugger(_) => {}
+        Stmt::Labeled(labeled) => visitor.visit_stmt(store, labeled.body),
         Stmt::Decl(decl) => visitor.visit_decl(store, *decl),
         Stmt::ModuleDecl(module_decl) => visitor.visit_module_decl(store, *module_decl),
     }
@@ -322,6 +352,15 @@ where
             }
         }
         Decl::TsTypeAlias(alias) => visitor.visit_ts_type(store, alias.ty),
+        Decl::Class(class_decl) => visitor.visit_class(store, class_decl.class),
+        Decl::TsInterface(_) => {}
+        Decl::TsEnum(enum_decl) => {
+            for member in &enum_decl.members {
+                if let Some(init) = member.init {
+                    visitor.visit_expr(store, init);
+                }
+            }
+        }
     }
 }
 
@@ -341,6 +380,26 @@ where
         Pat::Array(array_pat) => {
             for elem in array_pat.elems.iter().flatten() {
                 visitor.visit_pat(store, *elem);
+            }
+        }
+        Pat::Object(object_pat) => {
+            for prop in &object_pat.props {
+                match prop {
+                    swc_es_ast::ObjectPatProp::KeyValue(key_value) => {
+                        if let swc_es_ast::PropName::Computed(expr) = &key_value.key {
+                            visitor.visit_expr(store, *expr);
+                        }
+                        visitor.visit_pat(store, key_value.value);
+                    }
+                    swc_es_ast::ObjectPatProp::Assign(assign) => {
+                        if let Some(value) = assign.value {
+                            visitor.visit_expr(store, value);
+                        }
+                    }
+                    swc_es_ast::ObjectPatProp::Rest(rest) => {
+                        visitor.visit_pat(store, rest.arg);
+                    }
+                }
             }
         }
         Pat::Rest(rest) => visitor.visit_pat(store, rest.arg),
@@ -404,6 +463,42 @@ where
                 visitor.visit_expr(store, *prop);
             }
         }
+        Expr::Cond(cond) => {
+            visitor.visit_expr(store, cond.test);
+            visitor.visit_expr(store, cond.cons);
+            visitor.visit_expr(store, cond.alt);
+        }
+        Expr::Seq(seq) => {
+            for expr in &seq.exprs {
+                visitor.visit_expr(store, *expr);
+            }
+        }
+        Expr::New(new_expr) => {
+            visitor.visit_expr(store, new_expr.callee);
+            for arg in &new_expr.args {
+                visitor.visit_expr(store, arg.expr);
+            }
+        }
+        Expr::Update(update) => visitor.visit_expr(store, update.arg),
+        Expr::Await(await_expr) => visitor.visit_expr(store, await_expr.arg),
+        Expr::Arrow(arrow) => {
+            for param in &arrow.params {
+                visitor.visit_pat(store, *param);
+            }
+            match &arrow.body {
+                swc_es_ast::ArrowBody::Expr(expr) => visitor.visit_expr(store, *expr),
+                swc_es_ast::ArrowBody::Block(stmts) => {
+                    for stmt in stmts {
+                        visitor.visit_stmt(store, *stmt);
+                    }
+                }
+            }
+        }
+        Expr::Template(template) => {
+            for expr in &template.exprs {
+                visitor.visit_expr(store, *expr);
+            }
+        }
     }
 }
 
@@ -427,6 +522,8 @@ where
         ModuleDecl::ExportDefaultExpr(default_expr) => {
             visitor.visit_expr(store, default_expr.expr);
         }
+        ModuleDecl::ExportDefaultDecl(default_decl) => visitor.visit_decl(store, default_decl.decl),
+        ModuleDecl::ExportAll(_) => {}
         ModuleDecl::ExportDecl(export_decl) => visitor.visit_decl(store, export_decl.decl),
     }
 }

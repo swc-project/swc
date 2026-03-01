@@ -1,6 +1,9 @@
 use swc_common::Span;
 
-use crate::{ClassId, ExprId, FunctionId, Ident, JSXElementId, KeyValueProp, Lit, PatId, TsAsExpr};
+use crate::{
+    ClassId, ExprId, FunctionId, Ident, JSXElementId, KeyValueProp, Lit, PatId, StmtId, StrLit,
+    TsAsExpr, UpdateOp,
+};
 
 /// Expression node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -32,6 +35,20 @@ pub enum Expr {
     Call(CallExpr),
     /// Member access expression.
     Member(MemberExpr),
+    /// Conditional expression.
+    Cond(CondExpr),
+    /// Sequence expression.
+    Seq(SeqExpr),
+    /// `new` expression.
+    New(NewExpr),
+    /// Update expression (`++a`, `a--`).
+    Update(UpdateExpr),
+    /// `await` expression.
+    Await(AwaitExpr),
+    /// Arrow function expression.
+    Arrow(ArrowExpr),
+    /// Template literal expression.
+    Template(TemplateExpr),
 }
 
 /// Array literal expression.
@@ -128,6 +145,102 @@ pub struct MemberExpr {
     pub prop: MemberProp,
 }
 
+/// Conditional expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct CondExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Test expression.
+    pub test: ExprId,
+    /// Consequent expression.
+    pub cons: ExprId,
+    /// Alternate expression.
+    pub alt: ExprId,
+}
+
+/// Sequence expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct SeqExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Ordered expression sequence.
+    pub exprs: Vec<ExprId>,
+}
+
+/// `new` expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct NewExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Constructor expression.
+    pub callee: ExprId,
+    /// Constructor arguments.
+    pub args: Vec<ExprOrSpread>,
+}
+
+/// Update expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct UpdateExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Operator kind.
+    pub op: UpdateOp,
+    /// Updated expression.
+    pub arg: ExprId,
+    /// `true` if prefix form.
+    pub prefix: bool,
+}
+
+/// `await` expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct AwaitExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Awaited expression.
+    pub arg: ExprId,
+}
+
+/// Arrow function body.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum ArrowBody {
+    /// Expression body.
+    Expr(ExprId),
+    /// Block body.
+    Block(Vec<StmtId>),
+}
+
+/// Arrow function expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ArrowExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Parameter patterns.
+    pub params: Vec<PatId>,
+    /// Arrow body.
+    pub body: ArrowBody,
+    /// `true` if `async` arrow.
+    pub is_async: bool,
+}
+
+/// Template literal expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TemplateExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Quasis in source order.
+    pub quasis: Vec<StrLit>,
+    /// Embedded expressions.
+    pub exprs: Vec<ExprId>,
+}
+
 /// Member property.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
@@ -148,10 +261,14 @@ pub enum UnaryOp {
     Minus,
     /// Logical not `!`.
     Bang,
+    /// Bitwise not `~`.
+    Tilde,
     /// `typeof`.
     TypeOf,
     /// `void`.
     Void,
+    /// `delete`.
+    Delete,
 }
 
 /// Binary operator.

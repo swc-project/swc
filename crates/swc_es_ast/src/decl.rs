@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{BindingIdent, ExprId, Ident, PatId, StmtId, TsTypeId};
+use crate::{BindingIdent, ClassId, ExprId, Ident, NumberLit, PatId, StmtId, StrLit, TsTypeId};
 
 /// Declaration node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -10,8 +10,14 @@ pub enum Decl {
     Var(VarDecl),
     /// Function declaration.
     Fn(FnDecl),
+    /// Class declaration.
+    Class(ClassDecl),
     /// TypeScript type alias declaration.
     TsTypeAlias(TsTypeAliasDecl),
+    /// TypeScript interface declaration.
+    TsInterface(TsInterfaceDecl),
+    /// TypeScript enum declaration.
+    TsEnum(TsEnumDecl),
 }
 
 /// Variable declaration.
@@ -68,6 +74,18 @@ pub struct FnDecl {
     pub body: Vec<StmtId>,
 }
 
+/// Class declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ClassDecl {
+    /// Original source span.
+    pub span: Span,
+    /// Class name.
+    pub ident: BindingIdent,
+    /// Referenced class node.
+    pub class: ClassId,
+}
+
 /// TypeScript type alias declaration.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
@@ -80,4 +98,56 @@ pub struct TsTypeAliasDecl {
     pub type_params: Vec<Ident>,
     /// Type definition.
     pub ty: TsTypeId,
+}
+
+/// TypeScript interface declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsInterfaceDecl {
+    /// Original source span.
+    pub span: Span,
+    /// Interface identifier.
+    pub ident: Ident,
+    /// Generic type parameters.
+    pub type_params: Vec<Ident>,
+    /// Extended interfaces.
+    pub extends: Vec<Ident>,
+    /// Parsed body member count.
+    pub body_member_count: usize,
+}
+
+/// Enum member name.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum TsEnumMemberName {
+    /// Identifier member.
+    Ident(Ident),
+    /// String-literal member.
+    Str(StrLit),
+    /// Numeric member.
+    Num(NumberLit),
+}
+
+/// TypeScript enum member.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsEnumMember {
+    /// Original source span.
+    pub span: Span,
+    /// Member name.
+    pub name: TsEnumMemberName,
+    /// Optional initializer.
+    pub init: Option<ExprId>,
+}
+
+/// TypeScript enum declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsEnumDecl {
+    /// Original source span.
+    pub span: Span,
+    /// Enum identifier.
+    pub ident: Ident,
+    /// Enum members.
+    pub members: Vec<TsEnumMember>,
 }

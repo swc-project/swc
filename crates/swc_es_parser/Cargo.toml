@@ -29,6 +29,7 @@ codspeed-criterion-compat = { workspace = true }
 swc_es_ast = { version = "0.1.0", path = "../swc_es_ast", features = ["serde-impl"] }
 testing = { version = "20.0.0", path = "../testing" }
 walkdir = { workspace = true }
+serde_json = { workspace = true }
 
 swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 

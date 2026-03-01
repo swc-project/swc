@@ -89,8 +89,11 @@ pub enum TokenKind {
     Comma,
     Dot,
     DotDotDot,
+    At,
+    Hash,
     Colon,
     Question,
+    QuestionDot,
     BackQuote,
 
     Plus,
@@ -134,6 +137,7 @@ pub enum TokenKind {
 
     Ident,
     Str,
+    Template,
     Num,
     Keyword(Keyword),
 }

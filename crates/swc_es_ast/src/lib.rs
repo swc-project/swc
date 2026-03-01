@@ -14,25 +14,36 @@ pub use swc_arena::Id;
 
 pub use crate::{
     class::{Class, ClassMember, ClassMethod, ClassProp, MethodKind},
-    decl::{Decl, FnDecl, TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclarator},
+    decl::{
+        ClassDecl, Decl, FnDecl, TsEnumDecl, TsEnumMember, TsEnumMemberName, TsInterfaceDecl,
+        TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclarator,
+    },
     expr::{
-        ArrayExpr, AssignExpr, AssignOp, BinaryExpr, BinaryOp, CallExpr, Expr, ExprOrSpread,
-        MemberExpr, MemberProp, ObjectExpr, UnaryExpr, UnaryOp,
+        ArrayExpr, ArrowBody, ArrowExpr, AssignExpr, AssignOp, AwaitExpr, BinaryExpr, BinaryOp,
+        CallExpr, CondExpr, Expr, ExprOrSpread, MemberExpr, MemberProp, NewExpr, ObjectExpr,
+        SeqExpr, TemplateExpr, UnaryExpr, UnaryOp, UpdateExpr,
     },
     function::{Function, Param},
     ident::{BindingIdent, Ident},
     jsx::{JSXAttr, JSXElement, JSXElementChild, JSXElementName, JSXOpeningElement},
     lit::{BoolLit, Lit, NullLit, NumberLit, StrLit},
     module_decl::{
-        ExportDecl, ExportDefaultExprDecl, ExportNamedDecl, ExportSpecifier, ImportDecl, ModuleDecl,
+        ExportAllDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExprDecl, ExportNamedDecl,
+        ExportSpecifier, ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier,
+        ImportNamespaceSpecifier, ImportSpecifier, ModuleDecl,
     },
     operator::UpdateOp,
-    pat::{ArrayPat, AssignPat, Pat, RestPat},
+    pat::{
+        ArrayPat, AssignPat, ObjectPat, ObjectPatAssign, ObjectPatKeyValue, ObjectPatProp, Pat,
+        RestPat,
+    },
     program::{Program, ProgramKind},
     prop::{KeyValueProp, PropName},
     stmt::{
-        BlockStmt, EmptyStmt, ExprStmt, ForBinding, ForClassicHead, ForHead, ForInHead, ForInit,
-        ForOfHead, ForStmt, IfStmt, ReturnStmt, Stmt, WhileStmt,
+        BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
+        ExprStmt, ForBinding, ForClassicHead, ForHead, ForInHead, ForInit, ForOfHead, ForStmt,
+        IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt,
+        WhileStmt,
     },
     store::AstStore,
     typescript::{
