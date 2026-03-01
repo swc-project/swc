@@ -45,6 +45,8 @@ pub trait Storage: Sized {
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {
+    fn new(kind: ScopeKind) -> Self;
+
     fn add_declared_symbol(&mut self, id: &Ident);
 
     fn merge(&mut self, other: Self, is_child: bool);

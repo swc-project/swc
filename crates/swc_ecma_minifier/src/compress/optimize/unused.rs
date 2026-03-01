@@ -758,12 +758,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        let used_arguments = self
-            .data
-            .get_scope(self.ctx.scope)
-            .unwrap_or_else(|| unreachable!("scope should exist\nCtxt: {:?}", self.ctx.scope))
-            .contains(ScopeData::USED_ARGUMENTS);
-
         trace_op!(
             "unused: drop_unused_assignments: Target: `{}`",
             dump(&assign.left, false)
@@ -781,7 +775,7 @@ impl Optimizer<'_> {
                 ) && var.usage_count == 0
                     && var.flags.contains(VarUsageInfoFlags::DECLARED)
                     && (!var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-                        || !used_arguments
+                        || !self.data.used_arguments(self.ctx.scope)
                         || self.ctx.expr_ctx.in_strict)
                 {
                     report_change!(

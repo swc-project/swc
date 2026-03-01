@@ -2395,10 +2395,6 @@ impl Optimizer<'_> {
                         return Ok(false);
                     }
 
-                    if contains_arguments(&a.function) {
-                        return Ok(false);
-                    }
-
                     (a.ident.clone(), None)
                 } else {
                     return Ok(false);
