@@ -110,7 +110,7 @@ swc_ecma_transforms = { version = "48.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_module = { version = "42.0.0", path = "../swc_ecma_transforms_module", optional = true }
+swc_ecma_transforms_module = { version = "42.0.1", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_base = { version = "38.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "44.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
 swc_ecma_transforms_optimization = { version = "40.0.0", path = "../swc_ecma_transforms_optimization" }

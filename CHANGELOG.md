@@ -1,4 +1,30 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/module)** Preserve explicit index.js import path when baseUrl is set ([#11597](https://github.com/swc-project/swc/issues/11597)) ([830dbeb](https://github.com/swc-project/swc/commit/830dbeb44f3bf6faf807808d596d970442b6e6e3))
+
+### Documentation
+
+
+
+- Move parser design guidance into AGENTS.md ([#11600](https://github.com/swc-project/swc/issues/11600)) ([e6e91a3](https://github.com/swc-project/swc/commit/e6e91a3d525774fb3453ebda64793d3d253771b5))
+
+### Features
+
+
+
+- **(bindings)** Add linux ppc64le and s390x support across npm bindings ([#11602](https://github.com/swc-project/swc/issues/11602)) ([357255d](https://github.com/swc-project/swc/commit/357255d56d4cc61b55be27a4b052f2f3019d018d))
+
+### Ci
+
+
+
+- Bump cargo-mono to 0.5.0 ([#11605](https://github.com/swc-project/swc/issues/11605)) ([7118713](https://github.com/swc-project/swc/commit/7118713176d7d2c244c1c7c637dbfa7ffa37f167))
+
 ## [1.15.18] - 2026-03-01
 
 ### Bug Fixes
@@ -2006,12 +2032,6 @@
 - **(es/parser)** Emit syntax errors for strict mode in non-module or scripts ([#10545](https://github.com/swc-project/swc/issues/10545)) ([1291b4a](https://github.com/swc-project/swc/commit/1291b4a78c51512fb0c699f3409275f4065bbc0b))
 
 
-- **(react-compiler)** Fix fast check ([#10538](https://github.com/swc-project/swc/issues/10538)) ([9403ce2](https://github.com/swc-project/swc/commit/9403ce2e7372dbcd579e2710480f2ffc78d8bcca))
-
-
-- **(swc_common)** Fix build ([#10544](https://github.com/swc-project/swc/issues/10544)) ([2ed934d](https://github.com/swc-project/swc/commit/2ed934d4a1b2c85d6cc04c038aaee3e09c189e8b))
-
-
 - **(swc_common)** Fix skip condition for sourcemap ([#10562](https://github.com/swc-project/swc/issues/10562)) ([cbee0df](https://github.com/swc-project/swc/commit/cbee0dfa2b82ed470a387d06470e70617a6ee60a))
 
 
@@ -2022,9 +2042,6 @@
 
 ### Features
 
-
-
-- **(swc_common)** Add `Globals::clone_data` ([#10543](https://github.com/swc-project/swc/issues/10543)) ([39f30b0](https://github.com/swc-project/swc/commit/39f30b066fe4d91f8df641fe59aba86acb10d645))
 
 
 - **(swc_common)** Add `map_raw_pos` to `Files` ([#10560](https://github.com/swc-project/swc/issues/10560)) ([71224c3](https://github.com/swc-project/swc/commit/71224c365335e970f6dd12a47b4524da6d861bb3))
