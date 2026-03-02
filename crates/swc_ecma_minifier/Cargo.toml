@@ -82,7 +82,7 @@ humansize                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 pretty_assertions         = { workspace = true }
 swc_ecma_testing          = { version = "20.0.0", path = "../swc_ecma_testing" }
-swc_malloc                = { version = "1.2.4", path = "../swc_malloc" }
+swc_malloc                = { version = "1.2.5", path = "../swc_malloc" }
 testing                   = { version = "20.0.0", path = "../testing" }
 walkdir                   = { workspace = true }
 

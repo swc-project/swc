@@ -59,7 +59,7 @@ swc_ecma_ast = { version = "21.0.0", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
 swc_ecma_visit = { version = "21.0.0", path = "../swc_ecma_visit" }
-swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
+swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 testing = { version = "20.0.0", path = "../testing" }
 
 [[example]]

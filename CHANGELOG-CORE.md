@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(malloc)** Fallback to system allocator on linux gnu s390x/powerpc ([#11606](https://github.com/swc-project/swc/issues/11606)) ([e103fac](https://github.com/swc-project/swc/commit/e103facd4451349478efbaf8caaf89294d4780f9))
+
 ## [swc_core@v58.0.3] - 2026-03-02
 
 ### Ci
@@ -2512,12 +2520,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Inline object of member if prop is an ident ([#10548](https://github.com/swc-project/swc/issues/10548)) ([e554381](https://github.com/swc-project/swc/commit/e554381bffa3602d7ce9ee156652cf654bac507f))
-
-
-- **(es/minifier)** Add side effect check for test expr when compressing IfStmt ([#10550](https://github.com/swc-project/swc/issues/10550)) ([3e9728e](https://github.com/swc-project/swc/commit/3e9728e70c77139a770717f87a9e54920e4a58c9))
 
 
 - **(es/minifier)** Fix typo in an option name ([#10554](https://github.com/swc-project/swc/issues/10554)) ([a303941](https://github.com/swc-project/swc/commit/a303941a36a59db19fe376b7601378fdc3830212))
