@@ -25,6 +25,9 @@
 
 - Bump cargo-mono to 0.5.0 ([#11605](https://github.com/swc-project/swc/issues/11605)) ([7118713](https://github.com/swc-project/swc/commit/7118713176d7d2c244c1c7c637dbfa7ffa37f167))
 
+
+- Remove --no-verify flag from cargo mono publish ([02eb5ec](https://github.com/swc-project/swc/commit/02eb5ec20ea24a90c577991d6bb756b346c9c6a3))
+
 ## [1.15.18] - 2026-03-01
 
 ### Bug Fixes
@@ -2029,9 +2032,6 @@
 - **(es/minifier)** Fix typo in an option name ([#10554](https://github.com/swc-project/swc/issues/10554)) ([a303941](https://github.com/swc-project/swc/commit/a303941a36a59db19fe376b7601378fdc3830212))
 
 
-- **(es/parser)** Emit syntax errors for strict mode in non-module or scripts ([#10545](https://github.com/swc-project/swc/issues/10545)) ([1291b4a](https://github.com/swc-project/swc/commit/1291b4a78c51512fb0c699f3409275f4065bbc0b))
-
-
 - **(swc_common)** Fix skip condition for sourcemap ([#10562](https://github.com/swc-project/swc/issues/10562)) ([cbee0df](https://github.com/swc-project/swc/commit/cbee0dfa2b82ed470a387d06470e70617a6ee60a))
 
 
@@ -2052,17 +2052,8 @@
 
 - **(ecosystem-ci)** Exclude `ts-node` ([2b284e1](https://github.com/swc-project/swc/commit/2b284e1930bd9aab88d74bef0f7453bf23e2ddfe))
 
-### Performance
-
-
-
-- **(swc_common)** Remove `char_indices` calls ([#10541](https://github.com/swc-project/swc/issues/10541)) ([51507bc](https://github.com/swc-project/swc/commit/51507bcfa24fcdc202e5bbf255a24feb1665a395))
-
 ### Refactor
 
-
-
-- **(es/lexer)** Share `skip_block_comment` ([#10549](https://github.com/swc-project/swc/issues/10549)) ([b101a87](https://github.com/swc-project/swc/commit/b101a87771d287b8e3bd9ae60a94b39de192718b))
 
 
 - **(es/parser)** Cleanup ([#10559](https://github.com/swc-project/swc/issues/10559)) ([963ac9e](https://github.com/swc-project/swc/commit/963ac9efb23d4613932bcb6a29b94b9ac5d13860))
