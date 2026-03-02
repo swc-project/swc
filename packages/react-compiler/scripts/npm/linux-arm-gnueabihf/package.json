@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler-linux-arm-gnueabihf",
-  "version": "1.15.18",
+  "version": "1.15.19-nightly-20260302.1",
   "os": [
     "linux"
   ],
