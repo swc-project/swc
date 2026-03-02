@@ -45,7 +45,7 @@ jobs:
       - name: Install cargo-mono
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-mono@0.4.1
+          tool: cargo-mono@0.5.0
 
       - name: Update constant of swc_core
         run: npx ts-node .github/bot/src/cargo/update-constants.ts
