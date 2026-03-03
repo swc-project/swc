@@ -1,6 +1,9 @@
 use swc_common::Span;
 
-use crate::{BindingIdent, ClassId, ExprId, Ident, NumberLit, PatId, StmtId, StrLit, TsTypeId};
+use crate::{
+    BindingIdent, ClassId, ExprId, Ident, NumberLit, PatId, StmtId, StrLit, TsModuleDecl, TsTypeId,
+    TsTypeMember,
+};
 
 /// Declaration node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -18,6 +21,8 @@ pub enum Decl {
     TsInterface(TsInterfaceDecl),
     /// TypeScript enum declaration.
     TsEnum(TsEnumDecl),
+    /// TypeScript module / namespace declaration.
+    TsModule(TsModuleDecl),
 }
 
 /// Variable declaration.
@@ -28,6 +33,8 @@ pub struct VarDecl {
     pub span: Span,
     /// Declaration kind.
     pub kind: VarDeclKind,
+    /// `declare` marker.
+    pub declare: bool,
     /// Declared bindings.
     pub declarators: Vec<VarDeclarator>,
 }
@@ -68,6 +75,8 @@ pub struct FnDecl {
     pub span: Span,
     /// Function name.
     pub ident: BindingIdent,
+    /// `declare` marker.
+    pub declare: bool,
     /// Parameter patterns.
     pub params: Vec<PatId>,
     /// Function body statements.
@@ -82,6 +91,8 @@ pub struct ClassDecl {
     pub span: Span,
     /// Class name.
     pub ident: BindingIdent,
+    /// `declare` marker.
+    pub declare: bool,
     /// Referenced class node.
     pub class: ClassId,
 }
@@ -94,6 +105,8 @@ pub struct TsTypeAliasDecl {
     pub span: Span,
     /// Alias identifier.
     pub ident: Ident,
+    /// `declare` marker.
+    pub declare: bool,
     /// Generic type parameters.
     pub type_params: Vec<Ident>,
     /// Type definition.
@@ -108,12 +121,14 @@ pub struct TsInterfaceDecl {
     pub span: Span,
     /// Interface identifier.
     pub ident: Ident,
+    /// `declare` marker.
+    pub declare: bool,
     /// Generic type parameters.
     pub type_params: Vec<Ident>,
     /// Extended interfaces.
     pub extends: Vec<Ident>,
-    /// Parsed body member count.
-    pub body_member_count: usize,
+    /// Parsed body members.
+    pub body: Vec<TsTypeMember>,
 }
 
 /// Enum member name.
@@ -148,6 +163,10 @@ pub struct TsEnumDecl {
     pub span: Span,
     /// Enum identifier.
     pub ident: Ident,
+    /// `declare` marker.
+    pub declare: bool,
+    /// `const enum` marker.
+    pub is_const: bool,
     /// Enum members.
     pub members: Vec<TsEnumMember>,
 }

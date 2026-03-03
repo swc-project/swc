@@ -1,7 +1,10 @@
 use std::path::Path;
 
 use swc_common::{comments::SingleThreadedComments, input::StringInput, FileName, SourceMap};
-use swc_es_parser::{lexer::Lexer, parse_file_as_program, EsSyntax, Parser, Syntax, TsSyntax};
+use swc_es_parser::{
+    lexer::Lexer, parse_file_as_program, parse_file_as_script, ErrorCode, EsSyntax, Parser, Syntax,
+    TsSyntax,
+};
 
 fn parse_fixture(path: &Path, syntax: Syntax) {
     testing::run_test(false, |cm, _handler| {
@@ -73,4 +76,41 @@ fn lexer_and_parser_api_bootstrap() {
             .len(),
         1
     );
+}
+
+#[test]
+fn parse_file_as_program_returns_err_for_fatal_error() {
+    let cm = SourceMap::default();
+    let fm = cm.new_source_file(FileName::Custom("fatal.js".into()).into(), "const = 1;");
+
+    let comments = SingleThreadedComments::default();
+    let mut recovered = Vec::new();
+    let result = parse_file_as_program(
+        &fm,
+        Syntax::Es(EsSyntax::default()),
+        Some(&comments),
+        &mut recovered,
+    );
+
+    assert!(result.is_err());
+}
+
+#[test]
+fn parse_file_as_script_collects_recovered_errors() {
+    let cm = SourceMap::default();
+    let fm = cm.new_source_file(FileName::Custom("recover.js".into()).into(), "return 1;");
+
+    let comments = SingleThreadedComments::default();
+    let mut recovered = Vec::new();
+    let result = parse_file_as_script(
+        &fm,
+        Syntax::Es(EsSyntax::default()),
+        Some(&comments),
+        &mut recovered,
+    );
+
+    assert!(result.is_ok());
+    assert!(recovered
+        .iter()
+        .any(|error| matches!(error.code(), ErrorCode::ReturnOutsideFunction)));
 }

@@ -8,6 +8,8 @@ use crate::{ExprId, Ident, NumberLit, StrLit};
 pub enum PropName {
     /// Identifier key.
     Ident(Ident),
+    /// Private identifier key.
+    Private(Ident),
     /// String key.
     Str(StrLit),
     /// Numeric key.

@@ -13,11 +13,12 @@ pub extern crate cbor4ii;
 pub use swc_arena::Id;
 
 pub use crate::{
-    class::{Class, ClassMember, ClassMethod, ClassProp, MethodKind},
+    class::{Class, ClassMember, ClassMethod, ClassProp, ClassStaticBlock, MethodKind},
     decl::{
         ClassDecl, Decl, FnDecl, TsEnumDecl, TsEnumMember, TsEnumMemberName, TsInterfaceDecl,
         TsTypeAliasDecl, VarDecl, VarDeclKind, VarDeclarator,
     },
+    decorator::Decorator,
     expr::{
         ArrayExpr, ArrowBody, ArrowExpr, AssignExpr, AssignOp, AwaitExpr, BinaryExpr, BinaryOp,
         CallExpr, CondExpr, Expr, ExprOrSpread, MemberExpr, MemberProp, NewExpr, ObjectExpr,
@@ -43,17 +44,20 @@ pub use crate::{
         BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
         ExprStmt, ForBinding, ForClassicHead, ForHead, ForInHead, ForInit, ForOfHead, ForStmt,
         IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt,
-        WhileStmt,
+        WhileStmt, WithStmt,
     },
     store::AstStore,
     typescript::{
         TsArrayType, TsAsExpr, TsFnParam, TsFnType, TsIntersectionType, TsKeywordType, TsLitType,
-        TsParenthesizedType, TsTupleType, TsType, TsTypeAnn, TsTypeLit, TsTypeRef, TsUnionType,
+        TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl, TsParenthesizedType,
+        TsTupleType, TsType, TsTypeAnn, TsTypeLit, TsTypeMember, TsTypeMemberKind, TsTypeRef,
+        TsUnionType,
     },
 };
 
 mod class;
 mod decl;
+mod decorator;
 mod expr;
 mod function;
 mod ident;

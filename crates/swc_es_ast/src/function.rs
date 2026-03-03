@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{PatId, StmtId};
+use crate::{Decorator, PatId, StmtId};
 
 /// Function parameter.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -8,6 +8,8 @@ use crate::{PatId, StmtId};
 pub struct Param {
     /// Original source span.
     pub span: Span,
+    /// Parameter decorators.
+    pub decorators: Vec<Decorator>,
     /// Bound pattern.
     pub pat: PatId,
 }
