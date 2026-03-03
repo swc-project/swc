@@ -254,6 +254,10 @@ where
             visitor.visit_expr(store, while_stmt.test);
             visitor.visit_stmt(store, while_stmt.body);
         }
+        Stmt::With(with_stmt) => {
+            visitor.visit_expr(store, with_stmt.obj);
+            visitor.visit_stmt(store, with_stmt.body);
+        }
         Stmt::For(for_stmt) => {
             match &for_stmt.head {
                 swc_es_ast::ForHead::Classic(head) => {

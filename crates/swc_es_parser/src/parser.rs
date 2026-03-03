@@ -8,7 +8,7 @@ use swc_es_ast::{
     ProgramKind, PropName, RestPat, ReturnStmt, Stmt, StrLit, TsArrayType, TsFnParam, TsFnType,
     TsIntersectionType, TsKeywordType, TsParenthesizedType, TsTupleType, TsType, TsTypeAliasDecl,
     TsTypeLit, TsTypeRef, TsUnionType, UnaryExpr, UnaryOp, VarDecl, VarDeclKind, VarDeclarator,
-    WhileStmt,
+    WhileStmt, WithStmt,
 };
 
 use crate::{
@@ -817,13 +817,17 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_with_compat_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
-        // `swc_es_ast` does not model `with` yet; consume the grammar to keep parser
-        // parity.
+        let start = self.cur.span.lo;
         self.bump();
         let _ = self.expect(TokenKind::LParen, "(")?;
-        let _ = self.parse_expr()?;
+        let obj = self.parse_expr()?;
         let _ = self.expect(TokenKind::RParen, ")")?;
-        self.parse_stmt()
+        let body = self.parse_stmt()?;
+        Ok(self.store.alloc_stmt(Stmt::With(WithStmt {
+            span: Span::new_with_checked(start, self.last_pos()),
+            obj,
+            body,
+        })))
     }
 
     fn parse_break_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {

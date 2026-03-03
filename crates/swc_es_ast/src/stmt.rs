@@ -18,6 +18,8 @@ pub enum Stmt {
     If(IfStmt),
     /// While statement.
     While(WhileStmt),
+    /// With statement.
+    With(WithStmt),
     /// For statement.
     For(ForStmt),
     /// Do-while statement.
@@ -103,6 +105,18 @@ pub struct WhileStmt {
     /// Loop condition expression.
     pub test: ExprId,
     /// Loop body.
+    pub body: StmtId,
+}
+
+/// With statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct WithStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Target object expression.
+    pub obj: ExprId,
+    /// Statement body.
     pub body: StmtId,
 }
 

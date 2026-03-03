@@ -20,11 +20,22 @@
 ## Fixture Harness
 
 - `swc_ecma_parser` inputs are reused from `crates/swc_ecma_parser/tests`.
-- `swc_es_parser` snapshots are stored under `crates/swc_es_parser/tests/fixtures`.
-- Generate or refresh snapshots with:
+- Run parity suite (sample mode) with:
 
 ```bash
-UPDATE=1 cargo test -p swc_es_parser --test fixture_harness
+cargo test -p swc_es_parser --test parity_suite
+```
+
+- Run full parity corpus (all sampled categories disabled) with:
+
+```bash
+SWC_ES_PARSER_PARITY_FULL=1 cargo test -p swc_es_parser --test parity_suite
+```
+
+- Narrow parity runs to a category with:
+
+```bash
+SWC_ES_PARSER_PARITY_CATEGORY=typescript cargo test -p swc_es_parser --test parity_suite
 ```
 
 ## API Sketch

@@ -72,6 +72,8 @@ const TSC_IGNORES_CONTAINS: &[&str] = &[
     "tsc/parserGreaterThanTokenAmbiguity16",
     "tsc/parserGreaterThanTokenAmbiguity20",
     "tsc/awaitUsingDeclarationsInFor",
+    "tsc/esDecorators-decoratorExpression.1",
+    "tsc/parserArrowFunctionExpression11",
 ];
 
 const TSC_IGNORES_ENDS_WITH: &[&str] = &[
@@ -171,26 +173,16 @@ const TEST262_IGNORED_FAIL: &[&str] = &[
     "ef81b93cf9bdb4ec.js",
 ];
 
-// Keep this list intentionally small and remove entries as parser coverage
-// improves.
-const TEMPORARY_SKIP_PATTERNS: &[&str] = &[
-    "/tests/tsc/",
-    "/tests/test262-parser/",
-    "/tests/typescript/",
-    "/tests/typescript-errors/",
-    "/tests/shifted/",
-    "/tests/jsx/",
-    "/js/import-assertions",
-    "/js/import-attributes",
-    "/js/source-phase-imports/",
-    "/js/deferred-import-evaluation/",
-    "/js/explicit-resource-management/",
-    "/js/optional-chaining/",
-    "/jsx/basic/fragment-",
-    "/jsx/basic/issue-10692/",
-    "/jsx/basic/custom/issue-612-async-generator/",
-    "/jsx/basic/custom/issue-720/",
+const CORE_IGNORED_CONTAINS: &[&str] = &[
+    "/js/explicit-resource-management/.valid-for-using-binding-escaped-of-of/input.js",
+    "/typescript/arrow-function/generic-tsx/input.ts",
 ];
+
+const TEMPORARY_SKIP_PATTERNS_CORE: &[&str] = &[];
+const TEMPORARY_SKIP_PATTERNS_JSX: &[&str] = &[];
+const TEMPORARY_SKIP_PATTERNS_TYPESCRIPT: &[&str] = &[];
+const TEMPORARY_SKIP_PATTERNS_TSC: &[&str] = &[];
+const TEMPORARY_SKIP_PATTERNS_TEST262: &[&str] = &[];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ParseMode {
@@ -216,6 +208,41 @@ struct Case {
 
 fn ecma_fixture_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../swc_ecma_parser/tests")
+}
+
+fn canonical_category(category: &str) -> &str {
+    match category {
+        "test262" => "test262-parser",
+        other => other,
+    }
+}
+
+fn parse_category_filter() -> Option<Vec<String>> {
+    let raw = std::env::var("SWC_ES_PARSER_PARITY_CATEGORY").ok()?;
+    let selected = raw
+        .split(',')
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .map(|value| canonical_category(value).to_string())
+        .collect::<Vec<_>>();
+    if selected.is_empty() {
+        None
+    } else {
+        Some(selected)
+    }
+}
+
+fn category_enabled(filter: &Option<Vec<String>>, category: &str) -> bool {
+    let category = canonical_category(category);
+    let Some(filter) = filter.as_ref() else {
+        return true;
+    };
+
+    filter.iter().any(|entry| {
+        entry == "all"
+            || entry == category
+            || (entry == "core" && CORE_CATEGORIES.contains(&category))
+    })
 }
 
 fn normalized(path: &Path) -> String {
@@ -286,7 +313,7 @@ fn syntax_for_file(path: &Path, category: &str, options: &FixtureOptions) -> Syn
     let ext = path.extension().and_then(|ext| ext.to_str()).unwrap_or("");
     let file_name = normalized(path);
     let is_ts = matches!(ext, "ts" | "tsx" | "mts" | "cts");
-    let is_tsx = ext == "tsx";
+    let is_tsx = ext == "tsx" || file_name.contains("/tsx/");
     let is_cjs = ext == "cjs";
     let is_jsx = options
         .jsx
@@ -351,11 +378,23 @@ fn is_expected_fail(case: &Case, options: &FixtureOptions) -> bool {
     false
 }
 
-fn is_temporarily_skipped(path: &Path) -> bool {
-    let normalized = normalized(path);
-    TEMPORARY_SKIP_PATTERNS
-        .iter()
-        .any(|pattern| normalized.contains(pattern))
+fn temporary_skip_patterns(category: &str) -> &'static [&'static str] {
+    match category {
+        "jsx" => TEMPORARY_SKIP_PATTERNS_JSX,
+        "typescript" | "typescript-errors" | "shifted" => TEMPORARY_SKIP_PATTERNS_TYPESCRIPT,
+        "tsc" => TEMPORARY_SKIP_PATTERNS_TSC,
+        "test262-parser" => TEMPORARY_SKIP_PATTERNS_TEST262,
+        _ => TEMPORARY_SKIP_PATTERNS_CORE,
+    }
+}
+
+fn is_temporarily_skipped(case: &Case) -> bool {
+    let patterns = temporary_skip_patterns(&case.category);
+    if patterns.is_empty() {
+        return false;
+    }
+    let normalized = normalized(&case.path);
+    patterns.iter().any(|pattern| normalized.contains(pattern))
 }
 
 fn collect_files_for_category(category: &str) -> Vec<PathBuf> {
@@ -420,7 +459,14 @@ fn filter_ignored_cases(mut cases: Vec<Case>) -> Vec<Case> {
             return false;
         }
 
-        !is_temporarily_skipped(&case.path)
+        if CORE_IGNORED_CONTAINS
+            .iter()
+            .any(|pattern| path.contains(pattern))
+        {
+            return false;
+        }
+
+        !is_temporarily_skipped(case)
     });
     cases
 }
@@ -513,8 +559,12 @@ fn run_cases(name: &str, cases: Vec<Case>) {
 
 #[test]
 fn parity_core_corpus() {
+    let category_filter = parse_category_filter();
     let mut cases = Vec::new();
     for category in CORE_CATEGORIES {
+        if !category_enabled(&category_filter, category) {
+            continue;
+        }
         for path in collect_files_for_category(category) {
             cases.push(Case {
                 path,
@@ -529,44 +579,54 @@ fn parity_core_corpus() {
 
 #[test]
 fn parity_large_samples() {
-    let tsc_cases = collect_files_for_category("tsc")
-        .into_iter()
-        .map(|path| Case {
-            path,
-            category: "tsc".to_string(),
-        })
-        .collect::<Vec<_>>();
-    let tsc_cases = sample_cases(filter_ignored_cases(tsc_cases), 200);
+    let category_filter = parse_category_filter();
+    let tsc_cases = if category_enabled(&category_filter, "tsc") {
+        let tsc_cases = collect_files_for_category("tsc")
+            .into_iter()
+            .map(|path| Case {
+                path,
+                category: "tsc".to_string(),
+            })
+            .collect::<Vec<_>>();
+        sample_cases(filter_ignored_cases(tsc_cases), 200)
+    } else {
+        Vec::new()
+    };
 
-    let test262_cases = collect_files_for_category("test262-parser")
-        .into_iter()
-        .filter(|path| {
-            let normalized = normalized(path);
-            normalized.contains("/test262-parser/pass/")
-                || normalized.contains("/test262-parser/fail/")
-        })
-        .map(|path| Case {
-            path,
-            category: "test262-parser".to_string(),
-        })
-        .collect::<Vec<_>>();
-    let test262_cases = filter_ignored_cases(test262_cases);
-    let test262_pass = sample_cases(
-        test262_cases
-            .iter()
-            .filter(|case| normalized(&case.path).contains("/test262-parser/pass/"))
-            .cloned()
-            .collect(),
-        200,
-    );
-    let test262_fail = sample_cases(
-        test262_cases
-            .iter()
-            .filter(|case| normalized(&case.path).contains("/test262-parser/fail/"))
-            .cloned()
-            .collect(),
-        200,
-    );
+    let (test262_pass, test262_fail) = if category_enabled(&category_filter, "test262-parser") {
+        let test262_cases = collect_files_for_category("test262-parser")
+            .into_iter()
+            .filter(|path| {
+                let normalized = normalized(path);
+                normalized.contains("/test262-parser/pass/")
+                    || normalized.contains("/test262-parser/fail/")
+            })
+            .map(|path| Case {
+                path,
+                category: "test262-parser".to_string(),
+            })
+            .collect::<Vec<_>>();
+        let test262_cases = filter_ignored_cases(test262_cases);
+        let pass = sample_cases(
+            test262_cases
+                .iter()
+                .filter(|case| normalized(&case.path).contains("/test262-parser/pass/"))
+                .cloned()
+                .collect(),
+            200,
+        );
+        let fail = sample_cases(
+            test262_cases
+                .iter()
+                .filter(|case| normalized(&case.path).contains("/test262-parser/fail/"))
+                .cloned()
+                .collect(),
+            200,
+        );
+        (pass, fail)
+    } else {
+        (Vec::new(), Vec::new())
+    };
 
     let mut cases = Vec::new();
     cases.extend(tsc_cases);

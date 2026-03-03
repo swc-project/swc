@@ -43,7 +43,7 @@ pub use crate::{
         BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
         ExprStmt, ForBinding, ForClassicHead, ForHead, ForInHead, ForInit, ForOfHead, ForStmt,
         IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase, SwitchStmt, ThrowStmt, TryStmt,
-        WhileStmt,
+        WhileStmt, WithStmt,
     },
     store::AstStore,
     typescript::{
