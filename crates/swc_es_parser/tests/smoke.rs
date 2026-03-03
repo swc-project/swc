@@ -28,6 +28,21 @@ fn parse_fixture(path: &Path, syntax: Syntax) {
     .unwrap();
 }
 
+fn parse_program_with_recovered(src: &str) -> (bool, Vec<swc_es_parser::Error>) {
+    let cm = SourceMap::default();
+    let fm = cm.new_source_file(FileName::Custom("inline.js".into()).into(), src.to_string());
+    let comments = SingleThreadedComments::default();
+    let mut recovered = Vec::new();
+    let fatal = parse_file_as_program(
+        &fm,
+        Syntax::Es(EsSyntax::default()),
+        Some(&comments),
+        &mut recovered,
+    )
+    .is_err();
+    (fatal, recovered)
+}
+
 #[test]
 fn parses_reused_js_fixture() {
     parse_fixture(
@@ -113,4 +128,57 @@ fn parse_file_as_script_collects_recovered_errors() {
     assert!(recovered
         .iter()
         .any(|error| matches!(error.code(), ErrorCode::ReturnOutsideFunction)));
+}
+
+#[test]
+fn rejects_invalid_escape_sequences() {
+    let (fatal, recovered) = parse_program_with_recovered("'\\8'; '\\9';");
+    assert!(!fatal);
+    assert!(recovered
+        .iter()
+        .any(|error| matches!(error.code(), ErrorCode::InvalidEscape)));
+}
+
+#[test]
+fn rejects_legacy_octal_escape_in_use_strict_prologue() {
+    let (fatal, recovered) = parse_program_with_recovered("\"\\1\"; 'use strict';");
+    assert!(!fatal);
+    assert!(recovered
+        .iter()
+        .any(|error| matches!(error.code(), ErrorCode::StrictModeViolation)));
+}
+
+#[test]
+fn rejects_unicode_regex_decimal_escape() {
+    let (fatal, recovered) = parse_program_with_recovered("/\\1/u;");
+    assert!(!fatal);
+    assert!(recovered
+        .iter()
+        .any(|error| matches!(error.code(), ErrorCode::InvalidRegex)));
+}
+
+#[test]
+fn rejects_invalid_for_of_lhs_with_let_member() {
+    let (fatal, recovered) = parse_program_with_recovered("for(let.a of 0);");
+    assert!(fatal || !recovered.is_empty());
+}
+
+#[test]
+fn rejects_invalid_arrow_member_binding() {
+    let (fatal, recovered) = parse_program_with_recovered("({e: a.b}) => 0;");
+    assert!(fatal || !recovered.is_empty());
+}
+
+#[test]
+fn rejects_array_rest_followed_by_comma() {
+    let (fatal, recovered) = parse_program_with_recovered("[...a,] = b;");
+    assert!(fatal || !recovered.is_empty());
+}
+
+#[test]
+fn accepts_new_target_with_escaped_target_identifier() {
+    let (fatal, recovered) =
+        parse_program_with_recovered("function f(){ return new.\\u0074arget; }");
+    assert!(!fatal);
+    assert!(recovered.is_empty());
 }
