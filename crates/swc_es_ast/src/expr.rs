@@ -49,6 +49,16 @@ pub enum Expr {
     Arrow(ArrowExpr),
     /// Template literal expression.
     Template(TemplateExpr),
+    /// Yield expression.
+    Yield(YieldExpr),
+    /// Tagged template expression.
+    TaggedTemplate(TaggedTemplateExpr),
+    /// Meta-property expression (`new.target`, `import.meta`).
+    MetaProp(MetaPropExpr),
+    /// Optional chaining expression.
+    OptChain(OptChainExpr),
+    /// Parenthesized expression.
+    Paren(ParenExpr),
 }
 
 /// Array literal expression.
@@ -241,6 +251,70 @@ pub struct TemplateExpr {
     pub exprs: Vec<ExprId>,
 }
 
+/// Yield expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct YieldExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Yielded argument.
+    pub arg: Option<ExprId>,
+    /// `true` for `yield*`.
+    pub delegate: bool,
+}
+
+/// Tagged template expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TaggedTemplateExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Tag expression.
+    pub tag: ExprId,
+    /// Template expression.
+    pub template: TemplateExpr,
+}
+
+/// Meta-property kind.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum MetaPropKind {
+    /// `new.target`
+    NewTarget,
+    /// `import.meta`
+    ImportMeta,
+}
+
+/// Meta-property expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct MetaPropExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Meta-property kind.
+    pub kind: MetaPropKind,
+}
+
+/// Optional chaining expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct OptChainExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Base expression of the chain.
+    pub base: ExprId,
+}
+
+/// Parenthesized expression.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ParenExpr {
+    /// Original source span.
+    pub span: Span,
+    /// Wrapped expression.
+    pub expr: ExprId,
+}
+
 /// Member property.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
@@ -303,10 +377,30 @@ pub enum BinaryOp {
     Gt,
     /// `>=`
     GtEq,
+    /// `<<`
+    LShift,
+    /// `>>`
+    RShift,
+    /// `>>>`
+    ZeroFillRShift,
     /// `&&`
     LogicalAnd,
     /// `||`
     LogicalOr,
+    /// `|`
+    BitOr,
+    /// `^`
+    BitXor,
+    /// `&`
+    BitAnd,
+    /// `in`
+    In,
+    /// `instanceof`
+    InstanceOf,
+    /// `**`
+    Exp,
+    /// `??`
+    NullishCoalescing,
 }
 
 /// Assignment operator.
@@ -325,4 +419,24 @@ pub enum AssignOp {
     DivAssign,
     /// `%=`
     ModAssign,
+    /// `<<=`
+    LShiftAssign,
+    /// `>>=`
+    RShiftAssign,
+    /// `>>>=`
+    ZeroFillRShiftAssign,
+    /// `|=`
+    BitOrAssign,
+    /// `^=`
+    BitXorAssign,
+    /// `&=`
+    BitAndAssign,
+    /// `**=`
+    ExpAssign,
+    /// `&&=`
+    AndAssign,
+    /// `||=`
+    OrAssign,
+    /// `??=`
+    NullishAssign,
 }

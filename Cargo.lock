@@ -6955,6 +6955,7 @@ dependencies = [
  "swc_es_ast",
  "swc_malloc",
  "testing",
+ "unicode-id-start",
  "walkdir",
 ]
 

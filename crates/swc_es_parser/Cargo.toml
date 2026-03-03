@@ -19,6 +19,7 @@ typescript = []
 [dependencies]
 bitflags   = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
+unicode-id-start = { workspace = true }
 
 swc_atoms  = { version = "9.0.0", path = "../swc_atoms" }
 swc_common = { version = "19.0.0", path = "../swc_common" }
