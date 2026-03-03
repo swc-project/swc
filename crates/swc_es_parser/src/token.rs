@@ -72,6 +72,8 @@ pub enum TokenValue {
     Str(Atom),
     /// Numeric literal value.
     Num(f64),
+    /// BigInt literal value.
+    BigInt(Atom),
 }
 
 /// Token kind.
@@ -147,6 +149,7 @@ pub enum TokenKind {
     Str,
     Template,
     Num,
+    BigInt,
     Keyword(Keyword),
 }
 

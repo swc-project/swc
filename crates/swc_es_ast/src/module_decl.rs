@@ -2,6 +2,28 @@ use swc_common::Span;
 
 use crate::{DeclId, ExprId, Ident, StrLit};
 
+/// Import attribute key.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum ImportAttributeName {
+    /// Identifier key.
+    Ident(Ident),
+    /// String-literal key.
+    Str(StrLit),
+}
+
+/// Import attribute / assertion pair.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ImportAttribute {
+    /// Original source span.
+    pub span: Span,
+    /// Attribute key.
+    pub key: ImportAttributeName,
+    /// Attribute value.
+    pub value: StrLit,
+}
+
 /// Import declaration.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
@@ -12,6 +34,8 @@ pub struct ImportDecl {
     pub specifiers: Vec<ImportSpecifier>,
     /// Source module.
     pub src: StrLit,
+    /// Optional import attributes/assertions.
+    pub with: Vec<ImportAttribute>,
 }
 
 /// Import specifier.
@@ -74,6 +98,8 @@ pub struct ExportNamedDecl {
     pub specifiers: Vec<ExportSpecifier>,
     /// Optional inline declaration.
     pub decl: Option<DeclId>,
+    /// Optional export attributes/assertions.
+    pub with: Vec<ImportAttribute>,
 }
 
 /// Default export expression declaration.
@@ -104,6 +130,10 @@ pub struct ExportAllDecl {
     pub span: Span,
     /// Re-export source module.
     pub src: StrLit,
+    /// Optional export namespace name (`export * as ns`).
+    pub exported: Option<Ident>,
+    /// Optional export attributes/assertions.
+    pub with: Vec<ImportAttribute>,
 }
 
 /// Export declaration wrapping a declaration node.

@@ -48,6 +48,20 @@ pub enum TsType {
     TypeLit(TsTypeLit),
     /// Function type (`(a: A) => B`).
     Fn(TsFnType),
+    /// Conditional type (`T extends U ? X : Y`).
+    Conditional(TsConditionalType),
+    /// Indexed-access type (`T[K]`).
+    IndexedAccess(TsIndexedAccessType),
+    /// Type operator (`keyof T`, `readonly T`, `unique symbol`).
+    TypeOperator(TsTypeOperatorType),
+    /// Inferred type (`infer T`).
+    Infer(TsInferType),
+    /// Import type (`import("x").T`).
+    Import(TsImportType),
+    /// Type query (`typeof foo`).
+    TypeQuery(TsTypeQuery),
+    /// Mapped type (`{ [K in X]: Y }`).
+    Mapped(TsMappedType),
 }
 
 /// TypeScript keyword type.
@@ -68,6 +82,16 @@ pub enum TsKeywordType {
     Number,
     /// `boolean`
     Boolean,
+    /// `symbol`
+    Symbol,
+    /// `object`
+    Object,
+    /// `bigint`
+    BigInt,
+    /// `undefined`
+    Undefined,
+    /// `intrinsic`
+    Intrinsic,
 }
 
 /// TypeScript type reference.
@@ -204,6 +228,112 @@ pub struct TsFnType {
     pub params: Vec<TsFnParam>,
     /// Return type.
     pub return_type: crate::TsTypeId,
+}
+
+/// TypeScript conditional type.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsConditionalType {
+    /// Original source span.
+    pub span: Span,
+    /// Check type.
+    pub check_type: crate::TsTypeId,
+    /// Extends type.
+    pub extends_type: crate::TsTypeId,
+    /// True branch type.
+    pub true_type: crate::TsTypeId,
+    /// False branch type.
+    pub false_type: crate::TsTypeId,
+}
+
+/// TypeScript indexed-access type.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsIndexedAccessType {
+    /// Original source span.
+    pub span: Span,
+    /// Object type.
+    pub obj_type: crate::TsTypeId,
+    /// Index type.
+    pub index_type: crate::TsTypeId,
+}
+
+/// TypeScript type operator kind.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum TsTypeOperatorOp {
+    /// `keyof`
+    KeyOf,
+    /// `readonly`
+    ReadOnly,
+    /// `unique`
+    Unique,
+}
+
+/// TypeScript type operator.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsTypeOperatorType {
+    /// Original source span.
+    pub span: Span,
+    /// Operator.
+    pub op: TsTypeOperatorOp,
+    /// Operand type.
+    pub ty: crate::TsTypeId,
+}
+
+/// TypeScript infer type.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsInferType {
+    /// Original source span.
+    pub span: Span,
+    /// Inferred type parameter name.
+    pub type_param: Ident,
+}
+
+/// TypeScript import type qualifier.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsImportType {
+    /// Original source span.
+    pub span: Span,
+    /// Imported source.
+    pub arg: StrLit,
+    /// Optional qualifier.
+    pub qualifier: Option<Ident>,
+    /// Type arguments.
+    pub type_args: Vec<crate::TsTypeId>,
+}
+
+/// TypeScript type query.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsTypeQuery {
+    /// Original source span.
+    pub span: Span,
+    /// Queried expression name.
+    pub expr_name: Ident,
+    /// Type arguments.
+    pub type_args: Vec<crate::TsTypeId>,
+}
+
+/// TypeScript mapped type.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsMappedType {
+    /// Original source span.
+    pub span: Span,
+    /// Type parameter name.
+    pub type_param: Ident,
+    /// Constraint type.
+    pub constraint: crate::TsTypeId,
+    /// Optional value type.
+    pub ty: Option<crate::TsTypeId>,
+    /// Optional readonly marker.
+    pub readonly: Option<bool>,
+    /// Optional optional marker.
+    pub optional: Option<bool>,
 }
 
 /// TypeScript module name.

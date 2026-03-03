@@ -208,21 +208,21 @@ struct ParitySummary {
     recovered_only_mismatches: usize,
 }
 
-const MAX_MISMATCH_REPORTS: usize = 64;
+const MAX_MISMATCH_REPORTS: usize = 512;
 
 // These budgets are intentionally strict for the current parser capability.
 // They make parity useful as a regression signal without pretending full
 // compatibility with the reused fixture corpus yet.
 const CORE_CORPUS_BUDGET: ParityBudget = ParityBudget {
-    max_mismatches: 251,
-    max_fatal_mismatches: 213,
-    max_recovered_only_mismatches: 38,
+    max_mismatches: 0,
+    max_fatal_mismatches: 0,
+    max_recovered_only_mismatches: 0,
 };
 
 const LARGE_SAMPLES_BUDGET: ParityBudget = ParityBudget {
-    max_mismatches: 2232,
-    max_fatal_mismatches: 1917,
-    max_recovered_only_mismatches: 315,
+    max_mismatches: 0,
+    max_fatal_mismatches: 0,
+    max_recovered_only_mismatches: 0,
 };
 
 fn ecma_fixture_root() -> PathBuf {
@@ -498,10 +498,25 @@ fn run_cases(cases: Vec<Case>) -> ParitySummary {
             }
 
             if summary.mismatches.len() < MAX_MISMATCH_REPORTS {
+                let recovered_desc = recovered
+                    .iter()
+                    .take(4)
+                    .map(|error| {
+                        format!(
+                            "{:?}:{:?}:{}",
+                            error.severity(),
+                            error.code(),
+                            error.message()
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join(" | ");
                 summary.mismatches.push(format!(
                     "{path}\n  expected_success={expected_success} \
-                     observed_success={observed_success}\n  fatal={fatal_desc}\n  recovered={}",
-                    recovered.len()
+                     observed_success={observed_success}\n  fatal={fatal_desc}\n  recovered={} \
+                     [{}]",
+                    recovered.len(),
+                    recovered_desc
                 ));
             }
         }

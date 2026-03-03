@@ -13,6 +13,10 @@ pub enum Lit {
     Null(NullLit),
     /// Numeric literal.
     Num(NumberLit),
+    /// BigInt literal.
+    BigInt(BigIntLit),
+    /// Regular-expression literal.
+    Regex(RegexLit),
 }
 
 /// String literal.
@@ -51,4 +55,26 @@ pub struct NumberLit {
     pub span: Span,
     /// Numeric value.
     pub value: f64,
+}
+
+/// BigInt literal.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct BigIntLit {
+    /// Original source span.
+    pub span: Span,
+    /// Decimal string representation without trailing `n`.
+    pub value: Atom,
+}
+
+/// Regular-expression literal.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct RegexLit {
+    /// Original source span.
+    pub span: Span,
+    /// Regex pattern.
+    pub exp: Atom,
+    /// Regex flags.
+    pub flags: Atom,
 }

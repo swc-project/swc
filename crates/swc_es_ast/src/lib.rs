@@ -21,17 +21,18 @@ pub use crate::{
     decorator::Decorator,
     expr::{
         ArrayExpr, ArrowBody, ArrowExpr, AssignExpr, AssignOp, AwaitExpr, BinaryExpr, BinaryOp,
-        CallExpr, CondExpr, Expr, ExprOrSpread, MemberExpr, MemberProp, NewExpr, ObjectExpr,
-        SeqExpr, TemplateExpr, UnaryExpr, UnaryOp, UpdateExpr,
+        CallExpr, CondExpr, Expr, ExprOrSpread, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
+        NewExpr, ObjectExpr, OptChainExpr, ParenExpr, SeqExpr, TaggedTemplateExpr, TemplateExpr,
+        UnaryExpr, UnaryOp, UpdateExpr, YieldExpr,
     },
     function::{Function, Param},
     ident::{BindingIdent, Ident},
     jsx::{JSXAttr, JSXElement, JSXElementChild, JSXElementName, JSXOpeningElement},
-    lit::{BoolLit, Lit, NullLit, NumberLit, StrLit},
+    lit::{BigIntLit, BoolLit, Lit, NullLit, NumberLit, RegexLit, StrLit},
     module_decl::{
         ExportAllDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExprDecl, ExportNamedDecl,
-        ExportSpecifier, ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier,
-        ImportNamespaceSpecifier, ImportSpecifier, ModuleDecl,
+        ExportSpecifier, ImportAttribute, ImportAttributeName, ImportDecl, ImportDefaultSpecifier,
+        ImportNamedSpecifier, ImportNamespaceSpecifier, ImportSpecifier, ModuleDecl,
     },
     operator::UpdateOp,
     pat::{
@@ -48,9 +49,11 @@ pub use crate::{
     },
     store::AstStore,
     typescript::{
-        TsArrayType, TsAsExpr, TsFnParam, TsFnType, TsIntersectionType, TsKeywordType, TsLitType,
-        TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl, TsParenthesizedType,
-        TsTupleType, TsType, TsTypeAnn, TsTypeLit, TsTypeMember, TsTypeMemberKind, TsTypeRef,
+        TsArrayType, TsAsExpr, TsConditionalType, TsFnParam, TsFnType, TsImportType,
+        TsIndexedAccessType, TsInferType, TsIntersectionType, TsKeywordType, TsLitType,
+        TsMappedType, TsModuleDecl, TsModuleName, TsNamespaceBody, TsNamespaceDecl,
+        TsParenthesizedType, TsTupleType, TsType, TsTypeAnn, TsTypeLit, TsTypeMember,
+        TsTypeMemberKind, TsTypeOperatorOp, TsTypeOperatorType, TsTypeQuery, TsTypeRef,
         TsUnionType,
     },
 };

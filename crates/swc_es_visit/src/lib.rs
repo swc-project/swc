@@ -434,7 +434,7 @@ where
     visitor.visit_expr_node(store, node);
 
     match node {
-        Expr::Ident(_) | Expr::Lit(_) => {}
+        Expr::Ident(_) | Expr::Lit(_) | Expr::MetaProp(_) => {}
         Expr::Function(function) => visitor.visit_function(store, *function),
         Expr::Class(class) => visitor.visit_class(store, *class),
         Expr::JSXElement(jsx_element) => visitor.visit_jsx_element(store, *jsx_element),
@@ -513,6 +513,19 @@ where
                 visitor.visit_expr(store, *expr);
             }
         }
+        Expr::Yield(yield_expr) => {
+            if let Some(arg) = yield_expr.arg {
+                visitor.visit_expr(store, arg);
+            }
+        }
+        Expr::TaggedTemplate(tagged) => {
+            visitor.visit_expr(store, tagged.tag);
+            for expr in &tagged.template.exprs {
+                visitor.visit_expr(store, *expr);
+            }
+        }
+        Expr::OptChain(chain) => visitor.visit_expr(store, chain.base),
+        Expr::Paren(paren) => visitor.visit_expr(store, paren.expr),
     }
 }
 
@@ -527,7 +540,14 @@ where
     visitor.visit_module_decl_node(store, node);
 
     match node {
-        ModuleDecl::Import(_) => {}
+        ModuleDecl::Import(import_decl) => {
+            for attr in &import_decl.with {
+                match &attr.key {
+                    swc_es_ast::ImportAttributeName::Ident(_) => {}
+                    swc_es_ast::ImportAttributeName::Str(_) => {}
+                }
+            }
+        }
         ModuleDecl::ExportNamed(named) => {
             if let Some(decl) = named.decl {
                 visitor.visit_decl(store, decl);
@@ -689,6 +709,34 @@ where
                 }
             }
             visitor.visit_ts_type(store, function.return_type);
+        }
+        TsType::Conditional(conditional) => {
+            visitor.visit_ts_type(store, conditional.check_type);
+            visitor.visit_ts_type(store, conditional.extends_type);
+            visitor.visit_ts_type(store, conditional.true_type);
+            visitor.visit_ts_type(store, conditional.false_type);
+        }
+        TsType::IndexedAccess(indexed) => {
+            visitor.visit_ts_type(store, indexed.obj_type);
+            visitor.visit_ts_type(store, indexed.index_type);
+        }
+        TsType::TypeOperator(operator) => visitor.visit_ts_type(store, operator.ty),
+        TsType::Infer(_) => {}
+        TsType::Import(import_type) => {
+            for arg in &import_type.type_args {
+                visitor.visit_ts_type(store, *arg);
+            }
+        }
+        TsType::TypeQuery(type_query) => {
+            for arg in &type_query.type_args {
+                visitor.visit_ts_type(store, *arg);
+            }
+        }
+        TsType::Mapped(mapped) => {
+            visitor.visit_ts_type(store, mapped.constraint);
+            if let Some(ty) = mapped.ty {
+                visitor.visit_ts_type(store, ty);
+            }
         }
     }
 }
