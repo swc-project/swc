@@ -192,6 +192,9 @@ bitflags! {
 
         /// `true` while we are inside a class body.
         const InClass = 1 << 27;
+
+        /// `true` only for callee of [NewExpr].
+        const IsNewCallee = 1 << 28;
     }
 }
 
@@ -2412,6 +2415,7 @@ impl VisitMut for Optimizer<'_> {
                 .ctx
                 .clone()
                 .with(BitCtx::IsCallee, true)
+                .with(BitCtx::IsNewCallee, true)
                 .with(BitCtx::IsExactLhsOfAssign, false)
                 .with(BitCtx::IsLhsOfAssign, false);
             n.callee.visit_mut_with(&mut *self.with_ctx(ctx));

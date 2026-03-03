@@ -950,6 +950,13 @@ impl Optimizer<'_> {
                         return;
                     }
 
+                    // `new foo?.bar()` is a syntax error.
+                    if matches!(**value, Expr::OptChain(..))
+                        && self.ctx.bit_ctx.contains(BitCtx::IsNewCallee)
+                    {
+                        return;
+                    }
+
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
                     let bindings: FxHashSet<Id> = collect_decls(value);
@@ -997,6 +1004,13 @@ impl Optimizer<'_> {
                         if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
                             return;
                         }
+                    }
+
+                    // `new foo?.bar()` is a syntax error.
+                    if matches!(**value, Expr::OptChain(..))
+                        && self.ctx.bit_ctx.contains(BitCtx::IsNewCallee)
+                    {
+                        return;
                     }
                 }
 

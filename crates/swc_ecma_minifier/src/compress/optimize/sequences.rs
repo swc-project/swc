@@ -1941,9 +1941,22 @@ impl Optimizer<'_> {
                 args: b_args,
                 ..
             }) => {
-                trace_op!("seq: Try callee of new");
-                if self.merge_sequential_expr(a, b_callee)? {
-                    return Ok(true);
+                // `new foo?.bar()` is a syntax error.
+                // If the callee is a simple ident that would be replaced by an
+                // OptChainExpr, skip merging into the callee.
+                let skip_callee = b_callee.is_ident() && {
+                    let a_val: Option<&Expr> = match &*a {
+                        Mergable::Var(v) => v.init.as_deref(),
+                        Mergable::Expr(Expr::Assign(AssignExpr { right, .. })) => Some(right),
+                        _ => None,
+                    };
+                    a_val.is_some_and(|v| matches!(v, Expr::OptChain(..)))
+                };
+                if !skip_callee {
+                    trace_op!("seq: Try callee of new");
+                    if self.merge_sequential_expr(a, b_callee)? {
+                        return Ok(true);
+                    }
                 }
 
                 if !self.is_skippable_for_seq(Some(a), b_callee) {
