@@ -98,6 +98,8 @@ bitflags::bitflags! {
         const HAS_WITH_STMT  = 1 << 0;
         const HAS_EVAL_CALL  = 1 << 1;
         const USED_ARGUMENTS = 1 << 2;
+        const IS_FN = 1 << 3;
+        const IS_ARROW = 1 <<4;
     }
 }
 
@@ -318,7 +320,7 @@ impl Storage for ProgramData {
                     }
 
                     match kind {
-                        ScopeKind::Fn => {
+                        ScopeKind::Fn { .. } => {
                             e_flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
                             if !var_info_flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
                                 e_flags.insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
@@ -337,7 +339,7 @@ impl Storage for ProgramData {
                 }
                 Entry::Vacant(e) => {
                     match kind {
-                        ScopeKind::Fn => {
+                        ScopeKind::Fn { .. } => {
                             if !var_info.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
                                 var_info
                                     .flags
@@ -551,12 +553,33 @@ impl Storage for ProgramData {
 }
 
 impl ScopeDataLike for ScopeData {
+    fn new(kind: ScopeKind) -> Self {
+        let mut s = ScopeData::default();
+
+        if let ScopeKind::Fn { is_arrow } = kind {
+            s.insert(ScopeData::IS_FN);
+
+            if is_arrow {
+                s.insert(ScopeData::IS_ARROW);
+            }
+        }
+
+        s
+    }
+
     fn add_declared_symbol(&mut self, _: &Ident) {}
 
-    fn merge(&mut self, other: Self, _: bool) {
+    fn merge(&mut self, other: Self, is_child: bool) {
         *self |= other & Self::HAS_WITH_STMT;
         *self |= other & Self::HAS_EVAL_CALL;
-        *self |= other & Self::USED_ARGUMENTS;
+
+        if is_child {
+            if !other.intersects(ScopeData::IS_FN) || other.intersects(ScopeData::IS_ARROW) {
+                *self |= other & Self::USED_ARGUMENTS;
+            }
+        } else {
+            *self |= other & Self::USED_ARGUMENTS;
+        }
     }
 
     fn mark_used_arguments(&mut self) {
@@ -663,82 +686,11 @@ impl ProgramData {
         self.scopes.get(ctxt)
     }
 
-    /// This should be used only for conditionals pass.
-    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
-        match e {
-            Expr::Ident(i) => self.ident_is_unresolved(i),
-
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if self.contains_unresolved(obj) {
-                    return true;
-                }
-
-                if let MemberProp::Computed(prop) = prop {
-                    if self.contains_unresolved(&prop.expr) {
-                        return true;
-                    }
-                }
-
-                false
-            }
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                self.contains_unresolved(left) || self.contains_unresolved(right)
-            }
-            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
-            Expr::Assign(AssignExpr { left, right, .. }) => {
-                // TODO
-                (match left {
-                    AssignTarget::Simple(left) => {
-                        self.simple_assign_target_contains_unresolved(left)
-                    }
-                    AssignTarget::Pat(_) => false,
-                    #[cfg(swc_ast_unknown)]
-                    _ => panic!("unable to access unknown nodes"),
-                }) || self.contains_unresolved(right)
-            }
-            Expr::Cond(CondExpr {
-                test, cons, alt, ..
-            }) => {
-                self.contains_unresolved(test)
-                    || self.contains_unresolved(cons)
-                    || self.contains_unresolved(alt)
-            }
-            Expr::New(NewExpr { args, .. }) => args.iter().flatten().any(|arg| match arg.spread {
-                Some(..) => self.contains_unresolved(&arg.expr),
-                None => false,
-            }),
-            Expr::Yield(YieldExpr { arg, .. }) => {
-                matches!(arg, Some(arg) if self.contains_unresolved(arg))
-            }
-            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
-            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
-            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| match elem {
-                Some(elem) => self.contains_unresolved(&elem.expr),
-                None => false,
-            }),
-
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) => {
-                if self.contains_unresolved(callee) {
-                    return true;
-                }
-
-                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
-                    return true;
-                }
-
-                false
-            }
-
-            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o),
-
-            _ => false,
+    pub(crate) fn used_arguments(&self, ctxt: SyntaxContext) -> bool {
+        if let Some(scope) = self.get_scope(ctxt) {
+            scope.intersects(ScopeData::USED_ARGUMENTS)
+        } else {
+            false
         }
     }
 
@@ -755,64 +707,5 @@ impl ProgramData {
         }
 
         true
-    }
-
-    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
-        match &*o.base {
-            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
-            OptChainBase::Call(OptCall { callee, args, .. }) => {
-                if self.contains_unresolved(callee) {
-                    return true;
-                }
-
-                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
-                    return true;
-                }
-
-                false
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
-    }
-
-    fn member_expr_contains_unresolved(&self, n: &MemberExpr) -> bool {
-        if self.contains_unresolved(&n.obj) {
-            return true;
-        }
-
-        if let MemberProp::Computed(prop) = &n.prop {
-            if self.contains_unresolved(&prop.expr) {
-                return true;
-            }
-        }
-
-        false
-    }
-
-    fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
-        match n {
-            SimpleAssignTarget::Ident(i) => self.ident_is_unresolved(&i.id),
-            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
-            SimpleAssignTarget::SuperProp(n) => {
-                if let SuperProp::Computed(prop) = &n.prop {
-                    if self.contains_unresolved(&prop.expr) {
-                        return true;
-                    }
-                }
-
-                false
-            }
-            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr),
-            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n),
-            SimpleAssignTarget::TsAs(..)
-            | SimpleAssignTarget::TsSatisfies(..)
-            | SimpleAssignTarget::TsNonNull(..)
-            | SimpleAssignTarget::TsTypeAssertion(..)
-            | SimpleAssignTarget::TsInstantiation(..) => false,
-            SimpleAssignTarget::Invalid(..) => true,
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
     }
 }

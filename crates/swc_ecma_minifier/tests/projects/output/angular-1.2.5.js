@@ -2,7 +2,7 @@
  * @license AngularJS v1.2.5
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
- */ function(window1, document1, undefined) {
+ */ function(window1, document1) {
     "use strict";
     /**
    * @description
@@ -552,7 +552,7 @@
                 if (!equals(o1[key], o2[key])) return !1;
                 keySet[key] = !0;
             }
-            for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
+            for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && void 0 !== o2[key] && !isFunction(o2[key])) return !1;
             return !0;
         }
         return !1;
@@ -591,7 +591,7 @@
     }
     function toJsonReplacer(key, value) {
         var val = value;
-        return "string" == typeof key && "$" === key.charAt(0) ? val = undefined : isWindow(value) ? val = "$WINDOW" : value && document1 === value ? val = "$DOCUMENT" : isScope(value) && (val = "$SCOPE"), val;
+        return "string" == typeof key && "$" === key.charAt(0) ? val = void 0 : isWindow(value) ? val = "$WINDOW" : value && document1 === value ? val = "$DOCUMENT" : isScope(value) && (val = "$SCOPE"), val;
     }
     /**
    * @ngdoc function
@@ -606,7 +606,7 @@
    * @param {boolean=} pretty If set to true, the JSON output will contain newlines and whitespace.
    * @returns {string|undefined} JSON-ified string representing `obj`.
    */ function toJson(obj, pretty) {
-        return void 0 === obj ? undefined : JSON.stringify(obj, toJsonReplacer, pretty ? "  " : null);
+        return void 0 === obj ? void 0 : JSON.stringify(obj, toJsonReplacer, pretty ? "  " : null);
     }
     /**
    * @ngdoc function
@@ -970,7 +970,7 @@
         var expandoId = element[jqName], expandoStore = jqCache[expandoId];
         if (expandoStore) {
             if (name) return void delete jqCache[expandoId].data[name];
-            expandoStore.handle && (expandoStore.events.$destroy && expandoStore.handle({}, "$destroy"), jqLiteOff(element)), delete jqCache[expandoId], element[jqName] = undefined;
+            expandoStore.handle && (expandoStore.events.$destroy && expandoStore.handle({}, "$destroy"), jqLiteOff(element)), delete jqCache[expandoId], element[jqName] = void 0;
         }
     }
     function jqLiteExpandoStore(element, key, value) {
@@ -1022,7 +1022,7 @@
         for(var names = isArray(name) ? name : [
             name
         ]; element.length;){
-            for(var i = 0, ii = names.length; i < ii; i++)if ((value = element.data(names[i])) !== undefined) return value;
+            for(var i = 0, ii = names.length; i < ii; i++)if (void 0 !== (value = element.data(names[i]))) return value;
             element = element.parent();
         }
     }
@@ -1082,7 +1082,7 @@
    */ function hashKey(obj) {
         var key, objType = typeof obj;
         return "object" == objType && null !== obj ? "function" == typeof (key = obj.$$hashKey) ? // must invoke on object to keep the right this
-        key = obj.$$hashKey() : undefined === key && (key = obj.$$hashKey = nextUid()) : key = obj, objType + ":" + key;
+        key = obj.$$hashKey() : void 0 === key && (key = obj.$$hashKey = nextUid()) : key = obj, objType + ":" + key;
     }
     /**
    * HashMap which can use objects as keys
@@ -1119,12 +1119,12 @@
                 var val;
                 return msie <= 8 && "" === // this is some IE specific weirdness that jQuery 1.6.4 does not sure why
                 (val = element.currentStyle && element.currentStyle[name]) && (val = "auto"), val = val || element.style[name], msie <= 8 && // jquery weirdness :-/
-                (val = "" === val ? undefined : val), val;
+                (val = "" === val ? void 0 : val), val;
             }
         },
         attr: function(element, name, value) {
             var lowercasedName = lowercase(name);
-            if (BOOLEAN_ATTR[lowercasedName]) if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
+            if (BOOLEAN_ATTR[lowercasedName]) if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : void 0;
             else value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
             else if (isDefined(value)) element.setAttribute(name, value);
             else if (element.getAttribute) {
@@ -1132,7 +1132,7 @@
                 // some elements (e.g. Document) don't have get attribute, so return undefined
                 var ret = element.getAttribute(name, 2);
                 // normalize non-existing attributes to undefined (as jQuery)
-                return null === ret ? undefined : ret;
+                return null === ret ? void 0 : ret;
             }
         },
         prop: function(element, name, value) {
@@ -1174,7 +1174,7 @@
             // jqLiteHasClass has only two arguments, but is a getter-only fn, so we need to special-case it
             // in a way that survives minification.
             // jqLiteEmpty takes no arguments but is a setter.
-            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) if (isObject(arg1)) {
+            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === void 0) if (isObject(arg1)) {
                 // we are a write, but the object properties are the key/values
                 for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
                 fn(this[i], arg1);
@@ -1182,7 +1182,7 @@
                 // return self for chaining
                 return this;
             } else {
-                for(var value = fn.$dv, jj = undefined === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
+                for(var value = fn.$dv, jj = void 0 === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
                     var nodeValue = fn(this[j], arg1, arg2);
                     value = value ? value + nodeValue : nodeValue;
                 }
@@ -2413,10 +2413,10 @@
      * @returns {Object} Hash of all cookies (if called without any parameter)
      */ self.cookies = function(name, value) {
             /* global escape: false, unescape: false */ var cookieLength, cookieArray, cookie, i, index;
-            if (name) undefined === value ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
+            if (name) void 0 === value ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
             else {
-                if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && lastCookies[//ignore nameless cookies
-                name = unescape(cookie.substring(0, index))] === undefined && (lastCookies[name] = unescape(cookie.substring(index + 1)));
+                if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && void 0 === lastCookies[//ignore nameless cookies
+                name = unescape(cookie.substring(0, index))] && (lastCookies[name] = unescape(cookie.substring(index + 1)));
                 return lastCookies;
             }
         }, /**
@@ -3353,7 +3353,7 @@
          * @returns {?function} A composite linking function of all of the matched directives or null.
          */ function compileNodes(nodeList, transcludeFn, $rootElement, maxPriority, ignoreDirective, previousCompileContext) {
                     for(var nodeLinkFn, childLinkFn, directives, attrs, linkFnFound, linkFns = [], i = 0; i < nodeList.length; i++)attrs = new Attributes(), childLinkFn = (nodeLinkFn = // we must always refer to nodeList[i] since the nodes can be replaced underneath us.
-                    (directives = collectDirectives(nodeList[i], [], attrs, 0 === i ? maxPriority : undefined, ignoreDirective)).length ? /**
+                    (directives = collectDirectives(nodeList[i], [], attrs, 0 === i ? maxPriority : void 0, ignoreDirective)).length ? /**
          * Once the directives have been collected, their compile functions are executed. This method
          * is responsible for inlining directive templates as well as terminating the application
          * of the directives if the terminal directive has been reached.
@@ -3379,7 +3379,7 @@
                         // executes all directives on the current element
                         for(var newScopeDirective, directive, directiveName, $template, linkFn, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = (previousCompileContext = previousCompileContext || {}).controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn, i = 0, ii = directives.length; i < ii; i++){
                             var attrStart = (directive = directives[i]).$$start, attrEnd = directive.$$end;
-                            if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive.priority) break; // prevent further processing of directives
+                            if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = void 0, terminalPriority > directive.priority) break; // prevent further processing of directives
                             if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
                                 // Don't pass in:
                                 // - controllerDirectives - otherwise we'll create duplicates controllers
@@ -3512,7 +3512,7 @@
                             for(transcludeFn = boundTranscludeFn && // This is the function that is injected as `$transclude`.
                             function(scope, cloneAttachFn) {
                                 var transcludeControllers;
-                                return arguments.length < 2 && (cloneAttachFn = scope, scope = undefined), hasElementTranscludeDirective && (transcludeControllers = elementControllers), boundTranscludeFn(scope, cloneAttachFn, transcludeControllers);
+                                return arguments.length < 2 && (cloneAttachFn = scope, scope = void 0), hasElementTranscludeDirective && (transcludeControllers = elementControllers), boundTranscludeFn(scope, cloneAttachFn, transcludeControllers);
                             }, controllerDirectives && forEach(controllerDirectives, function(directive) {
                                 var controllerInstance, locals = {
                                     $scope: directive === newIsolateScopeDirective || directive.$$isolateScope ? isolateScope : scope,
@@ -3536,7 +3536,7 @@
                             // otherwise the child elements do not belong to the isolate directive.
                             var scopeToChild = scope;
                             // POSTLINKING
-                            for(newIsolateScopeDirective && (newIsolateScopeDirective.template || null === newIsolateScopeDirective.templateUrl) && (scopeToChild = isolateScope), childLinkFn && childLinkFn(scopeToChild, linkNode.childNodes, undefined, boundTranscludeFn), i = postLinkFns.length - 1; i >= 0; i--)try {
+                            for(newIsolateScopeDirective && (newIsolateScopeDirective.template || null === newIsolateScopeDirective.templateUrl) && (scopeToChild = isolateScope), childLinkFn && childLinkFn(scopeToChild, linkNode.childNodes, void 0, boundTranscludeFn), i = postLinkFns.length - 1; i >= 0; i--)try {
                                 (linkFn = postLinkFns[i])(linkFn.isolateScope ? isolateScope : scope, $element, attrs, linkFn.require && getControllers(linkFn.require, $element, elementControllers), transcludeFn);
                             } catch (e) {
                                 $exceptionHandler(e, startingTag($element));
@@ -3549,7 +3549,7 @@
                         // copy nodeList so that linking doesn't break due to live list updates.
                         var nodeLinkFn, childLinkFn, node, $node, childScope, childTranscludeFn, i, ii, n, stableNodeList = [];
                         for(i = 0, ii = nodeList.length; i < ii; i++)stableNodeList.push(nodeList[i]);
-                        for(i = 0, n = 0, ii = linkFns.length; i < ii; n++)node = stableNodeList[n], nodeLinkFn = linkFns[i++], childLinkFn = linkFns[i++], $node = jqLite(node), nodeLinkFn ? (nodeLinkFn.scope ? (childScope = scope.$new(), $node.data("$scope", childScope), safeAddClass($node, "ng-scope")) : childScope = scope, childTranscludeFn = nodeLinkFn.transclude, nodeLinkFn(childLinkFn, childScope, node, $rootElement, childTranscludeFn || !boundTranscludeFn && transcludeFn ? createBoundTranscludeFn(scope, childTranscludeFn || transcludeFn) : boundTranscludeFn)) : childLinkFn && childLinkFn(scope, node.childNodes, undefined, boundTranscludeFn);
+                        for(i = 0, n = 0, ii = linkFns.length; i < ii; n++)node = stableNodeList[n], nodeLinkFn = linkFns[i++], childLinkFn = linkFns[i++], $node = jqLite(node), nodeLinkFn ? (nodeLinkFn.scope ? (childScope = scope.$new(), $node.data("$scope", childScope), safeAddClass($node, "ng-scope")) : childScope = scope, childTranscludeFn = nodeLinkFn.transclude, nodeLinkFn(childLinkFn, childScope, node, $rootElement, childTranscludeFn || !boundTranscludeFn && transcludeFn ? createBoundTranscludeFn(scope, childTranscludeFn || transcludeFn) : boundTranscludeFn)) : childLinkFn && childLinkFn(scope, node.childNodes, void 0, boundTranscludeFn);
                     } : null;
                 }
                 function createBoundTranscludeFn(scope, transcludeFn) {
@@ -3698,7 +3698,7 @@
                     if (name === ignoreDirective) return null;
                     var match = null;
                     if (hasDirectives.hasOwnProperty(name)) for(var directive, directives = $injector.get(name + Suffix), i = 0, ii = directives.length; i < ii; i++)try {
-                        directive = directives[i], (undefined === maxPriority || maxPriority > directive.priority) && -1 != directive.restrict.indexOf(location) && (startAttrName && (directive = inherit(directive, {
+                        directive = directives[i], (void 0 === maxPriority || maxPriority > directive.priority) && -1 != directive.restrict.indexOf(location) && (startAttrName && (directive = inherit(directive, {
                             $$start: startAttrName,
                             $$end: endAttrName
                         })), tDirectives.push(directive), match = directive);
@@ -3939,7 +3939,7 @@
    *   - if called with single an argument returns a single header value or null
    *   - if called with no arguments returns an object containing all headers.
    */ function headersGetter(headers) {
-        var headersObj = isObject(headers) ? headers : undefined;
+        var headersObj = isObject(headers) ? headers : void 0;
         return function(name) {
             return (headersObj || (headersObj = parseHeaders(headers)), name) ? headersObj[lowercase(name)] || null : headersObj;
         };
@@ -4511,7 +4511,7 @@
                         }
                     }(requestConfig);
                     extend(config, requestConfig), config.headers = headers, config.method = uppercase(config.method);
-                    var xsrfValue = urlIsSameOrigin(config.url) ? $browser.cookies()[config.xsrfCookieName || defaults.xsrfCookieName] : undefined;
+                    var xsrfValue = urlIsSameOrigin(config.url) ? $browser.cookies()[config.xsrfCookieName || defaults.xsrfCookieName] : void 0;
                     xsrfValue && (headers[config.xsrfHeaderName || defaults.xsrfHeaderName] = xsrfValue);
                     var chain = [
                         function(config) {
@@ -4575,7 +4575,7 @@
                                 }
                             })(config, reqData, headers).then(transformResponse, transformResponse);
                         },
-                        undefined
+                        void 0
                     ], promise = $q.when(config);
                     for(// apply interceptors
                     forEach(reversedInterceptors, function(interceptor) {
@@ -5075,7 +5075,7 @@
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBaseNoFile + this.$$url.substr(1);
         }, this.$$rewrite = function(url) {
             var appUrl, prevAppUrl;
-            return (appUrl = beginsWith(appBase, url)) !== undefined ? (prevAppUrl = appUrl, (appUrl = beginsWith(basePrefix, appUrl)) !== undefined) ? appBaseNoFile + (beginsWith("/", appUrl) || appUrl) : appBase + prevAppUrl : (appUrl = beginsWith(appBaseNoFile, url)) !== undefined ? appBaseNoFile + appUrl : appBaseNoFile == url + "/" ? appBaseNoFile : void 0;
+            return void 0 !== (appUrl = beginsWith(appBase, url)) ? (prevAppUrl = appUrl, void 0 !== (appUrl = beginsWith(basePrefix, appUrl))) ? appBaseNoFile + (beginsWith("/", appUrl) || appUrl) : appBase + prevAppUrl : void 0 !== (appUrl = beginsWith(appBaseNoFile, url)) ? appBaseNoFile + appUrl : appBaseNoFile == url + "/" ? appBaseNoFile : void 0;
         };
     }
     /**
@@ -5584,7 +5584,7 @@
         },
         undefined: noop,
         "+": function(self, locals, a, b) {
-            return (a = a(self, locals), b = b(self, locals), isDefined(a)) ? isDefined(b) ? a + b : a : isDefined(b) ? b : undefined;
+            return (a = a(self, locals), b = b(self, locals), isDefined(a)) ? isDefined(b) ? a + b : a : isDefined(b) ? b : void 0;
         },
         "-": function(self, locals, a, b) {
             return a = a(self, locals), b = b(self, locals), (isDefined(a) ? a : 0) - (isDefined(b) ? b : 0);
@@ -5656,7 +5656,7 @@
     Lexer.prototype = {
         constructor: Lexer,
         lex: function(text) {
-            this.text = text, this.index = 0, this.ch = undefined, this.lastCh = ":", this.tokens = [];
+            this.text = text, this.index = 0, this.ch = void 0, this.lastCh = ":", this.tokens = [];
             for(var token, json = []; this.index < this.text.length;){
                 if (this.ch = this.text.charAt(this.index), this.is("\"'")) this.readString(this.ch);
                 else if (this.isNumber(this.ch) || this.is(".") && this.isNumber(this.peek())) this.readNumber();
@@ -5824,7 +5824,7 @@
                 promise.then(function(val) {
                     promise.$$v = val;
                 });
-            }(obj), obj.$$v === undefined && (obj.$$v = {}), obj = obj.$$v);
+            }(obj), void 0 === obj.$$v && (obj.$$v = {}), obj = obj.$$v);
         }
         return obj[key = ensureSafeMemberName(element.shift(), fullExp)] = setValue, setValue;
     }
@@ -5982,9 +5982,9 @@
             var parser = this, indexFn = this.expression();
             return this.consume("]"), extend(function(self, locals) {
                 var v, p, o = obj(self, locals), i = indexFn(self, locals);
-                return o ? ((v = ensureSafeObject(o[i], parser.text)) && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = undefined, p.then(function(val) {
+                return o ? ((v = ensureSafeObject(o[i], parser.text)) && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = void 0, p.then(function(val) {
                     p.$$v = val;
-                })), v = v.$$v), v) : undefined;
+                })), v = v.$$v), v) : void 0;
             }, {
                 assign: function(self, value, locals) {
                     var key = indexFn(self, locals);
@@ -6050,15 +6050,15 @@
    */ function cspSafeGetterFn(key0, key1, key2, key3, key4, fullExp, options) {
         return ensureSafeMemberName(key0, fullExp), ensureSafeMemberName(key1, fullExp), ensureSafeMemberName(key2, fullExp), ensureSafeMemberName(key3, fullExp), ensureSafeMemberName(key4, fullExp), options.unwrapPromises ? function(scope, locals) {
             var promise, pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
-            return null == pathVal || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            return null == pathVal || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = void 0, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key1 && null != pathVal && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key1 && null != pathVal && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = void 0, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key2 && null != pathVal && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key2 && null != pathVal && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = void 0, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key3 && null != pathVal && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key3 && null != pathVal && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = void 0, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key4 && null != pathVal && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key4 && null != pathVal && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = void 0, promise.then(function(val) {
                 promise.$$v = val;
             })), pathVal = pathVal.$$v))))), pathVal;
         } : function(scope, locals) {
@@ -6074,7 +6074,7 @@
         var fn, pathKeys = path.split("."), pathKeysLength = pathKeys.length;
         if (options.csp) fn = pathKeysLength < 6 ? cspSafeGetterFn(pathKeys[0], pathKeys[1], pathKeys[2], pathKeys[3], pathKeys[4], fullExp, options) : function(scope, locals) {
             var val, i = 0;
-            do val = cspSafeGetterFn(pathKeys[i++], pathKeys[i++], pathKeys[i++], pathKeys[i++], pathKeys[i++], fullExp, options)(scope, locals), locals = undefined, scope = val;
+            do val = cspSafeGetterFn(pathKeys[i++], pathKeys[i++], pathKeys[i++], pathKeys[i++], pathKeys[i++], fullExp, options)(scope, locals), locals = void 0, scope = val;
             while (i < pathKeysLength)
             return val;
         };
@@ -6428,7 +6428,7 @@
                             resolve: function(val) {
                                 if (pending) {
                                     var callbacks = pending;
-                                    pending = undefined, value = ref(val), callbacks.length && nextTick(function() {
+                                    pending = void 0, value = ref(val), callbacks.length && nextTick(function() {
                                         for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value.then(callback[0], callback[1], callback[2]);
                                     });
                                 }
@@ -9762,7 +9762,7 @@
                                 }
                                 var parentFormCtrl = formElement.parent().controller("form"), alias = attr.name || attr.ngForm;
                                 alias && setter(scope, alias, controller, alias), parentFormCtrl && formElement.on("$destroy", function() {
-                                    parentFormCtrl.$removeControl(controller), alias && setter(scope, alias, undefined, alias), extend(controller, nullFormCtrl);
+                                    parentFormCtrl.$removeControl(controller), alias && setter(scope, alias, void 0, alias), extend(controller, nullFormCtrl);
                                 });
                             }
                         };
@@ -9914,25 +9914,25 @@
    */ number: function(scope, element, attr, ctrl, $sniffer, $browser) {
             if (textInputType(scope, element, attr, ctrl, $sniffer, $browser), ctrl.$parsers.push(function(value) {
                 var empty = ctrl.$isEmpty(value);
-                return empty || NUMBER_REGEXP.test(value) ? (ctrl.$setValidity("number", !0), "" === value ? null : empty ? value : parseFloat(value)) : (ctrl.$setValidity("number", !1), undefined);
+                return empty || NUMBER_REGEXP.test(value) ? (ctrl.$setValidity("number", !0), "" === value ? null : empty ? value : parseFloat(value)) : void ctrl.$setValidity("number", !1);
             }), ctrl.$formatters.push(function(value) {
                 return ctrl.$isEmpty(value) ? "" : "" + value;
             }), attr.min) {
                 var minValidator = function(value) {
                     var min = parseFloat(attr.min);
-                    return !ctrl.$isEmpty(value) && value < min ? (ctrl.$setValidity("min", !1), undefined) : (ctrl.$setValidity("min", !0), value);
+                    return !ctrl.$isEmpty(value) && value < min ? void ctrl.$setValidity("min", !1) : (ctrl.$setValidity("min", !0), value);
                 };
                 ctrl.$parsers.push(minValidator), ctrl.$formatters.push(minValidator);
             }
             if (attr.max) {
                 var maxValidator = function(value) {
                     var max = parseFloat(attr.max);
-                    return !ctrl.$isEmpty(value) && value > max ? (ctrl.$setValidity("max", !1), undefined) : (ctrl.$setValidity("max", !0), value);
+                    return !ctrl.$isEmpty(value) && value > max ? void ctrl.$setValidity("max", !1) : (ctrl.$setValidity("max", !0), value);
                 };
                 ctrl.$parsers.push(maxValidator), ctrl.$formatters.push(maxValidator);
             }
             ctrl.$formatters.push(function(value) {
-                return ctrl.$isEmpty(value) || isNumber(value) ? (ctrl.$setValidity("number", !0), value) : (ctrl.$setValidity("number", !1), undefined);
+                return ctrl.$isEmpty(value) || isNumber(value) ? (ctrl.$setValidity("number", !0), value) : void ctrl.$setValidity("number", !1);
             });
         },
         /**
@@ -10002,7 +10002,7 @@
    */ url: function(scope, element, attr, ctrl, $sniffer, $browser) {
             textInputType(scope, element, attr, ctrl, $sniffer, $browser);
             var urlValidator = function(value) {
-                return ctrl.$isEmpty(value) || URL_REGEXP.test(value) ? (ctrl.$setValidity("url", !0), value) : (ctrl.$setValidity("url", !1), undefined);
+                return ctrl.$isEmpty(value) || URL_REGEXP.test(value) ? (ctrl.$setValidity("url", !0), value) : void ctrl.$setValidity("url", !1);
             };
             ctrl.$formatters.push(urlValidator), ctrl.$parsers.push(urlValidator);
         },
@@ -10073,7 +10073,7 @@
    */ email: function(scope, element, attr, ctrl, $sniffer, $browser) {
             textInputType(scope, element, attr, ctrl, $sniffer, $browser);
             var emailValidator = function(value) {
-                return ctrl.$isEmpty(value) || EMAIL_REGEXP.test(value) ? (ctrl.$setValidity("email", !0), value) : (ctrl.$setValidity("email", !1), undefined);
+                return ctrl.$isEmpty(value) || EMAIL_REGEXP.test(value) ? (ctrl.$setValidity("email", !0), value) : void ctrl.$setValidity("email", !1);
             };
             ctrl.$formatters.push(emailValidator), ctrl.$parsers.push(emailValidator);
         },
@@ -10230,7 +10230,7 @@
         };
         // pattern validator
         var patternValidator, match, pattern = attr.ngPattern, validate = function(regexp, value) {
-            return ctrl.$isEmpty(value) || regexp.test(value) ? (ctrl.$setValidity("pattern", !0), value) : (ctrl.$setValidity("pattern", !1), undefined);
+            return ctrl.$isEmpty(value) || regexp.test(value) ? (ctrl.$setValidity("pattern", !0), value) : void ctrl.$setValidity("pattern", !1);
         };
         // min length validator
         if (pattern && ((match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? (pattern = new RegExp(match[1], match[2]), patternValidator = function(value) {
@@ -10241,14 +10241,14 @@
             return validate(patternObj, value);
         }, ctrl.$formatters.push(patternValidator), ctrl.$parsers.push(patternValidator)), attr.ngMinlength) {
             var minlength = int(attr.ngMinlength), minLengthValidator = function(value) {
-                return !ctrl.$isEmpty(value) && value.length < minlength ? (ctrl.$setValidity("minlength", !1), undefined) : (ctrl.$setValidity("minlength", !0), value);
+                return !ctrl.$isEmpty(value) && value.length < minlength ? void ctrl.$setValidity("minlength", !1) : (ctrl.$setValidity("minlength", !0), value);
             };
             ctrl.$parsers.push(minLengthValidator), ctrl.$formatters.push(minLengthValidator);
         }
         // max length validator
         if (attr.ngMaxlength) {
             var maxlength = int(attr.ngMaxlength), maxLengthValidator = function(value) {
-                return !ctrl.$isEmpty(value) && value.length > maxlength ? (ctrl.$setValidity("maxlength", !1), undefined) : (ctrl.$setValidity("maxlength", !0), value);
+                return !ctrl.$isEmpty(value) && value.length > maxlength ? void ctrl.$setValidity("maxlength", !1) : (ctrl.$setValidity("maxlength", !0), value);
             };
             ctrl.$parsers.push(maxLengthValidator), ctrl.$formatters.push(maxLengthValidator);
         }
@@ -10554,7 +10554,7 @@
                         }), list;
                     }
                 }), ctrl.$formatters.push(function(value) {
-                    return isArray(value) ? value.join(", ") : undefined;
+                    return isArray(value) ? value.join(", ") : void 0;
                 }), // Override the standard $isEmpty because an empty array means the input is empty.
                 ctrl.$isEmpty = function(value) {
                     return !value || !value.length;
@@ -10579,7 +10579,7 @@
             // We are purposefully using == here rather than === because we want to
             // catch when value is "null or undefined"
             // jshint -W041
-            element.text(undefined == value ? "" : value);
+            element.text(void 0 == value ? "" : value);
         });
     }), ngBindTemplateDirective = [
         "$interpolate",
@@ -10774,7 +10774,7 @@
    {@link ngAnimate.$animate#methods_removeclass $animate.removeClass}.
  */ var ngClassDirective = classDirective("", !0), ngClassOddDirective = classDirective("Odd", 0), ngClassEvenDirective = classDirective("Even", 1), ngCloakDirective = ngDirective({
         compile: function(element, attr) {
-            attr.$set("ngCloak", undefined), element.removeClass("ng-cloak");
+            attr.$set("ngCloak", void 0), element.removeClass("ng-cloak");
         }
     }), ngControllerDirective = [
         function() {
@@ -11598,7 +11598,7 @@
                                             else locals[valueName] = collection[key];
                                             value.push(valueFn(scope, locals));
                                         }
-                                    } else if ("?" == (key = selectElement.val())) value = undefined;
+                                    } else if ("?" == (key = selectElement.val())) value = void 0;
                                     else if ("" === key) value = null;
                                     else if (trackFn) {
                                         for(trackIndex = 0; trackIndex < collection.length; trackIndex++)if (locals[valueName] = collection[trackIndex], trackFn(scope, locals) == key) {

@@ -55,7 +55,7 @@ where
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ScopeKind {
-    Fn,
+    Fn { is_arrow: bool },
     Block,
 }
 
@@ -95,7 +95,7 @@ where
             marks: self.marks,
             ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,
-            scope: Default::default(),
+            scope: S::ScopeData::new(kind),
             used_recursively,
         };
 
@@ -231,7 +231,7 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        self.with_child(n.ctxt, ScopeKind::Fn, |child| {
+        self.with_child(n.ctxt, ScopeKind::Fn { is_arrow: true }, |child| {
             {
                 let ctx = child
                     .ctx
@@ -541,7 +541,9 @@ where
             n.super_class.visit_with(&mut *self.with_ctx(ctx));
         }
 
-        self.with_child(n.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
+        self.with_child(n.ctxt, ScopeKind::Fn { is_arrow: false }, |child| {
+            n.body.visit_with(child)
+        })
     }
 
     #[cfg_attr(
@@ -573,7 +575,7 @@ where
     fn visit_class_method(&mut self, n: &ClassMethod) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn { is_arrow: false }, |a| {
             n.key.visit_with(a);
             {
                 let ctx = a.ctx.with(BitContext::InPatOfParam, true);
@@ -630,7 +632,7 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_constructor(&mut self, n: &Constructor) {
-        self.with_child(n.ctxt, ScopeKind::Fn, |child| {
+        self.with_child(n.ctxt, ScopeKind::Fn { is_arrow: false }, |child| {
             {
                 let ctx = child.ctx.with(BitContext::InPatOfParam, true);
                 n.params.visit_with(&mut *child.with_ctx(ctx));
@@ -935,7 +937,7 @@ where
         let ctx = Ctx { ..self.ctx };
 
         self.with_ctx(ctx)
-            .with_child(n.ctxt, ScopeKind::Fn, |child| {
+            .with_child(n.ctxt, ScopeKind::Fn { is_arrow: false }, |child| {
                 n.params.visit_with(child);
 
                 if let Some(body) = &n.body {
@@ -951,11 +953,15 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
-        self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
-            n.key.visit_with(a);
+        self.with_child(
+            SyntaxContext::empty(),
+            ScopeKind::Fn { is_arrow: false },
+            |a| {
+                n.key.visit_with(a);
 
-            n.body.visit_with(a);
-        });
+                n.body.visit_with(a);
+            },
+        );
     }
 
     #[cfg_attr(
@@ -1076,7 +1082,7 @@ where
     fn visit_method_prop(&mut self, n: &MethodProp) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn { is_arrow: false }, |a| {
             n.key.visit_with(a);
             {
                 let ctx = a.ctx.with(BitContext::InPatOfParam, true);
@@ -1166,7 +1172,7 @@ where
     fn visit_private_method(&mut self, n: &PrivateMethod) {
         n.function.decorators.visit_with(self);
 
-        self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
+        self.with_child(n.function.ctxt, ScopeKind::Fn { is_arrow: false }, |a| {
             n.key.visit_with(a);
             {
                 let ctx = a.ctx.with(BitContext::InPatOfParam, true);
@@ -1225,15 +1231,19 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
-        self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
-            n.key.visit_with(a);
-            {
-                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
-                n.param.visit_with(&mut *a.with_ctx(ctx));
-            }
+        self.with_child(
+            SyntaxContext::empty(),
+            ScopeKind::Fn { is_arrow: false },
+            |a| {
+                n.key.visit_with(a);
+                {
+                    let ctx = a.ctx.with(BitContext::InPatOfParam, true);
+                    n.param.visit_with(&mut *a.with_ctx(ctx));
+                }
 
-            n.body.visit_with(a);
-        });
+                n.body.visit_with(a);
+            },
+        );
     }
 
     #[cfg_attr(

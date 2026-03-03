@@ -7778,7 +7778,7 @@
         /***/ },
         /***/ 4431: /***/ function(module, exports, __webpack_require__) {
             var __WEBPACK_AMD_DEFINE_RESULT__;
-            !function(globalObject) {
+            !function() {
                 'use strict';
                 /*
  *      bignumber.js v9.1.0
@@ -9106,7 +9106,7 @@
                 (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return BigNumber;
                 }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
-            }(0);
+            }();
         /***/ },
         /***/ 3550: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             !function(module, exports) {

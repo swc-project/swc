@@ -120,7 +120,7 @@
     // ensures all data is set and retrieved using jQuery Mobile's data namespace
     jQuery.fn.jqmData = function(prop, value) {
         var result;
-        return void 0 !== prop && (prop && (prop = jQuery.mobile.nsNormalize(prop)), result = arguments.length < 2 || undefined1 === value ? this.data(prop) : this.data(prop, value)), result;
+        return void 0 !== prop && (prop && (prop = jQuery.mobile.nsNormalize(prop)), result = arguments.length < 2 || void 0 === value ? this.data(prop) : this.data(prop, value)), result;
     }, jQuery.jqmData = function(elem, prop, value) {
         var result;
         return void 0 !== prop && (result = jQuery.data(elem, prop ? jQuery.mobile.nsNormalize(prop) : prop, value)), result;
@@ -139,7 +139,7 @@
    * http://jquery.org/license
    *
    * http://api.jqueryui.com/category/ui-core/
-   */ function($, undefined) {
+   */ function($) {
         var orig, removeData, uuid = 0, runiqueId = /^ui-id-\d+$/;
         // selectors
         function focusable(element, isTabIndexNotNaN) {
@@ -238,7 +238,7 @@
                 }), size;
             }
             $.fn["inner" + name] = function(size) {
-                return undefined === size ? orig["inner" + name].call(this) : this.each(function() {
+                return void 0 === size ? orig["inner" + name].call(this) : this.each(function() {
                     $(this).css(type, reduce(this, size) + "px");
                 });
             }, $.fn["outer" + name] = function(size, margin) {
@@ -261,7 +261,7 @@
                 return this.unbind(".ui-disableSelection");
             },
             zIndex: function(zIndex) {
-                if (undefined !== zIndex) return this.css("zIndex", zIndex);
+                if (void 0 !== zIndex) return this.css("zIndex", zIndex);
                 if (this.length) for(var position, value, elem = $(this[0]); elem.length && elem[0] !== document1;){
                     if (("absolute" === // Ignore z-index if position is set to a value where z-index is ignored by the browser
                     // This makes behavior of this function consistent across browsers
@@ -488,7 +488,7 @@
         // so the old child constructors can be garbage collected
         delete existingConstructor._childConstructors) : base._childConstructors.push(constructor), jQuery.widget.bridge(name, constructor), constructor;
     }, jQuery.widget.extend = function(target) {
-        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && undefined2 !== value && (jQuery.isPlainObject(value) ? target[key] = jQuery.isPlainObject(target[key]) ? jQuery.widget.extend({}, target[key], value) : jQuery.widget.extend({}, value) : target[key] = value);
+        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && void 0 !== value && (jQuery.isPlainObject(value) ? target[key] = jQuery.isPlainObject(target[key]) ? jQuery.widget.extend({}, target[key], value) : jQuery.widget.extend({}, value) : target[key] = value);
         return target;
     }, jQuery.widget.bridge = function(name, object) {
         var fullName = object.prototype.widgetFullName || name;
@@ -499,7 +499,7 @@
                 options
             ].concat(args)) : options, isMethodCall ? this.each(function() {
                 var methodValue, instance = jQuery.data(this, fullName);
-                return "instance" === options ? (returnValue = instance, !1) : instance ? jQuery.isFunction(instance[options]) && "_" !== options.charAt(0) ? (methodValue = instance[options].apply(instance, args)) !== instance && undefined2 !== methodValue ? (returnValue = methodValue && methodValue.jquery ? returnValue.pushStack(methodValue.get()) : methodValue, !1) : void 0 : jQuery.error("no such method '" + options + "' for " + name + " widget instance") : jQuery.error("cannot call methods on " + name + " prior to initialization; attempted to call method '" + options + "'");
+                return "instance" === options ? (returnValue = instance, !1) : instance ? jQuery.isFunction(instance[options]) && "_" !== options.charAt(0) ? (methodValue = instance[options].apply(instance, args)) !== instance && void 0 !== methodValue ? (returnValue = methodValue && methodValue.jquery ? returnValue.pushStack(methodValue.get()) : methodValue, !1) : void 0 : jQuery.error("no such method '" + options + "' for " + name + " widget instance") : jQuery.error("cannot call methods on " + name + " prior to initialization; attempted to call method '" + options + "'");
             }) : this.each(function() {
                 var instance = jQuery.data(this, fullName);
                 instance ? instance.option(options || {})._init() : jQuery.data(this, fullName, new object(options, this));
@@ -544,10 +544,10 @@
             if ("string" == typeof key) if (// handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
             options = {}, key = (parts = key.split(".")).shift(), parts.length) {
                 for(i = 0, curOption = options[key] = jQuery.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
-                if (key = parts.pop(), undefined2 === value) return curOption[key] === undefined2 ? null : curOption[key];
+                if (key = parts.pop(), void 0 === value) return void 0 === curOption[key] ? null : curOption[key];
                 curOption[key] = value;
             } else {
-                if (undefined2 === value) return this.options[key] === undefined2 ? null : this.options[key];
+                if (void 0 === value) return void 0 === this.options[key] ? null : this.options[key];
                 options[key] = value;
             }
             return this._setOptions(options), this;
@@ -1608,18 +1608,18 @@
         // Get correct name for test
         var testName = 0 === i ? test + "-name" : test;
         jQuery.each(vendorPrefixes, function(j, prefix) {
-            if (testElement.style[jQuery.camelCase(prefix + testName)] !== undefined3) return props[test].prefix = prefix, !1;
+            if (void 0 !== testElement.style[jQuery.camelCase(prefix + testName)]) return props[test].prefix = prefix, !1;
         }), // Set event and duration names for later use
         props[test].duration = jQuery.camelCase(props[test].prefix + test + "-duration"), props[test].event = jQuery.camelCase(props[test].prefix + test + "-end"), "" === props[test].prefix && (props[test].event = props[test].event.toLowerCase());
     }), // If a valid prefix was found then the it is supported by the browser
-    jQuery.support.cssTransitions = props.transition.prefix !== undefined3, jQuery.support.cssAnimations = props.animation.prefix !== undefined3, // Remove the testElement
+    jQuery.support.cssTransitions = void 0 !== props.transition.prefix, jQuery.support.cssAnimations = void 0 !== props.animation.prefix, // Remove the testElement
     jQuery(testElement).remove(), // Animation complete callback
     jQuery.fn.animationComplete = function(callback, type, fallbackTime) {
         var timer, duration, that = this, animationType = type && "animation" !== type ? "transition" : "animation";
         return(// Make sure selected type is supported by browser
-        jQuery.support.cssTransitions && "transition" === animationType || jQuery.support.cssAnimations && "animation" === animationType ? (undefined3 === fallbackTime && (jQuery(this).context !== document1 && // Parse the durration since its in second multiple by 1000 for milliseconds
+        jQuery.support.cssTransitions && "transition" === animationType || jQuery.support.cssAnimations && "animation" === animationType ? (void 0 === fallbackTime && (jQuery(this).context !== document1 && // Parse the durration since its in second multiple by 1000 for milliseconds
         // Multiply by 3 to make sure we give the animation plenty of time.
-        (duration = 3000 * parseFloat(jQuery(this).css(props[animationType].duration))), (0 === duration || undefined3 === duration || isNaN(duration)) && (duration = jQuery.fn.animationComplete.defaultDuration)), // Sets up the fallback if event never comes
+        (duration = 3000 * parseFloat(jQuery(this).css(props[animationType].duration))), (0 === duration || void 0 === duration || isNaN(duration)) && (duration = jQuery.fn.animationComplete.defaultDuration)), // Sets up the fallback if event never comes
         timer = setTimeout(function() {
             jQuery(that).off(props[animationType].event), callback.apply(that);
         }, duration), jQuery(this).one(props[animationType].event, function() {
@@ -2062,7 +2062,7 @@
     // so we can later determine whether someone has modified $.mobile.keepNative
     keepNativeFactoryDefault = jQuery.mobile.keepNative, orig = jQuery.widget, jQuery.widget = function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
-        return constructor.initSelector = constructor.prototype.initSelector !== undefined4 ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
+        return constructor.initSelector = void 0 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
     }, // Make sure $.widget still has bridge and extend methods
     jQuery.extend(jQuery.widget, originalWidget), // For backcompat remove in 1.5
     jQuery.mobile.document.on("create", function(event1) {
@@ -2094,7 +2094,7 @@
             var attrPrefix = "data-" + jQuery.mobile.ns, self = this;
             this.options.role && this.element.attr("data-" + jQuery.mobile.ns + "role", this.options.role), this.element.attr("tabindex", "0").addClass("ui-page ui-page-theme-" + this.options.theme), // Manipulation of content os Deprecated as of 1.4 remove in 1.5
             this.element.find("[" + attrPrefix + "role='content']").each(function() {
-                var $this = jQuery(this), theme = this.getAttribute(attrPrefix + "theme") || undefined4;
+                var $this = jQuery(this), theme = this.getAttribute(attrPrefix + "theme") || void 0;
                 self.options.contentTheme = theme || self.options.contentTheme || self.options.dialog && self.options.theme || "dialog" === self.element.jqmData("role") && self.options.theme, $this.addClass("ui-content"), self.options.contentTheme && $this.addClass("ui-body-" + self.options.contentTheme), // Add ARIA role
                 $this.attr("role", "main").addClass("ui-content");
             });
@@ -2112,7 +2112,7 @@
             });
         },
         _setOptions: function(o) {
-            o.theme !== undefined4 && this.element.removeClass("ui-page-theme-" + this.options.theme).addClass("ui-page-theme-" + o.theme), o.contentTheme !== undefined4 && this.element.find("[data-" + jQuery.mobile.ns + "='content']").removeClass("ui-body-" + this.options.contentTheme).addClass("ui-body-" + o.contentTheme);
+            void 0 !== o.theme && this.element.removeClass("ui-page-theme-" + this.options.theme).addClass("ui-page-theme-" + o.theme), void 0 !== o.contentTheme && this.element.find("[data-" + jQuery.mobile.ns + "='content']").removeClass("ui-body-" + this.options.contentTheme).addClass("ui-body-" + o.contentTheme);
         },
         _handlePageBeforeShow: function() {
             this.setContainerBackground();
@@ -2174,7 +2174,7 @@
             }, this));
         },
         _setOptions: function(options) {
-            options.theme !== undefined5 && "none" !== options.theme ? this.element.removeClass("ui-overlay-" + this.options.theme).addClass("ui-overlay-" + options.theme) : options.theme !== undefined5 && this.element.removeClass("ui-overlay-" + this.options.theme), this._super(options);
+            void 0 !== options.theme && "none" !== options.theme ? this.element.removeClass("ui-overlay-" + this.options.theme).addClass("ui-overlay-" + options.theme) : void 0 !== options.theme && this.element.removeClass("ui-overlay-" + this.options.theme), this._super(options);
         },
         _disableRecordScroll: function() {
             this.setLastScrollEnabled = !1;
@@ -2298,7 +2298,7 @@
             // TODO stripping the hash twice with handleUrl
             var to = jQuery.mobile.path.stripHash(url), history1 = this._getHistory(), // transition is false if it's the first page, undefined
             // otherwise (and may be overridden by default)
-            transition = 0 === history1.stack.length ? "none" : undefined5, // default options for the changPage calls made after examining
+            transition = 0 === history1.stack.length ? "none" : void 0, // default options for the changPage calls made after examining
             // the current state of the page and the hash, NOTE that the
             // transition is derived from the previous history entry
             changePageOptions = {
@@ -2409,9 +2409,9 @@
                 //use it as the new fileUrl, base path, etc
                 var content, // TODO handle dialogs again
                 pageElemRegex = RegExp("(<[^>]+\\bdata-" + this._getNs() + "role=[\"']?page[\"']?[^>]*>)"), dataUrlRegex = RegExp("\\bdata-" + this._getNs() + "url=[\"']?([^\"'>]*)[\"']?");
-                pageElemRegex.test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = jQuery.mobile.path.getFilePath(jQuery("<div>" + RegExp.$1 + "</div>").text())), settings.prefetch === undefined5 && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), // Add the content reference and xhr to our triggerData.
+                pageElemRegex.test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = jQuery.mobile.path.getFilePath(jQuery("<div>" + RegExp.$1 + "</div>").text())), void 0 === settings.prefetch && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), // Add the content reference and xhr to our triggerData.
                 triggerData.xhr = xhr, triggerData.textStatus = textStatus, // DEPRECATED
-                triggerData.page = content, triggerData.content = content, this._trigger("load", undefined5, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + jQuery.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), // BEGIN DEPRECATED ---------------------------------------------------
+                triggerData.page = content, triggerData.content = content, this._trigger("load", void 0, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + jQuery.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), // BEGIN DEPRECATED ---------------------------------------------------
                 // Let listeners know the content loaded successfully.
                 this.element.trigger("pageload"), // END DEPRECATED -----------------------------------------------------
                 deferred.resolve(absUrl, settings, content));
@@ -2419,12 +2419,12 @@
         },
         _loadDefaults: {
             type: "get",
-            data: undefined5,
+            data: void 0,
             // DEPRECATED
             reloadPage: !1,
             reload: !1,
             // By default we rely on the role defined by the @data-role attribute.
-            role: undefined5,
+            role: void 0,
             showLoadMsg: !1,
             // This delay allows loads that pull from browser cache to
             // occur without showing the loading message.
@@ -2441,7 +2441,7 @@
             // If it isn't a reference to the first content and refers to missing
             // embedded content reject the deferred and return
             if (// DEPRECATED reloadPage
-            settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = jQuery.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined5), settings.data && "post" === settings.type && (settings.reload = !0), // The absolute version of the URL minus any dialog/subcontent params.
+            settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = jQuery.mobile.path.addSearchParams(absUrl, settings.data), settings.data = void 0), settings.data && "post" === settings.type && (settings.reload = !0), // The absolute version of the URL minus any dialog/subcontent params.
             // In otherwords the real URL of the content to be loaded.
             fileUrl = this._createFileUrl(absUrl), // The version of the Url actually stored in the data-url attribute of
             // the content. For embedded content, it is just the id of the page. For
@@ -2468,7 +2468,7 @@
                 options: settings
             }, !(// Let listeners know we're about to load content.
             (pblEvent = this._triggerWithDeprecated("beforeload", triggerData)).deprecatedEvent.isDefaultPrevented() || pblEvent.event.isDefaultPrevented())) {
-                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), settings.prefetch === undefined5 && this._getBase().reset(), !(jQuery.mobile.allowCrossDomainPages || jQuery.mobile.path.isSameDomain(jQuery.mobile.path.documentUrl, absUrl))) return void deferred.reject(absUrl, settings);
+                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), void 0 === settings.prefetch && this._getBase().reset(), !(jQuery.mobile.allowCrossDomainPages || jQuery.mobile.path.isSameDomain(jQuery.mobile.path.documentUrl, absUrl))) return void deferred.reject(absUrl, settings);
                 // Load the new content.
                 jQuery.ajax({
                     url: fileUrl,
@@ -2633,7 +2633,7 @@
                 // If this is a deep-link or a reload ( active === undefined ) then just
                 // use pageTitle
                 (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document1.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), // Make sure we have a transition defined.
-                settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : undefined5) || (isDialog ? jQuery.mobile.defaultDialogTransition : jQuery.mobile.defaultPageTransition), !historyDir && alreadyThere && (jQuery.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!jQuery.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), // TODO the property names here are just silly
+                settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : void 0) || (isDialog ? jQuery.mobile.defaultDialogTransition : jQuery.mobile.defaultPageTransition), !historyDir && alreadyThere && (jQuery.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!jQuery.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), // TODO the property names here are just silly
                 params = {
                     transition: settings.transition,
                     title: pageTitle,
@@ -4880,130 +4880,123 @@
             this.menuPage.remove()), // Chain up
             this._super();
         }
-    }), // buttonMarkup is deprecated as of 1.4.0 and will be removed in 1.5.0.
-    function($, undefined) {
-        // General policy: Do not access data-* attributes except during enhancement.
-        // In all other cases we determine the state of the button exclusively from its
-        // className. That's why optionsToClasses expects a full complement of options,
-        // and the jQuery plugin completes the set of options from the default values.
-        // Map classes to buttonMarkup boolean options - used in classNameToOptions()
-        var reverseBoolOptionMap = {
-            "ui-shadow": "shadow",
-            "ui-corner-all": "corners",
-            "ui-btn-inline": "inline",
-            "ui-shadow-icon": "iconshadow" /* TODO: Remove in 1.5 */ ,
-            "ui-mini": "mini"
-        }, getAttrFixed = function() {
-            var ret = $.mobile.getAttribute.apply(this, arguments);
-            return null == ret ? undefined : ret;
-        }, capitalLettersRE = /[A-Z]/g;
-        function camelCase2Hyphenated(c) {
-            return "-" + c.toLowerCase();
+    });
+    var nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, uuid, slice, _cleanData, rcapitals, replaceFunction, $html, bool, docElem, refNode, fakeBody, div, support, self, $win, dummyFnToInitNavigate, path, $base, dialogHashKey, path1, initialHref, loc, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, baseElement, base, originalWidget, keepNativeFactoryDefault, orig, pageTransitionQueue, isPageTransitioning, window2, rInitialLetter, iconposClass, childCollapsiblesSelector, getAttr, rdivider, rhidden, escapeId, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, popup, goToAdjacentItem, ieHack, uiTemplate, defaultFilterCallback, rDividerListItem, origDefaultFilterCallback, reverseBoolOptionMap = {
+        "ui-shadow": "shadow",
+        "ui-corner-all": "corners",
+        "ui-btn-inline": "inline",
+        "ui-shadow-icon": "iconshadow" /* TODO: Remove in 1.5 */ ,
+        "ui-mini": "mini"
+    }, getAttrFixed = function() {
+        var ret = jQuery.mobile.getAttribute.apply(this, arguments);
+        return null == ret ? void 0 : ret;
+    }, capitalLettersRE = /[A-Z]/g;
+    function camelCase2Hyphenated(c) {
+        return "-" + c.toLowerCase();
+    }
+    // $.fn.buttonMarkup:
+    // DOM: gets/sets .className
+    //
+    // @options: options to apply to the elements in the jQuery object
+    // @overwriteClasses: boolean indicating whether to honour existing classes
+    //
+    // Calculates the classes to apply to the elements in the jQuery object based on
+    // the options passed in. If @overwriteClasses is true, it sets the className
+    // property of each element in the jQuery object to the buttonMarkup classes
+    // it calculates based on the options passed in.
+    //
+    // If you wish to preserve any classes that are already present on the elements
+    // inside the jQuery object, including buttonMarkup-related classes that were
+    // added by a previous call to $.fn.buttonMarkup() or during page enhancement
+    // then you should omit @overwriteClasses or set it to false.
+    jQuery.fn.buttonMarkup = function(options, overwriteClasses) {
+        var idx, data, el, retrievedOptions, optionKey, defaults = jQuery.fn.buttonMarkup.defaults;
+        for(idx = 0; idx < this.length; idx++){
+            // If this is the first call on this element, retrieve remaining options
+            // from the data-attributes
+            if (el = this[idx], data = overwriteClasses ? {
+                alreadyEnhanced: !1,
+                unknownClasses: []
+            } : // classes
+            // classNameToOptions:
+            // @classes: A string containing a .className-style space-separated class list
+            //
+            // Loops over @classes and calculates an options object based on the
+            // buttonMarkup-related classes it finds. It records unrecognized classes in an
+            // array.
+            //
+            // Returns: An object containing the following items:
+            //
+            // "options": buttonMarkup options found to be present because of the
+            // presence/absence of corresponding classes
+            //
+            // "unknownClasses": a string containing all the non-buttonMarkup-related
+            // classes found in @classes
+            //
+            // "alreadyEnhanced": A boolean indicating whether the ui-btn class was among
+            // those found to be present
+            function(classes) {
+                var idx, map, unknownClass, alreadyEnhanced = !1, noIcon = !0, o = {
+                    icon: "",
+                    inline: !1,
+                    shadow: !1,
+                    corners: !1,
+                    iconshadow: !1,
+                    mini: !1
+                }, unknownClasses = [];
+                // Loop over the classes
+                for(idx = 0, classes = classes.split(" "); idx < classes.length; idx++)// Assume it's an unrecognized class
+                unknownClass = !0, void 0 !== // Recognize boolean options from the presence of classes
+                (map = reverseBoolOptionMap[classes[idx]]) ? (unknownClass = !1, o[map] = !0) : 0 === classes[idx].indexOf("ui-btn-icon-") ? (unknownClass = !1, noIcon = !1, o.iconpos = classes[idx].substring(12)) : 0 === classes[idx].indexOf("ui-icon-") ? (unknownClass = !1, o.icon = classes[idx].substring(8)) : 0 === classes[idx].indexOf("ui-btn-") && 8 === classes[idx].length ? (unknownClass = !1, o.theme = classes[idx].substring(7)) : "ui-btn" === classes[idx] && (unknownClass = !1, alreadyEnhanced = !0), unknownClass && unknownClasses.push(classes[idx]);
+                return noIcon && (o.icon = ""), {
+                    options: o,
+                    unknownClasses: unknownClasses,
+                    alreadyEnhanced: alreadyEnhanced
+                };
+            }(el.className), retrievedOptions = jQuery.extend({}, // If the element already has the class ui-btn, then we assume that
+            // it has passed through buttonMarkup before - otherwise, the options
+            // returned by classNameToOptions do not correctly reflect the state of
+            // the element
+            data.alreadyEnhanced ? data.options : {}, // Finally, apply the options passed in
+            options), !data.alreadyEnhanced) for(optionKey in defaults)void 0 === retrievedOptions[optionKey] && (retrievedOptions[optionKey] = getAttrFixed(el, optionKey.replace(capitalLettersRE, camelCase2Hyphenated)));
+            el.className = // optionsToClasses:
+            // @options: A complete set of options to convert to class names.
+            // @existingClasses: extra classes to add to the result
+            //
+            // Converts @options to buttonMarkup classes and returns the result as an array
+            // that can be converted to an element's className with .join( " " ). All
+            // possible options must be set inside @options. Use $.fn.buttonMarkup.defaults
+            // to get a complete set and use $.extend to override your choice of options
+            // from that set.
+            (function(options, existingClasses) {
+                var classes = existingClasses || [];
+                // Create a string from the array and return it
+                return(// Add classes to the array - first ui-btn
+                classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat([
+                    "ui-icon-" + options.icon,
+                    "ui-btn-icon-" + options.iconpos
+                ]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes);
+            })(// Merge all the options and apply them as classes
+            jQuery.extend({}, // The defaults form the basis
+            defaults, // Add the computed options
+            retrievedOptions), // ... and re-apply any unrecognized classes that were found
+            data.unknownClasses).join(" "), "button" !== el.tagName.toLowerCase() && el.setAttribute("role", "button");
         }
-        // $.fn.buttonMarkup:
-        // DOM: gets/sets .className
-        //
-        // @options: options to apply to the elements in the jQuery object
-        // @overwriteClasses: boolean indicating whether to honour existing classes
-        //
-        // Calculates the classes to apply to the elements in the jQuery object based on
-        // the options passed in. If @overwriteClasses is true, it sets the className
-        // property of each element in the jQuery object to the buttonMarkup classes
-        // it calculates based on the options passed in.
-        //
-        // If you wish to preserve any classes that are already present on the elements
-        // inside the jQuery object, including buttonMarkup-related classes that were
-        // added by a previous call to $.fn.buttonMarkup() or during page enhancement
-        // then you should omit @overwriteClasses or set it to false.
-        $.fn.buttonMarkup = function(options, overwriteClasses) {
-            var idx, data, el, retrievedOptions, optionKey, defaults = $.fn.buttonMarkup.defaults;
-            for(idx = 0; idx < this.length; idx++){
-                // If this is the first call on this element, retrieve remaining options
-                // from the data-attributes
-                if (el = this[idx], data = overwriteClasses ? {
-                    alreadyEnhanced: !1,
-                    unknownClasses: []
-                } : // classes
-                // classNameToOptions:
-                // @classes: A string containing a .className-style space-separated class list
-                //
-                // Loops over @classes and calculates an options object based on the
-                // buttonMarkup-related classes it finds. It records unrecognized classes in an
-                // array.
-                //
-                // Returns: An object containing the following items:
-                //
-                // "options": buttonMarkup options found to be present because of the
-                // presence/absence of corresponding classes
-                //
-                // "unknownClasses": a string containing all the non-buttonMarkup-related
-                // classes found in @classes
-                //
-                // "alreadyEnhanced": A boolean indicating whether the ui-btn class was among
-                // those found to be present
-                function(classes) {
-                    var idx, map, unknownClass, alreadyEnhanced = !1, noIcon = !0, o = {
-                        icon: "",
-                        inline: !1,
-                        shadow: !1,
-                        corners: !1,
-                        iconshadow: !1,
-                        mini: !1
-                    }, unknownClasses = [];
-                    // Loop over the classes
-                    for(idx = 0, classes = classes.split(" "); idx < classes.length; idx++)// Assume it's an unrecognized class
-                    unknownClass = !0, undefined !== // Recognize boolean options from the presence of classes
-                    (map = reverseBoolOptionMap[classes[idx]]) ? (unknownClass = !1, o[map] = !0) : 0 === classes[idx].indexOf("ui-btn-icon-") ? (unknownClass = !1, noIcon = !1, o.iconpos = classes[idx].substring(12)) : 0 === classes[idx].indexOf("ui-icon-") ? (unknownClass = !1, o.icon = classes[idx].substring(8)) : 0 === classes[idx].indexOf("ui-btn-") && 8 === classes[idx].length ? (unknownClass = !1, o.theme = classes[idx].substring(7)) : "ui-btn" === classes[idx] && (unknownClass = !1, alreadyEnhanced = !0), unknownClass && unknownClasses.push(classes[idx]);
-                    return noIcon && (o.icon = ""), {
-                        options: o,
-                        unknownClasses: unknownClasses,
-                        alreadyEnhanced: alreadyEnhanced
-                    };
-                }(el.className), retrievedOptions = $.extend({}, // If the element already has the class ui-btn, then we assume that
-                // it has passed through buttonMarkup before - otherwise, the options
-                // returned by classNameToOptions do not correctly reflect the state of
-                // the element
-                data.alreadyEnhanced ? data.options : {}, // Finally, apply the options passed in
-                options), !data.alreadyEnhanced) for(optionKey in defaults)retrievedOptions[optionKey] === undefined && (retrievedOptions[optionKey] = getAttrFixed(el, optionKey.replace(capitalLettersRE, camelCase2Hyphenated)));
-                el.className = // optionsToClasses:
-                // @options: A complete set of options to convert to class names.
-                // @existingClasses: extra classes to add to the result
-                //
-                // Converts @options to buttonMarkup classes and returns the result as an array
-                // that can be converted to an element's className with .join( " " ). All
-                // possible options must be set inside @options. Use $.fn.buttonMarkup.defaults
-                // to get a complete set and use $.extend to override your choice of options
-                // from that set.
-                (function(options, existingClasses) {
-                    var classes = existingClasses || [];
-                    // Create a string from the array and return it
-                    return(// Add classes to the array - first ui-btn
-                    classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat([
-                        "ui-icon-" + options.icon,
-                        "ui-btn-icon-" + options.iconpos
-                    ]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes);
-                })(// Merge all the options and apply them as classes
-                $.extend({}, // The defaults form the basis
-                defaults, // Add the computed options
-                retrievedOptions), // ... and re-apply any unrecognized classes that were found
-                data.unknownClasses).join(" "), "button" !== el.tagName.toLowerCase() && el.setAttribute("role", "button");
-            }
-            return this;
-        }, // buttonMarkup defaults. This must be a complete set, i.e., a value must be
-        // given here for all recognized options
-        $.fn.buttonMarkup.defaults = {
-            icon: "",
-            iconpos: "left",
-            theme: null,
-            inline: !1,
-            shadow: !0,
-            corners: !0,
-            iconshadow: !1,
-            mini: !1
-        }, $.extend($.fn.buttonMarkup, {
-            initSelector: "a:jqmData(role='button'), .ui-bar > a, .ui-bar > :jqmData(role='controlgroup') > a, button"
-        });
-    }(jQuery), jQuery.widget("mobile.controlgroup", jQuery.extend({
+        return this;
+    }, // buttonMarkup defaults. This must be a complete set, i.e., a value must be
+    // given here for all recognized options
+    jQuery.fn.buttonMarkup.defaults = {
+        icon: "",
+        iconpos: "left",
+        theme: null,
+        inline: !1,
+        shadow: !0,
+        corners: !0,
+        iconshadow: !1,
+        mini: !1
+    }, jQuery.extend(jQuery.fn.buttonMarkup, {
+        initSelector: "a:jqmData(role='button'), .ui-bar > a, .ui-bar > :jqmData(role='controlgroup') > a, button"
+    }), jQuery.widget("mobile.controlgroup", jQuery.extend({
         options: {
             enhanced: !1,
             theme: null,
@@ -5926,7 +5919,7 @@
             }
         }
     });
-    var undefined1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined2, uuid, slice, _cleanData, rcapitals, replaceFunction, $html, bool, docElem, refNode, fakeBody, div, support, self, $win, dummyFnToInitNavigate, path, $base, dialogHashKey, path1, initialHref, loc, undefined3, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, baseElement, base, undefined4, originalWidget, keepNativeFactoryDefault, orig, undefined5, pageTransitionQueue, isPageTransitioning, window2, rInitialLetter, iconposClass, childCollapsiblesSelector, getAttr, rdivider, rhidden, escapeId, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, popup, goToAdjacentItem, ieHack, uiTemplate, defaultFilterCallback, rDividerListItem, origDefaultFilterCallback, tabId = 0, rhash = /#.*$/;
+    var tabId = 0, rhash = /#.*$/;
     function isLocal(anchor) {
         return anchor.hash.length > 1 && decodeURIComponent(anchor.href.replace(rhash, "")) === decodeURIComponent(location.href.replace(rhash, ""));
     }

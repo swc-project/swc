@@ -12,9 +12,148 @@ use crate::{
         optimize::BitCtx,
         util::{negate, negate_cost},
     },
-    program_data::VarUsageInfoFlags,
+    program_data::{ProgramData, VarUsageInfoFlags},
     DISABLE_BUGGY_PASSES,
 };
+
+impl ProgramData {
+    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
+        match &*o.base {
+            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
+            OptChainBase::Call(OptCall { callee, args, .. }) => {
+                if self.contains_unresolved(callee) {
+                    return true;
+                }
+
+                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                    return true;
+                }
+
+                false
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
+    }
+
+    fn member_expr_contains_unresolved(&self, n: &MemberExpr) -> bool {
+        if self.contains_unresolved(&n.obj) {
+            return true;
+        }
+
+        if let MemberProp::Computed(prop) = &n.prop {
+            if self.contains_unresolved(&prop.expr) {
+                return true;
+            }
+        }
+
+        false
+    }
+
+    fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
+        match n {
+            SimpleAssignTarget::Ident(i) => self.ident_is_unresolved(&i.id),
+            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
+            SimpleAssignTarget::SuperProp(n) => {
+                if let SuperProp::Computed(prop) = &n.prop {
+                    if self.contains_unresolved(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr),
+            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n),
+            SimpleAssignTarget::TsAs(..)
+            | SimpleAssignTarget::TsSatisfies(..)
+            | SimpleAssignTarget::TsNonNull(..)
+            | SimpleAssignTarget::TsTypeAssertion(..)
+            | SimpleAssignTarget::TsInstantiation(..) => false,
+            SimpleAssignTarget::Invalid(..) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
+    }
+
+    pub(self) fn contains_unresolved(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => self.ident_is_unresolved(i),
+
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                if self.contains_unresolved(obj) {
+                    return true;
+                }
+
+                if let MemberProp::Computed(prop) = prop {
+                    if self.contains_unresolved(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.contains_unresolved(left) || self.contains_unresolved(right)
+            }
+            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Assign(AssignExpr { left, right, .. }) => {
+                // TODO
+                (match left {
+                    AssignTarget::Simple(left) => {
+                        self.simple_assign_target_contains_unresolved(left)
+                    }
+                    AssignTarget::Pat(_) => false,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                }) || self.contains_unresolved(right)
+            }
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                self.contains_unresolved(test)
+                    || self.contains_unresolved(cons)
+                    || self.contains_unresolved(alt)
+            }
+            Expr::New(NewExpr { args, .. }) => args.iter().flatten().any(|arg| match arg.spread {
+                Some(..) => self.contains_unresolved(&arg.expr),
+                None => false,
+            }),
+            Expr::Yield(YieldExpr { arg, .. }) => {
+                matches!(arg, Some(arg) if self.contains_unresolved(arg))
+            }
+            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
+            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| match elem {
+                Some(elem) => self.contains_unresolved(&elem.expr),
+                None => false,
+            }),
+
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) => {
+                if self.contains_unresolved(callee) {
+                    return true;
+                }
+
+                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                    return true;
+                }
+
+                false
+            }
+
+            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o),
+
+            _ => false,
+        }
+    }
+}
 
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.

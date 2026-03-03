@@ -4,9 +4,7 @@ use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
-use swc_ecma_utils::{
-    contains_arguments, contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory,
-};
+use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
@@ -439,10 +437,8 @@ impl Optimizer<'_> {
         };
 
         if let Expr::Fn(FnExpr { function, .. }) = callee {
-            if let Some(body) = function.body.as_ref() {
-                if contains_arguments(body) {
-                    return;
-                }
+            if self.data.used_arguments(function.ctxt) {
+                return;
             }
         }
 
@@ -614,7 +610,8 @@ impl Optimizer<'_> {
                 }
 
                 let body = f.function.body.as_ref().unwrap();
-                if contains_this_expr(body) || contains_arguments(body) {
+
+                if contains_this_expr(body) || self.data.used_arguments(f.function.ctxt) {
                     return false;
                 }
             }
