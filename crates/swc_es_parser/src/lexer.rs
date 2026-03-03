@@ -167,9 +167,7 @@ impl<'a> Lexer<'a> {
             }
             b'+' => self.plus_like(had_line_break_before),
             b'-' => self.minus_like(had_line_break_before),
-            b'*' => {
-                self.binary_or_assign(TokenKind::Star, TokenKind::StarEq, had_line_break_before)
-            }
+            b'*' => self.star_like(had_line_break_before),
             b'/' => {
                 self.binary_or_assign(TokenKind::Slash, TokenKind::SlashEq, had_line_break_before)
             }
@@ -339,7 +337,13 @@ impl<'a> Lexer<'a> {
     fn lt_like(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'=') {
+        let kind = if self.input.eat_byte(b'<') {
+            if self.input.eat_byte(b'=') {
+                TokenKind::LtLtEq
+            } else {
+                TokenKind::LtLt
+            }
+        } else if self.input.eat_byte(b'=') {
             TokenKind::LtEq
         } else {
             TokenKind::Lt
@@ -354,7 +358,19 @@ impl<'a> Lexer<'a> {
     fn gt_like(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_ascii();
-        let kind = if self.input.eat_byte(b'=') {
+        let kind = if self.input.eat_byte(b'>') {
+            if self.input.eat_byte(b'>') {
+                if self.input.eat_byte(b'=') {
+                    TokenKind::GtGtGtEq
+                } else {
+                    TokenKind::GtGtGt
+                }
+            } else if self.input.eat_byte(b'=') {
+                TokenKind::GtGtEq
+            } else {
+                TokenKind::GtGt
+            }
+        } else if self.input.eat_byte(b'=') {
             TokenKind::GtEq
         } else {
             TokenKind::Gt
@@ -379,6 +395,28 @@ impl<'a> Lexer<'a> {
         } else {
             plain
         };
+        Token::simple(
+            kind,
+            Span::new_with_checked(start, self.input.cur_pos()),
+            had_line_break_before,
+        )
+    }
+
+    fn star_like(&mut self, had_line_break_before: bool) -> Token {
+        let start = self.input.cur_pos();
+        self.bump_ascii();
+        let kind = if self.input.eat_byte(b'*') {
+            if self.input.eat_byte(b'=') {
+                TokenKind::StarStarEq
+            } else {
+                TokenKind::StarStar
+            }
+        } else if self.input.eat_byte(b'=') {
+            TokenKind::StarEq
+        } else {
+            TokenKind::Star
+        };
+
         Token::simple(
             kind,
             Span::new_with_checked(start, self.input.cur_pos()),

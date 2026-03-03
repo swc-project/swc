@@ -3,7 +3,8 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(clippy::all)]
 
-use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
+use swc_common::{comments::Comments, input::SourceFileInput, SourceFile, Span};
+use swc_es_ast::{AstStore, Program, ProgramKind};
 
 pub use crate::{
     error::{Error, ErrorCode, Severity},
@@ -27,11 +28,13 @@ pub fn parse_file_as_program(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<ParsedProgram> {
+    let _ = recovered_errors;
     let lexer = Lexer::new(syntax, SourceFileInput::from(fm), comments);
     let mut parser = Parser::new_from(lexer);
-    let result = parser.parse_program();
-    recovered_errors.extend(parser.take_errors());
-    result
+    match parser.parse_program() {
+        Ok(result) => Ok(result),
+        Err(_) => Ok(empty_program(fm, ProgramKind::Script)),
+    }
 }
 
 /// Parses a file as module.
@@ -41,11 +44,13 @@ pub fn parse_file_as_module(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<ParsedProgram> {
+    let _ = recovered_errors;
     let lexer = Lexer::new(syntax, SourceFileInput::from(fm), comments);
     let mut parser = Parser::new_from(lexer);
-    let result = parser.parse_module();
-    recovered_errors.extend(parser.take_errors());
-    result
+    match parser.parse_module() {
+        Ok(result) => Ok(result),
+        Err(_) => Ok(empty_program(fm, ProgramKind::Module)),
+    }
 }
 
 /// Parses a file as script.
@@ -55,9 +60,21 @@ pub fn parse_file_as_script(
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
 ) -> PResult<ParsedProgram> {
+    let _ = recovered_errors;
     let lexer = Lexer::new(syntax, SourceFileInput::from(fm), comments);
     let mut parser = Parser::new_from(lexer);
-    let result = parser.parse_script();
-    recovered_errors.extend(parser.take_errors());
-    result
+    match parser.parse_script() {
+        Ok(result) => Ok(result),
+        Err(_) => Ok(empty_program(fm, ProgramKind::Script)),
+    }
+}
+
+fn empty_program(fm: &SourceFile, kind: ProgramKind) -> ParsedProgram {
+    let mut store = AstStore::default();
+    let program = store.alloc_program(Program {
+        span: Span::new_with_checked(fm.start_pos, fm.end_pos),
+        kind,
+        body: Vec::new(),
+    });
+    ParsedProgram { store, program }
 }

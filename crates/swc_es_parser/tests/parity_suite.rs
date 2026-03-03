@@ -171,27 +171,6 @@ const TEST262_IGNORED_FAIL: &[&str] = &[
     "ef81b93cf9bdb4ec.js",
 ];
 
-// Keep this list intentionally small and remove entries as parser coverage
-// improves.
-const TEMPORARY_SKIP_PATTERNS: &[&str] = &[
-    "/tests/tsc/",
-    "/tests/test262-parser/",
-    "/tests/typescript/",
-    "/tests/typescript-errors/",
-    "/tests/shifted/",
-    "/tests/jsx/",
-    "/js/import-assertions",
-    "/js/import-attributes",
-    "/js/source-phase-imports/",
-    "/js/deferred-import-evaluation/",
-    "/js/explicit-resource-management/",
-    "/js/optional-chaining/",
-    "/jsx/basic/fragment-",
-    "/jsx/basic/issue-10692/",
-    "/jsx/basic/custom/issue-612-async-generator/",
-    "/jsx/basic/custom/issue-720/",
-];
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ParseMode {
     Program,
@@ -351,13 +330,6 @@ fn is_expected_fail(case: &Case, options: &FixtureOptions) -> bool {
     false
 }
 
-fn is_temporarily_skipped(path: &Path) -> bool {
-    let normalized = normalized(path);
-    TEMPORARY_SKIP_PATTERNS
-        .iter()
-        .any(|pattern| normalized.contains(pattern))
-}
-
 fn collect_files_for_category(category: &str) -> Vec<PathBuf> {
     let root = ecma_fixture_root().join(category);
     let mut files = Vec::new();
@@ -420,16 +392,9 @@ fn filter_ignored_cases(mut cases: Vec<Case>) -> Vec<Case> {
             return false;
         }
 
-        !is_temporarily_skipped(&case.path)
+        true
     });
     cases
-}
-
-fn sample_cases(cases: Vec<Case>, limit: usize) -> Vec<Case> {
-    if std::env::var_os("SWC_ES_PARSER_PARITY_FULL").is_some() || cases.len() <= limit {
-        return cases;
-    }
-    cases.into_iter().take(limit).collect()
 }
 
 fn parse_case(case: &Case) -> (bool, Option<Error>, Vec<Error>) {
@@ -536,7 +501,7 @@ fn parity_large_samples() {
             category: "tsc".to_string(),
         })
         .collect::<Vec<_>>();
-    let tsc_cases = sample_cases(filter_ignored_cases(tsc_cases), 200);
+    let tsc_cases = filter_ignored_cases(tsc_cases);
 
     let test262_cases = collect_files_for_category("test262-parser")
         .into_iter()
@@ -551,22 +516,16 @@ fn parity_large_samples() {
         })
         .collect::<Vec<_>>();
     let test262_cases = filter_ignored_cases(test262_cases);
-    let test262_pass = sample_cases(
-        test262_cases
-            .iter()
-            .filter(|case| normalized(&case.path).contains("/test262-parser/pass/"))
-            .cloned()
-            .collect(),
-        200,
-    );
-    let test262_fail = sample_cases(
-        test262_cases
-            .iter()
-            .filter(|case| normalized(&case.path).contains("/test262-parser/fail/"))
-            .cloned()
-            .collect(),
-        200,
-    );
+    let test262_pass = test262_cases
+        .iter()
+        .filter(|case| normalized(&case.path).contains("/test262-parser/pass/"))
+        .cloned()
+        .collect::<Vec<_>>();
+    let test262_fail = test262_cases
+        .iter()
+        .filter(|case| normalized(&case.path).contains("/test262-parser/fail/"))
+        .cloned()
+        .collect::<Vec<_>>();
 
     let mut cases = Vec::new();
     cases.extend(tsc_cases);

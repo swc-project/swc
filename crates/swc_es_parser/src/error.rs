@@ -41,6 +41,14 @@ pub enum ErrorCode {
     InvalidIdentifier,
     /// Return statement outside function body.
     ReturnOutsideFunction,
+    /// Invalid assignment target for optional chaining.
+    InvalidOptionalChainTarget,
+    /// Disallowed precedence mixing of nullish with logical operators.
+    MixedNullishCoalescing,
+    /// Strict-mode syntax violation.
+    StrictModeViolation,
+    /// Invalid regular-expression literal.
+    InvalidRegex,
     /// Reserved word was used as an identifier.
     ReservedWord(Atom),
 }
