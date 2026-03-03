@@ -112,9 +112,11 @@ impl<'a> Lexer<'a> {
             b']' => self.one(TokenKind::RBracket, had_line_break_before),
             b';' => self.one(TokenKind::Semi, had_line_break_before),
             b',' => self.one(TokenKind::Comma, had_line_break_before),
+            b'@' => self.one(TokenKind::At, had_line_break_before),
+            b'#' => self.one(TokenKind::Hash, had_line_break_before),
             b':' => self.one(TokenKind::Colon, had_line_break_before),
             b'~' => self.one(TokenKind::Tilde, had_line_break_before),
-            b'`' => self.one(TokenKind::BackQuote, had_line_break_before),
+            b'`' => self.read_template(had_line_break_before),
             b'.' => {
                 self.bump_ascii();
                 if self.input.is_str("..") {
@@ -135,7 +137,13 @@ impl<'a> Lexer<'a> {
             }
             b'?' => {
                 self.bump_ascii();
-                if self.input.eat_byte(b'?') {
+                if self.input.eat_byte(b'.') {
+                    Token::simple(
+                        TokenKind::QuestionDot,
+                        Span::new_with_checked(start, self.input.cur_pos()),
+                        had_line_break_before,
+                    )
+                } else if self.input.eat_byte(b'?') {
                     if self.input.eat_byte(b'=') {
                         Token::simple(
                             TokenKind::NullishEq,
@@ -518,6 +526,54 @@ impl<'a> Lexer<'a> {
         }
     }
 
+    fn read_template(&mut self, had_line_break_before: bool) -> Token {
+        let start = self.input.cur_pos();
+        self.bump_ascii();
+
+        let mut out = String::new();
+        let mut terminated = false;
+
+        while let Some(ch) = self.input.cur_as_char() {
+            if ch == '`' {
+                self.bump_char();
+                terminated = true;
+                break;
+            }
+
+            if ch == '\\' {
+                self.bump_char();
+                match self.input.cur_as_char() {
+                    Some(next) => {
+                        self.bump_char();
+                        out.push(next);
+                    }
+                    None => break,
+                }
+                continue;
+            }
+
+            self.bump_char();
+            out.push(ch);
+        }
+
+        let end = self.input.cur_pos();
+        if !terminated {
+            self.errors.push(Error::new(
+                Span::new_with_checked(start, end),
+                Severity::Error,
+                ErrorCode::UnterminatedString,
+                "unterminated template literal",
+            ));
+        }
+
+        Token {
+            kind: TokenKind::Template,
+            span: Span::new_with_checked(start, end),
+            had_line_break_before,
+            value: Some(TokenValue::Str(Atom::new(out))),
+        }
+    }
+
     fn read_word(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         self.bump_char();
@@ -593,7 +649,19 @@ impl<'a> Lexer<'a> {
                         break;
                     }
                 }
-                _ => break,
+                _ => {
+                    let Some(ch) = self.input.cur_as_char() else {
+                        break;
+                    };
+                    if ch.is_whitespace() {
+                        if ch == '\n' || ch == '\r' {
+                            self.had_line_break_before = true;
+                        }
+                        self.bump_char();
+                        continue;
+                    }
+                    break;
+                }
             }
         }
 

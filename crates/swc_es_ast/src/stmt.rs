@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{DeclId, ExprId, ModuleDeclId, PatId, StmtId};
+use crate::{DeclId, ExprId, Ident, ModuleDeclId, PatId, StmtId};
 
 /// Statement node.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -20,6 +20,22 @@ pub enum Stmt {
     While(WhileStmt),
     /// For statement.
     For(ForStmt),
+    /// Do-while statement.
+    DoWhile(DoWhileStmt),
+    /// Switch statement.
+    Switch(SwitchStmt),
+    /// Try statement.
+    Try(TryStmt),
+    /// Throw statement.
+    Throw(ThrowStmt),
+    /// Break statement.
+    Break(BreakStmt),
+    /// Continue statement.
+    Continue(ContinueStmt),
+    /// Debugger statement.
+    Debugger(DebuggerStmt),
+    /// Labeled statement.
+    Labeled(LabeledStmt),
     /// Declaration statement.
     Decl(DeclId),
     /// Module declaration pseudo-statement.
@@ -99,6 +115,118 @@ pub struct ForStmt {
     /// Loop head.
     pub head: ForHead,
     /// Loop body.
+    pub body: StmtId,
+}
+
+/// Do-while statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct DoWhileStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Loop body.
+    pub body: StmtId,
+    /// Loop condition expression.
+    pub test: ExprId,
+}
+
+/// Switch statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct SwitchStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Discriminant expression.
+    pub discriminant: ExprId,
+    /// Cases.
+    pub cases: Vec<SwitchCase>,
+}
+
+/// Switch case clause.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct SwitchCase {
+    /// Original source span.
+    pub span: Span,
+    /// Optional test expression (`None` for `default`).
+    pub test: Option<ExprId>,
+    /// Consequent statements.
+    pub cons: Vec<StmtId>,
+}
+
+/// Try statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TryStmt {
+    /// Original source span.
+    pub span: Span,
+    /// `try` block.
+    pub block: StmtId,
+    /// Optional catch handler.
+    pub handler: Option<CatchClause>,
+    /// Optional finalizer block.
+    pub finalizer: Option<StmtId>,
+}
+
+/// Catch clause.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct CatchClause {
+    /// Original source span.
+    pub span: Span,
+    /// Optional catch parameter.
+    pub param: Option<PatId>,
+    /// Catch body block.
+    pub body: StmtId,
+}
+
+/// Throw statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ThrowStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Thrown expression.
+    pub arg: ExprId,
+}
+
+/// Break statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct BreakStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Optional label.
+    pub label: Option<Ident>,
+}
+
+/// Continue statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ContinueStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Optional label.
+    pub label: Option<Ident>,
+}
+
+/// Debugger statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct DebuggerStmt {
+    /// Original source span.
+    pub span: Span,
+}
+
+/// Labeled statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct LabeledStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Statement label.
+    pub label: Ident,
+    /// Labeled body.
     pub body: StmtId,
 }
 

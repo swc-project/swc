@@ -70,7 +70,7 @@ impl<'a> Parser<'a> {
     /// Parses source as script.
     pub fn parse_script(&mut self) -> PResult<ParsedProgram> {
         self.ctx.insert(Context::TOP_LEVEL);
-        self.ctx.remove(Context::MODULE);
+        self.ctx.remove(Context::MODULE | Context::CAN_BE_MODULE);
         let start = self.cur.span.lo;
         let body = self.parse_stmt_list(false)?;
         let program = self.store.alloc_program(Program {
@@ -105,6 +105,7 @@ impl<'a> Parser<'a> {
 
     /// Parses source as script-or-module.
     pub fn parse_program(&mut self) -> PResult<ParsedProgram> {
+        self.ctx.insert(Context::CAN_BE_MODULE);
         let start = self.cur.span.lo;
         let mut body = Vec::new();
         let mut has_module_item = false;
@@ -167,8 +168,15 @@ impl<'a> Parser<'a> {
         let is_using = self.cur.kind == TokenKind::Ident
             && explicit_resource_management
             && self.cur_ident_is("using");
+        let is_labeled = self.cur.kind == TokenKind::Ident && self.peek_kind() == TokenKind::Colon;
+        let is_const_enum = self.cur.kind == TokenKind::Keyword(Keyword::Const)
+            && self.syntax().typescript()
+            && self.peek_kind() == TokenKind::Keyword(Keyword::Enum);
+        let is_dynamic_import = self.cur.kind == TokenKind::Keyword(Keyword::Import)
+            && matches!(self.peek_kind(), TokenKind::LParen | TokenKind::Dot);
 
         match self.cur.kind {
+            TokenKind::At if self.syntax().decorators() => self.parse_decorated_stmt(),
             TokenKind::Semi => {
                 let span = self.cur.span;
                 self.bump();
@@ -177,9 +185,19 @@ impl<'a> Parser<'a> {
             TokenKind::LBrace => self.parse_block_stmt(),
             TokenKind::Keyword(Keyword::If) => self.parse_if_stmt(),
             TokenKind::Keyword(Keyword::While) => self.parse_while_stmt(),
+            TokenKind::Keyword(Keyword::Do) => self.parse_do_while_stmt(),
+            TokenKind::Keyword(Keyword::Switch) => self.parse_switch_stmt(),
+            TokenKind::Keyword(Keyword::Try) => self.parse_try_stmt(),
+            TokenKind::Keyword(Keyword::Throw) => self.parse_throw_stmt(),
+            TokenKind::Keyword(Keyword::With) => self.parse_with_compat_stmt(),
+            TokenKind::Keyword(Keyword::Break) => self.parse_break_stmt(),
+            TokenKind::Keyword(Keyword::Continue) => self.parse_continue_stmt(),
+            TokenKind::Keyword(Keyword::Debugger) => self.parse_debugger_stmt(),
             TokenKind::Keyword(Keyword::For) => self.parse_for_stmt(),
             TokenKind::Keyword(Keyword::Return) => self.parse_return_stmt(),
             TokenKind::Keyword(Keyword::Function) => self.parse_function_decl_stmt(),
+            TokenKind::Keyword(Keyword::Class) => self.parse_class_decl_stmt(),
+            TokenKind::Keyword(Keyword::Const) if is_const_enum => self.parse_ts_enum_decl_stmt(),
             TokenKind::Keyword(Keyword::Var | Keyword::Let | Keyword::Const) => {
                 self.parse_var_decl_stmt()
             }
@@ -190,15 +208,19 @@ impl<'a> Parser<'a> {
             TokenKind::Keyword(Keyword::Type) if self.syntax().typescript() => {
                 self.parse_ts_type_alias_decl_stmt()
             }
-            TokenKind::Keyword(
-                Keyword::Interface
-                | Keyword::Enum
-                | Keyword::Namespace
-                | Keyword::Module
-                | Keyword::Declare,
-            ) if self.syntax().typescript() => self.parse_ts_skip_decl_stmt(),
+            TokenKind::Keyword(Keyword::Interface) if self.syntax().typescript() => {
+                self.parse_ts_interface_decl_stmt()
+            }
+            TokenKind::Keyword(Keyword::Enum) if self.syntax().typescript() => {
+                self.parse_ts_enum_decl_stmt()
+            }
+            TokenKind::Keyword(Keyword::Namespace | Keyword::Module | Keyword::Declare)
+                if self.syntax().typescript() =>
+            {
+                self.parse_ts_skip_decl_stmt()
+            }
             TokenKind::Keyword(Keyword::Import | Keyword::Export)
-                if !self.ctx.contains(Context::MODULE) =>
+                if !self.ctx.contains(Context::MODULE) && !is_dynamic_import =>
             {
                 let err = Error::new(
                     self.cur.span,
@@ -209,8 +231,22 @@ impl<'a> Parser<'a> {
                 self.errors.push(err);
                 self.parse_expr_stmt()
             }
+            TokenKind::Ident if is_labeled => self.parse_labeled_stmt(),
             _ => self.parse_expr_stmt(),
         }
+    }
+
+    fn parse_decorated_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        self.skip_decorators()?;
+        if self.cur.kind == TokenKind::Keyword(Keyword::Export)
+            && (self.ctx.contains(Context::MODULE) || self.ctx.contains(Context::CAN_BE_MODULE))
+        {
+            return self.parse_module_decl_stmt();
+        }
+        if self.cur.kind == TokenKind::Keyword(Keyword::Class) {
+            return self.parse_class_decl_stmt();
+        }
+        self.parse_stmt()
     }
 
     fn parse_module_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
@@ -234,22 +270,81 @@ impl<'a> Parser<'a> {
 
     fn parse_import_decl(&mut self, start: swc_common::BytePos) -> PResult<ModuleDecl> {
         self.bump();
-        let mut src = None;
+        let mut specifiers = Vec::new();
+        let src = if self.cur.kind == TokenKind::Str {
+            let src = self.cur_string_value();
+            self.bump();
+            src
+        } else {
+            if self.cur.kind == TokenKind::Ident {
+                let local = self.expect_ident()?;
+                specifiers.push(swc_es_ast::ImportSpecifier::Default(
+                    swc_es_ast::ImportDefaultSpecifier { local },
+                ));
+                if self.cur.kind == TokenKind::Comma {
+                    self.bump();
+                }
+            }
+
+            if self.cur.kind == TokenKind::Star {
+                self.bump();
+                if self.cur.kind == TokenKind::Keyword(Keyword::As) {
+                    self.bump();
+                }
+                let local = self.expect_ident()?;
+                specifiers.push(swc_es_ast::ImportSpecifier::Namespace(
+                    swc_es_ast::ImportNamespaceSpecifier { local },
+                ));
+            } else if self.cur.kind == TokenKind::LBrace {
+                self.bump();
+                while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+                    let imported = self.parse_module_export_name()?;
+                    let local = if self.cur.kind == TokenKind::Keyword(Keyword::As) {
+                        self.bump();
+                        self.expect_ident()?
+                    } else {
+                        imported.clone()
+                    };
+                    specifiers.push(swc_es_ast::ImportSpecifier::Named(
+                        swc_es_ast::ImportNamedSpecifier {
+                            local,
+                            imported: Some(imported),
+                        },
+                    ));
+                    if self.cur.kind == TokenKind::Comma {
+                        self.bump();
+                    } else {
+                        break;
+                    }
+                }
+                let _ = self.expect(TokenKind::RBrace, "}")?;
+            }
+
+            if self.cur.kind == TokenKind::Keyword(Keyword::From) {
+                self.bump();
+            }
+
+            if self.cur.kind == TokenKind::Str {
+                let src = self.cur_string_value();
+                self.bump();
+                src
+            } else {
+                StrLit {
+                    span: DUMMY_SP,
+                    value: Atom::new(""),
+                }
+            }
+        };
 
         while self.cur.kind != TokenKind::Semi && self.cur.kind != TokenKind::Eof {
-            if self.cur.kind == TokenKind::Str {
-                src = Some(self.cur_string_value());
-            }
             self.bump();
         }
         self.eat_semi();
 
         Ok(ModuleDecl::Import(swc_es_ast::ImportDecl {
             span: Span::new_with_checked(start, self.last_pos()),
-            src: src.unwrap_or(StrLit {
-                span: DUMMY_SP,
-                value: Atom::new(""),
-            }),
+            specifiers,
+            src,
         }))
     }
 
@@ -258,6 +353,62 @@ impl<'a> Parser<'a> {
 
         if self.cur.kind == TokenKind::Keyword(Keyword::Default) {
             self.bump();
+            if self.cur.kind == TokenKind::Keyword(Keyword::Function) {
+                let fn_start = self.cur.span.lo;
+                self.bump();
+                if self.cur.kind == TokenKind::Star {
+                    self.bump();
+                }
+                let ident = if self.cur.kind == TokenKind::Ident {
+                    self.expect_ident()?
+                } else {
+                    Ident::new(
+                        Span::new_with_checked(fn_start, fn_start),
+                        Atom::new("default"),
+                    )
+                };
+                let (params, body) = self.parse_function_parts()?;
+                let decl = self.store.alloc_decl(Decl::Fn(FnDecl {
+                    span: Span::new_with_checked(fn_start, self.last_pos()),
+                    ident,
+                    params,
+                    body,
+                }));
+                self.eat_semi();
+                return Ok(ModuleDecl::ExportDefaultDecl(
+                    swc_es_ast::ExportDefaultDecl {
+                        span: Span::new_with_checked(start, self.last_pos()),
+                        decl,
+                    },
+                ));
+            }
+            if self.cur.kind == TokenKind::Keyword(Keyword::Class) {
+                let class_expr = self.parse_class_expr()?;
+                let Some(Expr::Class(class_id)) = self.store.expr(class_expr).cloned() else {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "expected class declaration",
+                    ));
+                };
+                let ident = match self.store.class(class_id).and_then(|c| c.ident.clone()) {
+                    Some(ident) => ident,
+                    None => Ident::new(Span::new_with_checked(start, start), Atom::new("default")),
+                };
+                let decl = self.store.alloc_decl(Decl::Class(swc_es_ast::ClassDecl {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    ident,
+                    class: class_id,
+                }));
+                self.eat_semi();
+                return Ok(ModuleDecl::ExportDefaultDecl(
+                    swc_es_ast::ExportDefaultDecl {
+                        span: Span::new_with_checked(start, self.last_pos()),
+                        decl,
+                    },
+                ));
+            }
             let expr = self.parse_expr()?;
             self.eat_semi();
             return Ok(ModuleDecl::ExportDefaultExpr(
@@ -268,14 +419,40 @@ impl<'a> Parser<'a> {
             ));
         }
 
+        if self.cur.kind == TokenKind::Star {
+            self.bump();
+            if self.cur.kind == TokenKind::Keyword(Keyword::As) {
+                self.bump();
+                let _ = self.parse_module_export_name()?;
+            }
+            if self.cur.kind == TokenKind::Keyword(Keyword::From) {
+                self.bump();
+            }
+            let src = if self.cur.kind == TokenKind::Str {
+                let src = self.cur_string_value();
+                self.bump();
+                src
+            } else {
+                StrLit {
+                    span: DUMMY_SP,
+                    value: Atom::new(""),
+                }
+            };
+            self.eat_semi();
+            return Ok(ModuleDecl::ExportAll(swc_es_ast::ExportAllDecl {
+                span: Span::new_with_checked(start, self.last_pos()),
+                src,
+            }));
+        }
+
         if self.cur.kind == TokenKind::LBrace {
             self.bump();
             let mut specifiers = Vec::new();
             while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
-                let local = self.expect_ident()?;
+                let local = self.parse_module_export_name()?;
                 let exported = if self.cur.kind == TokenKind::Keyword(Keyword::As) {
                     self.bump();
-                    Some(self.expect_ident()?)
+                    Some(self.parse_module_export_name()?)
                 } else {
                     None
                 };
@@ -303,6 +480,17 @@ impl<'a> Parser<'a> {
             }));
         }
 
+        if self.syntax().typescript()
+            && self.cur.kind == TokenKind::Keyword(Keyword::Const)
+            && self.peek_keyword_is(Keyword::Enum)
+        {
+            let decl = self.parse_ts_enum_decl()?;
+            return Ok(ModuleDecl::ExportDecl(swc_es_ast::ExportDecl {
+                span: Span::new_with_checked(start, self.last_pos()),
+                decl,
+            }));
+        }
+
         let decl = self.parse_decl()?;
         Ok(ModuleDecl::ExportDecl(swc_es_ast::ExportDecl {
             span: Span::new_with_checked(start, self.last_pos()),
@@ -311,7 +499,11 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_decl(&mut self) -> PResult<swc_es_ast::DeclId> {
+        let is_const_enum = self.cur.kind == TokenKind::Keyword(Keyword::Const)
+            && self.syntax().typescript()
+            && self.peek_kind() == TokenKind::Keyword(Keyword::Enum);
         match self.cur.kind {
+            TokenKind::Keyword(Keyword::Const) if is_const_enum => self.parse_ts_enum_decl(),
             TokenKind::Keyword(Keyword::Var | Keyword::Let | Keyword::Const) => {
                 let stmt = self.parse_var_decl_stmt()?;
                 let Stmt::Decl(decl) = self
@@ -346,8 +538,59 @@ impl<'a> Parser<'a> {
                 };
                 Ok(decl)
             }
+            TokenKind::Keyword(Keyword::Class) => {
+                let stmt = self.parse_class_decl_stmt()?;
+                let Stmt::Decl(decl) = self
+                    .store
+                    .stmt(stmt)
+                    .cloned()
+                    .unwrap_or(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                else {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "expected declaration",
+                    ));
+                };
+                Ok(decl)
+            }
             TokenKind::Keyword(Keyword::Type) if self.syntax().typescript() => {
                 let stmt = self.parse_ts_type_alias_decl_stmt()?;
+                let Stmt::Decl(decl) = self
+                    .store
+                    .stmt(stmt)
+                    .cloned()
+                    .unwrap_or(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                else {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "expected declaration",
+                    ));
+                };
+                Ok(decl)
+            }
+            TokenKind::Keyword(Keyword::Interface) if self.syntax().typescript() => {
+                let stmt = self.parse_ts_interface_decl_stmt()?;
+                let Stmt::Decl(decl) = self
+                    .store
+                    .stmt(stmt)
+                    .cloned()
+                    .unwrap_or(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
+                else {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "expected declaration",
+                    ));
+                };
+                Ok(decl)
+            }
+            TokenKind::Keyword(Keyword::Enum) if self.syntax().typescript() => {
+                let stmt = self.parse_ts_enum_decl_stmt()?;
                 let Stmt::Decl(decl) = self
                     .store
                     .stmt(stmt)
@@ -430,6 +673,219 @@ impl<'a> Parser<'a> {
             test,
             body,
         })))
+    }
+
+    fn parse_do_while_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+
+        let old_ctx = self.ctx;
+        self.ctx.insert(Context::IN_LOOP);
+        let body = self.parse_stmt()?;
+        self.ctx = old_ctx;
+
+        let _ = self.expect(TokenKind::Keyword(Keyword::While), "while")?;
+        let _ = self.expect(TokenKind::LParen, "(")?;
+        let test = self.parse_expr()?;
+        let _ = self.expect(TokenKind::RParen, ")")?;
+        self.eat_semi();
+
+        Ok(self
+            .store
+            .alloc_stmt(Stmt::DoWhile(swc_es_ast::DoWhileStmt {
+                span: Span::new_with_checked(start, self.last_pos()),
+                body,
+                test,
+            })))
+    }
+
+    fn parse_switch_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+        let _ = self.expect(TokenKind::LParen, "(")?;
+        let discriminant = self.parse_expr()?;
+        let _ = self.expect(TokenKind::RParen, ")")?;
+        let _ = self.expect(TokenKind::LBrace, "{")?;
+
+        let mut cases = Vec::new();
+        while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+            let case_start = self.cur.span.lo;
+            let test = match self.cur.kind {
+                TokenKind::Keyword(Keyword::Case) => {
+                    self.bump();
+                    let expr = self.parse_expr()?;
+                    let _ = self.expect(TokenKind::Colon, ":")?;
+                    Some(expr)
+                }
+                TokenKind::Keyword(Keyword::Default) => {
+                    self.bump();
+                    let _ = self.expect(TokenKind::Colon, ":")?;
+                    None
+                }
+                _ => {
+                    self.bump();
+                    continue;
+                }
+            };
+
+            let mut cons = Vec::new();
+            while !matches!(
+                self.cur.kind,
+                TokenKind::Keyword(Keyword::Case | Keyword::Default)
+                    | TokenKind::RBrace
+                    | TokenKind::Eof
+            ) {
+                cons.push(self.parse_stmt()?);
+            }
+
+            cases.push(swc_es_ast::SwitchCase {
+                span: Span::new_with_checked(case_start, self.last_pos()),
+                test,
+                cons,
+            });
+        }
+
+        let _ = self.expect(TokenKind::RBrace, "}")?;
+
+        Ok(self.store.alloc_stmt(Stmt::Switch(swc_es_ast::SwitchStmt {
+            span: Span::new_with_checked(start, self.last_pos()),
+            discriminant,
+            cases,
+        })))
+    }
+
+    fn parse_try_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+        let block = self.parse_block_stmt()?;
+
+        let handler = if self.cur.kind == TokenKind::Keyword(Keyword::Catch) {
+            let catch_start = self.cur.span.lo;
+            self.bump();
+            let param = if self.cur.kind == TokenKind::LParen {
+                self.bump();
+                let mut pat = self.parse_binding_pat()?;
+                if self.syntax().typescript() {
+                    pat = self.parse_ts_pat_suffix(pat)?;
+                }
+                let _ = self.expect(TokenKind::RParen, ")")?;
+                Some(pat)
+            } else {
+                None
+            };
+            let body = self.parse_block_stmt()?;
+            Some(swc_es_ast::CatchClause {
+                span: Span::new_with_checked(catch_start, self.last_pos()),
+                param,
+                body,
+            })
+        } else {
+            None
+        };
+
+        let finalizer = if self.cur.kind == TokenKind::Keyword(Keyword::Finally) {
+            self.bump();
+            Some(self.parse_block_stmt()?)
+        } else {
+            None
+        };
+
+        Ok(self.store.alloc_stmt(Stmt::Try(swc_es_ast::TryStmt {
+            span: Span::new_with_checked(start, self.last_pos()),
+            block,
+            handler,
+            finalizer,
+        })))
+    }
+
+    fn parse_throw_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+
+        let arg = if self.cur.had_line_break_before || self.cur.kind == TokenKind::Semi {
+            self.store
+                .alloc_expr(Expr::Lit(Lit::Null(NullLit { span: DUMMY_SP })))
+        } else {
+            self.parse_expr()?
+        };
+        self.eat_semi();
+
+        Ok(self.store.alloc_stmt(Stmt::Throw(swc_es_ast::ThrowStmt {
+            span: Span::new_with_checked(start, self.last_pos()),
+            arg,
+        })))
+    }
+
+    fn parse_with_compat_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        // `swc_es_ast` does not model `with` yet; consume the grammar to keep parser
+        // parity.
+        self.bump();
+        let _ = self.expect(TokenKind::LParen, "(")?;
+        let _ = self.parse_expr()?;
+        let _ = self.expect(TokenKind::RParen, ")")?;
+        self.parse_stmt()
+    }
+
+    fn parse_break_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+        let label = if self.cur.kind == TokenKind::Ident {
+            let ident = self.cur_ident_value();
+            self.bump();
+            Some(ident)
+        } else {
+            None
+        };
+        self.eat_semi();
+
+        Ok(self.store.alloc_stmt(Stmt::Break(swc_es_ast::BreakStmt {
+            span: Span::new_with_checked(start, self.last_pos()),
+            label,
+        })))
+    }
+
+    fn parse_continue_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump();
+        let label = if self.cur.kind == TokenKind::Ident {
+            let ident = self.cur_ident_value();
+            self.bump();
+            Some(ident)
+        } else {
+            None
+        };
+        self.eat_semi();
+
+        Ok(self
+            .store
+            .alloc_stmt(Stmt::Continue(swc_es_ast::ContinueStmt {
+                span: Span::new_with_checked(start, self.last_pos()),
+                label,
+            })))
+    }
+
+    fn parse_debugger_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let span = self.cur.span;
+        self.bump();
+        self.eat_semi();
+        Ok(self
+            .store
+            .alloc_stmt(Stmt::Debugger(swc_es_ast::DebuggerStmt { span })))
+    }
+
+    fn parse_labeled_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        let label = self.expect_ident()?;
+        let _ = self.expect(TokenKind::Colon, ":")?;
+        let body = self.parse_stmt()?;
+
+        Ok(self
+            .store
+            .alloc_stmt(Stmt::Labeled(swc_es_ast::LabeledStmt {
+                span: Span::new_with_checked(start, self.last_pos()),
+                label,
+                body,
+            })))
     }
 
     fn parse_for_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
@@ -563,6 +1019,9 @@ impl<'a> Parser<'a> {
     fn parse_function_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
         let start = self.cur.span.lo;
         self.bump();
+        if self.cur.kind == TokenKind::Star {
+            self.bump();
+        }
 
         let ident = self.expect_ident()?;
         let (params, body) = self.parse_function_parts()?;
@@ -577,6 +1036,42 @@ impl<'a> Parser<'a> {
         Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
     }
 
+    fn parse_class_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        let class_expr = self.parse_class_expr()?;
+        let Some(Expr::Class(class_id)) = self.store.expr(class_expr).cloned() else {
+            return Err(Error::new(
+                self.cur.span,
+                Severity::Fatal,
+                ErrorCode::InvalidStatement,
+                "expected class expression",
+            ));
+        };
+        let Some(class) = self.store.class(class_id).cloned() else {
+            return Err(Error::new(
+                self.cur.span,
+                Severity::Fatal,
+                ErrorCode::InvalidStatement,
+                "missing class node",
+            ));
+        };
+        let Some(ident) = class.ident else {
+            return Err(Error::new(
+                self.cur.span,
+                Severity::Fatal,
+                ErrorCode::InvalidIdentifier,
+                "class declaration requires a name",
+            ));
+        };
+
+        let decl = self.store.alloc_decl(Decl::Class(swc_es_ast::ClassDecl {
+            span: Span::new_with_checked(start, self.last_pos()),
+            ident,
+            class: class_id,
+        }));
+        Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
+    }
+
     fn parse_function_parts(
         &mut self,
     ) -> PResult<(Vec<swc_es_ast::PatId>, Vec<swc_es_ast::StmtId>)> {
@@ -584,12 +1079,16 @@ impl<'a> Parser<'a> {
         let mut params = Vec::new();
 
         while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
-            params.push(self.parse_binding_pat()?);
+            params.push(self.parse_parameter_pat()?);
             if self.cur.kind != TokenKind::RParen {
                 let _ = self.expect(TokenKind::Comma, ",")?;
             }
         }
         let _ = self.expect(TokenKind::RParen, ")")?;
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Colon {
+            self.bump();
+            let _ = self.parse_ts_type()?;
+        }
 
         let old_ctx = self.ctx;
         self.ctx.insert(Context::IN_FUNCTION);
@@ -758,10 +1257,13 @@ impl<'a> Parser<'a> {
                 break;
             }
 
-            let pat = self.parse_binding_pat()?;
+            let mut pat = self.parse_binding_pat()?;
+            if self.syntax().typescript() {
+                pat = self.parse_ts_pat_suffix(pat)?;
+            }
             let init = if self.cur.kind == TokenKind::Eq {
                 self.bump();
-                Some(self.parse_expr()?)
+                Some(self.parse_assignment_expr()?)
             } else {
                 None
             };
@@ -813,6 +1315,142 @@ impl<'a> Parser<'a> {
         Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
     }
 
+    fn parse_ts_interface_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let start = self.cur.span.lo;
+        self.bump(); // interface
+        let ident = self.expect_ident()?;
+        let type_params = if self.cur.kind == TokenKind::Lt {
+            self.parse_ts_type_params()?
+        } else {
+            Vec::new()
+        };
+
+        let mut extends = Vec::new();
+        if self.cur.kind == TokenKind::Keyword(Keyword::Extends) {
+            self.bump();
+            loop {
+                extends.push(self.parse_ts_type_name());
+                if self.cur.kind == TokenKind::Comma {
+                    self.bump();
+                } else {
+                    break;
+                }
+            }
+        }
+
+        let _ = self.expect(TokenKind::LBrace, "{")?;
+        let mut member_count = 0usize;
+        let mut nested = 0usize;
+        while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+            member_count += 1;
+            while self.cur.kind != TokenKind::Eof {
+                match self.cur.kind {
+                    TokenKind::LParen | TokenKind::LBracket | TokenKind::LBrace => {
+                        nested += 1;
+                        self.bump();
+                    }
+                    TokenKind::RParen | TokenKind::RBracket if nested > 0 => {
+                        nested -= 1;
+                        self.bump();
+                    }
+                    TokenKind::RBrace if nested > 0 => {
+                        nested -= 1;
+                        self.bump();
+                    }
+                    TokenKind::RBrace => break,
+                    TokenKind::Semi | TokenKind::Comma if nested == 0 => {
+                        self.bump();
+                        break;
+                    }
+                    _ => self.bump(),
+                }
+            }
+        }
+        let _ = self.expect(TokenKind::RBrace, "}")?;
+
+        let decl = self
+            .store
+            .alloc_decl(Decl::TsInterface(swc_es_ast::TsInterfaceDecl {
+                span: Span::new_with_checked(start, self.last_pos()),
+                ident,
+                type_params,
+                extends,
+                body_member_count: member_count,
+            }));
+        Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
+    }
+
+    fn parse_ts_enum_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        let decl = self.parse_ts_enum_decl()?;
+        Ok(self.store.alloc_stmt(Stmt::Decl(decl)))
+    }
+
+    fn parse_ts_enum_decl(&mut self) -> PResult<swc_es_ast::DeclId> {
+        let start = self.cur.span.lo;
+        if self.cur.kind == TokenKind::Keyword(Keyword::Const) {
+            self.bump();
+        }
+        if self.cur.kind == TokenKind::Keyword(Keyword::Enum) {
+            self.bump();
+        } else {
+            return Err(self.expected("enum"));
+        }
+        let ident = self.expect_ident()?;
+        let _ = self.expect(TokenKind::LBrace, "{")?;
+
+        let mut members = Vec::new();
+        while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+            let member_start = self.cur.span.lo;
+            let name = match self.cur.kind {
+                TokenKind::Ident => {
+                    let value = self.cur_ident_value();
+                    self.bump();
+                    swc_es_ast::TsEnumMemberName::Ident(value)
+                }
+                TokenKind::Str => {
+                    let value = self.cur_string_value();
+                    self.bump();
+                    swc_es_ast::TsEnumMemberName::Str(value)
+                }
+                TokenKind::Num => {
+                    let value = self.cur_number_value();
+                    self.bump();
+                    swc_es_ast::TsEnumMemberName::Num(value)
+                }
+                _ => {
+                    self.bump();
+                    continue;
+                }
+            };
+
+            let init = if self.cur.kind == TokenKind::Eq {
+                self.bump();
+                Some(self.parse_assignment_expr()?)
+            } else {
+                None
+            };
+
+            members.push(swc_es_ast::TsEnumMember {
+                span: Span::new_with_checked(member_start, self.last_pos()),
+                name,
+                init,
+            });
+
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+            } else {
+                break;
+            }
+        }
+
+        let _ = self.expect(TokenKind::RBrace, "}")?;
+        Ok(self.store.alloc_decl(Decl::TsEnum(swc_es_ast::TsEnumDecl {
+            span: Span::new_with_checked(start, self.last_pos()),
+            ident,
+            members,
+        })))
+    }
+
     fn parse_ts_skip_decl_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
         let start = self.cur.span.lo;
         self.bump();
@@ -851,9 +1489,8 @@ impl<'a> Parser<'a> {
 
     fn parse_binding_pat(&mut self) -> PResult<swc_es_ast::PatId> {
         match self.cur.kind {
-            TokenKind::Ident => {
-                let ident = self.cur_ident_value();
-                self.bump();
+            TokenKind::Ident | TokenKind::Keyword(_) => {
+                let ident = self.expect_ident()?;
                 let base = self.store.alloc_pat(Pat::Ident(Ident {
                     span: ident.span,
                     sym: ident.sym,
@@ -908,6 +1545,117 @@ impl<'a> Parser<'a> {
                     elems,
                 })))
             }
+            TokenKind::LBrace => {
+                let start = self.cur.span.lo;
+                self.bump();
+                let mut props = Vec::new();
+
+                while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
+                    if self.cur.kind == TokenKind::Comma {
+                        self.bump();
+                        continue;
+                    }
+
+                    if self.cur.kind == TokenKind::DotDotDot {
+                        let rest_start = self.cur.span.lo;
+                        self.bump();
+                        let arg = self.parse_binding_pat()?;
+                        props.push(swc_es_ast::ObjectPatProp::Rest(RestPat {
+                            span: Span::new_with_checked(rest_start, self.last_pos()),
+                            arg,
+                        }));
+                        if self.cur.kind == TokenKind::Comma {
+                            self.bump();
+                        }
+                        continue;
+                    }
+
+                    let key_start = self.cur.span.lo;
+                    let key = match self.cur.kind {
+                        TokenKind::Ident => {
+                            let ident = self.cur_ident_value();
+                            self.bump();
+                            PropName::Ident(ident)
+                        }
+                        TokenKind::Keyword(keyword) => {
+                            let span = self.cur.span;
+                            self.bump();
+                            PropName::Ident(Ident {
+                                span,
+                                sym: Atom::new(Self::keyword_text(keyword)),
+                            })
+                        }
+                        TokenKind::Str => {
+                            let value = self.cur_string_value();
+                            self.bump();
+                            PropName::Str(value)
+                        }
+                        TokenKind::Num => {
+                            let value = self.cur_number_value();
+                            self.bump();
+                            PropName::Num(value)
+                        }
+                        TokenKind::LBracket => {
+                            self.bump();
+                            let expr = self.parse_expr()?;
+                            let _ = self.expect(TokenKind::RBracket, "]")?;
+                            PropName::Computed(expr)
+                        }
+                        _ => {
+                            self.bump();
+                            continue;
+                        }
+                    };
+
+                    if self.cur.kind == TokenKind::Colon {
+                        self.bump();
+                        let value = self.parse_binding_pat()?;
+                        props.push(swc_es_ast::ObjectPatProp::KeyValue(
+                            swc_es_ast::ObjectPatKeyValue {
+                                span: Span::new_with_checked(key_start, self.last_pos()),
+                                key,
+                                value,
+                            },
+                        ));
+                    } else if let PropName::Ident(ident) = key {
+                        let value = if self.cur.kind == TokenKind::Eq {
+                            self.bump();
+                            Some(self.parse_expr()?)
+                        } else {
+                            None
+                        };
+                        props.push(swc_es_ast::ObjectPatProp::Assign(
+                            swc_es_ast::ObjectPatAssign {
+                                span: Span::new_with_checked(key_start, self.last_pos()),
+                                key: ident,
+                                value,
+                            },
+                        ));
+                    } else {
+                        let null = self
+                            .store
+                            .alloc_expr(Expr::Lit(Lit::Null(NullLit { span: DUMMY_SP })));
+                        let value = self.store.alloc_pat(Pat::Expr(null));
+                        props.push(swc_es_ast::ObjectPatProp::KeyValue(
+                            swc_es_ast::ObjectPatKeyValue {
+                                span: Span::new_with_checked(key_start, self.last_pos()),
+                                key,
+                                value,
+                            },
+                        ));
+                    }
+
+                    if self.cur.kind == TokenKind::Comma {
+                        self.bump();
+                    }
+                }
+
+                let _ = self.expect(TokenKind::RBrace, "}")?;
+                Ok(self.store.alloc_pat(Pat::Object(swc_es_ast::ObjectPat {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    props,
+                })))
+            }
             _ => Err(Error::new(
                 self.cur.span,
                 Severity::Fatal,
@@ -929,11 +1677,70 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        self.parse_assignment_expr()
+        self.parse_sequence_expr()
+    }
+
+    fn parse_sequence_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        let mut exprs = vec![self.parse_assignment_expr()?];
+
+        while self.cur.kind == TokenKind::Comma {
+            self.bump();
+            exprs.push(self.parse_assignment_expr()?);
+        }
+
+        if exprs.len() == 1 {
+            Ok(exprs[0])
+        } else {
+            Ok(self.store.alloc_expr(Expr::Seq(swc_es_ast::SeqExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                exprs,
+            })))
+        }
     }
 
     fn parse_assignment_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
-        let left = self.parse_logical_or_expr()?;
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Lt {
+            let checkpoint = self.lexer.checkpoint_save();
+            let cur = self.cur.clone();
+            let next = self.next.clone();
+            let errors_len = self.errors.len();
+
+            let type_params_ok = self.parse_ts_type_params().is_ok();
+            let parenthesized = self.cur.kind == TokenKind::LParen;
+            let can_arrow = if parenthesized {
+                self.paren_followed_by_arrow()
+            } else {
+                self.cur.kind == TokenKind::Ident && self.peek_kind() == TokenKind::Arrow
+            };
+            if type_params_ok && can_arrow {
+                return self.parse_arrow_expr(false, parenthesized);
+            }
+
+            self.lexer.checkpoint_load(checkpoint);
+            self.cur = cur;
+            self.next = next;
+            self.errors.truncate(errors_len);
+        }
+
+        if self.cur.kind == TokenKind::Ident && self.peek_kind() == TokenKind::Arrow {
+            return self.parse_arrow_expr(false, false);
+        }
+        if self.cur.kind == TokenKind::LParen && self.paren_followed_by_arrow() {
+            return self.parse_arrow_expr(false, true);
+        }
+        if self.cur.kind == TokenKind::Ident
+            && self.cur_ident_is("async")
+            && self.ident_followed_by_arrow()
+        {
+            self.bump();
+            if self.cur.kind == TokenKind::LParen {
+                return self.parse_arrow_expr(true, true);
+            }
+            return self.parse_arrow_expr(true, false);
+        }
+
+        let left = self.parse_conditional_expr()?;
         let op = match self.cur.kind {
             TokenKind::Eq => Some(AssignOp::Assign),
             TokenKind::PlusEq => Some(AssignOp::AddAssign),
@@ -957,18 +1764,89 @@ impl<'a> Parser<'a> {
             })));
         }
 
-        if self.syntax().typescript() && self.cur.kind == TokenKind::Keyword(Keyword::As) {
+        let mut expr = left;
+        while self.syntax().typescript() && self.cur.kind == TokenKind::Keyword(Keyword::As) {
             let start = self.cur.span.lo;
             self.bump();
             let ty = self.parse_ts_type()?;
-            return Ok(self.store.alloc_expr(Expr::TsAs(swc_es_ast::TsAsExpr {
+            expr = self.store.alloc_expr(Expr::TsAs(swc_es_ast::TsAsExpr {
                 span: Span::new_with_checked(start, self.last_pos()),
-                expr: left,
+                expr,
                 ty,
-            })));
+            }));
         }
 
-        Ok(left)
+        Ok(expr)
+    }
+
+    fn parse_conditional_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let mut expr = self.parse_logical_or_expr()?;
+
+        if self.cur.kind == TokenKind::Question {
+            let start = self.cur.span.lo;
+            self.bump();
+            let cons = self.parse_assignment_expr()?;
+            let _ = self.expect(TokenKind::Colon, ":")?;
+            let alt = self.parse_assignment_expr()?;
+            expr = self.store.alloc_expr(Expr::Cond(swc_es_ast::CondExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                test: expr,
+                cons,
+                alt,
+            }));
+        }
+
+        Ok(expr)
+    }
+
+    fn parse_arrow_expr(
+        &mut self,
+        is_async: bool,
+        parenthesized_params: bool,
+    ) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        let params = if parenthesized_params {
+            let _ = self.expect(TokenKind::LParen, "(")?;
+            let mut params = Vec::new();
+            while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
+                params.push(self.parse_parameter_pat()?);
+                if self.cur.kind == TokenKind::Comma {
+                    self.bump();
+                } else {
+                    break;
+                }
+            }
+            let _ = self.expect(TokenKind::RParen, ")")?;
+            params
+        } else {
+            vec![self.parse_parameter_pat()?]
+        };
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Colon {
+            self.bump();
+            let _ = self.parse_ts_type()?;
+        }
+        let _ = self.expect(TokenKind::Arrow, "=>")?;
+
+        let body = if self.cur.kind == TokenKind::LBrace {
+            let old_ctx = self.ctx;
+            self.ctx.insert(Context::IN_FUNCTION);
+            let body_stmt = self.parse_block_stmt()?;
+            self.ctx = old_ctx;
+            let stmts = match self.store.stmt(body_stmt).cloned() {
+                Some(Stmt::Block(block)) => block.stmts,
+                _ => Vec::new(),
+            };
+            swc_es_ast::ArrowBody::Block(stmts)
+        } else {
+            swc_es_ast::ArrowBody::Expr(self.parse_assignment_expr()?)
+        };
+
+        Ok(self.store.alloc_expr(Expr::Arrow(swc_es_ast::ArrowExpr {
+            span: Span::new_with_checked(start, self.last_pos()),
+            params,
+            body,
+            is_async,
+        })))
     }
 
     fn parse_logical_or_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
@@ -1121,12 +1999,75 @@ impl<'a> Parser<'a> {
     fn parse_unary_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         let start = self.cur.span.lo;
 
+        if matches!(self.cur.kind, TokenKind::PlusPlus | TokenKind::MinusMinus) {
+            let op = if self.cur.kind == TokenKind::PlusPlus {
+                swc_es_ast::UpdateOp::PlusPlus
+            } else {
+                swc_es_ast::UpdateOp::MinusMinus
+            };
+            self.bump();
+            let arg = self.parse_unary_expr()?;
+            return Ok(self.store.alloc_expr(Expr::Update(swc_es_ast::UpdateExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                op,
+                arg,
+                prefix: true,
+            })));
+        }
+
+        if self.cur.kind == TokenKind::Keyword(Keyword::Await) {
+            self.bump();
+            let arg = self.parse_unary_expr()?;
+            return Ok(self.store.alloc_expr(Expr::Await(swc_es_ast::AwaitExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                arg,
+            })));
+        }
+
+        if self.cur.kind == TokenKind::Keyword(Keyword::Yield) {
+            self.bump();
+            let is_delegate = self.cur.kind == TokenKind::Star;
+            if is_delegate {
+                self.bump();
+            }
+            let arg = if self.cur.kind == TokenKind::Semi
+                || self.cur.kind == TokenKind::RBrace
+                || self.cur.kind == TokenKind::Eof
+                || self.cur.had_line_break_before
+            {
+                None
+            } else {
+                Some(self.parse_assignment_expr()?)
+            };
+            let callee = self.store.alloc_expr(Expr::Ident(Ident {
+                span: Span::new_with_checked(start, start),
+                sym: Atom::new(if is_delegate { "yield*" } else { "yield" }),
+            }));
+            return Ok(self.store.alloc_expr(Expr::Call(CallExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                callee,
+                args: arg
+                    .into_iter()
+                    .map(|expr| ExprOrSpread {
+                        spread: false,
+                        expr,
+                    })
+                    .collect(),
+            })));
+        }
+
+        if self.cur.kind == TokenKind::Keyword(Keyword::New) {
+            return self.parse_new_expr();
+        }
+
         let op = match self.cur.kind {
             TokenKind::Plus => Some(UnaryOp::Plus),
             TokenKind::Minus => Some(UnaryOp::Minus),
             TokenKind::Bang => Some(UnaryOp::Bang),
+            TokenKind::Tilde => Some(UnaryOp::Tilde),
             TokenKind::Keyword(Keyword::TypeOf) => Some(UnaryOp::TypeOf),
             TokenKind::Keyword(Keyword::Void) => Some(UnaryOp::Void),
+            TokenKind::Keyword(Keyword::Delete) => Some(UnaryOp::Delete),
             _ => None,
         };
 
@@ -1151,12 +2092,67 @@ impl<'a> Parser<'a> {
                 TokenKind::Dot => {
                     let start = self.cur.span.lo;
                     self.bump();
-                    let ident = self.expect_ident()?;
+                    let ident = if self.cur.kind == TokenKind::Hash {
+                        self.parse_private_ident()?
+                    } else {
+                        self.expect_ident()?
+                    };
                     expr = self.store.alloc_expr(Expr::Member(MemberExpr {
                         span: Span::new_with_checked(start, self.last_pos()),
                         obj: expr,
                         prop: MemberProp::Ident(ident),
                     }));
+                }
+                TokenKind::QuestionDot => {
+                    let start = self.cur.span.lo;
+                    self.bump();
+                    match self.cur.kind {
+                        TokenKind::LParen => {
+                            self.bump();
+                            let mut args = Vec::new();
+                            while self.cur.kind != TokenKind::RParen
+                                && self.cur.kind != TokenKind::Eof
+                            {
+                                let spread = self.cur.kind == TokenKind::DotDotDot;
+                                if spread {
+                                    self.bump();
+                                }
+                                let arg = self.parse_assignment_expr()?;
+                                args.push(ExprOrSpread { spread, expr: arg });
+                                if self.cur.kind != TokenKind::RParen {
+                                    let _ = self.expect(TokenKind::Comma, ",")?;
+                                }
+                            }
+                            let _ = self.expect(TokenKind::RParen, ")")?;
+                            expr = self.store.alloc_expr(Expr::Call(CallExpr {
+                                span: Span::new_with_checked(start, self.last_pos()),
+                                callee: expr,
+                                args,
+                            }));
+                        }
+                        TokenKind::LBracket => {
+                            self.bump();
+                            let prop = self.parse_expr()?;
+                            let _ = self.expect(TokenKind::RBracket, "]")?;
+                            expr = self.store.alloc_expr(Expr::Member(MemberExpr {
+                                span: Span::new_with_checked(start, self.last_pos()),
+                                obj: expr,
+                                prop: MemberProp::Computed(prop),
+                            }));
+                        }
+                        _ => {
+                            let ident = if self.cur.kind == TokenKind::Hash {
+                                self.parse_private_ident()?
+                            } else {
+                                self.expect_ident()?
+                            };
+                            expr = self.store.alloc_expr(Expr::Member(MemberExpr {
+                                span: Span::new_with_checked(start, self.last_pos()),
+                                obj: expr,
+                                prop: MemberProp::Ident(ident),
+                            }));
+                        }
+                    }
                 }
                 TokenKind::LBracket => {
                     let start = self.cur.span.lo;
@@ -1178,7 +2174,7 @@ impl<'a> Parser<'a> {
                         if spread {
                             self.bump();
                         }
-                        let arg = self.parse_expr()?;
+                        let arg = self.parse_assignment_expr()?;
                         args.push(ExprOrSpread { spread, expr: arg });
                         if self.cur.kind != TokenKind::RParen {
                             let _ = self.expect(TokenKind::Comma, ",")?;
@@ -1191,11 +2187,113 @@ impl<'a> Parser<'a> {
                         args,
                     }));
                 }
+                TokenKind::Lt if self.syntax().typescript() => {
+                    let checkpoint = self.lexer.checkpoint_save();
+                    let cur = self.cur.clone();
+                    let next = self.next.clone();
+                    let errors_len = self.errors.len();
+
+                    let parsed =
+                        self.parse_ts_type_args().is_ok() && self.cur.kind == TokenKind::LParen;
+                    if parsed {
+                        let start = self.cur.span.lo;
+                        self.bump();
+                        let mut args = Vec::new();
+                        while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof
+                        {
+                            let spread = self.cur.kind == TokenKind::DotDotDot;
+                            if spread {
+                                self.bump();
+                            }
+                            let arg = self.parse_assignment_expr()?;
+                            args.push(ExprOrSpread { spread, expr: arg });
+                            if self.cur.kind != TokenKind::RParen {
+                                let _ = self.expect(TokenKind::Comma, ",")?;
+                            }
+                        }
+                        let _ = self.expect(TokenKind::RParen, ")")?;
+                        expr = self.store.alloc_expr(Expr::Call(CallExpr {
+                            span: Span::new_with_checked(start, self.last_pos()),
+                            callee: expr,
+                            args,
+                        }));
+                        continue;
+                    }
+
+                    self.lexer.checkpoint_load(checkpoint);
+                    self.cur = cur;
+                    self.next = next;
+                    self.errors.truncate(errors_len);
+                    break;
+                }
+                TokenKind::PlusPlus | TokenKind::MinusMinus if !self.cur.had_line_break_before => {
+                    let start = self.cur.span.lo;
+                    let op = if self.cur.kind == TokenKind::PlusPlus {
+                        swc_es_ast::UpdateOp::PlusPlus
+                    } else {
+                        swc_es_ast::UpdateOp::MinusMinus
+                    };
+                    self.bump();
+                    expr = self.store.alloc_expr(Expr::Update(swc_es_ast::UpdateExpr {
+                        span: Span::new_with_checked(start, self.last_pos()),
+                        op,
+                        arg: expr,
+                        prefix: false,
+                    }));
+                }
                 _ => break,
             }
         }
 
         Ok(expr)
+    }
+
+    fn parse_new_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
+        let start = self.cur.span.lo;
+        self.bump();
+
+        if self.cur.kind == TokenKind::Dot {
+            self.bump();
+            let prop = self.expect_ident()?;
+            let obj = self.store.alloc_expr(Expr::Ident(Ident {
+                span: Span::new_with_checked(start, start),
+                sym: Atom::new("new"),
+            }));
+            return Ok(self.store.alloc_expr(Expr::Member(MemberExpr {
+                span: Span::new_with_checked(start, self.last_pos()),
+                obj,
+                prop: MemberProp::Ident(prop),
+            })));
+        }
+
+        let callee = self.parse_postfix_expr()?;
+        let args = if self.cur.kind == TokenKind::LParen {
+            self.bump();
+            let mut args = Vec::new();
+            while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
+                let spread = self.cur.kind == TokenKind::DotDotDot;
+                if spread {
+                    self.bump();
+                }
+                let arg = self.parse_assignment_expr()?;
+                args.push(ExprOrSpread { spread, expr: arg });
+                if self.cur.kind == TokenKind::Comma {
+                    self.bump();
+                } else {
+                    break;
+                }
+            }
+            let _ = self.expect(TokenKind::RParen, ")")?;
+            args
+        } else {
+            Vec::new()
+        };
+
+        Ok(self.store.alloc_expr(Expr::New(swc_es_ast::NewExpr {
+            span: Span::new_with_checked(start, self.last_pos()),
+            callee,
+            args,
+        })))
     }
 
     fn parse_primary_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
@@ -1214,6 +2312,18 @@ impl<'a> Parser<'a> {
                 let lit = self.cur_string_value();
                 self.bump();
                 Ok(self.store.alloc_expr(Expr::Lit(Lit::Str(lit))))
+            }
+            TokenKind::Template => {
+                let lit = self.cur_string_value();
+                let span = self.cur.span;
+                self.bump();
+                Ok(self
+                    .store
+                    .alloc_expr(Expr::Template(swc_es_ast::TemplateExpr {
+                        span,
+                        quasis: vec![lit],
+                        exprs: Vec::new(),
+                    })))
             }
             TokenKind::Keyword(Keyword::True) => {
                 let span = self.cur.span;
@@ -1245,16 +2355,60 @@ impl<'a> Parser<'a> {
                 self.bump();
                 Ok(self.store.alloc_expr(Expr::Ident(Ident { span, sym })))
             }
+            TokenKind::Keyword(Keyword::Import) => {
+                let span = self.cur.span;
+                self.bump();
+                Ok(self.store.alloc_expr(Expr::Ident(Ident {
+                    span,
+                    sym: Atom::new("import"),
+                })))
+            }
+            TokenKind::Keyword(Keyword::New) => self.parse_new_expr(),
             TokenKind::Keyword(Keyword::Function) => self.parse_function_expr(),
             TokenKind::Keyword(Keyword::Class) => self.parse_class_expr(),
             TokenKind::LBracket => self.parse_array_expr(),
             TokenKind::LBrace => self.parse_object_expr(),
             TokenKind::Lt if self.syntax().jsx() => self.parse_jsx_element_expr(),
+            TokenKind::Slash => {
+                let start = self.cur.span.lo;
+                self.bump();
+                let mut in_class = false;
+                while self.cur.kind != TokenKind::Eof {
+                    match self.cur.kind {
+                        TokenKind::LBracket => {
+                            in_class = true;
+                            self.bump();
+                        }
+                        TokenKind::RBracket => {
+                            in_class = false;
+                            self.bump();
+                        }
+                        TokenKind::Slash if !in_class => {
+                            self.bump();
+                            if matches!(self.cur.kind, TokenKind::Ident | TokenKind::Keyword(_)) {
+                                self.bump();
+                            }
+                            break;
+                        }
+                        _ => self.bump(),
+                    }
+                }
+                Ok(self.store.alloc_expr(Expr::Lit(Lit::Str(StrLit {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    value: Atom::new("/regex/"),
+                }))))
+            }
             TokenKind::LParen => {
                 self.bump();
                 let expr = self.parse_expr()?;
                 let _ = self.expect(TokenKind::RParen, ")")?;
                 Ok(expr)
+            }
+            TokenKind::Keyword(keyword) if Self::keyword_can_be_ident(keyword) => {
+                let span = self.cur.span;
+                let sym = Atom::new(Self::keyword_text(keyword));
+                self.bump();
+                Ok(self.store.alloc_expr(Expr::Ident(Ident { span, sym })))
             }
             TokenKind::Eof => Err(Error::new(
                 self.cur.span,
@@ -1283,6 +2437,12 @@ impl<'a> Parser<'a> {
     fn parse_function_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
         let start = self.cur.span.lo;
         self.bump();
+        let is_generator = if self.cur.kind == TokenKind::Star {
+            self.bump();
+            true
+        } else {
+            false
+        };
 
         let _ident = if self.cur.kind == TokenKind::Ident {
             let ident = self.cur_ident_value();
@@ -1304,7 +2464,7 @@ impl<'a> Parser<'a> {
                 .collect(),
             body,
             is_async: false,
-            is_generator: false,
+            is_generator,
         });
 
         Ok(self.store.alloc_expr(Expr::Function(function)))
@@ -1332,36 +2492,136 @@ impl<'a> Parser<'a> {
         let _ = self.expect(TokenKind::LBrace, "{")?;
         let mut members = Vec::new();
         while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
-            // This bootstrap parser skips full class member parsing and stores
-            // placeholders to keep tree shape stable.
-            let member_start = self.cur.span.lo;
-            let key = if self.cur.kind == TokenKind::Ident {
-                swc_es_ast::PropName::Ident(self.cur_ident_value())
-            } else {
-                swc_es_ast::PropName::Str(StrLit {
-                    span: self.cur.span,
-                    value: Atom::new("member"),
-                })
-            };
+            if self.cur.kind == TokenKind::At && self.syntax().decorators() {
+                self.skip_decorators()?;
+                if self.cur.kind == TokenKind::RBrace || self.cur.kind == TokenKind::Eof {
+                    break;
+                }
+            }
+            if self.cur.kind == TokenKind::Semi || self.cur.kind == TokenKind::Comma {
+                self.bump();
+                continue;
+            }
 
-            while self.cur.kind != TokenKind::Semi
-                && self.cur.kind != TokenKind::RBrace
-                && self.cur.kind != TokenKind::Eof
+            let member_start = self.cur.span.lo;
+            let mut is_static = false;
+            let mut is_async = false;
+
+            while self.syntax().typescript()
+                && matches!(
+                    self.cur.kind,
+                    TokenKind::Keyword(Keyword::Public | Keyword::Private | Keyword::Protected)
+                )
             {
                 self.bump();
             }
-            self.eat_semi();
 
-            members.push(self.store.alloc_class_member(swc_es_ast::ClassMember::Prop(
-                swc_es_ast::ClassProp {
+            if matches!(
+                self.cur.kind,
+                TokenKind::Ident | TokenKind::Keyword(Keyword::Static)
+            ) && self
+                .cur_name_atom()
+                .is_some_and(|sym| sym.as_ref() == "static")
+                && !matches!(self.peek_kind(), TokenKind::LParen)
+            {
+                is_static = true;
+                self.bump();
+            }
+
+            if self.cur.kind == TokenKind::LBrace && is_static {
+                let block_stmt = self.parse_block_stmt()?;
+                let body = match self.store.stmt(block_stmt).cloned() {
+                    Some(Stmt::Block(block)) => block.stmts,
+                    _ => Vec::new(),
+                };
+                let function = self.store.alloc_function(Function {
                     span: Span::new_with_checked(member_start, self.last_pos()),
-                    key,
-                    value: None,
-                    is_static: false,
-                },
-            )));
+                    params: Vec::new(),
+                    body,
+                    is_async: false,
+                    is_generator: false,
+                });
+                members.push(
+                    self.store
+                        .alloc_class_member(swc_es_ast::ClassMember::Method(
+                            swc_es_ast::ClassMethod {
+                                span: Span::new_with_checked(member_start, self.last_pos()),
+                                key: PropName::Ident(Ident {
+                                    span: Span::new_with_checked(member_start, member_start),
+                                    sym: Atom::new("static"),
+                                }),
+                                function,
+                                is_static: true,
+                                kind: swc_es_ast::MethodKind::Method,
+                            },
+                        )),
+                );
+                continue;
+            }
+
+            let mut kind = swc_es_ast::MethodKind::Method;
+            if self.cur.kind == TokenKind::Ident
+                && self.cur_ident_is("get")
+                && self.peek_starts_property_name()
+            {
+                kind = swc_es_ast::MethodKind::Getter;
+                self.bump();
+            } else if self.cur.kind == TokenKind::Ident
+                && self.cur_ident_is("set")
+                && self.peek_starts_property_name()
+            {
+                kind = swc_es_ast::MethodKind::Setter;
+                self.bump();
+            } else if self.cur.kind == TokenKind::Ident
+                && self.cur_ident_is("async")
+                && self.peek_starts_property_name()
+            {
+                is_async = true;
+                self.bump();
+            }
+
+            let key = self.parse_prop_name()?;
+            if self.cur.kind == TokenKind::LParen {
+                let function = self.parse_class_method_function(member_start, is_async)?;
+                if kind == swc_es_ast::MethodKind::Method
+                    && !is_static
+                    && matches!(&key, PropName::Ident(ident) if ident.sym.as_ref() == "constructor")
+                {
+                    kind = swc_es_ast::MethodKind::Constructor;
+                }
+                members.push(
+                    self.store
+                        .alloc_class_member(swc_es_ast::ClassMember::Method(
+                            swc_es_ast::ClassMethod {
+                                span: Span::new_with_checked(member_start, self.last_pos()),
+                                key,
+                                function,
+                                is_static,
+                                kind,
+                            },
+                        )),
+                );
+            } else {
+                let value = if self.cur.kind == TokenKind::Eq {
+                    self.bump();
+                    Some(self.parse_expr()?)
+                } else {
+                    None
+                };
+                self.eat_semi();
+                members.push(self.store.alloc_class_member(swc_es_ast::ClassMember::Prop(
+                    swc_es_ast::ClassProp {
+                        span: Span::new_with_checked(member_start, self.last_pos()),
+                        key,
+                        value,
+                        is_static,
+                    },
+                )));
+            }
         }
-        let _ = self.expect(TokenKind::RBrace, "}")?;
+        if self.cur.kind == TokenKind::RBrace {
+            self.bump();
+        }
 
         let class = self.store.alloc_class(swc_es_ast::Class {
             span: Span::new_with_checked(start, self.last_pos()),
@@ -1371,6 +2631,52 @@ impl<'a> Parser<'a> {
         });
 
         Ok(self.store.alloc_expr(Expr::Class(class)))
+    }
+
+    fn parse_class_method_function(
+        &mut self,
+        start: swc_common::BytePos,
+        is_async: bool,
+    ) -> PResult<swc_es_ast::FunctionId> {
+        let _ = self.expect(TokenKind::LParen, "(")?;
+        let mut params = Vec::new();
+        while self.cur.kind != TokenKind::RParen && self.cur.kind != TokenKind::Eof {
+            params.push(self.parse_parameter_pat()?);
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+            } else {
+                break;
+            }
+        }
+        let _ = self.expect(TokenKind::RParen, ")")?;
+        if self.syntax().typescript() && self.cur.kind == TokenKind::Colon {
+            self.bump();
+            let _ = self.parse_ts_type()?;
+        }
+
+        let old_ctx = self.ctx;
+        self.ctx.insert(Context::IN_FUNCTION);
+        let body_stmt = self.parse_block_stmt()?;
+        self.ctx = old_ctx;
+
+        let body = match self.store.stmt(body_stmt).cloned() {
+            Some(Stmt::Block(block)) => block.stmts,
+            _ => Vec::new(),
+        };
+
+        Ok(self.store.alloc_function(Function {
+            span: Span::new_with_checked(start, self.last_pos()),
+            params: params
+                .into_iter()
+                .map(|pat| swc_es_ast::Param {
+                    span: Span::new_with_checked(start, start),
+                    pat,
+                })
+                .collect(),
+            body,
+            is_async,
+            is_generator: false,
+        }))
     }
 
     fn parse_array_expr(&mut self) -> PResult<swc_es_ast::ExprId> {
@@ -1389,7 +2695,7 @@ impl<'a> Parser<'a> {
             if spread {
                 self.bump();
             }
-            let expr = self.parse_expr()?;
+            let expr = self.parse_assignment_expr()?;
             elems.push(Some(ExprOrSpread { spread, expr }));
 
             if self.cur.kind == TokenKind::Comma {
@@ -1412,44 +2718,65 @@ impl<'a> Parser<'a> {
         let mut props = Vec::new();
 
         while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
-            let key = match self.cur.kind {
-                TokenKind::Ident => {
-                    let ident = self.cur_ident_value();
+            if self.cur.kind == TokenKind::Comma {
+                self.bump();
+                continue;
+            }
+
+            if self.cur.kind == TokenKind::DotDotDot {
+                let spread_start = self.cur.span.lo;
+                self.bump();
+                let spread_expr = self.parse_assignment_expr()?;
+                props.push(KeyValueProp {
+                    span: Span::new_with_checked(spread_start, self.last_pos()),
+                    key: PropName::Ident(Ident {
+                        span: Span::new_with_checked(spread_start, spread_start),
+                        sym: Atom::new("__spread__"),
+                    }),
+                    value: spread_expr,
+                });
+                if self.cur.kind == TokenKind::Comma {
                     self.bump();
-                    PropName::Ident(ident)
                 }
-                TokenKind::Str => {
-                    let str_lit = self.cur_string_value();
-                    self.bump();
-                    PropName::Str(str_lit)
+                continue;
+            }
+
+            let prop_start = self.cur.span.lo;
+            let mut is_async = false;
+            let mut force_method = false;
+            let mut key = self.parse_prop_name()?;
+            let starts_property_name = matches!(
+                self.cur.kind,
+                TokenKind::Ident
+                    | TokenKind::Str
+                    | TokenKind::Num
+                    | TokenKind::LBracket
+                    | TokenKind::Keyword(_)
+                    | TokenKind::Hash
+            );
+
+            if let PropName::Ident(ident) = &key {
+                if (ident.sym.as_ref() == "get" || ident.sym.as_ref() == "set")
+                    && starts_property_name
+                {
+                    key = self.parse_prop_name()?;
+                    force_method = true;
+                } else if ident.sym.as_ref() == "async"
+                    && !self.cur.had_line_break_before
+                    && starts_property_name
+                {
+                    key = self.parse_prop_name()?;
+                    force_method = true;
+                    is_async = true;
                 }
-                TokenKind::Num => {
-                    let num_lit = self.cur_number_value();
-                    self.bump();
-                    PropName::Num(num_lit)
-                }
-                TokenKind::LBracket => {
-                    self.bump();
-                    let expr = self.parse_expr()?;
-                    let _ = self.expect(TokenKind::RBracket, "]")?;
-                    PropName::Computed(expr)
-                }
-                _ => {
-                    let err = Error::new(
-                        self.cur.span,
-                        Severity::Error,
-                        ErrorCode::UnexpectedToken,
-                        "invalid object key",
-                    );
-                    self.errors.push(err);
-                    self.bump();
-                    continue;
-                }
-            };
+            }
 
             let value = if self.cur.kind == TokenKind::Colon {
                 self.bump();
-                self.parse_expr()?
+                self.parse_assignment_expr()?
+            } else if self.cur.kind == TokenKind::LParen || force_method {
+                let function = self.parse_class_method_function(prop_start, is_async)?;
+                self.store.alloc_expr(Expr::Function(function))
             } else {
                 match &key {
                     PropName::Ident(ident) => self.store.alloc_expr(Expr::Ident(ident.clone())),
@@ -1462,7 +2789,7 @@ impl<'a> Parser<'a> {
             };
 
             props.push(KeyValueProp {
-                span: Span::new_with_checked(start, self.last_pos()),
+                span: Span::new_with_checked(prop_start, self.last_pos()),
                 key,
                 value,
             });
@@ -1507,7 +2834,7 @@ impl<'a> Parser<'a> {
                                 span: self.cur.span,
                             })))
                         } else {
-                            self.parse_expr()?
+                            self.parse_assignment_expr()?
                         };
                         let _ = self.expect(TokenKind::RBrace, "}")?;
                         Some(expr)
@@ -1573,7 +2900,7 @@ impl<'a> Parser<'a> {
                         span: self.cur.span,
                     })))
                 } else {
-                    self.parse_expr()?
+                    self.parse_assignment_expr()?
                 };
                 let _ = self.expect(TokenKind::RBrace, "}")?;
                 children.push(swc_es_ast::JSXElementChild::Expr(expr));
@@ -1685,7 +3012,22 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_ts_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
-        self.parse_ts_union_type()
+        self.parse_ts_conditional_type()
+    }
+
+    fn parse_ts_conditional_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
+        let check = self.parse_ts_union_type()?;
+        if self.cur.kind == TokenKind::Keyword(Keyword::Extends) {
+            self.bump();
+            let _ = self.parse_ts_union_type()?;
+            if self.cur.kind == TokenKind::Question {
+                self.bump();
+                let _ = self.parse_ts_type()?;
+                let _ = self.expect(TokenKind::Colon, ":")?;
+                let _ = self.parse_ts_type()?;
+            }
+        }
+        Ok(check)
     }
 
     fn parse_ts_union_type(&mut self) -> PResult<swc_es_ast::TsTypeId> {
@@ -1801,8 +3143,16 @@ impl<'a> Parser<'a> {
                 self.bump();
                 TsType::Lit(swc_es_ast::TsLitType::Bool(lit))
             }
+            TokenKind::Keyword(Keyword::New) => {
+                self.bump();
+                if self.cur.kind == TokenKind::LParen {
+                    let fn_ty = self.parse_ts_function_type()?;
+                    return Ok(fn_ty);
+                }
+                TsType::Keyword(TsKeywordType::Any)
+            }
             TokenKind::Ident | TokenKind::Keyword(_) => self.parse_ts_type_ref(start)?,
-            TokenKind::LParen if self.ts_paren_followed_by_arrow() => {
+            TokenKind::LParen if self.paren_followed_by_arrow() => {
                 return self.parse_ts_function_type();
             }
             TokenKind::LParen => {
@@ -1823,11 +3173,28 @@ impl<'a> Parser<'a> {
                         self.bump();
                         continue;
                     }
-                    if self.cur.kind == TokenKind::DotDotDot {
+                    let is_rest = if self.cur.kind == TokenKind::DotDotDot {
                         self.bump();
+                        true
+                    } else {
+                        false
+                    };
+                    if matches!(self.cur.kind, TokenKind::Ident | TokenKind::Keyword(_))
+                        && matches!(self.peek_kind(), TokenKind::Colon | TokenKind::Question)
+                    {
+                        self.bump();
+                        if self.cur.kind == TokenKind::Question {
+                            self.bump();
+                        }
+                        if self.cur.kind == TokenKind::Colon {
+                            self.bump();
+                        }
                     }
                     let elem = self.parse_ts_type()?;
                     elem_types.push(elem);
+                    if is_rest {
+                        break;
+                    }
                     if self.cur.kind == TokenKind::Comma {
                         self.bump();
                     } else {
@@ -1947,7 +3314,7 @@ impl<'a> Parser<'a> {
         })))
     }
 
-    fn ts_paren_followed_by_arrow(&self) -> bool {
+    fn paren_followed_by_arrow(&self) -> bool {
         if self.cur.kind != TokenKind::LParen {
             return false;
         }
@@ -1978,7 +3345,116 @@ impl<'a> Parser<'a> {
             bump(&mut cur, &mut next, &mut lexer);
         }
 
+        if self.syntax().typescript() && cur.kind == TokenKind::Colon {
+            bump(&mut cur, &mut next, &mut lexer);
+            let mut nested = 0usize;
+            while cur.kind != TokenKind::Eof {
+                match cur.kind {
+                    TokenKind::LParen | TokenKind::LBracket | TokenKind::LBrace | TokenKind::Lt => {
+                        nested += 1;
+                    }
+                    TokenKind::RParen | TokenKind::RBracket | TokenKind::RBrace | TokenKind::Gt => {
+                        nested = nested.saturating_sub(1);
+                    }
+                    TokenKind::Arrow if nested == 0 => break,
+                    _ => {}
+                }
+                bump(&mut cur, &mut next, &mut lexer);
+            }
+        }
+
         cur.kind == TokenKind::Arrow
+    }
+
+    fn ident_followed_by_arrow(&self) -> bool {
+        if self.cur.kind != TokenKind::Ident {
+            return false;
+        }
+
+        let mut lexer = self.lexer.clone();
+        let mut cur = self.cur.clone();
+        let mut next = self.next.clone();
+
+        let bump =
+            |cur: &mut Token, next: &mut Option<Token>, lexer: &mut Lexer<'a>| -> TokenKind {
+                *cur = next.take().unwrap_or_else(|| lexer.next_token());
+                cur.kind
+            };
+
+        bump(&mut cur, &mut next, &mut lexer);
+        if cur.kind == TokenKind::Ident {
+            bump(&mut cur, &mut next, &mut lexer);
+            return cur.kind == TokenKind::Arrow;
+        }
+
+        if cur.kind != TokenKind::LParen {
+            return false;
+        }
+        let mut depth = 1usize;
+        bump(&mut cur, &mut next, &mut lexer);
+        while cur.kind != TokenKind::Eof {
+            match cur.kind {
+                TokenKind::LParen => depth += 1,
+                TokenKind::RParen => {
+                    depth = depth.saturating_sub(1);
+                    if depth == 0 {
+                        bump(&mut cur, &mut next, &mut lexer);
+                        break;
+                    }
+                }
+                _ => {}
+            }
+            bump(&mut cur, &mut next, &mut lexer);
+        }
+        cur.kind == TokenKind::Arrow
+    }
+
+    fn peek_starts_property_name(&mut self) -> bool {
+        matches!(
+            self.peek_kind(),
+            TokenKind::Ident
+                | TokenKind::Str
+                | TokenKind::Num
+                | TokenKind::LBracket
+                | TokenKind::Keyword(_)
+        )
+    }
+
+    fn parse_prop_name(&mut self) -> PResult<PropName> {
+        match self.cur.kind {
+            TokenKind::Hash => {
+                let ident = self.parse_private_ident()?;
+                Ok(PropName::Ident(ident))
+            }
+            TokenKind::Ident => {
+                let ident = self.cur_ident_value();
+                self.bump();
+                Ok(PropName::Ident(ident))
+            }
+            TokenKind::Keyword(keyword) => {
+                let span = self.cur.span;
+                let sym = Atom::new(Self::keyword_text(keyword));
+                self.bump();
+                Ok(PropName::Ident(Ident { span, sym }))
+            }
+            TokenKind::Str => {
+                let value = self.cur_string_value();
+                self.bump();
+                Ok(PropName::Str(value))
+            }
+            TokenKind::Num => {
+                let value = self.cur_number_value();
+                self.bump();
+                Ok(PropName::Num(value))
+            }
+            TokenKind::LBracket => {
+                self.bump();
+                let expr = self.parse_expr()?;
+                let _ = self.expect(TokenKind::RBracket, "]")?;
+                Ok(PropName::Computed(expr))
+            }
+            _ => Err(self.expected("property name")),
+        }
     }
 
     fn parse_ts_type_ref(&mut self, start: swc_common::BytePos) -> PResult<TsType> {
@@ -2082,6 +3558,91 @@ impl<'a> Parser<'a> {
         }
     }
 
+    fn parse_parameter_pat(&mut self) -> PResult<swc_es_ast::PatId> {
+        if self.cur.kind == TokenKind::At && self.syntax().decorators() {
+            self.skip_decorators()?;
+        }
+        while self.syntax().typescript()
+            && matches!(
+                self.cur.kind,
+                TokenKind::Keyword(Keyword::Public | Keyword::Private | Keyword::Protected)
+            )
+        {
+            self.bump();
+        }
+
+        let mut pat = if self.cur.kind == TokenKind::DotDotDot {
+            let rest_start = self.cur.span.lo;
+            self.bump();
+            let arg = self.parse_binding_pat()?;
+            self.store.alloc_pat(Pat::Rest(RestPat {
+                span: Span::new_with_checked(rest_start, self.last_pos()),
+                arg,
+            }))
+        } else {
+            self.parse_binding_pat()?
+        };
+
+        if self.syntax().typescript() {
+            pat = self.parse_ts_pat_suffix(pat)?;
+        }
+        Ok(pat)
+    }
+
+    fn parse_ts_pat_suffix(&mut self, pat: swc_es_ast::PatId) -> PResult<swc_es_ast::PatId> {
+        if self.cur.kind == TokenKind::Question {
+            self.bump();
+        }
+        if self.cur.kind == TokenKind::Colon {
+            self.bump();
+            let _ = self.parse_ts_type()?;
+        }
+        if self.cur.kind == TokenKind::Eq {
+            let start = self.cur.span.lo;
+            self.bump();
+            let right = self.parse_assignment_expr()?;
+            return Ok(self.store.alloc_pat(Pat::Assign(swc_es_ast::AssignPat {
+                span: Span::new_with_checked(start, self.last_pos()),
+                left: pat,
+                right,
+            })));
+        }
+        Ok(pat)
+    }
+
+    fn skip_decorators(&mut self) -> PResult<()> {
+        while self.cur.kind == TokenKind::At {
+            self.bump();
+            let _ = self.parse_assignment_expr()?;
+            self.eat_semi();
+        }
+        Ok(())
+    }
+
+    fn parse_private_ident(&mut self) -> PResult<Ident> {
+        let start = self.cur.span.lo;
+        if self.cur.kind == TokenKind::Hash {
+            self.bump();
+        }
+        let ident = self.expect_ident()?;
+        Ok(Ident {
+            span: Span::new_with_checked(start, ident.span.hi),
+            sym: Atom::new(format!("#{}", ident.sym)),
+        })
+    }
+
+    fn parse_module_export_name(&mut self) -> PResult<Ident> {
+        if self.cur.kind == TokenKind::Str {
+            let lit = self.cur_string_value();
+            self.bump();
+            return Ok(Ident {
+                span: lit.span,
+                sym: lit.value,
+            });
+        }
+        self.expect_ident()
+    }
+
     fn recover_stmt(&mut self) {
         while self.cur.kind != TokenKind::Eof {
             match self.cur.kind {
@@ -2124,23 +3685,18 @@ impl<'a> Parser<'a> {
     fn expr_to_assign_pat(&mut self, expr: swc_es_ast::ExprId) -> swc_es_ast::PatId {
         match self.store.expr(expr).cloned() {
             Some(Expr::Ident(ident)) => self.store.alloc_pat(Pat::Ident(ident)),
-            _ => {
-                self.errors.push(Error::new(
-                    self.cur.span,
-                    Severity::Error,
-                    ErrorCode::InvalidAssignTarget,
-                    "invalid assignment target",
-                ));
-                self.store.alloc_pat(Pat::Expr(expr))
-            }
+            _ => self.store.alloc_pat(Pat::Expr(expr)),
         }
     }
 
-    fn is_module_start(&self) -> bool {
-        matches!(
-            self.cur.kind,
-            TokenKind::Keyword(Keyword::Import | Keyword::Export)
-        )
+    fn is_module_start(&mut self) -> bool {
+        match self.cur.kind {
+            TokenKind::Keyword(Keyword::Export) => true,
+            TokenKind::Keyword(Keyword::Import) => {
+                !matches!(self.peek_kind(), TokenKind::LParen | TokenKind::Dot)
+            }
+            _ => false,
+        }
     }
 
     fn cur_ident_value(&self) -> Ident {
@@ -2240,13 +3796,26 @@ impl<'a> Parser<'a> {
         }
     }
 
+    fn peek_keyword_is(&mut self, keyword: Keyword) -> bool {
+        matches!(self.peek_kind(), TokenKind::Keyword(value) if value == keyword)
+    }
+
     fn expect_ident(&mut self) -> PResult<Ident> {
-        if self.cur.kind != TokenKind::Ident {
-            return Err(self.expected("identifier"));
+        if self.cur.kind == TokenKind::Ident {
+            let ident = self.cur_ident_value();
+            self.bump();
+            return Ok(ident);
         }
-        let ident = self.cur_ident_value();
-        self.bump();
-        Ok(ident)
+        if let TokenKind::Keyword(keyword) = self.cur.kind {
+            let ident = Ident {
+                span: self.cur.span,
+                sym: Atom::new(Self::keyword_text(keyword)),
+            };
+            self.bump();
+            return Ok(ident);
+        }
+
+        Err(self.expected("identifier"))
     }
 
     fn expect_string(&mut self) -> PResult<StrLit> {
@@ -2350,6 +3919,31 @@ impl<'a> Parser<'a> {
             Keyword::Unknown => "unknown",
             Keyword::Never => "never",
         }
+    }
+
+    fn keyword_can_be_ident(keyword: Keyword) -> bool {
+        matches!(
+            keyword,
+            Keyword::From
+                | Keyword::As
+                | Keyword::Interface
+                | Keyword::Type
+                | Keyword::Enum
+                | Keyword::Implements
+                | Keyword::Public
+                | Keyword::Private
+                | Keyword::Protected
+                | Keyword::Static
+                | Keyword::Declare
+                | Keyword::Namespace
+                | Keyword::Module
+                | Keyword::Any
+                | Keyword::Number
+                | Keyword::String
+                | Keyword::Boolean
+                | Keyword::Unknown
+                | Keyword::Never
+        )
     }
 }
 
