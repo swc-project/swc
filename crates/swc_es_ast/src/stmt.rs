@@ -28,6 +28,8 @@ pub enum Stmt {
     Try(TryStmt),
     /// Throw statement.
     Throw(ThrowStmt),
+    /// With statement.
+    With(WithStmt),
     /// Break statement.
     Break(BreakStmt),
     /// Continue statement.
@@ -188,6 +190,18 @@ pub struct ThrowStmt {
     pub span: Span,
     /// Thrown expression.
     pub arg: ExprId,
+}
+
+/// With statement.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct WithStmt {
+    /// Original source span.
+    pub span: Span,
+    /// Object expression.
+    pub obj: ExprId,
+    /// Statement body.
+    pub body: StmtId,
 }
 
 /// Break statement.

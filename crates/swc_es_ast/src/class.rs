@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{ExprId, FunctionId, Ident, PropName};
+use crate::{Decorator, ExprId, FunctionId, Ident, PropName, StmtId};
 
 /// Class member kind.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -22,6 +22,8 @@ pub enum MethodKind {
 pub struct ClassMethod {
     /// Original source span.
     pub span: Span,
+    /// Method decorators.
+    pub decorators: Vec<Decorator>,
     /// Method key.
     pub key: PropName,
     /// Function implementation.
@@ -38,12 +40,24 @@ pub struct ClassMethod {
 pub struct ClassProp {
     /// Original source span.
     pub span: Span,
+    /// Property decorators.
+    pub decorators: Vec<Decorator>,
     /// Property key.
     pub key: PropName,
     /// Optional initializer.
     pub value: Option<ExprId>,
     /// `static` marker.
     pub is_static: bool,
+}
+
+/// Class static block.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct ClassStaticBlock {
+    /// Original source span.
+    pub span: Span,
+    /// Statements in block.
+    pub body: Vec<StmtId>,
 }
 
 /// Class member.
@@ -54,6 +68,8 @@ pub enum ClassMember {
     Method(ClassMethod),
     /// Property member.
     Prop(ClassProp),
+    /// Static block member.
+    StaticBlock(ClassStaticBlock),
 }
 
 /// Class node.
@@ -62,6 +78,8 @@ pub enum ClassMember {
 pub struct Class {
     /// Original source span.
     pub span: Span,
+    /// Class decorators.
+    pub decorators: Vec<Decorator>,
     /// Optional class name.
     pub ident: Option<Ident>,
     /// Optional super class expression.

@@ -317,6 +317,10 @@ where
             }
         }
         Stmt::Throw(throw_stmt) => visitor.visit_expr(store, throw_stmt.arg),
+        Stmt::With(with_stmt) => {
+            visitor.visit_expr(store, with_stmt.obj);
+            visitor.visit_stmt(store, with_stmt.body);
+        }
         Stmt::Break(_) | Stmt::Continue(_) | Stmt::Debugger(_) => {}
         Stmt::Labeled(labeled) => visitor.visit_stmt(store, labeled.body),
         Stmt::Decl(decl) => visitor.visit_decl(store, *decl),
@@ -353,12 +357,21 @@ where
         }
         Decl::TsTypeAlias(alias) => visitor.visit_ts_type(store, alias.ty),
         Decl::Class(class_decl) => visitor.visit_class(store, class_decl.class),
-        Decl::TsInterface(_) => {}
+        Decl::TsInterface(interface_decl) => {
+            for member in &interface_decl.body {
+                walk_ts_type_member(visitor, store, member);
+            }
+        }
         Decl::TsEnum(enum_decl) => {
             for member in &enum_decl.members {
                 if let Some(init) = member.init {
                     visitor.visit_expr(store, init);
                 }
+            }
+        }
+        Decl::TsModule(module_decl) => {
+            if let Some(body) = &module_decl.body {
+                walk_ts_namespace_body(visitor, store, body);
             }
         }
     }
@@ -459,8 +472,9 @@ where
         }
         Expr::Member(member) => {
             visitor.visit_expr(store, member.obj);
-            if let swc_es_ast::MemberProp::Computed(prop) = &member.prop {
-                visitor.visit_expr(store, *prop);
+            match &member.prop {
+                swc_es_ast::MemberProp::Computed(prop) => visitor.visit_expr(store, *prop),
+                swc_es_ast::MemberProp::Ident(_) | swc_es_ast::MemberProp::Private(_) => {}
             }
         }
         Expr::Cond(cond) => {
@@ -539,6 +553,9 @@ where
     visitor.visit_function_node(store, node);
 
     for param in &node.params {
+        for decorator in &param.decorators {
+            visitor.visit_expr(store, decorator.expr);
+        }
         visitor.visit_pat(store, param.pat);
     }
     for stmt in &node.body {
@@ -555,6 +572,10 @@ where
         return;
     };
     visitor.visit_class_node(store, node);
+
+    for decorator in &node.decorators {
+        visitor.visit_expr(store, decorator.expr);
+    }
 
     if let Some(super_class) = node.super_class {
         visitor.visit_expr(store, super_class);
@@ -575,10 +596,29 @@ where
     visitor.visit_class_member_node(store, node);
 
     match node {
-        ClassMember::Method(method) => visitor.visit_function(store, method.function),
+        ClassMember::Method(method) => {
+            for decorator in &method.decorators {
+                visitor.visit_expr(store, decorator.expr);
+            }
+            if let swc_es_ast::PropName::Computed(expr) = &method.key {
+                visitor.visit_expr(store, *expr);
+            }
+            visitor.visit_function(store, method.function);
+        }
         ClassMember::Prop(prop) => {
+            for decorator in &prop.decorators {
+                visitor.visit_expr(store, decorator.expr);
+            }
+            if let swc_es_ast::PropName::Computed(expr) = &prop.key {
+                visitor.visit_expr(store, *expr);
+            }
             if let Some(value) = prop.value {
                 visitor.visit_expr(store, value);
+            }
+        }
+        ClassMember::StaticBlock(block) => {
+            for stmt in &block.body {
+                visitor.visit_stmt(store, *stmt);
             }
         }
     }
@@ -614,7 +654,12 @@ where
     visitor.visit_ts_type_node(store, node);
 
     match node {
-        TsType::Keyword(_) | TsType::Lit(_) | TsType::TypeLit(_) => {}
+        TsType::Keyword(_) | TsType::Lit(_) => {}
+        TsType::TypeLit(type_lit) => {
+            for member in &type_lit.members {
+                walk_ts_type_member(visitor, store, member);
+            }
+        }
         TsType::TypeRef(reference) => {
             for arg in &reference.type_args {
                 visitor.visit_ts_type(store, *arg);
@@ -645,5 +690,38 @@ where
             }
             visitor.visit_ts_type(store, function.return_type);
         }
+    }
+}
+
+fn walk_ts_namespace_body<V>(visitor: &mut V, store: &AstStore, body: &swc_es_ast::TsNamespaceBody)
+where
+    V: Visit + ?Sized,
+{
+    match body {
+        swc_es_ast::TsNamespaceBody::ModuleBlock(stmts) => {
+            for stmt in stmts {
+                visitor.visit_stmt(store, *stmt);
+            }
+        }
+        swc_es_ast::TsNamespaceBody::Namespace(namespace_decl) => {
+            walk_ts_namespace_body(visitor, store, &namespace_decl.body);
+        }
+    }
+}
+
+fn walk_ts_type_member<V>(visitor: &mut V, store: &AstStore, member: &swc_es_ast::TsTypeMember)
+where
+    V: Visit + ?Sized,
+{
+    if let Some(swc_es_ast::PropName::Computed(expr)) = &member.name {
+        visitor.visit_expr(store, *expr);
+    }
+    for param in &member.params {
+        if let Some(ty) = param.ty {
+            visitor.visit_ts_type(store, ty);
+        }
+    }
+    if let Some(ty) = member.ty {
+        visitor.visit_ts_type(store, ty);
     }
 }

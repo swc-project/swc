@@ -247,6 +247,8 @@ pub struct TemplateExpr {
 pub enum MemberProp {
     /// Dot access by identifier.
     Ident(Ident),
+    /// Dot access by private identifier.
+    Private(Ident),
     /// Computed property expression.
     Computed(ExprId),
 }

@@ -1,6 +1,6 @@
 use swc_common::Span;
 
-use crate::{ExprId, Ident};
+use crate::{ExprId, Ident, PropName, StmtId, StrLit};
 
 /// TypeScript type annotation.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
@@ -132,14 +132,50 @@ pub struct TsParenthesizedType {
     pub ty: crate::TsTypeId,
 }
 
+/// TypeScript type member kind.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum TsTypeMemberKind {
+    /// Property signature.
+    Property,
+    /// Method signature.
+    Method,
+    /// Call signature.
+    Call,
+    /// Construct signature.
+    Construct,
+    /// Index signature.
+    Index,
+}
+
+/// TypeScript type member.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsTypeMember {
+    /// Original source span.
+    pub span: Span,
+    /// Member kind.
+    pub kind: TsTypeMemberKind,
+    /// Optional member name.
+    pub name: Option<PropName>,
+    /// Whether this member is optional.
+    pub optional: bool,
+    /// Whether this member is readonly.
+    pub readonly: bool,
+    /// Optional parameters for callable members.
+    pub params: Vec<TsFnParam>,
+    /// Optional type annotation.
+    pub ty: Option<crate::TsTypeId>,
+}
+
 /// TypeScript type literal.
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct TsTypeLit {
     /// Original source span.
     pub span: Span,
-    /// Number of parsed members.
-    pub member_count: usize,
+    /// Parsed members.
+    pub members: Vec<TsTypeMember>,
 }
 
 /// TypeScript function type parameter.
@@ -168,6 +204,60 @@ pub struct TsFnType {
     pub params: Vec<TsFnParam>,
     /// Return type.
     pub return_type: crate::TsTypeId,
+}
+
+/// TypeScript module name.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum TsModuleName {
+    /// Identifier module name.
+    Ident(Ident),
+    /// String-literal module name.
+    Str(StrLit),
+}
+
+/// TypeScript namespace body.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub enum TsNamespaceBody {
+    /// Module block body.
+    ModuleBlock(Vec<StmtId>),
+    /// Nested namespace declaration.
+    Namespace(Box<TsNamespaceDecl>),
+}
+
+/// Nested TypeScript namespace declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsNamespaceDecl {
+    /// Original source span.
+    pub span: Span,
+    /// Whether this is declared.
+    pub declare: bool,
+    /// Whether this is global.
+    pub global: bool,
+    /// Namespace identifier.
+    pub id: Ident,
+    /// Namespace body.
+    pub body: Box<TsNamespaceBody>,
+}
+
+/// TypeScript module / namespace declaration.
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq)]
+pub struct TsModuleDecl {
+    /// Original source span.
+    pub span: Span,
+    /// Whether this is declared.
+    pub declare: bool,
+    /// Whether this is global.
+    pub global: bool,
+    /// Whether this is a namespace declaration.
+    pub namespace: bool,
+    /// Module name.
+    pub id: TsModuleName,
+    /// Optional body.
+    pub body: Option<TsNamespaceBody>,
 }
 
 /// Type assertion expression (`expr as T`).
