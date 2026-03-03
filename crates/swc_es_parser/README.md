@@ -1,6 +1,6 @@
 # swc_es_parser
 
-`swc_es_parser` is a bootstrap ECMAScript parser that builds arena-backed nodes from `swc_es_ast`.
+`swc_es_parser` is an ECMAScript parser that builds arena-backed nodes from `swc_es_ast`.
 
 ## Goals
 
@@ -11,20 +11,16 @@
 ## Current Status
 
 - Script/module/program entry points are available.
-- Core statements and expression parsing are implemented.
-- `import`/`export` bootstrap parsing is included.
-- Structured `for` head parsing is available (`classic`, `for..in`, `for..of`).
-- JSX parsing supports qualified tag names and reports opening/closing tag mismatches.
-- TypeScript parsing builds structured type nodes (function/union/intersection/tuple/array/type-literal/type-args) for `type` aliases and `as` assertions.
+- Core statements, expressions, module declarations, JSX, and TypeScript constructs are parsed.
+- Parity pass/fail behavior is continuously validated against reused `swc_ecma_parser` fixture corpora.
 
-## Fixture Harness
+## Parity Harness
 
 - `swc_ecma_parser` inputs are reused from `crates/swc_ecma_parser/tests`.
-- `swc_es_parser` snapshots are stored under `crates/swc_es_parser/tests/fixtures`.
-- Generate or refresh snapshots with:
+- Run parity checks with:
 
 ```bash
-UPDATE=1 cargo test -p swc_es_parser --test fixture_harness
+cargo test -p swc_es_parser --test parity_suite
 ```
 
 ## API Sketch

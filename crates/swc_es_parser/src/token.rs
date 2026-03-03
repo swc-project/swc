@@ -76,6 +76,17 @@ pub enum TokenValue {
     BigInt(Atom),
 }
 
+/// Additional token metadata used during parsing.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub struct TokenFlags {
+    /// `true` if the token text contained an escape sequence.
+    pub escaped: bool,
+    /// `true` if the token contained a legacy octal escape.
+    pub contains_legacy_octal_escape: bool,
+    /// `true` if the token contained an invalid escape.
+    pub contains_invalid_escape: bool,
+}
+
 /// Token kind.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenKind {
@@ -164,6 +175,8 @@ pub struct Token {
     pub had_line_break_before: bool,
     /// Optional token payload.
     pub value: Option<TokenValue>,
+    /// Additional metadata for semantic validation.
+    pub flags: TokenFlags,
 }
 
 impl Token {
@@ -174,6 +187,7 @@ impl Token {
             span,
             had_line_break_before,
             value: None,
+            flags: TokenFlags::default(),
         }
     }
 }

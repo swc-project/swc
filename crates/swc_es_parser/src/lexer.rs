@@ -8,7 +8,7 @@ use swc_common::{
 use crate::{
     error::{Error, ErrorCode, Severity},
     syntax::Syntax,
-    token::{Keyword, Token, TokenKind, TokenValue},
+    token::{Keyword, Token, TokenFlags, TokenKind, TokenValue},
 };
 
 /// Checkpoint for lexer backtracking.
@@ -105,6 +105,7 @@ impl<'a> Lexer<'a> {
                         span,
                         had_line_break_before,
                         value: Some(TokenValue::Ident(Atom::new(ch.to_string()))),
+                        flags: TokenFlags::default(),
                     };
                 }
 
@@ -224,6 +225,7 @@ impl<'a> Lexer<'a> {
                         span,
                         had_line_break_before,
                         value: Some(TokenValue::Ident(Atom::new(ch.to_string()))),
+                        flags: TokenFlags::default(),
                     }
                 }
             }
@@ -462,6 +464,22 @@ impl<'a> Lexer<'a> {
         )
     }
 
+    fn value_token(
+        &self,
+        kind: TokenKind,
+        span: Span,
+        had_line_break_before: bool,
+        value: TokenValue,
+    ) -> Token {
+        Token {
+            kind,
+            span,
+            had_line_break_before,
+            value: Some(value),
+            flags: TokenFlags::default(),
+        }
+    }
+
     fn read_number(&mut self, had_line_break_before: bool) -> Token {
         let start = self.input.cur_pos();
         let mut radix = 10u32;
@@ -537,12 +555,12 @@ impl<'a> Lexer<'a> {
             if radix != 10 && value.len() >= 2 {
                 value = value[2..].to_string();
             }
-            return Token {
-                kind: TokenKind::BigInt,
-                span: Span::new_with_checked(start, end),
+            return self.value_token(
+                TokenKind::BigInt,
+                Span::new_with_checked(start, end),
                 had_line_break_before,
-                value: Some(TokenValue::BigInt(Atom::new(value))),
-            };
+                TokenValue::BigInt(Atom::new(value)),
+            );
         }
 
         let end = self.input.cur_pos();
@@ -573,12 +591,12 @@ impl<'a> Lexer<'a> {
                 })
         };
 
-        Token {
-            kind: TokenKind::Num,
-            span: Span::new_with_checked(start, end),
+        self.value_token(
+            TokenKind::Num,
+            Span::new_with_checked(start, end),
             had_line_break_before,
-            value: Some(TokenValue::Num(value)),
-        }
+            TokenValue::Num(value),
+        )
     }
 
     fn read_number_after_dot(
@@ -613,12 +631,12 @@ impl<'a> Lexer<'a> {
             0.0
         });
 
-        Token {
-            kind: TokenKind::Num,
-            span: Span::new_with_checked(start, end),
+        self.value_token(
+            TokenKind::Num,
+            Span::new_with_checked(start, end),
             had_line_break_before,
-            value: Some(TokenValue::Num(value)),
-        }
+            TokenValue::Num(value),
+        )
     }
 
     fn read_string(&mut self, had_line_break_before: bool) -> Token {
@@ -630,6 +648,7 @@ impl<'a> Lexer<'a> {
         let mut out = String::new();
         let mut terminated = false;
         let mut saw_lt = false;
+        let mut flags = TokenFlags::default();
 
         while let Some(ch) = self.input.cur_as_char() {
             if ch as u32 <= 0x7f && ch as u8 == quote {
@@ -639,7 +658,10 @@ impl<'a> Lexer<'a> {
             }
 
             if ch == '\\' {
+                let esc_start = self.input.cur_pos();
                 self.bump_char();
+                flags.escaped = true;
+
                 match self.input.cur_as_char() {
                     Some('n') => {
                         self.bump_char();
@@ -653,6 +675,18 @@ impl<'a> Lexer<'a> {
                         self.bump_char();
                         out.push('\t');
                     }
+                    Some('b') => {
+                        self.bump_char();
+                        out.push('\u{0008}');
+                    }
+                    Some('f') => {
+                        self.bump_char();
+                        out.push('\u{000C}');
+                    }
+                    Some('v') => {
+                        self.bump_char();
+                        out.push('\u{000B}');
+                    }
                     Some('\\') => {
                         self.bump_char();
                         out.push('\\');
@@ -664,6 +698,65 @@ impl<'a> Lexer<'a> {
                     Some('\'') => {
                         self.bump_char();
                         out.push('\'');
+                    }
+                    Some('x') => {
+                        let checkpoint = self.input.clone();
+                        if let Some(decoded) = self.read_hex_escape(2) {
+                            out.push(decoded);
+                        } else {
+                            self.input = checkpoint;
+                            self.bump_char();
+                            flags.contains_invalid_escape = true;
+                            self.errors.push(Error::new(
+                                Span::new_with_checked(esc_start, self.input.cur_pos()),
+                                Severity::Error,
+                                ErrorCode::InvalidEscape,
+                                "invalid hexadecimal escape sequence",
+                            ));
+                        }
+                    }
+                    Some('u') => {
+                        let checkpoint = self.input.clone();
+                        if let Some(decoded) = self.read_unicode_escape_after_u() {
+                            out.push(decoded);
+                        } else {
+                            self.input = checkpoint;
+                            self.bump_char();
+                            flags.contains_invalid_escape = true;
+                            self.errors.push(Error::new(
+                                Span::new_with_checked(esc_start, self.input.cur_pos()),
+                                Severity::Error,
+                                ErrorCode::InvalidEscape,
+                                "invalid unicode escape sequence",
+                            ));
+                        }
+                    }
+                    Some('0') => {
+                        if matches!(self.input.peek(), Some(b'0'..=b'9')) {
+                            let decoded = self.read_legacy_octal_escape();
+                            flags.contains_legacy_octal_escape = true;
+                            out.push(decoded);
+                        } else {
+                            self.bump_char();
+                            out.push('\0');
+                        }
+                    }
+                    Some('1'..='7') => {
+                        let decoded = self.read_legacy_octal_escape();
+                        flags.contains_legacy_octal_escape = true;
+                        out.push(decoded);
+                    }
+                    Some('8' | '9') => {
+                        let value = self.input.cur_as_char().unwrap_or('\0');
+                        self.bump_char();
+                        flags.contains_invalid_escape = true;
+                        self.errors.push(Error::new(
+                            Span::new_with_checked(esc_start, self.input.cur_pos()),
+                            Severity::Error,
+                            ErrorCode::InvalidEscape,
+                            "invalid decimal escape sequence",
+                        ));
+                        out.push(value);
                     }
                     Some('\n') => {
                         self.bump_char();
@@ -711,6 +804,7 @@ impl<'a> Lexer<'a> {
                     span: Span::new_with_checked(start, end),
                     had_line_break_before,
                     value: Some(TokenValue::Ident(Atom::new("'"))),
+                    flags: TokenFlags::default(),
                 };
             }
             self.errors.push(Error::new(
@@ -726,6 +820,7 @@ impl<'a> Lexer<'a> {
             span: Span::new_with_checked(start, end),
             had_line_break_before,
             value: Some(TokenValue::Str(Atom::new(out))),
+            flags,
         }
     }
 
@@ -736,6 +831,7 @@ impl<'a> Lexer<'a> {
         let mut out = String::new();
         let mut terminated = false;
         let mut expr_depth = 0usize;
+        let mut flags = TokenFlags::default();
 
         while let Some(ch) = self.input.cur_as_char() {
             if ch == '`' && expr_depth == 0 {
@@ -745,8 +841,93 @@ impl<'a> Lexer<'a> {
             }
 
             if ch == '\\' {
+                let esc_start = self.input.cur_pos();
                 self.bump_char();
+                flags.escaped = true;
                 match self.input.cur_as_char() {
+                    Some('n') => {
+                        self.bump_char();
+                        out.push('\n');
+                    }
+                    Some('r') => {
+                        self.bump_char();
+                        out.push('\r');
+                    }
+                    Some('t') => {
+                        self.bump_char();
+                        out.push('\t');
+                    }
+                    Some('b') => {
+                        self.bump_char();
+                        out.push('\u{0008}');
+                    }
+                    Some('f') => {
+                        self.bump_char();
+                        out.push('\u{000C}');
+                    }
+                    Some('v') => {
+                        self.bump_char();
+                        out.push('\u{000B}');
+                    }
+                    Some('x') => {
+                        let checkpoint = self.input.clone();
+                        if let Some(decoded) = self.read_hex_escape(2) {
+                            out.push(decoded);
+                        } else {
+                            self.input = checkpoint;
+                            self.bump_char();
+                            flags.contains_invalid_escape = true;
+                            self.errors.push(Error::new(
+                                Span::new_with_checked(esc_start, self.input.cur_pos()),
+                                Severity::Error,
+                                ErrorCode::InvalidEscape,
+                                "invalid hexadecimal escape sequence",
+                            ));
+                        }
+                    }
+                    Some('u') => {
+                        let checkpoint = self.input.clone();
+                        if let Some(decoded) = self.read_unicode_escape_after_u() {
+                            out.push(decoded);
+                        } else {
+                            self.input = checkpoint;
+                            self.bump_char();
+                            flags.contains_invalid_escape = true;
+                            self.errors.push(Error::new(
+                                Span::new_with_checked(esc_start, self.input.cur_pos()),
+                                Severity::Error,
+                                ErrorCode::InvalidEscape,
+                                "invalid unicode escape sequence",
+                            ));
+                        }
+                    }
+                    Some('0') => {
+                        if matches!(self.input.peek(), Some(b'0'..=b'9')) {
+                            let decoded = self.read_legacy_octal_escape();
+                            flags.contains_legacy_octal_escape = true;
+                            out.push(decoded);
+                        } else {
+                            self.bump_char();
+                            out.push('\0');
+                        }
+                    }
+                    Some('1'..='7') => {
+                        let decoded = self.read_legacy_octal_escape();
+                        flags.contains_legacy_octal_escape = true;
+                        out.push(decoded);
+                    }
+                    Some('8' | '9') => {
+                        let value = self.input.cur_as_char().unwrap_or('\0');
+                        self.bump_char();
+                        flags.contains_invalid_escape = true;
+                        self.errors.push(Error::new(
+                            Span::new_with_checked(esc_start, self.input.cur_pos()),
+                            Severity::Error,
+                            ErrorCode::InvalidEscape,
+                            "invalid decimal escape sequence",
+                        ));
+                        out.push(value);
+                    }
                     Some(next) => {
                         self.bump_char();
                         out.push(next);
@@ -798,6 +979,48 @@ impl<'a> Lexer<'a> {
             span: Span::new_with_checked(start, end),
             had_line_break_before,
             value: Some(TokenValue::Str(Atom::new(out))),
+            flags,
+        }
+    }
+
+    fn read_legacy_octal_escape(&mut self) -> char {
+        let first = self.input.cur_as_char().unwrap_or('0');
+        let mut value = first.to_digit(8).unwrap_or(0);
+        self.bump_char();
+
+        let max_extra_digits = if first <= '3' { 2 } else { 1 };
+        for _ in 0..max_extra_digits {
+            let Some(ch) = self.input.cur_as_char() else {
+                break;
+            };
+            if !matches!(ch, '0'..='7') {
+                break;
+            }
+            value = value
+                .saturating_mul(8)
+                .saturating_add(ch.to_digit(8).unwrap_or(0));
+            self.bump_char();
+        }
+
+        char::from_u32(value).unwrap_or('\0')
+    }
+
+    fn read_hex_escape(&mut self, digits: usize) -> Option<char> {
+        if self.input.cur_as_char() != Some('x') {
+            return None;
+        }
+        self.bump_char();
+        let mut value = 0u32;
+        for _ in 0..digits {
+            let ch = self.input.cur_as_char()?;
+            let digit = ch.to_digit(16)?;
+            value = value.saturating_mul(16).saturating_add(digit);
+            self.bump_char();
+        }
+        match char::from_u32(value) {
+            Some(ch) => Some(ch),
+            None if (0xd800..=0xdfff).contains(&value) => Some('\u{FFFD}'),
+            None => None,
         }
     }
 
@@ -845,6 +1068,7 @@ impl<'a> Lexer<'a> {
                 span: Span::new_with_checked(start, end),
                 had_line_break_before,
                 value: Some(TokenValue::Ident(Atom::new(raw))),
+                flags: TokenFlags::default(),
             };
         }
 
@@ -862,12 +1086,12 @@ impl<'a> Lexer<'a> {
             kind: TokenKind::Ident,
             span: Span::new_with_checked(start, end),
             had_line_break_before,
-            value: Some(TokenValue::Ident(if has_escape {
-                let raw = unsafe { self.input.slice_str(start, end) };
-                Atom::new(raw)
-            } else {
-                Atom::new(out)
-            })),
+            value: Some(TokenValue::Ident(Atom::new(out))),
+            flags: TokenFlags {
+                escaped: has_escape,
+                contains_legacy_octal_escape: false,
+                contains_invalid_escape: false,
+            },
         }
     }
 
@@ -876,6 +1100,13 @@ impl<'a> Lexer<'a> {
             return None;
         }
         self.bump_ascii();
+        self.read_unicode_escape_after_u()
+    }
+
+    fn read_unicode_escape_after_u(&mut self) -> Option<char> {
+        if self.input.cur_as_ascii() != Some(b'u') {
+            return None;
+        }
         self.bump_ascii();
 
         let value = if self.input.cur_as_ascii() == Some(b'{') {
@@ -907,7 +1138,11 @@ impl<'a> Lexer<'a> {
             value
         };
 
-        char::from_u32(value)
+        match char::from_u32(value) {
+            Some(ch) => Some(ch),
+            None if (0xd800..=0xdfff).contains(&value) => Some('\u{FFFD}'),
+            None => None,
+        }
     }
 
     fn skip_space_and_comments(&mut self) {

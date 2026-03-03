@@ -17,7 +17,7 @@ use crate::{
     context::Context,
     error::{Error, ErrorCode, Severity},
     lexer::Lexer,
-    token::{Keyword, Token, TokenKind, TokenValue},
+    token::{Keyword, Token, TokenFlags, TokenKind, TokenValue},
     Syntax,
 };
 
@@ -33,6 +33,19 @@ pub struct ParsedProgram {
     pub program: ProgramId,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum RegexAtomKind {
+    None,
+    Atom,
+    Assertion,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum RegexGroupKind {
+    Group,
+    Assertion,
+}
+
 /// ECMAScript parser producing `swc_es_ast` nodes.
 pub struct Parser<'a> {
     lexer: Lexer<'a>,
@@ -42,6 +55,7 @@ pub struct Parser<'a> {
     errors: Vec<Error>,
     ctx: Context,
     pending_decorators: Vec<Decorator>,
+    string_token_flags: Vec<(Span, TokenFlags)>,
 }
 
 impl<'a> Parser<'a> {
@@ -56,6 +70,7 @@ impl<'a> Parser<'a> {
             errors: Vec::new(),
             ctx: Context::TOP_LEVEL | Context::CAN_BE_MODULE,
             pending_decorators: Vec::new(),
+            string_token_flags: Vec::new(),
         }
     }
 
@@ -81,7 +96,7 @@ impl<'a> Parser<'a> {
         self.ctx.insert(Context::TOP_LEVEL);
         self.ctx.remove(Context::MODULE | Context::CAN_BE_MODULE);
         let start = self.cur.span.lo;
-        let body = self.parse_stmt_list(false)?;
+        let (body, _) = self.parse_stmt_list(false, true)?;
         let program = self.store.alloc_program(Program {
             span: Span::new_with_checked(start, self.last_pos()),
             kind: ProgramKind::Script,
@@ -99,7 +114,7 @@ impl<'a> Parser<'a> {
         self.ctx
             .insert(Context::MODULE | Context::TOP_LEVEL | Context::STRICT);
         let start = self.cur.span.lo;
-        let body = self.parse_stmt_list(true)?;
+        let (body, _) = self.parse_stmt_list(true, true)?;
         let program = self.store.alloc_program(Program {
             span: Span::new_with_checked(start, self.last_pos()),
             kind: ProgramKind::Module,
@@ -116,29 +131,7 @@ impl<'a> Parser<'a> {
     pub fn parse_program(&mut self) -> PResult<ParsedProgram> {
         self.ctx.insert(Context::CAN_BE_MODULE);
         let start = self.cur.span.lo;
-        let mut body = Vec::new();
-        let mut has_module_item = false;
-
-        while self.cur.kind != TokenKind::Eof {
-            let parsed = if self.is_module_start() {
-                has_module_item = true;
-                self.parse_module_decl_stmt()
-            } else {
-                self.parse_stmt()
-            };
-            match parsed {
-                Ok(stmt) => body.push(stmt),
-                Err(err) => {
-                    if err.severity() == Severity::Fatal && self.syntax().early_errors() {
-                        return Err(err);
-                    }
-                    if self.syntax().early_errors() {
-                        self.errors.push(err);
-                    }
-                    self.recover_stmt();
-                }
-            }
-        }
+        let (body, has_module_item) = self.parse_stmt_list(true, true)?;
 
         let kind = if has_module_item {
             ProgramKind::Module
@@ -158,18 +151,35 @@ impl<'a> Parser<'a> {
         })
     }
 
-    fn parse_stmt_list(&mut self, allow_module: bool) -> PResult<Vec<swc_es_ast::StmtId>> {
+    fn parse_stmt_list(
+        &mut self,
+        allow_module: bool,
+        enable_directive_prologue: bool,
+    ) -> PResult<(Vec<swc_es_ast::StmtId>, bool)> {
         let mut body = Vec::new();
+        let mut has_module_item = false;
+        let mut in_directive_prologue = enable_directive_prologue;
+        let mut directive_octal_spans = Vec::new();
 
         while self.cur.kind != TokenKind::Eof {
             let parsed = if allow_module && self.is_module_start() {
+                has_module_item = true;
                 self.parse_module_decl_stmt()
             } else {
                 self.parse_stmt()
             };
 
             match parsed {
-                Ok(stmt) => body.push(stmt),
+                Ok(stmt) => {
+                    if in_directive_prologue {
+                        self.update_directive_prologue(
+                            stmt,
+                            &mut in_directive_prologue,
+                            &mut directive_octal_spans,
+                        );
+                    }
+                    body.push(stmt);
+                }
                 Err(err) => {
                     if err.severity() == Severity::Fatal && self.syntax().early_errors() {
                         return Err(err);
@@ -177,12 +187,13 @@ impl<'a> Parser<'a> {
                     if self.syntax().early_errors() {
                         self.errors.push(err);
                     }
+                    in_directive_prologue = false;
                     self.recover_stmt();
                 }
             }
         }
 
-        Ok(body)
+        Ok((body, has_module_item))
     }
 
     fn parse_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
@@ -712,14 +723,46 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_block_stmt(&mut self) -> PResult<swc_es_ast::StmtId> {
+        self.parse_block_stmt_with_directives(false)
+    }
+
+    fn parse_block_stmt_with_directives(
+        &mut self,
+        enable_directive_prologue: bool,
+    ) -> PResult<swc_es_ast::StmtId> {
         let start = self.cur.span.lo;
         let _ = self.expect(TokenKind::LBrace, "{")?;
         let mut stmts = Vec::new();
+        let mut in_directive_prologue = enable_directive_prologue;
+        let mut directive_octal_spans = Vec::new();
         while self.cur.kind != TokenKind::RBrace && self.cur.kind != TokenKind::Eof {
-            if self.ctx.contains(Context::MODULE) && self.is_module_start() {
-                stmts.push(self.parse_module_decl_stmt()?);
+            let parsed = if self.ctx.contains(Context::MODULE) && self.is_module_start() {
+                self.parse_module_decl_stmt()
             } else {
-                stmts.push(self.parse_stmt()?);
+                self.parse_stmt()
+            };
+
+            match parsed {
+                Ok(stmt) => {
+                    if in_directive_prologue {
+                        self.update_directive_prologue(
+                            stmt,
+                            &mut in_directive_prologue,
+                            &mut directive_octal_spans,
+                        );
+                    }
+                    stmts.push(stmt);
+                }
+                Err(err) => {
+                    if err.severity() == Severity::Fatal && self.syntax().early_errors() {
+                        return Err(err);
+                    }
+                    if self.syntax().early_errors() {
+                        self.errors.push(err);
+                    }
+                    in_directive_prologue = false;
+                    self.recover_stmt();
+                }
             }
         }
         let _ = self.expect(TokenKind::RBrace, "}")?;
@@ -999,6 +1042,7 @@ impl<'a> Parser<'a> {
             false
         };
         let _ = self.expect(TokenKind::LParen, "(")?;
+        let starts_with_let_keyword = self.cur.kind == TokenKind::Keyword(Keyword::Let);
 
         let head = if self.cur.kind == TokenKind::Semi {
             self.bump();
@@ -1032,6 +1076,19 @@ impl<'a> Parser<'a> {
                     right,
                 })
             } else if self.cur_ident_is("of") {
+                if starts_with_let_keyword
+                    && matches!(
+                        init,
+                        ForInit::Expr(expr) if self.expr_is_let_member(expr)
+                    )
+                {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidStatement,
+                        "invalid left-hand side in for-of statement",
+                    ));
+                }
                 self.bump();
                 let right = self.parse_expr()?;
                 ForHead::Of(ForOfHead {
@@ -1217,7 +1274,7 @@ impl<'a> Parser<'a> {
         if is_generator {
             self.ctx.insert(Context::IN_GENERATOR);
         }
-        let body_stmt = self.parse_block_stmt()?;
+        let body_stmt = self.parse_block_stmt_with_directives(true)?;
         self.ctx = old_ctx;
 
         let body = match self.store.stmt(body_stmt).cloned() {
@@ -1955,6 +2012,18 @@ impl<'a> Parser<'a> {
                     sym: ident.sym,
                 }));
 
+                if matches!(
+                    self.cur.kind,
+                    TokenKind::Dot | TokenKind::QuestionDot | TokenKind::LBracket
+                ) {
+                    return Err(Error::new(
+                        self.cur.span,
+                        Severity::Fatal,
+                        ErrorCode::InvalidAssignTarget,
+                        "member access is not allowed in binding patterns",
+                    ));
+                }
+
                 if self.cur.kind == TokenKind::Eq {
                     let start = self.cur.span.lo;
                     self.bump();
@@ -2325,7 +2394,7 @@ impl<'a> Parser<'a> {
         let body = if self.cur.kind == TokenKind::LBrace {
             let old_ctx = self.ctx;
             self.ctx.insert(Context::IN_FUNCTION);
-            let body_stmt = self.parse_block_stmt()?;
+            let body_stmt = self.parse_block_stmt_with_directives(true)?;
             self.ctx = old_ctx;
             let stmts = match self.store.stmt(body_stmt).cloned() {
                 Some(Stmt::Block(block)) => block.stmts,
@@ -2906,7 +2975,12 @@ impl<'a> Parser<'a> {
 
         if self.cur.kind == TokenKind::Dot {
             self.bump();
-            if self.cur.kind == TokenKind::Ident && self.cur_ident_is("target") {
+            if self.cur.kind == TokenKind::Ident
+                && matches!(
+                    &self.cur.value,
+                    Some(TokenValue::Ident(sym)) if sym.as_ref() == "target"
+                )
+            {
                 self.bump();
                 return Ok(self
                     .store
@@ -2915,16 +2989,12 @@ impl<'a> Parser<'a> {
                         kind: swc_es_ast::MetaPropKind::NewTarget,
                     })));
             }
-            let prop = self.expect_ident()?;
-            let obj = self.store.alloc_expr(Expr::Ident(Ident {
-                span: Span::new_with_checked(start, start),
-                sym: Atom::new("new"),
-            }));
-            return Ok(self.store.alloc_expr(Expr::Member(MemberExpr {
-                span: Span::new_with_checked(start, self.last_pos()),
-                obj,
-                prop: MemberProp::Ident(prop),
-            })));
+            return Err(Error::new(
+                self.cur.span,
+                Severity::Fatal,
+                ErrorCode::UnexpectedToken,
+                "expected `target` after `new.`",
+            ));
         }
 
         let callee = self.parse_postfix_expr()?;
@@ -2979,12 +3049,19 @@ impl<'a> Parser<'a> {
             }
             TokenKind::Str => {
                 let lit = self.cur_string_value();
+                let flags = self.cur.flags;
+                self.record_string_token_flags(lit.span, flags);
+                if flags.contains_legacy_octal_escape && self.ctx.contains(Context::STRICT) {
+                    self.push_strict_octal_error(lit.span);
+                }
                 self.bump();
                 Ok(self.store.alloc_expr(Expr::Lit(Lit::Str(lit))))
             }
             TokenKind::Template => {
                 let lit = self.cur_string_value();
                 let span = self.cur.span;
+                let flags = self.cur.flags;
+                self.record_string_token_flags(lit.span, flags);
                 self.bump();
                 Ok(self
                     .store
@@ -3070,13 +3147,13 @@ impl<'a> Parser<'a> {
                             }
                             self.bump();
                         }
-                        return Ok(self.store.alloc_expr(Expr::Lit(Lit::Regex(
-                            swc_es_ast::RegexLit {
-                                span: Span::new_with_checked(start, self.last_pos()),
-                                exp: Atom::new(pattern),
-                                flags,
-                            },
-                        ))));
+                        let lit = swc_es_ast::RegexLit {
+                            span: Span::new_with_checked(start, self.last_pos()),
+                            exp: Atom::new(pattern),
+                            flags,
+                        };
+                        self.validate_regex_literal(&lit);
+                        return Ok(self.store.alloc_expr(Expr::Lit(Lit::Regex(lit))));
                     }
 
                     if let Some(part) = self.regex_token_text_for_current() {
@@ -3100,13 +3177,13 @@ impl<'a> Parser<'a> {
 
                     self.bump();
                 }
-                Ok(self
-                    .store
-                    .alloc_expr(Expr::Lit(Lit::Regex(swc_es_ast::RegexLit {
-                        span: Span::new_with_checked(start, self.last_pos()),
-                        exp: Atom::new(pattern),
-                        flags: Atom::new(""),
-                    }))))
+                let lit = swc_es_ast::RegexLit {
+                    span: Span::new_with_checked(start, self.last_pos()),
+                    exp: Atom::new(pattern),
+                    flags: Atom::new(""),
+                };
+                self.validate_regex_literal(&lit);
+                Ok(self.store.alloc_expr(Expr::Lit(Lit::Regex(lit))))
             }
             TokenKind::LParen => {
                 let start = self.cur.span.lo;
@@ -3335,6 +3412,14 @@ impl<'a> Parser<'a> {
                 } else {
                     None
                 };
+                if !self.syntax().typescript() && ident.is_none() {
+                    self.errors.push(Error::new(
+                        Span::new_with_checked(member_start, self.last_pos()),
+                        Severity::Error,
+                        ErrorCode::UnexpectedToken,
+                        "class fields are not enabled in this syntax mode",
+                    ));
+                }
                 self.eat_semi();
                 members.push(self.store.alloc_class_member(swc_es_ast::ClassMember::Prop(
                     swc_es_ast::ClassProp {
@@ -3392,7 +3477,7 @@ impl<'a> Parser<'a> {
         if is_generator {
             self.ctx.insert(Context::IN_GENERATOR);
         }
-        let body_stmt = self.parse_block_stmt()?;
+        let body_stmt = self.parse_block_stmt_with_directives(true)?;
         self.ctx = old_ctx;
 
         let body = match self.store.stmt(body_stmt).cloned() {
@@ -3427,6 +3512,15 @@ impl<'a> Parser<'a> {
             }
             let expr = self.parse_assignment_expr()?;
             elems.push(Some(ExprOrSpread { spread, expr }));
+
+            if spread && self.cur.kind == TokenKind::Comma {
+                self.errors.push(Error::new(
+                    self.cur.span,
+                    Severity::Error,
+                    ErrorCode::InvalidStatement,
+                    "rest element must be the last element",
+                ));
+            }
 
             if self.cur.kind == TokenKind::Comma {
                 self.bump();
@@ -4628,6 +4722,276 @@ impl<'a> Parser<'a> {
         attrs
     }
 
+    fn update_directive_prologue(
+        &mut self,
+        stmt: swc_es_ast::StmtId,
+        in_directive_prologue: &mut bool,
+        directive_octal_spans: &mut Vec<Span>,
+    ) {
+        let Some((lit, flags)) = self.directive_string_literal(stmt) else {
+            *in_directive_prologue = false;
+            directive_octal_spans.clear();
+            return;
+        };
+
+        if flags.contains_legacy_octal_escape {
+            directive_octal_spans.push(lit.span);
+        }
+
+        if !flags.escaped && lit.value.as_ref() == "use strict" {
+            self.ctx.insert(Context::STRICT);
+
+            if flags.contains_legacy_octal_escape {
+                self.push_strict_octal_error(lit.span);
+            }
+            for span in directive_octal_spans.drain(..) {
+                self.push_strict_octal_error(span);
+            }
+        }
+    }
+
+    fn directive_string_literal(&self, stmt: swc_es_ast::StmtId) -> Option<(StrLit, TokenFlags)> {
+        let Stmt::Expr(expr_stmt) = self.store.stmt(stmt)?.clone() else {
+            return None;
+        };
+        let Expr::Lit(Lit::Str(lit)) = self.store.expr(expr_stmt.expr)?.clone() else {
+            return None;
+        };
+        let flags = self.string_token_flags(lit.span);
+        Some((lit, flags))
+    }
+
+    fn push_strict_octal_error(&mut self, span: Span) {
+        self.errors.push(Error::new(
+            span,
+            Severity::Error,
+            ErrorCode::StrictModeViolation,
+            "legacy octal escape sequences are not allowed in strict mode",
+        ));
+    }
+
+    fn validate_regex_literal(&mut self, lit: &swc_es_ast::RegexLit) {
+        let flags = lit.flags.as_ref();
+        let mut has_u = false;
+        let mut seen = std::collections::BTreeSet::<char>::new();
+        for flag in flags.chars() {
+            if !matches!(flag, 'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y') {
+                self.errors.push(Error::new(
+                    lit.span,
+                    Severity::Error,
+                    ErrorCode::InvalidRegex,
+                    format!("unknown regular expression flag `{flag}`"),
+                ));
+                return;
+            }
+            if !seen.insert(flag) {
+                self.errors.push(Error::new(
+                    lit.span,
+                    Severity::Error,
+                    ErrorCode::InvalidRegex,
+                    format!("duplicated regular expression flag `{flag}`"),
+                ));
+                return;
+            }
+            if flag == 'u' {
+                has_u = true;
+            }
+        }
+
+        if has_u {
+            self.validate_unicode_regex_pattern(lit.span, lit.exp.as_ref());
+        }
+    }
+
+    fn validate_unicode_regex_pattern(&mut self, span: Span, pattern: &str) {
+        let chars = pattern.chars().collect::<Vec<_>>();
+        let mut i = 0usize;
+        let mut in_class = false;
+        let mut escaped = false;
+        let mut group_stack = Vec::<RegexGroupKind>::new();
+        let mut last_atom = RegexAtomKind::None;
+
+        while i < chars.len() {
+            let ch = chars[i];
+
+            if escaped {
+                escaped = false;
+                if ch.is_ascii_digit() {
+                    self.errors.push(Error::new(
+                        span,
+                        Severity::Error,
+                        ErrorCode::InvalidRegex,
+                        "decimal escapes are not allowed in unicode regular expressions",
+                    ));
+                    return;
+                }
+                if !in_class {
+                    last_atom = if matches!(ch, 'b' | 'B') {
+                        RegexAtomKind::Assertion
+                    } else {
+                        RegexAtomKind::Atom
+                    };
+                }
+                i += 1;
+                continue;
+            }
+
+            if in_class {
+                match ch {
+                    '\\' => escaped = true,
+                    ']' => {
+                        in_class = false;
+                        last_atom = RegexAtomKind::Atom;
+                    }
+                    _ => {}
+                }
+                i += 1;
+                continue;
+            }
+
+            match ch {
+                '\\' => {
+                    escaped = true;
+                    i += 1;
+                }
+                '[' => {
+                    in_class = true;
+                    i += 1;
+                }
+                '(' => {
+                    let kind = if matches!(chars.get(i + 1), Some('?')) {
+                        match chars.get(i + 2) {
+                            Some('=') | Some('!') => RegexGroupKind::Assertion,
+                            Some('<') if matches!(chars.get(i + 3), Some('=') | Some('!')) => {
+                                RegexGroupKind::Assertion
+                            }
+                            _ => RegexGroupKind::Group,
+                        }
+                    } else {
+                        RegexGroupKind::Group
+                    };
+                    group_stack.push(kind);
+                    last_atom = RegexAtomKind::None;
+                    i += 1;
+                }
+                ')' => {
+                    let Some(kind) = group_stack.pop() else {
+                        self.errors.push(Error::new(
+                            span,
+                            Severity::Error,
+                            ErrorCode::InvalidRegex,
+                            "unmatched `)` in regular expression",
+                        ));
+                        return;
+                    };
+                    last_atom = if kind == RegexGroupKind::Assertion {
+                        RegexAtomKind::Assertion
+                    } else {
+                        RegexAtomKind::Atom
+                    };
+                    i += 1;
+                }
+                '|' => {
+                    last_atom = RegexAtomKind::None;
+                    i += 1;
+                }
+                '*' | '+' | '?' => {
+                    if last_atom != RegexAtomKind::Atom {
+                        self.errors.push(Error::new(
+                            span,
+                            Severity::Error,
+                            ErrorCode::InvalidRegex,
+                            "quantifier has no valid target",
+                        ));
+                        return;
+                    }
+                    last_atom = RegexAtomKind::Atom;
+                    i += 1;
+                }
+                '{' => {
+                    if let Some(next_i) = Self::consume_regex_brace_quantifier(&chars, i) {
+                        if last_atom != RegexAtomKind::Atom {
+                            self.errors.push(Error::new(
+                                span,
+                                Severity::Error,
+                                ErrorCode::InvalidRegex,
+                                "quantifier has no valid target",
+                            ));
+                            return;
+                        }
+                        last_atom = RegexAtomKind::Atom;
+                        i = next_i;
+                    } else {
+                        self.errors.push(Error::new(
+                            span,
+                            Severity::Error,
+                            ErrorCode::InvalidRegex,
+                            "invalid `{` in unicode regular expression",
+                        ));
+                        return;
+                    }
+                }
+                '}' => {
+                    self.errors.push(Error::new(
+                        span,
+                        Severity::Error,
+                        ErrorCode::InvalidRegex,
+                        "invalid `}` in unicode regular expression",
+                    ));
+                    return;
+                }
+                '^' | '$' => {
+                    last_atom = RegexAtomKind::Assertion;
+                    i += 1;
+                }
+                _ => {
+                    last_atom = RegexAtomKind::Atom;
+                    i += 1;
+                }
+            }
+        }
+
+        if escaped || in_class || !group_stack.is_empty() {
+            self.errors.push(Error::new(
+                span,
+                Severity::Error,
+                ErrorCode::InvalidRegex,
+                "unterminated regular expression pattern",
+            ));
+        }
+    }
+
+    fn consume_regex_brace_quantifier(chars: &[char], start: usize) -> Option<usize> {
+        if chars.get(start) != Some(&'{') {
+            return None;
+        }
+        let mut i = start + 1;
+        let mut lower_digits = 0usize;
+        while matches!(chars.get(i), Some(ch) if ch.is_ascii_digit()) {
+            lower_digits += 1;
+            i += 1;
+        }
+        if lower_digits == 0 {
+            return None;
+        }
+
+        if chars.get(i) == Some(&',') {
+            i += 1;
+            while matches!(chars.get(i), Some(ch) if ch.is_ascii_digit()) {
+                i += 1;
+            }
+        }
+
+        if chars.get(i) != Some(&'}') {
+            return None;
+        }
+        i += 1;
+        if chars.get(i) == Some(&'?') {
+            i += 1;
+        }
+        Some(i)
+    }
+
     fn recover_stmt(&mut self) {
         while self.cur.kind != TokenKind::Eof {
             match self.cur.kind {
@@ -4682,6 +5046,16 @@ impl<'a> Parser<'a> {
             Some(Expr::Call(call)) => self.expr_is_optional_chain(call.callee),
             _ => false,
         }
+    }
+
+    fn expr_is_let_member(&self, expr: swc_es_ast::ExprId) -> bool {
+        let Some(Expr::Member(member)) = self.store.expr(expr) else {
+            return false;
+        };
+        matches!(
+            self.store.expr(member.obj),
+            Some(Expr::Ident(ident)) if ident.sym.as_ref() == "let"
+        )
     }
 
     fn is_await_using_decl_start(&self) -> bool {
@@ -4757,7 +5131,7 @@ impl<'a> Parser<'a> {
             remaining -= 1;
         }
 
-        if cur.kind != TokenKind::Ident {
+        if cur.kind != TokenKind::Ident || cur.flags.escaped {
             return false;
         }
         matches!(&cur.value, Some(TokenValue::Ident(sym)) if sym.as_ref() == value)
@@ -4828,8 +5202,26 @@ impl<'a> Parser<'a> {
         }
     }
 
+    fn record_string_token_flags(&mut self, span: Span, flags: TokenFlags) {
+        self.string_token_flags.push((span, flags));
+    }
+
+    fn string_token_flags(&self, span: Span) -> TokenFlags {
+        self.string_token_flags
+            .iter()
+            .rev()
+            .find_map(|(lit_span, flags)| {
+                if *lit_span == span {
+                    Some(*flags)
+                } else {
+                    None
+                }
+            })
+            .unwrap_or_default()
+    }
+
     fn cur_ident_is(&self, value: &str) -> bool {
-        if self.cur.kind != TokenKind::Ident {
+        if self.cur.kind != TokenKind::Ident || self.cur.flags.escaped {
             return false;
         }
         match &self.cur.value {
@@ -5035,7 +5427,7 @@ impl<'a> Parser<'a> {
 
     fn peek_ident_is(&mut self, value: &str) -> bool {
         let token = self.peek_token();
-        if token.kind != TokenKind::Ident {
+        if token.kind != TokenKind::Ident || token.flags.escaped {
             return false;
         }
         match &token.value {
