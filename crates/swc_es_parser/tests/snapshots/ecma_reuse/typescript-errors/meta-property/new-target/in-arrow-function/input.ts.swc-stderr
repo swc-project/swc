@@ -1,2 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/typescript-errors/meta-property/new-target/in-arrow-function/input.ts, but
-  | parser accepted the file
+  x expected parser diagnostics; parser accepted input

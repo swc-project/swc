@@ -1,2 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/explicit-resource-management/invalid-for-using-binding-in/input.js, but
-  | parser accepted the file
+  x expected parser diagnostics; parser accepted input

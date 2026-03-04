@@ -1,1 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/dynamic-import-args/no-args/input.js, but parser accepted the file
+  x expected parser diagnostics; parser accepted input

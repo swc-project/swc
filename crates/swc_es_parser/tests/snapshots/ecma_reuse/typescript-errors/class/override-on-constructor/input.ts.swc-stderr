@@ -1,2 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/typescript-errors/class/override-on-constructor/input.ts, but parser accepted
-  | the file
+  x expected parser diagnostics; parser accepted input

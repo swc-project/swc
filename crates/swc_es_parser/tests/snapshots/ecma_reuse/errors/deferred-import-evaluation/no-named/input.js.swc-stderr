@@ -1,2 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/deferred-import-evaluation/no-named/input.js, but parser accepted the
-  | file
+  x expected parser diagnostics; parser accepted input

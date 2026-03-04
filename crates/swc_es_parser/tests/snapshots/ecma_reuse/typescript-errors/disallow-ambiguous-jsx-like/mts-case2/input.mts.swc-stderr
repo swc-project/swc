@@ -1,2 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/typescript-errors/disallow-ambiguous-jsx-like/mts-case2/input.mts, but parser
-  | accepted the file
+  x expected parser diagnostics; parser accepted input

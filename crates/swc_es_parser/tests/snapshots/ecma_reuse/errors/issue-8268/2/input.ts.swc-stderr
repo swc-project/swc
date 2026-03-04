@@ -1,1 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/issue-8268/2/input.ts, but parser accepted the file
+  x expected parser diagnostics; parser accepted input

@@ -101,10 +101,7 @@ fn run_error_case(case: Case) {
 
         if !handler.has_errors() {
             handler
-                .struct_err(&format!(
-                    "expected parser diagnostics for {}, but parser accepted the file",
-                    case.path.display()
-                ))
+                .struct_err("expected parser diagnostics; parser accepted input")
                 .emit();
         }
 

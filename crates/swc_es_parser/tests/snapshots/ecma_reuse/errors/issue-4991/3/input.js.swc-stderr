@@ -1,1 +1,1 @@
-  x expected parser diagnostics for $DIR/../swc_ecma_parser/tests/errors/issue-4991/3/input.js, but parser accepted the file
+  x expected parser diagnostics; parser accepted input
