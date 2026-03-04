@@ -1,0 +1,7 @@
+Keyword(Const)	1..6	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Ident	7..10	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	ident:tpl
+Eq	11..12	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+Template	13..30	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	str:head ${foo{bar}
+
+Eof	30..30	had_lb=false	flags=TokenFlags { escaped: false, contains_legacy_octal_escape: false, contains_invalid_escape: false }	-
+ERROR	UnterminatedString	13..30	unterminated template literal
