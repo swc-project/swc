@@ -1,0 +1,8 @@
+  x expected identifier, got LBrace
+   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/type-only-export-specifier/duplicated-type-only/input.ts:1:1]
+ 1 | export type { type something }
+   :             ^
+   `----
+
+Advice: 
+  > code: UnexpectedToken

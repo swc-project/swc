@@ -1,0 +1,50 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a: super.x,
+ 3 | `-> };
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a: super.x,
+ 3 | `-> };
+   `----
+  x VarDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a: super.x,
+ 3 | `-> };
+   `----
+  x AssignPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a: super.x,
+ 3 | `-> };
+   `----
+  x IdentPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+ 1 | let o = {
+   :     ^
+ 2 |     a: super.x,
+   `----
+  x ObjectExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:1:1]
+ 1 | ,-> let o = {
+ 2 | |       a: super.x,
+ 3 | `-> };
+   `----
+  x MemberExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
+ 1 | let o = {
+ 2 |     a: super.x,
+   :             ^^^
+ 3 | };
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj2.js:2:1]
+ 1 | let o = {
+ 2 |     a: super.x,
+   :        ^^^^^
+ 3 | };
+   `----

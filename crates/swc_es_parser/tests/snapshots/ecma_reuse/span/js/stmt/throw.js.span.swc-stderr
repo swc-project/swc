@@ -1,0 +1,31 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
+ 1 | ,-> function foo() {
+ 2 | |       throw 'foo';
+ 3 | `-> }
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
+ 1 | ,-> function foo() {
+ 2 | |       throw 'foo';
+ 3 | `-> }
+   `----
+  x FnDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/throw.js:1:1]
+ 1 | ,-> function foo() {
+ 2 | |       throw 'foo';
+ 3 | `-> }
+   `----
+  x ThrowStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/throw.js:2:1]
+ 1 |     function foo() {
+ 2 | ,->     throw 'foo';
+ 3 | `-> }
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/stmt/throw.js:2:1]
+ 1 | function foo() {
+ 2 |     throw 'foo';
+   :           ^^^^^
+ 3 | }
+   `----

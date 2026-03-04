@@ -29,6 +29,7 @@ swc_es_ast = { version = "0.1.0", path = "../swc_es_ast" }
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 swc_es_ast = { version = "0.1.0", path = "../swc_es_ast", features = ["serde-impl"] }
+swc_es_visit = { version = "0.1.0", path = "../swc_es_visit" }
 testing = { version = "20.0.0", path = "../testing" }
 walkdir = { workspace = true }
 serde_json = { workspace = true }

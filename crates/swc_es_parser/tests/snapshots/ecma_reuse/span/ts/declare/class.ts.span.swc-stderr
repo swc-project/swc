@@ -1,0 +1,25 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+ 1 | declare class Example { };
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+ 1 | declare class Example { };
+   :         ^^^^^^^^^^^^^^^^^^
+   `----
+  x ClassDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+ 1 | declare class Example { };
+   :         ^^^^^^^^^^^^^^^^^^
+   `----
+  x Class
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+ 1 | declare class Example { };
+   :         ^^^^^^^^^^^^^^^^^^
+   `----
+  x EmptyStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/ts/declare/class.ts:1:1]
+ 1 | declare class Example { };
+   :                          ^
+   `----

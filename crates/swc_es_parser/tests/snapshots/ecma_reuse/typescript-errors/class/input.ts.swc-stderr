@@ -1,0 +1,10 @@
+  x expected property name, got Question
+   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/input.ts:2:1]
+ 1 | class C {
+ 2 |   x?!: number;
+   :    ^
+ 3 | }
+   `----
+
+Advice: 
+  > code: UnexpectedToken

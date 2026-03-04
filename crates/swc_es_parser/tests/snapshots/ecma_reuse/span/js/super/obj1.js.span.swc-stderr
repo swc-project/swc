@@ -1,0 +1,83 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x VarDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x AssignPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x IdentPat
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
+ 1 | let o2 = {
+   :     ^^
+ 2 |     a: function a() {
+   `----
+  x ObjectExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:1:1]
+ 1 | ,-> let o2 = {
+ 2 | |       a: function a() {
+ 3 | |           super.x;
+ 4 | |       },
+ 5 | `-> };
+   `----
+  x FunctionExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x Function
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:2:1]
+ 1 |     let o2 = {
+ 2 | ,->     a: function a() {
+ 3 | |           super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:3:1]
+ 2 |         a: function a() {
+ 3 | ,->         super.x;
+ 4 | `->     },
+ 5 |     };
+   `----
+  x MemberExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:3:1]
+ 2 |     a: function a() {
+ 3 |         super.x;
+   :              ^^^
+ 4 |     },
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/super/obj1.js:3:1]
+ 2 |     a: function a() {
+ 3 |         super.x;
+   :         ^^^^^
+ 4 |     },
+   `----

@@ -1,0 +1,28 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | ,-> async function foo() {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | async function foo() {
+   : ^^^^^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | async function foo() {
+   : ^^^^^
+   `----
+  x DeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | ,-> async function foo() {
+ 2 | |   
+ 3 | `-> }
+   `----
+  x FnDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/decl/async-fn.js:1:1]
+ 1 | ,-> async function foo() {
+ 2 | |   
+ 3 | `-> }
+   `----

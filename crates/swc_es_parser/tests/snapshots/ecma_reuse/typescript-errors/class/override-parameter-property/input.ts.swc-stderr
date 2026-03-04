@@ -1,0 +1,10 @@
+  x expected ), got Keyword(Public)
+   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/class/override-parameter-property/input.ts:2:1]
+ 1 | class C extends B {
+ 2 |   constructor(override public v: string)
+   :                        ^^^^^^
+ 3 |   constructor(readonly override v: boolean)
+   `----
+
+Advice: 
+  > code: UnexpectedToken

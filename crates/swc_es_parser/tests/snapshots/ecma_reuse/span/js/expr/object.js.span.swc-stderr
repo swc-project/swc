@@ -1,0 +1,45 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ParenExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ObjectExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   :    ^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   :       ^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   :             ^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   :                   ^^^^
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/object.js:1:1]
+ 1 | ({ a, b, c: d, ...rest, afterRest: true })
+   :                                    ^^^^
+   `----

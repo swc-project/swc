@@ -1,0 +1,7 @@
+  x expected {, got Eof
+   ,-[$DIR/../swc_ecma_parser/tests/typescript-errors/missing-fn-expr-body/anonymous/input.ts:1:21]
+ 1 | let f = function ()
+   `----
+
+Advice: 
+  > code: UnexpectedToken

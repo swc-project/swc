@@ -1,0 +1,15 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/string-literal.js:1:1]
+ 1 | export * from "test";
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ModuleDeclStmt
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/string-literal.js:1:1]
+ 1 | export * from "test";
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExportAllDecl
+   ,-[$DIR/../swc_ecma_parser/tests/span/js/expr/string-literal.js:1:1]
+ 1 | export * from "test";
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----

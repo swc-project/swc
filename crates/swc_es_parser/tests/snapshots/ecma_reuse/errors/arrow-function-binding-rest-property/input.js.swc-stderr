@@ -1,0 +1,9 @@
+  x member access is not allowed in binding patterns
+   ,-[$DIR/../swc_ecma_parser/tests/errors/arrow-function-binding-rest-property/input.js:1:1]
+ 1 | ({...a.b})=>{};
+   :       ^
+ 2 | (a, {...b.c})=>{};
+   `----
+
+Advice: 
+  > code: InvalidAssignTarget

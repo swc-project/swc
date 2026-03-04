@@ -1,0 +1,30 @@
+  x Program
+   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x ExprStmt
+   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x CallExpr
+   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x IdentExpr
+   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
+   : ^^^^
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
+   :      ^^^
+   `----
+  x LitExpr
+   ,-[$DIR/../swc_ecma_parser/tests/comments/exprs/call/simple/input.js:1:1]
+ 1 | test(123/*post: 9*/, 456/*post: 10*/);
+   :                      ^^^
+   `----

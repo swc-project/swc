@@ -1,0 +1,19 @@
+  x rest element must be the last element
+   ,-[$DIR/../swc_ecma_parser/tests/errors/rest-not-last/input.js:1:1]
+ 1 | [...a, b] = [...spread];
+   :      ^
+ 2 | const [...a, b] = [...spread];
+   `----
+
+Advice: 
+  > code: InvalidStatement
+  x expected ], got Comma
+   ,-[$DIR/../swc_ecma_parser/tests/errors/rest-not-last/input.js:2:1]
+ 1 | [...a, b] = [...spread];
+ 2 | const [...a, b] = [...spread];
+   :            ^
+ 3 | ([...a, b]) => {};
+   `----
+
+Advice: 
+  > code: UnexpectedToken
